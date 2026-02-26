@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "sehir_id": "28",
+    "sehir_adi": "GİRESUN",
+    "ilce_id": "1361",
+    "ilce_adi": "GÖRELE",
+    "bbox_used": {
+      "south": 40.8087466,
+      "west": 38.9287545,
+      "north": 41.0458933,
+      "east": 39.1519552
+    },
+    "bbox_original": {
+      "south": 40.8087466,
+      "west": 38.9287545,
+      "north": 41.0458933,
+      "east": 39.1519552
+    },
+    "fetchedAt": "2026-01-21T09:06:59.649Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:05:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5474377986,
+        "lat": 41.0322839,
+        "lon": 39.0019182,
+        "tags": {
+          "amenity": "ice_cream"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10617367605,
+        "lat": 41.0369983,
+        "lon": 38.9845441,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12301255281,
+        "lat": 41.0359833,
+        "lon": 38.981532,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Decorative Art World",
+          "outdoor_seating": "no",
+          "website": "https://www.shopier.com/decorative_art_world"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13290859401,
+        "lat": 41.0418924,
+        "lon": 39.0671773,
+        "tags": {
+          "addr:street": "Trabzon-Giresun yolu",
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Didi Balık Evi",
+          "opening_hours": "Tu-Su 00:00-24:00",
+          "self_service": "partially"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13290913701,
+        "lat": 41.0423075,
+        "lon": 39.0711697,
+        "tags": {
+          "addr:street": "Trabzon-Giresun yolu",
+          "amenity": "restaurant",
+          "cuisine": "breakfast;coffee_shop;local;tea",
+          "name": "Çavuşlu Dinlenme Tesisleri",
+          "opening_hours": "24/7",
+          "phone": "+90 454 523 00 31",
+          "self_service": "only"
+        }
+      }
+    ]
+  }
+}

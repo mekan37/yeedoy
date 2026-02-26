@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1188",
+    "ilce_adi": "BEYŞEHİR",
+    "bbox_used": {
+      "south": 37.55741531486486,
+      "north": 37.827685585135136,
+      "west": 31.469507606620652,
+      "east": 31.81007669337935
+    },
+    "bbox_original": {
+      "south": 37.3796807,
+      "west": 31.2720787,
+      "north": 38.0054202,
+      "east": 32.0075056
+    },
+    "fetchedAt": "2026-01-21T09:43:45.795Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 8
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4390763691,
+        "lat": 37.679733,
+        "lon": 31.721575,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Antik Kafe",
+          "name:tr": "Antik Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4390800889,
+        "lat": 37.6799602,
+        "lon": 31.7227517,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İkizler Restaurant",
+          "name:tr": "İkizler Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4390814389,
+        "lat": 37.6801037,
+        "lon": 31.7231107,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bey Edem Pastanesi",
+          "name:tr": "Bey Edem Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6579744613,
+        "lat": 37.6739692,
+        "lon": 31.7167864,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Emin Usta et Mangal & Balikpapan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7947493325,
+        "lat": 37.6793917,
+        "lon": 31.7226143,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Damak Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7947503886,
+        "lat": 37.675452,
+        "lon": 31.719477,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Efsane Balık & Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12802736916,
+        "lat": 37.6319248,
+        "lon": 31.547234,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13036945003,
+        "lat": 37.5771114,
+        "lon": 31.5641083,
+        "tags": {
+          "amenity": "cafe",
+          "outdoor_seating": "yes"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "sehir_id": "19",
+    "sehir_adi": "ÇORUM",
+    "ilce_id": "1520",
+    "ilce_adi": "MECİTÖZÜ",
+    "bbox_used": {
+      "south": 40.3130651,
+      "west": 35.0826027,
+      "north": 40.6983895,
+      "east": 35.5309346
+    },
+    "bbox_original": {
+      "south": 40.3130651,
+      "west": 35.0826027,
+      "north": 40.6983895,
+      "east": 35.5309346
+    },
+    "fetchedAt": "2026-01-21T08:48:49.577Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:47:10Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4917803329,
+        "lat": 40.5265962,
+        "lon": 35.2910165,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konak dinlenme tesisi",
+          "name:tr": "Konak dinlenme tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10316844409,
+        "lat": 40.3969187,
+        "lon": 35.5233703,
+        "tags": {
+          "addr:city": "Göynücek",
+          "addr:district": "Amasya",
+          "addr:postcode": "05900",
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name": "Göynücek Kitap Kafe"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,380 @@
+{
+  "meta": {
+    "sehir_id": "74",
+    "sehir_adi": "BARTIN",
+    "ilce_id": "1761",
+    "ilce_adi": "AMASRA",
+    "bbox_used": {
+      "south": 41.6729648,
+      "west": 32.2794684,
+      "north": 41.8115579,
+      "east": 32.583
+    },
+    "bbox_original": {
+      "south": 41.6729648,
+      "west": 32.2794684,
+      "north": 41.8115579,
+      "east": 32.583
+    },
+    "fetchedAt": "2026-01-21T10:59:43.071Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 34
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:57:59Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1881468112,
+        "lat": 41.7490061,
+        "lon": 32.3854018,
+        "tags": {
+          "amenity": "cafe",
+          "name": "konak kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1882290244,
+        "lat": 41.749997,
+        "lon": 32.384453,
+        "tags": {
+          "amenity": "restaurant",
+          "created_by": "iLOE 1.9",
+          "name": "Kemere Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3745553877,
+        "lat": 41.7482885,
+        "lon": 32.3869744,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Amasra Sofrasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4614212130,
+        "lat": 41.7469159,
+        "lon": 32.3833712,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Türkan Hanımın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4614212224,
+        "lat": 41.7470379,
+        "lon": 32.3842668,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5014382856,
+        "lat": 41.7491174,
+        "lon": 32.3853754,
+        "tags": {
+          "addr:housenumber": "8",
+          "addr:street": "Küçük Liman Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Mustafa Amca'nın Yeri",
+          "phone": "0378 315 2606",
+          "website": "https://www.amasracanlibalik.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5014384529,
+        "lat": 41.7477389,
+        "lon": 32.3851019,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5014384544,
+        "lat": 41.7480407,
+        "lon": 32.3851571,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5014700107,
+        "lat": 41.7487748,
+        "lon": 32.3878565,
+        "tags": {
+          "addr:housenumber": "8",
+          "addr:street": "Küçük Liman Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Çeşmi Cihan Restaurant",
+          "phone": "0378 315 2606",
+          "website": "https://www.amasracanlibalik.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6630767326,
+        "lat": 41.7486732,
+        "lon": 32.38868,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Carlos Balikevi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7208856947,
+        "lat": 41.7486393,
+        "lon": 32.3854162,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Çinar Balik Restaurant",
+          "phone": "+70 378 315 10 18"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9757705657,
+        "lat": 41.7484624,
+        "lon": 32.3861071,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9757722253,
+        "lat": 41.7472041,
+        "lon": 32.3864269,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9757735081,
+        "lat": 41.7484243,
+        "lon": 32.3862309,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9757736121,
+        "lat": 41.748395,
+        "lon": 32.3863515,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9758795285,
+        "lat": 41.7492194,
+        "lon": 32.3854511,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Barba Bianca"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9758796957,
+        "lat": 41.7496556,
+        "lon": 32.3853937,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Simar Cafe and Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9758812327,
+        "lat": 41.7488788,
+        "lon": 32.3854019,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Günbatimi Balik"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759563444,
+        "lat": 41.7478766,
+        "lon": 32.3871885,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Ozkaymak Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759602042,
+        "lat": 41.7489942,
+        "lon": 32.387324,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Rengarenk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759605080,
+        "lat": 41.7479636,
+        "lon": 32.3872139,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sokak Kahvecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759605081,
+        "lat": 41.7482053,
+        "lon": 32.3864814,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köylüoglu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759606081,
+        "lat": 41.7480933,
+        "lon": 32.3868701,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759607050,
+        "lat": 41.7482149,
+        "lon": 32.3876047,
+        "tags": {
+          "amenity": "ice_cream"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759608079,
+        "lat": 41.7484175,
+        "lon": 32.3867995,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Ro Do Dondurmasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759612115,
+        "lat": 41.7481776,
+        "lon": 32.3867019,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ayvadüzü Çay Bahcesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759614018,
+        "lat": 41.748035,
+        "lon": 32.3874819,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sesamos Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759614260,
+        "lat": 41.7481355,
+        "lon": 32.3875457,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pier Wood Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759614933,
+        "lat": 41.7470012,
+        "lon": 32.3873953,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mavi Yesil"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759614934,
+        "lat": 41.7490959,
+        "lon": 32.3875024,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9759617864,
+        "lat": 41.7481964,
+        "lon": 32.3872964,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9975077420,
+        "lat": 41.7611483,
+        "lon": 32.4679533,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Esentepe gozleme"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1248099761,
+        "center": {
+          "lat": 41.7480621,
+          "lon": 32.3875245
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1248099762,
+        "center": {
+          "lat": 41.7470033,
+          "lon": 32.3873871
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

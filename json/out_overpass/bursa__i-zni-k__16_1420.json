@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "sehir_id": "16",
+    "sehir_adi": "BURSA",
+    "ilce_id": "1420",
+    "ilce_adi": "İZNİK",
+    "bbox_used": {
+      "south": 40.3468162,
+      "west": 29.5109472,
+      "north": 40.6144126,
+      "east": 29.9100426
+    },
+    "bbox_original": {
+      "south": 40.3468162,
+      "west": 29.5109472,
+      "north": 40.6144126,
+      "east": 29.9100426
+    },
+    "fetchedAt": "2026-01-21T08:41:53.662Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 16
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:40:11Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3995513835,
+        "lat": 40.4851385,
+        "lon": 29.7269208,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Meydan Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4107243229,
+        "lat": 40.429395,
+        "lon": 29.7264204,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yeşil Cami Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4112248753,
+        "lat": 40.521425,
+        "lon": 29.5997303,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4358054893,
+        "lat": 40.5225185,
+        "lon": 29.545863,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Onur Büfe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5108737723,
+        "lat": 40.4292988,
+        "lon": 29.721614,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5183828890,
+        "lat": 40.4820952,
+        "lon": 29.5621973,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5263825959,
+        "lat": 40.4274551,
+        "lon": 29.719132,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5306953622,
+        "lat": 40.42945,
+        "lon": 29.7182017,
+        "tags": {
+          "addr:housenumber": "No.54",
+          "addr:street": "Kılıçaslan Cd",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Karçiçeği",
+          "name:en": "Karcicegi",
+          "phone": "7573213"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6779347986,
+        "lat": 40.4833746,
+        "lon": 29.5656077,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Boyalıca çay bahçesi",
+          "name:tr": "Boyalıca Bulut çay bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6976489485,
+        "lat": 40.4838049,
+        "lon": 29.5176612,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "email": "info@iznikaskania.com",
+          "name": "Askania",
+          "phone": "0090 534 275 16 46",
+          "website": "http://www.iznikaskania.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9921191917,
+        "lat": 40.4737476,
+        "lon": 29.8043898,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "mine cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11986409269,
+        "lat": 40.4333235,
+        "lon": 29.715454,
+        "tags": {
+          "addr:street": "Göl Sahil Yolu",
+          "amenity": "restaurant",
+          "cuisine": "fish;turkish",
+          "email": "umutrestaurant@hotmail.com",
+          "name": "Umut Restaurant",
+          "phone": "+905465663717;+902247580022;+905325126354",
+          "website": "https://umutrestaurant.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13279708701,
+        "lat": 40.4240233,
+        "lon": 29.7082846,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "name": "nihat’ in yeri",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 405799306,
+        "center": {
+          "lat": 40.4029814,
+          "lon": 29.868409
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Bereket Köyü Kıraathanesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 406631915,
+        "center": {
+          "lat": 40.4148286,
+          "lon": 29.8238693
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 408838297,
+        "center": {
+          "lat": 40.4050506,
+          "lon": 29.7675901
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

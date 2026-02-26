@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "24",
+    "sehir_adi": "ERZİNCAN",
+    "ilce_id": "1460",
+    "ilce_adi": "KEMALİYE",
+    "bbox_used": {
+      "south": 39.069280964864866,
+      "north": 39.33955123513514,
+      "west": 38.44302858498541,
+      "east": 38.79080871501459
+    },
+    "bbox_original": {
+      "south": 39.0092,
+      "west": 38.2913017,
+      "north": 39.3996322,
+      "east": 38.9425356
+    },
+    "fetchedAt": "2026-01-21T08:58:33.009Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:57:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 12012973954,
+        "lat": 39.1391828,
+        "lon": 38.6098632,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

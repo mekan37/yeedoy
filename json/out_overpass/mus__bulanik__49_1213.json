@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "49",
+    "sehir_adi": "MUŞ",
+    "ilce_id": "1213",
+    "ilce_adi": "BULANIK",
+    "bbox_used": {
+      "south": 38.95971551486486,
+      "north": 39.229985785135135,
+      "west": 41.97571788978968,
+      "east": 42.32295701021033
+    },
+    "bbox_original": {
+      "south": 38.8442569,
+      "west": 41.7922315,
+      "north": 39.3454444,
+      "east": 42.5064434
+    },
+    "fetchedAt": "2026-01-21T10:08:40.419Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:06:58Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

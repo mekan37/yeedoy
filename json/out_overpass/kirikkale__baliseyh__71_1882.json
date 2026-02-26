@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "sehir_id": "71",
+    "sehir_adi": "KIRIKKALE",
+    "ilce_id": "1882",
+    "ilce_adi": "BALIŞEYH",
+    "bbox_used": {
+      "south": 39.786358,
+      "west": 33.5917408,
+      "north": 40.100184,
+      "east": 33.902804
+    },
+    "bbox_original": {
+      "south": 39.786358,
+      "west": 33.5917408,
+      "north": 40.100184,
+      "east": 33.902804
+    },
+    "fetchedAt": "2026-01-21T10:56:15.820Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:55:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3664151109,
+        "lat": 39.9390605,
+        "lon": 33.8660958,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name:ru": "Зона отдыха на трассе"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5873947589,
+        "lat": 39.8769272,
+        "lon": 33.6609365,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tepe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116399043,
+        "lat": 39.8914071,
+        "lon": 33.6772426,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116399075,
+        "lat": 39.889005,
+        "lon": 33.6715121,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish_and_chips",
+          "name": "Zenginler Alabalık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116399089,
+        "lat": 39.8854584,
+        "lon": 33.6718672,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116399098,
+        "lat": 39.8864905,
+        "lon": 33.6709724,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Balışeyh lavanta vadisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116399488,
+        "lat": 39.8672837,
+        "lon": 33.6360022,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Et mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116399491,
+        "lat": 39.8672006,
+        "lon": 33.6326249,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kara Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116399517,
+        "lat": 39.869091,
+        "lon": 33.6041541,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yıldırım et"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116400030,
+        "lat": 39.9147389,
+        "lon": 33.7383689,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116400031,
+        "lat": 39.9137049,
+        "lon": 33.7389616,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116400050,
+        "lat": 39.9110978,
+        "lon": 33.7270851,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

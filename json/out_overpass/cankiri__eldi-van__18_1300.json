@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "sehir_id": "18",
+    "sehir_adi": "ÇANKIRI",
+    "ilce_id": "1300",
+    "ilce_adi": "ELDİVAN",
+    "bbox_used": {
+      "south": 40.3437015,
+      "west": 33.3668516,
+      "north": 40.6359119,
+      "east": 33.6507796
+    },
+    "bbox_original": {
+      "south": 40.3437015,
+      "west": 33.3668516,
+      "north": 40.6359119,
+      "east": 33.6507796
+    },
+    "fetchedAt": "2026-01-21T08:46:22.390Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:45:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3068974110,
+        "lat": 40.6010611,
+        "lon": 33.6128231,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çayyolu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10124837195,
+        "lat": 40.550897,
+        "lon": 33.6123024,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ballıca"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10124837377,
+        "lat": 40.5600788,
+        "lon": 33.6106737,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sevindim Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10124837400,
+        "lat": 40.5739121,
+        "lon": 33.616244,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Koç Otel Havuzlu Bahçe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10207351717,
+        "lat": 40.6019303,
+        "lon": 33.6178126,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1371224003,
+        "center": {
+          "lat": 40.6203261,
+          "lon": 33.6181778
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

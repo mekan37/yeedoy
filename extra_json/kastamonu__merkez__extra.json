@@ -1,0 +1,383 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.8 e802775f",
+  "osm3s": {
+    "timestamp_osm_base": "2026-01-21T12:24:51Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 2341559381,
+  "lat": 41.3748077,
+  "lon": 33.7785875,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "turkish",
+    "name": "Saat Kulesi Çay Bahçesi"
+  }
+},
+{
+  "type": "node",
+  "id": 2351992436,
+  "lat": 41.3304329,
+  "lon": 33.7870125,
+  "tags": {
+    "addr:city": "Kastamonu",
+    "addr:district": "Kastamonu",
+    "addr:housenumber": "5/2",
+    "addr:neighbourhood": "Örencik Köyü İzbeli Mezrası",
+    "amenity": "restaurant",
+    "cuisine": "turkish;breakfast",
+    "name": "İzbeli Çiftliği",
+    "phone": "+90 366 244 36 45",
+    "website": "http://www.izbeliciftligi.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 4059697610,
+  "lat": 41.3655994,
+  "lon": 33.7695316,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Nazar Pide Kebap"
+  }
+},
+{
+  "type": "node",
+  "id": 4059697629,
+  "lat": 41.3652270,
+  "lon": 33.7693331,
+  "tags": {
+    "addr:city": "Kastamonu",
+    "amenity": "restaurant",
+    "name": "Yiğit Döner"
+  }
+},
+{
+  "type": "node",
+  "id": 5879232089,
+  "lat": 41.2989006,
+  "lon": 33.5203018,
+  "tags": {
+    "addr:street": "d030",
+    "amenity": "restaurant",
+    "description": "sehr gutes Essen",
+    "name": "Restaurant",
+    "opening_hours": "Mo-Su 09:00-23:00"
+  }
+},
+{
+  "type": "node",
+  "id": 9442241638,
+  "lat": 41.4276899,
+  "lon": 33.7757796,
+  "tags": {
+    "amenity": "cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 9442241643,
+  "lat": 41.4276101,
+  "lon": 33.7743276,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Kahve Sokağı"
+  }
+},
+{
+  "type": "node",
+  "id": 9442241653,
+  "lat": 41.4278867,
+  "lon": 33.7749805,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Kahveland"
+  }
+},
+{
+  "type": "node",
+  "id": 9442241658,
+  "lat": 41.4269040,
+  "lon": 33.7724542,
+  "tags": {
+    "amenity": "restaurant"
+  }
+},
+{
+  "type": "node",
+  "id": 9442241673,
+  "lat": 41.4271076,
+  "lon": 33.7732321,
+  "tags": {
+    "amenity": "cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 9744105031,
+  "lat": 41.3773432,
+  "lon": 33.7783241,
+  "tags": {
+    "amenity": "restaurant"
+  }
+},
+{
+  "type": "node",
+  "id": 9744105050,
+  "lat": 41.3791792,
+  "lon": 33.7776677,
+  "tags": {
+    "amenity": "restaurant"
+  }
+},
+{
+  "type": "node",
+  "id": 9744115925,
+  "lat": 41.3787050,
+  "lon": 33.7765571,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Ismail'in Yeri"
+  }
+},
+{
+  "type": "node",
+  "id": 9747575641,
+  "lat": 41.3766864,
+  "lon": 33.7760429,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Ala"
+  }
+},
+{
+  "type": "node",
+  "id": 9785271045,
+  "lat": 41.4325407,
+  "lon": 33.7697075,
+  "tags": {
+    "amenity": "cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 9785271050,
+  "lat": 41.4319998,
+  "lon": 33.7703137,
+  "tags": {
+    "amenity": "cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 10126682775,
+  "lat": 41.3599221,
+  "lon": 33.7683207,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Sultana Künefe"
+  }
+},
+{
+  "type": "node",
+  "id": 10126682797,
+  "lat": 41.3638522,
+  "lon": 33.7668252,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11390033388,
+  "lat": 41.3855948,
+  "lon": 33.7821697,
+  "tags": {
+    "amenity": "cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 11390041469,
+  "lat": 41.3851434,
+  "lon": 33.7826152,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "turkish",
+    "drink:beer": "no",
+    "indoor_seating": "yes",
+    "name": "Aydın Kardeşler Etli Ekmek Pide Lahmacun Salonu",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "smoking": "no",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12255815089,
+  "lat": 41.4251067,
+  "lon": 33.7790588,
+  "tags": {
+    "addr:city": "Kastamonu",
+    "addr:district": "Merkez",
+    "addr:housenumber": "25CA",
+    "addr:neighbourhood": "Kuzeykent",
+    "addr:postcode": "37150",
+    "addr:street": "Kazım Karabekir Cad.",
+    "amenity": "cafe",
+    "contact:facebook": "https://www.facebook.com/profile.php?id=61566951626220&mibextid=ZbWKwL",
+    "cuisine": "coffee_shop;turkish",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "TheStock",
+    "opening_hours": "Mo-Su 09:00-23:00",
+    "outdoor_seating": "yes",
+    "phone": "+903665022012",
+    "website": "https://thestockcoffee.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 12646660849,
+  "lat": 41.4283051,
+  "lon": 33.7761441,
+  "tags": {
+    "addr:city": "KASTAMONU",
+    "addr:district": "MERKEZ",
+    "addr:housenumber": "7-D/D",
+    "addr:neighbourhood": "Kuzeykent",
+    "addr:postcode": "37150",
+    "addr:street": "Kamildemircioğlu",
+    "amenity": "cafe",
+    "cuisine": "chocolate;çikolata",
+    "internet_access": "yes",
+    "internet_access:fee": "no",
+    "name": "Chocolabs Kastamonu",
+    "phone": "+90 532 015 25 96",
+    "website": "chocolabs.com.tr"
+  }
+},
+{
+  "type": "way",
+  "id": 218036534,
+  "center": {
+    "lat": 41.4370867,
+    "lon": 33.7649180
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Yemekhane"
+  }
+},
+{
+  "type": "way",
+  "id": 225373955,
+  "center": {
+    "lat": 41.3702661,
+    "lon": 33.7741509
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "turkish",
+    "name": "Aşiyan Konağı"
+  }
+},
+{
+  "type": "way",
+  "id": 225586165,
+  "center": {
+    "lat": 41.3776508,
+    "lon": 33.7737913
+  },
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "turkish",
+    "name": "Penbe Han"
+  }
+},
+{
+  "type": "way",
+  "id": 232322234,
+  "center": {
+    "lat": 41.3780124,
+    "lon": 33.7737598
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Cem Sultan Bedesteni"
+  }
+},
+{
+  "type": "way",
+  "id": 282767089,
+  "center": {
+    "lat": 41.3771031,
+    "lon": 33.7756098
+  },
+  "tags": {
+    "addr:city": "Kastamonu",
+    "addr:postcode": "37100",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "turkish",
+    "name": "Münire Sultan Sofrası",
+    "website": "https://www.muniresultansofrasi.com/"
+  }
+},
+{
+  "type": "way",
+  "id": 856310242,
+  "center": {
+    "lat": 41.3822449,
+    "lon": 33.7822365
+  },
+  "tags": {
+    "addr:city": "Kastamonu",
+    "addr:district": "Merkez",
+    "amenity": "cafe",
+    "building": "yes",
+    "name": "Kastamonu Uçak Cafe&Restaurant"
+  }
+},
+{
+  "type": "way",
+  "id": 1023944060,
+  "center": {
+    "lat": 41.4272366,
+    "lon": 33.7734459
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1295074786,
+  "center": {
+    "lat": 41.4284854,
+    "lon": 33.7712449
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "dormitory",
+    "name": "Yemekhane"
+  }
+}
+
+  ]
+}

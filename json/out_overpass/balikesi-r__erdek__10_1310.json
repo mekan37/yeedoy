@@ -1,0 +1,694 @@
+{
+  "meta": {
+    "sehir_id": "10",
+    "sehir_adi": "BALIKESİR",
+    "ilce_id": "1310",
+    "ilce_adi": "ERDEK",
+    "bbox_used": {
+      "south": 40.3677751,
+      "west": 27.5608829,
+      "north": 40.5283281,
+      "east": 28.034633
+    },
+    "bbox_original": {
+      "south": 40.3677751,
+      "west": 27.5608829,
+      "north": 40.5283281,
+      "east": 28.034633
+    },
+    "fetchedAt": "2026-01-21T08:33:09.568Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 60
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:32:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 27762942,
+        "lat": 40.3959695,
+        "lon": 27.7902564,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Erduş Balık Ekmek",
+          "source": "PGS"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935236029,
+        "lat": 40.3962218,
+        "lon": 27.7914458,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "food:pide": "yes",
+          "name": "Birtat Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935236030,
+        "lat": 40.395993,
+        "lon": 27.7918985,
+        "tags": {
+          "amenity": "cafe",
+          "name": "cafe bulvar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935236037,
+        "lat": 40.3958408,
+        "lon": 27.7925375,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "pilav evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935243974,
+        "lat": 40.39685,
+        "lon": 27.7909067,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Uludağ Pide Salonu",
+          "smoking": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935299542,
+        "lat": 40.3964643,
+        "lon": 27.7912015,
+        "tags": {
+          "amenity": "cafe",
+          "name": "berat cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935299548,
+        "lat": 40.3960968,
+        "lon": 27.7913935,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "durak iskender"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935299572,
+        "lat": 40.3967786,
+        "lon": 27.7915485,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "pideci baba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935299578,
+        "lat": 40.3968097,
+        "lon": 27.7914632,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "yemekchi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935303053,
+        "lat": 40.3944883,
+        "lon": 27.7932764,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mola Kıoks",
+          "opening_hours": "7:30-1:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935303057,
+        "lat": 40.3942393,
+        "lon": 27.7935513,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bambu Kafe, Bamboo Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935303058,
+        "lat": 40.3947781,
+        "lon": 27.7931637,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1935427017,
+        "lat": 40.3963035,
+        "lon": 27.7915251,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "inegöl köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1936861877,
+        "lat": 40.3967696,
+        "lon": 27.7886683,
+        "tags": {
+          "amenity": "bar",
+          "name": "Kaylon Cafe Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1936861878,
+        "lat": 40.3965803,
+        "lon": 27.7889637,
+        "tags": {
+          "amenity": "pub",
+          "name": "Madondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1936861879,
+        "lat": 40.3966175,
+        "lon": 27.7885846,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Yakamoz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1936864874,
+        "lat": 40.396561,
+        "lon": 27.7888552,
+        "tags": {
+          "amenity": "pub",
+          "name": "E&G Cafe Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1936871810,
+        "lat": 40.3965708,
+        "lon": 27.7897895,
+        "tags": {
+          "amenity": "bar",
+          "name": "Ekin Kitabevi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1936871814,
+        "lat": 40.3965193,
+        "lon": 27.7898958,
+        "tags": {
+          "amenity": "bar",
+          "name": "Konya Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4796988222,
+        "lat": 40.41932,
+        "lon": 27.7659834,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Adonis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4797023322,
+        "lat": 40.3966195,
+        "lon": 27.7887681,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "name:en": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4797079222,
+        "lat": 40.4117952,
+        "lon": 27.9259171,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çınar Ağacı Restaurant",
+          "name:tr": "Çınar Ağacı Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4866129022,
+        "lat": 40.4164112,
+        "lon": 27.7687412,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5522107224,
+        "lat": 40.3841732,
+        "lon": 27.7975181,
+        "tags": {
+          "amenity": "nightclub",
+          "name:en": "Kaya The Rock Disco"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10985268766,
+        "lat": 40.4434332,
+        "lon": 27.7548254,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Cüneyt Kaptan Balık Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892650,
+        "lat": 40.4442461,
+        "lon": 27.7553137,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Rıhtım Izgara Balık Restoranı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892652,
+        "lat": 40.4445861,
+        "lon": 27.7553026,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kardeşler Midye"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892653,
+        "lat": 40.444692,
+        "lon": 27.7552976,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Çamaltı Et Balık Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892654,
+        "lat": 40.4447888,
+        "lon": 27.7552875,
+        "tags": {
+          "amenity": "bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892655,
+        "lat": 40.4449062,
+        "lon": 27.7552784,
+        "tags": {
+          "amenity": "bar",
+          "name": "Number One"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892656,
+        "lat": 40.4450894,
+        "lon": 27.7554542,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kristal Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892657,
+        "lat": 40.4453021,
+        "lon": 27.755105,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Gelateria Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892662,
+        "lat": 40.4464549,
+        "lon": 27.7545322,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Onur"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892663,
+        "lat": 40.446642,
+        "lon": 27.7544592,
+        "tags": {
+          "amenity": "bar",
+          "name": "Abone Club Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892665,
+        "lat": 40.4469084,
+        "lon": 27.7542297,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çağlayan Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11078892667,
+        "lat": 40.4471116,
+        "lon": 27.7541109,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bora Kafeterya"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11866144637,
+        "lat": 40.3992072,
+        "lon": 27.9062599,
+        "tags": {
+          "amenity": "restaurant",
+          "source": "microsoft/BuildingFootprints"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12326837905,
+        "lat": 40.4901024,
+        "lon": 27.9745875,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Su"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12456026875,
+        "lat": 40.3967508,
+        "lon": 27.7907664,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Erdek",
+          "addr:housenumber": "1/A",
+          "addr:neighbourhood": "Yalı Mahallesi",
+          "addr:postcode": "10500",
+          "addr:street": "Hürriyet Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Gözde Denizhan Balık Evi",
+          "phone": "+905379352334"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12883534950,
+        "lat": 40.4733634,
+        "lon": 27.6905737,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12885960910,
+        "lat": 40.5061044,
+        "lon": 27.7785265,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bizim"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12885966528,
+        "lat": 40.5043251,
+        "lon": 27.7818529,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Truva locantasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12886084929,
+        "lat": 40.5091583,
+        "lon": 27.8398606,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12886092531,
+        "lat": 40.509162,
+        "lon": 27.8396844,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12886307495,
+        "lat": 40.5058168,
+        "lon": 27.9020181,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12886337428,
+        "lat": 40.5061936,
+        "lon": 27.9037278,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12886499587,
+        "lat": 40.4899667,
+        "lon": 27.9740386,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985088249,
+        "lat": 40.4018887,
+        "lon": 27.7885014,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Erdek",
+          "addr:housenumber": "No:3",
+          "addr:neighbourhood": "Salih Mahallesi",
+          "addr:postcode": "10500",
+          "addr:street": "Ali Haydar Sarı Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "On On Kafe",
+          "website": "https://www.ononkafe.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13034454889,
+        "lat": 40.3883027,
+        "lon": 27.8656381,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Murat Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13034454891,
+        "lat": 40.3881214,
+        "lon": 27.8650943,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Kebapçı Şehmus Usta'nın Yeri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 183155898,
+        "center": {
+          "lat": 40.3952572,
+          "lon": 27.7928636
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "commercial",
+          "name": "giritli",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "way",
+        "id": 183167847,
+        "center": {
+          "lat": 40.3944345,
+          "lon": 27.7932737
+        },
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 203548056,
+        "center": {
+          "lat": 40.4415076,
+          "lon": 27.7546408
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1176363531,
+        "center": {
+          "lat": 40.4018416,
+          "lon": 27.8161867
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "source": "microsoft/BuildingFootprints"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1194430287,
+        "center": {
+          "lat": 40.4873439,
+          "lon": 27.7819984
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Uysal Alabalık Lokantası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1332427673,
+        "center": {
+          "lat": 40.4899026,
+          "lon": 27.9739697
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Ahmet Çıvgın Kahve"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1332427722,
+        "center": {
+          "lat": 40.4903884,
+          "lon": 27.9747135
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Ümidin Kahve"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1332443442,
+        "center": {
+          "lat": 40.5057601,
+          "lon": 27.9017806
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Ballıpınar Beach Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1413256360,
+        "center": {
+          "lat": 40.4508678,
+          "lon": 27.7510085
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "The Beach Restaurant",
+          "phone": "+90 5538575754"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1418421266,
+        "center": {
+          "lat": 40.4123509,
+          "lon": 27.9271515
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Erdek",
+          "addr:housenumber": "18",
+          "addr:neighbourhood": "Tatlısu Mahallesi",
+          "addr:postcode": "10502",
+          "addr:street": "Küçük Bakraç Sokağı",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Banbel Steak Restaurant",
+          "operator": "Bandırma Belediyesi"
+        }
+      }
+    ]
+  }
+}

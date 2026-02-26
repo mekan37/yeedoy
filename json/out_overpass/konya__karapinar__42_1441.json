@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1441",
+    "ilce_adi": "KARAPINAR",
+    "bbox_used": {
+      "south": 37.59724931486486,
+      "north": 37.867519585135135,
+      "west": 33.376169340450176,
+      "east": 33.71692155954982
+    },
+    "bbox_original": {
+      "south": 37.4590703,
+      "west": 33.119598,
+      "north": 38.0056986,
+      "east": 33.9734929
+    },
+    "fetchedAt": "2026-01-21T09:46:42.989Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:45:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 12710137138,
+        "lat": 37.7174922,
+        "lon": 33.4893469,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      }
+    ]
+  }
+}

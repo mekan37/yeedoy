@@ -1,0 +1,235 @@
+{
+  "meta": {
+    "sehir_id": "77",
+    "sehir_adi": "YALOVA",
+    "ilce_id": "2020",
+    "ilce_adi": "ARMUTLU",
+    "bbox_used": {
+      "south": 40.4562294,
+      "west": 28.7796417,
+      "north": 40.5917822,
+      "east": 29.0115764
+    },
+    "bbox_original": {
+      "south": 40.4562294,
+      "west": 28.7796417,
+      "north": 40.5917822,
+      "east": 29.0115764
+    },
+    "fetchedAt": "2026-01-21T11:03:39.441Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 15
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:02:03Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13111088955,
+        "lat": 40.5101394,
+        "lon": 28.8349246,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Acıktım Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13196145931,
+        "lat": 40.5190421,
+        "lon": 28.8289227,
+        "tags": {
+          "addr:city": "YALOVA",
+          "addr:district": "ARMUTLU",
+          "addr:neighbourhood": "BAYIR",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "diet:halal": "yes",
+          "name": "Antepli Şefin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13196145945,
+        "lat": 40.5113965,
+        "lon": 28.8366345,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Üçyol Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13196145950,
+        "lat": 40.5100406,
+        "lon": 28.8374192,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "İskele Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13196145953,
+        "lat": 40.5094739,
+        "lon": 28.8380963,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "diet:halal": "yes",
+          "name": "Bektaş Balıkçılık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13196145954,
+        "lat": 40.5094096,
+        "lon": 28.8380933,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özgür Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13196145955,
+        "lat": 40.5093342,
+        "lon": 28.8381116,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;ice_cream",
+          "name": "Armodies Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13196145961,
+        "lat": 40.510375,
+        "lon": 28.8403442,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Marmara 77 Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13197769952,
+        "lat": 40.5092457,
+        "lon": 28.8377652,
+        "tags": {
+          "amenity": "cafe",
+          "name": "By Vural Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13238097755,
+        "lat": 40.5843203,
+        "lon": 28.8947502,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Armutlu",
+          "addr:neighbourhood": "50. Yıl Mahallesi",
+          "addr:postcode": "77500",
+          "addr:street": "Yalova-Armutlu Yolu Saklı Bahçe Sokak",
+          "amenity": "cafe",
+          "changing_table": "yes",
+          "contact:facebook": "https://www.facebook.com/saklibahce.esenkoy/",
+          "cuisine": "coffee_shop;sandwich;chicken;breakfast;çay;serpme_kahvaltı;ice_cream;seafood;mangal;barbecue;turkish;pasta;bagel",
+          "email": "info@saklibahceyalova.com.tr",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Saklı Bahçe Esenköy",
+          "payment:cash": "yes",
+          "payment:coins": "yes",
+          "payment:credit_cards": "yes",
+          "payment:cryptocurrencies": "yes",
+          "payment:debit_cards": "yes",
+          "payment:maestro": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "phone": "+905304042297",
+          "reservation": "yes",
+          "toilets": "yes",
+          "website": "https://www.saklibahceyalova.com.tr",
+          "website:menu": "https://www.saklibahceyalova.com.tr/menu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1394818510,
+        "center": {
+          "lat": 40.5211934,
+          "lon": 28.8311795
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1412861134,
+        "center": {
+          "lat": 40.506234,
+          "lon": 28.851347
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Motel Model Lokantası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1417612980,
+        "center": {
+          "lat": 40.5104506,
+          "lon": 28.8359842
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Adress Kokoreç"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1420531104,
+        "center": {
+          "lat": 40.509625,
+          "lon": 28.8380698
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "steak_house",
+          "layer": "-1",
+          "name": "Gündüz Kardeşler Kasap Köfte"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1421399991,
+        "center": {
+          "lat": 40.5100383,
+          "lon": 28.8359984
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Cihan Kokoreç"
+        }
+      }
+    ]
+  }
+}

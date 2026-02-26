@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "sehir_id": "24",
+    "sehir_adi": "ERZİNCAN",
+    "ilce_id": "1853",
+    "ilce_adi": "ÜZÜMLÜ",
+    "bbox_used": {
+      "south": 39.5504844,
+      "west": 39.6300748,
+      "north": 39.7917506,
+      "east": 40.1869437
+    },
+    "bbox_original": {
+      "south": 39.5504844,
+      "west": 39.6300748,
+      "north": 39.7917506,
+      "east": 40.1869437
+    },
+    "fetchedAt": "2026-01-21T08:58:53.543Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:57:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 6599172085,
+        "lat": 39.5864648,
+        "lon": 39.7310248,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şelale Aile Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9806198489,
+        "lat": 39.5903222,
+        "lon": 39.8722266,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9935845817,
+        "lat": 39.5901801,
+        "lon": 39.8723763,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

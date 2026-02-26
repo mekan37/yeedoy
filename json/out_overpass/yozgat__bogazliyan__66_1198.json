@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "66",
+    "sehir_adi": "YOZGAT",
+    "ilce_id": "1198",
+    "ilce_adi": "BOĞAZLIYAN",
+    "bbox_used": {
+      "south": 39.10901996486486,
+      "north": 39.37929023513514,
+      "west": 35.0727453580618,
+      "east": 35.42072244193819
+    },
+    "bbox_original": {
+      "south": 38.9860247,
+      "west": 34.9879056,
+      "north": 39.5022855,
+      "east": 35.5055622
+    },
+    "fetchedAt": "2026-01-21T10:49:09.265Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:47:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

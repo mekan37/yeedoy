@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "1776",
+    "ilce_adi": "BEYDAĞ",
+    "bbox_used": {
+      "south": 38.0332154,
+      "west": 28.1199359,
+      "north": 38.1568771,
+      "east": 28.3318627
+    },
+    "bbox_original": {
+      "south": 38.0332154,
+      "west": 28.1199359,
+      "north": 38.1568771,
+      "east": 28.3318627
+    },
+    "fetchedAt": "2026-01-21T09:28:10.512Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:27:01Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13324679624,
+        "lat": 38.0705545,
+        "lon": 28.2113224,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çınaraltı Kahvesi",
+          "outdoor_seating": "yes",
+          "phone": "+90 535 259 50 33;+90537 385 93 20"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "sehir_id": "67",
+    "sehir_adi": "ZONGULDAK",
+    "ilce_id": "1741",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 41.4101516,
+      "west": 31.7202969,
+      "north": 41.4501516,
+      "east": 31.7602969
+    },
+    "bbox_original": {
+      "south": 41.4101516,
+      "west": 31.7202969,
+      "north": 41.4501516,
+      "east": 31.7602969
+    },
+    "fetchedAt": "2026-01-21T10:51:48.688Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:50:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4786433302,
+        "lat": 41.427042,
+        "lon": 31.7586349,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kılıç Kulübü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4786709753,
+        "lat": 41.433311,
+        "lon": 31.7483159,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4786729943,
+        "lat": 41.4347774,
+        "lon": 31.7456161,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeko Köfte"
+        }
+      },
+      {
+        "type": "way",
+        "id": 661601118,
+        "center": {
+          "lat": 41.4342717,
+          "lon": 31.7341713
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "NAZAR ÂLÂ IZGARA"
+        }
+      },
+      {
+        "type": "way",
+        "id": 661602803,
+        "center": {
+          "lat": 41.431359,
+          "lon": 31.7274495
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Neslişah Büfe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1303037984,
+        "center": {
+          "lat": 41.4387564,
+          "lon": 31.7495109
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ora Cafe"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "sehir_id": "11",
+    "sehir_adi": "BİLECİK",
+    "ilce_id": "1571",
+    "ilce_adi": "PAZARYERİ",
+    "bbox_used": {
+      "south": 39.9317261,
+      "west": 29.7351393,
+      "north": 40.1050111,
+      "east": 30.0446807
+    },
+    "bbox_original": {
+      "south": 39.9317261,
+      "west": 29.7351393,
+      "north": 40.1050111,
+      "east": 30.0446807
+    },
+    "fetchedAt": "2026-01-21T08:35:56.379Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:34:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5003183822,
+        "lat": 40.0716246,
+        "lon": 30.0162642,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cennet Vadisi",
+          "name:en": "Valley of Paradise",
+          "name:tr": "Cennet Vadisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6880643685,
+        "lat": 39.996435,
+        "lon": 29.9031591,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9368139765,
+        "lat": 40.0834114,
+        "lon": 30.0153565,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şato Et Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9368139783,
+        "lat": 40.09011,
+        "lon": 30.0106236,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Başaran Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9368139784,
+        "lat": 40.0900663,
+        "lon": 30.0106687,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Meşhur Çorbacı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9368139803,
+        "lat": 40.0934951,
+        "lon": 30.0042334,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Erşan Et Ve Et Ürünleri Hayvan Barınağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9368139833,
+        "lat": 40.1015338,
+        "lon": 29.9982038,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Acar Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12709914328,
+        "lat": 40.0066045,
+        "lon": 30.0155315,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fehmibey Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12709914334,
+        "lat": 39.9833199,
+        "lon": 30.0004797,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Damak Restaurant"
+        }
+      }
+    ]
+  }
+}

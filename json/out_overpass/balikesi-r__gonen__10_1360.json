@@ -1,0 +1,257 @@
+{
+  "meta": {
+    "sehir_id": "10",
+    "sehir_adi": "BALIKESİR",
+    "ilce_id": "1360",
+    "ilce_adi": "GÖNEN",
+    "bbox_used": {
+      "south": 39.9310989,
+      "west": 27.3794153,
+      "north": 40.3269609,
+      "east": 27.8583653
+    },
+    "bbox_original": {
+      "south": 39.9310989,
+      "west": 27.3794153,
+      "north": 40.3269609,
+      "east": 27.8583653
+    },
+    "fetchedAt": "2026-01-21T08:33:12.183Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 19
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:32:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3000013556,
+        "lat": 40.3029059,
+        "lon": 27.8372944,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4268051395,
+        "lat": 40.109395,
+        "lon": 27.6520848,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Doruk Kafe Pastane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5253875722,
+        "lat": 40.0489138,
+        "lon": 27.626464,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gönen Köy Konağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8638131116,
+        "lat": 40.2965975,
+        "lon": 27.5461994,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Denizkent"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9142773070,
+        "lat": 40.1028177,
+        "lon": 27.6584437,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Meydan Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10285352711,
+        "lat": 40.1795007,
+        "lon": 27.7174286,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Taştepe Köyü Kahvehanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12384133261,
+        "lat": 40.1100608,
+        "lon": 27.6484413,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Moonlight cafe",
+          "opening_hours": "Mo-Su 08:00-24:00",
+          "phone": "+905461511717"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12400743444,
+        "lat": 40.3013338,
+        "lon": 27.5248313,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Denizkent Kum Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12880383942,
+        "lat": 40.1760255,
+        "lon": 27.4847331,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12880420027,
+        "lat": 40.2047573,
+        "lon": 27.597663,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12880441501,
+        "lat": 40.2046345,
+        "lon": 27.5843956,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12880619575,
+        "lat": 40.1072023,
+        "lon": 27.6506126,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Soylu Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12882929064,
+        "lat": 40.2843206,
+        "lon": 27.8233682,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12883779881,
+        "lat": 40.2861054,
+        "lon": 27.4693614,
+        "tags": {
+          "addr:floor": "0",
+          "amenity": "restaurant",
+          "check_date": "2025-06-03",
+          "level": "0",
+          "name": "Köfteci Cemil",
+          "opening_hours": "08:00-22:00",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "phone": "02863374504; 05427222661",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12883779884,
+        "lat": 40.2863528,
+        "lon": 27.4694523,
+        "tags": {
+          "addr:floor": "0",
+          "amenity": "restaurant",
+          "check_date": "2025-06-03",
+          "level": "0",
+          "name": "Erdem Köfte",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "way",
+        "id": 304701489,
+        "center": {
+          "lat": 40.094749,
+          "lon": 27.8454552
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 304704647,
+        "center": {
+          "lat": 39.9960404,
+          "lon": 27.7893374
+        },
+        "tags": {
+          "amenity": "pub",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1066989576,
+        "center": {
+          "lat": 40.3006557,
+          "lon": 27.532775
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Cafe 66 Beach Denizkent"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1243448831,
+        "center": {
+          "lat": 40.1044998,
+          "lon": 27.6529856
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Gönen",
+          "addr:housenumber": "No:2",
+          "addr:neighbourhood": "Malkoç Mahallesi",
+          "addr:postcode": "10900",
+          "addr:street": "Cumhuriyet Meydanı",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "name": "On On Kafe",
+          "opening_hours": "10:00-01:00",
+          "website": "https://www.ononkafe.com/"
+        }
+      }
+    ]
+  }
+}

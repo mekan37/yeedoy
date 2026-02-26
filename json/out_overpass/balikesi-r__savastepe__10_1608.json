@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "sehir_id": "10",
+    "sehir_adi": "BALIKESİR",
+    "ilce_id": "1608",
+    "ilce_adi": "SAVAŞTEPE",
+    "bbox_used": {
+      "south": 39.3105323,
+      "west": 27.4804483,
+      "north": 39.5455502,
+      "east": 27.8562515
+    },
+    "bbox_original": {
+      "south": 39.3105323,
+      "west": 27.4804483,
+      "north": 39.5455502,
+      "east": 27.8562515
+    },
+    "fetchedAt": "2026-01-21T08:34:08.526Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:32:59Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3095149942,
+        "lat": 39.3845237,
+        "lon": 27.6538376,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11572042560,
+        "lat": 39.3481381,
+        "lon": 27.6266644,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Oksijen 266 - Savaştepe Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11572042561,
+        "lat": 39.3488823,
+        "lon": 27.6294065,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Oksijen 266 - Savaştepe Dinlenme Tesisleri"
+        }
+      }
+    ]
+  }
+}

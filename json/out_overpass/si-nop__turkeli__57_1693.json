@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "sehir_id": "57",
+    "sehir_adi": "SİNOP",
+    "ilce_id": "1693",
+    "ilce_adi": "TÜRKELİ",
+    "bbox_used": {
+      "south": 41.7373436,
+      "west": 34.2237142,
+      "north": 41.966115,
+      "east": 34.4610136
+    },
+    "bbox_original": {
+      "south": 41.7373436,
+      "west": 34.2237142,
+      "north": 41.966115,
+      "east": 34.4610136
+    },
+    "fetchedAt": "2026-01-21T10:25:31.290Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:24:11Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2632195598,
+        "lat": 41.9518622,
+        "lon": 34.3938801,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Tourisitik Tessisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3050697561,
+        "lat": 41.9457413,
+        "lon": 34.2779311,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5342900216,
+        "lat": 41.9432996,
+        "lon": 34.3380237,
+        "tags": {
+          "amenity": "ice_cream",
+          "delivery": "no",
+          "name": "Maraş Dondurmacı",
+          "opening_hours": "24/7",
+          "outdoor_seating": "yes",
+          "takeaway": "no"
+        }
+      }
+    ]
+  }
+}

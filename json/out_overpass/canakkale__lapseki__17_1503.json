@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "sehir_id": "17",
+    "sehir_adi": "ÇANAKKALE",
+    "ilce_id": "1503",
+    "ilce_adi": "LAPSEKİ",
+    "bbox_used": {
+      "south": 40.1082566,
+      "west": 26.5419067,
+      "north": 40.4059913,
+      "east": 27.0341013
+    },
+    "bbox_original": {
+      "south": 40.1082566,
+      "west": 26.5419067,
+      "north": 40.4059913,
+      "east": 27.0341013
+    },
+    "fetchedAt": "2026-01-21T08:45:48.244Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 17
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:44:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5555489315,
+        "lat": 40.3477453,
+        "lon": 26.6848494,
+        "tags": {
+          "amenity": "pub",
+          "name": "Heaven Cage & Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5555489327,
+        "lat": 40.3477942,
+        "lon": 26.685029,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahveland"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5986079791,
+        "lat": 40.2366468,
+        "lon": 26.8698452,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5986801496,
+        "lat": 40.1686762,
+        "lon": 26.8753324,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7590966880,
+        "lat": 40.260673,
+        "lon": 26.5871232,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12052070199,
+        "lat": 40.2654016,
+        "lon": 26.5931064,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Etki Ekmek Çorba Fırın Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12071760673,
+        "lat": 40.2378488,
+        "lon": 26.6024401,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12876589988,
+        "lat": 40.2088294,
+        "lon": 26.5475637,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12876591971,
+        "lat": 40.2089356,
+        "lon": 26.5475674,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12876596098,
+        "lat": 40.2089377,
+        "lon": 26.5476244,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12877141254,
+        "lat": 40.168705,
+        "lon": 26.8395594,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12877160439,
+        "lat": 40.1629574,
+        "lon": 26.9223196,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12877161804,
+        "lat": 40.1628185,
+        "lon": 26.9222703,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 573340665,
+        "center": {
+          "lat": 40.365422,
+          "lon": 26.7046339
+        },
+        "tags": {
+          "amenity": "nightclub",
+          "building": "yes",
+          "name": "Yıldız Kır Düğün Salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1295769181,
+        "center": {
+          "lat": 40.4059681,
+          "lon": 26.6725468
+        },
+        "tags": {
+          "addr:city": "Çanakkale",
+          "addr:district": "Gelibolu",
+          "addr:housenumber": "16",
+          "addr:neighbourhood": "Camiikebir",
+          "addr:postcode": "17500",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Valide Sultan",
+          "owner": "Halil Bilgin",
+          "phone": "+90 286 566 1720"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1396188640,
+        "center": {
+          "lat": 40.3463979,
+          "lon": 26.6816284
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Kadınlar Konağı",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1442910683,
+        "center": {
+          "lat": 40.277218,
+          "lon": 26.6258182
+        },
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "building": "yes",
+          "capacity": "25",
+          "cuisine": "coffee_shop;sandwich;ice_cream;cake;pasta",
+          "delivery": "no",
+          "drive_through": "no",
+          "highchair": "no",
+          "internet_access": "no",
+          "name": "Kahve Dünyası",
+          "opening_hours": "Mo-Su 10:00-20:00",
+          "outdoor_seating": "yes",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "smoking": "outside",
+          "takeaway": "yes",
+          "toilets": "yes"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "sehir_id": "5",
+    "sehir_adi": "AMASYA",
+    "ilce_id": "1938",
+    "ilce_adi": "HAMAMÖZÜ",
+    "bbox_used": {
+      "south": 40.7048214,
+      "west": 34.9788445,
+      "north": 40.8821879,
+      "east": 35.1841122
+    },
+    "bbox_original": {
+      "south": 40.7048214,
+      "west": 34.9788445,
+      "north": 40.8821879,
+      "east": 35.1841122
+    },
+    "fetchedAt": "2026-01-21T08:22:49.060Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:21:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11546221371,
+        "lat": 40.7834855,
+        "lon": 35.022488,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Kafedeyiz Cafe"
+        }
+      }
+    ]
+  }
+}

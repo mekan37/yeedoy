@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "sehir_id": "33",
+    "sehir_adi": "MERSİN",
+    "ilce_id": "1766",
+    "ilce_adi": "AYDINCIK",
+    "bbox_used": {
+      "south": 36.1248854,
+      "west": 33.173914,
+      "north": 36.2994544,
+      "east": 33.458368
+    },
+    "bbox_original": {
+      "south": 36.1248854,
+      "west": 33.173914,
+      "north": 36.2994544,
+      "east": 33.458368
+    },
+    "fetchedAt": "2026-01-21T09:15:59.123Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:14:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4526787294,
+        "lat": 36.1479492,
+        "lon": 33.3272467,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akdeniz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5471000721,
+        "lat": 36.1362426,
+        "lon": 33.2962448,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çağlar Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9916939303,
+        "lat": 36.1549859,
+        "lon": 33.3552838,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "name": "Mahir Usta Aile Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10108533363,
+        "lat": 36.2780471,
+        "lon": 33.378678,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Menekşe Mağarası"
+        }
+      }
+    ]
+  }
+}

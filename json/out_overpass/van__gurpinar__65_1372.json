@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "65",
+    "sehir_adi": "VAN",
+    "ilce_id": "1372",
+    "ilce_adi": "GÜRPINAR",
+    "bbox_used": {
+      "south": 37.985098514864866,
+      "north": 38.25536878513514,
+      "west": 43.45422952641096,
+      "east": 43.79678387358904
+    },
+    "bbox_original": {
+      "south": 37.7417871,
+      "west": 43.1315998,
+      "north": 38.4986802,
+      "east": 44.1194136
+    },
+    "fetchedAt": "2026-01-21T10:47:01.243Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:45:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

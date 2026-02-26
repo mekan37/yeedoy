@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "sehir_id": "55",
+    "sehir_adi": "SAMSUN",
+    "ilce_id": "1830",
+    "ilce_adi": "19 MAYIS",
+    "bbox_used": {
+      "south": 41.332979,
+      "west": 35.9325144,
+      "north": 41.6287368,
+      "east": 36.1500084
+    },
+    "bbox_original": {
+      "south": 41.332979,
+      "west": 35.9325144,
+      "north": 41.6287368,
+      "east": 36.1500084
+    },
+    "fetchedAt": "2026-01-21T10:21:31.709Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:20:02Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4159607157,
+        "lat": 41.3535267,
+        "lon": 35.9607996,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4796675098,
+        "lat": 41.5732104,
+        "lon": 36.1129216,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çadır Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6417489138,
+        "lat": 41.5245109,
+        "lon": 36.0875191,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Salep evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8581827295,
+        "lat": 41.468652,
+        "lon": 36.1265122,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Paycı'nın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13098687801,
+        "lat": 41.5942361,
+        "lon": 36.11347,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 679504521,
+        "center": {
+          "lat": 41.5249889,
+          "lon": 36.0870291
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Yörükler"
+        }
+      }
+    ]
+  }
+}

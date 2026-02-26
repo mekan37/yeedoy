@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "27",
+    "sehir_adi": "GAZİANTEP",
+    "ilce_id": "1546",
+    "ilce_adi": "NİZİP",
+    "bbox_used": {
+      "south": 36.9962502,
+      "west": 37.7839478,
+      "north": 37.0062502,
+      "east": 37.7939478
+    },
+    "bbox_original": {
+      "south": 36.9962502,
+      "west": 37.7839478,
+      "north": 37.0062502,
+      "east": 37.7939478
+    },
+    "fetchedAt": "2026-01-21T09:04:53.527Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:03:40Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

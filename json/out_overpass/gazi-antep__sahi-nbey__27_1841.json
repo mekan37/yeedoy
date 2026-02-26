@@ -1,0 +1,1062 @@
+{
+  "meta": {
+    "sehir_id": "27",
+    "sehir_adi": "GAZİANTEP",
+    "ilce_id": "1841",
+    "ilce_adi": "ŞAHİNBEY",
+    "bbox_used": {
+      "south": 36.79347706486487,
+      "north": 37.06374733513514,
+      "west": 37.09128011346076,
+      "east": 37.42840608653923
+    },
+    "bbox_original": {
+      "south": 36.7240172,
+      "west": 36.9975328,
+      "north": 37.1332072,
+      "east": 37.5221534
+    },
+    "fetchedAt": "2026-01-21T09:05:07.174Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 85
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:03:40Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3485858725,
+        "lat": 37.0630878,
+        "lon": 37.3793334,
+        "tags": {
+          "addr:city": "Şahinbey/Gaziantep",
+          "amenity": "restaurant",
+          "name": "Ümit Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3485983757,
+        "lat": 37.0631783,
+        "lon": 37.3842612,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çavuşoğlu Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3485983758,
+        "lat": 37.0634988,
+        "lon": 37.3852138,
+        "tags": {
+          "addr:city": "Gaziantep",
+          "amenity": "restaurant",
+          "name": "İmam Çağdaş",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "phone": "+90 342 220 4545",
+          "website": "https://www.imamcagdas.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4213531899,
+        "lat": 37.0628997,
+        "lon": 37.3482638,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Senfoni",
+          "website": "senfonigaziantep.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4213532194,
+        "lat": 37.0636622,
+        "lon": 37.3493659,
+        "tags": {
+          "addr:street": "Zübeyde Hanım Blv",
+          "amenity": "restaurant",
+          "name": "Ayyuş Hanım Konağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4239684652,
+        "lat": 37.0633339,
+        "lon": 37.3762108,
+        "tags": {
+          "amenity": "cafe",
+          "layer": "-1",
+          "name": "Karakedi Saklı Bahçe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4239736118,
+        "lat": 37.0633396,
+        "lon": 37.377213,
+        "tags": {
+          "amenity": "cafe",
+          "layer": "-1",
+          "name": "Maydanoz Dürüm"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4239745226,
+        "lat": 37.0636839,
+        "lon": 37.3775439,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çıtır Lahmacun",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "phone": "+90 342 220 7187"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4294847444,
+        "lat": 37.0632095,
+        "lon": 37.3762634,
+        "tags": {
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "layer": "1",
+          "name": "Yeşilsu Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4411472903,
+        "lat": 37.0607118,
+        "lon": 37.3640603,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Yesemek restoran",
+          "name:ar": "مطعم ياسمك",
+          "name:tr": "Yesemak restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461677602,
+        "lat": 37.0628925,
+        "lon": 37.3710014,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerci Mustafa",
+          "name:tr": "Ciğerci Mustafa",
+          "phone": "+90 342 230 1230"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461677796,
+        "lat": 37.058687,
+        "lon": 37.387386,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çulcuoğlu Et Lokantası",
+          "name:tr": "Çulcuoğlu Et Lokantası",
+          "opening_hours": "Mo-Su 11:00-22:00",
+          "phone": "+90 342 231 0241"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461677893,
+        "lat": 37.060917,
+        "lon": 37.3882478,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Metanet Lokantası",
+          "name:tr": "Metanet Lokantası",
+          "phone": "+90 342 231 4666"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461697695,
+        "lat": 37.062646,
+        "lon": 37.365197,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kelebek Restaurant",
+          "name:tr": "Kelebek Restaurant",
+          "phone": "+90 342 230 9633"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461698090,
+        "lat": 37.062238,
+        "lon": 37.377547,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Beyoğlu Cafe",
+          "name:tr": "Beyoğlu Cafe",
+          "phone": "+90 506 613 4295"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461710993,
+        "lat": 37.063542,
+        "lon": 37.377345,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Otantik Cafe",
+          "name:tr": "Otantik Cafe",
+          "phone": "+90 542 650 7909"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4755579621,
+        "lat": 37.0609472,
+        "lon": 37.3870822,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çelebioğluları Baklava",
+          "name:tr": "Çelebioğluları Baklava"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4889905043,
+        "lat": 37.0433046,
+        "lon": 37.3242598,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeugma Park",
+          "name:en": "Zeugma Park",
+          "name:tr": "Zeugma Park"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4889959137,
+        "lat": 37.0626513,
+        "lon": 37.3591523,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Zekeriya Usta",
+          "name:en": "Zekeriya Usta",
+          "name:tr": "Zekeriya Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5163807021,
+        "lat": 37.0175093,
+        "lon": 37.3683465,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cevizli Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5316441921,
+        "lat": 37.0627177,
+        "lon": 37.3777822,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Papirus cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5470750221,
+        "lat": 37.0623522,
+        "lon": 37.3827342,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Katmerci Zekeriya Usta",
+          "phone": "03422300971",
+          "website": "https://katmercizekeriya.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584509823,
+        "lat": 37.0331082,
+        "lon": 37.321333,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "27 Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584509825,
+        "lat": 37.0336072,
+        "lon": 37.320427,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yemen Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584509829,
+        "lat": 37.0350932,
+        "lon": 37.3195516,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Türkan Ev Yemekleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584509831,
+        "lat": 37.0347348,
+        "lon": 37.3201117,
+        "tags": {
+          "addr:city": "Gaziantep",
+          "addr:district": "Şahinbey",
+          "addr:housenumber": "66",
+          "addr:neighbourhood": "Yeditepe mh.",
+          "addr:postcode": "27470",
+          "addr:street": "85204. sk",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;turkish;ice_cream;pasta;juice;cake;sandwich;chocolate;waffle;american;pizza;burger;restoran;kahvaltı;ana_öğün;ara_öğün;aparatif;kutlamalar",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Baniyas Cafe",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "phone": "+90 506 855 2331",
+          "website": "https://www.instagram.com/baniyascafe/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584510823,
+        "lat": 37.0322336,
+        "lon": 37.3217247,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kahvaltı Hane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584519422,
+        "lat": 37.0334377,
+        "lon": 37.3193667,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Başak Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584519423,
+        "lat": 37.0347095,
+        "lon": 37.3190398,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Tiryakisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5584519921,
+        "lat": 37.0315412,
+        "lon": 37.3243706,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Friends Restaurant & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5896333785,
+        "lat": 37.0629241,
+        "lon": 37.36702,
+        "tags": {
+          "addr:street": "Kemal Köker Cd.",
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "sakip usta",
+          "opening_hours": "Mo-Su 09:00-23:55"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5901680587,
+        "lat": 37.0630447,
+        "lon": 37.3614953,
+        "tags": {
+          "addr:street": "Ahmet Apaaydın Caddesi",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "ROBERTS CAFE",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5901699385,
+        "lat": 37.0629245,
+        "lon": 37.3615477,
+        "tags": {
+          "addr:street": "Ahmet Apaaydın Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "name": "BİG CHEFS CAFE",
+          "opening_hours": "Mo-Su 09:00-22:55"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5922568086,
+        "lat": 37.0632142,
+        "lon": 37.369736,
+        "tags": {
+          "addr:street": "Şair Fuzuli Sokak",
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "ANTEP LIVE MUSIC CAFE & RESTAURANT",
+          "opening_hours": "Mo-Su 09:00-23:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7064035386,
+        "lat": 37.0553524,
+        "lon": 37.3389352,
+        "tags": {
+          "addr:street": "binevler yeni balik pazari - Şahinbey / Gaziantep",
+          "amenity": "restaurant",
+          "name": "Tayim Balik Evi",
+          "name:ar": "مطعم تايم باليك (ماسى-سمك)",
+          "name:en": "Tayim Balik Evi Rest.",
+          "phone": "05389201212"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7995372719,
+        "lat": 36.9814788,
+        "lon": 37.3014608,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9154712717,
+        "lat": 37.0616977,
+        "lon": 37.3776044,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Cafe Mina"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10132344443,
+        "lat": 37.0330541,
+        "lon": 37.3204305,
+        "tags": {
+          "addr:city": "Şahinbey/Gaziantep",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/55448-289309/adnan-menderes-bulvari-no:14"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10225353117,
+        "lat": 37.0618635,
+        "lon": 37.3695172,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Evirgeç Mantı Evi & Yöresel Ev Yemekleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10599185005,
+        "lat": 37.0628078,
+        "lon": 37.377834,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bagdad cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10607517306,
+        "lat": 37.0612352,
+        "lon": 37.3757188,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11254595954,
+        "lat": 37.0631502,
+        "lon": 37.3855585,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "YESEMEK Gaziantep Mutfağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11921660235,
+        "lat": 37.0540416,
+        "lon": 37.3722941,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "kafa dayının yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12009974407,
+        "lat": 36.982679,
+        "lon": 37.3069223,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12010091136,
+        "lat": 36.9813695,
+        "lon": 37.3016491,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12010091137,
+        "lat": 36.9810397,
+        "lon": 37.3010375,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12010091138,
+        "lat": 36.9809055,
+        "lon": 37.3011592,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12010091139,
+        "lat": 36.9824872,
+        "lon": 37.30654,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12011886022,
+        "lat": 36.9814256,
+        "lon": 37.2993872,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12176613601,
+        "lat": 37.0608502,
+        "lon": 37.388166,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Beyoglu Kamtercim",
+          "outdoor_seating": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12717902803,
+        "lat": 37.0607411,
+        "lon": 37.3885685,
+        "tags": {
+          "addr:street": "Şehitler Caddesi",
+          "name": "Metanet Katmer Salonu",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12717903502,
+        "lat": 37.0608187,
+        "lon": 37.3883472,
+        "tags": {
+          "addr:street": "Şehitler Caddesi",
+          "amenity": "cafe",
+          "name": "Huzur Çay Evi Dayı Sevesicenin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12717903505,
+        "lat": 37.0608073,
+        "lon": 37.3884474,
+        "tags": {
+          "addr:street": "Şehitler Caddesi",
+          "name": "Metanet Katmer",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12717921301,
+        "lat": 37.0608814,
+        "lon": 37.3884368,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Metanet Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12718072201,
+        "lat": 37.0611449,
+        "lon": 37.3871681,
+        "tags": {
+          "addr:street": "Şehitler Caddesi",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12718232001,
+        "lat": 37.0619484,
+        "lon": 37.3772505,
+        "tags": {
+          "addr:street": "Kayacık Ara Sokağı",
+          "amenity": "cafe",
+          "name": "Eski plak Kafa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12719173101,
+        "lat": 37.060963,
+        "lon": 37.366999,
+        "tags": {
+          "addr:street": "Mehmet Bedir İncetahtacı Sokak",
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12719176601,
+        "lat": 37.0609713,
+        "lon": 37.3672059,
+        "tags": {
+          "addr:street": "Mehmet Bedir İncetahtacı Sokak",
+          "amenity": "restaurant",
+          "name": "Çiğerci Mustafa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13190202601,
+        "lat": 37.0634792,
+        "lon": 37.4101147,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sadıkoğlu Döner"
+        }
+      },
+      {
+        "type": "way",
+        "id": 237060286,
+        "center": {
+          "lat": 37.0632594,
+          "lon": 37.3830722
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Baklavaci Gulluoglu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 237176907,
+        "center": {
+          "lat": 37.0612185,
+          "lon": 37.3877181
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Tahmis Kahvesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 237176910,
+        "center": {
+          "lat": 37.0602717,
+          "lon": 37.3876646
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Yigitogullari Kadayif"
+        }
+      },
+      {
+        "type": "way",
+        "id": 317930745,
+        "center": {
+          "lat": 37.0624445,
+          "lon": 37.373859
+        },
+        "tags": {
+          "addr:housenumber": "32",
+          "addr:postcode": "27010",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "pub",
+          "building": "yes",
+          "name": "The Blueport"
+        }
+      },
+      {
+        "type": "way",
+        "id": 345999930,
+        "center": {
+          "lat": 37.0249288,
+          "lon": 37.3124739
+        },
+        "tags": {
+          "addr:city": "Şahinbey/Gaziantep",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Lal Restoran",
+          "phone": "0342 360 91 96"
+        }
+      },
+      {
+        "type": "way",
+        "id": 397210101,
+        "center": {
+          "lat": 37.0631385,
+          "lon": 37.3569196
+        },
+        "tags": {
+          "addr:city": "Şehitkamil/Gaziantep",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Şato Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 408623780,
+        "center": {
+          "lat": 36.9536618,
+          "lon": 37.3806861
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "TOST-_KAHVALTI_-_ÇORBA_-_KEBAB",
+          "opening_hours": "07:00-24:00"
+        }
+      },
+      {
+        "type": "way",
+        "id": 653623752,
+        "center": {
+          "lat": 37.0442512,
+          "lon": 37.3224703
+        },
+        "tags": {
+          "addr:city": "Şehitkamil/Gaziantep",
+          "addr:district": "Şehitkamil",
+          "addr:neighbourhood": "15 Temmuz Mahallesi",
+          "addr:postcode": "27560",
+          "addr:street": "56060",
+          "amenity": "cafe",
+          "name": "Ağaçaltı Cafe Restourant",
+          "outdoor_seating": "yes",
+          "smoking": "dedicated",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 831975743,
+        "center": {
+          "lat": 37.0583354,
+          "lon": 37.322494
+        },
+        "tags": {
+          "addr:neighbourhood": "15 Temmuz Mahallesi Seçkin Koleji Yanı",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "burger;pizza;chicken;regional;sandwich",
+          "name": "Çamlıca Köşkü Restaurant",
+          "opening_hours": "Mo-Su 06:00-24:00",
+          "website": "https://www.camlicakosku.com/menu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955258,
+        "center": {
+          "lat": 37.0350705,
+          "lon": 37.3131633
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955260,
+        "center": {
+          "lat": 37.0350199,
+          "lon": 37.3135561
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955262,
+        "center": {
+          "lat": 37.0349667,
+          "lon": 37.3138754
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955263,
+        "center": {
+          "lat": 37.0349412,
+          "lon": 37.3141071
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955264,
+        "center": {
+          "lat": 37.0349191,
+          "lon": 37.3141944
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955265,
+        "center": {
+          "lat": 37.034903,
+          "lon": 37.3142458
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955266,
+        "center": {
+          "lat": 37.0348941,
+          "lon": 37.3142969
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955267,
+        "center": {
+          "lat": 37.0348811,
+          "lon": 37.3143485
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955268,
+        "center": {
+          "lat": 37.0348786,
+          "lon": 37.3144225
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955269,
+        "center": {
+          "lat": 37.0348817,
+          "lon": 37.3145643
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955283,
+        "center": {
+          "lat": 37.0347766,
+          "lon": 37.313198
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955288,
+        "center": {
+          "lat": 37.0346924,
+          "lon": 37.3136038
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955289,
+        "center": {
+          "lat": 37.0348163,
+          "lon": 37.3136547
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 909955290,
+        "center": {
+          "lat": 37.0350612,
+          "lon": 37.3133383
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1144409221,
+        "center": {
+          "lat": 37.063349,
+          "lon": 37.3949083
+        },
+        "tags": {
+          "addr:city": "25 Aralık Mahallesi",
+          "addr:district": "Şahinbey",
+          "addr:housenumber": "80",
+          "addr:neighbourhood": "25 Aralık mah",
+          "addr:street": "Tüfekçi Yusuf Bulvarı",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "kebab;chicken;barbecue;regional;turkish",
+          "name": "Lezzet Durağı//Mehmet Usta",
+          "opening_hours": "24/7",
+          "phone": "+905304910727",
+          "source": "microsoft/BuildingFootprints"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1215135100,
+        "center": {
+          "lat": 37.0150526,
+          "lon": 37.3846914
+        },
+        "tags": {
+          "addr:city": "GAZİANTEP",
+          "addr:district": "ŞAHİNBEY",
+          "addr:housenumber": "NO:1",
+          "addr:neighbourhood": "IBN-I SINA MAHALLESI",
+          "addr:postcode": "27100",
+          "addr:street": "190011 NOLU CADDE D BLOK",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish;kebab",
+          "name": "ÖZ CİĞERCİ ABE GAZİANTEP",
+          "opening_hours": "Mo-Su 07:00-23:00",
+          "phone": "+90 537 309 37 63",
+          "website": "https://www.ozcigerciabegaziantep.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1296109865,
+        "center": {
+          "lat": 36.9818465,
+          "lon": 37.2997129
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

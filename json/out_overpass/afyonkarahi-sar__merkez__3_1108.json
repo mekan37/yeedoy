@@ -1,0 +1,460 @@
+{
+  "meta": {
+    "sehir_id": "3",
+    "sehir_adi": "AFYONKARAHİSAR",
+    "ilce_id": "1108",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 38.64420136486486,
+      "north": 38.914471635135136,
+      "west": 30.34979135997956,
+      "east": 30.695488940020443
+    },
+    "bbox_original": {
+      "south": 38.5594725,
+      "west": 30.187985,
+      "north": 38.9992005,
+      "east": 30.8572953
+    },
+    "fetchedAt": "2026-01-21T08:18:40.717Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 40
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:16:42Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 92467709,
+        "lat": 38.792579,
+        "lon": 30.4564783,
+        "tags": {
+          "amenity": "restaurant",
+          "created_by": "Potlatch 0.5d",
+          "name": "İkbal Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 112559871,
+        "lat": 38.7739588,
+        "lon": 30.5711481,
+        "tags": {
+          "name": "Alko",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 112559895,
+        "lat": 38.7740391,
+        "lon": 30.5708219,
+        "tags": {
+          "name": "Seçen",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 112559935,
+        "lat": 38.7741529,
+        "lon": 30.5705473,
+        "tags": {
+          "name": "Hido",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 288305497,
+        "lat": 38.8014296,
+        "lon": 30.6241181,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özlem Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 309903531,
+        "lat": 38.7580987,
+        "lon": 30.5404292,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 807315452,
+        "lat": 38.7961897,
+        "lon": 30.3937993,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 812657637,
+        "lat": 38.777848,
+        "lon": 30.493191,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kolayli Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2385386555,
+        "lat": 38.7569846,
+        "lon": 30.5434089,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2962757754,
+        "lat": 38.7913896,
+        "lon": 30.4178026,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamlıtepe Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2962759664,
+        "lat": 38.7951484,
+        "lon": 30.3894248,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cumhuriyet Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3121118647,
+        "lat": 38.7574734,
+        "lon": 30.5441093,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Özsüt",
+          "brand:wikidata": "Q20472928",
+          "cuisine": "coffee_shop",
+          "name": "Özsüt",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3123735791,
+        "lat": 38.8112566,
+        "lon": 30.5342121,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vadi Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3123736432,
+        "lat": 38.8117833,
+        "lon": 30.5341692,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3123760267,
+        "lat": 38.8113151,
+        "lon": 30.537302,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kuğu Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3124233776,
+        "lat": 38.7566883,
+        "lon": 30.5424254,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "international",
+          "name": "Mania"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3124275763,
+        "lat": 38.757161,
+        "lon": 30.5398478,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Ateşi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3124286457,
+        "lat": 38.7588364,
+        "lon": 30.5431683,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "waffle"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5645842522,
+        "lat": 38.7561811,
+        "lon": 30.5387978,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6482724787,
+        "lat": 38.7589503,
+        "lon": 30.5430708,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional;breakfast;tea;cake;turkish",
+          "diet:vegetarian": "yes",
+          "internet_access": "wlan",
+          "name": "Hanımeli Mantı & Börek",
+          "opening_hours": "Mo-Sa 09:00-21:00; Su 12:00-20:00",
+          "phone": "+90 272 213 44 62"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6807882086,
+        "lat": 38.7894007,
+        "lon": 30.4571758,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9334353817,
+        "lat": 38.7566751,
+        "lon": 30.5422499,
+        "tags": {
+          "addr:street": "Dumlupinar Caddesi",
+          "amenity": "restaurant",
+          "name": "Gulyurt Kahavalti"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10589016405,
+        "lat": 38.7563661,
+        "lon": 30.5383729,
+        "tags": {
+          "name": "Öztaylan",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10739852906,
+        "lat": 38.7588528,
+        "lon": 30.5329573,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12670914753,
+        "lat": 38.7951612,
+        "lon": 30.3943071,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12670934950,
+        "lat": 38.7778633,
+        "lon": 30.5931386,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12670934951,
+        "lat": 38.7725987,
+        "lon": 30.572854,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12670946649,
+        "lat": 38.7547321,
+        "lon": 30.5396477,
+        "tags": {
+          "addr:city": "Afyokkarahisar",
+          "addr:district": "Merkez",
+          "addr:housenumber": "30/A",
+          "addr:neighbourhood": "Burmalı Mahallesi",
+          "addr:street": "Millî Egemenlik Cd.",
+          "name": "Altınyayla Lokum",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12683888335,
+        "lat": 38.7774227,
+        "lon": 30.4983712,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Ciğerci Ahmet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13078054410,
+        "lat": 38.7920172,
+        "lon": 30.4605934,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Keyrani Steakhouse"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13253694001,
+        "lat": 38.7556404,
+        "lon": 30.5376699,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13253735904,
+        "lat": 38.7535695,
+        "lon": 30.5332525,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13253932801,
+        "lat": 38.8168709,
+        "lon": 30.5401906,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Uykusus Kafe / Kütüphane",
+          "opening_hours": "Mo-Su 11:00-01:00",
+          "phone": "05336146658"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13372077801,
+        "lat": 38.7581855,
+        "lon": 30.5392183,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konya Etli Ekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13373674001,
+        "lat": 38.8165369,
+        "lon": 30.5407388,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balkon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13374230001,
+        "lat": 38.8165087,
+        "lon": 30.5383317,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Makber Coffe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13421371002,
+        "lat": 38.7849366,
+        "lon": 30.467097,
+        "tags": {
+          "amenity": "cafe",
+          "name": "AFSÜ Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13421371003,
+        "lat": 38.7846184,
+        "lon": 30.4647944,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sağlık Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13470734201,
+        "lat": 38.8175542,
+        "lon": 30.540402,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "La viande"
+        }
+      },
+      {
+        "type": "way",
+        "id": 421602273,
+        "center": {
+          "lat": 38.8061596,
+          "lon": 30.5319615
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

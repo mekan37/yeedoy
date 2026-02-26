@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1122",
+    "ilce_adi": "AKŞEHİR",
+    "bbox_used": {
+      "south": 38.1879515,
+      "west": 31.2376994,
+      "north": 38.5682699,
+      "east": 31.7118567
+    },
+    "bbox_original": {
+      "south": 38.1879515,
+      "west": 31.2376994,
+      "north": 38.5682699,
+      "east": 31.7118567
+    },
+    "fetchedAt": "2026-01-21T09:43:19.475Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 14
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:41:27Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3226316066,
+        "lat": 38.3024162,
+        "lon": 31.6484072,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4426212175,
+        "lat": 38.3486199,
+        "lon": 31.4004351,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5228160361,
+        "lat": 38.2033916,
+        "lon": 31.5747992,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6134875598,
+        "lat": 38.4491417,
+        "lon": 31.3136312,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9166316721,
+        "lat": 38.4365279,
+        "lon": 31.332672,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9810247919,
+        "lat": 38.2485684,
+        "lon": 31.5330383,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10880753209,
+        "lat": 38.4124133,
+        "lon": 31.3585547,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akşehir Özkan Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10964016691,
+        "lat": 38.2270054,
+        "lon": 31.5526935,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12710020721,
+        "lat": 38.5090589,
+        "lon": 31.2598165,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12944821743,
+        "lat": 38.3696181,
+        "lon": 31.4311802,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Emrah Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13352663601,
+        "lat": 38.3564539,
+        "lon": 31.4209567,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Osmanli Sarraf"
+        }
+      },
+      {
+        "type": "way",
+        "id": 425518751,
+        "center": {
+          "lat": 38.3322074,
+          "lon": 31.4332382
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Yeşil Vadi restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 441685467,
+        "center": {
+          "lat": 38.3193653,
+          "lon": 31.4450214
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Köy kahvesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 445149599,
+        "center": {
+          "lat": 38.3480025,
+          "lon": 31.3999845
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

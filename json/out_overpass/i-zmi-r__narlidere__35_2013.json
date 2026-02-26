@@ -1,0 +1,265 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "2013",
+    "ilce_adi": "NARLIDERE",
+    "bbox_used": {
+      "south": 38.3323992,
+      "west": 26.9230377,
+      "north": 38.4133195,
+      "east": 27.0352721
+    },
+    "bbox_original": {
+      "south": 38.3323992,
+      "west": 26.9230377,
+      "north": 38.4133195,
+      "east": 27.0352721
+    },
+    "fetchedAt": "2026-01-21T09:29:26.979Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 21
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:28:01Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4142189990,
+        "lat": 38.3944635,
+        "lon": 27.0041744,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "annem pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4996376522,
+        "lat": 38.4062129,
+        "lon": 26.9981409,
+        "tags": {
+          "addr:housenumber": "54",
+          "addr:street": "Gürler Cad.",
+          "amenity": "restaurant",
+          "name": "Dut Restaurant Cafe Bar",
+          "name:tr": "Dut Restaurant Cafe Bar",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4996630822,
+        "lat": 38.3839897,
+        "lon": 26.9258192,
+        "tags": {
+          "addr:housenumber": "604",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "restaurant",
+          "name": "Ethçi Steakhouse"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5444696126,
+        "lat": 38.4115288,
+        "lon": 27.0333357,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Serkan Hamza Midye ve Balık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9215806359,
+        "lat": 38.3944261,
+        "lon": 27.0097948,
+        "tags": {
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "shop": "coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/60194-294502/narlidere"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10128661105,
+        "lat": 38.4103851,
+        "lon": 27.0351517,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kumrucu Eyüp"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10128661109,
+        "lat": 38.4112115,
+        "lon": 27.0336467,
+        "tags": {
+          "amenity": "restaurant",
+          "email": "shookahlounge35@gmail.com",
+          "name": "Shookah Lounge",
+          "phone": "+90 534 520 81 81"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10128661110,
+        "lat": 38.4109542,
+        "lon": 27.0339947,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yusuf Et & Balık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11046808082,
+        "lat": 38.4117247,
+        "lon": 27.0318523,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Vertice"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11046808083,
+        "lat": 38.4113811,
+        "lon": 27.0328152,
+        "tags": {
+          "amenity": "pub",
+          "name": "Malt Cafe Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11046808084,
+        "lat": 38.4116913,
+        "lon": 27.0332336,
+        "tags": {
+          "amenity": "bar",
+          "name": "SH Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11046808092,
+        "lat": 38.4105514,
+        "lon": 27.0347558,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cafe incir6"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11046808095,
+        "lat": 38.4096125,
+        "lon": 27.0351957,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Mercan",
+          "website": "https://mercanrestoran.com.tr/restoran/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923369666,
+        "lat": 38.3932285,
+        "lon": 27.0231589,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428977,
+        "lat": 38.3909954,
+        "lon": 27.0054929,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428978,
+        "lat": 38.3910963,
+        "lon": 27.0055278,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428979,
+        "lat": 38.3912539,
+        "lon": 27.0055734,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428980,
+        "lat": 38.3913317,
+        "lon": 27.0056109,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999448202,
+        "lat": 38.3912035,
+        "lon": 27.0052649,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1323840013,
+        "center": {
+          "lat": 38.3912396,
+          "lon": 27.0333945
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "barbecue",
+          "name": "Dutdibi Et Mangal",
+          "reservation": "recommended",
+          "tourism": "picnic_site"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1352491667,
+        "center": {
+          "lat": 38.3913351,
+          "lon": 27.0320026
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "barbecue",
+          "name": "Duman Mangal",
+          "tourism": "picnic_site"
+        }
+      }
+    ]
+  }
+}

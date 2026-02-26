@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "sehir_id": "53",
+    "sehir_adi": "RİZE",
+    "ilce_id": "1241",
+    "ilce_adi": "ÇAYELİ",
+    "bbox_used": {
+      "south": 40.762658,
+      "west": 40.6416527,
+      "north": 41.1408453,
+      "east": 40.8887726
+    },
+    "bbox_original": {
+      "south": 40.762658,
+      "west": 40.6416527,
+      "north": 41.1408453,
+      "east": 40.8887726
+    },
+    "fetchedAt": "2026-01-21T10:15:00.991Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:13:53Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5773732329,
+        "lat": 41.0877357,
+        "lon": 40.7245575,
+        "tags": {
+          "addr:city": "Çayeli",
+          "addr:district": "Rize",
+          "addr:housenumber": "93",
+          "addr:postcode": "53200",
+          "addr:street": "Hopa Caddesi",
+          "amenity": "restaurant",
+          "check_date": "2023-04-21",
+          "cuisine": "regional",
+          "name": "Lale Lokantasi",
+          "phone": "+90 464 532718",
+          "website": "https://www.lalelokantasi.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5792758914,
+        "lat": 41.0995033,
+        "lon": 40.7359219,
+        "tags": {
+          "addr:city": "Çayeli",
+          "addr:district": "Rize",
+          "addr:postcode": "53200",
+          "addr:street": "9 Mart Caddesi",
+          "amenity": "restaurant",
+          "name": "Hüsrev Lokantari",
+          "phone": "+90 464 532 81 88",
+          "website": "http://www.husrev.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9904111918,
+        "lat": 41.0308466,
+        "lon": 40.7337662,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Ceceva"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13021594301,
+        "lat": 41.0013309,
+        "lon": 40.6955756,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Günbatimi Dag Evi, Ausflugslokal"
+        }
+      }
+    ]
+  }
+}

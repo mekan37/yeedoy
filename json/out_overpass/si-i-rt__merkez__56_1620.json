@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "sehir_id": "56",
+    "sehir_adi": "SİİRT",
+    "ilce_id": "1620",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 37.6870143,
+      "west": 41.7726461,
+      "north": 38.0517644,
+      "east": 42.1506784
+    },
+    "bbox_original": {
+      "south": 37.6870143,
+      "west": 41.7726461,
+      "north": 38.0517644,
+      "east": 42.1506784
+    },
+    "fetchedAt": "2026-01-21T10:24:29.889Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 13
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:23:10Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4461625490,
+        "lat": 37.931638,
+        "lon": 41.942516,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Seba Lezzet Diyarı",
+          "name:tr": "Seba Lezzet Diyarı",
+          "phone": "+90 484 224 2022"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461650890,
+        "lat": 37.9287485,
+        "lon": 41.9431347,
+        "tags": {
+          "addr:housenumber": "54",
+          "addr:street": "Güreş Caddesi",
+          "amenity": "restaurant",
+          "name": "Boğaziçi Et Lokantası",
+          "name:tr": "Boğaziçi Et Lokantası",
+          "opening_hours": "Mo-Su 07:00-22:00",
+          "phone": "+90 484 223 1709"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461683589,
+        "lat": 37.927682,
+        "lon": 41.9444071,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Huzur Büryan Salonu",
+          "name:tr": "Huzur Büryan Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461685089,
+        "lat": 37.926777,
+        "lon": 41.943457,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Siirt Ali Büryan Salonu",
+          "name:tr": "Siirt Ali Büryan Salonu",
+          "phone": "+90 484 224 0604"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4867982922,
+        "lat": 37.9260811,
+        "lon": 41.9439393,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Durak Kebap Salonu",
+          "name:tr": "Durak Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4867992021,
+        "lat": 37.9259063,
+        "lon": 41.9438172,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Durak Kebap Salonu",
+          "name:tr": "Durak Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4867992022,
+        "lat": 37.9258509,
+        "lon": 41.9441295,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Birtat Ocakbaşı",
+          "name:tr": "Birtat Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5181277622,
+        "lat": 37.934826,
+        "lon": 41.9398789,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hünkar Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5181282621,
+        "lat": 37.9324931,
+        "lon": 41.9382705,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mangal Et Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9009293541,
+        "lat": 37.9265336,
+        "lon": 41.9444301,
+        "tags": {
+          "addr:city": "Siirt",
+          "addr:district": "Merkez",
+          "amenity": "restaurant",
+          "name": "Örnek Büryan Salonu",
+          "phone": "+90 484 224 29 99"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12444061428,
+        "lat": 37.8985831,
+        "lon": 41.9521856,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12769196421,
+        "lat": 37.9712988,
+        "lon": 41.8476418,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kafeterya",
+          "name:en": "Cafeteria"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12892597436,
+        "lat": 37.9503847,
+        "lon": 42.04184,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

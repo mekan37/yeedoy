@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "sehir_id": "61",
+    "sehir_adi": "TRABZON",
+    "ilce_id": "1909",
+    "ilce_adi": "DERNEKPAZARI",
+    "bbox_used": {
+      "south": 40.727215,
+      "west": 40.1555624,
+      "north": 40.824612,
+      "east": 40.3737973
+    },
+    "bbox_original": {
+      "south": 40.727215,
+      "west": 40.1555624,
+      "north": 40.824612,
+      "east": 40.3737973
+    },
+    "fetchedAt": "2026-01-21T10:38:39.459Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:37:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9950603696,
+        "lat": 40.7459958,
+        "lon": 40.2846694,
+        "tags": {
+          "addr:city": "trabzon",
+          "addr:district": "çaykara",
+          "addr:neighbourhood": "yesilalan",
+          "addr:postcode": "61040",
+          "addr:street": "yayla küme evleri 34/1",
+          "amenity": "restaurant",
+          "cuisine": "alabalık",
+          "diet:halal": "yes",
+          "name": "yesilalan hotel",
+          "opening_hours": "24/7",
+          "outdoor_seating": "yes",
+          "phone": "5324038639"
+        }
+      }
+    ]
+  }
+}

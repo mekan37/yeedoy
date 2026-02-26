@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "sehir_id": "41",
+    "sehir_adi": "KOCAELİ",
+    "ilce_id": "1430",
+    "ilce_adi": "KANDIRA",
+    "bbox_used": {
+      "south": 40.8724745,
+      "west": 29.8340821,
+      "north": 41.217729,
+      "east": 30.3671418
+    },
+    "bbox_original": {
+      "south": 40.8724745,
+      "west": 29.8340821,
+      "north": 41.217729,
+      "east": 30.3671418
+    },
+    "fetchedAt": "2026-01-21T09:41:15.871Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 19
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:39:19Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2453746739,
+        "lat": 41.1416362,
+        "lon": 29.8722322,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kilimli Tesisleri Restaurant Cafe Beach",
+          "website": "http://www.kilimlitesisleri.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4385858892,
+        "lat": 41.1604094,
+        "lon": 30.2259345,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Hasan Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4387190660,
+        "lat": 41.1692452,
+        "lon": 30.2275165,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dağlar Pizza Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4387337961,
+        "lat": 41.1698865,
+        "lon": 30.2262692,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Asma Altı Kahvehanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4388831194,
+        "lat": 41.1689861,
+        "lon": 30.2265751,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4388831197,
+        "lat": 41.1694718,
+        "lon": 30.2268582,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4388831199,
+        "lat": 41.1701427,
+        "lon": 30.227393,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Ceneviz Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4388831207,
+        "lat": 41.1692594,
+        "lon": 30.2266687,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Deniz Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5754387725,
+        "lat": 41.1579811,
+        "lon": 30.1920808,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ceneviz",
+          "name:de": "Gartentestaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5775510253,
+        "lat": 41.1307972,
+        "lon": 29.8545448,
+        "tags": {
+          "addr:housenumber": "5",
+          "addr:street": "Nehirboyu cad . no:5 AĞVA",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Şengül çiftliği kahvaltı et balık",
+          "name:ru": "ресторан на воде",
+          "phone": "02127217385"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9850197817,
+        "lat": 41.1379047,
+        "lon": 29.8532453,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şile bezi fabrika"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9850521617,
+        "lat": 41.131874,
+        "lon": 29.8407162,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sebastian Motel Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9880630861,
+        "lat": 40.9096468,
+        "lon": 29.8973254,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gölet Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9887889976,
+        "lat": 41.1379575,
+        "lon": 29.8566852,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Zeki"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9887889977,
+        "lat": 41.1377526,
+        "lon": 29.8566722,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Kasapoğlu Gurme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11278532758,
+        "lat": 41.1969169,
+        "lon": 30.2606982,
+        "tags": {
+          "amenity": "nightclub",
+          "name": "Radio Beach"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11947788491,
+        "lat": 40.8725562,
+        "lon": 30.0090896,
+        "tags": {
+          "addr:neighbourhood": "Çobanoğlu",
+          "amenity": "cafe",
+          "cuisine": "ekmek",
+          "internet_access": "no",
+          "name": "Köy fırını",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12963943863,
+        "lat": 41.1373645,
+        "lon": 29.8516808,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Vuleo Bistro & Lounge",
+          "phone": "+90 216 721 85 27"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1301288240,
+        "center": {
+          "lat": 40.9101045,
+          "lon": 29.9032713
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Beşdivan Tesisleri"
+        }
+      }
+    ]
+  }
+}

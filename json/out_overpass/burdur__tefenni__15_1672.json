@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "sehir_id": "15",
+    "sehir_adi": "BURDUR",
+    "ilce_id": "1672",
+    "ilce_adi": "TEFENNİ",
+    "bbox_used": {
+      "south": 37.1244423,
+      "west": 29.5560867,
+      "north": 37.3684298,
+      "east": 30.0187747
+    },
+    "bbox_original": {
+      "south": 37.1244423,
+      "west": 29.5560867,
+      "north": 37.3684298,
+      "east": 30.0187747
+    },
+    "fetchedAt": "2026-01-21T08:40:45.471Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:39:05Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 300876653,
+        "lat": 37.2434578,
+        "lon": 29.5999883,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mohan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1444181721,
+        "lat": 37.1512534,
+        "lon": 29.6874692,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5633596424,
+        "lat": 37.1517875,
+        "lon": 29.6868157,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Özlen lokantasi",
+          "name:tr": "Özlen lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10208009686,
+        "lat": 37.1546431,
+        "lon": 29.6876338,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2022-11-21",
+          "cuisine": "regional",
+          "name": "Cevizli Restaurant",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10706315892,
+        "lat": 37.1564913,
+        "lon": 29.6828253,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-03-03",
+          "name": "Kocayusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872083162,
+        "lat": 37.309019,
+        "lon": 29.7739043,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Özyörük"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872101698,
+        "lat": 37.3097713,
+        "lon": 29.7726565,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Café"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872117210,
+        "lat": 37.2402439,
+        "lon": 29.6927711,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Café"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872122276,
+        "lat": 37.3616485,
+        "lon": 29.81658,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kocapinar"
+        }
+      }
+    ]
+  }
+}

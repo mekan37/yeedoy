@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "78",
+    "sehir_adi": "KARABÜK",
+    "ilce_id": "1561",
+    "ilce_adi": "OVACIK",
+    "bbox_used": {
+      "south": 40.9384799,
+      "west": 32.7773878,
+      "north": 41.1634871,
+      "east": 33.09377
+    },
+    "bbox_original": {
+      "south": 40.9384799,
+      "west": 32.7773878,
+      "north": 41.1634871,
+      "east": 33.09377
+    },
+    "fetchedAt": "2026-01-21T11:04:51.525Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:03:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

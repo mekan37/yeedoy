@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "45",
+    "sehir_adi": "MANİSA",
+    "ilce_id": "1362",
+    "ilce_adi": "GÖRDES",
+    "bbox_used": {
+      "south": 38.7478241,
+      "west": 28.0510138,
+      "north": 39.1398445,
+      "east": 28.5607971
+    },
+    "bbox_original": {
+      "south": 38.7478241,
+      "west": 28.0510138,
+      "north": 39.1398445,
+      "east": 28.5607971
+    },
+    "fetchedAt": "2026-01-21T09:56:33.012Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:54:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

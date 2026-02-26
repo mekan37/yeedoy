@@ -1,0 +1,10 @@
+{
+  "name": "@yeedoy/l10n_assets",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "README.md",
+  "scripts": {
+    "report": "node scripts/missing-keys-report.mjs"
+  }
+}

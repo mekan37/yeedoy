@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "sehir_id": "14",
+    "sehir_adi": "BOLU",
+    "ilce_id": "1916",
+    "ilce_adi": "DÖRTDİVAN",
+    "bbox_used": {
+      "south": 40.501726,
+      "west": 31.838379,
+      "north": 40.770167,
+      "east": 32.1477506
+    },
+    "bbox_original": {
+      "south": 40.501726,
+      "west": 31.838379,
+      "north": 40.770167,
+      "east": 32.1477506
+    },
+    "fetchedAt": "2026-01-21T08:39:50.603Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 10
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:38:03Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 6584913494,
+        "lat": 40.7480709,
+        "lon": 32.0853212,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "metro mola"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9980031420,
+        "lat": 40.7492007,
+        "lon": 32.0821645,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13043458687,
+        "lat": 40.7203294,
+        "lon": 32.0618875,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1272337613,
+        "center": {
+          "lat": 40.7425766,
+          "lon": 31.8600798
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "image": "https://photos.app.goo.gl/qiXLa1FqXBeWCeiZ8",
+          "name": "Köfteci Remzi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1368809886,
+        "center": {
+          "lat": 40.7439518,
+          "lon": 31.8589685
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Yedigöller Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084482,
+        "center": {
+          "lat": 40.7511929,
+          "lon": 32.082137
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084483,
+        "center": {
+          "lat": 40.7510267,
+          "lon": 32.0833372
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084486,
+        "center": {
+          "lat": 40.7534995,
+          "lon": 32.076837
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084494,
+        "center": {
+          "lat": 40.7479321,
+          "lon": 32.0851849
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084499,
+        "center": {
+          "lat": 40.7492123,
+          "lon": 32.0818994
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

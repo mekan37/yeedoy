@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "sehir_id": "24",
+    "sehir_adi": "ERZİNCAN",
+    "ilce_id": "1318",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 39.561659764864864,
+      "north": 39.83193003513514,
+      "west": 39.294004231492806,
+      "east": 39.644252468507204
+    },
+    "bbox_original": {
+      "south": 39.4412085,
+      "west": 39.130223,
+      "north": 39.9523813,
+      "east": 39.8080337
+    },
+    "fetchedAt": "2026-01-21T08:58:21.022Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 10
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:56:31Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2293935919,
+        "lat": 39.6316718,
+        "lon": 39.5005846,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zirve'de"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5109143921,
+        "lat": 39.74672,
+        "lon": 39.493177,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Cafetelli"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6599172086,
+        "lat": 39.7487569,
+        "lon": 39.4910448,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Erzincan Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6744208446,
+        "lat": 39.7343697,
+        "lon": 39.6159423,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9423200539,
+        "lat": 39.7733759,
+        "lon": 39.4206066,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Steak House"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12453370965,
+        "lat": 39.7584921,
+        "lon": 39.4995371,
+        "tags": {
+          "addr:city": "Erzincan",
+          "addr:district": "Merkez",
+          "addr:housenumber": "79B",
+          "addr:neighbourhood": "Cumhuriyet Mah.",
+          "addr:postcode": "24002",
+          "addr:street": "Kırklar Cad.",
+          "amenity": "cafe",
+          "name": "Baston Cafe Bay & Bayan Oyun Salonu",
+          "phone": "05066871124",
+          "website": "https://www.instagram.com/bastoncafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13089439891,
+        "lat": 39.7440252,
+        "lon": 39.498443,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish;kebab",
+          "name": "Döner Kebap"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1057800446,
+        "center": {
+          "lat": 39.7353128,
+          "lon": 39.6154531
+        },
+        "tags": {
+          "air_conditioning": "yes",
+          "amenity": "restaurant",
+          "bar": "no",
+          "brewery": "no",
+          "building": "yes",
+          "delivery": "no",
+          "diet:gluten_free": "no",
+          "diet:halal": "yes",
+          "diet:lactose_free": "no",
+          "microbrewery": "no",
+          "name": "Saklı Bahçe Restaurant",
+          "outdoor_seating": "yes",
+          "reservation": "recommended",
+          "smoking": "outside",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1059299047,
+        "center": {
+          "lat": 39.7198877,
+          "lon": 39.5675799
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Akyazı Opet Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1408508589,
+        "center": {
+          "lat": 39.6067701,
+          "lon": 39.4957161
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Cafe2400"
+        }
+      }
+    ]
+  }
+}

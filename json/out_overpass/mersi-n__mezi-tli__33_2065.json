@@ -1,0 +1,645 @@
+{
+  "meta": {
+    "sehir_id": "33",
+    "sehir_adi": "MERSİN",
+    "ilce_id": "2065",
+    "ilce_adi": "MEZİTLİ",
+    "bbox_used": {
+      "south": 36.6811415,
+      "west": 34.1712293,
+      "north": 37.0115216,
+      "east": 34.555144
+    },
+    "bbox_original": {
+      "south": 36.6811415,
+      "west": 34.1712293,
+      "north": 37.0115216,
+      "east": 34.555144
+    },
+    "fetchedAt": "2026-01-21T09:16:43.603Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 43
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:14:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3312315138,
+        "lat": 36.7573583,
+        "lon": 34.5477046,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:housenumber": "30026",
+          "addr:postcode": "33170",
+          "addr:street": "SK.",
+          "amenity": "restaurant",
+          "capacity": "200",
+          "cuisine": "regional,_Pizza,_Fastfood,",
+          "name": "L-Alem Cafe & Restaurant",
+          "phone": "+903243586886",
+          "smoking": "isolated",
+          "website": "https://vk.com/l.alem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4110128904,
+        "lat": 36.7607878,
+        "lon": 34.551685,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tombeki"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4297347693,
+        "lat": 36.7349835,
+        "lon": 34.521534,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Roka balık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4497655589,
+        "lat": 36.7894915,
+        "lon": 34.5265654,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Hayal kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4575321712,
+        "lat": 36.7508016,
+        "lon": 34.5149473,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yedi Kardesler",
+          "name:tr": "Yedi Kardesler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4582447492,
+        "lat": 36.7616676,
+        "lon": 34.5527268,
+        "tags": {
+          "amenity": "bar",
+          "name": "Navizadè",
+          "name:tr": "Navizadè"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5018488021,
+        "lat": 36.759755,
+        "lon": 34.5344082,
+        "tags": {
+          "name:ar": "معجنات فرنسية",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5018494921,
+        "lat": 36.7589375,
+        "lon": 34.5327505,
+        "tags": {
+          "name:ar": "معجنات فرنسية",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5410572321,
+        "lat": 36.7604037,
+        "lon": 34.5509125,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Mezitli",
+          "addr:street": "Adnan Menderes Bulvarı",
+          "amenity": "restaurant",
+          "name": "Necmi Göçtü Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6077277085,
+        "lat": 36.6830396,
+        "lon": 34.4169415,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öykü Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6744510886,
+        "lat": 36.7067056,
+        "lon": 34.3686554,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ali Dayı Alabalık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7887751383,
+        "lat": 36.720643,
+        "lon": 34.4889908,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Mezitli",
+          "addr:street": "Gazi Mustafa Kemal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Mersin Special Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7887778439,
+        "lat": 36.7081911,
+        "lon": 34.466248,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lider Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7890956263,
+        "lat": 36.7459933,
+        "lon": 34.525177,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gündoğdu İskender",
+          "phone": "+90 324 358 44 11"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7890973118,
+        "lat": 36.7495093,
+        "lon": 34.5298756,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özlem Çorbacı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7891931997,
+        "lat": 36.7559103,
+        "lon": 34.5406992,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tadım Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7897508579,
+        "lat": 36.7616458,
+        "lon": 34.5490952,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bazzar Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8614507178,
+        "lat": 36.7682569,
+        "lon": 34.5535036,
+        "tags": {
+          "addr:housenumber": "759",
+          "addr:street": "Akkent Mahallesi Hüseyin Okan Merzeci Bulvarı",
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "cuisine": "coffee_shop",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "opening_hours": "Mo-Fr 10:00-22:00",
+          "shop": "coffee",
+          "takeaway": "yes",
+          "website": "https://www.gloriajeans.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8618109682,
+        "lat": 36.7616467,
+        "lon": 34.5525144,
+        "tags": {
+          "addr:housenumber": "210",
+          "addr:street": "Fatih Mahallesi Adnan Menderes Bulvarı",
+          "amenity": "cafe",
+          "name": "Gül Cafe Plus",
+          "opening_hours": "Mo-Su 07:00-02:00",
+          "website": "gulcafeplus.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8618159884,
+        "lat": 36.7618506,
+        "lon": 34.5527764,
+        "tags": {
+          "addr:street": "Fatih, 33200",
+          "amenity": "restaurant",
+          "name": "Saffron Restaurant & Bistro",
+          "opening_hours": "Mo-Su 12:00-01:00",
+          "website": "https://saffronfish.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9308398675,
+        "lat": 36.6994512,
+        "lon": 34.4617841,
+        "tags": {
+          "addr:city": "Mersin",
+          "amenity": "cafe",
+          "name": "Altın Yunus Cafe",
+          "opening_hours": "Mo-Su,PH 10:00-18:00+"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9515488948,
+        "lat": 36.7008654,
+        "lon": 34.4522915,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:neighbourhood": "Mezitli (Deniz Mah.)",
+          "amenity": "restaurant",
+          "cuisine": "chicken",
+          "name": "Sancak Chicken",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9560821826,
+        "lat": 36.746029,
+        "lon": 34.5280421,
+        "tags": {
+          "addr:city": "mersin",
+          "addr:district": "mezitli",
+          "addr:housenumber": "9a",
+          "addr:street": "Limon cad",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Cup Of Coffee",
+          "outdoor_seating": "yes",
+          "phone": "05458617716"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9791150121,
+        "lat": 36.7466232,
+        "lon": 34.5261604,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Mezitli",
+          "addr:street": "Gazi Mustafa Kemal Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "steak_house;chicken;kebab;türk;mediterranean;salad;döner;pilav;bulgur;türk_yemekleri;ızgara;çorba;pide;tatlı",
+          "diet:vegan": "yes",
+          "diet:vegetarian": "yes",
+          "name": "Sabah Et Lokantası Mezitli",
+          "name:tr": "Sabah Et Lokantası",
+          "opening_hours": "24/7",
+          "phone": "+90 324 502 29 29",
+          "website": "https://sabahlokantasi.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9792385824,
+        "lat": 36.7681489,
+        "lon": 34.5533437,
+        "tags": {
+          "addr:housenumber": "759",
+          "addr:street": "Akkent Mahallesi Hüseyin Okan Merzeci Bulvarı",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "shop": "coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10075160917,
+        "lat": 36.7586756,
+        "lon": 34.5492611,
+        "tags": {
+          "addr:housenumber": "29/A",
+          "addr:street": "Fatih Mahallesi 30020 Sk",
+          "amenity": "cafe",
+          "internet_access:password": "yes",
+          "name": "The Mint"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10199197936,
+        "lat": 36.7729945,
+        "lon": 34.5406049,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Çiftlikköy Mahallesi , We Life Yaşam Merkezi",
+          "addr:street": "Üniversite Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "internet_access:ssid": "Starbucks",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/69618-304807/ciftlikkoy-universite-cad-no-4"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10992018406,
+        "lat": 36.7583577,
+        "lon": 34.5491294,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aşina Makam"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11212658038,
+        "lat": 36.7573891,
+        "lon": 34.5419577,
+        "tags": {
+          "addr:housenumber": "680",
+          "addr:street": "Gazi Mustafa Kemal Bulvarı",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "opening_hours": "Mo-Su 07:00-23:00",
+          "outdoor_seating": "no",
+          "shop": "coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/79122-309099/mezitli-gmk-bulvari-no-678"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11941828755,
+        "lat": 36.785038,
+        "lon": 34.5405536,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Çiftlikköy",
+          "addr:street": "Mimar Sinan Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/81943-310002/ciftlikkoy-akademi-ofis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13097142172,
+        "lat": 36.930688,
+        "lon": 34.5016683,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:country": "TR",
+          "addr:district": "Toroslar",
+          "addr:housenumber": "40/5",
+          "addr:neighbourhood": "Aladağ",
+          "addr:postcode": "33250",
+          "addr:street": "Nurkak",
+          "amenity": "restaurant",
+          "brand": "Nergizli Tesisleri",
+          "contact:facebook": "https://www.facebook.com/people/Nergizli-Tesisleri-Pirzolac%C4%B1-Ferhat/61579381121450/",
+          "cuisine": "steak_house;chicken;salad;breakfast;barbecue;regional",
+          "diet:halal": "yes",
+          "diet:meat": "yes",
+          "email": "nergizlitesisleri@gmail.com",
+          "name": "Nergizli Tesisleri Pirzolacı Ferhat",
+          "opening_hours": "08:30-23:30",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "phone": "+90 538 792 30 30",
+          "website": "https://nergizlitesisleri.com",
+          "website:menu": "https://www.nergizlitesisleri.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13160078499,
+        "lat": 36.9486322,
+        "lon": 34.4845586,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Toroslar",
+          "amenity": "restaurant",
+          "name": "Kızılgeçit Restaurant Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13175125855,
+        "lat": 36.7585957,
+        "lon": 34.5491774,
+        "tags": {
+          "addr:housenumber": "29/A",
+          "addr:street": "Fatih Mahallesi 30020 Sk",
+          "amenity": "cafe",
+          "name": "Encanto",
+          "opening_hours": "Mo-Su 10:00-00:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13294010640,
+        "lat": 36.7079965,
+        "lon": 34.4716138,
+        "tags": {
+          "addr:city": "Mersin",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Bella Vista"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13313096013,
+        "lat": 36.7007481,
+        "lon": 34.4559194,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Mezitli",
+          "addr:neighbourhood": "Deniz",
+          "addr:street": "49228. Sokak",
+          "amenity": "cafe",
+          "name": "Romaşka Coffee Point"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472955937,
+        "lat": 36.767954,
+        "lon": 34.5525576,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Akkent",
+          "addr:street": "Sayapark AVM",
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Dünyası",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1005846699,
+        "center": {
+          "lat": 36.6971719,
+          "lon": 34.4431393
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:housenumber": "20",
+          "addr:street": "49364 sok.",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Mangal Restoran",
+          "website": "https://mangal.com.tr"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1008275199,
+        "center": {
+          "lat": 36.6882837,
+          "lon": 34.4432471
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "amenity": "restaurant",
+          "building": "yes",
+          "check_date:opening_hours": "2025-11-12",
+          "name": "Lezzet Durağı Ahmet Usta",
+          "opening_hours:signed": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1008852453,
+        "center": {
+          "lat": 36.6995029,
+          "lon": 34.4612651
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "seafood;fish_and_chips",
+          "name": "Söğütlüpınar Balık Restaurant",
+          "opening_hours": "Mo-Su,PH 10:00-18:00+"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1008852454,
+        "center": {
+          "lat": 36.7024642,
+          "lon": 34.4646379
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Hasan Reis balık restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1031306598,
+        "center": {
+          "lat": 36.6860741,
+          "lon": 34.4438947
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "amenity": "cafe",
+          "building": "yes",
+          "check_date:opening_hours": "2025-11-12",
+          "name": "Corner Cafe pub",
+          "opening_hours:signed": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1328548923,
+        "center": {
+          "lat": 36.6943418,
+          "lon": 34.4544258
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "amenity": "restaurant",
+          "building": "yes",
+          "check_date:opening_hours": "2025-11-12",
+          "cuisine": "seafood;fish_and_chips",
+          "name": "Balık Restaurant",
+          "opening_hours:signed": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1443684746,
+        "center": {
+          "lat": 36.7584462,
+          "lon": 34.5501129
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Limon Kafe"
+        }
+      }
+    ]
+  }
+}

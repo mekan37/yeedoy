@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "sehir_id": "21",
+    "sehir_adi": "DİYARBAKIR",
+    "ilce_id": "1249",
+    "ilce_adi": "ÇERMİK",
+    "bbox_used": {
+      "south": 37.8498828,
+      "west": 39.1315154,
+      "north": 38.2256729,
+      "east": 39.6600899
+    },
+    "bbox_original": {
+      "south": 37.8498828,
+      "west": 39.1315154,
+      "north": 38.2256729,
+      "east": 39.6600899
+    },
+    "fetchedAt": "2026-01-21T08:52:38.025Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:51:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "way",
+        "id": 775803953,
+        "center": {
+          "lat": 38.1397879,
+          "lon": 39.4485143
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Saray İlkokulu"
+        }
+      }
+    ]
+  }
+}

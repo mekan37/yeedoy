@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "sehir_id": "38",
+    "sehir_adi": "KAYSERİ",
+    "ilce_id": "1275",
+    "ilce_adi": "DEVELİ",
+    "bbox_used": {
+      "south": 38.14046581486486,
+      "north": 38.410736085135134,
+      "west": 35.44429437920431,
+      "east": 35.78758042079569
+    },
+    "bbox_original": {
+      "south": 38.00492,
+      "west": 35.2109567,
+      "north": 38.5462819,
+      "east": 36.0209181
+    },
+    "fetchedAt": "2026-01-21T09:35:16.736Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:34:13Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8525082904,
+        "lat": 38.3910445,
+        "lon": 35.4868185,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "çay;kahve;tost",
+          "name": "izmirli kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12822558695,
+        "lat": 38.3898641,
+        "lon": 35.4923662,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

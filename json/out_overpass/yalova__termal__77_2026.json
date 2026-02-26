@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "sehir_id": "77",
+    "sehir_adi": "YALOVA",
+    "ilce_id": "2026",
+    "ilce_adi": "TERMAL",
+    "bbox_used": {
+      "south": 40.5368272,
+      "west": 29.1324449,
+      "north": 40.6566226,
+      "east": 29.2173173
+    },
+    "bbox_original": {
+      "south": 40.5368272,
+      "west": 29.1324449,
+      "north": 40.6566226,
+      "east": 29.2173173
+    },
+    "fetchedAt": "2026-01-21T11:03:54.206Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 11
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:02:03Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1389290336,
+        "lat": 40.6035141,
+        "lon": 29.1723639,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5287231155,
+        "lat": 40.6059772,
+        "lon": 29.173599,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8218546604,
+        "lat": 40.6126107,
+        "lon": 29.1729603,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "KYK Termal Erkek Öğrenci Yurdu Kantini"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9070537417,
+        "lat": 40.6030864,
+        "lon": 29.1729943,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sinema"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10293192409,
+        "lat": 40.6067089,
+        "lon": 29.173492,
+        "tags": {
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Öz urfa sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11980544923,
+        "lat": 40.6479681,
+        "lon": 29.1514678,
+        "tags": {
+          "addr:city": "Koru",
+          "addr:postcode": "77340",
+          "amenity": "restaurant",
+          "contact:instagram": "https://www.instagram.com/gardenia.caffe/?hl=tr",
+          "facebook": "https://www.facebook.com/Gardenia.caffe/",
+          "name": "Gardenia Caffee & Restaurant",
+          "opening_hours": "Mo-Su 08:00-23:30",
+          "phone": "+905304789317",
+          "website": "https://gardenia.dijital.menu/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12641575578,
+        "lat": 40.6056943,
+        "lon": 29.1745352,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Öz Örnek Muhallebicisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12641575580,
+        "lat": 40.6054663,
+        "lon": 29.1748909,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Moringa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13121500901,
+        "lat": 40.6071026,
+        "lon": 29.1731155,
+        "tags": {
+          "amenity": "cafe",
+          "bakery": "yes",
+          "name": "Kardeşler Fırın & Café",
+          "opening_hours": "Mo-Su 06:30-22:00"
+        }
+      },
+      {
+        "type": "way",
+        "id": 124975775,
+        "center": {
+          "lat": 40.6031049,
+          "lon": 29.1735245
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 124975784,
+        "center": {
+          "lat": 40.6023666,
+          "lon": 29.1757982
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,330 @@
+{
+  "meta": {
+    "sehir_id": "66",
+    "sehir_adi": "YOZGAT",
+    "ilce_id": "1733",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 39.622061064864866,
+      "north": 39.89233133513514,
+      "west": 34.56640864599727,
+      "east": 34.91696385400273
+    },
+    "bbox_original": {
+      "south": 39.4652572,
+      "west": 34.3587587,
+      "north": 40.0491352,
+      "east": 35.1246138
+    },
+    "fetchedAt": "2026-01-21T10:50:35.461Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 28
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:49:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1985089267,
+        "lat": 39.8207756,
+        "lon": 34.8067692,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985089962,
+        "lat": 39.8208868,
+        "lon": 34.8072306,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985090036,
+        "lat": 39.8217088,
+        "lon": 34.8084536,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "66 Kebab"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985090037,
+        "lat": 39.8215584,
+        "lon": 34.8123884,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985090043,
+        "lat": 39.821272,
+        "lon": 34.8083704,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Hacı Baba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985090334,
+        "lat": 39.8243662,
+        "lon": 34.8174015,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İris Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985090357,
+        "lat": 39.8248297,
+        "lon": 34.8176026,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Desti Kebabçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985090359,
+        "lat": 39.8251366,
+        "lon": 34.8181122,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1985090830,
+        "lat": 39.823501,
+        "lon": 34.8165941,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2088244971,
+        "lat": 39.8320021,
+        "lon": 34.8253325,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4491811493,
+        "lat": 39.8244279,
+        "lon": 34.8183326,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Durağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4491811494,
+        "lat": 39.8243073,
+        "lon": 34.817426,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kule Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4491811496,
+        "lat": 39.8233525,
+        "lon": 34.8131103,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Maide Cafe Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4502918304,
+        "lat": 39.8182278,
+        "lon": 34.7973174,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Zafer Türk Mutfağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5058140423,
+        "lat": 39.8230586,
+        "lon": 34.8131283,
+        "tags": {
+          "addr:housenumber": "62",
+          "addr:postcode": "66100",
+          "addr:street": "Lise Caddesi",
+          "amenity": "ice_cream",
+          "name": "TADIM DOĞAL DONDURMA",
+          "name:en": "TADIM ARTISAN GELATO",
+          "opening_hours": "24/7",
+          "phone": "03542124909"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7312912185,
+        "lat": 39.7732662,
+        "lon": 34.7996994,
+        "tags": {
+          "addr:housenumber": "0354 333 01 66",
+          "addr:postcode": "66000",
+          "addr:street": "Bozok Üniversitesi Erdoğan Akdağ Kampüsü",
+          "amenity": "restaurant",
+          "cuisine": "savory_pancakes;chicken;regional;hotdog;noodles;beef_bowl;oriental;sausage;coffee_shop;ice_cream;local;mediterranean;barbecue;fine_dining;friture;steak_house;turkish;kebab;breakfast",
+          "email": "bilgi@bozoksosyaltesis.com",
+          "internet_access": "wlan",
+          "name": "Bozok Sosyal Tesisleri",
+          "name:en": "Bozok Social Facility",
+          "opening_hours": "Mo-Su 09:00-22:00",
+          "phone": "0354 333 01 66",
+          "website": "https://www.bozoksosyaltesis.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9082867289,
+        "lat": 39.7882109,
+        "lon": 34.7936569,
+        "tags": {
+          "amenity": "restaurant",
+          "contact:instagram": "https://www.instagram.com/bozok_yayla_evi/",
+          "name": "Bozok Yayla Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10106605691,
+        "lat": 39.7975545,
+        "lon": 34.7637208,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yoresel Urunler ve Kahvalti"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10106606156,
+        "lat": 39.8046118,
+        "lon": 34.7821657,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10106606158,
+        "lat": 39.8036599,
+        "lon": 34.7827477,
+        "tags": {
+          "amenity": "bar",
+          "name": "Sürmeli Mangal Keyfi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10106606515,
+        "lat": 39.8171644,
+        "lon": 34.790004,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10108625713,
+        "lat": 39.8306354,
+        "lon": 34.8439282,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adatepe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10108625715,
+        "lat": 39.830769,
+        "lon": 34.8445116,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Urfa Lahmacun Sarayı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10108625914,
+        "lat": 39.8292328,
+        "lon": 34.8371878,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sancak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10108626147,
+        "lat": 39.825994,
+        "lon": 34.830736,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kaan Gözleme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11657977051,
+        "lat": 39.8233926,
+        "lon": 34.8119438,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Çeşka Cafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12893338867,
+        "lat": 39.8237655,
+        "lon": 34.8219709,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Starbucks"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1108932785,
+        "center": {
+          "lat": 39.8314334,
+          "lon": 34.8076726
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

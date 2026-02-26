@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "sehir_id": "16",
+    "sehir_adi": "BURSA",
+    "ilce_id": "1725",
+    "ilce_adi": "YENİŞEHİR",
+    "bbox_used": {
+      "south": 40.1265413,
+      "west": 29.3364282,
+      "north": 40.3697995,
+      "east": 29.8525008
+    },
+    "bbox_original": {
+      "south": 40.1265413,
+      "west": 29.3364282,
+      "north": 40.3697995,
+      "east": 29.8525008
+    },
+    "fetchedAt": "2026-01-21T08:43:18.133Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:42:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4999637223,
+        "lat": 40.2821629,
+        "lon": 29.6563933,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yıldız Çağ Kebap Salonu",
+          "name:tr": "Yıldız Çağ Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5820465254,
+        "lat": 40.2661193,
+        "lon": 29.6511181,
+        "tags": {
+          "addr:housenumber": "16",
+          "addr:postcode": "16900",
+          "addr:street": "Atatürk Cd",
+          "amenity": "restaurant",
+          "cuisine": "breakfast;turkish;local",
+          "internet_access": "wlan",
+          "name": "Köfe Restoran",
+          "name:tr": "Küfe Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5902143388,
+        "lat": 40.1532064,
+        "lon": 29.3505016,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kazancı Muhtarın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6880978185,
+        "lat": 40.1404261,
+        "lon": 29.6623777,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7706861585,
+        "lat": 40.2680527,
+        "lon": 29.6614344,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10270978512,
+        "lat": 40.316402,
+        "lon": 29.457505,
+        "tags": {
+          "air_conditioning": "no",
+          "amenity": "cafe",
+          "indoor_seating": "yes",
+          "name": "tea",
+          "outdoor_seating": "no",
+          "smoking": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12145205398,
+        "lat": 40.1273249,
+        "lon": 29.4314745,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Celal Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12527848363,
+        "lat": 40.2195592,
+        "lon": 29.6049825,
+        "tags": {
+          "amenity": "restaurant",
+          "description": "Small restaurant that offers Pizza, Lahmacun , some drinks and selfmade Ayran.",
+          "name": "Small Imbiss"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13269825962,
+        "lat": 40.3214015,
+        "lon": 29.442525,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Beronya Tarım ve hayvancılık Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13271865435,
+        "lat": 40.3244331,
+        "lon": 29.4219142,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "tea"
+        }
+      },
+      {
+        "type": "way",
+        "id": 516318133,
+        "center": {
+          "lat": 40.1334005,
+          "lon": 29.4836013
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Yemekhane 1"
+        }
+      },
+      {
+        "type": "way",
+        "id": 516318145,
+        "center": {
+          "lat": 40.1341189,
+          "lon": 29.4865014
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Yemekhane 2"
+        }
+      }
+    ]
+  }
+}

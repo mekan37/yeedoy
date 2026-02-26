@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: 127 29 29;
+  --slate: 67 77 87;
+  --bg: 249 250 251;
+  --card: 255 255 255;
+  --border: 229 231 235;
+  --text: 67 77 87;
+  --muted: 107 114 128;
+  --success: 21 128 61;
+  --warning: 245 158 11;
+  --danger: 185 28 28;
+  --info: 29 78 216;
+  --star: 251 191 36;
+  --starOff: 209 213 219;
+}
+
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--text));
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}

@@ -1,0 +1,532 @@
+{
+  "meta": {
+    "sehir_id": "71",
+    "sehir_adi": "KIRIKKALE",
+    "ilce_id": "1992",
+    "ilce_adi": "YAHŞİHAN",
+    "bbox_used": {
+      "south": 39.7465463,
+      "west": 33.2572459,
+      "north": 40.0369653,
+      "east": 33.5707952
+    },
+    "bbox_original": {
+      "south": 39.7465463,
+      "west": 33.2572459,
+      "north": 40.0369653,
+      "east": 33.5707952
+    },
+    "fetchedAt": "2026-01-21T10:56:37.441Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 50
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:55:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3231255292,
+        "lat": 39.9332798,
+        "lon": 33.3992748,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3231255313,
+        "lat": 39.9347198,
+        "lon": 33.4005305,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5258237547,
+        "lat": 39.8383701,
+        "lon": 33.4986424,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "ASPAVA"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290318669,
+        "lat": 39.840745,
+        "lon": 33.5057843,
+        "tags": {
+          "amenity": "pub",
+          "name": "RETRO BAR"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290318684,
+        "lat": 39.8408134,
+        "lon": 33.5058016,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "AKYÜZ DÖNER"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290318685,
+        "lat": 39.8408854,
+        "lon": 33.5058288,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "DÖNERCİ"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290318693,
+        "lat": 39.8408057,
+        "lon": 33.5055954,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "KARACA TANTUNİ"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290319721,
+        "lat": 39.8402673,
+        "lon": 33.5055363,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290319740,
+        "lat": 39.8406889,
+        "lon": 33.5051345,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290319787,
+        "lat": 39.8411302,
+        "lon": 33.5041665,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290319788,
+        "lat": 39.8416688,
+        "lon": 33.5039549,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5290319811,
+        "lat": 39.8408101,
+        "lon": 33.5053612,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "HACIOĞLU LAHMACUN"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5292055739,
+        "lat": 39.8418458,
+        "lon": 33.5004765,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5292055800,
+        "lat": 39.8396869,
+        "lon": 33.5059255,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "KARDELEN"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5292055807,
+        "lat": 39.8399495,
+        "lon": 33.5056455,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5292055808,
+        "lat": 39.8400169,
+        "lon": 33.5055622,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5292055889,
+        "lat": 39.8400961,
+        "lon": 33.5063687,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5292110325,
+        "lat": 39.8427409,
+        "lon": 33.4999437,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5292110542,
+        "lat": 39.8424325,
+        "lon": 33.5030582,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5294218468,
+        "lat": 39.8441641,
+        "lon": 33.5021996,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5294218827,
+        "lat": 39.8430697,
+        "lon": 33.5055805,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "MİS PİKNİK"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5294218841,
+        "lat": 39.8429375,
+        "lon": 33.5055739,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5294292782,
+        "lat": 39.8416806,
+        "lon": 33.5062432,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5294292845,
+        "lat": 39.8409821,
+        "lon": 33.5062027,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5294292856,
+        "lat": 39.8407028,
+        "lon": 33.5062436,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5294292859,
+        "lat": 39.8409057,
+        "lon": 33.5062052,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5309697487,
+        "lat": 39.8704566,
+        "lon": 33.4532521,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Baybora"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5313940922,
+        "lat": 39.8722579,
+        "lon": 33.4569968,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5313941080,
+        "lat": 39.8717886,
+        "lon": 33.4567635,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5313941082,
+        "lat": 39.8715663,
+        "lon": 33.4566455,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5313941085,
+        "lat": 39.871702,
+        "lon": 33.4572934,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5313941150,
+        "lat": 39.8712815,
+        "lon": 33.456516,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5313941151,
+        "lat": 39.8710719,
+        "lon": 33.4563908,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6912566644,
+        "lat": 39.8699296,
+        "lon": 33.4477589,
+        "tags": {
+          "addr:neighbourhood": "Ankara-Kırıkkale yolu",
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Eypark Tatlane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7784051035,
+        "lat": 39.9391089,
+        "lon": 33.3261115,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157397,
+        "lat": 39.9443711,
+        "lon": 33.295724,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157721,
+        "lat": 39.9323751,
+        "lon": 33.3346109,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157753,
+        "lat": 39.9302614,
+        "lon": 33.3377985,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kayadibi Cennet Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157760,
+        "lat": 39.9300492,
+        "lon": 33.3400337,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119704760,
+        "lat": 39.9179526,
+        "lon": 33.4326885,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119704791,
+        "lat": 39.9170745,
+        "lon": 33.4314424,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119704806,
+        "lat": 39.8794107,
+        "lon": 33.4383783,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çalkan Köfte Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10120800741,
+        "lat": 39.8560758,
+        "lon": 33.4829152,
+        "tags": {
+          "name": "Oskar Pastanesi",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10542349141,
+        "lat": 39.8409696,
+        "lon": 33.5056708,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "HOCAPAŞA"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11071389005,
+        "lat": 39.8397743,
+        "lon": 33.5068756,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Birtat Corba"
+        }
+      },
+      {
+        "type": "way",
+        "id": 544388114,
+        "center": {
+          "lat": 39.8376238,
+          "lon": 33.5014033
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "MKE LOKALİ"
+        }
+      },
+      {
+        "type": "way",
+        "id": 547100767,
+        "center": {
+          "lat": 39.8385345,
+          "lon": 33.5038449
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "SOSYAL TESİS"
+        }
+      },
+      {
+        "type": "way",
+        "id": 547100784,
+        "center": {
+          "lat": 39.8396649,
+          "lon": 33.5029402
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "SIRRININ YERİ ÇAY BAHÇESİ"
+        }
+      },
+      {
+        "type": "way",
+        "id": 588239779,
+        "center": {
+          "lat": 39.8817876,
+          "lon": 33.4509681
+        },
+        "tags": {
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "2",
+          "height": "15",
+          "name": "Resicafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1371172513,
+        "center": {
+          "lat": 39.9322548,
+          "lon": 33.3346085
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "sehir_id": "12",
+    "sehir_adi": "BİNGÖL",
+    "ilce_id": "1344",
+    "ilce_adi": "GENÇ",
+    "bbox_used": {
+      "south": 38.7468473,
+      "west": 40.5526394,
+      "north": 38.7568473,
+      "east": 40.5626394
+    },
+    "bbox_original": {
+      "south": 38.7468473,
+      "west": 40.5526394,
+      "north": 38.7568473,
+      "east": 40.5626394
+    },
+    "fetchedAt": "2026-01-21T08:36:32.668Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:35:01Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4196611908,
+        "lat": 38.7481392,
+        "lon": 40.5536095,
+        "tags": {
+          "addr:city": "Genç/Bingöl",
+          "amenity": "restaurant",
+          "name": "Sofra Fırın Yemekleri"
+        }
+      }
+    ]
+  }
+}

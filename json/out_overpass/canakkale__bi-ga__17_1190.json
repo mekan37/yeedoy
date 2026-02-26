@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "sehir_id": "17",
+    "sehir_adi": "ÇANAKKALE",
+    "ilce_id": "1190",
+    "ilce_adi": "BİGA",
+    "bbox_used": {
+      "south": 40.14262356486487,
+      "north": 40.412893835135144,
+      "west": 27.031825981636587,
+      "east": 27.385065618363413
+    },
+    "bbox_original": {
+      "south": 40.0804996,
+      "west": 26.9011281,
+      "north": 40.4750178,
+      "east": 27.5157635
+    },
+    "fetchedAt": "2026-01-21T08:44:31.058Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 7
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:43:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3672481174,
+        "lat": 40.2421661,
+        "lon": 27.2277263,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4838390821,
+        "lat": 40.4095671,
+        "lon": 27.3152828,
+        "tags": {
+          "name": "Cenal Elektrik",
+          "name:en": "Cenal Power Plant",
+          "name:tr": "Cenal Elektrik",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6873843406,
+        "lat": 40.2362945,
+        "lon": 27.3330749,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "tea",
+          "internet_access": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6873843407,
+        "lat": 40.2520354,
+        "lon": 27.3179241,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "name": "İstanbullu Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12878773577,
+        "lat": 40.2276359,
+        "lon": 27.2408777,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12996007815,
+        "lat": 40.237632,
+        "lon": 27.236588,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional;kebab;breakfast;steak_house;barbecue;turkish",
+          "name": "Biga İsmet"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1316215846,
+        "center": {
+          "lat": 40.2813025,
+          "lon": 27.2236578
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Güleç Köy Kahvesi"
+        }
+      }
+    ]
+  }
+}

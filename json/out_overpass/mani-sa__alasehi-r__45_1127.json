@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "sehir_id": "45",
+    "sehir_adi": "MANİSA",
+    "ilce_id": "1127",
+    "ilce_adi": "ALAŞEHİR",
+    "bbox_used": {
+      "south": 38.18839306486486,
+      "north": 38.458663335135135,
+      "west": 28.31387140292113,
+      "east": 28.65738429707887
+    },
+    "bbox_original": {
+      "south": 38.1005906,
+      "west": 28.205949,
+      "north": 38.5464658,
+      "east": 28.7653067
+    },
+    "fetchedAt": "2026-01-21T09:56:28.390Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:54:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10032254802,
+        "lat": 38.2833954,
+        "lon": 28.6058346,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akgedik",
+          "opening_hours": "Mo-Su 00:00+"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12352750363,
+        "lat": 38.3618776,
+        "lon": 28.5212434,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Alaşehir",
+          "addr:housenumber": "1/101",
+          "addr:neighbourhood": "Kurtuluş Mah.",
+          "addr:postcode": "45600",
+          "addr:street": "Denizli-Salihli yolu",
+          "amenity": "restaurant",
+          "bar": "yes",
+          "cuisine": "turkish;regional;chicken",
+          "name": "Yüksek Rakım Alaşehir",
+          "opening_hours": "Mo-Su 12:00-02:00",
+          "phone": "905319394595",
+          "website": "https://www.instagram.com/yuksekrakimalasehir/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353602813,
+        "lat": 38.3618187,
+        "lon": 28.5212021,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Alaşehir",
+          "addr:housenumber": "2. Kat",
+          "addr:neighbourhood": "Kurtuluş Mah.",
+          "addr:postcode": "45600",
+          "addr:street": "Süleyman Demirel Bulvarı Alacity",
+          "amenity": "cafe",
+          "name": "Massi Massimo Alaşehir"
+        }
+      }
+    ]
+  }
+}

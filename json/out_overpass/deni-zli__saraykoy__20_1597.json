@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "sehir_id": "20",
+    "sehir_adi": "DENİZLİ",
+    "ilce_id": "1597",
+    "ilce_adi": "SARAYKÖY",
+    "bbox_used": {
+      "south": 37.8011439,
+      "west": 28.737141,
+      "north": 38.026365,
+      "east": 29.0482784
+    },
+    "bbox_original": {
+      "south": 37.8011439,
+      "west": 28.737141,
+      "north": 38.026365,
+      "east": 29.0482784
+    },
+    "fetchedAt": "2026-01-21T08:50:54.026Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:49:21Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4771956221,
+        "lat": 37.9556843,
+        "lon": 29.0104259,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Adaköy Kahvehanesi",
+          "name:en": "Adaköy Tea House"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7049800227,
+        "lat": 37.9212,
+        "lon": 28.9254,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Komagene çiğ köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12754791301,
+        "lat": 37.8012139,
+        "lon": 29.0301225,
+        "tags": {
+          "addr:housenumber": "7a",
+          "addr:postcode": "20000",
+          "addr:street": "1029 Sokak",
+          "amenity": "restaurant",
+          "contact:instagram": "KEBABCIPALA",
+          "cuisine": "grill;kebab;steak_house;turkish",
+          "internet_access": "wlan",
+          "name": "Meşhur Kebapçı Pala 1965",
+          "name:en": "Famous Kebabs Pala 1965",
+          "opening_hours": "Mo-Su 12:00-23:00",
+          "phone": "0532 015 22 92",
+          "self_service": "no"
+        }
+      }
+    ]
+  }
+}

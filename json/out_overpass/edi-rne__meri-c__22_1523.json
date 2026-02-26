@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "22",
+    "sehir_adi": "EDİRNE",
+    "ilce_id": "1523",
+    "ilce_adi": "MERİÇ",
+    "bbox_used": {
+      "south": 41.655761,
+      "west": 26.559499,
+      "north": 41.6613747,
+      "east": 26.5678925
+    },
+    "bbox_original": {
+      "south": 41.655761,
+      "west": 26.559499,
+      "north": 41.6613747,
+      "east": 26.5678925
+    },
+    "fetchedAt": "2026-01-21T08:56:33.736Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:55:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

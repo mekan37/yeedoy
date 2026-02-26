@@ -1,0 +1,161 @@
+{
+  "meta": {
+    "sehir_id": "81",
+    "sehir_adi": "DÜZCE",
+    "ilce_id": "1730",
+    "ilce_adi": "YIĞILCA",
+    "bbox_used": {
+      "south": 40.7668003,
+      "west": 31.2641985,
+      "north": 41.0540736,
+      "east": 31.8536456
+    },
+    "bbox_original": {
+      "south": 40.7668003,
+      "west": 31.2641985,
+      "north": 41.0540736,
+      "east": 31.8536456
+    },
+    "fetchedAt": "2026-01-21T11:09:30.760Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:08:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2816083551,
+        "lat": 40.7732728,
+        "lon": 31.319223,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Merkez Lokantası",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3565412193,
+        "lat": 40.7722706,
+        "lon": 31.3185039,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yaman Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3782142528,
+        "lat": 40.7805571,
+        "lon": 31.2797343,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "İnciler Petrol"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4426488826,
+        "lat": 40.7724915,
+        "lon": 31.3156156,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4426488827,
+        "lat": 40.7724712,
+        "lon": 31.3157202,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Internet Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4426488840,
+        "lat": 40.7738439,
+        "lon": 31.2839671,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Konutlar Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4454033632,
+        "lat": 40.9603105,
+        "lon": 31.4436148,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Huzur Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4454033633,
+        "lat": 40.959476,
+        "lon": 31.4453958,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Aydın Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4454033635,
+        "lat": 40.9606589,
+        "lon": 31.4447467,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Cay ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4460268857,
+        "lat": 40.7813035,
+        "lon": 31.278411,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4460268859,
+        "lat": 40.7809968,
+        "lon": 31.2777538,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4996883822,
+        "lat": 40.7727609,
+        "lon": 31.3186632,
+        "tags": {
+          "amenity": "restaurant",
+          "capacity": "70",
+          "cuisine": "turkish",
+          "name": "Meydan Lokantası",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      }
+    ]
+  }
+}

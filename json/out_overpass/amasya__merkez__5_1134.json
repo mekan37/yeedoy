@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "sehir_id": "5",
+    "sehir_adi": "AMASYA",
+    "ilce_id": "1134",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 40.3784066,
+      "west": 35.5046031,
+      "north": 40.4184066,
+      "east": 35.5446031
+    },
+    "bbox_original": {
+      "south": 40.3784066,
+      "west": 35.5046031,
+      "north": 40.4184066,
+      "east": 35.5446031
+    },
+    "fetchedAt": "2026-01-21T08:21:48.472Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:20:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10316844409,
+        "lat": 40.3969187,
+        "lon": 35.5233703,
+        "tags": {
+          "addr:city": "Göynücek",
+          "addr:district": "Amasya",
+          "addr:postcode": "05900",
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name": "Göynücek Kitap Kafe"
+        }
+      }
+    ]
+  }
+}

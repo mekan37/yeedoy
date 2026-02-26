@@ -1,0 +1,356 @@
+{
+  "meta": {
+    "sehir_id": "55",
+    "sehir_adi": "SAMSUN",
+    "ilce_id": "2073",
+    "ilce_adi": "CANİK",
+    "bbox_used": {
+      "south": 41.0679794,
+      "west": 36.2009868,
+      "north": 41.2802085,
+      "east": 36.397216
+    },
+    "bbox_original": {
+      "south": 41.0679794,
+      "west": 36.2009868,
+      "north": 41.2802085,
+      "east": 36.397216
+    },
+    "fetchedAt": "2026-01-21T10:22:11.160Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 27
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:21:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3183273062,
+        "lat": 41.2720129,
+        "lon": 36.2969468,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3883800099,
+        "lat": 41.2781496,
+        "lon": 36.3508416,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4141136123,
+        "lat": 41.2672848,
+        "lon": 36.3420469,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Salon Barış"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4175794193,
+        "lat": 41.264363,
+        "lon": 36.3401815,
+        "tags": {
+          "addr:housenumber": "no : 28",
+          "addr:street": "Sehit Mustafa Zıvalı Bulvarı",
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "email": "info@pecko.com.tr",
+          "internet_access": "wlan",
+          "name": "Peçko",
+          "opening_hours": "24/7",
+          "phone": "+903622365354",
+          "website": "www.pecko.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4610539890,
+        "lat": 41.2688875,
+        "lon": 36.3340436,
+        "tags": {
+          "addr:city": "samsun",
+          "addr:district": "ilkadım",
+          "addr:neighbourhood": "Kazım Karabekir",
+          "addr:street": "Odunpazarı Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "kebab;ciger",
+          "internet_access": "wlan",
+          "name": "Cigerci Hamza",
+          "name:tr": "Ciğerci Hamza",
+          "phone": "+90 362 236 3300",
+          "website": "http://www.cigercihamza.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4919030687,
+        "lat": 41.2621372,
+        "lon": 36.3676699,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Meşe Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5001466021,
+        "lat": 41.2796663,
+        "lon": 36.3428209,
+        "tags": {
+          "addr:street": "Abdülhak Hamit Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "Starbucks",
+          "name:en": "Starbucks",
+          "name:tr": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "opening_hours": "Mo-Su 08:00-23:00",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/48956-265970/ellialtilar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5285918904,
+        "lat": 41.2736631,
+        "lon": 36.3443331,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Altın Ekmek Fırın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5285939600,
+        "lat": 41.2723488,
+        "lon": 36.3433434,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Uyar Pide Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5286155879,
+        "lat": 41.2682778,
+        "lon": 36.3341649,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Duruşehir Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5286224721,
+        "lat": 41.2769567,
+        "lon": 36.3532513,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6159499394,
+        "lat": 41.2681548,
+        "lon": 36.3604855,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6159499395,
+        "lat": 41.2690045,
+        "lon": 36.3617957,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Oktay Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6159499396,
+        "lat": 41.2699641,
+        "lon": 36.3632441,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kafkas"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7123964187,
+        "lat": 41.2792326,
+        "lon": 36.3437672,
+        "tags": {
+          "addr:street": "İstiklal Caddesi",
+          "amenity": "cafe",
+          "cuisine": "mediterranean;tea;burger;hot_dog;sandwich;sausage;breakfast;coffee_shop;bagel",
+          "internet_access": "wlan",
+          "name": "QR",
+          "opening_hours": "Mo-Su 09:00-23:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7123964188,
+        "lat": 41.279163,
+        "lon": 36.3438535,
+        "tags": {
+          "addr:street": "İstiklal Caddesi",
+          "amenity": "cafe",
+          "name": "Alaçatı Muhallebicisi",
+          "name:en": "Alacati Muhallebicisi",
+          "opening_hours": "Mo-Su 09:00-23:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7123965586,
+        "lat": 41.2790091,
+        "lon": 36.3440591,
+        "tags": {
+          "addr:street": "İstiklal Caddesi",
+          "amenity": "cafe",
+          "check_date": "2023-06-19",
+          "cuisine": "tea;cake;breakfast;coffee_shop;ice_cream",
+          "internet_access": "wlan",
+          "name": "Chocolabs",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7123965587,
+        "lat": 41.2788327,
+        "lon": 36.3442799,
+        "tags": {
+          "addr:street": "İstiklal Caddesi",
+          "amenity": "cafe",
+          "check_date": "2023-06-19",
+          "cuisine": "deli;tea;hotdog;sausage;breakfast;coffee_shop",
+          "internet_access": "wlan",
+          "name": "Çamlıdağ",
+          "opening_hours": "Mo-Su 07:00-20:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7989074017,
+        "lat": 41.2643974,
+        "lon": 36.3422806,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Lezgi Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7989081937,
+        "lat": 41.2702418,
+        "lon": 36.344161,
+        "tags": {
+          "amenity": "cafe",
+          "name": "My master"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8579865954,
+        "lat": 41.2455787,
+        "lon": 36.3933899,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034672567,
+        "lat": 41.2668263,
+        "lon": 36.3804194,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balıkci Barınagi Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034672599,
+        "lat": 41.2775186,
+        "lon": 36.3589841,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Göl Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034672720,
+        "lat": 41.2780326,
+        "lon": 36.3496447,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hanzadem"
+        }
+      },
+      {
+        "type": "way",
+        "id": 276771380,
+        "center": {
+          "lat": 41.2652214,
+          "lon": 36.3365921
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1125780359,
+        "center": {
+          "lat": 41.2765891,
+          "lon": 36.3623872
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "Doğu Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1125999658,
+        "center": {
+          "lat": 41.2709018,
+          "lon": 36.3559401
+        },
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

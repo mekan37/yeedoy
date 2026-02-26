@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "sehir_id": "20",
+    "sehir_adi": "DENİZLİ",
+    "ilce_id": "1226",
+    "ilce_adi": "ÇAMELİ",
+    "bbox_used": {
+      "south": 36.8466001,
+      "west": 29.0972928,
+      "north": 37.2271089,
+      "east": 29.4514697
+    },
+    "bbox_original": {
+      "south": 36.8466001,
+      "west": 29.0972928,
+      "north": 37.2271089,
+      "east": 29.4514697
+    },
+    "fetchedAt": "2026-01-21T08:50:24.308Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:49:21Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11984987927,
+        "lat": 37.1439655,
+        "lon": 29.1860168,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11985007969,
+        "lat": 37.1488021,
+        "lon": 29.1956379,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12229128162,
+        "lat": 37.0766708,
+        "lon": 29.3400356,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Paşadere Cafe Restaurant"
+        }
+      }
+    ]
+  }
+}

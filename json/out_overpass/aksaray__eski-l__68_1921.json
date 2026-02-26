@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "sehir_id": "68",
+    "sehir_adi": "AKSARAY",
+    "ilce_id": "1921",
+    "ilce_adi": "ESKİL",
+    "bbox_used": {
+      "south": 38.18978766486486,
+      "north": 38.46005793513513,
+      "west": 33.25149194836823,
+      "east": 33.595011451631756
+    },
+    "bbox_original": {
+      "south": 37.9769869,
+      "west": 33.1710559,
+      "north": 38.6728587,
+      "east": 33.6754475
+    },
+    "fetchedAt": "2026-01-21T10:53:13.269Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:51:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8226587878,
+        "lat": 38.2515927,
+        "lon": 33.5072723,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Grandhan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9277441959,
+        "lat": 38.2452765,
+        "lon": 33.4377196,
+        "tags": {
+          "amenity": "restaurant",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9752475590,
+        "lat": 38.196463,
+        "lon": 33.3440205,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9752583923,
+        "lat": 38.252152,
+        "lon": 33.4829232,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 884612031,
+        "center": {
+          "lat": 38.2530045,
+          "lon": 33.5049959
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "image": "https://photos.app.goo.gl/zShPvg26GFmD3UnWA",
+          "name": "Atarlar"
+        }
+      }
+    ]
+  }
+}

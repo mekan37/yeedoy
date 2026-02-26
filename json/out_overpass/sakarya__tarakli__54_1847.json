@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "sehir_id": "54",
+    "sehir_adi": "SAKARYA",
+    "ilce_id": "1847",
+    "ilce_adi": "TARAKLI",
+    "bbox_used": {
+      "south": 40.2860894,
+      "west": 30.3762831,
+      "north": 40.5322094,
+      "east": 30.6217636
+    },
+    "bbox_original": {
+      "south": 40.2860894,
+      "west": 30.3762831,
+      "north": 40.5322094,
+      "east": 30.6217636
+    },
+    "fetchedAt": "2026-01-21T10:18:11.000Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:17:01Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11017570006,
+        "lat": 40.3963919,
+        "lon": 30.4926694,
+        "tags": {
+          "addr:street": "Orhangazi Çarşısı",
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "name": "Yörem  Sofra Yöresel Ürünler"
+        }
+      }
+    ]
+  }
+}

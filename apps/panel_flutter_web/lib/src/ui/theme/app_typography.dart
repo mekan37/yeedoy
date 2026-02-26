@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import '../../../app/theme/colors.dart';
+
+extension AppTypographyX on BuildContext {
+  TextTheme get appText => Theme.of(this).textTheme;
+
+  TextStyle get titleStyle => appText.titleLarge!.copyWith(
+        fontWeight: FontWeight.w900,
+        color: AppColors.textStrong,
+      );
+  TextStyle get subtitleStyle => appText.bodyMedium!.copyWith(
+        color: AppColors.muted,
+        fontWeight: FontWeight.w500,
+      );
+  TextStyle get bodyStyle => appText.bodyMedium!;
+  TextStyle get captionStyle => appText.bodySmall!.copyWith(
+        color: AppColors.muted,
+        fontWeight: FontWeight.w500,
+      );
+}

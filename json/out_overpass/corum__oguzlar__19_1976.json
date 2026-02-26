@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "19",
+    "sehir_adi": "ÇORUM",
+    "ilce_id": "1976",
+    "ilce_adi": "OĞUZLAR",
+    "bbox_used": {
+      "south": 40.6901933,
+      "west": 34.5919887,
+      "north": 40.8478524,
+      "east": 34.772401
+    },
+    "bbox_original": {
+      "south": 40.6901933,
+      "west": 34.5919887,
+      "north": 40.8478524,
+      "east": 34.772401
+    },
+    "fetchedAt": "2026-01-21T08:49:47.884Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:48:16Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

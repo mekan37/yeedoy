@@ -1,0 +1,253 @@
+{
+  "meta": {
+    "sehir_id": "51",
+    "sehir_adi": "NİĞDE",
+    "ilce_id": "1904",
+    "ilce_adi": "ÇİFTLİK",
+    "bbox_used": {
+      "south": 38.0664525,
+      "west": 34.2749932,
+      "north": 38.2769653,
+      "east": 34.6105327
+    },
+    "bbox_original": {
+      "south": 38.0664525,
+      "west": 34.2749932,
+      "north": 38.2769653,
+      "east": 34.6105327
+    },
+    "fetchedAt": "2026-01-21T10:11:37.315Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 21
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:10:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1757256976,
+        "lat": 38.2564873,
+        "lon": 34.295996,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "delivery": "no",
+          "name": "Diker Çay Bahçesi",
+          "smoking": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1757257151,
+        "lat": 38.2669984,
+        "lon": 34.2887667,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1829367420,
+        "lat": 38.2668238,
+        "lon": 34.2887861,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "internet_access:fee": "no",
+          "name": "Asian restaurant",
+          "name:en": "Aslan restaurant",
+          "name:fr": "Aslan restaurant",
+          "name:tr": "Aslan restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4069989131,
+        "lat": 38.1750066,
+        "lon": 34.4837993,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4071123962,
+        "lat": 38.1752098,
+        "lon": 34.4849833,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4119248993,
+        "lat": 38.2652259,
+        "lon": 34.2906868,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "name": "Belisirma Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5895905157,
+        "lat": 38.1800869,
+        "lon": 34.3965672,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mahmutlu Kahvehanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6176772386,
+        "lat": 38.2397731,
+        "lon": 34.3072913,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6176824085,
+        "lat": 38.2391804,
+        "lon": 34.3068909,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6176824385,
+        "lat": 38.239151,
+        "lon": 34.3070255,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6176824585,
+        "lat": 38.2397325,
+        "lon": 34.3071035,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Baba Kebab"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6758714385,
+        "lat": 38.2669849,
+        "lon": 34.2893044,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "name": "Gregorius"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9798211612,
+        "lat": 38.2396718,
+        "lon": 34.3078028,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Star Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9798212060,
+        "lat": 38.2395485,
+        "lon": 34.3073552,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10732837839,
+        "lat": 38.239107,
+        "lon": 34.3062733,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10732837852,
+        "lat": 38.2646009,
+        "lon": 34.2907571,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10732837854,
+        "lat": 38.2643327,
+        "lon": 34.291107,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12813362235,
+        "lat": 38.2699072,
+        "lon": 34.2890357,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Birolun Yeri",
+          "phone": "+905428998182"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12813410560,
+        "lat": 38.2699072,
+        "lon": 34.2890357,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Birolun Yeri",
+          "phone": "+905428998182"
+        }
+      },
+      {
+        "type": "way",
+        "id": 404730543,
+        "center": {
+          "lat": 38.1754144,
+          "lon": 34.4841141
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 404730544,
+        "center": {
+          "lat": 38.1754729,
+          "lon": 34.4838496
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "sehir_id": "10",
+    "sehir_adi": "BALIKESİR",
+    "ilce_id": "1928",
+    "ilce_adi": "GÖMEÇ",
+    "bbox_used": {
+      "south": 39.3116719,
+      "west": 26.7702055,
+      "north": 39.443855,
+      "east": 26.9737981
+    },
+    "bbox_original": {
+      "south": 39.3116719,
+      "west": 26.7702055,
+      "north": 39.443855,
+      "east": 26.9737981
+    },
+    "fetchedAt": "2026-01-21T08:34:41.476Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 20
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:32:59Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5547124994,
+        "lat": 39.4226929,
+        "lon": 26.8003494,
+        "tags": {
+          "amenity": "nightclub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5592093889,
+        "lat": 39.4193348,
+        "lon": 26.8051783,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Güvercin Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7043698655,
+        "lat": 39.4238574,
+        "lon": 26.835522,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Daş Kasap Şarküteri Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7083541378,
+        "lat": 39.3715137,
+        "lon": 26.7799695,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Delicia Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7130435420,
+        "lat": 39.3820418,
+        "lon": 26.8310473,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lezzet Durağı Kebapçı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7132760382,
+        "lat": 39.3895759,
+        "lon": 26.8364612,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çiçek Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7132760390,
+        "lat": 39.3895479,
+        "lon": 26.8378715,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yemek Diyarı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7135779964,
+        "lat": 39.3875812,
+        "lon": 26.8376248,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Meşhur Kokoreçci Arifin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7135789566,
+        "lat": 39.381826,
+        "lon": 26.8315737,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Meşhur Havranlı Hasan Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7161947300,
+        "lat": 39.3920067,
+        "lon": 26.8407957,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Gömeç",
+          "amenity": "cafe",
+          "name": "Cafe Telwe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10294707525,
+        "lat": 39.411649,
+        "lon": 26.8024998,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bijelo Polje Beach"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10586187469,
+        "lat": 39.3920862,
+        "lon": 26.8397889,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mola Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10654088530,
+        "lat": 39.3860552,
+        "lon": 26.8386096,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10734144374,
+        "lat": 39.4222933,
+        "lon": 26.8599969,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house;breakfast",
+          "name": "Madradan Park Kahvaltı ve Et"
+        }
+      },
+      {
+        "type": "way",
+        "id": 699054248,
+        "center": {
+          "lat": 39.4115083,
+          "lon": 26.8024237
+        },
+        "tags": {
+          "amenity": "pub",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 709861076,
+        "center": {
+          "lat": 39.3350861,
+          "lon": 26.9439419
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "pizza",
+          "name": "Maadra Vineyards"
+        }
+      },
+      {
+        "type": "way",
+        "id": 861290498,
+        "center": {
+          "lat": 39.3902961,
+          "lon": 26.8028518
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balıkçı Selim'in Yeri Gömeç"
+        }
+      },
+      {
+        "type": "way",
+        "id": 948173205,
+        "center": {
+          "lat": 39.3893675,
+          "lon": 26.8004333
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1040822540,
+        "center": {
+          "lat": 39.3916579,
+          "lon": 26.8048667
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1095915893,
+        "center": {
+          "lat": 39.3875089,
+          "lon": 26.8380491
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

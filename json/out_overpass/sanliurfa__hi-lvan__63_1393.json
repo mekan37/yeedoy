@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "63",
+    "sehir_adi": "ŞANLIURFA",
+    "ilce_id": "1393",
+    "ilce_adi": "HİLVAN",
+    "bbox_used": {
+      "south": 37.40864831486486,
+      "north": 37.678918585135136,
+      "west": 38.76040933283804,
+      "east": 39.10029766716195
+    },
+    "bbox_original": {
+      "south": 37.3865104,
+      "west": 38.5722196,
+      "north": 37.7010565,
+      "east": 39.2884874
+    },
+    "fetchedAt": "2026-01-21T10:43:11.909Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:41:32Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2334369693,
+        "lat": 37.5792306,
+        "lon": 38.9470544,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Demir Tesisleri"
+        }
+      }
+    ]
+  }
+}

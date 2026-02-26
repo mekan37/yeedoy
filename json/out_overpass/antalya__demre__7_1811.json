@@ -1,0 +1,677 @@
+{
+  "meta": {
+    "sehir_id": "7",
+    "sehir_adi": "ANTALYA",
+    "ilce_id": "1811",
+    "ilce_adi": "DEMRE",
+    "bbox_used": {
+      "south": 36.1668111,
+      "west": 29.7888923,
+      "north": 36.4104117,
+      "east": 30.0716943
+    },
+    "bbox_original": {
+      "south": 36.1668111,
+      "west": 29.7888923,
+      "north": 36.4104117,
+      "east": 30.0716943
+    },
+    "fetchedAt": "2026-01-21T08:27:57.803Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 58
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:26:55Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 310987894,
+        "lat": 36.1898291,
+        "lon": 29.861211,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Simena Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 310987897,
+        "lat": 36.190178,
+        "lon": 29.8615359,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Palmiye Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 310987899,
+        "lat": 36.1902548,
+        "lon": 29.8616202,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Likya Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 310987911,
+        "lat": 36.1900039,
+        "lon": 29.8608726,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access:fee": "no",
+          "name": "Hassan Deniz Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 310987913,
+        "lat": 36.1899601,
+        "lon": 29.8606124,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Roma Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1374174007,
+        "lat": 36.1967348,
+        "lon": 29.8461916,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kekova Fish House",
+          "tourism": "guest_house"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1374174012,
+        "lat": 36.1973184,
+        "lon": 29.8478613,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Palm Tree Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1637423073,
+        "lat": 36.2255794,
+        "lon": 29.9460444,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2700629359,
+        "lat": 36.2424714,
+        "lon": 29.9859113,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Kismet Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2820191978,
+        "lat": 36.1899477,
+        "lon": 29.862684,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ankh"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2984814029,
+        "lat": 36.2052997,
+        "lon": 29.8910562,
+        "tags": {
+          "amenity": "bar",
+          "name": "Smugglers Inn",
+          "phone": "+90 536 834 66 53"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3786428748,
+        "lat": 36.1900728,
+        "lon": 29.8600707,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Teras Paradise",
+          "wifi": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3786432159,
+        "lat": 36.1965887,
+        "lon": 29.8497422,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe & Pension"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3786499657,
+        "lat": 36.1898319,
+        "lon": 29.8622109,
+        "tags": {
+          "amenity": "ice_cream",
+          "price": "10₺/4balls",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5091211821,
+        "lat": 36.2241081,
+        "lon": 29.9456242,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Andriake Cafe",
+          "name:uk": "Дуже смачно",
+          "phone": "+90-242-871-3130/535-226-4936"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5347187724,
+        "lat": 36.1905589,
+        "lon": 29.8623773,
+        "tags": {
+          "addr:street": "Ücagaz Mahallesi Kale Sokak No 134",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Café Mola 1",
+          "name:de": "Café Mola 1",
+          "opening_hours": "24/7",
+          "phone": "00905384633584"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5358715599,
+        "lat": 36.2410657,
+        "lon": 29.9857661,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yemen Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5521094591,
+        "lat": 36.2404604,
+        "lon": 29.9865654,
+        "tags": {
+          "amenity": "bar",
+          "name": "Glory bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5521094592,
+        "lat": 36.2428476,
+        "lon": 29.9855344,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gaziantep restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6050718788,
+        "lat": 36.2441388,
+        "lon": 29.9863033,
+        "tags": {
+          "addr:housenumber": "25c",
+          "addr:street": "Gokyazi Mh. Muze Cd.",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Cafe \"Kabak\"",
+          "name:uk": "Кафе \"Kabak\"",
+          "opening_hours": "Mo-Su 10:00-00:00",
+          "operator": "Bulent Demir",
+          "phone": "+905387987800"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6051508486,
+        "lat": 36.2437024,
+        "lon": 29.9863968,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ipek restaurant",
+          "name:uk": "Ресторан \"Ipek\""
+        }
+      },
+      {
+        "type": "node",
+        "id": 6482424265,
+        "lat": 36.2291861,
+        "lon": 29.8971764,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional;turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7682740264,
+        "lat": 36.2283093,
+        "lon": 29.9598798,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7995161343,
+        "lat": 36.252493,
+        "lon": 29.8463613,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Authentic village restaraunt",
+          "name:en": "Authentic village restaraunt, local food"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8051679185,
+        "lat": 36.1969118,
+        "lon": 29.8468486,
+        "tags": {
+          "addr:postcode": "07573",
+          "amenity": "restaurant",
+          "cuisine": "mediterranean;seafood;turkish",
+          "internet_access": "wlan",
+          "name": "Hassan",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8325479917,
+        "lat": 36.2321073,
+        "lon": 30.008028,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Likya Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8325480017,
+        "lat": 36.2252482,
+        "lon": 29.9680928,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kumsal Restuarant Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8325480217,
+        "lat": 36.2427581,
+        "lon": 29.9857539,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Etibol Ocakbasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8326802117,
+        "lat": 36.1968941,
+        "lon": 29.8466239,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kordon Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8326802118,
+        "lat": 36.1969019,
+        "lon": 29.8467841,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ibrahim Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8390669083,
+        "lat": 36.2422817,
+        "lon": 29.9867101,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ertepe Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8401598120,
+        "lat": 36.2311736,
+        "lon": 29.959238,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8513014418,
+        "lat": 36.2251108,
+        "lon": 29.9458407,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kaptan restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8856117517,
+        "lat": 36.2277849,
+        "lon": 29.9972283,
+        "tags": {
+          "amenity": "bar",
+          "name:en": "Lycian cafe bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9166017817,
+        "lat": 36.2508446,
+        "lon": 29.9874614,
+        "tags": {
+          "amenity": "restaurant",
+          "charge": "200 TRY",
+          "check_date": "2024-09-20",
+          "cuisine": "buffet",
+          "name": "Santa Claus Restaurant",
+          "name:ru": "Санта Клаус",
+          "toilets": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9193366217,
+        "lat": 36.2401479,
+        "lon": 29.9882595,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "sandwich;turkish",
+          "name": "XL Burger Demre",
+          "name:ru": "Бургеры в Демре",
+          "opening_hours": "Mo-Su 10:30-22:00",
+          "phone": "+90 242 871 55 50"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9204565417,
+        "lat": 36.1904793,
+        "lon": 29.8625103,
+        "tags": {
+          "amenity": "ice_cream",
+          "name:en": "I Am Here Café"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9563537000,
+        "lat": 36.1907223,
+        "lon": 29.8624872,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;ice_cream;turkish",
+          "name": "Teras Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9563543960,
+        "lat": 36.1903862,
+        "lon": 29.8610388,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Neşeli cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9563555279,
+        "lat": 36.1906242,
+        "lon": 29.8623501,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;ice_cream;tea",
+          "name": "Zirve Cafe",
+          "opening_hours": "24/7",
+          "phone": "+90 537 596 00 06"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9811993911,
+        "lat": 36.2416304,
+        "lon": 29.9856396,
+        "tags": {
+          "amenity": "cafe",
+          "indoor_seating": "yes",
+          "name": "Kofteci necati",
+          "opening_hours": "Mo-Su 09:00-00:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10038846002,
+        "lat": 36.2432056,
+        "lon": 29.9866694,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İpek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103302417,
+        "lat": 36.2432048,
+        "lon": 29.9862443,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "internet_access": "wlan",
+          "name": "Şişci Hacı",
+          "name:ru": "Şişci Hacı",
+          "opening_hours": "Mo-Su 11:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10177681118,
+        "lat": 36.2230358,
+        "lon": 29.9886798,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10177681218,
+        "lat": 36.2208159,
+        "lon": 29.9775137,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Deniz Restaurant Cafe",
+          "opening_hours": "Mo-Su 09:30-23:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10223815017,
+        "lat": 36.241482,
+        "lon": 30.0255583,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10223815117,
+        "lat": 36.2450425,
+        "lon": 30.0316355,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10242351309,
+        "lat": 36.2301133,
+        "lon": 29.9917733,
+        "tags": {
+          "amenity": "cafe",
+          "contact:instagram": "kahverengimutfak",
+          "cuisine": "burger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10253324428,
+        "lat": 36.2445712,
+        "lon": 29.9872406,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional;turkish",
+          "name": "Maras'im"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10595754813,
+        "lat": 36.2280076,
+        "lon": 29.9983095,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kum Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10769103105,
+        "lat": 36.2311501,
+        "lon": 29.9592896,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dégirmen cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10789838866,
+        "lat": 36.257233,
+        "lon": 29.9862163,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Botanix Cafe & Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10961930805,
+        "lat": 36.2293667,
+        "lon": 29.8992875,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "Demre Bungalow & Cafe & Zühre",
+          "name:ru": "Демре Бунгало, Кафе",
+          "phone": "+90 544 439 95 72",
+          "website": "https://zuhrebungalov.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11309664343,
+        "lat": 36.2625658,
+        "lon": 29.8928939,
+        "tags": {
+          "amenity": "restaurant",
+          "email": "tiesto_1258@hotmail.com",
+          "name": "Trysa Restaurant Camping",
+          "phone": "+90 5555721569",
+          "website": "https://ilksayfareklamlari.com/Firma/trysa-restaurant-camping-demre-antalya.html"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11919755269,
+        "lat": 36.2573178,
+        "lon": 29.9864765,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kivrak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13266374001,
+        "lat": 36.2432326,
+        "lon": 29.9860278,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "beef_bowl;chicken;coffee_shop;kebab;turkish",
+          "name": "Demre Gaziantep Restaurant",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "phone": "+90 537 202 42 16"
+        }
+      },
+      {
+        "type": "way",
+        "id": 555260855,
+        "center": {
+          "lat": 36.2429612,
+          "lon": 29.9861131
+        },
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 821866851,
+        "center": {
+          "lat": 36.2706643,
+          "lon": 30.058851
+        },
+        "tags": {
+          "air_conditioning": "no",
+          "amenity": "cafe",
+          "building": "yes",
+          "capacity": "50",
+          "cuisine": "regional",
+          "name": "Mavi Yengeç",
+          "name:ru": "Синий краб (крабы)",
+          "outdoor_seating": "yes",
+          "phone": "+905325986930"
+        }
+      }
+    ]
+  }
+}

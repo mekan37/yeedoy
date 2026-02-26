@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "55",
+    "sehir_adi": "SAMSUN",
+    "ilce_id": "1712",
+    "ilce_adi": "VEZİRKÖPRÜ",
+    "bbox_used": {
+      "south": 41.04800791486486,
+      "north": 41.318278185135135,
+      "west": 35.099818054681464,
+      "east": 35.45789704531853
+    },
+    "bbox_original": {
+      "south": 41.0049568,
+      "west": 34.8786647,
+      "north": 41.3613293,
+      "east": 35.6790504
+    },
+    "fetchedAt": "2026-01-21T10:21:22.119Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:20:02Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5156899463,
+        "lat": 41.2099284,
+        "lon": 35.3461229,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

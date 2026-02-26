@@ -1,0 +1,71 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+.idea/
+*.iml
+*.ipr
+*.iws
+.history
+
+# VS Code (keep shared workspace settings only)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Logs / reports
+*.log
+*.out
+*.pid
+*.seed
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Secrets / env
+.env
+.env.*
+*.env
+!.env.example
+!**/.env.example
+
+# Node / Next
+node_modules/
+.next/
+dist/
+coverage/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
+.pub-cache/
+**/build/
+**/coverage/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+
+# Android
+**/android/.gradle/
+**/android/app/build/
+**/android/local.properties
+
+# iOS / macOS
+**/ios/Pods/
+**/ios/.symlinks/
+**/macos/Pods/
+
+# Windows Flutter ephemeral
+**/windows/flutter/ephemeral/
+
+# Symbolication / obfuscation
+app.*.symbols
+app.*.map.json
+
+# Deploy/runtime temp artifacts
+deploy/next/.next/

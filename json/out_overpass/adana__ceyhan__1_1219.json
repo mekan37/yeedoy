@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "sehir_id": "1",
+    "sehir_adi": "ADANA",
+    "ilce_id": "1219",
+    "ilce_adi": "CEYHAN",
+    "bbox_used": {
+      "south": 36.92356766486486,
+      "north": 37.193837935135136,
+      "west": 35.66671402984541,
+      "east": 36.00441717015458
+    },
+    "bbox_original": {
+      "south": 36.8409602,
+      "west": 35.5719652,
+      "north": 37.2764454,
+      "east": 36.099166
+    },
+    "fetchedAt": "2026-01-21T08:16:01.565Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:14:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3347407377,
+        "lat": 37.0051459,
+        "lon": 35.7042738,
+        "tags": {
+          "amenity": "restaurant",
+          "indoor_seating": "yes",
+          "name": "Mıstık Usta Tesisleri",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3347407384,
+        "lat": 37.0030353,
+        "lon": 35.7030588,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mıstık Usta Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4386747414,
+        "lat": 37.0110416,
+        "lon": 35.7481592,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7916867849,
+        "lat": 37.0327982,
+        "lon": 35.8167575,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köşem Lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11241019251,
+        "lat": 36.9820666,
+        "lon": 35.859223,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11241019252,
+        "lat": 36.9834217,
+        "lon": 35.8614553,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13092803455,
+        "lat": 37.0227784,
+        "lon": 35.8195242,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Ceyhan Balkaymak Dondurma"
+        }
+      },
+      {
+        "type": "way",
+        "id": 327925058,
+        "center": {
+          "lat": 37.0030519,
+          "lon": 35.7026877
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "house",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1307931028,
+        "center": {
+          "lat": 37.1867144,
+          "lon": 35.8124501
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "kebab",
+          "name": "Muhtarın Yeri"
+        }
+      }
+    ]
+  }
+}

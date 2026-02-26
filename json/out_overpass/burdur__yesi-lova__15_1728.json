@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "sehir_id": "15",
+    "sehir_adi": "BURDUR",
+    "ilce_id": "1728",
+    "ilce_adi": "YEŞİLOVA",
+    "bbox_used": {
+      "south": 37.4231744,
+      "west": 29.500837,
+      "north": 37.7949992,
+      "east": 29.9808185
+    },
+    "bbox_original": {
+      "south": 37.4231744,
+      "west": 29.500837,
+      "north": 37.7949992,
+      "east": 29.9808185
+    },
+    "fetchedAt": "2026-01-21T08:40:50.665Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:39:05Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 6162387503,
+        "lat": 37.510594,
+        "lon": 29.6965936,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sultan Pinari"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6162387505,
+        "lat": 37.5258774,
+        "lon": 29.7282651,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Salda Lake"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6162389831,
+        "lat": 37.4717588,
+        "lon": 29.6725127,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9253975897,
+        "lat": 37.525982,
+        "lon": 29.6345991,
+        "tags": {
+          "addr:housenumber": "95",
+          "addr:street": "Asagi Mahalle Atatürk Caddesi",
+          "amenity": "restaurant",
+          "description": "\"Apart & Gözleme\" a bit like Bed&Breakfast.",
+          "name": "Eminelim",
+          "phone": "05056609906"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9724709617,
+        "lat": 37.5258713,
+        "lon": 29.6347482,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ayyildiz Cafe",
+          "name:en": "Very tasty and cheap",
+          "name:ru": "Очень вкусное и недорогое кафе"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9730058449,
+        "lat": 37.574294,
+        "lon": 29.6410887,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9798202344,
+        "lat": 37.4862582,
+        "lon": 29.6016261,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872083163,
+        "lat": 37.423562,
+        "lon": 29.7822005,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872108773,
+        "lat": 37.5257894,
+        "lon": 29.9037319,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872111859,
+        "lat": 37.4503823,
+        "lon": 29.8014105,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 633972033,
+        "center": {
+          "lat": 37.4650562,
+          "lon": 29.5351656
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Köy Kiraathamesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 633972034,
+        "center": {
+          "lat": 37.4648325,
+          "lon": 29.5351078
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Köy Kiraathamesi"
+        }
+      }
+    ]
+  }
+}

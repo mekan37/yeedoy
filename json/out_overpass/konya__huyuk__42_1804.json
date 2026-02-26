@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1804",
+    "ilce_adi": "HÜYÜK",
+    "bbox_used": {
+      "south": 37.7953135,
+      "west": 31.3642571,
+      "north": 38.0309729,
+      "east": 31.7895251
+    },
+    "bbox_original": {
+      "south": 37.7953135,
+      "west": 31.3642571,
+      "north": 38.0309729,
+      "east": 31.7895251
+    },
+    "fetchedAt": "2026-01-21T09:48:31.145Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:46:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

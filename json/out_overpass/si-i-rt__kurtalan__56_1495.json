@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "sehir_id": "56",
+    "sehir_adi": "SİİRT",
+    "ilce_id": "1495",
+    "ilce_adi": "KURTALAN",
+    "bbox_used": {
+      "south": 37.9234229,
+      "west": 41.6923637,
+      "north": 37.9334229,
+      "east": 41.7023637
+    },
+    "bbox_original": {
+      "south": 37.9234229,
+      "west": 41.6923637,
+      "north": 37.9334229,
+      "east": 41.7023637
+    },
+    "fetchedAt": "2026-01-21T10:24:02.896Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:23:10Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5180493622,
+        "lat": 37.9254019,
+        "lon": 41.7001316,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kurtalan Han Döner Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5180495022,
+        "lat": 37.925665,
+        "lon": 41.699452,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aziz Lokantası"
+        }
+      }
+    ]
+  }
+}

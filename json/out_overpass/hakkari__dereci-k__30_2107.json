@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "sehir_id": "30",
+    "sehir_adi": "HAKKARİ",
+    "ilce_id": "2107",
+    "ilce_adi": "DERECİK",
+    "bbox_used": {
+      "south": 36.9628963,
+      "west": 44.1845842,
+      "north": 37.2156052,
+      "east": 44.6227321
+    },
+    "bbox_original": {
+      "south": 36.9628963,
+      "west": 44.1845842,
+      "north": 37.2156052,
+      "east": 44.6227321
+    },
+    "fetchedAt": "2026-01-21T09:10:50.224Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:09:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4334598799,
+        "lat": 37.0807543,
+        "lon": 44.3119761,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4334598911,
+        "lat": 37.0809226,
+        "lon": 44.3113221,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4334598917,
+        "lat": 37.0797562,
+        "lon": 44.3122668,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4665332402,
+        "lat": 36.9784589,
+        "lon": 44.2018196,
+        "tags": {
+          "addr:postcode": "+964",
+          "addr:street": "mando cafe",
+          "amenity": "cafe",
+          "cuisine": "arab",
+          "email": "mando.cafe@hotmail.com",
+          "internet_access": "wlan",
+          "name": "mando cafe",
+          "name:ar": "مه ند و كافي",
+          "name:en": "mando caffe",
+          "name:ku": "mando cafe",
+          "phone": "07503494749"
+        }
+      }
+    ]
+  }
+}

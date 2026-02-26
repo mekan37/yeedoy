@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MenüBak • JSON Import</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;max-width:900px;margin:24px auto;padding:0 16px}
+    .box{border:2px dashed #999;border-radius:16px;padding:18px;text-align:center}
+    input,button{padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:14px}
+    button{cursor:pointer}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    pre{background:#111;color:#ddd;padding:12px;border-radius:12px;overflow:auto;margin-top:12px}
+  </style>
+</head>
+<body>
+  <h2>MenüBak • Overpass JSON → Supabase Import</h2>
+
+  <div class="row">
+    <input id="fnUrl" style="flex:1;min-width:320px" placeholder="Edge Function URL (yapıştır)" />
+    <input id="anonKey" style="flex:1;min-width:320px" placeholder="Supabase ANON KEY" />
+  </div>
+
+  <div class="row">
+    <input id="city" placeholder="İl (opsiyonel) örn: Kastamonu" />
+    <input id="district" placeholder="İlçe (opsiyonel) örn: Taşköprü" />
+  </div>
+
+  <div class="box" id="drop">
+    Dosyayı buraya sürükle bırak<br/>veya<br/>
+    <input id="file" type="file" accept=".json,application/json" />
+  </div>
+
+  <div class="row">
+    <button id="upload">Yükle</button>
+  </div>
+
+  <pre id="log">Hazır.</pre>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let selectedFile = null;
+
+function setLog(v){ $('log').textContent = v; }
+
+$('file').addEventListener('change', (e) => {
+  selectedFile = e.target.files?.[0] || null;
+  setLog(selectedFile ? `Seçildi: ${selectedFile.name}` : 'Dosya seçilmedi');
+});
+
+const drop = $('drop');
+drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.style.borderColor='#2e7d32'; });
+drop.addEventListener('dragleave', () => { drop.style.borderColor='#999'; });
+drop.addEventListener('drop', (e) => {
+  e.preventDefault();
+  drop.style.borderColor='#999';
+  const f = e.dataTransfer.files?.[0];
+  if (!f) return;
+  selectedFile = f;
+  setLog(`Bırakıldı: ${selectedFile.name}`);
+});
+
+  $('upload').addEventListener('click', async () => {
+  const url = $('fnUrl').value.trim();
+  if (!url) return setLog('Edge Function URL boş olamaz.');
+  if (!selectedFile) return setLog('Dosya seçmedin.');
+
+  const anonKey = document.getElementById('anonKey').value.trim();
+
+  const fd = new FormData();
+  fd.append('file', selectedFile);
+  fd.append('city', $('city').value.trim());
+  fd.append('district', $('district').value.trim());
+
+  setLog('Yükleniyor...');
+  try{
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'apikey': anonKey,
+        'Authorization': `Bearer ${anonKey}`,
+      },
+      body: fd,
+    });
+    const txt = await res.text();
+    setLog(txt);
+  }catch(e){
+    setLog('Hata: ' + e.message);
+  }
+});
+</script>
+</body>
+</html>

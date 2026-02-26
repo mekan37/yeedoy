@@ -1,0 +1,675 @@
+{
+  "meta": {
+    "sehir_id": "52",
+    "sehir_adi": "ORDU",
+    "ilce_id": "1328",
+    "ilce_adi": "FATSA",
+    "bbox_used": {
+      "south": 40.8566492,
+      "west": 37.2915245,
+      "north": 41.076726,
+      "east": 37.6779785
+    },
+    "bbox_original": {
+      "south": 40.8566492,
+      "west": 37.2915245,
+      "north": 41.076726,
+      "east": 37.6779785
+    },
+    "fetchedAt": "2026-01-21T10:12:00.626Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 54
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:10:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2906105697,
+        "lat": 41.028709,
+        "lon": 37.499547,
+        "tags": {
+          "addr:postcode": "52400",
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "opening_hours": "Mo-Su 09:00-00:00",
+          "smoking": "outside",
+          "takeaway": "yes",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3255693561,
+        "lat": 41.060991,
+        "lon": 37.478912,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Koru by Hünkar",
+          "toilets:wheelchair": "no",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4916310821,
+        "lat": 41.0366532,
+        "lon": 37.5939367,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bakır demlik",
+          "name:tr": "Bakır demlik",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4922588021,
+        "lat": 41.043216,
+        "lon": 37.6019036,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "pide;turkish",
+          "name": "Pelitdibi Çay Bahçesi",
+          "outdoor_seating": "yes",
+          "smoking": "isolated"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4922623432,
+        "lat": 41.0368447,
+        "lon": 37.5934955,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "lKaradeniz_Pidesi",
+          "name": "Ziyafet Pide",
+          "opening_hours": "Mo-Su 07:00-00:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4922639595,
+        "lat": 41.0209113,
+        "lon": 37.5321674,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Hünkar restoran",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6937213369,
+        "lat": 40.9618087,
+        "lon": 37.50275,
+        "tags": {
+          "amenity": "restaurant",
+          "description": "Doğanın içinde yeşillik bir alanda sağlıklı yemek.",
+          "image": "https://www.facebook.com/SaglikAlabalikCiftligiVeRestaurant/photos/4129926030433097",
+          "name": "Sağlık Alabalık Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7599437007,
+        "lat": 41.0367622,
+        "lon": 37.5932122,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "karadeniz_pidesi;regional",
+          "name": "Yosun Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8580004107,
+        "lat": 41.0512021,
+        "lon": 37.6125398,
+        "tags": {
+          "addr:neighbourhood": "Yalıköy Merkez Mahallesi",
+          "addr:place": "Yalıköy",
+          "amenity": "cafe",
+          "internet_access": "no",
+          "name": "Yalıköy Park Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090295232,
+        "lat": 41.0215494,
+        "lon": 37.5296037,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İstasyon Kahvaltı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333462,
+        "lat": 41.0206187,
+        "lon": 37.5370257,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Meşhur Çorbacı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333463,
+        "lat": 41.0206098,
+        "lon": 37.5367486,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Irmak Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333465,
+        "lat": 41.0220358,
+        "lon": 37.5456261,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konak Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333466,
+        "lat": 41.0226024,
+        "lon": 37.5454769,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Doğuş Çay",
+          "name": "Bolaman Park"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333484,
+        "lat": 41.0243669,
+        "lon": 37.5535521,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333485,
+        "lat": 41.024448,
+        "lon": 37.5570722,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yerli Köfteci"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333530,
+        "lat": 41.0274849,
+        "lon": 37.5710737,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bayrak Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333545,
+        "lat": 41.033806,
+        "lon": 37.5871507,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Karakullukçu Aile Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333645,
+        "lat": 41.0165826,
+        "lon": 37.5204916,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cındıkoğlu Trabzon Ekmeği"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333776,
+        "lat": 41.0341522,
+        "lon": 37.4956628,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hilal Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090333777,
+        "lat": 41.034544,
+        "lon": 37.4945035,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Otogar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090459766,
+        "lat": 41.0354433,
+        "lon": 37.4937527,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cajun Corner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090459813,
+        "lat": 41.0343116,
+        "lon": 37.4892779,
+        "tags": {
+          "addr:postcode": "52400",
+          "addr:street": "Ata Caddesi",
+          "amenity": "cafe",
+          "name": "Öz Diyarbakır Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10090473932,
+        "lat": 41.0209368,
+        "lon": 37.4767856,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şehr-i Alem Sabri Usta'nın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11088627260,
+        "lat": 41.0310059,
+        "lon": 37.4998705,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Fatsalı Hünkar Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11233268777,
+        "lat": 41.0536778,
+        "lon": 37.6129421,
+        "tags": {
+          "addr:neighbourhood": "Yalıköy Mahallesi",
+          "addr:street": "Bolaman-Perşembe Sahil yolu",
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Ati Balık Restorant",
+          "phone": "+905376476666"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11703548328,
+        "lat": 41.0293408,
+        "lon": 37.5748229,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ziyafet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11805130069,
+        "lat": 41.0249046,
+        "lon": 37.5586685,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yallık köy köfteci Burhana"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11821501632,
+        "lat": 41.0334058,
+        "lon": 37.5862623,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "barbecue;meat",
+          "diet:halal": "yes",
+          "name": "Ergün Izgara, Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12222698576,
+        "lat": 41.0253443,
+        "lon": 37.5579234,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "52/24 Restaurant",
+          "website": "https://www.5224restaurant.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12246167101,
+        "lat": 41.0343421,
+        "lon": 37.4934716,
+        "tags": {
+          "addr:housenumber": "2",
+          "addr:street": "Gonca Sokak",
+          "amenity": "cafe",
+          "name": "Lak Lak Kafe",
+          "opening_hours": "Mo-Fr 10:00-16:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12246218903,
+        "lat": 41.0617345,
+        "lon": 37.5102126,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Fener Adası",
+          "opening_hours": "Mo-Su 11:00-18:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12246219702,
+        "lat": 41.0318664,
+        "lon": 37.4980428,
+        "tags": {
+          "addr:street": "Ata Caddesi",
+          "amenity": "restaurant",
+          "name": "Friends Burger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12246255003,
+        "lat": 41.0350355,
+        "lon": 37.4917885,
+        "tags": {
+          "addr:street": "Yücel Sokak",
+          "amenity": "cafe",
+          "name": "Harman Kafe Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12246255302,
+        "lat": 41.0326722,
+        "lon": 37.4985176,
+        "tags": {
+          "addr:postcode": "52400",
+          "addr:street": "Samsun-Ordu yolu",
+          "amenity": "cafe",
+          "name": "La Perlas",
+          "opening_hours": "Mo-Sa 09:00-21:30"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12246255303,
+        "lat": 41.032387,
+        "lon": 37.4988597,
+        "tags": {
+          "addr:postcode": "52400",
+          "addr:street": "Samsun-Ordu yolu",
+          "amenity": "restaurant",
+          "name": "Sahil Restoran",
+          "opening_hours": "Mo-Su 09:00-05:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12247782802,
+        "lat": 41.0343984,
+        "lon": 37.4927262,
+        "tags": {
+          "addr:street": "Gonca Sokak",
+          "amenity": "cafe",
+          "name": "Laklak Kafe",
+          "name:en": "Lak Lak Cafe",
+          "opening_hours": "Mo-Su 08:30-15:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12247844501,
+        "lat": 41.0343538,
+        "lon": 37.4934421,
+        "tags": {
+          "addr:street": "Gonca Sokak",
+          "amenity": "cafe",
+          "name": "Lak Lak Kafe",
+          "name:en": "Lak Lak Cafe",
+          "opening_hours": "Mo-Sa 10:00-16:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13270416420,
+        "lat": 41.0583243,
+        "lon": 37.4772244,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13333447706,
+        "lat": 41.0508064,
+        "lon": 37.4777224,
+        "tags": {
+          "amenity": "ice_cream"
+        }
+      },
+      {
+        "type": "way",
+        "id": 557114963,
+        "center": {
+          "lat": 41.0300476,
+          "lon": 37.5766383
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Şahin Et Mangal",
+          "outdoor_seating": "yes",
+          "toilets": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 569475383,
+        "center": {
+          "lat": 41.0640753,
+          "lon": 37.6153108
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Arapkasi at mangal"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1163038846,
+        "center": {
+          "lat": 41.060849,
+          "lon": 37.4788668
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "regional;burger;pizza;coffee_shop;chicken;dessert;salad;pasta;cake;turkish;juice",
+          "internet_access": "yes",
+          "name": "KORU by HÜNKAR",
+          "outdoor_seating": "yes",
+          "phone": "+90 452 400 55 44",
+          "website": "https://www.instagram.com/korubyhunkar/?hl=tr"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1194677339,
+        "center": {
+          "lat": 41.0327596,
+          "lon": 37.4999331
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "2",
+          "name": "Motto",
+          "opening_hours": "Mo-Su 08:00-00:00"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1201888047,
+        "center": {
+          "lat": 41.0545859,
+          "lon": 37.4784791
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish;burger;kebab",
+          "name": "Hünkar"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1256597658,
+        "center": {
+          "lat": 41.0367686,
+          "lon": 37.593244
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish;pide;regional"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1258183199,
+        "center": {
+          "lat": 41.0368132,
+          "lon": 37.5936442
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1258183200,
+        "center": {
+          "lat": 41.0368132,
+          "lon": 37.593544
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1258183205,
+        "center": {
+          "lat": 41.0432737,
+          "lon": 37.6018033
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1258183207,
+        "center": {
+          "lat": 41.0431511,
+          "lon": 37.6019874
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1258971946,
+        "center": {
+          "lat": 41.0294778,
+          "lon": 37.5747568
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "roof"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1368675691,
+        "center": {
+          "lat": 41.0350373,
+          "lon": 37.4898338
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Fatsa Belediyesi Elekçi Park Kafeterya"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1369015059,
+        "center": {
+          "lat": 41.0321347,
+          "lon": 37.4925572
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "roof"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1461511665,
+        "center": {
+          "lat": 41.0290823,
+          "lon": 37.5066362
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

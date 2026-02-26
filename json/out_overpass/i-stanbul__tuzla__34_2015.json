@@ -1,0 +1,7211 @@
+{
+  "meta": {
+    "sehir_id": "34",
+    "sehir_adi": "İSTANBUL",
+    "ilce_id": "2015",
+    "ilce_adi": "TUZLA",
+    "bbox_used": {
+      "south": 40.8027042,
+      "west": 29.2545791,
+      "north": 40.9806318,
+      "east": 29.456816
+    },
+    "bbox_original": {
+      "south": 40.8027042,
+      "west": 29.2545791,
+      "north": 40.9806318,
+      "east": 29.456816
+    },
+    "fetchedAt": "2026-01-21T09:21:28.251Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 525
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:19:56Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2380579595,
+        "lat": 40.8513286,
+        "lon": 29.4005636,
+        "tags": {
+          "addr:city": "Şekerpinar Köyü",
+          "addr:country": "TR",
+          "addr:housenumber": "150",
+          "addr:street": "Fevzi Çakmak Caddesi",
+          "amenity": "restaurant",
+          "name": "Serçeşme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2384524289,
+        "lat": 40.8947466,
+        "lon": 29.2583225,
+        "tags": {
+          "addr:street": "Hukukçular Cd",
+          "designation": "TATBAK",
+          "name": "Tatbak",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3465585304,
+        "lat": 40.891466,
+        "lon": 29.3802005,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3465585305,
+        "lat": 40.8914316,
+        "lon": 29.3798733,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional;sandwich;chicken",
+          "name": "Dining Hall"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3465585382,
+        "lat": 40.8918552,
+        "lon": 29.3814191,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "ızgara_tavuk;ızgara_köfte;çıtır_fetuccini",
+          "name": "Piazza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3465585384,
+        "lat": 40.8915734,
+        "lon": 29.3814486,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Espressolab",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4367630390,
+        "lat": 40.8140857,
+        "lon": 29.2886654,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hungry Ghost"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4681005189,
+        "lat": 40.8173802,
+        "lon": 29.3178759,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Develi kebap",
+          "name:en": "Develi kebap tuzla مطعم  توزلا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4831180302,
+        "lat": 40.9665264,
+        "lon": 29.2639292,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hanedan Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4831180307,
+        "lat": 40.9664214,
+        "lon": 29.2642112,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pipa Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4834853516,
+        "lat": 40.9673584,
+        "lon": 29.2667287,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nacioğlu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4853116364,
+        "lat": 40.9676797,
+        "lon": 29.2672112,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Osmanlı Otağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4853252953,
+        "lat": 40.9661585,
+        "lon": 29.2689354,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fatih Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4869592390,
+        "lat": 40.9652096,
+        "lon": 29.268208,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Camelot"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4927027524,
+        "lat": 40.8906574,
+        "lon": 29.2703921,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4978044099,
+        "lat": 40.8689877,
+        "lon": 29.2644117,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "barbecue;meat",
+          "name": "Yali Mangal",
+          "outdoor_seating": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5010829824,
+        "lat": 40.9232569,
+        "lon": 29.301137,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:street": "Millet Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;breakfast;turkish",
+          "name": "Park Cafe",
+          "outdoor_seating": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5112234424,
+        "lat": 40.9391309,
+        "lon": 29.3242776,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "name:en": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5268566940,
+        "lat": 40.8754145,
+        "lon": 29.2551109,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özeyvan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5300762913,
+        "lat": 40.8756538,
+        "lon": 29.2551546,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ravza çayevi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5313431486,
+        "lat": 40.819546,
+        "lon": 29.3054494,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "İBB",
+          "building": "yes",
+          "capacity": "55",
+          "cuisine": "turkish",
+          "delivery": "no",
+          "name": "İBB Tuzla Kent Lokantası",
+          "opening_hours": "Mo-Fr 08:00-20:00; Sa 12:00-17:00",
+          "operator": "İstanbul Büyükşehir Belediyesi",
+          "operator:type": "public",
+          "payment:credit_cards": "yes",
+          "website": "https://tesislerimiz.ibb.istanbul/tuzla-kent-lokantasi/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329297613,
+        "lat": 40.9710682,
+        "lon": 29.2694106,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şeyh Şamil Caddesi",
+          "amenity": "restaurant",
+          "name": "Öz Süper Pide Salonu",
+          "name:ar": "مطعم فطائر",
+          "phone": "02164985205"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329298056,
+        "lat": 40.945242,
+        "lon": 29.2709575,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Şalgamlı Caddesi",
+          "amenity": "cafe",
+          "name": "Canlar kıraa Thanesi",
+          "name:ar": "قهوة (جينرال)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329298067,
+        "lat": 40.9501418,
+        "lon": 29.2736135,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Pamuk Sokağı",
+          "amenity": "restaurant",
+          "name": "Beş Kardeşlar Kafeterya",
+          "name:ar": "مطعم بيش كاردشلار"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329298105,
+        "lat": 40.9438264,
+        "lon": 29.2722103,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eyyubi Caddesi",
+          "amenity": "cafe",
+          "name": "Huzur Kıraathanesi",
+          "name:ar": "مقهى قراءات هوزور"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329298449,
+        "lat": 40.9498892,
+        "lon": 29.2742978,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Pamuk Sokağı",
+          "amenity": "cafe",
+          "name": "Işıl Cafe",
+          "name:ar": "مقهى إشيل",
+          "phone": "05374370402"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329298463,
+        "lat": 40.9643345,
+        "lon": 29.2797999,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı",
+          "amenity": "restaurant",
+          "name": "Zahret Halep",
+          "name:ar": "مطعم زهرة حلب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329298464,
+        "lat": 40.964569,
+        "lon": 29.2798429,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı",
+          "amenity": "restaurant",
+          "name": "Layali Halep",
+          "name:ar": "هانيدان كافي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329298498,
+        "lat": 40.9498747,
+        "lon": 29.2821089,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Müjde Sokağı",
+          "amenity": "cafe",
+          "name": "Etzincan",
+          "name:ar": "قهوة ( ايتزنجان)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329311623,
+        "lat": 40.9676841,
+        "lon": 29.275011,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Çamlık Caddesi",
+          "amenity": "restaurant",
+          "name": "Doneri Ye",
+          "name:ar": "شاورما",
+          "phone": "02164988123"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329311650,
+        "lat": 40.9456234,
+        "lon": 29.2840788,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Bayraktar Sokağı",
+          "amenity": "restaurant",
+          "name": "Çavuşoğulları",
+          "name:ar": "مطعم تشافوشوغلولاري"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329311671,
+        "lat": 40.9675838,
+        "lon": 29.2749372,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Çamlık Caddesi",
+          "amenity": "cafe",
+          "name": "Çamlık Kıraat Hanesi",
+          "name:ar": "مقهى قراءات تشاملك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329311681,
+        "lat": 40.974407,
+        "lon": 29.2731753,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kaptani Derya Caddesi",
+          "amenity": "cafe",
+          "name": "Yavlaç Kıraat Hanesi",
+          "name:ar": "مقهى قراءات يالفاتش"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329311688,
+        "lat": 40.9733655,
+        "lon": 29.2744668,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kaptanı Derya Cadeesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ela Börek",
+          "name:ar": "فطائر إيلا",
+          "phone": "02165928000"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329311699,
+        "lat": 40.9712576,
+        "lon": 29.2738476,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kaptani Derya Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "ice_cream",
+          "name": "Oney Dondurma",
+          "name:ar": "اوني دوندورما"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329311713,
+        "lat": 40.9723039,
+        "lon": 29.2689177,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Seçkin Sokağı",
+          "amenity": "cafe",
+          "name": "Sohbet Kıraat Hanesi",
+          "name:ar": "مقهى كيرات هانة سي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329312229,
+        "lat": 40.9440772,
+        "lon": 29.2734121,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eyyubi Caddesi",
+          "amenity": "cafe",
+          "name": "M.talip Kıraathanesi",
+          "name:ar": "مقهى قراءات م طالب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329312232,
+        "lat": 40.9717869,
+        "lon": 29.2738066,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kaptani Derya Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Dönerci Cüneyt Usta",
+          "name:ar": "دونرجي جونيت اوسطا",
+          "phone": "05388234242"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329312238,
+        "lat": 40.9745293,
+        "lon": 29.2727157,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kaptani Derya Caddesi",
+          "amenity": "cafe",
+          "name": "Adıyaman Bitlis",
+          "name:ar": "اديامان بيتلس (أراجيل)",
+          "phone": "05536162966"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329312242,
+        "lat": 40.9670196,
+        "lon": 29.2752911,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Cinnah Sokağı",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Turuncu Döner Salonu",
+          "name:ar": "صالون شاورما تورونجو",
+          "phone": "02164192665"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329319359,
+        "lat": 40.9438802,
+        "lon": 29.3031913,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Su KEnarl",
+          "amenity": "restaurant",
+          "name": "Etsiz Çiğköfte",
+          "name:ar": "كبة بلا لحمه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329319537,
+        "lat": 40.9752888,
+        "lon": 29.2597808,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Susam Sokağı",
+          "amenity": "cafe",
+          "name": "Nazlının",
+          "name:ar": "مقهى نازلي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329319538,
+        "lat": 40.9758278,
+        "lon": 29.2613457,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Beykoz Gaddesi",
+          "amenity": "cafe",
+          "name": "Ev yemekleri",
+          "name:ar": "بيت الاكل (تركي)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329319569,
+        "lat": 40.9801945,
+        "lon": 29.2656131,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Bosna Bulvarı",
+          "amenity": "restaurant",
+          "name": "Öz Şark Kebap ve Pide",
+          "name:ar": "مطعم كباب اوز شارك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329319571,
+        "lat": 40.9794781,
+        "lon": 29.2643893,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Vahdet Caddesi",
+          "amenity": "cafe",
+          "name": "Arif cafe",
+          "name:ar": "مقهى عريف"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329319589,
+        "lat": 40.975303,
+        "lon": 29.2615602,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "ÇiÇEKLi",
+          "amenity": "restaurant",
+          "name": "Nebol",
+          "name:ar": "مطعم نيبول",
+          "operator": "خاص"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329319825,
+        "lat": 40.9538482,
+        "lon": 29.2825724,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eyyubi caddesi",
+          "amenity": "cafe",
+          "name": "Akça",
+          "name:ar": "اكشا كافي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329320521,
+        "lat": 40.9791193,
+        "lon": 29.2632708,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Arşın Sokağı",
+          "amenity": "cafe",
+          "name": "köylü yandır lavaş",
+          "name:ar": "مقهى تركي كويول ياندر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329320545,
+        "lat": 40.9757858,
+        "lon": 29.2614347,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Beykoz Gaddesi",
+          "amenity": "cafe",
+          "name": "Belluga",
+          "name:ar": "مقهى تركي بيليوغا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329320546,
+        "lat": 40.9772864,
+        "lon": 29.2650618,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Bosna Bulvarı",
+          "amenity": "restaurant",
+          "name": "Paşa Döner",
+          "name:ar": "شاورما Paşa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329320560,
+        "lat": 40.9797855,
+        "lon": 29.2655698,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Bosna Bulvarı",
+          "amenity": "restaurant",
+          "name": "Damla Et",
+          "name:ar": "مطعم داملا كوزو شيفرمي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329320585,
+        "lat": 40.9805555,
+        "lon": 29.2549172,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Ivan Sokağı",
+          "amenity": "restaurant",
+          "name": "Ziyafet Çiğköfte",
+          "name:ar": "مطعم ظيافة شي كوفتا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329320589,
+        "lat": 40.9805353,
+        "lon": 29.2635032,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Vahdet Caddesi",
+          "amenity": "restaurant",
+          "name": "Çiğköfte",
+          "name:ar": "مطعم شيكوفتا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335335,
+        "lat": 40.9673187,
+        "lon": 29.2679595,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Yusuf islam sokağı",
+          "amenity": "restaurant",
+          "name": "Harput kebap",
+          "name:ar": "مطعم كباب هاربوت",
+          "phone": "02163981397"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335339,
+        "lat": 40.9652124,
+        "lon": 29.2726802,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Erdoğan caddesi",
+          "amenity": "cafe",
+          "name": "Nehir cafe",
+          "name:ar": "مقهى نهير",
+          "phone": "05320645304"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335343,
+        "lat": 40.9672215,
+        "lon": 29.2672514,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih bulvarı",
+          "amenity": "restaurant",
+          "name": "Koclar restaurant",
+          "name:ar": "مطعم كوجلار",
+          "phone": "02163982699"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335344,
+        "lat": 40.9671,
+        "lon": 29.2675733,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih bulvarı",
+          "amenity": "restaurant",
+          "name": "Balım",
+          "name:ar": "مطعم باليم",
+          "phone": "02164194698"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335356,
+        "lat": 40.9545825,
+        "lon": 29.2649125,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Kuran kursu caddesi",
+          "amenity": "bar",
+          "name": "Korkmaz tekel",
+          "name:ar": "مشروبات كحولية كوركماز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335360,
+        "lat": 40.9645886,
+        "lon": 29.2631101,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kale caddesi",
+          "amenity": "cafe",
+          "name": "Gonul bagı",
+          "name:ar": "مقهى غونول",
+          "phone": "02164194831"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335365,
+        "lat": 40.964864,
+        "lon": 29.2711352,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Ziya-ül hak caddesi",
+          "amenity": "restaurant",
+          "name": "Berekat doner",
+          "name:ar": "مطعم بركات",
+          "phone": "05354047164"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335372,
+        "lat": 40.9641349,
+        "lon": 29.2651915,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Cami caddesi",
+          "amenity": "restaurant",
+          "name": "Kadıoğlu yemek . döner",
+          "name:ar": "مطعم قاضي اوغلو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335374,
+        "lat": 40.9671972,
+        "lon": 29.2690753,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Sarıyer sokak",
+          "amenity": "cafe",
+          "name": "Cazibe playstation",
+          "name:ar": "مقهى جازيبا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335383,
+        "lat": 40.963268,
+        "lon": 29.2640542,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Şen caddesi",
+          "amenity": "restaurant",
+          "name": "Paşam zurna dürüm",
+          "name:ar": "مطعم باشام",
+          "phone": "05374029858"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335389,
+        "lat": 40.9628792,
+        "lon": 29.2702769,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Ziya-ül hak caddise",
+          "amenity": "restaurant",
+          "name": "Grand house",
+          "name:ar": "غراند هاوس"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335393,
+        "lat": 40.9677919,
+        "lon": 29.2663552,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Yılmaz sokağı",
+          "amenity": "cafe",
+          "name": "Kosebasi internet cafe",
+          "name:ar": "مقهى انترنت كوسباسي",
+          "phone": "02164193333"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335414,
+        "lat": 40.9625713,
+        "lon": 29.2700624,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Ziya-ül hak caddise",
+          "amenity": "restaurant",
+          "name": "Abu tavfik lokanta",
+          "name:ar": "مطعم ابو توفيق",
+          "operator": "ابو توفيق"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335415,
+        "lat": 40.9636893,
+        "lon": 29.263153,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Yiğit sokağı",
+          "amenity": "cafe",
+          "name": "Saklı koru cafe restaurant",
+          "name:ar": "مقهى ساكله كورو",
+          "phone": "02164196113"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335924,
+        "lat": 40.9654736,
+        "lon": 29.272327,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Güneş caddesi",
+          "amenity": "restaurant",
+          "name": "Dönerci halim",
+          "name:ar": "مطعم دونرجي هاليم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335929,
+        "lat": 40.9625227,
+        "lon": 29.2635607,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Petrol yolu caddesi",
+          "amenity": "cafe",
+          "name": "Çibar cafe Restaurant sultanbeyli",
+          "name:ar": "مقهى تشينار",
+          "phone": "05382791121"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335936,
+        "lat": 40.9652286,
+        "lon": 29.2634749,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kale caddesi",
+          "amenity": "cafe",
+          "name": "Baraka cafe",
+          "name:ar": "مقهى بركة",
+          "phone": "02164192070"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335941,
+        "lat": 40.9681775,
+        "lon": 29.2695045,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Atatürk caddesi",
+          "amenity": "restaurant",
+          "name": "Çağ kebap ocak başı",
+          "name:ar": "مطعم كباب الطائرة",
+          "phone": "02164961125"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335943,
+        "lat": 40.9662575,
+        "lon": 29.2652988,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şen caddesi",
+          "amenity": "restaurant",
+          "name": "Tanıdık dürüm evi",
+          "name:ar": "مطعم تانيديك",
+          "phone": "02164962221"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335945,
+        "lat": 40.9640539,
+        "lon": 29.2704915,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Ziya-ül hak caddesi",
+          "amenity": "restaurant",
+          "name": "Kapı shahba",
+          "name:ar": "مطعم بوابة الشهباء"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335948,
+        "lat": 40.9654312,
+        "lon": 29.2635607,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Hayat caddesi",
+          "amenity": "cafe",
+          "name": "Yeşilçam çay evi",
+          "name:ar": "مقهى يشيل تشام"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335955,
+        "lat": 40.9637622,
+        "lon": 29.2664146,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Berat caddesi",
+          "amenity": "cafe",
+          "name": "Yeşilçam",
+          "name:ar": "مقهى يشيل تشام",
+          "phone": "05342413330"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335956,
+        "lat": 40.9652448,
+        "lon": 29.2656421,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Cami caddesi",
+          "amenity": "restaurant",
+          "name": "Hanedan pilav",
+          "name:ar": "مطعم هاندين",
+          "phone": "05377393352"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335961,
+        "lat": 40.9645967,
+        "lon": 29.2671227,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Miraç caddesi",
+          "amenity": "restaurant",
+          "name": "Dönerci lütfü usta",
+          "name:ar": "مطعم لطفو اوسطه",
+          "operator": "لطفو اسطه",
+          "phone": "02163983672"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335969,
+        "lat": 40.9679182,
+        "lon": 29.2688393,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Pınarbaşı sokağı",
+          "amenity": "restaurant",
+          "name": "Çağ kebapçi davut usta",
+          "name:ar": "مطعم كباب داوود اوسطه",
+          "phone": "02164196894"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335978,
+        "lat": 40.9626118,
+        "lon": 29.262123,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Kale caddesi",
+          "amenity": "restaurant",
+          "name": "Hanedan",
+          "name:ar": "مطعم هاندين",
+          "phone": "02164190506"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329335981,
+        "lat": 40.9630655,
+        "lon": 29.269998,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Ziya-ül hak caddise",
+          "amenity": "restaurant",
+          "name": "Skoop",
+          "name:ar": "مطعم سكوب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336001,
+        "lat": 40.9675838,
+        "lon": 29.2670434,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Ak sokağı",
+          "amenity": "restaurant",
+          "name": "Akça saraylim",
+          "name:ar": "مطعم اكجا سرايلم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336012,
+        "lat": 40.9676104,
+        "lon": 29.2669725,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih bulvarı",
+          "amenity": "restaurant",
+          "name": "Meşhur karadeniz pidesi",
+          "name:ar": "مطعم مشوار",
+          "phone": "02164190444"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336531,
+        "lat": 40.9675051,
+        "lon": 29.2674874,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Merkez sokağı",
+          "amenity": "cafe",
+          "name": "Eksen internet kafe",
+          "name:ar": "مقهى انترنت اكسان",
+          "phone": "02164193368"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336535,
+        "lat": 40.9626118,
+        "lon": 29.2701053,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Ziya-ül hak caddise",
+          "amenity": "restaurant",
+          "name": "Alşark restoran",
+          "name:ar": "مطعم الشرق"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336545,
+        "lat": 40.9663952,
+        "lon": 29.2653631,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şen caddesi",
+          "amenity": "cafe",
+          "name": "Elma cafe",
+          "name:ar": "مقهى ايلما",
+          "phone": "05382436304"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336550,
+        "lat": 40.9635678,
+        "lon": 29.2670154,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Gül caddesi",
+          "amenity": "restaurant",
+          "name": "Köşe başi",
+          "name:ar": "مطعم كوشا باشي للوجبات السريعة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336553,
+        "lat": 40.9654439,
+        "lon": 29.2684437,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa caddesi",
+          "amenity": "restaurant",
+          "name": "Hedef 12",
+          "name:ar": "مطعم هدف",
+          "phone": "05326296340"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329336604,
+        "lat": 40.9659125,
+        "lon": 29.2717269,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Faith Bulvarı",
+          "name": "Gaziantep Baklava",
+          "name:ar": "بقلاوة غازي عينتاب",
+          "opening_hours": "24/7",
+          "phone": "3908666",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329337976,
+        "lat": 40.9666183,
+        "lon": 29.2698161,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Cahar Dudayev Sk",
+          "amenity": "restaurant",
+          "name": "Köyümce iskender",
+          "name:ar": "اسكندر",
+          "phone": "02163985004"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329337977,
+        "lat": 40.9664276,
+        "lon": 29.2719721,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Hekimler Sokağı",
+          "amenity": "cafe",
+          "name": "Huzur"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329337980,
+        "lat": 40.9661991,
+        "lon": 29.2712401,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Sarayı Sk.",
+          "amenity": "cafe",
+          "name": "Takılıyoz Cafe",
+          "name:ar": "مقهى ياكليوز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329337981,
+        "lat": 40.9660101,
+        "lon": 29.2713113,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Faith Bulvarı",
+          "amenity": "cafe",
+          "name": "Paris Cafe",
+          "name:ar": "مقهى باريس"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329337982,
+        "lat": 40.9661815,
+        "lon": 29.2706858,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Faith Bulvarı",
+          "amenity": "restaurant",
+          "name": "Rainbow Cafe Restaurant",
+          "name:ar": "مقهى ومطعم قوس قزح",
+          "phone": "02164964345"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329337990,
+        "lat": 40.9663362,
+        "lon": 29.2691257,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih bulvarı",
+          "amenity": "restaurant",
+          "name": "Adaklı İskender Kebab",
+          "name:ar": "مطعم اسكندر",
+          "phone": "02163980429"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329337997,
+        "lat": 40.9549714,
+        "lon": 29.2640113,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Akabe caddesi",
+          "amenity": "restaurant",
+          "name": "Uğurlu cafe restorant",
+          "name:ar": "مطعم اوجورلو",
+          "phone": "02164198526"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329338016,
+        "lat": 40.9644914,
+        "lon": 29.2661142,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kuran kursu caddesi",
+          "amenity": "cafe",
+          "name": "Miss döner pida börek",
+          "name:ar": "مقهى ميس",
+          "phone": "05352551287"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329338131,
+        "lat": 40.9647263,
+        "lon": 29.2736458,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Erdoğan caddesi",
+          "amenity": "bar",
+          "name": "Köşem Tekel ve kuruyemiş",
+          "name:ar": "مشروبات كحولية كوشيم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329338137,
+        "lat": 40.9653663,
+        "lon": 29.2721438,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Erdoğan caddesi",
+          "amenity": "restaurant",
+          "name": "Mekan kokoreç",
+          "name:ar": "مطعم ميكان كوكوريتش",
+          "phone": "05358133322"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329338139,
+        "lat": 40.9689552,
+        "lon": 29.2679166,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Yusuf islam sokağı",
+          "amenity": "restaurant",
+          "name": "Tekçe kanat",
+          "name:ar": "مطعم تشيكن وينجز",
+          "phone": "02164191373"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329338142,
+        "lat": 40.9676428,
+        "lon": 29.2658352,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih bulvarı",
+          "amenity": "cafe",
+          "name": "Main street cafe",
+          "name:ar": "مقهى الشارع الرئيسي",
+          "phone": "02164191012"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329338157,
+        "lat": 40.9667841,
+        "lon": 29.2671656,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kuran kursu caddesi",
+          "amenity": "restaurant",
+          "name": "Öz firat",
+          "name:ar": "مطعم اوز فرات",
+          "phone": "02163980119"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5329338158,
+        "lat": 40.9675458,
+        "lon": 29.2661638,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih bulvarı",
+          "amenity": "restaurant",
+          "name": "Tutkun dönercim",
+          "name:ar": "مطعم توتكان",
+          "phone": "02164198021"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5344919579,
+        "lat": 40.9531237,
+        "lon": 29.2816387,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eyyubi caddesi",
+          "amenity": "cafe",
+          "name": "Ortakent",
+          "name:ar": "اورتاكنت",
+          "phone": "05334491158"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5344919588,
+        "lat": 40.9582743,
+        "lon": 29.2963817,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih Bulvarı",
+          "amenity": "restaurant",
+          "name": "maraç",
+          "name:ar": "مطعم ماراش"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5537877621,
+        "lat": 40.931168,
+        "lon": 29.3051593,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "118/A",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Cumhuriyet Blv.",
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "name": "Marmaris Büfe",
+          "name:en": "Marmaris Buffet",
+          "name:tr": "Marmaris Büfe",
+          "official_name": "Marmaris Büfe 1964",
+          "opening_hours": "Mo-Su 09:00-01:00",
+          "operator": "Marmaris Büfe",
+          "phone": "02125100032",
+          "website": "https://www.marmarisbufe.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883124,
+        "lat": 40.980408,
+        "lon": 29.2655807,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kubbe Caddesi",
+          "cuisine": "dessert",
+          "name": "Gaziantepli Şalvarlıoğlu",
+          "name:ar": "حلويات شالفارلي اوغلو",
+          "opening_hours": "Mo-Fr 07:00-13:30; Mo-Fr 17:00-20:00",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883357,
+        "lat": 40.9640021,
+        "lon": 29.2821225,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Miss Börek ve Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883359,
+        "lat": 40.9769558,
+        "lon": 29.2655316,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Selçıkan Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Kasap",
+          "name:ar": "قصاب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883382,
+        "lat": 40.9684604,
+        "lon": 29.2761612,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "çamlik Caddesi",
+          "amenity": "restaurant",
+          "name": "Yufkacibkafkas",
+          "name:ar": "مطعم يافاكاجي",
+          "phone": "05427801210"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883384,
+        "lat": 40.9684118,
+        "lon": 29.276011,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "çamlik Caddesi",
+          "amenity": "restaurant",
+          "name": "Çiğköfte Omar uosta",
+          "name:ar": "مطعم عمر اوسطا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883390,
+        "lat": 40.9447325,
+        "lon": 29.3002304,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih blv",
+          "amenity": "restaurant",
+          "name": "Tiryaki kebap",
+          "name:ar": "مطعم كباب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883393,
+        "lat": 40.9783105,
+        "lon": 29.2708611,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kaptanı derya Caddesi",
+          "amenity": "restaurant",
+          "name": "Hvi",
+          "name:ar": "مطعم هافي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883395,
+        "lat": 40.9675531,
+        "lon": 29.2751312,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "çamlik Cadde",
+          "amenity": "restaurant",
+          "name": "Safranblu borekçisi",
+          "name:ar": "مطعم سافرانبولو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883407,
+        "lat": 40.9762612,
+        "lon": 29.27423,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "yildirim Caddesi",
+          "amenity": "restaurant",
+          "name": "Dogus yemek",
+          "name:ar": "مطعم دوكوز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883411,
+        "lat": 40.9648871,
+        "lon": 29.2785574,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "cafe",
+          "name": "Çay Ocağı",
+          "name:ar": "محل القهوة والشاي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883413,
+        "lat": 40.9692806,
+        "lon": 29.2581984,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "faith Caddesi",
+          "amenity": "restaurant",
+          "name": "Şehr-i saraylim",
+          "name:ar": "مطعم شيهر",
+          "phone": "02164198616"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883416,
+        "lat": 40.9526046,
+        "lon": 29.2971164,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih bulguru",
+          "amenity": "restaurant",
+          "name": "lezzet",
+          "name:ar": "لوزيت",
+          "phone": "05616160034"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883525,
+        "lat": 40.976035,
+        "lon": 29.2714484,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "yildirim Caddesi",
+          "amenity": "restaurant",
+          "name": "Ataklı pide",
+          "name:ar": "مطعم اداكالي بيدي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883530,
+        "lat": 40.9520936,
+        "lon": 29.296681,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eşrefbey caddese",
+          "amenity": "restaurant",
+          "name": "Şorba salinu",
+          "name:ar": "شوربه سالونو",
+          "phone": "4874454"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883534,
+        "lat": 40.9624532,
+        "lon": 29.2876137,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Positive Catering",
+          "name:ar": "مطعم جاتيرين",
+          "phone": "02164985001"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883539,
+        "lat": 40.9432494,
+        "lon": 29.2973981,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Turabi Sokağı",
+          "amenity": "restaurant",
+          "name": "ihsan vakfi ilme hizmet aşevi",
+          "name:ar": "مطبخ احسان",
+          "phone": "05359894608"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883556,
+        "lat": 40.9770955,
+        "lon": 29.2659473,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "selçukhan Caddesi",
+          "amenity": "restaurant",
+          "name": "Yavuz lar",
+          "name:ar": "مطعم يافزلار",
+          "phone": "02165920237"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883560,
+        "lat": 40.9706152,
+        "lon": 29.2591453,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Belediye Caddesi",
+          "amenity": "cafe",
+          "name": "İmrem cafe",
+          "name:ar": "مقهى ايمريم",
+          "phone": "02163984411"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883564,
+        "lat": 40.9683713,
+        "lon": 29.2547035,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Eyyüpoğlu",
+          "name:ar": "مطعم أيوب اوغلو",
+          "phone": "02163989027"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883567,
+        "lat": 40.9671736,
+        "lon": 29.2752743,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "huzur Cadde",
+          "amenity": "restaurant",
+          "name": "Acicik çiğ köfte",
+          "name:ar": "مطعم اجيجيك",
+          "phone": "02163720000"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883573,
+        "lat": 40.9449263,
+        "lon": 29.2846502,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Semanur Sokağı",
+          "amenity": "restaurant",
+          "name": "Beşeyül köfte",
+          "name:ar": "مطعم كفته بيشايول"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883579,
+        "lat": 40.9473214,
+        "lon": 29.2994213,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih bulvarı",
+          "amenity": "cafe",
+          "name": "Pastanesi",
+          "name:ar": "بستاناسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883581,
+        "lat": 40.9771927,
+        "lon": 29.2662048,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "biberlik Caddesi",
+          "amenity": "restaurant",
+          "name": "Ziyafet",
+          "name:ar": "مطعم زيافات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883584,
+        "lat": 40.9771603,
+        "lon": 29.2657757,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "selçukhan Caddesi",
+          "amenity": "restaurant",
+          "name": "Karışık ızgara",
+          "name:ar": "مطعم كاريشك ايزكار"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883588,
+        "lat": 40.9789627,
+        "lon": 29.2696605,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "selçukhan Caddesi",
+          "amenity": "restaurant",
+          "name": "Saydam",
+          "name:ar": "مطعم سايدام",
+          "phone": "05375612721"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883594,
+        "lat": 40.9677637,
+        "lon": 29.2753029,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "çamlik Caddesi",
+          "amenity": "restaurant",
+          "name": "Salas ticaret",
+          "name:ar": "مطعم سالاس"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883595,
+        "lat": 40.9690086,
+        "lon": 29.2577583,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Döner.com",
+          "name:ar": "مطعم هاس"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883596,
+        "lat": 40.9595082,
+        "lon": 29.2561841,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Orman Caddesi",
+          "amenity": "restaurant",
+          "name": "Has Çiğ Köfte dunyasi",
+          "name:ar": "مطعم هاس شيكوفتا",
+          "phone": "05395609012"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883599,
+        "lat": 40.9670913,
+        "lon": 29.2640376,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kale Caddesi",
+          "amenity": "restaurant",
+          "name": "Tat Sultan",
+          "name:ar": "مطعم سلطان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883603,
+        "lat": 40.9673911,
+        "lon": 29.2627931,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Ferah Caddesi",
+          "amenity": "restaurant",
+          "name": "Sarmaşık et mangal",
+          "name:ar": "مطعم سارماشيغ",
+          "phone": "02165613030"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883604,
+        "lat": 40.9507348,
+        "lon": 29.298449,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Sina iyi",
+          "amenity": "restaurant",
+          "name": "koca kabap kanat",
+          "name:ar": "كوجه كباب كنات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883608,
+        "lat": 40.941997,
+        "lon": 29.3019007,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eşref bitlis blv",
+          "amenity": "cafe",
+          "name": "Altın tabak künefaci",
+          "name:ar": "متجر حلويات",
+          "phone": "4870411"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883611,
+        "lat": 40.9573602,
+        "lon": 29.2967455,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih Bulvarı",
+          "amenity": "restaurant",
+          "name": "VB",
+          "name:ar": "مطعم ف ب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883626,
+        "lat": 40.9635834,
+        "lon": 29.2592311,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Yeşil Caddesi",
+          "amenity": "cafe",
+          "name": "Salon altunel",
+          "name:ar": "مقهى التونيل",
+          "phone": "05322910214"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883639,
+        "lat": 40.9613007,
+        "lon": 29.2908799,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Diyar Lokantası",
+          "name:ar": "مطعم ديار لوكانتاسيا",
+          "phone": "02163987422"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883640,
+        "lat": 40.9802873,
+        "lon": 29.2658997,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kubbe Caddesi",
+          "amenity": "restaurant",
+          "name": "Otantik O Restaurant Cafe",
+          "name:ar": "مطعم اوتوناتيكو",
+          "phone": "05436060005"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883661,
+        "lat": 40.942124,
+        "lon": 29.3018854,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih blv",
+          "amenity": "restaurant",
+          "name": "Değişik çorba salonu",
+          "name:ar": "ديكيشيك تشوردا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883684,
+        "lat": 40.9666535,
+        "lon": 29.2626266,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa Caddesi",
+          "amenity": "cafe",
+          "name": "Papyon Cafe",
+          "name:ar": "مقهى بابيون"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883686,
+        "lat": 40.9385175,
+        "lon": 29.2959264,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eşref bitlis blv",
+          "amenity": "restaurant",
+          "name": "Diyar et ızgara",
+          "name:ar": "مطعم شرائح الحم",
+          "phone": "02164871818"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883693,
+        "lat": 40.958706,
+        "lon": 29.2573428,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Orman Caddesi",
+          "amenity": "restaurant",
+          "name": "Doğuş Kebap Lahmacun",
+          "name:ar": "مطعم دوغوش",
+          "phone": "02163981911"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883703,
+        "lat": 40.968185,
+        "lon": 29.2612267,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Yeşil Caddesi",
+          "amenity": "restaurant",
+          "name": "Karadeniz Tadal dedi Salonu",
+          "name:ar": "مطعم كاردينيز تادال",
+          "phone": "02164960398"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883705,
+        "lat": 40.9672533,
+        "lon": 29.2611408,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa Caddesi",
+          "amenity": "cafe",
+          "name": "Beraat Cafe",
+          "name:ar": "مقهى بيرات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883707,
+        "lat": 40.9531243,
+        "lon": 29.2816497,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eyyubi caddesi",
+          "amenity": "cafe",
+          "name": "Ortakent",
+          "name:ar": "اورتاكنت",
+          "phone": "05334491158"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883711,
+        "lat": 40.9404623,
+        "lon": 29.2987965,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eşref bitlis blv",
+          "amenity": "restaurant",
+          "name": "Umut şarküteri",
+          "name:ar": "متجر اطعمه جاهزه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883712,
+        "lat": 40.9597077,
+        "lon": 29.2560292,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Orman Caddesi",
+          "amenity": "restaurant",
+          "name": "Orman bide börek",
+          "name:ar": "مطعم اورمان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883716,
+        "lat": 40.9412619,
+        "lon": 29.3004683,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eşref bitlis blv",
+          "amenity": "restaurant",
+          "name": "Abooov kebap taner usta",
+          "name:ar": "مطعم كباب",
+          "phone": "02164870787",
+          "wheelchair": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883718,
+        "lat": 40.9683146,
+        "lon": 29.2548966,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa Caddesi",
+          "amenity": "cafe",
+          "name": "Nova hala",
+          "name:ar": "مقهى نوفا هالا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883720,
+        "lat": 40.958275,
+        "lon": 29.2963927,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih Bulvarı",
+          "amenity": "restaurant",
+          "name": "maraç",
+          "name:ar": "مطعم ماراش"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883723,
+        "lat": 40.9760182,
+        "lon": 29.2710757,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "yildirim Caddesi",
+          "amenity": "restaurant",
+          "name": "Kral Çiğköfte",
+          "name:ar": "مطعم كرال"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883727,
+        "lat": 40.9644182,
+        "lon": 29.2793842,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Berekat Lokanta & Kafeterya",
+          "name:ar": "مطعم وكفاتيريا البركات",
+          "operator": "محمود",
+          "phone": "05394189965"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883728,
+        "lat": 40.9775349,
+        "lon": 29.2654324,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Bosna Bulvarı",
+          "amenity": "restaurant",
+          "name": "Adaklı Pide & Börek",
+          "name:ar": "مطعم اوز اداكلي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883734,
+        "lat": 40.9388994,
+        "lon": 29.2965354,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eşref bitlis blv",
+          "amenity": "restaurant",
+          "name": "Adaklı",
+          "name:ar": "مطعم مأكولات تركية اديكلا",
+          "phone": "02164873440"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883738,
+        "lat": 40.9587709,
+        "lon": 29.2571497,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Orman Caddesi",
+          "amenity": "restaurant",
+          "name": "Arsamiea",
+          "name:ar": "مطعم ارساميا",
+          "phone": "05389695122"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883740,
+        "lat": 40.9607811,
+        "lon": 29.261233,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Aktutan Caddesi",
+          "amenity": "restaurant",
+          "name": "Alkan ekmek",
+          "name:ar": "مطعم الكان",
+          "phone": "05353915512"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883742,
+        "lat": 40.9697485,
+        "lon": 29.2575359,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Baltaşı sokaği",
+          "amenity": "cafe",
+          "name": "Saygı cafe",
+          "name:ar": "مقهى سايغي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883746,
+        "lat": 40.9641181,
+        "lon": 29.2589092,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Petrol yolu Caddesi",
+          "amenity": "restaurant",
+          "name": "Akkoçlar",
+          "name:ar": "مطعم اكوشلار",
+          "phone": "02164966842"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883748,
+        "lat": 40.9647986,
+        "lon": 29.2770624,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "cafe",
+          "name": "Şura Cafe",
+          "name:ar": "مقهى شورة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883755,
+        "lat": 40.9421356,
+        "lon": 29.3017172,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih blv",
+          "amenity": "cafe",
+          "name": "Sinit cafe",
+          "name:ar": "مقهى سيمات جافا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883758,
+        "lat": 40.9353552,
+        "lon": 29.2842112,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "kasem Sokağı",
+          "amenity": "restaurant",
+          "name": "Pizzabulls",
+          "name:ar": "مطعم بيتزا بيزابوللس",
+          "phone": "4870909"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883764,
+        "lat": 40.9802545,
+        "lon": 29.2760324,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Selşukhn Caddesi",
+          "amenity": "restaurant",
+          "name": "Karl Çiğköfte",
+          "name:ar": "كرال شيكوفتا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883767,
+        "lat": 40.9689951,
+        "lon": 29.256742,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Tazedo",
+          "name:ar": "مطعم تازيدو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883773,
+        "lat": 40.9704775,
+        "lon": 29.2597032,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Belediye Caddesi",
+          "amenity": "restaurant",
+          "name": "Kardeşler büfe &lokanta",
+          "name:ar": "مطعم كاردش لار",
+          "phone": "05365195511"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883782,
+        "lat": 40.9691409,
+        "lon": 29.2586303,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "faith Caddesi",
+          "amenity": "cafe",
+          "name": "Kadirbey lezzet bahçesi",
+          "name:ar": "مقهى كاديربي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883784,
+        "lat": 40.9480039,
+        "lon": 29.2993407,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Bahrullah efenbi Sokači",
+          "amenity": "restaurant",
+          "name": "Kasap ızgaea",
+          "name:ar": "مطعم فروج مشوي",
+          "operator": "بيهار",
+          "phone": "02164875677"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883786,
+        "lat": 40.9587385,
+        "lon": 29.2572784,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Orman Caddesi",
+          "amenity": "cafe",
+          "name": "altının tepsi",
+          "name:ar": "مقهى التين",
+          "phone": "05396163636"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883802,
+        "lat": 40.963029,
+        "lon": 29.2860032,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Zeytin Dalı",
+          "name:ar": "مطعم زيتون",
+          "phone": "05385156737"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883805,
+        "lat": 40.9461963,
+        "lon": 29.3034029,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Petrol yolu caddsi",
+          "amenity": "restaurant",
+          "name": "Salas lahmacun",
+          "name:ar": "مطعم لحم بعجين"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883810,
+        "lat": 40.9678366,
+        "lon": 29.2753673,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "çamlik Caddesi",
+          "amenity": "restaurant",
+          "name": "Çağla borek",
+          "name:ar": "مطعم جاغلا",
+          "phone": "02164966723"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883812,
+        "lat": 40.9660058,
+        "lon": 29.278264,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Bağlik Caddesi",
+          "amenity": "restaurant",
+          "name": "Anadolu tandır lavaş",
+          "name:ar": "مطعم انادولو",
+          "phone": "05534500037"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542883820,
+        "lat": 40.9369675,
+        "lon": 29.2887248,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Boncuk Sokağı",
+          "amenity": "restaurant",
+          "name:ar": "مطعم رستونات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884527,
+        "lat": 40.9680877,
+        "lon": 29.2554298,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa Caddesi",
+          "amenity": "cafe",
+          "name": "Arkadaşlar kiratanesin",
+          "name:ar": "مقهى اركداش لار",
+          "phone": "02164960004"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884538,
+        "lat": 40.9705018,
+        "lon": 29.2594886,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Belediye Caddesi",
+          "amenity": "restaurant",
+          "name": "Çuvalcioğlu restaurant",
+          "name:ar": "مطعم شوفالج اوغلو",
+          "phone": "02164986110"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884540,
+        "lat": 40.9797613,
+        "lon": 29.2658935,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kubbe Caddesi",
+          "amenity": "restaurant",
+          "name": "Ciğerci Abe",
+          "name:ar": "مطعم جيغرجي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884543,
+        "lat": 40.9654225,
+        "lon": 29.2634583,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Kale Caddesi",
+          "amenity": "cafe",
+          "name": "yeşilçam çay evi",
+          "name:ar": "مقهى يليشام"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884547,
+        "lat": 40.9788785,
+        "lon": 29.2658692,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kubbe Caddesi",
+          "amenity": "cafe",
+          "name": "Kapadokyalı",
+          "name:ar": "مقهى كابادوك يالي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884550,
+        "lat": 40.9660058,
+        "lon": 29.2779851,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Bağlık Caddesi",
+          "amenity": "cafe",
+          "name": "Lavinya Cafe ev yemekleri",
+          "name:ar": "مقهى لافينيا",
+          "phone": "05054699061"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884559,
+        "lat": 40.9779055,
+        "lon": 29.2655611,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kubbe Caddesi",
+          "amenity": "restaurant",
+          "name": "Özşark Kebap",
+          "name:ar": "مطعم اوز شارك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884575,
+        "lat": 40.9771441,
+        "lon": 29.2657328,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "selçukhan Caddesi",
+          "amenity": "restaurant",
+          "name": "çiğköfte ömer usta",
+          "name:ar": "مطعم عمر اوسطا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884592,
+        "lat": 40.9680878,
+        "lon": 29.2555618,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Hakim sokağı",
+          "amenity": "cafe",
+          "name": "Bayburt cay salonu",
+          "name:ar": "مقهى بايابورت"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884607,
+        "lat": 40.9763665,
+        "lon": 29.2668486,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "yildirim Caddesi",
+          "amenity": "cafe",
+          "name": "Yavug cafe",
+          "name:ar": "مقهى يافوك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884608,
+        "lat": 40.9779541,
+        "lon": 29.2655826,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kubbe Caddesi",
+          "amenity": "restaurant",
+          "name": "Bereket'li Pide",
+          "name:ar": "حلويات بيركت بيدي",
+          "opening_hours": "Mo-Fr 07:00-13:30; Mo-Fr 17:00-20:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884609,
+        "lat": 40.9569834,
+        "lon": 29.2968961,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Fatih Bulvarı",
+          "amenity": "restaurant",
+          "name": "Demir",
+          "name:ar": "مطعم حديد"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884611,
+        "lat": 40.9699834,
+        "lon": 29.2575359,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Balarısı sokaği",
+          "amenity": "restaurant",
+          "name": "Günışığı cafe ve restaurant",
+          "name:ar": "مطعم غونيشغي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542884617,
+        "lat": 40.9427833,
+        "lon": 29.3024254,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Tavukçu yolu caddsi",
+          "amenity": "restaurant",
+          "name": "inciraltı",
+          "name:ar": "مطعم انجاتي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886321,
+        "lat": 40.9664675,
+        "lon": 29.2634153,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa Caddesi",
+          "amenity": "restaurant",
+          "name": "Meşhur Adıyaman çiğ köftesi",
+          "name:ar": "مطعم مشهور",
+          "phone": "02164190404"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886323,
+        "lat": 40.9765852,
+        "lon": 29.2665267,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "yildirim Caddesi",
+          "amenity": "cafe",
+          "name": "Ciran cafe",
+          "name:ar": "مقهى جيران"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886324,
+        "lat": 40.9690528,
+        "lon": 29.257476,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Üsküdar İskender",
+          "name:ar": "مطعم اسكودر",
+          "phone": "02164193962"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886334,
+        "lat": 40.9692948,
+        "lon": 29.260304,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "emir Caddesi",
+          "amenity": "restaurant",
+          "name": "Aşiyna van kahvaltı",
+          "name:ar": "مطعم اشيان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886339,
+        "lat": 40.979682,
+        "lon": 29.265644,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "kubbe Caddesi",
+          "amenity": "cafe",
+          "name": "Selçuk Pide",
+          "name:ar": "مقهى الكان بيدي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886347,
+        "lat": 40.9691814,
+        "lon": 29.2584586,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "faith Caddesi",
+          "amenity": "restaurant",
+          "name": "Rezzan",
+          "name:ar": "مطعم ريزان",
+          "phone": "02164960000"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886348,
+        "lat": 40.9674883,
+        "lon": 29.2601538,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa Caddesi",
+          "amenity": "restaurant",
+          "name": "İmren köfte",
+          "name:ar": "مطعم ايمرين",
+          "phone": "02164963496"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886353,
+        "lat": 40.9523162,
+        "lon": 29.2967265,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Eşrefbey",
+          "amenity": "restaurant",
+          "name": "sütçüoğlu kabap ve lahmacun",
+          "name:ar": "سوتشلغو كباب ولحم بعجين"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886369,
+        "lat": 40.9595444,
+        "lon": 29.2564106,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "Orman Caddesi",
+          "amenity": "restaurant",
+          "name": "Karadeniz pide &börek salonu",
+          "name:ar": "مطعم كاردينيز",
+          "phone": "02163981455"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886379,
+        "lat": 40.9682498,
+        "lon": 29.2556262,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Şanlıurfa Caddesi",
+          "amenity": "restaurant",
+          "name": "Karadeniz",
+          "name:ar": "مطعم كاردينيز",
+          "phone": "05312124161"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886382,
+        "lat": 40.9768282,
+        "lon": 29.2654324,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "selçukhan Caddesi",
+          "amenity": "restaurant",
+          "name": "Töremiz",
+          "name:ar": "مطعم يوريميز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886400,
+        "lat": 40.9694973,
+        "lon": 29.2585659,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Bogonya sokağı",
+          "amenity": "cafe",
+          "name": "Bizim cafe",
+          "name:ar": "مقهى بيزيم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542886419,
+        "lat": 40.9451691,
+        "lon": 29.2897197,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:street": "semanur sokače",
+          "amenity": "ice_cream",
+          "name": "dondurmacı amcam",
+          "name:ar": "سوبرماركت"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5542887107,
+        "lat": 40.9643774,
+        "lon": 29.2807531,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:street": "Fatih Bulvarı Caddesi",
+          "amenity": "restaurant",
+          "name": "Dürümcü Kemal Usta",
+          "name:ar": "مطعم الشرق للكباب",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5685239869,
+        "lat": 40.8690695,
+        "lon": 29.2641549,
+        "tags": {
+          "addr:street": "Sahil Yolu",
+          "amenity": "cafe",
+          "cuisine": "bagel",
+          "name": "Kardeşler Simit"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5723386231,
+        "lat": 40.9074437,
+        "lon": 29.3141515,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5734637717,
+        "lat": 40.8150363,
+        "lon": 29.3727796,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Neşetbey Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5734761258,
+        "lat": 40.8148869,
+        "lon": 29.3724476,
+        "tags": {
+          "addr:city": "Kocaeli",
+          "addr:district": "Çayırova",
+          "addr:housenumber": "4",
+          "addr:neighbourhood": "Çayırova",
+          "addr:postcode": "41420",
+          "addr:street": "Ali Haydar Efendi Caddesi",
+          "amenity": "restaurant",
+          "name": "Ali Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5763935269,
+        "lat": 40.9651945,
+        "lon": 29.2769171,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Ekşioğlu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5766407253,
+        "lat": 40.8158558,
+        "lon": 29.3032502,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5766503454,
+        "lat": 40.8164193,
+        "lon": 29.3009261,
+        "tags": {
+          "amenity": "ice_cream"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5766503653,
+        "lat": 40.816913,
+        "lon": 29.2972063,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5766503654,
+        "lat": 40.8168345,
+        "lon": 29.2963811,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5872173196,
+        "lat": 40.8631252,
+        "lon": 29.3344727,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional;turkish",
+          "name": "Başak Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5886872860,
+        "lat": 40.8610717,
+        "lon": 29.334925,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:housenumber": "40/A",
+          "addr:neighbourhood": "Aydınlı Mahallesi",
+          "addr:postcode": "34953",
+          "addr:street": "Cem Sultan Cad.",
+          "amenity": "restaurant",
+          "name": "Uzunlar Kebap",
+          "old_name": "Hamur Pasta Cafe Restoran",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5886873223,
+        "lat": 40.8642331,
+        "lon": 29.3379378,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:housenumber": "9",
+          "addr:neighbourhood": "Aydınlı Mahallesi",
+          "addr:postcode": "34953",
+          "addr:street": "Patlayıcı Maddeler Yolu Cad.",
+          "amenity": "restaurant",
+          "name": "Mahle Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5895829070,
+        "lat": 40.8743368,
+        "lon": 29.3413895,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5895829075,
+        "lat": 40.8731397,
+        "lon": 29.3390359,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5898595440,
+        "lat": 40.8627326,
+        "lon": 29.3347469,
+        "tags": {
+          "amenity": "restaurant",
+          "events_venue": "wedding"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900335767,
+        "lat": 40.8618161,
+        "lon": 29.3348506,
+        "tags": {
+          "addr:neighbourhood": "Aydınlı Mahallesi",
+          "addr:street": "Mayıs Sk.",
+          "amenity": "cafe",
+          "name": "Dostlar Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900400228,
+        "lat": 40.8585333,
+        "lon": 29.3380649,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "Tea",
+          "name": "Karadeniz Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900418469,
+        "lat": 40.8626565,
+        "lon": 29.3339561,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900418470,
+        "lat": 40.8626179,
+        "lon": 29.3339098,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Marmaris"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900475023,
+        "lat": 40.8638896,
+        "lon": 29.3353593,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "N Yeriz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900475027,
+        "lat": 40.8641058,
+        "lon": 29.3354228,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900475028,
+        "lat": 40.8642008,
+        "lon": 29.3354496,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pidem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5900475033,
+        "lat": 40.864522,
+        "lon": 29.3355311,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aboov"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5902357570,
+        "lat": 40.8612274,
+        "lon": 29.3232187,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çağ Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5902397571,
+        "lat": 40.8616709,
+        "lon": 29.324705,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Anadolu Mangalbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5902637242,
+        "lat": 40.8638153,
+        "lon": 29.3277757,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe North"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5904325373,
+        "lat": 40.8671299,
+        "lon": 29.3267617,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sultan Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5904326096,
+        "lat": 40.8694741,
+        "lon": 29.3275637,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5905648719,
+        "lat": 40.8701561,
+        "lon": 29.3283594,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Urfa Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5905648732,
+        "lat": 40.8701491,
+        "lon": 29.3279589,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Waffle House",
+          "brand:wikidata": "Q1701206",
+          "brand:wikipedia": "en:Waffle House",
+          "cuisine": "american",
+          "name": "Waffle House",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5913552246,
+        "lat": 40.8720618,
+        "lon": 29.3321623,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gaziantep Sofrası 2",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5913552260,
+        "lat": 40.8704513,
+        "lon": 29.3351749,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Izgaracım Et Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5913552261,
+        "lat": 40.8701315,
+        "lon": 29.3359676,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sinanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5913552263,
+        "lat": 40.8708017,
+        "lon": 29.3352521,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Selen Restaurant & Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5913675255,
+        "lat": 40.8709684,
+        "lon": 29.3284636,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Körfez Et & Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5913675272,
+        "lat": 40.8715978,
+        "lon": 29.3278729,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gaziantep'li Deniz Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5913685118,
+        "lat": 40.8721583,
+        "lon": 29.3261764,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mert Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5925956852,
+        "lat": 40.8695888,
+        "lon": 29.3213155,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Telvee",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5927716793,
+        "lat": 40.8697888,
+        "lon": 29.322359,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Bahçem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5927785513,
+        "lat": 40.8686516,
+        "lon": 29.3240688,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ta-Ze"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5927790731,
+        "lat": 40.8678876,
+        "lon": 29.3250729,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adanalı Dürümcü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5927836783,
+        "lat": 40.8692669,
+        "lon": 29.3212917,
+        "tags": {
+          "amenity": "cafe",
+          "beauty": "hair",
+          "name": "Chay's"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5930703529,
+        "lat": 40.8798575,
+        "lon": 29.3382567,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5933922376,
+        "lat": 40.8792521,
+        "lon": 29.3379648,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Konaşlı Merkez Kiraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5933922381,
+        "lat": 40.8804937,
+        "lon": 29.339051,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konaşlı Merkez Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5933949350,
+        "lat": 40.8826847,
+        "lon": 29.3408148,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Konaşlı Pasta & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5942892966,
+        "lat": 40.8815815,
+        "lon": 29.3459026,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dostlar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5968372340,
+        "lat": 40.8794283,
+        "lon": 29.3528584,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mevlana Etli Ekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5968372341,
+        "lat": 40.8795621,
+        "lon": 29.3529415,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Uğur Yemek Dünyası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5969777768,
+        "lat": 40.893987,
+        "lon": 29.3569606,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Cami Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5977517219,
+        "lat": 40.8905213,
+        "lon": 29.354015,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:housenumber": "28",
+          "addr:neighbourhood": "Orhanlı Mahallesi",
+          "addr:postcode": "34956",
+          "addr:street": "Demokrasi Cad.",
+          "amenity": "restaurant",
+          "name": "Ten CR"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6116794836,
+        "lat": 40.8589217,
+        "lon": 29.2983408,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Best Coffee Shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6116794837,
+        "lat": 40.8588952,
+        "lon": 29.2985486,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fırından Ekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6116794838,
+        "lat": 40.8592754,
+        "lon": 29.299139,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6116794839,
+        "lat": 40.859345,
+        "lon": 29.2986435,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cadde Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6120481072,
+        "lat": 40.8689023,
+        "lon": 29.3104031,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Közde Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6327583523,
+        "lat": 40.9176585,
+        "lon": 29.2883876,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gaziantep Sofrası Mahmut Usta",
+          "phone": "02165950019"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6395865390,
+        "lat": 40.8871112,
+        "lon": 29.2628081,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Marün Kafe",
+          "name:en": "Marun Cafe",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6395924185,
+        "lat": 40.8859648,
+        "lon": 29.2600932,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sarıyer Börekçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6396079485,
+        "lat": 40.8871727,
+        "lon": 29.2613505,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Durak Büfe",
+          "opening_hours": "Mo-Su 07:00-18:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6477203298,
+        "lat": 40.8157527,
+        "lon": 29.3035614,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balıkhane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6477203304,
+        "lat": 40.8150625,
+        "lon": 29.3059143,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hanımeli Mantı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6477203305,
+        "lat": 40.8152439,
+        "lon": 29.3050358,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nur'un Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6477203307,
+        "lat": 40.8150648,
+        "lon": 29.3057851,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Doktorun Yeri Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6477203310,
+        "lat": 40.8148327,
+        "lon": 29.3066336,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Filizler Köftecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6477203311,
+        "lat": 40.8150809,
+        "lon": 29.3056883,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yakamoz Balık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6477203312,
+        "lat": 40.8150522,
+        "lon": 29.3060445,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balıkçı Mustafa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6491080322,
+        "lat": 40.9269084,
+        "lon": 29.3090348,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6510656840,
+        "lat": 40.9277309,
+        "lon": 29.310675,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "6",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "image": "https://www.kayserimutfagi.com/yuklenenresimler/sube_resim_10790468494.jpg",
+          "name": "Kayseri Mutfağı",
+          "website": "https://www.kayserimutfagi.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6513003426,
+        "lat": 40.8680068,
+        "lon": 29.3049503,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hançer Kiraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6513007981,
+        "lat": 40.8679372,
+        "lon": 29.3039204,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Paris"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6518123786,
+        "lat": 40.9101917,
+        "lon": 29.2813957,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Meşhur Sarıyer Börekçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6518159837,
+        "lat": 40.9126445,
+        "lon": 29.2823709,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çınar Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6518159843,
+        "lat": 40.9146561,
+        "lon": 29.284011,
+        "tags": {
+          "amenity": "cafe",
+          "name": "My Börek & Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6518383567,
+        "lat": 40.904446,
+        "lon": 29.2790045,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sütx Pasta & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6531677477,
+        "lat": 40.9053112,
+        "lon": 29.2794932,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cadde Simit & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6532153504,
+        "lat": 40.9139469,
+        "lon": 29.2999521,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kurtköy Börekçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6532153512,
+        "lat": 40.9141395,
+        "lon": 29.3004613,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Liman Pasta & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6532153562,
+        "lat": 40.9278022,
+        "lon": 29.3075544,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "level": "1",
+          "name": "Saray Erzurum Cağ Kebabı",
+          "payment:contactless": "yes",
+          "payment:mastercard": "yes",
+          "payment:ticket": "yes",
+          "payment:visa": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6595160535,
+        "lat": 40.8650331,
+        "lon": 29.3802538,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6596731999,
+        "lat": 40.8631201,
+        "lon": 29.377571,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeşil Vadi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6733997184,
+        "lat": 40.9195212,
+        "lon": 29.3504502,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mehmetçik Vakfı Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6767395320,
+        "lat": 40.8443312,
+        "lon": 29.306656,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gurbet Ciğer"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6767651303,
+        "lat": 40.8462762,
+        "lon": 29.3012686,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6773663905,
+        "lat": 40.8168038,
+        "lon": 29.3039744,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Altürk Çiğköfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6827590125,
+        "lat": 40.9208285,
+        "lon": 29.3139565,
+        "tags": {
+          "addr:city": "istanbul",
+          "addr:district": "pendik",
+          "addr:housenumber": "1",
+          "addr:neighbourhood": "sanayi mahallesi",
+          "addr:street": "Teknopark Bulvarı",
+          "amenity": "cafe",
+          "brand": "Caribou Coffee",
+          "brand:wikidata": "Q5039494",
+          "brand:wikipedia": "en:Caribou Coffee",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "Caribou Coffee",
+          "outdoor_seating": "yes",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7287814088,
+        "lat": 40.8150793,
+        "lon": 29.3049265,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kıraça Balık Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7287814089,
+        "lat": 40.8151656,
+        "lon": 29.3045068,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Poyraz Balık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7287814090,
+        "lat": 40.8150286,
+        "lon": 29.3051242,
+        "tags": {
+          "amenity": "bar",
+          "name": "Kumbara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7287814092,
+        "lat": 40.8151848,
+        "lon": 29.3043308,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Dengim"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7589801817,
+        "lat": 40.9304113,
+        "lon": 29.3069307,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "13",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "name": "Şenol Kolcuoğlu",
+          "website": "https://www.senolkolcuoglurestaurant.com/",
+          "website:menu": "https://www.senolkolcuoglurestaurant.com/menu.html"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7589801823,
+        "lat": 40.9298202,
+        "lon": 29.3072927,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "amenity": "cafe",
+          "brand": "Caffè Nero",
+          "brand:wikidata": "Q675808",
+          "brand:wikipedia": "en:Caffè Nero",
+          "cuisine": "coffee_shop",
+          "name": "Caffè Nero",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7589801825,
+        "lat": 40.9300142,
+        "lon": 29.3072547,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "amenity": "restaurant",
+          "cuisine": "asian",
+          "name": "Chinese@Sushi Express"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8478454276,
+        "lat": 40.9138722,
+        "lon": 29.3013353,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "3-F",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Oran Sokak",
+          "amenity": "restaurant",
+          "cuisine": "kokoreç;uykuluk;köfte;sucuk;midye",
+          "description": "Kurulduğu günden beri eşsiz lezzetleri ve mükemmel müşteri memnuniyeti ile bölgesinde marka haline gelen ''Özgün Kokoreç'' kokoreçin yanı sıra; Uykuluk, Midye, %100 kasap köfte, %100 Kasap sucuk ile vazgeçilmez bir lezzet yelpazesi sunuyor, Türkiye’nin mü",
+          "diet:halal": "yes",
+          "email": "info@ozgunkokorec.com",
+          "name": "Özgün Kokoreç",
+          "opening_hours": "24/7",
+          "phone": "+905423322554",
+          "website": "https://www.ozgunkokorec.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8520258403,
+        "lat": 40.8161551,
+        "lon": 29.3033418,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Deniz Börek & Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8886706200,
+        "lat": 40.9180014,
+        "lon": 29.3023065,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "3",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Bakü Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "pizza;burger",
+          "diet:halal": "yes",
+          "diet:vegan": "yes",
+          "diet:vegetarian": "yes",
+          "name": "Kabadayı Burger",
+          "opening_hours": "Mo-Su 11:00-01:00",
+          "phone": "+90 216 354 40 80",
+          "website": "https://www.yemeksepeti.com/kabadayi-burger-pendik-kaynarca-mah-istanbul?affiliateid=ganbr503813&cid=ganbr503813&status=closed"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8951627568,
+        "lat": 40.9272954,
+        "lon": 29.3109086,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "3",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "brand:wikipedia": "en:Gloria Jean's Coffees",
+          "cuisine": "coffee_shop",
+          "diet:vegan": "yes",
+          "diet:vegetarian": "yes",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "opening_hours": "Mo-Su 07:00-01:00",
+          "payment:cash": "yes",
+          "payment:contactless": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "takeaway": "yes",
+          "website": "https://www.gloriajeans.com.tr/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8951732650,
+        "lat": 40.9290523,
+        "lon": 29.3080684,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Coffee Chefs",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8993108562,
+        "lat": 40.8301609,
+        "lon": 29.3225064,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Toker Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9041886917,
+        "lat": 40.8169216,
+        "lon": 29.2975045,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tuzla Balikçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9153331417,
+        "lat": 40.90727,
+        "lon": 29.3170215,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "check_date": "2025-04-18",
+          "check_date:opening_hours": "2025-04-18",
+          "cuisine": "coffee_shop",
+          "indoor": "yes",
+          "level": "1",
+          "name": "Starbucks",
+          "name:en": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "opening_hours": "Mo-Su,PH 00:00-23:59+",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9516445525,
+        "lat": 40.827936,
+        "lon": 29.3176636,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9656305861,
+        "lat": 40.927999,
+        "lon": 29.3090789,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "5",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "name": "Dayı Kürek Lahmacun",
+          "phone": "0 216 4822425",
+          "website": "https://lezzetdayiyaceker.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9690646276,
+        "lat": 40.8163164,
+        "lon": 29.3019088,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Hakan Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9690646277,
+        "lat": 40.8172225,
+        "lon": 29.2992648,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9690646283,
+        "lat": 40.8175664,
+        "lon": 29.2992193,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Jolly Joker"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9814229831,
+        "lat": 40.9270843,
+        "lon": 29.3110366,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "outdoor_seating": "yes",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9814351745,
+        "lat": 40.9269911,
+        "lon": 29.311946,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "cuisine": "sushi",
+          "level": "0",
+          "name": "SushiCo",
+          "website": "https://www.sushico.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9839782324,
+        "lat": 40.9307575,
+        "lon": 29.3059778,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "name": "Kahve Deryasi",
+          "outdoor_seating": "yes",
+          "source": "survey;local knowledge",
+          "website": "https://kahvederyasi.com.tr/tum-magazalar/yurtici-subeler/istanbul-kurtkoy-subesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9841332571,
+        "lat": 40.927457,
+        "lon": 29.307826,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:country": "TR",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "delivery": "yes",
+          "level": "0",
+          "name": "Çarşı Döner",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9841340587,
+        "lat": 40.9275695,
+        "lon": 29.3077469,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:country": "TR",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "level": "0",
+          "name": "Elvan Sofrası",
+          "payment:contactless": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9845554298,
+        "lat": 40.9308227,
+        "lon": 29.3050523,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish;turkish",
+          "name": "Yenişehir Balıkçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9868891917,
+        "lat": 40.8174594,
+        "lon": 29.3040848,
+        "tags": {
+          "name": "Ramazan Canhaz",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9880070163,
+        "lat": 40.9104059,
+        "lon": 29.3014869,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "6/2",
+          "addr:neighbourhood": "Kurtköy",
+          "addr:postcode": "34912",
+          "addr:street": "Yıldırım Bayezit Caddesi",
+          "amenity": "cafe",
+          "contact:phone": "+90 216 378 30 34",
+          "cuisine": "regional;sandwich;börek;boşnak_böreği;boşnak_mantısı;breakfast;kahvaltı",
+          "name": "Kurtköy Börek Evi",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9902429717,
+        "lat": 40.8244529,
+        "lon": 29.2785253,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mandalin",
+          "name:en": "Mandalin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9902429718,
+        "lat": 40.8199675,
+        "lon": 29.27267,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Terrace Mercan",
+          "name:en": "Terrace Mercan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9902429817,
+        "lat": 40.8199992,
+        "lon": 29.2743328,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Angel Mercan",
+          "name:en": "Angel Mercan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9902429818,
+        "lat": 40.8197616,
+        "lon": 29.2734581,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Rönesans mercan",
+          "name:en": "Renesans"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9902429917,
+        "lat": 40.8198607,
+        "lon": 29.272553,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Adriano",
+          "name:en": "Adriano"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9902430017,
+        "lat": 40.8200738,
+        "lon": 29.272977,
+        "tags": {
+          "amenity": "bar",
+          "name": "Gadi",
+          "name:en": "Gadi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9906506918,
+        "lat": 40.8134586,
+        "lon": 29.281524,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merdcezir plus"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9963650321,
+        "lat": 40.8171068,
+        "lon": 29.3041032,
+        "tags": {
+          "amenity": "restaurant",
+          "bar": "no",
+          "cuisine": "turkish",
+          "delivery": "yes",
+          "diet:halal": "yes",
+          "diet:vegan": "no",
+          "diet:vegetarian": "no",
+          "highchair": "no",
+          "microbrewery": "no",
+          "name": "Kadıoğlu Kebap & İskender",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9973385851,
+        "lat": 40.9355562,
+        "lon": 29.328087,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "name": "Cookshop",
+          "opening_hours": "08:30-00:00",
+          "phone": "+90 216 683 95 55",
+          "website": "https://www.cookshop.com.tr/tr/subeler/viaport-asia"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034540883,
+        "lat": 40.9074268,
+        "lon": 29.3164035,
+        "tags": {
+          "amenity": "cafe",
+          "branch": "firin",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "check_date": "2022-09-18",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034540884,
+        "lat": 40.9079753,
+        "lon": 29.3168214,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "0",
+          "name": "HD İskamder Pidem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034540887,
+        "lat": 40.9075117,
+        "lon": 29.3166171,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "0",
+          "name": "Puro Gusto"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034540888,
+        "lat": 40.9072667,
+        "lon": 29.3159837,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "0",
+          "name": "Turkish kitchen & bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034540890,
+        "lat": 40.9079475,
+        "lon": 29.3170497,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "0",
+          "name": "Karafirin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034675526,
+        "lat": 40.9080981,
+        "lon": 29.318874,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "name": "Turkish kiosk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034675528,
+        "lat": 40.9079435,
+        "lon": 29.318696,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "1",
+          "name": "Simit saray"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034675529,
+        "lat": 40.9077857,
+        "lon": 29.3181897,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "1",
+          "name": "Taka Mia"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034675531,
+        "lat": 40.9076332,
+        "lon": 29.317842,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "1",
+          "name": "Karafirin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034675533,
+        "lat": 40.9074839,
+        "lon": 29.3174053,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "level": "1",
+          "name": "Hot simit"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034675534,
+        "lat": 40.9073935,
+        "lon": 29.3171869,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-18",
+          "name": "Take off"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10058035853,
+        "lat": 40.9147812,
+        "lon": 29.3018513,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "337",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "restaurant",
+          "name": "Reis Döner",
+          "opening_hours": "09:00 - 00:00",
+          "phone": "+90 216 378 08 22",
+          "website": "https://www.reisdoner.com.tr/kurtkoy/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10058781437,
+        "lat": 40.8185277,
+        "lon": 29.2983273,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "sushi;chinese",
+          "name": "Niwa",
+          "phone": "+90-216-7712141",
+          "website": "https://www.niwachinesesushi.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10168272600,
+        "lat": 40.8725393,
+        "lon": 29.3254141,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Mood Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10168272601,
+        "lat": 40.8724882,
+        "lon": 29.3256395,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Gürpınar döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10168272602,
+        "lat": 40.8718625,
+        "lon": 29.3234943,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Deryası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10170297710,
+        "lat": 40.8896387,
+        "lon": 29.263523,
+        "tags": {
+          "addr:housenumber": "23",
+          "addr:street": "Mimar Sinan Caddesi",
+          "amenity": "cafe",
+          "name": "Happy Beans Coffee",
+          "opening_hours": "Mo-Su 07:00-02:00",
+          "phone": "05465530303"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10172616996,
+        "lat": 40.9262669,
+        "lon": 29.315253,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bu Ciğer"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10172634806,
+        "lat": 40.9293654,
+        "lon": 29.3249935,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tandır Lavaş"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10172634833,
+        "lat": 40.9294657,
+        "lon": 29.3254629,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mis Adana"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10172634836,
+        "lat": 40.9302709,
+        "lon": 29.3265253,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "453",
+          "addr:neighbourhood": "Harmandere Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "restaurant",
+          "name": "Ba Hane",
+          "website": "https://ba-hane.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10172634838,
+        "lat": 40.9303807,
+        "lon": 29.3269743,
+        "tags": {
+          "addr:street": "Ankara Caddesi",
+          "alt_name": "Mersinli Ciğerci Ahmet Eroğlu",
+          "amenity": "restaurant",
+          "name": "Ciğerci Ahmet Usta",
+          "website": "https://mersinlicigerciahmet.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10271009806,
+        "lat": 40.9108171,
+        "lon": 29.2970983,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "289",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "restaurant",
+          "image": "http://mahmutbeydoner.com/wp-content/uploads/2024/04/dis3-scaled.jpg",
+          "name": "Mahmut Bey Döner",
+          "panoramax": "358b2fa8-a58c-4c59-b1af-fbf39d11d316",
+          "phone": "+90 216 595 3131",
+          "website": "http://www.mahmutbeydoner.com/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10289588509,
+        "lat": 40.9272269,
+        "lon": 29.3109614,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Dünyası",
+          "takeaway": "yes",
+          "website": "https://www.kahvedunyasi.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10291234009,
+        "lat": 40.9106623,
+        "lon": 29.2967967,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "cafe",
+          "name": "Pacotta",
+          "panoramax": "0b00308f-f61c-4824-8461-d6dab8da1b52"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10296706374,
+        "lat": 40.9280436,
+        "lon": 29.3089816,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "5",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "name": "Bafra Pidecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10297886709,
+        "lat": 40.9311746,
+        "lon": 29.3057207,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cadde Kokoreç"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10297980108,
+        "lat": 40.9266741,
+        "lon": 29.3111085,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "burger",
+          "name": "Ercan Burger",
+          "website": "https://www.ercanburger.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10297980109,
+        "lat": 40.9265746,
+        "lon": 29.3112195,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "cafe",
+          "image": "https://www.sutis.com.tr/Upload/Sube/Buyuk/682020-foto2-10523.jpg",
+          "name": "Emirgan Sütiş",
+          "phone": "+90 216 504 34 35",
+          "website": "https://www.sutis.com.tr/subeler/kurtkoy-lens-avm/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10303148028,
+        "lat": 40.9360318,
+        "lon": 29.3267984,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Happy Moon's Viaport",
+          "website": "https://www.zomato.com/istanbul/happy-moons-1-kurtk%C3%B6y-istanbul"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10303975965,
+        "lat": 40.8349805,
+        "lon": 29.4238828,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Doğalhane",
+          "opening_hours": "24/7",
+          "website": "https://dogalhane.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10303975973,
+        "lat": 40.8354803,
+        "lon": 29.4201947,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10437210729,
+        "lat": 40.9306422,
+        "lon": 29.3067314,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "13",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "pub",
+          "name": "The North Shield Pub",
+          "website": "https://thenorthshield.com/the-north-shield-kurtkoy/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10572827854,
+        "lat": 40.9266575,
+        "lon": 29.3085327,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "image": "https://www.donercicelalusta.com/wp-content/uploads/2018/09/donerci_celal_usta_pendik_kurtkoy_subesi_ana_gorsel_01.jpg",
+          "name": "Dönerci Celal Usta",
+          "panoramax": "e483b566-c34c-477e-a8e9-b5a06ef129a5",
+          "phone": "+90 216 514 64 47",
+          "website": "https://www.donercicelalusta.com/pendik-kurtkoy-subesi/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10581481482,
+        "lat": 40.8301573,
+        "lon": 29.41876,
+        "tags": {
+          "addr:city": "Yenikent Mahallesi",
+          "addr:district": "gebze",
+          "addr:housenumber": "5",
+          "addr:neighbourhood": "Yenikent Mahallesi",
+          "addr:street": "Fırat Caddesi",
+          "amenity": "cafe",
+          "cuisine": "ice_cream;tost;çiğ_köfte;patso;tatlı;çay;oralet",
+          "internet_access": "wlan",
+          "internet_access:fee": "customers",
+          "name": "Zeze Dondurm Çiğ köfte Kafe",
+          "opening_hours": "24/7",
+          "phone": "+905526027541",
+          "website": "https://www.instagram.com/zezedondurma/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10584493878,
+        "lat": 40.8189593,
+        "lon": 29.2968508,
+        "tags": {
+          "addr:city": "İSTANBUL",
+          "addr:district": "TUZLA",
+          "addr:housenumber": "29A",
+          "addr:neighbourhood": "POSTANE",
+          "addr:postcode": "34940",
+          "addr:street": "Yalıboyu Caddesi",
+          "amenity": "cafe",
+          "cuisine": "asian;chinese",
+          "drive_through": "yes",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "K-Tea Chinese Dim Sum Cafe",
+          "opening_hours": "Mo-Su 10:00-20:00",
+          "outdoor_seating": "yes",
+          "phone": "+905075653466",
+          "website": "https://k-tea.cafe/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10605698210,
+        "lat": 40.8281075,
+        "lon": 29.4217329,
+        "tags": {
+          "addr:city": "Kocaeli",
+          "addr:district": "Gebze",
+          "addr:neighbourhood": "Yenikent Mahallesi",
+          "addr:postcode": "41400",
+          "addr:street": "Mutlukent Bulvarı",
+          "amenity": "restaurant",
+          "name": "Ciğerci Bulut"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10770503706,
+        "lat": 40.9280731,
+        "lon": 29.3089457,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dönerci Metin Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10770679241,
+        "lat": 40.9308882,
+        "lon": 29.3063942,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Boşnak Börekçi",
+          "website": "https://bosnakborekci.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10770679243,
+        "lat": 40.9311985,
+        "lon": 29.3059546,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "105",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34200",
+          "addr:street": "Cumhuriyet Bulvarı",
+          "amenity": "restaurant",
+          "contact:facebook": "https://www.instagram.com/tuzdanbalikrestaurant/",
+          "cuisine": "fish;karides;hamsi_tava;i̇starvit",
+          "name": "Tuzdan Balık Restaurant",
+          "opening_hours": "11:00-23:00",
+          "phone": "+902167665344",
+          "website": "https://tuzdanbalik.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10770679244,
+        "lat": 40.9311192,
+        "lon": 29.3059656,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Seyit Ali Haydar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10777997194,
+        "lat": 40.9486756,
+        "lon": 29.2567602,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10778111590,
+        "lat": 40.8264236,
+        "lon": 29.4174742,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Izgara Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10778111591,
+        "lat": 40.8264779,
+        "lon": 29.4175187,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tavuk Dünyası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10817036007,
+        "lat": 40.9345944,
+        "lon": 29.2728032,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10817036105,
+        "lat": 40.934584,
+        "lon": 29.2727913,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sultanbeyli Aydos Tesis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10830449985,
+        "lat": 40.8286774,
+        "lon": 29.4189714,
+        "tags": {
+          "name": "Ekleristan",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10830462507,
+        "lat": 40.8270471,
+        "lon": 29.4192278,
+        "tags": {
+          "addr:city": "Kocaeli",
+          "addr:district": "Gebze",
+          "addr:housenumber": "4",
+          "addr:neighbourhood": "Yenikent Mahallesi",
+          "addr:postcode": "41400",
+          "addr:street": "2441",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Zemonia Coffee",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 543 521 41 75",
+          "website": "http://www.zemonia.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10839354711,
+        "lat": 40.9074885,
+        "lon": 29.3434699,
+        "tags": {
+          "addr:street": "Fettah başaran 2 caddesi",
+          "amenity": "restaurant",
+          "name": "Abant Kahvaltı Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11050970266,
+        "lat": 40.8530847,
+        "lon": 29.398062,
+        "tags": {
+          "addr:city": "Kocaeli",
+          "addr:district": "Şekerpınar",
+          "addr:housenumber": "65",
+          "addr:neighbourhood": "Çayırova",
+          "addr:street": "Fevzi Çakmak Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Hacıaskerin Sofrası",
+          "phone": "+90 262 658 8086"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11109153605,
+        "lat": 40.9359635,
+        "lon": 29.3676557,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Emir Kasap Steakhouse",
+          "phone": "+90 216 6772005"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118731610,
+        "lat": 40.9272021,
+        "lon": 29.3119661,
+        "tags": {
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "name": "Sahan",
+          "opening_hours": "Mo-Su 10:00-23:30",
+          "website": "https://allzinapp.com/sahankurtkoy"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118779806,
+        "lat": 40.92742,
+        "lon": 29.3127015,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Big Chefs"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118780205,
+        "lat": 40.9270415,
+        "lon": 29.3122602,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Pizza Rucola",
+          "website": "https://www.pizzarucola.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118780305,
+        "lat": 40.9276363,
+        "lon": 29.3134646,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Colombia Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118889470,
+        "lat": 40.9279435,
+        "lon": 29.3130761,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "image": "https://static.wixstatic.com/media/f7dff0_039dec3c573d4021bc0b6459e635e60d~mv2.jpg/v1/fill/w_1248,h_438,fp_0.50_0.50,q_85,enc_auto/f7dff0_039dec3c573d4021bc0b6459e635e60d~mv2.jpg",
+          "name": "Hook Balık",
+          "opening_hours": "11.00 - 23.00",
+          "website": "https://www.hookbalik.com/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118889496,
+        "lat": 40.9277537,
+        "lon": 29.3120498,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Millet Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "image": "https://gardascagkebap.com/wp-content/uploads/2022/08/gardas_lens-min.jpg",
+          "name": "Gardaş Cag Kebap",
+          "opening_hours": "10:00 - 00:00",
+          "website": "https://gardascagkebap.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118889497,
+        "lat": 40.927929,
+        "lon": 29.3125299,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Millet Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Günaydın Köfte Döner",
+          "website": "https://www.gunaydinet.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11253556929,
+        "lat": 40.8648415,
+        "lon": 29.3928574,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öz Namlı Bey"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11253709351,
+        "lat": 40.8701512,
+        "lon": 29.3939229,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ünal Babanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11259838270,
+        "lat": 40.8893551,
+        "lon": 29.2634679,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "123",
+          "addr:neighbourhood": "Fevzi Çakmak",
+          "addr:postcode": "34899",
+          "addr:street": "Mimar Sinan Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "kebab;regional;turkish",
+          "name": "Bayındır Restoran",
+          "opening_hours": "08:00-24:00",
+          "phone": "02164822424",
+          "website": "https://www.bayindirrestoran.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11275667826,
+        "lat": 40.8161669,
+        "lon": 29.3027049,
+        "tags": {
+          "air_conditioning": "yes",
+          "amenity": "cafe",
+          "bar": "no",
+          "capacity": "10",
+          "cuisine": "coffee_shop",
+          "drive_through": "no",
+          "highchair": "no",
+          "internet_access": "wlan",
+          "internet_access:fee": "customers",
+          "level": "0",
+          "name": "Lazy’s",
+          "outdoor_seating": "yes",
+          "payment:account_cards": "yes",
+          "payment:cash": "yes",
+          "payment:contactless": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "smoking": "outside",
+          "toilets": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11276964900,
+        "lat": 40.8161496,
+        "lon": 29.303134,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11279806832,
+        "lat": 40.8162909,
+        "lon": 29.2906878,
+        "tags": {
+          "air_conditioning": "yes",
+          "amenity": "restaurant",
+          "bar": "yes",
+          "brewery": "yes",
+          "cuisine": "turkish",
+          "delivery": "no",
+          "highchair": "no",
+          "microbrewery": "no",
+          "name": "Lagos",
+          "outdoor_seating": "yes",
+          "payment:account_cards": "yes",
+          "payment:cards": "yes",
+          "payment:contactless": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "smoking": "yes",
+          "toilets": "yes",
+          "website": "https://www.tuzlagos.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11406398451,
+        "lat": 40.8329347,
+        "lon": 29.3059324,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Has Dürüm"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11431914369,
+        "lat": 40.9109825,
+        "lon": 29.2973126,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Börek Cafe Yelken",
+          "panoramax": "faa58da8-561d-4b50-9d60-72a686fe4005"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11446525241,
+        "lat": 40.9264882,
+        "lon": 29.3118458,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "name": "Değirmen",
+          "opening_hours": "07:00 - 23:00",
+          "website": "https://www.degirmencafelens.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11456226683,
+        "lat": 40.934621,
+        "lon": 29.3278021,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Harmandere Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Dedepaşa Bulvarı",
+          "amenity": "restaurant",
+          "name": "İntiba Döner",
+          "website": "https://www.intiba.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11456226684,
+        "lat": 40.934743,
+        "lon": 29.3275983,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Harmandere Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Dedepaşa Bulvarı",
+          "amenity": "restaurant",
+          "image": "https://www.maroof.com.tr/wp-content/uploads/2019/04/1.jpg",
+          "name": "Maroof",
+          "website": "https://www.maroof.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11459267770,
+        "lat": 40.9271139,
+        "lon": 29.3124871,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Caffè Nero",
+          "brand:wikidata": "Q675808",
+          "cuisine": "coffee_shop",
+          "name": "Caffè Nero",
+          "opening_hours": "Mo-Su 08:00-00:00",
+          "takeaway": "yes",
+          "website": "https://caffenero.com/tr/tr/store/lens-902115/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11464728693,
+        "lat": 40.8283081,
+        "lon": 29.321134,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tatlı Zamanı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11464728695,
+        "lat": 40.8285558,
+        "lon": 29.3213498,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Pilavhane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11464728698,
+        "lat": 40.8284701,
+        "lon": 29.3212737,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kavhe-i Hünnap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11464728703,
+        "lat": 40.8289749,
+        "lon": 29.3218701,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Gamze"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11464728706,
+        "lat": 40.8290177,
+        "lon": 29.3221975,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Konak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11464728708,
+        "lat": 40.8293351,
+        "lon": 29.3215073,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Sarıyer Börekçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11465168347,
+        "lat": 40.8270302,
+        "lon": 29.3242324,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Beyoğlu Pilav"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11528657992,
+        "lat": 40.9659006,
+        "lon": 29.2718873,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "İBB",
+          "building": "yes",
+          "capacity": "80",
+          "cuisine": "turkish",
+          "delivery": "no",
+          "name": "İBB Sultanbeyli Kent Lokantası",
+          "opening_hours": "Mo-Fr 08:00-20:00; Sa 12:00-17:00",
+          "operator": "İstanbul Büyükşehir Belediyesi",
+          "operator:type": "public",
+          "payment:credit_cards": "yes",
+          "website": "https://tesislerimiz.ibb.istanbul/sultanbeyli-kent-lokantasi/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11584727088,
+        "lat": 40.8905849,
+        "lon": 29.3792685,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Simit Sarayı",
+          "brand:wikidata": "Q28042608",
+          "internet_access": "yes",
+          "name": "Simit Sarayı",
+          "panoramax": "ee45d85a-f927-463d-aba7-d2560a7853ea",
+          "shop": "bakery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11670093054,
+        "lat": 40.926836,
+        "lon": 29.3089454,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Millet Caddesi",
+          "amenity": "restaurant",
+          "name": "Beeves",
+          "website": "https://www.beevesteak.com/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11684981571,
+        "lat": 40.888366,
+        "lon": 29.2650094,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akasya Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11685003269,
+        "lat": 40.8882646,
+        "lon": 29.2649129,
+        "tags": {
+          "amenity": "cafe",
+          "name": "AKasya Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11685026669,
+        "lat": 40.8883923,
+        "lon": 29.2647332,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akasya Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454215,
+        "lat": 40.9068515,
+        "lon": 29.3151996,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-11-12",
+          "description": "after security check",
+          "level": "2",
+          "name": "Big Chefs"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454220,
+        "lat": 40.9059546,
+        "lon": 29.3133714,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-12-21",
+          "description": "after security check",
+          "level": "1",
+          "name": "Gate Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454223,
+        "lat": 40.9062429,
+        "lon": 29.3141823,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-12-21",
+          "description": "after security check",
+          "level": "1",
+          "name": "Breakfast Plus Kitchen"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454224,
+        "lat": 40.9063614,
+        "lon": 29.3142855,
+        "tags": {
+          "check_date": "2024-12-21",
+          "description": "after security check",
+          "level": "1",
+          "name": "ikbal",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454225,
+        "lat": 40.9070581,
+        "lon": 29.314828,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-11-12",
+          "description": "after security check",
+          "level": "2",
+          "name": "Karafirin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454226,
+        "lat": 40.9064997,
+        "lon": 29.3146231,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-12-21",
+          "description": "after security check",
+          "level": "1",
+          "name": "Take Off Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454229,
+        "lat": 40.9065332,
+        "lon": 29.3149689,
+        "tags": {
+          "addr:floor": "0",
+          "amenity": "cafe",
+          "check_date": "2025-11-12",
+          "description": "after security check",
+          "level": "0;1",
+          "name": "Maca Cafe",
+          "opening_hours": "24/7",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454232,
+        "lat": 40.9068089,
+        "lon": 29.3148211,
+        "tags": {
+          "amenity": "ice_cream",
+          "check_date": "2024-04-06",
+          "description": "after security check",
+          "level": "1",
+          "name": "Refresh"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454240,
+        "lat": 40.9071496,
+        "lon": 29.315053,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "check_date": "2025-11-12",
+          "cuisine": "coffee_shop",
+          "description": "after security check",
+          "level": "2",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11799454243,
+        "lat": 40.9070142,
+        "lon": 29.3146967,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "check_date": "2025-11-12",
+          "cuisine": "coffee_shop",
+          "description": "after security check",
+          "level": "2",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11812436517,
+        "lat": 40.8895435,
+        "lon": 29.2640861,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "21H",
+          "addr:neighbourhood": "Fevzi Çakmak Mahallesi",
+          "addr:street": "Muhsin Yazıcıoğlu Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "drive_through": "no",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "opening_hours": "Mo-Su 07:00-00:00",
+          "outdoor_seating": "yes",
+          "payment:app": "yes",
+          "payment:apple_pay": "yes",
+          "payment:cards": "yes",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "payment:maestro": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "phone": "+90 8507550774",
+          "smoking": "outside",
+          "takeaway": "yes",
+          "toilets": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/77884-308041/pendik-farilya-asia"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11929980288,
+        "lat": 40.9277572,
+        "lon": 29.3076001,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "11",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Mustafa Akyol Sokağı",
+          "name": "Tatbak",
+          "shop": "confectionery",
+          "website": "https://tatbak.com.tr/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11940462640,
+        "lat": 40.925809,
+        "lon": 29.3120746,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "name": "Meşhur Safranbolu Lokumcusu",
+          "shop": "confectionery",
+          "website": "https://www.safranlokum.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11940462641,
+        "lat": 40.9255942,
+        "lon": 29.3133379,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "image": "https://gardascagkebap.com/wp-content/uploads/2024/04/sabiha-gokcen-sube.jpg",
+          "name": "Gardaş Cağ Kebap",
+          "opening_hours": "10:00 - 22:00",
+          "website": "https://gardascagkebap.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11951738368,
+        "lat": 40.9313809,
+        "lon": 29.3071402,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "name": "Manolya Pastanesi Kurtköy"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11951778131,
+        "lat": 40.9257334,
+        "lon": 29.3127781,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "name": "Çorbacı Gada",
+          "website": "https://corbacigada.com/",
+          "website:menu": "https://corbacigada.com/menu/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11960818123,
+        "lat": 40.9277116,
+        "lon": 29.3076426,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Mustafa Akyol Sokağı",
+          "amenity": "cafe",
+          "name": "Losta Pasta & Cafe",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11960818124,
+        "lat": 40.9270077,
+        "lon": 29.3089602,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "name": "Greenwich",
+          "opening_hours": "8:30 - 21:30",
+          "website": "https://www.greenwichcoffee.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12015319969,
+        "lat": 40.910518,
+        "lon": 29.3022943,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Beyoğlu Çorbacısı Kurtköy"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12137419646,
+        "lat": 40.9387134,
+        "lon": 29.3235508,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "HD İskender",
+          "brand:wikidata": "Q28940587",
+          "cuisine": "kebab",
+          "name": "HD İskender",
+          "opening_hours": "Mo-Su 11:30-22:00",
+          "website": "https://www.hdiskender.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12137483201,
+        "lat": 40.9386519,
+        "lon": 29.3235943,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "burger",
+          "name": "Burger Yiyelim",
+          "outdoor_seating": "yes",
+          "website": "https://www.burgeryiyelim.com/",
+          "website:menu": "https://menu.restapp.com/burger-yiyelim-3/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12137530466,
+        "lat": 40.9361014,
+        "lon": 29.3274292,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "brand": "Simit Sarayı",
+          "brand:wikidata": "Q28042608",
+          "name": "Simit Sarayı",
+          "pastry": "yes",
+          "shop": "bakery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12137605770,
+        "lat": 40.9360497,
+        "lon": 29.3673329,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:housenumber": "7",
+          "addr:neighbourhood": "Tepeören Mahallesi",
+          "addr:postcode": "34959",
+          "addr:street": "Karadağ Caddesi",
+          "amenity": "restaurant",
+          "name": "Sblue Cafe & Bistro",
+          "opening_hours": "Tu-Su 09:00 - 21:00; Mo off"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12137659173,
+        "lat": 40.9381478,
+        "lon": 29.3250058,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "brand": "Simit Sarayı",
+          "brand:wikidata": "Q28042608",
+          "name": "Simit Sarayı",
+          "pastry": "yes",
+          "shop": "bakery",
+          "website": "https://www.simitsarayi.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12137659185,
+        "lat": 40.9384075,
+        "lon": 29.3241821,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "restaurant",
+          "name": "Günaydın",
+          "website": "https://www.gunaydinet.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12141728979,
+        "lat": 40.9279626,
+        "lon": 29.3100834,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gala Pilav"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12145480703,
+        "lat": 40.9102677,
+        "lon": 29.2976951,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "cafe",
+          "brand": "Espressolab",
+          "brand:wikidata": "Q97599059",
+          "cuisine": "coffee_shop",
+          "name": "Espressolab",
+          "takeaway": "yes",
+          "website": "https://www.espressolab.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12172044161,
+        "lat": 40.8115197,
+        "lon": 29.3620004,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kelebek Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12302323401,
+        "lat": 40.9135989,
+        "lon": 29.3017103,
+        "tags": {
+          "addr:postcode": "34912",
+          "addr:street": "İmza Sokak",
+          "amenity": "restaurant",
+          "cuisine": "burger;grill;steak_house",
+          "email": "Derinkofteburger@gmail.com",
+          "internet_access": "wlan",
+          "name": "Derin Köfte&Burger",
+          "name:en": "Derin Kofte&Burger",
+          "opening_hours": "Mo-Sa 10:00-18:00",
+          "phone": "+905322069197",
+          "website": "http://Derinkofteburger.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005395,
+        "lat": 40.9093995,
+        "lon": 29.3895123,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005396,
+        "lat": 40.9090739,
+        "lon": 29.3899828,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005397,
+        "lat": 40.9090212,
+        "lon": 29.390078,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005398,
+        "lat": 40.9088813,
+        "lon": 29.3901987,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005402,
+        "lat": 40.9086016,
+        "lon": 29.3903449,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005404,
+        "lat": 40.908481,
+        "lon": 29.3903892,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005406,
+        "lat": 40.9085816,
+        "lon": 29.3907108,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kazım Usta Kebapçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005414,
+        "lat": 40.9074968,
+        "lon": 29.3928856,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005420,
+        "lat": 40.9070004,
+        "lon": 29.3913595,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005423,
+        "lat": 40.9076727,
+        "lon": 29.3907589,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12349005432,
+        "lat": 40.9114687,
+        "lon": 29.387963,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12388868423,
+        "lat": 40.9266376,
+        "lon": 29.3111393,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Ercan Pizza",
+          "website": "https://www.ercanpizza.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12411711060,
+        "lat": 40.8897912,
+        "lon": 29.2636451,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Blak Coffee Co.",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12411711061,
+        "lat": 40.8898022,
+        "lon": 29.2640919,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Grin Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12411711062,
+        "lat": 40.8899263,
+        "lon": 29.2640379,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Colombia Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12423392522,
+        "lat": 40.8160951,
+        "lon": 29.3040924,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tuzlam Pilav"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12426522285,
+        "lat": 40.9150488,
+        "lon": 29.3031364,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "restaurant",
+          "name": "Kuzeyin Sofrası",
+          "website": "https://www.yemeksepeti.com/restaurant/p3wr/kuzeyin-sofrasi-p3wr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12704520502,
+        "lat": 40.9291102,
+        "lon": 29.30794,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Esperro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12750545601,
+        "lat": 40.8188709,
+        "lon": 29.3704387,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yenimahalle Börekcisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12750545701,
+        "lat": 40.8189584,
+        "lon": 29.3702083,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sos Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12751912002,
+        "lat": 40.8202989,
+        "lon": 29.3711805,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yavuz Burger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12751913402,
+        "lat": 40.8202197,
+        "lon": 29.3711876,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Emre Et Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12751913701,
+        "lat": 40.8203493,
+        "lon": 29.3711884,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cadde Simit"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12790312026,
+        "lat": 40.8269507,
+        "lon": 29.413033,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tokat Çamlıbel Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12791141909,
+        "lat": 40.9102534,
+        "lon": 29.2977611,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "name": "Waffle Works",
+          "website": "https://www.waffleworks.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12792305427,
+        "lat": 40.9191474,
+        "lon": 29.3506011,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-04-27",
+          "cuisine": "turkish;breakfast;tea;dessert",
+          "name": "Anadolu Lokantası",
+          "opening_hours": "24/7",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12792305428,
+        "lat": 40.9192387,
+        "lon": 29.3505739,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-04-27",
+          "cuisine": "turkish;salad",
+          "name": "Gurme Köfte Izgara",
+          "opening_hours": "24/7",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12792305431,
+        "lat": 40.9193394,
+        "lon": 29.3505429,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-04-27",
+          "name": "Kayseri Mutfağı",
+          "opening_hours": "24/7",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12794629101,
+        "lat": 40.914034,
+        "lon": 29.2991963,
+        "tags": {
+          "amenity": "cafe",
+          "name": "PenCR"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12806064943,
+        "lat": 40.8331317,
+        "lon": 29.3787117,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12827906497,
+        "lat": 40.9427648,
+        "lon": 29.3732806,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:neighbourhood": "Tepeören Mahallesi",
+          "addr:postcode": "34959",
+          "addr:street": "İstanbul Park Bulvarı",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Grin Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12835965179,
+        "lat": 40.8449399,
+        "lon": 29.303249,
+        "tags": {
+          "addr:floor": "0",
+          "amenity": "cafe",
+          "check_date": "2025-05-14",
+          "level": "0",
+          "name": "Ressa Cafe",
+          "opening_hours": "24/7",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12887331871,
+        "lat": 40.9339277,
+        "lon": 29.3276514,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dürüm Yerim"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12997541261,
+        "lat": 40.8296883,
+        "lon": 29.3059811,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12997541262,
+        "lat": 40.8307164,
+        "lon": 29.3059574,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13041116608,
+        "lat": 40.9110364,
+        "lon": 29.2973552,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Neco Usta Ev Yemekleri",
+          "panoramax": "faa58da8-561d-4b50-9d60-72a686fe4005",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13045410955,
+        "lat": 40.9114089,
+        "lon": 29.2977101,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "293",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Pizza Bulls",
+          "opening_hours": "11:00 - 03:00",
+          "phone": "+90 216 514 51 51",
+          "website": "https://www.pizzabulls.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13059901201,
+        "lat": 40.9251451,
+        "lon": 29.2885877,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "20A",
+          "addr:neighbourhood": "Çamlık Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Selçuklu Caddesi",
+          "amenity": "restaurant",
+          "image": "https://hacibasar.com/wp-content/uploads/2025/02/demo-1536x1152.jpg",
+          "name": "Hacıbaşar",
+          "website": "https://hacibasar.com",
+          "website:menu": "https://qr.hacibasar.com/qr9/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13180415593,
+        "lat": 40.9655854,
+        "lon": 29.2555422,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13242997801,
+        "lat": 40.917138,
+        "lon": 29.3065229,
+        "tags": {
+          "addr:street": "Ankara Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Hanek",
+          "website": "https://hanekkebap.com/",
+          "website:menu": "https://hanekkebap.com/menu/index"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13252091601,
+        "lat": 40.911238,
+        "lon": 29.2975238,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeynel Usta",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13252126694,
+        "lat": 40.9096306,
+        "lon": 29.2973261,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "34912",
+          "amenity": "cafe",
+          "name": "Penguen Cafe",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13300389937,
+        "lat": 40.9067823,
+        "lon": 29.3148714,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-11-12",
+          "cuisine": "coffee_shop",
+          "level": "1",
+          "name": "Secco Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13310426797,
+        "lat": 40.8297095,
+        "lon": 29.321967,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Saray Simit & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13344113045,
+        "lat": 40.9698371,
+        "lon": 29.2573029,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Sultanbeyli",
+          "addr:housenumber": "13A",
+          "addr:neighbourhood": "Abdurrahmangazi Mahallesi",
+          "addr:postcode": "34920",
+          "addr:street": "Balarısı Sokak",
+          "amenity": "cafe",
+          "cuisine": "burger;italian;sandwich;chicken;kebab;breakfast;pasta;juice;salad;bagel;brunch",
+          "internet_access": "no",
+          "name": "Sina - Cafe ve Doğal Ürünler Restaurant",
+          "opening_hours": "Mo-Su 07:00-23:00",
+          "outdoor_seating": "yes",
+          "phone": "+902164989985"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13366591693,
+        "lat": 40.8569171,
+        "lon": 29.2898538,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kaffee Schütz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13383079701,
+        "lat": 40.9170142,
+        "lon": 29.3063627,
+        "tags": {
+          "addr:street": "Ankara Caddesi",
+          "amenity": "restaurant",
+          "name": "Özhacıbey Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13395067173,
+        "lat": 40.8673543,
+        "lon": 29.2778517,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mola"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13421558723,
+        "lat": 40.8556051,
+        "lon": 29.2802493,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:neighbourhood": "Güzelyalı Mahallesi",
+          "addr:postcode": "34903",
+          "amenity": "restaurant",
+          "name": "PenCR Güzelyalı Sosyal Tesisleri",
+          "opening_hours": "We-Mo 10:00-22:00",
+          "website": "https://www.pentas.istanbul/guzelyali.aspx",
+          "website:menu": "https://www.genresman.com/qrm/g.php?uc=q1wn481"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13429924404,
+        "lat": 40.9305511,
+        "lon": 29.3066049,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "13",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Osmanlı Bulvarı",
+          "amenity": "restaurant",
+          "name": "Zeytin Kurtköy",
+          "website": "https://www.zeytinrestoran.com/#",
+          "website:menu": "https://zeytinkurtkoy.com/menu/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13429929337,
+        "lat": 40.9278132,
+        "lon": 29.3109391,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Millet Caddesi",
+          "amenity": "restaurant",
+          "name": "Midyeci Selim"
+        }
+      },
+      {
+        "type": "way",
+        "id": 256959319,
+        "center": {
+          "lat": 40.9508671,
+          "lon": 29.3917335
+        },
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:postcode": "34959",
+          "amenity": "restaurant",
+          "building": "yes",
+          "contact:instagram": "omutfak_",
+          "name": "O'Mutfak"
+        }
+      },
+      {
+        "type": "way",
+        "id": 288171468,
+        "center": {
+          "lat": 40.8241314,
+          "lon": 29.2783584
+        },
+        "tags": {
+          "addr:housenumber": "59",
+          "addr:street": "Çınarlı Sok",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Dodo Balik Restaurant",
+          "phone": "+90 216 582 0707",
+          "website": "https://www.dodomarin.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 288171469,
+        "center": {
+          "lat": 40.8240027,
+          "lon": 29.2783931
+        },
+        "tags": {
+          "addr:housenumber": "59",
+          "addr:street": "Çınarlı Sok",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Dodo Balik Restaurant",
+          "phone": "+90 216 582 0707",
+          "website": "https://www.dodomarin.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 339364961,
+        "center": {
+          "lat": 40.8902027,
+          "lon": 29.3787504
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "burger;coffee_shop;sandwich",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "FASSHANE",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 440652297,
+        "center": {
+          "lat": 40.8124186,
+          "lon": 29.2677674
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Lokanta"
+        }
+      },
+      {
+        "type": "way",
+        "id": 440652298,
+        "center": {
+          "lat": 40.8122109,
+          "lon": 29.2667226
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Lokanta"
+        }
+      },
+      {
+        "type": "way",
+        "id": 489888632,
+        "center": {
+          "lat": 40.8462397,
+          "lon": 29.2945542
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Niyazibey"
+        }
+      },
+      {
+        "type": "way",
+        "id": 530359686,
+        "center": {
+          "lat": 40.9654782,
+          "lon": 29.2556778
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 545299512,
+        "center": {
+          "lat": 40.8049582,
+          "lon": 29.3875534
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "okul kantini"
+        }
+      },
+      {
+        "type": "way",
+        "id": 677697801,
+        "center": {
+          "lat": 40.9278928,
+          "lon": 29.3063752
+        },
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "8",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:postcode": "34912",
+          "addr:street": "Mustafa Akyol Sokağı",
+          "amenity": "cafe",
+          "building": "yes",
+          "ele": "6",
+          "name": "Clemence Cafe",
+          "outdoor_seating": "yes",
+          "smoking": "outside",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 677817010,
+        "center": {
+          "lat": 40.9201134,
+          "lon": 29.3080548
+        },
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "393",
+          "addr:neighbourhood": "Yenişehir Mahallesi",
+          "addr:street": "Ankara Caddesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "ele": "6",
+          "name": "Revzen Cafe Restaurant",
+          "opening_hours": "Mo-Su 08:30-01:30",
+          "outdoor_seating": "yes",
+          "phone": "+90 216 482 2126"
+        }
+      },
+      {
+        "type": "way",
+        "id": 715366615,
+        "center": {
+          "lat": 40.8116984,
+          "lon": 29.3617454
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Kelebek Cafe ve Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 845754522,
+        "center": {
+          "lat": 40.827729,
+          "lon": 29.3176404
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 853280560,
+        "center": {
+          "lat": 40.8263915,
+          "lon": 29.3229872
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Piri Reis Üniversitesi Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 971654312,
+        "center": {
+          "lat": 40.8302209,
+          "lon": 29.322431
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1013492012,
+        "center": {
+          "lat": 40.890361,
+          "lon": 29.3774996
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop;burger",
+          "name": "Coffy",
+          "outdoor_seating": "yes",
+          "website": "https://coffy.com.tr/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841234,
+        "center": {
+          "lat": 40.8130096,
+          "lon": 29.3084478
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841235,
+        "center": {
+          "lat": 40.8127649,
+          "lon": 29.3088716
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841236,
+        "center": {
+          "lat": 40.8128059,
+          "lon": 29.3085698
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841237,
+        "center": {
+          "lat": 40.8141937,
+          "lon": 29.3062844
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841238,
+        "center": {
+          "lat": 40.8142255,
+          "lon": 29.3065512
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841239,
+        "center": {
+          "lat": 40.8141153,
+          "lon": 29.3065648
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841240,
+        "center": {
+          "lat": 40.8138103,
+          "lon": 29.3122445
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841241,
+        "center": {
+          "lat": 40.8137844,
+          "lon": 29.3126534
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841244,
+        "center": {
+          "lat": 40.8136411,
+          "lon": 29.3112321
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841247,
+        "center": {
+          "lat": 40.8147018,
+          "lon": 29.3126843
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841248,
+        "center": {
+          "lat": 40.8148918,
+          "lon": 29.3130952
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841249,
+        "center": {
+          "lat": 40.8145223,
+          "lon": 29.3128665
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046841250,
+        "center": {
+          "lat": 40.81465,
+          "lon": 29.3131723
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1099924832,
+        "center": {
+          "lat": 40.8844593,
+          "lon": 29.2562238
+        },
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "PenCR"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1137782196,
+        "center": {
+          "lat": 40.8282048,
+          "lon": 29.4219298
+        },
+        "tags": {
+          "addr:city": "Kocaeli",
+          "addr:district": "Gebze",
+          "addr:neighbourhood": "Yenikent Mahallesi",
+          "addr:postcode": "41400",
+          "addr:street": "Mutlukent Bulvarı",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Tarihi Adana Kebapçısı",
+          "phone": "+90 262 721 02 95"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1159055263,
+        "center": {
+          "lat": 40.8270204,
+          "lon": 29.4192943
+        },
+        "tags": {
+          "addr:city": "Kocaeli",
+          "addr:district": "Gebze",
+          "addr:housenumber": "4",
+          "addr:neighbourhood": "Yenikent Mahallesi",
+          "addr:postcode": "41400",
+          "addr:street": "2441",
+          "amenity": "cafe",
+          "building": "workshop",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Zemonia Coffee",
+          "opening_hours": "Mo-Su 10:00-23:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 543 521 41 75",
+          "website": "http://zemonia.com"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1193072744,
+        "center": {
+          "lat": 40.8158012,
+          "lon": 29.3035705
+        },
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Tuzla",
+          "addr:housenumber": "77",
+          "addr:neighbourhood": "Cami",
+          "addr:postcode": "34940",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "dessert;turkish",
+          "internet_access": "no",
+          "name": "Helvacı Ali Tuzla",
+          "opening_hours": "Mo-Su 12:00-24:00",
+          "outdoor_seating": "yes",
+          "phone": "+905353197357"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1215334589,
+        "center": {
+          "lat": 40.8893542,
+          "lon": 29.2634724
+        },
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Pendik",
+          "addr:housenumber": "23",
+          "addr:neighbourhood": "Fevzi Çakmak",
+          "addr:postcode": "34899",
+          "addr:street": "Mimar Sinan Cd.",
+          "amenity": "restaurant",
+          "building": "yes",
+          "capacity": "75",
+          "contact:facebook": "https://www.facebook.com/BAYINDIR.ET.KEBAP",
+          "cuisine": "kebab;turkish;regional",
+          "description": "Et ve Kebap Lezzetleri 🥩\n➖Sipariş için➖\n-WhatsApp\n-Telefon\n-YemekSepeti\n-Getir\n-TrendyolGo",
+          "layer": "-1",
+          "name": "Bayındır Restoran",
+          "opening_hours": "08:00-24:00",
+          "phone": "02164822424",
+          "reservation": "recommended",
+          "source": "bayindir_restoran",
+          "website": "https://www.bayindirrestoran.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1216656156,
+        "center": {
+          "lat": 40.8312336,
+          "lon": 29.278784
+        },
+        "tags": {
+          "air_conditioning": "yes",
+          "amenity": "cafe",
+          "bar": "no",
+          "building": "yes",
+          "delivery": "no",
+          "drive_through": "no",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "internet_access:ssid": "İBBWiFi",
+          "name": "Beltur",
+          "outdoor_seating": "yes",
+          "payment:account_cards": "yes",
+          "payment:cards": "yes",
+          "payment:cash": "yes",
+          "payment:cheque": "no",
+          "payment:contactless": "yes",
+          "payment:credit_cards": "yes",
+          "payment:cryptocurrencies": "no",
+          "payment:debit_cards": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1271827790,
+        "center": {
+          "lat": 40.917705,
+          "lon": 29.3545206
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "image": "https://photos.app.goo.gl/zCNHNuwru7nzRynU6"
+        }
+      }
+    ]
+  }
+}

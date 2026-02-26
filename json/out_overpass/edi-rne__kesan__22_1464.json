@@ -1,0 +1,279 @@
+{
+  "meta": {
+    "sehir_id": "22",
+    "sehir_adi": "EDİRNE",
+    "ilce_id": "1464",
+    "ilce_adi": "KEŞAN",
+    "bbox_used": {
+      "south": 40.689895764864865,
+      "north": 40.96016603513514,
+      "west": 26.39134607760843,
+      "east": 26.747484522391577
+    },
+    "bbox_original": {
+      "south": 40.5918545,
+      "west": 26.3285315,
+      "north": 41.0582073,
+      "east": 26.8102991
+    },
+    "fetchedAt": "2026-01-21T08:56:24.623Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 21
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:55:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2589156366,
+        "lat": 40.8513636,
+        "lon": 26.6327192,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Lafazan Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2589176350,
+        "lat": 40.8527239,
+        "lon": 26.6310332,
+        "tags": {
+          "amenity": "pub",
+          "name": "Biralem Bira Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5166486470,
+        "lat": 40.8514862,
+        "lon": 26.6321987,
+        "tags": {
+          "addr:neighbourhood": "Yukarı Zaferiye Mahallesi",
+          "addr:postcode": "22800",
+          "amenity": "cafe",
+          "name": "Deniz Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5172144965,
+        "lat": 40.8534685,
+        "lon": 26.6326398,
+        "tags": {
+          "addr:city": "Edirne",
+          "addr:district": "Keşan",
+          "addr:housenumber": "24",
+          "addr:neighbourhood": "Büyük Cami Mah.",
+          "addr:postcode": "22800",
+          "addr:street": "Dr. Tayyip Akalın Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "soup",
+          "name": "Çorbacızade"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5509608163,
+        "lat": 40.8502843,
+        "lon": 26.6354707,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bayramefendi Osmanlı Kahvecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5509608168,
+        "lat": 40.8500614,
+        "lon": 26.6362115,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Keşan Malatya Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6391402895,
+        "lat": 40.8510828,
+        "lon": 26.6333927,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Limon Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6394247463,
+        "lat": 40.853496,
+        "lon": 26.6325208,
+        "tags": {
+          "addr:city": "Edirne",
+          "addr:district": "Keşan",
+          "addr:housenumber": "24",
+          "addr:neighbourhood": "Büyük Cami Mah.",
+          "addr:postcode": "22800",
+          "addr:street": "Demirciler Caddesi",
+          "amenity": "restaurant",
+          "name": "Filiz Köfte Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6542122651,
+        "lat": 40.8744193,
+        "lon": 26.6475474,
+        "tags": {
+          "addr:city": "Edirne",
+          "addr:district": "Keşan",
+          "addr:neighbourhood": "Yenimuhacir Belediyesi",
+          "addr:postcode": "22800",
+          "amenity": "restaurant",
+          "name": "Gölbaşı Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7147108319,
+        "lat": 40.8723097,
+        "lon": 26.6332935,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7653651853,
+        "lat": 40.8516817,
+        "lon": 26.632381,
+        "tags": {
+          "addr:city": "Edirne",
+          "addr:district": "Keşan",
+          "addr:housenumber": "1",
+          "addr:neighbourhood": "Yukarı Zaferiye Mahallesi",
+          "addr:postcode": "22800",
+          "addr:street": "Önder Caddesi",
+          "amenity": "cafe",
+          "internet_access": "terminal",
+          "internet_access:fee": "yes",
+          "name": "Pyramid internet Cafe E-Spor",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7996049681,
+        "lat": 40.8870582,
+        "lon": 26.4044936,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Karadeniz Restaurant 2"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8586248796,
+        "lat": 40.8754074,
+        "lon": 26.6547026,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Öz Meşe Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9130885396,
+        "lat": 40.8754133,
+        "lon": 26.6438118,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamlıbel Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9130885410,
+        "lat": 40.8758717,
+        "lon": 26.6636534,
+        "tags": {
+          "amenity": "nightclub",
+          "name": "Gözde Düğün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9130885520,
+        "lat": 40.866414,
+        "lon": 26.7302835,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Garden Life Plus Cafe&Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9130885521,
+        "lat": 40.8664748,
+        "lon": 26.7301628,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Polat Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10051901285,
+        "lat": 40.857966,
+        "lon": 26.6937617,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öz En Satır Et"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11979588555,
+        "lat": 40.8741234,
+        "lon": 26.6732195,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Torunlar Dinlenme Tesisi",
+          "takeaway": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12710156469,
+        "lat": 40.8751026,
+        "lon": 26.5636633,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "way",
+        "id": 765552455,
+        "center": {
+          "lat": 40.7876527,
+          "lon": 26.6793994
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Bahçeköy Tesisleri"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "sehir_id": "13",
+    "sehir_adi": "BİTLİS",
+    "ilce_id": "1798",
+    "ilce_adi": "GÜROYMAK",
+    "bbox_used": {
+      "south": 38.4556,
+      "west": 41.89479,
+      "north": 38.75072,
+      "east": 42.28313
+    },
+    "bbox_original": {
+      "south": 38.4556,
+      "west": 41.89479,
+      "north": 38.75072,
+      "east": 42.28313
+    },
+    "fetchedAt": "2026-01-21T08:38:42.796Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 8
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:37:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1367910618,
+        "lat": 38.4889013,
+        "lon": 42.1826647,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2526589810,
+        "lat": 38.6441734,
+        "lon": 42.2433359,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4943881610,
+        "lat": 38.4786286,
+        "lon": 42.1632065,
+        "tags": {
+          "addr:city": "Bitlis",
+          "amenity": "cafe",
+          "name": "Ninova Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6141002591,
+        "lat": 38.5133267,
+        "lon": 42.2786846,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6151680526,
+        "lat": 38.5218074,
+        "lon": 42.2667439,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sanayi Et Dönercisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10860320107,
+        "lat": 38.6440473,
+        "lon": 42.23705,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay",
+          "name:en": "çay"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11015694705,
+        "lat": 38.501709,
+        "lon": 42.2815689,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Büryan Döner"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1381603394,
+        "center": {
+          "lat": 38.5233113,
+          "lon": 42.2761124
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      }
+    ]
+  }
+}

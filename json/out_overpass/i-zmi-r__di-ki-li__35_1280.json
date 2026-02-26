@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "1280",
+    "ilce_adi": "DİKİLİ",
+    "bbox_used": {
+      "south": 38.9143495,
+      "west": 26.7686313,
+      "north": 39.2438336,
+      "east": 27.0771357
+    },
+    "bbox_original": {
+      "south": 38.9143495,
+      "west": 26.7686313,
+      "north": 39.2438336,
+      "east": 27.0771357
+    },
+    "fetchedAt": "2026-01-21T09:24:28.936Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 20
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:22:59Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 963233144,
+        "lat": 39.0921688,
+        "lon": 26.881187,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gardena Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5090011922,
+        "lat": 39.0364736,
+        "lon": 26.8114337,
+        "tags": {
+          "amenity": "pub",
+          "name": "Barcelona Beach Clup",
+          "name:tr": "Barcelona Beach Clup"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6440199437,
+        "lat": 39.0445106,
+        "lon": 26.8373449,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kayra Beach Club"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8098919753,
+        "lat": 39.0750308,
+        "lon": 26.8897123,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Dikili Simit Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8098919762,
+        "lat": 39.0726198,
+        "lon": 26.8888062,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Munzur Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8098919767,
+        "lat": 39.0721229,
+        "lon": 26.8885913,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Retro Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8098919774,
+        "lat": 39.0714699,
+        "lon": 26.8886112,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Gaziantep Dürüm & Kebap Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8118507043,
+        "lat": 39.0675393,
+        "lon": 26.8867485,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Serenti Kahvaltı & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8118507044,
+        "lat": 39.0674795,
+        "lon": 26.8867054,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Limon Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9844480192,
+        "lat": 39.158124,
+        "lon": 26.8224772,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cankut Balıkçılık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9944298655,
+        "lat": 39.0363135,
+        "lon": 26.8109143,
+        "tags": {
+          "amenity": "pub",
+          "name": "Ruhi Beach"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9961306949,
+        "lat": 39.0648002,
+        "lon": 26.8823727,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Dikili",
+          "addr:housenumber": "137",
+          "addr:neighbourhood": "Gazipaşa Mahallesi",
+          "addr:postcode": "35980",
+          "addr:street": "Şehit Sami Akbulut Caddesi",
+          "air_conditioning": "yes",
+          "amenity": "bar",
+          "brewery": "various",
+          "min_age": "18",
+          "name": "Ahpub",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12253553301,
+        "lat": 39.0871188,
+        "lon": 26.8851256,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Dikili",
+          "addr:housenumber": "No : 59/B",
+          "addr:neighbourhood": "Cumhuriyet Mahallesi",
+          "addr:postcode": "35980",
+          "addr:street": "Uğur Mumcu Caddesi",
+          "amenity": "cafe",
+          "name": "Vikont Coffee & Roastery Dikili",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12973709623,
+        "lat": 39.0716408,
+        "lon": 26.8875351,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Dikili",
+          "amenity": "restaurant",
+          "name": "Ayazma Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 686583925,
+        "center": {
+          "lat": 39.0872181,
+          "lon": 26.8919616
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "pizza",
+          "name": "Mutlu Pide Salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 686648734,
+        "center": {
+          "lat": 39.071987,
+          "lon": 26.8874924
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Kordon Cafeler"
+        }
+      },
+      {
+        "type": "way",
+        "id": 756172109,
+        "center": {
+          "lat": 39.0956006,
+          "lon": 26.8797615
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 756467441,
+        "center": {
+          "lat": 39.0276796,
+          "lon": 26.7996627
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1172888269,
+        "center": {
+          "lat": 38.9176826,
+          "lon": 26.8665241
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "contact:instagram": "https://www.instagram.com/mavi_candarli/",
+          "name": "Mavi Çandarlı",
+          "opening_hours": "Mo-Su 09:00-12:00",
+          "phone": "+905324992602"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1202928312,
+        "center": {
+          "lat": 39.1668461,
+          "lon": 26.8964683
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "1"
+        }
+      }
+    ]
+  }
+}

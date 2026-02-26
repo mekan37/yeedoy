@@ -1,0 +1,4557 @@
+{
+  "meta": {
+    "sehir_id": "34",
+    "sehir_adi": "İSTANBUL",
+    "ilce_id": "2004",
+    "ilce_adi": "BAĞCILAR",
+    "bbox_used": {
+      "south": 41.0175556,
+      "west": 28.8079497,
+      "north": 41.0724184,
+      "east": 28.872744
+    },
+    "bbox_original": {
+      "south": 41.0175556,
+      "west": 28.8079497,
+      "north": 41.0724184,
+      "east": 28.872744
+    },
+    "fetchedAt": "2026-01-21T09:20:58.487Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 324
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:19:56Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4271717097,
+        "lat": 41.0284672,
+        "lon": 28.8121925,
+        "tags": {
+          "addr:street": "Güneşli Kavşağı",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4390558697,
+        "lat": 41.02591,
+        "lon": 28.871231,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kebapçı Çetin Usta",
+          "name:tr": "Kebapçı Çetin Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4576781444,
+        "lat": 41.0632773,
+        "lon": 28.8085459,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Özsüt",
+          "brand:wikidata": "Q20472928",
+          "cuisine": "coffee_shop",
+          "name": "Özsüt",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4696956441,
+        "lat": 41.0204638,
+        "lon": 28.8270115,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional_karadeniz_mutfağı",
+          "name": "Nalia",
+          "name:tr": "nalia karadeniz mutfağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4950668933,
+        "lat": 41.0320936,
+        "lon": 28.8148511,
+        "tags": {
+          "addr:neighbourhood": "15 Temmuz Mahallesi",
+          "addr:street": "Gülbahar Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish;sandwich;tea",
+          "name": "Çolakoğlu Simit",
+          "opening_hours": "Mo-Su 07:00-17:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4999665057,
+        "lat": 41.0298009,
+        "lon": 28.8150557,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kübban Gaziantep Mutfağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5105437038,
+        "lat": 41.0354169,
+        "lon": 28.8570159,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:neighbourhood": "Sancatepe",
+          "amenity": "cafe",
+          "brand": "Simit Sarayı",
+          "brand:wikidata": "Q28042608",
+          "cuisine": "turkish;sandwich",
+          "internet_access": "yes",
+          "name": "Simit Sarayı",
+          "outdoor_seating": "yes",
+          "shop": "bakery",
+          "smoking": "isolated"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5195815130,
+        "lat": 41.0312455,
+        "lon": 28.8173396,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Zone"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667668980,
+        "lat": 41.0461725,
+        "lon": 28.8584625,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "2004 Sokak",
+          "amenity": "cafe",
+          "name": "Kayseri-Develi",
+          "name:ar": "كايساري دولي",
+          "phone": "02124365409"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669003,
+        "lat": 41.0482775,
+        "lon": 28.8447842,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Velioğlu Caddesi",
+          "amenity": "cafe",
+          "name": "Paşa Kahvesi",
+          "name:ar": "مقهى باشا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669006,
+        "lat": 41.0461149,
+        "lon": 28.8345172,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Asf. Caddesi",
+          "amenity": "cafe",
+          "name": "Sedir",
+          "name:ar": "سيدير"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669923,
+        "lat": 41.0526834,
+        "lon": 28.8298777,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "İnönü Caddesi",
+          "amenity": "cafe",
+          "name": "Namlı Sarıyer Börekçisi",
+          "name:ar": "ناملي بوريك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669940,
+        "lat": 41.0627727,
+        "lon": 28.832413,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bosna Caddesi",
+          "amenity": "restaurant",
+          "name": "Satılmış Usta Pide",
+          "name:ar": "ساتلميش فطائر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669942,
+        "lat": 41.0463677,
+        "lon": 28.8267604,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Halkalı caddesi",
+          "amenity": "restaurant",
+          "name": "Yıldız konferans sofrası",
+          "name:ar": "مطعم يلدز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669945,
+        "lat": 41.0476966,
+        "lon": 28.8214131,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Karaoğlanoğlu caddesi",
+          "amenity": "restaurant",
+          "name": "Karşıyaka gıda",
+          "name:ar": "كارشي ياكا للأغذية"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669946,
+        "lat": 41.0533453,
+        "lon": 28.8299339,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "İnönü Caddesi",
+          "amenity": "restaurant",
+          "name": "112 Kebap ve Dürüm Evi",
+          "name:ar": "112 كباب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669947,
+        "lat": 41.0548789,
+        "lon": 28.8205125,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Gazi Mustafa Kemal Caddesi",
+          "amenity": "cafe",
+          "name": "Mahmutbey Merkez Kıraathanes",
+          "name:ar": "مقهى"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669957,
+        "lat": 41.0474801,
+        "lon": 28.8458053,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Velioğlu Caddesi",
+          "amenity": "cafe",
+          "name": "Metropol",
+          "name:ar": "ميتروبول"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669969,
+        "lat": 41.0474534,
+        "lon": 28.8229066,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Karaoğlanoğlu caddesi",
+          "amenity": "restaurant",
+          "name": "Beren ev yemekleri",
+          "name:ar": "مطبخ ايرين"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667669981,
+        "lat": 41.0549674,
+        "lon": 28.8210301,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Gazi Mustafa Kemal Caddesi",
+          "amenity": "restaurant",
+          "name": "İzmir Kokoreç Döner Ciğer Çorba",
+          "name:ar": "مطعم ازمير"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667670039,
+        "lat": 41.0471152,
+        "lon": 28.8363741,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Asf. Caddesi",
+          "amenity": "restaurant",
+          "name": "Mis Restoran",
+          "name:ar": "ميس"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667670081,
+        "lat": 41.0473425,
+        "lon": 28.845934,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Velioğlu Caddesi",
+          "amenity": "restaurant",
+          "name": "Beyran Lokantasi",
+          "name:ar": "مطعم بيران"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672276,
+        "lat": 41.0561646,
+        "lon": 28.8463262,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Lezzet sofrası",
+          "name:ar": "مطعم لزت سفراسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672288,
+        "lat": 41.0544354,
+        "lon": 28.8465105,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Hal cafeterya",
+          "name:ar": "كافتيريا الخال"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672291,
+        "lat": 41.0481697,
+        "lon": 28.8460329,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "cafe",
+          "name": "Durmuşlar aile börek salonu",
+          "name:ar": "دورموشلار للبوريك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672302,
+        "lat": 41.0517507,
+        "lon": 28.8476129,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Çetin büryan",
+          "name:ar": "بريان جيتين"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672310,
+        "lat": 41.0525766,
+        "lon": 28.8476698,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Feride hanım ev yemekleri",
+          "name:ar": "السيدة فريدة للطبخات المنزلية"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672320,
+        "lat": 41.0514,
+        "lon": 28.8493508,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "OBA DÖNER",
+          "name:ar": "اوبا دونر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672632,
+        "lat": 41.0484526,
+        "lon": 28.8460329,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "cafe",
+          "name": "Çaylar çay evi",
+          "name:ar": "بيت الشاي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672637,
+        "lat": 41.0490692,
+        "lon": 28.8481108,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "cafe",
+          "name": "Çağdaş Vatan Cafe",
+          "name:ar": "مقهى جاغداش وكن"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672641,
+        "lat": 41.0537021,
+        "lon": 28.8464081,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Tarihi Fatih Köftecisi",
+          "name:ar": "فاتح الكفتجي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672652,
+        "lat": 41.0536557,
+        "lon": 28.84649,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "cafe",
+          "name": "Davutoğlu börek ve cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672663,
+        "lat": 41.053262,
+        "lon": 28.8464081,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Mersin kardeşler tentuni",
+          "name:ar": "مرسين كارديشلار للتنتوني"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672668,
+        "lat": 41.0488962,
+        "lon": 28.8460329,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "KIRVAN Döner",
+          "name:ar": "كروان دونر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672670,
+        "lat": 41.0656852,
+        "lon": 28.8561463,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Kışla caddesi",
+          "amenity": "restaurant",
+          "name": "Kebabçi Baran",
+          "name:ar": "كبابجي باران"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672671,
+        "lat": 41.0617035,
+        "lon": 28.854812,
+        "tags": {
+          "addr:district": "Bağcılar",
+          "addr:street": "Barbaros caddesi",
+          "amenity": "restaurant",
+          "name": "Aksa",
+          "name:ar": "اكسا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672688,
+        "lat": 41.0532281,
+        "lon": 28.8494701,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "Halep lokantası",
+          "name:ar": "مطعم حلب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667672706,
+        "lat": 41.0475246,
+        "lon": 28.8459062,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Özgül kebap",
+          "name:ar": "كباب اوزغول"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673347,
+        "lat": 41.0564513,
+        "lon": 28.8504193,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Matbaacilar caddesi",
+          "amenity": "restaurant",
+          "name": "Küşlemeci",
+          "name:ar": "كوسليميجي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673371,
+        "lat": 41.0467763,
+        "lon": 28.8598207,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osmangazi Caddesi",
+          "amenity": "restaurant",
+          "name": "KEBAP",
+          "name:ar": "كباب",
+          "phone": "4330964",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673379,
+        "lat": 41.053333,
+        "lon": 28.8494144,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "Karadeniz sofrası",
+          "name:ar": "كارادينيز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673385,
+        "lat": 41.0468923,
+        "lon": 28.8501038,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "cafe",
+          "name": "HELİN BÖREK",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673393,
+        "lat": 41.0497943,
+        "lon": 28.8495426,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "name": "Yazmira",
+          "name:ar": "حلويات يازميرا",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673396,
+        "lat": 41.0579553,
+        "lon": 28.854867,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Barbaros caddesi",
+          "amenity": "restaurant",
+          "name": "Sac Tava",
+          "name:ar": "ساج تافا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673429,
+        "lat": 41.0516516,
+        "lon": 28.8463242,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "cafe",
+          "name": "Coffe Factory",
+          "name:ar": "كوفي فاكتوري"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673441,
+        "lat": 41.0480794,
+        "lon": 28.8587312,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "2004 Sokak",
+          "amenity": "cafe",
+          "craft": "bakery",
+          "name": "Murat Börek Salonu",
+          "name:ar": "مراد برك صالونو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673448,
+        "lat": 41.0485939,
+        "lon": 28.8497063,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "KONAK PİDE",
+          "name:ar": "معجنات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673470,
+        "lat": 41.0559253,
+        "lon": 28.8463058,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Efsane döner",
+          "name:ar": "افساني دونر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673478,
+        "lat": 41.0460255,
+        "lon": 28.8597885,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osmangazi Caddesi",
+          "amenity": "restaurant",
+          "name": "Dağyolu",
+          "name:ar": "داغيولو",
+          "opening_hours": "24/7",
+          "phone": "4335757",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673527,
+        "lat": 41.048575,
+        "lon": 28.8459517,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "cafe",
+          "name": "Şık kahve",
+          "name:ar": "مقهى شيك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673544,
+        "lat": 41.0475031,
+        "lon": 28.8459062,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "cafe",
+          "name": "Karşıt çay evi",
+          "name:ar": "مقهى كارشيت للشاي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673548,
+        "lat": 41.0563534,
+        "lon": 28.8551389,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Barbaros caddesi",
+          "amenity": "restaurant",
+          "name": "Viyama",
+          "name:ar": "فياما"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673554,
+        "lat": 41.0460679,
+        "lon": 28.8486054,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Çağ kebap",
+          "name:ar": "جاغ للكباب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673557,
+        "lat": 41.0565062,
+        "lon": 28.850395,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Matbaacilar caddesi",
+          "amenity": "cafe",
+          "name": "Seyidoğlu",
+          "name:ar": "سيد اوغلو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673571,
+        "lat": 41.0613453,
+        "lon": 28.8527571,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Kışla caddesi",
+          "amenity": "cafe",
+          "name": "Ekşioğlu",
+          "name:ar": "اكشي اوغلو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673576,
+        "lat": 41.0558942,
+        "lon": 28.8543457,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Matbaacilar caddesi",
+          "amenity": "restaurant",
+          "name": "Konak",
+          "name:ar": "كوناك",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673607,
+        "lat": 41.07,
+        "lon": 28.8555837,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mustafa Kemal Caddesi",
+          "amenity": "restaurant",
+          "name": "Japon",
+          "name:ar": "جابون"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673610,
+        "lat": 41.0597936,
+        "lon": 28.8543221,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "23. sokak",
+          "amenity": "restaurant",
+          "name": "Soframız",
+          "name:ar": "مطعم سفرتنا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673925,
+        "lat": 41.0521974,
+        "lon": 28.8493642,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "KEBAP SARAYI",
+          "name:ar": "مطعم كباب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673928,
+        "lat": 41.0697918,
+        "lon": 28.8555284,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mustafa Kemal Caddesi",
+          "amenity": "cafe",
+          "name": "Dolunay",
+          "name:ar": "دولون اي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673948,
+        "lat": 41.0675311,
+        "lon": 28.8546617,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mustafa Kemal Caddesi",
+          "amenity": "restaurant",
+          "name": "Saray kebap",
+          "name:ar": "ساراي كباب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667673955,
+        "lat": 41.0674073,
+        "lon": 28.8555143,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Fetih Caddesi",
+          "amenity": "restaurant",
+          "name": "İbad elrrehmen",
+          "name:ar": "عباد الرحمن"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674461,
+        "lat": 41.0676422,
+        "lon": 28.8561693,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Fetih Caddesi",
+          "amenity": "restaurant",
+          "name": "Doğan Et Lokantası",
+          "name:ar": "دوغان ات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674471,
+        "lat": 41.0534773,
+        "lon": 28.8334072,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Maslak Caddesi",
+          "amenity": "restaurant",
+          "name": "Sallouraoğlu Halep Sofrası",
+          "name:ar": "مطعم سلورة للطبخ الحلبي والحلويات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674485,
+        "lat": 41.0537161,
+        "lon": 28.8495178,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "cafe",
+          "name": "Kardeşler",
+          "name:ar": "كارديشلار"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674937,
+        "lat": 41.0503079,
+        "lon": 28.8496416,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "Al Şalal",
+          "name:ar": "مأكولات الشلال"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674964,
+        "lat": 41.0502023,
+        "lon": 28.8577108,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "2/17A Sokak",
+          "amenity": "cafe",
+          "name": "Çay Park",
+          "name:ar": "حديقة الشاي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674967,
+        "lat": 41.0534134,
+        "lon": 28.8325188,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Maslak Caddesi",
+          "amenity": "cafe",
+          "name:ar": "كافى"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674978,
+        "lat": 41.050583,
+        "lon": 28.8359405,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osmanoğlu Caddesi",
+          "amenity": "restaurant",
+          "name": "Maşhadani Lokantasi",
+          "name:ar": "مطعم حلب الشهباء"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667674999,
+        "lat": 41.0533708,
+        "lon": 28.8323355,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Maslak Caddesi",
+          "amenity": "restaurant",
+          "name": "Naimoğlu",
+          "name:ar": "نعيم اوغلو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684451,
+        "lat": 41.0283701,
+        "lon": 28.8290265,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "cafe",
+          "name": "Voca and lounge",
+          "name:ar": "جوفا اند لونجا",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684455,
+        "lat": 41.0262988,
+        "lon": 28.8305667,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Kimyon Yemek Evi",
+          "name:ar": "بيت طعام كميون"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684456,
+        "lat": 41.0261499,
+        "lon": 28.8292258,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Köşem Restaurant",
+          "name:ar": "مطعم كوشام"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684461,
+        "lat": 41.0343188,
+        "lon": 28.8433707,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Karadeniz sofrası",
+          "name:ar": "مطعم كارا دينيز سفراسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684464,
+        "lat": 41.0257219,
+        "lon": 28.8305885,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Rüstemoğlu Sofrası",
+          "name:ar": "سفرة روستام أولو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684471,
+        "lat": 41.0272314,
+        "lon": 28.8442314,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "2. sokak",
+          "amenity": "restaurant",
+          "name": "Mevlana",
+          "name:ar": "مولانا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684476,
+        "lat": 41.0229048,
+        "lon": 28.8341039,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Malazgirt Caddesi",
+          "amenity": "restaurant",
+          "name": "Kayıpşehir Cafe & Restaurant",
+          "name:ar": "مطعم ومقهى كايب شهير"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684477,
+        "lat": 41.0311664,
+        "lon": 28.8303118,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "Adana Kebapcısı",
+          "name:ar": "أضنة كبابجيسه",
+          "phone": "4890772",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684480,
+        "lat": 41.0311183,
+        "lon": 28.8296494,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "Fatih Lokantası",
+          "name:ar": "مطعم الفاتح",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684485,
+        "lat": 41.0304379,
+        "lon": 28.8286669,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "amenity": "restaurant",
+          "name": "Ünal Kebap & Döner",
+          "name:ar": "أونال كباب وشاورما"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684510,
+        "lat": 41.0232171,
+        "lon": 28.8303562,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Loca Döner",
+          "name:ar": "شاورما لوكا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684511,
+        "lat": 41.0224677,
+        "lon": 28.8307727,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Malazgirt Caddesi",
+          "amenity": "cafe",
+          "name": "Plaevne Çay Bahçesi",
+          "name:ar": "مقهى بليفنا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684513,
+        "lat": 41.0305875,
+        "lon": 28.8401742,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Kayaklı sokak",
+          "amenity": "restaurant",
+          "name": "Fatih lokantası",
+          "name:ar": "مطعم فاتح"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667684517,
+        "lat": 41.0269952,
+        "lon": 28.8293289,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Deliorman Kebapçısı",
+          "name:ar": "كبابجي ديليأورمان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686346,
+        "lat": 41.0307254,
+        "lon": 28.8383706,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mahmutbey caddesi",
+          "amenity": "restaurant",
+          "name": "Kemal usta pilavci",
+          "name:ar": "كمال اوستا بيلافجي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686348,
+        "lat": 41.0302351,
+        "lon": 28.8279783,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Ömeroğlu",
+          "name:ar": "عثمان أولو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686356,
+        "lat": 41.0307081,
+        "lon": 28.8271938,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "restaurant",
+          "name": "Kebapçı Ayhan",
+          "name:ar": "كبابجي ايهان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686370,
+        "lat": 41.0302809,
+        "lon": 28.8276408,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "restaurant",
+          "name": "Mevlana pide",
+          "name:ar": "ميفلانا بيدة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686374,
+        "lat": 41.0335146,
+        "lon": 28.8433845,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Safran pide",
+          "name:ar": "صفران بيدي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686375,
+        "lat": 41.029517,
+        "lon": 28.8285311,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "cafe",
+          "name": "Mikel Coffee Güneşli"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686387,
+        "lat": 41.0203748,
+        "lon": 28.8239833,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "61.Sokak",
+          "amenity": "restaurant",
+          "name": "Izgara",
+          "name:ar": "ايزغارا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667686402,
+        "lat": 41.030455,
+        "lon": 28.8289602,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Fabrika Cafe & Restaurant",
+          "name:ar": "مقهى ومطعم فابريكا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687522,
+        "lat": 41.0282563,
+        "lon": 28.8195975,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Yavuz sultan selim caddesi",
+          "amenity": "restaurant",
+          "name": "Ünlu Sarıyer",
+          "name:ar": "اونلو ساري ير"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687524,
+        "lat": 41.030351,
+        "lon": 28.8278554,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Bursa İskender",
+          "name:ar": "إسكندر بورصة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687525,
+        "lat": 41.0249506,
+        "lon": 28.8288932,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Mehim Kebap",
+          "name:ar": "كباب ميهيم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687535,
+        "lat": 41.0268751,
+        "lon": 28.8292202,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "cafe",
+          "name": "Ozturk",
+          "name:ar": "اوزتورك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687538,
+        "lat": 41.0235504,
+        "lon": 28.8286901,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Güneşli İskender Salonu",
+          "name:ar": "مطعم إسكندر جونيشلي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687541,
+        "lat": 41.0259308,
+        "lon": 28.8453857,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "2. sokak",
+          "amenity": "restaurant",
+          "name": "Bereket kebap",
+          "name:ar": "كباب بركة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687542,
+        "lat": 41.0292729,
+        "lon": 28.8299533,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Hatay Dürüm Diyarı",
+          "name:ar": "ديار هاتاي دوروم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687543,
+        "lat": 41.0261136,
+        "lon": 28.8305493,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Postcu Baba Waffle",
+          "name:ar": "وافل بوستجو بابا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687546,
+        "lat": 41.0307924,
+        "lon": 28.8441811,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "4. sokak",
+          "amenity": "restaurant",
+          "name": "Leziz sarıyer börekçisi",
+          "name:ar": "لذيذ سارير بوريكشيسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687559,
+        "lat": 41.0343631,
+        "lon": 28.8337887,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cevizli sokak",
+          "amenity": "restaurant",
+          "name": "Akpınar kebap",
+          "name:ar": "كباب اك بنار"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687565,
+        "lat": 41.0300127,
+        "lon": 28.8436052,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "cafe",
+          "name": "Börek istanbul",
+          "name:ar": "برك اسطنبول"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687569,
+        "lat": 41.0323787,
+        "lon": 28.8432874,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "cafe",
+          "name": "Cafe ayaz",
+          "name:ar": "مقهى اياز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687570,
+        "lat": 41.0308639,
+        "lon": 28.8256469,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cesme sokak",
+          "amenity": "cafe",
+          "name": "Ozgunes",
+          "name:ar": "اوزغونش"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687575,
+        "lat": 41.0261694,
+        "lon": 28.8156501,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Yavuz sultan selim caddesi",
+          "amenity": "restaurant",
+          "name": "Şirazen",
+          "name:ar": "شورازان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687578,
+        "lat": 41.0257008,
+        "lon": 28.8185974,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osman pasa caddesiy",
+          "amenity": "restaurant",
+          "name": "Kofte",
+          "name:ar": "كوفته"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687589,
+        "lat": 41.0270431,
+        "lon": 28.8202398,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osman pasa caddesi",
+          "amenity": "restaurant",
+          "name": "Sahin sulu",
+          "name:ar": "شاهين سولو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687591,
+        "lat": 41.0308906,
+        "lon": 28.8393197,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Nalan sokaklar",
+          "amenity": "restaurant",
+          "name": "beyrut lokantası",
+          "name:ar": "مطعم بيروت"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687597,
+        "lat": 41.0311664,
+        "lon": 28.8293713,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "Steak Burger",
+          "name:ar": "ستاك برغر",
+          "phone": "6300888",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667687608,
+        "lat": 41.0291344,
+        "lon": 28.828654,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "cafe",
+          "name": "Planet",
+          "name:ar": "بلانت"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688640,
+        "lat": 41.0311664,
+        "lon": 28.8295111,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "cafe",
+          "name": "Antepia Künefe",
+          "name:ar": "عنتابية كنافة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688643,
+        "lat": 41.0258142,
+        "lon": 28.8187262,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osman pasa caddesi",
+          "amenity": "cafe",
+          "name": "Serkan",
+          "name:ar": "سيركان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688645,
+        "lat": 41.0221161,
+        "lon": 28.8448745,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "K. Sinan Bağcılar Yolu Caddesi",
+          "amenity": "restaurant",
+          "name": "Salkım döner",
+          "name:ar": "شاورما سالكم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688653,
+        "lat": 41.0314499,
+        "lon": 28.8264786,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "restaurant",
+          "name": "Meydan pide",
+          "name:ar": "ميدان بيدة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688669,
+        "lat": 41.0309365,
+        "lon": 28.8184822,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Gul sokak",
+          "amenity": "restaurant",
+          "name": "Atanor",
+          "name:ar": "اتانور"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688677,
+        "lat": 41.0199398,
+        "lon": 28.8223884,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Yalcin kores caddesi",
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688678,
+        "lat": 41.0314605,
+        "lon": 28.8262418,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Kocman caddesi",
+          "amenity": "restaurant",
+          "name": "Haci sayid",
+          "name:ar": "حجي سعيد"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688686,
+        "lat": 41.0307354,
+        "lon": 28.8416925,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi Caddesi",
+          "amenity": "restaurant",
+          "name": "Namlı sarıyer börekçisi",
+          "name:ar": "مطعم ساريار بوركجيسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688709,
+        "lat": 41.0333476,
+        "lon": 28.8433984,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Bağdat ocakbaşı",
+          "name:ar": "مقهى ومطعم اوجاك باشي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688713,
+        "lat": 41.0312014,
+        "lon": 28.8291494,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "TAT Bİ PİLAV",
+          "name:ar": "تات بي بلاف"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667688718,
+        "lat": 41.0268024,
+        "lon": 28.8439306,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "1/13D sok.",
+          "amenity": "restaurant",
+          "name": "Alrabii lokantası",
+          "name:ar": "مطعم الربيع"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689722,
+        "lat": 41.0312028,
+        "lon": 28.8233989,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osman Paşa Caddesi",
+          "amenity": "restaurant",
+          "brand": "TotalEnergies",
+          "brand:wikidata": "Q154037",
+          "name": "TotalEnergies",
+          "name:ar": "توتال",
+          "shop": "kiosk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689729,
+        "lat": 41.0266343,
+        "lon": 28.8149884,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mimar sinan caddesi",
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "name:ar": "مادو",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689731,
+        "lat": 41.0228106,
+        "lon": 28.8455105,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "K. Sinan Bağcılar Yolu Caddesi",
+          "amenity": "restaurant",
+          "name": "Tamam lokantası",
+          "name:ar": "مطعم تمام"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689739,
+        "lat": 41.0271178,
+        "lon": 28.8409371,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Pazaryolu 1. sokak",
+          "amenity": "cafe",
+          "name": "Erciyes pide börek",
+          "name:ar": "مطعم ارجياس بيده بورك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689759,
+        "lat": 41.0310453,
+        "lon": 28.8184446,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Kocman caddesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689766,
+        "lat": 41.0312719,
+        "lon": 28.8287866,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "Damak Pide",
+          "name:ar": "داماك بيدا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689783,
+        "lat": 41.0312352,
+        "lon": 28.8291135,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "name": "Koska",
+          "name:ar": "كوسكا",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689791,
+        "lat": 41.026032,
+        "lon": 28.8290414,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "cafe",
+          "name": "Pimart",
+          "name:ar": "بيمارت",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689794,
+        "lat": 41.0198972,
+        "lon": 28.8236614,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Yalcin kores caddesi",
+          "amenity": "restaurant",
+          "name": "Yeniler",
+          "name:ar": "ينلار"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689809,
+        "lat": 41.0314005,
+        "lon": 28.8457948,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "6/A. sokak",
+          "amenity": "restaurant",
+          "name": "Bolye yemek",
+          "name:ar": "بوليا يميك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689811,
+        "lat": 41.0270437,
+        "lon": 28.8292202,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "cafe",
+          "name": "Kamina",
+          "name:ar": "كامينا",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667689815,
+        "lat": 41.034316,
+        "lon": 28.8390147,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Zübeyde hanım caddesi",
+          "amenity": "restaurant",
+          "name": "Ev yemekleri",
+          "name:ar": "مطعم للاكل المنزلي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691021,
+        "lat": 41.032125,
+        "lon": 28.8433605,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Mangalcim et",
+          "name:ar": "مشاوي ايت"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691022,
+        "lat": 41.0312554,
+        "lon": 28.8320922,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "Kaitou",
+          "name:ar": "مطعم كيتوع",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691040,
+        "lat": 41.0305507,
+        "lon": 28.8273428,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "restaurant",
+          "name": "Zemcioglu",
+          "name:ar": "زمجي اوغلو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691048,
+        "lat": 41.0289668,
+        "lon": 28.8276791,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cesme sokak",
+          "amenity": "restaurant",
+          "name": "Ray gele",
+          "name:ar": "راي جلا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691053,
+        "lat": 41.030549,
+        "lon": 28.840807,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi caddesi",
+          "amenity": "restaurant",
+          "name": "Sebo dayının yeri",
+          "name:ar": "مطعم سيبو داينن يري"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691059,
+        "lat": 41.0228787,
+        "lon": 28.8303402,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "cafe",
+          "name": "Limon Cafe",
+          "name:ar": "مقهى ليمون"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691071,
+        "lat": 41.030263,
+        "lon": 28.8291275,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Star Döner",
+          "name:ar": "شاورما نجم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691080,
+        "lat": 41.0313263,
+        "lon": 28.8266872,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "restaurant",
+          "name": "Ham ibrahim",
+          "name:ar": "هام ابراهيم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691086,
+        "lat": 41.0240137,
+        "lon": 28.8287702,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Özcüneş Lokum & Şekerleme",
+          "name:ar": "حلويات أوزجونيش",
+          "shop": "craft"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691094,
+        "lat": 41.0278874,
+        "lon": 28.8308408,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "restaurant",
+          "name": "Harbi Döner",
+          "name:ar": "شاورما حربي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691103,
+        "lat": 41.0232683,
+        "lon": 28.8286634,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "cafe",
+          "name": "Site Cafe",
+          "name:ar": "مفهى سيتيه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691104,
+        "lat": 41.0229319,
+        "lon": 28.8343922,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Malazgirt Caddesi",
+          "amenity": "cafe",
+          "name": "Dicle Cafe",
+          "name:ar": "مقهى دجلة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667691120,
+        "lat": 41.0329611,
+        "lon": 28.8433568,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Mesut usta kömürde piliç",
+          "name:ar": "مطعم مسعود اوستا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667692622,
+        "lat": 41.0296795,
+        "lon": 28.8297848,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "cafe",
+          "name": "The Cafe's",
+          "name:ar": "القهوة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667692624,
+        "lat": 41.030889,
+        "lon": 28.8302091,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "Big Mamma's",
+          "name:ar": "مطعم بيغ ماما"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667692626,
+        "lat": 41.0312139,
+        "lon": 28.8267617,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ataturk caddesi",
+          "amenity": "restaurant",
+          "name": "Tabela",
+          "name:ar": "تابيلا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667692641,
+        "lat": 41.0223469,
+        "lon": 28.8303562,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Menderes Caddesi",
+          "amenity": "cafe",
+          "name": "Local Coffee shop",
+          "name:ar": "مقهى لوكال"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667692645,
+        "lat": 41.0299803,
+        "lon": 28.8281625,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Emine Sultan Ev Yemekleri",
+          "name:ar": "مطعم أمينة سبطان للطبخ المنزلي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667692654,
+        "lat": 41.0241849,
+        "lon": 28.8287969,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Dostlar Ocakbaşı",
+          "name:ar": "مطعم دوستلار أوجاكباش"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667699716,
+        "lat": 41.0455945,
+        "lon": 28.8389298,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Asf. Caddesi",
+          "amenity": "restaurant",
+          "name": "Öztaş Lokantası",
+          "name:ar": "مطعم اوزتاش"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667699720,
+        "lat": 41.0391754,
+        "lon": 28.8252517,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Favziçakmak Caddesi",
+          "amenity": "restaurant",
+          "name": "Esnaflar Restaurant",
+          "name:ar": "أصنافلار رستورانت",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701523,
+        "lat": 41.045268,
+        "lon": 28.8271719,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Devekaldırımı Caddesi",
+          "amenity": "restaurant",
+          "name": "Hatay Dürüncüsü",
+          "name:ar": "هاتاي دورومجوسو",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701524,
+        "lat": 41.0397255,
+        "lon": 28.8429938,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Tavukcu kopru caddesi",
+          "amenity": "restaurant",
+          "name": "Altin tepsi",
+          "name:ar": "التن تيبسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701536,
+        "lat": 41.0458367,
+        "lon": 28.8439589,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Piri reis sokak",
+          "amenity": "restaurant",
+          "name": "Bülbül Lokantası",
+          "name:ar": "مطعم البلبل"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701552,
+        "lat": 41.0446624,
+        "lon": 28.8442724,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Deniz sokak",
+          "amenity": "restaurant",
+          "name": "Eyüp Pide",
+          "name:ar": "ايوب بيده"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701571,
+        "lat": 41.045514,
+        "lon": 28.8318433,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bagcilar Asf caddesi",
+          "amenity": "restaurant",
+          "name": "Atestugla",
+          "name:ar": "اتشتولغا",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701573,
+        "lat": 41.0415883,
+        "lon": 28.8431845,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "6.Sokak",
+          "amenity": "cafe",
+          "name": "Yağmur",
+          "name:ar": "يامور"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701579,
+        "lat": 41.0434187,
+        "lon": 28.8392671,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "cafe",
+          "name": "Bahar pastanesi",
+          "name:ar": "بهار باستانسي",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701601,
+        "lat": 41.0398038,
+        "lon": 28.8404088,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Şimşek Pastanesi",
+          "name:ar": "شيمشيك باستانسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701606,
+        "lat": 41.0407437,
+        "lon": 28.8362353,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Komculer caddesi",
+          "amenity": "restaurant",
+          "name": "Esnaf lokantasi",
+          "name:ar": "اصناف لوكانتسي",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667701616,
+        "lat": 41.045514,
+        "lon": 28.8319522,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bagcilar Asf caddesi",
+          "amenity": "cafe",
+          "name": "Cay ates",
+          "name:ar": "جاي اتش",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702730,
+        "lat": 41.0429323,
+        "lon": 28.8317874,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mahmutbey caddesi",
+          "amenity": "restaurant",
+          "name": "Parkmangal",
+          "name:ar": "بارك مانغال",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702739,
+        "lat": 41.0420137,
+        "lon": 28.8438269,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ahmet kabakli",
+          "amenity": "restaurant",
+          "name": "Kacmaz",
+          "name:ar": "كاشماز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702761,
+        "lat": 41.0396426,
+        "lon": 28.8426009,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Tavukcu kopru caddesi",
+          "amenity": "restaurant",
+          "name": "Rose",
+          "name:ar": "روزة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702770,
+        "lat": 41.0411543,
+        "lon": 28.8361446,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Komculer caddesi",
+          "amenity": "restaurant",
+          "name": "Aziz usta",
+          "name:ar": "عزيز اوستا",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702771,
+        "lat": 41.0404699,
+        "lon": 28.8362353,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Komculer caddesi",
+          "amenity": "restaurant",
+          "name": "Sahra fastfood",
+          "name:ar": "صحرى فاستفود",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702782,
+        "lat": 41.0399922,
+        "lon": 28.8403375,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Nersin",
+          "name:ar": "نرسين"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702793,
+        "lat": 41.0454319,
+        "lon": 28.8314622,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bagcilar Asf caddesi",
+          "amenity": "cafe",
+          "name": "Gaziantipli dervisogulu",
+          "name:ar": "غازي انتبلي درويش اوغلو",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702804,
+        "lat": 41.0390481,
+        "lon": 28.8402575,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Tavukcu kopru caddesi",
+          "amenity": "restaurant",
+          "name": "Netlasan",
+          "name:ar": "نتلاسان",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702810,
+        "lat": 41.044277,
+        "lon": 28.8444494,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Asf. Caddesi",
+          "amenity": "cafe",
+          "name": "Aslan Cafe",
+          "name:ar": "مقهى اصلان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667702812,
+        "lat": 41.0401761,
+        "lon": 28.8443142,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Turna sokak",
+          "amenity": "restaurant",
+          "name": "Matam halep",
+          "name:ar": "مطعم حلب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703936,
+        "lat": 41.0450307,
+        "lon": 28.8397256,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Asf. Caddesi",
+          "amenity": "restaurant",
+          "name": "Urfa Kebap Salonu",
+          "name:ar": "اورفا كباب صالونو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703945,
+        "lat": 41.0388046,
+        "lon": 28.8395043,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Tavukcu kopru caddesi",
+          "amenity": "restaurant",
+          "name": "Caylan",
+          "name:ar": "جيلان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703949,
+        "lat": 41.0388938,
+        "lon": 28.8402722,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Has cigkofte",
+          "name:ar": "هاس جيكوفتة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703955,
+        "lat": 41.0389042,
+        "lon": 28.8251618,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Favziçakmak Caddesi",
+          "amenity": "cafe",
+          "name": "Fırın Pasta Cafe",
+          "name:ar": "فرن باستا كافي",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703957,
+        "lat": 41.0431371,
+        "lon": 28.8478559,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Birlik Caddesi",
+          "amenity": "restaurant",
+          "name": "KARDEŞLER DÜRÜM",
+          "name:ar": "كاردشلار دروم",
+          "phone": "4740363"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703960,
+        "lat": 41.0384336,
+        "lon": 28.8384436,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Tavukcu kopru caddesi",
+          "amenity": "restaurant",
+          "name": "Marsal aziz usta",
+          "name:ar": "مارشال عزيز اوستا",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703976,
+        "lat": 41.0431822,
+        "lon": 28.8442889,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bagcilar Asf caddesi",
+          "amenity": "cafe",
+          "name": "Arena",
+          "name:ar": "ارينا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703978,
+        "lat": 41.0362155,
+        "lon": 28.8338436,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mahmutbey Caddesi",
+          "amenity": "restaurant",
+          "name": "Onur Pide & Börek",
+          "name:ar": "اونور بيدا & بوراك",
+          "phone": "8033836",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703984,
+        "lat": 41.0429826,
+        "lon": 28.8438787,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ahmet kabakli",
+          "amenity": "cafe",
+          "name": "Basak kafe",
+          "name:ar": "باشاك كافيه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703987,
+        "lat": 41.0402434,
+        "lon": 28.8402423,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Ziyafet cigkofte",
+          "name:ar": "زيافت جيكوفتة",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703989,
+        "lat": 41.0438712,
+        "lon": 28.8309029,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mahmutbey Caddesi",
+          "amenity": "restaurant",
+          "name": "Hazar Kanat",
+          "name:ar": "هازار كانات",
+          "phone": "05377347003",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703992,
+        "lat": 41.0455277,
+        "lon": 28.8321881,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bagcilar Asf caddesi",
+          "amenity": "restaurant",
+          "name": "Oz ay",
+          "name:ar": "اوز اي",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667703996,
+        "lat": 41.0416941,
+        "lon": 28.8441375,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bulbul Sokak",
+          "amenity": "cafe",
+          "name:ar": "كافي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667704000,
+        "lat": 41.0431439,
+        "lon": 28.8478202,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Birlik Caddesi",
+          "amenity": "cafe",
+          "name": "Cafe Sharp",
+          "name:ar": "كافي شارب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667704015,
+        "lat": 41.0411127,
+        "lon": 28.8439998,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ahmet kabakli",
+          "amenity": "restaurant",
+          "name": "Baba doner",
+          "name:ar": "بابا دونر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705338,
+        "lat": 41.0430844,
+        "lon": 28.8356364,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Komculer caddesi",
+          "amenity": "restaurant",
+          "name": "Golden garden",
+          "name:ar": "جولدن غاردن",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705339,
+        "lat": 41.0345487,
+        "lon": 28.8390723,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Şenay sokak",
+          "amenity": "cafe",
+          "name": "Ayaz kafe",
+          "name:ar": "مقهى اياز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705341,
+        "lat": 41.0382124,
+        "lon": 28.8246043,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Favziçakmak Caddesi",
+          "amenity": "restaurant",
+          "name": "Burak Pide",
+          "name:ar": "براق بيدا",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705348,
+        "lat": 41.0443495,
+        "lon": 28.8389022,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Tayfor bufe",
+          "name:ar": "تيفور بوفيه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705361,
+        "lat": 41.0358378,
+        "lon": 28.8337302,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mahmutbey Caddesi",
+          "amenity": "restaurant",
+          "name": "Almina Lokantası",
+          "name:ar": "المينا لوكانتا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705366,
+        "lat": 41.0429792,
+        "lon": 28.8396477,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Lider et",
+          "name:ar": "لييدر ات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705377,
+        "lat": 41.0454798,
+        "lon": 28.8315711,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bagcilar Asf caddesi",
+          "amenity": "restaurant",
+          "name": "Erken usta cigkofte",
+          "name:ar": "اركان اوستا جيكوفتة",
+          "opening_hours": "24/7",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667705395,
+        "lat": 41.0389902,
+        "lon": 28.8401345,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Tavukcu kopru caddesi",
+          "amenity": "cafe",
+          "name": "Cafe kultur",
+          "name:ar": "كافي كولتور"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667706135,
+        "lat": 41.0421204,
+        "lon": 28.8438112,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Ahmet kabakli",
+          "amenity": "restaurant",
+          "name": "Ahmet usta",
+          "name:ar": "احمد استا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667706145,
+        "lat": 41.0403151,
+        "lon": 28.8402185,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mevlana caddesi",
+          "amenity": "restaurant",
+          "name": "Urfa pide",
+          "name:ar": "اورفا بيدة",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667706173,
+        "lat": 41.0444942,
+        "lon": 28.8402561,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Asf. Caddesi",
+          "amenity": "cafe",
+          "name": "Çay Kent Kafe",
+          "name:ar": "مقهى شاي كينت"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719029,
+        "lat": 41.0324792,
+        "lon": 28.8557644,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "27/1. sokak",
+          "amenity": "cafe",
+          "name": "Kadınca cafe",
+          "name:ar": "مقهى النساء"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719035,
+        "lat": 41.0331549,
+        "lon": 28.8517346,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi Caddesi",
+          "amenity": "cafe",
+          "name": "Cafe köşk",
+          "name:ar": "مقهى كوشك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719090,
+        "lat": 41.0341998,
+        "lon": 28.8550349,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Birlik Caddesi",
+          "amenity": "restaurant",
+          "name": "Meydan Dürüm",
+          "name:ar": "ميدان دوروم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719092,
+        "lat": 41.033734,
+        "lon": 28.8553727,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi Caddesi",
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "name:ar": "مقهى مادو",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719096,
+        "lat": 41.0334696,
+        "lon": 28.8599765,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "25.sk",
+          "amenity": "restaurant",
+          "name": "Üsküp Lokantası",
+          "name:ar": "اوسكوب لوكانتاسي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719098,
+        "lat": 41.033495,
+        "lon": 28.8595945,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "25.sk",
+          "amenity": "restaurant",
+          "name": "Salloura",
+          "name:ar": "سلورة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719101,
+        "lat": 41.0331588,
+        "lon": 28.8619066,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "25/4 . sokak",
+          "amenity": "restaurant",
+          "name": "Hatay kebap",
+          "name:ar": "كباب هاتاي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719103,
+        "lat": 41.0335498,
+        "lon": 28.8613397,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "25.sk",
+          "amenity": "cafe",
+          "name": "Aafran pide börek cafe",
+          "name:ar": "عفران كافيه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667719115,
+        "lat": 41.0338825,
+        "lon": 28.8648048,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "esenler caddesi",
+          "amenity": "restaurant",
+          "name": "Çakır köfte",
+          "name:ar": "جاكر كوفتي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667722077,
+        "lat": 41.0406365,
+        "lon": 28.8583621,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Fatih Caddesi",
+          "amenity": "restaurant",
+          "name": "Pizzalive",
+          "phone": "4445483"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667722086,
+        "lat": 41.0452199,
+        "lon": 28.8584445,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "2004 Sokak",
+          "amenity": "restaurant",
+          "name": "Eylül Pide",
+          "name:ar": "أيلول بيدا",
+          "phone": "02124614021"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667722089,
+        "lat": 41.0338494,
+        "lon": 28.8619851,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Esenler Cd",
+          "name": "Koska",
+          "name:ar": "كوسكا",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667722097,
+        "lat": 41.0442551,
+        "lon": 28.8582815,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "2004 Sokak",
+          "amenity": "restaurant",
+          "name": "KUZUBEYİ",
+          "name:ar": "كوزوبيي",
+          "phone": "02124345308"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667722104,
+        "lat": 41.0329258,
+        "lon": 28.8661185,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "7.sokak",
+          "amenity": "cafe",
+          "name": "Merkez kahvehanesi",
+          "name:ar": "قهوة المركز"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667722111,
+        "lat": 41.0408567,
+        "lon": 28.8588596,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "1992 Sokak",
+          "amenity": "restaurant",
+          "name": "Safir kebab & Lahmacun",
+          "name:ar": "سافير كاباب & لحمعجون"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667722118,
+        "lat": 41.0427728,
+        "lon": 28.8591929,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Osmangazi Caddesi",
+          "amenity": "cafe",
+          "name": "Soğuk Pınar",
+          "name:ar": "سوغوك بانار",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667723843,
+        "lat": 41.0437063,
+        "lon": 28.8566594,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "2008 Sokak",
+          "amenity": "cafe",
+          "name": "ASYA CAFE",
+          "name:ar": "آسيا كافيه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667723853,
+        "lat": 41.0336236,
+        "lon": 28.8559894,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi Caddesi",
+          "amenity": "cafe",
+          "name": "Kahve durağı",
+          "name:ar": "موقف القهوة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667723881,
+        "lat": 41.0331712,
+        "lon": 28.8529866,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi Caddesi",
+          "amenity": "cafe",
+          "name": "Daykuru cafe",
+          "name:ar": "مقهى دايكورو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667723893,
+        "lat": 41.0419059,
+        "lon": 28.8603872,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "1988 Sokak",
+          "amenity": "cafe",
+          "craft": "bakery",
+          "name": "Öz Sarı Börek",
+          "name:ar": "أوز ساره بوراك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667723907,
+        "lat": 41.043283,
+        "lon": 28.8593345,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Osmangazi Caddesi",
+          "amenity": "restaurant",
+          "name": "Tarihi İskender",
+          "name:ar": "تاريخي اسكندر",
+          "phone": "6345742",
+          "wedding_reception": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667723918,
+        "lat": 41.0448134,
+        "lon": 28.8597396,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osmangazi Caddesi",
+          "amenity": "restaurant",
+          "name": "Alo döner",
+          "name:ar": "ألو دونار",
+          "phone": "02121330633",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725822,
+        "lat": 41.039943,
+        "lon": 28.8612422,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "842 sokak",
+          "amenity": "restaurant",
+          "name": "Halep Kahvesi",
+          "name:ar": "سمراء حلب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725836,
+        "lat": 41.0341267,
+        "lon": 28.8596952,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "İstanbul cd",
+          "amenity": "cafe",
+          "name": "Erzurum kadayif",
+          "name:ar": "قطايف ارزروم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725843,
+        "lat": 41.0340827,
+        "lon": 28.8650772,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Esenler Cd",
+          "amenity": "restaurant",
+          "name": "Al Tayeb",
+          "name:ar": "مطعم الطيب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725849,
+        "lat": 41.0387316,
+        "lon": 28.8678186,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "fatih Caddesi",
+          "amenity": "cafe",
+          "name": "İrem",
+          "name:ar": "ايريم",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725869,
+        "lat": 41.0410771,
+        "lon": 28.8566576,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Fatih Caddesi",
+          "amenity": "cafe",
+          "name": "ÇEŞME KIRAATHANESİ",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725879,
+        "lat": 41.0414671,
+        "lon": 28.8552978,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "2007 Sokak",
+          "amenity": "cafe",
+          "name": "ÇAĞDAŞ CAFE",
+          "name:ar": "تشاغداش كافيه",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725908,
+        "lat": 41.0395586,
+        "lon": 28.8650028,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "fatih Caddesi",
+          "amenity": "restaurant",
+          "name": "Efsane",
+          "name:ar": "الأسطورة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667725912,
+        "lat": 41.0340314,
+        "lon": 28.8604218,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "İstanbul cd",
+          "amenity": "restaurant",
+          "name": "Tat bir pilav",
+          "name:ar": "تات بير بيلاف"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667727232,
+        "lat": 41.0433123,
+        "lon": 28.8507605,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Namık Kemal Caddesi",
+          "amenity": "restaurant",
+          "name": "Camlıbel",
+          "name:ar": "تشاملبل",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667727233,
+        "lat": 41.0448457,
+        "lon": 28.85974,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osmangazi Caddesi",
+          "amenity": "restaurant",
+          "name": "Emirhan sofrası",
+          "name:ar": "أميرخان سوفراسه",
+          "phone": "6340999",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667727250,
+        "lat": 41.034467,
+        "lon": 28.8664988,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "esenler caddesi",
+          "amenity": "restaurant",
+          "name": "Diva kebap",
+          "name:ar": "كباب ديفا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667727255,
+        "lat": 41.0334079,
+        "lon": 28.8567279,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar caddesi",
+          "amenity": "cafe",
+          "cuisine": "dessert",
+          "name": "Faruk Güllüoğlu",
+          "name:ar": "فاروق غول اوغلو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667727280,
+        "lat": 41.0333277,
+        "lon": 28.8623081,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "25.sk",
+          "amenity": "cafe",
+          "name": "cafe nargile",
+          "name:ar": "كتفيه ارغيلا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667727307,
+        "lat": 41.0432335,
+        "lon": 28.8508999,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Fatih Caddesi",
+          "amenity": "restaurant",
+          "name": "ÜÇKAYA ET LOKANTASI",
+          "name:ar": "أوتش كايا ايت لوكانتايه",
+          "phone": "6348750",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667728735,
+        "lat": 41.0334654,
+        "lon": 28.8624906,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "25.sk",
+          "amenity": "restaurant",
+          "name": "Mersin tantuni",
+          "name:ar": "تانتوني مرسين"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667728737,
+        "lat": 41.0446336,
+        "lon": 28.8567346,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "2034 Sokak",
+          "amenity": "cafe",
+          "cuisine": "ice_cream",
+          "name": "Meşhur Maraş Dondurma",
+          "name:ar": "مشهور معراج داندرما"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667728742,
+        "lat": 41.0356492,
+        "lon": 28.8573393,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Osmangazi Caddesi",
+          "amenity": "restaurant",
+          "name": "Hacı Sayid",
+          "name:ar": "حجي سعيد"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667728744,
+        "lat": 41.0439229,
+        "lon": 28.8506553,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:street": "Namık Kemal Caddesi",
+          "amenity": "restaurant",
+          "name": "KİRVAM ET LOKANTASI",
+          "name:ar": "كيرفام ايت لوكانتاسه",
+          "phone": "02124361127",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667745962,
+        "lat": 41.0317418,
+        "lon": 28.8469168,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "8. sokak",
+          "amenity": "cafe",
+          "name": "Esnaflar cafe",
+          "name:ar": "مقهى ايسنافلار"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667745964,
+        "lat": 41.0310087,
+        "lon": 28.8562198,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar caddesi",
+          "amenity": "restaurant",
+          "name": "Pandora restaurant",
+          "name:ar": "مطعم باندورا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667745971,
+        "lat": 41.0302407,
+        "lon": 28.8498485,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "30/11. sokak",
+          "amenity": "cafe",
+          "name": "Caner cafe",
+          "name:ar": "مقهى جانر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667745978,
+        "lat": 41.0320122,
+        "lon": 28.8468335,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi Caddesi",
+          "amenity": "restaurant",
+          "name": "Kervan döner",
+          "name:ar": "شاورما كيرفان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667745980,
+        "lat": 41.0322814,
+        "lon": 28.8494395,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "26/9. sokak",
+          "amenity": "restaurant",
+          "name": "Yörem kebap",
+          "name:ar": "مطعم يورم للكباب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667746005,
+        "lat": 41.0268725,
+        "lon": 28.8516086,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Şehit Yılmaz Kaan Caddesi",
+          "amenity": "restaurant",
+          "name": "Biyesen çiğköfte",
+          "name:ar": "تشيغ كفتة بيسان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667746009,
+        "lat": 41.028118,
+        "lon": 28.8572472,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar caddesi",
+          "amenity": "restaurant",
+          "name": "Danacı",
+          "name:ar": "داناجي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667746013,
+        "lat": 41.0301495,
+        "lon": 28.8697273,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "6.sokak",
+          "amenity": "restaurant",
+          "name": "Kekik restaurant",
+          "name:ar": "مطعم كيكيك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667746016,
+        "lat": 41.0201067,
+        "lon": 28.8587079,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "SAFRAN DÖNER",
+          "name:ar": "مطعم للوجبات السريعة",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667746018,
+        "lat": 41.0269996,
+        "lon": 28.8504229,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "30/11. sokak",
+          "amenity": "restaurant",
+          "name": "Express döner köfte",
+          "name:ar": "اكسبرس دونر كفتة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747248,
+        "lat": 41.0284446,
+        "lon": 28.8571994,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar caddesi",
+          "amenity": "restaurant",
+          "name": "مطعم البارون",
+          "name:ar": "مطعم البارون"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747253,
+        "lat": 41.0300165,
+        "lon": 28.8634233,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Güngören caddesi",
+          "amenity": "restaurant",
+          "name": "Kömür",
+          "name:ar": "كومور"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747256,
+        "lat": 41.0262481,
+        "lon": 28.8507119,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Şehit Yılmaz Kaan Caddesi",
+          "amenity": "restaurant",
+          "name": "Kahta döner",
+          "name:ar": "شاورما كاهتا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747263,
+        "lat": 41.0225137,
+        "lon": 28.8603535,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "cafe",
+          "name": "Genç cafe",
+          "name:ar": "مقهى غينش",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747264,
+        "lat": 41.0314221,
+        "lon": 28.8628476,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Güngören caddesi",
+          "amenity": "restaurant",
+          "name": "Çorbacı müdavim",
+          "name:ar": "جورباجي موداوم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747272,
+        "lat": 41.0318473,
+        "lon": 28.8494532,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "26/9. sokak",
+          "amenity": "restaurant",
+          "name": "Osmanoğulları pide & börek",
+          "name:ar": "مطعم اوسمان اوغلو للبرك"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747274,
+        "lat": 41.0321511,
+        "lon": 28.8468926,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hoca Ahmet Yesevi caddesi",
+          "amenity": "restaurant",
+          "name": "Urfa kebapçı",
+          "name:ar": "كباب اورفا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747282,
+        "lat": 41.0309041,
+        "lon": 28.8628027,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Güngören caddesi",
+          "amenity": "restaurant",
+          "name": "Damak et mangal",
+          "name:ar": "مشاوي داماك ايت"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747288,
+        "lat": 41.0299484,
+        "lon": 28.855242,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Şehit Yılmaz Kaan Caddesi",
+          "amenity": "restaurant",
+          "name": "Pide lahmacun kebap",
+          "name:ar": "مطعم بيده لحمعجون كباب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747306,
+        "lat": 41.0225046,
+        "lon": 28.8575612,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "DAMAK TADI",
+          "name:ar": "مطعم للوجبات السريعة",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747927,
+        "lat": 41.0210611,
+        "lon": 28.8581531,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Zeytinburnu",
+          "amenity": "restaurant",
+          "name": "KEPAP & DÖNER SARAYI",
+          "name:ar": "مطعم للوجبات السريعة",
+          "wedding_reception": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747946,
+        "lat": 41.0292291,
+        "lon": 28.8575216,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "22.sk",
+          "amenity": "cafe",
+          "name": "Manzara teras cafe",
+          "name:ar": "منزيرة تراس كافيه"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747950,
+        "lat": 41.0304106,
+        "lon": 28.8634292,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Güngören caddesi",
+          "amenity": "restaurant",
+          "name": "Bağdatli ocakbaşı",
+          "name:ar": "اوجاك باشي البغدادي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747956,
+        "lat": 41.0315084,
+        "lon": 28.8692191,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "6.sokak",
+          "amenity": "restaurant",
+          "name": "Han Et Mangal",
+          "name:ar": "مشاوي خان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747958,
+        "lat": 41.0312174,
+        "lon": 28.8627065,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Güngören caddesi",
+          "amenity": "restaurant",
+          "name": "Hacı Said"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747976,
+        "lat": 41.0282193,
+        "lon": 28.8569202,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Caddesi",
+          "amenity": "restaurant",
+          "name": "Sultan Tabağı",
+          "name:ar": "طبق السلطان"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747984,
+        "lat": 41.0237311,
+        "lon": 28.8572289,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Caddesi",
+          "amenity": "restaurant",
+          "name": "Yücel Usta Mangalbaşı",
+          "name:ar": "شواء يوجال أوستا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747987,
+        "lat": 41.0316665,
+        "lon": 28.8481556,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Mehmet Akif Bulvarı",
+          "amenity": "restaurant",
+          "name": "Çotanak pide",
+          "name:ar": "مطعم تشوتاناك بيده"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667747998,
+        "lat": 41.0240951,
+        "lon": 28.8564415,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Hasan Hüseyin Aksoy Caddesi",
+          "amenity": "restaurant",
+          "name": "Abdurrahman Şark Sofrası",
+          "name:ar": "مطعم عبد الرحمن الشرقي"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667748002,
+        "lat": 41.0310469,
+        "lon": 28.8560312,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "29/A. sokak",
+          "amenity": "restaurant",
+          "name": "Pandora cafe restaurant",
+          "name:ar": "مطعم ومقهى باندورا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667748006,
+        "lat": 41.0294139,
+        "lon": 28.8695292,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "6.sokak",
+          "amenity": "restaurant",
+          "name": "Simya cafe restoran",
+          "name:ar": "مطعم ومقهى سميا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667748658,
+        "lat": 41.0261277,
+        "lon": 28.8573366,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Caddesi",
+          "amenity": "cafe",
+          "name": "Kılıçoğlu Pasta Cafe & Baklava Fırını",
+          "name:ar": "حلويات وفرن كلش أولو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667748660,
+        "lat": 41.0307543,
+        "lon": 28.8563007,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar caddesi",
+          "amenity": "restaurant",
+          "name": "Heydöner",
+          "name:ar": "هاي دونر"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667748662,
+        "lat": 41.0310925,
+        "lon": 28.8669336,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "5.sokak",
+          "amenity": "restaurant",
+          "name": "Kahta araames",
+          "name:ar": "كاهتي ارسميس"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667748663,
+        "lat": 41.0209321,
+        "lon": 28.8580259,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar Caddesi",
+          "amenity": "restaurant",
+          "name": "Sadık Oğulları Börek Pide Pizza",
+          "name:ar": "بورك بيدا بيتزا - أبناء صادق"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5667748691,
+        "lat": 41.0322026,
+        "lon": 28.8562463,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:street": "Bağcılar caddesi",
+          "amenity": "restaurant",
+          "name": "Özgüllüm lokantası",
+          "name:ar": "مطعم اوزكوللو"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5910284446,
+        "lat": 41.0392654,
+        "lon": 28.8443637,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dürümcü Doğan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6164475088,
+        "lat": 41.0368337,
+        "lon": 28.8565658,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hey Saran Cafe 1"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6215709252,
+        "lat": 41.071198,
+        "lon": 28.8097335,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "başakşehir",
+          "addr:neighbourhood": "Deposite Outlet Is Merkezi A5 / A6 Blok -1 Kat No:A5-A6 Z001-Z01/2",
+          "addr:postcode": "34490",
+          "addr:street": "Ikitelli – OSB",
+          "amenity": "restaurant",
+          "brand": "Pizza Hut",
+          "brand:wikidata": "Q191615",
+          "cuisine": "pizza",
+          "name": "Pizza Hut",
+          "opening_hours": "11:00-22:00",
+          "website": "https://www.pizzahut.com.tr/restoranlar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6215709254,
+        "lat": 41.0713524,
+        "lon": 28.8100009,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6436318503,
+        "lat": 41.0317527,
+        "lon": 28.8149706,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Seyidoğlu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6436358787,
+        "lat": 41.039714,
+        "lon": 28.8111495,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6751146150,
+        "lat": 41.0403705,
+        "lon": 28.810704,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özsüt"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6752587245,
+        "lat": 41.0482194,
+        "lon": 28.8101086,
+        "tags": {
+          "amenity": "restaurant",
+          "level": "2",
+          "name": "Green Salad"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6752587267,
+        "lat": 41.0431683,
+        "lon": 28.8131636,
+        "tags": {
+          "amenity": "cafe",
+          "shop": "bakery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6754151951,
+        "lat": 41.0480246,
+        "lon": 28.8114129,
+        "tags": {
+          "amenity": "restaurant",
+          "level": "0",
+          "name": "Qua"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6754151954,
+        "lat": 41.0478026,
+        "lon": 28.8112168,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "level": "0",
+          "name": "Mado",
+          "takeaway": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6766376327,
+        "lat": 41.0625717,
+        "lon": 28.8080567,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "level": "3",
+          "name": "Bizim Lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6766518320,
+        "lat": 41.0455206,
+        "lon": 28.8148572,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Lale Devri Shisha Lounge Güneşli"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6788642588,
+        "lat": 41.0341216,
+        "lon": 28.8653445,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "مطعم أسعد زنون"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6965383672,
+        "lat": 41.0335204,
+        "lon": 28.8590501,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Divana Döner Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6965389652,
+        "lat": 41.0334247,
+        "lon": 28.8606927,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tarihi Kastamonu Börekçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8294783466,
+        "lat": 41.0704005,
+        "lon": 28.8100132,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "opening_hours": "Mo-Su 09:00-21:00",
+          "opening_hours:covid19": "restricted",
+          "outdoor_seating": "yes",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8322015979,
+        "lat": 41.0655218,
+        "lon": 28.8247312,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Coşkun sucuk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8332397344,
+        "lat": 41.0341253,
+        "lon": 28.8679441,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Aşiyan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9277124640,
+        "lat": 41.0402033,
+        "lon": 28.8108753,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9416015511,
+        "lat": 41.0394458,
+        "lon": 28.8109365,
+        "tags": {
+          "addr:city": "Istanbul",
+          "addr:district": "Bağcılar",
+          "addr:housenumber": "45/z1",
+          "addr:neighbourhood": "15 Temmuz Mahallesi",
+          "addr:postcode": "34212",
+          "addr:street": "Bahar Caddesi",
+          "amenity": "bar",
+          "description": "Bar Street",
+          "min_age": "18",
+          "name": "Blablabla Istanbul",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "phone": "+905350347777",
+          "website": "https://www.blablablaistanbul.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9466320617,
+        "lat": 41.0217864,
+        "lon": 28.8677417,
+        "tags": {
+          "amenity": "cafe",
+          "name": "ÜZÜM ŞEFTALİ CAFE",
+          "opening_hours": "Mo-Su 10:00-02:00",
+          "phone": "+90 531 612 76 56"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10031594236,
+        "lat": 41.0538794,
+        "lon": 28.8341541,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Halfenus"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10031717804,
+        "lat": 41.0337032,
+        "lon": 28.8320064,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tarihi İstanbul Börekçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10031725855,
+        "lat": 41.03386,
+        "lon": 28.8325107,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gaziantep Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10031725856,
+        "lat": 41.0335544,
+        "lon": 28.8312002,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Palmiye Pide & Börek Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10989527954,
+        "lat": 41.0371716,
+        "lon": 28.8198567,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gazi Çiğköfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10989527957,
+        "lat": 41.0368755,
+        "lon": 28.8198371,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cadde Kanat"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11049355899,
+        "lat": 41.0177568,
+        "lon": 28.8137033,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şirin Büfe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11427628190,
+        "lat": 41.0695683,
+        "lon": 28.826657,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cooker"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11528657994,
+        "lat": 41.0373427,
+        "lon": 28.8590511,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "İBB",
+          "building": "yes",
+          "capacity": "80",
+          "cuisine": "turkish",
+          "delivery": "no",
+          "name": "İBB Bağcılar Kent Lokantası",
+          "opening_hours": "Mo-Fr 08:00-20:00; Sa 12:00-17:00",
+          "operator": "İstanbul Büyükşehir Belediyesi",
+          "operator:type": "public",
+          "payment:credit_cards": "yes",
+          "website": "https://tesislerimiz.ibb.istanbul/kent-lokantasi/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12011775268,
+        "lat": 41.0292967,
+        "lon": 28.8287901,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "cuisine": "coffee_shop",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12011804972,
+        "lat": 41.029181,
+        "lon": 28.8289113,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "Gallo Rosso Artisan Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12011809569,
+        "lat": 41.0287998,
+        "lon": 28.8288343,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Atom Pilav"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014774830,
+        "lat": 41.0324105,
+        "lon": 28.8236004,
+        "tags": {
+          "amenity": "cafe",
+          "name": "CoffeeMania"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12016452003,
+        "lat": 41.0323263,
+        "lon": 28.8341117,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Saafi Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12311529527,
+        "lat": 41.0462227,
+        "lon": 28.8123499,
+        "tags": {
+          "addr:city": "İSTANBUL",
+          "addr:district": "BAĞCILAR",
+          "addr:neighbourhood": "MAHMUTBEY MAHALLESİ",
+          "addr:postcode": "34218",
+          "addr:street": "Taşocağı Yolu Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;dessert",
+          "internet_access": "wlan",
+          "name": "June Coffee & Home Concept",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "outdoor_seating": "yes",
+          "phone": "+535 705 09 27"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12740898778,
+        "lat": 41.0300174,
+        "lon": 28.8308407,
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:neighbourhood": "Hürriyet Mah.",
+          "addr:postcode": "34212",
+          "addr:street": "91. Sokak",
+          "air_conditioning": "yes",
+          "amenity": "cafe",
+          "cuisine": "waffle;coffee_shop;ice_cream;cake;pasta;tea;juice",
+          "drive_through": "yes",
+          "internet_access": "yes",
+          "internet_access:fee": "customers",
+          "name": "Aşk Waffle & Cafe",
+          "opening_hours": "13:00-00:00",
+          "outdoor_seating": "yes",
+          "payment:american_express": "yes",
+          "payment:app": "yes",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "phone": "+905402759235",
+          "website": "www.askwaffle.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12758474901,
+        "lat": 41.0307518,
+        "lon": 28.838076,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12993094159,
+        "lat": 41.0251525,
+        "lon": 28.8157889,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13252770732,
+        "lat": 41.0691093,
+        "lon": 28.8089532,
+        "tags": {
+          "air_conditioning": "yes",
+          "amenity": "restaurant",
+          "cuisine": "home_style_cooking;kebab",
+          "name": "Pınar Esnaf Lokantası",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 498796847,
+        "center": {
+          "lat": 41.0549331,
+          "lon": 28.863955
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Shark Börek",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 498907503,
+        "center": {
+          "lat": 41.0297937,
+          "lon": 28.8135994
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "commercial"
+        }
+      },
+      {
+        "type": "way",
+        "id": 505810742,
+        "center": {
+          "lat": 41.0298484,
+          "lon": 28.8133433
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish;fish;soup;salad",
+          "indoor": "yes",
+          "name": "Metro Market Restorant",
+          "smoking": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 571850400,
+        "center": {
+          "lat": 41.0360028,
+          "lon": 28.8574317
+        },
+        "tags": {
+          "addr:city": "İstanbul",
+          "addr:district": "Bağcılar",
+          "addr:housenumber": "4/d",
+          "addr:neighbourhood": "sancaktepe mahallesi",
+          "addr:postcode": "34400",
+          "addr:street": "893. Sokak",
+          "amenity": "cafe",
+          "building": "terrace",
+          "contact:phone": "+90 212 4339300",
+          "cuisine": "dessert",
+          "internet_access": "yes",
+          "internet_access:fee": "customers",
+          "name": "Tatlicafe Bağcilar",
+          "opening_hours": "09:00-02:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 718975885,
+        "center": {
+          "lat": 41.0406608,
+          "lon": 28.8105549
+        },
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 718975886,
+        "center": {
+          "lat": 41.0407826,
+          "lon": 28.8111399
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Caffe inn"
+        }
+      }
+    ]
+  }
+}

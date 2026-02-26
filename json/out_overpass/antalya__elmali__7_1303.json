@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "sehir_id": "7",
+    "sehir_adi": "ANTALYA",
+    "ilce_id": "1303",
+    "ilce_adi": "ELMALI",
+    "bbox_used": {
+      "south": 36.57430166486486,
+      "north": 36.844571935135136,
+      "west": 29.754728536969548,
+      "east": 30.09089046303045
+    },
+    "bbox_original": {
+      "south": 36.4919723,
+      "west": 29.6469497,
+      "north": 36.9269013,
+      "east": 30.1986693
+    },
+    "fetchedAt": "2026-01-21T08:27:01.413Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:25:52Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3088956506,
+        "lat": 36.6422691,
+        "lon": 29.884842,
+        "tags": {
+          "amenity": "cafe",
+          "name:tr": "Bayralar Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10211328922,
+        "lat": 36.7343509,
+        "lon": 29.9217637,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "pide",
+          "name": "Işik Pide",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11367917399,
+        "lat": 36.739809,
+        "lon": 29.917236,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "email": "ismailpikaf@hotmail.com",
+          "internet_access": "no",
+          "name": "Elmalı Sultan Sofrası",
+          "phone": "0242 618 64 64",
+          "website": "https://www.sultansofrasi.net/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12315792362,
+        "lat": 36.7308138,
+        "lon": 29.8778315,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Wiyana Wanda"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1302549220,
+        "center": {
+          "lat": 36.7361335,
+          "lon": 29.9271169
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "seafood",
+          "name": "Çamlık Park"
+        }
+      }
+    ]
+  }
+}

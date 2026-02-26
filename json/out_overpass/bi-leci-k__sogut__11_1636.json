@@ -1,0 +1,123 @@
+{
+  "meta": {
+    "sehir_id": "11",
+    "sehir_adi": "BİLECİK",
+    "ilce_id": "1636",
+    "ilce_adi": "SÖĞÜT",
+    "bbox_used": {
+      "south": 39.8405349,
+      "west": 30.0446807,
+      "north": 40.1578197,
+      "east": 30.3654732
+    },
+    "bbox_original": {
+      "south": 39.8405349,
+      "west": 30.0446807,
+      "north": 40.1578197,
+      "east": 30.3654732
+    },
+    "fetchedAt": "2026-01-21T08:36:24.812Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 8
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:35:01Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4438018332,
+        "lat": 40.1149292,
+        "lon": 30.0560012,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4438018333,
+        "lat": 40.1146856,
+        "lon": 30.0560897,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12139044012,
+        "lat": 39.864841,
+        "lon": 30.2082134,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Poyraz Bahar Bahçesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 456806814,
+        "center": {
+          "lat": 39.9182138,
+          "lon": 30.3302683
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 464783620,
+        "center": {
+          "lat": 40.0137626,
+          "lon": 30.1830728
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Cafeteria"
+        }
+      },
+      {
+        "type": "way",
+        "id": 884953140,
+        "center": {
+          "lat": 39.907894,
+          "lon": 30.2282111
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Köy Kıraathanesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 897288962,
+        "center": {
+          "lat": 39.890561,
+          "lon": 30.0663555
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1381541167,
+        "center": {
+          "lat": 39.9059572,
+          "lon": 30.0500576
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

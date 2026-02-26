@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "sehir_id": "43",
+    "sehir_adi": "KÜTAHYA",
+    "ilce_id": "1843",
+    "ilce_adi": "ŞAPHANE",
+    "bbox_used": {
+      "south": 38.8375599,
+      "west": 29.0678872,
+      "north": 39.102353,
+      "east": 29.3305641
+    },
+    "bbox_original": {
+      "south": 38.8375599,
+      "west": 29.0678872,
+      "north": 39.102353,
+      "east": 29.3305641
+    },
+    "fetchedAt": "2026-01-21T09:53:13.594Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:51:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5387836790,
+        "lat": 38.9367833,
+        "lon": 29.314323,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aydoğdu Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13055719631,
+        "lat": 38.9235135,
+        "lon": 29.303255,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

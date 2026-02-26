@@ -1,0 +1,4964 @@
+{
+  "@@locale": "tr",
+  "appName": "Yeedoy",
+  "@appName": {
+    "description": "TODO: appName"
+  },
+  "appTagline": "Canlı menüler, doğrulanmış fiyatlar",
+  "@appTagline": {
+    "description": "TODO: appTagline"
+  },
+  "appTaglineLine1": "Canlı menüler",
+  "@appTaglineLine1": {
+    "description": "TODO: appTaglineLine1"
+  },
+  "appTaglineLine2": "Dogrulanmis fiyatlar",
+  "@appTaglineLine2": {
+    "description": "TODO: appTaglineLine2"
+  },
+  "emptyTitle": "Henüz eklenmemis",
+  "@emptyTitle": {
+    "description": "TODO: emptyTitle"
+  },
+  "emptyRegionDescription": "Yeedoy'da bu bölgede henüz veri yok. İstersen ilk katkıyı sen ekle.",
+  "@emptyRegionDescription": {
+    "description": "TODO: emptyRegionDescription"
+  },
+  "webDescription": "Yeedoy - Canlı menüler, doğrulanmış fiyatlar ve akıllı keşif.",
+  "@webDescription": {
+    "description": "TODO: webDescription"
+  },
+  "discover": "Keşfet",
+  "@discover": {
+    "description": "TODO: discover"
+  },
+  "home": "Ana Sayfa",
+  "@home": {
+    "description": "TODO: home"
+  },
+  "map": "Harita",
+  "@map": {
+    "description": "TODO: map"
+  },
+  "list": "Liste",
+  "@list": {
+    "description": "TODO: list"
+  },
+  "favorites": "Favoriler",
+  "@favorites": {
+    "description": "TODO: favorites"
+  },
+  "profile": "Profil",
+  "@profile": {
+    "description": "TODO: profile"
+  },
+  "settings": "Ayarlar",
+  "@settings": {
+    "description": "TODO: settings"
+  },
+  "save": "Kaydet",
+  "@save": {
+    "description": "TODO: save"
+  },
+  "cancel": "İptal",
+  "@cancel": {
+    "description": "TODO: cancel"
+  },
+  "privacy": "Gizlilik",
+  "@privacy": {
+    "description": "TODO: privacy"
+  },
+  "socialLinks": "Sosyal Bağlantılar",
+  "@socialLinks": {
+    "description": "TODO: socialLinks"
+  },
+  "logout": "Çıkış Yap",
+  "@logout": {
+    "description": "TODO: logout"
+  },
+  "contribute": "Katkı Yap",
+  "@contribute": {
+    "description": "TODO: contribute"
+  },
+  "uploadPhoto": "Fotoğraf Yükle",
+  "@uploadPhoto": {
+    "description": "TODO: uploadPhoto"
+  },
+  "scanQr": "QR Tara",
+  "@scanQr": {
+    "description": "TODO: scanQr"
+  },
+  "verifyPrice": "Fiyatı Doğrula",
+  "@verifyPrice": {
+    "description": "TODO: verifyPrice"
+  },
+  "openInBrowser": "Tarayıcıda Aç",
+  "@openInBrowser": {
+    "description": "TODO: openInBrowser"
+  },
+  "linkPreview": "Bağlantı Önizleme",
+  "@linkPreview": {
+    "description": "TODO: linkPreview"
+  },
+  "profileSettings": "Profil Ayarları",
+  "@profileSettings": {
+    "description": "TODO: profileSettings"
+  },
+  "saving": "Kaydediliyor...",
+  "@saving": {
+    "description": "TODO: saving"
+  },
+  "loginRequired": "Önce giris yapmalisin.",
+  "@loginRequired": {
+    "description": "TODO: loginRequired"
+  },
+  "profileSaved": "Profil ayarları kaydedildi.",
+  "@profileSaved": {
+    "description": "TODO: profileSaved"
+  },
+  "saveError": "Kaydetme hatasi: {error}",
+  "@saveError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: saveError"
+  },
+  "namePrivacy": "İsim Gizliliği",
+  "@namePrivacy": {
+    "description": "TODO: namePrivacy"
+  },
+  "firstName": "Ad",
+  "@firstName": {
+    "description": "TODO: firstName"
+  },
+  "lastName": "Soyad",
+  "@lastName": {
+    "description": "TODO: lastName"
+  },
+  "showFullName": "Ad Soyad Görünsün",
+  "@showFullName": {
+    "description": "TODO: showFullName"
+  },
+  "hideLastName": "Sadece Soyadı Gizle",
+  "@hideLastName": {
+    "description": "TODO: hideLastName"
+  },
+  "hideBothNames": "Ad ve Soyadı Gizle",
+  "@hideBothNames": {
+    "description": "TODO: hideBothNames"
+  },
+  "preview": "Önizleme",
+  "@preview": {
+    "description": "TODO: preview"
+  },
+  "socialMedia": "Sosyal Medya",
+  "@socialMedia": {
+    "description": "TODO: socialMedia"
+  },
+  "language": "Dil",
+  "@language": {
+    "description": "TODO: language"
+  },
+  "systemDefault": "Sistem (Varsayılan)",
+  "@systemDefault": {
+    "description": "TODO: systemDefault"
+  },
+  "turkish": "Türkçe",
+  "@turkish": {
+    "description": "TODO: turkish"
+  },
+  "english": "İngilizce",
+  "@english": {
+    "description": "TODO: english"
+  },
+  "account": "Hesap",
+  "@account": {
+    "description": "TODO: account"
+  },
+  "invalidLink": "Geçerli bir bağlantı gir.",
+  "@invalidLink": {
+    "description": "TODO: invalidLink"
+  },
+  "socialPreview": "Sosyal Önizleme",
+  "@socialPreview": {
+    "description": "TODO: socialPreview"
+  },
+  "pasteLinkHelper": "Bağlantı yapıştır (https://...)",
+  "@pasteLinkHelper": {
+    "description": "TODO: pasteLinkHelper"
+  },
+  "privacySocialSubtitle": "İsim gizliliği ve sosyal medya bağlantıları",
+  "@privacySocialSubtitle": {
+    "description": "TODO: privacySocialSubtitle"
+  },
+  "updateBusinessTitle": "{businessName} güncelle",
+  "@updateBusinessTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: updateBusinessTitle"
+  },
+  "contributeSheetSubtitle": "Topluluğun menü fiyatlarını doğrulamasına yardımcı ol.",
+  "@contributeSheetSubtitle": {
+    "description": "TODO: contributeSheetSubtitle"
+  },
+  "scanMenuQr": "Menü QR tara",
+  "@scanMenuQr": {
+    "description": "TODO: scanMenuQr"
+  },
+  "scanMenuQrSubtitle": "QR ile anında doğrulama",
+  "@scanMenuQrSubtitle": {
+    "description": "TODO: scanMenuQrSubtitle"
+  },
+  "uploadPhotoSubtitle": "Menünün fotoğrafını çek",
+  "@uploadPhotoSubtitle": {
+    "description": "TODO: uploadPhotoSubtitle"
+  },
+  "confirmPriceChange": "Fiyat değişimini doğrula",
+  "@confirmPriceChange": {
+    "description": "TODO: confirmPriceChange"
+  },
+  "confirmPriceChangeSubtitle": "Güncel olmayan bir fiyatı bildir",
+  "@confirmPriceChangeSubtitle": {
+    "description": "TODO: confirmPriceChangeSubtitle"
+  },
+  "qrAction": "QR Aksiyonu",
+  "@qrAction": {
+    "description": "TODO: qrAction"
+  },
+  "embed": "Gömülü",
+  "@embed": {
+    "description": "TODO: embed"
+  },
+  "share": "Paylaş",
+  "@share": {
+    "description": "TODO: share"
+  },
+  "invalidLinkMessage": "Geçersiz bağlantı",
+  "@invalidLinkMessage": {
+    "description": "TODO: invalidLinkMessage"
+  },
+  "browserOpened": "Tarayıcıda açıldı",
+  "@browserOpened": {
+    "description": "TODO: browserOpened"
+  },
+  "embedFailed": "İçerik görüntülenemedi, tarayıcıya yönlendirdik.",
+  "@embedFailed": {
+    "description": "TODO: embedFailed"
+  },
+  "back": "Geri",
+  "@back": {
+    "description": "TODO: back"
+  },
+  "updatedDaysAgo": "{days} gün önce güncellendi",
+  "@updatedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: updatedDaysAgo"
+  },
+  "verifiedDaysAgo": "{days} gün önce doğrulandı",
+  "@verifiedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: verifiedDaysAgo"
+  },
+  "distanceKm": "{km} km",
+  "@distanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "num"
+      }
+    },
+    "description": "TODO: distanceKm"
+  },
+  "avgSpendPerPerson": "Kişi başı {amount}",
+  "@avgSpendPerPerson": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: avgSpendPerPerson"
+  },
+  "reviewsCount": "Yorum ({count})",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: reviewsCount"
+  },
+  "openNow": "Şuan açık",
+  "@openNow": {
+    "description": "TODO: openNow"
+  },
+  "closedNow": "Şuan kapalı",
+  "@closedNow": {
+    "description": "TODO: closedNow"
+  },
+  "livePrices": "Canlı Fiyatlar",
+  "@livePrices": {
+    "description": "TODO: livePrices"
+  },
+  "trustScore": "Güven Skoru",
+  "@trustScore": {
+    "description": "TODO: trustScore"
+  },
+  "lastUpdated": "Son Güncelleme",
+  "@lastUpdated": {
+    "description": "TODO: lastUpdated"
+  },
+  "lastAudit": "Son Denetim",
+  "@lastAudit": {
+    "description": "TODO: lastAudit"
+  },
+  "avgCost": "Ortalama Tutar",
+  "@avgCost": {
+    "description": "TODO: avgCost"
+  },
+  "avgSpend": "ORT. HARCAMA",
+  "@avgSpend": {
+    "description": "TODO: avgSpend"
+  },
+  "verified": "Doğrulandı",
+  "@verified": {
+    "description": "TODO: verified"
+  },
+  "priceVerified": "Fiyat Doğrulandı",
+  "@priceVerified": {
+    "description": "TODO: priceVerified"
+  },
+  "communityVerified": "Toplulukça Doğrulandı",
+  "@communityVerified": {
+    "description": "TODO: communityVerified"
+  },
+  "confirmedByUsersToday": "Bugün {users} kullanıcı tarafından doğrulandı",
+  "@confirmedByUsersToday": {
+    "placeholders": {
+      "users": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: confirmedByUsersToday"
+  },
+  "priceHistory": "Fiyat Geçmişi",
+  "@priceHistory": {
+    "description": "TODO: priceHistory"
+  },
+  "contributeMenuPhoto": "Menü Fotoğrafı Katkısı Yap",
+  "@contributeMenuPhoto": {
+    "description": "TODO: contributeMenuPhoto"
+  },
+  "verify": "Doğrula",
+  "@verify": {
+    "description": "TODO: verify"
+  },
+  "signatureSteaks": "Öne Çıkan Steakler",
+  "@signatureSteaks": {
+    "description": "TODO: signatureSteaks"
+  },
+  "signatureSection": "Öne Çıkan {section}",
+  "@signatureSection": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: signatureSection"
+  },
+  "spottedPriceChange": "Fiyat değişikliği mi fark ettin?",
+  "@spottedPriceChange": {
+    "description": "TODO: spottedPriceChange"
+  },
+  "spottedPriceChangeSubtitle": "Bu menüyü güncelleyerek katkı sağla.",
+  "@spottedPriceChangeSubtitle": {
+    "description": "TODO: spottedPriceChangeSubtitle"
+  },
+  "updateDateUnavailable": "Güncelleme tarihi yok",
+  "@updateDateUnavailable": {
+    "description": "TODO: updateDateUnavailable"
+  },
+  "currentLocation": "MEVCUT KONUM",
+  "@currentLocation": {
+    "description": "TODO: currentLocation"
+  },
+  "changeLocation": "Konumu Değiştir",
+  "@changeLocation": {
+    "description": "TODO: changeLocation"
+  },
+  "filters": "Filtreler",
+  "@filters": {
+    "description": "TODO: filters"
+  },
+  "searchKebabsHint": "Kebap, burger ara...",
+  "@searchKebabsHint": {
+    "description": "TODO: searchKebabsHint"
+  },
+  "budget": "Bütçe",
+  "@budget": {
+    "description": "TODO: budget"
+  },
+  "freshMenuUpdates": "Taze Menü Güncellemeleri",
+  "@freshMenuUpdates": {
+    "description": "TODO: freshMenuUpdates"
+  },
+  "seeAll": "Tümünü Gör",
+  "@seeAll": {
+    "description": "TODO: seeAll"
+  },
+  "freshLinks": "Yeni Bağlantılar",
+  "@freshLinks": {
+    "description": "TODO: freshLinks"
+  },
+  "discoveryNearbyTitle": "Yakınımda",
+  "@discoveryNearbyTitle": {
+    "description": "TODO: discoveryNearbyTitle"
+  },
+  "discoveryNearbySubtitle": "Konumuna göre en iyi sonuçlar",
+  "@discoveryNearbySubtitle": {
+    "description": "TODO: discoveryNearbySubtitle"
+  },
+  "discoveryLocationSubtitle": "Şehir/ilçeye göre keşfet",
+  "@discoveryLocationSubtitle": {
+    "description": "TODO: discoveryLocationSubtitle"
+  },
+  "nearbyVerifiedSpots": "Yakındaki Doğrulanmış Mekanlar",
+  "@nearbyVerifiedSpots": {
+    "description": "TODO: nearbyVerifiedSpots"
+  },
+  "noNearbyVerifiedSpots": "Yakında doğrulanmış mekan bulunamadı",
+  "@noNearbyVerifiedSpots": {
+    "description": "TODO: noNearbyVerifiedSpots"
+  },
+  "changeFiltersTryAgain": "Konumu veya filtreleri değiştirip tekrar dene.",
+  "@changeFiltersTryAgain": {
+    "description": "TODO: changeFiltersTryAgain"
+  },
+  "noFreshData": "Henüz taze veri yok",
+  "@noFreshData": {
+    "description": "TODO: noFreshData"
+  },
+  "freshDataWillAppear": "Yakındaki menü güncellemeleri burada görünecek.",
+  "@freshDataWillAppear": {
+    "description": "TODO: freshDataWillAppear"
+  },
+  "businessLabel": "İşletme",
+  "@businessLabel": {
+    "description": "TODO: businessLabel"
+  },
+  "report": "Bildir",
+  "@report": {
+    "description": "TODO: report"
+  },
+  "favoriteAdded": "Favorilerde",
+  "@favoriteAdded": {
+    "description": "TODO: favoriteAdded"
+  },
+  "addToFavorites": "Favoriye ekle",
+  "@addToFavorites": {
+    "description": "TODO: addToFavorites"
+  },
+  "writeReview": "Yorum yap",
+  "other": "Diğer",
+  "itemsCount": "{count} ürün",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: itemsCount"
+  },
+  "weakConnectionQueueNotice": "Bağlantı zayıf. Doğrulama sıraya alındı, çevrimiçi olunca otomatik gönderilecek.",
+  "pendingVerificationsSent": "{count} bekleyen doğrulama gönderildi.",
+  "@pendingVerificationsSent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: pendingVerificationsSent"
+  },
+  "loadMenuItemsFirst": "Önce menü ürünlerini yükle.",
+  "menuNotAddedYet": "Henüz eklenmedi",
+  "menuNotAddedYetDescription": "Bu işletme için henüz menü eklenmemiş.",
+  "weakConnection": "Bağlantı zayıf",
+  "contentLoadFailedCheckInternet": "İçerik şu anda yüklenemedi. Varsa önbellek verisi gösterilecek. İnterneti kontrol edip tekrar dene.",
+  "trustDataUnavailable": "Güven verisi yok",
+  "freshnessAndTrust": "Güncellik ve güven",
+  "menuUpdatedLabel": "Menü Güncellendi",
+  "lastPriceVerification": "Son Fiyat Doğrulaması",
+  "trustScoreLabel": "Güven Skoru",
+  "last3MonthsPriceChange": "Son 3 Ay Fiyat Değişimi",
+  "hoursInfoUnavailable": "Çalışma saatleri bilgisi yok",
+  "hoursInfoMissing": "Saat bilgisi yok",
+  "addHoursHelp": "Kullanıcılara yardımcı olmak için çalışma saatlerini ekle.",
+  "reportHoursInfo": "Saat bilgisi bildir",
+  "menus": "Menüler",
+  "menusLoadFailed": "Menüler yüklenemedi",
+  "noMenu": "Menü yok",
+  "addFirstMenuHelp": "İlk menüyü ekleyerek kullanıcılara yardımcı ol.",
+  "crowdInfoUnavailable": "Yoğunluk bilgisi yok",
+  "liveCrowdLabel": "Anlık yoğunluk: {state}",
+  "@liveCrowdLabel": {
+    "placeholders": {
+      "state": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: liveCrowdLabel"
+  },
+  "reviewsLoadFailed": "Yorumlar yüklenemedi",
+  "noReviews": "Yorum yok",
+  "leaveFirstReviewHelp": "İlk yorumu sen yaz.",
+  "writeFirstReview": "İlk yorumu yaz",
+  "recentReviews": "Son yorumlar",
+  "reviewFallbackTitle": "Yorum",
+  "activeCampaigns": "Aktif kampanyalar",
+  "menuDataUnavailable": "Menü verisi yok",
+  "noMenuProductsYet": "Henüz menü ürünü yok",
+  "menu": "Menü",
+  "featuredFromCuisine": "{cuisine} mutfağından öne çıkanlar",
+  "@featuredFromCuisine": {
+    "placeholders": {
+      "cuisine": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: featuredFromCuisine"
+  },
+  "weeklyPriceChange": "+₺50 bu hafta",
+  "chartPlaceholderSoon": "Grafik alanı (yakında)",
+  "featuredCuisineSuffix": "mutfağından öne çıkan lezzetler",
+  "connectionProblemTryAgain": "Bağlantı sorunu var, tekrar dene.",
+  "noActiveCampaign": "Aktif kampanya yok",
+  "activeCampaignCountLabel": "aktif kampanya",
+  "noAmenityInfo": "İmkan bilgisi yok",
+  "amenityCountLabel": "{count} imkan",
+  "@amenityCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: amenityCountLabel"
+  },
+  "noLocationVerificationData": "Konum doğrulama verisi yok",
+  "lastLocationVerification": "Son konum doğrulaması",
+  "noNewProductRecord": "Yeni ürün kaydı yok",
+  "newProduct": "Yeni ürün",
+  "reportInfoErrorPrefix": "Bildirim bilgisi hatası:",
+  "noLocation": "Konum yok",
+  "noHoursInfo": "Saat bilgisi yok",
+  "reviewsCountSuffix": "yorum",
+  "noTime": "Saat yok",
+  "tabSteaks": "Etler",
+  "tabBurgers": "Burgerler",
+  "tabSides": "Yan Ürünler",
+  "tabBeverages": "İçecekler",
+  "locationNotAvailable": "Konum kullanılamıyor",
+  "sortRecommended": "Önerilen",
+  "sortDistance": "Mesafe",
+  "sortRating": "Puan",
+  "sortPriceLow": "Fiyat",
+  "sortNewlyVerified": "Yeni Doğrulanan",
+  "rankingFormulaTitle": "Sıralama Formülü",
+  "rankingFormulaIntro": "Sıralama puanı şu bileşenlerden oluşur:",
+  "rankingWeightDistance": "%30 Mesafe",
+  "rankingWeightAccuracy": "Doğruluk ağırlığı",
+  "rankingWeightEngagement": "Etkileşim ağırlığı",
+  "rankingWeightQuality": "%20 Kalite (kalite skoru)",
+  "rankingFormulaNote": "Not: Puanlar düzenli olarak güncellenir.",
+  "minRatingLabel": "Minimum puan: {value}",
+  "@minRatingLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: minRatingLabel"
+  },
+  "priceLevel": "Fiyat seviyesi",
+  "prioritizeOpenNow": "Şu an açık olanları öne çıkar",
+  "prioritizeNewlyVerified": "Yeni doğrulananları öne çıkar",
+  "reset": "Sıfırla",
+  "apply": "Uygula",
+  "priceTierAny": "Her seviye",
+  "priceTierBudget": "Ekonomik",
+  "priceTierMedium": "Orta",
+  "priceTierPremium": "Üst Seviye",
+  "tabAllItems": "Tüm Ürünler",
+  "tabStarters": "Başlangıçlar",
+  "usersLabel": "kullanıcı",
+  "unknown": "Bilinmiyor",
+  "today": "Bugün",
+  "dayUnit": "gün",
+  "tekrarDene": "Tekrar dene",
+  "vazgec": "Vazgeç",
+  "reddet": "Reddet",
+  "title": "title",
+  "isleniyor": "İşleniyor...",
+  "onayla": "Onayla",
+  "approved": "Onaylandı",
+  "tumu": "Tümü",
+  "kayitBulunamadi": "Kayıt bulunamadı.",
+  "temizle": "Temizle",
+  "uygula": "Uygula",
+  "pending": "Beklemede",
+  "reddedildi": "Reddedildi",
+  "satirSec": "Satır seç",
+  "gonder": "Gönder",
+  "rejected": "Reddedildi",
+  "detay": "Detay",
+  "duzenle": "Düzenle",
+  "eminMisin": "Emin misin?",
+  "guncellendi": "Güncellendi.",
+  "reddedildi_2": "Reddedildi.",
+  "sla": "Geri Dönüş Süresi",
+  "csvDisaAktar": "CSV Dışa Aktar",
+  "onaylandi": "Onaylandı",
+  "yenile": "Yenile",
+  "atanan": "Atanan",
+  "beklemede": "Beklemede",
+  "durum": "Durum",
+  "tabRecommended": "Önerilenler",
+  "tabCampaigns": "Kampanyalar",
+  "tabFoods": "Yemekler",
+  "whyTop": "Neden üstte?",
+  "quickSuggestionTitle": "Hızlı Öneri",
+  "quickSuggestionSubtitle": "Dakikalar içinde karar ver",
+  "quickSuggestionPreset": "2 kişi / ₺600",
+  "whatToEatTitle": "Ne yesek?",
+  "whatToEatSubtitle": "Hızlı öneriler",
+  "nearbyShort": "Yakında",
+  "affordableShort": "Uygun fiyat",
+  "quickDecisionShort": "Hızlı Karar",
+  "start": "Başla",
+  "friendGroupTitle": "Arkadaş Grubu",
+  "friendGroupSubtitle": "Birlikte karar verin",
+  "openGroup": "Grubu Aç",
+  "myGroups": "Gruplarım",
+  "onTheRoadTitle": "Yoldayım",
+  "onTheRoadSubtitle": "Rotandaki duraklar",
+  "heroesTitle": "Kahramanlar",
+  "heroesSubtitle": "Öne çıkan keşifler",
+  "view": "Görüntüle",
+  "bestBusinessesThisWeek": "Bu Haftanın En İyi İşletmeleri",
+  "bestBusinessesThisMonth": "Bu Ayın En İyi İşletmeleri",
+  "onTheRoad20km": "Yolda • 20 km",
+  "nearbyKm": "Yakında • {km} km",
+  "@nearbyKm": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: nearbyKm"
+  },
+  "liveResultsUpdating": "Canlı sonuçlar güncelleniyor",
+  "businessApprovedData": "İşletme onaylı verisi",
+  "communityData": "Topluluk verisi",
+  "removeFromFavorites": "Favorilerden çıkar",
+  "locationPermissionTitle": "Konum izni ver",
+  "locationPermissionDescription": "Yakındaki yerleri göstermek için konum izni gerekli.",
+  "allow": "İzin Ver",
+  "selectLocation": "Konum Seç",
+  "manualLocationHint": "Konumu manuel seçebilirsin.",
+  "noResultsYet": "Henüz sonuç yok",
+  "lowDataInArea": "Bu bölgede veri az",
+  "tryDifferentSearchOrFilter": "Farklı bir arama ya da filtre dene.",
+  "beFirstContributorInArea": "Bölgede ilk katkıyı sen yap.",
+  "topVerifiedMenus": "En Çok Doğrulanan Menüler",
+  "mostTrustedMenusInCity": "Şehirde En Güvenilen Menüler",
+  "seeList": "Listeyi Gör",
+  "localContributionCall": "Yerel katkı çağrısı",
+  "addFirstMenu": "İlk Menüyü Ekle",
+  "suggestBusiness": "İşletme Öner",
+  "noSurpriseSuggestionNow": "Şu an sürpriz öneri yok",
+  "priceVerifiedInLast48h": "Bu fiyat son 48 saatte doğrulandı",
+  "menuMayBeOutdated": "Menü güncel olmayabilir",
+  "verifiedByBusiness": "İşletme tarafından doğrulandı",
+  "updatedByCommunity": "Topluluk tarafından güncellendi",
+  "topRankedInDistrict": "İlçede üst sıralarda",
+  "surpriseDiscoveryTitle": "Sürpriz Keşif",
+  "surpriseDiscoverySubtitle": "Alışkanlığının dışına çık",
+  "randomButGood": "Rastgele ama iyi",
+  "outsideYourUsual": "Rutin dışı",
+  "pricePerformanceSurprise": "Fiyat/performans sürprizi",
+  "nearbyCampaignsAndAnnouncements": "Yakındaki kampanyalar ve duyurular",
+  "noNearbyCampaign": "Yakında kampanya yok",
+  "noActiveAnnouncementInArea": "Bölgede aktif duyuru yok",
+  "remainingLabel": "Kalan",
+  "campaign": "Kampanya",
+  "active": "Aktif",
+  "noLocationDataForMap": "Harita için konum verisi yok",
+  "mapDataMissingUseList": "Harita verisi eksik, liste görünümünü kullan.",
+  "openMapView": "Harita Görünümünü Aç",
+  "mapHintTapPins": "İğnelere dokunarak detayları gör.",
+  "locationPermissionRequired": "Konum izni gerekli.",
+  "noFoodFoundForCriteria": "Bu kriterlere uygun yemek bulunamadı",
+  "whatToEatDescription": "Tercihlerine göre öneriler",
+  "stepPeopleCount": "Kişi sayısı",
+  "quickDecisionThreeOptions": "3 seçenekle hızlı karar",
+  "stepBudgetTotal": "Toplam bütçe",
+  "budgetTl": "Bütçe (₺)",
+  "stepDistance": "Mesafe",
+  "locationNotSelected": "Konum seçilmedi",
+  "seeSuggestions": "Önerileri Gör",
+  "getSingleSuggestion": "Tek öneri al",
+  "go": "Git",
+  "restart": "Yeniden Başlat",
+  "quickShortcuts": "Hızlı Kısayollar",
+  "quickShortcutsSubtitle": "En sık kullanılanlar",
+  "savedItems": "Kaydettiklerim",
+  "myFriendGroup": "Arkadaş Grubum",
+  "tasteExperts": "Lezzet Uzmanları",
+  "businessTools": "İşletme Araçları",
+  "businessToolsSubtitle": "Yönetim ve içgörüler",
+  "sponsoredLabelChip": "Sponsorlu etiket",
+  "sponsored": "Sponsorlu",
+  "ready": "Hazır",
+  "plan": "plan",
+  "sponsoredDisclosure": "Sponsorlu içerik",
+  "sponsoredTooltip": "Bu içerik sponsorlu olabilir.",
+  "localInsightsReady": "Yerel içgörüler hazır • {area}",
+  "@localInsightsReady": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: localInsightsReady"
+  },
+  "show": "Göster",
+  "restaurant": "Restoran",
+  "cafe": "Kafe",
+  "venue": "Mekan",
+  "notifications": "Bildirimler",
+  "businessPackage": "İşletme Paketi",
+  "redirectToReservation": "Rezervasyona yönlendir",
+  "priceAlerts": "Fiyat Uyarıları",
+  "corporateIntegration": "Kurumsal Entegrasyon",
+  "detailedReports": "Detaylı Raporlar",
+  "qrTools": "QR Araçları",
+  "unlockNewFeatures": "Yeni özelliklerin kilidini aç",
+  "branchManagement": "Şube Yönetimi",
+  "menuWithQr": "QR ile Menü",
+  "newFeatures": "Yeni Özellikler",
+  "nearOpenSectionTitle": "Yakında Açık Olanlar • {area}",
+  "@nearOpenSectionTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: nearOpenSectionTitle"
+  },
+  "mostViewedThisWeekTitle": "Bu Haftanın En Çok Görüntülenenleri • {area}",
+  "@mostViewedThisWeekTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: mostViewedThisWeekTitle"
+  },
+  "noViewDataInArea": "Bölgede görüntüleme verisi yok",
+  "viewsMetric": "{count} görüntüleme",
+  "@viewsMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: viewsMetric"
+  },
+  "highestPriceChangeTitle": "En Yüksek Fiyat Değişimi • {area}",
+  "@highestPriceChangeTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: highestPriceChangeTitle"
+  },
+  "noPriceMovementInArea": "Bölgede fiyat hareketi yok",
+  "priceChangeMetric": "{count} fiyat değişimi",
+  "@priceChangeMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: priceChangeMetric"
+  },
+  "nightOpenFavoritesTitle": "Gece Açık Favoriler • {area}",
+  "@nightOpenFavoritesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: nightOpenFavoritesTitle"
+  },
+  "noNightOpenFavoritesInArea": "Bölgede gece açık favori yok",
+  "followersMetric": "{count} takipçi",
+  "@followersMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: followersMetric"
+  },
+  "popularCategoriesTitle": "Popüler Kategoriler • {area}",
+  "@popularCategoriesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: popularCategoriesTitle"
+  },
+  "regionalPriceIndexTitle": "Bölgesel Fiyat Endeksi • {area}",
+  "@regionalPriceIndexTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: regionalPriceIndexTitle"
+  },
+  "detailedAnalysis": "Detaylı Analiz",
+  "loadWhenScrolledDown": "Aşağı kaydırınca yüklenir",
+  "anomalyMonitoringTitle": "{area} anomali izlemesi",
+  "@anomalyMonitoringTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: anomalyMonitoringTitle"
+  },
+  "general": "Genel",
+  "priceIndexLoadFailed": "Fiyat endeksi yüklenemedi",
+  "noPriceIndexDataInArea": "Bölgede fiyat endeksi verisi yok",
+  "medianPriceLabel": "Medyan fiyat {price}",
+  "@medianPriceLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: medianPriceLabel"
+  },
+  "anomalyListLoadFailed": "Anomali listesi yüklenemedi",
+  "noPriceAnomalyLast30Days": "Son 30 günde fiyat anomalisi yok",
+  "sectionLoadFailed": "Bölüm yüklenemedi",
+  "rankedAt": "Sıra: {rank}",
+  "@rankedAt": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: rankedAt"
+  },
+  "yourScore": "Puanın: {score}",
+  "@yourScore": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: yourScore"
+  },
+  "createGroup": "Grup kur",
+  "newPlaces": "Yeni yerler",
+  "campaignEnded": "bitti",
+  "timeDays": "{count} gün",
+  "@timeDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: timeDays"
+  },
+  "timeHours": "{count} saat",
+  "@timeHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: timeHours"
+  },
+  "timeMinutes": "{count} dk",
+  "@timeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: timeMinutes"
+  },
+  "timeDaysAgo": "{count} gün önce",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: timeDaysAgo"
+  },
+  "timeHoursAgo": "{count} saat önce",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: timeHoursAgo"
+  },
+  "timeMinutesAgo": "{count} dakika önce",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: timeMinutesAgo"
+  },
+  "statusVerifiedShort": "Doğrulandı",
+  "statusMixedShort": "Karışık",
+  "statusOutdatedShort": "Güncel Değil",
+  "statusUnknownShort": "Bilinmiyor",
+  "threeMonthsShort": "(3 Ay)",
+  "versionAndSource": "Sürüm {version} • Kaynak: {source}",
+  "@versionAndSource": {
+    "placeholders": {
+      "version": {
+        "type": "int"
+      },
+      "source": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: versionAndSource"
+  },
+  "sourceOwner": "Kaynak: işletme",
+  "sourceCommunity": "topluluk",
+  "sourceAi": "otomatik",
+  "shareBusinessMessage": "{name} • {location}\n{web}\n{deep}",
+  "@shareBusinessMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "location": {
+        "type": "String"
+      },
+      "web": {
+        "type": "String"
+      },
+      "deep": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: shareBusinessMessage"
+  },
+  "noLinkFound": "Bağlantı bulunamadı",
+  "newEmbedLinksWillAppear": "Yeni gömülü bağlantılar burada görünecek.",
+  "link": "Bağlantı",
+  "untitledLink": "Başlıksız bağlantı",
+  "menuShareNotFoundTitle": "Menü bulunamadı • {appName}",
+  "@menuShareNotFoundTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: menuShareNotFoundTitle"
+  },
+  "menuShareNotFoundDescription": "Paylaşılan menü içeriği bulunamadı.",
+  "menuContentNotFound": "Menü içeriği bulunamadı",
+  "openAppForBetterExperience": "Daha iyi deneyim için uygulamayı aç.",
+  "openApp": "Uygulamayı Aç",
+  "nearbyPeopleViewed": "Yakındaki {count} kişi görüntüledi",
+  "@nearbyPeopleViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: nearbyPeopleViewed"
+  },
+  "verifiedPrices": "Doğrulanmış fiyatlar",
+  "selectRatingFirst": "Önce puan seç",
+  "thankYou": "Teşekkürler",
+  "noProductsFound": "Ürün bulunamadı",
+  "preparedWithApp": "{appName} ile hazırlandı",
+  "@preparedWithApp": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: preparedWithApp"
+  },
+  "tableLabel": "Masa {tableNo}",
+  "@tableLabel": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: tableLabel"
+  },
+  "tableServiceQuestion": "Masa {tableNo} - servis var mı?",
+  "@tableServiceQuestion": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: tableServiceQuestion"
+  },
+  "shortNoteOptional": "Kısa not (opsiyonel)",
+  "submit": "Gönder",
+  "submitted": "Gönderildi",
+  "submitting": "Gönderiliyor",
+  "mySuggestionsTitle": "Önerilerim",
+  "mySuggestionsSubtitle": "Gönderdiğin fiyat önerileri",
+  "viewBusiness": "İşletmeyi Gör",
+  "statusApproved": "Onaylandı",
+  "statusRejected": "Reddedildi",
+  "statusPending": "Beklemede",
+  "retry": "Tekrar dene",
+  "notNow": "Şimdi değil",
+  "onboardingLiveMenusTitle": "Canlı Menüler",
+  "onboardingLiveMenusDescription": "Güncel menülere anında eriş.",
+  "onboardingContributeTitle": "Katkıda Bulun",
+  "onboardingContributeDescription": "Topluluk için fiyatları doğrula ve güncelle.",
+  "getStarted": "Başlayalım",
+  "continueAction": "Devam",
+  "register": "Kayıt Ol",
+  "login": "Giriş Yap",
+  "enableLocationTitle": "Konumu Aç",
+  "enableLocationSubtitle": "Yakındaki yerleri göstermek için konumunu aç.",
+  "locationPermissionGranted": "Konum izni verildi",
+  "locationOptionalInfo": "İstersen daha sonra da açabilirsin.",
+  "allowLocation": "Konuma izin ver",
+  "chooseLocationManually": "Konumu Elle Seç",
+  "menuReading": "Menü okunuyor",
+  "noPriceDetectionFound": "Fiyat tespiti bulunamadı",
+  "receiptOcrNotSupportedWeb": "Web sürümünde fiş OCR desteklenmiyor",
+  "receiptReading": "Fiş okunuyor",
+  "noPriceFoundOnReceipt": "Fişte fiyat bulunamadı",
+  "receiptUploading": "Fiş yükleniyor",
+  "receiptUploadFailed": "Fiş yükleme başarısız",
+  "camera": "Kamera",
+  "gallery": "Galeri",
+  "matchReceipt": "Fişi Eşleştir",
+  "matchPrices": "Fiyatları Eşleştir",
+  "autoMatchedRowsCheck": "Otomatik eşleşen {count} satırı kontrol et.",
+  "@autoMatchedRowsCheck": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: autoMatchedRowsCheck"
+  },
+  "unlabeled": "Etiketsiz",
+  "priceTry": "Fiyat (₺)",
+  "selectMenuItem": "Menü ürünü seç",
+  "sendReceipt": "Fişi Gönder",
+  "sendReceiptSuggestions": "Fiş Önerilerini Gönder",
+  "selectAtLeastOneItem": "En az bir ürün seç",
+  "invalidPriceExists": "Geçersiz fiyat var",
+  "sendingReceipt": "Fiş gönderiliyor",
+  "receiptSent": "Fiş gönderildi",
+  "sendingReceiptSuggestions": "Fiş önerileri gönderiliyor",
+  "priceSuggestionsSent": "Fiyat önerileri gönderildi",
+  "searchFoodHint": "Yemek ara...",
+  "profileActive": "Profil aktif",
+  "profileLoading": "Profil yükleniyor",
+  "dietProfileNotFound": "Beslenme profili bulunamadı",
+  "noResultsFound": "Sonuç bulunamadı",
+  "allowLocationForNearby": "Yakın sonuçlar için konum izni ver",
+  "setPriceAlert": "Fiyat uyarısı kur",
+  "vegan": "Vegan",
+  "vegetarian": "Vejetaryen",
+  "lactoseFree": "Laktozsuz",
+  "maxCalories": "Maksimum kalori",
+  "onlyVerifiedPrice": "Sadece teyitli fiyat",
+  "votes": "{count} oy",
+  "@votes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: votes"
+  },
+  "glutenFree": "Glutensiz",
+  "menuItem": "Menü ürünü",
+  "cataloged": "Kataloglu",
+  "priceAlert": "Fiyat Alarmı",
+  "priceAlertSubtitle": "Belirlediğin fiyatın altına düşünce haber verelim.",
+  "addToBill": "Hesaba Ekle",
+  "voteSaved": "Oyun kaydedildi",
+  "photoAdded": "Fotoğraf eklendi",
+  "photoQualityWarning": "Fotoğraf {warnings} görünüyor. Daha net ve aydınlık bir fotoğraf yükleyebilirsin.",
+  "@photoQualityWarning": {
+    "placeholders": {
+      "warnings": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: photoQualityWarning"
+  },
+  "suggestEdit": "Düzenleme öner",
+  "verifyPriceWithReceipt": "Fiş ile fiyat doğrula",
+  "cart": "Sepet",
+  "cartEmpty": "Sepet boş",
+  "addItemToCalculate": "Hesaplamak için ürün ekle",
+  "tipPercentage": "Bahşiş Yüzdesi",
+  "serviceIncluded": "Servis dahil",
+  "coverIncluded": "Kuver dahil",
+  "subtotal": "Ara toplam",
+  "cover": "Kuver",
+  "serviceWithPercent": "Servis ({percent}%)",
+  "@serviceWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: serviceWithPercent"
+  },
+  "tipWithPercent": "Bahşiş ({percent}%)",
+  "@tipWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tipWithPercent"
+  },
+  "serviceCoverMayVary": "Servis/kuver işletmeye göre değişebilir.",
+  "estimatedTotal": "Tahmini Toplam",
+  "vatExcluded": "KDV hariç",
+  "errorOccurred": "Bir sorun oluştu",
+  "menuItemNotFoundDescription": "Aradığın ürün henüz eklenmemiş olabilir. İstersen ilk sen ekle.",
+  "trustScoreInfoNote": "Bu güven puanı kullanıcı oylaması değil, katkı kalitesinden oluşur.",
+  "plusPoints": "+{points} puan",
+  "@plusPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: plusPoints"
+  },
+  "verifyContributionRaisedScore": "Fiyat doğrulaman katkın puanını yükseltti.",
+  "priceVerification": "Fiyat doğrulama",
+  "priceVerificationSteps": "1) Gördüğün fiyatı yaz  2) Gerekirse not/foto ekle  3) Gönder",
+  "newPriceTry": "Yeni fiyat (₺)",
+  "note": "Not",
+  "addEvidencePhoto": "Kanıt fotoğrafı ekle",
+  "evidenceAdded": "Kanıt eklendi",
+  "menuItemName": "Ürün adı",
+  "menuItemNameRequired": "Ürün adı boş olamaz",
+  "enterValidPrice": "Geçerli bir fiyat gir",
+  "sendSuggestion": "Öneri Gönder",
+  "noChanges": "Değişiklik yok",
+  "priceCannotBeEmpty": "Fiyat boş olamaz",
+  "suggestionSentPendingApproval": "Önerin gönderildi, onay bekliyor.",
+  "noSuggestionFound": "Öneri bulunamadı",
+  "suggestedFoods": "Önerilen Yemekler",
+  "priceHistoryLast3": "Fiyat geçmişi (son 3)",
+  "price": "Fiyat",
+  "last30DaysVotes": "Son 30 gün oyları • Uygun: {ok} • Uygunsuz: {bad}",
+  "@last30DaysVotes": {
+    "placeholders": {
+      "ok": {
+        "type": "int"
+      },
+      "bad": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: last30DaysVotes"
+  },
+  "lastVerificationDate": "Son doğrulama: {date}",
+  "@lastVerificationDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: lastVerificationDate"
+  },
+  "uniqueVerifiersIn48h": "48 saatte doğrulayan farklı kullanıcı: {count}",
+  "@uniqueVerifiersIn48h": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: uniqueVerifiersIn48h"
+  },
+  "strongConsensusPriceSafe": "Güçlü uzlaşı var, fiyat güvenli görünüyor.",
+  "priceConfidenceScore": "Fiyat güven puanı: %{score}",
+  "@priceConfidenceScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: priceConfidenceScore"
+  },
+  "seenCorrect": "Gördüm • Doğru",
+  "seenIncorrect": "Gördüm • Yanlış",
+  "suggestNewPrice": "Yeni fiyat öner",
+  "howCalculated": "Nasıl hesaplandı?",
+  "verificationRate": "Doğrulama oranı",
+  "recentPositiveVotes": "Son olumlu oylar",
+  "priceStability": "Fiyat istikrarı",
+  "priceChangeLast30Days": "Son 30 günde fiyat değişimi: {count}",
+  "@priceChangeLast30Days": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: priceChangeLast30Days"
+  },
+  "scoreForInfoOnly": "Bu skor yalnızca bilgilendirme amaçlıdır.",
+  "pricePerformance": "Fiyat/Performans",
+  "valueScoreFormulaHint": "Doğrulama oranı, son olumlu oylar ve fiyat istikrarına göre hesaplanır.",
+  "menuPhotos": "Menü Fotoğrafları",
+  "updateMenuEarnPoints": "Menü güncelle, {points} puan kazan",
+  "@updateMenuEarnPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: updateMenuEarnPoints"
+  },
+  "menuPhotosHint": "Menü fotoğrafları ürünü göstermeli. Otomatik kırpılır; karanlık/flu olanlar uyarılır.",
+  "noPhotosYet": "Henüz fotoğraf yok.",
+  "yesterday": "Dün",
+  "timeMonthsAgo": "{count} ay önce",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: timeMonthsAgo"
+  },
+  "priceInvalid": "Fiyat geçersiz",
+  "noteNoLinkPhone": "Not alanına bağlantı veya telefon eklenemez.",
+  "noteContainsProfanity": "Notta uygunsuz ifade var.",
+  "noteTooManyEmoji": "Notta çok fazla emoji var",
+  "rateLimited24h": "24 saatlik sınır aşıldı",
+  "dailyPriceSuggestionLimitReached": "Günlük fiyat öneri limitine ulaşıldı",
+  "invalidEvidenceLink": "Kanıt bağlantısı geçersiz.",
+  "invalidCurrency": "Geçersiz para birimi",
+  "loginPageTitle": "Giriş Yap",
+  "loginActionFailedTitle": "İşlem tamamlanamadı",
+  "loginActionFailedDescription": "{error}\nBağlantıyı kontrol edip tekrar dene.",
+  "@loginActionFailedDescription": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: loginActionFailedDescription"
+  },
+  "loginEmailLabel": "E-posta",
+  "loginPasswordLabel": "Şifre",
+  "loginPrimaryAction": "Giriş Yap",
+  "loginSigningInAction": "Giriş yapılıyor...",
+  "loginSignupAction": "Giriş / Kayıt",
+  "loginSigningUpAction": "Kayıt oluşturuluyor...",
+  "loginSignupSuccessMessage": "Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.",
+  "drawerTopBusinesses": "Top İşletmeler",
+  "drawerSocial": "Sosyal",
+  "drawerGourmets": "Lezzet uzmanları",
+  "drawerFollowing": "Takip",
+  "drawerExperimental": "Deneysel",
+  "drawerFeed": "Akış",
+  "drawerTasteTwin": "Tat eşleri",
+  "drawerHeroes": "Kahramanlar",
+  "drawerGroupRequests": "Grup Talepleri",
+  "drawerCompare": "Karşılaştır",
+  "drawerQuickTools": "Hızlı Araçlar",
+  "drawerSmartSuggestionShortcut": "Akıllı Öneri (2 kişi / 600 TL)",
+  "drawerAccount": "Hesap",
+  "drawerMyFavorites": "Favorilerim",
+  "drawerInbox": "Bildirim Kutusu",
+  "drawerInboxWithCount": "Bildirim Kutusu ({count})",
+  "@drawerInboxWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: drawerInboxWithCount"
+  },
+  "drawerMySuggestions": "Önerilerim",
+  "drawerSuspendedMeals": "Askıda",
+  "drawerLegalAndTrust": "Yasal ve Güven",
+  "budgetComboEntryTitle": "Bütçem şu kadar",
+  "budgetComboLocationNotSelected": "Konum seçilmedi",
+  "budgetComboBudgetLabel": "Bütçe (TL)",
+  "budgetComboPartySizeLabel": "Kişi",
+  "budgetComboCategoryOptionalLabel": "Kategori (opsiyonel)",
+  "budgetComboSeeSuggestions": "Önerileri Gör",
+  "budgetComboAllCategories": "Tüm kategoriler",
+  "budgetComboCategoryCafe": "Kafe",
+  "budgetComboCategoryRestaurant": "Restoran",
+  "budgetComboCategoryDessert": "Tatlıcı",
+  "budgetComboCategoryBreakfast": "Kahvaltı",
+  "budgetComboCategoryFishMeat": "Balık / Et",
+  "budgetComboCategoryVenue": "Mekan",
+  "budgetComboResultsTitle": "Bütçe Kombinleri",
+  "budgetComboMissingInfoTitle": "Eksik bilgi",
+  "budgetComboMissingInfoDescription": "Lütfen bütçe ve konum bilgisini girin.",
+  "budgetComboNoResultsTitle": "Henüz uygun kombin yok",
+  "budgetComboNoResultsDescription": "Bütçeyi artırmayı ya da kişi sayısını azaltmayı deneyin.",
+  "budgetComboAdjustCriteriaTitle": "Kriter değiştir",
+  "budgetComboDefaultAction": "Varsayılıan",
+  "budgetComboRadiusDistrictScope": "Yakınlık filtresi şehir/ilçe düzeyinde uygulanır.",
+  "budgetComboRadiusTarget": "Yakınlık hedefi: {km} km",
+  "@budgetComboRadiusTarget": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: budgetComboRadiusTarget"
+  },
+  "budgetComboWeightDistance": "Mesafe",
+  "budgetComboWeightPrice": "Fiyat",
+  "budgetComboWeightRating": "Puan",
+  "budgetComboFallbackSortHint": "Mesafe/puan verisi yoksa sıralama fiyata göre yapılır.",
+  "budgetComboBestComboTitle": "En uygun kombin",
+  "budgetComboTagTop": "Top",
+  "budgetComboOtherSuggestionsTitle": "Diğer öneriler",
+  "budgetComboRatingLabelValue": "Puan {rating}",
+  "@budgetComboRatingLabelValue": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: budgetComboRatingLabelValue"
+  },
+  "budgetComboBestTag": "En uygun",
+  "budgetComboMainItemLabel": "Ana",
+  "budgetComboDrinkItemLabel": "İçecek",
+  "budgetComboTotalLabel": "{price} toplam",
+  "@budgetComboTotalLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: budgetComboTotalLabel"
+  },
+  "budgetComboGoToBusinessAction": "İşletmeye git",
+  "panelAccessTitle": "Panel Erişimi",
+  "panelWebOnlyMessage": "Bu panel web üzerinden kullanılır.",
+  "panelRedirectedPath": "Yönlendirilen yol: {path}",
+  "@panelRedirectedPath": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: panelRedirectedPath"
+  },
+  "panelBackToDiscover": "Keşfet sayfasına dön",
+  "notFoundTitle": "Sayfa Bulunamadı",
+  "businessHeaderStatusClosingLabel": "Durum / Kapanış",
+  "businessHeaderAveragePriceLabel": "Ortalama fiyat",
+  "businessHeaderPopularItemLabel": "Popüler ürün",
+  "businessHeaderLastVerificationLabel": "Son doğrulama",
+  "businessStatusOpen": "Açık",
+  "businessStatusClosed": "Kapalı",
+  "businessHeaderDirectionsAction": "Yol tarifi",
+  "chainPageTitle": "Zincir",
+  "chainPageNoBranches": "Şube bulunamadı.",
+  "chainPageNearbyBranchesTitle": "Yakın şubeler",
+  "chainPageBranchMenuPriceHint": "Şube menü ve fiyatları farklı olabilir.",
+  "chainPageBranchMoreExpensive": "Bu şube daha pahalı (%{pct})",
+  "@chainPageBranchMoreExpensive": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: chainPageBranchMoreExpensive"
+  },
+  "chainPageBranchMoreAffordable": "Bu şube daha uygun (%{pct})",
+  "@chainPageBranchMoreAffordable": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: chainPageBranchMoreAffordable"
+  },
+  "chainPageBranchNearAverage": "Zincir ortalamasına yakınlık",
+  "comparePageTitle": "Karşılaştırma",
+  "compareEmptyTitle": "Karşılaştırma boş",
+  "compareEmptyDescription": "İşletme sayfalarından karşılaştırmaya ekle.",
+  "compareBackToDiscover": "Keşfet sayfasına dön",
+  "compareBestPickAction": "En mantıklı seçimi göster",
+  "compareSuggestedBadge": "Öneri",
+  "compareMedianPriceLabel": "Median fiyat",
+  "compareVerifiedRateLabel": "Verified oranı",
+  "compareLastUpdateLabel": "Son güncelleme",
+  "compareBestItemTitle": "Uygun item",
+  "compareGoToBusinessAction": "İşletmeye git",
+  "compareRemoveTooltip": "Kaldır",
+  "compareRecommendedSnack": "Öneri: {name}",
+  "@compareRecommendedSnack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: compareRecommendedSnack"
+  },
+  "contributeDefaultBusinessName": "bu işletme",
+  "contributeOpenBusinessFirst": "Bu katkı için önce bir işletme sayfası aç.",
+  "contributeUploadingProgress": "Gönderiliyor...",
+  "contributeUploadSentSingle": "Gönderildi - kontrol sonrası menüye eklenecek.",
+  "contributeUploadSentMultiple": "{count} sayfa gönderildi - kontrol sonrası menüye eklenecek.",
+  "@contributeUploadSentMultiple": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: contributeUploadSentMultiple"
+  },
+  "contributeUploadFailed": "Gönderim başarısız. Lütfen tekrar dene.",
+  "contributeQrDecodingProgress": "QR çözülüyor...",
+  "contributeQrUnreadableSentReview": "QR okunamadı. Görsel inceleme için gönderiliyor.",
+  "contributeQrVerifiedRedirecting": "QR doğrulandı. Yönlendiriliyorsun.",
+  "contributeQrProcessFailed": "QR işlenemedi. Lütfen tekrar dene.",
+  "contributeExternalQrUseBusinessPage": "Dış QR kodu için işletme sayfasında Katkı yap kullan.",
+  "contributeSendingForReviewProgress": "İnceleme için gönderiliyor...",
+  "contributeQrImageSentForReview": "QR görüntüsü gönderildi. İnceleme sonrası işleme alınacak.",
+  "contributeExternalLinkSentForReview": "Dış link incelemeye gönderildi.",
+  "contributeSourceCamera": "Kamera",
+  "contributeSourceGallery": "Galeri",
+  "contributeSelectBusinessForPriceVerification": "Fiyat doğrulama için önce bir işletme seç.",
+  "contributeSelectMenuItemToVerifyPrice": "Menüden tek ürün seçip fiyatını doğrulayabilirsin.",
+  "discoveryFilterCafe": "Kafe",
+  "discoveryFilterRestaurant": "Restoran",
+  "discoveryFilterDessertPastry": "Tatlı / Pastane",
+  "discoveryFilterBreakfast": "Kahvaltı",
+  "discoveryFilterFishMeat": "Balık / Et",
+  "discoveryFilterVenue": "Mekan",
+  "discoveryHomeCategoryDoner": "İnce Döner",
+  "discoveryHomeCategoryPide": "Pide",
+  "discoveryHomeCategoryLahmacun": "Lahmacun",
+  "discoveryHomeCategoryBurger": "Burger",
+  "discoveryHomeCategoryPizza": "Pizza",
+  "discoveryHomeCategoryKebap": "Kebap",
+  "discoveryHomeCategoryCorba": "Çorba",
+  "discoveryHomeCategoryKahvalti": "Kahvaltı",
+  "discoveryHomeCategoryManti": "Mantı",
+  "discoveryHomeCategoryTatli": "Tatlı",
+  "discoveryRecentSearches": "Son aramalar",
+  "discoveryCatalogSuggestions": "Katalog önerileri",
+  "feedEmptyMessage": "Henüz akış yok. Lezzet uzmanlarını takip ederek başlayabilirsin.",
+  "all": "Tümü",
+  "sil": "Sil",
+  "favoritesCollectionLabel": "Koleksiyon",
+  "favoritesSavedHereSubtitle": "Kaydettiklerin burada",
+  "favoritesSharedCollectionSubtitle": "Paylaşılan koleksiyon: {name}",
+  "@favoritesSharedCollectionSubtitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: favoritesSharedCollectionSubtitle"
+  },
+  "favoritesSearchHint": "Favorilerde ara",
+  "favoritesNearbyLoadingLocation": "Yakınındakiler için konum alınıyor...",
+  "favoritesNearbyFallbackOrdering": "Konum alınamadı. Varsaylan sıralama gösteriliyor.",
+  "favoritesNearbySortedByDistance": "Yakınındakiler mesafeye göre sıralandı.",
+  "favoritesCollectionsTitle": "Koleksiyonlar",
+  "favoritesCreateCollectionTooltip": "Koleksiyon oluştur",
+  "favoritesShareCollectionTooltip": "Koleksiyonu paylaş",
+  "favoritesDeleteCollectionTooltip": "Koleksiyonu sil",
+  "favoritesCreatorSelectCollectionHint": "İçerik üretici modu için önce bir koleksiyon seç.",
+  "favoritesCreatorCollectionTitle": "İçerik üretici koleksiyonu",
+  "favoritesCreatorCollectionSubtitle": "Koleksiyonunu yayınla, takipçi kazan. Reklam içeriği varsa etiket zorunludur.",
+  "favoritesPublishAction": "Yayınla",
+  "favoritesPublishVisibleSubtitle": "Profilinde ve paylaşım bağlantılarında görünür.",
+  "favoritesPublishPrivateSubtitle": "Bu koleksiyonu sadece sen görürsün.",
+  "favoritesSharedCollectionTitle": "Paylaşılan koleksiyon",
+  "favoritesFollowCollectionHint": "Bu koleksiyonu takip ederek güncellemeleri kaçırmama.",
+  "favoritesFollowAction": "Takip et",
+  "favoritesFollowingAction": "Takiptesin",
+  "favoritesFollowersChip": "Takipçi {count}",
+  "@favoritesFollowersChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: favoritesFollowersChip"
+  },
+  "favoritesEngagementChip": "Etkileşim {count}",
+  "@favoritesEngagementChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: favoritesEngagementChip"
+  },
+  "favoritesNewCollectionTitle": "Yeni Koleksiyon",
+  "favoritesCollectionNameExample": "Örn: Gece döneri",
+  "favoritesCreateAction": "Oluştur",
+  "favoritesDeleteCollectionConfirmTitle": "Koleksiyon silinsin mi?",
+  "favoritesDeleteCollectionConfirmBody": "Bu işlem geri alınamaz.",
+  "favoritesBusinessCollectionsTitle": "\"{businessName}\" koleksiyonları",
+  "@favoritesBusinessCollectionsTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: favoritesBusinessCollectionsTitle"
+  },
+  "favoritesNoCollectionYet": "Henüz koleksiyon yok. Önce koleksiyon oluştur.",
+  "favoritesNewCollectionAction": "Yeni koleksiyon",
+  "favoritesDisclosureSponsored": "Reklam",
+  "favoritesDisclosureOrganic": "Organik",
+  "favoritesDisclosurePrivate": "Özel",
+  "favoritesShareText": "Yeedoy koleksiyonum: {name}\n{link}\n\nMod: Yakınındakilerden öner\nEtiket: {disclosure}",
+  "@favoritesShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      },
+      "disclosure": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: favoritesShareText"
+  },
+  "favoritesAdDisclosureTitle": "Reklam bildirimi",
+  "favoritesAdDisclosureBody": "Bu koleksiyonda iÃ…Å¸ birliÃ„Å¸i varsa \"Reklam\" olarak işaretlemek zorunludur.",
+  "favoritesCacheStaleMessage": "Veri {days} gün önce güncellenmiş¸ olabilir.",
+  "@favoritesCacheStaleMessage": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: favoritesCacheStaleMessage"
+  },
+  "favoritesAddToCollectionTooltip": "Koleksiyona ekle",
+  "followingPageTitle": "Takip Ettiklerim",
+  "followingPageEmpty": "Henüz kimseyi takip etmiyorsun.",
+  "followingPageUnfollowAction": "Takibi bırak",
+  "gourmetsPageTitle": "Lezzet uzmanlarının keşfet",
+  "gourmetsPageEmpty": "Henüz lezzet uzmanı yok.",
+  "groupRequestWizardTitle": "Grup Yemeği Talebi",
+  "groupRequestWizardEnterDetails": "Detayları gir",
+  "groupRequestWizardCityLabel": "Şehir",
+  "groupRequestWizardDistrictLabel": "İlçe",
+  "groupRequestWizardCategoryHint": "Kategori (kahve, lokanta...)",
+  "groupRequestWizardPartySizeLabel": "Kişi sayısı",
+  "groupRequestWizardTotalBudgetLabel": "Toplam bütçe (TL)",
+  "groupRequestWizardNotesLabel": "Notlar",
+  "groupRequestWizardCreateAction": "Talep Oluştur",
+  "groupRequestWizardInfoTitle": "Teklifler işletmelerden gelir",
+  "groupRequestWizardInfoDescription": "Talebin açıldığında işletmeler teklif verebilir.",
+  "groupRequestWizardMissingFields": "Eksik alan var",
+  "groupRequestWizardPickDateTime": "Tarih ve saat seç",
+  "groupRequestMyRequestsTitle": "Taleplerim",
+  "groupRequestNewRequestAction": "Yeni Talep",
+  "groupRequestNoRequestsTitle": "Talep yok",
+  "groupRequestNoRequestsDescription": "İlk grup yemeği talebini oluştur.",
+  "groupRequestPartyAndBudget": "{party} kişi · {budget}",
+  "@groupRequestPartyAndBudget": {
+    "placeholders": {
+      "party": {
+        "type": "int"
+      },
+      "budget": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: groupRequestPartyAndBudget"
+  },
+  "groupRequestStatusOpen": "Açık",
+  "groupRequestStatusAwarded": "Kazandırıldı",
+  "groupRequestStatusClosed": "Kapandı",
+  "groupRequestStatusCancelled": "İptal",
+  "groupRequestDetailTitle": "Grup Talebi",
+  "groupRequestLinkCopied": "Grup linki kopyalandı",
+  "groupRequestNotFound": "Talep bulunamadı",
+  "groupRequestCreatedBannerTitle": "Talebin yayında",
+  "groupRequestCreatedBannerDescription": "Grup linkini paylaş. Herkes önerileri ekler, oylar.",
+  "groupRequestLinkTitle": "Grup linki",
+  "groupRequestCopyAction": "Kopyala",
+  "groupRequestAddSuggestionTitle": "Öneri ekle",
+  "groupRequestAddSuggestionDescription": "İşletme seç, teklif ekle ve grup oylasın.",
+  "groupRequestAddSuggestionAction": "Öneri ekle",
+  "groupRequestOffersTitle": "Teklifler",
+  "groupRequestNoOffersTitle": "Henüz teklif yok",
+  "groupRequestNoOffersDescription": "Teklifler geldiğinde burada görünecek.",
+  "groupRequestBusinessFallback": "İşletme",
+  "groupRequestTopContributorBadge": "Grubu en iyi besleyen",
+  "groupRequestOfferPriceLabel": "Teklif: {price}",
+  "@groupRequestOfferPriceLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: groupRequestOfferPriceLabel"
+  },
+  "groupRequestUndoVoteAction": "Oyunu geri al",
+  "groupRequestVoteAction": "Oy ver",
+  "groupRequestProcessing": "İşleniyor...",
+  "groupRequestAcceptOfferAction": "Teklifi kabul et",
+  "groupRequestVotesLabel": "Oy: {count}",
+  "@groupRequestVotesLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: groupRequestVotesLabel"
+  },
+  "groupRequestSearchMinChars": "En az 2 karakter yaz",
+  "groupRequestBusinessAndPriceRequired": "İşletme ve fiyat gerekli",
+  "groupRequestSuggestionAdded": "Öneri eklendi",
+  "groupRequestSearchBusinessLabel": "İşletme ara",
+  "groupRequestSuggestIfMissing": "İşletme yoksa öner",
+  "groupRequestTryDifferentName": "Farklı bir isim deneyin.",
+  "groupRequestOfferTotalPriceLabel": "Teklif toplam fiyat (TL)",
+  "groupRequestNoteLabel": "Not",
+  "groupRequestChangeAction": "Değiştir",
+  "groupRequestAcceptedSummary": "Sonuç seçildi. Toplam: {price}",
+  "@groupRequestAcceptedSummary": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: groupRequestAcceptedSummary"
+  },
+  "groupRequestCopyResultAction": "Sonuç kopyala",
+  "heroesPageTitle": "Kahramanlar",
+  "heroesPageSubtitle": "Askıya yemek bırakanlar",
+  "heroesPageEmpty": "Henüz kahraman yok.",
+  "heroesPageUserFallback": "Kullanıcı",
+  "heroesPageDonatedMealCount": "{count} askıda yemek",
+  "@heroesPageDonatedMealCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: heroesPageDonatedMealCount"
+  },
+  "verifyPriceIsCorrectQuestion": "Fiyat doğru mu?",
+  "verifyPriceCorrectAction": "Doğru",
+  "verifyPriceIncorrectAction": "Yanlış",
+  "verifyPriceCorrectPriceLabel": "Doğru fiyat (TL)",
+  "verifyPriceCorrectPriceHint": "Örn: 245,50",
+  "verifyPriceChooseCorrectnessFirst": "Önce doğru/yanlış seçin.",
+  "verifyPriceEnterValidPrice": "Geçerli bir fiyat girin.",
+  "menuItemCalories": "{calories} kcal",
+  "@menuItemCalories": {
+    "placeholders": {
+      "calories": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: menuItemCalories"
+  },
+  "menuItemAutoApprovedMessage": "Fiyat otomatik onaylandı ve menü güncellendi.",
+  "menuItemPendingCountMessage": "Önerin alındı. Bu ürün için {count} öneri sırada.",
+  "@menuItemPendingCountMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: menuItemPendingCountMessage"
+  },
+  "menuItemPendingSingleMessage": "Önerin alındı, onay bekliyor.",
+  "menuItemOnsiteVerifiedPrioritizedMessage": "Teşekkürler. Mekandan doğrulama sinyali alındı, önerin önceliklendirildi.",
+  "menuPhotoWarningDark": "karanlık",
+  "menuPhotoWarningBlurry": "bulanık",
+  "menuContributionLevelLabel": "Katkı Seviyesi",
+  "menuScoreUpdated": "Puanın güncellendi",
+  "menuLevel": "Seviye {level}",
+  "@menuLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: menuLevel"
+  },
+  "menuXpValue": "{xp} XP",
+  "@menuXpValue": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: menuXpValue"
+  },
+  "menuSelectedVariantLabel": "Seçili varyant: {label} ({price})",
+  "@menuSelectedVariantLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: menuSelectedVariantLabel"
+  },
+  "menuPriceHistoryCurrent": "{current} > {source}",
+  "@menuPriceHistoryCurrent": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: menuPriceHistoryCurrent"
+  },
+  "menuPriceHistoryTransition": "{previous} > {current} > {source}",
+  "@menuPriceHistoryTransition": {
+    "placeholders": {
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: menuPriceHistoryTransition"
+  },
+  "menuPriceHistoryMeta": "{relative} • {date}{delta}",
+  "@menuPriceHistoryMeta": {
+    "placeholders": {
+      "relative": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "delta": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: menuPriceHistoryMeta"
+  },
+  "inboxTitle": "Bildirim Kutusu",
+  "inboxMarkAllRead": "Tümünü okundu işaretle",
+  "inboxEmptyTitle": "Bildirim yok",
+  "inboxEmptyDescription": "Fiyat önerisi, claim, rapor ve yorum cevabı bildirimleri burada görünecek.",
+  "inboxXpGain": "+{xp} XP",
+  "@inboxXpGain": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: inboxXpGain"
+  },
+  "inboxNewLevel": "Yeni seviye: {level}",
+  "@inboxNewLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: inboxNewLevel"
+  },
+  "inboxLevel": "Seviye: {level}",
+  "@inboxLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: inboxLevel"
+  },
+  "inboxNow": "Şimdi",
+  "inboxReengagementTitle": "Seni özledik",
+  "inboxReengagementSubtitle": "Yakındaki yeni menülere göz at.",
+  "inboxRecentBusinessClosedTitle": "Son baktığın işletme kapandı görünüyor",
+  "inboxRecentBusinessPriceChangedTitle": "Son baktığın yerde fiyat değişti",
+  "inboxRecentBusinessNearbyTitle": "Son baktığın yer yakında",
+  "inboxRecentBusinessTitle": "Son baktığın yer",
+  "inboxRecentBusinessNearbyReason": "Sana yakın olduğu için öne alındı",
+  "inboxFavoritesPriceChangedTitle": "Favorilerinde fiyat değişti",
+  "inboxFavoritesPriceChangedSubtitle": "{name} • Son {count} doğrulama",
+  "@inboxFavoritesPriceChangedSubtitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: inboxFavoritesPriceChangedSubtitle"
+  },
+  "inboxDailyTaskTitle": "Sana uygun bugÃ¼nÃ¼n gÃ¶revi",
+  "inboxSegmentPriceHunter": "Bugün 1 fiyat doğrula; güven skorun daha hızlı artsın.",
+  "inboxSegmentPhotoProof": "Bugün 1 net menü/fotoğraf kanıtı ekle.",
+  "inboxSegmentExplorer": "Bugün yeni bir mekan aç ve fiyat durumunu kontrol et.",
+  "inboxSegmentSilentQuality": "Sessiz kalite katkın güçlü, doğru veriyi sürdür.",
+  "inboxSegmentDefault": "Bugün küçük bir katkıyla grafiğini güçlendir.",
+  "inboxAlertPriceUp": "Fiyat %{pct} çıktığında",
+  "@inboxAlertPriceUp": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: inboxAlertPriceUp"
+  },
+  "inboxAlertPriceDown": "Fiyat %{pct} düştü",
+  "@inboxAlertPriceDown": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: inboxAlertPriceDown"
+  },
+  "inboxAlertCheaperNow": "Şuan %{pct} daha ucuz",
+  "@inboxAlertCheaperNow": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: inboxAlertCheaperNow"
+  },
+  "inboxAlertAboveDistrictAverage": "Bu semtte ortalamanın üstüne çıktığında",
+  "inboxAlertBelowDistrictAverage": "Bu semtte ortalamanın altına indi",
+  "inboxAlertTriggered": "Fiyat alarmı tetiklendi",
+  "inboxBusinessClosedArchived": "İşletme kapandı (arşiv).",
+  "inboxBusinessMoved": "İşletme taşındı.",
+  "inboxBusinessTemporarilyClosed": "İşletme geçici kapalı.",
+  "inboxBusinessStatusUpdated": "Durum güncellendi",
+  "priceAlertSheetTitle": "Fiyat alarmı oluşturma",
+  "priceAlertSheetQueryLabel": "Ürün veya arama metni",
+  "priceAlertSheetMaxPriceLabel": "Maksimum fiyat (TL)",
+  "priceAlertSheetCategoryLabel": "Kategori",
+  "priceAlertSheetValidationError": "Arama metni ve geçerli bir fiyat girin.",
+  "priceAlertSheetSaved": "Fiyat alarmı kaydedildi.",
+  "achievementStatusUnlocked": "Durum: Açık",
+  "achievementStatusLocked": "Durum: Kilitli",
+  "profileGuestUser": "Misafir",
+  "profileIdentitySupportMessage": "Topluluğa katkılı yaparak profilini güçlendirebilirsin.",
+  "profileAlertsTab": "Alarmlar",
+  "profileFeedTab": "Akış",
+  "profileLoginToSeeContributions": "KatkılarÄ±nÄ± ve istatistiklerini gÃ¶rmek iÃ§in giriÅŸ yap.",
+  "profileCreatorBadgeTitle": "İçerik üretici rozeti",
+  "profileCreatorBadgeEnabled": "Profilin içerik üretici olarak görünüyor.",
+  "profileCreatorBadgeDisabled": "İstersen içerik üretici rozetini açabilirsin.",
+  "profileAddSocialLinkTitle": "Sosyal bağlantı ekle",
+  "linkLabel": "Bağlantı",
+  "profileSocialLinksHint": "YouTube / Instagram / Facebook",
+  "profileSocialSaveComingSoon": "Sosyal bağlantı kaydetme özelliği yakında.",
+  "profileStatsTitle": "Profil istatistikleri",
+  "profileCommunityTrustTitle": "Topluluk güveni",
+  "profileCalculating": "Hesaplanıyor...",
+  "profileTrustScorePercent": "Güven skoru: %{score}",
+  "@profileTrustScorePercent": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: profileTrustScorePercent"
+  },
+  "profileLevelXp": "Seviye {level} • Toplam {xp} XP",
+  "@profileLevelXp": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "xp": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: profileLevelXp"
+  },
+  "profileMyAchievementsTitle": "Başarı rozetlerim",
+  "profileNoAchievementYet": "Henüz rozet kazanmadın.",
+  "profileAlertsLoginRequired": "Alarmları görmek için giriş yap.",
+  "profileAlertsEmpty": "Henüz alarm bildirimi yok.",
+  "profileFeedLoginRequired": "Akışı görmek için giriş yap.",
+  "profileFeedEmpty": "Akışta henüz içerik yok.",
+  "profileFeedEventPriceVerified": "Fiyat doğrulandı",
+  "profileFeedEventMenuUpdated": "Menü güncellendi",
+  "profileFeedEventSponsored": "Sponsorlu güncelleme",
+  "profileDailyTaskTitle": "Bugünün görevi",
+  "profileDailyTaskCompleted": "Tamamlandı",
+  "profileSegmentHintPriceHunter": "Fiyat doğrulama tarafında güçlüsün; bugün tek bir ürün doğrulaması yeterli.",
+  "profileSegmentHintPhotoProof": "Kanıt odaklı gidiyorsun; net bir menü fotoğrafı etkiyi artırır.",
+  "profileSegmentHintExplorer": "Keşif odaklısın; yeni bir işletmeyi kontrol etmek görevi hızlandırır.",
+  "profileSegmentHintDefault": "Küçük ama doğru katkılar güven grafiğini en hızlı büyütür.",
+  "profileStatReviews": "Yorum",
+  "profileStatHelpfulVotes": "Faydalı oy",
+  "profileStatFavorites": "Favori",
+  "profileStatContributions": "Katkı",
+  "profileStatVisits": "Ziyaret",
+  "profileLatestAchievementTitle": "Son kazanılan başarı",
+  "profileAlertCurrentPrice": "Güncel fiyat: {price} TL",
+  "@profileAlertCurrentPrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: profileAlertCurrentPrice"
+  },
+  "profileAlertPriceChanged": "Fiyat değişti: {previous} → {current} TL",
+  "@profileAlertPriceChanged": {
+    "placeholders": {
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: profileAlertPriceChanged"
+  },
+  "profileSegmentPriceHunter": "Fiyat avcısı",
+  "profileSegmentExplorer": "Keşif",
+  "profileSegmentPhotoProof": "Fotoğraf kanıtı",
+  "profileSegmentBalanced": "Dengeli",
+  "profileMoatSignalsTitle": "Davranış sinyalleri",
+  "profileSignalTrust": "Güven",
+  "profileSignalAccuracy": "Doğruluk",
+  "profileSignalSegment": "Segment",
+  "profileSignalSilentQuality": "Sessiz kalite",
+  "profileMoatTrustedRejectedSpam": "Güvenilen katkılı: {trusted} • Reddedilen: {rejected} • Spam sinyali: {spam}",
+  "@profileMoatTrustedRejectedSpam": {
+    "placeholders": {
+      "trusted": {
+        "type": "int"
+      },
+      "rejected": {
+        "type": "int"
+      },
+      "spam": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: profileMoatTrustedRejectedSpam"
+  },
+  "profileMoatBehaviorSummary": "Davranış: fiyat {price}, keşif {discovery}, fotoğraf {photo}",
+  "@profileMoatBehaviorSummary": {
+    "placeholders": {
+      "price": {
+        "type": "int"
+      },
+      "discovery": {
+        "type": "int"
+      },
+      "photo": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: profileMoatBehaviorSummary"
+  },
+  "profileMoatSilentQualityHint": "Sessiz kalite katkıcısı: Az konuşup doğru katkı yapıyorsun.",
+  "businessReviewsCommunityExperiences": "Topluluğun deneyimleri",
+  "businessReviewsOwnerCanModerate": "İşletme sahibi uygun olmayan yorumları yönetebilir.",
+  "businessReviewsOwnersCanOnlyReply": "İşletme sahipleri yalnızca yorumlara cevap verebilir.",
+  "sortNewest": "En yeni",
+  "sortMostHelpful": "En faydalı",
+  "businessReviewsQualityLabel": "Kalite skoru: {score}",
+  "@businessReviewsQualityLabel": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: businessReviewsQualityLabel"
+  },
+  "helpfulCount": "Faydalı ({count})",
+  "@helpfulCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: helpfulCount"
+  },
+  "businessReviewsEmpty": "Henüz yorum yok.",
+  "reviewCreateRatingLabel": "Puan",
+  "reviewCreateOptionalTitleLabel": "Başlık (isteğe bağlı)",
+  "reviewCreateContentRequired": "Yorum boş olamaz.",
+  "reviewCreateSubmitted": "Yorum gönderildi.",
+  "reviewCreateErrorNewAccountRateLimited": "Yeni hesaplar için günlük yorum limiti doldu.",
+  "reviewCreateErrorSameBusinessCooldown": "Aynı işletme için kısa sürede tekrar yorum gönderemezsin.",
+  "reviewCreateErrorContainsLinkOrPhone": "Yorumda link veya telefon bilgisi paylaşılamaz.",
+  "reviewCreateErrorContainsProfanity": "Yorumda uygunsuz ifade var.",
+  "reviewCreateErrorEmojiSpam": "Yorumda çok fazla emoji var.",
+  "quality": "Kalite",
+  "smartFeedEmptyTitle": "Henüz akış yok",
+  "smartFeedEmptyDescription": "Filtreleri gevşetebilir ya da ilk katkıyı sen ekleyebilirsin.",
+  "smartFeedCurationTitle": "Kürasyon",
+  "smartFeedCategoriesLabel": "Kategoriler",
+  "smartFeedScenarioLabel": "Senaryo",
+  "smartFeedBudgetMax": "En fazla â‚º{amount}",
+  "@smartFeedBudgetMax": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: smartFeedBudgetMax"
+  },
+  "smartFeedUnlimited": "Sınırsız",
+  "smartFeedPreferenceHint": "Tercih: {label}",
+  "@smartFeedPreferenceHint": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: smartFeedPreferenceHint"
+  },
+  "smartFeedScenarioHint": "Senaryo: {label}",
+  "@smartFeedScenarioHint": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: smartFeedScenarioHint"
+  },
+  "smartFeedContextDefault": "Bugünün akışını senin ritmine göre hazırlıyoruz.",
+  "smartFeedCategoryMeyhane": "Meyhane",
+  "smartFeedCategoryAffordable": "Uygun fiyatlı",
+  "smartFeedBundleStudentFriendly": "Öğrenci dostu",
+  "smartFeedBundleFirstDate": "İlk randevu",
+  "smartFeedBundleNightSoup": "Gece çorbası",
+  "smartFeedMinutesAgo": "{count} dk önce",
+  "@smartFeedMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: smartFeedMinutesAgo"
+  },
+  "smartFeedHoursAgo": "{count} saat önce",
+  "@smartFeedHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: smartFeedHoursAgo"
+  },
+  "smartFeedDaysAgo": "{count} gün önce",
+  "@smartFeedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: smartFeedDaysAgo"
+  },
+  "smartFeedEventMenu": "Menü",
+  "smartFeedEventPrice": "Fiyat",
+  "smartFeedEventPhoto": "Fotoğraf",
+  "smartFeedEventDaily": "Günlük",
+  "smartFeedEventSponsor": "Sponsor",
+  "smartFeedFallbackPriceChanged": "Fiyat güncellendi",
+  "smartFeedFallbackPhotoAdded": "Yeni fotoğraf eklendi",
+  "smartFeedFallbackDailyMenu": "Günün menüsü",
+  "smartFeedFallbackNewContent": "Yeni içerik",
+  "smartFeedCtaGoToMenu": "Menüye git",
+  "smartFeedCtaOpenItem": "Ürünü aç",
+  "smartFeedCtaViewPhoto": "Fotoğrafa bak",
+  "smartFeedCtaGoToBusiness": "İşletmeye git",
+  "smartFeedNearbyKm": "YakÄ±nÄ±nda {km} km",
+  "@smartFeedNearbyKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: smartFeedNearbyKm"
+  },
+  "smartFeedReasonCategoryMatch": "Sana uygun kategori",
+  "smartFeedReasonScenarioMatch": "Senin senaryon",
+  "smartFeedReasonSimilarUsers": "Benzer kullanÄ±cÄ±lar seviyor",
+  "smartFeedDayWeekend": "Hafta sonu",
+  "smartFeedDayWeekday": "Hafta içi",
+  "smartFeedTimeMorning": "Sabah",
+  "smartFeedTimeNoon": "Öğle",
+  "smartFeedTimeEvening": "Akşam",
+  "smartFeedTimeNight": "Gece",
+  "suggestBusinessSubmitDialogTitle": "Önerin alındı mı?",
+  "suggestBusinessSubmitDialogContent": "Teşekkürler! İnceleme sonucunda işletme yayına alınacak.\n\nTakip Kodu: {code}",
+  "@suggestBusinessSubmitDialogContent": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: suggestBusinessSubmitDialogContent"
+  },
+  "ok": "Tamam",
+  "suggestBusinessPageTitle": "İşletme Ekle",
+  "suggestBusinessPageSubtitle": "Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarÄ±z.",
+  "suggestBusinessNameLabel": "İşletme adı",
+  "requiredField": "Zorunlu",
+  "suggestBusinessCategoryLabel": "Kategori",
+  "suggestBusinessAddressLabel": "Adres",
+  "suggestBusinessPhoneLabel": "Telefon",
+  "suggestBusinessWebsiteLabel": "Web sitesi",
+  "suggestBusinessDuplicateTitle": "Bu işletme zaten var olabilir",
+  "suggestBusinessDuplicateFound": "Arama sonucunda benzer işletmeler bulundu:",
+  "suggestBusinessDuplicateConfirm": "Yine de yeni öneriyi göndermek istiyor musun?",
+  "suggestBusinessSendAnyway": "Yine de Gönder",
+  "suggestBusinessOpenAction": "Aç",
+  "copy": "Kopyala",
+  "topBusinessesNotEnoughData": "Henüz yeterli veri yok.",
+  "topBusinessesBadgeMonth": "Ay",
+  "topBusinessesBadgeWeek": "Hafta",
+  "suspendedMealsMyClaimsTitle": "Askıda Yemeklerim",
+  "suspendedMealsStatusCodeReady": "Kod hazır",
+  "suspendedMealsStatusFulfilled": "Teslim alındı",
+  "suspendedMealsNoRecords": "Kayıt yok.",
+  "suspendedMealsDeliveryCode": "Teslim kodu",
+  "suspendedMealsCodeCopied": "Kod kopyalandı",
+  "suspendedMealsCodeHint": "Restorana gidip bu kodu söyle.",
+  "suspendedMealsPendingReview": "İnceleniyor",
+  "suspendedMealsMonthsAgo": "{count} ay önce",
+  "@suspendedMealsMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: suspendedMealsMonthsAgo"
+  },
+  "tasteTwinTitle": "Damak Tadı İkizi",
+  "tasteTwinLoginRequired": "Bu sayfayı görmek için giriş yapmalısın.",
+  "tasteTwinSubtitle": "Puanlamalarına göre sana benzeyen kişiler",
+  "tasteTwinNoMatches": "Henüz eşleşme yok.",
+  "tasteTwinMatchSummary": "%{similarity} uyum • Ortak {places} yer",
+  "@tasteTwinMatchSummary": {
+    "placeholders": {
+      "similarity": {
+        "type": "int"
+      },
+      "places": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tasteTwinMatchSummary"
+  },
+  "tasteTwinSignalHint": "Yorum + menü sinyali",
+  "tasteTwinViewSuggestions": "Önerileri gör",
+  "tasteTwinRecommendationsTitle": "{name} önerileri",
+  "@tasteTwinRecommendationsTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: tasteTwinRecommendationsTitle"
+  },
+  "tasteTwinFollowGourmet": "Bu gurmeyi takip et",
+  "tasteTwinNoSuggestionsYet": "Şimdilik öneri yok.",
+  "tasteTwinWhyMatchedTitle": "Neden eşleştiniz?",
+  "tasteTwinReviewOverlapTitle": "Yorum ortaklÄ±ÄŸÄ±",
+  "tasteTwinNoSampleYet": "Henüz örnek yok.",
+  "tasteTwinMenuSignalOverlapTitle": "Menü sinyali ortaklÄ±ÄŸÄ±",
+  "tasteTwinMenuSignalOverlapHint": "Fiyat teyidi / fotoğraf beğenisi / fotoğraf ekleme sinyalleri",
+  "tasteTwinDivergenceTitle": "Burada anlaşılmadınız :)",
+  "tasteTwinRatingComparison": "Sen: {myRating} • O: {otherRating}",
+  "@tasteTwinRatingComparison": {
+    "placeholders": {
+      "myRating": {
+        "type": "int"
+      },
+      "otherRating": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tasteTwinRatingComparison"
+  },
+  "tasteTwinYouAt": "Sen {value}",
+  "@tasteTwinYouAt": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: tasteTwinYouAt"
+  },
+  "tasteTwinSignalComparison": "Sen: +{mySignal} • O: +{otherSignal}",
+  "@tasteTwinSignalComparison": {
+    "placeholders": {
+      "mySignal": {
+        "type": "int"
+      },
+      "otherSignal": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tasteTwinSignalComparison"
+  },
+  "tasteTwinMatchRated": "Eşleşmen {rating} puan verdi",
+  "@tasteTwinMatchRated": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tasteTwinMatchRated"
+  },
+  "tasteTwinRatedAt": "{when} {text}",
+  "@tasteTwinRatedAt": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "text": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: tasteTwinRatedAt"
+  },
+  "tasteTwinDebugReviewAndSignal": "Yorum {review}% + sinyal {signal}%",
+  "@tasteTwinDebugReviewAndSignal": {
+    "placeholders": {
+      "review": {
+        "type": "int"
+      },
+      "signal": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tasteTwinDebugReviewAndSignal"
+  },
+  "tasteTwinDebugReviewOnly": "Yorum {review}%",
+  "@tasteTwinDebugReviewOnly": {
+    "placeholders": {
+      "review": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tasteTwinDebugReviewOnly"
+  },
+  "tasteTwinDebugSignalOnly": "Sinyal {signal}%",
+  "@tasteTwinDebugSignalOnly": {
+    "placeholders": {
+      "signal": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: tasteTwinDebugSignalOnly"
+  },
+  "tasteTwinTodayLower": "bugün",
+  "tasteTwinYesterdayLower": "dün",
+  "use": "Kullan",
+  "quickLoginTitle": "Devam etmek için giriş yap",
+  "quickLoginDescription": "Bu işlem için hesap gerekiyor. Giriş yapabilir veya Şimdi geçebilirsin.",
+  "quickLoginAction": "Hızlı giriş",
+  "statusBadgeVerified": "Doğrulandı",
+  "statusBadgePending": "Beklemede",
+  "statusBadgeOutdated": "Güncel değil",
+  "locationPickerManualHint": "Manuel seçimde il/ilçe bazlı arama yapılır. Yakınlardaki kalite için yarıçap (5/10/20 km) ve konum izni daha iyi sonuç verir.",
+  "locationPickerUseAuto": "Otomatik konumu kullan",
+  "locationPickerMakeDefault": "Varsayılan yap",
+  "locationPickerMakeDefaultHint": "Seçtiğin konum bir sonraki açılışta da kullanılsın.",
+  "locationPickerRecent": "Son seçilenler",
+  "locationPickerSearchDistrict": "İlçe ara",
+  "locationPickerPopularDistricts": "Popüler ilçeler",
+  "locationPickerBusinessCount": "{city} • {count} işletme",
+  "@locationPickerBusinessCount": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: locationPickerBusinessCount"
+  },
+  "legalPageTitle": "Yasal ve Güven",
+  "legalKvkkSectionTitle": "KVKK / GDPR",
+  "legalKvkkIntro": "Yeedoy kişisel verileri yalnızca hizmeti sunmak için işler. Açık rızası gerektiren işlemler için onay alınır, talep halinde veriler silinir veya taşınabilir şekilde paylaşılr.",
+  "legalKvkkCategoriesAndRights": "Veri kategorileri: profil, konum, cihaz bilgisi, kullanım analitiği. Haklar: erişim, düzeltme, silme, itiraz, taşınabilirlik.",
+  "legalPrivacyPolicy": "Gizlilik Politikası",
+  "legalKvkkText": "KVKK Metni",
+  "legalGdprText": "GDPR Metni",
+  "legalApplicationByEmail": "Başvuru: e-posta ile talep oluştur.",
+  "legalCopyrightSectionTitle": "Foto Telif Bildirimi",
+  "legalCopyrightIntro": "Menü ve mekan fotoğrafları telif hakkına tabi olabilir. İhlal gördüğünde Bildir > Telif ile iletebilirsin.",
+  "legalCopyrightDetails": "Telif bildirimi için içerik bağlantısı, kanıt ve kısa açıklama yeterlidir. Doğrulanan ihlaller içerikten kaldırılır.",
+  "legalCopyrightPolicy": "Telif Politikası",
+  "legalOwnershipAppealSectionTitle": "İşletme Sahipliği İtirazı",
+  "legalOwnershipAppealIntro": "Sahiplik talebi reddedildiyse itiraz edebilirsin. Belgelerin tekrar incelenir.",
+  "legalOwnershipAppealRequiredInfo": "İtiraz için gerekli bilgiler:",
+  "legalOwnershipAppealRequiredList": "• İşyeri ünvanı ve vergi/ruhsat bilgisi\n• Yetkilendirme belgesi\n• İletişim telefonu",
+  "legalSendAppealEmail": "İtiraz e-postası gönder",
+  "legalProductPrinciplesSectionTitle": "Ürün İlkeleri",
+  "legalDontsTitle": "Yapılmaması gerekenler:",
+  "legalDontsList": "• Herkese her şeyi açmak\n• Sponsorlu içeriği gizlemek\n• Owner hesaba yorum silme yetkisi vermek\n• Büyüme için kalite eşeğini gevşetmek",
+  "legalPolicySummary": "Politika: sponsor etiketi zorunlu={requireSponsoredLabel}, minimum sponsor güven={minSponsoredTrust}, owner yorum silme={ownerCanDeleteReviews}.",
+  "@legalPolicySummary": {
+    "placeholders": {
+      "requireSponsoredLabel": {
+        "type": "String"
+      },
+      "minSponsoredTrust": {
+        "type": "String"
+      },
+      "ownerCanDeleteReviews": {
+        "type": "String"
+      }
+    },
+    "description": "TODO: legalPolicySummary"
+  },
+  "legalFooter": "Güncel politika metinleri ve detaylar web sitesinde yayımlanır.",
+  "topBusinessReviews": "Yorum: {count}",
+  "@topBusinessReviews": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "TODO: topBusinessReviews"
+  },
+  "reportRateLimitBusiness": "Bu işletme için bugün zaten bildirim gönderdin.",
+  "reportRateLimitReview": "Bu yorum için son 24 saatte zaten bildirim gönderdin.",
+  "reportRateLimitPhoto": "Bu fotoğraf için son 24 saatte zaten bildirim gönderdin.",
+  "reportReasonSpam": "Spam / reklam",
+  "reportReasonAbuse": "Hakaret / uygunsuz",
+  "reportReasonWrongInfo": "Yanlış bilgi",
+  "reportReasonCopyright": "Telif ihlali",
+  "reportReasonIllegal": "Yasa dışı",
+  "reportReasonWrongImage": "Yanlış görsel",
+  "reportReasonClosed": "İşletme kapandı",
+  "reportReasonMoved": "Taşındı",
+  "reportReasonWrongPrice": "Fiyat yanlış",
+  "reportBusinessHint": "Çok sayıda yanlış bilgi bildirimi görünürliği düşürür. İşletme sahibi doğruladıktan sonra tekrar yükselir.",
+  "reportReasonLabel": "Sebep",
+  "reportCopyrightUrlLabel": "İhlal URL (fotoğraf bağlantısı)",
+  "reportCopyrightOwnerLabel": "Hak sahibi adı (opsiyonel)",
+  "reportCopyrightEmailLabel": "Hak sahibi e-posta (opsiyonel)",
+  "reportDetailsLabel": "Detaylar (opsiyonel)",
+  "reportSubmittedThanks": "Teşekkürler, incelenecek.",
+  "reportCopyrightUrlPrefix": "İhlal URL",
+  "reportCopyrightOwnerPrefix": "Hak sahibi",
+  "reportCopyrightEmailPrefix": "E-posta",
+  "unexpectedError": "Bir hata oluştu.",
+  "weatherHeadlineRainy": "Yağmurlu hava",
+  "weatherHeadlineSnowy": "Soğuk hava",
+  "weatherHeadlineHot": "Sıcak hava",
+  "weatherHeadlineClear": "Hava açık",
+  "weatherHintRainy": "Sıcak bir şey iyi gider",
+  "weatherHintSnowy": "Sıcak çorba iyi gider",
+  "weatherHintHot": "Serin bir şey iyi gider",
+  "weatherHintClear": "Dış mekan keyifli",
+  "paste": "Yapıştır",
+  "addFirstMenuCta": "İlk menüyü ekle",
+  "vatIncluded": "KDV dahil",
+  "@writeReview": {
+    "description": "TODO: writeReview"
+  },
+  "@other": {
+    "description": "TODO: other"
+  },
+  "@weakConnectionQueueNotice": {
+    "description": "TODO: weakConnectionQueueNotice"
+  },
+  "@loadMenuItemsFirst": {
+    "description": "TODO: loadMenuItemsFirst"
+  },
+  "@menuNotAddedYet": {
+    "description": "TODO: menuNotAddedYet"
+  },
+  "@menuNotAddedYetDescription": {
+    "description": "TODO: menuNotAddedYetDescription"
+  },
+  "@weakConnection": {
+    "description": "TODO: weakConnection"
+  },
+  "@contentLoadFailedCheckInternet": {
+    "description": "TODO: contentLoadFailedCheckInternet"
+  },
+  "@trustDataUnavailable": {
+    "description": "TODO: trustDataUnavailable"
+  },
+  "@freshnessAndTrust": {
+    "description": "TODO: freshnessAndTrust"
+  },
+  "@menuUpdatedLabel": {
+    "description": "TODO: menuUpdatedLabel"
+  },
+  "@lastPriceVerification": {
+    "description": "TODO: lastPriceVerification"
+  },
+  "@trustScoreLabel": {
+    "description": "TODO: trustScoreLabel"
+  },
+  "@last3MonthsPriceChange": {
+    "description": "TODO: last3MonthsPriceChange"
+  },
+  "@hoursInfoUnavailable": {
+    "description": "TODO: hoursInfoUnavailable"
+  },
+  "@hoursInfoMissing": {
+    "description": "TODO: hoursInfoMissing"
+  },
+  "@addHoursHelp": {
+    "description": "TODO: addHoursHelp"
+  },
+  "@reportHoursInfo": {
+    "description": "TODO: reportHoursInfo"
+  },
+  "@menus": {
+    "description": "TODO: menus"
+  },
+  "@menusLoadFailed": {
+    "description": "TODO: menusLoadFailed"
+  },
+  "@noMenu": {
+    "description": "TODO: noMenu"
+  },
+  "@addFirstMenuHelp": {
+    "description": "TODO: addFirstMenuHelp"
+  },
+  "@crowdInfoUnavailable": {
+    "description": "TODO: crowdInfoUnavailable"
+  },
+  "@reviewsLoadFailed": {
+    "description": "TODO: reviewsLoadFailed"
+  },
+  "@noReviews": {
+    "description": "TODO: noReviews"
+  },
+  "@leaveFirstReviewHelp": {
+    "description": "TODO: leaveFirstReviewHelp"
+  },
+  "@writeFirstReview": {
+    "description": "TODO: writeFirstReview"
+  },
+  "@recentReviews": {
+    "description": "TODO: recentReviews"
+  },
+  "@reviewFallbackTitle": {
+    "description": "TODO: reviewFallbackTitle"
+  },
+  "@activeCampaigns": {
+    "description": "TODO: activeCampaigns"
+  },
+  "@menuDataUnavailable": {
+    "description": "TODO: menuDataUnavailable"
+  },
+  "@noMenuProductsYet": {
+    "description": "TODO: noMenuProductsYet"
+  },
+  "@menu": {
+    "description": "TODO: menu"
+  },
+  "@weeklyPriceChange": {
+    "description": "TODO: weeklyPriceChange"
+  },
+  "@chartPlaceholderSoon": {
+    "description": "TODO: chartPlaceholderSoon"
+  },
+  "@featuredCuisineSuffix": {
+    "description": "TODO: featuredCuisineSuffix"
+  },
+  "@connectionProblemTryAgain": {
+    "description": "TODO: connectionProblemTryAgain"
+  },
+  "@noActiveCampaign": {
+    "description": "TODO: noActiveCampaign"
+  },
+  "@activeCampaignCountLabel": {
+    "description": "TODO: activeCampaignCountLabel"
+  },
+  "@noAmenityInfo": {
+    "description": "TODO: noAmenityInfo"
+  },
+  "@noLocationVerificationData": {
+    "description": "TODO: noLocationVerificationData"
+  },
+  "@lastLocationVerification": {
+    "description": "TODO: lastLocationVerification"
+  },
+  "@noNewProductRecord": {
+    "description": "TODO: noNewProductRecord"
+  },
+  "@newProduct": {
+    "description": "TODO: newProduct"
+  },
+  "@reportInfoErrorPrefix": {
+    "description": "TODO: reportInfoErrorPrefix"
+  },
+  "@noLocation": {
+    "description": "TODO: noLocation"
+  },
+  "@noHoursInfo": {
+    "description": "TODO: noHoursInfo"
+  },
+  "@reviewsCountSuffix": {
+    "description": "TODO: reviewsCountSuffix"
+  },
+  "@noTime": {
+    "description": "TODO: noTime"
+  },
+  "@tabSteaks": {
+    "description": "TODO: tabSteaks"
+  },
+  "@tabBurgers": {
+    "description": "TODO: tabBurgers"
+  },
+  "@tabSides": {
+    "description": "TODO: tabSides"
+  },
+  "@tabBeverages": {
+    "description": "TODO: tabBeverages"
+  },
+  "@locationNotAvailable": {
+    "description": "TODO: locationNotAvailable"
+  },
+  "@sortRecommended": {
+    "description": "TODO: sortRecommended"
+  },
+  "@sortDistance": {
+    "description": "TODO: sortDistance"
+  },
+  "@sortRating": {
+    "description": "TODO: sortRating"
+  },
+  "@sortPriceLow": {
+    "description": "TODO: sortPriceLow"
+  },
+  "@sortNewlyVerified": {
+    "description": "TODO: sortNewlyVerified"
+  },
+  "@rankingFormulaTitle": {
+    "description": "TODO: rankingFormulaTitle"
+  },
+  "@rankingFormulaIntro": {
+    "description": "TODO: rankingFormulaIntro"
+  },
+  "@rankingWeightDistance": {
+    "description": "TODO: rankingWeightDistance"
+  },
+  "@rankingWeightAccuracy": {
+    "description": "TODO: rankingWeightAccuracy"
+  },
+  "@rankingWeightEngagement": {
+    "description": "TODO: rankingWeightEngagement"
+  },
+  "@rankingWeightQuality": {
+    "description": "TODO: rankingWeightQuality"
+  },
+  "@rankingFormulaNote": {
+    "description": "TODO: rankingFormulaNote"
+  },
+  "@priceLevel": {
+    "description": "TODO: priceLevel"
+  },
+  "@prioritizeOpenNow": {
+    "description": "TODO: prioritizeOpenNow"
+  },
+  "@prioritizeNewlyVerified": {
+    "description": "TODO: prioritizeNewlyVerified"
+  },
+  "@reset": {
+    "description": "TODO: reset"
+  },
+  "@apply": {
+    "description": "TODO: apply"
+  },
+  "@priceTierAny": {
+    "description": "TODO: priceTierAny"
+  },
+  "@priceTierBudget": {
+    "description": "TODO: priceTierBudget"
+  },
+  "@priceTierMedium": {
+    "description": "TODO: priceTierMedium"
+  },
+  "@priceTierPremium": {
+    "description": "TODO: priceTierPremium"
+  },
+  "@tabAllItems": {
+    "description": "TODO: tabAllItems"
+  },
+  "@tabStarters": {
+    "description": "TODO: tabStarters"
+  },
+  "@usersLabel": {
+    "description": "TODO: usersLabel"
+  },
+  "@unknown": {
+    "description": "TODO: unknown"
+  },
+  "@today": {
+    "description": "TODO: today"
+  },
+  "@dayUnit": {
+    "description": "TODO: dayUnit"
+  },
+  "@tekrarDene": {
+    "description": "TODO: tekrarDene"
+  },
+  "@vazgec": {
+    "description": "TODO: vazgec"
+  },
+  "@reddet": {
+    "description": "TODO: reddet"
+  },
+  "@title": {
+    "description": "TODO: title"
+  },
+  "@isleniyor": {
+    "description": "TODO: isleniyor"
+  },
+  "@onayla": {
+    "description": "TODO: onayla"
+  },
+  "@approved": {
+    "description": "TODO: approved"
+  },
+  "@tumu": {
+    "description": "TODO: tumu"
+  },
+  "@kayitBulunamadi": {
+    "description": "TODO: kayitBulunamadi"
+  },
+  "@temizle": {
+    "description": "TODO: temizle"
+  },
+  "@uygula": {
+    "description": "TODO: uygula"
+  },
+  "@pending": {
+    "description": "TODO: pending"
+  },
+  "@reddedildi": {
+    "description": "TODO: reddedildi"
+  },
+  "@satirSec": {
+    "description": "TODO: satirSec"
+  },
+  "@gonder": {
+    "description": "TODO: gonder"
+  },
+  "@rejected": {
+    "description": "TODO: rejected"
+  },
+  "@detay": {
+    "description": "TODO: detay"
+  },
+  "@duzenle": {
+    "description": "TODO: duzenle"
+  },
+  "@eminMisin": {
+    "description": "TODO: eminMisin"
+  },
+  "@guncellendi": {
+    "description": "TODO: guncellendi"
+  },
+  "@reddedildi_2": {
+    "description": "TODO: reddedildi_2"
+  },
+  "@sla": {
+    "description": "TODO: sla"
+  },
+  "@csvDisaAktar": {
+    "description": "TODO: csvDisaAktar"
+  },
+  "@onaylandi": {
+    "description": "TODO: onaylandi"
+  },
+  "@yenile": {
+    "description": "TODO: yenile"
+  },
+  "@atanan": {
+    "description": "TODO: atanan"
+  },
+  "@beklemede": {
+    "description": "TODO: beklemede"
+  },
+  "@durum": {
+    "description": "TODO: durum"
+  },
+  "@tabRecommended": {
+    "description": "TODO: tabRecommended"
+  },
+  "@tabCampaigns": {
+    "description": "TODO: tabCampaigns"
+  },
+  "@tabFoods": {
+    "description": "TODO: tabFoods"
+  },
+  "@whyTop": {
+    "description": "TODO: whyTop"
+  },
+  "@quickSuggestionTitle": {
+    "description": "TODO: quickSuggestionTitle"
+  },
+  "@quickSuggestionSubtitle": {
+    "description": "TODO: quickSuggestionSubtitle"
+  },
+  "@quickSuggestionPreset": {
+    "description": "TODO: quickSuggestionPreset"
+  },
+  "@whatToEatTitle": {
+    "description": "TODO: whatToEatTitle"
+  },
+  "@whatToEatSubtitle": {
+    "description": "TODO: whatToEatSubtitle"
+  },
+  "@nearbyShort": {
+    "description": "TODO: nearbyShort"
+  },
+  "@affordableShort": {
+    "description": "TODO: affordableShort"
+  },
+  "@quickDecisionShort": {
+    "description": "TODO: quickDecisionShort"
+  },
+  "@start": {
+    "description": "TODO: start"
+  },
+  "@friendGroupTitle": {
+    "description": "TODO: friendGroupTitle"
+  },
+  "@friendGroupSubtitle": {
+    "description": "TODO: friendGroupSubtitle"
+  },
+  "@openGroup": {
+    "description": "TODO: openGroup"
+  },
+  "@myGroups": {
+    "description": "TODO: myGroups"
+  },
+  "@onTheRoadTitle": {
+    "description": "TODO: onTheRoadTitle"
+  },
+  "@onTheRoadSubtitle": {
+    "description": "TODO: onTheRoadSubtitle"
+  },
+  "@heroesTitle": {
+    "description": "TODO: heroesTitle"
+  },
+  "@heroesSubtitle": {
+    "description": "TODO: heroesSubtitle"
+  },
+  "@view": {
+    "description": "TODO: view"
+  },
+  "@bestBusinessesThisWeek": {
+    "description": "TODO: bestBusinessesThisWeek"
+  },
+  "@bestBusinessesThisMonth": {
+    "description": "TODO: bestBusinessesThisMonth"
+  },
+  "@onTheRoad20km": {
+    "description": "TODO: onTheRoad20km"
+  },
+  "@liveResultsUpdating": {
+    "description": "TODO: liveResultsUpdating"
+  },
+  "@businessApprovedData": {
+    "description": "TODO: businessApprovedData"
+  },
+  "@communityData": {
+    "description": "TODO: communityData"
+  },
+  "@removeFromFavorites": {
+    "description": "TODO: removeFromFavorites"
+  },
+  "@locationPermissionTitle": {
+    "description": "TODO: locationPermissionTitle"
+  },
+  "@locationPermissionDescription": {
+    "description": "TODO: locationPermissionDescription"
+  },
+  "@allow": {
+    "description": "TODO: allow"
+  },
+  "@selectLocation": {
+    "description": "TODO: selectLocation"
+  },
+  "@manualLocationHint": {
+    "description": "TODO: manualLocationHint"
+  },
+  "@noResultsYet": {
+    "description": "TODO: noResultsYet"
+  },
+  "@lowDataInArea": {
+    "description": "TODO: lowDataInArea"
+  },
+  "@tryDifferentSearchOrFilter": {
+    "description": "TODO: tryDifferentSearchOrFilter"
+  },
+  "@beFirstContributorInArea": {
+    "description": "TODO: beFirstContributorInArea"
+  },
+  "@topVerifiedMenus": {
+    "description": "TODO: topVerifiedMenus"
+  },
+  "@mostTrustedMenusInCity": {
+    "description": "TODO: mostTrustedMenusInCity"
+  },
+  "@seeList": {
+    "description": "TODO: seeList"
+  },
+  "@localContributionCall": {
+    "description": "TODO: localContributionCall"
+  },
+  "@addFirstMenu": {
+    "description": "TODO: addFirstMenu"
+  },
+  "@suggestBusiness": {
+    "description": "TODO: suggestBusiness"
+  },
+  "@noSurpriseSuggestionNow": {
+    "description": "TODO: noSurpriseSuggestionNow"
+  },
+  "@priceVerifiedInLast48h": {
+    "description": "TODO: priceVerifiedInLast48h"
+  },
+  "@menuMayBeOutdated": {
+    "description": "TODO: menuMayBeOutdated"
+  },
+  "@verifiedByBusiness": {
+    "description": "TODO: verifiedByBusiness"
+  },
+  "@updatedByCommunity": {
+    "description": "TODO: updatedByCommunity"
+  },
+  "@topRankedInDistrict": {
+    "description": "TODO: topRankedInDistrict"
+  },
+  "@surpriseDiscoveryTitle": {
+    "description": "TODO: surpriseDiscoveryTitle"
+  },
+  "@surpriseDiscoverySubtitle": {
+    "description": "TODO: surpriseDiscoverySubtitle"
+  },
+  "@randomButGood": {
+    "description": "TODO: randomButGood"
+  },
+  "@outsideYourUsual": {
+    "description": "TODO: outsideYourUsual"
+  },
+  "@pricePerformanceSurprise": {
+    "description": "TODO: pricePerformanceSurprise"
+  },
+  "@nearbyCampaignsAndAnnouncements": {
+    "description": "TODO: nearbyCampaignsAndAnnouncements"
+  },
+  "@noNearbyCampaign": {
+    "description": "TODO: noNearbyCampaign"
+  },
+  "@noActiveAnnouncementInArea": {
+    "description": "TODO: noActiveAnnouncementInArea"
+  },
+  "@remainingLabel": {
+    "description": "TODO: remainingLabel"
+  },
+  "@campaign": {
+    "description": "TODO: campaign"
+  },
+  "@active": {
+    "description": "TODO: active"
+  },
+  "@noLocationDataForMap": {
+    "description": "TODO: noLocationDataForMap"
+  },
+  "@mapDataMissingUseList": {
+    "description": "TODO: mapDataMissingUseList"
+  },
+  "@openMapView": {
+    "description": "TODO: openMapView"
+  },
+  "@mapHintTapPins": {
+    "description": "TODO: mapHintTapPins"
+  },
+  "@locationPermissionRequired": {
+    "description": "TODO: locationPermissionRequired"
+  },
+  "@noFoodFoundForCriteria": {
+    "description": "TODO: noFoodFoundForCriteria"
+  },
+  "@whatToEatDescription": {
+    "description": "TODO: whatToEatDescription"
+  },
+  "@stepPeopleCount": {
+    "description": "TODO: stepPeopleCount"
+  },
+  "@quickDecisionThreeOptions": {
+    "description": "TODO: quickDecisionThreeOptions"
+  },
+  "@stepBudgetTotal": {
+    "description": "TODO: stepBudgetTotal"
+  },
+  "@budgetTl": {
+    "description": "TODO: budgetTl"
+  },
+  "@stepDistance": {
+    "description": "TODO: stepDistance"
+  },
+  "@locationNotSelected": {
+    "description": "TODO: locationNotSelected"
+  },
+  "@seeSuggestions": {
+    "description": "TODO: seeSuggestions"
+  },
+  "@getSingleSuggestion": {
+    "description": "TODO: getSingleSuggestion"
+  },
+  "@go": {
+    "description": "TODO: go"
+  },
+  "@restart": {
+    "description": "TODO: restart"
+  },
+  "@quickShortcuts": {
+    "description": "TODO: quickShortcuts"
+  },
+  "@quickShortcutsSubtitle": {
+    "description": "TODO: quickShortcutsSubtitle"
+  },
+  "@savedItems": {
+    "description": "TODO: savedItems"
+  },
+  "@myFriendGroup": {
+    "description": "TODO: myFriendGroup"
+  },
+  "@tasteExperts": {
+    "description": "TODO: tasteExperts"
+  },
+  "@businessTools": {
+    "description": "TODO: businessTools"
+  },
+  "@businessToolsSubtitle": {
+    "description": "TODO: businessToolsSubtitle"
+  },
+  "@sponsoredLabelChip": {
+    "description": "TODO: sponsoredLabelChip"
+  },
+  "@sponsored": {
+    "description": "TODO: sponsored"
+  },
+  "@ready": {
+    "description": "TODO: ready"
+  },
+  "@plan": {
+    "description": "TODO: plan"
+  },
+  "@sponsoredDisclosure": {
+    "description": "TODO: sponsoredDisclosure"
+  },
+  "@sponsoredTooltip": {
+    "description": "TODO: sponsoredTooltip"
+  },
+  "@show": {
+    "description": "TODO: show"
+  },
+  "@restaurant": {
+    "description": "TODO: restaurant"
+  },
+  "@cafe": {
+    "description": "TODO: cafe"
+  },
+  "@venue": {
+    "description": "TODO: venue"
+  },
+  "@notifications": {
+    "description": "TODO: notifications"
+  },
+  "@businessPackage": {
+    "description": "TODO: businessPackage"
+  },
+  "@redirectToReservation": {
+    "description": "TODO: redirectToReservation"
+  },
+  "@priceAlerts": {
+    "description": "TODO: priceAlerts"
+  },
+  "@corporateIntegration": {
+    "description": "TODO: corporateIntegration"
+  },
+  "@detailedReports": {
+    "description": "TODO: detailedReports"
+  },
+  "@qrTools": {
+    "description": "TODO: qrTools"
+  },
+  "@unlockNewFeatures": {
+    "description": "TODO: unlockNewFeatures"
+  },
+  "@branchManagement": {
+    "description": "TODO: branchManagement"
+  },
+  "@menuWithQr": {
+    "description": "TODO: menuWithQr"
+  },
+  "@newFeatures": {
+    "description": "TODO: newFeatures"
+  },
+  "@noViewDataInArea": {
+    "description": "TODO: noViewDataInArea"
+  },
+  "@noPriceMovementInArea": {
+    "description": "TODO: noPriceMovementInArea"
+  },
+  "@noNightOpenFavoritesInArea": {
+    "description": "TODO: noNightOpenFavoritesInArea"
+  },
+  "@detailedAnalysis": {
+    "description": "TODO: detailedAnalysis"
+  },
+  "@loadWhenScrolledDown": {
+    "description": "TODO: loadWhenScrolledDown"
+  },
+  "@general": {
+    "description": "TODO: general"
+  },
+  "@priceIndexLoadFailed": {
+    "description": "TODO: priceIndexLoadFailed"
+  },
+  "@noPriceIndexDataInArea": {
+    "description": "TODO: noPriceIndexDataInArea"
+  },
+  "@anomalyListLoadFailed": {
+    "description": "TODO: anomalyListLoadFailed"
+  },
+  "@noPriceAnomalyLast30Days": {
+    "description": "TODO: noPriceAnomalyLast30Days"
+  },
+  "@sectionLoadFailed": {
+    "description": "TODO: sectionLoadFailed"
+  },
+  "@createGroup": {
+    "description": "TODO: createGroup"
+  },
+  "@newPlaces": {
+    "description": "TODO: newPlaces"
+  },
+  "@campaignEnded": {
+    "description": "TODO: campaignEnded"
+  },
+  "@statusVerifiedShort": {
+    "description": "TODO: statusVerifiedShort"
+  },
+  "@statusMixedShort": {
+    "description": "TODO: statusMixedShort"
+  },
+  "@statusOutdatedShort": {
+    "description": "TODO: statusOutdatedShort"
+  },
+  "@statusUnknownShort": {
+    "description": "TODO: statusUnknownShort"
+  },
+  "@threeMonthsShort": {
+    "description": "TODO: threeMonthsShort"
+  },
+  "@sourceOwner": {
+    "description": "TODO: sourceOwner"
+  },
+  "@sourceCommunity": {
+    "description": "TODO: sourceCommunity"
+  },
+  "@sourceAi": {
+    "description": "TODO: sourceAi"
+  },
+  "@noLinkFound": {
+    "description": "TODO: noLinkFound"
+  },
+  "@newEmbedLinksWillAppear": {
+    "description": "TODO: newEmbedLinksWillAppear"
+  },
+  "@link": {
+    "description": "TODO: link"
+  },
+  "@untitledLink": {
+    "description": "TODO: untitledLink"
+  },
+  "@menuShareNotFoundDescription": {
+    "description": "TODO: menuShareNotFoundDescription"
+  },
+  "@menuContentNotFound": {
+    "description": "TODO: menuContentNotFound"
+  },
+  "@openAppForBetterExperience": {
+    "description": "TODO: openAppForBetterExperience"
+  },
+  "@openApp": {
+    "description": "TODO: openApp"
+  },
+  "@verifiedPrices": {
+    "description": "TODO: verifiedPrices"
+  },
+  "@selectRatingFirst": {
+    "description": "TODO: selectRatingFirst"
+  },
+  "@thankYou": {
+    "description": "TODO: thankYou"
+  },
+  "@noProductsFound": {
+    "description": "TODO: noProductsFound"
+  },
+  "@shortNoteOptional": {
+    "description": "TODO: shortNoteOptional"
+  },
+  "@submit": {
+    "description": "TODO: submit"
+  },
+  "@submitted": {
+    "description": "TODO: submitted"
+  },
+  "@submitting": {
+    "description": "TODO: submitting"
+  },
+  "@mySuggestionsTitle": {
+    "description": "TODO: mySuggestionsTitle"
+  },
+  "@mySuggestionsSubtitle": {
+    "description": "TODO: mySuggestionsSubtitle"
+  },
+  "@viewBusiness": {
+    "description": "TODO: viewBusiness"
+  },
+  "@statusApproved": {
+    "description": "TODO: statusApproved"
+  },
+  "@statusRejected": {
+    "description": "TODO: statusRejected"
+  },
+  "@statusPending": {
+    "description": "TODO: statusPending"
+  },
+  "@retry": {
+    "description": "TODO: retry"
+  },
+  "@notNow": {
+    "description": "TODO: notNow"
+  },
+  "@onboardingLiveMenusTitle": {
+    "description": "TODO: onboardingLiveMenusTitle"
+  },
+  "@onboardingLiveMenusDescription": {
+    "description": "TODO: onboardingLiveMenusDescription"
+  },
+  "@onboardingContributeTitle": {
+    "description": "TODO: onboardingContributeTitle"
+  },
+  "@onboardingContributeDescription": {
+    "description": "TODO: onboardingContributeDescription"
+  },
+  "@getStarted": {
+    "description": "TODO: getStarted"
+  },
+  "@continueAction": {
+    "description": "TODO: continueAction"
+  },
+  "@register": {
+    "description": "TODO: register"
+  },
+  "@login": {
+    "description": "TODO: login"
+  },
+  "@enableLocationTitle": {
+    "description": "TODO: enableLocationTitle"
+  },
+  "@enableLocationSubtitle": {
+    "description": "TODO: enableLocationSubtitle"
+  },
+  "@locationPermissionGranted": {
+    "description": "TODO: locationPermissionGranted"
+  },
+  "@locationOptionalInfo": {
+    "description": "TODO: locationOptionalInfo"
+  },
+  "@allowLocation": {
+    "description": "TODO: allowLocation"
+  },
+  "@chooseLocationManually": {
+    "description": "TODO: chooseLocationManually"
+  },
+  "@menuReading": {
+    "description": "TODO: menuReading"
+  },
+  "@noPriceDetectionFound": {
+    "description": "TODO: noPriceDetectionFound"
+  },
+  "@receiptOcrNotSupportedWeb": {
+    "description": "TODO: receiptOcrNotSupportedWeb"
+  },
+  "@receiptReading": {
+    "description": "TODO: receiptReading"
+  },
+  "@noPriceFoundOnReceipt": {
+    "description": "TODO: noPriceFoundOnReceipt"
+  },
+  "@receiptUploading": {
+    "description": "TODO: receiptUploading"
+  },
+  "@receiptUploadFailed": {
+    "description": "TODO: receiptUploadFailed"
+  },
+  "@camera": {
+    "description": "TODO: camera"
+  },
+  "@gallery": {
+    "description": "TODO: gallery"
+  },
+  "@matchReceipt": {
+    "description": "TODO: matchReceipt"
+  },
+  "@matchPrices": {
+    "description": "TODO: matchPrices"
+  },
+  "@unlabeled": {
+    "description": "TODO: unlabeled"
+  },
+  "@priceTry": {
+    "description": "TODO: priceTry"
+  },
+  "@selectMenuItem": {
+    "description": "TODO: selectMenuItem"
+  },
+  "@sendReceipt": {
+    "description": "TODO: sendReceipt"
+  },
+  "@sendReceiptSuggestions": {
+    "description": "TODO: sendReceiptSuggestions"
+  },
+  "@selectAtLeastOneItem": {
+    "description": "TODO: selectAtLeastOneItem"
+  },
+  "@invalidPriceExists": {
+    "description": "TODO: invalidPriceExists"
+  },
+  "@sendingReceipt": {
+    "description": "TODO: sendingReceipt"
+  },
+  "@receiptSent": {
+    "description": "TODO: receiptSent"
+  },
+  "@sendingReceiptSuggestions": {
+    "description": "TODO: sendingReceiptSuggestions"
+  },
+  "@priceSuggestionsSent": {
+    "description": "TODO: priceSuggestionsSent"
+  },
+  "@searchFoodHint": {
+    "description": "TODO: searchFoodHint"
+  },
+  "@profileActive": {
+    "description": "TODO: profileActive"
+  },
+  "@profileLoading": {
+    "description": "TODO: profileLoading"
+  },
+  "@dietProfileNotFound": {
+    "description": "TODO: dietProfileNotFound"
+  },
+  "@noResultsFound": {
+    "description": "TODO: noResultsFound"
+  },
+  "@allowLocationForNearby": {
+    "description": "TODO: allowLocationForNearby"
+  },
+  "@setPriceAlert": {
+    "description": "TODO: setPriceAlert"
+  },
+  "@vegan": {
+    "description": "TODO: vegan"
+  },
+  "@vegetarian": {
+    "description": "TODO: vegetarian"
+  },
+  "@lactoseFree": {
+    "description": "TODO: lactoseFree"
+  },
+  "@maxCalories": {
+    "description": "TODO: maxCalories"
+  },
+  "@onlyVerifiedPrice": {
+    "description": "TODO: onlyVerifiedPrice"
+  },
+  "@glutenFree": {
+    "description": "TODO: glutenFree"
+  },
+  "@menuItem": {
+    "description": "TODO: menuItem"
+  },
+  "@cataloged": {
+    "description": "TODO: cataloged"
+  },
+  "@priceAlert": {
+    "description": "TODO: priceAlert"
+  },
+  "@priceAlertSubtitle": {
+    "description": "TODO: priceAlertSubtitle"
+  },
+  "@addToBill": {
+    "description": "TODO: addToBill"
+  },
+  "@voteSaved": {
+    "description": "TODO: voteSaved"
+  },
+  "@photoAdded": {
+    "description": "TODO: photoAdded"
+  },
+  "@suggestEdit": {
+    "description": "TODO: suggestEdit"
+  },
+  "@verifyPriceWithReceipt": {
+    "description": "TODO: verifyPriceWithReceipt"
+  },
+  "@cart": {
+    "description": "TODO: cart"
+  },
+  "@cartEmpty": {
+    "description": "TODO: cartEmpty"
+  },
+  "@addItemToCalculate": {
+    "description": "TODO: addItemToCalculate"
+  },
+  "@tipPercentage": {
+    "description": "TODO: tipPercentage"
+  },
+  "@serviceIncluded": {
+    "description": "TODO: serviceIncluded"
+  },
+  "@coverIncluded": {
+    "description": "TODO: coverIncluded"
+  },
+  "@subtotal": {
+    "description": "TODO: subtotal"
+  },
+  "@cover": {
+    "description": "TODO: cover"
+  },
+  "@serviceCoverMayVary": {
+    "description": "TODO: serviceCoverMayVary"
+  },
+  "@estimatedTotal": {
+    "description": "TODO: estimatedTotal"
+  },
+  "@vatExcluded": {
+    "description": "TODO: vatExcluded"
+  },
+  "@errorOccurred": {
+    "description": "TODO: errorOccurred"
+  },
+  "@menuItemNotFoundDescription": {
+    "description": "TODO: menuItemNotFoundDescription"
+  },
+  "@trustScoreInfoNote": {
+    "description": "TODO: trustScoreInfoNote"
+  },
+  "@verifyContributionRaisedScore": {
+    "description": "TODO: verifyContributionRaisedScore"
+  },
+  "@priceVerification": {
+    "description": "TODO: priceVerification"
+  },
+  "@priceVerificationSteps": {
+    "description": "TODO: priceVerificationSteps"
+  },
+  "@newPriceTry": {
+    "description": "TODO: newPriceTry"
+  },
+  "@note": {
+    "description": "TODO: note"
+  },
+  "@addEvidencePhoto": {
+    "description": "TODO: addEvidencePhoto"
+  },
+  "@evidenceAdded": {
+    "description": "TODO: evidenceAdded"
+  },
+  "@menuItemName": {
+    "description": "TODO: menuItemName"
+  },
+  "@menuItemNameRequired": {
+    "description": "TODO: menuItemNameRequired"
+  },
+  "@enterValidPrice": {
+    "description": "TODO: enterValidPrice"
+  },
+  "@sendSuggestion": {
+    "description": "TODO: sendSuggestion"
+  },
+  "@noChanges": {
+    "description": "TODO: noChanges"
+  },
+  "@priceCannotBeEmpty": {
+    "description": "TODO: priceCannotBeEmpty"
+  },
+  "@suggestionSentPendingApproval": {
+    "description": "TODO: suggestionSentPendingApproval"
+  },
+  "@noSuggestionFound": {
+    "description": "TODO: noSuggestionFound"
+  },
+  "@suggestedFoods": {
+    "description": "TODO: suggestedFoods"
+  },
+  "@priceHistoryLast3": {
+    "description": "TODO: priceHistoryLast3"
+  },
+  "@price": {
+    "description": "TODO: price"
+  },
+  "@strongConsensusPriceSafe": {
+    "description": "TODO: strongConsensusPriceSafe"
+  },
+  "@seenCorrect": {
+    "description": "TODO: seenCorrect"
+  },
+  "@seenIncorrect": {
+    "description": "TODO: seenIncorrect"
+  },
+  "@suggestNewPrice": {
+    "description": "TODO: suggestNewPrice"
+  },
+  "@howCalculated": {
+    "description": "TODO: howCalculated"
+  },
+  "@verificationRate": {
+    "description": "TODO: verificationRate"
+  },
+  "@recentPositiveVotes": {
+    "description": "TODO: recentPositiveVotes"
+  },
+  "@priceStability": {
+    "description": "TODO: priceStability"
+  },
+  "@scoreForInfoOnly": {
+    "description": "TODO: scoreForInfoOnly"
+  },
+  "@pricePerformance": {
+    "description": "TODO: pricePerformance"
+  },
+  "@valueScoreFormulaHint": {
+    "description": "TODO: valueScoreFormulaHint"
+  },
+  "@menuPhotos": {
+    "description": "TODO: menuPhotos"
+  },
+  "@menuPhotosHint": {
+    "description": "TODO: menuPhotosHint"
+  },
+  "@noPhotosYet": {
+    "description": "TODO: noPhotosYet"
+  },
+  "@yesterday": {
+    "description": "TODO: yesterday"
+  },
+  "@priceInvalid": {
+    "description": "TODO: priceInvalid"
+  },
+  "@noteNoLinkPhone": {
+    "description": "TODO: noteNoLinkPhone"
+  },
+  "@noteContainsProfanity": {
+    "description": "TODO: noteContainsProfanity"
+  },
+  "@noteTooManyEmoji": {
+    "description": "TODO: noteTooManyEmoji"
+  },
+  "@rateLimited24h": {
+    "description": "TODO: rateLimited24h"
+  },
+  "@dailyPriceSuggestionLimitReached": {
+    "description": "TODO: dailyPriceSuggestionLimitReached"
+  },
+  "@invalidEvidenceLink": {
+    "description": "TODO: invalidEvidenceLink"
+  },
+  "@invalidCurrency": {
+    "description": "TODO: invalidCurrency"
+  },
+  "@loginPageTitle": {
+    "description": "TODO: loginPageTitle"
+  },
+  "@loginActionFailedTitle": {
+    "description": "TODO: loginActionFailedTitle"
+  },
+  "@loginEmailLabel": {
+    "description": "TODO: loginEmailLabel"
+  },
+  "@loginPasswordLabel": {
+    "description": "TODO: loginPasswordLabel"
+  },
+  "@loginPrimaryAction": {
+    "description": "TODO: loginPrimaryAction"
+  },
+  "@loginSigningInAction": {
+    "description": "TODO: loginSigningInAction"
+  },
+  "@loginSignupAction": {
+    "description": "TODO: loginSignupAction"
+  },
+  "@loginSigningUpAction": {
+    "description": "TODO: loginSigningUpAction"
+  },
+  "@loginSignupSuccessMessage": {
+    "description": "TODO: loginSignupSuccessMessage"
+  },
+  "@drawerTopBusinesses": {
+    "description": "TODO: drawerTopBusinesses"
+  },
+  "@drawerSocial": {
+    "description": "TODO: drawerSocial"
+  },
+  "@drawerGourmets": {
+    "description": "TODO: drawerGourmets"
+  },
+  "@drawerFollowing": {
+    "description": "TODO: drawerFollowing"
+  },
+  "@drawerExperimental": {
+    "description": "TODO: drawerExperimental"
+  },
+  "@drawerFeed": {
+    "description": "TODO: drawerFeed"
+  },
+  "@drawerTasteTwin": {
+    "description": "TODO: drawerTasteTwin"
+  },
+  "@drawerHeroes": {
+    "description": "TODO: drawerHeroes"
+  },
+  "@drawerGroupRequests": {
+    "description": "TODO: drawerGroupRequests"
+  },
+  "@drawerCompare": {
+    "description": "TODO: drawerCompare"
+  },
+  "@drawerQuickTools": {
+    "description": "TODO: drawerQuickTools"
+  },
+  "@drawerSmartSuggestionShortcut": {
+    "description": "TODO: drawerSmartSuggestionShortcut"
+  },
+  "@drawerAccount": {
+    "description": "TODO: drawerAccount"
+  },
+  "@drawerMyFavorites": {
+    "description": "TODO: drawerMyFavorites"
+  },
+  "@drawerInbox": {
+    "description": "TODO: drawerInbox"
+  },
+  "@drawerMySuggestions": {
+    "description": "TODO: drawerMySuggestions"
+  },
+  "@drawerSuspendedMeals": {
+    "description": "TODO: drawerSuspendedMeals"
+  },
+  "@drawerLegalAndTrust": {
+    "description": "TODO: drawerLegalAndTrust"
+  },
+  "@budgetComboEntryTitle": {
+    "description": "TODO: budgetComboEntryTitle"
+  },
+  "@budgetComboLocationNotSelected": {
+    "description": "TODO: budgetComboLocationNotSelected"
+  },
+  "@budgetComboBudgetLabel": {
+    "description": "TODO: budgetComboBudgetLabel"
+  },
+  "@budgetComboPartySizeLabel": {
+    "description": "TODO: budgetComboPartySizeLabel"
+  },
+  "@budgetComboCategoryOptionalLabel": {
+    "description": "TODO: budgetComboCategoryOptionalLabel"
+  },
+  "@budgetComboSeeSuggestions": {
+    "description": "TODO: budgetComboSeeSuggestions"
+  },
+  "@budgetComboAllCategories": {
+    "description": "TODO: budgetComboAllCategories"
+  },
+  "@budgetComboCategoryCafe": {
+    "description": "TODO: budgetComboCategoryCafe"
+  },
+  "@budgetComboCategoryRestaurant": {
+    "description": "TODO: budgetComboCategoryRestaurant"
+  },
+  "@budgetComboCategoryDessert": {
+    "description": "TODO: budgetComboCategoryDessert"
+  },
+  "@budgetComboCategoryBreakfast": {
+    "description": "TODO: budgetComboCategoryBreakfast"
+  },
+  "@budgetComboCategoryFishMeat": {
+    "description": "TODO: budgetComboCategoryFishMeat"
+  },
+  "@budgetComboCategoryVenue": {
+    "description": "TODO: budgetComboCategoryVenue"
+  },
+  "@budgetComboResultsTitle": {
+    "description": "TODO: budgetComboResultsTitle"
+  },
+  "@budgetComboMissingInfoTitle": {
+    "description": "TODO: budgetComboMissingInfoTitle"
+  },
+  "@budgetComboMissingInfoDescription": {
+    "description": "TODO: budgetComboMissingInfoDescription"
+  },
+  "@budgetComboNoResultsTitle": {
+    "description": "TODO: budgetComboNoResultsTitle"
+  },
+  "@budgetComboNoResultsDescription": {
+    "description": "TODO: budgetComboNoResultsDescription"
+  },
+  "@budgetComboAdjustCriteriaTitle": {
+    "description": "TODO: budgetComboAdjustCriteriaTitle"
+  },
+  "@budgetComboDefaultAction": {
+    "description": "TODO: budgetComboDefaultAction"
+  },
+  "@budgetComboRadiusDistrictScope": {
+    "description": "TODO: budgetComboRadiusDistrictScope"
+  },
+  "@budgetComboWeightDistance": {
+    "description": "TODO: budgetComboWeightDistance"
+  },
+  "@budgetComboWeightPrice": {
+    "description": "TODO: budgetComboWeightPrice"
+  },
+  "@budgetComboWeightRating": {
+    "description": "TODO: budgetComboWeightRating"
+  },
+  "@budgetComboFallbackSortHint": {
+    "description": "TODO: budgetComboFallbackSortHint"
+  },
+  "@budgetComboBestComboTitle": {
+    "description": "TODO: budgetComboBestComboTitle"
+  },
+  "@budgetComboTagTop": {
+    "description": "TODO: budgetComboTagTop"
+  },
+  "@budgetComboOtherSuggestionsTitle": {
+    "description": "TODO: budgetComboOtherSuggestionsTitle"
+  },
+  "@budgetComboBestTag": {
+    "description": "TODO: budgetComboBestTag"
+  },
+  "@budgetComboMainItemLabel": {
+    "description": "TODO: budgetComboMainItemLabel"
+  },
+  "@budgetComboDrinkItemLabel": {
+    "description": "TODO: budgetComboDrinkItemLabel"
+  },
+  "@budgetComboGoToBusinessAction": {
+    "description": "TODO: budgetComboGoToBusinessAction"
+  },
+  "@panelAccessTitle": {
+    "description": "TODO: panelAccessTitle"
+  },
+  "@panelWebOnlyMessage": {
+    "description": "TODO: panelWebOnlyMessage"
+  },
+  "@panelBackToDiscover": {
+    "description": "TODO: panelBackToDiscover"
+  },
+  "@notFoundTitle": {
+    "description": "TODO: notFoundTitle"
+  },
+  "@businessHeaderStatusClosingLabel": {
+    "description": "TODO: businessHeaderStatusClosingLabel"
+  },
+  "@businessHeaderAveragePriceLabel": {
+    "description": "TODO: businessHeaderAveragePriceLabel"
+  },
+  "@businessHeaderPopularItemLabel": {
+    "description": "TODO: businessHeaderPopularItemLabel"
+  },
+  "@businessHeaderLastVerificationLabel": {
+    "description": "TODO: businessHeaderLastVerificationLabel"
+  },
+  "@businessStatusOpen": {
+    "description": "TODO: businessStatusOpen"
+  },
+  "@businessStatusClosed": {
+    "description": "TODO: businessStatusClosed"
+  },
+  "@businessHeaderDirectionsAction": {
+    "description": "TODO: businessHeaderDirectionsAction"
+  },
+  "@chainPageTitle": {
+    "description": "TODO: chainPageTitle"
+  },
+  "@chainPageNoBranches": {
+    "description": "TODO: chainPageNoBranches"
+  },
+  "@chainPageNearbyBranchesTitle": {
+    "description": "TODO: chainPageNearbyBranchesTitle"
+  },
+  "@chainPageBranchMenuPriceHint": {
+    "description": "TODO: chainPageBranchMenuPriceHint"
+  },
+  "@chainPageBranchNearAverage": {
+    "description": "TODO: chainPageBranchNearAverage"
+  },
+  "@comparePageTitle": {
+    "description": "TODO: comparePageTitle"
+  },
+  "@compareEmptyTitle": {
+    "description": "TODO: compareEmptyTitle"
+  },
+  "@compareEmptyDescription": {
+    "description": "TODO: compareEmptyDescription"
+  },
+  "@compareBackToDiscover": {
+    "description": "TODO: compareBackToDiscover"
+  },
+  "@compareBestPickAction": {
+    "description": "TODO: compareBestPickAction"
+  },
+  "@compareSuggestedBadge": {
+    "description": "TODO: compareSuggestedBadge"
+  },
+  "@compareMedianPriceLabel": {
+    "description": "TODO: compareMedianPriceLabel"
+  },
+  "@compareVerifiedRateLabel": {
+    "description": "TODO: compareVerifiedRateLabel"
+  },
+  "@compareLastUpdateLabel": {
+    "description": "TODO: compareLastUpdateLabel"
+  },
+  "@compareBestItemTitle": {
+    "description": "TODO: compareBestItemTitle"
+  },
+  "@compareGoToBusinessAction": {
+    "description": "TODO: compareGoToBusinessAction"
+  },
+  "@compareRemoveTooltip": {
+    "description": "TODO: compareRemoveTooltip"
+  },
+  "@contributeDefaultBusinessName": {
+    "description": "TODO: contributeDefaultBusinessName"
+  },
+  "@contributeOpenBusinessFirst": {
+    "description": "TODO: contributeOpenBusinessFirst"
+  },
+  "@contributeUploadingProgress": {
+    "description": "TODO: contributeUploadingProgress"
+  },
+  "@contributeUploadSentSingle": {
+    "description": "TODO: contributeUploadSentSingle"
+  },
+  "@contributeUploadFailed": {
+    "description": "TODO: contributeUploadFailed"
+  },
+  "@contributeQrDecodingProgress": {
+    "description": "TODO: contributeQrDecodingProgress"
+  },
+  "@contributeQrUnreadableSentReview": {
+    "description": "TODO: contributeQrUnreadableSentReview"
+  },
+  "@contributeQrVerifiedRedirecting": {
+    "description": "TODO: contributeQrVerifiedRedirecting"
+  },
+  "@contributeQrProcessFailed": {
+    "description": "TODO: contributeQrProcessFailed"
+  },
+  "@contributeExternalQrUseBusinessPage": {
+    "description": "TODO: contributeExternalQrUseBusinessPage"
+  },
+  "@contributeSendingForReviewProgress": {
+    "description": "TODO: contributeSendingForReviewProgress"
+  },
+  "@contributeQrImageSentForReview": {
+    "description": "TODO: contributeQrImageSentForReview"
+  },
+  "@contributeExternalLinkSentForReview": {
+    "description": "TODO: contributeExternalLinkSentForReview"
+  },
+  "@contributeSourceCamera": {
+    "description": "TODO: contributeSourceCamera"
+  },
+  "@contributeSourceGallery": {
+    "description": "TODO: contributeSourceGallery"
+  },
+  "@contributeSelectBusinessForPriceVerification": {
+    "description": "TODO: contributeSelectBusinessForPriceVerification"
+  },
+  "@contributeSelectMenuItemToVerifyPrice": {
+    "description": "TODO: contributeSelectMenuItemToVerifyPrice"
+  },
+  "@discoveryFilterCafe": {
+    "description": "TODO: discoveryFilterCafe"
+  },
+  "@discoveryFilterRestaurant": {
+    "description": "TODO: discoveryFilterRestaurant"
+  },
+  "@discoveryFilterDessertPastry": {
+    "description": "TODO: discoveryFilterDessertPastry"
+  },
+  "@discoveryFilterBreakfast": {
+    "description": "TODO: discoveryFilterBreakfast"
+  },
+  "@discoveryFilterFishMeat": {
+    "description": "TODO: discoveryFilterFishMeat"
+  },
+  "@discoveryFilterVenue": {
+    "description": "TODO: discoveryFilterVenue"
+  },
+  "@discoveryHomeCategoryDoner": {
+    "description": "TODO: discoveryHomeCategoryDoner"
+  },
+  "@discoveryHomeCategoryPide": {
+    "description": "TODO: discoveryHomeCategoryPide"
+  },
+  "@discoveryHomeCategoryLahmacun": {
+    "description": "TODO: discoveryHomeCategoryLahmacun"
+  },
+  "@discoveryHomeCategoryBurger": {
+    "description": "TODO: discoveryHomeCategoryBurger"
+  },
+  "@discoveryHomeCategoryPizza": {
+    "description": "TODO: discoveryHomeCategoryPizza"
+  },
+  "@discoveryHomeCategoryKebap": {
+    "description": "TODO: discoveryHomeCategoryKebap"
+  },
+  "@discoveryHomeCategoryCorba": {
+    "description": "TODO: discoveryHomeCategoryCorba"
+  },
+  "@discoveryHomeCategoryKahvalti": {
+    "description": "TODO: discoveryHomeCategoryKahvalti"
+  },
+  "@discoveryHomeCategoryManti": {
+    "description": "TODO: discoveryHomeCategoryManti"
+  },
+  "@discoveryHomeCategoryTatli": {
+    "description": "TODO: discoveryHomeCategoryTatli"
+  },
+  "@discoveryRecentSearches": {
+    "description": "TODO: discoveryRecentSearches"
+  },
+  "@discoveryCatalogSuggestions": {
+    "description": "TODO: discoveryCatalogSuggestions"
+  },
+  "@feedEmptyMessage": {
+    "description": "TODO: feedEmptyMessage"
+  },
+  "@all": {
+    "description": "TODO: all"
+  },
+  "@sil": {
+    "description": "TODO: sil"
+  },
+  "@favoritesCollectionLabel": {
+    "description": "TODO: favoritesCollectionLabel"
+  },
+  "@favoritesSavedHereSubtitle": {
+    "description": "TODO: favoritesSavedHereSubtitle"
+  },
+  "@favoritesSearchHint": {
+    "description": "TODO: favoritesSearchHint"
+  },
+  "@favoritesNearbyLoadingLocation": {
+    "description": "TODO: favoritesNearbyLoadingLocation"
+  },
+  "@favoritesNearbyFallbackOrdering": {
+    "description": "TODO: favoritesNearbyFallbackOrdering"
+  },
+  "@favoritesNearbySortedByDistance": {
+    "description": "TODO: favoritesNearbySortedByDistance"
+  },
+  "@favoritesCollectionsTitle": {
+    "description": "TODO: favoritesCollectionsTitle"
+  },
+  "@favoritesCreateCollectionTooltip": {
+    "description": "TODO: favoritesCreateCollectionTooltip"
+  },
+  "@favoritesShareCollectionTooltip": {
+    "description": "TODO: favoritesShareCollectionTooltip"
+  },
+  "@favoritesDeleteCollectionTooltip": {
+    "description": "TODO: favoritesDeleteCollectionTooltip"
+  },
+  "@favoritesCreatorSelectCollectionHint": {
+    "description": "TODO: favoritesCreatorSelectCollectionHint"
+  },
+  "@favoritesCreatorCollectionTitle": {
+    "description": "TODO: favoritesCreatorCollectionTitle"
+  },
+  "@favoritesCreatorCollectionSubtitle": {
+    "description": "TODO: favoritesCreatorCollectionSubtitle"
+  },
+  "@favoritesPublishAction": {
+    "description": "TODO: favoritesPublishAction"
+  },
+  "@favoritesPublishVisibleSubtitle": {
+    "description": "TODO: favoritesPublishVisibleSubtitle"
+  },
+  "@favoritesPublishPrivateSubtitle": {
+    "description": "TODO: favoritesPublishPrivateSubtitle"
+  },
+  "@favoritesSharedCollectionTitle": {
+    "description": "TODO: favoritesSharedCollectionTitle"
+  },
+  "@favoritesFollowCollectionHint": {
+    "description": "TODO: favoritesFollowCollectionHint"
+  },
+  "@favoritesFollowAction": {
+    "description": "TODO: favoritesFollowAction"
+  },
+  "@favoritesFollowingAction": {
+    "description": "TODO: favoritesFollowingAction"
+  },
+  "@favoritesNewCollectionTitle": {
+    "description": "TODO: favoritesNewCollectionTitle"
+  },
+  "@favoritesCollectionNameExample": {
+    "description": "TODO: favoritesCollectionNameExample"
+  },
+  "@favoritesCreateAction": {
+    "description": "TODO: favoritesCreateAction"
+  },
+  "@favoritesDeleteCollectionConfirmTitle": {
+    "description": "TODO: favoritesDeleteCollectionConfirmTitle"
+  },
+  "@favoritesDeleteCollectionConfirmBody": {
+    "description": "TODO: favoritesDeleteCollectionConfirmBody"
+  },
+  "@favoritesNoCollectionYet": {
+    "description": "TODO: favoritesNoCollectionYet"
+  },
+  "@favoritesNewCollectionAction": {
+    "description": "TODO: favoritesNewCollectionAction"
+  },
+  "@favoritesDisclosureSponsored": {
+    "description": "TODO: favoritesDisclosureSponsored"
+  },
+  "@favoritesDisclosureOrganic": {
+    "description": "TODO: favoritesDisclosureOrganic"
+  },
+  "@favoritesDisclosurePrivate": {
+    "description": "TODO: favoritesDisclosurePrivate"
+  },
+  "@favoritesAdDisclosureTitle": {
+    "description": "TODO: favoritesAdDisclosureTitle"
+  },
+  "@favoritesAdDisclosureBody": {
+    "description": "TODO: favoritesAdDisclosureBody"
+  },
+  "@favoritesAddToCollectionTooltip": {
+    "description": "TODO: favoritesAddToCollectionTooltip"
+  },
+  "@followingPageTitle": {
+    "description": "TODO: followingPageTitle"
+  },
+  "@followingPageEmpty": {
+    "description": "TODO: followingPageEmpty"
+  },
+  "@followingPageUnfollowAction": {
+    "description": "TODO: followingPageUnfollowAction"
+  },
+  "@gourmetsPageTitle": {
+    "description": "TODO: gourmetsPageTitle"
+  },
+  "@gourmetsPageEmpty": {
+    "description": "TODO: gourmetsPageEmpty"
+  },
+  "@groupRequestWizardTitle": {
+    "description": "TODO: groupRequestWizardTitle"
+  },
+  "@groupRequestWizardEnterDetails": {
+    "description": "TODO: groupRequestWizardEnterDetails"
+  },
+  "@groupRequestWizardCityLabel": {
+    "description": "TODO: groupRequestWizardCityLabel"
+  },
+  "@groupRequestWizardDistrictLabel": {
+    "description": "TODO: groupRequestWizardDistrictLabel"
+  },
+  "@groupRequestWizardCategoryHint": {
+    "description": "TODO: groupRequestWizardCategoryHint"
+  },
+  "@groupRequestWizardPartySizeLabel": {
+    "description": "TODO: groupRequestWizardPartySizeLabel"
+  },
+  "@groupRequestWizardTotalBudgetLabel": {
+    "description": "TODO: groupRequestWizardTotalBudgetLabel"
+  },
+  "@groupRequestWizardNotesLabel": {
+    "description": "TODO: groupRequestWizardNotesLabel"
+  },
+  "@groupRequestWizardCreateAction": {
+    "description": "TODO: groupRequestWizardCreateAction"
+  },
+  "@groupRequestWizardInfoTitle": {
+    "description": "TODO: groupRequestWizardInfoTitle"
+  },
+  "@groupRequestWizardInfoDescription": {
+    "description": "TODO: groupRequestWizardInfoDescription"
+  },
+  "@groupRequestWizardMissingFields": {
+    "description": "TODO: groupRequestWizardMissingFields"
+  },
+  "@groupRequestWizardPickDateTime": {
+    "description": "TODO: groupRequestWizardPickDateTime"
+  },
+  "@groupRequestMyRequestsTitle": {
+    "description": "TODO: groupRequestMyRequestsTitle"
+  },
+  "@groupRequestNewRequestAction": {
+    "description": "TODO: groupRequestNewRequestAction"
+  },
+  "@groupRequestNoRequestsTitle": {
+    "description": "TODO: groupRequestNoRequestsTitle"
+  },
+  "@groupRequestNoRequestsDescription": {
+    "description": "TODO: groupRequestNoRequestsDescription"
+  },
+  "@groupRequestStatusOpen": {
+    "description": "TODO: groupRequestStatusOpen"
+  },
+  "@groupRequestStatusAwarded": {
+    "description": "TODO: groupRequestStatusAwarded"
+  },
+  "@groupRequestStatusClosed": {
+    "description": "TODO: groupRequestStatusClosed"
+  },
+  "@groupRequestStatusCancelled": {
+    "description": "TODO: groupRequestStatusCancelled"
+  },
+  "@groupRequestDetailTitle": {
+    "description": "TODO: groupRequestDetailTitle"
+  },
+  "@groupRequestLinkCopied": {
+    "description": "TODO: groupRequestLinkCopied"
+  },
+  "@groupRequestNotFound": {
+    "description": "TODO: groupRequestNotFound"
+  },
+  "@groupRequestCreatedBannerTitle": {
+    "description": "TODO: groupRequestCreatedBannerTitle"
+  },
+  "@groupRequestCreatedBannerDescription": {
+    "description": "TODO: groupRequestCreatedBannerDescription"
+  },
+  "@groupRequestLinkTitle": {
+    "description": "TODO: groupRequestLinkTitle"
+  },
+  "@groupRequestCopyAction": {
+    "description": "TODO: groupRequestCopyAction"
+  },
+  "@groupRequestAddSuggestionTitle": {
+    "description": "TODO: groupRequestAddSuggestionTitle"
+  },
+  "@groupRequestAddSuggestionDescription": {
+    "description": "TODO: groupRequestAddSuggestionDescription"
+  },
+  "@groupRequestAddSuggestionAction": {
+    "description": "TODO: groupRequestAddSuggestionAction"
+  },
+  "@groupRequestOffersTitle": {
+    "description": "TODO: groupRequestOffersTitle"
+  },
+  "@groupRequestNoOffersTitle": {
+    "description": "TODO: groupRequestNoOffersTitle"
+  },
+  "@groupRequestNoOffersDescription": {
+    "description": "TODO: groupRequestNoOffersDescription"
+  },
+  "@groupRequestBusinessFallback": {
+    "description": "TODO: groupRequestBusinessFallback"
+  },
+  "@groupRequestTopContributorBadge": {
+    "description": "TODO: groupRequestTopContributorBadge"
+  },
+  "@groupRequestUndoVoteAction": {
+    "description": "TODO: groupRequestUndoVoteAction"
+  },
+  "@groupRequestVoteAction": {
+    "description": "TODO: groupRequestVoteAction"
+  },
+  "@groupRequestProcessing": {
+    "description": "TODO: groupRequestProcessing"
+  },
+  "@groupRequestAcceptOfferAction": {
+    "description": "TODO: groupRequestAcceptOfferAction"
+  },
+  "@groupRequestSearchMinChars": {
+    "description": "TODO: groupRequestSearchMinChars"
+  },
+  "@groupRequestBusinessAndPriceRequired": {
+    "description": "TODO: groupRequestBusinessAndPriceRequired"
+  },
+  "@groupRequestSuggestionAdded": {
+    "description": "TODO: groupRequestSuggestionAdded"
+  },
+  "@groupRequestSearchBusinessLabel": {
+    "description": "TODO: groupRequestSearchBusinessLabel"
+  },
+  "@groupRequestSuggestIfMissing": {
+    "description": "TODO: groupRequestSuggestIfMissing"
+  },
+  "@groupRequestTryDifferentName": {
+    "description": "TODO: groupRequestTryDifferentName"
+  },
+  "@groupRequestOfferTotalPriceLabel": {
+    "description": "TODO: groupRequestOfferTotalPriceLabel"
+  },
+  "@groupRequestNoteLabel": {
+    "description": "TODO: groupRequestNoteLabel"
+  },
+  "@groupRequestChangeAction": {
+    "description": "TODO: groupRequestChangeAction"
+  },
+  "@groupRequestCopyResultAction": {
+    "description": "TODO: groupRequestCopyResultAction"
+  },
+  "@heroesPageTitle": {
+    "description": "TODO: heroesPageTitle"
+  },
+  "@heroesPageSubtitle": {
+    "description": "TODO: heroesPageSubtitle"
+  },
+  "@heroesPageEmpty": {
+    "description": "TODO: heroesPageEmpty"
+  },
+  "@heroesPageUserFallback": {
+    "description": "TODO: heroesPageUserFallback"
+  },
+  "@verifyPriceIsCorrectQuestion": {
+    "description": "TODO: verifyPriceIsCorrectQuestion"
+  },
+  "@verifyPriceCorrectAction": {
+    "description": "TODO: verifyPriceCorrectAction"
+  },
+  "@verifyPriceIncorrectAction": {
+    "description": "TODO: verifyPriceIncorrectAction"
+  },
+  "@verifyPriceCorrectPriceLabel": {
+    "description": "TODO: verifyPriceCorrectPriceLabel"
+  },
+  "@verifyPriceCorrectPriceHint": {
+    "description": "TODO: verifyPriceCorrectPriceHint"
+  },
+  "@verifyPriceChooseCorrectnessFirst": {
+    "description": "TODO: verifyPriceChooseCorrectnessFirst"
+  },
+  "@verifyPriceEnterValidPrice": {
+    "description": "TODO: verifyPriceEnterValidPrice"
+  },
+  "@menuItemAutoApprovedMessage": {
+    "description": "TODO: menuItemAutoApprovedMessage"
+  },
+  "@menuItemPendingSingleMessage": {
+    "description": "TODO: menuItemPendingSingleMessage"
+  },
+  "@menuItemOnsiteVerifiedPrioritizedMessage": {
+    "description": "TODO: menuItemOnsiteVerifiedPrioritizedMessage"
+  },
+  "@menuPhotoWarningDark": {
+    "description": "TODO: menuPhotoWarningDark"
+  },
+  "@menuPhotoWarningBlurry": {
+    "description": "TODO: menuPhotoWarningBlurry"
+  },
+  "@menuContributionLevelLabel": {
+    "description": "TODO: menuContributionLevelLabel"
+  },
+  "@menuScoreUpdated": {
+    "description": "TODO: menuScoreUpdated"
+  },
+  "@inboxTitle": {
+    "description": "TODO: inboxTitle"
+  },
+  "@inboxMarkAllRead": {
+    "description": "TODO: inboxMarkAllRead"
+  },
+  "@inboxEmptyTitle": {
+    "description": "TODO: inboxEmptyTitle"
+  },
+  "@inboxEmptyDescription": {
+    "description": "TODO: inboxEmptyDescription"
+  },
+  "@inboxNow": {
+    "description": "TODO: inboxNow"
+  },
+  "@inboxReengagementTitle": {
+    "description": "TODO: inboxReengagementTitle"
+  },
+  "@inboxReengagementSubtitle": {
+    "description": "TODO: inboxReengagementSubtitle"
+  },
+  "@inboxRecentBusinessClosedTitle": {
+    "description": "TODO: inboxRecentBusinessClosedTitle"
+  },
+  "@inboxRecentBusinessPriceChangedTitle": {
+    "description": "TODO: inboxRecentBusinessPriceChangedTitle"
+  },
+  "@inboxRecentBusinessNearbyTitle": {
+    "description": "TODO: inboxRecentBusinessNearbyTitle"
+  },
+  "@inboxRecentBusinessTitle": {
+    "description": "TODO: inboxRecentBusinessTitle"
+  },
+  "@inboxRecentBusinessNearbyReason": {
+    "description": "TODO: inboxRecentBusinessNearbyReason"
+  },
+  "@inboxFavoritesPriceChangedTitle": {
+    "description": "TODO: inboxFavoritesPriceChangedTitle"
+  },
+  "@inboxDailyTaskTitle": {
+    "description": "TODO: inboxDailyTaskTitle"
+  },
+  "@inboxSegmentPriceHunter": {
+    "description": "TODO: inboxSegmentPriceHunter"
+  },
+  "@inboxSegmentPhotoProof": {
+    "description": "TODO: inboxSegmentPhotoProof"
+  },
+  "@inboxSegmentExplorer": {
+    "description": "TODO: inboxSegmentExplorer"
+  },
+  "@inboxSegmentSilentQuality": {
+    "description": "TODO: inboxSegmentSilentQuality"
+  },
+  "@inboxSegmentDefault": {
+    "description": "TODO: inboxSegmentDefault"
+  },
+  "@inboxAlertAboveDistrictAverage": {
+    "description": "TODO: inboxAlertAboveDistrictAverage"
+  },
+  "@inboxAlertBelowDistrictAverage": {
+    "description": "TODO: inboxAlertBelowDistrictAverage"
+  },
+  "@inboxAlertTriggered": {
+    "description": "TODO: inboxAlertTriggered"
+  },
+  "@inboxBusinessClosedArchived": {
+    "description": "TODO: inboxBusinessClosedArchived"
+  },
+  "@inboxBusinessMoved": {
+    "description": "TODO: inboxBusinessMoved"
+  },
+  "@inboxBusinessTemporarilyClosed": {
+    "description": "TODO: inboxBusinessTemporarilyClosed"
+  },
+  "@inboxBusinessStatusUpdated": {
+    "description": "TODO: inboxBusinessStatusUpdated"
+  },
+  "@priceAlertSheetTitle": {
+    "description": "TODO: priceAlertSheetTitle"
+  },
+  "@priceAlertSheetQueryLabel": {
+    "description": "TODO: priceAlertSheetQueryLabel"
+  },
+  "@priceAlertSheetMaxPriceLabel": {
+    "description": "TODO: priceAlertSheetMaxPriceLabel"
+  },
+  "@priceAlertSheetCategoryLabel": {
+    "description": "TODO: priceAlertSheetCategoryLabel"
+  },
+  "@priceAlertSheetValidationError": {
+    "description": "TODO: priceAlertSheetValidationError"
+  },
+  "@priceAlertSheetSaved": {
+    "description": "TODO: priceAlertSheetSaved"
+  },
+  "@achievementStatusUnlocked": {
+    "description": "TODO: achievementStatusUnlocked"
+  },
+  "@achievementStatusLocked": {
+    "description": "TODO: achievementStatusLocked"
+  },
+  "@profileGuestUser": {
+    "description": "TODO: profileGuestUser"
+  },
+  "@profileIdentitySupportMessage": {
+    "description": "TODO: profileIdentitySupportMessage"
+  },
+  "@profileAlertsTab": {
+    "description": "TODO: profileAlertsTab"
+  },
+  "@profileFeedTab": {
+    "description": "TODO: profileFeedTab"
+  },
+  "@profileLoginToSeeContributions": {
+    "description": "TODO: profileLoginToSeeContributions"
+  },
+  "@profileCreatorBadgeTitle": {
+    "description": "TODO: profileCreatorBadgeTitle"
+  },
+  "@profileCreatorBadgeEnabled": {
+    "description": "TODO: profileCreatorBadgeEnabled"
+  },
+  "@profileCreatorBadgeDisabled": {
+    "description": "TODO: profileCreatorBadgeDisabled"
+  },
+  "@profileAddSocialLinkTitle": {
+    "description": "TODO: profileAddSocialLinkTitle"
+  },
+  "@linkLabel": {
+    "description": "TODO: linkLabel"
+  },
+  "@profileSocialLinksHint": {
+    "description": "TODO: profileSocialLinksHint"
+  },
+  "@profileSocialSaveComingSoon": {
+    "description": "TODO: profileSocialSaveComingSoon"
+  },
+  "@profileStatsTitle": {
+    "description": "TODO: profileStatsTitle"
+  },
+  "@profileCommunityTrustTitle": {
+    "description": "TODO: profileCommunityTrustTitle"
+  },
+  "@profileCalculating": {
+    "description": "TODO: profileCalculating"
+  },
+  "@profileMyAchievementsTitle": {
+    "description": "TODO: profileMyAchievementsTitle"
+  },
+  "@profileNoAchievementYet": {
+    "description": "TODO: profileNoAchievementYet"
+  },
+  "@profileAlertsLoginRequired": {
+    "description": "TODO: profileAlertsLoginRequired"
+  },
+  "@profileAlertsEmpty": {
+    "description": "TODO: profileAlertsEmpty"
+  },
+  "@profileFeedLoginRequired": {
+    "description": "TODO: profileFeedLoginRequired"
+  },
+  "@profileFeedEmpty": {
+    "description": "TODO: profileFeedEmpty"
+  },
+  "@profileFeedEventPriceVerified": {
+    "description": "TODO: profileFeedEventPriceVerified"
+  },
+  "@profileFeedEventMenuUpdated": {
+    "description": "TODO: profileFeedEventMenuUpdated"
+  },
+  "@profileFeedEventSponsored": {
+    "description": "TODO: profileFeedEventSponsored"
+  },
+  "@profileDailyTaskTitle": {
+    "description": "TODO: profileDailyTaskTitle"
+  },
+  "@profileDailyTaskCompleted": {
+    "description": "TODO: profileDailyTaskCompleted"
+  },
+  "@profileSegmentHintPriceHunter": {
+    "description": "TODO: profileSegmentHintPriceHunter"
+  },
+  "@profileSegmentHintPhotoProof": {
+    "description": "TODO: profileSegmentHintPhotoProof"
+  },
+  "@profileSegmentHintExplorer": {
+    "description": "TODO: profileSegmentHintExplorer"
+  },
+  "@profileSegmentHintDefault": {
+    "description": "TODO: profileSegmentHintDefault"
+  },
+  "@profileStatReviews": {
+    "description": "TODO: profileStatReviews"
+  },
+  "@profileStatHelpfulVotes": {
+    "description": "TODO: profileStatHelpfulVotes"
+  },
+  "@profileStatFavorites": {
+    "description": "TODO: profileStatFavorites"
+  },
+  "@profileStatContributions": {
+    "description": "TODO: profileStatContributions"
+  },
+  "@profileStatVisits": {
+    "description": "TODO: profileStatVisits"
+  },
+  "@profileLatestAchievementTitle": {
+    "description": "TODO: profileLatestAchievementTitle"
+  },
+  "@profileSegmentPriceHunter": {
+    "description": "TODO: profileSegmentPriceHunter"
+  },
+  "@profileSegmentExplorer": {
+    "description": "TODO: profileSegmentExplorer"
+  },
+  "@profileSegmentPhotoProof": {
+    "description": "TODO: profileSegmentPhotoProof"
+  },
+  "@profileSegmentBalanced": {
+    "description": "TODO: profileSegmentBalanced"
+  },
+  "@profileMoatSignalsTitle": {
+    "description": "TODO: profileMoatSignalsTitle"
+  },
+  "@profileSignalTrust": {
+    "description": "TODO: profileSignalTrust"
+  },
+  "@profileSignalAccuracy": {
+    "description": "TODO: profileSignalAccuracy"
+  },
+  "@profileSignalSegment": {
+    "description": "TODO: profileSignalSegment"
+  },
+  "@profileSignalSilentQuality": {
+    "description": "TODO: profileSignalSilentQuality"
+  },
+  "@profileMoatSilentQualityHint": {
+    "description": "TODO: profileMoatSilentQualityHint"
+  },
+  "@businessReviewsCommunityExperiences": {
+    "description": "TODO: businessReviewsCommunityExperiences"
+  },
+  "@businessReviewsOwnerCanModerate": {
+    "description": "TODO: businessReviewsOwnerCanModerate"
+  },
+  "@businessReviewsOwnersCanOnlyReply": {
+    "description": "TODO: businessReviewsOwnersCanOnlyReply"
+  },
+  "@sortNewest": {
+    "description": "TODO: sortNewest"
+  },
+  "@sortMostHelpful": {
+    "description": "TODO: sortMostHelpful"
+  },
+  "@businessReviewsEmpty": {
+    "description": "TODO: businessReviewsEmpty"
+  },
+  "@reviewCreateRatingLabel": {
+    "description": "TODO: reviewCreateRatingLabel"
+  },
+  "@reviewCreateOptionalTitleLabel": {
+    "description": "TODO: reviewCreateOptionalTitleLabel"
+  },
+  "@reviewCreateContentRequired": {
+    "description": "TODO: reviewCreateContentRequired"
+  },
+  "@reviewCreateSubmitted": {
+    "description": "TODO: reviewCreateSubmitted"
+  },
+  "@reviewCreateErrorNewAccountRateLimited": {
+    "description": "TODO: reviewCreateErrorNewAccountRateLimited"
+  },
+  "@reviewCreateErrorSameBusinessCooldown": {
+    "description": "TODO: reviewCreateErrorSameBusinessCooldown"
+  },
+  "@reviewCreateErrorContainsLinkOrPhone": {
+    "description": "TODO: reviewCreateErrorContainsLinkOrPhone"
+  },
+  "@reviewCreateErrorContainsProfanity": {
+    "description": "TODO: reviewCreateErrorContainsProfanity"
+  },
+  "@reviewCreateErrorEmojiSpam": {
+    "description": "TODO: reviewCreateErrorEmojiSpam"
+  },
+  "@quality": {
+    "description": "TODO: quality"
+  },
+  "@smartFeedEmptyTitle": {
+    "description": "TODO: smartFeedEmptyTitle"
+  },
+  "@smartFeedEmptyDescription": {
+    "description": "TODO: smartFeedEmptyDescription"
+  },
+  "@smartFeedCurationTitle": {
+    "description": "TODO: smartFeedCurationTitle"
+  },
+  "@smartFeedCategoriesLabel": {
+    "description": "TODO: smartFeedCategoriesLabel"
+  },
+  "@smartFeedScenarioLabel": {
+    "description": "TODO: smartFeedScenarioLabel"
+  },
+  "@smartFeedUnlimited": {
+    "description": "TODO: smartFeedUnlimited"
+  },
+  "@smartFeedContextDefault": {
+    "description": "TODO: smartFeedContextDefault"
+  },
+  "@smartFeedCategoryMeyhane": {
+    "description": "TODO: smartFeedCategoryMeyhane"
+  },
+  "@smartFeedCategoryAffordable": {
+    "description": "TODO: smartFeedCategoryAffordable"
+  },
+  "@smartFeedBundleStudentFriendly": {
+    "description": "TODO: smartFeedBundleStudentFriendly"
+  },
+  "@smartFeedBundleFirstDate": {
+    "description": "TODO: smartFeedBundleFirstDate"
+  },
+  "@smartFeedBundleNightSoup": {
+    "description": "TODO: smartFeedBundleNightSoup"
+  },
+  "@smartFeedEventMenu": {
+    "description": "TODO: smartFeedEventMenu"
+  },
+  "@smartFeedEventPrice": {
+    "description": "TODO: smartFeedEventPrice"
+  },
+  "@smartFeedEventPhoto": {
+    "description": "TODO: smartFeedEventPhoto"
+  },
+  "@smartFeedEventDaily": {
+    "description": "TODO: smartFeedEventDaily"
+  },
+  "@smartFeedEventSponsor": {
+    "description": "TODO: smartFeedEventSponsor"
+  },
+  "@smartFeedFallbackPriceChanged": {
+    "description": "TODO: smartFeedFallbackPriceChanged"
+  },
+  "@smartFeedFallbackPhotoAdded": {
+    "description": "TODO: smartFeedFallbackPhotoAdded"
+  },
+  "@smartFeedFallbackDailyMenu": {
+    "description": "TODO: smartFeedFallbackDailyMenu"
+  },
+  "@smartFeedFallbackNewContent": {
+    "description": "TODO: smartFeedFallbackNewContent"
+  },
+  "@smartFeedCtaGoToMenu": {
+    "description": "TODO: smartFeedCtaGoToMenu"
+  },
+  "@smartFeedCtaOpenItem": {
+    "description": "TODO: smartFeedCtaOpenItem"
+  },
+  "@smartFeedCtaViewPhoto": {
+    "description": "TODO: smartFeedCtaViewPhoto"
+  },
+  "@smartFeedCtaGoToBusiness": {
+    "description": "TODO: smartFeedCtaGoToBusiness"
+  },
+  "@smartFeedReasonCategoryMatch": {
+    "description": "TODO: smartFeedReasonCategoryMatch"
+  },
+  "@smartFeedReasonScenarioMatch": {
+    "description": "TODO: smartFeedReasonScenarioMatch"
+  },
+  "@smartFeedReasonSimilarUsers": {
+    "description": "TODO: smartFeedReasonSimilarUsers"
+  },
+  "@smartFeedDayWeekend": {
+    "description": "TODO: smartFeedDayWeekend"
+  },
+  "@smartFeedDayWeekday": {
+    "description": "TODO: smartFeedDayWeekday"
+  },
+  "@smartFeedTimeMorning": {
+    "description": "TODO: smartFeedTimeMorning"
+  },
+  "@smartFeedTimeNoon": {
+    "description": "TODO: smartFeedTimeNoon"
+  },
+  "@smartFeedTimeEvening": {
+    "description": "TODO: smartFeedTimeEvening"
+  },
+  "@smartFeedTimeNight": {
+    "description": "TODO: smartFeedTimeNight"
+  },
+  "@suggestBusinessSubmitDialogTitle": {
+    "description": "TODO: suggestBusinessSubmitDialogTitle"
+  },
+  "@ok": {
+    "description": "TODO: ok"
+  },
+  "@suggestBusinessPageTitle": {
+    "description": "TODO: suggestBusinessPageTitle"
+  },
+  "@suggestBusinessPageSubtitle": {
+    "description": "TODO: suggestBusinessPageSubtitle"
+  },
+  "@suggestBusinessNameLabel": {
+    "description": "TODO: suggestBusinessNameLabel"
+  },
+  "@requiredField": {
+    "description": "TODO: requiredField"
+  },
+  "@suggestBusinessCategoryLabel": {
+    "description": "TODO: suggestBusinessCategoryLabel"
+  },
+  "@suggestBusinessAddressLabel": {
+    "description": "TODO: suggestBusinessAddressLabel"
+  },
+  "@suggestBusinessPhoneLabel": {
+    "description": "TODO: suggestBusinessPhoneLabel"
+  },
+  "@suggestBusinessWebsiteLabel": {
+    "description": "TODO: suggestBusinessWebsiteLabel"
+  },
+  "@suggestBusinessDuplicateTitle": {
+    "description": "TODO: suggestBusinessDuplicateTitle"
+  },
+  "@suggestBusinessDuplicateFound": {
+    "description": "TODO: suggestBusinessDuplicateFound"
+  },
+  "@suggestBusinessDuplicateConfirm": {
+    "description": "TODO: suggestBusinessDuplicateConfirm"
+  },
+  "@suggestBusinessSendAnyway": {
+    "description": "TODO: suggestBusinessSendAnyway"
+  },
+  "@suggestBusinessOpenAction": {
+    "description": "TODO: suggestBusinessOpenAction"
+  },
+  "@copy": {
+    "description": "TODO: copy"
+  },
+  "@topBusinessesNotEnoughData": {
+    "description": "TODO: topBusinessesNotEnoughData"
+  },
+  "@topBusinessesBadgeMonth": {
+    "description": "TODO: topBusinessesBadgeMonth"
+  },
+  "@topBusinessesBadgeWeek": {
+    "description": "TODO: topBusinessesBadgeWeek"
+  },
+  "@suspendedMealsMyClaimsTitle": {
+    "description": "TODO: suspendedMealsMyClaimsTitle"
+  },
+  "@suspendedMealsStatusCodeReady": {
+    "description": "TODO: suspendedMealsStatusCodeReady"
+  },
+  "@suspendedMealsStatusFulfilled": {
+    "description": "TODO: suspendedMealsStatusFulfilled"
+  },
+  "@suspendedMealsNoRecords": {
+    "description": "TODO: suspendedMealsNoRecords"
+  },
+  "@suspendedMealsDeliveryCode": {
+    "description": "TODO: suspendedMealsDeliveryCode"
+  },
+  "@suspendedMealsCodeCopied": {
+    "description": "TODO: suspendedMealsCodeCopied"
+  },
+  "@suspendedMealsCodeHint": {
+    "description": "TODO: suspendedMealsCodeHint"
+  },
+  "@suspendedMealsPendingReview": {
+    "description": "TODO: suspendedMealsPendingReview"
+  },
+  "@tasteTwinTitle": {
+    "description": "TODO: tasteTwinTitle"
+  },
+  "@tasteTwinLoginRequired": {
+    "description": "TODO: tasteTwinLoginRequired"
+  },
+  "@tasteTwinSubtitle": {
+    "description": "TODO: tasteTwinSubtitle"
+  },
+  "@tasteTwinNoMatches": {
+    "description": "TODO: tasteTwinNoMatches"
+  },
+  "@tasteTwinSignalHint": {
+    "description": "TODO: tasteTwinSignalHint"
+  },
+  "@tasteTwinViewSuggestions": {
+    "description": "TODO: tasteTwinViewSuggestions"
+  },
+  "@tasteTwinFollowGourmet": {
+    "description": "TODO: tasteTwinFollowGourmet"
+  },
+  "@tasteTwinNoSuggestionsYet": {
+    "description": "TODO: tasteTwinNoSuggestionsYet"
+  },
+  "@tasteTwinWhyMatchedTitle": {
+    "description": "TODO: tasteTwinWhyMatchedTitle"
+  },
+  "@tasteTwinReviewOverlapTitle": {
+    "description": "TODO: tasteTwinReviewOverlapTitle"
+  },
+  "@tasteTwinNoSampleYet": {
+    "description": "TODO: tasteTwinNoSampleYet"
+  },
+  "@tasteTwinMenuSignalOverlapTitle": {
+    "description": "TODO: tasteTwinMenuSignalOverlapTitle"
+  },
+  "@tasteTwinMenuSignalOverlapHint": {
+    "description": "TODO: tasteTwinMenuSignalOverlapHint"
+  },
+  "@tasteTwinDivergenceTitle": {
+    "description": "TODO: tasteTwinDivergenceTitle"
+  },
+  "@tasteTwinTodayLower": {
+    "description": "TODO: tasteTwinTodayLower"
+  },
+  "@tasteTwinYesterdayLower": {
+    "description": "TODO: tasteTwinYesterdayLower"
+  },
+  "@use": {
+    "description": "TODO: use"
+  },
+  "@quickLoginTitle": {
+    "description": "TODO: quickLoginTitle"
+  },
+  "@quickLoginDescription": {
+    "description": "TODO: quickLoginDescription"
+  },
+  "@quickLoginAction": {
+    "description": "TODO: quickLoginAction"
+  },
+  "@statusBadgeVerified": {
+    "description": "TODO: statusBadgeVerified"
+  },
+  "@statusBadgePending": {
+    "description": "TODO: statusBadgePending"
+  },
+  "@statusBadgeOutdated": {
+    "description": "TODO: statusBadgeOutdated"
+  },
+  "@locationPickerManualHint": {
+    "description": "TODO: locationPickerManualHint"
+  },
+  "@locationPickerUseAuto": {
+    "description": "TODO: locationPickerUseAuto"
+  },
+  "@locationPickerMakeDefault": {
+    "description": "TODO: locationPickerMakeDefault"
+  },
+  "@locationPickerMakeDefaultHint": {
+    "description": "TODO: locationPickerMakeDefaultHint"
+  },
+  "@locationPickerRecent": {
+    "description": "TODO: locationPickerRecent"
+  },
+  "@locationPickerSearchDistrict": {
+    "description": "TODO: locationPickerSearchDistrict"
+  },
+  "@locationPickerPopularDistricts": {
+    "description": "TODO: locationPickerPopularDistricts"
+  },
+  "@legalPageTitle": {
+    "description": "TODO: legalPageTitle"
+  },
+  "@legalKvkkSectionTitle": {
+    "description": "TODO: legalKvkkSectionTitle"
+  },
+  "@legalKvkkIntro": {
+    "description": "TODO: legalKvkkIntro"
+  },
+  "@legalKvkkCategoriesAndRights": {
+    "description": "TODO: legalKvkkCategoriesAndRights"
+  },
+  "@legalPrivacyPolicy": {
+    "description": "TODO: legalPrivacyPolicy"
+  },
+  "@legalKvkkText": {
+    "description": "TODO: legalKvkkText"
+  },
+  "@legalGdprText": {
+    "description": "TODO: legalGdprText"
+  },
+  "@legalApplicationByEmail": {
+    "description": "TODO: legalApplicationByEmail"
+  },
+  "@legalCopyrightSectionTitle": {
+    "description": "TODO: legalCopyrightSectionTitle"
+  },
+  "@legalCopyrightIntro": {
+    "description": "TODO: legalCopyrightIntro"
+  },
+  "@legalCopyrightDetails": {
+    "description": "TODO: legalCopyrightDetails"
+  },
+  "@legalCopyrightPolicy": {
+    "description": "TODO: legalCopyrightPolicy"
+  },
+  "@legalOwnershipAppealSectionTitle": {
+    "description": "TODO: legalOwnershipAppealSectionTitle"
+  },
+  "@legalOwnershipAppealIntro": {
+    "description": "TODO: legalOwnershipAppealIntro"
+  },
+  "@legalOwnershipAppealRequiredInfo": {
+    "description": "TODO: legalOwnershipAppealRequiredInfo"
+  },
+  "@legalOwnershipAppealRequiredList": {
+    "description": "TODO: legalOwnershipAppealRequiredList"
+  },
+  "@legalSendAppealEmail": {
+    "description": "TODO: legalSendAppealEmail"
+  },
+  "@legalProductPrinciplesSectionTitle": {
+    "description": "TODO: legalProductPrinciplesSectionTitle"
+  },
+  "@legalDontsTitle": {
+    "description": "TODO: legalDontsTitle"
+  },
+  "@legalDontsList": {
+    "description": "TODO: legalDontsList"
+  },
+  "@legalFooter": {
+    "description": "TODO: legalFooter"
+  },
+  "@reportRateLimitBusiness": {
+    "description": "TODO: reportRateLimitBusiness"
+  },
+  "@reportRateLimitReview": {
+    "description": "TODO: reportRateLimitReview"
+  },
+  "@reportRateLimitPhoto": {
+    "description": "TODO: reportRateLimitPhoto"
+  },
+  "@reportReasonSpam": {
+    "description": "TODO: reportReasonSpam"
+  },
+  "@reportReasonAbuse": {
+    "description": "TODO: reportReasonAbuse"
+  },
+  "@reportReasonWrongInfo": {
+    "description": "TODO: reportReasonWrongInfo"
+  },
+  "@reportReasonCopyright": {
+    "description": "TODO: reportReasonCopyright"
+  },
+  "@reportReasonIllegal": {
+    "description": "TODO: reportReasonIllegal"
+  },
+  "@reportReasonWrongImage": {
+    "description": "TODO: reportReasonWrongImage"
+  },
+  "@reportReasonClosed": {
+    "description": "TODO: reportReasonClosed"
+  },
+  "@reportReasonMoved": {
+    "description": "TODO: reportReasonMoved"
+  },
+  "@reportReasonWrongPrice": {
+    "description": "TODO: reportReasonWrongPrice"
+  },
+  "@reportBusinessHint": {
+    "description": "TODO: reportBusinessHint"
+  },
+  "@reportReasonLabel": {
+    "description": "TODO: reportReasonLabel"
+  },
+  "@reportCopyrightUrlLabel": {
+    "description": "TODO: reportCopyrightUrlLabel"
+  },
+  "@reportCopyrightOwnerLabel": {
+    "description": "TODO: reportCopyrightOwnerLabel"
+  },
+  "@reportCopyrightEmailLabel": {
+    "description": "TODO: reportCopyrightEmailLabel"
+  },
+  "@reportDetailsLabel": {
+    "description": "TODO: reportDetailsLabel"
+  },
+  "@reportSubmittedThanks": {
+    "description": "TODO: reportSubmittedThanks"
+  },
+  "@reportCopyrightUrlPrefix": {
+    "description": "TODO: reportCopyrightUrlPrefix"
+  },
+  "@reportCopyrightOwnerPrefix": {
+    "description": "TODO: reportCopyrightOwnerPrefix"
+  },
+  "@reportCopyrightEmailPrefix": {
+    "description": "TODO: reportCopyrightEmailPrefix"
+  },
+  "@unexpectedError": {
+    "description": "TODO: unexpectedError"
+  },
+  "@weatherHeadlineRainy": {
+    "description": "TODO: weatherHeadlineRainy"
+  },
+  "@weatherHeadlineSnowy": {
+    "description": "TODO: weatherHeadlineSnowy"
+  },
+  "@weatherHeadlineHot": {
+    "description": "TODO: weatherHeadlineHot"
+  },
+  "@weatherHeadlineClear": {
+    "description": "TODO: weatherHeadlineClear"
+  },
+  "@weatherHintRainy": {
+    "description": "TODO: weatherHintRainy"
+  },
+  "@weatherHintSnowy": {
+    "description": "TODO: weatherHintSnowy"
+  },
+  "@weatherHintHot": {
+    "description": "TODO: weatherHintHot"
+  },
+  "@weatherHintClear": {
+    "description": "TODO: weatherHintClear"
+  },
+  "@paste": {
+    "description": "TODO: paste"
+  },
+  "@addFirstMenuCta": {
+    "description": "TODO: addFirstMenuCta"
+  },
+  "@vatIncluded": {
+    "description": "TODO: vatIncluded"
+  }
+}

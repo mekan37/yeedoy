@@ -1,0 +1,1230 @@
+{
+  "@@locale": "en",
+  "appName": "Yeedoy",
+  "appTagline": "Live menus, verified prices",
+  "appTaglineLine1": "Live menus",
+  "appTaglineLine2": "Verified prices",
+  "emptyTitle": "Nothing here yet",
+  "emptyRegionDescription": "No data in this area yet on Yeedoy. You can add the first contribution.",
+  "webDescription": "Yeedoy - Live menus, verified prices and smart discovery.",
+  "discover": "Discover",
+  "home": "Home",
+  "map": "Map",
+  "list": "List",
+  "favorites": "Favorites",
+  "profile": "Profile",
+  "settings": "Settings",
+  "save": "Save",
+  "cancel": "Cancel",
+  "privacy": "Privacy",
+  "socialLinks": "Social Links",
+  "logout": "Log Out",
+  "contribute": "Contribute",
+  "uploadPhoto": "Upload Photo",
+  "scanQr": "Scan QR",
+  "verifyPrice": "Verify Price",
+  "openInBrowser": "Open in Browser",
+  "linkPreview": "Link Preview",
+  "profileSettings": "Profile Settings",
+  "saving": "Saving...",
+  "loginRequired": "Please sign in first.",
+  "profileSaved": "Profile settings saved.",
+  "saveError": "Save error: {error}",
+  "@saveError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "namePrivacy": "Name Privacy",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "showFullName": "Show full name",
+  "hideLastName": "Hide last name only",
+  "hideBothNames": "Hide first and last name",
+  "preview": "Preview",
+  "socialMedia": "Social Media",
+  "language": "Language",
+  "systemDefault": "System (Default)",
+  "turkish": "Turkish",
+  "english": "English",
+  "account": "Account",
+  "invalidLink": "Enter a valid link.",
+  "socialPreview": "Social Preview",
+  "pasteLinkHelper": "Paste link (https://...)",
+  "privacySocialSubtitle": "Name privacy and social media links",
+  "updateBusinessTitle": "Update {businessName}",
+  "@updateBusinessTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    }
+  },
+  "contributeSheetSubtitle": "Help the community keep menu prices verified.",
+  "scanMenuQr": "Scan Menu QR",
+  "scanMenuQrSubtitle": "Instant verification via QR",
+  "uploadPhotoSubtitle": "Take a picture of the menu",
+  "confirmPriceChange": "Confirm Price Change",
+  "confirmPriceChangeSubtitle": "Report an outdated price",
+  "qrAction": "QR Action",
+  "embed": "Embed",
+  "share": "Share",
+  "invalidLinkMessage": "Invalid link",
+  "browserOpened": "Opened in browser",
+  "embedFailed": "Embed could not be displayed, redirected to browser.",
+  "back": "Back",
+  "updatedDaysAgo": "Updated {days} days ago",
+  "@updatedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "verifiedDaysAgo": "Verified {days} days ago",
+  "@verifiedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "distanceKm": "{km} km",
+  "@distanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "num"
+      }
+    }
+  },
+  "avgSpendPerPerson": "{amount} / person",
+  "@avgSpendPerPerson": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewsCount": "Reviews ({count})",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openNow": "Open now",
+  "closedNow": "Closed now",
+  "livePrices": "Live Prices",
+  "trustScore": "Trust Score",
+  "lastUpdated": "Last Updated",
+  "lastAudit": "Last Audit",
+  "avgCost": "Avg Cost",
+  "avgSpend": "AVG. SPEND",
+  "verified": "Verified",
+  "priceVerified": "Price Verified",
+  "communityVerified": "Community Verified",
+  "confirmedByUsersToday": "Confirmed by {users} users today",
+  "@confirmedByUsersToday": {
+    "placeholders": {
+      "users": {
+        "type": "int"
+      }
+    }
+  },
+  "priceHistory": "Price History",
+  "contributeMenuPhoto": "Contribute Menu Photo",
+  "verify": "VERIFY",
+  "signatureSteaks": "Signature Steaks",
+  "signatureSection": "Signature {section}",
+  "@signatureSection": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "spottedPriceChange": "Spotted a price change?",
+  "spottedPriceChangeSubtitle": "Help the community by updating this menu.",
+  "updateDateUnavailable": "Update date unavailable",
+  "currentLocation": "CURRENT LOCATION",
+  "changeLocation": "Change location",
+  "filters": "Filters",
+  "searchKebabsHint": "Search for kebabs, burgers...",
+  "budget": "Budget",
+  "freshMenuUpdates": "Fresh Menu Updates",
+  "seeAll": "See All",
+  "freshLinks": "Fresh Links",
+  "discoveryNearbyTitle": "Nearby mode",
+  "discoveryNearbySubtitle": "Best results by your location",
+  "discoveryLocationSubtitle": "Discover by city/district",
+  "nearbyVerifiedSpots": "Nearby Verified Spots",
+  "noNearbyVerifiedSpots": "No nearby verified spots found",
+  "changeFiltersTryAgain": "Try changing location or filters.",
+  "noFreshData": "No fresh data",
+  "freshDataWillAppear": "Nearby menu updates will appear here.",
+  "businessLabel": "Business",
+  "report": "Report",
+  "favoriteAdded": "Favorited",
+  "addToFavorites": "Add to favorites",
+  "writeReview": "Write review",
+  "other": "Other",
+  "itemsCount": "{count} items",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weakConnectionQueueNotice": "Weak connection. Verification queued and will be sent automatically when online.",
+  "pendingVerificationsSent": "{count} pending verifications sent.",
+  "@pendingVerificationsSent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMenuItemsFirst": "Load menu items first.",
+  "menuNotAddedYet": "Not added yet",
+  "menuNotAddedYetDescription": "Menu has not been added for this business yet.",
+  "weakConnection": "Weak connection",
+  "contentLoadFailedCheckInternet": "Content could not be loaded right now. Cached data will be shown if available. Check internet and try again.",
+  "trustDataUnavailable": "Trust data unavailable",
+  "freshnessAndTrust": "Freshness and trust",
+  "menuUpdatedLabel": "Menu Updated",
+  "lastPriceVerification": "Last Price Verification",
+  "trustScoreLabel": "Trust Score",
+  "last3MonthsPriceChange": "Last 3 Months Price Change",
+  "hoursInfoUnavailable": "Hours information unavailable",
+  "hoursInfoMissing": "Hours information missing",
+  "addHoursHelp": "Add business hours to help users.",
+  "reportHoursInfo": "Report hours information",
+  "menus": "Menus",
+  "menusLoadFailed": "Menus failed to load",
+  "noMenu": "No menu",
+  "addFirstMenuHelp": "Help users by adding the first menu.",
+  "crowdInfoUnavailable": "Crowd info unavailable",
+  "liveCrowdLabel": "Live crowd: {state}",
+  "@liveCrowdLabel": {
+    "placeholders": {
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewsLoadFailed": "Reviews failed to load",
+  "noReviews": "No reviews",
+  "leaveFirstReviewHelp": "Contribute by leaving the first review.",
+  "writeFirstReview": "Write first review",
+  "recentReviews": "Recent reviews",
+  "reviewFallbackTitle": "Review",
+  "activeCampaigns": "Active campaigns",
+  "menuDataUnavailable": "Menu data unavailable",
+  "noMenuProductsYet": "No products to list yet.",
+  "menu": "Menu",
+  "featuredFromCuisine": "Featured from {category} cuisine.",
+  "@featuredFromCuisine": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "weeklyPriceChange": "+₺50 this week",
+  "chartPlaceholderSoon": "Chart area (coming soon)",
+  "featuredCuisineSuffix": "cuisine highlights.",
+  "connectionProblemTryAgain": "There may be a connection issue. Please try again.",
+  "noActiveCampaign": "No active campaigns",
+  "activeCampaignCountLabel": "active campaigns",
+  "noAmenityInfo": "No amenity information",
+  "amenityCountLabel": "amenities marked",
+  "noLocationVerificationData": "No location verification data",
+  "lastLocationVerification": "Last location verification",
+  "noNewProductRecord": "No new product record",
+  "newProduct": "New product",
+  "reportInfoErrorPrefix": "Report incorrect info. Last update:",
+  "noLocation": "No location",
+  "noHoursInfo": "No hours info",
+  "reviewsCountSuffix": "reviews",
+  "noTime": "No time",
+  "tabSteaks": "Steaks",
+  "tabBurgers": "Burgers",
+  "tabSides": "Sides",
+  "tabBeverages": "Beverages",
+  "locationNotAvailable": "Location not available",
+  "sortRecommended": "Recommended",
+  "sortDistance": "Distance",
+  "sortRating": "Rating",
+  "sortPriceLow": "Price",
+  "sortNewlyVerified": "Newly verified",
+  "rankingFormulaTitle": "Ranking Formula",
+  "rankingFormulaIntro": "Yeedoy uses transparent ranking:",
+  "rankingWeightDistance": "30% Distance",
+  "rankingWeightAccuracy": "30% Accuracy (recent verifications)",
+  "rankingWeightEngagement": "20% Engagement (average rating)",
+  "rankingWeightQuality": "20% Quality (quality score)",
+  "rankingFormulaNote": "These weights are fixed; admins cannot change them arbitrarily.",
+  "minRatingLabel": "Minimum rating: {value}",
+  "@minRatingLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "priceLevel": "Price level",
+  "prioritizeOpenNow": "Prioritize currently open businesses",
+  "prioritizeNewlyVerified": "Prioritize newly verified prices",
+  "reset": "Reset",
+  "apply": "Apply",
+  "priceTierAny": "All",
+  "priceTierBudget": "Budget",
+  "priceTierMedium": "Medium",
+  "priceTierPremium": "Premium",
+  "tabAllItems": "All Items",
+  "tabStarters": "Starters",
+  "usersLabel": "users",
+  "unknown": "Unknown",
+  "today": "Today",
+  "dayUnit": "days",
+  "tekrarDene": "TODO_EN: Tekrar dene",
+  "vazgec": "Cancel",
+  "reddet": "TODO_EN: Reddet",
+  "title": "TODO_EN: title",
+  "isleniyor": "Processing...",
+  "onayla": "TODO_EN: Onayla",
+  "approved": "TODO_EN: approved",
+  "tumu": "All",
+  "kayitBulunamadi": "No records found.",
+  "temizle": "TODO_EN: Temizle",
+  "uygula": "TODO_EN: Uygula",
+  "pending": "TODO_EN: pending",
+  "reddedildi": "TODO_EN: Reddedildi",
+  "satirSec": "Select row",
+  "gonder": "Send",
+  "rejected": "TODO_EN: rejected",
+  "detay": "TODO_EN: Detay",
+  "duzenle": "Edit",
+  "eminMisin": "TODO_EN: Emin misin?",
+  "guncellendi": "Updated.",
+  "reddedildi_2": "TODO_EN: Reddedildi.",
+  "sla": "TODO_EN: SLA",
+  "csvDisaAktar": "Export CSV",
+  "onaylandi": "Approved",
+  "yenile": "TODO_EN: Yenile",
+  "atanan": "TODO_EN: Atanan",
+  "beklemede": "TODO_EN: Beklemede",
+  "durum": "TODO_EN: Durum",
+  "tabRecommended": "Recommended",
+  "tabCampaigns": "Campaigns",
+  "tabFoods": "Foods",
+  "whyTop": "Why on top?",
+  "quickSuggestionTitle": "Quick suggestion",
+  "quickSuggestionSubtitle": "Start with a ready budget for 2 people",
+  "quickSuggestionPreset": "2 people / ₺600",
+  "whatToEatTitle": "What should I eat now?",
+  "whatToEatSubtitle": "Best combo in 3 steps",
+  "nearbyShort": "Nearby",
+  "affordableShort": "Affordable",
+  "quickDecisionShort": "Quick choice",
+  "start": "Start",
+  "friendGroupTitle": "Friends group",
+  "friendGroupSubtitle": "Share a link and let everyone suggest",
+  "openGroup": "Open group",
+  "myGroups": "My groups",
+  "onTheRoadTitle": "On the road",
+  "onTheRoadSubtitle": "Fast food options within 20 km",
+  "heroesTitle": "Heroes",
+  "heroesSubtitle": "Suspended meal good deeds list",
+  "view": "View",
+  "bestBusinessesThisWeek": "Best Businesses This Week",
+  "bestBusinessesThisMonth": "Best Businesses This Month",
+  "onTheRoad20km": "On the road • 20 km",
+  "nearbyKm": "Nearby • {km} km",
+  "@nearbyKm": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "liveResultsUpdating": "Live results are shown. Full result list is updating...",
+  "businessApprovedData": "Business approved",
+  "communityData": "Community data",
+  "removeFromFavorites": "Remove from favorites",
+  "locationPermissionTitle": "Allow location",
+  "locationPermissionDescription": "You can still use the app without permission. Nearby results may be less accurate.",
+  "allow": "Allow",
+  "selectLocation": "Select location",
+  "manualLocationHint": "Manual start picks city/district and radius.",
+  "noResultsYet": "No results yet",
+  "lowDataInArea": "Low data in this area",
+  "tryDifferentSearchOrFilter": "Try a different search or filter.",
+  "beFirstContributorInArea": "Add the first contribution and help the list grow.",
+  "topVerifiedMenus": "Top 10 most verified menus",
+  "mostTrustedMenusInCity": "Most trusted menus in this city.",
+  "seeList": "See list",
+  "localContributionCall": "Local contribution call: extra badge for first 50 contributions.",
+  "addFirstMenu": "Add first menu",
+  "suggestBusiness": "Suggest business",
+  "noSurpriseSuggestionNow": "No surprise suggestion right now.",
+  "priceVerifiedInLast48h": "This price was verified in the last 48 hours",
+  "menuMayBeOutdated": "Menu may be outdated",
+  "verifiedByBusiness": "Verified by business",
+  "updatedByCommunity": "Updated by community",
+  "topRankedInDistrict": "Top ranked in your district",
+  "surpriseDiscoveryTitle": "Surprise discovery",
+  "surpriseDiscoverySubtitle": "Not boring, surprise picks.",
+  "randomButGood": "Random but good today",
+  "outsideYourUsual": "Outside your usual",
+  "pricePerformanceSurprise": "Price-performance surprise",
+  "nearbyCampaignsAndAnnouncements": "Nearby campaigns and announcements",
+  "noNearbyCampaign": "No nearby campaign",
+  "noActiveAnnouncementInArea": "No active announcement in this area. Try again later.",
+  "remainingLabel": "Remaining",
+  "campaign": "Campaign",
+  "active": "Active",
+  "noLocationDataForMap": "No location data for map",
+  "mapDataMissingUseList": "Some results do not have location data. You can use list view.",
+  "openMapView": "Open map view",
+  "mapHintTapPins": "Tip: Tap pins to open business details.",
+  "locationPermissionRequired": "Location permission required.",
+  "noFoodFoundForCriteria": "No food found for your criteria. Try loosening filters.",
+  "whatToEatDescription": "Decide with people count, budget, and distance.",
+  "stepPeopleCount": "1) People count",
+  "quickDecisionThreeOptions": "Quick choice: 3 options",
+  "stepBudgetTotal": "2) Budget (total)",
+  "budgetTl": "Budget (₺)",
+  "stepDistance": "3) Distance",
+  "locationNotSelected": "Location not selected",
+  "seeSuggestions": "See suggestions",
+  "getSingleSuggestion": "Get one suggestion",
+  "go": "Go",
+  "restart": "Restart",
+  "quickShortcuts": "Quick shortcuts",
+  "quickShortcutsSubtitle": "Access frequent actions from here.",
+  "savedItems": "Saved items",
+  "myFriendGroup": "My friend group",
+  "tasteExperts": "Taste experts",
+  "businessTools": "Business tools",
+  "businessToolsSubtitle": "Tools you need to grow your business.",
+  "sponsoredLabelChip": "Sponsored label",
+  "sponsored": "Sponsored",
+  "ready": "ready",
+  "plan": "planned",
+  "sponsoredDisclosure": "This area is for visibility. It does not affect normal ranking.",
+  "sponsoredTooltip": "Sponsored records are shown in a separate section.",
+  "localInsightsReady": "Local insights ready for {area}",
+  "@localInsightsReady": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "show": "Show",
+  "restaurant": "Restaurant",
+  "cafe": "Cafe",
+  "venue": "Venue",
+  "notifications": "Notifications",
+  "businessPackage": "Business package",
+  "redirectToReservation": "Redirect to reservation",
+  "priceAlerts": "Price alerts",
+  "corporateIntegration": "Corporate integration",
+  "detailedReports": "Detailed reports",
+  "qrTools": "QR tools",
+  "unlockNewFeatures": "Unlock new features",
+  "branchManagement": "Branch management",
+  "menuWithQr": "Menu with QR",
+  "newFeatures": "New features",
+  "nearOpenSectionTitle": "Nearby and open in {area}",
+  "@nearOpenSectionTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "mostViewedThisWeekTitle": "Most viewed this week in {area}",
+  "@mostViewedThisWeekTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "noViewDataInArea": "No view data in this area yet.",
+  "viewsMetric": "{count} views",
+  "@viewsMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "highestPriceChangeTitle": "Highest price changes in {area}",
+  "@highestPriceChangeTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "noPriceMovementInArea": "No price movement in this area yet.",
+  "priceChangeMetric": "{count} price changes",
+  "@priceChangeMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nightOpenFavoritesTitle": "Night-open favorites in {area}",
+  "@nightOpenFavoritesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "noNightOpenFavoritesInArea": "No night-open favorites found in this area.",
+  "followersMetric": "{count} followers",
+  "@followersMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "popularCategoriesTitle": "Popular categories in {area}",
+  "@popularCategoriesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "regionalPriceIndexTitle": "Regional price index in {area}",
+  "@regionalPriceIndexTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "detailedAnalysis": "Detailed analysis",
+  "loadWhenScrolledDown": "Loads when you scroll down",
+  "anomalyMonitoringTitle": "Anomaly monitoring in {area}",
+  "@anomalyMonitoringTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "general": "General",
+  "priceIndexLoadFailed": "Price index could not be loaded right now.",
+  "noPriceIndexDataInArea": "No price index data for this area.",
+  "medianPriceLabel": "Median {price}",
+  "@medianPriceLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "anomalyListLoadFailed": "Anomaly list could not be loaded right now.",
+  "noPriceAnomalyLast30Days": "No notable price anomaly in the last 30 days.",
+  "sectionLoadFailed": "This section could not be loaded.",
+  "rankedAt": "{prefix} ranked #{rank}",
+  "@rankedAt": {
+    "placeholders": {
+      "prefix": {
+        "type": "String"
+      },
+      "rank": {
+        "type": "int"
+      }
+    }
+  },
+  "yourScore": "Your score",
+  "createGroup": "Create group",
+  "newPlaces": "New places",
+  "campaignEnded": "ended",
+  "timeDays": "{count} d",
+  "@timeDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHours": "{count} h",
+  "@timeHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeMinutes": "{count} m",
+  "@timeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{count}d ago",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{count}h ago",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeMinutesAgo": "{count}m ago",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statusVerifiedShort": "Verified",
+  "statusMixedShort": "Mixed",
+  "statusOutdatedShort": "Outdated",
+  "statusUnknownShort": "Unknown",
+  "threeMonthsShort": "(3 Mo)",
+  "versionAndSource": "(v{version}, {source})",
+  "@versionAndSource": {
+    "placeholders": {
+      "version": {
+        "type": "int"
+      },
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "sourceOwner": "owner",
+  "sourceCommunity": "community",
+  "sourceAi": "automatic",
+  "shareBusinessMessage": "Discover on Yeedoy: {name}\n{location}\n{web}\n{deep}",
+  "@shareBusinessMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "location": {
+        "type": "String"
+      },
+      "web": {
+        "type": "String"
+      },
+      "deep": {
+        "type": "String"
+      }
+    }
+  },
+  "noLinkFound": "No link found",
+  "newEmbedLinksWillAppear": "New embed links will appear here.",
+  "link": "Link",
+  "untitledLink": "Untitled link",
+  "menuShareNotFoundTitle": "Menu not found • {appName}",
+  "@menuShareNotFoundTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "menuShareNotFoundDescription": "Menu was not found or is not published.",
+  "menuContentNotFound": "Menu content not found.",
+  "openAppForBetterExperience": "Open the app for a better experience",
+  "openApp": "Open App",
+  "nearbyPeopleViewed": "{count} people nearby viewed this",
+  "@nearbyPeopleViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "verifiedPrices": "Verified prices",
+  "selectRatingFirst": "Please select a rating",
+  "thankYou": "Thank you!",
+  "noProductsFound": "No products found.",
+  "preparedWithApp": "Prepared with {appName}",
+  "@preparedWithApp": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "tableLabel": "Table {tableNo}",
+  "@tableLabel": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    }
+  },
+  "tableServiceQuestion": "How was the service? (Table {tableNo})",
+  "@tableServiceQuestion": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    }
+  },
+  "shortNoteOptional": "Short note (optional)",
+  "submit": "Submit",
+  "submitted": "Submitted",
+  "submitting": "Submitting...",
+  "mySuggestionsTitle": "My Suggestions",
+  "mySuggestionsSubtitle": "Track the status of businesses you submitted from here.",
+  "viewBusiness": "View Business",
+  "statusApproved": "Approved",
+  "statusRejected": "Rejected",
+  "statusPending": "Pending",
+  "retry": "Retry",
+  "notNow": "Not now",
+  "onboardingLiveMenusTitle": "Live menus",
+  "onboardingLiveMenusDescription": "View up-to-date menus from businesses on a single screen. Follow price changes easily.",
+  "onboardingContributeTitle": "Contribute and move faster",
+  "onboardingContributeDescription": "You can continue quickly with actions like votes, reviews and price verification.",
+  "getStarted": "Get Started",
+  "continueAction": "Continue",
+  "register": "Register",
+  "login": "Login",
+  "enableLocationTitle": "Enable location for better results",
+  "enableLocationSubtitle": "Nearby results are much more accurate with location permission.",
+  "locationPermissionGranted": "Location permission granted",
+  "locationOptionalInfo": "If you skip permission, the app still works. You can choose city/district manually, but nearby quality is better with location.",
+  "allowLocation": "Allow location",
+  "chooseLocationManually": "Choose location manually",
+  "menuReading": "Reading menu...",
+  "noPriceDetectionFound": "No price detection found.",
+  "receiptOcrNotSupportedWeb": "Receipt OCR is not supported on web.",
+  "receiptReading": "Reading receipt...",
+  "noPriceFoundOnReceipt": "No price was found on the receipt.",
+  "receiptUploading": "Uploading receipt...",
+  "receiptUploadFailed": "Receipt upload failed.",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "matchReceipt": "Match receipt",
+  "matchPrices": "Match prices",
+  "autoMatchedRowsCheck": "{count} rows were auto-matched, please review.",
+  "@autoMatchedRowsCheck": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlabeled": "Unlabeled",
+  "priceTry": "Price (₺)",
+  "selectMenuItem": "Select menu item",
+  "sendReceipt": "Send receipt",
+  "sendReceiptSuggestions": "Send receipt suggestions",
+  "selectAtLeastOneItem": "You must select at least one item.",
+  "invalidPriceExists": "There is an invalid price.",
+  "sendingReceipt": "Sending receipt...",
+  "receiptSent": "Receipt sent.",
+  "sendingReceiptSuggestions": "Sending receipt suggestions...",
+  "priceSuggestionsSent": "Price suggestions sent.",
+  "searchFoodHint": "Search food (e.g., burger, doner, latte)",
+  "profileActive": "Profile active",
+  "profileLoading": "Loading profile...",
+  "dietProfileNotFound": "Diet profile was not found.",
+  "noResultsFound": "No results found",
+  "allowLocationForNearby": "Allow location permission to show nearby items.",
+  "setPriceAlert": "Set Price Alert",
+  "vegan": "Vegan",
+  "vegetarian": "Vegetarian",
+  "lactoseFree": "Lactose-free",
+  "maxCalories": "Maximum calories",
+  "onlyVerifiedPrice": "Only verified price",
+  "votes": "{count} votes",
+  "@votes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "glutenFree": "Gluten-free",
+  "menuItem": "Item",
+  "cataloged": "Cataloged",
+  "priceAlert": "Price Alert",
+  "priceAlertSubtitle": "Notify me when it drops below the target price.",
+  "addToBill": "Add to Bill",
+  "voteSaved": "Vote saved",
+  "photoAdded": "Photo added",
+  "photoQualityWarning": "The photo looks {warnings}. You can upload a clearer and brighter photo.",
+  "@photoQualityWarning": {
+    "placeholders": {
+      "warnings": {
+        "type": "String"
+      }
+    }
+  },
+  "suggestEdit": "Suggest edit",
+  "verifyPriceWithReceipt": "Verify price with receipt",
+  "cart": "Cart",
+  "cartEmpty": "Cart is empty",
+  "addItemToCalculate": "Add an item to calculate.",
+  "tipPercentage": "Tip percentage",
+  "serviceIncluded": "Service included",
+  "coverIncluded": "Cover included",
+  "subtotal": "Subtotal",
+  "cover": "Cover",
+  "serviceWithPercent": "Service ({percent}%)",
+  "@serviceWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "tipWithPercent": "Tip ({percent}%)",
+  "@tipWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "serviceCoverMayVary": "Service/cover may vary by business.",
+  "estimatedTotal": "Estimated Total",
+  "vatExcluded": "VAT excluded",
+  "errorOccurred": "Something went wrong",
+  "menuItemNotFoundDescription": "The item may not be added yet. You can be the first to add it.",
+  "trustScoreInfoNote": "This trust score is not user voting; it is based on contribution quality.",
+  "plusPoints": "+{points} points",
+  "@plusPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "verifyContributionRaisedScore": "Your price verification increased your contribution score.",
+  "priceVerification": "Price verification",
+  "priceVerificationSteps": "1) Enter the seen price  2) Add note/photo if needed  3) Submit",
+  "newPriceTry": "New price (₺)",
+  "note": "Note",
+  "addEvidencePhoto": "Add evidence photo",
+  "evidenceAdded": "Evidence added",
+  "menuItemName": "Item name",
+  "menuItemNameRequired": "Item name cannot be empty",
+  "enterValidPrice": "Enter a valid price",
+  "sendSuggestion": "Send suggestion",
+  "noChanges": "No changes",
+  "priceCannotBeEmpty": "Price cannot be empty",
+  "suggestionSentPendingApproval": "Your suggestion was sent (pending approval)",
+  "noSuggestionFound": "No suggestion found",
+  "suggestedFoods": "Suggested foods",
+  "priceHistoryLast3": "Price history (last 3)",
+  "price": "Price",
+  "last30DaysVotes": "Last 30 days votes: +{ok} / -{bad}",
+  "@last30DaysVotes": {
+    "placeholders": {
+      "ok": {
+        "type": "int"
+      },
+      "bad": {
+        "type": "int"
+      }
+    }
+  },
+  "lastVerificationDate": "Last verification: {date}",
+  "@lastVerificationDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "uniqueVerifiersIn48h": "Unique verifiers in 48 hours: {count}",
+  "@uniqueVerifiersIn48h": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "strongConsensusPriceSafe": "Strong consensus: price is safe",
+  "priceConfidenceScore": "Price confidence score: %{score}",
+  "@priceConfidenceScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "seenCorrect": "Seen • Correct",
+  "seenIncorrect": "Seen • Incorrect",
+  "suggestNewPrice": "Suggest new price",
+  "howCalculated": "How calculated?",
+  "verificationRate": "Verification rate",
+  "recentPositiveVotes": "Recent positive votes",
+  "priceStability": "Price stability",
+  "priceChangeLast30Days": "Price changes in last 30 days: {count}",
+  "@priceChangeLast30Days": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scoreForInfoOnly": "This score is for informational purposes only.",
+  "pricePerformance": "Price/Performance",
+  "valueScoreFormulaHint": "Calculated by verification rate, recent positive votes, and price stability.",
+  "menuPhotos": "Menu Photos",
+  "updateMenuEarnPoints": "Update menu, earn {points} points",
+  "@updateMenuEarnPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "menuPhotosHint": "Menu photos should show the product. Auto-cropped; dark/blurry ones are warned.",
+  "noPhotosYet": "No photos yet.",
+  "yesterday": "Yesterday",
+  "timeMonthsAgo": "{count} months ago",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "priceInvalid": "Price is invalid.",
+  "noteNoLinkPhone": "Note cannot contain links/phone numbers.",
+  "noteContainsProfanity": "Note contains inappropriate language.",
+  "noteTooManyEmoji": "Note contains too many emojis.",
+  "rateLimited24h": "You already suggested within 24 hours.",
+  "dailyPriceSuggestionLimitReached": "Daily price suggestion limit reached.",
+  "invalidEvidenceLink": "Evidence link is invalid.",
+  "invalidCurrency": "Currency is invalid.",
+  "ownerSections": "Sections",
+  "ownerAddSection": "Add Section",
+  "ownerSectionNotFound": "No sections yet.",
+  "ownerEditSection": "Edit Section",
+  "ownerDeleteSection": "Delete Section",
+  "ownerSectionWillBeDeleted": "This section will be deleted.",
+  "ownerArchiveItemsInSection": "Archive items in this section",
+  "ownerSectionAdded": "Section added.",
+  "ownerSectionUpdated": "Section updated.",
+  "ownerSectionDeleted": "Section deleted.",
+  "ownerEditMenu": "Edit Menu",
+  "ownerMenuTypeOptional": "Menu type (optional)",
+  "ownerMenuUpdated": "Menu updated.",
+  "ownerArchiveMenuConfirm": "Do you want to archive this menu?",
+  "ownerPublishMenuConfirm": "Do you want to publish this menu?",
+  "ownerSharePanel": "Menu Share Panel",
+  "ownerMenuLink": "Menu link",
+  "ownerQrPng": "QR PNG",
+  "ownerQrPdf": "QR PDF",
+  "ownerA6Pdf": "A6 PDF",
+  "ownerFieldGainCardTitle": "Visibility card for in-store use",
+  "ownerFieldGainCardLine1": "Print the QR card and ask customers to verify your menu.",
+  "ownerFieldGainCardLine2": "The more up-to-date your menu is, the more visible you become.",
+  "ownerCopyMiniDashboard": "Copy mini dashboard link",
+  "ownerMoatTitle": "Business trust summary",
+  "ownerMoatSummary": "Trust: {trust} | Menu freshness: {freshness} | Price accuracy: {accuracy}",
+  "@ownerMoatSummary": {
+    "placeholders": {
+      "trust": {
+        "type": "int"
+      },
+      "freshness": {
+        "type": "int"
+      },
+      "accuracy": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerMoatSignal": "Signal: {validators} validators, evidence rate %{evidencePct}, menu views today: {viewsToday}",
+  "@ownerMoatSignal": {
+    "placeholders": {
+      "validators": {
+        "type": "int"
+      },
+      "evidencePct": {
+        "type": "int"
+      },
+      "viewsToday": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerCopyMoatText": "Copy summary text",
+  "ownerWhatsappText": "WhatsApp text",
+  "ownerCopyWhatsapp": "Copy for WhatsApp",
+  "ownerXText": "X (Twitter) text",
+  "ownerCopyX": "Copy for X",
+  "ownerInstagramBio": "Instagram bio text",
+  "ownerCopyInstagram": "Copy for Instagram",
+  "ownerCopied": "Copied",
+  "ownerNearbyViewed": "{count} people nearby viewed this menu",
+  "@ownerNearbyViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerViewed": "{count} people viewed",
+  "@ownerViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerCurrentMenuVerifiedPrices": "Current menu and verified prices",
+  "ownerCurrentMenuVerifiedPricesColon": "Current menu and verified prices:",
+  "ownerStatusPublished": "Published",
+  "ownerStatusArchived": "Archived",
+  "ownerStatusDraft": "Draft",
+  "ownerMenuStatus": "Status: {status}",
+  "@ownerMenuStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerProducts": "Items",
+  "ownerApplying": "Applying...",
+  "ownerBulkPrice": "Bulk Price",
+  "ownerCsvImport": "CSV Import",
+  "ownerAddItem": "Add Item",
+  "ownerProductNotFound": "No items yet.",
+  "ownerLoadMore": "Load more",
+  "ownerEditItem": "Edit Item",
+  "ownerItemAdded": "Item added.",
+  "ownerItemUpdated": "Item updated.",
+  "ownerArchiveItemConfirm": "Do you want to archive this item?",
+  "ownerItemArchived": "Item archived.",
+  "ownerBulkPriceUpdate": "Bulk price update",
+  "ownerMethod": "Method",
+  "ownerPercent": "Percent",
+  "ownerFixedAmountTl": "Fixed amount (TL)",
+  "ownerOperation": "Operation",
+  "ownerIncrease": "Increase",
+  "ownerDecrease": "Decrease",
+  "ownerValuePercent": "Value (%)",
+  "ownerValueTl": "Value (TL)",
+  "ownerEnterValidValue": "Please enter a valid value.",
+  "ownerUpdatedItemPrices": "Updated prices for {count} items.",
+  "@ownerUpdatedItemPrices": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerCsvFormatHint": "Format: name,price,description,currency",
+  "ownerSelecting": "Selecting...",
+  "ownerSelectFile": "Select File",
+  "ownerCsvExample": "Doner,220,100 gr meat,TRY",
+  "ownerImportContent": "Import",
+  "ownerNoValidRows": "No valid rows found.",
+  "ownerImportedItems": "Imported {success} items.",
+  "@ownerImportedItems": {
+    "placeholders": {
+      "success": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerImportedItemsWithSkipped": "Added {success} items, skipped {failed} rows.",
+  "@ownerImportedItemsWithSkipped": {
+    "placeholders": {
+      "success": {
+        "type": "int"
+      },
+      "failed": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerAreYouSure": "Are you sure?",
+  "ownerConfirm": "Confirm",
+  "ownerArchiveAction": "Archive",
+  "ownerPublishAction": "Publish",
+  "ownerDelete": "Delete",
+  "ownerItemName": "Item name",
+  "ownerDescriptionOptional": "Description (optional)",
+  "ownerPriceTl": "Price (TL)",
+  "ownerCurrency": "Currency",
+  "ownerCatalogSearch": "Search catalog",
+  "ownerCatalogSearchHint": "e.g. Kofte, Burger...",
+  "ownerSelectedCatalogId": "Selected catalog ID: {id}",
+  "@ownerSelectedCatalogId": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerItemNameMin2": "Item name must be at least 2 characters.",
+  "ownerInvalidPrice": "Invalid price.",
+  "ownerVariants": "Variants",
+  "ownerAddVariant": "Add Variant",
+  "ownerNoVariantsHint": "No variants yet. Example: 80gr / 120gr",
+  "ownerDefaultVariant": "Default",
+  "ownerSetDefault": "Set default",
+  "ownerLabelExample": "Label (e.g. 120gr)",
+  "ownerDefaultVariantSwitch": "Default variant",
+  "ownerPhotos": "Photos",
+  "ownerUploading": "Uploading...",
+  "ownerAddPhoto": "Add Photo",
+  "ownerNoPhotoYet": "No photos yet.",
+  "ownerViewAll": "View all",
+  "ownerPhotoUploaded": "Photo uploaded.",
+  "ownerDeletePhoto": "Delete photo",
+  "ownerDeletePhotoConfirm": "This photo will be deleted.",
+  "ownerPhotoDeleted": "Photo deleted.",
+  "adminAppealsTitle": "Appeals Queue",
+  "adminAppealsEmptySla": "No appeals. Target SLA: reports 24h, ownership claims 48h.",
+  "adminAppealSourceAndUser": "Source: {sourceId} · User: {userId}",
+  "@adminAppealSourceAndUser": {
+    "placeholders": {
+      "sourceId": {
+        "type": "String"
+      },
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
+  "adminAppealDecisionTitle": "Appeal Decision · {id}",
+  "@adminAppealDecisionTitle": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "adminAppealApproveAction": "Approve",
+  "adminAppealRejectAction": "Reject",
+  "adminAppealDecisionLabel": "Decision",
+  "adminAppealTemplateLabel": "Template",
+  "adminAppealDecisionTextLabel": "Decision note",
+  "adminAppealDecisionTextHint": "Short explanation shown to the user",
+  "ownerNewBusinessTitle": "Add new business",
+  "ownerNewBusinessIntro": "Fill out the form to add your new business.",
+  "ownerBusinessNameLabel": "Business name",
+  "ownerCategoryLabel": "Category",
+  "ownerAddressLabel": "Address",
+  "ownerPhoneOptionalLabel": "Phone (optional)",
+  "ownerWebsiteOptionalLabel": "Website (optional)",
+  "ownerSubmitApplication": "Submit application",
+  "ownerSubmitting": "Submitting...",
+  "ownerRequiredFieldsWarning": "Please fill in required fields.",
+  "ownerApplicationReceived": "Application received.",
+  "ownerBusinessesTitle": "My businesses",
+  "ownerChainPage": "Chain page",
+  "ownerMyApplications": "My applications",
+  "ownerLinksUpdated": "Links updated.",
+  "ownerReservationOrderLinksTitle": "Reservation and order links",
+  "ownerReservationUrlLabel": "Reservation URL",
+  "ownerYemeksepetiUrlLabel": "Yemeksepeti URL",
+  "ownerTrendyolGoUrlLabel": "Trendyol Go URL",
+  "ownerGetirUrlLabel": "Getir URL",
+  "ownerChainLabel": "Brand/Chain",
+  "ownerAllBranches": "All branches",
+  "ownerBranchLabel": "Branch",
+  "ownerChainPrefix": "Chain: {chain}",
+  "@ownerChainPrefix": {
+    "placeholders": {
+      "chain": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerPriceVerificationAction": "Price verification",
+  "ownerRequestsAction": "Requests",
+  "ownerRequestsOwnerOnly": "Requests (owner)",
+  "ownerReservationOrderLinksAction": "Reservation/Order links",
+  "ownerStatsNotFound": "No stats found.",
+  "ownerPerformanceLast30Days": "Last 30 days performance",
+  "ownerMetricMenuViews": "Menu views",
+  "ownerMetricQrScans": "QR scans",
+  "ownerMetricSearchImpressions": "Search impressions",
+  "ownerMetricConversion": "Conversion",
+  "ownerMetricOutboundClicks": "Outbound clicks",
+  "ownerMetricPriceDropoff": "Dropoff due to price (estimated)",
+  "ownerMetricPriceVsCompetitors": "Price vs competitors",
+  "ownerOutboundClicksValue": "{outbound} (Res: {reservation}, Order: {order})",
+  "@ownerOutboundClicksValue": {
+    "placeholders": {
+      "outbound": {
+        "type": "int"
+      },
+      "reservation": {
+        "type": "int"
+      },
+      "order": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerPricePositionHigher": "Higher{pct}",
+  "@ownerPricePositionHigher": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerPricePositionLower": "Lower{pct}",
+  "@ownerPricePositionLower": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerPricePositionSimilar": "In line with market",
+  "ownerPricePositionNoData": "Not enough data",
+  "ownerNoBusinessesTitle": "No businesses yet",
+  "ownerNoBusinessesDescription": "You can create a new business application.",
+  "ownerRoleOwner": "Owner",
+  "ownerRoleManager": "Manager",
+  "ownerMenuAction": "Menu",
+  "city": "City",
+  "district": "District",
+  "ownerActiveRange": "Active: {from} - {to}",
+  "@ownerActiveRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "vatIncluded": "VAT included"
+}

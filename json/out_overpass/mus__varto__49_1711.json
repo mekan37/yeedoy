@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "49",
+    "sehir_adi": "MUŞ",
+    "ilce_id": "1711",
+    "ilce_adi": "VARTO",
+    "bbox_used": {
+      "south": 39.06417801486486,
+      "north": 39.33444828513513,
+      "west": 41.33377191643383,
+      "east": 41.68152678356617
+    },
+    "bbox_original": {
+      "south": 39.0261359,
+      "west": 41.1305246,
+      "north": 39.3724904,
+      "east": 41.8847741
+    },
+    "fetchedAt": "2026-01-21T10:09:12.847Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:08:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

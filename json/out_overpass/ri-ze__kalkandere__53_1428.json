@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "sehir_id": "53",
+    "sehir_adi": "RİZE",
+    "ilce_id": "1428",
+    "ilce_adi": "KALKANDERE",
+    "bbox_used": {
+      "south": 40.8267822,
+      "west": 40.3976925,
+      "north": 40.9661955,
+      "east": 40.5523694
+    },
+    "bbox_original": {
+      "south": 40.8267822,
+      "west": 40.3976925,
+      "north": 40.9661955,
+      "east": 40.5523694
+    },
+    "fetchedAt": "2026-01-21T10:15:19.809Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:13:53Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9929059048,
+        "lat": 40.867723,
+        "lon": 40.4029577,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Simos Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1083458407,
+        "center": {
+          "lat": 40.8677187,
+          "lon": 40.4029617
+        },
+        "tags": {
+          "addr:neighbourhood": "Dereyurt Mahallesi",
+          "addr:street": "Aydınöz Kümeevleri",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "çay",
+          "name": "Simos Kafe"
+        }
+      }
+    ]
+  }
+}

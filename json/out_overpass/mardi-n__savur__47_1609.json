@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "47",
+    "sehir_adi": "MARDİN",
+    "ilce_id": "1609",
+    "ilce_adi": "SAVUR",
+    "bbox_used": {
+      "south": 37.437066,
+      "west": 40.60545,
+      "north": 37.73865,
+      "east": 41.13049
+    },
+    "bbox_original": {
+      "south": 37.437066,
+      "west": 40.60545,
+      "north": 37.73865,
+      "east": 41.13049
+    },
+    "fetchedAt": "2026-01-21T10:04:43.806Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:02:47Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

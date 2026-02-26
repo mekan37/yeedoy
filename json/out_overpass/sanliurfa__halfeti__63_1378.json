@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "sehir_id": "63",
+    "sehir_adi": "ŞANLIURFA",
+    "ilce_id": "1378",
+    "ilce_adi": "HALFETİ",
+    "bbox_used": {
+      "south": 37.1495089,
+      "west": 37.8352759,
+      "north": 37.4435518,
+      "east": 38.225454
+    },
+    "bbox_original": {
+      "south": 37.1495089,
+      "west": 37.8352759,
+      "north": 37.4435518,
+      "east": 38.225454
+    },
+    "fetchedAt": "2026-01-21T10:43:09.615Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 7
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:41:32Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5076971257,
+        "lat": 37.2464662,
+        "lon": 37.8670111,
+        "tags": {
+          "addr:city": "Şanlıurfa",
+          "addr:district": "Halfeti",
+          "amenity": "restaurant",
+          "name": "Altın Sofra"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5083026038,
+        "lat": 37.2442312,
+        "lon": 37.8680369,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5083026039,
+        "lat": 37.2452091,
+        "lon": 37.8669318,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5083026040,
+        "lat": 37.2454925,
+        "lon": 37.866634,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5083026041,
+        "lat": 37.2472641,
+        "lon": 37.8669194,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12487714864,
+        "lat": 37.2372449,
+        "lon": 37.878414,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12487714865,
+        "lat": 37.2377745,
+        "lon": 37.8784756,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

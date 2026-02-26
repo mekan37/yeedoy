@@ -1,0 +1,160 @@
+{
+  "meta": {
+    "sehir_id": "81",
+    "sehir_adi": "DÜZCE",
+    "ilce_id": "1784",
+    "ilce_adi": "CUMAYERİ",
+    "bbox_used": {
+      "south": 40.8592507,
+      "west": 30.8001494,
+      "north": 40.9698006,
+      "east": 31.0107123
+    },
+    "bbox_original": {
+      "south": 40.8592507,
+      "west": 30.8001494,
+      "north": 40.9698006,
+      "east": 31.0107123
+    },
+    "fetchedAt": "2026-01-21T11:09:44.886Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:08:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2796072640,
+        "lat": 40.8735395,
+        "lon": 30.951151,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Merkez Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796074740,
+        "lat": 40.8739309,
+        "lon": 30.9516378,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796088103,
+        "lat": 40.8766147,
+        "lon": 30.9502575,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796091515,
+        "lat": 40.8767684,
+        "lon": 30.9508491,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "internet_access": "no",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796111088,
+        "lat": 40.8729477,
+        "lon": 30.9497522,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796112629,
+        "lat": 40.8731387,
+        "lon": 30.9494318,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Metin Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804133202,
+        "lat": 40.9081116,
+        "lon": 30.9495737,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Rafting Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804156704,
+        "lat": 40.9085048,
+        "lon": 30.9507968,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804159116,
+        "lat": 40.9081927,
+        "lon": 30.9499867,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804159119,
+        "lat": 40.9084846,
+        "lon": 30.9505339,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4357416492,
+        "lat": 40.9046447,
+        "lon": 30.9512591,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "Melencrafting"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4480870483,
+        "lat": 40.8741065,
+        "lon": 30.9510439,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Neyzen Pide"
+        }
+      }
+    ]
+  }
+}

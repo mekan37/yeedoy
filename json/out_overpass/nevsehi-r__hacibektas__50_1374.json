@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "sehir_id": "50",
+    "sehir_adi": "NEVŞEHİR",
+    "ilce_id": "1374",
+    "ilce_adi": "HACIBEKTAŞ",
+    "bbox_used": {
+      "south": 38.8901871,
+      "west": 34.5147005,
+      "north": 39.0331594,
+      "east": 34.6534506
+    },
+    "bbox_original": {
+      "south": 38.8901871,
+      "west": 34.5147005,
+      "north": 39.0331594,
+      "east": 34.6534506
+    },
+    "fetchedAt": "2026-01-21T10:10:23.610Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-06T16:09:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 6720484874,
+        "lat": 38.9418675,
+        "lon": 34.5619342,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Dergah",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 673501504,
+        "center": {
+          "lat": 38.9420642,
+          "lon": 34.5629884
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 673501505,
+        "center": {
+          "lat": 38.9416629,
+          "lon": 34.5631499
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

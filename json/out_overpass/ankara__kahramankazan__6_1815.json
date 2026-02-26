@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "sehir_id": "6",
+    "sehir_adi": "ANKARA",
+    "ilce_id": "1815",
+    "ilce_adi": "KAHRAMANKAZAN",
+    "bbox_used": {
+      "south": 40.0249922,
+      "west": 32.5116455,
+      "north": 40.338061,
+      "east": 32.8743473
+    },
+    "bbox_original": {
+      "south": 40.0249922,
+      "west": 32.5116455,
+      "north": 40.338061,
+      "east": 32.8743473
+    },
+    "fetchedAt": "2026-01-21T08:26:09.443Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:24:51Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4087565571,
+        "lat": 40.2029806,
+        "lon": 32.6810241,
+        "tags": {
+          "addr:city": "Kazan/Ankara",
+          "addr:street": "29 Mayıs Caddesi",
+          "amenity": "restaurant",
+          "name": "Elit Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8762274545,
+        "lat": 40.2047916,
+        "lon": 32.6801243,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Efsane Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11029449041,
+        "lat": 40.2386353,
+        "lon": 32.6895162,
+        "tags": {
+          "amenity": "restaurant",
+          "indoor_seating": "no",
+          "name": "Durak Piknik Hicabi'nin Yeri",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12738608329,
+        "lat": 40.2532361,
+        "lon": 32.8037594,
+        "tags": {
+          "addr:city": "Ankara",
+          "addr:district": "Kahramankazan",
+          "addr:housenumber": "No:132",
+          "addr:neighbourhood": "Yakupderviş Mah.",
+          "addr:postcode": "06980",
+          "addr:street": "Kavşakkaya Barajı Kurtboğazı Barajı İletim Hattı",
+          "amenity": "restaurant",
+          "cuisine": "regional;hayvan_ve_hayvansal_ürünler",
+          "diet:halal": "yes",
+          "name": "MÇ Besicilik",
+          "opening_hours": "Mo-Su 09:00-21:00",
+          "phone": "+905076871011"
+        }
+      }
+    ]
+  }
+}

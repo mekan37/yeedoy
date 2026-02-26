@@ -1,0 +1,1115 @@
+{
+  "meta": {
+    "sehir_id": "48",
+    "sehir_adi": "MUĞLA",
+    "ilce_id": "2089",
+    "ilce_adi": "MENTEŞE",
+    "bbox_used": {
+      "south": 37.113985064864856,
+      "north": 37.38425533513513,
+      "west": 28.267305608383722,
+      "east": 28.60586029161628
+    },
+    "bbox_original": {
+      "south": 37.0121237,
+      "west": 28.0022973,
+      "north": 37.4861167,
+      "east": 28.8708686
+    },
+    "fetchedAt": "2026-01-21T10:08:24.828Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 99
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:06:58Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1330494191,
+        "lat": 37.1897876,
+        "lon": 28.4002514,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Keyif Oturağı lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1339450686,
+        "lat": 37.1770104,
+        "lon": 28.3985102,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Elmalı Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1339450688,
+        "lat": 37.1801219,
+        "lon": 28.395313,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hacıahmet kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1339450689,
+        "lat": 37.1733327,
+        "lon": 28.3911255,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kozlu Kavhesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1339450693,
+        "lat": 37.1741209,
+        "lon": 28.3942401,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Narlı Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1339450695,
+        "lat": 37.1773694,
+        "lon": 28.3881247,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kadı Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1339463663,
+        "lat": 37.1871218,
+        "lon": 28.4045638,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şerifin Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1339463664,
+        "lat": 37.1849508,
+        "lon": 28.4100785,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Süperoğlu lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509135,
+        "lat": 37.1821349,
+        "lon": 28.3925722,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bakkallar kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509136,
+        "lat": 37.1848701,
+        "lon": 28.3882378,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gökkible kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509137,
+        "lat": 37.1850223,
+        "lon": 28.3819313,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kir Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509138,
+        "lat": 37.1863403,
+        "lon": 28.395233,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cihan Beğendi Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509139,
+        "lat": 37.1832273,
+        "lon": 28.3999515,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vakif Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509140,
+        "lat": 37.1887335,
+        "lon": 28.4107254,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Polis Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509141,
+        "lat": 37.1913489,
+        "lon": 28.3960693,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Berberler Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509142,
+        "lat": 37.1956991,
+        "lon": 28.3999215,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ayvalı Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1342509143,
+        "lat": 37.1971947,
+        "lon": 28.3984302,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tozlu Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1411926686,
+        "lat": 37.1992105,
+        "lon": 28.4129737,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Sece restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4990038833,
+        "lat": 37.1347414,
+        "lon": 28.3733257,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "mangal'dan kiloyla lezzet",
+          "name:tr": "mangal'dan kiloyla lezzet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5226675808,
+        "lat": 37.1292107,
+        "lon": 28.3888901,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5226677711,
+        "lat": 37.1269272,
+        "lon": 28.3880325,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6542554374,
+        "lat": 37.2178198,
+        "lon": 28.3587795,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Kahve Diyarı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6550176580,
+        "lat": 37.2157642,
+        "lon": 28.3631489,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "restaurant",
+          "name": "Aladağ Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6550203811,
+        "lat": 37.2164975,
+        "lon": 28.3624065,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "restaurant",
+          "name": "Bol Kepçe Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6553849391,
+        "lat": 37.2152263,
+        "lon": 28.3619693,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "addr:housenumber": "6",
+          "addr:neighbourhood": "Emirbeyazıt Mah.",
+          "addr:street": "Cemil Şerif Baydur Sokak",
+          "amenity": "cafe",
+          "name": "Smooth Coffee",
+          "phone": "0533 590 51 96",
+          "website": "https://smoothcoffee.com.tr/smooth-coffee-mugla.html"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6553849394,
+        "lat": 37.213014,
+        "lon": 28.3600972,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Hamurişi",
+          "phone": "0252 212 59 99"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6553863489,
+        "lat": 37.2139189,
+        "lon": 28.3590572,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Müco"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6557336679,
+        "lat": 37.2144385,
+        "lon": 28.3645731,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Nazar Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6557758095,
+        "lat": 37.210722,
+        "lon": 28.3596415,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Otto Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6557758097,
+        "lat": 37.2108202,
+        "lon": 28.359494,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "restaurant",
+          "name": "Saraylı Pide Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6557758100,
+        "lat": 37.2114568,
+        "lon": 28.3610363,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Karahan Gurme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6557758102,
+        "lat": 37.2099423,
+        "lon": 28.3580966,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "restaurant",
+          "name": "Etli Ekmekçim"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6557758115,
+        "lat": 37.210566,
+        "lon": 28.3571953,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "restaurant",
+          "name": "Okyanus Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6559410691,
+        "lat": 37.2147145,
+        "lon": 28.365115,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "restaurant",
+          "name": "Tanrıverdi Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6560869938,
+        "lat": 37.2145364,
+        "lon": 28.3623168,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Bayramefendi Osmanlı Kahvecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6560869939,
+        "lat": 37.2147294,
+        "lon": 28.3620701,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Assos Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6560869944,
+        "lat": 37.2142177,
+        "lon": 28.3623461,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "addr:neighbourhood": "Emirbeyazıt Mah.",
+          "addr:street": "Özer Türk Caddesim",
+          "amenity": "cafe",
+          "name": "Corner Bistro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6560869952,
+        "lat": 37.2141153,
+        "lon": 28.361957,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "name": "Leman Kültür Muğla"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6560869954,
+        "lat": 37.2140269,
+        "lon": 28.3616489,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "addr:street": "Kürkçü Sokak",
+          "amenity": "restaurant",
+          "name": "Uğur Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6562323383,
+        "lat": 37.2181446,
+        "lon": 28.3580527,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Fırın Akyol"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6562325188,
+        "lat": 37.2179598,
+        "lon": 28.358468,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6562325190,
+        "lat": 37.2175906,
+        "lon": 28.3580186,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6746910885,
+        "lat": 37.1789894,
+        "lon": 28.3719245,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "biMoola"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736535,
+        "lat": 37.2157475,
+        "lon": 28.3622275,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Uğur Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736540,
+        "lat": 37.2165858,
+        "lon": 28.3618693,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sıcak Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736541,
+        "lat": 37.2169543,
+        "lon": 28.3605441,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Muğla Arslanbey Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736542,
+        "lat": 37.2156577,
+        "lon": 28.3615783,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mersin Şef Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736550,
+        "lat": 37.2159219,
+        "lon": 28.3625613,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Latife Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736551,
+        "lat": 37.2169942,
+        "lon": 28.3603107,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Telve Cafe & Bistro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736558,
+        "lat": 37.2161768,
+        "lon": 28.3620875,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Serpil Park"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736561,
+        "lat": 37.2161097,
+        "lon": 28.3623573,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mackbear"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610736563,
+        "lat": 37.2160435,
+        "lon": 28.3626108,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dimora Coffee & Kitchen"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9976107522,
+        "lat": 37.1257026,
+        "lon": 28.521929,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10552799868,
+        "lat": 37.193265,
+        "lon": 28.3696222,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pablo",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10597195313,
+        "lat": 37.1958807,
+        "lon": 28.3684343,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "description": "Crudo gastro пицца на дровах",
+          "name": "Crudo gastro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10751422078,
+        "lat": 37.1687555,
+        "lon": 28.3821777,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Başka Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10814910966,
+        "lat": 37.1945643,
+        "lon": 28.3691299,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11025891163,
+        "lat": 37.1930523,
+        "lon": 28.3696007,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/71363-306414/mugla-ruya-park"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11025891180,
+        "lat": 37.1149962,
+        "lon": 28.3864226,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nazar Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11049566736,
+        "lat": 37.1918732,
+        "lon": 28.369883,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Alabi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11049566769,
+        "lat": 37.1645772,
+        "lon": 28.3725636,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "MSKÜ Türk Evi Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11049594003,
+        "lat": 37.1190268,
+        "lon": 28.3822115,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Atilla Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11271732487,
+        "lat": 37.2108636,
+        "lon": 28.364215,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Balık Dünyası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11303836406,
+        "lat": 37.2064705,
+        "lon": 28.3679342,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lezzet Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11392722249,
+        "lat": 37.2139155,
+        "lon": 28.3627717,
+        "tags": {
+          "addr:city": "Muğla",
+          "addr:district": "Menteşe",
+          "addr:housenumber": "3",
+          "addr:neighbourhood": "Emirbeyazıt Mah.",
+          "addr:postcode": "48000",
+          "addr:street": "Özer Türk Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;turkish;cake;ice_cream;chocolate;dessert;pancake",
+          "description": "Sizi Blisss'e bekliyoruz! Lezzetli Waffle'lar, özel tatlılar, kaliteli kahveler ve ferah içeceklerle dolu bir deneyim için buradayız. Sıcakkanlı ekibimizle unutulmaz anlar yaşayın. Blisss Executive Team.",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "mobile": "05060553025",
+          "name": "Blisss",
+          "opening_hours": "Mo-Su 09:00-21:00",
+          "outdoor_seating": "yes",
+          "payment:american_express": "yes",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "payment:maestro": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "payment:visa_debit": "yes",
+          "phone": "05060553025",
+          "toilets": "yes",
+          "website": "https://blissstr.com/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11396177043,
+        "lat": 37.1961859,
+        "lon": 28.3690649,
+        "tags": {
+          "amenity": "restaurant",
+          "level": "2",
+          "name": "Gufo Gastro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12364762414,
+        "lat": 37.1697772,
+        "lon": 28.3806986,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Coffy"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498236,
+        "lat": 37.1698555,
+        "lon": 28.3805984,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mackbear"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498237,
+        "lat": 37.1698399,
+        "lon": 28.3806313,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Duray 3"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498238,
+        "lat": 37.1699666,
+        "lon": 28.3808768,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Duray 2 (18)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498239,
+        "lat": 37.1701789,
+        "lon": 28.380629,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Baydur B"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498240,
+        "lat": 37.1701275,
+        "lon": 28.3804047,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Baydur A"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498241,
+        "lat": 37.17013,
+        "lon": 28.3802854,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Caner Market"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498242,
+        "lat": 37.1702013,
+        "lon": 28.380173,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Altaş A"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498243,
+        "lat": 37.17024,
+        "lon": 28.3801119,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Altaşlar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498244,
+        "lat": 37.1702511,
+        "lon": 28.3800701,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Filli Boya Altaş Tic"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498247,
+        "lat": 37.1707368,
+        "lon": 28.3806514,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Saadettin Ökten Erkek Yurdu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498248,
+        "lat": 37.1709808,
+        "lon": 28.3803862,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Levent Yüksel"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498249,
+        "lat": 37.1707136,
+        "lon": 28.3810588,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yenaral"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498250,
+        "lat": 37.1709917,
+        "lon": 28.3807902,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Toprak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498251,
+        "lat": 37.1703556,
+        "lon": 28.3814408,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Zeytin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498252,
+        "lat": 37.1700728,
+        "lon": 28.3814435,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Duray 1 (23)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498255,
+        "lat": 37.1693591,
+        "lon": 28.3811872,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Arabica",
+          "not:brand:wikidata": "Q107639197"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498256,
+        "lat": 37.1694006,
+        "lon": 28.3811371,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Papatya (81)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498257,
+        "lat": 37.169677,
+        "lon": 28.3814878,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ela (10)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498258,
+        "lat": 37.1697725,
+        "lon": 28.3815551,
+        "tags": {
+          "amenity": "cafe",
+          "name": "12"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498259,
+        "lat": 37.1692889,
+        "lon": 28.3813376,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hesaplı Tavuk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498260,
+        "lat": 37.1692661,
+        "lon": 28.3813973,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cici Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498261,
+        "lat": 37.1692501,
+        "lon": 28.381433,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Moda"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498262,
+        "lat": 37.1692366,
+        "lon": 28.3814649,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Veli (83)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498263,
+        "lat": 37.1691535,
+        "lon": 28.3815984,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kaptan Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498264,
+        "lat": 37.1691766,
+        "lon": 28.381558,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Altaş C (85)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12365498265,
+        "lat": 37.1692293,
+        "lon": 28.3816831,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Waffle inn"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12880590868,
+        "lat": 37.1624847,
+        "lon": 28.3753257,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13395381601,
+        "lat": 37.2164981,
+        "lon": 28.3631181,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Başka Şeyler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13395401801,
+        "lat": 37.2152573,
+        "lon": 28.3613891,
+        "tags": {
+          "amenity": "bar",
+          "name": "Coffee bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13405019301,
+        "lat": 37.2108379,
+        "lon": 28.3637141,
+        "tags": {
+          "amenity": "restaurant",
+          "diet:vegan": "yes",
+          "diet:vegetarian": "yes",
+          "name": "Mezecim"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13415742601,
+        "lat": 37.2178869,
+        "lon": 28.3654202,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gastro muğla"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13415758301,
+        "lat": 37.2181506,
+        "lon": 28.365007,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mabolla Bookstore & Cafe",
+          "opening_hours": "Mo-Su 11:00-19:00",
+          "website:menu": "https://mabolla.com/mabolla-bookstorecafe/"
+        }
+      }
+    ]
+  }
+}

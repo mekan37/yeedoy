@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "sehir_id": "37",
+    "sehir_adi": "KASTAMONU",
+    "ilce_id": "1208",
+    "ilce_adi": "BOZKURT",
+    "bbox_used": {
+      "south": 41.7564402,
+      "west": 33.9112973,
+      "north": 41.9808126,
+      "east": 34.1705105
+    },
+    "bbox_original": {
+      "south": 41.7564402,
+      "west": 33.9112973,
+      "north": 41.9808126,
+      "east": 34.1705105
+    },
+    "fetchedAt": "2026-01-21T09:32:02.916Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:31:08Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3129680363,
+        "lat": 41.9794709,
+        "lon": 34.0206582,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5078773517,
+        "lat": 41.9780622,
+        "lon": 34.048917,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Hacıveli Konağı",
+          "tourism": "viewpoint"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11104085597,
+        "lat": 41.949061,
+        "lon": 34.0128803,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sınarcık Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 943499465,
+        "center": {
+          "lat": 41.950327,
+          "lon": 34.0116393
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "demolished": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1032216354,
+        "center": {
+          "lat": 41.9581975,
+          "lon": 34.0113101
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çınar Kafe"
+        }
+      }
+    ]
+  }
+}

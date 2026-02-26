@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "49",
+    "sehir_adi": "MUŞ",
+    "ilce_id": "1964",
+    "ilce_adi": "KORKUT",
+    "bbox_used": {
+      "south": 38.63516,
+      "west": 41.6937623,
+      "north": 38.9047168,
+      "east": 42.131873
+    },
+    "bbox_original": {
+      "south": 38.63516,
+      "west": 41.6937623,
+      "north": 38.9047168,
+      "east": 42.131873
+    },
+    "fetchedAt": "2026-01-21T10:09:28.354Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:08:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

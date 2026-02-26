@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "28",
+    "sehir_adi": "GİRESUN",
+    "ilce_id": "1893",
+    "ilce_adi": "ÇAMOLUK",
+    "bbox_used": {
+      "south": 40.0457644,
+      "west": 38.515191,
+      "north": 40.2449886,
+      "east": 38.9640426
+    },
+    "bbox_original": {
+      "south": 40.0457644,
+      "west": 38.515191,
+      "north": 40.2449886,
+      "east": 38.9640426
+    },
+    "fetchedAt": "2026-01-21T09:07:47.438Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:06:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "sehir_id": "8",
+    "sehir_adi": "ARTVİN",
+    "ilce_id": "1152",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 41.3427828,
+      "west": 41.6567108,
+      "north": 41.3827828,
+      "east": 41.6967108
+    },
+    "bbox_original": {
+      "south": 41.3427828,
+      "west": 41.6567108,
+      "north": 41.3827828,
+      "east": 41.6967108
+    },
+    "fetchedAt": "2026-01-21T08:28:57.833Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:26:55Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9667883805,
+        "lat": 41.3622733,
+        "lon": 41.676931,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Itinz (bad quality)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10155044886,
+        "lat": 41.3655989,
+        "lon": 41.6740924,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Aileli Adi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10155044907,
+        "lat": 41.3646856,
+        "lon": 41.6789649,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10155044935,
+        "lat": 41.3614774,
+        "lon": 41.6769843,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Macahel çay ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12850983971,
+        "lat": 41.3659849,
+        "lon": 41.6798961,
+        "tags": {
+          "amenity": "cafe",
+          "name": "lazut"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1228564666,
+        "center": {
+          "lat": 41.3560259,
+          "lon": 41.6777967
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "outdoor_seating": "yes"
+        }
+      }
+    ]
+  }
+}

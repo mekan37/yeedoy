@@ -1,0 +1,118 @@
+// ignore_for_file: constant_identifier_names
+
+const Map<String, Map<String, String>> TRANSLATIONS = {
+  'appName': {'tr': 'Yeedoy', 'en': 'Yeedoy'},
+  'appTagline': {
+    'tr': 'Canli menuler, dogrulanmis fiyatlar',
+    'en': 'Live menus, verified prices',
+  },
+  'appTaglineLine1': {'tr': 'Canli menuler', 'en': 'Live menus'},
+  'appTaglineLine2': {'tr': 'Dogrulanmis fiyatlar', 'en': 'Verified prices'},
+  'emptyTitle': {'tr': 'Henuz eklenmemis', 'en': 'Nothing here yet'},
+  'emptyRegionDescription': {
+    'tr': "Yeedoy'da bu bolgede henuz veri yok. Istersen ilk katkiyi sen ekle.",
+    'en':
+        'No data in this area yet on Yeedoy. You can add the first contribution.',
+  },
+  'webDescription': {
+    'tr': 'Yeedoy - Canli menuler, dogrulanmis fiyatlar ve akilli kesif.',
+    'en': 'Yeedoy - Live menus, verified prices and smart discovery.',
+  },
+  'discover': {'tr': 'Kesfet', 'en': 'Discover'},
+  'home': {'tr': 'Ana Sayfa', 'en': 'Home'},
+  'map': {'tr': 'Harita', 'en': 'Map'},
+  'favorites': {'tr': 'Favoriler', 'en': 'Favorites'},
+  'profile': {'tr': 'Profil', 'en': 'Profile'},
+  'settings': {'tr': 'Ayarlar', 'en': 'Settings'},
+  'save': {'tr': 'Kaydet', 'en': 'Save'},
+  'cancel': {'tr': 'Iptal', 'en': 'Cancel'},
+  'privacy': {'tr': 'Gizlilik', 'en': 'Privacy'},
+  'socialLinks': {'tr': 'Sosyal Linkler', 'en': 'Social Links'},
+  'logout': {'tr': 'Cikis Yap', 'en': 'Log Out'},
+  'contribute': {'tr': 'Katki Yap', 'en': 'Contribute'},
+  'uploadPhoto': {'tr': 'Fotograf Yukle', 'en': 'Upload Photo'},
+  'scanQr': {'tr': 'QR Tara', 'en': 'Scan QR'},
+  'verifyPrice': {'tr': 'Fiyati Dogrula', 'en': 'Verify Price'},
+  'openInBrowser': {'tr': 'Tarayicida Ac', 'en': 'Open in Browser'},
+  'linkPreview': {'tr': 'Link Onizleme', 'en': 'Link Preview'},
+  'profileSettings': {'tr': 'Profil Ayarlari', 'en': 'Profile Settings'},
+  'saving': {'tr': 'Kaydediliyor...', 'en': 'Saving...'},
+  'loginRequired': {
+    'tr': 'Once giris yapmalisin.',
+    'en': 'Please sign in first.',
+  },
+  'profileSaved': {
+    'tr': 'Profil ayarlari kaydedildi.',
+    'en': 'Profile settings saved.',
+  },
+  'saveError': {'tr': 'Kaydetme hatasi: {error}', 'en': 'Save error: {error}'},
+  'namePrivacy': {'tr': 'Isim Gizliligi', 'en': 'Name Privacy'},
+  'firstName': {'tr': 'Ad', 'en': 'First Name'},
+  'lastName': {'tr': 'Soyad', 'en': 'Last Name'},
+  'showFullName': {'tr': 'Ad Soyad Gorunsun', 'en': 'Show full name'},
+  'hideLastName': {'tr': 'Sadece Soyadi Gizle', 'en': 'Hide last name only'},
+  'hideBothNames': {
+    'tr': 'Ad ve Soyadi Gizle',
+    'en': 'Hide first and last name',
+  },
+  'preview': {'tr': 'Onizleme', 'en': 'Preview'},
+  'socialMedia': {'tr': 'Sosyal Medya', 'en': 'Social Media'},
+  'language': {'tr': 'Dil', 'en': 'Language'},
+  'systemDefault': {'tr': 'Sistem (Varsayilan)', 'en': 'System (Default)'},
+  'turkish': {'tr': 'Turkce', 'en': 'Turkish'},
+  'english': {'tr': 'English', 'en': 'English'},
+  'account': {'tr': 'Hesap', 'en': 'Account'},
+  'invalidLink': {'tr': 'Gecerli bir link gir.', 'en': 'Enter a valid link.'},
+  'socialPreview': {'tr': 'Sosyal Onizleme', 'en': 'Social Preview'},
+  'pasteLinkHelper': {
+    'tr': 'Link yapistir (https://...)',
+    'en': 'Paste link (https://...)',
+  },
+  'privacySocialSubtitle': {
+    'tr': 'Isim gizliligi ve sosyal medya linkleri',
+    'en': 'Name privacy and social media links',
+  },
+  'updateBusinessTitle': {
+    'tr': '{businessName} guncelle',
+    'en': 'Update {businessName}',
+  },
+  'contributeSheetSubtitle': {
+    'tr': 'Toplulugun menu fiyatlarini dogrulamasina yardimci ol.',
+    'en': 'Help the community keep menu prices verified.',
+  },
+  'scanMenuQr': {'tr': 'Menu QR tara', 'en': 'Scan Menu QR'},
+  'scanMenuQrSubtitle': {
+    'tr': 'QR ile aninda dogrulama',
+    'en': 'Instant verification via QR',
+  },
+  'uploadPhotoSubtitle': {
+    'tr': 'Menunun fotografini cek',
+    'en': 'Take a picture of the menu',
+  },
+  'confirmPriceChange': {
+    'tr': 'Fiyat degisimini dogrula',
+    'en': 'Confirm Price Change',
+  },
+  'confirmPriceChangeSubtitle': {
+    'tr': 'Guncel olmayan bir fiyati bildir',
+    'en': 'Report an outdated price',
+  },
+  'qrAction': {'tr': 'QR Aksiyonu', 'en': 'QR Action'},
+  'embed': {'tr': 'Embed', 'en': 'Embed'},
+  'share': {'tr': 'Paylas', 'en': 'Share'},
+  'invalidLinkMessage': {'tr': 'Gecersiz baglanti', 'en': 'Invalid link'},
+  'browserOpened': {'tr': 'Tarayicida acildi', 'en': 'Opened in browser'},
+  'embedFailed': {
+    'tr': 'Embed goruntulenemedi, tarayiciya yonlendirdik.',
+    'en': 'Embed could not be displayed, redirected to browser.',
+  },
+  'back': {'tr': 'Geri', 'en': 'Back'},
+  'updatedDaysAgo': {
+    'tr': '{days} gun once guncellendi',
+    'en': 'Updated {days} days ago',
+  },
+  'verifiedDaysAgo': {
+    'tr': '{days} gun once dogrulandi',
+    'en': 'Verified {days} days ago',
+  },
+};

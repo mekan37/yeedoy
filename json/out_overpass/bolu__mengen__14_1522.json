@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "sehir_id": "14",
+    "sehir_adi": "BOLU",
+    "ilce_id": "1522",
+    "ilce_adi": "MENGEN",
+    "bbox_used": {
+      "south": 40.8143289,
+      "west": 31.7674454,
+      "north": 41.048679,
+      "east": 32.4039072
+    },
+    "bbox_original": {
+      "south": 40.8143289,
+      "west": 31.7674454,
+      "north": 41.048679,
+      "east": 32.4039072
+    },
+    "fetchedAt": "2026-01-21T08:39:26.252Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 13
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:38:03Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8297118577,
+        "lat": 40.9385768,
+        "lon": 32.0726409,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8297581768,
+        "lat": 40.9380674,
+        "lon": 32.074874,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bahçeli Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8297581776,
+        "lat": 40.9381126,
+        "lon": 32.0746413,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8297581832,
+        "lat": 40.9388082,
+        "lon": 32.0753098,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8297581853,
+        "lat": 40.9395168,
+        "lon": 32.0760151,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Havuzlu Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8300805202,
+        "lat": 40.938903,
+        "lon": 32.0736368,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Cem Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8300890005,
+        "lat": 40.9384737,
+        "lon": 32.0723951,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Köfteci Uğur"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10015364012,
+        "lat": 41.0161351,
+        "lon": 32.0801994,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11007075581,
+        "lat": 40.9267272,
+        "lon": 32.070792,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Mengen Lezzet Dünyası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 892718082,
+        "center": {
+          "lat": 40.9385489,
+          "lon": 32.0716622
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Müdür'ün Yeri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 892774101,
+        "center": {
+          "lat": 40.9380812,
+          "lon": 32.0746972
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 892774127,
+        "center": {
+          "lat": 40.9390102,
+          "lon": 32.0754941
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 893131844,
+        "center": {
+          "lat": 40.9376376,
+          "lon": 32.0737763
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Sahil Restaurant"
+        }
+      }
+    ]
+  }
+}

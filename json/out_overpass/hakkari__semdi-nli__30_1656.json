@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "sehir_id": "30",
+    "sehir_adi": "HAKKARİ",
+    "ilce_id": "1656",
+    "ilce_adi": "ŞEMDİNLİ",
+    "bbox_used": {
+      "south": 37.17195961486486,
+      "north": 37.442229885135134,
+      "west": 44.33758912906488,
+      "east": 44.67640467093513
+    },
+    "bbox_original": {
+      "south": 37.1438498,
+      "west": 44.1988028,
+      "north": 37.4703397,
+      "east": 44.815191
+    },
+    "fetchedAt": "2026-01-21T09:10:40.480Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:09:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3461695596,
+        "lat": 37.3075744,
+        "lon": 44.5723161,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "People's"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6402705063,
+        "lat": 37.3072879,
+        "lon": 44.5723623,
+        "tags": {
+          "addr:city": "Hakkari",
+          "addr:district": "şemdinli",
+          "addr:housenumber": "kat:2",
+          "addr:neighbourhood": "YENİ MAHALLE nawşar ceneter iş merkezi kat 2",
+          "addr:postcode": "30800",
+          "addr:street": "cumhuriyet caddesi",
+          "amenity": "cafe",
+          "cuisine": "pizza;italian;mexican;burger;coffee_shop",
+          "delivery": "yes",
+          "name": "BİZBİZE CAFE & PİZZA",
+          "opening_hours": "08:30-23:30",
+          "outdoor_seating": "yes",
+          "payment:visa": "yes"
+        }
+      }
+    ]
+  }
+}

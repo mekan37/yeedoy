@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "sehir_id": "15",
+    "sehir_adi": "BURDUR",
+    "ilce_id": "1874",
+    "ilce_adi": "ALTINYAYLA",
+    "bbox_used": {
+      "south": 36.7981724,
+      "west": 29.3653322,
+      "north": 37.0728804,
+      "east": 29.6027335
+    },
+    "bbox_original": {
+      "south": 36.7981724,
+      "west": 29.3653322,
+      "north": 37.0728804,
+      "east": 29.6027335
+    },
+    "fetchedAt": "2026-01-21T08:41:19.499Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:40:11Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11846692262,
+        "lat": 36.99821,
+        "lon": 29.5445779,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özkül Lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11846699275,
+        "lat": 36.9971983,
+        "lon": 29.5443097,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Asırlık café"
+        }
+      }
+    ]
+  }
+}

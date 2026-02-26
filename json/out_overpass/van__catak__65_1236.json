@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "65",
+    "sehir_adi": "VAN",
+    "ilce_id": "1236",
+    "ilce_adi": "ÇATAK",
+    "bbox_used": {
+      "south": 37.86445306486486,
+      "north": 38.134723335135135,
+      "west": 42.91944537360521,
+      "east": 43.26143542639479
+    },
+    "bbox_original": {
+      "south": 37.7353051,
+      "west": 42.7422045,
+      "north": 38.2638713,
+      "east": 43.4386763
+    },
+    "fetchedAt": "2026-01-21T10:46:32.269Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:44:40Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

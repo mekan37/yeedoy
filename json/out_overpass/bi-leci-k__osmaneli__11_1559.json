@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "11",
+    "sehir_adi": "BİLECİK",
+    "ilce_id": "1559",
+    "ilce_adi": "OSMANELİ",
+    "bbox_used": {
+      "south": 40.3593211,
+      "west": 30.0225059,
+      "north": 40.3693211,
+      "east": 30.0325059
+    },
+    "bbox_original": {
+      "south": 40.3593211,
+      "west": 30.0225059,
+      "north": 40.3693211,
+      "east": 30.0325059
+    },
+    "fetchedAt": "2026-01-21T08:35:46.144Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

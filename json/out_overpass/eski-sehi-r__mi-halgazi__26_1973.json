@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "sehir_id": "26",
+    "sehir_adi": "ESKİŞEHİR",
+    "ilce_id": "1973",
+    "ilce_adi": "MİHALGAZİ",
+    "bbox_used": {
+      "south": 39.9183914,
+      "west": 30.4631111,
+      "north": 40.1260758,
+      "east": 30.6680209
+    },
+    "bbox_original": {
+      "south": 39.9183914,
+      "west": 30.4631111,
+      "north": 40.1260758,
+      "east": 30.6680209
+    },
+    "fetchedAt": "2026-01-21T09:04:08.458Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:02:37Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13159433887,
+        "lat": 39.9876337,
+        "lon": 30.5852537,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Saklı Fırın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13159433891,
+        "lat": 39.9874767,
+        "lon": 30.5861193,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Merve Pide"
+        }
+      }
+    ]
+  }
+}

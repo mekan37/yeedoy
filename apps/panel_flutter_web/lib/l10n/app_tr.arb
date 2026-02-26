@@ -1,0 +1,1230 @@
+{
+  "@@locale": "tr",
+  "appName": "Yeedoy",
+  "appTagline": "Canlı menüler, doğrulanmış fiyatlar",
+  "appTaglineLine1": "Canlı menüler",
+  "appTaglineLine2": "Dogrulanmis fiyatlar",
+  "emptyTitle": "Henüz eklenmemis",
+  "emptyRegionDescription": "Yeedoy'da bu bölgede henüz veri yok. İstersen ilk katkıyı sen ekle.",
+  "webDescription": "Yeedoy - Canlı menüler, doğrulanmış fiyatlar ve akıllı keşif.",
+  "discover": "Keşfet",
+  "home": "Ana Sayfa",
+  "map": "Harita",
+  "list": "Liste",
+  "favorites": "Favoriler",
+  "profile": "Profil",
+  "settings": "Ayarlar",
+  "save": "Kaydet",
+  "cancel": "İptal",
+  "privacy": "Gizlilik",
+  "socialLinks": "Sosyal Bağlantılar",
+  "logout": "Çıkış Yap",
+  "contribute": "Katkı Yap",
+  "uploadPhoto": "Fotoğraf Yükle",
+  "scanQr": "QR Tara",
+  "verifyPrice": "Fiyatı Doğrula",
+  "openInBrowser": "Tarayıcıda Aç",
+  "linkPreview": "Bağlantı Önizleme",
+  "profileSettings": "Profil Ayarları",
+  "saving": "Kaydediliyor...",
+  "loginRequired": "Önce giris yapmalisin.",
+  "profileSaved": "Profil ayarları kaydedildi.",
+  "saveError": "Kaydetme hatasi: {error}",
+  "@saveError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "namePrivacy": "İsim Gizliliği",
+  "firstName": "Ad",
+  "lastName": "Soyad",
+  "showFullName": "Ad Soyad Görünsün",
+  "hideLastName": "Sadece Soyadı Gizle",
+  "hideBothNames": "Ad ve Soyadı Gizle",
+  "preview": "Önizleme",
+  "socialMedia": "Sosyal Medya",
+  "language": "Dil",
+  "systemDefault": "Sistem (Varsayılan)",
+  "turkish": "Türkçe",
+  "english": "İngilizce",
+  "account": "Hesap",
+  "invalidLink": "Geçerli bir bağlantı gir.",
+  "socialPreview": "Sosyal Önizleme",
+  "pasteLinkHelper": "Bağlantı yapıştır (https://...)",
+  "privacySocialSubtitle": "İsim gizliliği ve sosyal medya bağlantıları",
+  "updateBusinessTitle": "{businessName} güncelle",
+  "@updateBusinessTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    }
+  },
+  "contributeSheetSubtitle": "Topluluğun menü fiyatlarını doğrulamasına yardımcı ol.",
+  "scanMenuQr": "Menü QR tara",
+  "scanMenuQrSubtitle": "QR ile anında doğrulama",
+  "uploadPhotoSubtitle": "Menünün fotoğrafını çek",
+  "confirmPriceChange": "Fiyat değişimini doğrula",
+  "confirmPriceChangeSubtitle": "Güncel olmayan bir fiyatı bildir",
+  "qrAction": "QR Aksiyonu",
+  "embed": "Gömülü",
+  "share": "Paylaş",
+  "invalidLinkMessage": "Geçersiz bağlantı",
+  "browserOpened": "Tarayıcıda açıldı",
+  "embedFailed": "İçerik görüntülenemedi, tarayıcıya yönlendirdik.",
+  "back": "Geri",
+  "updatedDaysAgo": "{days} gün önce güncellendi",
+  "@updatedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "verifiedDaysAgo": "{days} gün önce doğrulandı",
+  "@verifiedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "distanceKm": "{km} km",
+  "@distanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "num"
+      }
+    }
+  },
+  "avgSpendPerPerson": "Kişi başı {amount}",
+  "@avgSpendPerPerson": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewsCount": "Yorum ({count})",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openNow": "Şuan açık",
+  "closedNow": "Şuan kapalı",
+  "livePrices": "Canlı Fiyatlar",
+  "trustScore": "Güven Skoru",
+  "lastUpdated": "Son Güncelleme",
+  "lastAudit": "Son Denetim",
+  "avgCost": "Ortalama Tutar",
+  "avgSpend": "ORT. HARCAMA",
+  "verified": "Doğrulandı",
+  "priceVerified": "Fiyat Doğrulandı",
+  "communityVerified": "Toplulukça Doğrulandı",
+  "confirmedByUsersToday": "Bugün {users} kullanıcı tarafından doğrulandı",
+  "@confirmedByUsersToday": {
+    "placeholders": {
+      "users": {
+        "type": "int"
+      }
+    }
+  },
+  "priceHistory": "Fiyat Geçmişi",
+  "contributeMenuPhoto": "Menü Fotoğrafı Katkısı Yap",
+  "verify": "DOĞRULA",
+  "signatureSteaks": "Öne Çıkan Steakler",
+  "signatureSection": "Öne Çıkan {section}",
+  "@signatureSection": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "spottedPriceChange": "Fiyat değişikliği mi fark ettin?",
+  "spottedPriceChangeSubtitle": "Bu menüyü güncelleyerek katkı sağla.",
+  "updateDateUnavailable": "Güncelleme tarihi yok",
+  "currentLocation": "MEVCUT KONUM",
+  "changeLocation": "Konumu Değiştir",
+  "filters": "Filtreler",
+  "searchKebabsHint": "Kebap, burger ara...",
+  "budget": "Bütçe",
+  "freshMenuUpdates": "Taze Menü Güncellemeleri",
+  "seeAll": "Tümünü Gör",
+  "freshLinks": "Yeni Bağlantılar",
+  "discoveryNearbyTitle": "Yakınımda",
+  "discoveryNearbySubtitle": "Konumuna göre en iyi sonuçlar",
+  "discoveryLocationSubtitle": "Şehir/ilçeye göre keşfet",
+  "nearbyVerifiedSpots": "Yakındaki Doğrulanmış Mekanlar",
+  "noNearbyVerifiedSpots": "Yakında doğrulanmış mekan bulunamadı",
+  "changeFiltersTryAgain": "Konumu veya filtreleri değiştirip tekrar dene.",
+  "noFreshData": "Henüz taze veri yok",
+  "freshDataWillAppear": "Yakındaki menü güncellemeleri burada görünecek.",
+  "businessLabel": "İşletme",
+  "report": "Bildir",
+  "favoriteAdded": "Favorilerde",
+  "addToFavorites": "Favoriye ekle",
+  "writeReview": "Yorum yap",
+  "other": "Diğer",
+  "itemsCount": "{count} ürün",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weakConnectionQueueNotice": "Bağlantı zayıf. Doğrulama sıraya alındı, çevrimiçi olunca otomatik gönderilecek.",
+  "pendingVerificationsSent": "{count} bekleyen doğrulama gönderildi.",
+  "@pendingVerificationsSent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadMenuItemsFirst": "Önce menü ürünlerini yükle.",
+  "menuNotAddedYet": "Henüz eklenmedi",
+  "menuNotAddedYetDescription": "Bu işletme için henüz menü eklenmemiş.",
+  "weakConnection": "Bağlantı zayıf",
+  "contentLoadFailedCheckInternet": "İçerik şu anda yüklenemedi. Varsa önbellek verisi gösterilecek. İnterneti kontrol edip tekrar dene.",
+  "trustDataUnavailable": "Güven verisi yok",
+  "freshnessAndTrust": "Güncellik ve güven",
+  "menuUpdatedLabel": "Menü Güncellendi",
+  "lastPriceVerification": "Son Fiyat Doğrulaması",
+  "trustScoreLabel": "Güven Skoru",
+  "last3MonthsPriceChange": "Son 3 Ay Fiyat Değişimi",
+  "hoursInfoUnavailable": "Çalışma saatleri bilgisi yok",
+  "hoursInfoMissing": "Saat bilgisi yok",
+  "addHoursHelp": "Kullanıcılara yardımcı olmak için çalışma saatlerini ekle.",
+  "reportHoursInfo": "Saat bilgisi bildir",
+  "menus": "Menüler",
+  "menusLoadFailed": "Menüler yüklenemedi",
+  "noMenu": "Menü yok",
+  "addFirstMenuHelp": "İlk menüyü ekleyerek kullanıcılara yardımcı ol.",
+  "crowdInfoUnavailable": "Yoğunluk bilgisi yok",
+  "liveCrowdLabel": "Anlık yoğunluk: {state}",
+  "@liveCrowdLabel": {
+    "placeholders": {
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewsLoadFailed": "Yorumlar yüklenemedi",
+  "noReviews": "Yorum yok",
+  "leaveFirstReviewHelp": "İlk yorumu sen yaz.",
+  "writeFirstReview": "İlk yorumu yaz",
+  "recentReviews": "Son yorumlar",
+  "reviewFallbackTitle": "Yorum",
+  "activeCampaigns": "Aktif kampanyalar",
+  "menuDataUnavailable": "Menü verisi yok",
+  "noMenuProductsYet": "Henüz menü ürünü yok",
+  "menu": "Menü",
+  "featuredFromCuisine": "{cuisine} mutfağından öne çıkanlar",
+  "@featuredFromCuisine": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "weeklyPriceChange": "+₺50 bu hafta",
+  "chartPlaceholderSoon": "Grafik alanı (yakında)",
+  "featuredCuisineSuffix": "mutfağından öne çıkan lezzetler",
+  "connectionProblemTryAgain": "Bağlantı sorunu var, tekrar dene.",
+  "noActiveCampaign": "Aktif kampanya yok",
+  "activeCampaignCountLabel": "aktif kampanya",
+  "noAmenityInfo": "İmkan bilgisi yok",
+  "amenityCountLabel": "{count} imkan",
+  "noLocationVerificationData": "Konum doğrulama verisi yok",
+  "lastLocationVerification": "Son konum doğrulaması",
+  "noNewProductRecord": "Yeni ürün kaydı yok",
+  "newProduct": "Yeni ürün",
+  "reportInfoErrorPrefix": "Bildirim bilgisi hatası:",
+  "noLocation": "Konum yok",
+  "noHoursInfo": "Saat bilgisi yok",
+  "reviewsCountSuffix": "yorum",
+  "noTime": "Saat yok",
+  "tabSteaks": "Etler",
+  "tabBurgers": "Burgerler",
+  "tabSides": "Yan Ürünler",
+  "tabBeverages": "İçecekler",
+  "locationNotAvailable": "Konum kullanılamıyor",
+  "sortRecommended": "Önerilen",
+  "sortDistance": "Mesafe",
+  "sortRating": "Puan",
+  "sortPriceLow": "Fiyat",
+  "sortNewlyVerified": "Yeni Doğrulanan",
+  "rankingFormulaTitle": "Sıralama Formülü",
+  "rankingFormulaIntro": "Sıralama puanı şu bileşenlerden oluşur:",
+  "rankingWeightDistance": "%30 Mesafe",
+  "rankingWeightAccuracy": "Doğruluk ağırlığı",
+  "rankingWeightEngagement": "Etkileşim ağırlığı",
+  "rankingWeightQuality": "%20 Kalite (kalite skoru)",
+  "rankingFormulaNote": "Not: Puanlar düzenli olarak güncellenir.",
+  "minRatingLabel": "Minimum puan: {value}",
+  "@minRatingLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "priceLevel": "Fiyat seviyesi",
+  "prioritizeOpenNow": "Şu an açık olanları öne çıkar",
+  "prioritizeNewlyVerified": "Yeni doğrulananları öne çıkar",
+  "reset": "Sıfırla",
+  "apply": "Uygula",
+  "priceTierAny": "Her seviye",
+  "priceTierBudget": "Ekonomik",
+  "priceTierMedium": "Orta",
+  "priceTierPremium": "Üst Seviye",
+  "tabAllItems": "Tüm Ürünler",
+  "tabStarters": "Başlangıçlar",
+  "usersLabel": "kullanıcı",
+  "unknown": "Bilinmiyor",
+  "today": "Bugün",
+  "dayUnit": "gün",
+  "tekrarDene": "Tekrar dene",
+  "vazgec": "Vazgeç",
+  "reddet": "Reddet",
+  "title": "title",
+  "isleniyor": "İşleniyor...",
+  "onayla": "Onayla",
+  "approved": "Onaylandı",
+  "tumu": "Tümü",
+  "kayitBulunamadi": "Kayıt bulunamadı.",
+  "temizle": "Temizle",
+  "uygula": "Uygula",
+  "pending": "Beklemede",
+  "reddedildi": "Reddedildi",
+  "satirSec": "Satır seç",
+  "gonder": "Gönder",
+  "rejected": "Reddedildi",
+  "detay": "Detay",
+  "duzenle": "Düzenle",
+  "eminMisin": "Emin misin?",
+  "guncellendi": "Güncellendi.",
+  "reddedildi_2": "Reddedildi.",
+  "sla": "Geri Dönüş Süresi",
+  "csvDisaAktar": "CSV Dışa Aktar",
+  "onaylandi": "Onaylandı",
+  "yenile": "Yenile",
+  "atanan": "Atanan",
+  "beklemede": "Beklemede",
+  "durum": "Durum",
+  "tabRecommended": "Önerilenler",
+  "tabCampaigns": "Kampanyalar",
+  "tabFoods": "Yemekler",
+  "whyTop": "Neden üstte?",
+  "quickSuggestionTitle": "Hızlı Öneri",
+  "quickSuggestionSubtitle": "Dakikalar içinde karar ver",
+  "quickSuggestionPreset": "2 kişi / ₺600",
+  "whatToEatTitle": "Ne yesek?",
+  "whatToEatSubtitle": "Hızlı öneriler",
+  "nearbyShort": "Yakında",
+  "affordableShort": "Uygun fiyat",
+  "quickDecisionShort": "Hızlı Karar",
+  "start": "Başla",
+  "friendGroupTitle": "Arkadaş Grubu",
+  "friendGroupSubtitle": "Birlikte karar verin",
+  "openGroup": "Grubu Aç",
+  "myGroups": "Gruplarım",
+  "onTheRoadTitle": "Yoldayım",
+  "onTheRoadSubtitle": "Rotandaki duraklar",
+  "heroesTitle": "Kahramanlar",
+  "heroesSubtitle": "Öne çıkan keşifler",
+  "view": "Görüntüle",
+  "bestBusinessesThisWeek": "Bu Haftanın En İyi İşletmeleri",
+  "bestBusinessesThisMonth": "Bu Ayın En İyi İşletmeleri",
+  "onTheRoad20km": "Yolda • 20 km",
+  "nearbyKm": "Yakında • {km} km",
+  "@nearbyKm": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    }
+  },
+  "liveResultsUpdating": "Canlı sonuçlar güncelleniyor",
+  "businessApprovedData": "İşletme onaylı verisi",
+  "communityData": "Topluluk verisi",
+  "removeFromFavorites": "Favorilerden çıkar",
+  "locationPermissionTitle": "Konum izni ver",
+  "locationPermissionDescription": "Yakındaki yerleri göstermek için konum izni gerekli.",
+  "allow": "İzin Ver",
+  "selectLocation": "Konum Seç",
+  "manualLocationHint": "Konumu manuel seçebilirsin.",
+  "noResultsYet": "Henüz sonuç yok",
+  "lowDataInArea": "Bu bölgede veri az",
+  "tryDifferentSearchOrFilter": "Farklı bir arama ya da filtre dene.",
+  "beFirstContributorInArea": "Bölgede ilk katkıyı sen yap.",
+  "topVerifiedMenus": "En Çok Doğrulanan Menüler",
+  "mostTrustedMenusInCity": "Şehirde En Güvenilen Menüler",
+  "seeList": "Listeyi Gör",
+  "localContributionCall": "Yerel katkı çağrısı",
+  "addFirstMenu": "İlk Menüyü Ekle",
+  "suggestBusiness": "İşletme Öner",
+  "noSurpriseSuggestionNow": "Şu an sürpriz öneri yok",
+  "priceVerifiedInLast48h": "Bu fiyat son 48 saatte doğrulandı",
+  "menuMayBeOutdated": "Menü güncel olmayabilir",
+  "verifiedByBusiness": "İşletme tarafından doğrulandı",
+  "updatedByCommunity": "Topluluk tarafından güncellendi",
+  "topRankedInDistrict": "İlçede üst sıralarda",
+  "surpriseDiscoveryTitle": "Sürpriz Keşif",
+  "surpriseDiscoverySubtitle": "Alışkanlığının dışına çık",
+  "randomButGood": "Rastgele ama iyi",
+  "outsideYourUsual": "Rutin dışı",
+  "pricePerformanceSurprise": "Fiyat/performans sürprizi",
+  "nearbyCampaignsAndAnnouncements": "Yakındaki kampanyalar ve duyurular",
+  "noNearbyCampaign": "Yakında kampanya yok",
+  "noActiveAnnouncementInArea": "Bölgede aktif duyuru yok",
+  "remainingLabel": "Kalan",
+  "campaign": "Kampanya",
+  "active": "Aktif",
+  "noLocationDataForMap": "Harita için konum verisi yok",
+  "mapDataMissingUseList": "Harita verisi eksik, liste görünümünü kullan.",
+  "openMapView": "Harita Görünümünü Aç",
+  "mapHintTapPins": "İğnelere dokunarak detayları gör.",
+  "locationPermissionRequired": "Konum izni gerekli.",
+  "noFoodFoundForCriteria": "Bu kriterlere uygun yemek bulunamadı",
+  "whatToEatDescription": "Tercihlerine göre öneriler",
+  "stepPeopleCount": "Kişi sayısı",
+  "quickDecisionThreeOptions": "3 seçenekle hızlı karar",
+  "stepBudgetTotal": "Toplam bütçe",
+  "budgetTl": "Bütçe (₺)",
+  "stepDistance": "Mesafe",
+  "locationNotSelected": "Konum seçilmedi",
+  "seeSuggestions": "Önerileri Gör",
+  "getSingleSuggestion": "Tek öneri al",
+  "go": "Git",
+  "restart": "Yeniden Başlat",
+  "quickShortcuts": "Hızlı Kısayollar",
+  "quickShortcutsSubtitle": "En sık kullanılanlar",
+  "savedItems": "Kaydettiklerim",
+  "myFriendGroup": "Arkadaş Grubum",
+  "tasteExperts": "Lezzet Uzmanları",
+  "businessTools": "İşletme Araçları",
+  "businessToolsSubtitle": "Yönetim ve içgörüler",
+  "sponsoredLabelChip": "Sponsorlu etiket",
+  "sponsored": "Sponsorlu",
+  "ready": "Hazır",
+  "plan": "plan",
+  "sponsoredDisclosure": "Sponsorlu içerik",
+  "sponsoredTooltip": "Bu içerik sponsorlu olabilir.",
+  "localInsightsReady": "Yerel içgörüler hazır",
+  "@localInsightsReady": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "show": "Göster",
+  "restaurant": "Restoran",
+  "cafe": "Kafe",
+  "venue": "Mekan",
+  "notifications": "Bildirimler",
+  "businessPackage": "İşletme Paketi",
+  "redirectToReservation": "Rezervasyona yönlendir",
+  "priceAlerts": "Fiyat Uyarıları",
+  "corporateIntegration": "Kurumsal Entegrasyon",
+  "detailedReports": "Detaylı Raporlar",
+  "qrTools": "QR Araçları",
+  "unlockNewFeatures": "Yeni özelliklerin kilidini aç",
+  "branchManagement": "Şube Yönetimi",
+  "menuWithQr": "QR ile Menü",
+  "newFeatures": "Yeni Özellikler",
+  "nearOpenSectionTitle": "Yakında Açık Olanlar",
+  "@nearOpenSectionTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "mostViewedThisWeekTitle": "Bu Haftanın En Çok Görüntülenenleri",
+  "@mostViewedThisWeekTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "noViewDataInArea": "Bölgede görüntüleme verisi yok",
+  "viewsMetric": "görüntüleme",
+  "@viewsMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "highestPriceChangeTitle": "En Yüksek Fiyat Değişimi",
+  "@highestPriceChangeTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "noPriceMovementInArea": "Bölgede fiyat hareketi yok",
+  "priceChangeMetric": "fiyat değişimi",
+  "@priceChangeMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nightOpenFavoritesTitle": "Gece Açık Favoriler",
+  "@nightOpenFavoritesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "noNightOpenFavoritesInArea": "Bölgede gece açık favori yok",
+  "followersMetric": "takipçi",
+  "@followersMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "popularCategoriesTitle": "Popüler Kategoriler",
+  "@popularCategoriesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "regionalPriceIndexTitle": "Bölgesel Fiyat Endeksi",
+  "@regionalPriceIndexTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "detailedAnalysis": "Detaylı Analiz",
+  "loadWhenScrolledDown": "Aşağı kaydırınca yüklenir",
+  "anomalyMonitoringTitle": "{area} anomali izlemesi",
+  "@anomalyMonitoringTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "general": "Genel",
+  "priceIndexLoadFailed": "Fiyat endeksi yüklenemedi",
+  "noPriceIndexDataInArea": "Bölgede fiyat endeksi verisi yok",
+  "medianPriceLabel": "Medyan fiyat {price}",
+  "@medianPriceLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "anomalyListLoadFailed": "Anomali listesi yüklenemedi",
+  "noPriceAnomalyLast30Days": "Son 30 günde fiyat anomalisi yok",
+  "sectionLoadFailed": "Bölüm yüklenemedi",
+  "rankedAt": "Sıra: {rank}",
+  "@rankedAt": {
+    "placeholders": {
+      "prefix": {
+        "type": "String"
+      },
+      "rank": {
+        "type": "int"
+      }
+    }
+  },
+  "yourScore": "Puanın: {score}",
+  "createGroup": "Grup kur",
+  "newPlaces": "Yeni yerler",
+  "campaignEnded": "bitti",
+  "timeDays": "{count} gün",
+  "@timeDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHours": "{count} saat",
+  "@timeHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeMinutes": "{count} dk",
+  "@timeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} gün önce",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} saat önce",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeMinutesAgo": "{count} dakika önce",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statusVerifiedShort": "Doğrulandı",
+  "statusMixedShort": "Karışık",
+  "statusOutdatedShort": "Güncel Değil",
+  "statusUnknownShort": "Bilinmiyor",
+  "threeMonthsShort": "(3 Ay)",
+  "versionAndSource": "Sürüm ve kaynak",
+  "@versionAndSource": {
+    "placeholders": {
+      "version": {
+        "type": "int"
+      },
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "sourceOwner": "Kaynak: işletme",
+  "sourceCommunity": "topluluk",
+  "sourceAi": "otomatik",
+  "shareBusinessMessage": "İşletmeyi paylaş",
+  "@shareBusinessMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "location": {
+        "type": "String"
+      },
+      "web": {
+        "type": "String"
+      },
+      "deep": {
+        "type": "String"
+      }
+    }
+  },
+  "noLinkFound": "Bağlantı bulunamadı",
+  "newEmbedLinksWillAppear": "Yeni gömülü bağlantılar burada görünecek.",
+  "link": "Bağlantı",
+  "untitledLink": "Başlıksız bağlantı",
+  "menuShareNotFoundTitle": "Menü bulunamadı • {appName}",
+  "@menuShareNotFoundTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "menuShareNotFoundDescription": "Paylaşılan menü içeriği bulunamadı.",
+  "menuContentNotFound": "Menü içeriği bulunamadı",
+  "openAppForBetterExperience": "Daha iyi deneyim için uygulamayı aç.",
+  "openApp": "Uygulamayı Aç",
+  "nearbyPeopleViewed": "Yakındaki kişiler görüntüledi",
+  "@nearbyPeopleViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "verifiedPrices": "Doğrulanmış fiyatlar",
+  "selectRatingFirst": "Önce puan seç",
+  "thankYou": "Teşekkürler",
+  "noProductsFound": "Ürün bulunamadı",
+  "preparedWithApp": "Uygulama ile hazırlandı",
+  "@preparedWithApp": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "tableLabel": "Masa {tableNo}",
+  "@tableLabel": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    }
+  },
+  "tableServiceQuestion": "Masa servisi var mı?",
+  "@tableServiceQuestion": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    }
+  },
+  "shortNoteOptional": "Kısa not (opsiyonel)",
+  "submit": "Gönder",
+  "submitted": "Gönderildi",
+  "submitting": "Gönderiliyor",
+  "mySuggestionsTitle": "Önerilerim",
+  "mySuggestionsSubtitle": "Gönderdiğin fiyat önerileri",
+  "viewBusiness": "İşletmeyi Gör",
+  "statusApproved": "Onaylandı",
+  "statusRejected": "Reddedildi",
+  "statusPending": "Beklemede",
+  "retry": "Tekrar dene",
+  "notNow": "Şimdi değil",
+  "onboardingLiveMenusTitle": "Canlı Menüler",
+  "onboardingLiveMenusDescription": "Güncel menülere anında eriş.",
+  "onboardingContributeTitle": "Katkıda Bulun",
+  "onboardingContributeDescription": "Topluluk için fiyatları doğrula ve güncelle.",
+  "getStarted": "Başlayalım",
+  "continueAction": "Devam",
+  "register": "Kayıt Ol",
+  "login": "Giriş Yap",
+  "enableLocationTitle": "Konumu Aç",
+  "enableLocationSubtitle": "Yakındaki yerleri göstermek için konumunu aç.",
+  "locationPermissionGranted": "Konum izni verildi",
+  "locationOptionalInfo": "İstersen daha sonra da açabilirsin.",
+  "allowLocation": "Konuma izin ver",
+  "chooseLocationManually": "Konumu Elle Seç",
+  "menuReading": "Menü okunuyor",
+  "noPriceDetectionFound": "Fiyat tespiti bulunamadı",
+  "receiptOcrNotSupportedWeb": "Web sürümünde fiş OCR desteklenmiyor",
+  "receiptReading": "Fiş okunuyor",
+  "noPriceFoundOnReceipt": "Fişte fiyat bulunamadı",
+  "receiptUploading": "Fiş yükleniyor",
+  "receiptUploadFailed": "Fiş yükleme başarısız",
+  "camera": "Kamera",
+  "gallery": "Galeri",
+  "matchReceipt": "Fişi Eşleştir",
+  "matchPrices": "Fiyatları Eşleştir",
+  "autoMatchedRowsCheck": "Otomatik eşleşen satırları kontrol et.",
+  "@autoMatchedRowsCheck": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unlabeled": "Etiketsiz",
+  "priceTry": "Fiyat (₺)",
+  "selectMenuItem": "Menü ürünü seç",
+  "sendReceipt": "Fişi Gönder",
+  "sendReceiptSuggestions": "Fiş Önerilerini Gönder",
+  "selectAtLeastOneItem": "En az bir ürün seç",
+  "invalidPriceExists": "Geçersiz fiyat var",
+  "sendingReceipt": "Fiş gönderiliyor",
+  "receiptSent": "Fiş gönderildi",
+  "sendingReceiptSuggestions": "Fiş önerileri gönderiliyor",
+  "priceSuggestionsSent": "Fiyat önerileri gönderildi",
+  "searchFoodHint": "Yemek ara...",
+  "profileActive": "Profil aktif",
+  "profileLoading": "Profil yükleniyor",
+  "dietProfileNotFound": "Beslenme profili bulunamadı",
+  "noResultsFound": "Sonuç bulunamadı",
+  "allowLocationForNearby": "Yakın sonuçlar için konum izni ver",
+  "setPriceAlert": "Fiyat uyarısı kur",
+  "vegan": "Vegan",
+  "vegetarian": "Vejetaryen",
+  "lactoseFree": "Laktozsuz",
+  "maxCalories": "Maksimum kalori",
+  "onlyVerifiedPrice": "Sadece teyitli fiyat",
+  "votes": "{count} oy",
+  "@votes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "glutenFree": "Glutensiz",
+  "menuItem": "Menü ürünü",
+  "cataloged": "Kataloglu",
+  "priceAlert": "Fiyat Alarmı",
+  "priceAlertSubtitle": "Belirlediğin fiyatın altına düşünce haber verelim.",
+  "addToBill": "Hesaba Ekle",
+  "voteSaved": "Oyun kaydedildi",
+  "photoAdded": "Fotoğraf eklendi",
+  "photoQualityWarning": "Fotoğraf {warnings} görünüyor. Daha net ve aydınlık bir fotoğraf yükleyebilirsin.",
+  "@photoQualityWarning": {
+    "placeholders": {
+      "warnings": {
+        "type": "String"
+      }
+    }
+  },
+  "suggestEdit": "Düzenleme öner",
+  "verifyPriceWithReceipt": "Fiş ile fiyat doğrula",
+  "cart": "Sepet",
+  "cartEmpty": "Sepet boş",
+  "addItemToCalculate": "Hesaplamak için ürün ekle",
+  "tipPercentage": "Bahşiş Yüzdesi",
+  "serviceIncluded": "Servis dahil",
+  "coverIncluded": "Kuver dahil",
+  "subtotal": "Ara toplam",
+  "cover": "Kuver",
+  "serviceWithPercent": "Servis ({percent}%)",
+  "@serviceWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "tipWithPercent": "Bahşiş ({percent}%)",
+  "@tipWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "serviceCoverMayVary": "Servis/kuver işletmeye göre değişebilir.",
+  "estimatedTotal": "Tahmini Toplam",
+  "vatExcluded": "KDV hariç",
+  "errorOccurred": "Bir sorun oluştu",
+  "menuItemNotFoundDescription": "Aradığın ürün henüz eklenmemiş olabilir. İstersen ilk sen ekle.",
+  "trustScoreInfoNote": "Bu güven puanı kullanıcı oylaması değil, katkı kalitesinden oluşur.",
+  "plusPoints": "+{points} puan",
+  "@plusPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "verifyContributionRaisedScore": "Fiyat doğrulaman katkın puanını yükseltti.",
+  "priceVerification": "Fiyat doğrulama",
+  "priceVerificationSteps": "1) Gördüğün fiyatı yaz  2) Gerekirse not/foto ekle  3) Gönder",
+  "newPriceTry": "Yeni fiyat (₺)",
+  "note": "Not",
+  "addEvidencePhoto": "Kanıt fotoğrafı ekle",
+  "evidenceAdded": "Kanıt eklendi",
+  "menuItemName": "Ürün adı",
+  "menuItemNameRequired": "Ürün adı boş olamaz",
+  "enterValidPrice": "Geçerli bir fiyat gir",
+  "sendSuggestion": "Öneri Gönder",
+  "noChanges": "Değişiklik yok",
+  "priceCannotBeEmpty": "Fiyat boş olamaz",
+  "suggestionSentPendingApproval": "Önerin gönderildi, onay bekliyor.",
+  "noSuggestionFound": "Öneri bulunamadı",
+  "suggestedFoods": "Önerilen Yemekler",
+  "priceHistoryLast3": "Fiyat geçmişi (son 3)",
+  "price": "Fiyat",
+  "last30DaysVotes": "Son 30 gün oyları",
+  "@last30DaysVotes": {
+    "placeholders": {
+      "ok": {
+        "type": "int"
+      },
+      "bad": {
+        "type": "int"
+      }
+    }
+  },
+  "lastVerificationDate": "Son doğrulama: {date}",
+  "@lastVerificationDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "uniqueVerifiersIn48h": "48 saatte doğrulayan farklı kullanıcı: {count}",
+  "@uniqueVerifiersIn48h": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "strongConsensusPriceSafe": "Güçlü uzlaşı var, fiyat güvenli görünüyor.",
+  "priceConfidenceScore": "Fiyat güven puanı: %{score}",
+  "@priceConfidenceScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "seenCorrect": "Gördüm • Doğru",
+  "seenIncorrect": "Gördüm • Yanlış",
+  "suggestNewPrice": "Yeni fiyat öner",
+  "howCalculated": "Nasıl hesaplandı?",
+  "verificationRate": "Doğrulama oranı",
+  "recentPositiveVotes": "Son olumlu oylar",
+  "priceStability": "Fiyat istikrarı",
+  "priceChangeLast30Days": "Son 30 günde fiyat değişimi: {count}",
+  "@priceChangeLast30Days": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scoreForInfoOnly": "Bu skor yalnızca bilgilendirme amaçlıdır.",
+  "pricePerformance": "Fiyat/Performans",
+  "valueScoreFormulaHint": "Doğrulama oranı, son olumlu oylar ve fiyat istikrarına göre hesaplanır.",
+  "menuPhotos": "Menü Fotoğrafları",
+  "updateMenuEarnPoints": "Menü güncelle, puan kazan",
+  "@updateMenuEarnPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "menuPhotosHint": "Menü fotoğrafları ürünü göstermeli. Otomatik kırpılır; karanlık/flu olanlar uyarılır.",
+  "noPhotosYet": "Henüz fotoğraf yok.",
+  "yesterday": "Dün",
+  "timeMonthsAgo": "{count} ay önce",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "priceInvalid": "Fiyat geçersiz",
+  "noteNoLinkPhone": "Not alanına bağlantı veya telefon eklenemez.",
+  "noteContainsProfanity": "Notta uygunsuz ifade var.",
+  "noteTooManyEmoji": "Notta çok fazla emoji var",
+  "rateLimited24h": "24 saatlik sınır aşıldı",
+  "dailyPriceSuggestionLimitReached": "Günlük fiyat öneri limitine ulaşıldı",
+  "invalidEvidenceLink": "Kanıt bağlantısı geçersiz.",
+  "invalidCurrency": "Geçersiz para birimi",
+  "ownerSections": "Bölümler",
+  "ownerAddSection": "Bölüm Ekle",
+  "ownerSectionNotFound": "Henüz bölüm yok.",
+  "ownerEditSection": "Bölümü Düzenle",
+  "ownerDeleteSection": "Bölümü Sil",
+  "ownerSectionWillBeDeleted": "Bu bölüm silinecek.",
+  "ownerArchiveItemsInSection": "Bölümdeki ürünleri arşivle",
+  "ownerSectionAdded": "Bölüm eklendi.",
+  "ownerSectionUpdated": "Bölüm güncellendi.",
+  "ownerSectionDeleted": "Bölüm silindi.",
+  "ownerEditMenu": "Menüyü Düzenle",
+  "ownerMenuTypeOptional": "Menü türü (opsiyonel)",
+  "ownerMenuUpdated": "Menü güncellendi.",
+  "ownerArchiveMenuConfirm": "Bu menüyü arşivlemek istiyor musun?",
+  "ownerPublishMenuConfirm": "Bu menüyü yayına almak istiyor musun?",
+  "ownerSharePanel": "Menü Paylaşım Paneli",
+  "ownerMenuLink": "Menü bağlantısı",
+  "ownerQrPng": "QR PNG",
+  "ownerQrPdf": "QR PDF",
+  "ownerA6Pdf": "A6 PDF",
+  "ownerFieldGainCardTitle": "Sahada görünürlük kartı",
+  "ownerFieldGainCardLine1": "QR kartı yazdırıp müşterilere menüyü doğrulat.",
+  "ownerFieldGainCardLine2": "Menü ne kadar güncelse o kadar çok öne çıkarsın.",
+  "ownerCopyMiniDashboard": "Mini panel bağlantısını kopyala",
+  "ownerMoatTitle": "İşletme güven özeti",
+  "ownerMoatSummary": "Güven: {trust} | Menü güncelliği: {freshness} | Fiyat doğruluğu: {accuracy}",
+  "@ownerMoatSummary": {
+    "placeholders": {
+      "trust": {
+        "type": "int"
+      },
+      "freshness": {
+        "type": "int"
+      },
+      "accuracy": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerMoatSignal": "Sinyal: {validators} doğrulayıcı, kanıt oranı %{evidencePct}, bugün menü görüntüleme: {viewsToday}",
+  "@ownerMoatSignal": {
+    "placeholders": {
+      "validators": {
+        "type": "int"
+      },
+      "evidencePct": {
+        "type": "int"
+      },
+      "viewsToday": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerCopyMoatText": "Özet metni kopyala",
+  "ownerWhatsappText": "WhatsApp metni",
+  "ownerCopyWhatsapp": "WhatsApp için kopyala",
+  "ownerXText": "X (Twitter) metni",
+  "ownerCopyX": "X için kopyala",
+  "ownerInstagramBio": "Instagram biyografi metni",
+  "ownerCopyInstagram": "Instagram için kopyala",
+  "ownerCopied": "Kopyalandı",
+  "ownerNearbyViewed": "{count} kişi yakında bu menüye baktı",
+  "@ownerNearbyViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerViewed": "{count} kişi baktı",
+  "@ownerViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerCurrentMenuVerifiedPrices": "Güncel menü ve doğrulanmış fiyatlar",
+  "ownerCurrentMenuVerifiedPricesColon": "Güncel menü ve doğrulanmış fiyatlar:",
+  "ownerStatusPublished": "Yayında",
+  "ownerStatusArchived": "Arşivde",
+  "ownerStatusDraft": "Taslak",
+  "ownerMenuStatus": "Durum: {status}",
+  "@ownerMenuStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerProducts": "Ürünler",
+  "ownerApplying": "Uygulanıyor...",
+  "ownerBulkPrice": "Toplu Fiyat",
+  "ownerCsvImport": "CSV İçe Aktar",
+  "ownerAddItem": "Ürün Ekle",
+  "ownerProductNotFound": "Henüz ürün yok.",
+  "ownerLoadMore": "Daha fazla yükle",
+  "ownerEditItem": "Ürünü Düzenle",
+  "ownerItemAdded": "Ürün eklendi.",
+  "ownerItemUpdated": "Ürün güncellendi.",
+  "ownerArchiveItemConfirm": "Bu ürünü arşivlemek istiyor musun?",
+  "ownerItemArchived": "Ürün arşivlendi.",
+  "ownerBulkPriceUpdate": "Toplu fiyat güncelle",
+  "ownerMethod": "Yöntem",
+  "ownerPercent": "Yüzde",
+  "ownerFixedAmountTl": "Sabit tutar (TL)",
+  "ownerOperation": "İşlem",
+  "ownerIncrease": "Artır",
+  "ownerDecrease": "Azalt",
+  "ownerValuePercent": "Değer (%)",
+  "ownerValueTl": "Değer (TL)",
+  "ownerEnterValidValue": "Lütfen geçerli bir değer gir.",
+  "ownerUpdatedItemPrices": "{count} ürünün fiyatı güncellendi.",
+  "@ownerUpdatedItemPrices": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerCsvFormatHint": "Format: ad,fiyat,açıklama,para_birimi",
+  "ownerSelecting": "Seçiliyor...",
+  "ownerSelectFile": "Dosya Seç",
+  "ownerCsvExample": "Döner,220,100 gr et,TRY",
+  "ownerImportContent": "İçe Aktar",
+  "ownerNoValidRows": "Geçerli satır bulunamadı.",
+  "ownerImportedItems": "{success} ürün içe aktarıldı.",
+  "@ownerImportedItems": {
+    "placeholders": {
+      "success": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerImportedItemsWithSkipped": "{success} ürün eklendi, {failed} satır atlandı.",
+  "@ownerImportedItemsWithSkipped": {
+    "placeholders": {
+      "success": {
+        "type": "int"
+      },
+      "failed": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerAreYouSure": "Emin misin?",
+  "ownerConfirm": "Onayla",
+  "ownerArchiveAction": "Arşivle",
+  "ownerPublishAction": "Yayına Al",
+  "ownerDelete": "Sil",
+  "ownerItemName": "Ürün adı",
+  "ownerDescriptionOptional": "Açıklama (opsiyonel)",
+  "ownerPriceTl": "Fiyat (TL)",
+  "ownerCurrency": "Para birimi",
+  "ownerCatalogSearch": "Katalog ara",
+  "ownerCatalogSearchHint": "Örn: Köfte, Burger...",
+  "ownerSelectedCatalogId": "Seçili katalog ID: {id}",
+  "@ownerSelectedCatalogId": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerItemNameMin2": "Ürün adı en az 2 karakter olmalı.",
+  "ownerInvalidPrice": "Fiyat geçersiz.",
+  "ownerVariants": "Varyantlar",
+  "ownerAddVariant": "Varyant Ekle",
+  "ownerNoVariantsHint": "Bu ürün için henüz varyant yok. Örnek: 80gr / 120gr",
+  "ownerDefaultVariant": "Varsayılan",
+  "ownerSetDefault": "Varsayılan yap",
+  "ownerLabelExample": "Etiket (örn: 120gr)",
+  "ownerDefaultVariantSwitch": "Varsayılan varyant",
+  "ownerPhotos": "Fotoğraflar",
+  "ownerUploading": "Yükleniyor...",
+  "ownerAddPhoto": "Fotoğraf Ekle",
+  "ownerNoPhotoYet": "Henüz fotoğraf yok.",
+  "ownerViewAll": "Tümünü gör",
+  "ownerPhotoUploaded": "Fotoğraf yüklendi.",
+  "ownerDeletePhoto": "Fotoğrafı sil",
+  "ownerDeletePhotoConfirm": "Bu fotoğraf silinecek.",
+  "ownerPhotoDeleted": "Fotoğraf silindi.",
+  "adminAppealsTitle": "İtiraz Kuyruğu",
+  "adminAppealsEmptySla": "İtiraz yok. Hedef süre: rapor 24 saat, sahiplik talebi 48 saat.",
+  "adminAppealSourceAndUser": "Kaynak: {sourceId} · Kullanıcı: {userId}",
+  "@adminAppealSourceAndUser": {
+    "placeholders": {
+      "sourceId": {
+        "type": "String"
+      },
+      "userId": {
+        "type": "String"
+      }
+    }
+  },
+  "adminAppealDecisionTitle": "İtiraz Kararı · {id}",
+  "@adminAppealDecisionTitle": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "adminAppealApproveAction": "Onayla",
+  "adminAppealRejectAction": "Reddet",
+  "adminAppealDecisionLabel": "Karar",
+  "adminAppealTemplateLabel": "Hazır şablon",
+  "adminAppealDecisionTextLabel": "Karar metni",
+  "adminAppealDecisionTextHint": "Kullanıcıya gösterilecek kısa açıklama",
+  "ownerNewBusinessTitle": "Yeni işletme ekle",
+  "ownerNewBusinessIntro": "Yeni işletmeni eklemek için bilgileri doldur.",
+  "ownerBusinessNameLabel": "İşletme adı",
+  "ownerCategoryLabel": "Kategori",
+  "ownerAddressLabel": "Adres",
+  "ownerPhoneOptionalLabel": "Telefon (opsiyonel)",
+  "ownerWebsiteOptionalLabel": "Web sitesi (opsiyonel)",
+  "ownerSubmitApplication": "Başvuruyu gönder",
+  "ownerSubmitting": "Gönderiliyor...",
+  "ownerRequiredFieldsWarning": "Lütfen zorunlu alanları doldur.",
+  "ownerApplicationReceived": "Başvuru alındı.",
+  "ownerBusinessesTitle": "İşletmelerim",
+  "ownerChainPage": "Zincir sayfası",
+  "ownerMyApplications": "Başvurularım",
+  "ownerLinksUpdated": "Linkler güncellendi.",
+  "ownerReservationOrderLinksTitle": "Rezervasyon ve sipariş linkleri",
+  "ownerReservationUrlLabel": "Rezervasyon URL",
+  "ownerYemeksepetiUrlLabel": "Yemeksepeti URL",
+  "ownerTrendyolGoUrlLabel": "Trendyol Go URL",
+  "ownerGetirUrlLabel": "Getir URL",
+  "ownerChainLabel": "Marka/Zincir",
+  "ownerAllBranches": "Tüm şubeler",
+  "ownerBranchLabel": "Şube",
+  "ownerChainPrefix": "Zincir: {chain}",
+  "@ownerChainPrefix": {
+    "placeholders": {
+      "chain": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerPriceVerificationAction": "Fiyat doğrulama",
+  "ownerRequestsAction": "Talepler",
+  "ownerRequestsOwnerOnly": "Talepler (yalnızca işletme sahibi)",
+  "ownerReservationOrderLinksAction": "Rezervasyon ve sipariş linkleri",
+  "ownerStatsNotFound": "İstatistik bulunamadı.",
+  "ownerPerformanceLast30Days": "Son 30 gün performans",
+  "ownerMetricMenuViews": "Menü görüntülenme",
+  "ownerMetricQrScans": "QR tarama",
+  "ownerMetricSearchImpressions": "Arama gösterimi",
+  "ownerMetricConversion": "Dönüşüm",
+  "ownerMetricOutboundClicks": "Dış bağlantı tıklamaları",
+  "ownerMetricPriceDropoff": "Fiyat nedeniyle vazgeçme (tahmini)",
+  "ownerMetricPriceVsCompetitors": "Rakibe göre fiyat",
+  "ownerOutboundClicksValue": "{outbound} (Rez: {reservation}, Sipariş: {order})",
+  "@ownerOutboundClicksValue": {
+    "placeholders": {
+      "outbound": {
+        "type": "int"
+      },
+      "reservation": {
+        "type": "int"
+      },
+      "order": {
+        "type": "int"
+      }
+    }
+  },
+  "ownerPricePositionHigher": "Daha pahalı{pct}",
+  "@ownerPricePositionHigher": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerPricePositionLower": "Daha uygun{pct}",
+  "@ownerPricePositionLower": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "ownerPricePositionSimilar": "Pazarla uyumlu",
+  "ownerPricePositionNoData": "Yeterli veri yok",
+  "ownerNoBusinessesTitle": "Henüz işletme yok",
+  "ownerNoBusinessesDescription": "Yeni işletme başvurusu oluşturabilirsin.",
+  "ownerRoleOwner": "İşletme sahibi",
+  "ownerRoleManager": "Yönetici",
+  "ownerMenuAction": "Menü",
+  "city": "Şehir",
+  "district": "İlçe",
+  "ownerActiveRange": "Aktif: {from} - {to}",
+  "@ownerActiveRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "vatIncluded": "KDV dahil"
+}

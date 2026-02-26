@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "sehir_id": "23",
+    "sehir_adi": "ELAZIĞ",
+    "ilce_id": "1631",
+    "ilce_adi": "SİVRİCE",
+    "bbox_used": {
+      "south": 38.2992522,
+      "west": 38.867576,
+      "north": 38.5157913,
+      "east": 39.4464878
+    },
+    "bbox_original": {
+      "south": 38.2992522,
+      "west": 38.867576,
+      "north": 38.5157913,
+      "east": 39.4464878
+    },
+    "fetchedAt": "2026-01-21T08:57:48.114Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:56:31Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13049625025,
+        "lat": 38.4820238,
+        "lon": 39.3123184,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1275500262,
+        "center": {
+          "lat": 38.4941175,
+          "lon": 39.3517491
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "bar": "yes",
+          "building": "yes",
+          "cuisine": "turkish;kebab;fish",
+          "name": "Mavigöl Restaurant",
+          "opening_hours": "Mo-Su 08:00-24:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 532 540 94 23",
+          "toilets": "yes",
+          "website": "www.mavigol.com.tr",
+          "website:menu": "https://mavigolotel.bisiparis.com/restaurant-18108"
+        }
+      }
+    ]
+  }
+}

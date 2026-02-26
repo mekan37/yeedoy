@@ -1,0 +1,726 @@
+{
+  "meta": {
+    "sehir_id": "65",
+    "sehir_adi": "VAN",
+    "ilce_id": "1918",
+    "ilce_adi": "EDREMİT",
+    "bbox_used": {
+      "south": 38.2937824,
+      "west": 42.8834995,
+      "north": 38.5932883,
+      "east": 43.5277193
+    },
+    "bbox_original": {
+      "south": 38.2937824,
+      "west": 42.8834995,
+      "north": 38.5932883,
+      "east": 43.5277193
+    },
+    "fetchedAt": "2026-01-21T10:48:23.635Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 60
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:46:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4204424639,
+        "lat": 38.4849513,
+        "lon": 43.3659046,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Derman Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4455275789,
+        "lat": 38.508096,
+        "lon": 43.3752869,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Merkez Et Lokantası",
+          "name:tr": "Merkez Et Lokantası",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "phone": "+90 432 216 9701"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4455277289,
+        "lat": 38.500126,
+        "lon": 43.3730189,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Anadolu Kaburga Et & Restaurant",
+          "name:tr": "Anadolu Kaburga"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5153808621,
+        "lat": 38.4983074,
+        "lon": 43.3951742,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Oz Sark Sofrasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5164329523,
+        "lat": 38.4987398,
+        "lon": 43.3938281,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aslı cafe",
+          "name:en": "Wraps, Krepes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5219272621,
+        "lat": 38.5009553,
+        "lon": 43.3948374,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Kahvaltı salonu - süctü selim",
+          "name:en": "Breakfast hall - süctü selim",
+          "name:fr": "Salon de petit déjeuner - süctü selim"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5221106824,
+        "lat": 38.5014046,
+        "lon": 43.3949897,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "email": "kenanaga65@hotmail.com",
+          "name": "Kahrvaltı salonu - süctü Kenan",
+          "name:en": "Breakfast Hall - Süctü Kenan",
+          "name:fr": "Petit déjeuner - Süctü Kenan",
+          "phone": "+905333846785",
+          "website": "http://www.vandakahrvalti.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5235155622,
+        "lat": 38.500627,
+        "lon": 43.374843,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hacıoğlu Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5235155623,
+        "lat": 38.5011349,
+        "lon": 43.3765324,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Surdibi Ciğercisi",
+          "opening_hours": "24/7",
+          "phone": "+90 530 631 1465"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5235155822,
+        "lat": 38.5009834,
+        "lon": 43.3715374,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aşiyan Ev Yemekleri",
+          "opening_hours": "Mo-Su 10:30-21:30",
+          "phone": "+90 432 212 4190"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5235173521,
+        "lat": 38.5088315,
+        "lon": 43.3710541,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Miroğlu Ocakbaşı",
+          "opening_hours": "Mo-Su 09:00-19:00",
+          "phone": "+90 432 216 0025"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5293914322,
+        "lat": 38.4999321,
+        "lon": 43.3917414,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Eskici"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5298008121,
+        "lat": 38.5010351,
+        "lon": 43.3951694,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Caykovski",
+          "name:ru": "Чайковский"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5298008122,
+        "lat": 38.4222459,
+        "lon": 43.2840897,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Micro mara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5411748321,
+        "lat": 38.5016665,
+        "lon": 43.3950689,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "yöresel van kahvalti salonu",
+          "phone": "2153404"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5416001222,
+        "lat": 38.4989427,
+        "lon": 43.3909791,
+        "tags": {
+          "amenity": "bar",
+          "name": "leylek bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5416001223,
+        "lat": 38.4983348,
+        "lon": 43.3932498,
+        "tags": {
+          "addr:housenumber": "67",
+          "addr:postcode": "65030",
+          "addr:street": "bahçivan mahallesi, Karim karabekir blv.3",
+          "amenity": "bar",
+          "internet_access": "wlan",
+          "name": "Nice bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5480559721,
+        "lat": 38.4976698,
+        "lon": 43.3926382,
+        "tags": {
+          "amenity": "bar",
+          "name:en": "rythme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5514925921,
+        "lat": 38.4994906,
+        "lon": 43.3862377,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "sandwich;sushi;tea;persian;pasta;pizza;spanish;turkish;thai",
+          "internet_access": "wlan",
+          "name": "Desotti"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5577642021,
+        "lat": 38.4895037,
+        "lon": 43.3688853,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Güven Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6754139859,
+        "lat": 38.4982208,
+        "lon": 43.3932789,
+        "tags": {
+          "amenity": "bar",
+          "name:en": "HINAR CAFE & BAR"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6754140792,
+        "lat": 38.4981359,
+        "lon": 43.3932825,
+        "tags": {
+          "amenity": "bar",
+          "name:en": "Yeni & Eski Cafe Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6796584424,
+        "lat": 38.4179992,
+        "lon": 43.2341919,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6984228161,
+        "lat": 38.4255979,
+        "lon": 43.2608948,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ahtamara Organik Khavalti",
+          "name:en": "Best place for breakfast in Van (organic and homemade)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7029724985,
+        "lat": 38.4987623,
+        "lon": 43.3983565,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Kopi Tüwak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7031040085,
+        "lat": 38.4996107,
+        "lon": 43.3906047,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name:en": "Four FM cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7086807485,
+        "lat": 38.4257391,
+        "lon": 43.2604807,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ahtamara Organik Kavhaltnik",
+          "name:en": "Best breakfast in Van (Organic and home-made)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7611125356,
+        "lat": 38.4994408,
+        "lon": 43.3944701,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Big Mamma's"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8335774198,
+        "lat": 38.4928346,
+        "lon": 43.3972897,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "dicle pide lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9877648619,
+        "lat": 38.4997802,
+        "lon": 43.3915945,
+        "tags": {
+          "addr:street": "Bahçıvan Mah.",
+          "amenity": "pub",
+          "name": "the north shield"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10279530509,
+        "lat": 38.4239209,
+        "lon": 43.2423275,
+        "tags": {
+          "addr:street": "Eski Cami, Sahil Cad No:435, 65170 Edremit/Van",
+          "amenity": "restaurant",
+          "name": "Altınsu Balık Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10567712209,
+        "lat": 38.4977961,
+        "lon": 43.3898011,
+        "tags": {
+          "amenity": "restaurant",
+          "contact:instagram": "van_menceli",
+          "name:en": "Mencel",
+          "outdoor_seating": "no",
+          "website": "http://www.vanmenceli.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10784690598,
+        "lat": 38.5132278,
+        "lon": 43.3745828,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mevlana Kebab"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10799752904,
+        "lat": 38.5059931,
+        "lon": 43.3957326,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Hacıbey"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11001864505,
+        "lat": 38.5010785,
+        "lon": 43.3747499,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hanedan Sofrasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11113251505,
+        "lat": 38.486218,
+        "lon": 43.366256,
+        "tags": {
+          "amenity": "restaurant",
+          "name:tr": "Erkoç Çağ Kebab"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118315105,
+        "lat": 38.4254847,
+        "lon": 43.2945122,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Van Belediyesi Sosyal Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11118566106,
+        "lat": 38.4232628,
+        "lon": 43.2924517,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hacıoğlu Kebapçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11119571305,
+        "lat": 38.4995524,
+        "lon": 43.3877113,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Etçi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11123578605,
+        "lat": 38.5049678,
+        "lon": 43.374218,
+        "tags": {
+          "amenity": "restaurant",
+          "contact:facebook": "https://facebook.com/people/ROYAL-Ko%C3%A7-Ca%C4%9F-Kebap",
+          "cuisine": "turkish",
+          "name": "Royal Koç Çağ",
+          "name:en": "Royal Koç Çağ Kebabı",
+          "name:tr": "Royal Koç Cağ Kebabı",
+          "opening_hours": "Mo-Su 09:00-22:00",
+          "phone": "+90 553 300 25 65"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11125690207,
+        "lat": 38.4993472,
+        "lon": 43.3996453,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Elit Pasta & Café"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11201759546,
+        "lat": 38.4294252,
+        "lon": 43.3023963,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "breakfast;regional;tea",
+          "diet:halal": "yes",
+          "name": "Sütçü Fevzi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11862768874,
+        "lat": 38.4917954,
+        "lon": 43.3938354,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-28",
+          "name": "İpek Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11862768879,
+        "lat": 38.4927902,
+        "lon": 43.3937541,
+        "tags": {
+          "addr:floor": "2",
+          "amenity": "cafe",
+          "check_date": "2024-04-29",
+          "name": "Pidem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11862768880,
+        "lat": 38.492677,
+        "lon": 43.3932318,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-04-28",
+          "name": "Bursa Kebap Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11862768882,
+        "lat": 38.4929371,
+        "lon": 43.3936618,
+        "tags": {
+          "addr:floor": "2",
+          "amenity": "cafe",
+          "check_date": "2024-04-29",
+          "name": "Mom'Steak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11862768884,
+        "lat": 38.4928245,
+        "lon": 43.3931762,
+        "tags": {
+          "addr:floor": "2",
+          "amenity": "cafe",
+          "check_date": "2024-04-29",
+          "name": "Star Cafe 2000"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11866989250,
+        "lat": 38.4932249,
+        "lon": 43.3931776,
+        "tags": {
+          "addr:floor": "0",
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "check_date": "2024-04-29",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11866989251,
+        "lat": 38.4928174,
+        "lon": 43.3930602,
+        "tags": {
+          "addr:floor": "0",
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "check_date": "2024-04-29",
+          "cuisine": "coffee_shop",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11870471491,
+        "lat": 38.4689672,
+        "lon": 43.3375807,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-01",
+          "level": "1",
+          "name": "Vianni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11870640260,
+        "lat": 38.469307,
+        "lon": 43.3381028,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-01",
+          "level": "0",
+          "name": "Damak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13342564903,
+        "lat": 38.5021714,
+        "lon": 43.3836896,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hacioğlu Kebapçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13343968504,
+        "lat": 38.4982486,
+        "lon": 43.3869338,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lalezar Pide & Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13343968801,
+        "lat": 38.4987845,
+        "lon": 43.3869929,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Urartu Han"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13343993201,
+        "lat": 38.498654,
+        "lon": 43.3867951,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Safiye"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13344147201,
+        "lat": 38.4994841,
+        "lon": 43.3883967,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Etçi Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13344150501,
+        "lat": 38.4993473,
+        "lon": 43.3891497,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tavuk Dünyası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 134546517,
+        "center": {
+          "lat": 38.5017401,
+          "lon": 43.3769128
+        },
+        "tags": {
+          "addr:city": "Van",
+          "addr:district": "İpekyolu",
+          "addr:housenumber": "37",
+          "addr:neighbourhood": "Alipaşa Mah.",
+          "addr:postcode": "65100",
+          "addr:street": "Sıhke Caddesi",
+          "amenity": "restaurant",
+          "building": "apartments",
+          "building:levels": "5",
+          "cuisine": "breakfast;kahvaltı",
+          "height": "20",
+          "name": "bak hele bak kahvaltı kültür sarayı",
+          "opening_hours": "Mo-Fr 08:00-17:00",
+          "phone": "+904322142938",
+          "source": "Bing;local knowledge;streetlevel imagery",
+          "website": "bakhelebak065@gmail.com"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1058289369,
+        "center": {
+          "lat": 38.3140351,
+          "lon": 43.1162708
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Grandeniz Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1279419338,
+        "center": {
+          "lat": 38.4960923,
+          "lon": 43.3360347
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Şehr-i Van"
+        }
+      }
+    ]
+  }
+}

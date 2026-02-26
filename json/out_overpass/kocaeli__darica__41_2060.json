@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "41",
+    "sehir_adi": "KOCAELİ",
+    "ilce_id": "2060",
+    "ilce_adi": "DARICA",
+    "bbox_used": {
+      "south": 40.7864044,
+      "west": 29.3869092,
+      "north": 40.7964044,
+      "east": 29.3969092
+    },
+    "bbox_original": {
+      "south": 40.7864044,
+      "west": 29.3869092,
+      "north": 40.7964044,
+      "east": 29.3969092
+    },
+    "fetchedAt": "2026-01-21T09:42:22.402Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:40:25Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

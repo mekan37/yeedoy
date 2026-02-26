@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1937",
+    "ilce_adi": "HALKAPINAR",
+    "bbox_used": {
+      "south": 37.2499804,
+      "west": 34.1306591,
+      "north": 37.5259284,
+      "east": 34.4620114
+    },
+    "bbox_original": {
+      "south": 37.2499804,
+      "west": 34.1306591,
+      "north": 37.5259284,
+      "east": 34.4620114
+    },
+    "fetchedAt": "2026-01-21T09:51:08.518Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:49:34Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

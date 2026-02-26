@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "25",
+    "sehir_adi": "ERZURUM",
+    "ilce_id": "1567",
+    "ilce_adi": "PASİNLER",
+    "bbox_used": {
+      "south": 39.8011672,
+      "west": 41.4121816,
+      "north": 40.2100777,
+      "east": 41.8412547
+    },
+    "bbox_original": {
+      "south": 39.8011672,
+      "west": 41.4121816,
+      "north": 40.2100777,
+      "east": 41.8412547
+    },
+    "fetchedAt": "2026-01-21T09:01:00.161Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:59:35Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10141154219,
+        "lat": 39.9704198,
+        "lon": 41.426604,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Locantasi"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,1937 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "2057",
+    "ilce_adi": "KARABAĞLAR",
+    "bbox_used": {
+      "south": 38.2882543,
+      "west": 26.9391202,
+      "north": 38.4061775,
+      "east": 27.1426517
+    },
+    "bbox_original": {
+      "south": 38.2882543,
+      "west": 26.9391202,
+      "north": 38.4061775,
+      "east": 27.1426517
+    },
+    "fetchedAt": "2026-01-21T09:30:09.534Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 157
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:29:02Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1216032630,
+        "lat": 38.3998912,
+        "lon": 27.1073163,
+        "tags": {
+          "addr:street": "259 Sok.",
+          "amenity": "cafe",
+          "name": "Digiturk Park Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2355153191,
+        "lat": 38.4021925,
+        "lon": 27.1175515,
+        "tags": {
+          "amenity": "pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2355153252,
+        "lat": 38.4024199,
+        "lon": 27.117684,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3825574911,
+        "lat": 38.3106527,
+        "lon": 27.1380601,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4131273090,
+        "lat": 38.3187304,
+        "lon": 27.131296,
+        "tags": {
+          "amenity": "cafe",
+          "name": "TRİLEÇE DÜNYASI"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4131284889,
+        "lat": 38.3236595,
+        "lon": 27.1356021,
+        "tags": {
+          "amenity": "cafe",
+          "name": "etiler trilece kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4142189790,
+        "lat": 38.3757432,
+        "lon": 27.0740109,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "selway outlet vanilya house"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4142189791,
+        "lat": 38.3992026,
+        "lon": 27.0751838,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Askeriye"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4142189990,
+        "lat": 38.3944635,
+        "lon": 27.0041744,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "annem pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4156913489,
+        "lat": 38.3490148,
+        "lon": 27.1391882,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "yeğenin yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174613990,
+        "lat": 38.3185734,
+        "lon": 27.1389237,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "cadde restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174657889,
+        "lat": 38.3935066,
+        "lon": 27.1129916,
+        "tags": {
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658389,
+        "lat": 38.3190674,
+        "lon": 27.134647,
+        "tags": {
+          "name": "TRİLEÇE DÜNYASI BÜRO",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658489,
+        "lat": 38.3237749,
+        "lon": 27.1356018,
+        "tags": {
+          "amenity": "cafe",
+          "name": "trileçe dünyası etiler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658490,
+        "lat": 38.4053772,
+        "lon": 27.0707727,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "boğaziçi inciraltı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4212711996,
+        "lat": 38.3105282,
+        "lon": 27.1378912,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "en nefis cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4279887592,
+        "lat": 38.3123553,
+        "lon": 27.1418301,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kırçiçeği"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4358654791,
+        "lat": 38.3953585,
+        "lon": 27.0414434,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "name:en": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4358654792,
+        "lat": 38.3940515,
+        "lon": 27.0416673,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Alsancak Unlu mamülleri",
+          "name:en": "Alsancak Unlu mamülleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4358686689,
+        "lat": 38.3946078,
+        "lon": 27.0490866,
+        "tags": {
+          "amenity": "cafe",
+          "branch": "Pastanesi",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "name:en": "Mado",
+          "takeaway": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4379305793,
+        "lat": 38.315836,
+        "lon": 27.1350128,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "international",
+          "internet_access": "wlan",
+          "name": "MyHouse Cafe&Restaurant",
+          "name:tr": "MyHouse Cafe&Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4464895893,
+        "lat": 38.4013451,
+        "lon": 27.1023783,
+        "tags": {
+          "addr:street": "İnönü Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "check_date": "2024-05-19",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5157015523,
+        "lat": 38.4020181,
+        "lon": 27.117142,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Deryasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5216895021,
+        "lat": 38.3985581,
+        "lon": 27.0828813,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bıyık Nargile Evi - Vision Port"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5284633586,
+        "lat": 38.3256145,
+        "lon": 27.1317256,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kral Künefe",
+          "wheelchair": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5388472385,
+        "lat": 38.3932553,
+        "lon": 27.0848255,
+        "tags": {
+          "name": "Poligon",
+          "public_transport": "station",
+          "railway": "station",
+          "shop": "confectionery",
+          "station": "subway",
+          "subway": "yes",
+          "wheelchair": "no",
+          "wikidata": "Q25479552",
+          "wikimedia_commons": "Category:Poligon metro station",
+          "wikipedia": "tr:Poligon (İzmir Metrosu)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6126053815,
+        "lat": 38.3938318,
+        "lon": 27.038245,
+        "tags": {
+          "addr:city": "Balçova/İzmir",
+          "addr:district": "Balçova",
+          "addr:housenumber": "263/C",
+          "addr:neighbourhood": "Korutürk Mahallesi",
+          "addr:postcode": "35330",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "restaurant",
+          "capacity": "80",
+          "contact:facebook": "https://www.facebook.com/pages/K%C3%B6fteci-Zeki-Usta/239223076617027",
+          "contact:instagram": "http://www.instagram.com/kofteci.zeki.usta",
+          "contact:phone": "+90 232 278 7463",
+          "contact:website": "http://www.koftecizekiusta.com/",
+          "cuisine": "turkish",
+          "delivery": "yes",
+          "name": "Köfteci Zeki Usta",
+          "opening_hours": "Mo-Su 11:30-23:30",
+          "outdoor_seating": "yes",
+          "smoking": "outside",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6253345385,
+        "lat": 38.3888839,
+        "lon": 27.0951977,
+        "tags": {
+          "name": "Dinç Unlu Mamüller",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8824620638,
+        "lat": 38.3943348,
+        "lon": 27.1006963,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şirin Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9215806359,
+        "lat": 38.3944261,
+        "lon": 27.0097948,
+        "tags": {
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "shop": "coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/60194-294502/narlidere"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9520600321,
+        "lat": 38.3291786,
+        "lon": 27.1293229,
+        "tags": {
+          "addr:city": "Irmak Mahallesi",
+          "addr:housenumber": "89",
+          "addr:neighbourhood": "Irmak Mahallesi",
+          "addr:postcode": "35410",
+          "addr:street": "Hasan Güven Cd",
+          "amenity": "restaurant",
+          "cuisine": "fırın",
+          "name": "Karasalihoğulları",
+          "phone": "+902322525558"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9521324043,
+        "lat": 38.3765653,
+        "lon": 27.1345327,
+        "tags": {
+          "addr:city": "Yunus Emre Mahallesi",
+          "addr:housenumber": "400",
+          "addr:neighbourhood": "Yunus Emre Mahallesi",
+          "addr:postcode": "35130",
+          "addr:street": "Yeşillik Caddesi",
+          "amenity": "cafe",
+          "name": "İmren Ekmek Ve Unlu Mamüller",
+          "phone": "+902322532601"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9573108455,
+        "lat": 38.4044702,
+        "lon": 27.1192834,
+        "tags": {
+          "name": "Baklavacı Özhacılar",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9573108695,
+        "lat": 38.4035821,
+        "lon": 27.118158,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Not Bad"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9573108696,
+        "lat": 38.4038074,
+        "lon": 27.1183851,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Brew Mood Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9699960999,
+        "lat": 38.3992536,
+        "lon": 27.068421,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Balçova",
+          "addr:housenumber": "Pazaryeri Katı",
+          "addr:neighbourhood": "Bahçelerarası Mahallesi",
+          "addr:postcode": "35330",
+          "addr:street": "Ali Resmi Tufan Caddesi",
+          "amenity": "cafe",
+          "branch": "Kahvaltı ve Branch Mekanı",
+          "cuisine": "coffee_shop;ice_cream;french",
+          "delivery": "yes",
+          "diet:gluten_free": "yes",
+          "diet:vegan": "yes",
+          "internet_access": "wlan",
+          "internet_access:fee": "customers",
+          "name": "Lime Alaçatı - İstinye Park",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "no",
+          "phone": "+90 531 082 35 35",
+          "website": "https://limealacati.com/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9809452910,
+        "lat": 38.3992508,
+        "lon": 27.079909,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee",
+          "name": "Coffeemania"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9811565137,
+        "lat": 38.4053101,
+        "lon": 27.0985077,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-06-24",
+          "name": "Orkinos"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9843964020,
+        "lat": 38.4005451,
+        "lon": 27.1042049,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "burger",
+          "name": "Ozzo Kitchen"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9843965117,
+        "lat": 38.4006045,
+        "lon": 27.1042231,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Pizza Locale"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9914731848,
+        "lat": 38.4022443,
+        "lon": 27.1159255,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "waffle",
+          "name": "Waffle atölyesi",
+          "website": "https://waffleatolyesi.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10101190750,
+        "lat": 38.3988794,
+        "lon": 27.0785356,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2022-10-14",
+          "name": "Adres Pub",
+          "wheelchair": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10582646370,
+        "lat": 38.3930241,
+        "lon": 27.0382201,
+        "tags": {
+          "amenity": "bar",
+          "check_date": "2023-01-25",
+          "microbrewery": "no",
+          "name": "Luclfer Gastropub",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10777652005,
+        "lat": 38.397552,
+        "lon": 27.0858738,
+        "tags": {
+          "addr:housenumber": "1050/B",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "restaurant",
+          "contact:phone": "+90 232 220 21 11",
+          "name": "Dönerci Orhan",
+          "website": "http://donerciorhan.com",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10801837289,
+        "lat": 38.4060544,
+        "lon": 27.119718,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ada Meze"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10899381927,
+        "lat": 38.4009822,
+        "lon": 27.1040196,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2023-05-15",
+          "cuisine": "turkish",
+          "name": "Çatal",
+          "outdoor_seating": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10900366352,
+        "lat": 38.4044689,
+        "lon": 27.0972767,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-04-24",
+          "name": "Calypso"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10900383225,
+        "lat": 38.4054333,
+        "lon": 27.0986665,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-24",
+          "cuisine": "coffee",
+          "name": "Eye Opia"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10918419065,
+        "lat": 38.4008797,
+        "lon": 27.1086155,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Medusa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10918437277,
+        "lat": 38.4019338,
+        "lon": 27.1057896,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-20",
+          "name": "Furkan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10918466582,
+        "lat": 38.4020295,
+        "lon": 27.10563,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-20",
+          "name": "Ege Lokanntası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10918468927,
+        "lat": 38.4022669,
+        "lon": 27.1056821,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "chicken",
+          "name": "Mangalpiliç"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10921757967,
+        "lat": 38.4043491,
+        "lon": 27.0974415,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-21",
+          "cuisine": "pasta",
+          "name": "Express Makarna"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10926412423,
+        "lat": 38.4016511,
+        "lon": 27.1048268,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Green cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10939757983,
+        "lat": 38.4013113,
+        "lon": 27.1032507,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-16",
+          "cuisine": "coffee_shop",
+          "name": "Robust coffee shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10956928975,
+        "lat": 38.4043743,
+        "lon": 27.1005648,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-24",
+          "name": "Kahve Köşkü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10956928978,
+        "lat": 38.4040112,
+        "lon": 27.0994473,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-10",
+          "contact:instagram": "https://www.instagram.com/noondortcoffee",
+          "cuisine": "coffee_shop",
+          "name": "NoOndört Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10956928979,
+        "lat": 38.4035655,
+        "lon": 27.0998115,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-12-05",
+          "name": "Kebire Ana"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10969480590,
+        "lat": 38.4014744,
+        "lon": 27.0940998,
+        "tags": {
+          "check_date": "2024-05-22",
+          "name": "Betül",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10979357688,
+        "lat": 38.4052797,
+        "lon": 27.119415,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10989445805,
+        "lat": 38.3939169,
+        "lon": 27.0419107,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tuck Coffee Etc"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10992528731,
+        "lat": 38.3998668,
+        "lon": 27.1017579,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kanka"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11046669769,
+        "lat": 38.3349934,
+        "lon": 27.1256518,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "ESBAŞ",
+          "phone": "2516919"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11393998116,
+        "lat": 38.4043974,
+        "lon": 27.1005382,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-24",
+          "name": "Petunya"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11393998117,
+        "lat": 38.4051647,
+        "lon": 27.0994416,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-14",
+          "name": "Buğlem Çay Eve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11396062523,
+        "lat": 38.4025276,
+        "lon": 27.0958556,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-14",
+          "cuisine": "coffee_shop",
+          "name": "Coffee Store"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11624047702,
+        "lat": 38.3365056,
+        "lon": 27.1354923,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11655829349,
+        "lat": 38.400449,
+        "lon": 27.1132134,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Karabağlar",
+          "addr:housenumber": "56",
+          "addr:neighbourhood": "Arap Hasan Mahallesi",
+          "addr:postcode": "35150",
+          "addr:street": "Gazeteci Hasan Tahsin Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;sandwich",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Best Coffee To Go",
+          "opening_hours": "Mo-Su 08:00-01:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 535 470 40 55"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11747284169,
+        "lat": 38.401358,
+        "lon": 27.1022552,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-19",
+          "cuisine": "coffee_shop",
+          "name": "Brew Mood Coffee & Tea"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11786788320,
+        "lat": 38.3992299,
+        "lon": 27.0909946,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-04",
+          "cuisine": "coffee_shop",
+          "name": "Mr. Chaplinn",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11787436805,
+        "lat": 38.401421,
+        "lon": 27.1013478,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-04",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11808171233,
+        "lat": 38.4017709,
+        "lon": 27.1024517,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-10",
+          "cuisine": "coffee_shop",
+          "name": "LUUQ"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11808171234,
+        "lat": 38.4017655,
+        "lon": 27.1025225,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Özsüt",
+          "brand:wikidata": "Q20472928",
+          "check_date": "2024-04-10",
+          "cuisine": "coffee_shop",
+          "name": "Özsüt",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11821888599,
+        "lat": 38.4013032,
+        "lon": 27.1036501,
+        "tags": {
+          "addr:street": "İnönü Caddesi",
+          "amenity": "restaurant",
+          "check_date": "2024-04-16",
+          "cuisine": "kebab;turkish",
+          "level": "0",
+          "name": "Manisali Birtat",
+          "self_service": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11822483579,
+        "lat": 38.4026515,
+        "lon": 27.0960288,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-10-15",
+          "name": "Meri Coffee Shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11822580019,
+        "lat": 38.4006938,
+        "lon": 27.0924583,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-04-16",
+          "name": "Tuzu Biberi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11822580020,
+        "lat": 38.401903,
+        "lon": 27.0938439,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-04-16",
+          "name": "Ora"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11832531183,
+        "lat": 38.3950863,
+        "lon": 27.0922839,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-20",
+          "cuisine": "cheburek;pasta",
+          "name": "Krım"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11832551613,
+        "lat": 38.3951391,
+        "lon": 27.0924525,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-04-20",
+          "name": "Mavi Köşe Büfe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11904325656,
+        "lat": 38.4056194,
+        "lon": 27.1000492,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-14",
+          "name": "Xin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11904380373,
+        "lat": 38.4025772,
+        "lon": 27.0956445,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-05-14"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11904380377,
+        "lat": 38.4029815,
+        "lon": 27.096731,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-14",
+          "name": "Yuntai Eat"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11904380381,
+        "lat": 38.4031096,
+        "lon": 27.0964922,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-22",
+          "cuisine": "coffee_shop",
+          "name": "Sees"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11913629611,
+        "lat": 38.4012676,
+        "lon": 27.1064162,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-09-21"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11920092041,
+        "lat": 38.4014896,
+        "lon": 27.1097685,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-20",
+          "name": "Kuyum"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11920092049,
+        "lat": 38.4015185,
+        "lon": 27.1100545,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-20",
+          "name": "So Hungry Chiken"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923369666,
+        "lat": 38.3932285,
+        "lon": 27.0231589,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11924753769,
+        "lat": 38.3948114,
+        "lon": 27.0737576,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Karabağlar",
+          "addr:housenumber": "28/A",
+          "addr:neighbourhood": "Üçkuyular",
+          "addr:street": "65/3. Sokak",
+          "amenity": "restaurant",
+          "name": "restoran & cafe",
+          "operator": "28/A",
+          "source": "local knowledge;osm notes;streetlevel imagery;gps"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11925440295,
+        "lat": 38.4022319,
+        "lon": 27.0961188,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-22",
+          "name": "Macır"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11925440300,
+        "lat": 38.4006212,
+        "lon": 27.0929676,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-22",
+          "name": "Komagene"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11928624671,
+        "lat": 38.4014276,
+        "lon": 27.1092938,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-05-23",
+          "name": "Helvacı Yakub Efendi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428977,
+        "lat": 38.3909954,
+        "lon": 27.0054929,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428978,
+        "lat": 38.3910963,
+        "lon": 27.0055278,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428979,
+        "lat": 38.3912539,
+        "lon": 27.0055734,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999428980,
+        "lat": 38.3913317,
+        "lon": 27.0056109,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11999448202,
+        "lat": 38.3912035,
+        "lon": 27.0052649,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12177170518,
+        "lat": 38.3995909,
+        "lon": 27.0674811,
+        "tags": {
+          "amenity": "pub",
+          "check_date": "2024-09-14",
+          "name": "Pervasız Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12192464066,
+        "lat": 38.4056105,
+        "lon": 27.1188015,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-09-22"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12192464067,
+        "lat": 38.4053514,
+        "lon": 27.1184814,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-09-22",
+          "name": "Artos"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12192464068,
+        "lat": 38.4048583,
+        "lon": 27.1179713,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-09-22",
+          "name": "Hatay"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12192464070,
+        "lat": 38.405304,
+        "lon": 27.1160941,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-09-22"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12192464089,
+        "lat": 38.4046254,
+        "lon": 27.1137234,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-09-22",
+          "name": "In Out",
+          "name:en": "In Out"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12203587483,
+        "lat": 38.3947798,
+        "lon": 27.0532877,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "The Hunger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12203587484,
+        "lat": 38.3950486,
+        "lon": 27.0525468,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Caffè Nero",
+          "brand:wikidata": "Q675808",
+          "cuisine": "coffee_shop",
+          "name": "Caffè Nero",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12348971433,
+        "lat": 38.3976929,
+        "lon": 27.1004033,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-11-17"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12350522238,
+        "lat": 38.3931084,
+        "lon": 27.0579081,
+        "tags": {
+          "name": "Nokta Tatlıcısı",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12399994138,
+        "lat": 38.4018767,
+        "lon": 27.0989427,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-12-06",
+          "cuisine": "pizza",
+          "name": "Pizza Partisi",
+          "outdoor_seating": "yes",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "reservation": "required",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12591191147,
+        "lat": 38.3951209,
+        "lon": 27.0559716,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Çorbacı Hakan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12617716884,
+        "lat": 38.3940648,
+        "lon": 27.0416334,
+        "tags": {
+          "addr:city": "izmir",
+          "addr:district": "Balçova",
+          "addr:housenumber": "239B",
+          "addr:neighbourhood": "Korutürk,  239B, 35150",
+          "addr:postcode": "35150",
+          "addr:street": "Mithatpaşa Cd.",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "WOL Coffee Co Balçova",
+          "phone": "05555860743"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12714438154,
+        "lat": 38.4002886,
+        "lon": 27.1130741,
+        "tags": {
+          "amenity": "ice_cream",
+          "check_date": "2025-03-30",
+          "name": "Gelato Roma",
+          "website": "https://www.gelato.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12800118029,
+        "lat": 38.3878044,
+        "lon": 27.0507621,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "çorba;pide;lahmacun;salad",
+          "name": "Şeker Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12810439801,
+        "lat": 38.3938291,
+        "lon": 27.0498444,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adil Müftüoğlu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12810444001,
+        "lat": 38.3938291,
+        "lon": 27.0498444,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adil Müftüoğlu",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "phone": "+902322314109",
+          "website": "https://adilmuftuoglu.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12873299375,
+        "lat": 38.3987643,
+        "lon": 27.0769012,
+        "tags": {
+          "addr:city": "izmir",
+          "addr:district": "Konak",
+          "addr:housenumber": "1210/B",
+          "addr:neighbourhood": "Güzelyalı, Mithatpaşa Cd. No: 1210/B, 35290 Konak/İzmir",
+          "addr:postcode": "35140",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Chap Coffee",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12993689401,
+        "lat": 38.4047282,
+        "lon": 27.0987245,
+        "tags": {
+          "amenity": "cafe",
+          "name": "EspressoLab"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13233969834,
+        "lat": 38.3982253,
+        "lon": 27.0891386,
+        "tags": {
+          "check_date": "2025-10-15",
+          "name": "Ekleristan",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13233969840,
+        "lat": 38.402865,
+        "lon": 27.0963249,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-10-15",
+          "cuisine": "pizza",
+          "name": "Pizzabulls"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13342714668,
+        "lat": 38.3939949,
+        "lon": 27.0578843,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "name": "Öncü Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13342714669,
+        "lat": 38.3937347,
+        "lon": 27.0578831,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "name": "Maydonoz Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13342714670,
+        "lat": 38.3867784,
+        "lon": 27.0593389,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "diet:halal": "yes",
+          "diet:healthy": "yes",
+          "diet:local": "yes",
+          "diet:organic": "yes",
+          "name": "BALKAD Mutfak Ev Yemekleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13342714671,
+        "lat": 38.3868286,
+        "lon": 27.0593012,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "diet:halal": "yes",
+          "name": "AyeseEat Ev Yemekleri ve Unlu Mamulleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390048412,
+        "lat": 38.3242722,
+        "lon": 27.1329409,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-12-20",
+          "name": "Bolulu Hasan Usta Süt Tatlıları"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390048415,
+        "lat": 38.3241868,
+        "lon": 27.1336509,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-12-20",
+          "name": "Helvacı Ali"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390048416,
+        "lat": 38.3240133,
+        "lon": 27.1338702,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-12-20",
+          "name": "Keyf Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390048417,
+        "lat": 38.3240384,
+        "lon": 27.1340894,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-12-20",
+          "name": "Galata Çaycısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390048418,
+        "lat": 38.3243935,
+        "lon": 27.1344128,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-12-20",
+          "name": "Porta Cafe 2",
+          "operator": "Gaziemir Belediyesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390053521,
+        "lat": 38.3251829,
+        "lon": 27.1356167,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-12-20",
+          "name": "Alimoğlu Baklava"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390082493,
+        "lat": 38.3938334,
+        "lon": 27.0511887,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-12-20",
+          "name": "Nelly Coffee Company"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390082500,
+        "lat": 38.3938446,
+        "lon": 27.0516407,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-12-20",
+          "name": "Haseki Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13390099001,
+        "lat": 38.3938439,
+        "lon": 27.051712,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-12-20",
+          "name": "Dedeoğlu Çorba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472854887,
+        "lat": 38.3241766,
+        "lon": 27.134554,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2026-01-21",
+          "name": "Numi Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472854888,
+        "lat": 38.3242053,
+        "lon": 27.1347492,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2026-01-21",
+          "name": "Çorbacı Neco"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472854891,
+        "lat": 38.3242353,
+        "lon": 27.1350262,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2026-01-21",
+          "name": "Gaziemir Dürümcüsü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472854898,
+        "lat": 38.3247851,
+        "lon": 27.1351511,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2026-01-21",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472858312,
+        "lat": 38.3246525,
+        "lon": 27.1338258,
+        "tags": {
+          "check_date": "2026-01-21",
+          "name": "Baklavacı Oğulları",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472858335,
+        "lat": 38.3241123,
+        "lon": 27.133448,
+        "tags": {
+          "amenity": "ice_cream",
+          "check_date": "2026-01-21",
+          "name": "Dondurma King"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13473069522,
+        "lat": 38.3963375,
+        "lon": 27.0688508,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2026-01-21",
+          "name": "Besim'in Yeri Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13473069525,
+        "lat": 38.3961157,
+        "lon": 27.0688776,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2026-01-21",
+          "name": "Üçkuyular Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13473069542,
+        "lat": 38.3968659,
+        "lon": 27.0688776,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2026-01-21",
+          "name": "Brew Mood Coffee & Tea"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13473069543,
+        "lat": 38.3968698,
+        "lon": 27.0690788,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2026-01-21",
+          "name": "Heroon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13473069548,
+        "lat": 38.3966872,
+        "lon": 27.0694252,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2026-01-21",
+          "name": "Gönül Çorba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13473069558,
+        "lat": 38.3961845,
+        "lon": 27.0688874,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2026-01-21",
+          "name": "Big Boss Coffee"
+        }
+      },
+      {
+        "type": "way",
+        "id": 529509721,
+        "center": {
+          "lat": 38.3106534,
+          "lon": 27.138135
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 529509722,
+        "center": {
+          "lat": 38.3105367,
+          "lon": 27.1379677
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 570358614,
+        "center": {
+          "lat": 38.3924717,
+          "lon": 27.0974719
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Konyalı Etli Etmek Akevler"
+        }
+      },
+      {
+        "type": "way",
+        "id": 637305655,
+        "center": {
+          "lat": 38.3889906,
+          "lon": 27.0442929
+        },
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 637305666,
+        "center": {
+          "lat": 38.3860576,
+          "lon": 27.0526138
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "çay;tost;kahve",
+          "internet_access": "yes",
+          "name": "Manzara",
+          "opening_hours": "Mo-Su 08:00 - 02:00",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 637305672,
+        "center": {
+          "lat": 38.3874727,
+          "lon": 27.0438891
+        },
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "pancake",
+          "leisure": "park",
+          "name": "Teleferik Kafe",
+          "opening_hours": "sunrise-sunset",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 791291430,
+        "center": {
+          "lat": 38.395219,
+          "lon": 27.0958661
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "İlahiyat Fakültesi Kafeteryası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 866147020,
+        "center": {
+          "lat": 38.3884508,
+          "lon": 27.1417609
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Roka Fırın Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 882135564,
+        "center": {
+          "lat": 38.4008314,
+          "lon": 27.0949414
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 884813911,
+        "center": {
+          "lat": 38.3938066,
+          "lon": 27.0429355
+        },
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Balçova",
+          "addr:housenumber": "227/A",
+          "addr:neighbourhood": "korutürk",
+          "addr:postcode": "35330",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "heroon Coffee",
+          "opening_hours": "24/7",
+          "outdoor_seating": "yes",
+          "phone": "+90 553 472 57 95",
+          "website": "https://heroon.com.tr"
+        }
+      },
+      {
+        "type": "way",
+        "id": 891375906,
+        "center": {
+          "lat": 38.3988975,
+          "lon": 27.0768644
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1148436381,
+        "center": {
+          "lat": 38.3480395,
+          "lon": 27.0900301
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "kiosk"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1323840013,
+        "center": {
+          "lat": 38.3912396,
+          "lon": 27.0333945
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "barbecue",
+          "name": "Dutdibi Et Mangal",
+          "reservation": "recommended",
+          "tourism": "picnic_site"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1352491667,
+        "center": {
+          "lat": 38.3913351,
+          "lon": 27.0320026
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "barbecue",
+          "name": "Duman Mangal",
+          "tourism": "picnic_site"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1352491670,
+        "center": {
+          "lat": 38.3907345,
+          "lon": 27.0366328
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "barbecue",
+          "layer": "-1",
+          "name": "Dereboyu Et&Mangal"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,850 @@
+{
+  "meta": {
+    "sehir_id": "77",
+    "sehir_adi": "YALOVA",
+    "ilce_id": "1716",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 40.5205916,
+      "west": 29.1854487,
+      "north": 40.6676713,
+      "east": 29.3503941
+    },
+    "bbox_original": {
+      "south": 40.5205916,
+      "west": 29.1854487,
+      "north": 40.6676713,
+      "east": 29.3503941
+    },
+    "fetchedAt": "2026-01-21T11:02:58.218Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 67
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:02:03Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4348299738,
+        "lat": 40.5541258,
+        "lon": 29.2773645,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dağıstan Pidesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4460205592,
+        "lat": 40.658468,
+        "lon": 29.27188,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yalova Sütlüsü",
+          "name:tr": "Yalova Sütlüsü",
+          "phone": "+90 226 813 7799"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4620379443,
+        "lat": 40.5349422,
+        "lon": 29.3398996,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4963923341,
+        "lat": 40.5537049,
+        "lon": 29.2777354,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5030100931,
+        "lat": 40.6597837,
+        "lon": 29.2789027,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Caffè Nero",
+          "brand:wikidata": "Q675808",
+          "cuisine": "coffee_shop",
+          "name": "Caffè Nero",
+          "name:en": "Caffè Nero",
+          "name:tr": "Cafe Nero",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5057075311,
+        "lat": 40.6584311,
+        "lon": 29.2713771,
+        "tags": {
+          "addr:city": "Yalova",
+          "amenity": "restaurant",
+          "name": "Merkez İşkembe Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5356029321,
+        "lat": 40.6034018,
+        "lon": 29.2701364,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sepetcioglu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5356037021,
+        "lat": 40.6574822,
+        "lon": 29.2693831,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Unsal Balik"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5356045721,
+        "lat": 40.661178,
+        "lon": 29.2783967,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "ALTIN BALIK MARIN RESTORANT"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5356045723,
+        "lat": 40.6054646,
+        "lon": 29.2525377,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Masal köyü Kır sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5356066221,
+        "lat": 40.6579888,
+        "lon": 29.2677326,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Acarlar Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6399833085,
+        "lat": 40.6577453,
+        "lon": 29.276664,
+        "tags": {
+          "addr:street": "خلف سوق الفواكه والخضراوات",
+          "amenity": "restaurant",
+          "name": "arapça işletmelere hayır",
+          "name:ar": "فلافل حُمُّص مسبحة فول",
+          "name:en": "فلافل  مطعم"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6399833185,
+        "lat": 40.6577343,
+        "lon": 29.2765733,
+        "tags": {
+          "amenity": "restaurant",
+          "name:ar": "مطعم فلافل حُمُّص عربي",
+          "name:en": "Palestine"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6564426271,
+        "lat": 40.5990206,
+        "lon": 29.2316518,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6564426272,
+        "lat": 40.599044,
+        "lon": 29.2317196,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103800,
+        "lat": 40.6567168,
+        "lon": 29.2816135,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Savda Pastahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103801,
+        "lat": 40.6573744,
+        "lon": 29.280389,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Karadeniz Aile Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103802,
+        "lat": 40.6577414,
+        "lon": 29.279667,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Yayla Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103806,
+        "lat": 40.657463,
+        "lon": 29.2771465,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Oktay Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103809,
+        "lat": 40.6571393,
+        "lon": 29.2728461,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Aperatif Cafe",
+          "opening_hours": "Mo-Sa 08:00-19:00",
+          "phone": "+90 226 800 0070"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103816,
+        "lat": 40.6549192,
+        "lon": 29.2734264,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Semaver Chay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103892,
+        "lat": 40.6570225,
+        "lon": 29.277337,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Crazy Internet Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103893,
+        "lat": 40.6570961,
+        "lon": 29.2770687,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Acar Plastik Pazarlama"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726103897,
+        "lat": 40.6534634,
+        "lon": 29.2735079,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ceren Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726106697,
+        "lat": 40.6577369,
+        "lon": 29.2732335,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Doyum Pide Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726106699,
+        "lat": 40.6565654,
+        "lon": 29.2732218,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726106701,
+        "lat": 40.654615,
+        "lon": 29.2734599,
+        "tags": {
+          "amenity": "pub",
+          "name": "Guitar Heroes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726106702,
+        "lat": 40.6577378,
+        "lon": 29.2484809,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Yalova Garden",
+          "opening_hours": "Mo-Su 09:00-19:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726106789,
+        "lat": 40.657133,
+        "lon": 29.280193,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726106790,
+        "lat": 40.6572506,
+        "lon": 29.2728494,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Osmanli Doner",
+          "opening_hours": "Mo-Sa 09:00-20:30",
+          "phone": "+90 226 800 0030"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6726106791,
+        "lat": 40.6603095,
+        "lon": 29.2778306,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6775763985,
+        "lat": 40.5670849,
+        "lon": 29.2187243,
+        "tags": {
+          "addr:postcode": "77200",
+          "addr:street": "Kurtköy İçi Yolu",
+          "amenity": "restaurant",
+          "name": "Dereiçi Restaurant Alabalık Tesisleri",
+          "phone": "+90 532 206 61 50"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6938608188,
+        "lat": 40.6176344,
+        "lon": 29.2730956,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6938649052,
+        "lat": 40.6251382,
+        "lon": 29.2715514,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6988957271,
+        "lat": 40.6357746,
+        "lon": 29.2242534,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6988957272,
+        "lat": 40.63637,
+        "lon": 29.2252198,
+        "tags": {
+          "addr:city": "Samanlı",
+          "addr:postcode": "77200",
+          "addr:street": "Termal Yolu",
+          "amenity": "restaurant",
+          "name": "Serin Bahçe Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7096414300,
+        "lat": 40.6428598,
+        "lon": 29.2573335,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Cafe Mola"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7101035665,
+        "lat": 40.6571476,
+        "lon": 29.2598234,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:housenumber": "89/B",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "Gazi Paşa Caddesi",
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7105561056,
+        "lat": 40.6584949,
+        "lon": 29.2704035,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Kristal Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7118852785,
+        "lat": 40.6586438,
+        "lon": 29.2768871,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7118852790,
+        "lat": 40.6587815,
+        "lon": 29.2777944,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Gönül Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7143308148,
+        "lat": 40.6571589,
+        "lon": 29.2591114,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:housenumber": "95/A",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "Gazi Paşa Caddesi",
+          "amenity": "cafe",
+          "name": "Meya Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7878354885,
+        "lat": 40.657676,
+        "lon": 29.2739147,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "BİRBİÇER ADANALI MURAT USTA"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8734923704,
+        "lat": 40.6599167,
+        "lon": 29.2787681,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "diet:meat": "yes",
+          "name": "Köfteci Yusuf",
+          "opening_hours": "Mo-Su 09:00-21:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8849171517,
+        "lat": 40.665,
+        "lon": 29.3165077,
+        "tags": {
+          "addr:street": "Çiftlikköy sahil mahallesi Beşevler  sokak 1",
+          "amenity": "restaurant",
+          "name": "Eylül sofrası )yemek ve ızgara (",
+          "name:en": "مطعم سفرة ايلول",
+          "name:tr": "Eylül sofrası (yemek ve ızgara)",
+          "phone": "05534537025",
+          "website": "https://instagram.com/eylul.sofrasi?utm_medium=copy_link"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9502033320,
+        "lat": 40.6573804,
+        "lon": 29.265966,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Artukbey kahve",
+          "name:en": "David People"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9502033519,
+        "lat": 40.6534925,
+        "lon": 29.254436,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Coffee House"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9505582817,
+        "lat": 40.6579,
+        "lon": 29.2707553,
+        "tags": {
+          "amenity": "bar",
+          "name:en": "Waffle Cake"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10974143370,
+        "lat": 40.6563335,
+        "lon": 29.2691897,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:housenumber": "33",
+          "addr:neighbourhood": "Rüstem Paşa mah.",
+          "addr:postcode": "77200",
+          "addr:street": "Fatih Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "diet:vegan": "yes",
+          "internet_access": "wlan",
+          "internet_access:fee": "customers",
+          "name": "Magnolia",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 58443751",
+          "website": "https://magnolia.yalova.com//"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10981607554,
+        "lat": 40.6597114,
+        "lon": 29.2710137,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Süleyman Bey, Doğu Sahil Bandı, Başbuğ Alparslan Türkeş Caddesi, 77100 Merkez/Yalova",
+          "addr:postcode": "77100",
+          "amenity": "restaurant",
+          "cuisine": "pizza;coffee_shop;burger;italian;chicken;turkish;regional",
+          "diet:vegetarian": "yes",
+          "name": "My World Lounge",
+          "phone": "05421066978"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11040038820,
+        "lat": 40.5656313,
+        "lon": 29.2976589,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11341240271,
+        "lat": 40.6607385,
+        "lon": 29.2780811,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "international;turkish",
+          "name:en": "Big Chefs"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11452257072,
+        "lat": 40.5239958,
+        "lon": 29.343287,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Sebahattin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12507240732,
+        "lat": 40.5256112,
+        "lon": 29.3406044,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Bursa Kebap Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12785349792,
+        "lat": 40.643356,
+        "lon": 29.2376787,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mimo Coffee",
+          "opening_hours": "Mo off; Tu-Sa 09:00-23:00; Su 10:30-23:00",
+          "phone": "+905462269877"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12806902338,
+        "lat": 40.6369713,
+        "lon": 29.2707143,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:housenumber": "162/A",
+          "addr:neighbourhood": "Bağlarbaşı",
+          "addr:postcode": "77200",
+          "addr:street": "Radar caddesi",
+          "amenity": "cafe",
+          "contact:facebook": "https://www.facebook.com/profile.php?id=61567338242234",
+          "cuisine": "coffee_shop;sandwich;ice_cream;kahve;çay;kafe",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Deep Corner Coffee",
+          "opening_hours": "Mo-Su 09:00-24:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 531 287 61 77",
+          "website": "https://deepcornercoffee.my.canva.site/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13265592634,
+        "lat": 40.644676,
+        "lon": 29.2605209,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:housenumber": "3/2A",
+          "addr:neighbourhood": "Adnan Menderes",
+          "addr:street": "Katibim Sokak",
+          "amenity": "cafe",
+          "name": "The CALM Bowl & Cups",
+          "opening_hours": "Mo-Su 09:30-24:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13289356403,
+        "lat": 40.6548033,
+        "lon": 29.2672367,
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:housenumber": "23/B",
+          "addr:neighbourhood": "Rüstempaşa Mahallesi",
+          "addr:postcode": "77200",
+          "addr:street": "Şahin Sokak",
+          "amenity": "cafe",
+          "contact:facebook": "https://www.facebook.com/townieyalova",
+          "cuisine": "coffee_shop;breakfast;sandwich",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Townie Coffee & Breakfast",
+          "opening_hours": "Mo-Su 08:00-23:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 553 437 60 09"
+        }
+      },
+      {
+        "type": "way",
+        "id": 252782715,
+        "center": {
+          "lat": 40.6593551,
+          "lon": 29.2754402
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 252942605,
+        "center": {
+          "lat": 40.6600433,
+          "lon": 29.2714809
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 401287562,
+        "center": {
+          "lat": 40.5721626,
+          "lon": 29.2277946
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Kutluay Canlı Alabalık Teisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 406607494,
+        "center": {
+          "lat": 40.5538432,
+          "lon": 29.2785571
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Zübeydenin Yeri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 408315330,
+        "center": {
+          "lat": 40.525515,
+          "lon": 29.2626564
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 464713005,
+        "center": {
+          "lat": 40.571079,
+          "lon": 29.228653
+        },
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:housenumber": "260",
+          "addr:neighbourhood": "Kurtköy Mahallesi",
+          "addr:postcode": "77202",
+          "addr:street": "1. Cadde",
+          "amenity": "restaurant",
+          "building": "yes",
+          "email": "ahmetyigit30@hotmail.com",
+          "name": "Ormanika - Ahmet Yiğit",
+          "opening_hours": "24/7",
+          "phone": "+905065092076"
+        }
+      },
+      {
+        "type": "way",
+        "id": 665876363,
+        "center": {
+          "lat": 40.6646611,
+          "lon": 29.2977905
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 880906330,
+        "center": {
+          "lat": 40.6629007,
+          "lon": 29.318988
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1255628302,
+        "center": {
+          "lat": 40.6534821,
+          "lon": 29.2185178
+        },
+        "tags": {
+          "addr:city": "Yalova",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Yalova Üniversitesi Merkez Yerleşkesi",
+          "addr:postcode": "77200",
+          "addr:street": "Çınarcık Yolu",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Merkez Kantin"
+        }
+      }
+    ]
+  }
+}

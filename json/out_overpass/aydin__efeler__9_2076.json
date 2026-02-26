@@ -1,0 +1,562 @@
+{
+  "meta": {
+    "sehir_id": "9",
+    "sehir_adi": "AYDIN",
+    "ilce_id": "2076",
+    "ilce_adi": "EFELER",
+    "bbox_used": {
+      "south": 37.711318,
+      "west": 27.7471791,
+      "north": 38.0149138,
+      "east": 28.1178075
+    },
+    "bbox_original": {
+      "south": 37.711318,
+      "west": 27.7471791,
+      "north": 38.0149138,
+      "east": 28.1178075
+    },
+    "fetchedAt": "2026-01-21T08:31:33.917Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 44
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:30:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 860331599,
+        "lat": 37.838395,
+        "lon": 27.845943,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Beyti Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1829601193,
+        "lat": 37.8470356,
+        "lon": 27.8428995,
+        "tags": {
+          "addr:housename": "Vakıfhan",
+          "addr:housenumber": "30",
+          "addr:postcode": "09020",
+          "addr:street": "Cumhuriyet Mahallesi Mithat Paşa Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Cafedemi",
+          "website": "http://facebook.com/cafedemi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174393492,
+        "lat": 37.8425504,
+        "lon": 27.8418403,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "can pide4"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174613991,
+        "lat": 37.8081095,
+        "lon": 27.8385479,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "cafe marin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658390,
+        "lat": 37.8460354,
+        "lon": 27.8335845,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "can pide2"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658391,
+        "lat": 37.8424936,
+        "lon": 27.840178,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Can Pide 3"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658491,
+        "lat": 37.8491444,
+        "lon": 27.8264468,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "can pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658990,
+        "lat": 37.8436336,
+        "lon": 27.8276178,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "şelale pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174659089,
+        "lat": 37.8442203,
+        "lon": 27.8263832,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "efeler çorba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5658523721,
+        "lat": 37.9317026,
+        "lon": 28.0147742,
+        "tags": {
+          "addr:housenumber": "02564761085",
+          "addr:postcode": "09570",
+          "addr:street": "Aydın ödemiş yolu. Egrikavak mah",
+          "amenity": "restaurant",
+          "cuisine": "seafood;chicken;regional;beef_bowl;pancake;barbecue;tea;friture;steak_house;turkish;fish;kebab;breakfast;grill",
+          "email": "info@basdegirmenaydin.com",
+          "internet_access": "wlan",
+          "name": "Başdeğirmen Et Balık restoran",
+          "name:en": "Basdegirmen steak and fish restaurant",
+          "opening_hours": "Mo-Su 09:00-23:50",
+          "operator": "Karaelmas sosyal hizmetler",
+          "phone": "02564761021",
+          "website": "http://basdegirmenaydin.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6785143512,
+        "lat": 37.8535946,
+        "lon": 28.0516094,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9373383418,
+        "lat": 37.8519411,
+        "lon": 27.8105013,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Onat Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10792378980,
+        "lat": 37.845041,
+        "lon": 27.8335632,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:housenumber": "61",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Yenipazarlı Okan Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10799066031,
+        "lat": 37.8452368,
+        "lon": 27.8455076,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Efeler",
+          "addr:neighbourhood": "Güzelhisar Mah.",
+          "addr:street": "39. Sokak",
+          "amenity": "restaurant",
+          "contact:phone": "+90 5433 430 950",
+          "cuisine": "kebab",
+          "name": "Aperatifin Elli Tonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11300018023,
+        "lat": 37.8480193,
+        "lon": 27.8537357,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cadde Plus Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11300040830,
+        "lat": 37.8456844,
+        "lon": 27.8607804,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11300040833,
+        "lat": 37.8458263,
+        "lon": 27.8615743,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Konya Sefası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11891310169,
+        "lat": 37.8274537,
+        "lon": 27.8422312,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "chicken;tea",
+          "internet_access": "wlan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12175455331,
+        "lat": 37.8425604,
+        "lon": 27.8361181,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeni Menderes Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12175834404,
+        "lat": 37.8414697,
+        "lon": 27.8446448,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Efeler",
+          "addr:housenumber": "no: 66",
+          "addr:neighbourhood": "Kurtuluş Mahallesi",
+          "addr:street": "Adnan Menderes Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "name": "Donas Aydın",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "phone": "+90 256 214 8551"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12230342715,
+        "lat": 37.8387758,
+        "lon": 27.8442076,
+        "tags": {
+          "addr:city": "Kurtuluş Mahallesi",
+          "addr:district": "Efeler",
+          "addr:housenumber": "No: 20E",
+          "addr:neighbourhood": "Kurtuluş Mah.",
+          "addr:postcode": "09020",
+          "addr:street": "2010. Sk.",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;sandwich;cake;pastry;dessert;salad",
+          "internet_access": "yes",
+          "internet_access:fee": "customers",
+          "name": "Koza Coffee Shop",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 531 303 47 82",
+          "website": "https://www.instagram.com/kozacoffeeshop/",
+          "website:menu": "https://menu.instalacarte.com/menu/s/en/Koza-Coffee-Shop/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12827799801,
+        "lat": 37.8470714,
+        "lon": 27.8426247,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Güldeste"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914256,
+        "lat": 37.8478801,
+        "lon": 27.8574432,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mey Fırın Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914258,
+        "lat": 37.8478709,
+        "lon": 27.8570501,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Daniel’s Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914262,
+        "lat": 37.8480776,
+        "lon": 27.8570703,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Romesta Coffee Co."
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914263,
+        "lat": 37.8480776,
+        "lon": 27.856915,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Riziko Coffee & Game"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914264,
+        "lat": 37.8480799,
+        "lon": 27.8567614,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pablo Artisan Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914265,
+        "lat": 37.8480732,
+        "lon": 27.8564641,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Okeyf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914266,
+        "lat": 37.848081,
+        "lon": 27.8562985,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Okey Garden"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914267,
+        "lat": 37.8480765,
+        "lon": 27.8566057,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Babilon Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248914268,
+        "lat": 37.8480474,
+        "lon": 27.8558837,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yemen Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248930395,
+        "lat": 37.846069,
+        "lon": 27.8608462,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Dünyası",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248973523,
+        "lat": 37.8480523,
+        "lon": 27.8432497,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gar Park"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248974677,
+        "lat": 37.8559725,
+        "lon": 27.8578978,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248974678,
+        "lat": 37.8558878,
+        "lon": 27.8581665,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Brew Mood"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248974680,
+        "lat": 37.8560201,
+        "lon": 27.8577438,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yemen Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13248974682,
+        "lat": 37.8559105,
+        "lon": 27.8577184,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Mackbear"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13342629085,
+        "lat": 37.8424636,
+        "lon": 27.8368945,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hamsi Laz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13342629088,
+        "lat": 37.8458771,
+        "lon": 27.8437375,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "döner;turkish",
+          "diet:halal": "yes",
+          "name": "Maydonoz Döner"
+        }
+      },
+      {
+        "type": "way",
+        "id": 364882710,
+        "center": {
+          "lat": 37.7238873,
+          "lon": 27.9034356
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Edis"
+        }
+      },
+      {
+        "type": "way",
+        "id": 517699865,
+        "center": {
+          "lat": 37.8435247,
+          "lon": 27.8564757
+        },
+        "tags": {
+          "amenity": "nightclub",
+          "name": "Holly Stone",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 517699866,
+        "center": {
+          "lat": 37.8434093,
+          "lon": 27.8567079
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "italian",
+          "name": "Venezia",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 623811280,
+        "center": {
+          "lat": 37.8219284,
+          "lon": 27.8804109
+        },
+        "tags": {
+          "amenity": "bar",
+          "building": "yes",
+          "name": "Ehl-i Keyf"
+        }
+      },
+      {
+        "type": "way",
+        "id": 884673861,
+        "center": {
+          "lat": 37.8596159,
+          "lon": 27.8228623
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Kantin"
+        }
+      }
+    ]
+  }
+}

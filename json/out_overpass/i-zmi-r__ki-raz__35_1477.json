@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "1477",
+    "ilce_adi": "KİRAZ",
+    "bbox_used": {
+      "south": 38.0877267,
+      "west": 28.1225154,
+      "north": 38.3688366,
+      "east": 28.4930754
+    },
+    "bbox_original": {
+      "south": 38.0877267,
+      "west": 28.1225154,
+      "north": 38.3688366,
+      "east": 28.4930754
+    },
+    "fetchedAt": "2026-01-21T09:25:27.097Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:24:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13316976111,
+        "lat": 38.3064764,
+        "lon": 28.2665482,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Köy Kahvesi",
+          "outdoor_seating": "yes",
+          "phone": "+90 532 707 53 66"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13321708549,
+        "lat": 38.1375062,
+        "lon": 28.4198976,
+        "tags": {
+          "amenity": "cafe",
+          "phone": "+90 537 218 29 55;+90 531 565 71 07"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1160026352,
+        "center": {
+          "lat": 38.2308365,
+          "lon": 28.2011468
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1351270703,
+        "center": {
+          "lat": 38.2296576,
+          "lon": 28.2042884
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "İstasyon 35 Cafe"
+        }
+      }
+    ]
+  }
+}

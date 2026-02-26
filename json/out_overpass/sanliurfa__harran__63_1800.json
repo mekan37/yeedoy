@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "sehir_id": "63",
+    "sehir_adi": "ŞANLIURFA",
+    "ilce_id": "1800",
+    "ilce_adi": "HARRAN",
+    "bbox_used": {
+      "south": 36.7271391,
+      "west": 38.9131665,
+      "north": 36.9604543,
+      "east": 39.5612014
+    },
+    "bbox_original": {
+      "south": 36.7271391,
+      "west": 38.9131665,
+      "north": 36.9604543,
+      "east": 39.5612014
+    },
+    "fetchedAt": "2026-01-21T10:43:57.423Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:42:39Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11254874597,
+        "lat": 36.8613123,
+        "lon": 39.031749,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Harran Gastronomi Merkezi"
+        }
+      }
+    ]
+  }
+}

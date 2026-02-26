@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "sehir_id": "28",
+    "sehir_adi": "GİRESUN",
+    "ilce_id": "1465",
+    "ilce_adi": "KEŞAP",
+    "bbox_used": {
+      "south": 40.6936404,
+      "west": 38.4488744,
+      "north": 40.9734835,
+      "east": 38.6453912
+    },
+    "bbox_original": {
+      "south": 40.6936404,
+      "west": 38.4488744,
+      "north": 40.9734835,
+      "east": 38.6453912
+    },
+    "fetchedAt": "2026-01-21T09:07:02.357Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 15
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:05:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10068744088,
+        "lat": 40.9710691,
+        "lon": 38.6433448,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamburnu Restoran",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744099,
+        "lat": 40.9709062,
+        "lon": 38.6429798,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gümüş Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744259,
+        "lat": 40.9724434,
+        "lon": 38.624141,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744265,
+        "lat": 40.963857,
+        "lon": 38.6113122,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Kalecik Yalı Balık Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744305,
+        "lat": 40.9513616,
+        "lon": 38.5969564,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Yayık Ağası Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744371,
+        "lat": 40.947405,
+        "lon": 38.5919394,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ikram'ın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072477126,
+        "lat": 40.9338545,
+        "lon": 38.5690727,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cin Ağanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072477127,
+        "lat": 40.9330016,
+        "lon": 38.5676604,
+        "tags": {
+          "amenity": "cafe",
+          "indoor_seating": "yes",
+          "name": "Giresunlu Hacı Ustanın Yeri",
+          "outdoor_seating": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072477186,
+        "lat": 40.9284001,
+        "lon": 38.5591238,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kulak Balik Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072479523,
+        "lat": 40.927269,
+        "lon": 38.5541961,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gulak Camping Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072479551,
+        "lat": 40.9265908,
+        "lon": 38.5533341,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Huzur"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072479575,
+        "lat": 40.9253271,
+        "lon": 38.5505206,
+        "tags": {
+          "amenity": "cafe",
+          "name": "ASARKAYA"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072479617,
+        "lat": 40.9235805,
+        "lon": 38.5487913,
+        "tags": {
+          "amenity": "cafe",
+          "name": "ŞEHR-İ YEŞİL"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072479725,
+        "lat": 40.9167313,
+        "lon": 38.5220912,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gezmiş Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10072479742,
+        "lat": 40.917438,
+        "lon": 38.520154,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ferhat İn Yeri"
+        }
+      }
+    ]
+  }
+}

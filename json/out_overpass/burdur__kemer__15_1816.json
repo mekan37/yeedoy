@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "15",
+    "sehir_adi": "BURDUR",
+    "ilce_id": "1816",
+    "ilce_adi": "KEMER",
+    "bbox_used": {
+      "south": 37.235714,
+      "west": 29.9705312,
+      "north": 37.4800984,
+      "east": 30.1873396
+    },
+    "bbox_original": {
+      "south": 37.235714,
+      "west": 29.9705312,
+      "north": 37.4800984,
+      "east": 30.1873396
+    },
+    "fetchedAt": "2026-01-21T08:41:11.222Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:39:05Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

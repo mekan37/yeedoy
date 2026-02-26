@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "sehir_id": "55",
+    "sehir_adi": "SAMSUN",
+    "ilce_id": "1386",
+    "ilce_adi": "HAVZA",
+    "bbox_used": {
+      "south": 40.9607067,
+      "west": 35.6621033,
+      "north": 40.9707067,
+      "east": 35.6721033
+    },
+    "bbox_original": {
+      "south": 40.9607067,
+      "west": 35.6621033,
+      "north": 40.9707067,
+      "east": 35.6721033
+    },
+    "fetchedAt": "2026-01-21T10:20:48.539Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:19:02Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8557741140,
+        "lat": 40.9631388,
+        "lon": 35.6652577,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "name": "Kervan Hatay Usulü Soslu Döner"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "sehir_id": "25",
+    "sehir_adi": "ERZURUM",
+    "ilce_id": "1851",
+    "ilce_adi": "UZUNDERE",
+    "bbox_used": {
+      "south": 40.4208355,
+      "west": 41.4312523,
+      "north": 40.7306488,
+      "east": 41.7725178
+    },
+    "bbox_original": {
+      "south": 40.4208355,
+      "west": 41.4312523,
+      "north": 40.7306488,
+      "east": 41.7725178
+    },
+    "fetchedAt": "2026-01-21T09:01:51.167Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 10
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:00:36Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3760496138,
+        "lat": 40.660659,
+        "lon": 41.6681292,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6419049566,
+        "lat": 40.6082259,
+        "lon": 41.5468882,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamliyamaç alabalik"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10097214719,
+        "lat": 40.6068348,
+        "lon": 41.6242274,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10147584918,
+        "lat": 40.6072355,
+        "lon": 41.6241489,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Кафе"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10147961506,
+        "lat": 40.5014245,
+        "lon": 41.5176222,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şahin Tepesi Cağ Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10147961511,
+        "lat": 40.5124478,
+        "lon": 41.5266508,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Barınak Lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985496902,
+        "lat": 40.4554375,
+        "lon": 41.5032129,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985503801,
+        "lat": 40.4553502,
+        "lon": 41.5032861,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Asmalı Konak Çağ Kebabı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985647701,
+        "lat": 40.6614147,
+        "lon": 41.6683899,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şelale Kafe & Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1109087468,
+        "center": {
+          "lat": 40.5115883,
+          "lon": 41.5251521
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

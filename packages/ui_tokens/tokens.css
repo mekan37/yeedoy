@@ -1,0 +1,12 @@
+:root {
+  --yd-color-primary: #a0131a;
+  --yd-color-primary-text: #ffffff;
+  --yd-color-bg: #f4f5f7;
+  --yd-color-card: #ffffff;
+  --yd-color-border: #dfe3ea;
+  --yd-color-text-strong: #0f172a;
+  --yd-color-text-muted: #6b7280;
+  --yd-color-success: #15803d;
+  --yd-color-warning: #b45309;
+  --yd-color-danger: #b91c1c;
+}

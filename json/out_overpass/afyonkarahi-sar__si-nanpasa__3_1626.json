@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "sehir_id": "3",
+    "sehir_adi": "AFYONKARAHİSAR",
+    "ilce_id": "1626",
+    "ilce_adi": "SİNANPAŞA",
+    "bbox_used": {
+      "south": 38.5120422,
+      "west": 29.9876048,
+      "north": 38.9124408,
+      "east": 30.4538948
+    },
+    "bbox_original": {
+      "south": 38.5120422,
+      "west": 29.9876048,
+      "north": 38.9124408,
+      "east": 30.4538948
+    },
+    "fetchedAt": "2026-01-21T08:19:38.070Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:17:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 310402679,
+        "lat": 38.5238893,
+        "lon": 30.221093,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adalya Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 807315452,
+        "lat": 38.7961897,
+        "lon": 30.3937993,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2962757754,
+        "lat": 38.7913896,
+        "lon": 30.4178026,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamlıtepe Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2962759664,
+        "lat": 38.7951484,
+        "lon": 30.3894248,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cumhuriyet Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9292225472,
+        "lat": 38.6317672,
+        "lon": 30.298792,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12670914753,
+        "lat": 38.7951612,
+        "lon": 30.3943071,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12670934952,
+        "lat": 38.6343053,
+        "lon": 30.2995225,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13018817702,
+        "lat": 38.600298,
+        "lon": 30.2704333,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Uğurlu Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 173306979,
+        "center": {
+          "lat": 38.6343438,
+          "lon": 30.2993738
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "source": "bing"
+        }
+      }
+    ]
+  }
+}

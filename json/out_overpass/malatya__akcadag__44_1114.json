@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "44",
+    "sehir_adi": "MALATYA",
+    "ilce_id": "1114",
+    "ilce_adi": "AKÇADAĞ",
+    "bbox_used": {
+      "south": 38.2089076,
+      "west": 37.58322,
+      "north": 38.5295018,
+      "east": 38.1764603
+    },
+    "bbox_original": {
+      "south": 38.2089076,
+      "west": 37.58322,
+      "north": 38.5295018,
+      "east": 38.1764603
+    },
+    "fetchedAt": "2026-01-21T09:54:01.494Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-06T16:09:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

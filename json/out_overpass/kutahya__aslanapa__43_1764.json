@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "sehir_id": "43",
+    "sehir_adi": "KÜTAHYA",
+    "ilce_id": "1764",
+    "ilce_adi": "ASLANAPA",
+    "bbox_used": {
+      "south": 38.9999983,
+      "west": 29.6741276,
+      "north": 39.4029742,
+      "east": 30.0552173
+    },
+    "bbox_original": {
+      "south": 38.9999983,
+      "west": 29.6741276,
+      "north": 39.4029742,
+      "east": 30.0552173
+    },
+    "fetchedAt": "2026-01-21T09:53:02.066Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:51:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4621713391,
+        "lat": 39.2499918,
+        "lon": 29.8369137,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Saray Tesisleri",
+          "name:tr": "Saray Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5046044721,
+        "lat": 39.2784334,
+        "lon": 29.9424509,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yorukler Yayla Tesis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8930293897,
+        "lat": 39.3885662,
+        "lon": 30.0374345,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pesmet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11146592077,
+        "lat": 39.4001811,
+        "lon": 30.0187152,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Emminin Yeri Çay Kahve Salonu",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11146592088,
+        "lat": 39.4001206,
+        "lon": 30.0189419,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "börek",
+          "name": "Beyoğlu Börek",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11146592089,
+        "lat": 39.4000951,
+        "lon": 30.0190418,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Atakent Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11155788801,
+        "lat": 39.3974597,
+        "lon": 30.0194496,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Teperas"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11157703004,
+        "lat": 39.4000246,
+        "lon": 30.0156536,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Atakent Pidecim"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1088460999,
+        "center": {
+          "lat": 39.3990625,
+          "lon": 30.0420164
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Çırağan Plus Düğün ve Davet Salonu"
+        }
+      }
+    ]
+  }
+}

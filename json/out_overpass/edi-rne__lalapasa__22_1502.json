@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "sehir_id": "22",
+    "sehir_adi": "EDİRNE",
+    "ilce_id": "1502",
+    "ilce_adi": "LALAPAŞA",
+    "bbox_used": {
+      "south": 41.7403057,
+      "west": 26.5612207,
+      "north": 42.0028017,
+      "east": 26.991477
+    },
+    "bbox_original": {
+      "south": 41.7403057,
+      "west": 26.5612207,
+      "north": 42.0028017,
+      "east": 26.991477
+    },
+    "fetchedAt": "2026-01-21T08:56:31.815Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:55:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2613436814,
+        "lat": 41.7934524,
+        "lon": 26.7517962,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kavaklı Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7872815986,
+        "lat": 41.8388825,
+        "lon": 26.7360802,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7872825585,
+        "lat": 41.8388064,
+        "lon": 26.7363099,
+        "tags": {
+          "addr:street": "Cengiz Topel Caddesi",
+          "amenity": "cafe",
+          "cuisine": "bagel;burger;coffee_shop;ice_cream;pancake;sandwich;tea",
+          "internet_access": "wlan",
+          "name": "Çay Bahçesi",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7872917686,
+        "lat": 41.8391548,
+        "lon": 26.7349805,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahvehane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7872917785,
+        "lat": 41.8391057,
+        "lon": 26.7351763,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Son Çare Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9438630344,
+        "lat": 41.9560594,
+        "lon": 26.6217479,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Esos Gümrük Lokantası ve Marketi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9438630345,
+        "lat": 41.9561711,
+        "lon": 26.6202056,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kılıçoğulları Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9621286617,
+        "lat": 41.8399877,
+        "lon": 26.7371682,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tan Kıraathanesi",
+          "opening_hours": "Mo-Su 08:00-00:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9621286817,
+        "lat": 41.8394396,
+        "lon": 26.7337269,
+        "tags": {
+          "amenity": "cafe",
+          "name": "ME DA SA"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12900249321,
+        "lat": 41.7791588,
+        "lon": 26.5663781,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Canberry Edirne Böğürtlen Bahçesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 253087313,
+        "center": {
+          "lat": 41.7647883,
+          "lon": 26.9157857
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 701959001,
+        "center": {
+          "lat": 41.7845516,
+          "lon": 26.7359733
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

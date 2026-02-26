@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "sehir_id": "55",
+    "sehir_adi": "SAMSUN",
+    "ilce_id": "1452",
+    "ilce_adi": "KAVAK",
+    "bbox_used": {
+      "south": 41.0635369,
+      "west": 36.021884,
+      "north": 41.0735369,
+      "east": 36.031884
+    },
+    "bbox_original": {
+      "south": 41.0635369,
+      "west": 36.021884,
+      "north": 41.0735369,
+      "east": 36.031884
+    },
+    "fetchedAt": "2026-01-21T10:20:53.230Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:19:02Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10098813801,
+        "lat": 41.0695342,
+        "lon": 36.0292256,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kardeşler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10098813817,
+        "lat": 41.0694607,
+        "lon": 36.0280295,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kardeşler Çay Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10098813828,
+        "lat": 41.070263,
+        "lon": 36.0285878,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çakınlar Unlu Mamulleri"
+        }
+      }
+    ]
+  }
+}

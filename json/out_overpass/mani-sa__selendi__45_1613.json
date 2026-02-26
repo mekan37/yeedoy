@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "sehir_id": "45",
+    "sehir_adi": "MANİSA",
+    "ilce_id": "1613",
+    "ilce_adi": "SELENDİ",
+    "bbox_used": {
+      "south": 38.6702345,
+      "west": 28.6231747,
+      "north": 38.9257632,
+      "east": 29.1186319
+    },
+    "bbox_original": {
+      "south": 38.6702345,
+      "west": 28.6231747,
+      "north": 38.9257632,
+      "east": 29.1186319
+    },
+    "fetchedAt": "2026-01-21T09:58:36.629Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9107443778,
+        "lat": 38.8064013,
+        "lon": 28.8999695,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Kazıklı Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12628813079,
+        "lat": 38.7427457,
+        "lon": 28.8728951,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Karşıova Tostçusu"
+        }
+      }
+    ]
+  }
+}

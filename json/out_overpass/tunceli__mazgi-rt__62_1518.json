@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "sehir_id": "62",
+    "sehir_adi": "TUNCELİ",
+    "ilce_id": "1518",
+    "ilce_adi": "MAZGİRT",
+    "bbox_used": {
+      "south": 38.7993203,
+      "west": 39.5103935,
+      "north": 39.0787269,
+      "east": 39.9020216
+    },
+    "bbox_original": {
+      "south": 38.7993203,
+      "west": 39.5103935,
+      "north": 39.0787269,
+      "east": 39.9020216
+    },
+    "fetchedAt": "2026-01-21T10:39:54.881Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:38:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11668866038,
+        "lat": 39.0775887,
+        "lon": 39.5347839,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Helvacı Ali"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1268332185,
+        "center": {
+          "lat": 39.0776697,
+          "lon": 39.5342967
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Macbear"
+        }
+      }
+    ]
+  }
+}

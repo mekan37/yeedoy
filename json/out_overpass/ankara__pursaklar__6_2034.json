@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "sehir_id": "6",
+    "sehir_adi": "ANKARA",
+    "ilce_id": "2034",
+    "ilce_adi": "PURSAKLAR",
+    "bbox_used": {
+      "south": 40.0153908,
+      "west": 32.7973077,
+      "north": 40.2015856,
+      "east": 32.9874552
+    },
+    "bbox_original": {
+      "south": 40.0153908,
+      "west": 32.7973077,
+      "north": 40.2015856,
+      "east": 32.9874552
+    },
+    "fetchedAt": "2026-01-21T08:26:54.677Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 7
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:25:52Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4082968007,
+        "lat": 40.0433827,
+        "lon": 32.9006524,
+        "tags": {
+          "addr:city": "Pursaklar / Ankara",
+          "addr:street": "Yavuz Bulvarı",
+          "amenity": "restaurant",
+          "name": "Hazneşah"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4379750947,
+        "lat": 40.0231853,
+        "lon": 32.9197341,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dede'nin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4420380989,
+        "lat": 40.0388068,
+        "lon": 32.9006161,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "Efsane Dürümcü",
+          "name:tr": "Efsane Dürümcü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4813597330,
+        "lat": 40.0373469,
+        "lon": 32.8970174,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "name": "Osmanlı Sofrası - Pursaklar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5426804321,
+        "lat": 40.0362213,
+        "lon": 32.9012246,
+        "tags": {
+          "addr:postcode": "06145",
+          "addr:street": "Cumhuriyet Caddesi",
+          "amenity": "cafe",
+          "cuisine": "mediterranean",
+          "internet_access": "wlan",
+          "name": "Kahve Sokağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10249147409,
+        "lat": 40.038977,
+        "lon": 32.9092984,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Baklava-Börek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11846258789,
+        "lat": 40.0995543,
+        "lon": 32.9811669,
+        "tags": {
+          "addr:city": "Ankara",
+          "addr:postcode": "06750",
+          "addr:street": "Esenboga Havalimani Yolu 24. Km",
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Kavakli Restaurant",
+          "opening_hours": "Mo-Sa 08:00-23:30, Su 08:00-22:00",
+          "phone": "+90 312 3980510",
+          "website": "https://www.kavaklirestaurant.com/"
+        }
+      }
+    ]
+  }
+}

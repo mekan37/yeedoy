@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "sehir_id": "21",
+    "sehir_adi": "DİYARBAKIR",
+    "ilce_id": "1253",
+    "ilce_adi": "ÇINAR",
+    "bbox_used": {
+      "south": 37.53788396486487,
+      "north": 37.80815423513514,
+      "west": 40.077917637210525,
+      "east": 40.418397062789474
+    },
+    "bbox_original": {
+      "south": 37.5128299,
+      "west": 39.8286969,
+      "north": 37.8332083,
+      "east": 40.6676178
+    },
+    "fetchedAt": "2026-01-21T08:52:45.944Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:51:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11710498569,
+        "lat": 37.8052465,
+        "lon": 40.365895,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köy Kavurma Çorba Yeri",
+          "phone": "+90 542 724 6121"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "65",
+    "sehir_adi": "VAN",
+    "ilce_id": "1175",
+    "ilce_adi": "BAŞKALE",
+    "bbox_used": {
+      "south": 37.91765616486486,
+      "north": 38.18792643513513,
+      "west": 43.941143758474574,
+      "east": 44.28338224152542
+    },
+    "bbox_original": {
+      "south": 37.7200905,
+      "west": 43.7119787,
+      "north": 38.3854921,
+      "east": 44.5125473
+    },
+    "fetchedAt": "2026-01-21T10:46:28.917Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:44:40Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4008960483,
+        "lat": 38.149516,
+        "lon": 44.0213046,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ova Dinlenme Tesisi"
+        }
+      }
+    ]
+  }
+}

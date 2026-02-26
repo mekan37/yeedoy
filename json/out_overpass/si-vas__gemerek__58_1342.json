@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "58",
+    "sehir_adi": "SİVAS",
+    "ilce_id": "1342",
+    "ilce_adi": "GEMEREK",
+    "bbox_used": {
+      "south": 39.15383561486487,
+      "north": 39.42410588513514,
+      "west": 35.95392506627741,
+      "east": 36.30212473372259
+    },
+    "bbox_original": {
+      "south": 39.0535297,
+      "west": 35.8392905,
+      "north": 39.5244118,
+      "east": 36.4167593
+    },
+    "fetchedAt": "2026-01-21T10:26:59.017Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:25:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

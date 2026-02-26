@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "sehir_id": "23",
+    "sehir_adi": "ELAZIĞ",
+    "ilce_id": "1566",
+    "ilce_adi": "PALU",
+    "bbox_used": {
+      "south": 38.54396926486486,
+      "north": 38.81423953513514,
+      "west": 39.85204109399355,
+      "east": 40.197254006006446
+    },
+    "bbox_original": {
+      "south": 38.514891,
+      "west": 39.6977137,
+      "north": 38.8433178,
+      "east": 40.3515814
+    },
+    "fetchedAt": "2026-01-21T08:57:40.353Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:56:31Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11265007939,
+        "lat": 38.6898739,
+        "lon": 39.9366643,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11265036645,
+        "lat": 38.7248209,
+        "lon": 39.876464,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,827 @@
+{
+  "meta": {
+    "sehir_id": "45",
+    "sehir_adi": "MANİSA",
+    "ilce_id": "2086",
+    "ilce_adi": "ŞEHZADELER",
+    "bbox_used": {
+      "south": 38.4536,
+      "west": 27.3791568,
+      "north": 38.8654918,
+      "east": 27.6551252
+    },
+    "bbox_original": {
+      "south": 38.4536,
+      "west": 27.3791568,
+      "north": 38.8654918,
+      "east": 27.6551252
+    },
+    "fetchedAt": "2026-01-21T10:00:15.356Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 62
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:58:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3355887313,
+        "lat": 38.6164816,
+        "lon": 27.4331413,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sultan Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3356375618,
+        "lat": 38.6135845,
+        "lon": 27.4229954,
+        "tags": {
+          "amenity": "cafe",
+          "diet:vegetarian": "no",
+          "name": "Cafe Sera",
+          "opening_hours": "Mo-Su,PH 07:00-01:00+",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3356375628,
+        "lat": 38.6126875,
+        "lon": 27.4215764,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3356375648,
+        "lat": 38.612983,
+        "lon": 27.4266407,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3968159943,
+        "lat": 38.6130897,
+        "lon": 27.3905511,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:housenumber": "2",
+          "addr:neighbourhood": "Uncubozköy",
+          "addr:postcode": "45030",
+          "addr:street": "5503. Sokak",
+          "amenity": "cafe",
+          "cuisine": "burger;coffee_shop;pasta",
+          "name": "Mia Kafe",
+          "opening_hours": "Mo-Su 09:00-00:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3970062992,
+        "lat": 38.6142032,
+        "lon": 27.4277852,
+        "tags": {
+          "addr:city": "Şehzadeler/Manisa",
+          "addr:street": "8 Eylül Caddesi",
+          "amenity": "restaurant",
+          "name": "Urfa & Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4330966289,
+        "lat": 38.6128295,
+        "lon": 27.4345794,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Altınkuş et restoranı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4632138754,
+        "lat": 38.6908127,
+        "lon": 27.5037145,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4632139108,
+        "lat": 38.6635174,
+        "lon": 27.4511772,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8499096823,
+        "lat": 38.6212148,
+        "lon": 27.3827469,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:housenumber": "50",
+          "addr:neighbourhood": "75. Yıl",
+          "addr:postcode": "45030",
+          "addr:street": "5391. sokak",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "E Che Pizza",
+          "name:en": "E Che Pizza",
+          "name:tr": "E Che Pizza",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "opening_hours:covid19": "Mo-Su 10:00-18:00",
+          "phone": "+902362221818"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9279567047,
+        "lat": 38.7543242,
+        "lon": 27.6292673,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9631903765,
+        "lat": 38.6137036,
+        "lon": 27.389331,
+        "tags": {
+          "amenity": "pub",
+          "name": "Bir@lem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9631903766,
+        "lat": 38.6119805,
+        "lon": 27.389078,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "dessert",
+          "name": "Boston Drink & Dessert"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9631903768,
+        "lat": 38.6117251,
+        "lon": 27.3886324,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Naz Makamı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9631903769,
+        "lat": 38.6118136,
+        "lon": 27.3886681,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Picnic Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9631903772,
+        "lat": 38.6121716,
+        "lon": 27.3888393,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ege Çiftliği Kahvatlı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9631903773,
+        "lat": 38.6122727,
+        "lon": 27.3891755,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:neighbourhood": "Uncubozköy Mahallesi",
+          "addr:postcode": "45030",
+          "addr:street": "Cemal Ergün Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "diet:halal": "yes",
+          "name": "Maydonoz Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9631903789,
+        "lat": 38.6109292,
+        "lon": 27.3885401,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Corner Jazzy's Lounge"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10209096604,
+        "lat": 38.6153452,
+        "lon": 27.4606214,
+        "tags": {
+          "addr:district": "Şehzadeler",
+          "addr:housenumber": "11",
+          "addr:neighbourhood": "Adnan Menderes Mah",
+          "addr:street": "132",
+          "amenity": "cafe",
+          "name": "MD House Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10733016207,
+        "lat": 38.6225547,
+        "lon": 27.3822931,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şelale Plaza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10833447915,
+        "lat": 38.6150034,
+        "lon": 27.4233253,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dürümcü Kibar Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10833447919,
+        "lat": 38.6182207,
+        "lon": 27.4241005,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yuntdağlı Hasan Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10833447925,
+        "lat": 38.6143205,
+        "lon": 27.4248513,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Münise Çikolata & Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10833447930,
+        "lat": 38.6158952,
+        "lon": 27.4232138,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ay Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10833447932,
+        "lat": 38.6140682,
+        "lon": 27.4249661,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Keçi Dondurma & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11500190325,
+        "lat": 38.6109839,
+        "lon": 27.3820952,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:housenumber": "39",
+          "addr:neighbourhood": "Uncubozköy Mahallesi",
+          "addr:postcode": "45030",
+          "addr:street": "Celal Bayar Ünv.",
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Bolulu Hasan Usta Manisa Meydan",
+          "outdoor_seating": "yes",
+          "phone": "+905396510039"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11881317943,
+        "lat": 38.6168004,
+        "lon": 27.4093152,
+        "tags": {
+          "addr:housenumber": "No:148",
+          "addr:street": "Merkez Efendi, Mimar Sinan Blv.",
+          "amenity": "restaurant",
+          "name": "Akasya Döner Pide Lehmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12108019519,
+        "lat": 38.4857765,
+        "lon": 27.5744144,
+        "tags": {
+          "addr:city": "Manisa",
+          "air_conditioning": "yes",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ramiz & Ziyafet",
+          "outdoor_seating": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12125786656,
+        "lat": 38.6105808,
+        "lon": 27.3850025,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:housenumber": "35",
+          "addr:neighbourhood": "Uncubozköy Mahallesi",
+          "addr:postcode": "45030",
+          "addr:street": "5518. Sokak",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Pİcchio Caffe",
+          "opening_hours": "10:00-02:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12163367298,
+        "lat": 38.6119711,
+        "lon": 27.3903819,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Beck",
+          "opening_hours": "Mo-Sa 10:00-24:00; Su 12:00-24:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12169992730,
+        "lat": 38.6111335,
+        "lon": 27.3820966,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:neighbourhood": "Uncubozköy Mahallesi",
+          "addr:postcode": "45030",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "BlendBlack Coffee Factory",
+          "opening_hours": "Mo-Su 08:00-24:00",
+          "outdoor_seating": "yes",
+          "website": "https://www.blendblack.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12478442046,
+        "lat": 38.6154335,
+        "lon": 27.4287618,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ayaz Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12854897498,
+        "lat": 38.6101235,
+        "lon": 27.4137222,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:housenumber": "210/B",
+          "addr:neighbourhood": "Merkez Efendi Mah. İzmir Cd. no:210/B",
+          "addr:postcode": "45451",
+          "addr:street": "İzmir Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;sandwich",
+          "food": "snacks",
+          "internet_access": "wlan",
+          "internet_access:fee": "customers",
+          "name": "Spill Cafe",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 544 744 7124"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12923889141,
+        "lat": 38.6109414,
+        "lon": 27.3882377,
+        "tags": {
+          "amenity": "pub",
+          "name": "Sir Winston"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13018984941,
+        "lat": 38.6165314,
+        "lon": 27.4007816,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Köfteci Ramiz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13018987133,
+        "lat": 38.6163086,
+        "lon": 27.4003218,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Kumpir"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13154919183,
+        "lat": 38.6136591,
+        "lon": 27.3892461,
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Yunusemre",
+          "addr:housenumber": "49",
+          "addr:neighbourhood": "Uncubozköy",
+          "addr:postcode": "45030",
+          "addr:street": "5501. Sokak",
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name": "Birasal",
+          "phone": "5010001145",
+          "website": "https://birasalbozkoy.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444231122,
+        "lat": 38.6162213,
+        "lon": 27.4004801,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444231123,
+        "lat": 38.616201,
+        "lon": 27.4003376,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Dünyası",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444409565,
+        "lat": 38.6157818,
+        "lon": 27.3983995,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Big Chefs"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444409566,
+        "lat": 38.6160739,
+        "lon": 27.3977346,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Cacao Factory Co."
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444409570,
+        "lat": 38.6162027,
+        "lon": 27.3982809,
+        "tags": {
+          "amenity": "bar",
+          "name": "Lucky Duck"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444409571,
+        "lat": 38.6157542,
+        "lon": 27.3975032,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444409573,
+        "lat": 38.616212,
+        "lon": 27.3981592,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Odin Book Store & Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444409576,
+        "lat": 38.6157397,
+        "lon": 27.3977165,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "burger;pizza",
+          "name": "The Hunger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13444409577,
+        "lat": 38.6157601,
+        "lon": 27.3978258,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "sushi",
+          "name": "Sushi Co"
+        }
+      },
+      {
+        "type": "way",
+        "id": 732300053,
+        "center": {
+          "lat": 38.6329945,
+          "lon": 27.3861215
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Kanyon Cafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 732300054,
+        "center": {
+          "lat": 38.6288146,
+          "lon": 27.3839962
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Coffee Miracle",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 732510991,
+        "center": {
+          "lat": 38.627721,
+          "lon": 27.381357
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "breakfast",
+          "name": "Gurme Atölye",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046312983,
+        "center": {
+          "lat": 38.6113512,
+          "lon": 27.3851791
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Space Burger"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1046312984,
+        "center": {
+          "lat": 38.6114121,
+          "lon": 27.3853703
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Çamlıca Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1049986979,
+        "center": {
+          "lat": 38.6147531,
+          "lon": 27.4330134
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Taş Fabrika",
+          "wikidata": "Q133698794"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1210554764,
+        "center": {
+          "lat": 38.6093563,
+          "lon": 27.3874249
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Boheme Jardin"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1210554765,
+        "center": {
+          "lat": 38.6094534,
+          "lon": 27.387446
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "pizza",
+          "name": "Pizza Locale"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1210563444,
+        "center": {
+          "lat": 38.6072647,
+          "lon": 27.3873252
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1412792363,
+        "center": {
+          "lat": 38.6032213,
+          "lon": 27.3857193
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1414457937,
+        "center": {
+          "lat": 38.5535931,
+          "lon": 27.4485613
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1464364490,
+        "center": {
+          "lat": 38.616546,
+          "lon": 27.4280476
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "steak_house",
+          "diet:meat": "yes",
+          "name": "Menekşe  Et Lokantası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1464364492,
+        "center": {
+          "lat": 38.6173982,
+          "lon": 27.4300769
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "name": "Okan Divrik Kıraathanesi",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1464364496,
+        "center": {
+          "lat": 38.6161886,
+          "lon": 27.4282036
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "steak_house",
+          "diet:meat": "yes",
+          "name": "Güney Kebap"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1464364499,
+        "center": {
+          "lat": 38.6160802,
+          "lon": 27.4278141
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "steak_house",
+          "name": "Güney Kebap"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1464364501,
+        "center": {
+          "lat": 38.6165033,
+          "lon": 27.4278719
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Başkan Kafe"
+        }
+      }
+    ]
+  }
+}

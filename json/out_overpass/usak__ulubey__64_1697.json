@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "sehir_id": "64",
+    "sehir_adi": "UŞAK",
+    "ilce_id": "1697",
+    "ilce_adi": "ULUBEY",
+    "bbox_used": {
+      "south": 38.1658584,
+      "west": 29.1082924,
+      "north": 38.5890727,
+      "east": 29.4601453
+    },
+    "bbox_original": {
+      "south": 38.1658584,
+      "west": 29.1082924,
+      "north": 38.5890727,
+      "east": 29.4601453
+    },
+    "fetchedAt": "2026-01-21T10:45:33.332Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:43:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5030128934,
+        "lat": 38.413552,
+        "lon": 29.299545,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ulubey Macera Parkı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5030131832,
+        "lat": 38.4190703,
+        "lon": 29.3040335,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6011703185,
+        "lat": 38.5661924,
+        "lon": 29.239848,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9043814326,
+        "lat": 38.4183789,
+        "lon": 29.3043792,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1214082457,
+        "center": {
+          "lat": 38.418272,
+          "lon": 29.3043919
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

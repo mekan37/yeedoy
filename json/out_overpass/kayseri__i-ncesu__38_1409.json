@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "38",
+    "sehir_adi": "KAYSERİ",
+    "ilce_id": "1409",
+    "ilce_adi": "İNCESU",
+    "bbox_used": {
+      "south": 38.6238106,
+      "west": 35.1914899,
+      "north": 38.6338106,
+      "east": 35.2014899
+    },
+    "bbox_original": {
+      "south": 38.6238106,
+      "west": 35.1914899,
+      "north": 38.6338106,
+      "east": 35.2014899
+    },
+    "fetchedAt": "2026-01-21T09:35:26.967Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:34:13Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

@@ -1,0 +1,1003 @@
+{
+  "meta": {
+    "sehir_id": "33",
+    "sehir_adi": "MERSİN",
+    "ilce_id": "2067",
+    "ilce_adi": "YENİŞEHİR",
+    "bbox_used": {
+      "south": 36.7627152,
+      "west": 34.4348089,
+      "north": 36.925461,
+      "east": 34.6204856
+    },
+    "bbox_original": {
+      "south": 36.7627152,
+      "west": 34.4348089,
+      "north": 36.925461,
+      "east": 34.6204856
+    },
+    "fetchedAt": "2026-01-21T09:16:48.757Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 64
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:14:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3673523202,
+        "lat": 36.771388,
+        "lon": 34.5685453,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "mersin marina"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4110128905,
+        "lat": 36.7830868,
+        "lon": 34.5970368,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Göksel Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4227738290,
+        "lat": 36.7842948,
+        "lon": 34.5894883,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Unlikely & Cities (Sweet things)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4497655589,
+        "lat": 36.7894915,
+        "lon": 34.5265654,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Hayal kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4965284727,
+        "lat": 36.782938,
+        "lon": 34.6109817,
+        "tags": {
+          "amenity": "bar",
+          "name": "Тiko"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4973361623,
+        "lat": 36.7824522,
+        "lon": 34.5931303,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5254245244,
+        "lat": 36.7705105,
+        "lon": 34.5684753,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Özsüt",
+          "brand:wikidata": "Q20472928",
+          "cuisine": "coffee_shop",
+          "name": "Özsüt",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6149590812,
+        "lat": 36.8204599,
+        "lon": 34.6172692,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Edem Dondurma & Patiseri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6282820378,
+        "lat": 36.8112861,
+        "lon": 34.6199733,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Damak Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6283977790,
+        "lat": 36.8213282,
+        "lon": 34.6147423,
+        "tags": {
+          "name": "Buhara Cezerye Şekerleme",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6285746294,
+        "lat": 36.8043206,
+        "lon": 34.6076853,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Diyar Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6367250746,
+        "lat": 36.7752962,
+        "lon": 34.5756181,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Iskele",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7013322085,
+        "lat": 36.7798763,
+        "lon": 34.5913566,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:housenumber": "49",
+          "addr:street": "1403",
+          "amenity": "cafe",
+          "contact:phone": "+90 536 3831212",
+          "cuisine": "african;italian;arab;indian;coffee_shop;local",
+          "diet:vegan": "only",
+          "internet_access": "wlan",
+          "name": "Vegan yer Buda Kafa",
+          "name:en": "Vegan space Buda Kafa",
+          "name:tr": "Vegan mekan Buda Kafa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7875095985,
+        "lat": 36.7705933,
+        "lon": 34.5687662,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "Starbucks",
+          "name:en": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7875508187,
+        "lat": 36.7705918,
+        "lon": 34.5687494,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7899618263,
+        "lat": 36.7850478,
+        "lon": 34.6022235,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Papatya Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7899655589,
+        "lat": 36.7771308,
+        "lon": 34.5747795,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "63 Ciger Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7899661817,
+        "lat": 36.7870405,
+        "lon": 34.6097815,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gaziantep Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8148195019,
+        "lat": 36.7840011,
+        "lon": 34.595197,
+        "tags": {
+          "addr:housenumber": "10/c",
+          "addr:street": "1901. Sokak",
+          "amenity": "restaurant",
+          "cuisine": "chicken;kebab;local;sandwich;tea;turkish",
+          "internet_access": "wlan",
+          "name": "Hazan Usta Tantuni",
+          "opening_hours": "24/7",
+          "phone": "+903243259329",
+          "website": "https://yemeksepeti.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8148218217,
+        "lat": 36.7841685,
+        "lon": 34.5962976,
+        "tags": {
+          "name": "Denizkızı Pastanesi",
+          "name:en": "Mermaid Patisserie",
+          "opening_hours": "Mo-Su 06:00-23:00",
+          "phone": "+903243287445",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8614507178,
+        "lat": 36.7682569,
+        "lon": 34.5535036,
+        "tags": {
+          "addr:housenumber": "759",
+          "addr:street": "Akkent Mahallesi Hüseyin Okan Merzeci Bulvarı",
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "cuisine": "coffee_shop",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "opening_hours": "Mo-Fr 10:00-22:00",
+          "shop": "coffee",
+          "takeaway": "yes",
+          "website": "https://www.gloriajeans.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8618109710,
+        "lat": 36.7731655,
+        "lon": 34.5701476,
+        "tags": {
+          "addr:housenumber": "178",
+          "addr:street": "Adnan menderes bulvarı",
+          "amenity": "restaurant",
+          "name": "Otto",
+          "opening_hours": "Mo-Su 11:30-00:00",
+          "website": "ottobrosburgercafe.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8618240793,
+        "lat": 36.7741159,
+        "lon": 34.5726847,
+        "tags": {
+          "addr:housenumber": "138",
+          "addr:street": "Adnan Menderes Blv.",
+          "amenity": "ice_cream",
+          "name": "Ballıbaba",
+          "opening_hours": "Mo-Fr 09:00-00:00; Sa 10:00-00:00; Su 11:30-00:00",
+          "phone": "(0324)3276406"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8618242773,
+        "lat": 36.7741601,
+        "lon": 34.5728331,
+        "tags": {
+          "addr:housenumber": "156",
+          "addr:street": "Adnan Menderes Blv.",
+          "amenity": "cafe",
+          "name": "Brewser Coffe Shop",
+          "opening_hours": "Mo-Su 07:30-23:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8621479686,
+        "lat": 36.776274,
+        "lon": 34.5721056,
+        "tags": {
+          "addr:housenumber": "496",
+          "addr:street": "Gazi Mustafa Kemal BLV.",
+          "amenity": "cafe",
+          "name": "Olabi Kahvesi",
+          "opening_hours": "Mo-Su 08:00-00:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8622095657,
+        "lat": 36.7812902,
+        "lon": 34.5875501,
+        "tags": {
+          "addr:housenumber": "5",
+          "addr:street": "Aydınlıkevler, Dumlupınar Cd.",
+          "amenity": "cafe",
+          "name": "Rain go",
+          "opening_hours": "Mo-Sa 08:00-19:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8630118685,
+        "lat": 36.7740017,
+        "lon": 34.572528,
+        "tags": {
+          "addr:housenumber": "158/A",
+          "addr:street": "Adnan Menderes Bulv, Kırmaz Apt",
+          "amenity": "restaurant",
+          "name": "Cafe Betul",
+          "opening_hours": "Mo-Sa 08:00-19:00",
+          "phone": "(0324)3290169",
+          "website": "berullezzetleri.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8631928539,
+        "lat": 36.7806544,
+        "lon": 34.5984084,
+        "tags": {
+          "addr:housenumber": "48",
+          "addr:street": "Adnan Menderes Bulvarı",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/56955-290903/pozcu-sahil-bolkan-apartmani"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8632125765,
+        "lat": 36.774398,
+        "lon": 34.5730745,
+        "tags": {
+          "addr:housenumber": "5A",
+          "addr:street": "Barbaros, 2186. Sk.",
+          "amenity": "restaurant",
+          "name": "Burger Town",
+          "opening_hours": "Mo-Su 11:00-20:00",
+          "phone": "(0324)9996033",
+          "website": "https://burgertown.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8917275578,
+        "lat": 36.7844102,
+        "lon": 34.5882776,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8919810055,
+        "lat": 36.7828862,
+        "lon": 34.5891093,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Barista Brothers"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9669709185,
+        "lat": 36.7891295,
+        "lon": 34.6164215,
+        "tags": {
+          "addr:housenumber": "154/A",
+          "addr:street": "Silifke Cad.",
+          "amenity": "restaurant",
+          "name": "Memoş Tantuni",
+          "opening_hours": "Mo-Su 09:00-20:00",
+          "phone": "0324 237 20 98",
+          "website": "memostantuni.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9732275667,
+        "lat": 36.7743809,
+        "lon": 34.5736898,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "150 A",
+          "addr:neighbourhood": "Barbaros Mahallesi",
+          "addr:street": "Barboros, Adnan Menderes Blv. No:48",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/68355-303363/adnan-menderes-bulvari-no-150"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9757388103,
+        "lat": 36.7834985,
+        "lon": 34.6079922,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Rastlantı boutique cafe restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9779950299,
+        "lat": 36.7831091,
+        "lon": 34.5941518,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "306/A",
+          "addr:neighbourhood": "GMK Bulvarı No:306/A Yenişehir/Mersin",
+          "addr:street": "Gazi Mustafa Kemal Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "steak_house;chicken;kebab;türk;mediterranean;salad;döner;pilav;bulgur;türk_yemekleri;ızgara;çorba;pide;tatlı",
+          "diet:vegan": "yes",
+          "diet:vegetarian": "yes",
+          "name": "Sabah Et Lokantası Pozcu",
+          "name:tr": "Sabah Et Lokantası",
+          "opening_hours": "24/7",
+          "phone": "+90 324 329 1515",
+          "website": "https://sabahlokantasi.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9786745254,
+        "lat": 36.7882933,
+        "lon": 34.5885572,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9792385824,
+        "lat": 36.7681489,
+        "lon": 34.5533437,
+        "tags": {
+          "addr:housenumber": "759",
+          "addr:street": "Akkent Mahallesi Hüseyin Okan Merzeci Bulvarı",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "shop": "coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9792385829,
+        "lat": 36.7739464,
+        "lon": 34.5722204,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kıskaç Cafe Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10118505516,
+        "lat": 36.7907285,
+        "lon": 34.5970914,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Hürriyet Mahallesi",
+          "addr:street": "16. Cadde",
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Etçi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10118650020,
+        "lat": 36.7884644,
+        "lon": 34.5981061,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "amenity": "cafe",
+          "name": "Eyfel Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10199197936,
+        "lat": 36.7729945,
+        "lon": 34.5406049,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Çiftlikköy Mahallesi , We Life Yaşam Merkezi",
+          "addr:street": "Üniversite Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "internet_access:ssid": "Starbucks",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/69618-304807/ciftlikkoy-universite-cad-no-4"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10209509346,
+        "lat": 36.7734706,
+        "lon": 34.5711243,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "170/B",
+          "addr:neighbourhood": "Eğriçam Mahallesi",
+          "addr:postcode": "33160",
+          "addr:street": "Adnan Menderes Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "burger;breakfast;street_food;salad;pasta;dessert",
+          "name": "Cantina dei Fiori",
+          "opening_hours": "Mo-Su 10:00-22:30",
+          "phone": "+905389540213",
+          "website": "cantinadeifiori.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10264986462,
+        "lat": 36.7815738,
+        "lon": 34.6078468,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "amenity": "bar",
+          "name": "North Sea Irish Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10264986463,
+        "lat": 36.7817027,
+        "lon": 34.6080748,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "amenity": "restaurant",
+          "name": "Next Republic Mersin",
+          "website": "http://nextrepublic.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10301890937,
+        "lat": 36.7841799,
+        "lon": 34.5893813,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Güvenevler, 1910. Sk. 17-15, 33140 Yenişehir/Mersin",
+          "addr:street": "20. Cadde",
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Kahve Dünyası",
+          "outdoor_seating": "yes",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10799350956,
+        "lat": 36.8010893,
+        "lon": 34.5953167,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Limonluk Mah.",
+          "addr:street": "Palm City AVM",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10802549193,
+        "lat": 36.7875866,
+        "lon": 34.5887404,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "24/C",
+          "addr:neighbourhood": "Güvenevler Mahallesi",
+          "addr:postcode": "33110",
+          "addr:street": "20. Cadde Palm Ofis",
+          "amenity": "restaurant",
+          "check_date": "2024-12-30",
+          "check_date:currency:XBT": "2024-02-03",
+          "cuisine": "italian;pizza;burger;cake",
+          "currency:XBT": "no",
+          "name": "Caffe Italia",
+          "payment:lightning": "no",
+          "payment:lightning_contactless": "no",
+          "payment:onchain": "no",
+          "phone": "+90 505 678 88 88",
+          "survey:date": "2023-04-11",
+          "website": "https://www.instagram.com/caffeitalia.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11328719155,
+        "lat": 36.7706339,
+        "lon": 34.5689717,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:street": "Mersin Marina",
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Dünyası",
+          "outdoor_seating": "yes",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11345888999,
+        "lat": 36.7841092,
+        "lon": 34.5959915,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:street": "18. Cadde",
+          "amenity": "restaurant",
+          "name": "Yasin Usta Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11941828755,
+        "lat": 36.785038,
+        "lon": 34.5405536,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Çiftlikköy",
+          "addr:street": "Mimar Sinan Caddesi",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/81943-310002/ciftlikkoy-akademi-ofis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11955095238,
+        "lat": 36.789715,
+        "lon": 34.6169802,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Hamidiye",
+          "addr:street": "Silifke Caddesi",
+          "amenity": "restaurant",
+          "name": "Murat Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11980651471,
+        "lat": 36.7877102,
+        "lon": 34.6127476,
+        "tags": {
+          "addr:street": "Silifke Caddesi",
+          "amenity": "cafe",
+          "name": "Yürü Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12130250951,
+        "lat": 36.8577313,
+        "lon": 34.6089728,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12529377005,
+        "lat": 36.8624208,
+        "lon": 34.5657689,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Toroslar",
+          "addr:housenumber": "119/31",
+          "addr:neighbourhood": "çopurlu",
+          "addr:postcode": "33250",
+          "addr:street": "Merkez Sk",
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "name": "Bayram-Et Mersin",
+          "opening_hours": "Mo-Su 08:00-00:00",
+          "organic": "yes",
+          "outdoor_seating": "yes",
+          "phone": "0531 738 83 33",
+          "reservation": "yes",
+          "website": "https://www.bayramet.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12786237261,
+        "lat": 36.7747961,
+        "lon": 34.5716891,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "1B",
+          "addr:neighbourhood": "Barbaros Mahallesi",
+          "addr:postcode": "33160",
+          "addr:street": "2188 Sk.",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Küfi Coffee",
+          "opening_hours": "Mo-Su 09:00-21:00",
+          "outdoor_seating": "yes",
+          "phone": "0541 602 30 26",
+          "website": "https://kuficoffeefood.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12886584240,
+        "lat": 36.766657,
+        "lon": 34.5554264,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "612",
+          "addr:neighbourhood": "Akkent",
+          "addr:postcode": "33160",
+          "addr:street": "Gazi Mustafa Kemal Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "diet:fish": "yes",
+          "diet:meat": "yes",
+          "diet:seafood": "yes",
+          "name": "Seine Restaurant",
+          "phone": "+90 324 356 11 00",
+          "website": "https://www.instagram.com/seinerestaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13011643001,
+        "lat": 36.8653479,
+        "lon": 34.5708639,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gönül Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13055799769,
+        "lat": 36.7994301,
+        "lon": 34.5845749,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "78A",
+          "addr:neighbourhood": "Limonluk",
+          "addr:postcode": "33110",
+          "addr:street": "18. Cadde",
+          "amenity": "restaurant",
+          "cuisine": "coffee_shop;pizza;burger;chicken;breakfast;kebab;steak_house;dessert;mediterranean;sandwich;italian",
+          "delivery": "yes",
+          "diet:healthy": "yes",
+          "diet:vegetarian": "yes",
+          "internet_access": "yes",
+          "name": "BistraVilla",
+          "opening_hours": "09:00-21:00",
+          "outdoor_seating": "yes",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "phone": "+90 532 167 33 19",
+          "website": "www.bistravilla.com",
+          "website:menu": "https://bistravilla.com/menu.php"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472897602,
+        "lat": 36.7831593,
+        "lon": 34.5942973,
+        "tags": {
+          "addr:street": "Gazi Mustafa Kemal Bulvarı",
+          "name": "Has Künefe",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13472955937,
+        "lat": 36.767954,
+        "lon": 34.5525576,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Akkent",
+          "addr:street": "Sayapark AVM",
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Dünyası",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 522132026,
+        "center": {
+          "lat": 36.782567,
+          "lon": 34.5882706
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:housenumber": "8/B",
+          "addr:neighbourhood": "Güvenevler Mah",
+          "addr:postcode": "33140",
+          "addr:street": "1914 Sokak",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "burger;dessert;salad;pasta;coffee_shop;sandwich;french;chicken;mediterranean",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Caffe dei Fiori",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "yes",
+          "phone": "05389540213",
+          "website": "caffedeifiori.com.tr"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1105759132,
+        "center": {
+          "lat": 36.7933492,
+          "lon": 34.5992194
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Hürriyet Mahallesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "regional",
+          "name": "Zeki Usta Kebap Mersin Şubesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1105759133,
+        "center": {
+          "lat": 36.7932518,
+          "lon": 34.5992795
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Yenişehir",
+          "addr:neighbourhood": "Hürriyet Mahallesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Şehri Antep"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1315030639,
+        "center": {
+          "lat": 36.858221,
+          "lon": 34.6098448
+        },
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Toroslar",
+          "addr:street": "Mersin Şehir Hastanesi Sağlık Kompleksi",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "F Kafe"
+        }
+      }
+    ]
+  }
+}

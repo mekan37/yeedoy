@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "sehir_id": "63",
+    "sehir_adi": "ŞANLIURFA",
+    "ilce_id": "1194",
+    "ilce_adi": "BİRECİK",
+    "bbox_used": {
+      "south": 36.91317706486486,
+      "north": 37.183447335135135,
+      "west": 37.938803047906084,
+      "east": 38.27645995209391
+    },
+    "bbox_original": {
+      "south": 36.830255,
+      "west": 37.8633426,
+      "north": 37.2663694,
+      "east": 38.3519204
+    },
+    "fetchedAt": "2026-01-21T10:42:49.892Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:41:32Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2798226560,
+        "lat": 37.0286411,
+        "lon": 37.9688458,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4889958237,
+        "lat": 37.0295767,
+        "lon": 37.9761841,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Beyaz Saray",
+          "name:en": "Beyaz Saray",
+          "name:tr": "Beyaz Saray"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5464923024,
+        "lat": 37.05034,
+        "lon": 38.2113497,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bülbül Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9274814583,
+        "lat": 37.02241,
+        "lon": 37.9740448,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9274814648,
+        "lat": 37.0268557,
+        "lon": 37.9764409,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13065162062,
+        "lat": 37.0252658,
+        "lon": 37.9750235,
+        "tags": {
+          "addr:city": "Şanlıurfa",
+          "addr:district": "Birecik",
+          "addr:neighbourhood": "Meydan",
+          "amenity": "cafe",
+          "cuisine": "pizza",
+          "internet_access": "wlan",
+          "name": "Kaif Lounge",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "way",
+        "id": 217134347,
+        "center": {
+          "lat": 37.0981762,
+          "lon": 38.18868
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Mirkelam",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 217134348,
+        "center": {
+          "lat": 37.1006698,
+          "lon": 38.1881496
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Mirkelam",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1307469821,
+        "center": {
+          "lat": 37.0252634,
+          "lon": 37.9754637
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "GülBaba"
+        }
+      }
+    ]
+  }
+}

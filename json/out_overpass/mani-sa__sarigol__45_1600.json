@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "sehir_id": "45",
+    "sehir_adi": "MANİSA",
+    "ilce_id": "1600",
+    "ilce_adi": "SARIGÖL",
+    "bbox_used": {
+      "south": 38.0835037,
+      "west": 28.544739,
+      "north": 38.3519802,
+      "east": 28.8949213
+    },
+    "bbox_original": {
+      "south": 38.0835037,
+      "west": 28.544739,
+      "north": 38.3519802,
+      "east": 28.8949213
+    },
+    "fetchedAt": "2026-01-21T09:58:07.570Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:56:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10032254802,
+        "lat": 38.2833954,
+        "lon": 28.6058346,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akgedik",
+          "opening_hours": "Mo-Su 00:00+"
+        }
+      },
+      {
+        "type": "way",
+        "id": 654075096,
+        "center": {
+          "lat": 38.2380589,
+          "lon": 28.6960767
+        },
+        "tags": {
+          "addr:city": "Manisa",
+          "addr:district": "Sarıgöl",
+          "addr:housenumber": "1/2",
+          "addr:neighbourhood": "Cumhuriyet Mahallesi",
+          "addr:postcode": "45470",
+          "addr:street": "İstiklal Caddesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop;dessert",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Sarıgöl Belediyesi Kafeteryası",
+          "opening_hours": "Mo-Fr 08:00-17:00",
+          "outdoor_seating": "yes",
+          "smoking": "outside",
+          "takeaway": "no"
+        }
+      }
+    ]
+  }
+}

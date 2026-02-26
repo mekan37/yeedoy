@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "sehir_id": "6",
+    "sehir_adi": "ANKARA",
+    "ilce_id": "1578",
+    "ilce_adi": "POLATLI",
+    "bbox_used": {
+      "south": 39.58067,
+      "west": 32.1367303,
+      "north": 39.59067,
+      "east": 32.1467303
+    },
+    "bbox_original": {
+      "south": 39.58067,
+      "west": 32.1367303,
+      "north": 39.59067,
+      "east": 32.1467303
+    },
+    "fetchedAt": "2026-01-21T08:25:06.613Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:23:51Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1864487065,
+        "lat": 39.5840509,
+        "lon": 32.1406054,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İkbal's Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1864884015,
+        "lat": 39.5842985,
+        "lon": 32.1420828,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Midas Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1864891266,
+        "lat": 39.5848938,
+        "lon": 32.1412084,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İstasyon Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1864895878,
+        "lat": 39.5845217,
+        "lon": 32.1428043,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cesa Cigkofte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6697263948,
+        "lat": 39.5839504,
+        "lon": 32.140384,
+        "tags": {
+          "amenity": "ice_cream"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11455256272,
+        "lat": 39.5867463,
+        "lon": 32.1439811,
+        "tags": {
+          "addr:housenumber": "2",
+          "addr:street": "Cumhuriyet Mah. Ataturk Cad Necip Fazıl Parkı 2, Etap, 06900 Polatlı/Ankara",
+          "amenity": "cafe",
+          "branch": "Polatlı",
+          "brand": "Coffee Lab",
+          "brand:wikidata": "Q109568497",
+          "cuisine": "coffee_shop",
+          "name": "Coffee Lab",
+          "opening_hours": "Mo-Su 07:00-00:00",
+          "phone": "+90 312 623 66 23",
+          "shop": "coffee",
+          "takeaway": "yes",
+          "website": "https://www.coffeelab.com.tr/"
+        }
+      }
+    ]
+  }
+}

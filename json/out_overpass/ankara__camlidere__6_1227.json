@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "sehir_id": "6",
+    "sehir_adi": "ANKARA",
+    "ilce_id": "1227",
+    "ilce_adi": "ÇAMLIDERE",
+    "bbox_used": {
+      "south": 40.3481795,
+      "west": 32.099562,
+      "north": 40.6349069,
+      "east": 32.5888625
+    },
+    "bbox_original": {
+      "south": 40.3481795,
+      "west": 32.099562,
+      "north": 40.6349069,
+      "east": 32.5888625
+    },
+    "fetchedAt": "2026-01-21T08:23:18.365Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:21:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5682228621,
+        "lat": 40.6086632,
+        "lon": 32.2532789,
+        "tags": {
+          "amenity": "restaurant",
+          "name:zh": "Green Park Restaurant休息站"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5860883188,
+        "lat": 40.4667264,
+        "lon": 32.3635443,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6839378356,
+        "lat": 40.6085016,
+        "lon": 32.2530538,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dorukkaya Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1413590130,
+        "center": {
+          "lat": 40.4665769,
+          "lon": 32.3608157
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Kocalar Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1413590132,
+        "center": {
+          "lat": 40.4674924,
+          "lon": 32.3633224
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Kocalar Dinlenme Tesisi"
+        }
+      }
+    ]
+  }
+}

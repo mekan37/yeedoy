@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "39",
+    "sehir_adi": "KIRKLARELİ",
+    "ilce_id": "1480",
+    "ilce_adi": "KOFÇAZ",
+    "bbox_used": {
+      "south": 41.8581562,
+      "west": 26.9653912,
+      "north": 42.1048008,
+      "east": 27.3287714
+    },
+    "bbox_original": {
+      "south": 41.8581562,
+      "west": 26.9653912,
+      "north": 42.1048008,
+      "east": 27.3287714
+    },
+    "fetchedAt": "2026-01-21T09:39:02.066Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:37:19Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10727662906,
+        "lat": 42.0409785,
+        "lon": 27.1366853,
+        "tags": {
+          "amenity": "bar"
+        }
+      }
+    ]
+  }
+}

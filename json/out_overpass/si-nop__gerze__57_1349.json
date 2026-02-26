@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "sehir_id": "57",
+    "sehir_adi": "SİNOP",
+    "ilce_id": "1349",
+    "ilce_adi": "GERZE",
+    "bbox_used": {
+      "south": 41.5953105,
+      "west": 34.8757128,
+      "north": 41.8815869,
+      "east": 35.3271047
+    },
+    "bbox_original": {
+      "south": 41.5953105,
+      "west": 34.8757128,
+      "north": 41.8815869,
+      "east": 35.3271047
+    },
+    "fetchedAt": "2026-01-21T10:25:14.465Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:23:10Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8320694096,
+        "lat": 41.8806614,
+        "lon": 34.9060897,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10013017197,
+        "lat": 41.8028623,
+        "lon": 35.198889,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1070466444,
+        "center": {
+          "lat": 41.6894732,
+          "lon": 34.8814268
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      }
+    ]
+  }
+}

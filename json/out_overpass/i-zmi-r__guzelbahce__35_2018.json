@@ -1,0 +1,492 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "2018",
+    "ilce_adi": "GÜZELBAHÇE",
+    "bbox_used": {
+      "south": 38.2856082,
+      "west": 26.8098378,
+      "north": 38.3848858,
+      "east": 26.9534562
+    },
+    "bbox_original": {
+      "south": 38.2856082,
+      "west": 26.8098378,
+      "north": 38.3848858,
+      "east": 26.9534562
+    },
+    "fetchedAt": "2026-01-21T09:29:34.962Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 29
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:28:01Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4812527663,
+        "lat": 38.3704613,
+        "lon": 26.8383051,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-09-24",
+          "cuisine": "seafood",
+          "name": "Zeytin",
+          "outdoor_seating": "yes",
+          "smoking": "isolated",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4812528981,
+        "lat": 38.3697328,
+        "lon": 26.8380305,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "ice_cream"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4812530156,
+        "lat": 38.3687518,
+        "lon": 26.8378528,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Martı",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4996630822,
+        "lat": 38.3839897,
+        "lon": 26.9258192,
+        "tags": {
+          "addr:housenumber": "604",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "restaurant",
+          "name": "Ethçi Steakhouse"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5265445423,
+        "lat": 38.3676809,
+        "lon": 26.8375051,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5440893627,
+        "lat": 38.3702235,
+        "lon": 26.837243,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bıyık Nargile Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5440936449,
+        "lat": 38.3544724,
+        "lon": 26.8559003,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "name:en": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7031214186,
+        "lat": 38.3414505,
+        "lon": 26.8724586,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yelki Spor Kulübü Lokali"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7039501285,
+        "lat": 38.3322128,
+        "lon": 26.8634443,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Diyarı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7039501385,
+        "lat": 38.33464,
+        "lon": 26.8635033,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Alsancak Unlu Mamulleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7864826786,
+        "lat": 38.3784461,
+        "lon": 26.8925741,
+        "tags": {
+          "amenity": "cafe",
+          "name": "You&me"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9696771617,
+        "lat": 38.3584224,
+        "lon": 26.8746134,
+        "tags": {
+          "addr:housenumber": "52 A-C104 B",
+          "addr:postcode": "35310",
+          "addr:street": "Ata Caddesi",
+          "amenity": "cafe",
+          "brand": "Caffè Nero",
+          "brand:wikidata": "Q675808",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "Caffè Nero",
+          "name:en": "Caffè Nero",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "phone": "+90 (232) 203 62 30",
+          "takeaway": "yes",
+          "website": "https://caffenero.com/tr/tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10848135436,
+        "lat": 38.3385062,
+        "lon": 26.8678377,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Değirmen Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12002159239,
+        "lat": 38.3774044,
+        "lon": 26.8883136,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Pizza Hut",
+          "brand:wikidata": "Q191615",
+          "cuisine": "pizza",
+          "name": "Pizza Hut"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12423037735,
+        "lat": 38.3739302,
+        "lon": 26.8674736,
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Siteler",
+          "addr:postcode": "35310",
+          "addr:street": "Mithatpaşa Cd.",
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "delivery": "yes",
+          "diet:meat": "yes",
+          "name": "Köfteci Yusuf",
+          "opening_hours": "9:00-24:00",
+          "phone": "+90 4446162",
+          "toilets": "yes",
+          "website": "https://www.kofteciyusuf.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12811913301,
+        "lat": 38.3564921,
+        "lon": 26.870621,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Pablo Artisan Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12812065201,
+        "lat": 38.3569076,
+        "lon": 26.8709999,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Starbucks",
+          "website": "https://www.starbucks.co.uk/store-locator/58328-292480/guzelbahce-yelki"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12812065701,
+        "lat": 38.3568886,
+        "lon": 26.8711926,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Food 'n More"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12956338489,
+        "lat": 38.3427753,
+        "lon": 26.8667261,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Güzelbahçe",
+          "addr:housenumber": "9",
+          "addr:neighbourhood": "Yelki",
+          "addr:postcode": "35310",
+          "addr:street": "Atatürk Caddesi",
+          "air_conditioning": "yes",
+          "amenity": "cafe",
+          "changing_table": "yes",
+          "cuisine": "coffee_shop;breakfast;turkish;tea;pancake;dessert;diner",
+          "diet:local": "yes",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Little One - Ebeveyn Cafe - Oyun Alanı",
+          "opening_hours": "Tue-Sun 09:00-19:00",
+          "outdoor_seating": "yes",
+          "toilets": "yes",
+          "website": "https://littleoneguzelbahce.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13059839944,
+        "lat": 38.3775014,
+        "lon": 26.8871888,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Yalı Mahallesi",
+          "addr:postcode": "35310",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "restaurant",
+          "contact:instagram": "http://instagram.com/atadanguzelbahce",
+          "cuisine": "seafood",
+          "name": "Ata’dan Balık Güzelbahçe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13059839945,
+        "lat": 38.377518,
+        "lon": 26.8873016,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Yalı Mahallesi",
+          "addr:postcode": "35310",
+          "addr:street": "Mithatpaşa Caddesi",
+          "amenity": "restaurant",
+          "contact:instagram": "http://instagram.com/atadanguzelbahce",
+          "cuisine": "seafood",
+          "name": "Simge Balık Restoran",
+          "website": "https://simgerestoran.qrdata.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13435746816,
+        "lat": 38.3723641,
+        "lon": 26.8511415,
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Urla",
+          "addr:housenumber": "1",
+          "addr:neighbourhood": "Çamlıçay Mahallesi",
+          "addr:postcode": "35430",
+          "addr:street": "5221. Sokak",
+          "amenity": "cafe",
+          "cuisine": "pizza;sandwich",
+          "internet_access": "no",
+          "name": "Yelken Cafe",
+          "outdoor_seating": "yes",
+          "phone": "+905077886632"
+        }
+      },
+      {
+        "type": "way",
+        "id": 361035292,
+        "center": {
+          "lat": 38.3738739,
+          "lon": 26.8646719
+        },
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Siteler",
+          "addr:postcode": "35310",
+          "addr:street": "241. Sokak",
+          "amenity": "restaurant",
+          "building": "yes",
+          "capacity": "100",
+          "cuisine": "regional;seafood",
+          "name": "Kule Balık Evi",
+          "smoking": "outside",
+          "takeaway": "no",
+          "tiger:county": "Turkey"
+        }
+      },
+      {
+        "type": "way",
+        "id": 361035293,
+        "center": {
+          "lat": 38.3739095,
+          "lon": 26.8652915
+        },
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Siteler",
+          "addr:postcode": "35310",
+          "addr:street": "İzmir-Çeşme yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "capacity": "80",
+          "cuisine": "regional;seafood",
+          "name": "Meba Balık Restaurant",
+          "smoking": "outside",
+          "takeaway": "no",
+          "tiger:county": "Turkey"
+        }
+      },
+      {
+        "type": "way",
+        "id": 361035294,
+        "center": {
+          "lat": 38.374158,
+          "lon": 26.8663652
+        },
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Siteler",
+          "addr:postcode": "35310",
+          "addr:street": "İzmir-Çeşme yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "regional;seafood",
+          "name": "Denizkızı Balık Restaurant",
+          "smoking": "outside",
+          "takeaway": "no",
+          "tiger:county": "Turkey"
+        }
+      },
+      {
+        "type": "way",
+        "id": 906562884,
+        "center": {
+          "lat": 38.372361,
+          "lon": 26.8511587
+        },
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Urla",
+          "addr:housenumber": "1",
+          "addr:neighbourhood": "Çamlıçay Mahallesi",
+          "addr:postcode": "35430",
+          "addr:street": "5221. Sokak",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "burger;sandwich;pizza",
+          "internet_access": "no",
+          "name": "Yelken Cafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1423335659,
+        "center": {
+          "lat": 38.3740318,
+          "lon": 26.8658898
+        },
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Siteler",
+          "addr:postcode": "35310",
+          "addr:street": "İzmir-Çeşme yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "regional;seafood",
+          "name": "Sandal Balık Evi",
+          "tiger:county": "Turkey"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1423335660,
+        "center": {
+          "lat": 38.3742321,
+          "lon": 26.8665627
+        },
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Siteler",
+          "addr:postcode": "35310",
+          "addr:street": "İzmir-Çeşme yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "regional;seafood",
+          "name": "Varsa Şerefine Restaurant",
+          "tiger:county": "Turkey"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1423335661,
+        "center": {
+          "lat": 38.3742595,
+          "lon": 26.8667964
+        },
+        "tags": {
+          "addr:city": "Izmir",
+          "addr:district": "Güzelbahçe",
+          "addr:neighbourhood": "Siteler",
+          "addr:postcode": "35310",
+          "addr:street": "İzmir-Çeşme yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "regional;seafood",
+          "name": "Yalı Balık",
+          "tiger:county": "Turkey"
+        }
+      }
+    ]
+  }
+}

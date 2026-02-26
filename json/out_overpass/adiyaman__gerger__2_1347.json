@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "2",
+    "sehir_adi": "ADIYAMAN",
+    "ilce_id": "1347",
+    "ilce_adi": "GERGER",
+    "bbox_used": {
+      "south": 37.8222204,
+      "west": 38.7684002,
+      "north": 38.2077979,
+      "east": 39.2632665
+    },
+    "bbox_original": {
+      "south": 37.8222204,
+      "west": 38.7684002,
+      "north": 38.2077979,
+      "east": 39.2632665
+    },
+    "fetchedAt": "2026-01-21T08:17:58.592Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:16:42Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9565164290,
+        "lat": 37.896177,
+        "lon": 38.9639656,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

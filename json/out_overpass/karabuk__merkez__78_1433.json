@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "78",
+    "sehir_adi": "KARABÜK",
+    "ilce_id": "1433",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 41.2511265,
+      "west": 32.3367242,
+      "north": 41.2711265,
+      "east": 32.3567242
+    },
+    "bbox_original": {
+      "south": 41.2511265,
+      "west": 32.3367242,
+      "north": 41.2711265,
+      "east": 32.3567242
+    },
+    "fetchedAt": "2026-01-21T11:04:48.617Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:03:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

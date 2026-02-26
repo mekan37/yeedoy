@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "sehir_id": "37",
+    "sehir_adi": "KASTAMONU",
+    "ilce_id": "1140",
+    "ilce_adi": "ARAÇ",
+    "bbox_used": {
+      "south": 41.04563826486487,
+      "north": 41.315908535135144,
+      "west": 33.064446832815634,
+      "east": 33.422512867184366
+    },
+    "bbox_original": {
+      "south": 40.9769598,
+      "west": 32.9252716,
+      "north": 41.384587,
+      "east": 33.5616881
+    },
+    "fetchedAt": "2026-01-21T09:31:58.984Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:30:06Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3612853704,
+        "lat": 41.2420231,
+        "lon": 33.326324,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Araç Pasanesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 463009647,
+        "center": {
+          "lat": 41.2516387,
+          "lon": 33.3445629
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Yusufoğlu Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 463009917,
+        "center": {
+          "lat": 41.2335585,
+          "lon": 33.3152222
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

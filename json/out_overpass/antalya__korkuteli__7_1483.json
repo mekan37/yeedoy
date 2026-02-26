@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "sehir_id": "7",
+    "sehir_adi": "ANTALYA",
+    "ilce_id": "1483",
+    "ilce_adi": "KORKUTELİ",
+    "bbox_used": {
+      "south": 36.93813156486486,
+      "north": 37.208401835135135,
+      "west": 29.959139906595336,
+      "east": 30.29690789340467
+    },
+    "bbox_original": {
+      "south": 36.7529147,
+      "west": 29.7466849,
+      "north": 37.3936187,
+      "east": 30.5093629
+    },
+    "fetchedAt": "2026-01-21T08:27:28.961Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:25:52Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1826854387,
+        "lat": 37.0003817,
+        "lon": 30.2959693,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2023-02-26"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2322080422,
+        "lat": 37.0843757,
+        "lon": 30.1641613,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Golbasi Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5218288721,
+        "lat": 37.0664713,
+        "lon": 30.2003713,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "şişçi ibo"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8923330077,
+        "lat": 37.0644856,
+        "lon": 30.1810272,
+        "tags": {
+          "addr:city": "Antalya",
+          "addr:country": "TR",
+          "addr:district": "Korkuteli",
+          "addr:housenumber": "42",
+          "addr:neighbourhood": "Karşıyaka Mahallesi",
+          "addr:postcode": "07800",
+          "addr:street": "100. Yıl Caddesi",
+          "amenity": "restaurant",
+          "brand": "SeyirPark",
+          "cuisine": "pizza;burger;coffee_shop;chicken;kebab;international;turkish;steak_house",
+          "name": "Seyir Park",
+          "opening_hours": "Mo-Su 09:00-24:00",
+          "outdoor_seating": "yes",
+          "website": "https://seyirpark.com",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9285895658,
+        "lat": 37.0329085,
+        "lon": 30.2564782,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "Mushrooms",
+          "name": "Mantar Evi",
+          "opening_hours": "Mo-Su 08:00-23:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9465234917,
+        "lat": 37.0411723,
+        "lon": 30.0843503,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10694541937,
+        "lat": 37.0514914,
+        "lon": 30.221995,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-02-26"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10694546222,
+        "lat": 37.0513704,
+        "lon": 30.2080584,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-02-26"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10694556510,
+        "lat": 37.039354,
+        "lon": 30.2514116,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-02-26"
+        }
+      }
+    ]
+  }
+}

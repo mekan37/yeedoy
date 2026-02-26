@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "sehir_id": "26",
+    "sehir_adi": "ESKİŞEHİR",
+    "ilce_id": "1934",
+    "ilce_adi": "GÜNYÜZÜ",
+    "bbox_used": {
+      "south": 39.1307593,
+      "west": 31.6906564,
+      "north": 39.509822,
+      "east": 32.0115423
+    },
+    "bbox_original": {
+      "south": 39.1307593,
+      "west": 31.6906564,
+      "north": 39.509822,
+      "east": 32.0115423
+    },
+    "fetchedAt": "2026-01-21T09:03:57.265Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:02:37Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11010570706,
+        "lat": 39.4146564,
+        "lon": 31.9886017,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11010570805,
+        "lat": 39.4151099,
+        "lon": 31.9897745,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

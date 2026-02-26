@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "63",
+    "sehir_adi": "ŞANLIURFA",
+    "ilce_id": "1220",
+    "ilce_adi": "CEYLANPINAR",
+    "bbox_used": {
+      "south": 36.79794951486486,
+      "north": 37.068219785135135,
+      "west": 39.68283392289161,
+      "east": 40.01997967710839
+    },
+    "bbox_original": {
+      "south": 36.701012,
+      "west": 39.4643429,
+      "north": 37.1651573,
+      "east": 40.2384707
+    },
+    "fetchedAt": "2026-01-21T10:43:02.546Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:41:32Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

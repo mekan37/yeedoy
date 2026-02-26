@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "8",
+    "sehir_adi": "ARTVİN",
+    "ilce_id": "1736",
+    "ilce_adi": "YUSUFELİ",
+    "bbox_used": {
+      "south": 40.705489664864864,
+      "north": 40.97575993513514,
+      "west": 41.350287241033385,
+      "east": 41.70650945896662
+    },
+    "bbox_original": {
+      "south": 40.5572232,
+      "west": 41.1421832,
+      "north": 41.1240264,
+      "east": 41.9146135
+    },
+    "fetchedAt": "2026-01-21T08:29:17.744Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:27:58Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

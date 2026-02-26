@@ -1,0 +1,24 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../discovery/data/discovery_repository.dart';
+import '../../discovery/domain/business_card.dart';
+
+typedef SponsoredBusinessesParams = ({
+  String surface,
+  String? city,
+  String? district,
+  String? category,
+  int limit,
+});
+
+final sponsoredBusinessesProvider =
+    FutureProvider.family<List<BusinessCardModel>, SponsoredBusinessesParams>((ref, params) async {
+  return ref.watch(discoveryRepositoryProvider).getSponsoredBusinesses(
+        surface: params.surface,
+        city: params.city,
+        district: params.district,
+        category: params.category,
+        limit: params.limit,
+      );
+});
+

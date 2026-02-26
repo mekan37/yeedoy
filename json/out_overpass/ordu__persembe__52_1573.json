@@ -1,0 +1,458 @@
+{
+  "meta": {
+    "sehir_id": "52",
+    "sehir_adi": "ORDU",
+    "ilce_id": "1573",
+    "ilce_adi": "PERŞEMBE",
+    "bbox_used": {
+      "south": 40.8958365,
+      "west": 37.6150833,
+      "north": 41.1365662,
+      "east": 37.8314019
+    },
+    "bbox_original": {
+      "south": 40.8958365,
+      "west": 37.6150833,
+      "north": 41.1365662,
+      "east": 37.8314019
+    },
+    "fetchedAt": "2026-01-21T10:13:17.933Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 36
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-06T16:09:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2249789793,
+        "lat": 41.116086,
+        "lon": 37.7376428,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional;seafood;turkish",
+          "name": "Vonalı Celal",
+          "opening_hours": "07:00-00:00",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2858434203,
+        "lat": 41.1261293,
+        "lon": 37.6923624,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "Pide",
+          "name": "Saklıbahçe Restoran",
+          "opening_hours": "10:00-22:00",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2858479741,
+        "lat": 41.1329955,
+        "lon": 37.681692,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "internet_access": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2906068234,
+        "lat": 41.0822197,
+        "lon": 37.6290052,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "Tea",
+          "name": "Uzun Saçlının Yeri",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3123832580,
+        "lat": 41.1136508,
+        "lon": 37.7059023,
+        "tags": {
+          "amenity": "restaurant",
+          "bar": "yes",
+          "cuisine": "barbecue",
+          "name": "Çaka Saka Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3123846188,
+        "lat": 41.068697,
+        "lon": 37.7742235,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3123850409,
+        "lat": 41.0682238,
+        "lon": 37.7732204,
+        "tags": {
+          "amenity": "pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3124501797,
+        "lat": 41.0671207,
+        "lon": 37.7740693,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Perşembe",
+          "amenity": "cafe",
+          "cuisine": "tea",
+          "name": "Belediye Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3124519486,
+        "lat": 41.0682885,
+        "lon": 37.7728475,
+        "tags": {
+          "amenity": "pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3124530896,
+        "lat": 41.0633764,
+        "lon": 37.7757658,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3124556129,
+        "lat": 41.1160575,
+        "lon": 37.7004076,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvehanesi",
+          "opening_hours": "Mo-Su,PH 07:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4942943741,
+        "lat": 41.1124715,
+        "lon": 37.775476,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamburnu Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4942943742,
+        "lat": 41.1131305,
+        "lon": 37.7710197,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sera Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4968980423,
+        "lat": 41.0821097,
+        "lon": 37.775439,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Perşembe",
+          "amenity": "restaurant",
+          "name": "Efem Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5380562321,
+        "lat": 41.0852399,
+        "lon": 37.6344896,
+        "tags": {
+          "addr:housenumber": "7",
+          "addr:street": "Perşembe Sahil Yolu No:7 Medreseönü/ORDU",
+          "amenity": "restaurant",
+          "name": "Üstün Kardeşler Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5493020542,
+        "lat": 41.1144152,
+        "lon": 37.700927,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "no",
+          "name": "Cinek Köy Kahvesi",
+          "opening_hours": "Mo-Su 07:00-22:00",
+          "outdoor_seating": "yes",
+          "payment:cash": "yes",
+          "phone": "+90 452 527 56 99",
+          "smoking": "outside",
+          "source": "local knowledge"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5728563922,
+        "lat": 41.0680865,
+        "lon": 37.7722687,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Perşembe",
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "name": "Tad-Al",
+          "phone": "+90 452 500 1003"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5765674353,
+        "lat": 41.0941165,
+        "lon": 37.7804401,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Perşembe",
+          "amenity": "restaurant",
+          "name": "Yeni Ay"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8405577797,
+        "lat": 41.1143804,
+        "lon": 37.7009631,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;chicken",
+          "name": "Sahil Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10796545566,
+        "lat": 41.1088089,
+        "lon": 37.65411,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10980847349,
+        "lat": 41.0670576,
+        "lon": 37.7739443,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Vona Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11160508338,
+        "lat": 41.1052076,
+        "lon": 37.6503698,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11618638621,
+        "lat": 41.1158782,
+        "lon": 37.7610646,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12598006159,
+        "lat": 41.0690572,
+        "lon": 37.7729219,
+        "tags": {
+          "amenity": "pub",
+          "name": "Restoran 52"
+        }
+      },
+      {
+        "type": "way",
+        "id": 569475383,
+        "center": {
+          "lat": 41.0640753,
+          "lon": 37.6153108
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Arapkasi at mangal"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1091952113,
+        "center": {
+          "lat": 41.0222154,
+          "lon": 37.8197417
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Mercan Plaj Kafe Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1160809635,
+        "center": {
+          "lat": 41.1174009,
+          "lon": 37.6554687
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "regional;barbecue;turkish",
+          "diet:halal": "yes",
+          "name": "Dedeoğlu Piknik"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1193772705,
+        "center": {
+          "lat": 41.1262066,
+          "lon": 37.6921951
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1193772707,
+        "center": {
+          "lat": 41.126018,
+          "lon": 37.6922176
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1194240945,
+        "center": {
+          "lat": 41.1330251,
+          "lon": 37.6816027
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1194241778,
+        "center": {
+          "lat": 41.1140604,
+          "lon": 37.703657
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Dalyan Büfe Plaj"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1194249024,
+        "center": {
+          "lat": 41.0732202,
+          "lon": 37.7726378
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1194282993,
+        "center": {
+          "lat": 41.1161412,
+          "lon": 37.7375622
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "seafood;turkish;regional"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1232633571,
+        "center": {
+          "lat": 41.0502063,
+          "lon": 37.7861919
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "barbecue;regional"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1238296007,
+        "center": {
+          "lat": 41.1125299,
+          "lon": 37.7754716
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish;regional",
+          "name": "Çamburnu Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1253581300,
+        "center": {
+          "lat": 41.1132854,
+          "lon": 37.7706639
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

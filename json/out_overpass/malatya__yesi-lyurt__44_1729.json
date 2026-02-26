@@ -1,0 +1,397 @@
+{
+  "meta": {
+    "sehir_id": "44",
+    "sehir_adi": "MALATYA",
+    "ilce_id": "1729",
+    "ilce_adi": "YEŞİLYURT",
+    "bbox_used": {
+      "south": 38.17455576486486,
+      "north": 38.44482603513514,
+      "west": 38.04917132848119,
+      "east": 38.39261867151881
+    },
+    "bbox_original": {
+      "south": 38.0931654,
+      "west": 37.9855298,
+      "north": 38.5262164,
+      "east": 38.4562602
+    },
+    "fetchedAt": "2026-01-21T09:55:04.154Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 34
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:53:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3050754164,
+        "lat": 38.4246178,
+        "lon": 38.3655515,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öznesil Piliç"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4150910190,
+        "lat": 38.3611475,
+        "lon": 38.3345051,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "50 NC"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4704758489,
+        "lat": 38.344932,
+        "lon": 38.3243816,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4905920221,
+        "lat": 38.343291,
+        "lon": 38.3235553,
+        "tags": {
+          "addr:city": "Malatya",
+          "amenity": "cafe",
+          "name": "Vefa Bozacısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5465079021,
+        "lat": 38.3457294,
+        "lon": 38.3246934,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Abdullah Usta Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6832259664,
+        "lat": 38.3440683,
+        "lon": 38.3241026,
+        "tags": {
+          "addr:city": "Malatya",
+          "amenity": "ice_cream",
+          "name": "Edem Dondurma Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6832259686,
+        "lat": 38.3442261,
+        "lon": 38.3238049,
+        "tags": {
+          "addr:city": "Malatya",
+          "addr:street": "Şht. Hamit Fendoğlu Caddesi",
+          "amenity": "cafe",
+          "name": "Park Sera Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6832259700,
+        "lat": 38.3444169,
+        "lon": 38.3242141,
+        "tags": {
+          "addr:city": "Malatya",
+          "amenity": "ice_cream",
+          "name": "Gürsel Usta Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6832259718,
+        "lat": 38.3447216,
+        "lon": 38.3243037,
+        "tags": {
+          "addr:city": "Malatya",
+          "amenity": "restaurant",
+          "name": "Alcatraz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6832356317,
+        "lat": 38.3435738,
+        "lon": 38.3236587,
+        "tags": {
+          "addr:city": "Malatya",
+          "amenity": "cafe",
+          "name": "Şelale Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6832356318,
+        "lat": 38.3438491,
+        "lon": 38.3237079,
+        "tags": {
+          "addr:city": "Malatya",
+          "addr:street": "Şht. Hamit Fendoğlu Caddesi",
+          "amenity": "restaurant",
+          "name": "Waffle Makarna"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7091717162,
+        "lat": 38.3479472,
+        "lon": 38.2918374,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamlıca Restaurant - Malatya Mutfağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10703759472,
+        "lat": 38.347378,
+        "lon": 38.3161911,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "CHEF RY RESTAURANT"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10703759473,
+        "lat": 38.3472586,
+        "lon": 38.3158722,
+        "tags": {
+          "amenity": "cafe",
+          "name": "RY COFFE SHOP"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681179503,
+        "lat": 38.3482255,
+        "lon": 38.2987225,
+        "tags": {
+          "amenity": "cafe",
+          "name": "PAPER ROASTING COFFEE"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681184101,
+        "lat": 38.3502299,
+        "lon": 38.2981441,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sarayaltı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681265202,
+        "lat": 38.3364467,
+        "lon": 38.2737732,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Donas Döner Fahri Kayahan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681265602,
+        "lat": 38.3503471,
+        "lon": 38.2981262,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Arabica"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681358603,
+        "lat": 38.3361467,
+        "lon": 38.2732793,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Percent Coffe Fahri Kayahan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681382001,
+        "lat": 38.3360494,
+        "lon": 38.2731731,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balta Burger Fahri Kayahan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681391301,
+        "lat": 38.3359003,
+        "lon": 38.2730587,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Coffe Kangoo Fahri Kayahan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681391501,
+        "lat": 38.3350533,
+        "lon": 38.2731632,
+        "tags": {
+          "amenity": "cafe",
+          "name": "HU -BI Waflle & Coffe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12681467301,
+        "lat": 38.2978867,
+        "lon": 38.2422389,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeşilbade"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12682298376,
+        "lat": 38.301669,
+        "lon": 38.2475257,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeşilyurt Belediyesi Gedik Sosyal Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12684766501,
+        "lat": 38.3252198,
+        "lon": 38.2720471,
+        "tags": {
+          "name": "Tecde Tatlı",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12684772004,
+        "lat": 38.32771,
+        "lon": 38.2711219,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Han Zırh Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12684856101,
+        "lat": 38.3292189,
+        "lon": 38.2725373,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Marjins Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12958938501,
+        "lat": 38.3519023,
+        "lon": 38.3438125,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Altıntaç Düğün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13257366593,
+        "lat": 38.3296661,
+        "lon": 38.2691612,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Luuq Coffe Malatya"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13257368918,
+        "lat": 38.3295555,
+        "lon": 38.2692757,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Milk Moss Cafe Dessert"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13464956148,
+        "lat": 38.3603986,
+        "lon": 38.2866079,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "1071 DÖNER"
+        }
+      },
+      {
+        "type": "way",
+        "id": 343199259,
+        "center": {
+          "lat": 38.3496727,
+          "lon": 38.3708388
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "no",
+          "name": "Reyyan Düğün Salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 343199683,
+        "center": {
+          "lat": 38.3478303,
+          "lon": 38.3775055
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "no",
+          "name": "Altınyunus Düğün Salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 857792302,
+        "center": {
+          "lat": 38.3478538,
+          "lon": 38.2877182
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Dedekorkut Restaurant"
+        }
+      }
+    ]
+  }
+}

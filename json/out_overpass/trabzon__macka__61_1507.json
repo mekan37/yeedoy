@@ -1,0 +1,473 @@
+{
+  "meta": {
+    "sehir_id": "61",
+    "sehir_adi": "TRABZON",
+    "ilce_id": "1507",
+    "ilce_adi": "MAÇKA",
+    "bbox_used": {
+      "south": 40.6001309,
+      "west": 39.3277931,
+      "north": 40.9136394,
+      "east": 39.784371
+    },
+    "bbox_original": {
+      "south": 40.6001309,
+      "west": 39.3277931,
+      "north": 40.9136394,
+      "east": 39.784371
+    },
+    "fetchedAt": "2026-01-21T10:35:08.827Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 40
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:33:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3753094007,
+        "lat": 40.6919689,
+        "lon": 39.6607946,
+        "tags": {
+          "amenity": "restaurant",
+          "description:ar": "مطعم على مجرى نهر صوميلا",
+          "name": "Sümela Sosyal Tesisleri",
+          "name:ar": "مطعم سوميلا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4864916023,
+        "lat": 40.6840185,
+        "lon": 39.4822354,
+        "tags": {
+          "amenity": "restaurant",
+          "name:ar": "مهلبية ممتازة"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4876205436,
+        "lat": 40.7092537,
+        "lon": 39.499784,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "PADİŞAH SOFRASI - KATİBİN YERİ",
+          "name:ar": "مطعم شلالات"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5228158147,
+        "lat": 40.787524,
+        "lon": 39.6299597,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Livera Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5228158222,
+        "lat": 40.7827717,
+        "lon": 39.6301903,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Saraç Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5330010942,
+        "lat": 40.6740686,
+        "lon": 39.4248549,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hamsiköy Dağ Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5368154722,
+        "lat": 40.7182913,
+        "lon": 39.5163123,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "cizbiz et mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6485024373,
+        "lat": 40.7897973,
+        "lon": 39.6161103,
+        "tags": {
+          "amenity": "restaurant",
+          "indoor_seating": "yes",
+          "name": "Verizana",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6658478085,
+        "lat": 40.6915737,
+        "lon": 39.4799336,
+        "tags": {
+          "addr:street": "Hamsiköy Merkez",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Hamsiköy- Yörük Çadırı Zigana",
+          "name:ar": "البدو خيمة مطعم",
+          "name:en": "Hamsikoy- Nomadic Tent Zigana",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "phone": "05322444909"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6691123686,
+        "lat": 40.8190274,
+        "lon": 39.6116024,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "name:en": "Kayadibi Saklibaçe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6831411485,
+        "lat": 40.6993639,
+        "lon": 39.7612367,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7862792785,
+        "lat": 40.6743213,
+        "lon": 39.4240762,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ivme",
+          "name:en": "Ivme Hotel & Restaurant Zigana",
+          "name:tr": "Ivme Otel & Restaurant Zigana"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7862801585,
+        "lat": 40.6833754,
+        "lon": 39.482845,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ivme Otel & Restaurant",
+          "name:en": "Ivme Hotel & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8829261317,
+        "lat": 40.6875742,
+        "lon": 39.4802465,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "cinar usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9878616732,
+        "lat": 40.8563975,
+        "lon": 39.4718348,
+        "tags": {
+          "addr:city": "trabzon",
+          "addr:district": "akçaabat",
+          "addr:housenumber": "22",
+          "addr:neighbourhood": "Işıklar mahallesi",
+          "addr:postcode": "61300",
+          "addr:street": "Enginoba mevkii",
+          "amenity": "restaurant",
+          "cuisine": "kebab;pide;regional",
+          "name": "Serin Bahçe Pide & Et Restoran",
+          "phone": "+90 5445974988",
+          "website": "www.instagram.com/serinbahcetrabzon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9938460617,
+        "lat": 40.7601111,
+        "lon": 39.4454935,
+        "tags": {
+          "addr:street": "BOĞOÇ YAYLASI YOLU",
+          "amenity": "restaurant",
+          "name": "OSMANOĞLU DAĞ TESİSLERİ",
+          "phone": "+90533 760 56 83"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10116013659,
+        "lat": 40.6890198,
+        "lon": 39.6579333,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10140942993,
+        "lat": 40.8043974,
+        "lon": 39.5895434,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kervan Yolu Ekmek Fırını"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160727,
+        "lat": 40.8086597,
+        "lon": 39.6004818,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160737,
+        "lat": 40.8121001,
+        "lon": 39.6124629,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Maranda"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160745,
+        "lat": 40.796646,
+        "lon": 39.6169288,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Zigana Dostlar Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160746,
+        "lat": 40.7992252,
+        "lon": 39.617737,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akpınar Köfte Sümela"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160800,
+        "lat": 40.8369873,
+        "lon": 39.6350814,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Karayemis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160810,
+        "lat": 40.841017,
+        "lon": 39.6406834,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ahm-et Kasap & Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160822,
+        "lat": 40.8454189,
+        "lon": 39.6461564,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kenan Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160875,
+        "lat": 40.8628374,
+        "lon": 39.6815694,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kibar Et Balık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160877,
+        "lat": 40.8550732,
+        "lon": 39.6662489,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Valide Sultan Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10254813881,
+        "lat": 40.6388409,
+        "lon": 39.4053713,
+        "tags": {
+          "amenity": "restaurant",
+          "contact:instagram": "ziganapass",
+          "name": "Osman Hoca'nin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11258067705,
+        "lat": 40.6147073,
+        "lon": 39.6905921,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11258075927,
+        "lat": 40.659288,
+        "lon": 39.6758379,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tasdelen Dag (closed off season)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11258077001,
+        "lat": 40.6155604,
+        "lon": 39.6939921,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11258086782,
+        "lat": 40.6572975,
+        "lon": 39.6793796,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Uzunali",
+          "phone": "+90542 381 78 05"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12022520069,
+        "lat": 40.7384919,
+        "lon": 39.6502954,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12467606731,
+        "lat": 40.623336,
+        "lon": 39.3368736,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köstere Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12814337501,
+        "lat": 40.6874541,
+        "lon": 39.4802029,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ağaoğlu Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13306078601,
+        "lat": 40.6723269,
+        "lon": 39.4379226,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "internet_access": "wlan",
+          "name": "Zitas Otel Restaurant",
+          "outdoor_seating": "yes",
+          "self_service": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 766871755,
+        "center": {
+          "lat": 40.7504088,
+          "lon": 39.4331527
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 766878044,
+        "center": {
+          "lat": 40.8627015,
+          "lon": 39.3763469
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "İMERA DAĞ CAFE"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370430146,
+        "center": {
+          "lat": 40.902057,
+          "lon": 39.6762006
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Harmony Restaurant Mağmat",
+          "phone": "+90 532 052 61 20"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1408506915,
+        "center": {
+          "lat": 40.610585,
+          "lon": 39.4127486
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

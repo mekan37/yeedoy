@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "sehir_id": "72",
+    "sehir_adi": "BATMAN",
+    "ilce_id": "1487",
+    "ilce_adi": "KOZLUK",
+    "bbox_used": {
+      "south": 38.0098202,
+      "west": 41.175092,
+      "north": 38.37944,
+      "east": 41.6473018
+    },
+    "bbox_original": {
+      "south": 38.0098202,
+      "west": 41.175092,
+      "north": 38.37944,
+      "east": 41.6473018
+    },
+    "fetchedAt": "2026-01-21T10:57:05.443Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 11
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:56:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3077770659,
+        "lat": 38.2216084,
+        "lon": 41.2718702,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hacı Baba Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174026854,
+        "lat": 38.2171024,
+        "lon": 41.4833919,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5758847674,
+        "lat": 38.1665863,
+        "lon": 41.5019208,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "öz sark sofrasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5758847675,
+        "lat": 38.1660276,
+        "lon": 41.5015183,
+        "tags": {
+          "amenity": "cafe",
+          "name": "ipekyolu çay evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6564872086,
+        "lat": 38.1540834,
+        "lon": 41.2059807,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Bahçesi",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6745219386,
+        "lat": 38.1664673,
+        "lon": 41.5026147,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Hanı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6795419083,
+        "lat": 38.1300327,
+        "lon": 41.2016292,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Malabadi Canlı Alabalık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11015586906,
+        "lat": 38.1661622,
+        "lon": 41.5010982,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Paşa Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11022128720,
+        "lat": 38.1337233,
+        "lon": 41.2305729,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Üçyol Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11854265669,
+        "lat": 38.1524762,
+        "lon": 41.2034003,
+        "tags": {
+          "addr:city": "Diyarbakır",
+          "addr:district": "Silvan",
+          "addr:neighbourhood": "Malabadi",
+          "amenity": "cafe",
+          "name": "Malabadi Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12387837177,
+        "lat": 38.2224499,
+        "lon": 41.2714222,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}
