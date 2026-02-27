@@ -202,6 +202,8 @@ Not:
   - Islem: Login render ve admin redirect smoke testleri eklendi.
 - `apps/web_next/package.json`
   - Islem: `test:e2e`, `test:e2e:headed` scriptleri eklendi; `test:unit` komutu dogrudan vitest binary ile calisacak sekilde netlestirildi.
+- `package.json` (repo root)
+  - Islem: `test:web` ve `test:smoke:web` komutlari, Windows ortaminda daha stabil calismasi icin `cd apps/web_next && npm run ...` formatina alindi.
 - `apps/panel_flutter_web/integration_test/app_smoke_test.dart`
   - Islem: Panel icin integration_test iskeleti eklendi.
 - `apps/panel_flutter_web/pubspec.yaml`
