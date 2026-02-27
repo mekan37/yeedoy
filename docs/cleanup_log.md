@@ -181,3 +181,13 @@ Not:
   - Islem: PowerShell tabanli `clean`/`build:*` scriptleri Node helper'a tasindi.
 - `docs/setup.md`, `docs/deploy.md`, `docs/roadmap.md`, `docs/vision_status.md`, `docs/wip.md`
   - Islem: Yeni script davranisina gore guncellendi.
+
+## 2026-02-27 (Domain/ENV Dokumani Tamamlama)
+
+- `docs/deploy.md`
+  - Islem: `Domain ve ENV Sozlesmesi` bolumu eklendi.
+  - Kapsam: Panel runtime `.env`, panel `--dart-define`, Next runtime env ve route redirect/domain baglama modeli.
+- `docs/wip.md`
+  - Islem: `panel_flutter_web` production domain/env dokumani acigi kapatildi.
+- `docs/vision_status.md`, `docs/roadmap.md`
+  - Islem: Yeni dokuman durumuna gore vizyon ve yol haritasi notlari guncellendi.

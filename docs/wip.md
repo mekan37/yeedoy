@@ -16,13 +16,11 @@
 
 ## Guvenlik/Operasyon Aciklari
 
-1. `panel_flutter_web` icin production domain/env dokumani hala eksik (normal hosting + Next baglantisi).
-
-Kanit:
-- `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`
+1. Acik kritik operasyon maddesi kalmadi.
 
 Not:
 - Root build/clean scriptlerinin PowerShell bagimliligi kapanmistir (`tools/workspace_ops.mjs`).
+- Production domain/env sozlesmesi eklendi (`docs/deploy.md`).
 
 ## Test Aciklari
 

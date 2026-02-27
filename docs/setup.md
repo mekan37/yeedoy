@@ -92,6 +92,7 @@ Kanit:
 
 Onemli not:
 - `apps/web_next/.env.example` placeholder formatina cekildi.
+- Production domain/env sozlesmesi: `docs/deploy.md` (`Domain ve ENV Sozlesmesi`).
 
 ## Platform Notu
 

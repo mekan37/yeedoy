@@ -21,7 +21,7 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
 | Panel web giris/landing (normal hosting) | Guclu | `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_register_page.dart` | `/` landing + `/isletme-giris` + `/isletme-kayit` + owner/admin role bazli yonlendirme aktif; panel kapsam disi route'lar kaldirildi. |
 | Gozlemlenebilirlik (monitoring/perf/prefs UI) | Gelisiyor | `apps/panel_flutter_web/lib/features/admin/ui/admin_observability_page.dart`, `apps/panel_flutter_web/lib/core/monitoring/request_trace.dart`, `apps/panel_flutter_web/lib/core/perf/perf_slo.dart`, `apps/panel_flutter_web/lib/core/storage/*` | Admin panelde request trace + perf SLO + prefs explorer tani ekrani eklendi. |
 | Test kapsami dengesi | Gelisiyor | `apps/mobile_flutter/test/*`, `apps/mobile_flutter/integration_test/*`, `apps/panel_flutter_web/test/*`, `apps/web_next/test/*`, `apps/web_next/package.json` | Next tarafinda component + API route unit testleri eklendi; kapsamin genisletilmesi gerekiyor. |
-| Dokuman ve guvenlik hijyeni | Kismi | `apps/web_next/.env.example`, `tools/l10n_audit.mjs`, `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb` | L10n mojibake temizlendi ve audit'e otomatik kontrol eklendi. Web env example placeholder formatina cekildi. |
+| Dokuman ve guvenlik hijyeni | Gelisiyor | `apps/web_next/.env.example`, `apps/panel_flutter_web/.env.example`, `docs/deploy.md`, `tools/l10n_audit.mjs`, `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb` | L10n mojibake temizlendi ve audit'e otomatik kontrol eklendi. Web env example placeholder formatina cekildi. Panel+Next production domain/env sozlesmesi dokumanlandi. |
 
 ## P0 Uygulama Durumu (2026-02-27)
 
@@ -65,6 +65,9 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
 - [x] Root build/clean scriptleri cross-platform hale getirildi.
   - Script helper: `tools/workspace_ops.mjs`
   - Script guncellemesi: `package.json` (`clean`, `build:owner`, `build:admin`, `build:next`, `build:all`)
+- [x] Panel + Next production domain/env sozlesmesi dokumani eklendi.
+  - Dokuman: `docs/deploy.md` (`Domain ve ENV Sozlesmesi` bolumu)
+  - Kod kanitlari: `apps/panel_flutter_web/lib/shared/bootstrap/web_bootstrap.dart`, `apps/web_next/src/lib/supabase*.ts`, `apps/web_next/src/lib/panelUrl.ts`
 
 - Acik P2 kalmadi.
 

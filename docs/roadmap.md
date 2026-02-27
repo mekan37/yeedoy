@@ -41,6 +41,8 @@ Bu liste yalnizca koddan gorulen aciklara dayanir.
    - Durum: Tamamlandi (kaldirildi; `apps/web_next/src/shared/*` tek kaynak)
 4. Root PowerShell scriptlerine cross-platform alternatif
    - Durum: Tamamlandi (`tools/workspace_ops.mjs` + root `package.json` script guncellemesi)
+5. Panel + Next production domain/env sozlesmesi
+   - Durum: Tamamlandi (`docs/deploy.md` -> `Domain ve ENV Sozlesmesi`)
 
 ## Referans
 
