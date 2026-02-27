@@ -1,31 +1,36 @@
-# Yol Haritası (Koddan Çıkan Durum)
+# Yol Haritasi (Onceliklendirilmis)
 
-Bu doküman "plan/niyet" değil, mevcut koddan görülen açık başlıkları listeler.
+Bu liste yalnizca koddan gorulen aciklara dayanir.
 
-## Tamamlanmış Görünenler
+## P0 (Hemen)
 
-- 3 uygulamalı monorepo yapısı (`mobile_flutter`, `panel_flutter_web`, `web_next`)
-- QR üretim + public menü render akışı (Next)
-- Owner/Admin ana route omurgası (panel Flutter)
-- Mobilde keşif/işletme/menü/topluluk çekirdeği
+1. L10n mojibake temizligi
+   - Dosyalar: `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb`
+   - Etki: UX metin kalitesi ve guven algisi
+2. Web env example guvenlik temizligi
+   - Dosya: `apps/web_next/.env.example`
+   - Etki: Secret hygiene ve operasyon guvenligi
+3. Web public seffaflik katmani
+   - Hedef: `/b/[slug]` sayfasina fiyat confidence/history ozeti
+   - Dosyalar: `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx`
 
-## Devam Eden / Kısmi Kalanlar
+## P1 (Kisa Vade)
 
-- Next `/admin` sayfası placeholder durumda.
-- Next `/owner` ve `/menu-builder` route'ları redirect düzeyinde.
-- Panelde `web_order` uygulaması TODO içeriyor.
-- Web test pipeline'da gerçek test dosyası bulunmuyor (smoke = lint + typecheck).
+1. Next panel gecis kararini netlestir
+   - `/admin`, `/owner`, `/menu-builder` stratejisi
+2. Next test katmanini smoke ustune cikar
+   - Unit/integration test dosyalari eklenmeli
+3. Supabase schema snapshot bosluklarini kapat
+   - `supabase/remote_schema.sql`, `supabase/remote_schema_latest.sql`
 
-## Teknik Borç Başlıkları
+## P2 (Orta Vade)
 
-- L10n dosyalarında mojibake/encoding izleri.
-- Bazı dokümanlarda eski plan dili ve güncel kod arasında farklar.
-- PowerShell odaklı kök scriptlerin cross-platform karşılığı sınırlı.
+1. Monitoring/perf/prefs icin gorunur tani UI
+2. `qr_menu_next/` artifact klasor temizligi
+3. `packages/shared` konsolidasyonu
+4. Root PowerShell scriptlerine cross-platform alternatif
 
-## Referans Kaynaklar
+## Referans
 
-- `docs/product.md`
-- `docs/apps.md`
-- `docs/architecture.md`
-- `docs/data-model.md`
-- `docs/module_visibility_matrix.md`
+- `docs/vision_status.md`
+- `docs/wip.md`

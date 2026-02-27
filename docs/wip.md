@@ -1,33 +1,49 @@
-# WIP / Eksik Parça Listesi
+# WIP / Eksik Parca Listesi (Kod Kanitli)
 
-Bu liste repo taramasında "mevcut ama tamamlanmamış" görünen parçaları içerir.
+## Urun Yuzeyi Aciklari
 
-## Ürün Yüzeyi
+1. Next admin sayfasi placeholder.
+   - Kanit: `apps/web_next/app/admin/page.tsx`
+2. Next owner ve menu-builder route'lari redirect.
+   - Kanit: `apps/web_next/app/owner/page.tsx`, `apps/web_next/app/menu-builder/page.tsx`
+3. Web public menu sayfasinda fiyat confidence/history sunumu yok.
+   - Kanit: `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx`
 
-- Next admin sayfası: placeholder metin var, kapsamlı admin UI yok.
-  - Kanıt: `apps/web_next/app/admin/page.tsx`
+## Icerik/L10n Aciklari
 
-- Next owner ve menu-builder route'ları: bağımsız ekran yerine redirect.
-  - Kanıt: `apps/web_next/app/owner/page.tsx`, `apps/web_next/app/menu-builder/page.tsx`
+1. ARB ve generated l10n dosyalarinda mojibake metinler var.
+   - Kanit:
+   - `apps/mobile_flutter/lib/l10n/app_en.arb`
+   - `apps/mobile_flutter/lib/l10n/app_tr.arb`
+   - `apps/mobile_flutter/lib/l10n/app_localizations_en.dart`
+   - `apps/mobile_flutter/lib/l10n/app_localizations_tr.dart`
 
-- Panel web_order uygulaması: TODO metinli placeholder.
-  - Kanıt: `apps/panel_flutter_web/lib/web_order/web_order_app.dart`
+## Guvenlik/Operasyon Aciklari
 
-## Veri ve Şema
+1. `apps/web_next/.env.example` dosyasinda gercek key benzeri degerler var.
+2. `supabase/remote_schema.sql` ve `supabase/remote_schema_latest.sql` bos.
 
-- `supabase/remote_schema.sql` ve `supabase/remote_schema_latest.sql` boş.
-  - Kanıt: dosya boyutları 0 byte
+Kanit:
+- `apps/web_next/.env.example`
+- `supabase/remote_schema.sql`
+- `supabase/remote_schema_latest.sql`
 
-- Uygulamada kullanılan bazı çekirdek tablolar için başlangıç DDL'i bu snapshot'ta görünmüyor.
-  - Örnek: `businesses`, `menus`, `menu_items`, `menu_categories`
+## Test Aciklari
 
-## Test
+1. Web Next tarafinda test dosyasi bulunamadi; script smoke ile sinirli.
+   - Kanit: `apps/web_next/package.json`, `apps/web_next` test dosya taramasi
+2. Panelde `integration_test` klasoru bulunamadi.
+   - Kanit: `apps/panel_flutter_web/test/*`, `apps/panel_flutter_web/integration_test` (bulunamadi)
 
-- Web Next tarafında test dosyası bulunamadı; test script'i smoke (lint+typecheck) odaklı.
-  - Kanıt: `apps/web_next/package.json`, test dosyası taraması
+## Mevcut Ama Kullanilmayan/Kismi Bagli
 
-## Paketleşme
+1. `qr_menu_next/` artifact klasoru.
+2. `apps/panel_flutter_web/lib/web_order/web_order_app.dart` placeholder.
+3. `packages/shared` package yapisi eksik (`package.json` yok).
 
-- `packages/shared` klasöründe kod var, ancak `package.json` yok.
-- `@yeedoy/*` paket importları uygulama kodunda görünmüyor.
-  - Kanıt: `packages/shared/*`, import taraması
+## Kapatma Kriteri
+
+Bu dosya maddeleri kapanmis sayilmasi icin:
+
+- Kod degisikligi + ilgili test/dogrulama
+- Dokuman guncellemesi (`docs/vision_status.md`, `docs/roadmap.md`)

@@ -1,9 +1,10 @@
-# PLAN (Arşiv Notu)
+# PLAN (Arsiv Notu)
 
-Bu dosya plan arşivi olarak tutulur.
+Bu dosya aktif yol haritasi degil, referans indeksidir.
 
-Güncel gerçek durum dokümanları:
+Guncel kaynak dokumanlar:
 
+- `docs/vision_status.md`
 - `docs/product.md`
 - `docs/apps.md`
 - `docs/architecture.md`
@@ -11,7 +12,7 @@ Güncel gerçek durum dokümanları:
 - `docs/qr-system.md`
 - `docs/setup.md`
 
-Mevcut açık başlıklar:
+Acilik/yapilacak takibi:
 
 - `docs/roadmap.md`
 - `docs/wip.md`

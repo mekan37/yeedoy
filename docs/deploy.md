@@ -1,15 +1,8 @@
-# Dağıtım Notları (Güncel Durum)
+# Dagitim Notlari (Kod Tabanli)
 
-Bu belge dağıtım notudur. Ürün/mimari gerçekleri için öncelikli kaynak:
+Bu belge dagitim davranisini koddaki scriptlere gore aciklar.
 
-- `docs/product.md`
-- `docs/apps.md`
-- `docs/architecture.md`
-- `docs/setup.md`
-
-## Build Çıktıları
-
-Kök scriptler:
+## Build Komutlari
 
 ```bash
 npm run build:owner
@@ -18,15 +11,15 @@ npm run build:next
 npm run build:all
 ```
 
-Kaynak: repo kökü `package.json`
+Kanit: `package.json` (repo root)
 
-## Çıktı Klasörleri
+## Cikti Klasorleri
 
-- `deploy/owner` -> Flutter web owner çıktısı
-- `deploy/admin` -> Flutter web admin çıktısı
-- `deploy/next` -> Next.js build çıktısı
+- `deploy/owner` -> Flutter web owner
+- `deploy/admin` -> Flutter web admin
+- `deploy/next` -> Next.js build ciktisi
 
-## Operasyonel Not
+## Operasyon Notu
 
-- Flutter web owner/admin statik dağıtılabilir.
-- Next tarafı Node.js süreç gerektirir (`next start`), yalnızca statik FTP kopyası yeterli değildir.
+- Flutter web owner/admin statik dagitilabilir.
+- Next tarafi Node.js process ister (`next start`). Salt FTP statik kopya yeterli degil.

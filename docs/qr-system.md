@@ -1,93 +1,68 @@
-# QR Menü Sistemi (Gerçek Implementasyon)
+# QR Menu Sistemi (Gercek Uygulama)
 
-Bu doküman yalnızca mevcut kodu açıklar.
+## 1) QR Uretimi
 
-## 1) QR Varlık Üretimi (Owner Dashboard)
+- Dashboard route: `/dashboard/businesses/[id]/qr`
+- UI: `QrGenerator`
+- API: `POST /api/qr`
 
-Akış:
-
-1. Kullanıcı `dashboard/businesses/[id]/qr` sayfasına gider.
-2. UI, `QrGenerator` bileşeni ile `/api/qr` endpoint'ini çağırır.
-3. API, QR içeriğini üretir (SVG/PNG/PDF) ve `menu-assets` storage bucket'ına yükler.
-4. API public URL döner; UI dosyayı açar/indirir.
-
-Kanıt:
-
+Kanit:
 - `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/qr/page.tsx`
 - `apps/web_next/src/ui/sections/qr-generator.tsx`
 - `apps/web_next/app/api/qr/route.tsx`
 
-## 2) QR İçeriği ve Hedef URL
+## 2) API Davranisi
 
-`/api/qr` içindeki hedef URL üretimi:
+`/api/qr` akisi:
 
-- `target = {NEXT_PUBLIC_APP_URL}/b/{slugOrId}?lang={locale}`
-- `slug` varsa slug, yoksa `business_id` kullanılır.
+1. Isletmeyi yukler.
+2. Hedef URL uretir: `/b/{slugOrId}?lang={locale}`
+3. QR'yi `svg` / `png` / `poster_pdf` formatinda olusturur.
+4. `menu-assets` bucket'ina yukler.
+5. Public URL doner.
 
-Kanıt:
-
+Kanit:
 - `apps/web_next/app/api/qr/route.tsx`
 
-## 3) Kısa Link Route'u
+## 3) Kisa Route (QR Redirect)
 
-`/q/[code]` sayfası:
+- Route: `/q/[code]`
+- `businesses.slug == code` kontrolu ile `/b/{slug}?lang=tr` redirect.
+- Eslesme yoksa `notFound()`.
 
-- `businesses.slug == code` kontrolü yapar.
-- Eşleşme varsa `/b/{slug}?lang=tr` yönlendirmesi yapar.
-- Yoksa `notFound()`.
-
-Kanıt:
-
+Kanit:
 - `apps/web_next/app/q/[code]/page.tsx`
 
 Not:
+- Ayrik bir short-link tablosu bulunmadi; route slug lookup yapiyor.
 
-- Bu route'ta "code -> ayrı kısa link tablosu" bulunmuyor; doğrudan `businesses.slug` lookup kullanılıyor.
+## 4) Public Menu Render
 
-## 4) Public Menü Render
+- Route: `/b/[slug]`
+- `businesses`, `menu_categories`, `menu_items`, `menu_translations` cekilip `PublicMenuClient` ile render ediliyor.
 
-`/b/[slug]` sayfası:
-
-- `businesses` tablosundan aktif işletmeyi alır.
-- `menu_categories`, `menu_items`, `menu_translations` verisini çeker.
-- `PublicMenuClient` ile menüyü render eder.
-
-Kanıt:
-
+Kanit:
 - `apps/web_next/app/(public)/b/[slug]/page.tsx`
 - `apps/web_next/src/ui/sections/public-menu-client.tsx`
 
-## 5) Mobilde QR Okuma ile Dahili Route Çözümü
+## 5) Mobil QR Entegrasyonu
 
-Mobil katkı akışında QR içeriği okunur ve dahili route'a çevrilir:
+Mobilde QR icerigi parse edilerek dahili route'a cevriliyor:
 
 - `/menu/{menuId}`
 - `/b/{businessId}`
 - `/b/{businessId}/menu/{menuId}`
 
-Eşleşmezse QR görseli "review" için yüklenir.
+Eslesmeyen durumda QR gorseli review icin gecici upload ediliyor.
 
-Kanıt:
-
+Kanit:
 - `apps/mobile_flutter/lib/features/contribute/ui/contribute_entry.dart`
 
-## 6) Menü Linki Telemetri/Check-in
+## 6) Aciklar
 
-Mobil `PublicMenuSharePage` içinde:
+- Web public menude fiyat confidence/history UI katmani yok.
+- Kisa kod sistemi slug'a bagli; ayrik kod yasam dongusu yok.
 
-- `src=qr` ise `qr_scanned` analitik olayı loglanır.
-- Aynı durumda `log_checkin_v1` RPC çağrısı yapılır.
-
-Kanıt:
-
-- `apps/mobile_flutter/lib/features/menus/ui/public_menu_share_page.dart`
-
-## 7) Şu Anki Kapsam Dışı / Bulunamayanlar
-
-- Ayrı bir "short_links" tablosu veya kod üretip saklayan DB yapısı bulunamadı.
-- Web tarafında `/menu/{menuId}` public route'u Next içinde yok; public route ana ekseni `/b/[slug]`.
-
-Kanıt:
-
+Kanit:
+- `apps/web_next/src/ui/sections/public-menu-client.tsx`
 - `apps/web_next/app/q/[code]/page.tsx`
-- `apps/web_next/app` route envanteri

@@ -1,66 +1,54 @@
-# Doküman Temizlik ve Konsolidasyon Kaydı
+# Dokuman Temizlik ve Konsolidasyon Kaydi
 
-## 2026-02-26 (Önceki Kayıtlar)
+## 2026-02-26 ve 2026-02-27 Onceki Kayitlar
 
-- `apps/web_next/.env.example`
-  - Sebep: Standart dışı/güvensiz örnek içerik notu.
-  - İşlem: Dosya aynı yolda yeniden düzenlendi.
+Bu tarihlerdeki onceki kayitlar korunmustur; asagida bugunku guncellemeler listelenir.
 
-- `apps/web_next/README.md`
-  - Sebep: Monorepo yapısıyla uyumsuz eski anlatım.
-  - İşlem: Aynı yolda yeniden yazım.
+## 2026-02-27 (Vizyon Uyumu Turu)
 
-- Kökte geçici analiz dosyaları (`.txt/.md`)
-  - Sebep: Kalıcı ürün dokümanı olmamaları.
-  - İşlem: Kaldırıldı, kalıcı içerik `docs/*` altında tutuldu.
-
-## 2026-02-27
+- `docs/vision_status.md`
+  - Islem: Yeni olusturuldu.
+  - Amac: "Yeedoy vizyonuna ne kadar yakiniz" sorusunu kod kanitlariyla cevaplamak.
 
 - `docs/product.md`
-  - İşlem: Yeni oluşturuldu.
-  - Amaç: Ürünün gerçek kapsamını kod kanıtlarıyla tanımlamak.
+  - Islem: Yeniden yazildi.
+  - Amac: Urun tanimini QR menuden daha genis (fiyat seffafligi + topluluk) sekilde, kod tabanina gore netlestirmek.
 
 - `docs/apps.md`
-  - İşlem: Yeni oluşturuldu.
-  - Amaç: Uygulama envanteri, sorumluluklar, kısmi/bağlı olmayan modüller.
+  - Islem: Yeniden yazildi.
+  - Amac: 3 app sorumluluklarini ve kismi/placeholder alanlari netlestirmek.
 
 - `docs/architecture.md`
-  - İşlem: Tamamen güncellendi (kaynak doküman formatı).
-  - Amaç: Gerçek istemci-backend mimarisini ve yetki akışını netleştirmek.
+  - Islem: Yeniden yazildi.
+  - Amac: istemci-backend yetki akisi + QR akisini tek yerde toplamak.
 
 - `docs/data-model.md`
-  - İşlem: Yeni oluşturuldu.
-  - Amaç: Migration + uygulama sorgularına dayalı veri modeli dökümü.
+  - Islem: Yeniden yazildi.
+  - Amac: tablo/RPC setini migration + uygulama sorgularina gore guncellemek.
 
 - `docs/qr-system.md`
-  - İşlem: Yeni oluşturuldu.
-  - Amaç: QR üretim/yönlendirme/render akışını gerçek implementasyondan belgelemek.
+  - Islem: Yeniden yazildi.
+  - Amac: QR olusturma, redirect ve public render akisini gercek implementasyonla belgelemek.
 
 - `docs/setup.md`
-  - İşlem: Tamamen güncellendi (kaynak doküman formatı).
-  - Amaç: Kurulum/çalıştırma komutlarını gerçek scriptlerle eşlemek.
+  - Islem: Yeniden yazildi.
+  - Amac: calistirma/test gerceklerini ve mevcut env riskini netlestirmek.
 
-- `docs/cleanup_log.md`
-  - İşlem: Yapılandırıldı ve önceki kayıtlar korunarak yeniden düzenlendi.
+- `docs/module_visibility_matrix.md`
+  - Islem: Yeniden yazildi.
+  - Amac: route bazli gorunurluk + redirect/placeholder durumlarini guncellemek.
 
-Not:
-
-- Bu turda repo içinden kalıcı `.md/.txt` silinmedi; ana iş doküman konsolidasyonudur.
-
-## 2026-02-27 (Devam)
-
-- `docs/cleanup_decision_matrix.md`
-  - İşlem: Yeni oluşturuldu.
-  - Amaç: `qr_menu_next`, `web_order`, `packages/shared` gibi adaylar için sil/koru kararını kanıta bağlamak.
+- `docs/roadmap.md`, `docs/wip.md`
+  - Islem: Yeniden yazildi.
+  - Amac: P0/P1/P2 is listesi ve aciklari kod kanitlariyla cikarmak.
 
 - `docs/security_env_cleanup_plan.md`
-  - İşlem: Yeni oluşturuldu.
-  - Amaç: `.env.example` güvenlik temizliği ve push sonrası secret rotasyon planını netleştirmek.
+  - Islem: Guncellendi.
+  - Amac: `apps/web_next/.env.example` icindeki key regresyonunu acikca kayda almak.
 
-- `apps/mobile_flutter/.env.example`
-  - İşlem: Gerçek anahtarlar kaldırıldı, placeholder'a çevrildi.
-  - Ek: `SSUPABASE_URL` yazım hatası `SUPABASE_URL` olarak düzeltildi.
+- `docs/cleanup_decision_matrix.md`, `docs/devtools.md`, `docs/deploy.md`
+  - Islem: Guncellendi.
+  - Amac: dokumanlar arasi tutarlilik ve encoding temizligi.
 
-- `apps/web_next/.env.example`
-  - İşlem: Gerçek anahtarlar kaldırıldı, placeholder'a çevrildi.
-  - Ek: `NEXT_PUBLIC_*` değişkenleri placeholder üzerinden türetilecek şekilde korundu.
+Not:
+- Bu turda dosya silinmedi; odak dokuman dogrulugu ve konsolidasyonudur.

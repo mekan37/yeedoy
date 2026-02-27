@@ -1,102 +1,75 @@
-# Mimari (Kaynak Doküman)
+# Mimari (Kod Tabanli)
 
-Bu doküman yalnızca yerel kod tabanına dayanır.
+## Ust Seviye
 
-## Üst Seviye Mimari
+Yapi, tek Supabase backend'e baglanan uc istemciden olusur:
 
-Sistem, tek Supabase backend'e bağlanan üç istemci uygulamadan oluşur:
+- Mobil: `apps/mobile_flutter`
+- Panel: `apps/panel_flutter_web`
+- Web: `apps/web_next`
 
-- Mobil istemci: `apps/mobile_flutter` (Flutter)
-- Panel istemci: `apps/panel_flutter_web` (Flutter Web)
-- Web istemci: `apps/web_next` (Next.js)
+## Istemci Katmani
 
-## İstemci Katmanı
+### Mobil
 
-### Mobil (Flutter)
-
-- Giriş: `apps/mobile_flutter/lib/main.dart`
+- Giris: `apps/mobile_flutter/lib/main.dart`
 - Router: `apps/mobile_flutter/lib/app/router.dart`
-- Supabase init: `.env` içinden `SUPABASE_URL` ve `SUPABASE_ANON_KEY`
-- Ek telemetri: Firebase Analytics/Crashlytics/Performance
+- Supabase init: `SUPABASE_URL`, `SUPABASE_ANON_KEY`
 
-### Panel (Flutter Web)
+### Panel
 
-- Admin giriş: `apps/panel_flutter_web/lib/main_web_admin.dart`
-- Owner giriş: `apps/panel_flutter_web/lib/main_web_owner.dart`
-- Router: `apps/panel_flutter_web/lib/app/router.dart`
-- Supabase init: `apps/panel_flutter_web/lib/shared/bootstrap/web_bootstrap.dart`
+- Admin entry: `apps/panel_flutter_web/lib/main_web_admin.dart`
+- Owner entry: `apps/panel_flutter_web/lib/main_web_owner.dart`
+- Router/entry seti: `apps/panel_flutter_web/lib/app_admin.dart`, `apps/panel_flutter_web/lib/app/router.dart`
 
-### Web (Next.js)
+### Web (Next)
 
-- Route katmanı: `apps/web_next/app/**/*`
-- Middleware auth/rol kontrolü: `apps/web_next/middleware.ts`
-- Supabase sunucu istemcisi: `apps/web_next/src/lib/supabaseServer.ts`
-- Supabase tarayıcı istemcisi: `apps/web_next/src/lib/supabaseClient.ts`
-- Service role istemcisi: `apps/web_next/src/lib/supabaseAdmin.ts`
+- Route katmani: `apps/web_next/app/**/*`
+- Auth/middleware: `apps/web_next/middleware.ts`
+- Supabase server/browser/admin clientleri: `apps/web_next/src/lib/supabaseServer.ts`, `apps/web_next/src/lib/supabaseClient.ts`, `apps/web_next/src/lib/supabaseAdmin.ts`
 
-## Backend Katmanı (Supabase)
+## Yetkilendirme ve Erisim
 
-Repo'da Supabase bileşenleri:
+- Next middleware, `/dashboard`, `/owner`, `/admin`, `/menu-builder` icin login zorlar.
+- `/admin` icin ek admin kontrolu (`is_admin` RPC + `admin_users`).
+- Menu API'lerinde owner/admin kontrolleri var.
 
-- Migration SQL: `supabase/migrations/*.sql`
-- Edge Functions: `supabase/functions/*`
-- Seed: `supabase/seed/*`
-- Policy notu: `supabase/policies/README.md`
-
-Not:
-
-- `supabase/remote_schema.sql` ve `supabase/remote_schema_latest.sql` boş (0 byte).
-- Bu yüzden veri modeli çıkarımı migration dosyaları ve uygulama sorgularından yapılır.
-
-## Güvenlik ve Yetkilendirme
-
-- Web middleware, `/dashboard`, `/owner`, `/admin`, `/menu-builder` için login zorlar.
-- `/admin` için ek admin kontrolü (`is_admin` RPC + `admin_users` tablosu) uygulanır.
-- Owner yazma akışlarında `is_owner_of_business` ve/veya `admin_users` kontrolü kullanılır.
-
-Kanıt:
-
+Kanit:
 - `apps/web_next/middleware.ts`
 - `apps/web_next/src/lib/auth.ts`
 - `apps/web_next/src/lib/ownership.ts`
+- `apps/web_next/app/api/menu/*`
 
-## QR Menü Akışı Mimari Konumu
+## QR Menu Akisinin Mimarideki Yeri
 
-- QR üretim: dashboard -> `POST /api/qr`
-- Hedef URL: `/b/{slugOrId}?lang=tr`
-- Kısa link route'u: `/q/[code]` -> `/b/{slug}?lang=tr`
-- Public render: `/b/[slug]` sayfası Supabase'den menü verisini çekip render eder.
+1. Dashboard uzerinden QR uretim (`/dashboard/businesses/[id]/qr`)
+2. `POST /api/qr` ile varlik olusturma ve storage upload
+3. QR hedefi: `/b/{slugOrId}?lang=...`
+4. Kisa route: `/q/[code]` (slug lookup)
+5. Public render: `/b/[slug]`
 
-Kanıt:
-
+Kanit:
 - `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/qr/page.tsx`
 - `apps/web_next/app/api/qr/route.tsx`
 - `apps/web_next/app/q/[code]/page.tsx`
 - `apps/web_next/app/(public)/b/[slug]/page.tsx`
 
-## Edge Function Katmanı
+## Backend (Supabase)
 
-Mevcut fonksiyonlar:
+- Migrationlar: `supabase/migrations/*.sql`
+- Edge functionlar: `supabase/functions/*`
+- Seed/policy notlari: `supabase/seed/*`, `supabase/policies/README.md`
 
-- `admin-api`
-- `anti-spam-guard`
-- `purge-temp-uploads`
-- `push-dispatch`
-- `wp-upload`
-- `wp-upload-user`
-- `write-gatekeeper`
-- `import_places_json`
+Not:
+- `supabase/remote_schema.sql` ve `supabase/remote_schema_latest.sql` su an bos.
 
-Kaynak: `supabase/functions/*`
+## Mimari Aciklar
 
-## Mevcut Ama Kısmi/Kullanımı Sınırlı Unsurlar
+- Next admin yuzeyi urunsel olarak eksik (placeholder).
+- Next owner/menu-builder bagimsiz moduller degil (redirect).
+- Panelde `web_order` placeholder.
 
-- Next `/admin` sayfası placeholder düzeyinde.
-- Next `/owner` ve `/menu-builder` bağımsız ekran değil, redirect.
-- Panel `web_order` uygulaması TODO metni içeriyor.
-
-Kanıt:
-
+Kanit:
 - `apps/web_next/app/admin/page.tsx`
 - `apps/web_next/app/owner/page.tsx`
 - `apps/web_next/app/menu-builder/page.tsx`

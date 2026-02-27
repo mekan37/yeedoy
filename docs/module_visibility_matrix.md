@@ -1,62 +1,71 @@
-# Modül Görünürlük Matrisi (Kod Tabanlı)
+# Modul Gorunurluk Matrisi (Kod Tabanli)
 
 ## Mobile (`apps/mobile_flutter`)
 
-| Modül | Route | Durum |
+| Modul | Route | Durum |
 |---|---|---|
-| Discovery | `/discover` | Görünür |
-| Business | `/b/:id` | Görünür |
-| Menu | `/b/:id/menu/:menuId` | Görünür |
-| Reviews | `/b/:id/reviews`, `/b/:id/review` | Görünür |
-| Favorites | `/favorites` | Görünür |
-| Profile | `/profile` | Görünür |
-| Inbox | `/inbox` | Görünür |
-| Suggestions | `/suggest`, `/my-suggestions` | Görünür |
-| Group Requests | `/group-requests` | Görünür (labs) |
-| Taste Twin | `/taste-twin` | Görünür (labs) |
-| Heroes | `/heroes` | Görünür (labs) |
-| Compare / Chain | `/compare`, `/chain/:id` | Görünür (labs) |
-| Top Businesses | `/top-businesses` | Görünür |
-| Developer Tools | `/dev-tools` | Görünür (gate'li) |
-| Panel erişimi | `/admin`, `/owner` | Mobilde web yönlendirme ekranına düşer |
+| Discovery | `/discover` | Gorunur |
+| Business | `/b/:id` | Gorunur |
+| Menu | `/b/:id/menu/:menuId` | Gorunur |
+| Menu Item | `/b/:id/menu/:menuId/item/:itemId` | Gorunur |
+| Reviews | `/b/:id/reviews`, `/b/:id/review` | Gorunur |
+| Favorites | `/favorites`, `/c/:slug` | Gorunur |
+| Profile | `/profile` | Gorunur |
+| Inbox | `/inbox` | Gorunur |
+| Suggestion/Contribute | `/suggest`, `/my-suggestions` | Gorunur |
+| Group Requests | `/group-requests*` | Gorunur |
+| Labs | `/taste-twin`, `/heroes`, `/compare`, `/chain/:id` | Gorunur (feature flag bagli) |
+| DevTools | `/dev-tools` | Gorunur (debug/env gate) |
+| Panel erisimi | `/admin`, `/owner` | Mobilde `/panel-web` yonlendirmesine dusurulur |
 
-Kaynak: `apps/mobile_flutter/lib/app/router.dart`
+Kanit: `apps/mobile_flutter/lib/app/router.dart`
 
 ## Panel (`apps/panel_flutter_web`)
 
-| Modül | Route | Durum |
+| Modul | Route | Durum |
 |---|---|---|
-| Owner Dashboard | `/owner` | Görünür |
-| Owner Menu/Requests/Businesses | `/owner/...` | Görünür |
-| Admin Dashboard | `/admin` | Görünür |
-| Admin operasyon ekranları | `/admin/reports`, `/admin/claims`, `/admin/suggestions`, ... | Görünür |
-| Admin DevTools | `/admin/dev-tools` | Görünür (gate'li) |
-| Labs Translations | `/labs/translations` | Görünür (debug/labs şartlı) |
-| Web Order alt uygulaması | `main_web_order.dart` | Mevcut ama placeholder |
+| Admin dashboard | `/admin` | Gorunur |
+| Admin operasyon | `/admin/reports`, `/admin/claims`, `/admin/suggestions`, `/admin/verified`, ... | Gorunur |
+| Owner dashboard | `/owner` ve altlari | Gorunur |
+| Admin devtools | `/admin/dev-tools` | Gorunur (debug/env gate) |
+| Web order alt giris | `main_web_order.dart` | Mevcut ama placeholder |
 
-Kaynak: `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/web_order/web_order_app.dart`
+Kanit:
+- `apps/panel_flutter_web/lib/app/router.dart`
+- `apps/panel_flutter_web/lib/app_admin.dart`
+- `apps/panel_flutter_web/lib/web_order/web_order_app.dart`
 
 ## Web Next (`apps/web_next`)
 
-| Modül | Route | Durum |
+| Modul | Route | Durum |
 |---|---|---|
-| Public Landing | `/` | Görünür |
-| Public Menu | `/b/[slug]` | Görünür |
-| QR Redirect | `/q/[code]` | Görünür |
-| Login | `/login` | Görünür |
-| Dashboard | `/dashboard/...` | Görünür |
-| Menu Editor | `/dashboard/businesses/[id]/menu` | Görünür |
-| QR Generator | `/dashboard/businesses/[id]/qr` | Görünür |
-| Admin sayfası | `/admin` | Görünür ama içerik placeholder |
-| Owner sayfası | `/owner` | Mevcut ama dashboard'a redirect |
-| Menu Builder sayfası | `/menu-builder` | Mevcut ama dashboard'a redirect |
-| Devtools | `/devtools` | Görünür (gate'li) |
+| Hub root | `/` | Mevcut, login olmayani `/login`e yonlendiriyor |
+| Login | `/login` | Gorunur |
+| Dashboard | `/dashboard/*` | Gorunur |
+| Menu editor | `/dashboard/businesses/[id]/menu` | Gorunur |
+| QR generator | `/dashboard/businesses/[id]/qr` | Gorunur |
+| Public menu | `/b/[slug]` | Gorunur |
+| QR redirect | `/q/[code]` | Gorunur |
+| Admin | `/admin` | Gorunur ama placeholder |
+| Owner | `/owner` | Redirect (`/dashboard/businesses`) |
+| Menu builder | `/menu-builder` | Redirect (`/dashboard/businesses`) |
+| Devtools | `/devtools` | Gorunur (env + non-prod gate) |
 
-Kaynak: `apps/web_next/app/**/*`
+Kanit:
+- `apps/web_next/app/page.tsx`
+- `apps/web_next/src/ui/sections/HomeHub.tsx`
+- `apps/web_next/app/admin/page.tsx`
+- `apps/web_next/app/owner/page.tsx`
+- `apps/web_next/app/menu-builder/page.tsx`
+- `apps/web_next/app/(public)/b/[slug]/page.tsx`
+- `apps/web_next/app/q/[code]/page.tsx`
 
-## Mevcut Ama Tam Bağlı Olmayan Unsurlar
+## Mevcut Ama Bagli Olmayan/Kismi Unsurlar
 
-- `qr_menu_next/` klasörü: kaynak uygulama değil, artifact içeriği.
-- `packages/*` paketleri: repo içinde mevcut, uygulama importlarında doğrudan kullanım görünmüyor.
+- `qr_menu_next/` sadece artifact (`.next`, `node_modules`).
+- `packages/shared` var ama package yapisi tamam degil (`package.json` yok) ve dogrudan import izine rastlanmadi.
 
-Kaynak: klasör envanteri ve import taraması.
+Kanit:
+- `qr_menu_next/*`
+- `packages/shared/README.md`
+- `packages/*` envanteri ve import taramasi

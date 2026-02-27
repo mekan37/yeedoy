@@ -1,38 +1,32 @@
-# Güvenlik Cleanup Planı - `.env.example`
+# Guvenlik Cleanup Plani - `.env.example`
 
-## Amaç
+## Mevcut Durum (2026-02-27)
 
-Repo içinde örnek dosyalarda gerçek anahtar/token bulunmasını engellemek ve ekip için güvenli bir örnek şablon bırakmak.
+Su anda `apps/web_next/.env.example` dosyasinda gercek key benzeri degerler bulunuyor.
 
-## Bu Turda Uygulananlar
+Etkilenen dosya:
+- `apps/web_next/.env.example`
 
-- `apps/mobile_flutter/.env.example` içindeki gerçek anahtarlar placeholder ile değiştirildi.
-- `apps/mobile_flutter/.env.example` içindeki hatalı anahtar adı `SSUPABASE_URL` -> `SUPABASE_URL` düzeltildi.
-- `apps/web_next/.env.example` içindeki gerçek anahtarlar placeholder ile değiştirildi.
+Mobil ve panel example dosyalari placeholder formatinda:
+- `apps/mobile_flutter/.env.example`
+- `apps/panel_flutter_web/.env.example`
 
-## Kontrol Kapsamı
+## Risk
 
-- Track edilen env dosyaları:
-  - `apps/mobile_flutter/.env.example`
-  - `apps/panel_flutter_web/.env.example`
-  - `apps/web_next/.env.example`
-- Track edilmeyen yerel dosyalar (`.env`, `.env.local`) `.gitignore` ile dışarıda.
+- Ornek dosyada gercek key birakmak, key rotasyonu yapilsa bile operasyonel hijyen acigi olusturur.
+- Yeni ekip uyelerinde "bunlar test key" algisi olusup production key dagitimi riski dogar.
 
-## Push Sonrası Yapılacak Operasyonlar
+## Aksiyon Plani
 
-1. Supabase anahtar rotasyonu:
-   - `ANON KEY`
-   - `SERVICE ROLE KEY`
-2. Geçmiş commitlerde anahtar sızıntısı varsa history cleanup (gerekirse BFG/filter-repo).
-3. CI tarafına secret scanning ekleme (örn. gitleaks/trufflehog).
-4. PR template'e "secret leak check" maddesi ekleme.
+1. `apps/web_next/.env.example` dosyasini placeholder degerlere cek.
+2. Key rotasyonu yap (anon + service role).
+3. CI secret scan ekle (`gitleaks` veya benzeri).
+4. PR checklist'e `env.example secret check` maddesi ekle.
 
-## Hızlı Doğrulama
-
-Push öncesi şu kontrol uygulanmalı:
+## Hizli Kontrol
 
 ```bash
 rg -n "eyJhbGci|SUPABASE_SERVICE_ROLE_KEY=.*[A-Za-z0-9_-]{20,}" apps/**/.env.example
 ```
 
-Beklenen: eşleşme olmaması.
+Beklenen: eslesme olmamasi.
