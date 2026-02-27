@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Button } from '@/src/ui/components/button';
 import { Card } from '@/src/ui/components/card';
 import { Input } from '@/src/ui/components/input';
@@ -429,11 +430,13 @@ export function MenuEditorSection({
                   >
                     <div className="flex min-w-0 items-center gap-3">
                       {imageUrl ? (
-                        <img
+                        <Image
                           src={imageUrl}
                           alt={itemName(item.id) || item.name || 'Urun'}
+                          width={56}
+                          height={56}
+                          unoptimized
                           className="h-14 w-14 shrink-0 rounded-xl border border-slate-200 object-cover"
-                          loading="lazy"
                         />
                       ) : null}
                       <div className="min-w-0">

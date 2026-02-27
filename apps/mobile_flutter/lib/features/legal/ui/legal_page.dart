@@ -148,9 +148,9 @@ class LegalPage extends ConsumerWidget {
                 const SizedBox(height: 8),
                 Text(
                   t.legalPolicySummary(
-                    guardrails.requireSponsoredLabel,
+                    guardrails.requireSponsoredLabel.toString(),
                     guardrails.minSponsoredTrustScore.toStringAsFixed(2),
-                    guardrails.ownerCanDeleteReviews,
+                    guardrails.ownerCanDeleteReviews.toString(),
                   ),
                   style: const TextStyle(
                     color: AppColors.textStrong,
@@ -184,4 +184,3 @@ Future<void> _openUrl(String url) async {
   final uri = Uri.parse(url);
   await launchUrl(uri, mode: LaunchMode.externalApplication);
 }
-

@@ -628,25 +628,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dayUnit => 'days';
 
   @override
-  String get tekrarDene => 'TODO_EN: Tekrar dene';
+  String get tekrarDene => 'Retry';
 
   @override
   String get vazgec => 'Cancel';
 
   @override
-  String get reddet => 'TODO_EN: Reddet';
+  String get reddet => 'Reject';
 
   @override
-  String get title => 'TODO_EN: title';
+  String get title => 'Title';
 
   @override
   String get isleniyor => 'Processing...';
 
   @override
-  String get onayla => 'TODO_EN: Onayla';
+  String get onayla => 'Approve';
 
   @override
-  String get approved => 'TODO_EN: approved';
+  String get approved => 'Approved';
 
   @override
   String get tumu => 'All';
@@ -655,16 +655,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kayitBulunamadi => 'No records found.';
 
   @override
-  String get temizle => 'TODO_EN: Temizle';
+  String get temizle => 'Clear';
 
   @override
-  String get uygula => 'TODO_EN: Uygula';
+  String get uygula => 'Apply';
 
   @override
-  String get pending => 'TODO_EN: pending';
+  String get pending => 'Pending';
 
   @override
-  String get reddedildi => 'TODO_EN: Reddedildi';
+  String get reddedildi => 'Rejected';
 
   @override
   String get satirSec => 'Select row';
@@ -673,25 +673,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gonder => 'Send';
 
   @override
-  String get rejected => 'TODO_EN: rejected';
+  String get rejected => 'Rejected';
 
   @override
-  String get detay => 'TODO_EN: Detay';
+  String get detay => 'Detail';
 
   @override
   String get duzenle => 'Edit';
 
   @override
-  String get eminMisin => 'TODO_EN: Emin misin?';
+  String get eminMisin => 'Are you sure?';
 
   @override
   String get guncellendi => 'Updated.';
 
   @override
-  String get reddedildi_2 => 'TODO_EN: Reddedildi.';
+  String get reddedildi_2 => 'Rejected.';
 
   @override
-  String get sla => 'TODO_EN: SLA';
+  String get sla => 'SLA';
 
   @override
   String get csvDisaAktar => 'Export CSV';
@@ -700,16 +700,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onaylandi => 'Approved';
 
   @override
-  String get yenile => 'TODO_EN: Yenile';
+  String get yenile => 'Refresh';
 
   @override
-  String get atanan => 'TODO_EN: Atanan';
+  String get atanan => 'Assigned';
 
   @override
-  String get beklemede => 'TODO_EN: Beklemede';
+  String get beklemede => 'Pending';
 
   @override
-  String get durum => 'TODO_EN: Durum';
+  String get durum => 'Status';
 
   @override
   String get tabRecommended => 'Recommended';
@@ -731,7 +731,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Start with a ready budget for 2 people';
 
   @override
-  String get quickSuggestionPreset => '2 people / ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº600';
+  String get quickSuggestionPreset => '2 people / TL 600';
 
   @override
   String get whatToEatTitle => 'What should I eat now?';
@@ -3478,9 +3478,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String legalPolicySummary(
-    Object requireSponsoredLabel,
+    String requireSponsoredLabel,
     String minSponsoredTrust,
-    Object ownerCanDeleteReviews,
+    String ownerCanDeleteReviews,
   ) {
     return 'Policy: sponsored label required=$requireSponsoredLabel, minimum sponsored trust=$minSponsoredTrust, owner review delete=$ownerCanDeleteReviews.';
   }

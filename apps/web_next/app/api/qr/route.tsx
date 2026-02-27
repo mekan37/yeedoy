@@ -109,7 +109,11 @@ export async function POST(request: Request) {
           <Text style={styles.title}>{business?.name ?? 'Business'}</Text>
           <View style={styles.section}><Text>Scan QR to open menu</Text></View>
           <View style={styles.section}><Text>{target}</Text></View>
-          <View style={styles.section}><Image src={pngDataUrl} style={{ width: 240, height: 240 }} /></View>
+          <View style={styles.section}>
+            {/* react-pdf Image is not a DOM img; jsx-a11y rule is not applicable here */}
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <Image src={pngDataUrl} style={{ width: 240, height: 240 }} />
+          </View>
         </Page>
       </Document>
     );

@@ -2,119 +2,119 @@
   "@@locale": "tr",
   "appName": "Yeedoy",
   "@appName": {
-    "description": "TODO: appName"
+    "description": "Auto metadata for appName"
   },
   "appTagline": "Canlı menüler, doğrulanmış fiyatlar",
   "@appTagline": {
-    "description": "TODO: appTagline"
+    "description": "Auto metadata for appTagline"
   },
   "appTaglineLine1": "Canlı menüler",
   "@appTaglineLine1": {
-    "description": "TODO: appTaglineLine1"
+    "description": "Auto metadata for appTaglineLine1"
   },
   "appTaglineLine2": "Dogrulanmis fiyatlar",
   "@appTaglineLine2": {
-    "description": "TODO: appTaglineLine2"
+    "description": "Auto metadata for appTaglineLine2"
   },
   "emptyTitle": "Henüz eklenmemis",
   "@emptyTitle": {
-    "description": "TODO: emptyTitle"
+    "description": "Auto metadata for emptyTitle"
   },
   "emptyRegionDescription": "Yeedoy'da bu bölgede henüz veri yok. İstersen ilk katkıyı sen ekle.",
   "@emptyRegionDescription": {
-    "description": "TODO: emptyRegionDescription"
+    "description": "Auto metadata for emptyRegionDescription"
   },
   "webDescription": "Yeedoy - Canlı menüler, doğrulanmış fiyatlar ve akıllı keşif.",
   "@webDescription": {
-    "description": "TODO: webDescription"
+    "description": "Auto metadata for webDescription"
   },
   "discover": "Keşfet",
   "@discover": {
-    "description": "TODO: discover"
+    "description": "Auto metadata for discover"
   },
   "home": "Ana Sayfa",
   "@home": {
-    "description": "TODO: home"
+    "description": "Auto metadata for home"
   },
   "map": "Harita",
   "@map": {
-    "description": "TODO: map"
+    "description": "Auto metadata for map"
   },
   "list": "Liste",
   "@list": {
-    "description": "TODO: list"
+    "description": "Auto metadata for list"
   },
   "favorites": "Favoriler",
   "@favorites": {
-    "description": "TODO: favorites"
+    "description": "Auto metadata for favorites"
   },
   "profile": "Profil",
   "@profile": {
-    "description": "TODO: profile"
+    "description": "Auto metadata for profile"
   },
   "settings": "Ayarlar",
   "@settings": {
-    "description": "TODO: settings"
+    "description": "Auto metadata for settings"
   },
   "save": "Kaydet",
   "@save": {
-    "description": "TODO: save"
+    "description": "Auto metadata for save"
   },
   "cancel": "İptal",
   "@cancel": {
-    "description": "TODO: cancel"
+    "description": "Auto metadata for cancel"
   },
   "privacy": "Gizlilik",
   "@privacy": {
-    "description": "TODO: privacy"
+    "description": "Auto metadata for privacy"
   },
   "socialLinks": "Sosyal Bağlantılar",
   "@socialLinks": {
-    "description": "TODO: socialLinks"
+    "description": "Auto metadata for socialLinks"
   },
   "logout": "Çıkış Yap",
   "@logout": {
-    "description": "TODO: logout"
+    "description": "Auto metadata for logout"
   },
   "contribute": "Katkı Yap",
   "@contribute": {
-    "description": "TODO: contribute"
+    "description": "Auto metadata for contribute"
   },
   "uploadPhoto": "Fotoğraf Yükle",
   "@uploadPhoto": {
-    "description": "TODO: uploadPhoto"
+    "description": "Auto metadata for uploadPhoto"
   },
   "scanQr": "QR Tara",
   "@scanQr": {
-    "description": "TODO: scanQr"
+    "description": "Auto metadata for scanQr"
   },
   "verifyPrice": "Fiyatı Doğrula",
   "@verifyPrice": {
-    "description": "TODO: verifyPrice"
+    "description": "Auto metadata for verifyPrice"
   },
   "openInBrowser": "Tarayıcıda Aç",
   "@openInBrowser": {
-    "description": "TODO: openInBrowser"
+    "description": "Auto metadata for openInBrowser"
   },
   "linkPreview": "Bağlantı Önizleme",
   "@linkPreview": {
-    "description": "TODO: linkPreview"
+    "description": "Auto metadata for linkPreview"
   },
   "profileSettings": "Profil Ayarları",
   "@profileSettings": {
-    "description": "TODO: profileSettings"
+    "description": "Auto metadata for profileSettings"
   },
   "saving": "Kaydediliyor...",
   "@saving": {
-    "description": "TODO: saving"
+    "description": "Auto metadata for saving"
   },
   "loginRequired": "Önce giris yapmalisin.",
   "@loginRequired": {
-    "description": "TODO: loginRequired"
+    "description": "Auto metadata for loginRequired"
   },
   "profileSaved": "Profil ayarları kaydedildi.",
   "@profileSaved": {
-    "description": "TODO: profileSaved"
+    "description": "Auto metadata for profileSaved"
   },
   "saveError": "Kaydetme hatasi: {error}",
   "@saveError": {
@@ -123,75 +123,75 @@
         "type": "String"
       }
     },
-    "description": "TODO: saveError"
+    "description": "Auto metadata for saveError"
   },
   "namePrivacy": "İsim Gizliliği",
   "@namePrivacy": {
-    "description": "TODO: namePrivacy"
+    "description": "Auto metadata for namePrivacy"
   },
   "firstName": "Ad",
   "@firstName": {
-    "description": "TODO: firstName"
+    "description": "Auto metadata for firstName"
   },
   "lastName": "Soyad",
   "@lastName": {
-    "description": "TODO: lastName"
+    "description": "Auto metadata for lastName"
   },
   "showFullName": "Ad Soyad Görünsün",
   "@showFullName": {
-    "description": "TODO: showFullName"
+    "description": "Auto metadata for showFullName"
   },
   "hideLastName": "Sadece Soyadı Gizle",
   "@hideLastName": {
-    "description": "TODO: hideLastName"
+    "description": "Auto metadata for hideLastName"
   },
   "hideBothNames": "Ad ve Soyadı Gizle",
   "@hideBothNames": {
-    "description": "TODO: hideBothNames"
+    "description": "Auto metadata for hideBothNames"
   },
   "preview": "Önizleme",
   "@preview": {
-    "description": "TODO: preview"
+    "description": "Auto metadata for preview"
   },
   "socialMedia": "Sosyal Medya",
   "@socialMedia": {
-    "description": "TODO: socialMedia"
+    "description": "Auto metadata for socialMedia"
   },
   "language": "Dil",
   "@language": {
-    "description": "TODO: language"
+    "description": "Auto metadata for language"
   },
   "systemDefault": "Sistem (Varsayılan)",
   "@systemDefault": {
-    "description": "TODO: systemDefault"
+    "description": "Auto metadata for systemDefault"
   },
   "turkish": "Türkçe",
   "@turkish": {
-    "description": "TODO: turkish"
+    "description": "Auto metadata for turkish"
   },
   "english": "İngilizce",
   "@english": {
-    "description": "TODO: english"
+    "description": "Auto metadata for english"
   },
   "account": "Hesap",
   "@account": {
-    "description": "TODO: account"
+    "description": "Auto metadata for account"
   },
   "invalidLink": "Geçerli bir bağlantı gir.",
   "@invalidLink": {
-    "description": "TODO: invalidLink"
+    "description": "Auto metadata for invalidLink"
   },
   "socialPreview": "Sosyal Önizleme",
   "@socialPreview": {
-    "description": "TODO: socialPreview"
+    "description": "Auto metadata for socialPreview"
   },
   "pasteLinkHelper": "Bağlantı yapıştır (https://...)",
   "@pasteLinkHelper": {
-    "description": "TODO: pasteLinkHelper"
+    "description": "Auto metadata for pasteLinkHelper"
   },
   "privacySocialSubtitle": "İsim gizliliği ve sosyal medya bağlantıları",
   "@privacySocialSubtitle": {
-    "description": "TODO: privacySocialSubtitle"
+    "description": "Auto metadata for privacySocialSubtitle"
   },
   "updateBusinessTitle": "{businessName} güncelle",
   "@updateBusinessTitle": {
@@ -200,59 +200,59 @@
         "type": "String"
       }
     },
-    "description": "TODO: updateBusinessTitle"
+    "description": "Auto metadata for updateBusinessTitle"
   },
   "contributeSheetSubtitle": "Topluluğun menü fiyatlarını doğrulamasına yardımcı ol.",
   "@contributeSheetSubtitle": {
-    "description": "TODO: contributeSheetSubtitle"
+    "description": "Auto metadata for contributeSheetSubtitle"
   },
   "scanMenuQr": "Menü QR tara",
   "@scanMenuQr": {
-    "description": "TODO: scanMenuQr"
+    "description": "Auto metadata for scanMenuQr"
   },
   "scanMenuQrSubtitle": "QR ile anında doğrulama",
   "@scanMenuQrSubtitle": {
-    "description": "TODO: scanMenuQrSubtitle"
+    "description": "Auto metadata for scanMenuQrSubtitle"
   },
   "uploadPhotoSubtitle": "Menünün fotoğrafını çek",
   "@uploadPhotoSubtitle": {
-    "description": "TODO: uploadPhotoSubtitle"
+    "description": "Auto metadata for uploadPhotoSubtitle"
   },
   "confirmPriceChange": "Fiyat değişimini doğrula",
   "@confirmPriceChange": {
-    "description": "TODO: confirmPriceChange"
+    "description": "Auto metadata for confirmPriceChange"
   },
   "confirmPriceChangeSubtitle": "Güncel olmayan bir fiyatı bildir",
   "@confirmPriceChangeSubtitle": {
-    "description": "TODO: confirmPriceChangeSubtitle"
+    "description": "Auto metadata for confirmPriceChangeSubtitle"
   },
   "qrAction": "QR Aksiyonu",
   "@qrAction": {
-    "description": "TODO: qrAction"
+    "description": "Auto metadata for qrAction"
   },
   "embed": "Gömülü",
   "@embed": {
-    "description": "TODO: embed"
+    "description": "Auto metadata for embed"
   },
   "share": "Paylaş",
   "@share": {
-    "description": "TODO: share"
+    "description": "Auto metadata for share"
   },
   "invalidLinkMessage": "Geçersiz bağlantı",
   "@invalidLinkMessage": {
-    "description": "TODO: invalidLinkMessage"
+    "description": "Auto metadata for invalidLinkMessage"
   },
   "browserOpened": "Tarayıcıda açıldı",
   "@browserOpened": {
-    "description": "TODO: browserOpened"
+    "description": "Auto metadata for browserOpened"
   },
   "embedFailed": "İçerik görüntülenemedi, tarayıcıya yönlendirdik.",
   "@embedFailed": {
-    "description": "TODO: embedFailed"
+    "description": "Auto metadata for embedFailed"
   },
   "back": "Geri",
   "@back": {
-    "description": "TODO: back"
+    "description": "Auto metadata for back"
   },
   "updatedDaysAgo": "{days} gün önce güncellendi",
   "@updatedDaysAgo": {
@@ -261,7 +261,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: updatedDaysAgo"
+    "description": "Auto metadata for updatedDaysAgo"
   },
   "verifiedDaysAgo": "{days} gün önce doğrulandı",
   "@verifiedDaysAgo": {
@@ -270,7 +270,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: verifiedDaysAgo"
+    "description": "Auto metadata for verifiedDaysAgo"
   },
   "distanceKm": "{km} km",
   "@distanceKm": {
@@ -279,7 +279,7 @@
         "type": "num"
       }
     },
-    "description": "TODO: distanceKm"
+    "description": "Auto metadata for distanceKm"
   },
   "avgSpendPerPerson": "Kişi başı {amount}",
   "@avgSpendPerPerson": {
@@ -288,7 +288,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: avgSpendPerPerson"
+    "description": "Auto metadata for avgSpendPerPerson"
   },
   "reviewsCount": "Yorum ({count})",
   "@reviewsCount": {
@@ -297,51 +297,51 @@
         "type": "int"
       }
     },
-    "description": "TODO: reviewsCount"
+    "description": "Auto metadata for reviewsCount"
   },
   "openNow": "Şuan açık",
   "@openNow": {
-    "description": "TODO: openNow"
+    "description": "Auto metadata for openNow"
   },
   "closedNow": "Şuan kapalı",
   "@closedNow": {
-    "description": "TODO: closedNow"
+    "description": "Auto metadata for closedNow"
   },
   "livePrices": "Canlı Fiyatlar",
   "@livePrices": {
-    "description": "TODO: livePrices"
+    "description": "Auto metadata for livePrices"
   },
   "trustScore": "Güven Skoru",
   "@trustScore": {
-    "description": "TODO: trustScore"
+    "description": "Auto metadata for trustScore"
   },
   "lastUpdated": "Son Güncelleme",
   "@lastUpdated": {
-    "description": "TODO: lastUpdated"
+    "description": "Auto metadata for lastUpdated"
   },
   "lastAudit": "Son Denetim",
   "@lastAudit": {
-    "description": "TODO: lastAudit"
+    "description": "Auto metadata for lastAudit"
   },
   "avgCost": "Ortalama Tutar",
   "@avgCost": {
-    "description": "TODO: avgCost"
+    "description": "Auto metadata for avgCost"
   },
   "avgSpend": "ORT. HARCAMA",
   "@avgSpend": {
-    "description": "TODO: avgSpend"
+    "description": "Auto metadata for avgSpend"
   },
   "verified": "Doğrulandı",
   "@verified": {
-    "description": "TODO: verified"
+    "description": "Auto metadata for verified"
   },
   "priceVerified": "Fiyat Doğrulandı",
   "@priceVerified": {
-    "description": "TODO: priceVerified"
+    "description": "Auto metadata for priceVerified"
   },
   "communityVerified": "Toplulukça Doğrulandı",
   "@communityVerified": {
-    "description": "TODO: communityVerified"
+    "description": "Auto metadata for communityVerified"
   },
   "confirmedByUsersToday": "Bugün {users} kullanıcı tarafından doğrulandı",
   "@confirmedByUsersToday": {
@@ -350,23 +350,23 @@
         "type": "int"
       }
     },
-    "description": "TODO: confirmedByUsersToday"
+    "description": "Auto metadata for confirmedByUsersToday"
   },
   "priceHistory": "Fiyat Geçmişi",
   "@priceHistory": {
-    "description": "TODO: priceHistory"
+    "description": "Auto metadata for priceHistory"
   },
   "contributeMenuPhoto": "Menü Fotoğrafı Katkısı Yap",
   "@contributeMenuPhoto": {
-    "description": "TODO: contributeMenuPhoto"
+    "description": "Auto metadata for contributeMenuPhoto"
   },
   "verify": "Doğrula",
   "@verify": {
-    "description": "TODO: verify"
+    "description": "Auto metadata for verify"
   },
   "signatureSteaks": "Öne Çıkan Steakler",
   "@signatureSteaks": {
-    "description": "TODO: signatureSteaks"
+    "description": "Auto metadata for signatureSteaks"
   },
   "signatureSection": "Öne Çıkan {section}",
   "@signatureSection": {
@@ -375,99 +375,99 @@
         "type": "String"
       }
     },
-    "description": "TODO: signatureSection"
+    "description": "Auto metadata for signatureSection"
   },
   "spottedPriceChange": "Fiyat değişikliği mi fark ettin?",
   "@spottedPriceChange": {
-    "description": "TODO: spottedPriceChange"
+    "description": "Auto metadata for spottedPriceChange"
   },
   "spottedPriceChangeSubtitle": "Bu menüyü güncelleyerek katkı sağla.",
   "@spottedPriceChangeSubtitle": {
-    "description": "TODO: spottedPriceChangeSubtitle"
+    "description": "Auto metadata for spottedPriceChangeSubtitle"
   },
   "updateDateUnavailable": "Güncelleme tarihi yok",
   "@updateDateUnavailable": {
-    "description": "TODO: updateDateUnavailable"
+    "description": "Auto metadata for updateDateUnavailable"
   },
   "currentLocation": "MEVCUT KONUM",
   "@currentLocation": {
-    "description": "TODO: currentLocation"
+    "description": "Auto metadata for currentLocation"
   },
   "changeLocation": "Konumu Değiştir",
   "@changeLocation": {
-    "description": "TODO: changeLocation"
+    "description": "Auto metadata for changeLocation"
   },
   "filters": "Filtreler",
   "@filters": {
-    "description": "TODO: filters"
+    "description": "Auto metadata for filters"
   },
   "searchKebabsHint": "Kebap, burger ara...",
   "@searchKebabsHint": {
-    "description": "TODO: searchKebabsHint"
+    "description": "Auto metadata for searchKebabsHint"
   },
   "budget": "Bütçe",
   "@budget": {
-    "description": "TODO: budget"
+    "description": "Auto metadata for budget"
   },
   "freshMenuUpdates": "Taze Menü Güncellemeleri",
   "@freshMenuUpdates": {
-    "description": "TODO: freshMenuUpdates"
+    "description": "Auto metadata for freshMenuUpdates"
   },
   "seeAll": "Tümünü Gör",
   "@seeAll": {
-    "description": "TODO: seeAll"
+    "description": "Auto metadata for seeAll"
   },
   "freshLinks": "Yeni Bağlantılar",
   "@freshLinks": {
-    "description": "TODO: freshLinks"
+    "description": "Auto metadata for freshLinks"
   },
   "discoveryNearbyTitle": "Yakınımda",
   "@discoveryNearbyTitle": {
-    "description": "TODO: discoveryNearbyTitle"
+    "description": "Auto metadata for discoveryNearbyTitle"
   },
   "discoveryNearbySubtitle": "Konumuna göre en iyi sonuçlar",
   "@discoveryNearbySubtitle": {
-    "description": "TODO: discoveryNearbySubtitle"
+    "description": "Auto metadata for discoveryNearbySubtitle"
   },
   "discoveryLocationSubtitle": "Şehir/ilçeye göre keşfet",
   "@discoveryLocationSubtitle": {
-    "description": "TODO: discoveryLocationSubtitle"
+    "description": "Auto metadata for discoveryLocationSubtitle"
   },
   "nearbyVerifiedSpots": "Yakındaki Doğrulanmış Mekanlar",
   "@nearbyVerifiedSpots": {
-    "description": "TODO: nearbyVerifiedSpots"
+    "description": "Auto metadata for nearbyVerifiedSpots"
   },
   "noNearbyVerifiedSpots": "Yakında doğrulanmış mekan bulunamadı",
   "@noNearbyVerifiedSpots": {
-    "description": "TODO: noNearbyVerifiedSpots"
+    "description": "Auto metadata for noNearbyVerifiedSpots"
   },
   "changeFiltersTryAgain": "Konumu veya filtreleri değiştirip tekrar dene.",
   "@changeFiltersTryAgain": {
-    "description": "TODO: changeFiltersTryAgain"
+    "description": "Auto metadata for changeFiltersTryAgain"
   },
   "noFreshData": "Henüz taze veri yok",
   "@noFreshData": {
-    "description": "TODO: noFreshData"
+    "description": "Auto metadata for noFreshData"
   },
   "freshDataWillAppear": "Yakındaki menü güncellemeleri burada görünecek.",
   "@freshDataWillAppear": {
-    "description": "TODO: freshDataWillAppear"
+    "description": "Auto metadata for freshDataWillAppear"
   },
   "businessLabel": "İşletme",
   "@businessLabel": {
-    "description": "TODO: businessLabel"
+    "description": "Auto metadata for businessLabel"
   },
   "report": "Bildir",
   "@report": {
-    "description": "TODO: report"
+    "description": "Auto metadata for report"
   },
   "favoriteAdded": "Favorilerde",
   "@favoriteAdded": {
-    "description": "TODO: favoriteAdded"
+    "description": "Auto metadata for favoriteAdded"
   },
   "addToFavorites": "Favoriye ekle",
   "@addToFavorites": {
-    "description": "TODO: addToFavorites"
+    "description": "Auto metadata for addToFavorites"
   },
   "writeReview": "Yorum yap",
   "other": "Diğer",
@@ -478,7 +478,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: itemsCount"
+    "description": "Auto metadata for itemsCount"
   },
   "weakConnectionQueueNotice": "Bağlantı zayıf. Doğrulama sıraya alındı, çevrimiçi olunca otomatik gönderilecek.",
   "pendingVerificationsSent": "{count} bekleyen doğrulama gönderildi.",
@@ -488,7 +488,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: pendingVerificationsSent"
+    "description": "Auto metadata for pendingVerificationsSent"
   },
   "loadMenuItemsFirst": "Önce menü ürünlerini yükle.",
   "menuNotAddedYet": "Henüz eklenmedi",
@@ -517,7 +517,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: liveCrowdLabel"
+    "description": "Auto metadata for liveCrowdLabel"
   },
   "reviewsLoadFailed": "Yorumlar yüklenemedi",
   "noReviews": "Yorum yok",
@@ -536,7 +536,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: featuredFromCuisine"
+    "description": "Auto metadata for featuredFromCuisine"
   },
   "weeklyPriceChange": "+₺50 bu hafta",
   "chartPlaceholderSoon": "Grafik alanı (yakında)",
@@ -552,7 +552,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: amenityCountLabel"
+    "description": "Auto metadata for amenityCountLabel"
   },
   "noLocationVerificationData": "Konum doğrulama verisi yok",
   "lastLocationVerification": "Son konum doğrulaması",
@@ -587,7 +587,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: minRatingLabel"
+    "description": "Auto metadata for minRatingLabel"
   },
   "priceLevel": "Fiyat seviyesi",
   "prioritizeOpenNow": "Şu an açık olanları öne çıkar",
@@ -664,7 +664,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: nearbyKm"
+    "description": "Auto metadata for nearbyKm"
   },
   "liveResultsUpdating": "Canlı sonuçlar güncelleniyor",
   "businessApprovedData": "İşletme onaylı verisi",
@@ -739,7 +739,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: localInsightsReady"
+    "description": "Auto metadata for localInsightsReady"
   },
   "show": "Göster",
   "restaurant": "Restoran",
@@ -763,7 +763,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: nearOpenSectionTitle"
+    "description": "Auto metadata for nearOpenSectionTitle"
   },
   "mostViewedThisWeekTitle": "Bu Haftanın En Çok Görüntülenenleri • {area}",
   "@mostViewedThisWeekTitle": {
@@ -772,7 +772,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: mostViewedThisWeekTitle"
+    "description": "Auto metadata for mostViewedThisWeekTitle"
   },
   "noViewDataInArea": "Bölgede görüntüleme verisi yok",
   "viewsMetric": "{count} görüntüleme",
@@ -782,7 +782,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: viewsMetric"
+    "description": "Auto metadata for viewsMetric"
   },
   "highestPriceChangeTitle": "En Yüksek Fiyat Değişimi • {area}",
   "@highestPriceChangeTitle": {
@@ -791,7 +791,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: highestPriceChangeTitle"
+    "description": "Auto metadata for highestPriceChangeTitle"
   },
   "noPriceMovementInArea": "Bölgede fiyat hareketi yok",
   "priceChangeMetric": "{count} fiyat değişimi",
@@ -801,7 +801,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: priceChangeMetric"
+    "description": "Auto metadata for priceChangeMetric"
   },
   "nightOpenFavoritesTitle": "Gece Açık Favoriler • {area}",
   "@nightOpenFavoritesTitle": {
@@ -810,7 +810,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: nightOpenFavoritesTitle"
+    "description": "Auto metadata for nightOpenFavoritesTitle"
   },
   "noNightOpenFavoritesInArea": "Bölgede gece açık favori yok",
   "followersMetric": "{count} takipçi",
@@ -820,7 +820,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: followersMetric"
+    "description": "Auto metadata for followersMetric"
   },
   "popularCategoriesTitle": "Popüler Kategoriler • {area}",
   "@popularCategoriesTitle": {
@@ -829,7 +829,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: popularCategoriesTitle"
+    "description": "Auto metadata for popularCategoriesTitle"
   },
   "regionalPriceIndexTitle": "Bölgesel Fiyat Endeksi • {area}",
   "@regionalPriceIndexTitle": {
@@ -838,7 +838,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: regionalPriceIndexTitle"
+    "description": "Auto metadata for regionalPriceIndexTitle"
   },
   "detailedAnalysis": "Detaylı Analiz",
   "loadWhenScrolledDown": "Aşağı kaydırınca yüklenir",
@@ -849,7 +849,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: anomalyMonitoringTitle"
+    "description": "Auto metadata for anomalyMonitoringTitle"
   },
   "general": "Genel",
   "priceIndexLoadFailed": "Fiyat endeksi yüklenemedi",
@@ -861,7 +861,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: medianPriceLabel"
+    "description": "Auto metadata for medianPriceLabel"
   },
   "anomalyListLoadFailed": "Anomali listesi yüklenemedi",
   "noPriceAnomalyLast30Days": "Son 30 günde fiyat anomalisi yok",
@@ -873,7 +873,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: rankedAt"
+    "description": "Auto metadata for rankedAt"
   },
   "yourScore": "Puanın: {score}",
   "@yourScore": {
@@ -882,7 +882,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: yourScore"
+    "description": "Auto metadata for yourScore"
   },
   "createGroup": "Grup kur",
   "newPlaces": "Yeni yerler",
@@ -894,7 +894,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: timeDays"
+    "description": "Auto metadata for timeDays"
   },
   "timeHours": "{count} saat",
   "@timeHours": {
@@ -903,7 +903,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: timeHours"
+    "description": "Auto metadata for timeHours"
   },
   "timeMinutes": "{count} dk",
   "@timeMinutes": {
@@ -912,7 +912,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: timeMinutes"
+    "description": "Auto metadata for timeMinutes"
   },
   "timeDaysAgo": "{count} gün önce",
   "@timeDaysAgo": {
@@ -921,7 +921,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: timeDaysAgo"
+    "description": "Auto metadata for timeDaysAgo"
   },
   "timeHoursAgo": "{count} saat önce",
   "@timeHoursAgo": {
@@ -930,7 +930,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: timeHoursAgo"
+    "description": "Auto metadata for timeHoursAgo"
   },
   "timeMinutesAgo": "{count} dakika önce",
   "@timeMinutesAgo": {
@@ -939,7 +939,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: timeMinutesAgo"
+    "description": "Auto metadata for timeMinutesAgo"
   },
   "statusVerifiedShort": "Doğrulandı",
   "statusMixedShort": "Karışık",
@@ -956,7 +956,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: versionAndSource"
+    "description": "Auto metadata for versionAndSource"
   },
   "sourceOwner": "Kaynak: işletme",
   "sourceCommunity": "topluluk",
@@ -977,7 +977,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: shareBusinessMessage"
+    "description": "Auto metadata for shareBusinessMessage"
   },
   "noLinkFound": "Bağlantı bulunamadı",
   "newEmbedLinksWillAppear": "Yeni gömülü bağlantılar burada görünecek.",
@@ -990,7 +990,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: menuShareNotFoundTitle"
+    "description": "Auto metadata for menuShareNotFoundTitle"
   },
   "menuShareNotFoundDescription": "Paylaşılan menü içeriği bulunamadı.",
   "menuContentNotFound": "Menü içeriği bulunamadı",
@@ -1003,7 +1003,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: nearbyPeopleViewed"
+    "description": "Auto metadata for nearbyPeopleViewed"
   },
   "verifiedPrices": "Doğrulanmış fiyatlar",
   "selectRatingFirst": "Önce puan seç",
@@ -1016,7 +1016,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: preparedWithApp"
+    "description": "Auto metadata for preparedWithApp"
   },
   "tableLabel": "Masa {tableNo}",
   "@tableLabel": {
@@ -1025,7 +1025,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: tableLabel"
+    "description": "Auto metadata for tableLabel"
   },
   "tableServiceQuestion": "Masa {tableNo} - servis var mı?",
   "@tableServiceQuestion": {
@@ -1034,7 +1034,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: tableServiceQuestion"
+    "description": "Auto metadata for tableServiceQuestion"
   },
   "shortNoteOptional": "Kısa not (opsiyonel)",
   "submit": "Gönder",
@@ -1080,7 +1080,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: autoMatchedRowsCheck"
+    "description": "Auto metadata for autoMatchedRowsCheck"
   },
   "unlabeled": "Etiketsiz",
   "priceTry": "Fiyat (₺)",
@@ -1112,7 +1112,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: votes"
+    "description": "Auto metadata for votes"
   },
   "glutenFree": "Glutensiz",
   "menuItem": "Menü ürünü",
@@ -1129,7 +1129,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: photoQualityWarning"
+    "description": "Auto metadata for photoQualityWarning"
   },
   "suggestEdit": "Düzenleme öner",
   "verifyPriceWithReceipt": "Fiş ile fiyat doğrula",
@@ -1148,7 +1148,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: serviceWithPercent"
+    "description": "Auto metadata for serviceWithPercent"
   },
   "tipWithPercent": "Bahşiş ({percent}%)",
   "@tipWithPercent": {
@@ -1157,7 +1157,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tipWithPercent"
+    "description": "Auto metadata for tipWithPercent"
   },
   "serviceCoverMayVary": "Servis/kuver işletmeye göre değişebilir.",
   "estimatedTotal": "Tahmini Toplam",
@@ -1172,7 +1172,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: plusPoints"
+    "description": "Auto metadata for plusPoints"
   },
   "verifyContributionRaisedScore": "Fiyat doğrulaman katkın puanını yükseltti.",
   "priceVerification": "Fiyat doğrulama",
@@ -1202,7 +1202,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: last30DaysVotes"
+    "description": "Auto metadata for last30DaysVotes"
   },
   "lastVerificationDate": "Son doğrulama: {date}",
   "@lastVerificationDate": {
@@ -1211,7 +1211,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: lastVerificationDate"
+    "description": "Auto metadata for lastVerificationDate"
   },
   "uniqueVerifiersIn48h": "48 saatte doğrulayan farklı kullanıcı: {count}",
   "@uniqueVerifiersIn48h": {
@@ -1220,7 +1220,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: uniqueVerifiersIn48h"
+    "description": "Auto metadata for uniqueVerifiersIn48h"
   },
   "strongConsensusPriceSafe": "Güçlü uzlaşı var, fiyat güvenli görünüyor.",
   "priceConfidenceScore": "Fiyat güven puanı: %{score}",
@@ -1230,7 +1230,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: priceConfidenceScore"
+    "description": "Auto metadata for priceConfidenceScore"
   },
   "seenCorrect": "Gördüm • Doğru",
   "seenIncorrect": "Gördüm • Yanlış",
@@ -1246,7 +1246,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: priceChangeLast30Days"
+    "description": "Auto metadata for priceChangeLast30Days"
   },
   "scoreForInfoOnly": "Bu skor yalnızca bilgilendirme amaçlıdır.",
   "pricePerformance": "Fiyat/Performans",
@@ -1259,7 +1259,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: updateMenuEarnPoints"
+    "description": "Auto metadata for updateMenuEarnPoints"
   },
   "menuPhotosHint": "Menü fotoğrafları ürünü göstermeli. Otomatik kırpılır; karanlık/flu olanlar uyarılır.",
   "noPhotosYet": "Henüz fotoğraf yok.",
@@ -1271,7 +1271,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: timeMonthsAgo"
+    "description": "Auto metadata for timeMonthsAgo"
   },
   "priceInvalid": "Fiyat geçersiz",
   "noteNoLinkPhone": "Not alanına bağlantı veya telefon eklenemez.",
@@ -1290,7 +1290,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: loginActionFailedDescription"
+    "description": "Auto metadata for loginActionFailedDescription"
   },
   "loginEmailLabel": "E-posta",
   "loginPasswordLabel": "Şifre",
@@ -1321,7 +1321,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: drawerInboxWithCount"
+    "description": "Auto metadata for drawerInboxWithCount"
   },
   "drawerMySuggestions": "Önerilerim",
   "drawerSuspendedMeals": "Askıda",
@@ -1354,7 +1354,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: budgetComboRadiusTarget"
+    "description": "Auto metadata for budgetComboRadiusTarget"
   },
   "budgetComboWeightDistance": "Mesafe",
   "budgetComboWeightPrice": "Fiyat",
@@ -1370,7 +1370,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: budgetComboRatingLabelValue"
+    "description": "Auto metadata for budgetComboRatingLabelValue"
   },
   "budgetComboBestTag": "En uygun",
   "budgetComboMainItemLabel": "Ana",
@@ -1382,7 +1382,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: budgetComboTotalLabel"
+    "description": "Auto metadata for budgetComboTotalLabel"
   },
   "budgetComboGoToBusinessAction": "İşletmeye git",
   "panelAccessTitle": "Panel Erişimi",
@@ -1394,7 +1394,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: panelRedirectedPath"
+    "description": "Auto metadata for panelRedirectedPath"
   },
   "panelBackToDiscover": "Keşfet sayfasına dön",
   "notFoundTitle": "Sayfa Bulunamadı",
@@ -1416,7 +1416,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: chainPageBranchMoreExpensive"
+    "description": "Auto metadata for chainPageBranchMoreExpensive"
   },
   "chainPageBranchMoreAffordable": "Bu şube daha uygun (%{pct})",
   "@chainPageBranchMoreAffordable": {
@@ -1425,7 +1425,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: chainPageBranchMoreAffordable"
+    "description": "Auto metadata for chainPageBranchMoreAffordable"
   },
   "chainPageBranchNearAverage": "Zincir ortalamasına yakınlık",
   "comparePageTitle": "Karşılaştırma",
@@ -1447,7 +1447,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: compareRecommendedSnack"
+    "description": "Auto metadata for compareRecommendedSnack"
   },
   "contributeDefaultBusinessName": "bu işletme",
   "contributeOpenBusinessFirst": "Bu katkı için önce bir işletme sayfası aç.",
@@ -1460,7 +1460,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: contributeUploadSentMultiple"
+    "description": "Auto metadata for contributeUploadSentMultiple"
   },
   "contributeUploadFailed": "Gönderim başarısız. Lütfen tekrar dene.",
   "contributeQrDecodingProgress": "QR çözülüyor...",
@@ -1505,7 +1505,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: favoritesSharedCollectionSubtitle"
+    "description": "Auto metadata for favoritesSharedCollectionSubtitle"
   },
   "favoritesSearchHint": "Favorilerde ara",
   "favoritesNearbyLoadingLocation": "Yakınındakiler için konum alınıyor...",
@@ -1532,7 +1532,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: favoritesFollowersChip"
+    "description": "Auto metadata for favoritesFollowersChip"
   },
   "favoritesEngagementChip": "Etkileşim {count}",
   "@favoritesEngagementChip": {
@@ -1541,7 +1541,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: favoritesEngagementChip"
+    "description": "Auto metadata for favoritesEngagementChip"
   },
   "favoritesNewCollectionTitle": "Yeni Koleksiyon",
   "favoritesCollectionNameExample": "Örn: Gece döneri",
@@ -1555,7 +1555,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: favoritesBusinessCollectionsTitle"
+    "description": "Auto metadata for favoritesBusinessCollectionsTitle"
   },
   "favoritesNoCollectionYet": "Henüz koleksiyon yok. Önce koleksiyon oluştur.",
   "favoritesNewCollectionAction": "Yeni koleksiyon",
@@ -1575,7 +1575,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: favoritesShareText"
+    "description": "Auto metadata for favoritesShareText"
   },
   "favoritesAdDisclosureTitle": "Reklam bildirimi",
   "favoritesAdDisclosureBody": "Bu koleksiyonda iÃ…Å¸ birliÃ„Å¸i varsa \"Reklam\" olarak işaretlemek zorunludur.",
@@ -1586,7 +1586,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: favoritesCacheStaleMessage"
+    "description": "Auto metadata for favoritesCacheStaleMessage"
   },
   "favoritesAddToCollectionTooltip": "Koleksiyona ekle",
   "followingPageTitle": "Takip Ettiklerim",
@@ -1621,7 +1621,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: groupRequestPartyAndBudget"
+    "description": "Auto metadata for groupRequestPartyAndBudget"
   },
   "groupRequestStatusOpen": "Açık",
   "groupRequestStatusAwarded": "Kazandırıldı",
@@ -1649,7 +1649,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: groupRequestOfferPriceLabel"
+    "description": "Auto metadata for groupRequestOfferPriceLabel"
   },
   "groupRequestUndoVoteAction": "Oyunu geri al",
   "groupRequestVoteAction": "Oy ver",
@@ -1662,7 +1662,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: groupRequestVotesLabel"
+    "description": "Auto metadata for groupRequestVotesLabel"
   },
   "groupRequestSearchMinChars": "En az 2 karakter yaz",
   "groupRequestBusinessAndPriceRequired": "İşletme ve fiyat gerekli",
@@ -1680,7 +1680,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: groupRequestAcceptedSummary"
+    "description": "Auto metadata for groupRequestAcceptedSummary"
   },
   "groupRequestCopyResultAction": "Sonuç kopyala",
   "heroesPageTitle": "Kahramanlar",
@@ -1694,7 +1694,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: heroesPageDonatedMealCount"
+    "description": "Auto metadata for heroesPageDonatedMealCount"
   },
   "verifyPriceIsCorrectQuestion": "Fiyat doğru mu?",
   "verifyPriceCorrectAction": "Doğru",
@@ -1707,10 +1707,10 @@
   "@menuItemCalories": {
     "placeholders": {
       "calories": {
-        "type": "String"
+        "type": "int"
       }
     },
-    "description": "TODO: menuItemCalories"
+    "description": "Auto metadata for menuItemCalories"
   },
   "menuItemAutoApprovedMessage": "Fiyat otomatik onaylandı ve menü güncellendi.",
   "menuItemPendingCountMessage": "Önerin alındı. Bu ürün için {count} öneri sırada.",
@@ -1720,7 +1720,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: menuItemPendingCountMessage"
+    "description": "Auto metadata for menuItemPendingCountMessage"
   },
   "menuItemPendingSingleMessage": "Önerin alındı, onay bekliyor.",
   "menuItemOnsiteVerifiedPrioritizedMessage": "Teşekkürler. Mekandan doğrulama sinyali alındı, önerin önceliklendirildi.",
@@ -1735,7 +1735,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: menuLevel"
+    "description": "Auto metadata for menuLevel"
   },
   "menuXpValue": "{xp} XP",
   "@menuXpValue": {
@@ -1744,7 +1744,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: menuXpValue"
+    "description": "Auto metadata for menuXpValue"
   },
   "menuSelectedVariantLabel": "Seçili varyant: {label} ({price})",
   "@menuSelectedVariantLabel": {
@@ -1756,7 +1756,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: menuSelectedVariantLabel"
+    "description": "Auto metadata for menuSelectedVariantLabel"
   },
   "menuPriceHistoryCurrent": "{current} > {source}",
   "@menuPriceHistoryCurrent": {
@@ -1768,7 +1768,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: menuPriceHistoryCurrent"
+    "description": "Auto metadata for menuPriceHistoryCurrent"
   },
   "menuPriceHistoryTransition": "{previous} > {current} > {source}",
   "@menuPriceHistoryTransition": {
@@ -1783,7 +1783,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: menuPriceHistoryTransition"
+    "description": "Auto metadata for menuPriceHistoryTransition"
   },
   "menuPriceHistoryMeta": "{relative} • {date}{delta}",
   "@menuPriceHistoryMeta": {
@@ -1798,7 +1798,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: menuPriceHistoryMeta"
+    "description": "Auto metadata for menuPriceHistoryMeta"
   },
   "inboxTitle": "Bildirim Kutusu",
   "inboxMarkAllRead": "Tümünü okundu işaretle",
@@ -1811,7 +1811,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: inboxXpGain"
+    "description": "Auto metadata for inboxXpGain"
   },
   "inboxNewLevel": "Yeni seviye: {level}",
   "@inboxNewLevel": {
@@ -1820,7 +1820,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: inboxNewLevel"
+    "description": "Auto metadata for inboxNewLevel"
   },
   "inboxLevel": "Seviye: {level}",
   "@inboxLevel": {
@@ -1829,7 +1829,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: inboxLevel"
+    "description": "Auto metadata for inboxLevel"
   },
   "inboxNow": "Şimdi",
   "inboxReengagementTitle": "Seni özledik",
@@ -1850,7 +1850,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: inboxFavoritesPriceChangedSubtitle"
+    "description": "Auto metadata for inboxFavoritesPriceChangedSubtitle"
   },
   "inboxDailyTaskTitle": "Sana uygun bugÃ¼nÃ¼n gÃ¶revi",
   "inboxSegmentPriceHunter": "Bugün 1 fiyat doğrula; güven skorun daha hızlı artsın.",
@@ -1865,7 +1865,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: inboxAlertPriceUp"
+    "description": "Auto metadata for inboxAlertPriceUp"
   },
   "inboxAlertPriceDown": "Fiyat %{pct} düştü",
   "@inboxAlertPriceDown": {
@@ -1874,7 +1874,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: inboxAlertPriceDown"
+    "description": "Auto metadata for inboxAlertPriceDown"
   },
   "inboxAlertCheaperNow": "Şuan %{pct} daha ucuz",
   "@inboxAlertCheaperNow": {
@@ -1883,7 +1883,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: inboxAlertCheaperNow"
+    "description": "Auto metadata for inboxAlertCheaperNow"
   },
   "inboxAlertAboveDistrictAverage": "Bu semtte ortalamanın üstüne çıktığında",
   "inboxAlertBelowDistrictAverage": "Bu semtte ortalamanın altına indi",
@@ -1922,7 +1922,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: profileTrustScorePercent"
+    "description": "Auto metadata for profileTrustScorePercent"
   },
   "profileLevelXp": "Seviye {level} • Toplam {xp} XP",
   "@profileLevelXp": {
@@ -1934,7 +1934,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: profileLevelXp"
+    "description": "Auto metadata for profileLevelXp"
   },
   "profileMyAchievementsTitle": "Başarı rozetlerim",
   "profileNoAchievementYet": "Henüz rozet kazanmadın.",
@@ -1964,7 +1964,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: profileAlertCurrentPrice"
+    "description": "Auto metadata for profileAlertCurrentPrice"
   },
   "profileAlertPriceChanged": "Fiyat değişti: {previous} → {current} TL",
   "@profileAlertPriceChanged": {
@@ -1976,7 +1976,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: profileAlertPriceChanged"
+    "description": "Auto metadata for profileAlertPriceChanged"
   },
   "profileSegmentPriceHunter": "Fiyat avcısı",
   "profileSegmentExplorer": "Keşif",
@@ -2000,7 +2000,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: profileMoatTrustedRejectedSpam"
+    "description": "Auto metadata for profileMoatTrustedRejectedSpam"
   },
   "profileMoatBehaviorSummary": "Davranış: fiyat {price}, keşif {discovery}, fotoğraf {photo}",
   "@profileMoatBehaviorSummary": {
@@ -2015,7 +2015,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: profileMoatBehaviorSummary"
+    "description": "Auto metadata for profileMoatBehaviorSummary"
   },
   "profileMoatSilentQualityHint": "Sessiz kalite katkıcısı: Az konuşup doğru katkı yapıyorsun.",
   "businessReviewsCommunityExperiences": "Topluluğun deneyimleri",
@@ -2030,7 +2030,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: businessReviewsQualityLabel"
+    "description": "Auto metadata for businessReviewsQualityLabel"
   },
   "helpfulCount": "Faydalı ({count})",
   "@helpfulCount": {
@@ -2039,7 +2039,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: helpfulCount"
+    "description": "Auto metadata for helpfulCount"
   },
   "businessReviewsEmpty": "Henüz yorum yok.",
   "reviewCreateRatingLabel": "Puan",
@@ -2064,7 +2064,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: smartFeedBudgetMax"
+    "description": "Auto metadata for smartFeedBudgetMax"
   },
   "smartFeedUnlimited": "Sınırsız",
   "smartFeedPreferenceHint": "Tercih: {label}",
@@ -2074,7 +2074,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: smartFeedPreferenceHint"
+    "description": "Auto metadata for smartFeedPreferenceHint"
   },
   "smartFeedScenarioHint": "Senaryo: {label}",
   "@smartFeedScenarioHint": {
@@ -2083,7 +2083,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: smartFeedScenarioHint"
+    "description": "Auto metadata for smartFeedScenarioHint"
   },
   "smartFeedContextDefault": "Bugünün akışını senin ritmine göre hazırlıyoruz.",
   "smartFeedCategoryMeyhane": "Meyhane",
@@ -2098,7 +2098,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: smartFeedMinutesAgo"
+    "description": "Auto metadata for smartFeedMinutesAgo"
   },
   "smartFeedHoursAgo": "{count} saat önce",
   "@smartFeedHoursAgo": {
@@ -2107,7 +2107,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: smartFeedHoursAgo"
+    "description": "Auto metadata for smartFeedHoursAgo"
   },
   "smartFeedDaysAgo": "{count} gün önce",
   "@smartFeedDaysAgo": {
@@ -2116,7 +2116,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: smartFeedDaysAgo"
+    "description": "Auto metadata for smartFeedDaysAgo"
   },
   "smartFeedEventMenu": "Menü",
   "smartFeedEventPrice": "Fiyat",
@@ -2138,7 +2138,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: smartFeedNearbyKm"
+    "description": "Auto metadata for smartFeedNearbyKm"
   },
   "smartFeedReasonCategoryMatch": "Sana uygun kategori",
   "smartFeedReasonScenarioMatch": "Senin senaryon",
@@ -2157,7 +2157,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: suggestBusinessSubmitDialogContent"
+    "description": "Auto metadata for suggestBusinessSubmitDialogContent"
   },
   "ok": "Tamam",
   "suggestBusinessPageTitle": "İşletme Ekle",
@@ -2192,7 +2192,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: suspendedMealsMonthsAgo"
+    "description": "Auto metadata for suspendedMealsMonthsAgo"
   },
   "tasteTwinTitle": "Damak Tadı İkizi",
   "tasteTwinLoginRequired": "Bu sayfayı görmek için giriş yapmalısın.",
@@ -2208,7 +2208,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tasteTwinMatchSummary"
+    "description": "Auto metadata for tasteTwinMatchSummary"
   },
   "tasteTwinSignalHint": "Yorum + menü sinyali",
   "tasteTwinViewSuggestions": "Önerileri gör",
@@ -2219,7 +2219,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: tasteTwinRecommendationsTitle"
+    "description": "Auto metadata for tasteTwinRecommendationsTitle"
   },
   "tasteTwinFollowGourmet": "Bu gurmeyi takip et",
   "tasteTwinNoSuggestionsYet": "Şimdilik öneri yok.",
@@ -2239,7 +2239,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tasteTwinRatingComparison"
+    "description": "Auto metadata for tasteTwinRatingComparison"
   },
   "tasteTwinYouAt": "Sen {value}",
   "@tasteTwinYouAt": {
@@ -2248,7 +2248,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: tasteTwinYouAt"
+    "description": "Auto metadata for tasteTwinYouAt"
   },
   "tasteTwinSignalComparison": "Sen: +{mySignal} • O: +{otherSignal}",
   "@tasteTwinSignalComparison": {
@@ -2260,7 +2260,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tasteTwinSignalComparison"
+    "description": "Auto metadata for tasteTwinSignalComparison"
   },
   "tasteTwinMatchRated": "Eşleşmen {rating} puan verdi",
   "@tasteTwinMatchRated": {
@@ -2269,7 +2269,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tasteTwinMatchRated"
+    "description": "Auto metadata for tasteTwinMatchRated"
   },
   "tasteTwinRatedAt": "{when} {text}",
   "@tasteTwinRatedAt": {
@@ -2281,7 +2281,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: tasteTwinRatedAt"
+    "description": "Auto metadata for tasteTwinRatedAt"
   },
   "tasteTwinDebugReviewAndSignal": "Yorum {review}% + sinyal {signal}%",
   "@tasteTwinDebugReviewAndSignal": {
@@ -2293,7 +2293,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tasteTwinDebugReviewAndSignal"
+    "description": "Auto metadata for tasteTwinDebugReviewAndSignal"
   },
   "tasteTwinDebugReviewOnly": "Yorum {review}%",
   "@tasteTwinDebugReviewOnly": {
@@ -2302,7 +2302,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tasteTwinDebugReviewOnly"
+    "description": "Auto metadata for tasteTwinDebugReviewOnly"
   },
   "tasteTwinDebugSignalOnly": "Sinyal {signal}%",
   "@tasteTwinDebugSignalOnly": {
@@ -2311,7 +2311,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: tasteTwinDebugSignalOnly"
+    "description": "Auto metadata for tasteTwinDebugSignalOnly"
   },
   "tasteTwinTodayLower": "bugün",
   "tasteTwinYesterdayLower": "dün",
@@ -2339,7 +2339,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: locationPickerBusinessCount"
+    "description": "Auto metadata for locationPickerBusinessCount"
   },
   "legalPageTitle": "Yasal ve Güven",
   "legalKvkkSectionTitle": "KVKK / GDPR",
@@ -2374,7 +2374,7 @@
         "type": "String"
       }
     },
-    "description": "TODO: legalPolicySummary"
+    "description": "Auto metadata for legalPolicySummary"
   },
   "legalFooter": "Güncel politika metinleri ve detaylar web sitesinde yayımlanır.",
   "topBusinessReviews": "Yorum: {count}",
@@ -2384,7 +2384,7 @@
         "type": "int"
       }
     },
-    "description": "TODO: topBusinessReviews"
+    "description": "Auto metadata for topBusinessReviews"
   },
   "reportRateLimitBusiness": "Bu işletme için bugün zaten bildirim gönderdin.",
   "reportRateLimitReview": "Bu yorum için son 24 saatte zaten bildirim gönderdin.",
@@ -2421,2544 +2421,2544 @@
   "addFirstMenuCta": "İlk menüyü ekle",
   "vatIncluded": "KDV dahil",
   "@writeReview": {
-    "description": "TODO: writeReview"
+    "description": "Auto metadata for writeReview"
   },
   "@other": {
-    "description": "TODO: other"
+    "description": "Auto metadata for other"
   },
   "@weakConnectionQueueNotice": {
-    "description": "TODO: weakConnectionQueueNotice"
+    "description": "Auto metadata for weakConnectionQueueNotice"
   },
   "@loadMenuItemsFirst": {
-    "description": "TODO: loadMenuItemsFirst"
+    "description": "Auto metadata for loadMenuItemsFirst"
   },
   "@menuNotAddedYet": {
-    "description": "TODO: menuNotAddedYet"
+    "description": "Auto metadata for menuNotAddedYet"
   },
   "@menuNotAddedYetDescription": {
-    "description": "TODO: menuNotAddedYetDescription"
+    "description": "Auto metadata for menuNotAddedYetDescription"
   },
   "@weakConnection": {
-    "description": "TODO: weakConnection"
+    "description": "Auto metadata for weakConnection"
   },
   "@contentLoadFailedCheckInternet": {
-    "description": "TODO: contentLoadFailedCheckInternet"
+    "description": "Auto metadata for contentLoadFailedCheckInternet"
   },
   "@trustDataUnavailable": {
-    "description": "TODO: trustDataUnavailable"
+    "description": "Auto metadata for trustDataUnavailable"
   },
   "@freshnessAndTrust": {
-    "description": "TODO: freshnessAndTrust"
+    "description": "Auto metadata for freshnessAndTrust"
   },
   "@menuUpdatedLabel": {
-    "description": "TODO: menuUpdatedLabel"
+    "description": "Auto metadata for menuUpdatedLabel"
   },
   "@lastPriceVerification": {
-    "description": "TODO: lastPriceVerification"
+    "description": "Auto metadata for lastPriceVerification"
   },
   "@trustScoreLabel": {
-    "description": "TODO: trustScoreLabel"
+    "description": "Auto metadata for trustScoreLabel"
   },
   "@last3MonthsPriceChange": {
-    "description": "TODO: last3MonthsPriceChange"
+    "description": "Auto metadata for last3MonthsPriceChange"
   },
   "@hoursInfoUnavailable": {
-    "description": "TODO: hoursInfoUnavailable"
+    "description": "Auto metadata for hoursInfoUnavailable"
   },
   "@hoursInfoMissing": {
-    "description": "TODO: hoursInfoMissing"
+    "description": "Auto metadata for hoursInfoMissing"
   },
   "@addHoursHelp": {
-    "description": "TODO: addHoursHelp"
+    "description": "Auto metadata for addHoursHelp"
   },
   "@reportHoursInfo": {
-    "description": "TODO: reportHoursInfo"
+    "description": "Auto metadata for reportHoursInfo"
   },
   "@menus": {
-    "description": "TODO: menus"
+    "description": "Auto metadata for menus"
   },
   "@menusLoadFailed": {
-    "description": "TODO: menusLoadFailed"
+    "description": "Auto metadata for menusLoadFailed"
   },
   "@noMenu": {
-    "description": "TODO: noMenu"
+    "description": "Auto metadata for noMenu"
   },
   "@addFirstMenuHelp": {
-    "description": "TODO: addFirstMenuHelp"
+    "description": "Auto metadata for addFirstMenuHelp"
   },
   "@crowdInfoUnavailable": {
-    "description": "TODO: crowdInfoUnavailable"
+    "description": "Auto metadata for crowdInfoUnavailable"
   },
   "@reviewsLoadFailed": {
-    "description": "TODO: reviewsLoadFailed"
+    "description": "Auto metadata for reviewsLoadFailed"
   },
   "@noReviews": {
-    "description": "TODO: noReviews"
+    "description": "Auto metadata for noReviews"
   },
   "@leaveFirstReviewHelp": {
-    "description": "TODO: leaveFirstReviewHelp"
+    "description": "Auto metadata for leaveFirstReviewHelp"
   },
   "@writeFirstReview": {
-    "description": "TODO: writeFirstReview"
+    "description": "Auto metadata for writeFirstReview"
   },
   "@recentReviews": {
-    "description": "TODO: recentReviews"
+    "description": "Auto metadata for recentReviews"
   },
   "@reviewFallbackTitle": {
-    "description": "TODO: reviewFallbackTitle"
+    "description": "Auto metadata for reviewFallbackTitle"
   },
   "@activeCampaigns": {
-    "description": "TODO: activeCampaigns"
+    "description": "Auto metadata for activeCampaigns"
   },
   "@menuDataUnavailable": {
-    "description": "TODO: menuDataUnavailable"
+    "description": "Auto metadata for menuDataUnavailable"
   },
   "@noMenuProductsYet": {
-    "description": "TODO: noMenuProductsYet"
+    "description": "Auto metadata for noMenuProductsYet"
   },
   "@menu": {
-    "description": "TODO: menu"
+    "description": "Auto metadata for menu"
   },
   "@weeklyPriceChange": {
-    "description": "TODO: weeklyPriceChange"
+    "description": "Auto metadata for weeklyPriceChange"
   },
   "@chartPlaceholderSoon": {
-    "description": "TODO: chartPlaceholderSoon"
+    "description": "Auto metadata for chartPlaceholderSoon"
   },
   "@featuredCuisineSuffix": {
-    "description": "TODO: featuredCuisineSuffix"
+    "description": "Auto metadata for featuredCuisineSuffix"
   },
   "@connectionProblemTryAgain": {
-    "description": "TODO: connectionProblemTryAgain"
+    "description": "Auto metadata for connectionProblemTryAgain"
   },
   "@noActiveCampaign": {
-    "description": "TODO: noActiveCampaign"
+    "description": "Auto metadata for noActiveCampaign"
   },
   "@activeCampaignCountLabel": {
-    "description": "TODO: activeCampaignCountLabel"
+    "description": "Auto metadata for activeCampaignCountLabel"
   },
   "@noAmenityInfo": {
-    "description": "TODO: noAmenityInfo"
+    "description": "Auto metadata for noAmenityInfo"
   },
   "@noLocationVerificationData": {
-    "description": "TODO: noLocationVerificationData"
+    "description": "Auto metadata for noLocationVerificationData"
   },
   "@lastLocationVerification": {
-    "description": "TODO: lastLocationVerification"
+    "description": "Auto metadata for lastLocationVerification"
   },
   "@noNewProductRecord": {
-    "description": "TODO: noNewProductRecord"
+    "description": "Auto metadata for noNewProductRecord"
   },
   "@newProduct": {
-    "description": "TODO: newProduct"
+    "description": "Auto metadata for newProduct"
   },
   "@reportInfoErrorPrefix": {
-    "description": "TODO: reportInfoErrorPrefix"
+    "description": "Auto metadata for reportInfoErrorPrefix"
   },
   "@noLocation": {
-    "description": "TODO: noLocation"
+    "description": "Auto metadata for noLocation"
   },
   "@noHoursInfo": {
-    "description": "TODO: noHoursInfo"
+    "description": "Auto metadata for noHoursInfo"
   },
   "@reviewsCountSuffix": {
-    "description": "TODO: reviewsCountSuffix"
+    "description": "Auto metadata for reviewsCountSuffix"
   },
   "@noTime": {
-    "description": "TODO: noTime"
+    "description": "Auto metadata for noTime"
   },
   "@tabSteaks": {
-    "description": "TODO: tabSteaks"
+    "description": "Auto metadata for tabSteaks"
   },
   "@tabBurgers": {
-    "description": "TODO: tabBurgers"
+    "description": "Auto metadata for tabBurgers"
   },
   "@tabSides": {
-    "description": "TODO: tabSides"
+    "description": "Auto metadata for tabSides"
   },
   "@tabBeverages": {
-    "description": "TODO: tabBeverages"
+    "description": "Auto metadata for tabBeverages"
   },
   "@locationNotAvailable": {
-    "description": "TODO: locationNotAvailable"
+    "description": "Auto metadata for locationNotAvailable"
   },
   "@sortRecommended": {
-    "description": "TODO: sortRecommended"
+    "description": "Auto metadata for sortRecommended"
   },
   "@sortDistance": {
-    "description": "TODO: sortDistance"
+    "description": "Auto metadata for sortDistance"
   },
   "@sortRating": {
-    "description": "TODO: sortRating"
+    "description": "Auto metadata for sortRating"
   },
   "@sortPriceLow": {
-    "description": "TODO: sortPriceLow"
+    "description": "Auto metadata for sortPriceLow"
   },
   "@sortNewlyVerified": {
-    "description": "TODO: sortNewlyVerified"
+    "description": "Auto metadata for sortNewlyVerified"
   },
   "@rankingFormulaTitle": {
-    "description": "TODO: rankingFormulaTitle"
+    "description": "Auto metadata for rankingFormulaTitle"
   },
   "@rankingFormulaIntro": {
-    "description": "TODO: rankingFormulaIntro"
+    "description": "Auto metadata for rankingFormulaIntro"
   },
   "@rankingWeightDistance": {
-    "description": "TODO: rankingWeightDistance"
+    "description": "Auto metadata for rankingWeightDistance"
   },
   "@rankingWeightAccuracy": {
-    "description": "TODO: rankingWeightAccuracy"
+    "description": "Auto metadata for rankingWeightAccuracy"
   },
   "@rankingWeightEngagement": {
-    "description": "TODO: rankingWeightEngagement"
+    "description": "Auto metadata for rankingWeightEngagement"
   },
   "@rankingWeightQuality": {
-    "description": "TODO: rankingWeightQuality"
+    "description": "Auto metadata for rankingWeightQuality"
   },
   "@rankingFormulaNote": {
-    "description": "TODO: rankingFormulaNote"
+    "description": "Auto metadata for rankingFormulaNote"
   },
   "@priceLevel": {
-    "description": "TODO: priceLevel"
+    "description": "Auto metadata for priceLevel"
   },
   "@prioritizeOpenNow": {
-    "description": "TODO: prioritizeOpenNow"
+    "description": "Auto metadata for prioritizeOpenNow"
   },
   "@prioritizeNewlyVerified": {
-    "description": "TODO: prioritizeNewlyVerified"
+    "description": "Auto metadata for prioritizeNewlyVerified"
   },
   "@reset": {
-    "description": "TODO: reset"
+    "description": "Auto metadata for reset"
   },
   "@apply": {
-    "description": "TODO: apply"
+    "description": "Auto metadata for apply"
   },
   "@priceTierAny": {
-    "description": "TODO: priceTierAny"
+    "description": "Auto metadata for priceTierAny"
   },
   "@priceTierBudget": {
-    "description": "TODO: priceTierBudget"
+    "description": "Auto metadata for priceTierBudget"
   },
   "@priceTierMedium": {
-    "description": "TODO: priceTierMedium"
+    "description": "Auto metadata for priceTierMedium"
   },
   "@priceTierPremium": {
-    "description": "TODO: priceTierPremium"
+    "description": "Auto metadata for priceTierPremium"
   },
   "@tabAllItems": {
-    "description": "TODO: tabAllItems"
+    "description": "Auto metadata for tabAllItems"
   },
   "@tabStarters": {
-    "description": "TODO: tabStarters"
+    "description": "Auto metadata for tabStarters"
   },
   "@usersLabel": {
-    "description": "TODO: usersLabel"
+    "description": "Auto metadata for usersLabel"
   },
   "@unknown": {
-    "description": "TODO: unknown"
+    "description": "Auto metadata for unknown"
   },
   "@today": {
-    "description": "TODO: today"
+    "description": "Auto metadata for today"
   },
   "@dayUnit": {
-    "description": "TODO: dayUnit"
+    "description": "Auto metadata for dayUnit"
   },
   "@tekrarDene": {
-    "description": "TODO: tekrarDene"
+    "description": "Auto metadata for tekrarDene"
   },
   "@vazgec": {
-    "description": "TODO: vazgec"
+    "description": "Auto metadata for vazgec"
   },
   "@reddet": {
-    "description": "TODO: reddet"
+    "description": "Auto metadata for reddet"
   },
   "@title": {
-    "description": "TODO: title"
+    "description": "Auto metadata for title"
   },
   "@isleniyor": {
-    "description": "TODO: isleniyor"
+    "description": "Auto metadata for isleniyor"
   },
   "@onayla": {
-    "description": "TODO: onayla"
+    "description": "Auto metadata for onayla"
   },
   "@approved": {
-    "description": "TODO: approved"
+    "description": "Auto metadata for approved"
   },
   "@tumu": {
-    "description": "TODO: tumu"
+    "description": "Auto metadata for tumu"
   },
   "@kayitBulunamadi": {
-    "description": "TODO: kayitBulunamadi"
+    "description": "Auto metadata for kayitBulunamadi"
   },
   "@temizle": {
-    "description": "TODO: temizle"
+    "description": "Auto metadata for temizle"
   },
   "@uygula": {
-    "description": "TODO: uygula"
+    "description": "Auto metadata for uygula"
   },
   "@pending": {
-    "description": "TODO: pending"
+    "description": "Auto metadata for pending"
   },
   "@reddedildi": {
-    "description": "TODO: reddedildi"
+    "description": "Auto metadata for reddedildi"
   },
   "@satirSec": {
-    "description": "TODO: satirSec"
+    "description": "Auto metadata for satirSec"
   },
   "@gonder": {
-    "description": "TODO: gonder"
+    "description": "Auto metadata for gonder"
   },
   "@rejected": {
-    "description": "TODO: rejected"
+    "description": "Auto metadata for rejected"
   },
   "@detay": {
-    "description": "TODO: detay"
+    "description": "Auto metadata for detay"
   },
   "@duzenle": {
-    "description": "TODO: duzenle"
+    "description": "Auto metadata for duzenle"
   },
   "@eminMisin": {
-    "description": "TODO: eminMisin"
+    "description": "Auto metadata for eminMisin"
   },
   "@guncellendi": {
-    "description": "TODO: guncellendi"
+    "description": "Auto metadata for guncellendi"
   },
   "@reddedildi_2": {
-    "description": "TODO: reddedildi_2"
+    "description": "Auto metadata for reddedildi_2"
   },
   "@sla": {
-    "description": "TODO: sla"
+    "description": "Auto metadata for sla"
   },
   "@csvDisaAktar": {
-    "description": "TODO: csvDisaAktar"
+    "description": "Auto metadata for csvDisaAktar"
   },
   "@onaylandi": {
-    "description": "TODO: onaylandi"
+    "description": "Auto metadata for onaylandi"
   },
   "@yenile": {
-    "description": "TODO: yenile"
+    "description": "Auto metadata for yenile"
   },
   "@atanan": {
-    "description": "TODO: atanan"
+    "description": "Auto metadata for atanan"
   },
   "@beklemede": {
-    "description": "TODO: beklemede"
+    "description": "Auto metadata for beklemede"
   },
   "@durum": {
-    "description": "TODO: durum"
+    "description": "Auto metadata for durum"
   },
   "@tabRecommended": {
-    "description": "TODO: tabRecommended"
+    "description": "Auto metadata for tabRecommended"
   },
   "@tabCampaigns": {
-    "description": "TODO: tabCampaigns"
+    "description": "Auto metadata for tabCampaigns"
   },
   "@tabFoods": {
-    "description": "TODO: tabFoods"
+    "description": "Auto metadata for tabFoods"
   },
   "@whyTop": {
-    "description": "TODO: whyTop"
+    "description": "Auto metadata for whyTop"
   },
   "@quickSuggestionTitle": {
-    "description": "TODO: quickSuggestionTitle"
+    "description": "Auto metadata for quickSuggestionTitle"
   },
   "@quickSuggestionSubtitle": {
-    "description": "TODO: quickSuggestionSubtitle"
+    "description": "Auto metadata for quickSuggestionSubtitle"
   },
   "@quickSuggestionPreset": {
-    "description": "TODO: quickSuggestionPreset"
+    "description": "Auto metadata for quickSuggestionPreset"
   },
   "@whatToEatTitle": {
-    "description": "TODO: whatToEatTitle"
+    "description": "Auto metadata for whatToEatTitle"
   },
   "@whatToEatSubtitle": {
-    "description": "TODO: whatToEatSubtitle"
+    "description": "Auto metadata for whatToEatSubtitle"
   },
   "@nearbyShort": {
-    "description": "TODO: nearbyShort"
+    "description": "Auto metadata for nearbyShort"
   },
   "@affordableShort": {
-    "description": "TODO: affordableShort"
+    "description": "Auto metadata for affordableShort"
   },
   "@quickDecisionShort": {
-    "description": "TODO: quickDecisionShort"
+    "description": "Auto metadata for quickDecisionShort"
   },
   "@start": {
-    "description": "TODO: start"
+    "description": "Auto metadata for start"
   },
   "@friendGroupTitle": {
-    "description": "TODO: friendGroupTitle"
+    "description": "Auto metadata for friendGroupTitle"
   },
   "@friendGroupSubtitle": {
-    "description": "TODO: friendGroupSubtitle"
+    "description": "Auto metadata for friendGroupSubtitle"
   },
   "@openGroup": {
-    "description": "TODO: openGroup"
+    "description": "Auto metadata for openGroup"
   },
   "@myGroups": {
-    "description": "TODO: myGroups"
+    "description": "Auto metadata for myGroups"
   },
   "@onTheRoadTitle": {
-    "description": "TODO: onTheRoadTitle"
+    "description": "Auto metadata for onTheRoadTitle"
   },
   "@onTheRoadSubtitle": {
-    "description": "TODO: onTheRoadSubtitle"
+    "description": "Auto metadata for onTheRoadSubtitle"
   },
   "@heroesTitle": {
-    "description": "TODO: heroesTitle"
+    "description": "Auto metadata for heroesTitle"
   },
   "@heroesSubtitle": {
-    "description": "TODO: heroesSubtitle"
+    "description": "Auto metadata for heroesSubtitle"
   },
   "@view": {
-    "description": "TODO: view"
+    "description": "Auto metadata for view"
   },
   "@bestBusinessesThisWeek": {
-    "description": "TODO: bestBusinessesThisWeek"
+    "description": "Auto metadata for bestBusinessesThisWeek"
   },
   "@bestBusinessesThisMonth": {
-    "description": "TODO: bestBusinessesThisMonth"
+    "description": "Auto metadata for bestBusinessesThisMonth"
   },
   "@onTheRoad20km": {
-    "description": "TODO: onTheRoad20km"
+    "description": "Auto metadata for onTheRoad20km"
   },
   "@liveResultsUpdating": {
-    "description": "TODO: liveResultsUpdating"
+    "description": "Auto metadata for liveResultsUpdating"
   },
   "@businessApprovedData": {
-    "description": "TODO: businessApprovedData"
+    "description": "Auto metadata for businessApprovedData"
   },
   "@communityData": {
-    "description": "TODO: communityData"
+    "description": "Auto metadata for communityData"
   },
   "@removeFromFavorites": {
-    "description": "TODO: removeFromFavorites"
+    "description": "Auto metadata for removeFromFavorites"
   },
   "@locationPermissionTitle": {
-    "description": "TODO: locationPermissionTitle"
+    "description": "Auto metadata for locationPermissionTitle"
   },
   "@locationPermissionDescription": {
-    "description": "TODO: locationPermissionDescription"
+    "description": "Auto metadata for locationPermissionDescription"
   },
   "@allow": {
-    "description": "TODO: allow"
+    "description": "Auto metadata for allow"
   },
   "@selectLocation": {
-    "description": "TODO: selectLocation"
+    "description": "Auto metadata for selectLocation"
   },
   "@manualLocationHint": {
-    "description": "TODO: manualLocationHint"
+    "description": "Auto metadata for manualLocationHint"
   },
   "@noResultsYet": {
-    "description": "TODO: noResultsYet"
+    "description": "Auto metadata for noResultsYet"
   },
   "@lowDataInArea": {
-    "description": "TODO: lowDataInArea"
+    "description": "Auto metadata for lowDataInArea"
   },
   "@tryDifferentSearchOrFilter": {
-    "description": "TODO: tryDifferentSearchOrFilter"
+    "description": "Auto metadata for tryDifferentSearchOrFilter"
   },
   "@beFirstContributorInArea": {
-    "description": "TODO: beFirstContributorInArea"
+    "description": "Auto metadata for beFirstContributorInArea"
   },
   "@topVerifiedMenus": {
-    "description": "TODO: topVerifiedMenus"
+    "description": "Auto metadata for topVerifiedMenus"
   },
   "@mostTrustedMenusInCity": {
-    "description": "TODO: mostTrustedMenusInCity"
+    "description": "Auto metadata for mostTrustedMenusInCity"
   },
   "@seeList": {
-    "description": "TODO: seeList"
+    "description": "Auto metadata for seeList"
   },
   "@localContributionCall": {
-    "description": "TODO: localContributionCall"
+    "description": "Auto metadata for localContributionCall"
   },
   "@addFirstMenu": {
-    "description": "TODO: addFirstMenu"
+    "description": "Auto metadata for addFirstMenu"
   },
   "@suggestBusiness": {
-    "description": "TODO: suggestBusiness"
+    "description": "Auto metadata for suggestBusiness"
   },
   "@noSurpriseSuggestionNow": {
-    "description": "TODO: noSurpriseSuggestionNow"
+    "description": "Auto metadata for noSurpriseSuggestionNow"
   },
   "@priceVerifiedInLast48h": {
-    "description": "TODO: priceVerifiedInLast48h"
+    "description": "Auto metadata for priceVerifiedInLast48h"
   },
   "@menuMayBeOutdated": {
-    "description": "TODO: menuMayBeOutdated"
+    "description": "Auto metadata for menuMayBeOutdated"
   },
   "@verifiedByBusiness": {
-    "description": "TODO: verifiedByBusiness"
+    "description": "Auto metadata for verifiedByBusiness"
   },
   "@updatedByCommunity": {
-    "description": "TODO: updatedByCommunity"
+    "description": "Auto metadata for updatedByCommunity"
   },
   "@topRankedInDistrict": {
-    "description": "TODO: topRankedInDistrict"
+    "description": "Auto metadata for topRankedInDistrict"
   },
   "@surpriseDiscoveryTitle": {
-    "description": "TODO: surpriseDiscoveryTitle"
+    "description": "Auto metadata for surpriseDiscoveryTitle"
   },
   "@surpriseDiscoverySubtitle": {
-    "description": "TODO: surpriseDiscoverySubtitle"
+    "description": "Auto metadata for surpriseDiscoverySubtitle"
   },
   "@randomButGood": {
-    "description": "TODO: randomButGood"
+    "description": "Auto metadata for randomButGood"
   },
   "@outsideYourUsual": {
-    "description": "TODO: outsideYourUsual"
+    "description": "Auto metadata for outsideYourUsual"
   },
   "@pricePerformanceSurprise": {
-    "description": "TODO: pricePerformanceSurprise"
+    "description": "Auto metadata for pricePerformanceSurprise"
   },
   "@nearbyCampaignsAndAnnouncements": {
-    "description": "TODO: nearbyCampaignsAndAnnouncements"
+    "description": "Auto metadata for nearbyCampaignsAndAnnouncements"
   },
   "@noNearbyCampaign": {
-    "description": "TODO: noNearbyCampaign"
+    "description": "Auto metadata for noNearbyCampaign"
   },
   "@noActiveAnnouncementInArea": {
-    "description": "TODO: noActiveAnnouncementInArea"
+    "description": "Auto metadata for noActiveAnnouncementInArea"
   },
   "@remainingLabel": {
-    "description": "TODO: remainingLabel"
+    "description": "Auto metadata for remainingLabel"
   },
   "@campaign": {
-    "description": "TODO: campaign"
+    "description": "Auto metadata for campaign"
   },
   "@active": {
-    "description": "TODO: active"
+    "description": "Auto metadata for active"
   },
   "@noLocationDataForMap": {
-    "description": "TODO: noLocationDataForMap"
+    "description": "Auto metadata for noLocationDataForMap"
   },
   "@mapDataMissingUseList": {
-    "description": "TODO: mapDataMissingUseList"
+    "description": "Auto metadata for mapDataMissingUseList"
   },
   "@openMapView": {
-    "description": "TODO: openMapView"
+    "description": "Auto metadata for openMapView"
   },
   "@mapHintTapPins": {
-    "description": "TODO: mapHintTapPins"
+    "description": "Auto metadata for mapHintTapPins"
   },
   "@locationPermissionRequired": {
-    "description": "TODO: locationPermissionRequired"
+    "description": "Auto metadata for locationPermissionRequired"
   },
   "@noFoodFoundForCriteria": {
-    "description": "TODO: noFoodFoundForCriteria"
+    "description": "Auto metadata for noFoodFoundForCriteria"
   },
   "@whatToEatDescription": {
-    "description": "TODO: whatToEatDescription"
+    "description": "Auto metadata for whatToEatDescription"
   },
   "@stepPeopleCount": {
-    "description": "TODO: stepPeopleCount"
+    "description": "Auto metadata for stepPeopleCount"
   },
   "@quickDecisionThreeOptions": {
-    "description": "TODO: quickDecisionThreeOptions"
+    "description": "Auto metadata for quickDecisionThreeOptions"
   },
   "@stepBudgetTotal": {
-    "description": "TODO: stepBudgetTotal"
+    "description": "Auto metadata for stepBudgetTotal"
   },
   "@budgetTl": {
-    "description": "TODO: budgetTl"
+    "description": "Auto metadata for budgetTl"
   },
   "@stepDistance": {
-    "description": "TODO: stepDistance"
+    "description": "Auto metadata for stepDistance"
   },
   "@locationNotSelected": {
-    "description": "TODO: locationNotSelected"
+    "description": "Auto metadata for locationNotSelected"
   },
   "@seeSuggestions": {
-    "description": "TODO: seeSuggestions"
+    "description": "Auto metadata for seeSuggestions"
   },
   "@getSingleSuggestion": {
-    "description": "TODO: getSingleSuggestion"
+    "description": "Auto metadata for getSingleSuggestion"
   },
   "@go": {
-    "description": "TODO: go"
+    "description": "Auto metadata for go"
   },
   "@restart": {
-    "description": "TODO: restart"
+    "description": "Auto metadata for restart"
   },
   "@quickShortcuts": {
-    "description": "TODO: quickShortcuts"
+    "description": "Auto metadata for quickShortcuts"
   },
   "@quickShortcutsSubtitle": {
-    "description": "TODO: quickShortcutsSubtitle"
+    "description": "Auto metadata for quickShortcutsSubtitle"
   },
   "@savedItems": {
-    "description": "TODO: savedItems"
+    "description": "Auto metadata for savedItems"
   },
   "@myFriendGroup": {
-    "description": "TODO: myFriendGroup"
+    "description": "Auto metadata for myFriendGroup"
   },
   "@tasteExperts": {
-    "description": "TODO: tasteExperts"
+    "description": "Auto metadata for tasteExperts"
   },
   "@businessTools": {
-    "description": "TODO: businessTools"
+    "description": "Auto metadata for businessTools"
   },
   "@businessToolsSubtitle": {
-    "description": "TODO: businessToolsSubtitle"
+    "description": "Auto metadata for businessToolsSubtitle"
   },
   "@sponsoredLabelChip": {
-    "description": "TODO: sponsoredLabelChip"
+    "description": "Auto metadata for sponsoredLabelChip"
   },
   "@sponsored": {
-    "description": "TODO: sponsored"
+    "description": "Auto metadata for sponsored"
   },
   "@ready": {
-    "description": "TODO: ready"
+    "description": "Auto metadata for ready"
   },
   "@plan": {
-    "description": "TODO: plan"
+    "description": "Auto metadata for plan"
   },
   "@sponsoredDisclosure": {
-    "description": "TODO: sponsoredDisclosure"
+    "description": "Auto metadata for sponsoredDisclosure"
   },
   "@sponsoredTooltip": {
-    "description": "TODO: sponsoredTooltip"
+    "description": "Auto metadata for sponsoredTooltip"
   },
   "@show": {
-    "description": "TODO: show"
+    "description": "Auto metadata for show"
   },
   "@restaurant": {
-    "description": "TODO: restaurant"
+    "description": "Auto metadata for restaurant"
   },
   "@cafe": {
-    "description": "TODO: cafe"
+    "description": "Auto metadata for cafe"
   },
   "@venue": {
-    "description": "TODO: venue"
+    "description": "Auto metadata for venue"
   },
   "@notifications": {
-    "description": "TODO: notifications"
+    "description": "Auto metadata for notifications"
   },
   "@businessPackage": {
-    "description": "TODO: businessPackage"
+    "description": "Auto metadata for businessPackage"
   },
   "@redirectToReservation": {
-    "description": "TODO: redirectToReservation"
+    "description": "Auto metadata for redirectToReservation"
   },
   "@priceAlerts": {
-    "description": "TODO: priceAlerts"
+    "description": "Auto metadata for priceAlerts"
   },
   "@corporateIntegration": {
-    "description": "TODO: corporateIntegration"
+    "description": "Auto metadata for corporateIntegration"
   },
   "@detailedReports": {
-    "description": "TODO: detailedReports"
+    "description": "Auto metadata for detailedReports"
   },
   "@qrTools": {
-    "description": "TODO: qrTools"
+    "description": "Auto metadata for qrTools"
   },
   "@unlockNewFeatures": {
-    "description": "TODO: unlockNewFeatures"
+    "description": "Auto metadata for unlockNewFeatures"
   },
   "@branchManagement": {
-    "description": "TODO: branchManagement"
+    "description": "Auto metadata for branchManagement"
   },
   "@menuWithQr": {
-    "description": "TODO: menuWithQr"
+    "description": "Auto metadata for menuWithQr"
   },
   "@newFeatures": {
-    "description": "TODO: newFeatures"
+    "description": "Auto metadata for newFeatures"
   },
   "@noViewDataInArea": {
-    "description": "TODO: noViewDataInArea"
+    "description": "Auto metadata for noViewDataInArea"
   },
   "@noPriceMovementInArea": {
-    "description": "TODO: noPriceMovementInArea"
+    "description": "Auto metadata for noPriceMovementInArea"
   },
   "@noNightOpenFavoritesInArea": {
-    "description": "TODO: noNightOpenFavoritesInArea"
+    "description": "Auto metadata for noNightOpenFavoritesInArea"
   },
   "@detailedAnalysis": {
-    "description": "TODO: detailedAnalysis"
+    "description": "Auto metadata for detailedAnalysis"
   },
   "@loadWhenScrolledDown": {
-    "description": "TODO: loadWhenScrolledDown"
+    "description": "Auto metadata for loadWhenScrolledDown"
   },
   "@general": {
-    "description": "TODO: general"
+    "description": "Auto metadata for general"
   },
   "@priceIndexLoadFailed": {
-    "description": "TODO: priceIndexLoadFailed"
+    "description": "Auto metadata for priceIndexLoadFailed"
   },
   "@noPriceIndexDataInArea": {
-    "description": "TODO: noPriceIndexDataInArea"
+    "description": "Auto metadata for noPriceIndexDataInArea"
   },
   "@anomalyListLoadFailed": {
-    "description": "TODO: anomalyListLoadFailed"
+    "description": "Auto metadata for anomalyListLoadFailed"
   },
   "@noPriceAnomalyLast30Days": {
-    "description": "TODO: noPriceAnomalyLast30Days"
+    "description": "Auto metadata for noPriceAnomalyLast30Days"
   },
   "@sectionLoadFailed": {
-    "description": "TODO: sectionLoadFailed"
+    "description": "Auto metadata for sectionLoadFailed"
   },
   "@createGroup": {
-    "description": "TODO: createGroup"
+    "description": "Auto metadata for createGroup"
   },
   "@newPlaces": {
-    "description": "TODO: newPlaces"
+    "description": "Auto metadata for newPlaces"
   },
   "@campaignEnded": {
-    "description": "TODO: campaignEnded"
+    "description": "Auto metadata for campaignEnded"
   },
   "@statusVerifiedShort": {
-    "description": "TODO: statusVerifiedShort"
+    "description": "Auto metadata for statusVerifiedShort"
   },
   "@statusMixedShort": {
-    "description": "TODO: statusMixedShort"
+    "description": "Auto metadata for statusMixedShort"
   },
   "@statusOutdatedShort": {
-    "description": "TODO: statusOutdatedShort"
+    "description": "Auto metadata for statusOutdatedShort"
   },
   "@statusUnknownShort": {
-    "description": "TODO: statusUnknownShort"
+    "description": "Auto metadata for statusUnknownShort"
   },
   "@threeMonthsShort": {
-    "description": "TODO: threeMonthsShort"
+    "description": "Auto metadata for threeMonthsShort"
   },
   "@sourceOwner": {
-    "description": "TODO: sourceOwner"
+    "description": "Auto metadata for sourceOwner"
   },
   "@sourceCommunity": {
-    "description": "TODO: sourceCommunity"
+    "description": "Auto metadata for sourceCommunity"
   },
   "@sourceAi": {
-    "description": "TODO: sourceAi"
+    "description": "Auto metadata for sourceAi"
   },
   "@noLinkFound": {
-    "description": "TODO: noLinkFound"
+    "description": "Auto metadata for noLinkFound"
   },
   "@newEmbedLinksWillAppear": {
-    "description": "TODO: newEmbedLinksWillAppear"
+    "description": "Auto metadata for newEmbedLinksWillAppear"
   },
   "@link": {
-    "description": "TODO: link"
+    "description": "Auto metadata for link"
   },
   "@untitledLink": {
-    "description": "TODO: untitledLink"
+    "description": "Auto metadata for untitledLink"
   },
   "@menuShareNotFoundDescription": {
-    "description": "TODO: menuShareNotFoundDescription"
+    "description": "Auto metadata for menuShareNotFoundDescription"
   },
   "@menuContentNotFound": {
-    "description": "TODO: menuContentNotFound"
+    "description": "Auto metadata for menuContentNotFound"
   },
   "@openAppForBetterExperience": {
-    "description": "TODO: openAppForBetterExperience"
+    "description": "Auto metadata for openAppForBetterExperience"
   },
   "@openApp": {
-    "description": "TODO: openApp"
+    "description": "Auto metadata for openApp"
   },
   "@verifiedPrices": {
-    "description": "TODO: verifiedPrices"
+    "description": "Auto metadata for verifiedPrices"
   },
   "@selectRatingFirst": {
-    "description": "TODO: selectRatingFirst"
+    "description": "Auto metadata for selectRatingFirst"
   },
   "@thankYou": {
-    "description": "TODO: thankYou"
+    "description": "Auto metadata for thankYou"
   },
   "@noProductsFound": {
-    "description": "TODO: noProductsFound"
+    "description": "Auto metadata for noProductsFound"
   },
   "@shortNoteOptional": {
-    "description": "TODO: shortNoteOptional"
+    "description": "Auto metadata for shortNoteOptional"
   },
   "@submit": {
-    "description": "TODO: submit"
+    "description": "Auto metadata for submit"
   },
   "@submitted": {
-    "description": "TODO: submitted"
+    "description": "Auto metadata for submitted"
   },
   "@submitting": {
-    "description": "TODO: submitting"
+    "description": "Auto metadata for submitting"
   },
   "@mySuggestionsTitle": {
-    "description": "TODO: mySuggestionsTitle"
+    "description": "Auto metadata for mySuggestionsTitle"
   },
   "@mySuggestionsSubtitle": {
-    "description": "TODO: mySuggestionsSubtitle"
+    "description": "Auto metadata for mySuggestionsSubtitle"
   },
   "@viewBusiness": {
-    "description": "TODO: viewBusiness"
+    "description": "Auto metadata for viewBusiness"
   },
   "@statusApproved": {
-    "description": "TODO: statusApproved"
+    "description": "Auto metadata for statusApproved"
   },
   "@statusRejected": {
-    "description": "TODO: statusRejected"
+    "description": "Auto metadata for statusRejected"
   },
   "@statusPending": {
-    "description": "TODO: statusPending"
+    "description": "Auto metadata for statusPending"
   },
   "@retry": {
-    "description": "TODO: retry"
+    "description": "Auto metadata for retry"
   },
   "@notNow": {
-    "description": "TODO: notNow"
+    "description": "Auto metadata for notNow"
   },
   "@onboardingLiveMenusTitle": {
-    "description": "TODO: onboardingLiveMenusTitle"
+    "description": "Auto metadata for onboardingLiveMenusTitle"
   },
   "@onboardingLiveMenusDescription": {
-    "description": "TODO: onboardingLiveMenusDescription"
+    "description": "Auto metadata for onboardingLiveMenusDescription"
   },
   "@onboardingContributeTitle": {
-    "description": "TODO: onboardingContributeTitle"
+    "description": "Auto metadata for onboardingContributeTitle"
   },
   "@onboardingContributeDescription": {
-    "description": "TODO: onboardingContributeDescription"
+    "description": "Auto metadata for onboardingContributeDescription"
   },
   "@getStarted": {
-    "description": "TODO: getStarted"
+    "description": "Auto metadata for getStarted"
   },
   "@continueAction": {
-    "description": "TODO: continueAction"
+    "description": "Auto metadata for continueAction"
   },
   "@register": {
-    "description": "TODO: register"
+    "description": "Auto metadata for register"
   },
   "@login": {
-    "description": "TODO: login"
+    "description": "Auto metadata for login"
   },
   "@enableLocationTitle": {
-    "description": "TODO: enableLocationTitle"
+    "description": "Auto metadata for enableLocationTitle"
   },
   "@enableLocationSubtitle": {
-    "description": "TODO: enableLocationSubtitle"
+    "description": "Auto metadata for enableLocationSubtitle"
   },
   "@locationPermissionGranted": {
-    "description": "TODO: locationPermissionGranted"
+    "description": "Auto metadata for locationPermissionGranted"
   },
   "@locationOptionalInfo": {
-    "description": "TODO: locationOptionalInfo"
+    "description": "Auto metadata for locationOptionalInfo"
   },
   "@allowLocation": {
-    "description": "TODO: allowLocation"
+    "description": "Auto metadata for allowLocation"
   },
   "@chooseLocationManually": {
-    "description": "TODO: chooseLocationManually"
+    "description": "Auto metadata for chooseLocationManually"
   },
   "@menuReading": {
-    "description": "TODO: menuReading"
+    "description": "Auto metadata for menuReading"
   },
   "@noPriceDetectionFound": {
-    "description": "TODO: noPriceDetectionFound"
+    "description": "Auto metadata for noPriceDetectionFound"
   },
   "@receiptOcrNotSupportedWeb": {
-    "description": "TODO: receiptOcrNotSupportedWeb"
+    "description": "Auto metadata for receiptOcrNotSupportedWeb"
   },
   "@receiptReading": {
-    "description": "TODO: receiptReading"
+    "description": "Auto metadata for receiptReading"
   },
   "@noPriceFoundOnReceipt": {
-    "description": "TODO: noPriceFoundOnReceipt"
+    "description": "Auto metadata for noPriceFoundOnReceipt"
   },
   "@receiptUploading": {
-    "description": "TODO: receiptUploading"
+    "description": "Auto metadata for receiptUploading"
   },
   "@receiptUploadFailed": {
-    "description": "TODO: receiptUploadFailed"
+    "description": "Auto metadata for receiptUploadFailed"
   },
   "@camera": {
-    "description": "TODO: camera"
+    "description": "Auto metadata for camera"
   },
   "@gallery": {
-    "description": "TODO: gallery"
+    "description": "Auto metadata for gallery"
   },
   "@matchReceipt": {
-    "description": "TODO: matchReceipt"
+    "description": "Auto metadata for matchReceipt"
   },
   "@matchPrices": {
-    "description": "TODO: matchPrices"
+    "description": "Auto metadata for matchPrices"
   },
   "@unlabeled": {
-    "description": "TODO: unlabeled"
+    "description": "Auto metadata for unlabeled"
   },
   "@priceTry": {
-    "description": "TODO: priceTry"
+    "description": "Auto metadata for priceTry"
   },
   "@selectMenuItem": {
-    "description": "TODO: selectMenuItem"
+    "description": "Auto metadata for selectMenuItem"
   },
   "@sendReceipt": {
-    "description": "TODO: sendReceipt"
+    "description": "Auto metadata for sendReceipt"
   },
   "@sendReceiptSuggestions": {
-    "description": "TODO: sendReceiptSuggestions"
+    "description": "Auto metadata for sendReceiptSuggestions"
   },
   "@selectAtLeastOneItem": {
-    "description": "TODO: selectAtLeastOneItem"
+    "description": "Auto metadata for selectAtLeastOneItem"
   },
   "@invalidPriceExists": {
-    "description": "TODO: invalidPriceExists"
+    "description": "Auto metadata for invalidPriceExists"
   },
   "@sendingReceipt": {
-    "description": "TODO: sendingReceipt"
+    "description": "Auto metadata for sendingReceipt"
   },
   "@receiptSent": {
-    "description": "TODO: receiptSent"
+    "description": "Auto metadata for receiptSent"
   },
   "@sendingReceiptSuggestions": {
-    "description": "TODO: sendingReceiptSuggestions"
+    "description": "Auto metadata for sendingReceiptSuggestions"
   },
   "@priceSuggestionsSent": {
-    "description": "TODO: priceSuggestionsSent"
+    "description": "Auto metadata for priceSuggestionsSent"
   },
   "@searchFoodHint": {
-    "description": "TODO: searchFoodHint"
+    "description": "Auto metadata for searchFoodHint"
   },
   "@profileActive": {
-    "description": "TODO: profileActive"
+    "description": "Auto metadata for profileActive"
   },
   "@profileLoading": {
-    "description": "TODO: profileLoading"
+    "description": "Auto metadata for profileLoading"
   },
   "@dietProfileNotFound": {
-    "description": "TODO: dietProfileNotFound"
+    "description": "Auto metadata for dietProfileNotFound"
   },
   "@noResultsFound": {
-    "description": "TODO: noResultsFound"
+    "description": "Auto metadata for noResultsFound"
   },
   "@allowLocationForNearby": {
-    "description": "TODO: allowLocationForNearby"
+    "description": "Auto metadata for allowLocationForNearby"
   },
   "@setPriceAlert": {
-    "description": "TODO: setPriceAlert"
+    "description": "Auto metadata for setPriceAlert"
   },
   "@vegan": {
-    "description": "TODO: vegan"
+    "description": "Auto metadata for vegan"
   },
   "@vegetarian": {
-    "description": "TODO: vegetarian"
+    "description": "Auto metadata for vegetarian"
   },
   "@lactoseFree": {
-    "description": "TODO: lactoseFree"
+    "description": "Auto metadata for lactoseFree"
   },
   "@maxCalories": {
-    "description": "TODO: maxCalories"
+    "description": "Auto metadata for maxCalories"
   },
   "@onlyVerifiedPrice": {
-    "description": "TODO: onlyVerifiedPrice"
+    "description": "Auto metadata for onlyVerifiedPrice"
   },
   "@glutenFree": {
-    "description": "TODO: glutenFree"
+    "description": "Auto metadata for glutenFree"
   },
   "@menuItem": {
-    "description": "TODO: menuItem"
+    "description": "Auto metadata for menuItem"
   },
   "@cataloged": {
-    "description": "TODO: cataloged"
+    "description": "Auto metadata for cataloged"
   },
   "@priceAlert": {
-    "description": "TODO: priceAlert"
+    "description": "Auto metadata for priceAlert"
   },
   "@priceAlertSubtitle": {
-    "description": "TODO: priceAlertSubtitle"
+    "description": "Auto metadata for priceAlertSubtitle"
   },
   "@addToBill": {
-    "description": "TODO: addToBill"
+    "description": "Auto metadata for addToBill"
   },
   "@voteSaved": {
-    "description": "TODO: voteSaved"
+    "description": "Auto metadata for voteSaved"
   },
   "@photoAdded": {
-    "description": "TODO: photoAdded"
+    "description": "Auto metadata for photoAdded"
   },
   "@suggestEdit": {
-    "description": "TODO: suggestEdit"
+    "description": "Auto metadata for suggestEdit"
   },
   "@verifyPriceWithReceipt": {
-    "description": "TODO: verifyPriceWithReceipt"
+    "description": "Auto metadata for verifyPriceWithReceipt"
   },
   "@cart": {
-    "description": "TODO: cart"
+    "description": "Auto metadata for cart"
   },
   "@cartEmpty": {
-    "description": "TODO: cartEmpty"
+    "description": "Auto metadata for cartEmpty"
   },
   "@addItemToCalculate": {
-    "description": "TODO: addItemToCalculate"
+    "description": "Auto metadata for addItemToCalculate"
   },
   "@tipPercentage": {
-    "description": "TODO: tipPercentage"
+    "description": "Auto metadata for tipPercentage"
   },
   "@serviceIncluded": {
-    "description": "TODO: serviceIncluded"
+    "description": "Auto metadata for serviceIncluded"
   },
   "@coverIncluded": {
-    "description": "TODO: coverIncluded"
+    "description": "Auto metadata for coverIncluded"
   },
   "@subtotal": {
-    "description": "TODO: subtotal"
+    "description": "Auto metadata for subtotal"
   },
   "@cover": {
-    "description": "TODO: cover"
+    "description": "Auto metadata for cover"
   },
   "@serviceCoverMayVary": {
-    "description": "TODO: serviceCoverMayVary"
+    "description": "Auto metadata for serviceCoverMayVary"
   },
   "@estimatedTotal": {
-    "description": "TODO: estimatedTotal"
+    "description": "Auto metadata for estimatedTotal"
   },
   "@vatExcluded": {
-    "description": "TODO: vatExcluded"
+    "description": "Auto metadata for vatExcluded"
   },
   "@errorOccurred": {
-    "description": "TODO: errorOccurred"
+    "description": "Auto metadata for errorOccurred"
   },
   "@menuItemNotFoundDescription": {
-    "description": "TODO: menuItemNotFoundDescription"
+    "description": "Auto metadata for menuItemNotFoundDescription"
   },
   "@trustScoreInfoNote": {
-    "description": "TODO: trustScoreInfoNote"
+    "description": "Auto metadata for trustScoreInfoNote"
   },
   "@verifyContributionRaisedScore": {
-    "description": "TODO: verifyContributionRaisedScore"
+    "description": "Auto metadata for verifyContributionRaisedScore"
   },
   "@priceVerification": {
-    "description": "TODO: priceVerification"
+    "description": "Auto metadata for priceVerification"
   },
   "@priceVerificationSteps": {
-    "description": "TODO: priceVerificationSteps"
+    "description": "Auto metadata for priceVerificationSteps"
   },
   "@newPriceTry": {
-    "description": "TODO: newPriceTry"
+    "description": "Auto metadata for newPriceTry"
   },
   "@note": {
-    "description": "TODO: note"
+    "description": "Auto metadata for note"
   },
   "@addEvidencePhoto": {
-    "description": "TODO: addEvidencePhoto"
+    "description": "Auto metadata for addEvidencePhoto"
   },
   "@evidenceAdded": {
-    "description": "TODO: evidenceAdded"
+    "description": "Auto metadata for evidenceAdded"
   },
   "@menuItemName": {
-    "description": "TODO: menuItemName"
+    "description": "Auto metadata for menuItemName"
   },
   "@menuItemNameRequired": {
-    "description": "TODO: menuItemNameRequired"
+    "description": "Auto metadata for menuItemNameRequired"
   },
   "@enterValidPrice": {
-    "description": "TODO: enterValidPrice"
+    "description": "Auto metadata for enterValidPrice"
   },
   "@sendSuggestion": {
-    "description": "TODO: sendSuggestion"
+    "description": "Auto metadata for sendSuggestion"
   },
   "@noChanges": {
-    "description": "TODO: noChanges"
+    "description": "Auto metadata for noChanges"
   },
   "@priceCannotBeEmpty": {
-    "description": "TODO: priceCannotBeEmpty"
+    "description": "Auto metadata for priceCannotBeEmpty"
   },
   "@suggestionSentPendingApproval": {
-    "description": "TODO: suggestionSentPendingApproval"
+    "description": "Auto metadata for suggestionSentPendingApproval"
   },
   "@noSuggestionFound": {
-    "description": "TODO: noSuggestionFound"
+    "description": "Auto metadata for noSuggestionFound"
   },
   "@suggestedFoods": {
-    "description": "TODO: suggestedFoods"
+    "description": "Auto metadata for suggestedFoods"
   },
   "@priceHistoryLast3": {
-    "description": "TODO: priceHistoryLast3"
+    "description": "Auto metadata for priceHistoryLast3"
   },
   "@price": {
-    "description": "TODO: price"
+    "description": "Auto metadata for price"
   },
   "@strongConsensusPriceSafe": {
-    "description": "TODO: strongConsensusPriceSafe"
+    "description": "Auto metadata for strongConsensusPriceSafe"
   },
   "@seenCorrect": {
-    "description": "TODO: seenCorrect"
+    "description": "Auto metadata for seenCorrect"
   },
   "@seenIncorrect": {
-    "description": "TODO: seenIncorrect"
+    "description": "Auto metadata for seenIncorrect"
   },
   "@suggestNewPrice": {
-    "description": "TODO: suggestNewPrice"
+    "description": "Auto metadata for suggestNewPrice"
   },
   "@howCalculated": {
-    "description": "TODO: howCalculated"
+    "description": "Auto metadata for howCalculated"
   },
   "@verificationRate": {
-    "description": "TODO: verificationRate"
+    "description": "Auto metadata for verificationRate"
   },
   "@recentPositiveVotes": {
-    "description": "TODO: recentPositiveVotes"
+    "description": "Auto metadata for recentPositiveVotes"
   },
   "@priceStability": {
-    "description": "TODO: priceStability"
+    "description": "Auto metadata for priceStability"
   },
   "@scoreForInfoOnly": {
-    "description": "TODO: scoreForInfoOnly"
+    "description": "Auto metadata for scoreForInfoOnly"
   },
   "@pricePerformance": {
-    "description": "TODO: pricePerformance"
+    "description": "Auto metadata for pricePerformance"
   },
   "@valueScoreFormulaHint": {
-    "description": "TODO: valueScoreFormulaHint"
+    "description": "Auto metadata for valueScoreFormulaHint"
   },
   "@menuPhotos": {
-    "description": "TODO: menuPhotos"
+    "description": "Auto metadata for menuPhotos"
   },
   "@menuPhotosHint": {
-    "description": "TODO: menuPhotosHint"
+    "description": "Auto metadata for menuPhotosHint"
   },
   "@noPhotosYet": {
-    "description": "TODO: noPhotosYet"
+    "description": "Auto metadata for noPhotosYet"
   },
   "@yesterday": {
-    "description": "TODO: yesterday"
+    "description": "Auto metadata for yesterday"
   },
   "@priceInvalid": {
-    "description": "TODO: priceInvalid"
+    "description": "Auto metadata for priceInvalid"
   },
   "@noteNoLinkPhone": {
-    "description": "TODO: noteNoLinkPhone"
+    "description": "Auto metadata for noteNoLinkPhone"
   },
   "@noteContainsProfanity": {
-    "description": "TODO: noteContainsProfanity"
+    "description": "Auto metadata for noteContainsProfanity"
   },
   "@noteTooManyEmoji": {
-    "description": "TODO: noteTooManyEmoji"
+    "description": "Auto metadata for noteTooManyEmoji"
   },
   "@rateLimited24h": {
-    "description": "TODO: rateLimited24h"
+    "description": "Auto metadata for rateLimited24h"
   },
   "@dailyPriceSuggestionLimitReached": {
-    "description": "TODO: dailyPriceSuggestionLimitReached"
+    "description": "Auto metadata for dailyPriceSuggestionLimitReached"
   },
   "@invalidEvidenceLink": {
-    "description": "TODO: invalidEvidenceLink"
+    "description": "Auto metadata for invalidEvidenceLink"
   },
   "@invalidCurrency": {
-    "description": "TODO: invalidCurrency"
+    "description": "Auto metadata for invalidCurrency"
   },
   "@loginPageTitle": {
-    "description": "TODO: loginPageTitle"
+    "description": "Auto metadata for loginPageTitle"
   },
   "@loginActionFailedTitle": {
-    "description": "TODO: loginActionFailedTitle"
+    "description": "Auto metadata for loginActionFailedTitle"
   },
   "@loginEmailLabel": {
-    "description": "TODO: loginEmailLabel"
+    "description": "Auto metadata for loginEmailLabel"
   },
   "@loginPasswordLabel": {
-    "description": "TODO: loginPasswordLabel"
+    "description": "Auto metadata for loginPasswordLabel"
   },
   "@loginPrimaryAction": {
-    "description": "TODO: loginPrimaryAction"
+    "description": "Auto metadata for loginPrimaryAction"
   },
   "@loginSigningInAction": {
-    "description": "TODO: loginSigningInAction"
+    "description": "Auto metadata for loginSigningInAction"
   },
   "@loginSignupAction": {
-    "description": "TODO: loginSignupAction"
+    "description": "Auto metadata for loginSignupAction"
   },
   "@loginSigningUpAction": {
-    "description": "TODO: loginSigningUpAction"
+    "description": "Auto metadata for loginSigningUpAction"
   },
   "@loginSignupSuccessMessage": {
-    "description": "TODO: loginSignupSuccessMessage"
+    "description": "Auto metadata for loginSignupSuccessMessage"
   },
   "@drawerTopBusinesses": {
-    "description": "TODO: drawerTopBusinesses"
+    "description": "Auto metadata for drawerTopBusinesses"
   },
   "@drawerSocial": {
-    "description": "TODO: drawerSocial"
+    "description": "Auto metadata for drawerSocial"
   },
   "@drawerGourmets": {
-    "description": "TODO: drawerGourmets"
+    "description": "Auto metadata for drawerGourmets"
   },
   "@drawerFollowing": {
-    "description": "TODO: drawerFollowing"
+    "description": "Auto metadata for drawerFollowing"
   },
   "@drawerExperimental": {
-    "description": "TODO: drawerExperimental"
+    "description": "Auto metadata for drawerExperimental"
   },
   "@drawerFeed": {
-    "description": "TODO: drawerFeed"
+    "description": "Auto metadata for drawerFeed"
   },
   "@drawerTasteTwin": {
-    "description": "TODO: drawerTasteTwin"
+    "description": "Auto metadata for drawerTasteTwin"
   },
   "@drawerHeroes": {
-    "description": "TODO: drawerHeroes"
+    "description": "Auto metadata for drawerHeroes"
   },
   "@drawerGroupRequests": {
-    "description": "TODO: drawerGroupRequests"
+    "description": "Auto metadata for drawerGroupRequests"
   },
   "@drawerCompare": {
-    "description": "TODO: drawerCompare"
+    "description": "Auto metadata for drawerCompare"
   },
   "@drawerQuickTools": {
-    "description": "TODO: drawerQuickTools"
+    "description": "Auto metadata for drawerQuickTools"
   },
   "@drawerSmartSuggestionShortcut": {
-    "description": "TODO: drawerSmartSuggestionShortcut"
+    "description": "Auto metadata for drawerSmartSuggestionShortcut"
   },
   "@drawerAccount": {
-    "description": "TODO: drawerAccount"
+    "description": "Auto metadata for drawerAccount"
   },
   "@drawerMyFavorites": {
-    "description": "TODO: drawerMyFavorites"
+    "description": "Auto metadata for drawerMyFavorites"
   },
   "@drawerInbox": {
-    "description": "TODO: drawerInbox"
+    "description": "Auto metadata for drawerInbox"
   },
   "@drawerMySuggestions": {
-    "description": "TODO: drawerMySuggestions"
+    "description": "Auto metadata for drawerMySuggestions"
   },
   "@drawerSuspendedMeals": {
-    "description": "TODO: drawerSuspendedMeals"
+    "description": "Auto metadata for drawerSuspendedMeals"
   },
   "@drawerLegalAndTrust": {
-    "description": "TODO: drawerLegalAndTrust"
+    "description": "Auto metadata for drawerLegalAndTrust"
   },
   "@budgetComboEntryTitle": {
-    "description": "TODO: budgetComboEntryTitle"
+    "description": "Auto metadata for budgetComboEntryTitle"
   },
   "@budgetComboLocationNotSelected": {
-    "description": "TODO: budgetComboLocationNotSelected"
+    "description": "Auto metadata for budgetComboLocationNotSelected"
   },
   "@budgetComboBudgetLabel": {
-    "description": "TODO: budgetComboBudgetLabel"
+    "description": "Auto metadata for budgetComboBudgetLabel"
   },
   "@budgetComboPartySizeLabel": {
-    "description": "TODO: budgetComboPartySizeLabel"
+    "description": "Auto metadata for budgetComboPartySizeLabel"
   },
   "@budgetComboCategoryOptionalLabel": {
-    "description": "TODO: budgetComboCategoryOptionalLabel"
+    "description": "Auto metadata for budgetComboCategoryOptionalLabel"
   },
   "@budgetComboSeeSuggestions": {
-    "description": "TODO: budgetComboSeeSuggestions"
+    "description": "Auto metadata for budgetComboSeeSuggestions"
   },
   "@budgetComboAllCategories": {
-    "description": "TODO: budgetComboAllCategories"
+    "description": "Auto metadata for budgetComboAllCategories"
   },
   "@budgetComboCategoryCafe": {
-    "description": "TODO: budgetComboCategoryCafe"
+    "description": "Auto metadata for budgetComboCategoryCafe"
   },
   "@budgetComboCategoryRestaurant": {
-    "description": "TODO: budgetComboCategoryRestaurant"
+    "description": "Auto metadata for budgetComboCategoryRestaurant"
   },
   "@budgetComboCategoryDessert": {
-    "description": "TODO: budgetComboCategoryDessert"
+    "description": "Auto metadata for budgetComboCategoryDessert"
   },
   "@budgetComboCategoryBreakfast": {
-    "description": "TODO: budgetComboCategoryBreakfast"
+    "description": "Auto metadata for budgetComboCategoryBreakfast"
   },
   "@budgetComboCategoryFishMeat": {
-    "description": "TODO: budgetComboCategoryFishMeat"
+    "description": "Auto metadata for budgetComboCategoryFishMeat"
   },
   "@budgetComboCategoryVenue": {
-    "description": "TODO: budgetComboCategoryVenue"
+    "description": "Auto metadata for budgetComboCategoryVenue"
   },
   "@budgetComboResultsTitle": {
-    "description": "TODO: budgetComboResultsTitle"
+    "description": "Auto metadata for budgetComboResultsTitle"
   },
   "@budgetComboMissingInfoTitle": {
-    "description": "TODO: budgetComboMissingInfoTitle"
+    "description": "Auto metadata for budgetComboMissingInfoTitle"
   },
   "@budgetComboMissingInfoDescription": {
-    "description": "TODO: budgetComboMissingInfoDescription"
+    "description": "Auto metadata for budgetComboMissingInfoDescription"
   },
   "@budgetComboNoResultsTitle": {
-    "description": "TODO: budgetComboNoResultsTitle"
+    "description": "Auto metadata for budgetComboNoResultsTitle"
   },
   "@budgetComboNoResultsDescription": {
-    "description": "TODO: budgetComboNoResultsDescription"
+    "description": "Auto metadata for budgetComboNoResultsDescription"
   },
   "@budgetComboAdjustCriteriaTitle": {
-    "description": "TODO: budgetComboAdjustCriteriaTitle"
+    "description": "Auto metadata for budgetComboAdjustCriteriaTitle"
   },
   "@budgetComboDefaultAction": {
-    "description": "TODO: budgetComboDefaultAction"
+    "description": "Auto metadata for budgetComboDefaultAction"
   },
   "@budgetComboRadiusDistrictScope": {
-    "description": "TODO: budgetComboRadiusDistrictScope"
+    "description": "Auto metadata for budgetComboRadiusDistrictScope"
   },
   "@budgetComboWeightDistance": {
-    "description": "TODO: budgetComboWeightDistance"
+    "description": "Auto metadata for budgetComboWeightDistance"
   },
   "@budgetComboWeightPrice": {
-    "description": "TODO: budgetComboWeightPrice"
+    "description": "Auto metadata for budgetComboWeightPrice"
   },
   "@budgetComboWeightRating": {
-    "description": "TODO: budgetComboWeightRating"
+    "description": "Auto metadata for budgetComboWeightRating"
   },
   "@budgetComboFallbackSortHint": {
-    "description": "TODO: budgetComboFallbackSortHint"
+    "description": "Auto metadata for budgetComboFallbackSortHint"
   },
   "@budgetComboBestComboTitle": {
-    "description": "TODO: budgetComboBestComboTitle"
+    "description": "Auto metadata for budgetComboBestComboTitle"
   },
   "@budgetComboTagTop": {
-    "description": "TODO: budgetComboTagTop"
+    "description": "Auto metadata for budgetComboTagTop"
   },
   "@budgetComboOtherSuggestionsTitle": {
-    "description": "TODO: budgetComboOtherSuggestionsTitle"
+    "description": "Auto metadata for budgetComboOtherSuggestionsTitle"
   },
   "@budgetComboBestTag": {
-    "description": "TODO: budgetComboBestTag"
+    "description": "Auto metadata for budgetComboBestTag"
   },
   "@budgetComboMainItemLabel": {
-    "description": "TODO: budgetComboMainItemLabel"
+    "description": "Auto metadata for budgetComboMainItemLabel"
   },
   "@budgetComboDrinkItemLabel": {
-    "description": "TODO: budgetComboDrinkItemLabel"
+    "description": "Auto metadata for budgetComboDrinkItemLabel"
   },
   "@budgetComboGoToBusinessAction": {
-    "description": "TODO: budgetComboGoToBusinessAction"
+    "description": "Auto metadata for budgetComboGoToBusinessAction"
   },
   "@panelAccessTitle": {
-    "description": "TODO: panelAccessTitle"
+    "description": "Auto metadata for panelAccessTitle"
   },
   "@panelWebOnlyMessage": {
-    "description": "TODO: panelWebOnlyMessage"
+    "description": "Auto metadata for panelWebOnlyMessage"
   },
   "@panelBackToDiscover": {
-    "description": "TODO: panelBackToDiscover"
+    "description": "Auto metadata for panelBackToDiscover"
   },
   "@notFoundTitle": {
-    "description": "TODO: notFoundTitle"
+    "description": "Auto metadata for notFoundTitle"
   },
   "@businessHeaderStatusClosingLabel": {
-    "description": "TODO: businessHeaderStatusClosingLabel"
+    "description": "Auto metadata for businessHeaderStatusClosingLabel"
   },
   "@businessHeaderAveragePriceLabel": {
-    "description": "TODO: businessHeaderAveragePriceLabel"
+    "description": "Auto metadata for businessHeaderAveragePriceLabel"
   },
   "@businessHeaderPopularItemLabel": {
-    "description": "TODO: businessHeaderPopularItemLabel"
+    "description": "Auto metadata for businessHeaderPopularItemLabel"
   },
   "@businessHeaderLastVerificationLabel": {
-    "description": "TODO: businessHeaderLastVerificationLabel"
+    "description": "Auto metadata for businessHeaderLastVerificationLabel"
   },
   "@businessStatusOpen": {
-    "description": "TODO: businessStatusOpen"
+    "description": "Auto metadata for businessStatusOpen"
   },
   "@businessStatusClosed": {
-    "description": "TODO: businessStatusClosed"
+    "description": "Auto metadata for businessStatusClosed"
   },
   "@businessHeaderDirectionsAction": {
-    "description": "TODO: businessHeaderDirectionsAction"
+    "description": "Auto metadata for businessHeaderDirectionsAction"
   },
   "@chainPageTitle": {
-    "description": "TODO: chainPageTitle"
+    "description": "Auto metadata for chainPageTitle"
   },
   "@chainPageNoBranches": {
-    "description": "TODO: chainPageNoBranches"
+    "description": "Auto metadata for chainPageNoBranches"
   },
   "@chainPageNearbyBranchesTitle": {
-    "description": "TODO: chainPageNearbyBranchesTitle"
+    "description": "Auto metadata for chainPageNearbyBranchesTitle"
   },
   "@chainPageBranchMenuPriceHint": {
-    "description": "TODO: chainPageBranchMenuPriceHint"
+    "description": "Auto metadata for chainPageBranchMenuPriceHint"
   },
   "@chainPageBranchNearAverage": {
-    "description": "TODO: chainPageBranchNearAverage"
+    "description": "Auto metadata for chainPageBranchNearAverage"
   },
   "@comparePageTitle": {
-    "description": "TODO: comparePageTitle"
+    "description": "Auto metadata for comparePageTitle"
   },
   "@compareEmptyTitle": {
-    "description": "TODO: compareEmptyTitle"
+    "description": "Auto metadata for compareEmptyTitle"
   },
   "@compareEmptyDescription": {
-    "description": "TODO: compareEmptyDescription"
+    "description": "Auto metadata for compareEmptyDescription"
   },
   "@compareBackToDiscover": {
-    "description": "TODO: compareBackToDiscover"
+    "description": "Auto metadata for compareBackToDiscover"
   },
   "@compareBestPickAction": {
-    "description": "TODO: compareBestPickAction"
+    "description": "Auto metadata for compareBestPickAction"
   },
   "@compareSuggestedBadge": {
-    "description": "TODO: compareSuggestedBadge"
+    "description": "Auto metadata for compareSuggestedBadge"
   },
   "@compareMedianPriceLabel": {
-    "description": "TODO: compareMedianPriceLabel"
+    "description": "Auto metadata for compareMedianPriceLabel"
   },
   "@compareVerifiedRateLabel": {
-    "description": "TODO: compareVerifiedRateLabel"
+    "description": "Auto metadata for compareVerifiedRateLabel"
   },
   "@compareLastUpdateLabel": {
-    "description": "TODO: compareLastUpdateLabel"
+    "description": "Auto metadata for compareLastUpdateLabel"
   },
   "@compareBestItemTitle": {
-    "description": "TODO: compareBestItemTitle"
+    "description": "Auto metadata for compareBestItemTitle"
   },
   "@compareGoToBusinessAction": {
-    "description": "TODO: compareGoToBusinessAction"
+    "description": "Auto metadata for compareGoToBusinessAction"
   },
   "@compareRemoveTooltip": {
-    "description": "TODO: compareRemoveTooltip"
+    "description": "Auto metadata for compareRemoveTooltip"
   },
   "@contributeDefaultBusinessName": {
-    "description": "TODO: contributeDefaultBusinessName"
+    "description": "Auto metadata for contributeDefaultBusinessName"
   },
   "@contributeOpenBusinessFirst": {
-    "description": "TODO: contributeOpenBusinessFirst"
+    "description": "Auto metadata for contributeOpenBusinessFirst"
   },
   "@contributeUploadingProgress": {
-    "description": "TODO: contributeUploadingProgress"
+    "description": "Auto metadata for contributeUploadingProgress"
   },
   "@contributeUploadSentSingle": {
-    "description": "TODO: contributeUploadSentSingle"
+    "description": "Auto metadata for contributeUploadSentSingle"
   },
   "@contributeUploadFailed": {
-    "description": "TODO: contributeUploadFailed"
+    "description": "Auto metadata for contributeUploadFailed"
   },
   "@contributeQrDecodingProgress": {
-    "description": "TODO: contributeQrDecodingProgress"
+    "description": "Auto metadata for contributeQrDecodingProgress"
   },
   "@contributeQrUnreadableSentReview": {
-    "description": "TODO: contributeQrUnreadableSentReview"
+    "description": "Auto metadata for contributeQrUnreadableSentReview"
   },
   "@contributeQrVerifiedRedirecting": {
-    "description": "TODO: contributeQrVerifiedRedirecting"
+    "description": "Auto metadata for contributeQrVerifiedRedirecting"
   },
   "@contributeQrProcessFailed": {
-    "description": "TODO: contributeQrProcessFailed"
+    "description": "Auto metadata for contributeQrProcessFailed"
   },
   "@contributeExternalQrUseBusinessPage": {
-    "description": "TODO: contributeExternalQrUseBusinessPage"
+    "description": "Auto metadata for contributeExternalQrUseBusinessPage"
   },
   "@contributeSendingForReviewProgress": {
-    "description": "TODO: contributeSendingForReviewProgress"
+    "description": "Auto metadata for contributeSendingForReviewProgress"
   },
   "@contributeQrImageSentForReview": {
-    "description": "TODO: contributeQrImageSentForReview"
+    "description": "Auto metadata for contributeQrImageSentForReview"
   },
   "@contributeExternalLinkSentForReview": {
-    "description": "TODO: contributeExternalLinkSentForReview"
+    "description": "Auto metadata for contributeExternalLinkSentForReview"
   },
   "@contributeSourceCamera": {
-    "description": "TODO: contributeSourceCamera"
+    "description": "Auto metadata for contributeSourceCamera"
   },
   "@contributeSourceGallery": {
-    "description": "TODO: contributeSourceGallery"
+    "description": "Auto metadata for contributeSourceGallery"
   },
   "@contributeSelectBusinessForPriceVerification": {
-    "description": "TODO: contributeSelectBusinessForPriceVerification"
+    "description": "Auto metadata for contributeSelectBusinessForPriceVerification"
   },
   "@contributeSelectMenuItemToVerifyPrice": {
-    "description": "TODO: contributeSelectMenuItemToVerifyPrice"
+    "description": "Auto metadata for contributeSelectMenuItemToVerifyPrice"
   },
   "@discoveryFilterCafe": {
-    "description": "TODO: discoveryFilterCafe"
+    "description": "Auto metadata for discoveryFilterCafe"
   },
   "@discoveryFilterRestaurant": {
-    "description": "TODO: discoveryFilterRestaurant"
+    "description": "Auto metadata for discoveryFilterRestaurant"
   },
   "@discoveryFilterDessertPastry": {
-    "description": "TODO: discoveryFilterDessertPastry"
+    "description": "Auto metadata for discoveryFilterDessertPastry"
   },
   "@discoveryFilterBreakfast": {
-    "description": "TODO: discoveryFilterBreakfast"
+    "description": "Auto metadata for discoveryFilterBreakfast"
   },
   "@discoveryFilterFishMeat": {
-    "description": "TODO: discoveryFilterFishMeat"
+    "description": "Auto metadata for discoveryFilterFishMeat"
   },
   "@discoveryFilterVenue": {
-    "description": "TODO: discoveryFilterVenue"
+    "description": "Auto metadata for discoveryFilterVenue"
   },
   "@discoveryHomeCategoryDoner": {
-    "description": "TODO: discoveryHomeCategoryDoner"
+    "description": "Auto metadata for discoveryHomeCategoryDoner"
   },
   "@discoveryHomeCategoryPide": {
-    "description": "TODO: discoveryHomeCategoryPide"
+    "description": "Auto metadata for discoveryHomeCategoryPide"
   },
   "@discoveryHomeCategoryLahmacun": {
-    "description": "TODO: discoveryHomeCategoryLahmacun"
+    "description": "Auto metadata for discoveryHomeCategoryLahmacun"
   },
   "@discoveryHomeCategoryBurger": {
-    "description": "TODO: discoveryHomeCategoryBurger"
+    "description": "Auto metadata for discoveryHomeCategoryBurger"
   },
   "@discoveryHomeCategoryPizza": {
-    "description": "TODO: discoveryHomeCategoryPizza"
+    "description": "Auto metadata for discoveryHomeCategoryPizza"
   },
   "@discoveryHomeCategoryKebap": {
-    "description": "TODO: discoveryHomeCategoryKebap"
+    "description": "Auto metadata for discoveryHomeCategoryKebap"
   },
   "@discoveryHomeCategoryCorba": {
-    "description": "TODO: discoveryHomeCategoryCorba"
+    "description": "Auto metadata for discoveryHomeCategoryCorba"
   },
   "@discoveryHomeCategoryKahvalti": {
-    "description": "TODO: discoveryHomeCategoryKahvalti"
+    "description": "Auto metadata for discoveryHomeCategoryKahvalti"
   },
   "@discoveryHomeCategoryManti": {
-    "description": "TODO: discoveryHomeCategoryManti"
+    "description": "Auto metadata for discoveryHomeCategoryManti"
   },
   "@discoveryHomeCategoryTatli": {
-    "description": "TODO: discoveryHomeCategoryTatli"
+    "description": "Auto metadata for discoveryHomeCategoryTatli"
   },
   "@discoveryRecentSearches": {
-    "description": "TODO: discoveryRecentSearches"
+    "description": "Auto metadata for discoveryRecentSearches"
   },
   "@discoveryCatalogSuggestions": {
-    "description": "TODO: discoveryCatalogSuggestions"
+    "description": "Auto metadata for discoveryCatalogSuggestions"
   },
   "@feedEmptyMessage": {
-    "description": "TODO: feedEmptyMessage"
+    "description": "Auto metadata for feedEmptyMessage"
   },
   "@all": {
-    "description": "TODO: all"
+    "description": "Auto metadata for all"
   },
   "@sil": {
-    "description": "TODO: sil"
+    "description": "Auto metadata for sil"
   },
   "@favoritesCollectionLabel": {
-    "description": "TODO: favoritesCollectionLabel"
+    "description": "Auto metadata for favoritesCollectionLabel"
   },
   "@favoritesSavedHereSubtitle": {
-    "description": "TODO: favoritesSavedHereSubtitle"
+    "description": "Auto metadata for favoritesSavedHereSubtitle"
   },
   "@favoritesSearchHint": {
-    "description": "TODO: favoritesSearchHint"
+    "description": "Auto metadata for favoritesSearchHint"
   },
   "@favoritesNearbyLoadingLocation": {
-    "description": "TODO: favoritesNearbyLoadingLocation"
+    "description": "Auto metadata for favoritesNearbyLoadingLocation"
   },
   "@favoritesNearbyFallbackOrdering": {
-    "description": "TODO: favoritesNearbyFallbackOrdering"
+    "description": "Auto metadata for favoritesNearbyFallbackOrdering"
   },
   "@favoritesNearbySortedByDistance": {
-    "description": "TODO: favoritesNearbySortedByDistance"
+    "description": "Auto metadata for favoritesNearbySortedByDistance"
   },
   "@favoritesCollectionsTitle": {
-    "description": "TODO: favoritesCollectionsTitle"
+    "description": "Auto metadata for favoritesCollectionsTitle"
   },
   "@favoritesCreateCollectionTooltip": {
-    "description": "TODO: favoritesCreateCollectionTooltip"
+    "description": "Auto metadata for favoritesCreateCollectionTooltip"
   },
   "@favoritesShareCollectionTooltip": {
-    "description": "TODO: favoritesShareCollectionTooltip"
+    "description": "Auto metadata for favoritesShareCollectionTooltip"
   },
   "@favoritesDeleteCollectionTooltip": {
-    "description": "TODO: favoritesDeleteCollectionTooltip"
+    "description": "Auto metadata for favoritesDeleteCollectionTooltip"
   },
   "@favoritesCreatorSelectCollectionHint": {
-    "description": "TODO: favoritesCreatorSelectCollectionHint"
+    "description": "Auto metadata for favoritesCreatorSelectCollectionHint"
   },
   "@favoritesCreatorCollectionTitle": {
-    "description": "TODO: favoritesCreatorCollectionTitle"
+    "description": "Auto metadata for favoritesCreatorCollectionTitle"
   },
   "@favoritesCreatorCollectionSubtitle": {
-    "description": "TODO: favoritesCreatorCollectionSubtitle"
+    "description": "Auto metadata for favoritesCreatorCollectionSubtitle"
   },
   "@favoritesPublishAction": {
-    "description": "TODO: favoritesPublishAction"
+    "description": "Auto metadata for favoritesPublishAction"
   },
   "@favoritesPublishVisibleSubtitle": {
-    "description": "TODO: favoritesPublishVisibleSubtitle"
+    "description": "Auto metadata for favoritesPublishVisibleSubtitle"
   },
   "@favoritesPublishPrivateSubtitle": {
-    "description": "TODO: favoritesPublishPrivateSubtitle"
+    "description": "Auto metadata for favoritesPublishPrivateSubtitle"
   },
   "@favoritesSharedCollectionTitle": {
-    "description": "TODO: favoritesSharedCollectionTitle"
+    "description": "Auto metadata for favoritesSharedCollectionTitle"
   },
   "@favoritesFollowCollectionHint": {
-    "description": "TODO: favoritesFollowCollectionHint"
+    "description": "Auto metadata for favoritesFollowCollectionHint"
   },
   "@favoritesFollowAction": {
-    "description": "TODO: favoritesFollowAction"
+    "description": "Auto metadata for favoritesFollowAction"
   },
   "@favoritesFollowingAction": {
-    "description": "TODO: favoritesFollowingAction"
+    "description": "Auto metadata for favoritesFollowingAction"
   },
   "@favoritesNewCollectionTitle": {
-    "description": "TODO: favoritesNewCollectionTitle"
+    "description": "Auto metadata for favoritesNewCollectionTitle"
   },
   "@favoritesCollectionNameExample": {
-    "description": "TODO: favoritesCollectionNameExample"
+    "description": "Auto metadata for favoritesCollectionNameExample"
   },
   "@favoritesCreateAction": {
-    "description": "TODO: favoritesCreateAction"
+    "description": "Auto metadata for favoritesCreateAction"
   },
   "@favoritesDeleteCollectionConfirmTitle": {
-    "description": "TODO: favoritesDeleteCollectionConfirmTitle"
+    "description": "Auto metadata for favoritesDeleteCollectionConfirmTitle"
   },
   "@favoritesDeleteCollectionConfirmBody": {
-    "description": "TODO: favoritesDeleteCollectionConfirmBody"
+    "description": "Auto metadata for favoritesDeleteCollectionConfirmBody"
   },
   "@favoritesNoCollectionYet": {
-    "description": "TODO: favoritesNoCollectionYet"
+    "description": "Auto metadata for favoritesNoCollectionYet"
   },
   "@favoritesNewCollectionAction": {
-    "description": "TODO: favoritesNewCollectionAction"
+    "description": "Auto metadata for favoritesNewCollectionAction"
   },
   "@favoritesDisclosureSponsored": {
-    "description": "TODO: favoritesDisclosureSponsored"
+    "description": "Auto metadata for favoritesDisclosureSponsored"
   },
   "@favoritesDisclosureOrganic": {
-    "description": "TODO: favoritesDisclosureOrganic"
+    "description": "Auto metadata for favoritesDisclosureOrganic"
   },
   "@favoritesDisclosurePrivate": {
-    "description": "TODO: favoritesDisclosurePrivate"
+    "description": "Auto metadata for favoritesDisclosurePrivate"
   },
   "@favoritesAdDisclosureTitle": {
-    "description": "TODO: favoritesAdDisclosureTitle"
+    "description": "Auto metadata for favoritesAdDisclosureTitle"
   },
   "@favoritesAdDisclosureBody": {
-    "description": "TODO: favoritesAdDisclosureBody"
+    "description": "Auto metadata for favoritesAdDisclosureBody"
   },
   "@favoritesAddToCollectionTooltip": {
-    "description": "TODO: favoritesAddToCollectionTooltip"
+    "description": "Auto metadata for favoritesAddToCollectionTooltip"
   },
   "@followingPageTitle": {
-    "description": "TODO: followingPageTitle"
+    "description": "Auto metadata for followingPageTitle"
   },
   "@followingPageEmpty": {
-    "description": "TODO: followingPageEmpty"
+    "description": "Auto metadata for followingPageEmpty"
   },
   "@followingPageUnfollowAction": {
-    "description": "TODO: followingPageUnfollowAction"
+    "description": "Auto metadata for followingPageUnfollowAction"
   },
   "@gourmetsPageTitle": {
-    "description": "TODO: gourmetsPageTitle"
+    "description": "Auto metadata for gourmetsPageTitle"
   },
   "@gourmetsPageEmpty": {
-    "description": "TODO: gourmetsPageEmpty"
+    "description": "Auto metadata for gourmetsPageEmpty"
   },
   "@groupRequestWizardTitle": {
-    "description": "TODO: groupRequestWizardTitle"
+    "description": "Auto metadata for groupRequestWizardTitle"
   },
   "@groupRequestWizardEnterDetails": {
-    "description": "TODO: groupRequestWizardEnterDetails"
+    "description": "Auto metadata for groupRequestWizardEnterDetails"
   },
   "@groupRequestWizardCityLabel": {
-    "description": "TODO: groupRequestWizardCityLabel"
+    "description": "Auto metadata for groupRequestWizardCityLabel"
   },
   "@groupRequestWizardDistrictLabel": {
-    "description": "TODO: groupRequestWizardDistrictLabel"
+    "description": "Auto metadata for groupRequestWizardDistrictLabel"
   },
   "@groupRequestWizardCategoryHint": {
-    "description": "TODO: groupRequestWizardCategoryHint"
+    "description": "Auto metadata for groupRequestWizardCategoryHint"
   },
   "@groupRequestWizardPartySizeLabel": {
-    "description": "TODO: groupRequestWizardPartySizeLabel"
+    "description": "Auto metadata for groupRequestWizardPartySizeLabel"
   },
   "@groupRequestWizardTotalBudgetLabel": {
-    "description": "TODO: groupRequestWizardTotalBudgetLabel"
+    "description": "Auto metadata for groupRequestWizardTotalBudgetLabel"
   },
   "@groupRequestWizardNotesLabel": {
-    "description": "TODO: groupRequestWizardNotesLabel"
+    "description": "Auto metadata for groupRequestWizardNotesLabel"
   },
   "@groupRequestWizardCreateAction": {
-    "description": "TODO: groupRequestWizardCreateAction"
+    "description": "Auto metadata for groupRequestWizardCreateAction"
   },
   "@groupRequestWizardInfoTitle": {
-    "description": "TODO: groupRequestWizardInfoTitle"
+    "description": "Auto metadata for groupRequestWizardInfoTitle"
   },
   "@groupRequestWizardInfoDescription": {
-    "description": "TODO: groupRequestWizardInfoDescription"
+    "description": "Auto metadata for groupRequestWizardInfoDescription"
   },
   "@groupRequestWizardMissingFields": {
-    "description": "TODO: groupRequestWizardMissingFields"
+    "description": "Auto metadata for groupRequestWizardMissingFields"
   },
   "@groupRequestWizardPickDateTime": {
-    "description": "TODO: groupRequestWizardPickDateTime"
+    "description": "Auto metadata for groupRequestWizardPickDateTime"
   },
   "@groupRequestMyRequestsTitle": {
-    "description": "TODO: groupRequestMyRequestsTitle"
+    "description": "Auto metadata for groupRequestMyRequestsTitle"
   },
   "@groupRequestNewRequestAction": {
-    "description": "TODO: groupRequestNewRequestAction"
+    "description": "Auto metadata for groupRequestNewRequestAction"
   },
   "@groupRequestNoRequestsTitle": {
-    "description": "TODO: groupRequestNoRequestsTitle"
+    "description": "Auto metadata for groupRequestNoRequestsTitle"
   },
   "@groupRequestNoRequestsDescription": {
-    "description": "TODO: groupRequestNoRequestsDescription"
+    "description": "Auto metadata for groupRequestNoRequestsDescription"
   },
   "@groupRequestStatusOpen": {
-    "description": "TODO: groupRequestStatusOpen"
+    "description": "Auto metadata for groupRequestStatusOpen"
   },
   "@groupRequestStatusAwarded": {
-    "description": "TODO: groupRequestStatusAwarded"
+    "description": "Auto metadata for groupRequestStatusAwarded"
   },
   "@groupRequestStatusClosed": {
-    "description": "TODO: groupRequestStatusClosed"
+    "description": "Auto metadata for groupRequestStatusClosed"
   },
   "@groupRequestStatusCancelled": {
-    "description": "TODO: groupRequestStatusCancelled"
+    "description": "Auto metadata for groupRequestStatusCancelled"
   },
   "@groupRequestDetailTitle": {
-    "description": "TODO: groupRequestDetailTitle"
+    "description": "Auto metadata for groupRequestDetailTitle"
   },
   "@groupRequestLinkCopied": {
-    "description": "TODO: groupRequestLinkCopied"
+    "description": "Auto metadata for groupRequestLinkCopied"
   },
   "@groupRequestNotFound": {
-    "description": "TODO: groupRequestNotFound"
+    "description": "Auto metadata for groupRequestNotFound"
   },
   "@groupRequestCreatedBannerTitle": {
-    "description": "TODO: groupRequestCreatedBannerTitle"
+    "description": "Auto metadata for groupRequestCreatedBannerTitle"
   },
   "@groupRequestCreatedBannerDescription": {
-    "description": "TODO: groupRequestCreatedBannerDescription"
+    "description": "Auto metadata for groupRequestCreatedBannerDescription"
   },
   "@groupRequestLinkTitle": {
-    "description": "TODO: groupRequestLinkTitle"
+    "description": "Auto metadata for groupRequestLinkTitle"
   },
   "@groupRequestCopyAction": {
-    "description": "TODO: groupRequestCopyAction"
+    "description": "Auto metadata for groupRequestCopyAction"
   },
   "@groupRequestAddSuggestionTitle": {
-    "description": "TODO: groupRequestAddSuggestionTitle"
+    "description": "Auto metadata for groupRequestAddSuggestionTitle"
   },
   "@groupRequestAddSuggestionDescription": {
-    "description": "TODO: groupRequestAddSuggestionDescription"
+    "description": "Auto metadata for groupRequestAddSuggestionDescription"
   },
   "@groupRequestAddSuggestionAction": {
-    "description": "TODO: groupRequestAddSuggestionAction"
+    "description": "Auto metadata for groupRequestAddSuggestionAction"
   },
   "@groupRequestOffersTitle": {
-    "description": "TODO: groupRequestOffersTitle"
+    "description": "Auto metadata for groupRequestOffersTitle"
   },
   "@groupRequestNoOffersTitle": {
-    "description": "TODO: groupRequestNoOffersTitle"
+    "description": "Auto metadata for groupRequestNoOffersTitle"
   },
   "@groupRequestNoOffersDescription": {
-    "description": "TODO: groupRequestNoOffersDescription"
+    "description": "Auto metadata for groupRequestNoOffersDescription"
   },
   "@groupRequestBusinessFallback": {
-    "description": "TODO: groupRequestBusinessFallback"
+    "description": "Auto metadata for groupRequestBusinessFallback"
   },
   "@groupRequestTopContributorBadge": {
-    "description": "TODO: groupRequestTopContributorBadge"
+    "description": "Auto metadata for groupRequestTopContributorBadge"
   },
   "@groupRequestUndoVoteAction": {
-    "description": "TODO: groupRequestUndoVoteAction"
+    "description": "Auto metadata for groupRequestUndoVoteAction"
   },
   "@groupRequestVoteAction": {
-    "description": "TODO: groupRequestVoteAction"
+    "description": "Auto metadata for groupRequestVoteAction"
   },
   "@groupRequestProcessing": {
-    "description": "TODO: groupRequestProcessing"
+    "description": "Auto metadata for groupRequestProcessing"
   },
   "@groupRequestAcceptOfferAction": {
-    "description": "TODO: groupRequestAcceptOfferAction"
+    "description": "Auto metadata for groupRequestAcceptOfferAction"
   },
   "@groupRequestSearchMinChars": {
-    "description": "TODO: groupRequestSearchMinChars"
+    "description": "Auto metadata for groupRequestSearchMinChars"
   },
   "@groupRequestBusinessAndPriceRequired": {
-    "description": "TODO: groupRequestBusinessAndPriceRequired"
+    "description": "Auto metadata for groupRequestBusinessAndPriceRequired"
   },
   "@groupRequestSuggestionAdded": {
-    "description": "TODO: groupRequestSuggestionAdded"
+    "description": "Auto metadata for groupRequestSuggestionAdded"
   },
   "@groupRequestSearchBusinessLabel": {
-    "description": "TODO: groupRequestSearchBusinessLabel"
+    "description": "Auto metadata for groupRequestSearchBusinessLabel"
   },
   "@groupRequestSuggestIfMissing": {
-    "description": "TODO: groupRequestSuggestIfMissing"
+    "description": "Auto metadata for groupRequestSuggestIfMissing"
   },
   "@groupRequestTryDifferentName": {
-    "description": "TODO: groupRequestTryDifferentName"
+    "description": "Auto metadata for groupRequestTryDifferentName"
   },
   "@groupRequestOfferTotalPriceLabel": {
-    "description": "TODO: groupRequestOfferTotalPriceLabel"
+    "description": "Auto metadata for groupRequestOfferTotalPriceLabel"
   },
   "@groupRequestNoteLabel": {
-    "description": "TODO: groupRequestNoteLabel"
+    "description": "Auto metadata for groupRequestNoteLabel"
   },
   "@groupRequestChangeAction": {
-    "description": "TODO: groupRequestChangeAction"
+    "description": "Auto metadata for groupRequestChangeAction"
   },
   "@groupRequestCopyResultAction": {
-    "description": "TODO: groupRequestCopyResultAction"
+    "description": "Auto metadata for groupRequestCopyResultAction"
   },
   "@heroesPageTitle": {
-    "description": "TODO: heroesPageTitle"
+    "description": "Auto metadata for heroesPageTitle"
   },
   "@heroesPageSubtitle": {
-    "description": "TODO: heroesPageSubtitle"
+    "description": "Auto metadata for heroesPageSubtitle"
   },
   "@heroesPageEmpty": {
-    "description": "TODO: heroesPageEmpty"
+    "description": "Auto metadata for heroesPageEmpty"
   },
   "@heroesPageUserFallback": {
-    "description": "TODO: heroesPageUserFallback"
+    "description": "Auto metadata for heroesPageUserFallback"
   },
   "@verifyPriceIsCorrectQuestion": {
-    "description": "TODO: verifyPriceIsCorrectQuestion"
+    "description": "Auto metadata for verifyPriceIsCorrectQuestion"
   },
   "@verifyPriceCorrectAction": {
-    "description": "TODO: verifyPriceCorrectAction"
+    "description": "Auto metadata for verifyPriceCorrectAction"
   },
   "@verifyPriceIncorrectAction": {
-    "description": "TODO: verifyPriceIncorrectAction"
+    "description": "Auto metadata for verifyPriceIncorrectAction"
   },
   "@verifyPriceCorrectPriceLabel": {
-    "description": "TODO: verifyPriceCorrectPriceLabel"
+    "description": "Auto metadata for verifyPriceCorrectPriceLabel"
   },
   "@verifyPriceCorrectPriceHint": {
-    "description": "TODO: verifyPriceCorrectPriceHint"
+    "description": "Auto metadata for verifyPriceCorrectPriceHint"
   },
   "@verifyPriceChooseCorrectnessFirst": {
-    "description": "TODO: verifyPriceChooseCorrectnessFirst"
+    "description": "Auto metadata for verifyPriceChooseCorrectnessFirst"
   },
   "@verifyPriceEnterValidPrice": {
-    "description": "TODO: verifyPriceEnterValidPrice"
+    "description": "Auto metadata for verifyPriceEnterValidPrice"
   },
   "@menuItemAutoApprovedMessage": {
-    "description": "TODO: menuItemAutoApprovedMessage"
+    "description": "Auto metadata for menuItemAutoApprovedMessage"
   },
   "@menuItemPendingSingleMessage": {
-    "description": "TODO: menuItemPendingSingleMessage"
+    "description": "Auto metadata for menuItemPendingSingleMessage"
   },
   "@menuItemOnsiteVerifiedPrioritizedMessage": {
-    "description": "TODO: menuItemOnsiteVerifiedPrioritizedMessage"
+    "description": "Auto metadata for menuItemOnsiteVerifiedPrioritizedMessage"
   },
   "@menuPhotoWarningDark": {
-    "description": "TODO: menuPhotoWarningDark"
+    "description": "Auto metadata for menuPhotoWarningDark"
   },
   "@menuPhotoWarningBlurry": {
-    "description": "TODO: menuPhotoWarningBlurry"
+    "description": "Auto metadata for menuPhotoWarningBlurry"
   },
   "@menuContributionLevelLabel": {
-    "description": "TODO: menuContributionLevelLabel"
+    "description": "Auto metadata for menuContributionLevelLabel"
   },
   "@menuScoreUpdated": {
-    "description": "TODO: menuScoreUpdated"
+    "description": "Auto metadata for menuScoreUpdated"
   },
   "@inboxTitle": {
-    "description": "TODO: inboxTitle"
+    "description": "Auto metadata for inboxTitle"
   },
   "@inboxMarkAllRead": {
-    "description": "TODO: inboxMarkAllRead"
+    "description": "Auto metadata for inboxMarkAllRead"
   },
   "@inboxEmptyTitle": {
-    "description": "TODO: inboxEmptyTitle"
+    "description": "Auto metadata for inboxEmptyTitle"
   },
   "@inboxEmptyDescription": {
-    "description": "TODO: inboxEmptyDescription"
+    "description": "Auto metadata for inboxEmptyDescription"
   },
   "@inboxNow": {
-    "description": "TODO: inboxNow"
+    "description": "Auto metadata for inboxNow"
   },
   "@inboxReengagementTitle": {
-    "description": "TODO: inboxReengagementTitle"
+    "description": "Auto metadata for inboxReengagementTitle"
   },
   "@inboxReengagementSubtitle": {
-    "description": "TODO: inboxReengagementSubtitle"
+    "description": "Auto metadata for inboxReengagementSubtitle"
   },
   "@inboxRecentBusinessClosedTitle": {
-    "description": "TODO: inboxRecentBusinessClosedTitle"
+    "description": "Auto metadata for inboxRecentBusinessClosedTitle"
   },
   "@inboxRecentBusinessPriceChangedTitle": {
-    "description": "TODO: inboxRecentBusinessPriceChangedTitle"
+    "description": "Auto metadata for inboxRecentBusinessPriceChangedTitle"
   },
   "@inboxRecentBusinessNearbyTitle": {
-    "description": "TODO: inboxRecentBusinessNearbyTitle"
+    "description": "Auto metadata for inboxRecentBusinessNearbyTitle"
   },
   "@inboxRecentBusinessTitle": {
-    "description": "TODO: inboxRecentBusinessTitle"
+    "description": "Auto metadata for inboxRecentBusinessTitle"
   },
   "@inboxRecentBusinessNearbyReason": {
-    "description": "TODO: inboxRecentBusinessNearbyReason"
+    "description": "Auto metadata for inboxRecentBusinessNearbyReason"
   },
   "@inboxFavoritesPriceChangedTitle": {
-    "description": "TODO: inboxFavoritesPriceChangedTitle"
+    "description": "Auto metadata for inboxFavoritesPriceChangedTitle"
   },
   "@inboxDailyTaskTitle": {
-    "description": "TODO: inboxDailyTaskTitle"
+    "description": "Auto metadata for inboxDailyTaskTitle"
   },
   "@inboxSegmentPriceHunter": {
-    "description": "TODO: inboxSegmentPriceHunter"
+    "description": "Auto metadata for inboxSegmentPriceHunter"
   },
   "@inboxSegmentPhotoProof": {
-    "description": "TODO: inboxSegmentPhotoProof"
+    "description": "Auto metadata for inboxSegmentPhotoProof"
   },
   "@inboxSegmentExplorer": {
-    "description": "TODO: inboxSegmentExplorer"
+    "description": "Auto metadata for inboxSegmentExplorer"
   },
   "@inboxSegmentSilentQuality": {
-    "description": "TODO: inboxSegmentSilentQuality"
+    "description": "Auto metadata for inboxSegmentSilentQuality"
   },
   "@inboxSegmentDefault": {
-    "description": "TODO: inboxSegmentDefault"
+    "description": "Auto metadata for inboxSegmentDefault"
   },
   "@inboxAlertAboveDistrictAverage": {
-    "description": "TODO: inboxAlertAboveDistrictAverage"
+    "description": "Auto metadata for inboxAlertAboveDistrictAverage"
   },
   "@inboxAlertBelowDistrictAverage": {
-    "description": "TODO: inboxAlertBelowDistrictAverage"
+    "description": "Auto metadata for inboxAlertBelowDistrictAverage"
   },
   "@inboxAlertTriggered": {
-    "description": "TODO: inboxAlertTriggered"
+    "description": "Auto metadata for inboxAlertTriggered"
   },
   "@inboxBusinessClosedArchived": {
-    "description": "TODO: inboxBusinessClosedArchived"
+    "description": "Auto metadata for inboxBusinessClosedArchived"
   },
   "@inboxBusinessMoved": {
-    "description": "TODO: inboxBusinessMoved"
+    "description": "Auto metadata for inboxBusinessMoved"
   },
   "@inboxBusinessTemporarilyClosed": {
-    "description": "TODO: inboxBusinessTemporarilyClosed"
+    "description": "Auto metadata for inboxBusinessTemporarilyClosed"
   },
   "@inboxBusinessStatusUpdated": {
-    "description": "TODO: inboxBusinessStatusUpdated"
+    "description": "Auto metadata for inboxBusinessStatusUpdated"
   },
   "@priceAlertSheetTitle": {
-    "description": "TODO: priceAlertSheetTitle"
+    "description": "Auto metadata for priceAlertSheetTitle"
   },
   "@priceAlertSheetQueryLabel": {
-    "description": "TODO: priceAlertSheetQueryLabel"
+    "description": "Auto metadata for priceAlertSheetQueryLabel"
   },
   "@priceAlertSheetMaxPriceLabel": {
-    "description": "TODO: priceAlertSheetMaxPriceLabel"
+    "description": "Auto metadata for priceAlertSheetMaxPriceLabel"
   },
   "@priceAlertSheetCategoryLabel": {
-    "description": "TODO: priceAlertSheetCategoryLabel"
+    "description": "Auto metadata for priceAlertSheetCategoryLabel"
   },
   "@priceAlertSheetValidationError": {
-    "description": "TODO: priceAlertSheetValidationError"
+    "description": "Auto metadata for priceAlertSheetValidationError"
   },
   "@priceAlertSheetSaved": {
-    "description": "TODO: priceAlertSheetSaved"
+    "description": "Auto metadata for priceAlertSheetSaved"
   },
   "@achievementStatusUnlocked": {
-    "description": "TODO: achievementStatusUnlocked"
+    "description": "Auto metadata for achievementStatusUnlocked"
   },
   "@achievementStatusLocked": {
-    "description": "TODO: achievementStatusLocked"
+    "description": "Auto metadata for achievementStatusLocked"
   },
   "@profileGuestUser": {
-    "description": "TODO: profileGuestUser"
+    "description": "Auto metadata for profileGuestUser"
   },
   "@profileIdentitySupportMessage": {
-    "description": "TODO: profileIdentitySupportMessage"
+    "description": "Auto metadata for profileIdentitySupportMessage"
   },
   "@profileAlertsTab": {
-    "description": "TODO: profileAlertsTab"
+    "description": "Auto metadata for profileAlertsTab"
   },
   "@profileFeedTab": {
-    "description": "TODO: profileFeedTab"
+    "description": "Auto metadata for profileFeedTab"
   },
   "@profileLoginToSeeContributions": {
-    "description": "TODO: profileLoginToSeeContributions"
+    "description": "Auto metadata for profileLoginToSeeContributions"
   },
   "@profileCreatorBadgeTitle": {
-    "description": "TODO: profileCreatorBadgeTitle"
+    "description": "Auto metadata for profileCreatorBadgeTitle"
   },
   "@profileCreatorBadgeEnabled": {
-    "description": "TODO: profileCreatorBadgeEnabled"
+    "description": "Auto metadata for profileCreatorBadgeEnabled"
   },
   "@profileCreatorBadgeDisabled": {
-    "description": "TODO: profileCreatorBadgeDisabled"
+    "description": "Auto metadata for profileCreatorBadgeDisabled"
   },
   "@profileAddSocialLinkTitle": {
-    "description": "TODO: profileAddSocialLinkTitle"
+    "description": "Auto metadata for profileAddSocialLinkTitle"
   },
   "@linkLabel": {
-    "description": "TODO: linkLabel"
+    "description": "Auto metadata for linkLabel"
   },
   "@profileSocialLinksHint": {
-    "description": "TODO: profileSocialLinksHint"
+    "description": "Auto metadata for profileSocialLinksHint"
   },
   "@profileSocialSaveComingSoon": {
-    "description": "TODO: profileSocialSaveComingSoon"
+    "description": "Auto metadata for profileSocialSaveComingSoon"
   },
   "@profileStatsTitle": {
-    "description": "TODO: profileStatsTitle"
+    "description": "Auto metadata for profileStatsTitle"
   },
   "@profileCommunityTrustTitle": {
-    "description": "TODO: profileCommunityTrustTitle"
+    "description": "Auto metadata for profileCommunityTrustTitle"
   },
   "@profileCalculating": {
-    "description": "TODO: profileCalculating"
+    "description": "Auto metadata for profileCalculating"
   },
   "@profileMyAchievementsTitle": {
-    "description": "TODO: profileMyAchievementsTitle"
+    "description": "Auto metadata for profileMyAchievementsTitle"
   },
   "@profileNoAchievementYet": {
-    "description": "TODO: profileNoAchievementYet"
+    "description": "Auto metadata for profileNoAchievementYet"
   },
   "@profileAlertsLoginRequired": {
-    "description": "TODO: profileAlertsLoginRequired"
+    "description": "Auto metadata for profileAlertsLoginRequired"
   },
   "@profileAlertsEmpty": {
-    "description": "TODO: profileAlertsEmpty"
+    "description": "Auto metadata for profileAlertsEmpty"
   },
   "@profileFeedLoginRequired": {
-    "description": "TODO: profileFeedLoginRequired"
+    "description": "Auto metadata for profileFeedLoginRequired"
   },
   "@profileFeedEmpty": {
-    "description": "TODO: profileFeedEmpty"
+    "description": "Auto metadata for profileFeedEmpty"
   },
   "@profileFeedEventPriceVerified": {
-    "description": "TODO: profileFeedEventPriceVerified"
+    "description": "Auto metadata for profileFeedEventPriceVerified"
   },
   "@profileFeedEventMenuUpdated": {
-    "description": "TODO: profileFeedEventMenuUpdated"
+    "description": "Auto metadata for profileFeedEventMenuUpdated"
   },
   "@profileFeedEventSponsored": {
-    "description": "TODO: profileFeedEventSponsored"
+    "description": "Auto metadata for profileFeedEventSponsored"
   },
   "@profileDailyTaskTitle": {
-    "description": "TODO: profileDailyTaskTitle"
+    "description": "Auto metadata for profileDailyTaskTitle"
   },
   "@profileDailyTaskCompleted": {
-    "description": "TODO: profileDailyTaskCompleted"
+    "description": "Auto metadata for profileDailyTaskCompleted"
   },
   "@profileSegmentHintPriceHunter": {
-    "description": "TODO: profileSegmentHintPriceHunter"
+    "description": "Auto metadata for profileSegmentHintPriceHunter"
   },
   "@profileSegmentHintPhotoProof": {
-    "description": "TODO: profileSegmentHintPhotoProof"
+    "description": "Auto metadata for profileSegmentHintPhotoProof"
   },
   "@profileSegmentHintExplorer": {
-    "description": "TODO: profileSegmentHintExplorer"
+    "description": "Auto metadata for profileSegmentHintExplorer"
   },
   "@profileSegmentHintDefault": {
-    "description": "TODO: profileSegmentHintDefault"
+    "description": "Auto metadata for profileSegmentHintDefault"
   },
   "@profileStatReviews": {
-    "description": "TODO: profileStatReviews"
+    "description": "Auto metadata for profileStatReviews"
   },
   "@profileStatHelpfulVotes": {
-    "description": "TODO: profileStatHelpfulVotes"
+    "description": "Auto metadata for profileStatHelpfulVotes"
   },
   "@profileStatFavorites": {
-    "description": "TODO: profileStatFavorites"
+    "description": "Auto metadata for profileStatFavorites"
   },
   "@profileStatContributions": {
-    "description": "TODO: profileStatContributions"
+    "description": "Auto metadata for profileStatContributions"
   },
   "@profileStatVisits": {
-    "description": "TODO: profileStatVisits"
+    "description": "Auto metadata for profileStatVisits"
   },
   "@profileLatestAchievementTitle": {
-    "description": "TODO: profileLatestAchievementTitle"
+    "description": "Auto metadata for profileLatestAchievementTitle"
   },
   "@profileSegmentPriceHunter": {
-    "description": "TODO: profileSegmentPriceHunter"
+    "description": "Auto metadata for profileSegmentPriceHunter"
   },
   "@profileSegmentExplorer": {
-    "description": "TODO: profileSegmentExplorer"
+    "description": "Auto metadata for profileSegmentExplorer"
   },
   "@profileSegmentPhotoProof": {
-    "description": "TODO: profileSegmentPhotoProof"
+    "description": "Auto metadata for profileSegmentPhotoProof"
   },
   "@profileSegmentBalanced": {
-    "description": "TODO: profileSegmentBalanced"
+    "description": "Auto metadata for profileSegmentBalanced"
   },
   "@profileMoatSignalsTitle": {
-    "description": "TODO: profileMoatSignalsTitle"
+    "description": "Auto metadata for profileMoatSignalsTitle"
   },
   "@profileSignalTrust": {
-    "description": "TODO: profileSignalTrust"
+    "description": "Auto metadata for profileSignalTrust"
   },
   "@profileSignalAccuracy": {
-    "description": "TODO: profileSignalAccuracy"
+    "description": "Auto metadata for profileSignalAccuracy"
   },
   "@profileSignalSegment": {
-    "description": "TODO: profileSignalSegment"
+    "description": "Auto metadata for profileSignalSegment"
   },
   "@profileSignalSilentQuality": {
-    "description": "TODO: profileSignalSilentQuality"
+    "description": "Auto metadata for profileSignalSilentQuality"
   },
   "@profileMoatSilentQualityHint": {
-    "description": "TODO: profileMoatSilentQualityHint"
+    "description": "Auto metadata for profileMoatSilentQualityHint"
   },
   "@businessReviewsCommunityExperiences": {
-    "description": "TODO: businessReviewsCommunityExperiences"
+    "description": "Auto metadata for businessReviewsCommunityExperiences"
   },
   "@businessReviewsOwnerCanModerate": {
-    "description": "TODO: businessReviewsOwnerCanModerate"
+    "description": "Auto metadata for businessReviewsOwnerCanModerate"
   },
   "@businessReviewsOwnersCanOnlyReply": {
-    "description": "TODO: businessReviewsOwnersCanOnlyReply"
+    "description": "Auto metadata for businessReviewsOwnersCanOnlyReply"
   },
   "@sortNewest": {
-    "description": "TODO: sortNewest"
+    "description": "Auto metadata for sortNewest"
   },
   "@sortMostHelpful": {
-    "description": "TODO: sortMostHelpful"
+    "description": "Auto metadata for sortMostHelpful"
   },
   "@businessReviewsEmpty": {
-    "description": "TODO: businessReviewsEmpty"
+    "description": "Auto metadata for businessReviewsEmpty"
   },
   "@reviewCreateRatingLabel": {
-    "description": "TODO: reviewCreateRatingLabel"
+    "description": "Auto metadata for reviewCreateRatingLabel"
   },
   "@reviewCreateOptionalTitleLabel": {
-    "description": "TODO: reviewCreateOptionalTitleLabel"
+    "description": "Auto metadata for reviewCreateOptionalTitleLabel"
   },
   "@reviewCreateContentRequired": {
-    "description": "TODO: reviewCreateContentRequired"
+    "description": "Auto metadata for reviewCreateContentRequired"
   },
   "@reviewCreateSubmitted": {
-    "description": "TODO: reviewCreateSubmitted"
+    "description": "Auto metadata for reviewCreateSubmitted"
   },
   "@reviewCreateErrorNewAccountRateLimited": {
-    "description": "TODO: reviewCreateErrorNewAccountRateLimited"
+    "description": "Auto metadata for reviewCreateErrorNewAccountRateLimited"
   },
   "@reviewCreateErrorSameBusinessCooldown": {
-    "description": "TODO: reviewCreateErrorSameBusinessCooldown"
+    "description": "Auto metadata for reviewCreateErrorSameBusinessCooldown"
   },
   "@reviewCreateErrorContainsLinkOrPhone": {
-    "description": "TODO: reviewCreateErrorContainsLinkOrPhone"
+    "description": "Auto metadata for reviewCreateErrorContainsLinkOrPhone"
   },
   "@reviewCreateErrorContainsProfanity": {
-    "description": "TODO: reviewCreateErrorContainsProfanity"
+    "description": "Auto metadata for reviewCreateErrorContainsProfanity"
   },
   "@reviewCreateErrorEmojiSpam": {
-    "description": "TODO: reviewCreateErrorEmojiSpam"
+    "description": "Auto metadata for reviewCreateErrorEmojiSpam"
   },
   "@quality": {
-    "description": "TODO: quality"
+    "description": "Auto metadata for quality"
   },
   "@smartFeedEmptyTitle": {
-    "description": "TODO: smartFeedEmptyTitle"
+    "description": "Auto metadata for smartFeedEmptyTitle"
   },
   "@smartFeedEmptyDescription": {
-    "description": "TODO: smartFeedEmptyDescription"
+    "description": "Auto metadata for smartFeedEmptyDescription"
   },
   "@smartFeedCurationTitle": {
-    "description": "TODO: smartFeedCurationTitle"
+    "description": "Auto metadata for smartFeedCurationTitle"
   },
   "@smartFeedCategoriesLabel": {
-    "description": "TODO: smartFeedCategoriesLabel"
+    "description": "Auto metadata for smartFeedCategoriesLabel"
   },
   "@smartFeedScenarioLabel": {
-    "description": "TODO: smartFeedScenarioLabel"
+    "description": "Auto metadata for smartFeedScenarioLabel"
   },
   "@smartFeedUnlimited": {
-    "description": "TODO: smartFeedUnlimited"
+    "description": "Auto metadata for smartFeedUnlimited"
   },
   "@smartFeedContextDefault": {
-    "description": "TODO: smartFeedContextDefault"
+    "description": "Auto metadata for smartFeedContextDefault"
   },
   "@smartFeedCategoryMeyhane": {
-    "description": "TODO: smartFeedCategoryMeyhane"
+    "description": "Auto metadata for smartFeedCategoryMeyhane"
   },
   "@smartFeedCategoryAffordable": {
-    "description": "TODO: smartFeedCategoryAffordable"
+    "description": "Auto metadata for smartFeedCategoryAffordable"
   },
   "@smartFeedBundleStudentFriendly": {
-    "description": "TODO: smartFeedBundleStudentFriendly"
+    "description": "Auto metadata for smartFeedBundleStudentFriendly"
   },
   "@smartFeedBundleFirstDate": {
-    "description": "TODO: smartFeedBundleFirstDate"
+    "description": "Auto metadata for smartFeedBundleFirstDate"
   },
   "@smartFeedBundleNightSoup": {
-    "description": "TODO: smartFeedBundleNightSoup"
+    "description": "Auto metadata for smartFeedBundleNightSoup"
   },
   "@smartFeedEventMenu": {
-    "description": "TODO: smartFeedEventMenu"
+    "description": "Auto metadata for smartFeedEventMenu"
   },
   "@smartFeedEventPrice": {
-    "description": "TODO: smartFeedEventPrice"
+    "description": "Auto metadata for smartFeedEventPrice"
   },
   "@smartFeedEventPhoto": {
-    "description": "TODO: smartFeedEventPhoto"
+    "description": "Auto metadata for smartFeedEventPhoto"
   },
   "@smartFeedEventDaily": {
-    "description": "TODO: smartFeedEventDaily"
+    "description": "Auto metadata for smartFeedEventDaily"
   },
   "@smartFeedEventSponsor": {
-    "description": "TODO: smartFeedEventSponsor"
+    "description": "Auto metadata for smartFeedEventSponsor"
   },
   "@smartFeedFallbackPriceChanged": {
-    "description": "TODO: smartFeedFallbackPriceChanged"
+    "description": "Auto metadata for smartFeedFallbackPriceChanged"
   },
   "@smartFeedFallbackPhotoAdded": {
-    "description": "TODO: smartFeedFallbackPhotoAdded"
+    "description": "Auto metadata for smartFeedFallbackPhotoAdded"
   },
   "@smartFeedFallbackDailyMenu": {
-    "description": "TODO: smartFeedFallbackDailyMenu"
+    "description": "Auto metadata for smartFeedFallbackDailyMenu"
   },
   "@smartFeedFallbackNewContent": {
-    "description": "TODO: smartFeedFallbackNewContent"
+    "description": "Auto metadata for smartFeedFallbackNewContent"
   },
   "@smartFeedCtaGoToMenu": {
-    "description": "TODO: smartFeedCtaGoToMenu"
+    "description": "Auto metadata for smartFeedCtaGoToMenu"
   },
   "@smartFeedCtaOpenItem": {
-    "description": "TODO: smartFeedCtaOpenItem"
+    "description": "Auto metadata for smartFeedCtaOpenItem"
   },
   "@smartFeedCtaViewPhoto": {
-    "description": "TODO: smartFeedCtaViewPhoto"
+    "description": "Auto metadata for smartFeedCtaViewPhoto"
   },
   "@smartFeedCtaGoToBusiness": {
-    "description": "TODO: smartFeedCtaGoToBusiness"
+    "description": "Auto metadata for smartFeedCtaGoToBusiness"
   },
   "@smartFeedReasonCategoryMatch": {
-    "description": "TODO: smartFeedReasonCategoryMatch"
+    "description": "Auto metadata for smartFeedReasonCategoryMatch"
   },
   "@smartFeedReasonScenarioMatch": {
-    "description": "TODO: smartFeedReasonScenarioMatch"
+    "description": "Auto metadata for smartFeedReasonScenarioMatch"
   },
   "@smartFeedReasonSimilarUsers": {
-    "description": "TODO: smartFeedReasonSimilarUsers"
+    "description": "Auto metadata for smartFeedReasonSimilarUsers"
   },
   "@smartFeedDayWeekend": {
-    "description": "TODO: smartFeedDayWeekend"
+    "description": "Auto metadata for smartFeedDayWeekend"
   },
   "@smartFeedDayWeekday": {
-    "description": "TODO: smartFeedDayWeekday"
+    "description": "Auto metadata for smartFeedDayWeekday"
   },
   "@smartFeedTimeMorning": {
-    "description": "TODO: smartFeedTimeMorning"
+    "description": "Auto metadata for smartFeedTimeMorning"
   },
   "@smartFeedTimeNoon": {
-    "description": "TODO: smartFeedTimeNoon"
+    "description": "Auto metadata for smartFeedTimeNoon"
   },
   "@smartFeedTimeEvening": {
-    "description": "TODO: smartFeedTimeEvening"
+    "description": "Auto metadata for smartFeedTimeEvening"
   },
   "@smartFeedTimeNight": {
-    "description": "TODO: smartFeedTimeNight"
+    "description": "Auto metadata for smartFeedTimeNight"
   },
   "@suggestBusinessSubmitDialogTitle": {
-    "description": "TODO: suggestBusinessSubmitDialogTitle"
+    "description": "Auto metadata for suggestBusinessSubmitDialogTitle"
   },
   "@ok": {
-    "description": "TODO: ok"
+    "description": "Auto metadata for ok"
   },
   "@suggestBusinessPageTitle": {
-    "description": "TODO: suggestBusinessPageTitle"
+    "description": "Auto metadata for suggestBusinessPageTitle"
   },
   "@suggestBusinessPageSubtitle": {
-    "description": "TODO: suggestBusinessPageSubtitle"
+    "description": "Auto metadata for suggestBusinessPageSubtitle"
   },
   "@suggestBusinessNameLabel": {
-    "description": "TODO: suggestBusinessNameLabel"
+    "description": "Auto metadata for suggestBusinessNameLabel"
   },
   "@requiredField": {
-    "description": "TODO: requiredField"
+    "description": "Auto metadata for requiredField"
   },
   "@suggestBusinessCategoryLabel": {
-    "description": "TODO: suggestBusinessCategoryLabel"
+    "description": "Auto metadata for suggestBusinessCategoryLabel"
   },
   "@suggestBusinessAddressLabel": {
-    "description": "TODO: suggestBusinessAddressLabel"
+    "description": "Auto metadata for suggestBusinessAddressLabel"
   },
   "@suggestBusinessPhoneLabel": {
-    "description": "TODO: suggestBusinessPhoneLabel"
+    "description": "Auto metadata for suggestBusinessPhoneLabel"
   },
   "@suggestBusinessWebsiteLabel": {
-    "description": "TODO: suggestBusinessWebsiteLabel"
+    "description": "Auto metadata for suggestBusinessWebsiteLabel"
   },
   "@suggestBusinessDuplicateTitle": {
-    "description": "TODO: suggestBusinessDuplicateTitle"
+    "description": "Auto metadata for suggestBusinessDuplicateTitle"
   },
   "@suggestBusinessDuplicateFound": {
-    "description": "TODO: suggestBusinessDuplicateFound"
+    "description": "Auto metadata for suggestBusinessDuplicateFound"
   },
   "@suggestBusinessDuplicateConfirm": {
-    "description": "TODO: suggestBusinessDuplicateConfirm"
+    "description": "Auto metadata for suggestBusinessDuplicateConfirm"
   },
   "@suggestBusinessSendAnyway": {
-    "description": "TODO: suggestBusinessSendAnyway"
+    "description": "Auto metadata for suggestBusinessSendAnyway"
   },
   "@suggestBusinessOpenAction": {
-    "description": "TODO: suggestBusinessOpenAction"
+    "description": "Auto metadata for suggestBusinessOpenAction"
   },
   "@copy": {
-    "description": "TODO: copy"
+    "description": "Auto metadata for copy"
   },
   "@topBusinessesNotEnoughData": {
-    "description": "TODO: topBusinessesNotEnoughData"
+    "description": "Auto metadata for topBusinessesNotEnoughData"
   },
   "@topBusinessesBadgeMonth": {
-    "description": "TODO: topBusinessesBadgeMonth"
+    "description": "Auto metadata for topBusinessesBadgeMonth"
   },
   "@topBusinessesBadgeWeek": {
-    "description": "TODO: topBusinessesBadgeWeek"
+    "description": "Auto metadata for topBusinessesBadgeWeek"
   },
   "@suspendedMealsMyClaimsTitle": {
-    "description": "TODO: suspendedMealsMyClaimsTitle"
+    "description": "Auto metadata for suspendedMealsMyClaimsTitle"
   },
   "@suspendedMealsStatusCodeReady": {
-    "description": "TODO: suspendedMealsStatusCodeReady"
+    "description": "Auto metadata for suspendedMealsStatusCodeReady"
   },
   "@suspendedMealsStatusFulfilled": {
-    "description": "TODO: suspendedMealsStatusFulfilled"
+    "description": "Auto metadata for suspendedMealsStatusFulfilled"
   },
   "@suspendedMealsNoRecords": {
-    "description": "TODO: suspendedMealsNoRecords"
+    "description": "Auto metadata for suspendedMealsNoRecords"
   },
   "@suspendedMealsDeliveryCode": {
-    "description": "TODO: suspendedMealsDeliveryCode"
+    "description": "Auto metadata for suspendedMealsDeliveryCode"
   },
   "@suspendedMealsCodeCopied": {
-    "description": "TODO: suspendedMealsCodeCopied"
+    "description": "Auto metadata for suspendedMealsCodeCopied"
   },
   "@suspendedMealsCodeHint": {
-    "description": "TODO: suspendedMealsCodeHint"
+    "description": "Auto metadata for suspendedMealsCodeHint"
   },
   "@suspendedMealsPendingReview": {
-    "description": "TODO: suspendedMealsPendingReview"
+    "description": "Auto metadata for suspendedMealsPendingReview"
   },
   "@tasteTwinTitle": {
-    "description": "TODO: tasteTwinTitle"
+    "description": "Auto metadata for tasteTwinTitle"
   },
   "@tasteTwinLoginRequired": {
-    "description": "TODO: tasteTwinLoginRequired"
+    "description": "Auto metadata for tasteTwinLoginRequired"
   },
   "@tasteTwinSubtitle": {
-    "description": "TODO: tasteTwinSubtitle"
+    "description": "Auto metadata for tasteTwinSubtitle"
   },
   "@tasteTwinNoMatches": {
-    "description": "TODO: tasteTwinNoMatches"
+    "description": "Auto metadata for tasteTwinNoMatches"
   },
   "@tasteTwinSignalHint": {
-    "description": "TODO: tasteTwinSignalHint"
+    "description": "Auto metadata for tasteTwinSignalHint"
   },
   "@tasteTwinViewSuggestions": {
-    "description": "TODO: tasteTwinViewSuggestions"
+    "description": "Auto metadata for tasteTwinViewSuggestions"
   },
   "@tasteTwinFollowGourmet": {
-    "description": "TODO: tasteTwinFollowGourmet"
+    "description": "Auto metadata for tasteTwinFollowGourmet"
   },
   "@tasteTwinNoSuggestionsYet": {
-    "description": "TODO: tasteTwinNoSuggestionsYet"
+    "description": "Auto metadata for tasteTwinNoSuggestionsYet"
   },
   "@tasteTwinWhyMatchedTitle": {
-    "description": "TODO: tasteTwinWhyMatchedTitle"
+    "description": "Auto metadata for tasteTwinWhyMatchedTitle"
   },
   "@tasteTwinReviewOverlapTitle": {
-    "description": "TODO: tasteTwinReviewOverlapTitle"
+    "description": "Auto metadata for tasteTwinReviewOverlapTitle"
   },
   "@tasteTwinNoSampleYet": {
-    "description": "TODO: tasteTwinNoSampleYet"
+    "description": "Auto metadata for tasteTwinNoSampleYet"
   },
   "@tasteTwinMenuSignalOverlapTitle": {
-    "description": "TODO: tasteTwinMenuSignalOverlapTitle"
+    "description": "Auto metadata for tasteTwinMenuSignalOverlapTitle"
   },
   "@tasteTwinMenuSignalOverlapHint": {
-    "description": "TODO: tasteTwinMenuSignalOverlapHint"
+    "description": "Auto metadata for tasteTwinMenuSignalOverlapHint"
   },
   "@tasteTwinDivergenceTitle": {
-    "description": "TODO: tasteTwinDivergenceTitle"
+    "description": "Auto metadata for tasteTwinDivergenceTitle"
   },
   "@tasteTwinTodayLower": {
-    "description": "TODO: tasteTwinTodayLower"
+    "description": "Auto metadata for tasteTwinTodayLower"
   },
   "@tasteTwinYesterdayLower": {
-    "description": "TODO: tasteTwinYesterdayLower"
+    "description": "Auto metadata for tasteTwinYesterdayLower"
   },
   "@use": {
-    "description": "TODO: use"
+    "description": "Auto metadata for use"
   },
   "@quickLoginTitle": {
-    "description": "TODO: quickLoginTitle"
+    "description": "Auto metadata for quickLoginTitle"
   },
   "@quickLoginDescription": {
-    "description": "TODO: quickLoginDescription"
+    "description": "Auto metadata for quickLoginDescription"
   },
   "@quickLoginAction": {
-    "description": "TODO: quickLoginAction"
+    "description": "Auto metadata for quickLoginAction"
   },
   "@statusBadgeVerified": {
-    "description": "TODO: statusBadgeVerified"
+    "description": "Auto metadata for statusBadgeVerified"
   },
   "@statusBadgePending": {
-    "description": "TODO: statusBadgePending"
+    "description": "Auto metadata for statusBadgePending"
   },
   "@statusBadgeOutdated": {
-    "description": "TODO: statusBadgeOutdated"
+    "description": "Auto metadata for statusBadgeOutdated"
   },
   "@locationPickerManualHint": {
-    "description": "TODO: locationPickerManualHint"
+    "description": "Auto metadata for locationPickerManualHint"
   },
   "@locationPickerUseAuto": {
-    "description": "TODO: locationPickerUseAuto"
+    "description": "Auto metadata for locationPickerUseAuto"
   },
   "@locationPickerMakeDefault": {
-    "description": "TODO: locationPickerMakeDefault"
+    "description": "Auto metadata for locationPickerMakeDefault"
   },
   "@locationPickerMakeDefaultHint": {
-    "description": "TODO: locationPickerMakeDefaultHint"
+    "description": "Auto metadata for locationPickerMakeDefaultHint"
   },
   "@locationPickerRecent": {
-    "description": "TODO: locationPickerRecent"
+    "description": "Auto metadata for locationPickerRecent"
   },
   "@locationPickerSearchDistrict": {
-    "description": "TODO: locationPickerSearchDistrict"
+    "description": "Auto metadata for locationPickerSearchDistrict"
   },
   "@locationPickerPopularDistricts": {
-    "description": "TODO: locationPickerPopularDistricts"
+    "description": "Auto metadata for locationPickerPopularDistricts"
   },
   "@legalPageTitle": {
-    "description": "TODO: legalPageTitle"
+    "description": "Auto metadata for legalPageTitle"
   },
   "@legalKvkkSectionTitle": {
-    "description": "TODO: legalKvkkSectionTitle"
+    "description": "Auto metadata for legalKvkkSectionTitle"
   },
   "@legalKvkkIntro": {
-    "description": "TODO: legalKvkkIntro"
+    "description": "Auto metadata for legalKvkkIntro"
   },
   "@legalKvkkCategoriesAndRights": {
-    "description": "TODO: legalKvkkCategoriesAndRights"
+    "description": "Auto metadata for legalKvkkCategoriesAndRights"
   },
   "@legalPrivacyPolicy": {
-    "description": "TODO: legalPrivacyPolicy"
+    "description": "Auto metadata for legalPrivacyPolicy"
   },
   "@legalKvkkText": {
-    "description": "TODO: legalKvkkText"
+    "description": "Auto metadata for legalKvkkText"
   },
   "@legalGdprText": {
-    "description": "TODO: legalGdprText"
+    "description": "Auto metadata for legalGdprText"
   },
   "@legalApplicationByEmail": {
-    "description": "TODO: legalApplicationByEmail"
+    "description": "Auto metadata for legalApplicationByEmail"
   },
   "@legalCopyrightSectionTitle": {
-    "description": "TODO: legalCopyrightSectionTitle"
+    "description": "Auto metadata for legalCopyrightSectionTitle"
   },
   "@legalCopyrightIntro": {
-    "description": "TODO: legalCopyrightIntro"
+    "description": "Auto metadata for legalCopyrightIntro"
   },
   "@legalCopyrightDetails": {
-    "description": "TODO: legalCopyrightDetails"
+    "description": "Auto metadata for legalCopyrightDetails"
   },
   "@legalCopyrightPolicy": {
-    "description": "TODO: legalCopyrightPolicy"
+    "description": "Auto metadata for legalCopyrightPolicy"
   },
   "@legalOwnershipAppealSectionTitle": {
-    "description": "TODO: legalOwnershipAppealSectionTitle"
+    "description": "Auto metadata for legalOwnershipAppealSectionTitle"
   },
   "@legalOwnershipAppealIntro": {
-    "description": "TODO: legalOwnershipAppealIntro"
+    "description": "Auto metadata for legalOwnershipAppealIntro"
   },
   "@legalOwnershipAppealRequiredInfo": {
-    "description": "TODO: legalOwnershipAppealRequiredInfo"
+    "description": "Auto metadata for legalOwnershipAppealRequiredInfo"
   },
   "@legalOwnershipAppealRequiredList": {
-    "description": "TODO: legalOwnershipAppealRequiredList"
+    "description": "Auto metadata for legalOwnershipAppealRequiredList"
   },
   "@legalSendAppealEmail": {
-    "description": "TODO: legalSendAppealEmail"
+    "description": "Auto metadata for legalSendAppealEmail"
   },
   "@legalProductPrinciplesSectionTitle": {
-    "description": "TODO: legalProductPrinciplesSectionTitle"
+    "description": "Auto metadata for legalProductPrinciplesSectionTitle"
   },
   "@legalDontsTitle": {
-    "description": "TODO: legalDontsTitle"
+    "description": "Auto metadata for legalDontsTitle"
   },
   "@legalDontsList": {
-    "description": "TODO: legalDontsList"
+    "description": "Auto metadata for legalDontsList"
   },
   "@legalFooter": {
-    "description": "TODO: legalFooter"
+    "description": "Auto metadata for legalFooter"
   },
   "@reportRateLimitBusiness": {
-    "description": "TODO: reportRateLimitBusiness"
+    "description": "Auto metadata for reportRateLimitBusiness"
   },
   "@reportRateLimitReview": {
-    "description": "TODO: reportRateLimitReview"
+    "description": "Auto metadata for reportRateLimitReview"
   },
   "@reportRateLimitPhoto": {
-    "description": "TODO: reportRateLimitPhoto"
+    "description": "Auto metadata for reportRateLimitPhoto"
   },
   "@reportReasonSpam": {
-    "description": "TODO: reportReasonSpam"
+    "description": "Auto metadata for reportReasonSpam"
   },
   "@reportReasonAbuse": {
-    "description": "TODO: reportReasonAbuse"
+    "description": "Auto metadata for reportReasonAbuse"
   },
   "@reportReasonWrongInfo": {
-    "description": "TODO: reportReasonWrongInfo"
+    "description": "Auto metadata for reportReasonWrongInfo"
   },
   "@reportReasonCopyright": {
-    "description": "TODO: reportReasonCopyright"
+    "description": "Auto metadata for reportReasonCopyright"
   },
   "@reportReasonIllegal": {
-    "description": "TODO: reportReasonIllegal"
+    "description": "Auto metadata for reportReasonIllegal"
   },
   "@reportReasonWrongImage": {
-    "description": "TODO: reportReasonWrongImage"
+    "description": "Auto metadata for reportReasonWrongImage"
   },
   "@reportReasonClosed": {
-    "description": "TODO: reportReasonClosed"
+    "description": "Auto metadata for reportReasonClosed"
   },
   "@reportReasonMoved": {
-    "description": "TODO: reportReasonMoved"
+    "description": "Auto metadata for reportReasonMoved"
   },
   "@reportReasonWrongPrice": {
-    "description": "TODO: reportReasonWrongPrice"
+    "description": "Auto metadata for reportReasonWrongPrice"
   },
   "@reportBusinessHint": {
-    "description": "TODO: reportBusinessHint"
+    "description": "Auto metadata for reportBusinessHint"
   },
   "@reportReasonLabel": {
-    "description": "TODO: reportReasonLabel"
+    "description": "Auto metadata for reportReasonLabel"
   },
   "@reportCopyrightUrlLabel": {
-    "description": "TODO: reportCopyrightUrlLabel"
+    "description": "Auto metadata for reportCopyrightUrlLabel"
   },
   "@reportCopyrightOwnerLabel": {
-    "description": "TODO: reportCopyrightOwnerLabel"
+    "description": "Auto metadata for reportCopyrightOwnerLabel"
   },
   "@reportCopyrightEmailLabel": {
-    "description": "TODO: reportCopyrightEmailLabel"
+    "description": "Auto metadata for reportCopyrightEmailLabel"
   },
   "@reportDetailsLabel": {
-    "description": "TODO: reportDetailsLabel"
+    "description": "Auto metadata for reportDetailsLabel"
   },
   "@reportSubmittedThanks": {
-    "description": "TODO: reportSubmittedThanks"
+    "description": "Auto metadata for reportSubmittedThanks"
   },
   "@reportCopyrightUrlPrefix": {
-    "description": "TODO: reportCopyrightUrlPrefix"
+    "description": "Auto metadata for reportCopyrightUrlPrefix"
   },
   "@reportCopyrightOwnerPrefix": {
-    "description": "TODO: reportCopyrightOwnerPrefix"
+    "description": "Auto metadata for reportCopyrightOwnerPrefix"
   },
   "@reportCopyrightEmailPrefix": {
-    "description": "TODO: reportCopyrightEmailPrefix"
+    "description": "Auto metadata for reportCopyrightEmailPrefix"
   },
   "@unexpectedError": {
-    "description": "TODO: unexpectedError"
+    "description": "Auto metadata for unexpectedError"
   },
   "@weatherHeadlineRainy": {
-    "description": "TODO: weatherHeadlineRainy"
+    "description": "Auto metadata for weatherHeadlineRainy"
   },
   "@weatherHeadlineSnowy": {
-    "description": "TODO: weatherHeadlineSnowy"
+    "description": "Auto metadata for weatherHeadlineSnowy"
   },
   "@weatherHeadlineHot": {
-    "description": "TODO: weatherHeadlineHot"
+    "description": "Auto metadata for weatherHeadlineHot"
   },
   "@weatherHeadlineClear": {
-    "description": "TODO: weatherHeadlineClear"
+    "description": "Auto metadata for weatherHeadlineClear"
   },
   "@weatherHintRainy": {
-    "description": "TODO: weatherHintRainy"
+    "description": "Auto metadata for weatherHintRainy"
   },
   "@weatherHintSnowy": {
-    "description": "TODO: weatherHintSnowy"
+    "description": "Auto metadata for weatherHintSnowy"
   },
   "@weatherHintHot": {
-    "description": "TODO: weatherHintHot"
+    "description": "Auto metadata for weatherHintHot"
   },
   "@weatherHintClear": {
-    "description": "TODO: weatherHintClear"
+    "description": "Auto metadata for weatherHintClear"
   },
   "@paste": {
-    "description": "TODO: paste"
+    "description": "Auto metadata for paste"
   },
   "@addFirstMenuCta": {
-    "description": "TODO: addFirstMenuCta"
+    "description": "Auto metadata for addFirstMenuCta"
   },
   "@vatIncluded": {
-    "description": "TODO: vatIncluded"
+    "description": "Auto metadata for vatIncluded"
   }
 }

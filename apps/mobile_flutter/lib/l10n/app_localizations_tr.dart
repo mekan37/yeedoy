@@ -1,4 +1,4 @@
-﻿// ignore: unused_import
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
@@ -18,14 +18,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appTaglineLine1 => 'Canlı menüler';
 
   @override
-  String get appTaglineLine2 => 'Doğrulanmış fiyatlar';
+  String get appTaglineLine2 => 'Dogrulanmis fiyatlar';
 
   @override
-  String get emptyTitle => 'Henüz eklenmemiş';
+  String get emptyTitle => 'Henüz eklenmemis';
 
   @override
   String get emptyRegionDescription =>
-      'Yeedoy\'da bu bölgede henüz veri yok. İstersen ilk katkayı sen ekle.';
+      'Yeedoy\'da bu bölgede henüz veri yok. İstersen ilk katkıyı sen ekle.';
 
   @override
   String get webDescription =>
@@ -92,7 +92,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get saving => 'Kaydediliyor...';
 
   @override
-  String get loginRequired => 'Önce giriş yapmalısın.';
+  String get loginRequired => 'Önce giris yapmalisin.';
 
   @override
   String get profileSaved => 'Profil ayarları kaydedildi.';
@@ -148,8 +148,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get socialPreview => 'Sosyal Önizleme';
 
   @override
-  String get pasteLinkHelper =>
-      'Bağlantı yapıştır (https://...)';
+  String get pasteLinkHelper => 'Bağlantı yapıştır (https://...)';
 
   @override
   String get privacySocialSubtitle =>
@@ -162,7 +161,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get contributeSheetSubtitle =>
-      'Topluluğun menü fiyatlarını doğrulamasına yardım et.';
+      'Topluluğun menü fiyatlarını doğrulamasına yardımcı ol.';
 
   @override
   String get scanMenuQr => 'Menü QR tara';
@@ -174,11 +173,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get uploadPhotoSubtitle => 'Menünün fotoğrafını çek';
 
   @override
-  String get confirmPriceChange => 'Fiyat değişikliğini doğrula';
+  String get confirmPriceChange => 'Fiyat değişimini doğrula';
 
   @override
-  String get confirmPriceChangeSubtitle =>
-      'Güncel olmayan bir fiyatı bildir';
+  String get confirmPriceChangeSubtitle => 'Güncel olmayan bir fiyatı bildir';
 
   @override
   String get qrAction => 'QR Aksiyonu';
@@ -188,6 +186,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get share => 'Paylaş';
+
   @override
   String get invalidLinkMessage => 'Geçersiz bağlantı';
 
@@ -195,8 +194,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get browserOpened => 'Tarayıcıda açıldı';
 
   @override
-  String get embedFailed =>
-      'İçerik görüntülenemedi, tarayıcıya yönlendirdik.';
+  String get embedFailed => 'İçerik görüntülenemedi, tarayıcıya yönlendirdik.';
 
   @override
   String get back => 'Geri';
@@ -239,7 +237,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get trustScore => 'Güven Skoru';
 
   @override
-  String get lastUpdated => 'Son Güncellenme';
+  String get lastUpdated => 'Son Güncelleme';
 
   @override
   String get lastAudit => 'Son Denetim';
@@ -271,7 +269,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get contributeMenuPhoto => 'Menü Fotoğrafı Katkısı Yap';
 
   @override
-  String get verify => 'DOĞRULA';
+  String get verify => 'Doğrula';
 
   @override
   String get signatureSteaks => 'Öne Çıkan Steakler';
@@ -316,22 +314,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get freshLinks => 'Yeni Bağlantılar';
 
   @override
-  String get discoveryNearbyTitle => 'Yakınımdaya';
+  String get discoveryNearbyTitle => 'Yakınımda';
 
   @override
   String get discoveryNearbySubtitle => 'Konumuna göre en iyi sonuçlar';
 
   @override
-  String get discoveryLocationSubtitle =>
-      'Şehir/ilçeye göre keşfet';
+  String get discoveryLocationSubtitle => 'Şehir/ilçeye göre keşfet';
 
   @override
-  String get nearbyVerifiedSpots =>
-      'Yakınındaki Doğrulanmış Mekanlar';
+  String get nearbyVerifiedSpots => 'Yakındaki Doğrulanmış Mekanlar';
 
   @override
-  String get noNearbyVerifiedSpots =>
-      'Yakınında doğrulanmış mekan bulunamadı';
+  String get noNearbyVerifiedSpots => 'Yakında doğrulanmış mekan bulunamadı';
 
   @override
   String get changeFiltersTryAgain =>
@@ -377,15 +372,14 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get loadMenuItemsFirst =>
-      'Önce menü ürünlerini yükle.';
+  String get loadMenuItemsFirst => 'Önce menü ürünlerini yükle.';
 
   @override
   String get menuNotAddedYet => 'Henüz eklenmedi';
 
   @override
   String get menuNotAddedYetDescription =>
-      'Bu işletme için henüz menü eklenmemiştir.';
+      'Bu işletme için henüz menü eklenmemiş.';
 
   @override
   String get weakConnection => 'Bağlantı zayıf';
@@ -420,7 +414,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get addHoursHelp =>
-      'Kullanıcılara yardım olmak için çalışma saatlerini ekle.';
+      'Kullanıcılara yardımcı olmak için çalışma saatlerini ekle.';
 
   @override
   String get reportHoursInfo => 'Saat bilgisi bildir';
@@ -436,7 +430,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get addFirstMenuHelp =>
-      'İlk menüyü ekleyerek kullanıcılara yardım ol.';
+      'İlk menüyü ekleyerek kullanıcılara yardımcı ol.';
 
   @override
   String get crowdInfoUnavailable => 'Yoğunluk bilgisi yok';
@@ -482,18 +476,16 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get weeklyPriceChange => '+€50 bu hafta';
+  String get weeklyPriceChange => '+₺50 bu hafta';
 
   @override
-  String get chartPlaceholderSoon => 'Grafik alanı (yakın zamanda)';
+  String get chartPlaceholderSoon => 'Grafik alanı (yakında)';
 
   @override
-  String get featuredCuisineSuffix =>
-      'mutfağından öne çıkan lezzetler';
+  String get featuredCuisineSuffix => 'mutfağından öne çıkan lezzetler';
 
   @override
-  String get connectionProblemTryAgain =>
-      'Bağlantı sorunu var, tekrar dene.';
+  String get connectionProblemTryAgain => 'Bağlantı sorunu var, tekrar dene.';
 
   @override
   String get noActiveCampaign => 'Aktif kampanya yok';
@@ -543,7 +535,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tabBurgers => 'Burgerler';
 
   @override
-  String get tabSides => 'Yan Yemekler';
+  String get tabSides => 'Yan Ürünler';
 
   @override
   String get tabBeverages => 'İçecekler';
@@ -570,8 +562,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rankingFormulaTitle => 'Sıralama Formülü';
 
   @override
-  String get rankingFormulaIntro =>
-      'Sıralama puanı şu bileşenlerden oluşur:';
+  String get rankingFormulaIntro => 'Sıralama puanı şu bileşenlerden oluşur:';
 
   @override
   String get rankingWeightDistance => '%30 Mesafe';
@@ -586,8 +577,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get rankingWeightQuality => '%20 Kalite (kalite skoru)';
 
   @override
-  String get rankingFormulaNote =>
-      'Not: Puanlar düzenli olarak güncellenir.';
+  String get rankingFormulaNote => 'Not: Puanlar düzenli olarak güncellenir.';
 
   @override
   String minRatingLabel(String value) {
@@ -598,12 +588,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get priceLevel => 'Fiyat seviyesi';
 
   @override
-  String get prioritizeOpenNow =>
-      'Şu an açık olanlar öne çıkar';
+  String get prioritizeOpenNow => 'Şu an açık olanları öne çıkar';
 
   @override
-  String get prioritizeNewlyVerified =>
-      'Yeni doğrulananlar öne çıkar';
+  String get prioritizeNewlyVerified => 'Yeni doğrulananları öne çıkar';
 
   @override
   String get reset => 'Sıfırla';
@@ -660,7 +648,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onayla => 'Onayla';
 
   @override
-  String get approved => 'Onaylandý';
+  String get approved => 'Onaylandı';
 
   @override
   String get tumu => 'Tümü';
@@ -735,7 +723,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tabFoods => 'Yemekler';
 
   @override
-  String get whyTop => 'Neden Üstte?';
+  String get whyTop => 'Neden üstte?';
 
   @override
   String get quickSuggestionTitle => 'Hızlı Öneri';
@@ -744,7 +732,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get quickSuggestionSubtitle => 'Dakikalar içinde karar ver';
 
   @override
-  String get quickSuggestionPreset => '2 kişi / 600 TL';
+  String get quickSuggestionPreset => '2 kişi / ₺600';
 
   @override
   String get whatToEatTitle => 'Ne yesek?';
@@ -792,19 +780,17 @@ class AppLocalizationsTr extends AppLocalizations {
   String get view => 'Görüntüle';
 
   @override
-  String get bestBusinessesThisWeek =>
-      'Bu Haftanın En İyi İşletmeleri';
+  String get bestBusinessesThisWeek => 'Bu Haftanın En İyi İşletmeleri';
 
   @override
-  String get bestBusinessesThisMonth =>
-      'Bu Ayın En İyi İşletmeleri';
+  String get bestBusinessesThisMonth => 'Bu Ayın En İyi İşletmeleri';
 
   @override
-  String get onTheRoad20km => 'Yolda - 20 km';
+  String get onTheRoad20km => 'Yolda • 20 km';
 
   @override
   String nearbyKm(int km) {
-    return 'Yakında - $km km';
+    return 'Yakında • $km km';
   }
 
   @override
@@ -817,7 +803,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get communityData => 'Topluluk verisi';
 
   @override
-  String get removeFromFavorites => 'Favorilerden Çıkar';
+  String get removeFromFavorites => 'Favorilerden çıkar';
 
   @override
   String get locationPermissionTitle => 'Konum izni ver';
@@ -846,11 +832,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'Farklı bir arama ya da filtre dene.';
 
   @override
-  String get beFirstContributorInArea =>
-      'Bölgede ilk katkıcını sen yap.';
+  String get beFirstContributorInArea => 'Bölgede ilk katkıyı sen yap.';
 
   @override
-  String get topVerifiedMenus => 'En çok Doğrulanan Menüler';
+  String get topVerifiedMenus => 'En Çok Doğrulanan Menüler';
 
   @override
   String get mostTrustedMenusInCity => 'Şehirde En Güvenilen Menüler';
@@ -871,15 +856,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noSurpriseSuggestionNow => 'Şu an sürpriz öneri yok';
 
   @override
-  String get priceVerifiedInLast48h =>
-      'Bu fiyat son 48 saatte doğrulandı';
+  String get priceVerifiedInLast48h => 'Bu fiyat son 48 saatte doğrulandı';
 
   @override
   String get menuMayBeOutdated => 'Menü güncel olmayabilir';
 
   @override
-  String get verifiedByBusiness =>
-      'İşletme tarafından doğrulandı';
+  String get verifiedByBusiness => 'İşletme tarafından doğrulandı';
 
   @override
   String get updatedByCommunity => 'Topluluk tarafından güncellendi';
@@ -891,8 +874,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get surpriseDiscoveryTitle => 'Sürpriz Keşif';
 
   @override
-  String get surpriseDiscoverySubtitle =>
-      'Alışkanlığının dışına çık';
+  String get surpriseDiscoverySubtitle => 'Alışkanlığının dışına çık';
 
   @override
   String get randomButGood => 'Rastgele ama iyi';
@@ -939,8 +921,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get locationPermissionRequired => 'Konum izni gerekli.';
 
   @override
-  String get noFoodFoundForCriteria =>
-      'Bu kriterlere uygun yemek bulunamadı';
+  String get noFoodFoundForCriteria => 'Bu kriterlere uygun yemek bulunamadı';
 
   @override
   String get whatToEatDescription => 'Tercihlerine göre öneriler';
@@ -1101,8 +1082,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get noNightOpenFavoritesInArea =>
-      'Bölgede gece açık favori yok';
+  String get noNightOpenFavoritesInArea => 'Bölgede gece açık favori yok';
 
   @override
   String followersMetric(int count) {
@@ -1123,8 +1103,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get detailedAnalysis => 'Detaylı Analiz';
 
   @override
-  String get loadWhenScrolledDown =>
-      'Aşağı kaydırınca yüklenir';
+  String get loadWhenScrolledDown => 'Aşağı kaydırınca yüklenir';
 
   @override
   String anomalyMonitoringTitle(String area) {
@@ -1346,8 +1325,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get onboardingLiveMenusTitle => 'Canlı Menüler';
 
   @override
-  String get onboardingLiveMenusDescription =>
-      'Güncel menülere anında eriş.';
+  String get onboardingLiveMenusDescription => 'Güncel menülere anında eriş.';
 
   @override
   String get onboardingContributeTitle => 'Katkıda Bulun';
@@ -1379,8 +1357,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get locationPermissionGranted => 'Konum izni verildi';
 
   @override
-  String get locationOptionalInfo =>
-      'İstersen daha sonra da açabilirsin.';
+  String get locationOptionalInfo => 'İstersen daha sonra da açabilirsin.';
 
   @override
   String get allowLocation => 'Konuma izin ver';
@@ -1476,8 +1453,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noResultsFound => 'Sonuç bulunamadı';
 
   @override
-  String get allowLocationForNearby =>
-      'Yakın sonuçlar için konum izni ver';
+  String get allowLocationForNearby => 'Yakın sonuçlar için konum izni ver';
 
   @override
   String get setPriceAlert => 'Fiyat uyarısı kur';
@@ -1573,8 +1549,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get serviceCoverMayVary =>
-      'Servis/kuver işletmeye göre değişebilir.';
+  String get serviceCoverMayVary => 'Servis/kuver işletmeye göre değişebilir.';
 
   @override
   String get estimatedTotal => 'Tahmini Toplam';
@@ -1706,8 +1681,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get scoreForInfoOnly =>
-      'Bu skor yalnızca bilgilendirme amaçlıdır.';
+  String get scoreForInfoOnly => 'Bu skor yalnızca bilgilendirme amaçlıdır.';
 
   @override
   String get pricePerformance => 'Fiyat/Performans';
@@ -1743,8 +1717,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get priceInvalid => 'Fiyat geçersiz';
 
   @override
-  String get noteNoLinkPhone =>
-      'Not alanına bağlantı veya telefon eklenemez.';
+  String get noteNoLinkPhone => 'Not alanına bağlantı veya telefon eklenemez.';
 
   @override
   String get noteContainsProfanity => 'Notta uygunsuz ifade var.';
@@ -1769,12 +1742,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginPageTitle => 'Giriş Yap';
 
   @override
-  String get loginActionFailedTitle =>
-      'İşlem tamamlanamadı';
+  String get loginActionFailedTitle => 'İşlem tamamlanamadı';
 
   @override
   String loginActionFailedDescription(String error) {
-    return '$error\nBağlantını kontrol edip tekrar dene.';
+    return '$error\nBağlantıyı kontrol edip tekrar dene.';
   }
 
   @override
@@ -1787,23 +1759,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get loginPrimaryAction => 'Giriş Yap';
 
   @override
-  String get loginSigningInAction =>
-      'Giriş yapılıyor...';
+  String get loginSigningInAction => 'Giriş yapılıyor...';
 
   @override
   String get loginSignupAction => 'Giriş / Kayıt';
 
   @override
-  String get loginSigningUpAction =>
-      'Kayıt oluşturuluyor...';
+  String get loginSigningUpAction => 'Kayıt oluşturuluyor...';
 
   @override
   String get loginSignupSuccessMessage =>
       'Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.';
 
   @override
-  String get drawerTopBusinesses =>
-      'Top İşletmeler';
+  String get drawerTopBusinesses => 'Top İşletmeler';
 
   @override
   String get drawerSocial => 'Sosyal';
@@ -1821,7 +1790,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get drawerFeed => 'Akış';
 
   @override
-  String get drawerTasteTwin => 'Tat eşi';
+  String get drawerTasteTwin => 'Tat eşleri';
 
   @override
   String get drawerHeroes => 'Kahramanlar';
@@ -1830,16 +1799,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get drawerGroupRequests => 'Grup Talepleri';
 
   @override
-  String get drawerCompare =>
-      'Karşılaştır';
+  String get drawerCompare => 'Karşılaştır';
 
   @override
-  String get drawerQuickTools =>
-      'Hızlı Araçlar';
+  String get drawerQuickTools => 'Hızlı Araçlar';
 
   @override
-  String get drawerSmartSuggestionShortcut =>
-      'Akıllı Öneri (2 kişi / 600 TL)';
+  String get drawerSmartSuggestionShortcut => 'Akıllı Öneri (2 kişi / 600 TL)';
 
   @override
   String get drawerAccount => 'Hesap';
@@ -1865,16 +1831,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get drawerLegalAndTrust => 'Yasal ve Güven';
 
   @override
-  String get budgetComboEntryTitle =>
-      'Bütçem şu kadar';
+  String get budgetComboEntryTitle => 'Bütçem şu kadar';
 
   @override
-  String get budgetComboLocationNotSelected =>
-      'Konum seçilmedi';
+  String get budgetComboLocationNotSelected => 'Konum seçilmedi';
 
   @override
-  String get budgetComboBudgetLabel =>
-      'Bütçe (TL)';
+  String get budgetComboBudgetLabel => 'Bütçe (TL)';
 
   @override
   String get budgetComboPartySizeLabel => 'Kişi';
@@ -1883,8 +1846,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgetComboCategoryOptionalLabel => 'Kategori (opsiyonel)';
 
   @override
-  String get budgetComboSeeSuggestions =>
-      'Önerileri Gör';
+  String get budgetComboSeeSuggestions => 'Önerileri Gör';
 
   @override
   String get budgetComboAllCategories => 'Tüm kategoriler';
@@ -1896,8 +1858,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgetComboCategoryRestaurant => 'Restoran';
 
   @override
-  String get budgetComboCategoryDessert =>
-      'Tatlıcı';
+  String get budgetComboCategoryDessert => 'Tatlıcı';
 
   @override
   String get budgetComboCategoryBreakfast => 'Kahvaltı';
@@ -1909,8 +1870,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgetComboCategoryVenue => 'Mekan';
 
   @override
-  String get budgetComboResultsTitle =>
-      'Bütçe Kombinleri';
+  String get budgetComboResultsTitle => 'Bütçe Kombinleri';
 
   @override
   String get budgetComboMissingInfoTitle => 'Eksik bilgi';
@@ -1920,19 +1880,17 @@ class AppLocalizationsTr extends AppLocalizations {
       'Lütfen bütçe ve konum bilgisini girin.';
 
   @override
-  String get budgetComboNoResultsTitle =>
-      'Henüz uygun kombin yok';
+  String get budgetComboNoResultsTitle => 'Henüz uygun kombin yok';
 
   @override
   String get budgetComboNoResultsDescription =>
       'Bütçeyi artırmayı ya da kişi sayısını azaltmayı deneyin.';
 
   @override
-  String get budgetComboAdjustCriteriaTitle =>
-      'Kriter değiştir';
+  String get budgetComboAdjustCriteriaTitle => 'Kriter değiştir';
 
   @override
-  String get budgetComboDefaultAction => 'Varsayılan';
+  String get budgetComboDefaultAction => 'Varsayılıan';
 
   @override
   String get budgetComboRadiusDistrictScope =>
@@ -1963,8 +1921,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgetComboTagTop => 'Top';
 
   @override
-  String get budgetComboOtherSuggestionsTitle =>
-      'Diğer öneriler';
+  String get budgetComboOtherSuggestionsTitle => 'Diğer öneriler';
 
   @override
   String budgetComboRatingLabelValue(String rating) {
@@ -1978,8 +1935,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgetComboMainItemLabel => 'Ana';
 
   @override
-  String get budgetComboDrinkItemLabel =>
-      'İçecek';
+  String get budgetComboDrinkItemLabel => 'İçecek';
 
   @override
   String budgetComboTotalLabel(String price) {
@@ -1987,15 +1943,13 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get budgetComboGoToBusinessAction =>
-      'İşletmeye git';
+  String get budgetComboGoToBusinessAction => 'İşletmeye git';
 
   @override
   String get panelAccessTitle => 'Panel Erişimi';
 
   @override
-  String get panelWebOnlyMessage =>
-      'Bu panel web üzerinden kullanılabilir.';
+  String get panelWebOnlyMessage => 'Bu panel web üzerinden kullanılır.';
 
   @override
   String panelRedirectedPath(String path) {
@@ -2003,26 +1957,22 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get panelBackToDiscover =>
-      'Keşfet sayfasına dön';
+  String get panelBackToDiscover => 'Keşfet sayfasına dön';
 
   @override
   String get notFoundTitle => 'Sayfa Bulunamadı';
 
   @override
-  String get businessHeaderStatusClosingLabel =>
-      'Durum / Kapanış';
+  String get businessHeaderStatusClosingLabel => 'Durum / Kapanış';
 
   @override
   String get businessHeaderAveragePriceLabel => 'Ortalama fiyat';
 
   @override
-  String get businessHeaderPopularItemLabel =>
-      'Popüler ürün';
+  String get businessHeaderPopularItemLabel => 'Popüler ürün';
 
   @override
-  String get businessHeaderLastVerificationLabel =>
-      'Son doğrulama';
+  String get businessHeaderLastVerificationLabel => 'Son doğrulama';
 
   @override
   String get businessStatusOpen => 'Açık';
@@ -2037,12 +1987,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get chainPageTitle => 'Zincir';
 
   @override
-  String get chainPageNoBranches =>
-      'Şube bulunamadı.';
+  String get chainPageNoBranches => 'Şube bulunamadı.';
 
   @override
-  String get chainPageNearbyBranchesTitle =>
-      'Yakın şubeler';
+  String get chainPageNearbyBranchesTitle => 'Yakın şubeler';
 
   @override
   String get chainPageBranchMenuPriceHint =>
@@ -2059,28 +2007,23 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get chainPageBranchNearAverage =>
-      'Zincir ortalamasına yakın';
+  String get chainPageBranchNearAverage => 'Zincir ortalamasına yakınlık';
 
   @override
-  String get comparePageTitle =>
-      'Karşılaştırma';
+  String get comparePageTitle => 'Karşılaştırma';
 
   @override
-  String get compareEmptyTitle =>
-      'Karşılaştırma boş';
+  String get compareEmptyTitle => 'Karşılaştırma boş';
 
   @override
   String get compareEmptyDescription =>
       'İşletme sayfalarından karşılaştırmaya ekle.';
 
   @override
-  String get compareBackToDiscover =>
-      'Keşfe dön';
+  String get compareBackToDiscover => 'Keşfet sayfasına dön';
 
   @override
-  String get compareBestPickAction =>
-      'En mantıklı seçimi göster';
+  String get compareBestPickAction => 'En mantıklı seçimi göster';
 
   @override
   String get compareSuggestedBadge => 'Öneri';
@@ -2098,8 +2041,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get compareBestItemTitle => 'Uygun item';
 
   @override
-  String get compareGoToBusinessAction =>
-      'İşletmeye git';
+  String get compareGoToBusinessAction => 'İşletmeye git';
 
   @override
   String get compareRemoveTooltip => 'Kaldır';
@@ -2133,8 +2075,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Gönderim başarısız. Lütfen tekrar dene.';
 
   @override
-  String get contributeQrDecodingProgress =>
-      'QR çözülüyor...';
+  String get contributeQrDecodingProgress => 'QR çözülüyor...';
 
   @override
   String get contributeQrUnreadableSentReview =>
@@ -2145,8 +2086,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'QR doğrulandı. Yönlendiriliyorsun.';
 
   @override
-  String get contributeQrProcessFailed =>
-      'QR işlenemedi. Lütfen tekrar dene.';
+  String get contributeQrProcessFailed => 'QR işlenemedi. Lütfen tekrar dene.';
 
   @override
   String get contributeExternalQrUseBusinessPage =>
@@ -2158,7 +2098,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get contributeQrImageSentForReview =>
-      'QR görseli gönderildi. İnceleme sonrası işleme alınacak.';
+      'QR görüntüsü gönderildi. İnceleme sonrası işleme alınacak.';
 
   @override
   String get contributeExternalLinkSentForReview =>
@@ -2176,7 +2116,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get contributeSelectMenuItemToVerifyPrice =>
-      'Menüden tek ürünü seçip fiyatı doğrulayabilirsin.';
+      'Menüden tek ürün seçip fiyatını doğrulayabilirsin.';
 
   @override
   String get discoveryFilterCafe => 'Kafe';
@@ -2185,8 +2125,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryFilterRestaurant => 'Restoran';
 
   @override
-  String get discoveryFilterDessertPastry =>
-      'Tatlı / Pastane';
+  String get discoveryFilterDessertPastry => 'Tatlı / Pastane';
 
   @override
   String get discoveryFilterBreakfast => 'Kahvaltı';
@@ -2198,8 +2137,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryFilterVenue => 'Mekan';
 
   @override
-  String get discoveryHomeCategoryDoner =>
-      'İnce Döner';
+  String get discoveryHomeCategoryDoner => 'İnce Döner';
 
   @override
   String get discoveryHomeCategoryPide => 'Pide';
@@ -2232,8 +2170,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryRecentSearches => 'Son aramalar';
 
   @override
-  String get discoveryCatalogSuggestions =>
-      'Katalog önerileri';
+  String get discoveryCatalogSuggestions => 'Katalog önerileri';
 
   @override
   String get feedEmptyMessage =>
@@ -2265,7 +2202,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get favoritesNearbyFallbackOrdering =>
-      'Konum alınamadı. Varsayılan sıralama gösteriliyor.';
+      'Konum alınamadı. Varsaylan sıralama gösteriliyor.';
 
   @override
   String get favoritesNearbySortedByDistance =>
@@ -2275,12 +2212,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get favoritesCollectionsTitle => 'Koleksiyonlar';
 
   @override
-  String get favoritesCreateCollectionTooltip =>
-      'Koleksiyon oluştur';
+  String get favoritesCreateCollectionTooltip => 'Koleksiyon oluştur';
 
   @override
-  String get favoritesShareCollectionTooltip =>
-      'Koleksiyonu paylaş';
+  String get favoritesShareCollectionTooltip => 'Koleksiyonu paylaş';
 
   @override
   String get favoritesDeleteCollectionTooltip => 'Koleksiyonu sil';
@@ -2290,8 +2225,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'İçerik üretici modu için önce bir koleksiyon seç.';
 
   @override
-  String get favoritesCreatorCollectionTitle =>
-      'İçerik üretici koleksiyonu';
+  String get favoritesCreatorCollectionTitle => 'İçerik üretici koleksiyonu';
 
   @override
   String get favoritesCreatorCollectionSubtitle =>
@@ -2309,12 +2243,11 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu koleksiyonu sadece sen görürsün.';
 
   @override
-  String get favoritesSharedCollectionTitle =>
-      'Paylaşılan koleksiyon';
+  String get favoritesSharedCollectionTitle => 'Paylaşılan koleksiyon';
 
   @override
   String get favoritesFollowCollectionHint =>
-      'Bu koleksiyonu takip ederek güncellemeleri kaçırma.';
+      'Bu koleksiyonu takip ederek güncellemeleri kaçırmama.';
 
   @override
   String get favoritesFollowAction => 'Takip et';
@@ -2336,8 +2269,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get favoritesNewCollectionTitle => 'Yeni Koleksiyon';
 
   @override
-  String get favoritesCollectionNameExample =>
-      'Örn: Gece döneri';
+  String get favoritesCollectionNameExample => 'Örn: Gece döneri';
 
   @override
   String get favoritesCreateAction => 'Oluştur';
@@ -2346,8 +2278,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get favoritesDeleteCollectionConfirmTitle => 'Koleksiyon silinsin mi?';
 
   @override
-  String get favoritesDeleteCollectionConfirmBody =>
-      'Bu işlem geri alınamaz.';
+  String get favoritesDeleteCollectionConfirmBody => 'Bu işlem geri alınamaz.';
 
   @override
   String favoritesBusinessCollectionsTitle(String businessName) {
@@ -2380,11 +2311,11 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get favoritesAdDisclosureBody =>
-      'Bu koleksiyonda iş birliği varsa \"Reklam\" olarak işaretlemek zorunludur.';
+      'Bu koleksiyonda iÃ…Å¸ birliÃ„Å¸i varsa \"Reklam\" olarak işaretlemek zorunludur.';
 
   @override
   String favoritesCacheStaleMessage(int days) {
-    return 'Veri $days gün önce güncellenmiş olabilir.';
+    return 'Veri $days gün önce güncellenmiş¸ olabilir.';
   }
 
   @override
@@ -2394,66 +2325,56 @@ class AppLocalizationsTr extends AppLocalizations {
   String get followingPageTitle => 'Takip Ettiklerim';
 
   @override
-  String get followingPageEmpty =>
-      'Henüz kimseyi takip etmiyorsun.';
+  String get followingPageEmpty => 'Henüz kimseyi takip etmiyorsun.';
 
   @override
   String get followingPageUnfollowAction => 'Takibi bırak';
 
   @override
-  String get gourmetsPageTitle =>
-      'Lezzet uzmanlarını keşfet';
+  String get gourmetsPageTitle => 'Lezzet uzmanlarının keşfet';
 
   @override
-  String get gourmetsPageEmpty =>
-      'Henüz lezzet uzmanı yok.';
+  String get gourmetsPageEmpty => 'Henüz lezzet uzmanı yok.';
 
   @override
   String get groupRequestWizardTitle => 'Grup Yemeği Talebi';
 
   @override
-  String get groupRequestWizardEnterDetails =>
-      'Detayları gir';
+  String get groupRequestWizardEnterDetails => 'Detayları gir';
 
   @override
   String get groupRequestWizardCityLabel => 'Şehir';
 
   @override
-  String get groupRequestWizardDistrictLabel =>
-      'İlçe';
+  String get groupRequestWizardDistrictLabel => 'İlçe';
 
   @override
   String get groupRequestWizardCategoryHint => 'Kategori (kahve, lokanta...)';
 
   @override
-  String get groupRequestWizardPartySizeLabel =>
-      'Kişi sayısı';
+  String get groupRequestWizardPartySizeLabel => 'Kişi sayısı';
 
   @override
-  String get groupRequestWizardTotalBudgetLabel =>
-      'Toplam bütçe (TL)';
+  String get groupRequestWizardTotalBudgetLabel => 'Toplam bütçe (TL)';
 
   @override
   String get groupRequestWizardNotesLabel => 'Notlar';
 
   @override
-  String get groupRequestWizardCreateAction =>
-      'Talep Oluştur';
+  String get groupRequestWizardCreateAction => 'Talep Oluştur';
 
   @override
-  String get groupRequestWizardInfoTitle =>
-      'Teklifler işletmelerden gelir';
+  String get groupRequestWizardInfoTitle => 'Teklifler işletmelerden gelir';
 
   @override
   String get groupRequestWizardInfoDescription =>
-      'Talebin açıldıktan sonra işletmeler teklif verebilir.';
+      'Talebin açıldığında işletmeler teklif verebilir.';
 
   @override
   String get groupRequestWizardMissingFields => 'Eksik alan var';
 
   @override
-  String get groupRequestWizardPickDateTime =>
-      'Tarih ve saat seç';
+  String get groupRequestWizardPickDateTime => 'Tarih ve saat seç';
 
   @override
   String get groupRequestMyRequestsTitle => 'Taleplerim';
@@ -2470,16 +2391,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String groupRequestPartyAndBudget(int party, String budget) {
-    return '$party kişi • $budget';
+    return '$party kişi · $budget';
   }
 
   @override
-  String get groupRequestStatusOpen =>
-      'Açık';
+  String get groupRequestStatusOpen => 'Açık';
 
   @override
-  String get groupRequestStatusAwarded =>
-      'Kazandırıldı';
+  String get groupRequestStatusAwarded => 'Kazandırıldı';
 
   @override
   String get groupRequestStatusClosed => 'Kapandı';
@@ -2491,15 +2410,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get groupRequestDetailTitle => 'Grup Talebi';
 
   @override
-  String get groupRequestLinkCopied =>
-      'Grup linki kopyalandı';
+  String get groupRequestLinkCopied => 'Grup linki kopyalandı';
 
   @override
   String get groupRequestNotFound => 'Talep bulunamadı';
 
   @override
-  String get groupRequestCreatedBannerTitle =>
-      'Talebin yayında';
+  String get groupRequestCreatedBannerTitle => 'Talebin yayında';
 
   @override
   String get groupRequestCreatedBannerDescription =>
@@ -2512,16 +2429,14 @@ class AppLocalizationsTr extends AppLocalizations {
   String get groupRequestCopyAction => 'Kopyala';
 
   @override
-  String get groupRequestAddSuggestionTitle =>
-      'Öneri ekle';
+  String get groupRequestAddSuggestionTitle => 'Öneri ekle';
 
   @override
   String get groupRequestAddSuggestionDescription =>
       'İşletme seç, teklif ekle ve grup oylasın.';
 
   @override
-  String get groupRequestAddSuggestionAction =>
-      'Öneri ekle';
+  String get groupRequestAddSuggestionAction => 'Öneri ekle';
 
   @override
   String get groupRequestOffersTitle => 'Teklifler';
@@ -2534,8 +2449,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Teklifler geldiğinde burada görünecek.';
 
   @override
-  String get groupRequestBusinessFallback =>
-      'İşletme';
+  String get groupRequestBusinessFallback => 'İşletme';
 
   @override
   String get groupRequestTopContributorBadge => 'Grubu en iyi besleyen';
@@ -2552,8 +2466,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get groupRequestVoteAction => 'Oy ver';
 
   @override
-  String get groupRequestProcessing =>
-      'İşleniyor...';
+  String get groupRequestProcessing => 'İşleniyor...';
 
   @override
   String get groupRequestAcceptOfferAction => 'Teklifi kabul et';
@@ -2567,24 +2480,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String get groupRequestSearchMinChars => 'En az 2 karakter yaz';
 
   @override
-  String get groupRequestBusinessAndPriceRequired =>
-      'İşletme ve fiyat gerekli';
+  String get groupRequestBusinessAndPriceRequired => 'İşletme ve fiyat gerekli';
 
   @override
-  String get groupRequestSuggestionAdded =>
-      'Öneri eklendi';
+  String get groupRequestSuggestionAdded => 'Öneri eklendi';
 
   @override
-  String get groupRequestSearchBusinessLabel =>
-      'İşletme ara';
+  String get groupRequestSearchBusinessLabel => 'İşletme ara';
 
   @override
-  String get groupRequestSuggestIfMissing =>
-      'İşletme yoksa öner';
+  String get groupRequestSuggestIfMissing => 'İşletme yoksa öner';
 
   @override
-  String get groupRequestTryDifferentName =>
-      'Farklı bir isim deneyin.';
+  String get groupRequestTryDifferentName => 'Farklı bir isim deneyin.';
 
   @override
   String get groupRequestOfferTotalPriceLabel => 'Teklif toplam fiyat (TL)';
@@ -2593,8 +2501,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get groupRequestNoteLabel => 'Not';
 
   @override
-  String get groupRequestChangeAction =>
-      'Değiştir';
+  String get groupRequestChangeAction => 'Değiştir';
 
   @override
   String groupRequestAcceptedSummary(String price) {
@@ -2637,8 +2544,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get verifyPriceCorrectPriceHint => 'Örn: 245,50';
 
   @override
-  String get verifyPriceChooseCorrectnessFirst =>
-      'Önce doğru/yanlış seçin.';
+  String get verifyPriceChooseCorrectnessFirst => 'Önce doğru/yanlış seçin.';
 
   @override
   String get verifyPriceEnterValidPrice => 'Geçerli bir fiyat girin.';
@@ -2658,8 +2564,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get menuItemPendingSingleMessage =>
-      'Önerin alındı, onay bekliyor.';
+  String get menuItemPendingSingleMessage => 'Önerin alındı, onay bekliyor.';
 
   @override
   String get menuItemOnsiteVerifiedPrioritizedMessage =>
@@ -2715,8 +2620,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get inboxTitle => 'Bildirim Kutusu';
 
   @override
-  String get inboxMarkAllRead =>
-      'Tümünü okundu işaretle';
+  String get inboxMarkAllRead => 'Tümünü okundu işaretle';
 
   @override
   String get inboxEmptyTitle => 'Bildirim yok';
@@ -2747,8 +2651,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get inboxReengagementTitle => 'Seni özledik';
 
   @override
-  String get inboxReengagementSubtitle =>
-      'Yakındaki yeni menülere göz at.';
+  String get inboxReengagementSubtitle => 'Yakındaki yeni menülere göz at.';
 
   @override
   String get inboxRecentBusinessClosedTitle =>
@@ -2759,20 +2662,17 @@ class AppLocalizationsTr extends AppLocalizations {
       'Son baktığın yerde fiyat değişti';
 
   @override
-  String get inboxRecentBusinessNearbyTitle =>
-      'Son baktığın yer yakında';
+  String get inboxRecentBusinessNearbyTitle => 'Son baktığın yer yakında';
 
   @override
-  String get inboxRecentBusinessTitle =>
-      'Son baktığın yer';
+  String get inboxRecentBusinessTitle => 'Son baktığın yer';
 
   @override
   String get inboxRecentBusinessNearbyReason =>
       'Sana yakın olduğu için öne alındı';
 
   @override
-  String get inboxFavoritesPriceChangedTitle =>
-      'Favorilerinde fiyat değişti';
+  String get inboxFavoritesPriceChangedTitle => 'Favorilerinde fiyat değişti';
 
   @override
   String inboxFavoritesPriceChangedSubtitle(String name, int count) {
@@ -2780,16 +2680,14 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get inboxDailyTaskTitle =>
-      'Sana uygun bugünün görevi';
+  String get inboxDailyTaskTitle => 'Sana uygun bugÃ¼nÃ¼n gÃ¶revi';
 
   @override
   String get inboxSegmentPriceHunter =>
       'Bugün 1 fiyat doğrula; güven skorun daha hızlı artsın.';
 
   @override
-  String get inboxSegmentPhotoProof =>
-      'Bugün 1 net menü/fotoğraf kanıtı ekle.';
+  String get inboxSegmentPhotoProof => 'Bugün 1 net menü/fotoğraf kanıtı ekle.';
 
   @override
   String get inboxSegmentExplorer =>
@@ -2805,7 +2703,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String inboxAlertPriceUp(String pct) {
-    return 'Fiyat %$pct çıktı';
+    return 'Fiyat %$pct çıktığında';
   }
 
   @override
@@ -2820,7 +2718,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get inboxAlertAboveDistrictAverage =>
-      'Bu semtte ortalamanın üstüne çıktı';
+      'Bu semtte ortalamanın üstüne çıktığında';
 
   @override
   String get inboxAlertBelowDistrictAverage =>
@@ -2830,26 +2728,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get inboxAlertTriggered => 'Fiyat alarmı tetiklendi';
 
   @override
-  String get inboxBusinessClosedArchived =>
-      'İşletme kapandı (arşiv).';
+  String get inboxBusinessClosedArchived => 'İşletme kapandı (arşiv).';
 
   @override
-  String get inboxBusinessMoved =>
-      'İşletme taşındı.';
+  String get inboxBusinessMoved => 'İşletme taşındı.';
 
   @override
-  String get inboxBusinessTemporarilyClosed =>
-      'İşletme geçici kapalı.';
+  String get inboxBusinessTemporarilyClosed => 'İşletme geçici kapalı.';
 
   @override
   String get inboxBusinessStatusUpdated => 'Durum güncellendi';
 
   @override
-  String get priceAlertSheetTitle => 'Fiyat alarmı oluştur';
+  String get priceAlertSheetTitle => 'Fiyat alarmı oluşturma';
 
   @override
-  String get priceAlertSheetQueryLabel =>
-      'Ürün veya arama metni';
+  String get priceAlertSheetQueryLabel => 'Ürün veya arama metni';
 
   @override
   String get priceAlertSheetMaxPriceLabel => 'Maksimum fiyat (TL)';
@@ -2875,7 +2769,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileIdentitySupportMessage =>
-      'Topluluğa katkı yaparak profilini güçlendirebilirsin.';
+      'Topluluğa katkılı yaparak profilini güçlendirebilirsin.';
 
   @override
   String get profileAlertsTab => 'Alarmlar';
@@ -2885,11 +2779,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileLoginToSeeContributions =>
-      'Katkılarını ve istatistiklerini görmek için giriş yap.';
+      'KatkılarÄ±nÄ± ve istatistiklerini gÃ¶rmek iÃ§in giriÅŸ yap.';
 
   @override
-  String get profileCreatorBadgeTitle =>
-      'İçerik üretici rozeti';
+  String get profileCreatorBadgeTitle => 'İçerik üretici rozeti';
 
   @override
   String get profileCreatorBadgeEnabled =>
@@ -2900,8 +2793,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'İstersen içerik üretici rozetini açabilirsin.';
 
   @override
-  String get profileAddSocialLinkTitle =>
-      'Sosyal bağlantı ekle';
+  String get profileAddSocialLinkTitle => 'Sosyal bağlantı ekle';
 
   @override
   String get linkLabel => 'Bağlantı';
@@ -2936,27 +2828,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileMyAchievementsTitle => 'Başarı rozetlerim';
 
   @override
-  String get profileNoAchievementYet =>
-      'Henüz rozet kazanmadın.';
+  String get profileNoAchievementYet => 'Henüz rozet kazanmadın.';
 
   @override
-  String get profileAlertsLoginRequired =>
-      'Alarmları görmek için giriş yap.';
+  String get profileAlertsLoginRequired => 'Alarmları görmek için giriş yap.';
 
   @override
   String get profileAlertsEmpty => 'Henüz alarm bildirimi yok.';
 
   @override
-  String get profileFeedLoginRequired =>
-      'Akışı görmek için giriş yap.';
+  String get profileFeedLoginRequired => 'Akışı görmek için giriş yap.';
 
   @override
-  String get profileFeedEmpty =>
-      'Akışta henüz içerik yok.';
+  String get profileFeedEmpty => 'Akışta henüz içerik yok.';
 
   @override
-  String get profileFeedEventPriceVerified =>
-      'Fiyat doğrulandı';
+  String get profileFeedEventPriceVerified => 'Fiyat doğrulandı';
 
   @override
   String get profileFeedEventMenuUpdated => 'Menü güncellendi';
@@ -3002,8 +2889,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileStatVisits => 'Ziyaret';
 
   @override
-  String get profileLatestAchievementTitle =>
-      'Son kazanılan başarı';
+  String get profileLatestAchievementTitle => 'Son kazanılan başarı';
 
   @override
   String profileAlertCurrentPrice(String price) {
@@ -3019,11 +2905,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileSegmentPriceHunter => 'Fiyat avcısı';
 
   @override
-  String get profileSegmentExplorer => 'Kaşif';
+  String get profileSegmentExplorer => 'Keşif';
 
   @override
-  String get profileSegmentPhotoProof =>
-      'Fotoğraf kanıtı';
+  String get profileSegmentPhotoProof => 'Fotoğraf kanıtı';
 
   @override
   String get profileSegmentBalanced => 'Dengeli';
@@ -3045,7 +2930,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String profileMoatTrustedRejectedSpam(int trusted, int rejected, int spam) {
-    return 'Güvenilen katkı: $trusted • Reddedilen: $rejected • Spam sinyali: $spam';
+    return 'Güvenilen katkılı: $trusted • Reddedilen: $rejected • Spam sinyali: $spam';
   }
 
   @override
@@ -3058,8 +2943,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sessiz kalite katkıcısı: Az konuşup doğru katkı yapıyorsun.';
 
   @override
-  String get businessReviewsCommunityExperiences =>
-      'Topluluğun deneyimleri';
+  String get businessReviewsCommunityExperiences => 'Topluluğun deneyimleri';
 
   @override
   String get businessReviewsOwnerCanModerate =>
@@ -3092,8 +2976,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reviewCreateRatingLabel => 'Puan';
 
   @override
-  String get reviewCreateOptionalTitleLabel =>
-      'Başlık (isteğe bağlı)';
+  String get reviewCreateOptionalTitleLabel => 'Başlık (isteğe bağlı)';
 
   @override
   String get reviewCreateContentRequired => 'Yorum boş olamaz.';
@@ -3111,15 +2994,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reviewCreateErrorContainsLinkOrPhone =>
-      'Yorumda link veya telefon bilgisi paylaşamazsın.';
+      'Yorumda link veya telefon bilgisi paylaşılamaz.';
 
   @override
   String get reviewCreateErrorContainsProfanity =>
       'Yorumda uygunsuz ifade var.';
 
   @override
-  String get reviewCreateErrorEmojiSpam =>
-      'Yorumda çok fazla emoji var.';
+  String get reviewCreateErrorEmojiSpam => 'Yorumda çok fazla emoji var.';
 
   @override
   String get quality => 'Kalite';
@@ -3142,7 +3024,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String smartFeedBudgetMax(String amount) {
-    return 'En fazla ₺$amount';
+    return 'En fazla â‚º$amount';
   }
 
   @override
@@ -3169,8 +3051,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get smartFeedCategoryAffordable => 'Uygun fiyatlı';
 
   @override
-  String get smartFeedBundleStudentFriendly =>
-      'Öğrenci dostu';
+  String get smartFeedBundleStudentFriendly => 'Öğrenci dostu';
 
   @override
   String get smartFeedBundleFirstDate => 'İlk randevu';
@@ -3215,8 +3096,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get smartFeedFallbackPhotoAdded => 'Yeni fotoğraf eklendi';
 
   @override
-  String get smartFeedFallbackDailyMenu =>
-      'Günün menüsü';
+  String get smartFeedFallbackDailyMenu => 'Günün menüsü';
 
   @override
   String get smartFeedFallbackNewContent => 'Yeni içerik';
@@ -3235,7 +3115,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String smartFeedNearbyKm(String km) {
-    return 'Yakınında $km km';
+    return 'YakÄ±nÄ±nda $km km';
   }
 
   @override
@@ -3245,8 +3125,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get smartFeedReasonScenarioMatch => 'Senin senaryon';
 
   @override
-  String get smartFeedReasonSimilarUsers =>
-      'Benzer kullanıcılar seviyor';
+  String get smartFeedReasonSimilarUsers => 'Benzer kullanÄ±cÄ±lar seviyor';
 
   @override
   String get smartFeedDayWeekend => 'Hafta sonu';
@@ -3267,12 +3146,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get smartFeedTimeNight => 'Gece';
 
   @override
-  String get suggestBusinessSubmitDialogTitle =>
-      'Önerin alındı mı?';
+  String get suggestBusinessSubmitDialogTitle => 'Önerin alındı mı?';
 
   @override
   String suggestBusinessSubmitDialogContent(String code) {
-    return 'Teşekkürler! İnceleme sonucunda işletme yayınlanacak.\n\nTakip Kodu: $code';
+    return 'Teşekkürler! İnceleme sonucunda işletme yayına alınacak.\n\nTakip Kodu: $code';
   }
 
   @override
@@ -3283,7 +3161,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get suggestBusinessPageSubtitle =>
-      'Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarız.';
+      'Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarÄ±z.';
 
   @override
   String get suggestBusinessNameLabel => 'İşletme adı';
@@ -3304,8 +3182,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get suggestBusinessWebsiteLabel => 'Web sitesi';
 
   @override
-  String get suggestBusinessDuplicateTitle =>
-      'Bu işletme zaten var olabilir';
+  String get suggestBusinessDuplicateTitle => 'Bu işletme zaten var olabilir';
 
   @override
   String get suggestBusinessDuplicateFound =>
@@ -3313,7 +3190,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get suggestBusinessDuplicateConfirm =>
-      'Yine de yeni öneri göndermek istiyor musun?';
+      'Yine de yeni öneriyi göndermek istiyor musun?';
 
   @override
   String get suggestBusinessSendAnyway => 'Yine de Gönder';
@@ -3370,8 +3247,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu sayfayı görmek için giriş yapmalısın.';
 
   @override
-  String get tasteTwinSubtitle =>
-      'Puanlamalarına göre sana benzeyen kişiler';
+  String get tasteTwinSubtitle => 'Puanlamalarına göre sana benzeyen kişiler';
 
   @override
   String get tasteTwinNoMatches => 'Henüz eşleşme yok.';
@@ -3402,23 +3278,20 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tasteTwinWhyMatchedTitle => 'Neden eşleştiniz?';
 
   @override
-  String get tasteTwinReviewOverlapTitle =>
-      'Yorum ortaklığı';
+  String get tasteTwinReviewOverlapTitle => 'Yorum ortaklÄ±ÄŸÄ±';
 
   @override
   String get tasteTwinNoSampleYet => 'Henüz örnek yok.';
 
   @override
-  String get tasteTwinMenuSignalOverlapTitle =>
-      'Menü sinyali ortaklığı';
+  String get tasteTwinMenuSignalOverlapTitle => 'Menü sinyali ortaklÄ±ÄŸÄ±';
 
   @override
   String get tasteTwinMenuSignalOverlapHint =>
       'Fiyat teyidi / fotoğraf beğenisi / fotoğraf ekleme sinyalleri';
 
   @override
-  String get tasteTwinDivergenceTitle =>
-      'Burada anlaşamadınız :)';
+  String get tasteTwinDivergenceTitle => 'Burada anlaşılmadınız :)';
 
   @override
   String tasteTwinRatingComparison(int myRating, int otherRating) {
@@ -3474,7 +3347,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get quickLoginDescription =>
-      'Bu işlem için hesap gerekiyor. Giriş yapabilir veya şimdi geçebilirsin.';
+      'Bu işlem için hesap gerekiyor. Giriş yapabilir veya Şimdi geçebilirsin.';
 
   @override
   String get quickLoginAction => 'Hızlı giriş';
@@ -3490,7 +3363,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get locationPickerManualHint =>
-      'Manuel seçimde il/ilçe bazlı arama yapılır. Yakınımdaki kalite için yarıçap (5/10/20 km) ve konum izni daha iyi sonuç verir.';
+      'Manuel seçimde il/ilçe bazlı arama yapılır. Yakınlardaki kalite için yarıçap (5/10/20 km) ve konum izni daha iyi sonuç verir.';
 
   @override
   String get locationPickerUseAuto => 'Otomatik konumu kullan';
@@ -3524,7 +3397,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get legalKvkkIntro =>
-      'Yeedoy kişisel verileri yalnızca hizmeti sunmak için işler. Açık rıza gerektiren işlemler için onay alınır, talep halinde veriler silinir veya taşınabilir şekilde paylaşılır.';
+      'Yeedoy kişisel verileri yalnızca hizmeti sunmak için işler. Açık rızası gerektiren işlemler için onay alınır, talep halinde veriler silinir veya taşınabilir şekilde paylaşılr.';
 
   @override
   String get legalKvkkCategoriesAndRights =>
@@ -3540,8 +3413,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get legalGdprText => 'GDPR Metni';
 
   @override
-  String get legalApplicationByEmail =>
-      'Başvuru: e-posta ile talep oluştur.';
+  String get legalApplicationByEmail => 'Başvuru: e-posta ile talep oluştur.';
 
   @override
   String get legalCopyrightSectionTitle => 'Foto Telif Bildirimi';
@@ -3558,8 +3430,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get legalCopyrightPolicy => 'Telif Politikası';
 
   @override
-  String get legalOwnershipAppealSectionTitle =>
-      'İşletme Sahipliği İtirazı';
+  String get legalOwnershipAppealSectionTitle => 'İşletme Sahipliği İtirazı';
 
   @override
   String get legalOwnershipAppealIntro =>
@@ -3574,25 +3445,23 @@ class AppLocalizationsTr extends AppLocalizations {
       '• İşyeri ünvanı ve vergi/ruhsat bilgisi\n• Yetkilendirme belgesi\n• İletişim telefonu';
 
   @override
-  String get legalSendAppealEmail =>
-      'İtiraz e-postası gönder';
+  String get legalSendAppealEmail => 'İtiraz e-postası gönder';
 
   @override
-  String get legalProductPrinciplesSectionTitle =>
-      'Ürün İlkeleri';
+  String get legalProductPrinciplesSectionTitle => 'Ürün İlkeleri';
 
   @override
   String get legalDontsTitle => 'Yapılmaması gerekenler:';
 
   @override
   String get legalDontsList =>
-      '• Herkese her şeyi açmak\n• Sponsorlu içeriği gizlemek\n• Owner hesaba yorum silme yetkisi vermek\n• Büyüme için kalite eşiğini gevşetmek';
+      '• Herkese her şeyi açmak\n• Sponsorlu içeriği gizlemek\n• Owner hesaba yorum silme yetkisi vermek\n• Büyüme için kalite eşeğini gevşetmek';
 
   @override
   String legalPolicySummary(
-    Object requireSponsoredLabel,
+    String requireSponsoredLabel,
     String minSponsoredTrust,
-    Object ownerCanDeleteReviews,
+    String ownerCanDeleteReviews,
   ) {
     return 'Politika: sponsor etiketi zorunlu=$requireSponsoredLabel, minimum sponsor güven=$minSponsoredTrust, owner yorum silme=$ownerCanDeleteReviews.';
   }
@@ -3647,14 +3516,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reportBusinessHint =>
-      'Çok sayıda yanlış bilgi bildirimi görünürlüğü düşürür. İşletme sahibi doğruladıktan sonra tekrar yükselir.';
+      'Çok sayıda yanlış bilgi bildirimi görünürliği düşürür. İşletme sahibi doğruladıktan sonra tekrar yükselir.';
 
   @override
   String get reportReasonLabel => 'Sebep';
 
   @override
-  String get reportCopyrightUrlLabel =>
-      'İhlal URL (fotoğraf bağlantısı)';
+  String get reportCopyrightUrlLabel => 'İhlal URL (fotoğraf bağlantısı)';
 
   @override
   String get reportCopyrightOwnerLabel => 'Hak sahibi adı (opsiyonel)';
@@ -3666,8 +3534,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reportDetailsLabel => 'Detaylar (opsiyonel)';
 
   @override
-  String get reportSubmittedThanks =>
-      'Teşekkürler, incelenecek.';
+  String get reportSubmittedThanks => 'Teşekkürler, incelenecek.';
 
   @override
   String get reportCopyrightUrlPrefix => 'İhlal URL';

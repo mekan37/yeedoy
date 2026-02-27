@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import Image from 'next/image';
 
 type Category = { id: string; sort_order: number; name?: string | null };
 type Item = {
@@ -44,15 +45,21 @@ export function PublicMenuClient({
     categories.find((c) => c.id === id)?.name ??
     'Category';
 
-  const itemName = (id: string) =>
-    translations.find((t) => t.entity_type === 'item' && t.entity_id === id && t.locale === locale)?.name ??
-    items.find((i) => i.id === id)?.name ??
-    'Item';
+  const itemName = useCallback(
+    (id: string) =>
+      translations.find((t) => t.entity_type === 'item' && t.entity_id === id && t.locale === locale)?.name ??
+      items.find((i) => i.id === id)?.name ??
+      'Item',
+    [items, locale, translations],
+  );
 
-  const itemDescription = (id: string) =>
-    translations.find((t) => t.entity_type === 'item' && t.entity_id === id && t.locale === locale)?.description ??
-    items.find((i) => i.id === id)?.description ??
-    '';
+  const itemDescription = useCallback(
+    (id: string) =>
+      translations.find((t) => t.entity_type === 'item' && t.entity_id === id && t.locale === locale)?.description ??
+      items.find((i) => i.id === id)?.description ??
+      '',
+    [items, locale, translations],
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -62,7 +69,7 @@ export function PublicMenuClient({
       const text = `${itemName(i.id)} ${itemDescription(i.id)}`.toLowerCase();
       return text.includes(q);
     });
-  }, [items, query, activeCategory]);
+  }, [items, query, activeCategory, itemDescription, itemName]);
 
   return (
     <div className="space-y-4">
@@ -104,11 +111,13 @@ export function PublicMenuClient({
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-start gap-3">
                   {imageUrl ? (
-                    <img
+                    <Image
                       src={imageUrl}
                       alt={itemName(item.id)}
+                      width={64}
+                      height={64}
+                      unoptimized
                       className="h-16 w-16 shrink-0 rounded-xl border border-slate-200 object-cover"
-                      loading="lazy"
                     />
                   ) : null}
                   <div className="min-w-0">

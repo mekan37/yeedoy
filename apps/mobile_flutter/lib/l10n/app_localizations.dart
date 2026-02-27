@@ -107,13 +107,13 @@ abstract class AppLocalizations {
   /// Auto metadata for appTagline
   ///
   /// In tr, this message translates to:
-  /// **'CanlÃ„Â± menÃƒÂ¼ler, doÃ„Å¸rulanmÃ„Â±Ã…Å¸ fiyatlar'**
+  /// **'Canlı menüler, doğrulanmış fiyatlar'**
   String get appTagline;
 
   /// Auto metadata for appTaglineLine1
   ///
   /// In tr, this message translates to:
-  /// **'CanlÃ„Â± menÃƒÂ¼ler'**
+  /// **'Canlı menüler'**
   String get appTaglineLine1;
 
   /// Auto metadata for appTaglineLine2
@@ -125,25 +125,25 @@ abstract class AppLocalizations {
   /// Auto metadata for emptyTitle
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÂ¼z eklenmemis'**
+  /// **'Henüz eklenmemis'**
   String get emptyTitle;
 
   /// Auto metadata for emptyRegionDescription
   ///
   /// In tr, this message translates to:
-  /// **'Yeedoy\'da bu bÃƒÂ¶lgede henÃƒÂ¼z veri yok. Ã„Â°stersen ilk katkÃ„Â±yÃ„Â± sen ekle.'**
+  /// **'Yeedoy\'da bu bölgede henüz veri yok. İstersen ilk katkıyı sen ekle.'**
   String get emptyRegionDescription;
 
   /// Auto metadata for webDescription
   ///
   /// In tr, this message translates to:
-  /// **'Yeedoy - CanlÃ„Â± menÃƒÂ¼ler, doÃ„Å¸rulanmÃ„Â±Ã…Å¸ fiyatlar ve akÃ„Â±llÃ„Â± keÃ…Å¸if.'**
+  /// **'Yeedoy - Canlı menüler, doğrulanmış fiyatlar ve akıllı keşif.'**
   String get webDescription;
 
   /// Auto metadata for discover
   ///
   /// In tr, this message translates to:
-  /// **'KeÃ…Å¸fet'**
+  /// **'Keşfet'**
   String get discover;
 
   /// Auto metadata for home
@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// Auto metadata for cancel
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°ptal'**
+  /// **'İptal'**
   String get cancel;
 
   /// Auto metadata for privacy
@@ -203,25 +203,25 @@ abstract class AppLocalizations {
   /// Auto metadata for socialLinks
   ///
   /// In tr, this message translates to:
-  /// **'Sosyal BaÃ„Å¸lantÃ„Â±lar'**
+  /// **'Sosyal Bağlantılar'**
   String get socialLinks;
 
   /// Auto metadata for logout
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€¡Ã„Â±kÃ„Â±Ã…Å¸ Yap'**
+  /// **'Çıkış Yap'**
   String get logout;
 
   /// Auto metadata for contribute
   ///
   /// In tr, this message translates to:
-  /// **'KatkÃ„Â± Yap'**
+  /// **'Katkı Yap'**
   String get contribute;
 
   /// Auto metadata for uploadPhoto
   ///
   /// In tr, this message translates to:
-  /// **'FotoÃ„Å¸raf YÃƒÂ¼kle'**
+  /// **'Fotoğraf Yükle'**
   String get uploadPhoto;
 
   /// Auto metadata for scanQr
@@ -233,25 +233,25 @@ abstract class AppLocalizations {
   /// Auto metadata for verifyPrice
   ///
   /// In tr, this message translates to:
-  /// **'FiyatÃ„Â± DoÃ„Å¸rula'**
+  /// **'Fiyatı Doğrula'**
   String get verifyPrice;
 
   /// Auto metadata for openInBrowser
   ///
   /// In tr, this message translates to:
-  /// **'TarayÃ„Â±cÃ„Â±da AÃƒÂ§'**
+  /// **'Tarayıcıda Aç'**
   String get openInBrowser;
 
   /// Auto metadata for linkPreview
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ„Å¸lantÃ„Â± Ãƒâ€“nizleme'**
+  /// **'Bağlantı Önizleme'**
   String get linkPreview;
 
   /// Auto metadata for profileSettings
   ///
   /// In tr, this message translates to:
-  /// **'Profil AyarlarÃ„Â±'**
+  /// **'Profil Ayarları'**
   String get profileSettings;
 
   /// Auto metadata for saving
@@ -263,16 +263,16 @@ abstract class AppLocalizations {
   /// Auto metadata for loginRequired
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nce giris yapmalisin.'**
+  /// **'Önce giris yapmalisin.'**
   String get loginRequired;
 
   /// Auto metadata for profileSaved
   ///
   /// In tr, this message translates to:
-  /// **'Profil ayarlarÃ„Â± kaydedildi.'**
+  /// **'Profil ayarları kaydedildi.'**
   String get profileSaved;
 
-  /// No description provided for @saveError.
+  /// Auto metadata for saveError
   ///
   /// In tr, this message translates to:
   /// **'Kaydetme hatasi: {error}'**
@@ -281,7 +281,7 @@ abstract class AppLocalizations {
   /// Auto metadata for namePrivacy
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°sim GizliliÃ„Å¸i'**
+  /// **'İsim Gizliliği'**
   String get namePrivacy;
 
   /// Auto metadata for firstName
@@ -299,25 +299,25 @@ abstract class AppLocalizations {
   /// Auto metadata for showFullName
   ///
   /// In tr, this message translates to:
-  /// **'Ad Soyad GÃƒÂ¶rÃƒÂ¼nsÃƒÂ¼n'**
+  /// **'Ad Soyad Görünsün'**
   String get showFullName;
 
   /// Auto metadata for hideLastName
   ///
   /// In tr, this message translates to:
-  /// **'Sadece SoyadÃ„Â± Gizle'**
+  /// **'Sadece Soyadı Gizle'**
   String get hideLastName;
 
   /// Auto metadata for hideBothNames
   ///
   /// In tr, this message translates to:
-  /// **'Ad ve SoyadÃ„Â± Gizle'**
+  /// **'Ad ve Soyadı Gizle'**
   String get hideBothNames;
 
   /// Auto metadata for preview
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nizleme'**
+  /// **'Önizleme'**
   String get preview;
 
   /// Auto metadata for socialMedia
@@ -335,19 +335,19 @@ abstract class AppLocalizations {
   /// Auto metadata for systemDefault
   ///
   /// In tr, this message translates to:
-  /// **'Sistem (VarsayÃ„Â±lan)'**
+  /// **'Sistem (Varsayılan)'**
   String get systemDefault;
 
   /// Auto metadata for turkish
   ///
   /// In tr, this message translates to:
-  /// **'TÃƒÂ¼rkÃƒÂ§e'**
+  /// **'Türkçe'**
   String get turkish;
 
   /// Auto metadata for english
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°ngilizce'**
+  /// **'İngilizce'**
   String get english;
 
   /// Auto metadata for account
@@ -359,67 +359,67 @@ abstract class AppLocalizations {
   /// Auto metadata for invalidLink
   ///
   /// In tr, this message translates to:
-  /// **'GeÃƒÂ§erli bir baÃ„Å¸lantÃ„Â± gir.'**
+  /// **'Geçerli bir bağlantı gir.'**
   String get invalidLink;
 
   /// Auto metadata for socialPreview
   ///
   /// In tr, this message translates to:
-  /// **'Sosyal Ãƒâ€“nizleme'**
+  /// **'Sosyal Önizleme'**
   String get socialPreview;
 
   /// Auto metadata for pasteLinkHelper
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ„Å¸lantÃ„Â± yapÃ„Â±Ã…Å¸tÃ„Â±r (https://...)'**
+  /// **'Bağlantı yapıştır (https://...)'**
   String get pasteLinkHelper;
 
   /// Auto metadata for privacySocialSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°sim gizliliÃ„Å¸i ve sosyal medya baÃ„Å¸lantÃ„Â±larÃ„Â±'**
+  /// **'İsim gizliliği ve sosyal medya bağlantıları'**
   String get privacySocialSubtitle;
 
-  /// No description provided for @updateBusinessTitle.
+  /// Auto metadata for updateBusinessTitle
   ///
   /// In tr, this message translates to:
-  /// **'{businessName} gÃƒÂ¼ncelle'**
+  /// **'{businessName} güncelle'**
   String updateBusinessTitle(String businessName);
 
   /// Auto metadata for contributeSheetSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'TopluluÃ„Å¸un menÃƒÂ¼ fiyatlarÃ„Â±nÃ„Â± doÃ„Å¸rulamasÃ„Â±na yardÃ„Â±mcÃ„Â± ol.'**
+  /// **'Topluluğun menü fiyatlarını doğrulamasına yardımcı ol.'**
   String get contributeSheetSubtitle;
 
   /// Auto metadata for scanMenuQr
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ QR tara'**
+  /// **'Menü QR tara'**
   String get scanMenuQr;
 
   /// Auto metadata for scanMenuQrSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'QR ile anÃ„Â±nda doÃ„Å¸rulama'**
+  /// **'QR ile anında doğrulama'**
   String get scanMenuQrSubtitle;
 
   /// Auto metadata for uploadPhotoSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼nÃƒÂ¼n fotoÃ„Å¸rafÃ„Â±nÃ„Â± ÃƒÂ§ek'**
+  /// **'Menünün fotoğrafını çek'**
   String get uploadPhotoSubtitle;
 
   /// Auto metadata for confirmPriceChange
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat deÃ„Å¸iÃ…Å¸imini doÃ„Å¸rula'**
+  /// **'Fiyat değişimini doğrula'**
   String get confirmPriceChange;
 
   /// Auto metadata for confirmPriceChangeSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ncel olmayan bir fiyatÃ„Â± bildir'**
+  /// **'Güncel olmayan bir fiyatı bildir'**
   String get confirmPriceChangeSubtitle;
 
   /// Auto metadata for qrAction
@@ -431,31 +431,31 @@ abstract class AppLocalizations {
   /// Auto metadata for embed
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶mÃƒÂ¼lÃƒÂ¼'**
+  /// **'Gömülü'**
   String get embed;
 
   /// Auto metadata for share
   ///
   /// In tr, this message translates to:
-  /// **'PaylaÃ…Å¸'**
+  /// **'Paylaş'**
   String get share;
 
   /// Auto metadata for invalidLinkMessage
   ///
   /// In tr, this message translates to:
-  /// **'GeÃƒÂ§ersiz baÃ„Å¸lantÃ„Â±'**
+  /// **'Geçersiz bağlantı'**
   String get invalidLinkMessage;
 
   /// Auto metadata for browserOpened
   ///
   /// In tr, this message translates to:
-  /// **'TarayÃ„Â±cÃ„Â±da aÃƒÂ§Ã„Â±ldÃ„Â±'**
+  /// **'Tarayıcıda açıldı'**
   String get browserOpened;
 
   /// Auto metadata for embedFailed
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°ÃƒÂ§erik gÃƒÂ¶rÃƒÂ¼ntÃƒÂ¼lenemedi, tarayÃ„Â±cÃ„Â±ya yÃƒÂ¶nlendirdik.'**
+  /// **'İçerik görüntülenemedi, tarayıcıya yönlendirdik.'**
   String get embedFailed;
 
   /// Auto metadata for back
@@ -464,31 +464,31 @@ abstract class AppLocalizations {
   /// **'Geri'**
   String get back;
 
-  /// No description provided for @updatedDaysAgo.
+  /// Auto metadata for updatedDaysAgo
   ///
   /// In tr, this message translates to:
-  /// **'{days} gÃƒÂ¼n ÃƒÂ¶nce gÃƒÂ¼ncellendi'**
+  /// **'{days} gün önce güncellendi'**
   String updatedDaysAgo(int days);
 
-  /// No description provided for @verifiedDaysAgo.
+  /// Auto metadata for verifiedDaysAgo
   ///
   /// In tr, this message translates to:
-  /// **'{days} gÃƒÂ¼n ÃƒÂ¶nce doÃ„Å¸rulandÃ„Â±'**
+  /// **'{days} gün önce doğrulandı'**
   String verifiedDaysAgo(int days);
 
-  /// No description provided for @distanceKm.
+  /// Auto metadata for distanceKm
   ///
   /// In tr, this message translates to:
   /// **'{km} km'**
   String distanceKm(num km);
 
-  /// No description provided for @avgSpendPerPerson.
+  /// Auto metadata for avgSpendPerPerson
   ///
   /// In tr, this message translates to:
-  /// **'KiÃ…Å¸i baÃ…Å¸Ã„Â± {amount}'**
+  /// **'Kişi başı {amount}'**
   String avgSpendPerPerson(String amount);
 
-  /// No description provided for @reviewsCount.
+  /// Auto metadata for reviewsCount
   ///
   /// In tr, this message translates to:
   /// **'Yorum ({count})'**
@@ -497,31 +497,31 @@ abstract class AppLocalizations {
   /// Auto metadata for openNow
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âuan aÃƒÂ§Ã„Â±k'**
+  /// **'Şuan açık'**
   String get openNow;
 
   /// Auto metadata for closedNow
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âuan kapalÃ„Â±'**
+  /// **'Şuan kapalı'**
   String get closedNow;
 
   /// Auto metadata for livePrices
   ///
   /// In tr, this message translates to:
-  /// **'CanlÃ„Â± Fiyatlar'**
+  /// **'Canlı Fiyatlar'**
   String get livePrices;
 
   /// Auto metadata for trustScore
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ven Skoru'**
+  /// **'Güven Skoru'**
   String get trustScore;
 
   /// Auto metadata for lastUpdated
   ///
   /// In tr, this message translates to:
-  /// **'Son GÃƒÂ¼ncelleme'**
+  /// **'Son Güncelleme'**
   String get lastUpdated;
 
   /// Auto metadata for lastAudit
@@ -545,73 +545,73 @@ abstract class AppLocalizations {
   /// Auto metadata for verified
   ///
   /// In tr, this message translates to:
-  /// **'DoÃ„Å¸rulandÃ„Â±'**
+  /// **'Doğrulandı'**
   String get verified;
 
   /// Auto metadata for priceVerified
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat DoÃ„Å¸rulandÃ„Â±'**
+  /// **'Fiyat Doğrulandı'**
   String get priceVerified;
 
   /// Auto metadata for communityVerified
   ///
   /// In tr, this message translates to:
-  /// **'ToplulukÃƒÂ§a DoÃ„Å¸rulandÃ„Â±'**
+  /// **'Toplulukça Doğrulandı'**
   String get communityVerified;
 
-  /// No description provided for @confirmedByUsersToday.
+  /// Auto metadata for confirmedByUsersToday
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÂ¼n {users} kullanÃ„Â±cÃ„Â± tarafÃ„Â±ndan doÃ„Å¸rulandÃ„Â±'**
+  /// **'Bugün {users} kullanıcı tarafından doğrulandı'**
   String confirmedByUsersToday(int users);
 
   /// Auto metadata for priceHistory
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat GeÃƒÂ§miÃ…Å¸i'**
+  /// **'Fiyat Geçmişi'**
   String get priceHistory;
 
   /// Auto metadata for contributeMenuPhoto
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ FotoÃ„Å¸rafÃ„Â± KatkÃ„Â±sÃ„Â± Yap'**
+  /// **'Menü Fotoğrafı Katkısı Yap'**
   String get contributeMenuPhoto;
 
-  /// Fiyat doÄŸrulama aksiyon butonu metni.
+  /// Auto metadata for verify
   ///
   /// In tr, this message translates to:
-  /// **'DOÃ„ÂRULA'**
+  /// **'Doğrula'**
   String get verify;
 
   /// Auto metadata for signatureSteaks
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“ne Ãƒâ€¡Ã„Â±kan Steakler'**
+  /// **'Öne Çıkan Steakler'**
   String get signatureSteaks;
 
-  /// No description provided for @signatureSection.
+  /// Auto metadata for signatureSection
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“ne Ãƒâ€¡Ã„Â±kan {section}'**
+  /// **'Öne Çıkan {section}'**
   String signatureSection(String section);
 
   /// Auto metadata for spottedPriceChange
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat deÃ„Å¸iÃ…Å¸ikliÃ„Å¸i mi fark ettin?'**
+  /// **'Fiyat değişikliği mi fark ettin?'**
   String get spottedPriceChange;
 
   /// Auto metadata for spottedPriceChangeSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Bu menÃƒÂ¼yÃƒÂ¼ gÃƒÂ¼ncelleyerek katkÃ„Â± saÃ„Å¸la.'**
+  /// **'Bu menüyü güncelleyerek katkı sağla.'**
   String get spottedPriceChangeSubtitle;
 
   /// Auto metadata for updateDateUnavailable
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ncelleme tarihi yok'**
+  /// **'Güncelleme tarihi yok'**
   String get updateDateUnavailable;
 
   /// Auto metadata for currentLocation
@@ -623,7 +623,7 @@ abstract class AppLocalizations {
   /// Auto metadata for changeLocation
   ///
   /// In tr, this message translates to:
-  /// **'Konumu DeÃ„Å¸iÃ…Å¸tir'**
+  /// **'Konumu Değiştir'**
   String get changeLocation;
 
   /// Auto metadata for filters
@@ -641,79 +641,79 @@ abstract class AppLocalizations {
   /// Auto metadata for budget
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¼tÃƒÂ§e'**
+  /// **'Bütçe'**
   String get budget;
 
   /// Auto metadata for freshMenuUpdates
   ///
   /// In tr, this message translates to:
-  /// **'Taze MenÃƒÂ¼ GÃƒÂ¼ncellemeleri'**
+  /// **'Taze Menü Güncellemeleri'**
   String get freshMenuUpdates;
 
   /// Auto metadata for seeAll
   ///
   /// In tr, this message translates to:
-  /// **'TÃƒÂ¼mÃƒÂ¼nÃƒÂ¼ GÃƒÂ¶r'**
+  /// **'Tümünü Gör'**
   String get seeAll;
 
   /// Auto metadata for freshLinks
   ///
   /// In tr, this message translates to:
-  /// **'Yeni BaÃ„Å¸lantÃ„Â±lar'**
+  /// **'Yeni Bağlantılar'**
   String get freshLinks;
 
   /// Auto metadata for discoveryNearbyTitle
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±nÃ„Â±mda'**
+  /// **'Yakınımda'**
   String get discoveryNearbyTitle;
 
   /// Auto metadata for discoveryNearbySubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Konumuna gÃƒÂ¶re en iyi sonuÃƒÂ§lar'**
+  /// **'Konumuna göre en iyi sonuçlar'**
   String get discoveryNearbySubtitle;
 
   /// Auto metadata for discoveryLocationSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âehir/ilÃƒÂ§eye gÃƒÂ¶re keÃ…Å¸fet'**
+  /// **'Şehir/ilçeye göre keşfet'**
   String get discoveryLocationSubtitle;
 
   /// Auto metadata for nearbyVerifiedSpots
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±ndaki DoÃ„Å¸rulanmÃ„Â±Ã…Å¸ Mekanlar'**
+  /// **'Yakındaki Doğrulanmış Mekanlar'**
   String get nearbyVerifiedSpots;
 
   /// Auto metadata for noNearbyVerifiedSpots
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±nda doÃ„Å¸rulanmÃ„Â±Ã…Å¸ mekan bulunamadÃ„Â±'**
+  /// **'Yakında doğrulanmış mekan bulunamadı'**
   String get noNearbyVerifiedSpots;
 
   /// Auto metadata for changeFiltersTryAgain
   ///
   /// In tr, this message translates to:
-  /// **'Konumu veya filtreleri deÃ„Å¸iÃ…Å¸tirip tekrar dene.'**
+  /// **'Konumu veya filtreleri değiştirip tekrar dene.'**
   String get changeFiltersTryAgain;
 
   /// Auto metadata for noFreshData
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÂ¼z taze veri yok'**
+  /// **'Henüz taze veri yok'**
   String get noFreshData;
 
   /// Auto metadata for freshDataWillAppear
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±ndaki menÃƒÂ¼ gÃƒÂ¼ncellemeleri burada gÃƒÂ¶rÃƒÂ¼necek.'**
+  /// **'Yakındaki menü güncellemeleri burada görünecek.'**
   String get freshDataWillAppear;
 
   /// Auto metadata for businessLabel
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸letme'**
+  /// **'İşletme'**
   String get businessLabel;
 
   /// Auto metadata for report
@@ -743,97 +743,97 @@ abstract class AppLocalizations {
   /// Auto metadata for other
   ///
   /// In tr, this message translates to:
-  /// **'DiÃ„Å¸er'**
+  /// **'Diğer'**
   String get other;
 
-  /// No description provided for @itemsCount.
+  /// Auto metadata for itemsCount
   ///
   /// In tr, this message translates to:
-  /// **'{count} ÃƒÂ¼rÃƒÂ¼n'**
+  /// **'{count} ürün'**
   String itemsCount(int count);
 
   /// Auto metadata for weakConnectionQueueNotice
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ„Å¸lantÃ„Â± zayÃ„Â±f. DoÃ„Å¸rulama sÃ„Â±raya alÃ„Â±ndÃ„Â±, ÃƒÂ§evrimiÃƒÂ§i olunca otomatik gÃƒÂ¶nderilecek.'**
+  /// **'Bağlantı zayıf. Doğrulama sıraya alındı, çevrimiçi olunca otomatik gönderilecek.'**
   String get weakConnectionQueueNotice;
 
-  /// No description provided for @pendingVerificationsSent.
+  /// Auto metadata for pendingVerificationsSent
   ///
   /// In tr, this message translates to:
-  /// **'{count} bekleyen doÃ„Å¸rulama gÃƒÂ¶nderildi.'**
+  /// **'{count} bekleyen doğrulama gönderildi.'**
   String pendingVerificationsSent(int count);
 
   /// Auto metadata for loadMenuItemsFirst
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nce menÃƒÂ¼ ÃƒÂ¼rÃƒÂ¼nlerini yÃƒÂ¼kle.'**
+  /// **'Önce menü ürünlerini yükle.'**
   String get loadMenuItemsFirst;
 
   /// Auto metadata for menuNotAddedYet
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÂ¼z eklenmedi'**
+  /// **'Henüz eklenmedi'**
   String get menuNotAddedYet;
 
   /// Auto metadata for menuNotAddedYetDescription
   ///
   /// In tr, this message translates to:
-  /// **'Bu iÃ…Å¸letme iÃƒÂ§in henÃƒÂ¼z menÃƒÂ¼ eklenmemiÃ…Å¸.'**
+  /// **'Bu işletme için henüz menü eklenmemiş.'**
   String get menuNotAddedYetDescription;
 
   /// Auto metadata for weakConnection
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ„Å¸lantÃ„Â± zayÃ„Â±f'**
+  /// **'Bağlantı zayıf'**
   String get weakConnection;
 
   /// Auto metadata for contentLoadFailedCheckInternet
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°ÃƒÂ§erik Ã…Å¸u anda yÃƒÂ¼klenemedi. Varsa ÃƒÂ¶nbellek verisi gÃƒÂ¶sterilecek. Ã„Â°nterneti kontrol edip tekrar dene.'**
+  /// **'İçerik şu anda yüklenemedi. Varsa önbellek verisi gösterilecek. İnterneti kontrol edip tekrar dene.'**
   String get contentLoadFailedCheckInternet;
 
   /// Auto metadata for trustDataUnavailable
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ven verisi yok'**
+  /// **'Güven verisi yok'**
   String get trustDataUnavailable;
 
   /// Auto metadata for freshnessAndTrust
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ncellik ve gÃƒÂ¼ven'**
+  /// **'Güncellik ve güven'**
   String get freshnessAndTrust;
 
   /// Auto metadata for menuUpdatedLabel
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ GÃƒÂ¼ncellendi'**
+  /// **'Menü Güncellendi'**
   String get menuUpdatedLabel;
 
   /// Auto metadata for lastPriceVerification
   ///
   /// In tr, this message translates to:
-  /// **'Son Fiyat DoÃ„Å¸rulamasÃ„Â±'**
+  /// **'Son Fiyat Doğrulaması'**
   String get lastPriceVerification;
 
   /// Auto metadata for trustScoreLabel
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ven Skoru'**
+  /// **'Güven Skoru'**
   String get trustScoreLabel;
 
   /// Auto metadata for last3MonthsPriceChange
   ///
   /// In tr, this message translates to:
-  /// **'Son 3 Ay Fiyat DeÃ„Å¸iÃ…Å¸imi'**
+  /// **'Son 3 Ay Fiyat Değişimi'**
   String get last3MonthsPriceChange;
 
   /// Auto metadata for hoursInfoUnavailable
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€¡alÃ„Â±Ã…Å¸ma saatleri bilgisi yok'**
+  /// **'Çalışma saatleri bilgisi yok'**
   String get hoursInfoUnavailable;
 
   /// Auto metadata for hoursInfoMissing
@@ -845,7 +845,7 @@ abstract class AppLocalizations {
   /// Auto metadata for addHoursHelp
   ///
   /// In tr, this message translates to:
-  /// **'KullanÃ„Â±cÃ„Â±lara yardÃ„Â±mcÃ„Â± olmak iÃƒÂ§in ÃƒÂ§alÃ„Â±Ã…Å¸ma saatlerini ekle.'**
+  /// **'Kullanıcılara yardımcı olmak için çalışma saatlerini ekle.'**
   String get addHoursHelp;
 
   /// Auto metadata for reportHoursInfo
@@ -857,43 +857,43 @@ abstract class AppLocalizations {
   /// Auto metadata for menus
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ler'**
+  /// **'Menüler'**
   String get menus;
 
   /// Auto metadata for menusLoadFailed
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ler yÃƒÂ¼klenemedi'**
+  /// **'Menüler yüklenemedi'**
   String get menusLoadFailed;
 
   /// Auto metadata for noMenu
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ yok'**
+  /// **'Menü yok'**
   String get noMenu;
 
   /// Auto metadata for addFirstMenuHelp
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°lk menÃƒÂ¼yÃƒÂ¼ ekleyerek kullanÃ„Â±cÃ„Â±lara yardÃ„Â±mcÃ„Â± ol.'**
+  /// **'İlk menüyü ekleyerek kullanıcılara yardımcı ol.'**
   String get addFirstMenuHelp;
 
   /// Auto metadata for crowdInfoUnavailable
   ///
   /// In tr, this message translates to:
-  /// **'YoÃ„Å¸unluk bilgisi yok'**
+  /// **'Yoğunluk bilgisi yok'**
   String get crowdInfoUnavailable;
 
-  /// No description provided for @liveCrowdLabel.
+  /// Auto metadata for liveCrowdLabel
   ///
   /// In tr, this message translates to:
-  /// **'AnlÃ„Â±k yoÃ„Å¸unluk: {state}'**
+  /// **'Anlık yoğunluk: {state}'**
   String liveCrowdLabel(String state);
 
   /// Auto metadata for reviewsLoadFailed
   ///
   /// In tr, this message translates to:
-  /// **'Yorumlar yÃƒÂ¼klenemedi'**
+  /// **'Yorumlar yüklenemedi'**
   String get reviewsLoadFailed;
 
   /// Auto metadata for noReviews
@@ -905,13 +905,13 @@ abstract class AppLocalizations {
   /// Auto metadata for leaveFirstReviewHelp
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°lk yorumu sen yaz.'**
+  /// **'İlk yorumu sen yaz.'**
   String get leaveFirstReviewHelp;
 
   /// Auto metadata for writeFirstReview
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°lk yorumu yaz'**
+  /// **'İlk yorumu yaz'**
   String get writeFirstReview;
 
   /// Auto metadata for recentReviews
@@ -935,49 +935,49 @@ abstract class AppLocalizations {
   /// Auto metadata for menuDataUnavailable
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ verisi yok'**
+  /// **'Menü verisi yok'**
   String get menuDataUnavailable;
 
   /// Auto metadata for noMenuProductsYet
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÂ¼z menÃƒÂ¼ ÃƒÂ¼rÃƒÂ¼nÃƒÂ¼ yok'**
+  /// **'Henüz menü ürünü yok'**
   String get noMenuProductsYet;
 
   /// Auto metadata for menu
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼'**
+  /// **'Menü'**
   String get menu;
 
-  /// No description provided for @featuredFromCuisine.
+  /// Auto metadata for featuredFromCuisine
   ///
   /// In tr, this message translates to:
-  /// **'{cuisine} mutfaÃ„Å¸Ã„Â±ndan ÃƒÂ¶ne ÃƒÂ§Ã„Â±kanlar'**
+  /// **'{cuisine} mutfağından öne çıkanlar'**
   String featuredFromCuisine(String cuisine);
 
   /// Auto metadata for weeklyPriceChange
   ///
   /// In tr, this message translates to:
-  /// **'+Ã¢â€šÂº50 bu hafta'**
+  /// **'+₺50 bu hafta'**
   String get weeklyPriceChange;
 
   /// Auto metadata for chartPlaceholderSoon
   ///
   /// In tr, this message translates to:
-  /// **'Grafik alanÃ„Â± (yakÃ„Â±nda)'**
+  /// **'Grafik alanı (yakında)'**
   String get chartPlaceholderSoon;
 
   /// Auto metadata for featuredCuisineSuffix
   ///
   /// In tr, this message translates to:
-  /// **'mutfaÃ„Å¸Ã„Â±ndan ÃƒÂ¶ne ÃƒÂ§Ã„Â±kan lezzetler'**
+  /// **'mutfağından öne çıkan lezzetler'**
   String get featuredCuisineSuffix;
 
   /// Auto metadata for connectionProblemTryAgain
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ„Å¸lantÃ„Â± sorunu var, tekrar dene.'**
+  /// **'Bağlantı sorunu var, tekrar dene.'**
   String get connectionProblemTryAgain;
 
   /// Auto metadata for noActiveCampaign
@@ -995,10 +995,10 @@ abstract class AppLocalizations {
   /// Auto metadata for noAmenityInfo
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°mkan bilgisi yok'**
+  /// **'İmkan bilgisi yok'**
   String get noAmenityInfo;
 
-  /// No description provided for @amenityCountLabel.
+  /// Auto metadata for amenityCountLabel
   ///
   /// In tr, this message translates to:
   /// **'{count} imkan'**
@@ -1007,31 +1007,31 @@ abstract class AppLocalizations {
   /// Auto metadata for noLocationVerificationData
   ///
   /// In tr, this message translates to:
-  /// **'Konum doÃ„Å¸rulama verisi yok'**
+  /// **'Konum doğrulama verisi yok'**
   String get noLocationVerificationData;
 
   /// Auto metadata for lastLocationVerification
   ///
   /// In tr, this message translates to:
-  /// **'Son konum doÃ„Å¸rulamasÃ„Â±'**
+  /// **'Son konum doğrulaması'**
   String get lastLocationVerification;
 
   /// Auto metadata for noNewProductRecord
   ///
   /// In tr, this message translates to:
-  /// **'Yeni ÃƒÂ¼rÃƒÂ¼n kaydÃ„Â± yok'**
+  /// **'Yeni ürün kaydı yok'**
   String get noNewProductRecord;
 
   /// Auto metadata for newProduct
   ///
   /// In tr, this message translates to:
-  /// **'Yeni ÃƒÂ¼rÃƒÂ¼n'**
+  /// **'Yeni ürün'**
   String get newProduct;
 
   /// Auto metadata for reportInfoErrorPrefix
   ///
   /// In tr, this message translates to:
-  /// **'Bildirim bilgisi hatasÃ„Â±:'**
+  /// **'Bildirim bilgisi hatası:'**
   String get reportInfoErrorPrefix;
 
   /// Auto metadata for noLocation
@@ -1073,25 +1073,25 @@ abstract class AppLocalizations {
   /// Auto metadata for tabSides
   ///
   /// In tr, this message translates to:
-  /// **'Yan ÃƒÅ“rÃƒÂ¼nler'**
+  /// **'Yan Ürünler'**
   String get tabSides;
 
   /// Auto metadata for tabBeverages
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°ÃƒÂ§ecekler'**
+  /// **'İçecekler'**
   String get tabBeverages;
 
   /// Auto metadata for locationNotAvailable
   ///
   /// In tr, this message translates to:
-  /// **'Konum kullanÃ„Â±lamÃ„Â±yor'**
+  /// **'Konum kullanılamıyor'**
   String get locationNotAvailable;
 
   /// Auto metadata for sortRecommended
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nerilen'**
+  /// **'Önerilen'**
   String get sortRecommended;
 
   /// Auto metadata for sortDistance
@@ -1115,19 +1115,19 @@ abstract class AppLocalizations {
   /// Auto metadata for sortNewlyVerified
   ///
   /// In tr, this message translates to:
-  /// **'Yeni DoÃ„Å¸rulanan'**
+  /// **'Yeni Doğrulanan'**
   String get sortNewlyVerified;
 
   /// Auto metadata for rankingFormulaTitle
   ///
   /// In tr, this message translates to:
-  /// **'SÃ„Â±ralama FormÃƒÂ¼lÃƒÂ¼'**
+  /// **'Sıralama Formülü'**
   String get rankingFormulaTitle;
 
   /// Auto metadata for rankingFormulaIntro
   ///
   /// In tr, this message translates to:
-  /// **'SÃ„Â±ralama puanÃ„Â± Ã…Å¸u bileÃ…Å¸enlerden oluÃ…Å¸ur:'**
+  /// **'Sıralama puanı şu bileşenlerden oluşur:'**
   String get rankingFormulaIntro;
 
   /// Auto metadata for rankingWeightDistance
@@ -1139,13 +1139,13 @@ abstract class AppLocalizations {
   /// Auto metadata for rankingWeightAccuracy
   ///
   /// In tr, this message translates to:
-  /// **'DoÃ„Å¸ruluk aÃ„Å¸Ã„Â±rlÃ„Â±Ã„Å¸Ã„Â±'**
+  /// **'Doğruluk ağırlığı'**
   String get rankingWeightAccuracy;
 
   /// Auto metadata for rankingWeightEngagement
   ///
   /// In tr, this message translates to:
-  /// **'EtkileÃ…Å¸im aÃ„Å¸Ã„Â±rlÃ„Â±Ã„Å¸Ã„Â±'**
+  /// **'Etkileşim ağırlığı'**
   String get rankingWeightEngagement;
 
   /// Auto metadata for rankingWeightQuality
@@ -1157,10 +1157,10 @@ abstract class AppLocalizations {
   /// Auto metadata for rankingFormulaNote
   ///
   /// In tr, this message translates to:
-  /// **'Not: Puanlar dÃƒÂ¼zenli olarak gÃƒÂ¼ncellenir.'**
+  /// **'Not: Puanlar düzenli olarak güncellenir.'**
   String get rankingFormulaNote;
 
-  /// No description provided for @minRatingLabel.
+  /// Auto metadata for minRatingLabel
   ///
   /// In tr, this message translates to:
   /// **'Minimum puan: {value}'**
@@ -1175,19 +1175,19 @@ abstract class AppLocalizations {
   /// Auto metadata for prioritizeOpenNow
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âu an aÃƒÂ§Ã„Â±k olanlarÃ„Â± ÃƒÂ¶ne ÃƒÂ§Ã„Â±kar'**
+  /// **'Şu an açık olanları öne çıkar'**
   String get prioritizeOpenNow;
 
   /// Auto metadata for prioritizeNewlyVerified
   ///
   /// In tr, this message translates to:
-  /// **'Yeni doÃ„Å¸rulananlarÃ„Â± ÃƒÂ¶ne ÃƒÂ§Ã„Â±kar'**
+  /// **'Yeni doğrulananları öne çıkar'**
   String get prioritizeNewlyVerified;
 
   /// Auto metadata for reset
   ///
   /// In tr, this message translates to:
-  /// **'SÃ„Â±fÃ„Â±rla'**
+  /// **'Sıfırla'**
   String get reset;
 
   /// Auto metadata for apply
@@ -1217,25 +1217,25 @@ abstract class AppLocalizations {
   /// Auto metadata for priceTierPremium
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÅ“st Seviye'**
+  /// **'Üst Seviye'**
   String get priceTierPremium;
 
   /// Auto metadata for tabAllItems
   ///
   /// In tr, this message translates to:
-  /// **'TÃƒÂ¼m ÃƒÅ“rÃƒÂ¼nler'**
+  /// **'Tüm Ürünler'**
   String get tabAllItems;
 
   /// Auto metadata for tabStarters
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ…Å¸langÃ„Â±ÃƒÂ§lar'**
+  /// **'Başlangıçlar'**
   String get tabStarters;
 
   /// Auto metadata for usersLabel
   ///
   /// In tr, this message translates to:
-  /// **'kullanÃ„Â±cÃ„Â±'**
+  /// **'kullanıcı'**
   String get usersLabel;
 
   /// Auto metadata for unknown
@@ -1247,13 +1247,13 @@ abstract class AppLocalizations {
   /// Auto metadata for today
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÂ¼n'**
+  /// **'Bugün'**
   String get today;
 
   /// Auto metadata for dayUnit
   ///
   /// In tr, this message translates to:
-  /// **'gÃƒÂ¼n'**
+  /// **'gün'**
   String get dayUnit;
 
   /// Auto metadata for tekrarDene
@@ -1265,7 +1265,7 @@ abstract class AppLocalizations {
   /// Auto metadata for vazgec
   ///
   /// In tr, this message translates to:
-  /// **'VazgeÃƒÂ§'**
+  /// **'Vazgeç'**
   String get vazgec;
 
   /// Auto metadata for reddet
@@ -1283,7 +1283,7 @@ abstract class AppLocalizations {
   /// Auto metadata for isleniyor
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸leniyor...'**
+  /// **'İşleniyor...'**
   String get isleniyor;
 
   /// Auto metadata for onayla
@@ -1295,19 +1295,19 @@ abstract class AppLocalizations {
   /// Auto metadata for approved
   ///
   /// In tr, this message translates to:
-  /// **'OnaylandÃ„Â±'**
+  /// **'Onaylandı'**
   String get approved;
 
   /// Auto metadata for tumu
   ///
   /// In tr, this message translates to:
-  /// **'TÃƒÂ¼mÃƒÂ¼'**
+  /// **'Tümü'**
   String get tumu;
 
   /// Auto metadata for kayitBulunamadi
   ///
   /// In tr, this message translates to:
-  /// **'KayÃ„Â±t bulunamadÃ„Â±.'**
+  /// **'Kayıt bulunamadı.'**
   String get kayitBulunamadi;
 
   /// Auto metadata for temizle
@@ -1337,13 +1337,13 @@ abstract class AppLocalizations {
   /// Auto metadata for satirSec
   ///
   /// In tr, this message translates to:
-  /// **'SatÃ„Â±r seÃƒÂ§'**
+  /// **'Satır seç'**
   String get satirSec;
 
   /// Auto metadata for gonder
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶nder'**
+  /// **'Gönder'**
   String get gonder;
 
   /// Auto metadata for rejected
@@ -1361,7 +1361,7 @@ abstract class AppLocalizations {
   /// Auto metadata for duzenle
   ///
   /// In tr, this message translates to:
-  /// **'DÃƒÂ¼zenle'**
+  /// **'Düzenle'**
   String get duzenle;
 
   /// Auto metadata for eminMisin
@@ -1373,7 +1373,7 @@ abstract class AppLocalizations {
   /// Auto metadata for guncellendi
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ncellendi.'**
+  /// **'Güncellendi.'**
   String get guncellendi;
 
   /// Auto metadata for reddedildi_2
@@ -1385,19 +1385,19 @@ abstract class AppLocalizations {
   /// Auto metadata for sla
   ///
   /// In tr, this message translates to:
-  /// **'Geri DÃƒÂ¶nÃƒÂ¼Ã…Å¸ SÃƒÂ¼resi'**
+  /// **'Geri Dönüş Süresi'**
   String get sla;
 
   /// Auto metadata for csvDisaAktar
   ///
   /// In tr, this message translates to:
-  /// **'CSV DÃ„Â±Ã…Å¸a Aktar'**
+  /// **'CSV Dışa Aktar'**
   String get csvDisaAktar;
 
   /// Auto metadata for onaylandi
   ///
   /// In tr, this message translates to:
-  /// **'OnaylandÃ„Â±'**
+  /// **'Onaylandı'**
   String get onaylandi;
 
   /// Auto metadata for yenile
@@ -1427,7 +1427,7 @@ abstract class AppLocalizations {
   /// Auto metadata for tabRecommended
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nerilenler'**
+  /// **'Önerilenler'**
   String get tabRecommended;
 
   /// Auto metadata for tabCampaigns
@@ -1445,25 +1445,25 @@ abstract class AppLocalizations {
   /// Auto metadata for whyTop
   ///
   /// In tr, this message translates to:
-  /// **'Neden ÃƒÂ¼stte?'**
+  /// **'Neden üstte?'**
   String get whyTop;
 
   /// Auto metadata for quickSuggestionTitle
   ///
   /// In tr, this message translates to:
-  /// **'HÃ„Â±zlÃ„Â± Ãƒâ€“neri'**
+  /// **'Hızlı Öneri'**
   String get quickSuggestionTitle;
 
   /// Auto metadata for quickSuggestionSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Dakikalar iÃƒÂ§inde karar ver'**
+  /// **'Dakikalar içinde karar ver'**
   String get quickSuggestionSubtitle;
 
   /// Auto metadata for quickSuggestionPreset
   ///
   /// In tr, this message translates to:
-  /// **'2 kiÃ…Å¸i / Ã¢â€šÂº600'**
+  /// **'2 kişi / ₺600'**
   String get quickSuggestionPreset;
 
   /// Auto metadata for whatToEatTitle
@@ -1475,13 +1475,13 @@ abstract class AppLocalizations {
   /// Auto metadata for whatToEatSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'HÃ„Â±zlÃ„Â± ÃƒÂ¶neriler'**
+  /// **'Hızlı öneriler'**
   String get whatToEatSubtitle;
 
   /// Auto metadata for nearbyShort
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±nda'**
+  /// **'Yakında'**
   String get nearbyShort;
 
   /// Auto metadata for affordableShort
@@ -1493,19 +1493,19 @@ abstract class AppLocalizations {
   /// Auto metadata for quickDecisionShort
   ///
   /// In tr, this message translates to:
-  /// **'HÃ„Â±zlÃ„Â± Karar'**
+  /// **'Hızlı Karar'**
   String get quickDecisionShort;
 
   /// Auto metadata for start
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ…Å¸la'**
+  /// **'Başla'**
   String get start;
 
   /// Auto metadata for friendGroupTitle
   ///
   /// In tr, this message translates to:
-  /// **'ArkadaÃ…Å¸ Grubu'**
+  /// **'Arkadaş Grubu'**
   String get friendGroupTitle;
 
   /// Auto metadata for friendGroupSubtitle
@@ -1517,19 +1517,19 @@ abstract class AppLocalizations {
   /// Auto metadata for openGroup
   ///
   /// In tr, this message translates to:
-  /// **'Grubu AÃƒÂ§'**
+  /// **'Grubu Aç'**
   String get openGroup;
 
   /// Auto metadata for myGroups
   ///
   /// In tr, this message translates to:
-  /// **'GruplarÃ„Â±m'**
+  /// **'Gruplarım'**
   String get myGroups;
 
   /// Auto metadata for onTheRoadTitle
   ///
   /// In tr, this message translates to:
-  /// **'YoldayÃ„Â±m'**
+  /// **'Yoldayım'**
   String get onTheRoadTitle;
 
   /// Auto metadata for onTheRoadSubtitle
@@ -1547,49 +1547,49 @@ abstract class AppLocalizations {
   /// Auto metadata for heroesSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“ne ÃƒÂ§Ã„Â±kan keÃ…Å¸ifler'**
+  /// **'Öne çıkan keşifler'**
   String get heroesSubtitle;
 
   /// Auto metadata for view
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶rÃƒÂ¼ntÃƒÂ¼le'**
+  /// **'Görüntüle'**
   String get view;
 
   /// Auto metadata for bestBusinessesThisWeek
   ///
   /// In tr, this message translates to:
-  /// **'Bu HaftanÃ„Â±n En Ã„Â°yi Ã„Â°Ã…Å¸letmeleri'**
+  /// **'Bu Haftanın En İyi İşletmeleri'**
   String get bestBusinessesThisWeek;
 
   /// Auto metadata for bestBusinessesThisMonth
   ///
   /// In tr, this message translates to:
-  /// **'Bu AyÃ„Â±n En Ã„Â°yi Ã„Â°Ã…Å¸letmeleri'**
+  /// **'Bu Ayın En İyi İşletmeleri'**
   String get bestBusinessesThisMonth;
 
   /// Auto metadata for onTheRoad20km
   ///
   /// In tr, this message translates to:
-  /// **'Yolda Ã¢â‚¬Â¢ 20 km'**
+  /// **'Yolda • 20 km'**
   String get onTheRoad20km;
 
-  /// No description provided for @nearbyKm.
+  /// Auto metadata for nearbyKm
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±nda Ã¢â‚¬Â¢ {km} km'**
+  /// **'Yakında • {km} km'**
   String nearbyKm(int km);
 
   /// Auto metadata for liveResultsUpdating
   ///
   /// In tr, this message translates to:
-  /// **'CanlÃ„Â± sonuÃƒÂ§lar gÃƒÂ¼ncelleniyor'**
+  /// **'Canlı sonuçlar güncelleniyor'**
   String get liveResultsUpdating;
 
   /// Auto metadata for businessApprovedData
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸letme onaylÃ„Â± verisi'**
+  /// **'İşletme onaylı verisi'**
   String get businessApprovedData;
 
   /// Auto metadata for communityData
@@ -1601,7 +1601,7 @@ abstract class AppLocalizations {
   /// Auto metadata for removeFromFavorites
   ///
   /// In tr, this message translates to:
-  /// **'Favorilerden ÃƒÂ§Ã„Â±kar'**
+  /// **'Favorilerden çıkar'**
   String get removeFromFavorites;
 
   /// Auto metadata for locationPermissionTitle
@@ -1613,133 +1613,133 @@ abstract class AppLocalizations {
   /// Auto metadata for locationPermissionDescription
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±ndaki yerleri gÃƒÂ¶stermek iÃƒÂ§in konum izni gerekli.'**
+  /// **'Yakındaki yerleri göstermek için konum izni gerekli.'**
   String get locationPermissionDescription;
 
   /// Auto metadata for allow
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°zin Ver'**
+  /// **'İzin Ver'**
   String get allow;
 
   /// Auto metadata for selectLocation
   ///
   /// In tr, this message translates to:
-  /// **'Konum SeÃƒÂ§'**
+  /// **'Konum Seç'**
   String get selectLocation;
 
   /// Auto metadata for manualLocationHint
   ///
   /// In tr, this message translates to:
-  /// **'Konumu manuel seÃƒÂ§ebilirsin.'**
+  /// **'Konumu manuel seçebilirsin.'**
   String get manualLocationHint;
 
   /// Auto metadata for noResultsYet
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÂ¼z sonuÃƒÂ§ yok'**
+  /// **'Henüz sonuç yok'**
   String get noResultsYet;
 
   /// Auto metadata for lowDataInArea
   ///
   /// In tr, this message translates to:
-  /// **'Bu bÃƒÂ¶lgede veri az'**
+  /// **'Bu bölgede veri az'**
   String get lowDataInArea;
 
   /// Auto metadata for tryDifferentSearchOrFilter
   ///
   /// In tr, this message translates to:
-  /// **'FarklÃ„Â± bir arama ya da filtre dene.'**
+  /// **'Farklı bir arama ya da filtre dene.'**
   String get tryDifferentSearchOrFilter;
 
   /// Auto metadata for beFirstContributorInArea
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lgede ilk katkÃ„Â±yÃ„Â± sen yap.'**
+  /// **'Bölgede ilk katkıyı sen yap.'**
   String get beFirstContributorInArea;
 
   /// Auto metadata for topVerifiedMenus
   ///
   /// In tr, this message translates to:
-  /// **'En Ãƒâ€¡ok DoÃ„Å¸rulanan MenÃƒÂ¼ler'**
+  /// **'En Çok Doğrulanan Menüler'**
   String get topVerifiedMenus;
 
   /// Auto metadata for mostTrustedMenusInCity
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âehirde En GÃƒÂ¼venilen MenÃƒÂ¼ler'**
+  /// **'Şehirde En Güvenilen Menüler'**
   String get mostTrustedMenusInCity;
 
   /// Auto metadata for seeList
   ///
   /// In tr, this message translates to:
-  /// **'Listeyi GÃƒÂ¶r'**
+  /// **'Listeyi Gör'**
   String get seeList;
 
   /// Auto metadata for localContributionCall
   ///
   /// In tr, this message translates to:
-  /// **'Yerel katkÃ„Â± ÃƒÂ§aÃ„Å¸rÃ„Â±sÃ„Â±'**
+  /// **'Yerel katkı çağrısı'**
   String get localContributionCall;
 
   /// Auto metadata for addFirstMenu
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°lk MenÃƒÂ¼yÃƒÂ¼ Ekle'**
+  /// **'İlk Menüyü Ekle'**
   String get addFirstMenu;
 
   /// Auto metadata for suggestBusiness
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸letme Ãƒâ€“ner'**
+  /// **'İşletme Öner'**
   String get suggestBusiness;
 
   /// Auto metadata for noSurpriseSuggestionNow
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âu an sÃƒÂ¼rpriz ÃƒÂ¶neri yok'**
+  /// **'Şu an sürpriz öneri yok'**
   String get noSurpriseSuggestionNow;
 
   /// Auto metadata for priceVerifiedInLast48h
   ///
   /// In tr, this message translates to:
-  /// **'Bu fiyat son 48 saatte doÃ„Å¸rulandÃ„Â±'**
+  /// **'Bu fiyat son 48 saatte doğrulandı'**
   String get priceVerifiedInLast48h;
 
   /// Auto metadata for menuMayBeOutdated
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ gÃƒÂ¼ncel olmayabilir'**
+  /// **'Menü güncel olmayabilir'**
   String get menuMayBeOutdated;
 
   /// Auto metadata for verifiedByBusiness
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸letme tarafÃ„Â±ndan doÃ„Å¸rulandÃ„Â±'**
+  /// **'İşletme tarafından doğrulandı'**
   String get verifiedByBusiness;
 
   /// Auto metadata for updatedByCommunity
   ///
   /// In tr, this message translates to:
-  /// **'Topluluk tarafÃ„Â±ndan gÃƒÂ¼ncellendi'**
+  /// **'Topluluk tarafından güncellendi'**
   String get updatedByCommunity;
 
   /// Auto metadata for topRankedInDistrict
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°lÃƒÂ§ede ÃƒÂ¼st sÃ„Â±ralarda'**
+  /// **'İlçede üst sıralarda'**
   String get topRankedInDistrict;
 
   /// Auto metadata for surpriseDiscoveryTitle
   ///
   /// In tr, this message translates to:
-  /// **'SÃƒÂ¼rpriz KeÃ…Å¸if'**
+  /// **'Sürpriz Keşif'**
   String get surpriseDiscoveryTitle;
 
   /// Auto metadata for surpriseDiscoverySubtitle
   ///
   /// In tr, this message translates to:
-  /// **'AlÃ„Â±Ã…Å¸kanlÃ„Â±Ã„Å¸Ã„Â±nÃ„Â±n dÃ„Â±Ã…Å¸Ã„Â±na ÃƒÂ§Ã„Â±k'**
+  /// **'Alışkanlığının dışına çık'**
   String get surpriseDiscoverySubtitle;
 
   /// Auto metadata for randomButGood
@@ -1751,31 +1751,31 @@ abstract class AppLocalizations {
   /// Auto metadata for outsideYourUsual
   ///
   /// In tr, this message translates to:
-  /// **'Rutin dÃ„Â±Ã…Å¸Ã„Â±'**
+  /// **'Rutin dışı'**
   String get outsideYourUsual;
 
   /// Auto metadata for pricePerformanceSurprise
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat/performans sÃƒÂ¼rprizi'**
+  /// **'Fiyat/performans sürprizi'**
   String get pricePerformanceSurprise;
 
   /// Auto metadata for nearbyCampaignsAndAnnouncements
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±ndaki kampanyalar ve duyurular'**
+  /// **'Yakındaki kampanyalar ve duyurular'**
   String get nearbyCampaignsAndAnnouncements;
 
   /// Auto metadata for noNearbyCampaign
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±nda kampanya yok'**
+  /// **'Yakında kampanya yok'**
   String get noNearbyCampaign;
 
   /// Auto metadata for noActiveAnnouncementInArea
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lgede aktif duyuru yok'**
+  /// **'Bölgede aktif duyuru yok'**
   String get noActiveAnnouncementInArea;
 
   /// Auto metadata for remainingLabel
@@ -1799,25 +1799,25 @@ abstract class AppLocalizations {
   /// Auto metadata for noLocationDataForMap
   ///
   /// In tr, this message translates to:
-  /// **'Harita iÃƒÂ§in konum verisi yok'**
+  /// **'Harita için konum verisi yok'**
   String get noLocationDataForMap;
 
   /// Auto metadata for mapDataMissingUseList
   ///
   /// In tr, this message translates to:
-  /// **'Harita verisi eksik, liste gÃƒÂ¶rÃƒÂ¼nÃƒÂ¼mÃƒÂ¼nÃƒÂ¼ kullan.'**
+  /// **'Harita verisi eksik, liste görünümünü kullan.'**
   String get mapDataMissingUseList;
 
   /// Auto metadata for openMapView
   ///
   /// In tr, this message translates to:
-  /// **'Harita GÃƒÂ¶rÃƒÂ¼nÃƒÂ¼mÃƒÂ¼nÃƒÂ¼ AÃƒÂ§'**
+  /// **'Harita Görünümünü Aç'**
   String get openMapView;
 
   /// Auto metadata for mapHintTapPins
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã„Å¸nelere dokunarak detaylarÃ„Â± gÃƒÂ¶r.'**
+  /// **'İğnelere dokunarak detayları gör.'**
   String get mapHintTapPins;
 
   /// Auto metadata for locationPermissionRequired
@@ -1829,37 +1829,37 @@ abstract class AppLocalizations {
   /// Auto metadata for noFoodFoundForCriteria
   ///
   /// In tr, this message translates to:
-  /// **'Bu kriterlere uygun yemek bulunamadÃ„Â±'**
+  /// **'Bu kriterlere uygun yemek bulunamadı'**
   String get noFoodFoundForCriteria;
 
   /// Auto metadata for whatToEatDescription
   ///
   /// In tr, this message translates to:
-  /// **'Tercihlerine gÃƒÂ¶re ÃƒÂ¶neriler'**
+  /// **'Tercihlerine göre öneriler'**
   String get whatToEatDescription;
 
   /// Auto metadata for stepPeopleCount
   ///
   /// In tr, this message translates to:
-  /// **'KiÃ…Å¸i sayÃ„Â±sÃ„Â±'**
+  /// **'Kişi sayısı'**
   String get stepPeopleCount;
 
   /// Auto metadata for quickDecisionThreeOptions
   ///
   /// In tr, this message translates to:
-  /// **'3 seÃƒÂ§enekle hÃ„Â±zlÃ„Â± karar'**
+  /// **'3 seçenekle hızlı karar'**
   String get quickDecisionThreeOptions;
 
   /// Auto metadata for stepBudgetTotal
   ///
   /// In tr, this message translates to:
-  /// **'Toplam bÃƒÂ¼tÃƒÂ§e'**
+  /// **'Toplam bütçe'**
   String get stepBudgetTotal;
 
   /// Auto metadata for budgetTl
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¼tÃƒÂ§e (Ã¢â€šÂº)'**
+  /// **'Bütçe (₺)'**
   String get budgetTl;
 
   /// Auto metadata for stepDistance
@@ -1871,19 +1871,19 @@ abstract class AppLocalizations {
   /// Auto metadata for locationNotSelected
   ///
   /// In tr, this message translates to:
-  /// **'Konum seÃƒÂ§ilmedi'**
+  /// **'Konum seçilmedi'**
   String get locationNotSelected;
 
   /// Auto metadata for seeSuggestions
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nerileri GÃƒÂ¶r'**
+  /// **'Önerileri Gör'**
   String get seeSuggestions;
 
   /// Auto metadata for getSingleSuggestion
   ///
   /// In tr, this message translates to:
-  /// **'Tek ÃƒÂ¶neri al'**
+  /// **'Tek öneri al'**
   String get getSingleSuggestion;
 
   /// Auto metadata for go
@@ -1895,19 +1895,19 @@ abstract class AppLocalizations {
   /// Auto metadata for restart
   ///
   /// In tr, this message translates to:
-  /// **'Yeniden BaÃ…Å¸lat'**
+  /// **'Yeniden Başlat'**
   String get restart;
 
   /// Auto metadata for quickShortcuts
   ///
   /// In tr, this message translates to:
-  /// **'HÃ„Â±zlÃ„Â± KÃ„Â±sayollar'**
+  /// **'Hızlı Kısayollar'**
   String get quickShortcuts;
 
   /// Auto metadata for quickShortcutsSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'En sÃ„Â±k kullanÃ„Â±lanlar'**
+  /// **'En sık kullanılanlar'**
   String get quickShortcutsSubtitle;
 
   /// Auto metadata for savedItems
@@ -1919,25 +1919,25 @@ abstract class AppLocalizations {
   /// Auto metadata for myFriendGroup
   ///
   /// In tr, this message translates to:
-  /// **'ArkadaÃ…Å¸ Grubum'**
+  /// **'Arkadaş Grubum'**
   String get myFriendGroup;
 
   /// Auto metadata for tasteExperts
   ///
   /// In tr, this message translates to:
-  /// **'Lezzet UzmanlarÃ„Â±'**
+  /// **'Lezzet Uzmanları'**
   String get tasteExperts;
 
   /// Auto metadata for businessTools
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸letme AraÃƒÂ§larÃ„Â±'**
+  /// **'İşletme Araçları'**
   String get businessTools;
 
   /// Auto metadata for businessToolsSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'YÃƒÂ¶netim ve iÃƒÂ§gÃƒÂ¶rÃƒÂ¼ler'**
+  /// **'Yönetim ve içgörüler'**
   String get businessToolsSubtitle;
 
   /// Auto metadata for sponsoredLabelChip
@@ -1955,7 +1955,7 @@ abstract class AppLocalizations {
   /// Auto metadata for ready
   ///
   /// In tr, this message translates to:
-  /// **'HazÃ„Â±r'**
+  /// **'Hazır'**
   String get ready;
 
   /// Auto metadata for plan
@@ -1967,25 +1967,25 @@ abstract class AppLocalizations {
   /// Auto metadata for sponsoredDisclosure
   ///
   /// In tr, this message translates to:
-  /// **'Sponsorlu iÃƒÂ§erik'**
+  /// **'Sponsorlu içerik'**
   String get sponsoredDisclosure;
 
   /// Auto metadata for sponsoredTooltip
   ///
   /// In tr, this message translates to:
-  /// **'Bu iÃƒÂ§erik sponsorlu olabilir.'**
+  /// **'Bu içerik sponsorlu olabilir.'**
   String get sponsoredTooltip;
 
-  /// No description provided for @localInsightsReady.
+  /// Auto metadata for localInsightsReady
   ///
   /// In tr, this message translates to:
-  /// **'Yerel iÃƒÂ§gÃƒÂ¶rÃƒÂ¼ler hazÃ„Â±r Ã¢â‚¬Â¢ {area}'**
+  /// **'Yerel içgörüler hazır • {area}'**
   String localInsightsReady(String area);
 
   /// Auto metadata for show
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶ster'**
+  /// **'Göster'**
   String get show;
 
   /// Auto metadata for restaurant
@@ -2015,19 +2015,19 @@ abstract class AppLocalizations {
   /// Auto metadata for businessPackage
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸letme Paketi'**
+  /// **'İşletme Paketi'**
   String get businessPackage;
 
   /// Auto metadata for redirectToReservation
   ///
   /// In tr, this message translates to:
-  /// **'Rezervasyona yÃƒÂ¶nlendir'**
+  /// **'Rezervasyona yönlendir'**
   String get redirectToReservation;
 
   /// Auto metadata for priceAlerts
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat UyarÃ„Â±larÃ„Â±'**
+  /// **'Fiyat Uyarıları'**
   String get priceAlerts;
 
   /// Auto metadata for corporateIntegration
@@ -2039,124 +2039,124 @@ abstract class AppLocalizations {
   /// Auto metadata for detailedReports
   ///
   /// In tr, this message translates to:
-  /// **'DetaylÃ„Â± Raporlar'**
+  /// **'Detaylı Raporlar'**
   String get detailedReports;
 
   /// Auto metadata for qrTools
   ///
   /// In tr, this message translates to:
-  /// **'QR AraÃƒÂ§larÃ„Â±'**
+  /// **'QR Araçları'**
   String get qrTools;
 
   /// Auto metadata for unlockNewFeatures
   ///
   /// In tr, this message translates to:
-  /// **'Yeni ÃƒÂ¶zelliklerin kilidini aÃƒÂ§'**
+  /// **'Yeni özelliklerin kilidini aç'**
   String get unlockNewFeatures;
 
   /// Auto metadata for branchManagement
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âube YÃƒÂ¶netimi'**
+  /// **'Şube Yönetimi'**
   String get branchManagement;
 
   /// Auto metadata for menuWithQr
   ///
   /// In tr, this message translates to:
-  /// **'QR ile MenÃƒÂ¼'**
+  /// **'QR ile Menü'**
   String get menuWithQr;
 
   /// Auto metadata for newFeatures
   ///
   /// In tr, this message translates to:
-  /// **'Yeni Ãƒâ€“zellikler'**
+  /// **'Yeni Özellikler'**
   String get newFeatures;
 
-  /// No description provided for @nearOpenSectionTitle.
+  /// Auto metadata for nearOpenSectionTitle
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±nda AÃƒÂ§Ã„Â±k Olanlar Ã¢â‚¬Â¢ {area}'**
+  /// **'Yakında Açık Olanlar • {area}'**
   String nearOpenSectionTitle(String area);
 
-  /// No description provided for @mostViewedThisWeekTitle.
+  /// Auto metadata for mostViewedThisWeekTitle
   ///
   /// In tr, this message translates to:
-  /// **'Bu HaftanÃ„Â±n En Ãƒâ€¡ok GÃƒÂ¶rÃƒÂ¼ntÃƒÂ¼lenenleri Ã¢â‚¬Â¢ {area}'**
+  /// **'Bu Haftanın En Çok Görüntülenenleri • {area}'**
   String mostViewedThisWeekTitle(String area);
 
   /// Auto metadata for noViewDataInArea
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lgede gÃƒÂ¶rÃƒÂ¼ntÃƒÂ¼leme verisi yok'**
+  /// **'Bölgede görüntüleme verisi yok'**
   String get noViewDataInArea;
 
-  /// No description provided for @viewsMetric.
+  /// Auto metadata for viewsMetric
   ///
   /// In tr, this message translates to:
-  /// **'{count} gÃƒÂ¶rÃƒÂ¼ntÃƒÂ¼leme'**
+  /// **'{count} görüntüleme'**
   String viewsMetric(int count);
 
-  /// No description provided for @highestPriceChangeTitle.
+  /// Auto metadata for highestPriceChangeTitle
   ///
   /// In tr, this message translates to:
-  /// **'En YÃƒÂ¼ksek Fiyat DeÃ„Å¸iÃ…Å¸imi Ã¢â‚¬Â¢ {area}'**
+  /// **'En Yüksek Fiyat Değişimi • {area}'**
   String highestPriceChangeTitle(String area);
 
   /// Auto metadata for noPriceMovementInArea
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lgede fiyat hareketi yok'**
+  /// **'Bölgede fiyat hareketi yok'**
   String get noPriceMovementInArea;
 
-  /// No description provided for @priceChangeMetric.
+  /// Auto metadata for priceChangeMetric
   ///
   /// In tr, this message translates to:
-  /// **'{count} fiyat deÃ„Å¸iÃ…Å¸imi'**
+  /// **'{count} fiyat değişimi'**
   String priceChangeMetric(int count);
 
-  /// No description provided for @nightOpenFavoritesTitle.
+  /// Auto metadata for nightOpenFavoritesTitle
   ///
   /// In tr, this message translates to:
-  /// **'Gece AÃƒÂ§Ã„Â±k Favoriler Ã¢â‚¬Â¢ {area}'**
+  /// **'Gece Açık Favoriler • {area}'**
   String nightOpenFavoritesTitle(String area);
 
   /// Auto metadata for noNightOpenFavoritesInArea
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lgede gece aÃƒÂ§Ã„Â±k favori yok'**
+  /// **'Bölgede gece açık favori yok'**
   String get noNightOpenFavoritesInArea;
 
-  /// No description provided for @followersMetric.
+  /// Auto metadata for followersMetric
   ///
   /// In tr, this message translates to:
-  /// **'{count} takipÃƒÂ§i'**
+  /// **'{count} takipçi'**
   String followersMetric(int count);
 
-  /// No description provided for @popularCategoriesTitle.
+  /// Auto metadata for popularCategoriesTitle
   ///
   /// In tr, this message translates to:
-  /// **'PopÃƒÂ¼ler Kategoriler Ã¢â‚¬Â¢ {area}'**
+  /// **'Popüler Kategoriler • {area}'**
   String popularCategoriesTitle(String area);
 
-  /// No description provided for @regionalPriceIndexTitle.
+  /// Auto metadata for regionalPriceIndexTitle
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lgesel Fiyat Endeksi Ã¢â‚¬Â¢ {area}'**
+  /// **'Bölgesel Fiyat Endeksi • {area}'**
   String regionalPriceIndexTitle(String area);
 
   /// Auto metadata for detailedAnalysis
   ///
   /// In tr, this message translates to:
-  /// **'DetaylÃ„Â± Analiz'**
+  /// **'Detaylı Analiz'**
   String get detailedAnalysis;
 
   /// Auto metadata for loadWhenScrolledDown
   ///
   /// In tr, this message translates to:
-  /// **'AÃ…Å¸aÃ„Å¸Ã„Â± kaydÃ„Â±rÃ„Â±nca yÃƒÂ¼klenir'**
+  /// **'Aşağı kaydırınca yüklenir'**
   String get loadWhenScrolledDown;
 
-  /// No description provided for @anomalyMonitoringTitle.
+  /// Auto metadata for anomalyMonitoringTitle
   ///
   /// In tr, this message translates to:
   /// **'{area} anomali izlemesi'**
@@ -2171,16 +2171,16 @@ abstract class AppLocalizations {
   /// Auto metadata for priceIndexLoadFailed
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat endeksi yÃƒÂ¼klenemedi'**
+  /// **'Fiyat endeksi yüklenemedi'**
   String get priceIndexLoadFailed;
 
   /// Auto metadata for noPriceIndexDataInArea
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lgede fiyat endeksi verisi yok'**
+  /// **'Bölgede fiyat endeksi verisi yok'**
   String get noPriceIndexDataInArea;
 
-  /// No description provided for @medianPriceLabel.
+  /// Auto metadata for medianPriceLabel
   ///
   /// In tr, this message translates to:
   /// **'Medyan fiyat {price}'**
@@ -2189,31 +2189,31 @@ abstract class AppLocalizations {
   /// Auto metadata for anomalyListLoadFailed
   ///
   /// In tr, this message translates to:
-  /// **'Anomali listesi yÃƒÂ¼klenemedi'**
+  /// **'Anomali listesi yüklenemedi'**
   String get anomalyListLoadFailed;
 
   /// Auto metadata for noPriceAnomalyLast30Days
   ///
   /// In tr, this message translates to:
-  /// **'Son 30 gÃƒÂ¼nde fiyat anomalisi yok'**
+  /// **'Son 30 günde fiyat anomalisi yok'**
   String get noPriceAnomalyLast30Days;
 
   /// Auto metadata for sectionLoadFailed
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÂ¶lÃƒÂ¼m yÃƒÂ¼klenemedi'**
+  /// **'Bölüm yüklenemedi'**
   String get sectionLoadFailed;
 
-  /// No description provided for @rankedAt.
+  /// Auto metadata for rankedAt
   ///
   /// In tr, this message translates to:
-  /// **'SÃ„Â±ra: {rank}'**
+  /// **'Sıra: {rank}'**
   String rankedAt(int rank);
 
-  /// No description provided for @yourScore.
+  /// Auto metadata for yourScore
   ///
   /// In tr, this message translates to:
-  /// **'PuanÃ„Â±n: {score}'**
+  /// **'Puanın: {score}'**
   String yourScore(String score);
 
   /// Auto metadata for createGroup
@@ -2234,58 +2234,58 @@ abstract class AppLocalizations {
   /// **'bitti'**
   String get campaignEnded;
 
-  /// No description provided for @timeDays.
+  /// Auto metadata for timeDays
   ///
   /// In tr, this message translates to:
-  /// **'{count} gÃƒÂ¼n'**
+  /// **'{count} gün'**
   String timeDays(int count);
 
-  /// No description provided for @timeHours.
+  /// Auto metadata for timeHours
   ///
   /// In tr, this message translates to:
   /// **'{count} saat'**
   String timeHours(int count);
 
-  /// No description provided for @timeMinutes.
+  /// Auto metadata for timeMinutes
   ///
   /// In tr, this message translates to:
   /// **'{count} dk'**
   String timeMinutes(int count);
 
-  /// No description provided for @timeDaysAgo.
+  /// Auto metadata for timeDaysAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} gÃƒÂ¼n ÃƒÂ¶nce'**
+  /// **'{count} gün önce'**
   String timeDaysAgo(int count);
 
-  /// No description provided for @timeHoursAgo.
+  /// Auto metadata for timeHoursAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} saat ÃƒÂ¶nce'**
+  /// **'{count} saat önce'**
   String timeHoursAgo(int count);
 
-  /// No description provided for @timeMinutesAgo.
+  /// Auto metadata for timeMinutesAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} dakika ÃƒÂ¶nce'**
+  /// **'{count} dakika önce'**
   String timeMinutesAgo(int count);
 
   /// Auto metadata for statusVerifiedShort
   ///
   /// In tr, this message translates to:
-  /// **'DoÃ„Å¸rulandÃ„Â±'**
+  /// **'Doğrulandı'**
   String get statusVerifiedShort;
 
   /// Auto metadata for statusMixedShort
   ///
   /// In tr, this message translates to:
-  /// **'KarÃ„Â±Ã…Å¸Ã„Â±k'**
+  /// **'Karışık'**
   String get statusMixedShort;
 
   /// Auto metadata for statusOutdatedShort
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ncel DeÃ„Å¸il'**
+  /// **'Güncel Değil'**
   String get statusOutdatedShort;
 
   /// Auto metadata for statusUnknownShort
@@ -2300,16 +2300,16 @@ abstract class AppLocalizations {
   /// **'(3 Ay)'**
   String get threeMonthsShort;
 
-  /// No description provided for @versionAndSource.
+  /// Auto metadata for versionAndSource
   ///
   /// In tr, this message translates to:
-  /// **'SÃƒÂ¼rÃƒÂ¼m {version} Ã¢â‚¬Â¢ Kaynak: {source}'**
+  /// **'Sürüm {version} • Kaynak: {source}'**
   String versionAndSource(int version, String source);
 
   /// Auto metadata for sourceOwner
   ///
   /// In tr, this message translates to:
-  /// **'Kaynak: iÃ…Å¸letme'**
+  /// **'Kaynak: işletme'**
   String get sourceOwner;
 
   /// Auto metadata for sourceCommunity
@@ -2324,10 +2324,10 @@ abstract class AppLocalizations {
   /// **'otomatik'**
   String get sourceAi;
 
-  /// No description provided for @shareBusinessMessage.
+  /// Auto metadata for shareBusinessMessage
   ///
   /// In tr, this message translates to:
-  /// **'{name} Ã¢â‚¬Â¢ {location}\n{web}\n{deep}'**
+  /// **'{name} • {location}\n{web}\n{deep}'**
   String shareBusinessMessage(
     String name,
     String location,
@@ -2338,151 +2338,151 @@ abstract class AppLocalizations {
   /// Auto metadata for noLinkFound
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ„Å¸lantÃ„Â± bulunamadÃ„Â±'**
+  /// **'Bağlantı bulunamadı'**
   String get noLinkFound;
 
   /// Auto metadata for newEmbedLinksWillAppear
   ///
   /// In tr, this message translates to:
-  /// **'Yeni gÃƒÂ¶mÃƒÂ¼lÃƒÂ¼ baÃ„Å¸lantÃ„Â±lar burada gÃƒÂ¶rÃƒÂ¼necek.'**
+  /// **'Yeni gömülü bağlantılar burada görünecek.'**
   String get newEmbedLinksWillAppear;
 
   /// Auto metadata for link
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ„Å¸lantÃ„Â±'**
+  /// **'Bağlantı'**
   String get link;
 
   /// Auto metadata for untitledLink
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ…Å¸lÃ„Â±ksÃ„Â±z baÃ„Å¸lantÃ„Â±'**
+  /// **'Başlıksız bağlantı'**
   String get untitledLink;
 
-  /// No description provided for @menuShareNotFoundTitle.
+  /// Auto metadata for menuShareNotFoundTitle
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ bulunamadÃ„Â± Ã¢â‚¬Â¢ {appName}'**
+  /// **'Menü bulunamadı • {appName}'**
   String menuShareNotFoundTitle(String appName);
 
   /// Auto metadata for menuShareNotFoundDescription
   ///
   /// In tr, this message translates to:
-  /// **'PaylaÃ…Å¸Ã„Â±lan menÃƒÂ¼ iÃƒÂ§eriÃ„Å¸i bulunamadÃ„Â±.'**
+  /// **'Paylaşılan menü içeriği bulunamadı.'**
   String get menuShareNotFoundDescription;
 
   /// Auto metadata for menuContentNotFound
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ iÃƒÂ§eriÃ„Å¸i bulunamadÃ„Â±'**
+  /// **'Menü içeriği bulunamadı'**
   String get menuContentNotFound;
 
   /// Auto metadata for openAppForBetterExperience
   ///
   /// In tr, this message translates to:
-  /// **'Daha iyi deneyim iÃƒÂ§in uygulamayÃ„Â± aÃƒÂ§.'**
+  /// **'Daha iyi deneyim için uygulamayı aç.'**
   String get openAppForBetterExperience;
 
   /// Auto metadata for openApp
   ///
   /// In tr, this message translates to:
-  /// **'UygulamayÃ„Â± AÃƒÂ§'**
+  /// **'Uygulamayı Aç'**
   String get openApp;
 
-  /// No description provided for @nearbyPeopleViewed.
+  /// Auto metadata for nearbyPeopleViewed
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±ndaki {count} kiÃ…Å¸i gÃƒÂ¶rÃƒÂ¼ntÃƒÂ¼ledi'**
+  /// **'Yakındaki {count} kişi görüntüledi'**
   String nearbyPeopleViewed(int count);
 
   /// Auto metadata for verifiedPrices
   ///
   /// In tr, this message translates to:
-  /// **'DoÃ„Å¸rulanmÃ„Â±Ã…Å¸ fiyatlar'**
+  /// **'Doğrulanmış fiyatlar'**
   String get verifiedPrices;
 
   /// Auto metadata for selectRatingFirst
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nce puan seÃƒÂ§'**
+  /// **'Önce puan seç'**
   String get selectRatingFirst;
 
   /// Auto metadata for thankYou
   ///
   /// In tr, this message translates to:
-  /// **'TeÃ…Å¸ekkÃƒÂ¼rler'**
+  /// **'Teşekkürler'**
   String get thankYou;
 
   /// Auto metadata for noProductsFound
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÅ“rÃƒÂ¼n bulunamadÃ„Â±'**
+  /// **'Ürün bulunamadı'**
   String get noProductsFound;
 
-  /// No description provided for @preparedWithApp.
+  /// Auto metadata for preparedWithApp
   ///
   /// In tr, this message translates to:
-  /// **'{appName} ile hazÃ„Â±rlandÃ„Â±'**
+  /// **'{appName} ile hazırlandı'**
   String preparedWithApp(String appName);
 
-  /// No description provided for @tableLabel.
+  /// Auto metadata for tableLabel
   ///
   /// In tr, this message translates to:
   /// **'Masa {tableNo}'**
   String tableLabel(String tableNo);
 
-  /// No description provided for @tableServiceQuestion.
+  /// Auto metadata for tableServiceQuestion
   ///
   /// In tr, this message translates to:
-  /// **'Masa {tableNo} - servis var mÃ„Â±?'**
+  /// **'Masa {tableNo} - servis var mı?'**
   String tableServiceQuestion(String tableNo);
 
   /// Auto metadata for shortNoteOptional
   ///
   /// In tr, this message translates to:
-  /// **'KÃ„Â±sa not (opsiyonel)'**
+  /// **'Kısa not (opsiyonel)'**
   String get shortNoteOptional;
 
   /// Auto metadata for submit
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶nder'**
+  /// **'Gönder'**
   String get submit;
 
   /// Auto metadata for submitted
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶nderildi'**
+  /// **'Gönderildi'**
   String get submitted;
 
   /// Auto metadata for submitting
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶nderiliyor'**
+  /// **'Gönderiliyor'**
   String get submitting;
 
   /// Auto metadata for mySuggestionsTitle
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nerilerim'**
+  /// **'Önerilerim'**
   String get mySuggestionsTitle;
 
   /// Auto metadata for mySuggestionsSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶nderdiÃ„Å¸in fiyat ÃƒÂ¶nerileri'**
+  /// **'Gönderdiğin fiyat önerileri'**
   String get mySuggestionsSubtitle;
 
   /// Auto metadata for viewBusiness
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°Ã…Å¸letmeyi GÃƒÂ¶r'**
+  /// **'İşletmeyi Gör'**
   String get viewBusiness;
 
   /// Auto metadata for statusApproved
   ///
   /// In tr, this message translates to:
-  /// **'OnaylandÃ„Â±'**
+  /// **'Onaylandı'**
   String get statusApproved;
 
   /// Auto metadata for statusRejected
@@ -2506,37 +2506,37 @@ abstract class AppLocalizations {
   /// Auto metadata for notNow
   ///
   /// In tr, this message translates to:
-  /// **'Ã…Âimdi deÃ„Å¸il'**
+  /// **'Şimdi değil'**
   String get notNow;
 
   /// Auto metadata for onboardingLiveMenusTitle
   ///
   /// In tr, this message translates to:
-  /// **'CanlÃ„Â± MenÃƒÂ¼ler'**
+  /// **'Canlı Menüler'**
   String get onboardingLiveMenusTitle;
 
   /// Auto metadata for onboardingLiveMenusDescription
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ncel menÃƒÂ¼lere anÃ„Â±nda eriÃ…Å¸.'**
+  /// **'Güncel menülere anında eriş.'**
   String get onboardingLiveMenusDescription;
 
   /// Auto metadata for onboardingContributeTitle
   ///
   /// In tr, this message translates to:
-  /// **'KatkÃ„Â±da Bulun'**
+  /// **'Katkıda Bulun'**
   String get onboardingContributeTitle;
 
   /// Auto metadata for onboardingContributeDescription
   ///
   /// In tr, this message translates to:
-  /// **'Topluluk iÃƒÂ§in fiyatlarÃ„Â± doÃ„Å¸rula ve gÃƒÂ¼ncelle.'**
+  /// **'Topluluk için fiyatları doğrula ve güncelle.'**
   String get onboardingContributeDescription;
 
   /// Auto metadata for getStarted
   ///
   /// In tr, this message translates to:
-  /// **'BaÃ…Å¸layalÃ„Â±m'**
+  /// **'Başlayalım'**
   String get getStarted;
 
   /// Auto metadata for continueAction
@@ -2548,25 +2548,25 @@ abstract class AppLocalizations {
   /// Auto metadata for register
   ///
   /// In tr, this message translates to:
-  /// **'KayÃ„Â±t Ol'**
+  /// **'Kayıt Ol'**
   String get register;
 
   /// Auto metadata for login
   ///
   /// In tr, this message translates to:
-  /// **'GiriÃ…Å¸ Yap'**
+  /// **'Giriş Yap'**
   String get login;
 
   /// Auto metadata for enableLocationTitle
   ///
   /// In tr, this message translates to:
-  /// **'Konumu AÃƒÂ§'**
+  /// **'Konumu Aç'**
   String get enableLocationTitle;
 
   /// Auto metadata for enableLocationSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±ndaki yerleri gÃƒÂ¶stermek iÃƒÂ§in konumunu aÃƒÂ§.'**
+  /// **'Yakındaki yerleri göstermek için konumunu aç.'**
   String get enableLocationSubtitle;
 
   /// Auto metadata for locationPermissionGranted
@@ -2578,7 +2578,7 @@ abstract class AppLocalizations {
   /// Auto metadata for locationOptionalInfo
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°stersen daha sonra da aÃƒÂ§abilirsin.'**
+  /// **'İstersen daha sonra da açabilirsin.'**
   String get locationOptionalInfo;
 
   /// Auto metadata for allowLocation
@@ -2590,49 +2590,49 @@ abstract class AppLocalizations {
   /// Auto metadata for chooseLocationManually
   ///
   /// In tr, this message translates to:
-  /// **'Konumu Elle SeÃƒÂ§'**
+  /// **'Konumu Elle Seç'**
   String get chooseLocationManually;
 
   /// Auto metadata for menuReading
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ okunuyor'**
+  /// **'Menü okunuyor'**
   String get menuReading;
 
   /// Auto metadata for noPriceDetectionFound
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat tespiti bulunamadÃ„Â±'**
+  /// **'Fiyat tespiti bulunamadı'**
   String get noPriceDetectionFound;
 
   /// Auto metadata for receiptOcrNotSupportedWeb
   ///
   /// In tr, this message translates to:
-  /// **'Web sÃƒÂ¼rÃƒÂ¼mÃƒÂ¼nde fiÃ…Å¸ OCR desteklenmiyor'**
+  /// **'Web sürümünde fiş OCR desteklenmiyor'**
   String get receiptOcrNotSupportedWeb;
 
   /// Auto metadata for receiptReading
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ okunuyor'**
+  /// **'Fiş okunuyor'**
   String get receiptReading;
 
   /// Auto metadata for noPriceFoundOnReceipt
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸te fiyat bulunamadÃ„Â±'**
+  /// **'Fişte fiyat bulunamadı'**
   String get noPriceFoundOnReceipt;
 
   /// Auto metadata for receiptUploading
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ yÃƒÂ¼kleniyor'**
+  /// **'Fiş yükleniyor'**
   String get receiptUploading;
 
   /// Auto metadata for receiptUploadFailed
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ yÃƒÂ¼kleme baÃ…Å¸arÃ„Â±sÃ„Â±z'**
+  /// **'Fiş yükleme başarısız'**
   String get receiptUploadFailed;
 
   /// Auto metadata for camera
@@ -2650,19 +2650,19 @@ abstract class AppLocalizations {
   /// Auto metadata for matchReceipt
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸i EÃ…Å¸leÃ…Å¸tir'**
+  /// **'Fişi Eşleştir'**
   String get matchReceipt;
 
   /// Auto metadata for matchPrices
   ///
   /// In tr, this message translates to:
-  /// **'FiyatlarÃ„Â± EÃ…Å¸leÃ…Å¸tir'**
+  /// **'Fiyatları Eşleştir'**
   String get matchPrices;
 
-  /// No description provided for @autoMatchedRowsCheck.
+  /// Auto metadata for autoMatchedRowsCheck
   ///
   /// In tr, this message translates to:
-  /// **'Otomatik eÃ…Å¸leÃ…Å¸en {count} satÃ„Â±rÃ„Â± kontrol et.'**
+  /// **'Otomatik eşleşen {count} satırı kontrol et.'**
   String autoMatchedRowsCheck(int count);
 
   /// Auto metadata for unlabeled
@@ -2674,61 +2674,61 @@ abstract class AppLocalizations {
   /// Auto metadata for priceTry
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat (Ã¢â€šÂº)'**
+  /// **'Fiyat (₺)'**
   String get priceTry;
 
   /// Auto metadata for selectMenuItem
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ ÃƒÂ¼rÃƒÂ¼nÃƒÂ¼ seÃƒÂ§'**
+  /// **'Menü ürünü seç'**
   String get selectMenuItem;
 
   /// Auto metadata for sendReceipt
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸i GÃƒÂ¶nder'**
+  /// **'Fişi Gönder'**
   String get sendReceipt;
 
   /// Auto metadata for sendReceiptSuggestions
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ Ãƒâ€“nerilerini GÃƒÂ¶nder'**
+  /// **'Fiş Önerilerini Gönder'**
   String get sendReceiptSuggestions;
 
   /// Auto metadata for selectAtLeastOneItem
   ///
   /// In tr, this message translates to:
-  /// **'En az bir ÃƒÂ¼rÃƒÂ¼n seÃƒÂ§'**
+  /// **'En az bir ürün seç'**
   String get selectAtLeastOneItem;
 
   /// Auto metadata for invalidPriceExists
   ///
   /// In tr, this message translates to:
-  /// **'GeÃƒÂ§ersiz fiyat var'**
+  /// **'Geçersiz fiyat var'**
   String get invalidPriceExists;
 
   /// Auto metadata for sendingReceipt
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ gÃƒÂ¶nderiliyor'**
+  /// **'Fiş gönderiliyor'**
   String get sendingReceipt;
 
   /// Auto metadata for receiptSent
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ gÃƒÂ¶nderildi'**
+  /// **'Fiş gönderildi'**
   String get receiptSent;
 
   /// Auto metadata for sendingReceiptSuggestions
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ ÃƒÂ¶nerileri gÃƒÂ¶nderiliyor'**
+  /// **'Fiş önerileri gönderiliyor'**
   String get sendingReceiptSuggestions;
 
   /// Auto metadata for priceSuggestionsSent
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat ÃƒÂ¶nerileri gÃƒÂ¶nderildi'**
+  /// **'Fiyat önerileri gönderildi'**
   String get priceSuggestionsSent;
 
   /// Auto metadata for searchFoodHint
@@ -2746,31 +2746,31 @@ abstract class AppLocalizations {
   /// Auto metadata for profileLoading
   ///
   /// In tr, this message translates to:
-  /// **'Profil yÃƒÂ¼kleniyor'**
+  /// **'Profil yükleniyor'**
   String get profileLoading;
 
   /// Auto metadata for dietProfileNotFound
   ///
   /// In tr, this message translates to:
-  /// **'Beslenme profili bulunamadÃ„Â±'**
+  /// **'Beslenme profili bulunamadı'**
   String get dietProfileNotFound;
 
   /// Auto metadata for noResultsFound
   ///
   /// In tr, this message translates to:
-  /// **'SonuÃƒÂ§ bulunamadÃ„Â±'**
+  /// **'Sonuç bulunamadı'**
   String get noResultsFound;
 
   /// Auto metadata for allowLocationForNearby
   ///
   /// In tr, this message translates to:
-  /// **'YakÃ„Â±n sonuÃƒÂ§lar iÃƒÂ§in konum izni ver'**
+  /// **'Yakın sonuçlar için konum izni ver'**
   String get allowLocationForNearby;
 
   /// Auto metadata for setPriceAlert
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat uyarÃ„Â±sÃ„Â± kur'**
+  /// **'Fiyat uyarısı kur'**
   String get setPriceAlert;
 
   /// Auto metadata for vegan
@@ -2803,7 +2803,7 @@ abstract class AppLocalizations {
   /// **'Sadece teyitli fiyat'**
   String get onlyVerifiedPrice;
 
-  /// No description provided for @votes.
+  /// Auto metadata for votes
   ///
   /// In tr, this message translates to:
   /// **'{count} oy'**
@@ -2818,7 +2818,7 @@ abstract class AppLocalizations {
   /// Auto metadata for menuItem
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ ÃƒÂ¼rÃƒÂ¼nÃƒÂ¼'**
+  /// **'Menü ürünü'**
   String get menuItem;
 
   /// Auto metadata for cataloged
@@ -2830,13 +2830,13 @@ abstract class AppLocalizations {
   /// Auto metadata for priceAlert
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat AlarmÃ„Â±'**
+  /// **'Fiyat Alarmı'**
   String get priceAlert;
 
   /// Auto metadata for priceAlertSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'BelirlediÃ„Å¸in fiyatÃ„Â±n altÃ„Â±na dÃƒÂ¼Ã…Å¸ÃƒÂ¼nce haber verelim.'**
+  /// **'Belirlediğin fiyatın altına düşünce haber verelim.'**
   String get priceAlertSubtitle;
 
   /// Auto metadata for addToBill
@@ -2854,25 +2854,25 @@ abstract class AppLocalizations {
   /// Auto metadata for photoAdded
   ///
   /// In tr, this message translates to:
-  /// **'FotoÃ„Å¸raf eklendi'**
+  /// **'Fotoğraf eklendi'**
   String get photoAdded;
 
-  /// No description provided for @photoQualityWarning.
+  /// Auto metadata for photoQualityWarning
   ///
   /// In tr, this message translates to:
-  /// **'FotoÃ„Å¸raf {warnings} gÃƒÂ¶rÃƒÂ¼nÃƒÂ¼yor. Daha net ve aydÃ„Â±nlÃ„Â±k bir fotoÃ„Å¸raf yÃƒÂ¼kleyebilirsin.'**
+  /// **'Fotoğraf {warnings} görünüyor. Daha net ve aydınlık bir fotoğraf yükleyebilirsin.'**
   String photoQualityWarning(String warnings);
 
   /// Auto metadata for suggestEdit
   ///
   /// In tr, this message translates to:
-  /// **'DÃƒÂ¼zenleme ÃƒÂ¶ner'**
+  /// **'Düzenleme öner'**
   String get suggestEdit;
 
   /// Auto metadata for verifyPriceWithReceipt
   ///
   /// In tr, this message translates to:
-  /// **'FiÃ…Å¸ ile fiyat doÃ„Å¸rula'**
+  /// **'Fiş ile fiyat doğrula'**
   String get verifyPriceWithReceipt;
 
   /// Auto metadata for cart
@@ -2884,19 +2884,19 @@ abstract class AppLocalizations {
   /// Auto metadata for cartEmpty
   ///
   /// In tr, this message translates to:
-  /// **'Sepet boÃ…Å¸'**
+  /// **'Sepet boş'**
   String get cartEmpty;
 
   /// Auto metadata for addItemToCalculate
   ///
   /// In tr, this message translates to:
-  /// **'Hesaplamak iÃƒÂ§in ÃƒÂ¼rÃƒÂ¼n ekle'**
+  /// **'Hesaplamak için ürün ekle'**
   String get addItemToCalculate;
 
   /// Auto metadata for tipPercentage
   ///
   /// In tr, this message translates to:
-  /// **'BahÃ…Å¸iÃ…Å¸ YÃƒÂ¼zdesi'**
+  /// **'Bahşiş Yüzdesi'**
   String get tipPercentage;
 
   /// Auto metadata for serviceIncluded
@@ -2923,22 +2923,22 @@ abstract class AppLocalizations {
   /// **'Kuver'**
   String get cover;
 
-  /// No description provided for @serviceWithPercent.
+  /// Auto metadata for serviceWithPercent
   ///
   /// In tr, this message translates to:
   /// **'Servis ({percent}%)'**
   String serviceWithPercent(int percent);
 
-  /// No description provided for @tipWithPercent.
+  /// Auto metadata for tipWithPercent
   ///
   /// In tr, this message translates to:
-  /// **'BahÃ…Å¸iÃ…Å¸ ({percent}%)'**
+  /// **'Bahşiş ({percent}%)'**
   String tipWithPercent(int percent);
 
   /// Auto metadata for serviceCoverMayVary
   ///
   /// In tr, this message translates to:
-  /// **'Servis/kuver iÃ…Å¸letmeye gÃƒÂ¶re deÃ„Å¸iÃ…Å¸ebilir.'**
+  /// **'Servis/kuver işletmeye göre değişebilir.'**
   String get serviceCoverMayVary;
 
   /// Auto metadata for estimatedTotal
@@ -2950,28 +2950,28 @@ abstract class AppLocalizations {
   /// Auto metadata for vatExcluded
   ///
   /// In tr, this message translates to:
-  /// **'KDV hariÃƒÂ§'**
+  /// **'KDV hariç'**
   String get vatExcluded;
 
   /// Auto metadata for errorOccurred
   ///
   /// In tr, this message translates to:
-  /// **'Bir sorun oluÃ…Å¸tu'**
+  /// **'Bir sorun oluştu'**
   String get errorOccurred;
 
   /// Auto metadata for menuItemNotFoundDescription
   ///
   /// In tr, this message translates to:
-  /// **'AradÃ„Â±Ã„Å¸Ã„Â±n ÃƒÂ¼rÃƒÂ¼n henÃƒÂ¼z eklenmemiÃ…Å¸ olabilir. Ã„Â°stersen ilk sen ekle.'**
+  /// **'Aradığın ürün henüz eklenmemiş olabilir. İstersen ilk sen ekle.'**
   String get menuItemNotFoundDescription;
 
   /// Auto metadata for trustScoreInfoNote
   ///
   /// In tr, this message translates to:
-  /// **'Bu gÃƒÂ¼ven puanÃ„Â± kullanÃ„Â±cÃ„Â± oylamasÃ„Â± deÃ„Å¸il, katkÃ„Â± kalitesinden oluÃ…Å¸ur.'**
+  /// **'Bu güven puanı kullanıcı oylaması değil, katkı kalitesinden oluşur.'**
   String get trustScoreInfoNote;
 
-  /// No description provided for @plusPoints.
+  /// Auto metadata for plusPoints
   ///
   /// In tr, this message translates to:
   /// **'+{points} puan'**
@@ -2980,25 +2980,25 @@ abstract class AppLocalizations {
   /// Auto metadata for verifyContributionRaisedScore
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat doÃ„Å¸rulaman katkÃ„Â±n puanÃ„Â±nÃ„Â± yÃƒÂ¼kseltti.'**
+  /// **'Fiyat doğrulaman katkın puanını yükseltti.'**
   String get verifyContributionRaisedScore;
 
   /// Auto metadata for priceVerification
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat doÃ„Å¸rulama'**
+  /// **'Fiyat doğrulama'**
   String get priceVerification;
 
   /// Auto metadata for priceVerificationSteps
   ///
   /// In tr, this message translates to:
-  /// **'1) GÃƒÂ¶rdÃƒÂ¼Ã„Å¸ÃƒÂ¼n fiyatÃ„Â± yaz  2) Gerekirse not/foto ekle  3) GÃƒÂ¶nder'**
+  /// **'1) Gördüğün fiyatı yaz  2) Gerekirse not/foto ekle  3) Gönder'**
   String get priceVerificationSteps;
 
   /// Auto metadata for newPriceTry
   ///
   /// In tr, this message translates to:
-  /// **'Yeni fiyat (Ã¢â€šÂº)'**
+  /// **'Yeni fiyat (₺)'**
   String get newPriceTry;
 
   /// Auto metadata for note
@@ -3010,73 +3010,73 @@ abstract class AppLocalizations {
   /// Auto metadata for addEvidencePhoto
   ///
   /// In tr, this message translates to:
-  /// **'KanÃ„Â±t fotoÃ„Å¸rafÃ„Â± ekle'**
+  /// **'Kanıt fotoğrafı ekle'**
   String get addEvidencePhoto;
 
   /// Auto metadata for evidenceAdded
   ///
   /// In tr, this message translates to:
-  /// **'KanÃ„Â±t eklendi'**
+  /// **'Kanıt eklendi'**
   String get evidenceAdded;
 
   /// Auto metadata for menuItemName
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÅ“rÃƒÂ¼n adÃ„Â±'**
+  /// **'Ürün adı'**
   String get menuItemName;
 
   /// Auto metadata for menuItemNameRequired
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÅ“rÃƒÂ¼n adÃ„Â± boÃ…Å¸ olamaz'**
+  /// **'Ürün adı boş olamaz'**
   String get menuItemNameRequired;
 
   /// Auto metadata for enterValidPrice
   ///
   /// In tr, this message translates to:
-  /// **'GeÃƒÂ§erli bir fiyat gir'**
+  /// **'Geçerli bir fiyat gir'**
   String get enterValidPrice;
 
   /// Auto metadata for sendSuggestion
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“neri GÃƒÂ¶nder'**
+  /// **'Öneri Gönder'**
   String get sendSuggestion;
 
   /// Auto metadata for noChanges
   ///
   /// In tr, this message translates to:
-  /// **'DeÃ„Å¸iÃ…Å¸iklik yok'**
+  /// **'Değişiklik yok'**
   String get noChanges;
 
   /// Auto metadata for priceCannotBeEmpty
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat boÃ…Å¸ olamaz'**
+  /// **'Fiyat boş olamaz'**
   String get priceCannotBeEmpty;
 
   /// Auto metadata for suggestionSentPendingApproval
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nerin gÃƒÂ¶nderildi, onay bekliyor.'**
+  /// **'Önerin gönderildi, onay bekliyor.'**
   String get suggestionSentPendingApproval;
 
   /// Auto metadata for noSuggestionFound
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“neri bulunamadÃ„Â±'**
+  /// **'Öneri bulunamadı'**
   String get noSuggestionFound;
 
   /// Auto metadata for suggestedFoods
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€“nerilen Yemekler'**
+  /// **'Önerilen Yemekler'**
   String get suggestedFoods;
 
   /// Auto metadata for priceHistoryLast3
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat geÃƒÂ§miÃ…Å¸i (son 3)'**
+  /// **'Fiyat geçmişi (son 3)'**
   String get priceHistoryLast3;
 
   /// Auto metadata for price
@@ -3085,64 +3085,64 @@ abstract class AppLocalizations {
   /// **'Fiyat'**
   String get price;
 
-  /// No description provided for @last30DaysVotes.
+  /// Auto metadata for last30DaysVotes
   ///
   /// In tr, this message translates to:
-  /// **'Son 30 gÃƒÂ¼n oylarÃ„Â± Ã¢â‚¬Â¢ Uygun: {ok} Ã¢â‚¬Â¢ Uygunsuz: {bad}'**
+  /// **'Son 30 gün oyları • Uygun: {ok} • Uygunsuz: {bad}'**
   String last30DaysVotes(int ok, int bad);
 
-  /// No description provided for @lastVerificationDate.
+  /// Auto metadata for lastVerificationDate
   ///
   /// In tr, this message translates to:
-  /// **'Son doÃ„Å¸rulama: {date}'**
+  /// **'Son doğrulama: {date}'**
   String lastVerificationDate(String date);
 
-  /// No description provided for @uniqueVerifiersIn48h.
+  /// Auto metadata for uniqueVerifiersIn48h
   ///
   /// In tr, this message translates to:
-  /// **'48 saatte doÃ„Å¸rulayan farklÃ„Â± kullanÃ„Â±cÃ„Â±: {count}'**
+  /// **'48 saatte doğrulayan farklı kullanıcı: {count}'**
   String uniqueVerifiersIn48h(int count);
 
   /// Auto metadata for strongConsensusPriceSafe
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼ÃƒÂ§lÃƒÂ¼ uzlaÃ…Å¸Ã„Â± var, fiyat gÃƒÂ¼venli gÃƒÂ¶rÃƒÂ¼nÃƒÂ¼yor.'**
+  /// **'Güçlü uzlaşı var, fiyat güvenli görünüyor.'**
   String get strongConsensusPriceSafe;
 
-  /// No description provided for @priceConfidenceScore.
+  /// Auto metadata for priceConfidenceScore
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat gÃƒÂ¼ven puanÃ„Â±: %{score}'**
+  /// **'Fiyat güven puanı: %{score}'**
   String priceConfidenceScore(int score);
 
   /// Auto metadata for seenCorrect
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶rdÃƒÂ¼m Ã¢â‚¬Â¢ DoÃ„Å¸ru'**
+  /// **'Gördüm • Doğru'**
   String get seenCorrect;
 
   /// Auto metadata for seenIncorrect
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¶rdÃƒÂ¼m Ã¢â‚¬Â¢ YanlÃ„Â±Ã…Å¸'**
+  /// **'Gördüm • Yanlış'**
   String get seenIncorrect;
 
   /// Auto metadata for suggestNewPrice
   ///
   /// In tr, this message translates to:
-  /// **'Yeni fiyat ÃƒÂ¶ner'**
+  /// **'Yeni fiyat öner'**
   String get suggestNewPrice;
 
   /// Auto metadata for howCalculated
   ///
   /// In tr, this message translates to:
-  /// **'NasÃ„Â±l hesaplandÃ„Â±?'**
+  /// **'Nasıl hesaplandı?'**
   String get howCalculated;
 
   /// Auto metadata for verificationRate
   ///
   /// In tr, this message translates to:
-  /// **'DoÃ„Å¸rulama oranÃ„Â±'**
+  /// **'Doğrulama oranı'**
   String get verificationRate;
 
   /// Auto metadata for recentPositiveVotes
@@ -3154,19 +3154,19 @@ abstract class AppLocalizations {
   /// Auto metadata for priceStability
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat istikrarÃ„Â±'**
+  /// **'Fiyat istikrarı'**
   String get priceStability;
 
-  /// No description provided for @priceChangeLast30Days.
+  /// Auto metadata for priceChangeLast30Days
   ///
   /// In tr, this message translates to:
-  /// **'Son 30 gÃƒÂ¼nde fiyat deÃ„Å¸iÃ…Å¸imi: {count}'**
+  /// **'Son 30 günde fiyat değişimi: {count}'**
   String priceChangeLast30Days(int count);
 
   /// Auto metadata for scoreForInfoOnly
   ///
   /// In tr, this message translates to:
-  /// **'Bu skor yalnÃ„Â±zca bilgilendirme amaÃƒÂ§lÃ„Â±dÃ„Â±r.'**
+  /// **'Bu skor yalnızca bilgilendirme amaçlıdır.'**
   String get scoreForInfoOnly;
 
   /// Auto metadata for pricePerformance
@@ -3178,55 +3178,55 @@ abstract class AppLocalizations {
   /// Auto metadata for valueScoreFormulaHint
   ///
   /// In tr, this message translates to:
-  /// **'DoÃ„Å¸rulama oranÃ„Â±, son olumlu oylar ve fiyat istikrarÃ„Â±na gÃƒÂ¶re hesaplanÃ„Â±r.'**
+  /// **'Doğrulama oranı, son olumlu oylar ve fiyat istikrarına göre hesaplanır.'**
   String get valueScoreFormulaHint;
 
   /// Auto metadata for menuPhotos
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ FotoÃ„Å¸raflarÃ„Â±'**
+  /// **'Menü Fotoğrafları'**
   String get menuPhotos;
 
-  /// No description provided for @updateMenuEarnPoints.
+  /// Auto metadata for updateMenuEarnPoints
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ gÃƒÂ¼ncelle, {points} puan kazan'**
+  /// **'Menü güncelle, {points} puan kazan'**
   String updateMenuEarnPoints(int points);
 
   /// Auto metadata for menuPhotosHint
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÂ¼ fotoÃ„Å¸raflarÃ„Â± ÃƒÂ¼rÃƒÂ¼nÃƒÂ¼ gÃƒÂ¶stermeli. Otomatik kÃ„Â±rpÃ„Â±lÃ„Â±r; karanlÃ„Â±k/flu olanlar uyarÃ„Â±lÃ„Â±r.'**
+  /// **'Menü fotoğrafları ürünü göstermeli. Otomatik kırpılır; karanlık/flu olanlar uyarılır.'**
   String get menuPhotosHint;
 
   /// Auto metadata for noPhotosYet
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÂ¼z fotoÃ„Å¸raf yok.'**
+  /// **'Henüz fotoğraf yok.'**
   String get noPhotosYet;
 
   /// Auto metadata for yesterday
   ///
   /// In tr, this message translates to:
-  /// **'DÃƒÂ¼n'**
+  /// **'Dün'**
   String get yesterday;
 
-  /// No description provided for @timeMonthsAgo.
+  /// Auto metadata for timeMonthsAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} ay ÃƒÂ¶nce'**
+  /// **'{count} ay önce'**
   String timeMonthsAgo(int count);
 
   /// Auto metadata for priceInvalid
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat geÃƒÂ§ersiz'**
+  /// **'Fiyat geçersiz'**
   String get priceInvalid;
 
   /// Auto metadata for noteNoLinkPhone
   ///
   /// In tr, this message translates to:
-  /// **'Not alanÃ„Â±na baÃ„Å¸lantÃ„Â± veya telefon eklenemez.'**
+  /// **'Not alanına bağlantı veya telefon eklenemez.'**
   String get noteNoLinkPhone;
 
   /// Auto metadata for noteContainsProfanity
@@ -3238,49 +3238,49 @@ abstract class AppLocalizations {
   /// Auto metadata for noteTooManyEmoji
   ///
   /// In tr, this message translates to:
-  /// **'Notta ÃƒÂ§ok fazla emoji var'**
+  /// **'Notta çok fazla emoji var'**
   String get noteTooManyEmoji;
 
   /// Auto metadata for rateLimited24h
   ///
   /// In tr, this message translates to:
-  /// **'24 saatlik sÃ„Â±nÃ„Â±r aÃ…Å¸Ã„Â±ldÃ„Â±'**
+  /// **'24 saatlik sınır aşıldı'**
   String get rateLimited24h;
 
   /// Auto metadata for dailyPriceSuggestionLimitReached
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÂ¼nlÃƒÂ¼k fiyat ÃƒÂ¶neri limitine ulaÃ…Å¸Ã„Â±ldÃ„Â±'**
+  /// **'Günlük fiyat öneri limitine ulaşıldı'**
   String get dailyPriceSuggestionLimitReached;
 
   /// Auto metadata for invalidEvidenceLink
   ///
   /// In tr, this message translates to:
-  /// **'KanÃ„Â±t baÃ„Å¸lantÃ„Â±sÃ„Â± geÃƒÂ§ersiz.'**
+  /// **'Kanıt bağlantısı geçersiz.'**
   String get invalidEvidenceLink;
 
   /// Auto metadata for invalidCurrency
   ///
   /// In tr, this message translates to:
-  /// **'GeÃƒÂ§ersiz para birimi'**
+  /// **'Geçersiz para birimi'**
   String get invalidCurrency;
 
   /// Auto metadata for loginPageTitle
   ///
   /// In tr, this message translates to:
-  /// **'GiriÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ Yap'**
+  /// **'Giriş Yap'**
   String get loginPageTitle;
 
   /// Auto metadata for loginActionFailedTitle
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸lem tamamlanamadÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'İşlem tamamlanamadı'**
   String get loginActionFailedTitle;
 
-  /// No description provided for @loginActionFailedDescription.
+  /// Auto metadata for loginActionFailedDescription
   ///
   /// In tr, this message translates to:
-  /// **'{error}\nBaÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸lantÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± kontrol edip tekrar dene.'**
+  /// **'{error}\nBağlantıyı kontrol edip tekrar dene.'**
   String loginActionFailedDescription(String error);
 
   /// Auto metadata for loginEmailLabel
@@ -3292,43 +3292,43 @@ abstract class AppLocalizations {
   /// Auto metadata for loginPasswordLabel
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Âifre'**
+  /// **'Şifre'**
   String get loginPasswordLabel;
 
   /// Auto metadata for loginPrimaryAction
   ///
   /// In tr, this message translates to:
-  /// **'GiriÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ Yap'**
+  /// **'Giriş Yap'**
   String get loginPrimaryAction;
 
   /// Auto metadata for loginSigningInAction
   ///
   /// In tr, this message translates to:
-  /// **'GiriÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ yapÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±lÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±yor...'**
+  /// **'Giriş yapılıyor...'**
   String get loginSigningInAction;
 
   /// Auto metadata for loginSignupAction
   ///
   /// In tr, this message translates to:
-  /// **'GiriÃƒâ€¦Ã…Â¸ / KayÃƒâ€Ã‚Â±t'**
+  /// **'Giriş / Kayıt'**
   String get loginSignupAction;
 
   /// Auto metadata for loginSigningUpAction
   ///
   /// In tr, this message translates to:
-  /// **'KayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±t oluÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸turuluyor...'**
+  /// **'Kayıt oluşturuluyor...'**
   String get loginSigningUpAction;
 
   /// Auto metadata for loginSignupSuccessMessage
   ///
   /// In tr, this message translates to:
-  /// **'KayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±t oluÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸turuldu. E-posta/telefon doÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸rulamasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± tamamla.'**
+  /// **'Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.'**
   String get loginSignupSuccessMessage;
 
   /// Auto metadata for drawerTopBusinesses
   ///
   /// In tr, this message translates to:
-  /// **'Top ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letmeler'**
+  /// **'Top İşletmeler'**
   String get drawerTopBusinesses;
 
   /// Auto metadata for drawerSocial
@@ -3340,7 +3340,7 @@ abstract class AppLocalizations {
   /// Auto metadata for drawerGourmets
   ///
   /// In tr, this message translates to:
-  /// **'Lezzet uzmanlarÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Lezzet uzmanları'**
   String get drawerGourmets;
 
   /// Auto metadata for drawerFollowing
@@ -3358,13 +3358,13 @@ abstract class AppLocalizations {
   /// Auto metadata for drawerFeed
   ///
   /// In tr, this message translates to:
-  /// **'AkÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸'**
+  /// **'Akış'**
   String get drawerFeed;
 
   /// Auto metadata for drawerTasteTwin
   ///
   /// In tr, this message translates to:
-  /// **'Tat eÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸i'**
+  /// **'Tat eşleri'**
   String get drawerTasteTwin;
 
   /// Auto metadata for drawerHeroes
@@ -3382,19 +3382,19 @@ abstract class AppLocalizations {
   /// Auto metadata for drawerCompare
   ///
   /// In tr, this message translates to:
-  /// **'KarÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±laÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±r'**
+  /// **'Karşılaştır'**
   String get drawerCompare;
 
   /// Auto metadata for drawerQuickTools
   ///
   /// In tr, this message translates to:
-  /// **'HÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±zlÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± AraÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§lar'**
+  /// **'Hızlı Araçlar'**
   String get drawerQuickTools;
 
   /// Auto metadata for drawerSmartSuggestionShortcut
   ///
   /// In tr, this message translates to:
-  /// **'AkÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±llÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“neri (2 kiÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸i / 600 TL)'**
+  /// **'Akıllı Öneri (2 kişi / 600 TL)'**
   String get drawerSmartSuggestionShortcut;
 
   /// Auto metadata for drawerAccount
@@ -3415,7 +3415,7 @@ abstract class AppLocalizations {
   /// **'Bildirim Kutusu'**
   String get drawerInbox;
 
-  /// No description provided for @drawerInboxWithCount.
+  /// Auto metadata for drawerInboxWithCount
   ///
   /// In tr, this message translates to:
   /// **'Bildirim Kutusu ({count})'**
@@ -3424,43 +3424,43 @@ abstract class AppLocalizations {
   /// Auto metadata for drawerMySuggestions
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“nerilerim'**
+  /// **'Önerilerim'**
   String get drawerMySuggestions;
 
   /// Auto metadata for drawerSuspendedMeals
   ///
   /// In tr, this message translates to:
-  /// **'AskÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±da'**
+  /// **'Askıda'**
   String get drawerSuspendedMeals;
 
   /// Auto metadata for drawerLegalAndTrust
   ///
   /// In tr, this message translates to:
-  /// **'Yasal ve GÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ven'**
+  /// **'Yasal ve Güven'**
   String get drawerLegalAndTrust;
 
   /// Auto metadata for budgetComboEntryTitle
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§em ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸u kadar'**
+  /// **'Bütçem şu kadar'**
   String get budgetComboEntryTitle;
 
   /// Auto metadata for budgetComboLocationNotSelected
   ///
   /// In tr, this message translates to:
-  /// **'Konum seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ilmedi'**
+  /// **'Konum seçilmedi'**
   String get budgetComboLocationNotSelected;
 
   /// Auto metadata for budgetComboBudgetLabel
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§e (TL)'**
+  /// **'Bütçe (TL)'**
   String get budgetComboBudgetLabel;
 
   /// Auto metadata for budgetComboPartySizeLabel
   ///
   /// In tr, this message translates to:
-  /// **'KiÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸i'**
+  /// **'Kişi'**
   String get budgetComboPartySizeLabel;
 
   /// Auto metadata for budgetComboCategoryOptionalLabel
@@ -3472,13 +3472,13 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboSeeSuggestions
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“nerileri GÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶r'**
+  /// **'Önerileri Gör'**
   String get budgetComboSeeSuggestions;
 
   /// Auto metadata for budgetComboAllCategories
   ///
   /// In tr, this message translates to:
-  /// **'TÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼m kategoriler'**
+  /// **'Tüm kategoriler'**
   String get budgetComboAllCategories;
 
   /// Auto metadata for budgetComboCategoryCafe
@@ -3496,19 +3496,19 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboCategoryDessert
   ///
   /// In tr, this message translates to:
-  /// **'TatlÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±cÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Tatlıcı'**
   String get budgetComboCategoryDessert;
 
   /// Auto metadata for budgetComboCategoryBreakfast
   ///
   /// In tr, this message translates to:
-  /// **'KahvaltÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Kahvaltı'**
   String get budgetComboCategoryBreakfast;
 
   /// Auto metadata for budgetComboCategoryFishMeat
   ///
   /// In tr, this message translates to:
-  /// **'BalÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±k / Et'**
+  /// **'Balık / Et'**
   String get budgetComboCategoryFishMeat;
 
   /// Auto metadata for budgetComboCategoryVenue
@@ -3520,7 +3520,7 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboResultsTitle
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§e Kombinleri'**
+  /// **'Bütçe Kombinleri'**
   String get budgetComboResultsTitle;
 
   /// Auto metadata for budgetComboMissingInfoTitle
@@ -3532,43 +3532,43 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboMissingInfoDescription
   ///
   /// In tr, this message translates to:
-  /// **'LÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tfen bÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§e ve konum bilgisini girin.'**
+  /// **'Lütfen bütçe ve konum bilgisini girin.'**
   String get budgetComboMissingInfoDescription;
 
   /// Auto metadata for budgetComboNoResultsTitle
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z uygun kombin yok'**
+  /// **'Henüz uygun kombin yok'**
   String get budgetComboNoResultsTitle;
 
   /// Auto metadata for budgetComboNoResultsDescription
   ///
   /// In tr, this message translates to:
-  /// **'BÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§eyi artÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±rmayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± ya da kiÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸i sayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±sÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± azaltmayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± deneyin.'**
+  /// **'Bütçeyi artırmayı ya da kişi sayısını azaltmayı deneyin.'**
   String get budgetComboNoResultsDescription;
 
   /// Auto metadata for budgetComboAdjustCriteriaTitle
   ///
   /// In tr, this message translates to:
-  /// **'Kriter deÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tir'**
+  /// **'Kriter değiştir'**
   String get budgetComboAdjustCriteriaTitle;
 
   /// Auto metadata for budgetComboDefaultAction
   ///
   /// In tr, this message translates to:
-  /// **'VarsayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±lan'**
+  /// **'Varsayılıan'**
   String get budgetComboDefaultAction;
 
   /// Auto metadata for budgetComboRadiusDistrictScope
   ///
   /// In tr, this message translates to:
-  /// **'YakÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nlÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±k filtresi ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ehir/ilÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§e dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼zeyinde uygulanÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±r.'**
+  /// **'Yakınlık filtresi şehir/ilçe düzeyinde uygulanır.'**
   String get budgetComboRadiusDistrictScope;
 
-  /// No description provided for @budgetComboRadiusTarget.
+  /// Auto metadata for budgetComboRadiusTarget
   ///
   /// In tr, this message translates to:
-  /// **'YakÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nlÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±k hedefi: {km} km'**
+  /// **'Yakınlık hedefi: {km} km'**
   String budgetComboRadiusTarget(String km);
 
   /// Auto metadata for budgetComboWeightDistance
@@ -3592,7 +3592,7 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboFallbackSortHint
   ///
   /// In tr, this message translates to:
-  /// **'Mesafe/puan verisi yoksa sÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ralama fiyata gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶re yapÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±lÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±r.'**
+  /// **'Mesafe/puan verisi yoksa sıralama fiyata göre yapılır.'**
   String get budgetComboFallbackSortHint;
 
   /// Auto metadata for budgetComboBestComboTitle
@@ -3610,10 +3610,10 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboOtherSuggestionsTitle
   ///
   /// In tr, this message translates to:
-  /// **'DiÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸er ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶neriler'**
+  /// **'Diğer öneriler'**
   String get budgetComboOtherSuggestionsTitle;
 
-  /// No description provided for @budgetComboRatingLabelValue.
+  /// Auto metadata for budgetComboRatingLabelValue
   ///
   /// In tr, this message translates to:
   /// **'Puan {rating}'**
@@ -3634,10 +3634,10 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboDrinkItemLabel
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ecek'**
+  /// **'İçecek'**
   String get budgetComboDrinkItemLabel;
 
-  /// No description provided for @budgetComboTotalLabel.
+  /// Auto metadata for budgetComboTotalLabel
   ///
   /// In tr, this message translates to:
   /// **'{price} toplam'**
@@ -3646,43 +3646,43 @@ abstract class AppLocalizations {
   /// Auto metadata for budgetComboGoToBusinessAction
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letmeye git'**
+  /// **'İşletmeye git'**
   String get budgetComboGoToBusinessAction;
 
   /// Auto metadata for panelAccessTitle
   ///
   /// In tr, this message translates to:
-  /// **'Panel EriÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸imi'**
+  /// **'Panel Erişimi'**
   String get panelAccessTitle;
 
   /// Auto metadata for panelWebOnlyMessage
   ///
   /// In tr, this message translates to:
-  /// **'Bu panel web ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼zerinden kullanÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±labilir.'**
+  /// **'Bu panel web üzerinden kullanılır.'**
   String get panelWebOnlyMessage;
 
-  /// No description provided for @panelRedirectedPath.
+  /// Auto metadata for panelRedirectedPath
   ///
   /// In tr, this message translates to:
-  /// **'YÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nlendirilen yol: {path}'**
+  /// **'Yönlendirilen yol: {path}'**
   String panelRedirectedPath(String path);
 
   /// Auto metadata for panelBackToDiscover
   ///
   /// In tr, this message translates to:
-  /// **'KeÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸fet sayfasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±na dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶n'**
+  /// **'Keşfet sayfasına dön'**
   String get panelBackToDiscover;
 
   /// Auto metadata for notFoundTitle
   ///
   /// In tr, this message translates to:
-  /// **'Sayfa BulunamadÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Sayfa Bulunamadı'**
   String get notFoundTitle;
 
   /// Auto metadata for businessHeaderStatusClosingLabel
   ///
   /// In tr, this message translates to:
-  /// **'Durum / KapanÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸'**
+  /// **'Durum / Kapanış'**
   String get businessHeaderStatusClosingLabel;
 
   /// Auto metadata for businessHeaderAveragePriceLabel
@@ -3694,25 +3694,25 @@ abstract class AppLocalizations {
   /// Auto metadata for businessHeaderPopularItemLabel
   ///
   /// In tr, this message translates to:
-  /// **'PopÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ler ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼n'**
+  /// **'Popüler ürün'**
   String get businessHeaderPopularItemLabel;
 
   /// Auto metadata for businessHeaderLastVerificationLabel
   ///
   /// In tr, this message translates to:
-  /// **'Son doÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸rulama'**
+  /// **'Son doğrulama'**
   String get businessHeaderLastVerificationLabel;
 
   /// Auto metadata for businessStatusOpen
   ///
   /// In tr, this message translates to:
-  /// **'AÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±k'**
+  /// **'Açık'**
   String get businessStatusOpen;
 
   /// Auto metadata for businessStatusClosed
   ///
   /// In tr, this message translates to:
-  /// **'KapalÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Kapalı'**
   String get businessStatusClosed;
 
   /// Auto metadata for businessHeaderDirectionsAction
@@ -3730,73 +3730,73 @@ abstract class AppLocalizations {
   /// Auto metadata for chainPageNoBranches
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Âube bulunamadÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±.'**
+  /// **'Şube bulunamadı.'**
   String get chainPageNoBranches;
 
   /// Auto metadata for chainPageNearbyBranchesTitle
   ///
   /// In tr, this message translates to:
-  /// **'YakÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±n ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ubeler'**
+  /// **'Yakın şubeler'**
   String get chainPageNearbyBranchesTitle;
 
   /// Auto metadata for chainPageBranchMenuPriceHint
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Âube menÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ ve fiyatlarÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± farklÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± olabilir.'**
+  /// **'Şube menü ve fiyatları farklı olabilir.'**
   String get chainPageBranchMenuPriceHint;
 
-  /// No description provided for @chainPageBranchMoreExpensive.
+  /// Auto metadata for chainPageBranchMoreExpensive
   ///
   /// In tr, this message translates to:
-  /// **'Bu ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ube daha pahalÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± (%{pct})'**
+  /// **'Bu şube daha pahalı (%{pct})'**
   String chainPageBranchMoreExpensive(String pct);
 
-  /// No description provided for @chainPageBranchMoreAffordable.
+  /// Auto metadata for chainPageBranchMoreAffordable
   ///
   /// In tr, this message translates to:
-  /// **'Bu ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ube daha uygun (%{pct})'**
+  /// **'Bu şube daha uygun (%{pct})'**
   String chainPageBranchMoreAffordable(String pct);
 
   /// Auto metadata for chainPageBranchNearAverage
   ///
   /// In tr, this message translates to:
-  /// **'Zincir ortalamasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±na yakÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±n'**
+  /// **'Zincir ortalamasına yakınlık'**
   String get chainPageBranchNearAverage;
 
   /// Auto metadata for comparePageTitle
   ///
   /// In tr, this message translates to:
-  /// **'KarÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±laÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±rma'**
+  /// **'Karşılaştırma'**
   String get comparePageTitle;
 
   /// Auto metadata for compareEmptyTitle
   ///
   /// In tr, this message translates to:
-  /// **'KarÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±laÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±rma boÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸'**
+  /// **'Karşılaştırma boş'**
   String get compareEmptyTitle;
 
   /// Auto metadata for compareEmptyDescription
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme sayfalarÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ndan karÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±laÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±rmaya ekle.'**
+  /// **'İşletme sayfalarından karşılaştırmaya ekle.'**
   String get compareEmptyDescription;
 
   /// Auto metadata for compareBackToDiscover
   ///
   /// In tr, this message translates to:
-  /// **'KeÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸fe dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶n'**
+  /// **'Keşfet sayfasına dön'**
   String get compareBackToDiscover;
 
   /// Auto metadata for compareBestPickAction
   ///
   /// In tr, this message translates to:
-  /// **'En mantÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±klÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§imi gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶ster'**
+  /// **'En mantıklı seçimi göster'**
   String get compareBestPickAction;
 
   /// Auto metadata for compareSuggestedBadge
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“neri'**
+  /// **'Öneri'**
   String get compareSuggestedBadge;
 
   /// Auto metadata for compareMedianPriceLabel
@@ -3808,13 +3808,13 @@ abstract class AppLocalizations {
   /// Auto metadata for compareVerifiedRateLabel
   ///
   /// In tr, this message translates to:
-  /// **'Verified oranÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Verified oranı'**
   String get compareVerifiedRateLabel;
 
   /// Auto metadata for compareLastUpdateLabel
   ///
   /// In tr, this message translates to:
-  /// **'Son gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ncelleme'**
+  /// **'Son güncelleme'**
   String get compareLastUpdateLabel;
 
   /// Auto metadata for compareBestItemTitle
@@ -3826,103 +3826,103 @@ abstract class AppLocalizations {
   /// Auto metadata for compareGoToBusinessAction
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letmeye git'**
+  /// **'İşletmeye git'**
   String get compareGoToBusinessAction;
 
   /// Auto metadata for compareRemoveTooltip
   ///
   /// In tr, this message translates to:
-  /// **'KaldÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±r'**
+  /// **'Kaldır'**
   String get compareRemoveTooltip;
 
-  /// No description provided for @compareRecommendedSnack.
+  /// Auto metadata for compareRecommendedSnack
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“neri: {name}'**
+  /// **'Öneri: {name}'**
   String compareRecommendedSnack(String name);
 
   /// Auto metadata for contributeDefaultBusinessName
   ///
   /// In tr, this message translates to:
-  /// **'bu iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme'**
+  /// **'bu işletme'**
   String get contributeDefaultBusinessName;
 
   /// Auto metadata for contributeOpenBusinessFirst
   ///
   /// In tr, this message translates to:
-  /// **'Bu katkÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§in ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nce bir iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme sayfasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± aÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§.'**
+  /// **'Bu katkı için önce bir işletme sayfası aç.'**
   String get contributeOpenBusinessFirst;
 
   /// Auto metadata for contributeUploadingProgress
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderiliyor...'**
+  /// **'Gönderiliyor...'**
   String get contributeUploadingProgress;
 
   /// Auto metadata for contributeUploadSentSingle
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderildi - kontrol sonrasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± menÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ye eklenecek.'**
+  /// **'Gönderildi - kontrol sonrası menüye eklenecek.'**
   String get contributeUploadSentSingle;
 
-  /// No description provided for @contributeUploadSentMultiple.
+  /// Auto metadata for contributeUploadSentMultiple
   ///
   /// In tr, this message translates to:
-  /// **'{count} sayfa gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderildi - kontrol sonrasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± menÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ye eklenecek.'**
+  /// **'{count} sayfa gönderildi - kontrol sonrası menüye eklenecek.'**
   String contributeUploadSentMultiple(int count);
 
   /// Auto metadata for contributeUploadFailed
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderim baÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸arÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±sÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±z. LÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tfen tekrar dene.'**
+  /// **'Gönderim başarısız. Lütfen tekrar dene.'**
   String get contributeUploadFailed;
 
   /// Auto metadata for contributeQrDecodingProgress
   ///
   /// In tr, this message translates to:
-  /// **'QR ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶zÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼yor...'**
+  /// **'QR çözülüyor...'**
   String get contributeQrDecodingProgress;
 
   /// Auto metadata for contributeQrUnreadableSentReview
   ///
   /// In tr, this message translates to:
-  /// **'QR okunamadÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±. GÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶rsel inceleme iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§in gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderiliyor.'**
+  /// **'QR okunamadı. Görsel inceleme için gönderiliyor.'**
   String get contributeQrUnreadableSentReview;
 
   /// Auto metadata for contributeQrVerifiedRedirecting
   ///
   /// In tr, this message translates to:
-  /// **'QR doÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸rulandÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±. YÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nlendiriliyorsun.'**
+  /// **'QR doğrulandı. Yönlendiriliyorsun.'**
   String get contributeQrVerifiedRedirecting;
 
   /// Auto metadata for contributeQrProcessFailed
   ///
   /// In tr, this message translates to:
-  /// **'QR iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸lenemedi. LÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tfen tekrar dene.'**
+  /// **'QR işlenemedi. Lütfen tekrar dene.'**
   String get contributeQrProcessFailed;
 
   /// Auto metadata for contributeExternalQrUseBusinessPage
   ///
   /// In tr, this message translates to:
-  /// **'DÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ QR kodu iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§in iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme sayfasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nda KatkÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± yap kullan.'**
+  /// **'Dış QR kodu için işletme sayfasında Katkı yap kullan.'**
   String get contributeExternalQrUseBusinessPage;
 
   /// Auto metadata for contributeSendingForReviewProgress
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°nceleme iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§in gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderiliyor...'**
+  /// **'İnceleme için gönderiliyor...'**
   String get contributeSendingForReviewProgress;
 
   /// Auto metadata for contributeQrImageSentForReview
   ///
   /// In tr, this message translates to:
-  /// **'QR gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶rseli gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderildi. ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°nceleme sonrasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸leme alÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nacak.'**
+  /// **'QR görüntüsü gönderildi. İnceleme sonrası işleme alınacak.'**
   String get contributeQrImageSentForReview;
 
   /// Auto metadata for contributeExternalLinkSentForReview
   ///
   /// In tr, this message translates to:
-  /// **'DÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ link incelemeye gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nderildi.'**
+  /// **'Dış link incelemeye gönderildi.'**
   String get contributeExternalLinkSentForReview;
 
   /// Auto metadata for contributeSourceCamera
@@ -3940,13 +3940,13 @@ abstract class AppLocalizations {
   /// Auto metadata for contributeSelectBusinessForPriceVerification
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat doÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸rulama iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§in ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nce bir iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§.'**
+  /// **'Fiyat doğrulama için önce bir işletme seç.'**
   String get contributeSelectBusinessForPriceVerification;
 
   /// Auto metadata for contributeSelectMenuItemToVerifyPrice
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼den tek ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼nÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ip fiyatÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± doÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸rulayabilirsin.'**
+  /// **'Menüden tek ürün seçip fiyatını doğrulayabilirsin.'**
   String get contributeSelectMenuItemToVerifyPrice;
 
   /// Auto metadata for discoveryFilterCafe
@@ -3964,19 +3964,19 @@ abstract class AppLocalizations {
   /// Auto metadata for discoveryFilterDessertPastry
   ///
   /// In tr, this message translates to:
-  /// **'TatlÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± / Pastane'**
+  /// **'Tatlı / Pastane'**
   String get discoveryFilterDessertPastry;
 
   /// Auto metadata for discoveryFilterBreakfast
   ///
   /// In tr, this message translates to:
-  /// **'KahvaltÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Kahvaltı'**
   String get discoveryFilterBreakfast;
 
   /// Auto metadata for discoveryFilterFishMeat
   ///
   /// In tr, this message translates to:
-  /// **'BalÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±k / Et'**
+  /// **'Balık / Et'**
   String get discoveryFilterFishMeat;
 
   /// Auto metadata for discoveryFilterVenue
@@ -3988,7 +3988,7 @@ abstract class AppLocalizations {
   /// Auto metadata for discoveryHomeCategoryDoner
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°nce DÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶ner'**
+  /// **'İnce Döner'**
   String get discoveryHomeCategoryDoner;
 
   /// Auto metadata for discoveryHomeCategoryPide
@@ -4024,25 +4024,25 @@ abstract class AppLocalizations {
   /// Auto metadata for discoveryHomeCategoryCorba
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¡orba'**
+  /// **'Çorba'**
   String get discoveryHomeCategoryCorba;
 
   /// Auto metadata for discoveryHomeCategoryKahvalti
   ///
   /// In tr, this message translates to:
-  /// **'KahvaltÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Kahvaltı'**
   String get discoveryHomeCategoryKahvalti;
 
   /// Auto metadata for discoveryHomeCategoryManti
   ///
   /// In tr, this message translates to:
-  /// **'MantÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Mantı'**
   String get discoveryHomeCategoryManti;
 
   /// Auto metadata for discoveryHomeCategoryTatli
   ///
   /// In tr, this message translates to:
-  /// **'TatlÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Tatlı'**
   String get discoveryHomeCategoryTatli;
 
   /// Auto metadata for discoveryRecentSearches
@@ -4054,19 +4054,19 @@ abstract class AppLocalizations {
   /// Auto metadata for discoveryCatalogSuggestions
   ///
   /// In tr, this message translates to:
-  /// **'Katalog ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nerileri'**
+  /// **'Katalog önerileri'**
   String get discoveryCatalogSuggestions;
 
   /// Auto metadata for feedEmptyMessage
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z akÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ yok. Lezzet uzmanlarÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± takip ederek baÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸layabilirsin.'**
+  /// **'Henüz akış yok. Lezzet uzmanlarını takip ederek başlayabilirsin.'**
   String get feedEmptyMessage;
 
   /// Auto metadata for all
   ///
   /// In tr, this message translates to:
-  /// **'TÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼mÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼'**
+  /// **'Tümü'**
   String get all;
 
   /// Auto metadata for sil
@@ -4087,10 +4087,10 @@ abstract class AppLocalizations {
   /// **'Kaydettiklerin burada'**
   String get favoritesSavedHereSubtitle;
 
-  /// No description provided for @favoritesSharedCollectionSubtitle.
+  /// Auto metadata for favoritesSharedCollectionSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'PaylaÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±lan koleksiyon: {name}'**
+  /// **'Paylaşılan koleksiyon: {name}'**
   String favoritesSharedCollectionSubtitle(String name);
 
   /// Auto metadata for favoritesSearchHint
@@ -4102,19 +4102,19 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesNearbyLoadingLocation
   ///
   /// In tr, this message translates to:
-  /// **'YakÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ndakiler iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§in konum alÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±yor...'**
+  /// **'Yakınındakiler için konum alınıyor...'**
   String get favoritesNearbyLoadingLocation;
 
   /// Auto metadata for favoritesNearbyFallbackOrdering
   ///
   /// In tr, this message translates to:
-  /// **'Konum alÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±namadÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±. VarsayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±lan sÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ralama gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶steriliyor.'**
+  /// **'Konum alınamadı. Varsaylan sıralama gösteriliyor.'**
   String get favoritesNearbyFallbackOrdering;
 
   /// Auto metadata for favoritesNearbySortedByDistance
   ///
   /// In tr, this message translates to:
-  /// **'YakÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ndakiler mesafeye gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶re sÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ralandÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±.'**
+  /// **'Yakınındakiler mesafeye göre sıralandı.'**
   String get favoritesNearbySortedByDistance;
 
   /// Auto metadata for favoritesCollectionsTitle
@@ -4126,13 +4126,13 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesCreateCollectionTooltip
   ///
   /// In tr, this message translates to:
-  /// **'Koleksiyon oluÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tur'**
+  /// **'Koleksiyon oluştur'**
   String get favoritesCreateCollectionTooltip;
 
   /// Auto metadata for favoritesShareCollectionTooltip
   ///
   /// In tr, this message translates to:
-  /// **'Koleksiyonu paylaÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸'**
+  /// **'Koleksiyonu paylaş'**
   String get favoritesShareCollectionTooltip;
 
   /// Auto metadata for favoritesDeleteCollectionTooltip
@@ -4144,49 +4144,49 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesCreatorSelectCollectionHint
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§erik ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼retici modu iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§in ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nce bir koleksiyon seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§.'**
+  /// **'İçerik üretici modu için önce bir koleksiyon seç.'**
   String get favoritesCreatorSelectCollectionHint;
 
   /// Auto metadata for favoritesCreatorCollectionTitle
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§erik ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼retici koleksiyonu'**
+  /// **'İçerik üretici koleksiyonu'**
   String get favoritesCreatorCollectionTitle;
 
   /// Auto metadata for favoritesCreatorCollectionSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Koleksiyonunu yayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nla, takipÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§i kazan. Reklam iÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§eriÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸i varsa etiket zorunludur.'**
+  /// **'Koleksiyonunu yayınla, takipçi kazan. Reklam içeriği varsa etiket zorunludur.'**
   String get favoritesCreatorCollectionSubtitle;
 
   /// Auto metadata for favoritesPublishAction
   ///
   /// In tr, this message translates to:
-  /// **'YayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nla'**
+  /// **'Yayınla'**
   String get favoritesPublishAction;
 
   /// Auto metadata for favoritesPublishVisibleSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Profilinde ve paylaÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±m baÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸lantÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±larÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nda gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼nÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼r.'**
+  /// **'Profilinde ve paylaşım bağlantılarında görünür.'**
   String get favoritesPublishVisibleSubtitle;
 
   /// Auto metadata for favoritesPublishPrivateSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Bu koleksiyonu sadece sen gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼rsÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼n.'**
+  /// **'Bu koleksiyonu sadece sen görürsün.'**
   String get favoritesPublishPrivateSubtitle;
 
   /// Auto metadata for favoritesSharedCollectionTitle
   ///
   /// In tr, this message translates to:
-  /// **'PaylaÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±lan koleksiyon'**
+  /// **'Paylaşılan koleksiyon'**
   String get favoritesSharedCollectionTitle;
 
   /// Auto metadata for favoritesFollowCollectionHint
   ///
   /// In tr, this message translates to:
-  /// **'Bu koleksiyonu takip ederek gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ncellemeleri kaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±rma.'**
+  /// **'Bu koleksiyonu takip ederek güncellemeleri kaçırmama.'**
   String get favoritesFollowCollectionHint;
 
   /// Auto metadata for favoritesFollowAction
@@ -4201,16 +4201,16 @@ abstract class AppLocalizations {
   /// **'Takiptesin'**
   String get favoritesFollowingAction;
 
-  /// No description provided for @favoritesFollowersChip.
+  /// Auto metadata for favoritesFollowersChip
   ///
   /// In tr, this message translates to:
-  /// **'TakipÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§i {count}'**
+  /// **'Takipçi {count}'**
   String favoritesFollowersChip(int count);
 
-  /// No description provided for @favoritesEngagementChip.
+  /// Auto metadata for favoritesEngagementChip
   ///
   /// In tr, this message translates to:
-  /// **'EtkileÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸im {count}'**
+  /// **'Etkileşim {count}'**
   String favoritesEngagementChip(int count);
 
   /// Auto metadata for favoritesNewCollectionTitle
@@ -4222,13 +4222,13 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesCollectionNameExample
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“rn: Gece dÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶neri'**
+  /// **'Örn: Gece döneri'**
   String get favoritesCollectionNameExample;
 
   /// Auto metadata for favoritesCreateAction
   ///
   /// In tr, this message translates to:
-  /// **'OluÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tur'**
+  /// **'Oluştur'**
   String get favoritesCreateAction;
 
   /// Auto metadata for favoritesDeleteCollectionConfirmTitle
@@ -4240,19 +4240,19 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesDeleteCollectionConfirmBody
   ///
   /// In tr, this message translates to:
-  /// **'Bu iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸lem geri alÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±namaz.'**
+  /// **'Bu işlem geri alınamaz.'**
   String get favoritesDeleteCollectionConfirmBody;
 
-  /// No description provided for @favoritesBusinessCollectionsTitle.
+  /// Auto metadata for favoritesBusinessCollectionsTitle
   ///
   /// In tr, this message translates to:
-  /// **'\"{businessName}\" koleksiyonlarÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'\"{businessName}\" koleksiyonları'**
   String favoritesBusinessCollectionsTitle(String businessName);
 
   /// Auto metadata for favoritesNoCollectionYet
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z koleksiyon yok. ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“nce koleksiyon oluÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tur.'**
+  /// **'Henüz koleksiyon yok. Önce koleksiyon oluştur.'**
   String get favoritesNoCollectionYet;
 
   /// Auto metadata for favoritesNewCollectionAction
@@ -4276,13 +4276,13 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesDisclosurePrivate
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“zel'**
+  /// **'Özel'**
   String get favoritesDisclosurePrivate;
 
-  /// No description provided for @favoritesShareText.
+  /// Auto metadata for favoritesShareText
   ///
   /// In tr, this message translates to:
-  /// **'Yeedoy koleksiyonum: {name}\n{link}\n\nMod: YakÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ndakilerden ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶ner\nEtiket: {disclosure}'**
+  /// **'Yeedoy koleksiyonum: {name}\n{link}\n\nMod: Yakınındakilerden öner\nEtiket: {disclosure}'**
   String favoritesShareText(String name, String link, String disclosure);
 
   /// Auto metadata for favoritesAdDisclosureTitle
@@ -4294,13 +4294,13 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesAdDisclosureBody
   ///
   /// In tr, this message translates to:
-  /// **'Bu koleksiyonda iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ birliÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸i varsa \"Reklam\" olarak iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸aretlemek zorunludur.'**
+  /// **'Bu koleksiyonda iÃ…Å¸ birliÃ„Å¸i varsa \"Reklam\" olarak işaretlemek zorunludur.'**
   String get favoritesAdDisclosureBody;
 
-  /// No description provided for @favoritesCacheStaleMessage.
+  /// Auto metadata for favoritesCacheStaleMessage
   ///
   /// In tr, this message translates to:
-  /// **'Veri {days} gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼n ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nce gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼ncellenmiÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸ olabilir.'**
+  /// **'Veri {days} gün önce güncellenmiş¸ olabilir.'**
   String favoritesCacheStaleMessage(int days);
 
   /// Auto metadata for favoritesAddToCollectionTooltip
@@ -4318,49 +4318,49 @@ abstract class AppLocalizations {
   /// Auto metadata for followingPageEmpty
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z kimseyi takip etmiyorsun.'**
+  /// **'Henüz kimseyi takip etmiyorsun.'**
   String get followingPageEmpty;
 
   /// Auto metadata for followingPageUnfollowAction
   ///
   /// In tr, this message translates to:
-  /// **'Takibi bÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±rak'**
+  /// **'Takibi bırak'**
   String get followingPageUnfollowAction;
 
   /// Auto metadata for gourmetsPageTitle
   ///
   /// In tr, this message translates to:
-  /// **'Lezzet uzmanlarÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± keÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸fet'**
+  /// **'Lezzet uzmanlarının keşfet'**
   String get gourmetsPageTitle;
 
   /// Auto metadata for gourmetsPageEmpty
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z lezzet uzmanÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± yok.'**
+  /// **'Henüz lezzet uzmanı yok.'**
   String get gourmetsPageEmpty;
 
   /// Auto metadata for groupRequestWizardTitle
   ///
   /// In tr, this message translates to:
-  /// **'Grup YemeÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸i Talebi'**
+  /// **'Grup Yemeği Talebi'**
   String get groupRequestWizardTitle;
 
   /// Auto metadata for groupRequestWizardEnterDetails
   ///
   /// In tr, this message translates to:
-  /// **'DetaylarÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± gir'**
+  /// **'Detayları gir'**
   String get groupRequestWizardEnterDetails;
 
   /// Auto metadata for groupRequestWizardCityLabel
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Âehir'**
+  /// **'Şehir'**
   String get groupRequestWizardCityLabel;
 
   /// Auto metadata for groupRequestWizardDistrictLabel
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°lÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§e'**
+  /// **'İlçe'**
   String get groupRequestWizardDistrictLabel;
 
   /// Auto metadata for groupRequestWizardCategoryHint
@@ -4372,13 +4372,13 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestWizardPartySizeLabel
   ///
   /// In tr, this message translates to:
-  /// **'KiÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸i sayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±sÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Kişi sayısı'**
   String get groupRequestWizardPartySizeLabel;
 
   /// Auto metadata for groupRequestWizardTotalBudgetLabel
   ///
   /// In tr, this message translates to:
-  /// **'Toplam bÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼tÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§e (TL)'**
+  /// **'Toplam bütçe (TL)'**
   String get groupRequestWizardTotalBudgetLabel;
 
   /// Auto metadata for groupRequestWizardNotesLabel
@@ -4390,19 +4390,19 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestWizardCreateAction
   ///
   /// In tr, this message translates to:
-  /// **'Talep OluÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tur'**
+  /// **'Talep Oluştur'**
   String get groupRequestWizardCreateAction;
 
   /// Auto metadata for groupRequestWizardInfoTitle
   ///
   /// In tr, this message translates to:
-  /// **'Teklifler iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letmelerden gelir'**
+  /// **'Teklifler işletmelerden gelir'**
   String get groupRequestWizardInfoTitle;
 
   /// Auto metadata for groupRequestWizardInfoDescription
   ///
   /// In tr, this message translates to:
-  /// **'Talebin aÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ldÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ktan sonra iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letmeler teklif verebilir.'**
+  /// **'Talebin açıldığında işletmeler teklif verebilir.'**
   String get groupRequestWizardInfoDescription;
 
   /// Auto metadata for groupRequestWizardMissingFields
@@ -4414,7 +4414,7 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestWizardPickDateTime
   ///
   /// In tr, this message translates to:
-  /// **'Tarih ve saat seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§'**
+  /// **'Tarih ve saat seç'**
   String get groupRequestWizardPickDateTime;
 
   /// Auto metadata for groupRequestMyRequestsTitle
@@ -4438,37 +4438,37 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestNoRequestsDescription
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°lk grup yemeÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸i talebini oluÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tur.'**
+  /// **'İlk grup yemeği talebini oluştur.'**
   String get groupRequestNoRequestsDescription;
 
-  /// No description provided for @groupRequestPartyAndBudget.
+  /// Auto metadata for groupRequestPartyAndBudget
   ///
   /// In tr, this message translates to:
-  /// **'{party} kiÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸i ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ {budget}'**
+  /// **'{party} kişi · {budget}'**
   String groupRequestPartyAndBudget(int party, String budget);
 
   /// Auto metadata for groupRequestStatusOpen
   ///
   /// In tr, this message translates to:
-  /// **'AÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±k'**
+  /// **'Açık'**
   String get groupRequestStatusOpen;
 
   /// Auto metadata for groupRequestStatusAwarded
   ///
   /// In tr, this message translates to:
-  /// **'KazandÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±rÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±ldÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Kazandırıldı'**
   String get groupRequestStatusAwarded;
 
   /// Auto metadata for groupRequestStatusClosed
   ///
   /// In tr, this message translates to:
-  /// **'KapandÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Kapandı'**
   String get groupRequestStatusClosed;
 
   /// Auto metadata for groupRequestStatusCancelled
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ptal'**
+  /// **'İptal'**
   String get groupRequestStatusCancelled;
 
   /// Auto metadata for groupRequestDetailTitle
@@ -4480,25 +4480,25 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestLinkCopied
   ///
   /// In tr, this message translates to:
-  /// **'Grup linki kopyalandÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Grup linki kopyalandı'**
   String get groupRequestLinkCopied;
 
   /// Auto metadata for groupRequestNotFound
   ///
   /// In tr, this message translates to:
-  /// **'Talep bulunamadÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±'**
+  /// **'Talep bulunamadı'**
   String get groupRequestNotFound;
 
   /// Auto metadata for groupRequestCreatedBannerTitle
   ///
   /// In tr, this message translates to:
-  /// **'Talebin yayÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±nda'**
+  /// **'Talebin yayında'**
   String get groupRequestCreatedBannerTitle;
 
   /// Auto metadata for groupRequestCreatedBannerDescription
   ///
   /// In tr, this message translates to:
-  /// **'Grup linkini paylaÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸. Herkes ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶nerileri ekler, oylar.'**
+  /// **'Grup linkini paylaş. Herkes önerileri ekler, oylar.'**
   String get groupRequestCreatedBannerDescription;
 
   /// Auto metadata for groupRequestLinkTitle
@@ -4516,19 +4516,19 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestAddSuggestionTitle
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“neri ekle'**
+  /// **'Öneri ekle'**
   String get groupRequestAddSuggestionTitle;
 
   /// Auto metadata for groupRequestAddSuggestionDescription
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§, teklif ekle ve grup oylasÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â±n.'**
+  /// **'İşletme seç, teklif ekle ve grup oylasın.'**
   String get groupRequestAddSuggestionDescription;
 
   /// Auto metadata for groupRequestAddSuggestionAction
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“neri ekle'**
+  /// **'Öneri ekle'**
   String get groupRequestAddSuggestionAction;
 
   /// Auto metadata for groupRequestOffersTitle
@@ -4540,19 +4540,19 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestNoOffersTitle
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼z teklif yok'**
+  /// **'Henüz teklif yok'**
   String get groupRequestNoOffersTitle;
 
   /// Auto metadata for groupRequestNoOffersDescription
   ///
   /// In tr, this message translates to:
-  /// **'Teklifler geldiÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸inde burada gÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶rÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¼necek.'**
+  /// **'Teklifler geldiğinde burada görünecek.'**
   String get groupRequestNoOffersDescription;
 
   /// Auto metadata for groupRequestBusinessFallback
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme'**
+  /// **'İşletme'**
   String get groupRequestBusinessFallback;
 
   /// Auto metadata for groupRequestTopContributorBadge
@@ -4561,7 +4561,7 @@ abstract class AppLocalizations {
   /// **'Grubu en iyi besleyen'**
   String get groupRequestTopContributorBadge;
 
-  /// No description provided for @groupRequestOfferPriceLabel.
+  /// Auto metadata for groupRequestOfferPriceLabel
   ///
   /// In tr, this message translates to:
   /// **'Teklif: {price}'**
@@ -4582,7 +4582,7 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestProcessing
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸leniyor...'**
+  /// **'İşleniyor...'**
   String get groupRequestProcessing;
 
   /// Auto metadata for groupRequestAcceptOfferAction
@@ -4591,7 +4591,7 @@ abstract class AppLocalizations {
   /// **'Teklifi kabul et'**
   String get groupRequestAcceptOfferAction;
 
-  /// No description provided for @groupRequestVotesLabel.
+  /// Auto metadata for groupRequestVotesLabel
   ///
   /// In tr, this message translates to:
   /// **'Oy: {count}'**
@@ -4606,31 +4606,31 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestBusinessAndPriceRequired
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme ve fiyat gerekli'**
+  /// **'İşletme ve fiyat gerekli'**
   String get groupRequestBusinessAndPriceRequired;
 
   /// Auto metadata for groupRequestSuggestionAdded
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“neri eklendi'**
+  /// **'Öneri eklendi'**
   String get groupRequestSuggestionAdded;
 
   /// Auto metadata for groupRequestSearchBusinessLabel
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme ara'**
+  /// **'İşletme ara'**
   String get groupRequestSearchBusinessLabel;
 
   /// Auto metadata for groupRequestSuggestIfMissing
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸letme yoksa ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¶ner'**
+  /// **'İşletme yoksa öner'**
   String get groupRequestSuggestIfMissing;
 
   /// Auto metadata for groupRequestTryDifferentName
   ///
   /// In tr, this message translates to:
-  /// **'FarklÃƒÆ’Ã¢â‚¬ÂÃƒâ€šÃ‚Â± bir isim deneyin.'**
+  /// **'Farklı bir isim deneyin.'**
   String get groupRequestTryDifferentName;
 
   /// Auto metadata for groupRequestOfferTotalPriceLabel
@@ -4648,19 +4648,19 @@ abstract class AppLocalizations {
   /// Auto metadata for groupRequestChangeAction
   ///
   /// In tr, this message translates to:
-  /// **'DeÃƒÆ’Ã¢â‚¬ÂÃƒâ€¦Ã‚Â¸iÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€¦Ã‚Â¸tir'**
+  /// **'Değiştir'**
   String get groupRequestChangeAction;
 
-  /// No description provided for @groupRequestAcceptedSummary.
+  /// Auto metadata for groupRequestAcceptedSummary
   ///
   /// In tr, this message translates to:
-  /// **'SonuÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ seÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ildi. Toplam: {price}'**
+  /// **'Sonuç seçildi. Toplam: {price}'**
   String groupRequestAcceptedSummary(String price);
 
   /// Auto metadata for groupRequestCopyResultAction
   ///
   /// In tr, this message translates to:
-  /// **'SonuÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ kopyala'**
+  /// **'Sonuç kopyala'**
   String get groupRequestCopyResultAction;
 
   /// Auto metadata for heroesPageTitle
@@ -4672,70 +4672,70 @@ abstract class AppLocalizations {
   /// Auto metadata for heroesPageSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'AskÃƒâ€Ã‚Â±ya yemek bÃƒâ€Ã‚Â±rakanlar'**
+  /// **'Askıya yemek bırakanlar'**
   String get heroesPageSubtitle;
 
   /// Auto metadata for heroesPageEmpty
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z kahraman yok.'**
+  /// **'Henüz kahraman yok.'**
   String get heroesPageEmpty;
 
   /// Auto metadata for heroesPageUserFallback
   ///
   /// In tr, this message translates to:
-  /// **'KullanÃƒâ€Ã‚Â±cÃƒâ€Ã‚Â±'**
+  /// **'Kullanıcı'**
   String get heroesPageUserFallback;
 
-  /// No description provided for @heroesPageDonatedMealCount.
+  /// Auto metadata for heroesPageDonatedMealCount
   ///
   /// In tr, this message translates to:
-  /// **'{count} askÃƒâ€Ã‚Â±da yemek'**
+  /// **'{count} askıda yemek'**
   String heroesPageDonatedMealCount(int count);
 
   /// Auto metadata for verifyPriceIsCorrectQuestion
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat doÃƒâ€Ã…Â¸ru mu?'**
+  /// **'Fiyat doğru mu?'**
   String get verifyPriceIsCorrectQuestion;
 
   /// Auto metadata for verifyPriceCorrectAction
   ///
   /// In tr, this message translates to:
-  /// **'DoÃƒâ€Ã…Â¸ru'**
+  /// **'Doğru'**
   String get verifyPriceCorrectAction;
 
   /// Auto metadata for verifyPriceIncorrectAction
   ///
   /// In tr, this message translates to:
-  /// **'YanlÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸'**
+  /// **'Yanlış'**
   String get verifyPriceIncorrectAction;
 
   /// Auto metadata for verifyPriceCorrectPriceLabel
   ///
   /// In tr, this message translates to:
-  /// **'DoÃƒâ€Ã…Â¸ru fiyat (TL)'**
+  /// **'Doğru fiyat (TL)'**
   String get verifyPriceCorrectPriceLabel;
 
   /// Auto metadata for verifyPriceCorrectPriceHint
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œrn: 245,50'**
+  /// **'Örn: 245,50'**
   String get verifyPriceCorrectPriceHint;
 
   /// Auto metadata for verifyPriceChooseCorrectnessFirst
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œnce doÃƒâ€Ã…Â¸ru/yanlÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ seÃƒÆ’Ã‚Â§in.'**
+  /// **'Önce doğru/yanlış seçin.'**
   String get verifyPriceChooseCorrectnessFirst;
 
   /// Auto metadata for verifyPriceEnterValidPrice
   ///
   /// In tr, this message translates to:
-  /// **'GeÃƒÆ’Ã‚Â§erli bir fiyat girin.'**
+  /// **'Geçerli bir fiyat girin.'**
   String get verifyPriceEnterValidPrice;
 
-  /// No description provided for @menuItemCalories.
+  /// Auto metadata for menuItemCalories
   ///
   /// In tr, this message translates to:
   /// **'{calories} kcal'**
@@ -4744,76 +4744,76 @@ abstract class AppLocalizations {
   /// Auto metadata for menuItemAutoApprovedMessage
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat otomatik onaylandÃƒâ€Ã‚Â± ve menÃƒÆ’Ã‚Â¼ gÃƒÆ’Ã‚Â¼ncellendi.'**
+  /// **'Fiyat otomatik onaylandı ve menü güncellendi.'**
   String get menuItemAutoApprovedMessage;
 
-  /// No description provided for @menuItemPendingCountMessage.
+  /// Auto metadata for menuItemPendingCountMessage
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œnerin alÃƒâ€Ã‚Â±ndÃƒâ€Ã‚Â±. Bu ÃƒÆ’Ã‚Â¼rÃƒÆ’Ã‚Â¼n iÃƒÆ’Ã‚Â§in {count} ÃƒÆ’Ã‚Â¶neri sÃƒâ€Ã‚Â±rada.'**
+  /// **'Önerin alındı. Bu ürün için {count} öneri sırada.'**
   String menuItemPendingCountMessage(int count);
 
   /// Auto metadata for menuItemPendingSingleMessage
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œnerin alÃƒâ€Ã‚Â±ndÃƒâ€Ã‚Â±, onay bekliyor.'**
+  /// **'Önerin alındı, onay bekliyor.'**
   String get menuItemPendingSingleMessage;
 
   /// Auto metadata for menuItemOnsiteVerifiedPrioritizedMessage
   ///
   /// In tr, this message translates to:
-  /// **'TeÃƒâ€¦Ã…Â¸ekkÃƒÆ’Ã‚Â¼rler. Mekandan doÃƒâ€Ã…Â¸rulama sinyali alÃƒâ€Ã‚Â±ndÃƒâ€Ã‚Â±, ÃƒÆ’Ã‚Â¶nerin ÃƒÆ’Ã‚Â¶nceliklendirildi.'**
+  /// **'Teşekkürler. Mekandan doğrulama sinyali alındı, önerin önceliklendirildi.'**
   String get menuItemOnsiteVerifiedPrioritizedMessage;
 
   /// Auto metadata for menuPhotoWarningDark
   ///
   /// In tr, this message translates to:
-  /// **'karanlÃƒâ€Ã‚Â±k'**
+  /// **'karanlık'**
   String get menuPhotoWarningDark;
 
   /// Auto metadata for menuPhotoWarningBlurry
   ///
   /// In tr, this message translates to:
-  /// **'bulanÃƒâ€Ã‚Â±k'**
+  /// **'bulanık'**
   String get menuPhotoWarningBlurry;
 
   /// Auto metadata for menuContributionLevelLabel
   ///
   /// In tr, this message translates to:
-  /// **'KatkÃƒâ€Ã‚Â± Seviyesi'**
+  /// **'Katkı Seviyesi'**
   String get menuContributionLevelLabel;
 
   /// Auto metadata for menuScoreUpdated
   ///
   /// In tr, this message translates to:
-  /// **'PuanÃƒâ€Ã‚Â±n gÃƒÆ’Ã‚Â¼ncellendi'**
+  /// **'Puanın güncellendi'**
   String get menuScoreUpdated;
 
-  /// No description provided for @menuLevel.
+  /// Auto metadata for menuLevel
   ///
   /// In tr, this message translates to:
   /// **'Seviye {level}'**
   String menuLevel(int level);
 
-  /// No description provided for @menuXpValue.
+  /// Auto metadata for menuXpValue
   ///
   /// In tr, this message translates to:
   /// **'{xp} XP'**
   String menuXpValue(int xp);
 
-  /// No description provided for @menuSelectedVariantLabel.
+  /// Auto metadata for menuSelectedVariantLabel
   ///
   /// In tr, this message translates to:
-  /// **'SeÃƒÆ’Ã‚Â§ili varyant: {label} ({price})'**
+  /// **'Seçili varyant: {label} ({price})'**
   String menuSelectedVariantLabel(String label, String price);
 
-  /// No description provided for @menuPriceHistoryCurrent.
+  /// Auto metadata for menuPriceHistoryCurrent
   ///
   /// In tr, this message translates to:
   /// **'{current} > {source}'**
   String menuPriceHistoryCurrent(String current, String source);
 
-  /// No description provided for @menuPriceHistoryTransition.
+  /// Auto metadata for menuPriceHistoryTransition
   ///
   /// In tr, this message translates to:
   /// **'{previous} > {current} > {source}'**
@@ -4823,10 +4823,10 @@ abstract class AppLocalizations {
     String source,
   );
 
-  /// No description provided for @menuPriceHistoryMeta.
+  /// Auto metadata for menuPriceHistoryMeta
   ///
   /// In tr, this message translates to:
-  /// **'{relative} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {date}{delta}'**
+  /// **'{relative} • {date}{delta}'**
   String menuPriceHistoryMeta(String relative, String date, String delta);
 
   /// Auto metadata for inboxTitle
@@ -4838,7 +4838,7 @@ abstract class AppLocalizations {
   /// Auto metadata for inboxMarkAllRead
   ///
   /// In tr, this message translates to:
-  /// **'TÃƒÆ’Ã‚Â¼mÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼ okundu iÃƒâ€¦Ã…Â¸aretle'**
+  /// **'Tümünü okundu işaretle'**
   String get inboxMarkAllRead;
 
   /// Auto metadata for inboxEmptyTitle
@@ -4850,22 +4850,22 @@ abstract class AppLocalizations {
   /// Auto metadata for inboxEmptyDescription
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat ÃƒÆ’Ã‚Â¶nerisi, claim, rapor ve yorum cevabÃƒâ€Ã‚Â± bildirimleri burada gÃƒÆ’Ã‚Â¶rÃƒÆ’Ã‚Â¼necek.'**
+  /// **'Fiyat önerisi, claim, rapor ve yorum cevabı bildirimleri burada görünecek.'**
   String get inboxEmptyDescription;
 
-  /// No description provided for @inboxXpGain.
+  /// Auto metadata for inboxXpGain
   ///
   /// In tr, this message translates to:
   /// **'+{xp} XP'**
   String inboxXpGain(int xp);
 
-  /// No description provided for @inboxNewLevel.
+  /// Auto metadata for inboxNewLevel
   ///
   /// In tr, this message translates to:
   /// **'Yeni seviye: {level}'**
   String inboxNewLevel(int level);
 
-  /// No description provided for @inboxLevel.
+  /// Auto metadata for inboxLevel
   ///
   /// In tr, this message translates to:
   /// **'Seviye: {level}'**
@@ -4874,169 +4874,169 @@ abstract class AppLocalizations {
   /// Auto metadata for inboxNow
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€¦Ã‚Âimdi'**
+  /// **'Şimdi'**
   String get inboxNow;
 
   /// Auto metadata for inboxReengagementTitle
   ///
   /// In tr, this message translates to:
-  /// **'Seni ÃƒÆ’Ã‚Â¶zledik'**
+  /// **'Seni özledik'**
   String get inboxReengagementTitle;
 
   /// Auto metadata for inboxReengagementSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'YakÃƒâ€Ã‚Â±ndaki yeni menÃƒÆ’Ã‚Â¼lere gÃƒÆ’Ã‚Â¶z at.'**
+  /// **'Yakındaki yeni menülere göz at.'**
   String get inboxReengagementSubtitle;
 
   /// Auto metadata for inboxRecentBusinessClosedTitle
   ///
   /// In tr, this message translates to:
-  /// **'Son baktÃƒâ€Ã‚Â±Ãƒâ€Ã…Â¸Ãƒâ€Ã‚Â±n iÃƒâ€¦Ã…Â¸letme kapandÃƒâ€Ã‚Â± gÃƒÆ’Ã‚Â¶rÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼yor'**
+  /// **'Son baktığın işletme kapandı görünüyor'**
   String get inboxRecentBusinessClosedTitle;
 
   /// Auto metadata for inboxRecentBusinessPriceChangedTitle
   ///
   /// In tr, this message translates to:
-  /// **'Son baktÃƒâ€Ã‚Â±Ãƒâ€Ã…Â¸Ãƒâ€Ã‚Â±n yerde fiyat deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸ti'**
+  /// **'Son baktığın yerde fiyat değişti'**
   String get inboxRecentBusinessPriceChangedTitle;
 
   /// Auto metadata for inboxRecentBusinessNearbyTitle
   ///
   /// In tr, this message translates to:
-  /// **'Son baktÃƒâ€Ã‚Â±Ãƒâ€Ã…Â¸Ãƒâ€Ã‚Â±n yer yakÃƒâ€Ã‚Â±nda'**
+  /// **'Son baktığın yer yakında'**
   String get inboxRecentBusinessNearbyTitle;
 
   /// Auto metadata for inboxRecentBusinessTitle
   ///
   /// In tr, this message translates to:
-  /// **'Son baktÃƒâ€Ã‚Â±Ãƒâ€Ã…Â¸Ãƒâ€Ã‚Â±n yer'**
+  /// **'Son baktığın yer'**
   String get inboxRecentBusinessTitle;
 
   /// Auto metadata for inboxRecentBusinessNearbyReason
   ///
   /// In tr, this message translates to:
-  /// **'Sana yakÃƒâ€Ã‚Â±n olduÃƒâ€Ã…Â¸u iÃƒÆ’Ã‚Â§in ÃƒÆ’Ã‚Â¶ne alÃƒâ€Ã‚Â±ndÃƒâ€Ã‚Â±'**
+  /// **'Sana yakın olduğu için öne alındı'**
   String get inboxRecentBusinessNearbyReason;
 
   /// Auto metadata for inboxFavoritesPriceChangedTitle
   ///
   /// In tr, this message translates to:
-  /// **'Favorilerinde fiyat deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸ti'**
+  /// **'Favorilerinde fiyat değişti'**
   String get inboxFavoritesPriceChangedTitle;
 
-  /// No description provided for @inboxFavoritesPriceChangedSubtitle.
+  /// Auto metadata for inboxFavoritesPriceChangedSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'{name} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Son {count} doÃƒâ€Ã…Â¸rulama'**
+  /// **'{name} • Son {count} doğrulama'**
   String inboxFavoritesPriceChangedSubtitle(String name, int count);
 
   /// Auto metadata for inboxDailyTaskTitle
   ///
   /// In tr, this message translates to:
-  /// **'Sana uygun bugÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼n gÃƒÆ’Ã‚Â¶revi'**
+  /// **'Sana uygun bugÃ¼nÃ¼n gÃ¶revi'**
   String get inboxDailyTaskTitle;
 
   /// Auto metadata for inboxSegmentPriceHunter
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÆ’Ã‚Â¼n 1 fiyat doÃƒâ€Ã…Â¸rula; gÃƒÆ’Ã‚Â¼ven skorun daha hÃƒâ€Ã‚Â±zlÃƒâ€Ã‚Â± artsÃƒâ€Ã‚Â±n.'**
+  /// **'Bugün 1 fiyat doğrula; güven skorun daha hızlı artsın.'**
   String get inboxSegmentPriceHunter;
 
   /// Auto metadata for inboxSegmentPhotoProof
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÆ’Ã‚Â¼n 1 net menÃƒÆ’Ã‚Â¼/fotoÃƒâ€Ã…Â¸raf kanÃƒâ€Ã‚Â±tÃƒâ€Ã‚Â± ekle.'**
+  /// **'Bugün 1 net menü/fotoğraf kanıtı ekle.'**
   String get inboxSegmentPhotoProof;
 
   /// Auto metadata for inboxSegmentExplorer
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÆ’Ã‚Â¼n yeni bir mekan aÃƒÆ’Ã‚Â§ ve fiyat durumunu kontrol et.'**
+  /// **'Bugün yeni bir mekan aç ve fiyat durumunu kontrol et.'**
   String get inboxSegmentExplorer;
 
   /// Auto metadata for inboxSegmentSilentQuality
   ///
   /// In tr, this message translates to:
-  /// **'Sessiz kalite katkÃƒâ€Ã‚Â±n gÃƒÆ’Ã‚Â¼ÃƒÆ’Ã‚Â§lÃƒÆ’Ã‚Â¼, doÃƒâ€Ã…Â¸ru veriyi sÃƒÆ’Ã‚Â¼rdÃƒÆ’Ã‚Â¼r.'**
+  /// **'Sessiz kalite katkın güçlü, doğru veriyi sürdür.'**
   String get inboxSegmentSilentQuality;
 
   /// Auto metadata for inboxSegmentDefault
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÆ’Ã‚Â¼n kÃƒÆ’Ã‚Â¼ÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â¼k bir katkÃƒâ€Ã‚Â±yla grafiÃƒâ€Ã…Â¸ini gÃƒÆ’Ã‚Â¼ÃƒÆ’Ã‚Â§lendir.'**
+  /// **'Bugün küçük bir katkıyla grafiğini güçlendir.'**
   String get inboxSegmentDefault;
 
-  /// No description provided for @inboxAlertPriceUp.
+  /// Auto metadata for inboxAlertPriceUp
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat %{pct} ÃƒÆ’Ã‚Â§Ãƒâ€Ã‚Â±ktÃƒâ€Ã‚Â±'**
+  /// **'Fiyat %{pct} çıktığında'**
   String inboxAlertPriceUp(String pct);
 
-  /// No description provided for @inboxAlertPriceDown.
+  /// Auto metadata for inboxAlertPriceDown
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat %{pct} dÃƒÆ’Ã‚Â¼Ãƒâ€¦Ã…Â¸tÃƒÆ’Ã‚Â¼'**
+  /// **'Fiyat %{pct} düştü'**
   String inboxAlertPriceDown(String pct);
 
-  /// No description provided for @inboxAlertCheaperNow.
+  /// Auto metadata for inboxAlertCheaperNow
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€¦Ã‚Âuan %{pct} daha ucuz'**
+  /// **'Şuan %{pct} daha ucuz'**
   String inboxAlertCheaperNow(String pct);
 
   /// Auto metadata for inboxAlertAboveDistrictAverage
   ///
   /// In tr, this message translates to:
-  /// **'Bu semtte ortalamanÃƒâ€Ã‚Â±n ÃƒÆ’Ã‚Â¼stÃƒÆ’Ã‚Â¼ne ÃƒÆ’Ã‚Â§Ãƒâ€Ã‚Â±ktÃƒâ€Ã‚Â±'**
+  /// **'Bu semtte ortalamanın üstüne çıktığında'**
   String get inboxAlertAboveDistrictAverage;
 
   /// Auto metadata for inboxAlertBelowDistrictAverage
   ///
   /// In tr, this message translates to:
-  /// **'Bu semtte ortalamanÃƒâ€Ã‚Â±n altÃƒâ€Ã‚Â±na indi'**
+  /// **'Bu semtte ortalamanın altına indi'**
   String get inboxAlertBelowDistrictAverage;
 
   /// Auto metadata for inboxAlertTriggered
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat alarmÃƒâ€Ã‚Â± tetiklendi'**
+  /// **'Fiyat alarmı tetiklendi'**
   String get inboxAlertTriggered;
 
   /// Auto metadata for inboxBusinessClosedArchived
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme kapandÃƒâ€Ã‚Â± (arÃƒâ€¦Ã…Â¸iv).'**
+  /// **'İşletme kapandı (arşiv).'**
   String get inboxBusinessClosedArchived;
 
   /// Auto metadata for inboxBusinessMoved
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme taÃƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â±ndÃƒâ€Ã‚Â±.'**
+  /// **'İşletme taşındı.'**
   String get inboxBusinessMoved;
 
   /// Auto metadata for inboxBusinessTemporarilyClosed
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme geÃƒÆ’Ã‚Â§ici kapalÃƒâ€Ã‚Â±.'**
+  /// **'İşletme geçici kapalı.'**
   String get inboxBusinessTemporarilyClosed;
 
   /// Auto metadata for inboxBusinessStatusUpdated
   ///
   /// In tr, this message translates to:
-  /// **'Durum gÃƒÆ’Ã‚Â¼ncellendi'**
+  /// **'Durum güncellendi'**
   String get inboxBusinessStatusUpdated;
 
   /// Auto metadata for priceAlertSheetTitle
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat alarmÃƒâ€Ã‚Â± oluÃƒâ€¦Ã…Â¸tur'**
+  /// **'Fiyat alarmı oluşturma'**
   String get priceAlertSheetTitle;
 
   /// Auto metadata for priceAlertSheetQueryLabel
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã…â€œrÃƒÆ’Ã‚Â¼n veya arama metni'**
+  /// **'Ürün veya arama metni'**
   String get priceAlertSheetQueryLabel;
 
   /// Auto metadata for priceAlertSheetMaxPriceLabel
@@ -5054,19 +5054,19 @@ abstract class AppLocalizations {
   /// Auto metadata for priceAlertSheetValidationError
   ///
   /// In tr, this message translates to:
-  /// **'Arama metni ve geÃƒÆ’Ã‚Â§erli bir fiyat girin.'**
+  /// **'Arama metni ve geçerli bir fiyat girin.'**
   String get priceAlertSheetValidationError;
 
   /// Auto metadata for priceAlertSheetSaved
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat alarmÃƒâ€Ã‚Â± kaydedildi.'**
+  /// **'Fiyat alarmı kaydedildi.'**
   String get priceAlertSheetSaved;
 
   /// Auto metadata for achievementStatusUnlocked
   ///
   /// In tr, this message translates to:
-  /// **'Durum: AÃƒÆ’Ã‚Â§Ãƒâ€Ã‚Â±k'**
+  /// **'Durum: Açık'**
   String get achievementStatusUnlocked;
 
   /// Auto metadata for achievementStatusLocked
@@ -5084,7 +5084,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileIdentitySupportMessage
   ///
   /// In tr, this message translates to:
-  /// **'TopluluÃƒâ€Ã…Â¸a katkÃƒâ€Ã‚Â± yaparak profilini gÃƒÆ’Ã‚Â¼ÃƒÆ’Ã‚Â§lendirebilirsin.'**
+  /// **'Topluluğa katkılı yaparak profilini güçlendirebilirsin.'**
   String get profileIdentitySupportMessage;
 
   /// Auto metadata for profileAlertsTab
@@ -5096,43 +5096,43 @@ abstract class AppLocalizations {
   /// Auto metadata for profileFeedTab
   ///
   /// In tr, this message translates to:
-  /// **'AkÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸'**
+  /// **'Akış'**
   String get profileFeedTab;
 
   /// Auto metadata for profileLoginToSeeContributions
   ///
   /// In tr, this message translates to:
-  /// **'KatkÃƒâ€Ã‚Â±larÃƒâ€Ã‚Â±nÃƒâ€Ã‚Â± ve istatistiklerini gÃƒÆ’Ã‚Â¶rmek iÃƒÆ’Ã‚Â§in giriÃƒâ€¦Ã…Â¸ yap.'**
+  /// **'KatkılarÄ±nÄ± ve istatistiklerini gÃ¶rmek iÃ§in giriÅŸ yap.'**
   String get profileLoginToSeeContributions;
 
   /// Auto metadata for profileCreatorBadgeTitle
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°ÃƒÆ’Ã‚Â§erik ÃƒÆ’Ã‚Â¼retici rozeti'**
+  /// **'İçerik üretici rozeti'**
   String get profileCreatorBadgeTitle;
 
   /// Auto metadata for profileCreatorBadgeEnabled
   ///
   /// In tr, this message translates to:
-  /// **'Profilin iÃƒÆ’Ã‚Â§erik ÃƒÆ’Ã‚Â¼retici olarak gÃƒÆ’Ã‚Â¶rÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼yor.'**
+  /// **'Profilin içerik üretici olarak görünüyor.'**
   String get profileCreatorBadgeEnabled;
 
   /// Auto metadata for profileCreatorBadgeDisabled
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°stersen iÃƒÆ’Ã‚Â§erik ÃƒÆ’Ã‚Â¼retici rozetini aÃƒÆ’Ã‚Â§abilirsin.'**
+  /// **'İstersen içerik üretici rozetini açabilirsin.'**
   String get profileCreatorBadgeDisabled;
 
   /// Auto metadata for profileAddSocialLinkTitle
   ///
   /// In tr, this message translates to:
-  /// **'Sosyal baÃƒâ€Ã…Â¸lantÃƒâ€Ã‚Â± ekle'**
+  /// **'Sosyal bağlantı ekle'**
   String get profileAddSocialLinkTitle;
 
   /// Auto metadata for linkLabel
   ///
   /// In tr, this message translates to:
-  /// **'BaÃƒâ€Ã…Â¸lantÃƒâ€Ã‚Â±'**
+  /// **'Bağlantı'**
   String get linkLabel;
 
   /// Auto metadata for profileSocialLinksHint
@@ -5144,7 +5144,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileSocialSaveComingSoon
   ///
   /// In tr, this message translates to:
-  /// **'Sosyal baÃƒâ€Ã…Â¸lantÃƒâ€Ã‚Â± kaydetme ÃƒÆ’Ã‚Â¶zelliÃƒâ€Ã…Â¸i yakÃƒâ€Ã‚Â±nda.'**
+  /// **'Sosyal bağlantı kaydetme özelliği yakında.'**
   String get profileSocialSaveComingSoon;
 
   /// Auto metadata for profileStatsTitle
@@ -5156,115 +5156,115 @@ abstract class AppLocalizations {
   /// Auto metadata for profileCommunityTrustTitle
   ///
   /// In tr, this message translates to:
-  /// **'Topluluk gÃƒÆ’Ã‚Â¼veni'**
+  /// **'Topluluk güveni'**
   String get profileCommunityTrustTitle;
 
   /// Auto metadata for profileCalculating
   ///
   /// In tr, this message translates to:
-  /// **'HesaplanÃƒâ€Ã‚Â±yor...'**
+  /// **'Hesaplanıyor...'**
   String get profileCalculating;
 
-  /// No description provided for @profileTrustScorePercent.
+  /// Auto metadata for profileTrustScorePercent
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼ven skoru: %{score}'**
+  /// **'Güven skoru: %{score}'**
   String profileTrustScorePercent(int score);
 
-  /// No description provided for @profileLevelXp.
+  /// Auto metadata for profileLevelXp
   ///
   /// In tr, this message translates to:
-  /// **'Seviye {level} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Toplam {xp} XP'**
+  /// **'Seviye {level} • Toplam {xp} XP'**
   String profileLevelXp(int level, int xp);
 
   /// Auto metadata for profileMyAchievementsTitle
   ///
   /// In tr, this message translates to:
-  /// **'BaÃƒâ€¦Ã…Â¸arÃƒâ€Ã‚Â± rozetlerim'**
+  /// **'Başarı rozetlerim'**
   String get profileMyAchievementsTitle;
 
   /// Auto metadata for profileNoAchievementYet
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z rozet kazanmadÃƒâ€Ã‚Â±n.'**
+  /// **'Henüz rozet kazanmadın.'**
   String get profileNoAchievementYet;
 
   /// Auto metadata for profileAlertsLoginRequired
   ///
   /// In tr, this message translates to:
-  /// **'AlarmlarÃƒâ€Ã‚Â± gÃƒÆ’Ã‚Â¶rmek iÃƒÆ’Ã‚Â§in giriÃƒâ€¦Ã…Â¸ yap.'**
+  /// **'Alarmları görmek için giriş yap.'**
   String get profileAlertsLoginRequired;
 
   /// Auto metadata for profileAlertsEmpty
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z alarm bildirimi yok.'**
+  /// **'Henüz alarm bildirimi yok.'**
   String get profileAlertsEmpty;
 
   /// Auto metadata for profileFeedLoginRequired
   ///
   /// In tr, this message translates to:
-  /// **'AkÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â± gÃƒÆ’Ã‚Â¶rmek iÃƒÆ’Ã‚Â§in giriÃƒâ€¦Ã…Â¸ yap.'**
+  /// **'Akışı görmek için giriş yap.'**
   String get profileFeedLoginRequired;
 
   /// Auto metadata for profileFeedEmpty
   ///
   /// In tr, this message translates to:
-  /// **'AkÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ta henÃƒÆ’Ã‚Â¼z iÃƒÆ’Ã‚Â§erik yok.'**
+  /// **'Akışta henüz içerik yok.'**
   String get profileFeedEmpty;
 
   /// Auto metadata for profileFeedEventPriceVerified
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat doÃƒâ€Ã…Â¸rulandÃƒâ€Ã‚Â±'**
+  /// **'Fiyat doğrulandı'**
   String get profileFeedEventPriceVerified;
 
   /// Auto metadata for profileFeedEventMenuUpdated
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÆ’Ã‚Â¼ gÃƒÆ’Ã‚Â¼ncellendi'**
+  /// **'Menü güncellendi'**
   String get profileFeedEventMenuUpdated;
 
   /// Auto metadata for profileFeedEventSponsored
   ///
   /// In tr, this message translates to:
-  /// **'Sponsorlu gÃƒÆ’Ã‚Â¼ncelleme'**
+  /// **'Sponsorlu güncelleme'**
   String get profileFeedEventSponsored;
 
   /// Auto metadata for profileDailyTaskTitle
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼n gÃƒÆ’Ã‚Â¶revi'**
+  /// **'Bugünün görevi'**
   String get profileDailyTaskTitle;
 
   /// Auto metadata for profileDailyTaskCompleted
   ///
   /// In tr, this message translates to:
-  /// **'TamamlandÃƒâ€Ã‚Â±'**
+  /// **'Tamamlandı'**
   String get profileDailyTaskCompleted;
 
   /// Auto metadata for profileSegmentHintPriceHunter
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat doÃƒâ€Ã…Â¸rulama tarafÃƒâ€Ã‚Â±nda gÃƒÆ’Ã‚Â¼ÃƒÆ’Ã‚Â§lÃƒÆ’Ã‚Â¼sÃƒÆ’Ã‚Â¼n; bugÃƒÆ’Ã‚Â¼n tek bir ÃƒÆ’Ã‚Â¼rÃƒÆ’Ã‚Â¼n doÃƒâ€Ã…Â¸rulamasÃƒâ€Ã‚Â± yeterli.'**
+  /// **'Fiyat doğrulama tarafında güçlüsün; bugün tek bir ürün doğrulaması yeterli.'**
   String get profileSegmentHintPriceHunter;
 
   /// Auto metadata for profileSegmentHintPhotoProof
   ///
   /// In tr, this message translates to:
-  /// **'KanÃƒâ€Ã‚Â±t odaklÃƒâ€Ã‚Â± gidiyorsun; net bir menÃƒÆ’Ã‚Â¼ fotoÃƒâ€Ã…Â¸rafÃƒâ€Ã‚Â± etkiyi artÃƒâ€Ã‚Â±rÃƒâ€Ã‚Â±r.'**
+  /// **'Kanıt odaklı gidiyorsun; net bir menü fotoğrafı etkiyi artırır.'**
   String get profileSegmentHintPhotoProof;
 
   /// Auto metadata for profileSegmentHintExplorer
   ///
   /// In tr, this message translates to:
-  /// **'KeÃƒâ€¦Ã…Â¸if odaklÃƒâ€Ã‚Â±sÃƒâ€Ã‚Â±n; yeni bir iÃƒâ€¦Ã…Â¸letmeyi kontrol etmek gÃƒÆ’Ã‚Â¶revi hÃƒâ€Ã‚Â±zlandÃƒâ€Ã‚Â±rÃƒâ€Ã‚Â±r.'**
+  /// **'Keşif odaklısın; yeni bir işletmeyi kontrol etmek görevi hızlandırır.'**
   String get profileSegmentHintExplorer;
 
   /// Auto metadata for profileSegmentHintDefault
   ///
   /// In tr, this message translates to:
-  /// **'KÃƒÆ’Ã‚Â¼ÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â¼k ama doÃƒâ€Ã…Â¸ru katkÃƒâ€Ã‚Â±lar gÃƒÆ’Ã‚Â¼ven grafiÃƒâ€Ã…Â¸ini en hÃƒâ€Ã‚Â±zlÃƒâ€Ã‚Â± bÃƒÆ’Ã‚Â¼yÃƒÆ’Ã‚Â¼tÃƒÆ’Ã‚Â¼r.'**
+  /// **'Küçük ama doğru katkılar güven grafiğini en hızlı büyütür.'**
   String get profileSegmentHintDefault;
 
   /// Auto metadata for profileStatReviews
@@ -5276,7 +5276,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileStatHelpfulVotes
   ///
   /// In tr, this message translates to:
-  /// **'FaydalÃƒâ€Ã‚Â± oy'**
+  /// **'Faydalı oy'**
   String get profileStatHelpfulVotes;
 
   /// Auto metadata for profileStatFavorites
@@ -5288,7 +5288,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileStatContributions
   ///
   /// In tr, this message translates to:
-  /// **'KatkÃƒâ€Ã‚Â±'**
+  /// **'Katkı'**
   String get profileStatContributions;
 
   /// Auto metadata for profileStatVisits
@@ -5300,37 +5300,37 @@ abstract class AppLocalizations {
   /// Auto metadata for profileLatestAchievementTitle
   ///
   /// In tr, this message translates to:
-  /// **'Son kazanÃƒâ€Ã‚Â±lan baÃƒâ€¦Ã…Â¸arÃƒâ€Ã‚Â±'**
+  /// **'Son kazanılan başarı'**
   String get profileLatestAchievementTitle;
 
-  /// No description provided for @profileAlertCurrentPrice.
+  /// Auto metadata for profileAlertCurrentPrice
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼ncel fiyat: {price} TL'**
+  /// **'Güncel fiyat: {price} TL'**
   String profileAlertCurrentPrice(String price);
 
-  /// No description provided for @profileAlertPriceChanged.
+  /// Auto metadata for profileAlertPriceChanged
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸ti: {previous} ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ {current} TL'**
+  /// **'Fiyat değişti: {previous} → {current} TL'**
   String profileAlertPriceChanged(String previous, String current);
 
   /// Auto metadata for profileSegmentPriceHunter
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat avcÃƒâ€Ã‚Â±sÃƒâ€Ã‚Â±'**
+  /// **'Fiyat avcısı'**
   String get profileSegmentPriceHunter;
 
   /// Auto metadata for profileSegmentExplorer
   ///
   /// In tr, this message translates to:
-  /// **'KaÃƒâ€¦Ã…Â¸if'**
+  /// **'Keşif'**
   String get profileSegmentExplorer;
 
   /// Auto metadata for profileSegmentPhotoProof
   ///
   /// In tr, this message translates to:
-  /// **'FotoÃƒâ€Ã…Â¸raf kanÃƒâ€Ã‚Â±tÃƒâ€Ã‚Â±'**
+  /// **'Fotoğraf kanıtı'**
   String get profileSegmentPhotoProof;
 
   /// Auto metadata for profileSegmentBalanced
@@ -5342,19 +5342,19 @@ abstract class AppLocalizations {
   /// Auto metadata for profileMoatSignalsTitle
   ///
   /// In tr, this message translates to:
-  /// **'DavranÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ sinyalleri'**
+  /// **'Davranış sinyalleri'**
   String get profileMoatSignalsTitle;
 
   /// Auto metadata for profileSignalTrust
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼ven'**
+  /// **'Güven'**
   String get profileSignalTrust;
 
   /// Auto metadata for profileSignalAccuracy
   ///
   /// In tr, this message translates to:
-  /// **'DoÃƒâ€Ã…Â¸ruluk'**
+  /// **'Doğruluk'**
   String get profileSignalAccuracy;
 
   /// Auto metadata for profileSignalSegment
@@ -5369,40 +5369,40 @@ abstract class AppLocalizations {
   /// **'Sessiz kalite'**
   String get profileSignalSilentQuality;
 
-  /// No description provided for @profileMoatTrustedRejectedSpam.
+  /// Auto metadata for profileMoatTrustedRejectedSpam
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼venilen katkÃƒâ€Ã‚Â±: {trusted} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Reddedilen: {rejected} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Spam sinyali: {spam}'**
+  /// **'Güvenilen katkılı: {trusted} • Reddedilen: {rejected} • Spam sinyali: {spam}'**
   String profileMoatTrustedRejectedSpam(int trusted, int rejected, int spam);
 
-  /// No description provided for @profileMoatBehaviorSummary.
+  /// Auto metadata for profileMoatBehaviorSummary
   ///
   /// In tr, this message translates to:
-  /// **'DavranÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸: fiyat {price}, keÃƒâ€¦Ã…Â¸if {discovery}, fotoÃƒâ€Ã…Â¸raf {photo}'**
+  /// **'Davranış: fiyat {price}, keşif {discovery}, fotoğraf {photo}'**
   String profileMoatBehaviorSummary(int price, int discovery, int photo);
 
   /// Auto metadata for profileMoatSilentQualityHint
   ///
   /// In tr, this message translates to:
-  /// **'Sessiz kalite katkÃƒâ€Ã‚Â±cÃƒâ€Ã‚Â±sÃƒâ€Ã‚Â±: Az konuÃƒâ€¦Ã…Â¸up doÃƒâ€Ã…Â¸ru katkÃƒâ€Ã‚Â± yapÃƒâ€Ã‚Â±yorsun.'**
+  /// **'Sessiz kalite katkıcısı: Az konuşup doğru katkı yapıyorsun.'**
   String get profileMoatSilentQualityHint;
 
   /// Auto metadata for businessReviewsCommunityExperiences
   ///
   /// In tr, this message translates to:
-  /// **'TopluluÃƒâ€Ã…Â¸un deneyimleri'**
+  /// **'Topluluğun deneyimleri'**
   String get businessReviewsCommunityExperiences;
 
   /// Auto metadata for businessReviewsOwnerCanModerate
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme sahibi uygun olmayan yorumlarÃƒâ€Ã‚Â± yÃƒÆ’Ã‚Â¶netebilir.'**
+  /// **'İşletme sahibi uygun olmayan yorumları yönetebilir.'**
   String get businessReviewsOwnerCanModerate;
 
   /// Auto metadata for businessReviewsOwnersCanOnlyReply
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme sahipleri yalnÃƒâ€Ã‚Â±zca yorumlara cevap verebilir.'**
+  /// **'İşletme sahipleri yalnızca yorumlara cevap verebilir.'**
   String get businessReviewsOwnersCanOnlyReply;
 
   /// Auto metadata for sortNewest
@@ -5414,25 +5414,25 @@ abstract class AppLocalizations {
   /// Auto metadata for sortMostHelpful
   ///
   /// In tr, this message translates to:
-  /// **'En faydalÃƒâ€Ã‚Â±'**
+  /// **'En faydalı'**
   String get sortMostHelpful;
 
-  /// No description provided for @businessReviewsQualityLabel.
+  /// Auto metadata for businessReviewsQualityLabel
   ///
   /// In tr, this message translates to:
   /// **'Kalite skoru: {score}'**
   String businessReviewsQualityLabel(String score);
 
-  /// No description provided for @helpfulCount.
+  /// Auto metadata for helpfulCount
   ///
   /// In tr, this message translates to:
-  /// **'FaydalÃƒâ€Ã‚Â± ({count})'**
+  /// **'Faydalı ({count})'**
   String helpfulCount(int count);
 
   /// Auto metadata for businessReviewsEmpty
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z yorum yok.'**
+  /// **'Henüz yorum yok.'**
   String get businessReviewsEmpty;
 
   /// Auto metadata for reviewCreateRatingLabel
@@ -5444,37 +5444,37 @@ abstract class AppLocalizations {
   /// Auto metadata for reviewCreateOptionalTitleLabel
   ///
   /// In tr, this message translates to:
-  /// **'BaÃƒâ€¦Ã…Â¸lÃƒâ€Ã‚Â±k (isteÃƒâ€Ã…Â¸e baÃƒâ€Ã…Â¸lÃƒâ€Ã‚Â±)'**
+  /// **'Başlık (isteğe bağlı)'**
   String get reviewCreateOptionalTitleLabel;
 
   /// Auto metadata for reviewCreateContentRequired
   ///
   /// In tr, this message translates to:
-  /// **'Yorum boÃƒâ€¦Ã…Â¸ olamaz.'**
+  /// **'Yorum boş olamaz.'**
   String get reviewCreateContentRequired;
 
   /// Auto metadata for reviewCreateSubmitted
   ///
   /// In tr, this message translates to:
-  /// **'Yorum gÃƒÆ’Ã‚Â¶nderildi.'**
+  /// **'Yorum gönderildi.'**
   String get reviewCreateSubmitted;
 
   /// Auto metadata for reviewCreateErrorNewAccountRateLimited
   ///
   /// In tr, this message translates to:
-  /// **'Yeni hesaplar iÃƒÆ’Ã‚Â§in gÃƒÆ’Ã‚Â¼nlÃƒÆ’Ã‚Â¼k yorum limiti doldu.'**
+  /// **'Yeni hesaplar için günlük yorum limiti doldu.'**
   String get reviewCreateErrorNewAccountRateLimited;
 
   /// Auto metadata for reviewCreateErrorSameBusinessCooldown
   ///
   /// In tr, this message translates to:
-  /// **'AynÃƒâ€Ã‚Â± iÃƒâ€¦Ã…Â¸letme iÃƒÆ’Ã‚Â§in kÃƒâ€Ã‚Â±sa sÃƒÆ’Ã‚Â¼rede tekrar yorum gÃƒÆ’Ã‚Â¶nderemezsin.'**
+  /// **'Aynı işletme için kısa sürede tekrar yorum gönderemezsin.'**
   String get reviewCreateErrorSameBusinessCooldown;
 
   /// Auto metadata for reviewCreateErrorContainsLinkOrPhone
   ///
   /// In tr, this message translates to:
-  /// **'Yorumda link veya telefon bilgisi paylaÃƒâ€¦Ã…Â¸amazsÃƒâ€Ã‚Â±n.'**
+  /// **'Yorumda link veya telefon bilgisi paylaşılamaz.'**
   String get reviewCreateErrorContainsLinkOrPhone;
 
   /// Auto metadata for reviewCreateErrorContainsProfanity
@@ -5486,7 +5486,7 @@ abstract class AppLocalizations {
   /// Auto metadata for reviewCreateErrorEmojiSpam
   ///
   /// In tr, this message translates to:
-  /// **'Yorumda ÃƒÆ’Ã‚Â§ok fazla emoji var.'**
+  /// **'Yorumda çok fazla emoji var.'**
   String get reviewCreateErrorEmojiSpam;
 
   /// Auto metadata for quality
@@ -5498,19 +5498,19 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedEmptyTitle
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z akÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ yok'**
+  /// **'Henüz akış yok'**
   String get smartFeedEmptyTitle;
 
   /// Auto metadata for smartFeedEmptyDescription
   ///
   /// In tr, this message translates to:
-  /// **'Filtreleri gevÃƒâ€¦Ã…Â¸etebilir ya da ilk katkÃƒâ€Ã‚Â±yÃƒâ€Ã‚Â± sen ekleyebilirsin.'**
+  /// **'Filtreleri gevşetebilir ya da ilk katkıyı sen ekleyebilirsin.'**
   String get smartFeedEmptyDescription;
 
   /// Auto metadata for smartFeedCurationTitle
   ///
   /// In tr, this message translates to:
-  /// **'KÃƒÆ’Ã‚Â¼rasyon'**
+  /// **'Kürasyon'**
   String get smartFeedCurationTitle;
 
   /// Auto metadata for smartFeedCategoriesLabel
@@ -5525,25 +5525,25 @@ abstract class AppLocalizations {
   /// **'Senaryo'**
   String get smartFeedScenarioLabel;
 
-  /// No description provided for @smartFeedBudgetMax.
+  /// Auto metadata for smartFeedBudgetMax
   ///
   /// In tr, this message translates to:
-  /// **'En fazla ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº{amount}'**
+  /// **'En fazla â‚º{amount}'**
   String smartFeedBudgetMax(String amount);
 
   /// Auto metadata for smartFeedUnlimited
   ///
   /// In tr, this message translates to:
-  /// **'SÃƒâ€Ã‚Â±nÃƒâ€Ã‚Â±rsÃƒâ€Ã‚Â±z'**
+  /// **'Sınırsız'**
   String get smartFeedUnlimited;
 
-  /// No description provided for @smartFeedPreferenceHint.
+  /// Auto metadata for smartFeedPreferenceHint
   ///
   /// In tr, this message translates to:
   /// **'Tercih: {label}'**
   String smartFeedPreferenceHint(String label);
 
-  /// No description provided for @smartFeedScenarioHint.
+  /// Auto metadata for smartFeedScenarioHint
   ///
   /// In tr, this message translates to:
   /// **'Senaryo: {label}'**
@@ -5552,7 +5552,7 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedContextDefault
   ///
   /// In tr, this message translates to:
-  /// **'BugÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼n akÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â±nÃƒâ€Ã‚Â± senin ritmine gÃƒÆ’Ã‚Â¶re hazÃƒâ€Ã‚Â±rlÃƒâ€Ã‚Â±yoruz.'**
+  /// **'Bugünün akışını senin ritmine göre hazırlıyoruz.'**
   String get smartFeedContextDefault;
 
   /// Auto metadata for smartFeedCategoryMeyhane
@@ -5564,49 +5564,49 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedCategoryAffordable
   ///
   /// In tr, this message translates to:
-  /// **'Uygun fiyatlÃƒâ€Ã‚Â±'**
+  /// **'Uygun fiyatlı'**
   String get smartFeedCategoryAffordable;
 
   /// Auto metadata for smartFeedBundleStudentFriendly
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œÃƒâ€Ã…Â¸renci dostu'**
+  /// **'Öğrenci dostu'**
   String get smartFeedBundleStudentFriendly;
 
   /// Auto metadata for smartFeedBundleFirstDate
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°lk randevu'**
+  /// **'İlk randevu'**
   String get smartFeedBundleFirstDate;
 
   /// Auto metadata for smartFeedBundleNightSoup
   ///
   /// In tr, this message translates to:
-  /// **'Gece ÃƒÆ’Ã‚Â§orbasÃƒâ€Ã‚Â±'**
+  /// **'Gece çorbası'**
   String get smartFeedBundleNightSoup;
 
-  /// No description provided for @smartFeedMinutesAgo.
+  /// Auto metadata for smartFeedMinutesAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} dk ÃƒÆ’Ã‚Â¶nce'**
+  /// **'{count} dk önce'**
   String smartFeedMinutesAgo(int count);
 
-  /// No description provided for @smartFeedHoursAgo.
+  /// Auto metadata for smartFeedHoursAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} saat ÃƒÆ’Ã‚Â¶nce'**
+  /// **'{count} saat önce'**
   String smartFeedHoursAgo(int count);
 
-  /// No description provided for @smartFeedDaysAgo.
+  /// Auto metadata for smartFeedDaysAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} gÃƒÆ’Ã‚Â¼n ÃƒÆ’Ã‚Â¶nce'**
+  /// **'{count} gün önce'**
   String smartFeedDaysAgo(int count);
 
   /// Auto metadata for smartFeedEventMenu
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÆ’Ã‚Â¼'**
+  /// **'Menü'**
   String get smartFeedEventMenu;
 
   /// Auto metadata for smartFeedEventPrice
@@ -5618,13 +5618,13 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedEventPhoto
   ///
   /// In tr, this message translates to:
-  /// **'FotoÃƒâ€Ã…Â¸raf'**
+  /// **'Fotoğraf'**
   String get smartFeedEventPhoto;
 
   /// Auto metadata for smartFeedEventDaily
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼nlÃƒÆ’Ã‚Â¼k'**
+  /// **'Günlük'**
   String get smartFeedEventDaily;
 
   /// Auto metadata for smartFeedEventSponsor
@@ -5636,55 +5636,55 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedFallbackPriceChanged
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat gÃƒÆ’Ã‚Â¼ncellendi'**
+  /// **'Fiyat güncellendi'**
   String get smartFeedFallbackPriceChanged;
 
   /// Auto metadata for smartFeedFallbackPhotoAdded
   ///
   /// In tr, this message translates to:
-  /// **'Yeni fotoÃƒâ€Ã…Â¸raf eklendi'**
+  /// **'Yeni fotoğraf eklendi'**
   String get smartFeedFallbackPhotoAdded;
 
   /// Auto metadata for smartFeedFallbackDailyMenu
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼n menÃƒÆ’Ã‚Â¼sÃƒÆ’Ã‚Â¼'**
+  /// **'Günün menüsü'**
   String get smartFeedFallbackDailyMenu;
 
   /// Auto metadata for smartFeedFallbackNewContent
   ///
   /// In tr, this message translates to:
-  /// **'Yeni iÃƒÆ’Ã‚Â§erik'**
+  /// **'Yeni içerik'**
   String get smartFeedFallbackNewContent;
 
   /// Auto metadata for smartFeedCtaGoToMenu
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÆ’Ã‚Â¼ye git'**
+  /// **'Menüye git'**
   String get smartFeedCtaGoToMenu;
 
   /// Auto metadata for smartFeedCtaOpenItem
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã…â€œrÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼ aÃƒÆ’Ã‚Â§'**
+  /// **'Ürünü aç'**
   String get smartFeedCtaOpenItem;
 
   /// Auto metadata for smartFeedCtaViewPhoto
   ///
   /// In tr, this message translates to:
-  /// **'FotoÃƒâ€Ã…Â¸rafa bak'**
+  /// **'Fotoğrafa bak'**
   String get smartFeedCtaViewPhoto;
 
   /// Auto metadata for smartFeedCtaGoToBusiness
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letmeye git'**
+  /// **'İşletmeye git'**
   String get smartFeedCtaGoToBusiness;
 
-  /// No description provided for @smartFeedNearbyKm.
+  /// Auto metadata for smartFeedNearbyKm
   ///
   /// In tr, this message translates to:
-  /// **'YakÃƒâ€Ã‚Â±nÃƒâ€Ã‚Â±nda {km} km'**
+  /// **'YakÄ±nÄ±nda {km} km'**
   String smartFeedNearbyKm(String km);
 
   /// Auto metadata for smartFeedReasonCategoryMatch
@@ -5702,7 +5702,7 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedReasonSimilarUsers
   ///
   /// In tr, this message translates to:
-  /// **'Benzer kullanÃƒâ€Ã‚Â±cÃƒâ€Ã‚Â±lar seviyor'**
+  /// **'Benzer kullanÄ±cÄ±lar seviyor'**
   String get smartFeedReasonSimilarUsers;
 
   /// Auto metadata for smartFeedDayWeekend
@@ -5714,7 +5714,7 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedDayWeekday
   ///
   /// In tr, this message translates to:
-  /// **'Hafta iÃƒÆ’Ã‚Â§i'**
+  /// **'Hafta içi'**
   String get smartFeedDayWeekday;
 
   /// Auto metadata for smartFeedTimeMorning
@@ -5726,13 +5726,13 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedTimeNoon
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œÃƒâ€Ã…Â¸le'**
+  /// **'Öğle'**
   String get smartFeedTimeNoon;
 
   /// Auto metadata for smartFeedTimeEvening
   ///
   /// In tr, this message translates to:
-  /// **'AkÃƒâ€¦Ã…Â¸am'**
+  /// **'Akşam'**
   String get smartFeedTimeEvening;
 
   /// Auto metadata for smartFeedTimeNight
@@ -5744,13 +5744,13 @@ abstract class AppLocalizations {
   /// Auto metadata for suggestBusinessSubmitDialogTitle
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œnerin alÃƒâ€Ã‚Â±ndÃƒâ€Ã‚Â± mÃƒâ€Ã‚Â±?'**
+  /// **'Önerin alındı mı?'**
   String get suggestBusinessSubmitDialogTitle;
 
-  /// No description provided for @suggestBusinessSubmitDialogContent.
+  /// Auto metadata for suggestBusinessSubmitDialogContent
   ///
   /// In tr, this message translates to:
-  /// **'TeÃƒâ€¦Ã…Â¸ekkÃƒÆ’Ã‚Â¼rler! Ãƒâ€Ã‚Â°nceleme sonucunda iÃƒâ€¦Ã…Â¸letme yayÃƒâ€Ã‚Â±nlanacak.\n\nTakip Kodu: {code}'**
+  /// **'Teşekkürler! İnceleme sonucunda işletme yayına alınacak.\n\nTakip Kodu: {code}'**
   String suggestBusinessSubmitDialogContent(String code);
 
   /// Auto metadata for ok
@@ -5762,19 +5762,19 @@ abstract class AppLocalizations {
   /// Auto metadata for suggestBusinessPageTitle
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme Ekle'**
+  /// **'İşletme Ekle'**
   String get suggestBusinessPageTitle;
 
   /// Auto metadata for suggestBusinessPageSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'BulduÃƒâ€Ã…Â¸un iÃƒâ€¦Ã…Â¸letmeyi ekle, topluluÃƒâ€Ã…Â¸a katkÃƒâ€Ã‚Â± yap. Ãƒâ€Ã‚Â°nceleme sonucunda yayÃƒâ€Ã‚Â±nlarÃƒâ€Ã‚Â±z.'**
+  /// **'Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarÄ±z.'**
   String get suggestBusinessPageSubtitle;
 
   /// Auto metadata for suggestBusinessNameLabel
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme adÃƒâ€Ã‚Â±'**
+  /// **'İşletme adı'**
   String get suggestBusinessNameLabel;
 
   /// Auto metadata for requiredField
@@ -5810,31 +5810,31 @@ abstract class AppLocalizations {
   /// Auto metadata for suggestBusinessDuplicateTitle
   ///
   /// In tr, this message translates to:
-  /// **'Bu iÃƒâ€¦Ã…Â¸letme zaten var olabilir'**
+  /// **'Bu işletme zaten var olabilir'**
   String get suggestBusinessDuplicateTitle;
 
   /// Auto metadata for suggestBusinessDuplicateFound
   ///
   /// In tr, this message translates to:
-  /// **'Arama sonucunda benzer iÃƒâ€¦Ã…Â¸letmeler bulundu:'**
+  /// **'Arama sonucunda benzer işletmeler bulundu:'**
   String get suggestBusinessDuplicateFound;
 
   /// Auto metadata for suggestBusinessDuplicateConfirm
   ///
   /// In tr, this message translates to:
-  /// **'Yine de yeni ÃƒÆ’Ã‚Â¶neri gÃƒÆ’Ã‚Â¶ndermek istiyor musun?'**
+  /// **'Yine de yeni öneriyi göndermek istiyor musun?'**
   String get suggestBusinessDuplicateConfirm;
 
   /// Auto metadata for suggestBusinessSendAnyway
   ///
   /// In tr, this message translates to:
-  /// **'Yine de GÃƒÆ’Ã‚Â¶nder'**
+  /// **'Yine de Gönder'**
   String get suggestBusinessSendAnyway;
 
   /// Auto metadata for suggestBusinessOpenAction
   ///
   /// In tr, this message translates to:
-  /// **'AÃƒÆ’Ã‚Â§'**
+  /// **'Aç'**
   String get suggestBusinessOpenAction;
 
   /// Auto metadata for copy
@@ -5846,7 +5846,7 @@ abstract class AppLocalizations {
   /// Auto metadata for topBusinessesNotEnoughData
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z yeterli veri yok.'**
+  /// **'Henüz yeterli veri yok.'**
   String get topBusinessesNotEnoughData;
 
   /// Auto metadata for topBusinessesBadgeMonth
@@ -5864,25 +5864,25 @@ abstract class AppLocalizations {
   /// Auto metadata for suspendedMealsMyClaimsTitle
   ///
   /// In tr, this message translates to:
-  /// **'AskÃƒâ€Ã‚Â±da Yemeklerim'**
+  /// **'Askıda Yemeklerim'**
   String get suspendedMealsMyClaimsTitle;
 
   /// Auto metadata for suspendedMealsStatusCodeReady
   ///
   /// In tr, this message translates to:
-  /// **'Kod hazÃƒâ€Ã‚Â±r'**
+  /// **'Kod hazır'**
   String get suspendedMealsStatusCodeReady;
 
   /// Auto metadata for suspendedMealsStatusFulfilled
   ///
   /// In tr, this message translates to:
-  /// **'Teslim alÃƒâ€Ã‚Â±ndÃƒâ€Ã‚Â±'**
+  /// **'Teslim alındı'**
   String get suspendedMealsStatusFulfilled;
 
   /// Auto metadata for suspendedMealsNoRecords
   ///
   /// In tr, this message translates to:
-  /// **'KayÃƒâ€Ã‚Â±t yok.'**
+  /// **'Kayıt yok.'**
   String get suspendedMealsNoRecords;
 
   /// Auto metadata for suspendedMealsDeliveryCode
@@ -5894,73 +5894,73 @@ abstract class AppLocalizations {
   /// Auto metadata for suspendedMealsCodeCopied
   ///
   /// In tr, this message translates to:
-  /// **'Kod kopyalandÃƒâ€Ã‚Â±'**
+  /// **'Kod kopyalandı'**
   String get suspendedMealsCodeCopied;
 
   /// Auto metadata for suspendedMealsCodeHint
   ///
   /// In tr, this message translates to:
-  /// **'Restorana gidip bu kodu sÃƒÆ’Ã‚Â¶yle.'**
+  /// **'Restorana gidip bu kodu söyle.'**
   String get suspendedMealsCodeHint;
 
   /// Auto metadata for suspendedMealsPendingReview
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°nceleniyor'**
+  /// **'İnceleniyor'**
   String get suspendedMealsPendingReview;
 
-  /// No description provided for @suspendedMealsMonthsAgo.
+  /// Auto metadata for suspendedMealsMonthsAgo
   ///
   /// In tr, this message translates to:
-  /// **'{count} ay ÃƒÆ’Ã‚Â¶nce'**
+  /// **'{count} ay önce'**
   String suspendedMealsMonthsAgo(int count);
 
   /// Auto metadata for tasteTwinTitle
   ///
   /// In tr, this message translates to:
-  /// **'Damak TadÃƒâ€Ã‚Â± Ãƒâ€Ã‚Â°kizi'**
+  /// **'Damak Tadı İkizi'**
   String get tasteTwinTitle;
 
   /// Auto metadata for tasteTwinLoginRequired
   ///
   /// In tr, this message translates to:
-  /// **'Bu sayfayÃƒâ€Ã‚Â± gÃƒÆ’Ã‚Â¶rmek iÃƒÆ’Ã‚Â§in giriÃƒâ€¦Ã…Â¸ yapmalÃƒâ€Ã‚Â±sÃƒâ€Ã‚Â±n.'**
+  /// **'Bu sayfayı görmek için giriş yapmalısın.'**
   String get tasteTwinLoginRequired;
 
   /// Auto metadata for tasteTwinSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'PuanlamalarÃƒâ€Ã‚Â±na gÃƒÆ’Ã‚Â¶re sana benzeyen kiÃƒâ€¦Ã…Â¸iler'**
+  /// **'Puanlamalarına göre sana benzeyen kişiler'**
   String get tasteTwinSubtitle;
 
   /// Auto metadata for tasteTwinNoMatches
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z eÃƒâ€¦Ã…Â¸leÃƒâ€¦Ã…Â¸me yok.'**
+  /// **'Henüz eşleşme yok.'**
   String get tasteTwinNoMatches;
 
-  /// No description provided for @tasteTwinMatchSummary.
+  /// Auto metadata for tasteTwinMatchSummary
   ///
   /// In tr, this message translates to:
-  /// **'%{similarity} uyum ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Ortak {places} yer'**
+  /// **'%{similarity} uyum • Ortak {places} yer'**
   String tasteTwinMatchSummary(int similarity, int places);
 
   /// Auto metadata for tasteTwinSignalHint
   ///
   /// In tr, this message translates to:
-  /// **'Yorum + menÃƒÆ’Ã‚Â¼ sinyali'**
+  /// **'Yorum + menü sinyali'**
   String get tasteTwinSignalHint;
 
   /// Auto metadata for tasteTwinViewSuggestions
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬â€œnerileri gÃƒÆ’Ã‚Â¶r'**
+  /// **'Önerileri gör'**
   String get tasteTwinViewSuggestions;
 
-  /// No description provided for @tasteTwinRecommendationsTitle.
+  /// Auto metadata for tasteTwinRecommendationsTitle
   ///
   /// In tr, this message translates to:
-  /// **'{name} ÃƒÆ’Ã‚Â¶nerileri'**
+  /// **'{name} önerileri'**
   String tasteTwinRecommendationsTitle(String name);
 
   /// Auto metadata for tasteTwinFollowGourmet
@@ -5972,88 +5972,88 @@ abstract class AppLocalizations {
   /// Auto metadata for tasteTwinNoSuggestionsYet
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€¦Ã‚Âimdilik ÃƒÆ’Ã‚Â¶neri yok.'**
+  /// **'Şimdilik öneri yok.'**
   String get tasteTwinNoSuggestionsYet;
 
   /// Auto metadata for tasteTwinWhyMatchedTitle
   ///
   /// In tr, this message translates to:
-  /// **'Neden eÃƒâ€¦Ã…Â¸leÃƒâ€¦Ã…Â¸tiniz?'**
+  /// **'Neden eşleştiniz?'**
   String get tasteTwinWhyMatchedTitle;
 
   /// Auto metadata for tasteTwinReviewOverlapTitle
   ///
   /// In tr, this message translates to:
-  /// **'Yorum ortaklÃƒâ€Ã‚Â±Ãƒâ€Ã…Â¸Ãƒâ€Ã‚Â±'**
+  /// **'Yorum ortaklÄ±ÄŸÄ±'**
   String get tasteTwinReviewOverlapTitle;
 
   /// Auto metadata for tasteTwinNoSampleYet
   ///
   /// In tr, this message translates to:
-  /// **'HenÃƒÆ’Ã‚Â¼z ÃƒÆ’Ã‚Â¶rnek yok.'**
+  /// **'Henüz örnek yok.'**
   String get tasteTwinNoSampleYet;
 
   /// Auto metadata for tasteTwinMenuSignalOverlapTitle
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÆ’Ã‚Â¼ sinyali ortaklÃƒâ€Ã‚Â±Ãƒâ€Ã…Â¸Ãƒâ€Ã‚Â±'**
+  /// **'Menü sinyali ortaklÄ±ÄŸÄ±'**
   String get tasteTwinMenuSignalOverlapTitle;
 
   /// Auto metadata for tasteTwinMenuSignalOverlapHint
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat teyidi / fotoÃƒâ€Ã…Â¸raf beÃƒâ€Ã…Â¸enisi / fotoÃƒâ€Ã…Â¸raf ekleme sinyalleri'**
+  /// **'Fiyat teyidi / fotoğraf beğenisi / fotoğraf ekleme sinyalleri'**
   String get tasteTwinMenuSignalOverlapHint;
 
   /// Auto metadata for tasteTwinDivergenceTitle
   ///
   /// In tr, this message translates to:
-  /// **'Burada anlaÃƒâ€¦Ã…Â¸amadÃƒâ€Ã‚Â±nÃƒâ€Ã‚Â±z :)'**
+  /// **'Burada anlaşılmadınız :)'**
   String get tasteTwinDivergenceTitle;
 
-  /// No description provided for @tasteTwinRatingComparison.
+  /// Auto metadata for tasteTwinRatingComparison
   ///
   /// In tr, this message translates to:
-  /// **'Sen: {myRating} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ O: {otherRating}'**
+  /// **'Sen: {myRating} • O: {otherRating}'**
   String tasteTwinRatingComparison(int myRating, int otherRating);
 
-  /// No description provided for @tasteTwinYouAt.
+  /// Auto metadata for tasteTwinYouAt
   ///
   /// In tr, this message translates to:
   /// **'Sen {value}'**
   String tasteTwinYouAt(String value);
 
-  /// No description provided for @tasteTwinSignalComparison.
+  /// Auto metadata for tasteTwinSignalComparison
   ///
   /// In tr, this message translates to:
-  /// **'Sen: +{mySignal} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ O: +{otherSignal}'**
+  /// **'Sen: +{mySignal} • O: +{otherSignal}'**
   String tasteTwinSignalComparison(int mySignal, int otherSignal);
 
-  /// No description provided for @tasteTwinMatchRated.
+  /// Auto metadata for tasteTwinMatchRated
   ///
   /// In tr, this message translates to:
-  /// **'EÃƒâ€¦Ã…Â¸leÃƒâ€¦Ã…Â¸men {rating} puan verdi'**
+  /// **'Eşleşmen {rating} puan verdi'**
   String tasteTwinMatchRated(int rating);
 
-  /// No description provided for @tasteTwinRatedAt.
+  /// Auto metadata for tasteTwinRatedAt
   ///
   /// In tr, this message translates to:
   /// **'{when} {text}'**
   String tasteTwinRatedAt(String when, String text);
 
-  /// No description provided for @tasteTwinDebugReviewAndSignal.
+  /// Auto metadata for tasteTwinDebugReviewAndSignal
   ///
   /// In tr, this message translates to:
   /// **'Yorum {review}% + sinyal {signal}%'**
   String tasteTwinDebugReviewAndSignal(int review, int signal);
 
-  /// No description provided for @tasteTwinDebugReviewOnly.
+  /// Auto metadata for tasteTwinDebugReviewOnly
   ///
   /// In tr, this message translates to:
   /// **'Yorum {review}%'**
   String tasteTwinDebugReviewOnly(int review);
 
-  /// No description provided for @tasteTwinDebugSignalOnly.
+  /// Auto metadata for tasteTwinDebugSignalOnly
   ///
   /// In tr, this message translates to:
   /// **'Sinyal {signal}%'**
@@ -6062,13 +6062,13 @@ abstract class AppLocalizations {
   /// Auto metadata for tasteTwinTodayLower
   ///
   /// In tr, this message translates to:
-  /// **'bugÃƒÆ’Ã‚Â¼n'**
+  /// **'bugün'**
   String get tasteTwinTodayLower;
 
   /// Auto metadata for tasteTwinYesterdayLower
   ///
   /// In tr, this message translates to:
-  /// **'dÃƒÆ’Ã‚Â¼n'**
+  /// **'dün'**
   String get tasteTwinYesterdayLower;
 
   /// Auto metadata for use
@@ -6080,25 +6080,25 @@ abstract class AppLocalizations {
   /// Auto metadata for quickLoginTitle
   ///
   /// In tr, this message translates to:
-  /// **'Devam etmek iÃƒÆ’Ã‚Â§in giriÃƒâ€¦Ã…Â¸ yap'**
+  /// **'Devam etmek için giriş yap'**
   String get quickLoginTitle;
 
   /// Auto metadata for quickLoginDescription
   ///
   /// In tr, this message translates to:
-  /// **'Bu iÃƒâ€¦Ã…Â¸lem iÃƒÆ’Ã‚Â§in hesap gerekiyor. GiriÃƒâ€¦Ã…Â¸ yapabilir veya Ãƒâ€¦Ã…Â¸imdi geÃƒÆ’Ã‚Â§ebilirsin.'**
+  /// **'Bu işlem için hesap gerekiyor. Giriş yapabilir veya Şimdi geçebilirsin.'**
   String get quickLoginDescription;
 
   /// Auto metadata for quickLoginAction
   ///
   /// In tr, this message translates to:
-  /// **'HÃƒâ€Ã‚Â±zlÃƒâ€Ã‚Â± giriÃƒâ€¦Ã…Â¸'**
+  /// **'Hızlı giriş'**
   String get quickLoginAction;
 
   /// Auto metadata for statusBadgeVerified
   ///
   /// In tr, this message translates to:
-  /// **'DoÃƒâ€Ã…Â¸rulandÃƒâ€Ã‚Â±'**
+  /// **'Doğrulandı'**
   String get statusBadgeVerified;
 
   /// Auto metadata for statusBadgePending
@@ -6110,13 +6110,13 @@ abstract class AppLocalizations {
   /// Auto metadata for statusBadgeOutdated
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼ncel deÃƒâ€Ã…Â¸il'**
+  /// **'Güncel değil'**
   String get statusBadgeOutdated;
 
   /// Auto metadata for locationPickerManualHint
   ///
   /// In tr, this message translates to:
-  /// **'Manuel seÃƒÆ’Ã‚Â§imde il/ilÃƒÆ’Ã‚Â§e bazlÃƒâ€Ã‚Â± arama yapÃƒâ€Ã‚Â±lÃƒâ€Ã‚Â±r. YakÃƒâ€Ã‚Â±nÃƒâ€Ã‚Â±mdaki kalite iÃƒÆ’Ã‚Â§in yarÃƒâ€Ã‚Â±ÃƒÆ’Ã‚Â§ap (5/10/20 km) ve konum izni daha iyi sonuÃƒÆ’Ã‚Â§ verir.'**
+  /// **'Manuel seçimde il/ilçe bazlı arama yapılır. Yakınlardaki kalite için yarıçap (5/10/20 km) ve konum izni daha iyi sonuç verir.'**
   String get locationPickerManualHint;
 
   /// Auto metadata for locationPickerUseAuto
@@ -6128,43 +6128,43 @@ abstract class AppLocalizations {
   /// Auto metadata for locationPickerMakeDefault
   ///
   /// In tr, this message translates to:
-  /// **'VarsayÃƒâ€Ã‚Â±lan yap'**
+  /// **'Varsayılan yap'**
   String get locationPickerMakeDefault;
 
   /// Auto metadata for locationPickerMakeDefaultHint
   ///
   /// In tr, this message translates to:
-  /// **'SeÃƒÆ’Ã‚Â§tiÃƒâ€Ã…Â¸in konum bir sonraki aÃƒÆ’Ã‚Â§Ãƒâ€Ã‚Â±lÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ta da kullanÃƒâ€Ã‚Â±lsÃƒâ€Ã‚Â±n.'**
+  /// **'Seçtiğin konum bir sonraki açılışta da kullanılsın.'**
   String get locationPickerMakeDefaultHint;
 
   /// Auto metadata for locationPickerRecent
   ///
   /// In tr, this message translates to:
-  /// **'Son seÃƒÆ’Ã‚Â§ilenler'**
+  /// **'Son seçilenler'**
   String get locationPickerRecent;
 
   /// Auto metadata for locationPickerSearchDistrict
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°lÃƒÆ’Ã‚Â§e ara'**
+  /// **'İlçe ara'**
   String get locationPickerSearchDistrict;
 
   /// Auto metadata for locationPickerPopularDistricts
   ///
   /// In tr, this message translates to:
-  /// **'PopÃƒÆ’Ã‚Â¼ler ilÃƒÆ’Ã‚Â§eler'**
+  /// **'Popüler ilçeler'**
   String get locationPickerPopularDistricts;
 
-  /// No description provided for @locationPickerBusinessCount.
+  /// Auto metadata for locationPickerBusinessCount
   ///
   /// In tr, this message translates to:
-  /// **'{city} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {count} iÃƒâ€¦Ã…Â¸letme'**
+  /// **'{city} • {count} işletme'**
   String locationPickerBusinessCount(String city, int count);
 
   /// Auto metadata for legalPageTitle
   ///
   /// In tr, this message translates to:
-  /// **'Yasal ve GÃƒÆ’Ã‚Â¼ven'**
+  /// **'Yasal ve Güven'**
   String get legalPageTitle;
 
   /// Auto metadata for legalKvkkSectionTitle
@@ -6176,19 +6176,19 @@ abstract class AppLocalizations {
   /// Auto metadata for legalKvkkIntro
   ///
   /// In tr, this message translates to:
-  /// **'Yeedoy kiÃƒâ€¦Ã…Â¸isel verileri yalnÃƒâ€Ã‚Â±zca hizmeti sunmak iÃƒÆ’Ã‚Â§in iÃƒâ€¦Ã…Â¸ler. AÃƒÆ’Ã‚Â§Ãƒâ€Ã‚Â±k rÃƒâ€Ã‚Â±za gerektiren iÃƒâ€¦Ã…Â¸lemler iÃƒÆ’Ã‚Â§in onay alÃƒâ€Ã‚Â±nÃƒâ€Ã‚Â±r, talep halinde veriler silinir veya taÃƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â±nabilir Ãƒâ€¦Ã…Â¸ekilde paylaÃƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â±lÃƒâ€Ã‚Â±r.'**
+  /// **'Yeedoy kişisel verileri yalnızca hizmeti sunmak için işler. Açık rızası gerektiren işlemler için onay alınır, talep halinde veriler silinir veya taşınabilir şekilde paylaşılr.'**
   String get legalKvkkIntro;
 
   /// Auto metadata for legalKvkkCategoriesAndRights
   ///
   /// In tr, this message translates to:
-  /// **'Veri kategorileri: profil, konum, cihaz bilgisi, kullanÃƒâ€Ã‚Â±m analitiÃƒâ€Ã…Â¸i. Haklar: eriÃƒâ€¦Ã…Â¸im, dÃƒÆ’Ã‚Â¼zeltme, silme, itiraz, taÃƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â±nabilirlik.'**
+  /// **'Veri kategorileri: profil, konum, cihaz bilgisi, kullanım analitiği. Haklar: erişim, düzeltme, silme, itiraz, taşınabilirlik.'**
   String get legalKvkkCategoriesAndRights;
 
   /// Auto metadata for legalPrivacyPolicy
   ///
   /// In tr, this message translates to:
-  /// **'Gizlilik PolitikasÃƒâ€Ã‚Â±'**
+  /// **'Gizlilik Politikası'**
   String get legalPrivacyPolicy;
 
   /// Auto metadata for legalKvkkText
@@ -6206,7 +6206,7 @@ abstract class AppLocalizations {
   /// Auto metadata for legalApplicationByEmail
   ///
   /// In tr, this message translates to:
-  /// **'BaÃƒâ€¦Ã…Â¸vuru: e-posta ile talep oluÃƒâ€¦Ã…Â¸tur.'**
+  /// **'Başvuru: e-posta ile talep oluştur.'**
   String get legalApplicationByEmail;
 
   /// Auto metadata for legalCopyrightSectionTitle
@@ -6218,25 +6218,25 @@ abstract class AppLocalizations {
   /// Auto metadata for legalCopyrightIntro
   ///
   /// In tr, this message translates to:
-  /// **'MenÃƒÆ’Ã‚Â¼ ve mekan fotoÃƒâ€Ã…Â¸raflarÃƒâ€Ã‚Â± telif hakkÃƒâ€Ã‚Â±na tabi olabilir. Ãƒâ€Ã‚Â°hlal gÃƒÆ’Ã‚Â¶rdÃƒÆ’Ã‚Â¼Ãƒâ€Ã…Â¸ÃƒÆ’Ã‚Â¼nde Bildir > Telif ile iletebilirsin.'**
+  /// **'Menü ve mekan fotoğrafları telif hakkına tabi olabilir. İhlal gördüğünde Bildir > Telif ile iletebilirsin.'**
   String get legalCopyrightIntro;
 
   /// Auto metadata for legalCopyrightDetails
   ///
   /// In tr, this message translates to:
-  /// **'Telif bildirimi iÃƒÆ’Ã‚Â§in iÃƒÆ’Ã‚Â§erik baÃƒâ€Ã…Â¸lantÃƒâ€Ã‚Â±sÃƒâ€Ã‚Â±, kanÃƒâ€Ã‚Â±t ve kÃƒâ€Ã‚Â±sa aÃƒÆ’Ã‚Â§Ãƒâ€Ã‚Â±klama yeterlidir. DoÃƒâ€Ã…Â¸rulanan ihlaller iÃƒÆ’Ã‚Â§erikten kaldÃƒâ€Ã‚Â±rÃƒâ€Ã‚Â±lÃƒâ€Ã‚Â±r.'**
+  /// **'Telif bildirimi için içerik bağlantısı, kanıt ve kısa açıklama yeterlidir. Doğrulanan ihlaller içerikten kaldırılır.'**
   String get legalCopyrightDetails;
 
   /// Auto metadata for legalCopyrightPolicy
   ///
   /// In tr, this message translates to:
-  /// **'Telif PolitikasÃƒâ€Ã‚Â±'**
+  /// **'Telif Politikası'**
   String get legalCopyrightPolicy;
 
   /// Auto metadata for legalOwnershipAppealSectionTitle
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme SahipliÃƒâ€Ã…Â¸i Ãƒâ€Ã‚Â°tirazÃƒâ€Ã‚Â±'**
+  /// **'İşletme Sahipliği İtirazı'**
   String get legalOwnershipAppealSectionTitle;
 
   /// Auto metadata for legalOwnershipAppealIntro
@@ -6248,56 +6248,56 @@ abstract class AppLocalizations {
   /// Auto metadata for legalOwnershipAppealRequiredInfo
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°tiraz iÃƒÆ’Ã‚Â§in gerekli bilgiler:'**
+  /// **'İtiraz için gerekli bilgiler:'**
   String get legalOwnershipAppealRequiredInfo;
 
   /// Auto metadata for legalOwnershipAppealRequiredList
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸yeri ÃƒÆ’Ã‚Â¼nvanÃƒâ€Ã‚Â± ve vergi/ruhsat bilgisi\nÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Yetkilendirme belgesi\nÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Ãƒâ€Ã‚Â°letiÃƒâ€¦Ã…Â¸im telefonu'**
+  /// **'• İşyeri ünvanı ve vergi/ruhsat bilgisi\n• Yetkilendirme belgesi\n• İletişim telefonu'**
   String get legalOwnershipAppealRequiredList;
 
   /// Auto metadata for legalSendAppealEmail
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°tiraz e-postasÃƒâ€Ã‚Â± gÃƒÆ’Ã‚Â¶nder'**
+  /// **'İtiraz e-postası gönder'**
   String get legalSendAppealEmail;
 
   /// Auto metadata for legalProductPrinciplesSectionTitle
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã…â€œrÃƒÆ’Ã‚Â¼n Ãƒâ€Ã‚Â°lkeleri'**
+  /// **'Ürün İlkeleri'**
   String get legalProductPrinciplesSectionTitle;
 
   /// Auto metadata for legalDontsTitle
   ///
   /// In tr, this message translates to:
-  /// **'YapÃƒâ€Ã‚Â±lmamasÃƒâ€Ã‚Â± gerekenler:'**
+  /// **'Yapılmaması gerekenler:'**
   String get legalDontsTitle;
 
   /// Auto metadata for legalDontsList
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Herkese her Ãƒâ€¦Ã…Â¸eyi aÃƒÆ’Ã‚Â§mak\nÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Sponsorlu iÃƒÆ’Ã‚Â§eriÃƒâ€Ã…Â¸i gizlemek\nÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Owner hesaba yorum silme yetkisi vermek\nÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ BÃƒÆ’Ã‚Â¼yÃƒÆ’Ã‚Â¼me iÃƒÆ’Ã‚Â§in kalite eÃƒâ€¦Ã…Â¸iÃƒâ€Ã…Â¸ini gevÃƒâ€¦Ã…Â¸etmek'**
+  /// **'• Herkese her şeyi açmak\n• Sponsorlu içeriği gizlemek\n• Owner hesaba yorum silme yetkisi vermek\n• Büyüme için kalite eşeğini gevşetmek'**
   String get legalDontsList;
 
-  /// No description provided for @legalPolicySummary.
+  /// Auto metadata for legalPolicySummary
   ///
   /// In tr, this message translates to:
-  /// **'Politika: sponsor etiketi zorunlu={requireSponsoredLabel}, minimum sponsor gÃƒÂ¼ven={minSponsoredTrust}, owner yorum silme={ownerCanDeleteReviews}.'**
+  /// **'Politika: sponsor etiketi zorunlu={requireSponsoredLabel}, minimum sponsor güven={minSponsoredTrust}, owner yorum silme={ownerCanDeleteReviews}.'**
   String legalPolicySummary(
-    Object requireSponsoredLabel,
+    String requireSponsoredLabel,
     String minSponsoredTrust,
-    Object ownerCanDeleteReviews,
+    String ownerCanDeleteReviews,
   );
 
   /// Auto metadata for legalFooter
   ///
   /// In tr, this message translates to:
-  /// **'GÃƒÆ’Ã‚Â¼ncel politika metinleri ve detaylar web sitesinde yayÃƒâ€Ã‚Â±mlanÃƒâ€Ã‚Â±r.'**
+  /// **'Güncel politika metinleri ve detaylar web sitesinde yayımlanır.'**
   String get legalFooter;
 
-  /// No description provided for @topBusinessReviews.
+  /// Auto metadata for topBusinessReviews
   ///
   /// In tr, this message translates to:
   /// **'Yorum: {count}'**
@@ -6306,19 +6306,19 @@ abstract class AppLocalizations {
   /// Auto metadata for reportRateLimitBusiness
   ///
   /// In tr, this message translates to:
-  /// **'Bu iÃƒâ€¦Ã…Â¸letme iÃƒÆ’Ã‚Â§in bugÃƒÆ’Ã‚Â¼n zaten bildirim gÃƒÆ’Ã‚Â¶nderdin.'**
+  /// **'Bu işletme için bugün zaten bildirim gönderdin.'**
   String get reportRateLimitBusiness;
 
   /// Auto metadata for reportRateLimitReview
   ///
   /// In tr, this message translates to:
-  /// **'Bu yorum iÃƒÆ’Ã‚Â§in son 24 saatte zaten bildirim gÃƒÆ’Ã‚Â¶nderdin.'**
+  /// **'Bu yorum için son 24 saatte zaten bildirim gönderdin.'**
   String get reportRateLimitReview;
 
   /// Auto metadata for reportRateLimitPhoto
   ///
   /// In tr, this message translates to:
-  /// **'Bu fotoÃƒâ€Ã…Â¸raf iÃƒÆ’Ã‚Â§in son 24 saatte zaten bildirim gÃƒÆ’Ã‚Â¶nderdin.'**
+  /// **'Bu fotoğraf için son 24 saatte zaten bildirim gönderdin.'**
   String get reportRateLimitPhoto;
 
   /// Auto metadata for reportReasonSpam
@@ -6336,7 +6336,7 @@ abstract class AppLocalizations {
   /// Auto metadata for reportReasonWrongInfo
   ///
   /// In tr, this message translates to:
-  /// **'YanlÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ bilgi'**
+  /// **'Yanlış bilgi'**
   String get reportReasonWrongInfo;
 
   /// Auto metadata for reportReasonCopyright
@@ -6348,37 +6348,37 @@ abstract class AppLocalizations {
   /// Auto metadata for reportReasonIllegal
   ///
   /// In tr, this message translates to:
-  /// **'Yasa dÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â±'**
+  /// **'Yasa dışı'**
   String get reportReasonIllegal;
 
   /// Auto metadata for reportReasonWrongImage
   ///
   /// In tr, this message translates to:
-  /// **'YanlÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ gÃƒÆ’Ã‚Â¶rsel'**
+  /// **'Yanlış görsel'**
   String get reportReasonWrongImage;
 
   /// Auto metadata for reportReasonClosed
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme kapandÃƒâ€Ã‚Â±'**
+  /// **'İşletme kapandı'**
   String get reportReasonClosed;
 
   /// Auto metadata for reportReasonMoved
   ///
   /// In tr, this message translates to:
-  /// **'TaÃƒâ€¦Ã…Â¸Ãƒâ€Ã‚Â±ndÃƒâ€Ã‚Â±'**
+  /// **'Taşındı'**
   String get reportReasonMoved;
 
   /// Auto metadata for reportReasonWrongPrice
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat yanlÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸'**
+  /// **'Fiyat yanlış'**
   String get reportReasonWrongPrice;
 
   /// Auto metadata for reportBusinessHint
   ///
   /// In tr, this message translates to:
-  /// **'ÃƒÆ’Ã¢â‚¬Â¡ok sayÃƒâ€Ã‚Â±da yanlÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ bilgi bildirimi gÃƒÆ’Ã‚Â¶rÃƒÆ’Ã‚Â¼nÃƒÆ’Ã‚Â¼rlÃƒÆ’Ã‚Â¼Ãƒâ€Ã…Â¸ÃƒÆ’Ã‚Â¼ dÃƒÆ’Ã‚Â¼Ãƒâ€¦Ã…Â¸ÃƒÆ’Ã‚Â¼rÃƒÆ’Ã‚Â¼r. Ãƒâ€Ã‚Â°Ãƒâ€¦Ã…Â¸letme sahibi doÃƒâ€Ã…Â¸ruladÃƒâ€Ã‚Â±ktan sonra tekrar yÃƒÆ’Ã‚Â¼kselir.'**
+  /// **'Çok sayıda yanlış bilgi bildirimi görünürliği düşürür. İşletme sahibi doğruladıktan sonra tekrar yükselir.'**
   String get reportBusinessHint;
 
   /// Auto metadata for reportReasonLabel
@@ -6390,13 +6390,13 @@ abstract class AppLocalizations {
   /// Auto metadata for reportCopyrightUrlLabel
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°hlal URL (fotoÃƒâ€Ã…Â¸raf baÃƒâ€Ã…Â¸lantÃƒâ€Ã‚Â±sÃƒâ€Ã‚Â±)'**
+  /// **'İhlal URL (fotoğraf bağlantısı)'**
   String get reportCopyrightUrlLabel;
 
   /// Auto metadata for reportCopyrightOwnerLabel
   ///
   /// In tr, this message translates to:
-  /// **'Hak sahibi adÃƒâ€Ã‚Â± (opsiyonel)'**
+  /// **'Hak sahibi adı (opsiyonel)'**
   String get reportCopyrightOwnerLabel;
 
   /// Auto metadata for reportCopyrightEmailLabel
@@ -6414,13 +6414,13 @@ abstract class AppLocalizations {
   /// Auto metadata for reportSubmittedThanks
   ///
   /// In tr, this message translates to:
-  /// **'TeÃƒâ€¦Ã…Â¸ekkÃƒÆ’Ã‚Â¼rler, incelenecek.'**
+  /// **'Teşekkürler, incelenecek.'**
   String get reportSubmittedThanks;
 
   /// Auto metadata for reportCopyrightUrlPrefix
   ///
   /// In tr, this message translates to:
-  /// **'Ãƒâ€Ã‚Â°hlal URL'**
+  /// **'İhlal URL'**
   String get reportCopyrightUrlPrefix;
 
   /// Auto metadata for reportCopyrightOwnerPrefix
@@ -6438,67 +6438,67 @@ abstract class AppLocalizations {
   /// Auto metadata for unexpectedError
   ///
   /// In tr, this message translates to:
-  /// **'Bir hata oluÃƒâ€¦Ã…Â¸tu.'**
+  /// **'Bir hata oluştu.'**
   String get unexpectedError;
 
   /// Auto metadata for weatherHeadlineRainy
   ///
   /// In tr, this message translates to:
-  /// **'YaÃƒâ€Ã…Â¸murlu hava'**
+  /// **'Yağmurlu hava'**
   String get weatherHeadlineRainy;
 
   /// Auto metadata for weatherHeadlineSnowy
   ///
   /// In tr, this message translates to:
-  /// **'SoÃƒâ€Ã…Â¸uk hava'**
+  /// **'Soğuk hava'**
   String get weatherHeadlineSnowy;
 
   /// Auto metadata for weatherHeadlineHot
   ///
   /// In tr, this message translates to:
-  /// **'SÃƒâ€Ã‚Â±cak hava'**
+  /// **'Sıcak hava'**
   String get weatherHeadlineHot;
 
   /// Auto metadata for weatherHeadlineClear
   ///
   /// In tr, this message translates to:
-  /// **'Hava aÃƒÆ’Ã‚Â§Ãƒâ€Ã‚Â±k'**
+  /// **'Hava açık'**
   String get weatherHeadlineClear;
 
   /// Auto metadata for weatherHintRainy
   ///
   /// In tr, this message translates to:
-  /// **'SÃƒâ€Ã‚Â±cak bir Ãƒâ€¦Ã…Â¸ey iyi gider'**
+  /// **'Sıcak bir şey iyi gider'**
   String get weatherHintRainy;
 
   /// Auto metadata for weatherHintSnowy
   ///
   /// In tr, this message translates to:
-  /// **'SÃƒâ€Ã‚Â±cak ÃƒÆ’Ã‚Â§orba iyi gider'**
+  /// **'Sıcak çorba iyi gider'**
   String get weatherHintSnowy;
 
   /// Auto metadata for weatherHintHot
   ///
   /// In tr, this message translates to:
-  /// **'Serin bir Ãƒâ€¦Ã…Â¸ey iyi gider'**
+  /// **'Serin bir şey iyi gider'**
   String get weatherHintHot;
 
   /// Auto metadata for weatherHintClear
   ///
   /// In tr, this message translates to:
-  /// **'DÃƒâ€Ã‚Â±Ãƒâ€¦Ã…Â¸ mekan keyifli'**
+  /// **'Dış mekan keyifli'**
   String get weatherHintClear;
 
   /// Auto metadata for paste
   ///
   /// In tr, this message translates to:
-  /// **'YapÃ„Â±Ã…Å¸tÃ„Â±r'**
+  /// **'Yapıştır'**
   String get paste;
 
   /// Auto metadata for addFirstMenuCta
   ///
   /// In tr, this message translates to:
-  /// **'Ã„Â°lk menÃƒÂ¼yÃƒÂ¼ ekle'**
+  /// **'İlk menüyü ekle'**
   String get addFirstMenuCta;
 
   /// Auto metadata for vatIncluded
