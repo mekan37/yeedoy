@@ -637,7 +637,7 @@
     },
     "description": "Auto metadata for featuredFromCuisine"
   },
-  "weeklyPriceChange": "+ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº50 this week",
+  "weeklyPriceChange": "+₺50 this week",
   "@weeklyPriceChange": {
     "description": "Auto metadata for weeklyPriceChange"
   },
@@ -1050,11 +1050,11 @@
   "@bestBusinessesThisMonth": {
     "description": "Auto metadata for bestBusinessesThisMonth"
   },
-  "onTheRoad20km": "On the road ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ 20 km",
+  "onTheRoad20km": "On the road • 20 km",
   "@onTheRoad20km": {
     "description": "Auto metadata for onTheRoad20km"
   },
-  "nearbyKm": "Nearby ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {km} km",
+  "nearbyKm": "Nearby • {km} km",
   "@nearbyKm": {
     "placeholders": {
       "km": {
@@ -1247,7 +1247,7 @@
   "@stepBudgetTotal": {
     "description": "Auto metadata for stepBudgetTotal"
   },
-  "budgetTl": "Budget (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº)",
+  "budgetTl": "Budget (₺)",
   "@budgetTl": {
     "description": "Auto metadata for budgetTl"
   },
@@ -1696,7 +1696,7 @@
   "@untitledLink": {
     "description": "Auto metadata for untitledLink"
   },
-  "menuShareNotFoundTitle": "Menu not found ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {appName}",
+  "menuShareNotFoundTitle": "Menu not found • {appName}",
   "@menuShareNotFoundTitle": {
     "placeholders": {
       "appName": {
@@ -1934,7 +1934,7 @@
   "@unlabeled": {
     "description": "Auto metadata for unlabeled"
   },
-  "priceTry": "Price (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº)",
+  "priceTry": "Price (₺)",
   "@priceTry": {
     "description": "Auto metadata for priceTry"
   },
@@ -2175,7 +2175,7 @@
   "@priceVerificationSteps": {
     "description": "Auto metadata for priceVerificationSteps"
   },
-  "newPriceTry": "New price (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº)",
+  "newPriceTry": "New price (₺)",
   "@newPriceTry": {
     "description": "Auto metadata for newPriceTry"
   },
@@ -2278,11 +2278,11 @@
     },
     "description": "Auto metadata for priceConfidenceScore"
   },
-  "seenCorrect": "Seen ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Correct",
+  "seenCorrect": "Seen • Correct",
   "@seenCorrect": {
     "description": "Auto metadata for seenCorrect"
   },
-  "seenIncorrect": "Seen ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Incorrect",
+  "seenIncorrect": "Seen • Incorrect",
   "@seenIncorrect": {
     "description": "Auto metadata for seenIncorrect"
   },
@@ -3263,7 +3263,7 @@
   "@groupRequestNoRequestsDescription": {
     "description": "Auto metadata for groupRequestNoRequestsDescription"
   },
-  "groupRequestPartyAndBudget": "{party} people ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {budget}",
+  "groupRequestPartyAndBudget": "{party} people • {budget}",
   "@groupRequestPartyAndBudget": {
     "placeholders": {
       "party": {
@@ -3590,7 +3590,7 @@
     },
     "description": "Auto metadata for menuPriceHistoryTransition"
   },
-  "menuPriceHistoryMeta": "{relative} â€¢ {date}{delta}",
+  "menuPriceHistoryMeta": "{relative} • {date}{delta}",
   "@menuPriceHistoryMeta": {
     "placeholders": {
       "relative": {
@@ -3684,7 +3684,7 @@
   "@inboxFavoritesPriceChangedTitle": {
     "description": "Auto metadata for inboxFavoritesPriceChangedTitle"
   },
-  "inboxFavoritesPriceChangedSubtitle": "{name} â€¢ Last {count} verifications",
+  "inboxFavoritesPriceChangedSubtitle": "{name} • Last {count} verifications",
   "@inboxFavoritesPriceChangedSubtitle": {
     "placeholders": {
       "name": {
@@ -3876,7 +3876,7 @@
     },
     "description": "Auto metadata for profileTrustScorePercent"
   },
-  "profileLevelXp": "Level {level} â€¢ Total {xp} XP",
+  "profileLevelXp": "Level {level} • Total {xp} XP",
   "@profileLevelXp": {
     "placeholders": {
       "level": {
@@ -3981,7 +3981,7 @@
     },
     "description": "Auto metadata for profileAlertCurrentPrice"
   },
-  "profileAlertPriceChanged": "Price changed: {previous} Ã¢â€ â€™ {current} TL",
+  "profileAlertPriceChanged": "Price changed: {previous} → {current} TL",
   "@profileAlertPriceChanged": {
     "placeholders": {
       "previous": {
@@ -4029,7 +4029,7 @@
   "@profileSignalSilentQuality": {
     "description": "Auto metadata for profileSignalSilentQuality"
   },
-  "profileMoatTrustedRejectedSpam": "Trusted contributions: {trusted} â€¢ Rejected: {rejected} â€¢ Spam signals: {spam}",
+  "profileMoatTrustedRejectedSpam": "Trusted contributions: {trusted} • Rejected: {rejected} • Spam signals: {spam}",
   "@profileMoatTrustedRejectedSpam": {
     "placeholders": {
       "trusted": {
@@ -4165,7 +4165,7 @@
   "@smartFeedScenarioLabel": {
     "description": "Auto metadata for smartFeedScenarioLabel"
   },
-  "smartFeedBudgetMax": "Up to Ã¢â€šÂº{amount}",
+  "smartFeedBudgetMax": "Up to ₺{amount}",
   "@smartFeedBudgetMax": {
     "placeholders": {
       "amount": {
@@ -4486,7 +4486,7 @@
   "@tasteTwinNoMatches": {
     "description": "Auto metadata for tasteTwinNoMatches"
   },
-  "tasteTwinMatchSummary": "%{similarity} match â€¢ {places} shared places",
+  "tasteTwinMatchSummary": "%{similarity} match • {places} shared places",
   "@tasteTwinMatchSummary": {
     "placeholders": {
       "similarity": {
@@ -4547,7 +4547,7 @@
   "@tasteTwinDivergenceTitle": {
     "description": "Auto metadata for tasteTwinDivergenceTitle"
   },
-  "tasteTwinRatingComparison": "You: {myRating} â€¢ Other: {otherRating}",
+  "tasteTwinRatingComparison": "You: {myRating} • Other: {otherRating}",
   "@tasteTwinRatingComparison": {
     "placeholders": {
       "myRating": {
@@ -4568,7 +4568,7 @@
     },
     "description": "Auto metadata for tasteTwinYouAt"
   },
-  "tasteTwinSignalComparison": "You: +{mySignal} â€¢ Other: +{otherSignal}",
+  "tasteTwinSignalComparison": "You: +{mySignal} • Other: +{otherSignal}",
   "@tasteTwinSignalComparison": {
     "placeholders": {
       "mySignal": {
@@ -4695,7 +4695,7 @@
   "@locationPickerPopularDistricts": {
     "description": "Auto metadata for locationPickerPopularDistricts"
   },
-  "locationPickerBusinessCount": "{city} â€¢ {count} businesses",
+  "locationPickerBusinessCount": "{city} • {count} businesses",
   "@locationPickerBusinessCount": {
     "placeholders": {
       "city": {
@@ -4767,7 +4767,7 @@
   "@legalOwnershipAppealRequiredInfo": {
     "description": "Auto metadata for legalOwnershipAppealRequiredInfo"
   },
-  "legalOwnershipAppealRequiredList": "â€¢ Business legal name and tax/license info\nâ€¢ Authorization document\nâ€¢ Contact phone number",
+  "legalOwnershipAppealRequiredList": "• Business legal name and tax/license info\n• Authorization document\n• Contact phone number",
   "@legalOwnershipAppealRequiredList": {
     "description": "Auto metadata for legalOwnershipAppealRequiredList"
   },
@@ -4783,7 +4783,7 @@
   "@legalDontsTitle": {
     "description": "Auto metadata for legalDontsTitle"
   },
-  "legalDontsList": "â€¢ Open everything to everyone\nâ€¢ Hide sponsored content\nâ€¢ Give owner accounts review delete access\nâ€¢ Lower quality thresholds for growth",
+  "legalDontsList": "• Open everything to everyone\n• Hide sponsored content\n• Give owner accounts review delete access\n• Lower quality thresholds for growth",
   "@legalDontsList": {
     "description": "Auto metadata for legalDontsList"
   },

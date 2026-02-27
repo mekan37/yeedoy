@@ -472,7 +472,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get weeklyPriceChange => '+ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº50 this week';
+  String get weeklyPriceChange => '+₺50 this week';
 
   @override
   String get chartPlaceholderSoon => 'Chart area (coming soon)';
@@ -785,11 +785,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bestBusinessesThisMonth => 'Best Businesses This Month';
 
   @override
-  String get onTheRoad20km => 'On the road ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ 20 km';
+  String get onTheRoad20km => 'On the road • 20 km';
 
   @override
   String nearbyKm(int km) {
-    return 'Nearby ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ $km km';
+    return 'Nearby • $km km';
   }
 
   @override
@@ -942,7 +942,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stepBudgetTotal => '2) Budget (total)';
 
   @override
-  String get budgetTl => 'Budget (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº)';
+  String get budgetTl => 'Budget (₺)';
 
   @override
   String get stepDistance => '3) Distance';
@@ -1247,7 +1247,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String menuShareNotFoundTitle(String appName) {
-    return 'Menu not found ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ $appName';
+    return 'Menu not found • $appName';
   }
 
   @override
@@ -1422,7 +1422,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unlabeled => 'Unlabeled';
 
   @override
-  String get priceTry => 'Price (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº)';
+  String get priceTry => 'Price (₺)';
 
   @override
   String get selectMenuItem => 'Select menu item';
@@ -1600,7 +1600,7 @@ class AppLocalizationsEn extends AppLocalizations {
       '1) Enter the seen price  2) Add note/photo if needed  3) Submit';
 
   @override
-  String get newPriceTry => 'New price (ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Âº)';
+  String get newPriceTry => 'New price (₺)';
 
   @override
   String get note => 'Note';
@@ -1669,10 +1669,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get seenCorrect => 'Seen ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Correct';
+  String get seenCorrect => 'Seen • Correct';
 
   @override
-  String get seenIncorrect => 'Seen ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Incorrect';
+  String get seenIncorrect => 'Seen • Incorrect';
 
   @override
   String get suggestNewPrice => 'Suggest new price';
@@ -2406,7 +2406,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String groupRequestPartyAndBudget(int party, String budget) {
-    return '$party people ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ $budget';
+    return '$party people • $budget';
   }
 
   @override
@@ -2631,7 +2631,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String menuPriceHistoryMeta(String relative, String date, String delta) {
-    return '$relative â€¢ $date$delta';
+    return '$relative • $date$delta';
   }
 
   @override
@@ -2696,7 +2696,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String inboxFavoritesPriceChangedSubtitle(String name, int count) {
-    return '$name â€¢ Last $count verifications';
+    return '$name • Last $count verifications';
   }
 
   @override
@@ -2839,7 +2839,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileLevelXp(int level, int xp) {
-    return 'Level $level â€¢ Total $xp XP';
+    return 'Level $level • Total $xp XP';
   }
 
   @override
@@ -2916,7 +2916,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileAlertPriceChanged(String previous, String current) {
-    return 'Price changed: $previous Ã¢â€ â€™ $current TL';
+    return 'Price changed: $previous → $current TL';
   }
 
   @override
@@ -2948,7 +2948,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileMoatTrustedRejectedSpam(int trusted, int rejected, int spam) {
-    return 'Trusted contributions: $trusted â€¢ Rejected: $rejected â€¢ Spam signals: $spam';
+    return 'Trusted contributions: $trusted • Rejected: $rejected • Spam signals: $spam';
   }
 
   @override
@@ -3042,7 +3042,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String smartFeedBudgetMax(String amount) {
-    return 'Up to Ã¢â€šÂº$amount';
+    return 'Up to ₺$amount';
   }
 
   @override
@@ -3272,7 +3272,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String tasteTwinMatchSummary(int similarity, int places) {
-    return '%$similarity match â€¢ $places shared places';
+    return '%$similarity match • $places shared places';
   }
 
   @override
@@ -3313,7 +3313,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String tasteTwinRatingComparison(int myRating, int otherRating) {
-    return 'You: $myRating â€¢ Other: $otherRating';
+    return 'You: $myRating • Other: $otherRating';
   }
 
   @override
@@ -3323,7 +3323,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String tasteTwinSignalComparison(int mySignal, int otherSignal) {
-    return 'You: +$mySignal â€¢ Other: +$otherSignal';
+    return 'You: +$mySignal • Other: +$otherSignal';
   }
 
   @override
@@ -3404,7 +3404,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String locationPickerBusinessCount(String city, int count) {
-    return '$city â€¢ $count businesses';
+    return '$city • $count businesses';
   }
 
   @override
@@ -3461,7 +3461,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legalOwnershipAppealRequiredList =>
-      'â€¢ Business legal name and tax/license info\nâ€¢ Authorization document\nâ€¢ Contact phone number';
+      '• Business legal name and tax/license info\n• Authorization document\n• Contact phone number';
 
   @override
   String get legalSendAppealEmail => 'Send appeal email';
@@ -3474,7 +3474,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legalDontsList =>
-      'â€¢ Open everything to everyone\nâ€¢ Hide sponsored content\nâ€¢ Give owner accounts review delete access\nâ€¢ Lower quality thresholds for growth';
+      '• Open everything to everyone\n• Hide sponsored content\n• Give owner accounts review delete access\n• Lower quality thresholds for growth';
 
   @override
   String legalPolicySummary(

@@ -1578,7 +1578,7 @@
     "description": "Auto metadata for favoritesShareText"
   },
   "favoritesAdDisclosureTitle": "Reklam bildirimi",
-  "favoritesAdDisclosureBody": "Bu koleksiyonda iÃ…Å¸ birliÃ„Å¸i varsa \"Reklam\" olarak işaretlemek zorunludur.",
+  "favoritesAdDisclosureBody": "Bu koleksiyonda iş birliği varsa \"Reklam\" olarak işaretlemek zorunludur.",
   "favoritesCacheStaleMessage": "Veri {days} gün önce güncellenmiş¸ olabilir.",
   "@favoritesCacheStaleMessage": {
     "placeholders": {
@@ -1852,7 +1852,7 @@
     },
     "description": "Auto metadata for inboxFavoritesPriceChangedSubtitle"
   },
-  "inboxDailyTaskTitle": "Sana uygun bugÃ¼nÃ¼n gÃ¶revi",
+  "inboxDailyTaskTitle": "Sana uygun bugünün görevi",
   "inboxSegmentPriceHunter": "Bugün 1 fiyat doğrula; güven skorun daha hızlı artsın.",
   "inboxSegmentPhotoProof": "Bugün 1 net menü/fotoğraf kanıtı ekle.",
   "inboxSegmentExplorer": "Bugün yeni bir mekan aç ve fiyat durumunu kontrol et.",
@@ -1904,7 +1904,7 @@
   "profileIdentitySupportMessage": "Topluluğa katkılı yaparak profilini güçlendirebilirsin.",
   "profileAlertsTab": "Alarmlar",
   "profileFeedTab": "Akış",
-  "profileLoginToSeeContributions": "KatkılarÄ±nÄ± ve istatistiklerini gÃ¶rmek iÃ§in giriÅŸ yap.",
+  "profileLoginToSeeContributions": "Katkılarını ve istatistiklerini görmek için giriş yap.",
   "profileCreatorBadgeTitle": "İçerik üretici rozeti",
   "profileCreatorBadgeEnabled": "Profilin içerik üretici olarak görünüyor.",
   "profileCreatorBadgeDisabled": "İstersen içerik üretici rozetini açabilirsin.",
@@ -2131,7 +2131,7 @@
   "smartFeedCtaOpenItem": "Ürünü aç",
   "smartFeedCtaViewPhoto": "Fotoğrafa bak",
   "smartFeedCtaGoToBusiness": "İşletmeye git",
-  "smartFeedNearbyKm": "YakÄ±nÄ±nda {km} km",
+  "smartFeedNearbyKm": "Yakınında {km} km",
   "@smartFeedNearbyKm": {
     "placeholders": {
       "km": {
@@ -2142,7 +2142,7 @@
   },
   "smartFeedReasonCategoryMatch": "Sana uygun kategori",
   "smartFeedReasonScenarioMatch": "Senin senaryon",
-  "smartFeedReasonSimilarUsers": "Benzer kullanÄ±cÄ±lar seviyor",
+  "smartFeedReasonSimilarUsers": "Benzer kullanıcılar seviyor",
   "smartFeedDayWeekend": "Hafta sonu",
   "smartFeedDayWeekday": "Hafta içi",
   "smartFeedTimeMorning": "Sabah",
@@ -2161,7 +2161,7 @@
   },
   "ok": "Tamam",
   "suggestBusinessPageTitle": "İşletme Ekle",
-  "suggestBusinessPageSubtitle": "Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarÄ±z.",
+  "suggestBusinessPageSubtitle": "Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarız.",
   "suggestBusinessNameLabel": "İşletme adı",
   "requiredField": "Zorunlu",
   "suggestBusinessCategoryLabel": "Kategori",
@@ -2224,9 +2224,9 @@
   "tasteTwinFollowGourmet": "Bu gurmeyi takip et",
   "tasteTwinNoSuggestionsYet": "Şimdilik öneri yok.",
   "tasteTwinWhyMatchedTitle": "Neden eşleştiniz?",
-  "tasteTwinReviewOverlapTitle": "Yorum ortaklÄ±ÄŸÄ±",
+  "tasteTwinReviewOverlapTitle": "Yorum ortaklığı",
   "tasteTwinNoSampleYet": "Henüz örnek yok.",
-  "tasteTwinMenuSignalOverlapTitle": "Menü sinyali ortaklÄ±ÄŸÄ±",
+  "tasteTwinMenuSignalOverlapTitle": "Menü sinyali ortaklığı",
   "tasteTwinMenuSignalOverlapHint": "Fiyat teyidi / fotoğraf beğenisi / fotoğraf ekleme sinyalleri",
   "tasteTwinDivergenceTitle": "Burada anlaşılmadınız :)",
   "tasteTwinRatingComparison": "Sen: {myRating} • O: {otherRating}",

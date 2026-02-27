@@ -4294,7 +4294,7 @@ abstract class AppLocalizations {
   /// Auto metadata for favoritesAdDisclosureBody
   ///
   /// In tr, this message translates to:
-  /// **'Bu koleksiyonda iÃ…Å¸ birliÃ„Å¸i varsa \"Reklam\" olarak işaretlemek zorunludur.'**
+  /// **'Bu koleksiyonda iş birliği varsa \"Reklam\" olarak işaretlemek zorunludur.'**
   String get favoritesAdDisclosureBody;
 
   /// Auto metadata for favoritesCacheStaleMessage
@@ -4934,7 +4934,7 @@ abstract class AppLocalizations {
   /// Auto metadata for inboxDailyTaskTitle
   ///
   /// In tr, this message translates to:
-  /// **'Sana uygun bugÃ¼nÃ¼n gÃ¶revi'**
+  /// **'Sana uygun bugünün görevi'**
   String get inboxDailyTaskTitle;
 
   /// Auto metadata for inboxSegmentPriceHunter
@@ -5102,7 +5102,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileLoginToSeeContributions
   ///
   /// In tr, this message translates to:
-  /// **'KatkılarÄ±nÄ± ve istatistiklerini gÃ¶rmek iÃ§in giriÅŸ yap.'**
+  /// **'Katkılarını ve istatistiklerini görmek için giriş yap.'**
   String get profileLoginToSeeContributions;
 
   /// Auto metadata for profileCreatorBadgeTitle
@@ -5684,7 +5684,7 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedNearbyKm
   ///
   /// In tr, this message translates to:
-  /// **'YakÄ±nÄ±nda {km} km'**
+  /// **'Yakınında {km} km'**
   String smartFeedNearbyKm(String km);
 
   /// Auto metadata for smartFeedReasonCategoryMatch
@@ -5702,7 +5702,7 @@ abstract class AppLocalizations {
   /// Auto metadata for smartFeedReasonSimilarUsers
   ///
   /// In tr, this message translates to:
-  /// **'Benzer kullanÄ±cÄ±lar seviyor'**
+  /// **'Benzer kullanıcılar seviyor'**
   String get smartFeedReasonSimilarUsers;
 
   /// Auto metadata for smartFeedDayWeekend
@@ -5768,7 +5768,7 @@ abstract class AppLocalizations {
   /// Auto metadata for suggestBusinessPageSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarÄ±z.'**
+  /// **'Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarız.'**
   String get suggestBusinessPageSubtitle;
 
   /// Auto metadata for suggestBusinessNameLabel
@@ -5984,7 +5984,7 @@ abstract class AppLocalizations {
   /// Auto metadata for tasteTwinReviewOverlapTitle
   ///
   /// In tr, this message translates to:
-  /// **'Yorum ortaklÄ±ÄŸÄ±'**
+  /// **'Yorum ortaklığı'**
   String get tasteTwinReviewOverlapTitle;
 
   /// Auto metadata for tasteTwinNoSampleYet
@@ -5996,7 +5996,7 @@ abstract class AppLocalizations {
   /// Auto metadata for tasteTwinMenuSignalOverlapTitle
   ///
   /// In tr, this message translates to:
-  /// **'Menü sinyali ortaklÄ±ÄŸÄ±'**
+  /// **'Menü sinyali ortaklığı'**
   String get tasteTwinMenuSignalOverlapTitle;
 
   /// Auto metadata for tasteTwinMenuSignalOverlapHint

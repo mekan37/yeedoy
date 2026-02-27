@@ -1,4 +1,4 @@
-﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +14,9 @@ import '../features/favorites/ui/favorites_page.dart';
 import '../features/profile/ui/profile_page.dart';
 import '../features/notifications/ui/inbox_page.dart';
 import '../features/auth/ui/login_page.dart';
+import '../features/auth/ui/business_login_page.dart';
+import '../features/auth/ui/business_register_page.dart';
+import '../features/marketing/ui/web_home_page.dart';
 import '../features/suggestions/ui/suggest_business_page.dart';
 import '../features/suggestions/ui/my_suggestions_page.dart';
 import '../features/auth/domain/auth_providers.dart';
@@ -78,6 +81,14 @@ import '../src/ui/pages/owner/owner_perks_page.dart';
 
 bool _bootSplashHandled = false;
 
+String _panelHomeForRole(AppRole role) {
+  return switch (role) {
+    AppRole.admin || AppRole.communityMod => '/admin',
+    AppRole.owner => '/owner',
+    AppRole.user => '/discover',
+  };
+}
+
 final appRouterProvider = Provider<GoRouter>((ref) {
   final session = ref.watch(sessionProvider);
   final appRoleAsync = ref.watch(appRoleProvider);
@@ -89,12 +100,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(authRefresh.dispose);
 
   return GoRouter(
-    initialLocation: '/splash',
+    initialLocation: '/',
     refreshListenable: authRefresh,
     redirect: (context, state) {
       final loggedIn = session != null;
       final path = state.uri.path;
-      if (!_bootSplashHandled) {
+      final isBusinessAuthRoute =
+          path == '/isletme-giris' || path == '/isletme-kayit';
+      final isPanelRoute =
+          path == '/admin' ||
+          path.startsWith('/admin/') ||
+          path == '/owner' ||
+          path.startsWith('/owner/');
+
+      if (!kIsWeb && !_bootSplashHandled) {
         if (path == '/splash') {
           _bootSplashHandled = true;
         } else {
@@ -122,6 +141,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       if (!loggedIn && requiresAuth) {
         final redirect = Uri.encodeComponent(state.uri.toString());
+        if (isPanelRoute) return '/isletme-giris?redirect=$redirect';
         return '/login?redirect=$redirect';
       }
       if (loggedIn && path == '/login') {
@@ -130,6 +150,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         );
         if (redirect != null) return redirect;
         return '/discover';
+      }
+      if (loggedIn && isBusinessAuthRoute) {
+        final redirect = sanitizeInternalRedirect(
+          state.uri.queryParameters['redirect'],
+        );
+        if (redirect != null) return redirect;
+        return appRoleAsync.maybeWhen(
+          data: _panelHomeForRole,
+          orElse: () => null,
+        );
       }
       final adminRoute = path == '/admin' || path.startsWith('/admin/');
       if (loggedIn && adminRoute) {
@@ -183,6 +213,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      GoRoute(path: '/', builder: (c, s) => const WebHomePage()),
+      GoRoute(
+        path: '/isletme-giris',
+        builder: (c, s) => const BusinessLoginPage(),
+      ),
+      GoRoute(
+        path: '/isletme-kayit',
+        builder: (c, s) => const BusinessRegisterPage(),
+      ),
       GoRoute(
         path: '/splash',
         builder: (c, s) {
@@ -585,4 +624,3 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
-

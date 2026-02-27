@@ -16,6 +16,18 @@ const dartFiles = [
   'apps/panel_flutter_web/lib/l10n/app_localizations_tr.dart',
 ];
 
+const mojibakeMarkers = ['Ã', 'Ä', 'Å', 'Â', 'Ãƒ', 'Ã¢', 'â€¢', 'â€™', 'â€“', 'â€”', 'â€œ', 'â€', 'â€¦'];
+
+function findMojibakeMarkers(text) {
+  const matches = [];
+  for (const marker of mojibakeMarkers) {
+    if (text.includes(marker)) {
+      matches.push(marker);
+    }
+  }
+  return matches;
+}
+
 const issues = [];
 
 for (const relPath of arbFiles) {
@@ -28,10 +40,27 @@ for (const relPath of arbFiles) {
       issues.push(`${relPath} -> key "${key}" contains TODO_EN placeholder`);
     }
 
+    if (typeof value === 'string') {
+      const markers = findMojibakeMarkers(value);
+      if (markers.length > 0) {
+        issues.push(
+          `${relPath} -> key "${key}" contains possible mojibake markers: ${markers.join(', ')}`,
+        );
+      }
+    }
+
     if (key.startsWith('@') && value && typeof value === 'object') {
       const description = value.description;
       if (typeof description === 'string' && description.trim().startsWith('TODO:')) {
         issues.push(`${relPath} -> metadata "${key}" has TODO description`);
+      }
+      if (typeof description === 'string') {
+        const markers = findMojibakeMarkers(description);
+        if (markers.length > 0) {
+          issues.push(
+            `${relPath} -> metadata "${key}" description has possible mojibake markers: ${markers.join(', ')}`,
+          );
+        }
       }
     }
   }
@@ -44,6 +73,12 @@ for (const relPath of dartFiles) {
   for (let i = 0; i < lines.length; i += 1) {
     if (lines[i].includes('TODO_EN:')) {
       issues.push(`${relPath}:${i + 1} contains TODO_EN placeholder`);
+    }
+    const markers = findMojibakeMarkers(lines[i]);
+    if (markers.length > 0) {
+      issues.push(
+        `${relPath}:${i + 1} contains possible mojibake markers: ${markers.join(', ')}`,
+      );
     }
   }
 }

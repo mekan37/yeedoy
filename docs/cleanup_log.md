@@ -52,3 +52,50 @@ Bu tarihlerdeki onceki kayitlar korunmustur; asagida bugunku guncellemeler liste
 
 Not:
 - Bu turda dosya silinmedi; odak dokuman dogrulugu ve konsolidasyonudur.
+
+## 2026-02-27 (P0 Uygulama - Devam)
+
+- `apps/mobile_flutter/lib/l10n/app_en.arb`
+  - Islem: Mojibake karakterler duzeltildi.
+- `apps/mobile_flutter/lib/l10n/app_tr.arb`
+  - Islem: Mojibake karakterler duzeltildi.
+- `apps/mobile_flutter/lib/l10n/app_localizations_en.dart`
+  - Islem: `flutter gen-l10n` ile yeniden uretildi.
+- `apps/mobile_flutter/lib/l10n/app_localizations_tr.dart`
+  - Islem: `flutter gen-l10n` ile yeniden uretildi.
+- `tools/l10n_audit.mjs`
+  - Islem: Mojibake marker kontrolu eklendi.
+- `apps/web_next/app/(public)/b/[slug]/page.tsx`
+  - Islem: Public menuye seffaflik ozeti kartlari eklendi (son guncelleme, confidence, 90 gun trend).
+- `docs/vision_status.md`, `docs/roadmap.md`, `docs/wip.md`, `docs/security_env_cleanup_plan.md`
+  - Islem: P0 durumuna gore guncellendi.
+
+Not:
+- `apps/web_next/.env.example` dosyasi bu turda kullanici tercihiyle degistirilmedi.
+
+## 2026-02-27 (P1 Baslangic - Panel Web Girisi)
+
+- `apps/panel_flutter_web/lib/app/router.dart`
+  - Islem: Web initial route `/` olarak guncellendi; `/isletme-giris` ve `/isletme-kayit` route'lari eklendi.
+  - Ek: Panel route'larina auth yoksa business login'e yonlendirme eklendi.
+- `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`
+  - Islem: Panel landing sayfasi eklendi (uygulama tanitimi + store linkleri + Next linki + isletme aksiyonlari).
+- `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`
+  - Islem: Isletme giris ekrani eklendi; role'e gore `/owner` veya `/admin` yonlendirmesi eklendi.
+- `apps/panel_flutter_web/lib/features/auth/ui/business_register_page.dart`
+  - Islem: Isletme kayit ekrani eklendi.
+- `apps/web_next/.env.example`
+  - Islem: Placeholder formatina cekildi (`your-project`, `your_anon_key`, `your_service_role_key`).
+- `docs/vision_status.md`, `docs/roadmap.md`, `docs/wip.md`
+  - Islem: P1 durumuna gore guncellendi.
+
+## 2026-02-27 (Bagimlilik Temizligi - Mobile/Panel)
+
+- `apps/mobile_flutter/pubspec.yaml`
+  - Islem: Kullanilmayan bagimliliklar kaldirildi (`file_picker`, `pdf`, `qr_flutter`).
+- `apps/mobile_flutter/pubspec.lock`
+  - Islem: `flutter pub get` sonrasi lock dosyasi guncellendi.
+- `apps/mobile_flutter`
+  - Dogrulama: `flutter analyze` temiz.
+- `apps/panel_flutter_web`
+  - Dogrulama: `flutter analyze` temiz.

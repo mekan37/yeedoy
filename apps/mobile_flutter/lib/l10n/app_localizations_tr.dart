@@ -2311,7 +2311,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get favoritesAdDisclosureBody =>
-      'Bu koleksiyonda iÃ…Å¸ birliÃ„Å¸i varsa \"Reklam\" olarak işaretlemek zorunludur.';
+      'Bu koleksiyonda iş birliği varsa \"Reklam\" olarak işaretlemek zorunludur.';
 
   @override
   String favoritesCacheStaleMessage(int days) {
@@ -2680,7 +2680,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get inboxDailyTaskTitle => 'Sana uygun bugÃ¼nÃ¼n gÃ¶revi';
+  String get inboxDailyTaskTitle => 'Sana uygun bugünün görevi';
 
   @override
   String get inboxSegmentPriceHunter =>
@@ -2779,7 +2779,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileLoginToSeeContributions =>
-      'KatkılarÄ±nÄ± ve istatistiklerini gÃ¶rmek iÃ§in giriÅŸ yap.';
+      'Katkılarını ve istatistiklerini görmek için giriş yap.';
 
   @override
   String get profileCreatorBadgeTitle => 'İçerik üretici rozeti';
@@ -3115,7 +3115,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String smartFeedNearbyKm(String km) {
-    return 'YakÄ±nÄ±nda $km km';
+    return 'Yakınında $km km';
   }
 
   @override
@@ -3125,7 +3125,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get smartFeedReasonScenarioMatch => 'Senin senaryon';
 
   @override
-  String get smartFeedReasonSimilarUsers => 'Benzer kullanÄ±cÄ±lar seviyor';
+  String get smartFeedReasonSimilarUsers => 'Benzer kullanıcılar seviyor';
 
   @override
   String get smartFeedDayWeekend => 'Hafta sonu';
@@ -3161,7 +3161,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get suggestBusinessPageSubtitle =>
-      'Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarÄ±z.';
+      'Bulduğun işletmeyi ekle, topluluğa katkı yap. İnceleme sonucunda yayınlarız.';
 
   @override
   String get suggestBusinessNameLabel => 'İşletme adı';
@@ -3278,13 +3278,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get tasteTwinWhyMatchedTitle => 'Neden eşleştiniz?';
 
   @override
-  String get tasteTwinReviewOverlapTitle => 'Yorum ortaklÄ±ÄŸÄ±';
+  String get tasteTwinReviewOverlapTitle => 'Yorum ortaklığı';
 
   @override
   String get tasteTwinNoSampleYet => 'Henüz örnek yok.';
 
   @override
-  String get tasteTwinMenuSignalOverlapTitle => 'Menü sinyali ortaklÄ±ÄŸÄ±';
+  String get tasteTwinMenuSignalOverlapTitle => 'Menü sinyali ortaklığı';
 
   @override
   String get tasteTwinMenuSignalOverlapHint =>

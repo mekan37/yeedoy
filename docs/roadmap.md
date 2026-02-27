@@ -4,23 +4,32 @@ Bu liste yalnizca koddan gorulen aciklara dayanir.
 
 ## P0 (Hemen)
 
-1. L10n mojibake temizligi
-   - Dosyalar: `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb`
-   - Etki: UX metin kalitesi ve guven algisi
-2. Web env example guvenlik temizligi
+1. Web env example guvenlik temizligi
    - Dosya: `apps/web_next/.env.example`
+   - Durum: Tamamlandi (placeholder formatina cekildi)
    - Etki: Secret hygiene ve operasyon guvenligi
-3. Web public seffaflik katmani
-   - Hedef: `/b/[slug]` sayfasina fiyat confidence/history ozeti
-   - Dosyalar: `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx`
+
+## P0 (Tamamlandi)
+
+1. L10n mojibake temizligi + regen
+   - Dosyalar: `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb`, `apps/mobile_flutter/lib/l10n/app_localizations_*.dart`
+2. L10n audit guclendirme
+   - Dosya: `tools/l10n_audit.mjs`
+   - Not: Mojibake marker kontrolu eklendi
+3. Web public seffaflik ozeti
+   - Dosya: `apps/web_next/app/(public)/b/[slug]/page.tsx`
+   - Not: Son guncelleme + confidence + 90 gun trend kartlari eklendi
 
 ## P1 (Kisa Vade)
 
-1. Next panel gecis kararini netlestir
+1. Flutter panel web giris akisinin sertlestirilmesi
+   - Durum: Baslangic tamamlandi (`/`, `/isletme-giris`, `/isletme-kayit` + role bazli yonlendirme)
+   - Kalan: landing metinlerinin i18n baglantisi, deep-link testleri, yetki-hata UX iyilestirmesi
+2. Next panel gecis kararini netlestir
    - `/admin`, `/owner`, `/menu-builder` stratejisi
-2. Next test katmanini smoke ustune cikar
+3. Next test katmanini smoke ustune cikar
    - Unit/integration test dosyalari eklenmeli
-3. Supabase schema snapshot bosluklarini kapat
+4. Supabase schema snapshot bosluklarini kapat
    - `supabase/remote_schema.sql`, `supabase/remote_schema_latest.sql`
 
 ## P2 (Orta Vade)

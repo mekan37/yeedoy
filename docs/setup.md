@@ -91,7 +91,7 @@ Kanit:
 - Web: `apps/web_next/.env.example` -> `.env.local`
 
 Onemli not:
-- `apps/web_next/.env.example` su an gercek key benzeri degerler iceriyor. Placeholder'a cekilmesi gerekiyor.
+- `apps/web_next/.env.example` placeholder formatina cekildi.
 
 ## Platform Notu
 
