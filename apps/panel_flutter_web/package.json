@@ -2,9 +2,11 @@
   "name": "yeedoy-panel-flutter-web",
   "private": true,
   "scripts": {
-    "dev": "flutter run -d chrome -t lib/main_web_admin.dart",
+    "dev": "flutter run -d chrome -t lib/main_web_owner.dart",
+    "dev:admin": "flutter run -d chrome -t lib/main_web_admin.dart",
     "dev:owner": "flutter run -d chrome -t lib/main_web_owner.dart",
-    "build": "flutter build web --release --target lib/main_web_admin.dart",
+    "build": "flutter build web --release --target lib/main_web_owner.dart",
+    "build:admin": "flutter build web --release --target lib/main_web_admin.dart",
     "lint": "flutter analyze"
   }
 }

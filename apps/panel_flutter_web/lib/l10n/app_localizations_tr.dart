@@ -2275,4 +2275,74 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get vatIncluded => 'KDV dahil';
+
+  @override
+  String get webHomeSubtitle =>
+      'Canlı menü, fiyat şeffaflığı ve topluluk doğrulama platformu.';
+
+  @override
+  String get webHomeNextLinkLabel => 'QR Menü Web (Next.js)';
+
+  @override
+  String get webHomeBusinessAreaTitle => 'İşletme Alanı';
+
+  @override
+  String get webHomeBusinessAreaSubtitle =>
+      'Panele erişmek için işletme veya admin hesabınla giriş yap.';
+
+  @override
+  String get webHomeBusinessLogin => 'İşletme Girişi';
+
+  @override
+  String get webHomeBusinessRegister => 'İşletme Kaydı';
+
+  @override
+  String get businessAuthEmailLabel => 'E-posta';
+
+  @override
+  String get businessAuthPasswordLabel => 'Şifre';
+
+  @override
+  String get businessAuthPasswordRepeatLabel => 'Şifre (tekrar)';
+
+  @override
+  String get businessLoginTitle => 'İşletme Girişi';
+
+  @override
+  String get businessLoginIntro =>
+      'İşletme sahibi veya admin paneline erişmek için giriş yap.';
+
+  @override
+  String get businessLoginNoPermissionError =>
+      'Bu hesapta işletme veya admin yetkisi bulunamadı. İşletme kaydı ile devam edebilirsin.';
+
+  @override
+  String get businessLoginSubmitting => 'Giriş yapılıyor...';
+
+  @override
+  String get businessLoginGoRegister => 'İşletme Kaydına Git';
+
+  @override
+  String get businessRegisterTitle => 'İşletme Kaydı';
+
+  @override
+  String get businessRegisterIntro =>
+      'İşletme paneline erişmek için kayıt oluştur.';
+
+  @override
+  String get businessRegisterPasswordMinError =>
+      'Şifre en az 6 karakter olmalı.';
+
+  @override
+  String get businessRegisterPasswordMismatchError => 'Şifreler aynı değil.';
+
+  @override
+  String get businessRegisterSuccess =>
+      'Kayıt oluşturuldu. Doğrulama adımını tamamladıktan sonra işletme girişi yapabilirsin.';
+
+  @override
+  String get businessRegisterSubmitting => 'Kayıt oluşturuluyor...';
+
+  @override
+  String get businessRegisterBackToLogin => 'İşletme Girişine Dön';
 }

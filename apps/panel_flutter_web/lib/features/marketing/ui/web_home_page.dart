@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../core/constants/app_strings.dart';
+import '../../../l10n/app_localizations.dart';
 
 const _playStoreUrl = String.fromEnvironment(
   'PLAY_STORE_URL',
@@ -22,6 +22,7 @@ class WebHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -41,7 +42,7 @@ class WebHomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppStrings.appName,
+                    t.appName,
                     style: const TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.w900,
@@ -49,9 +50,12 @@ class WebHomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Canli menu, fiyat seffafligi ve topluluk dogrulama platformu.',
-                    style: TextStyle(fontSize: 18, color: Color(0xFF334155)),
+                  Text(
+                    t.webHomeSubtitle,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFF334155),
+                    ),
                   ),
                   const SizedBox(height: 24),
                   Wrap(
@@ -71,7 +75,7 @@ class WebHomePage extends StatelessWidget {
                       OutlinedButton.icon(
                         onPressed: () => _openExternal(_webNextUrl),
                         icon: const Icon(Icons.public),
-                        label: const Text('QR Menu Web (Next.js)'),
+                        label: Text(t.webHomeNextLinkLabel),
                       ),
                     ],
                   ),
@@ -82,17 +86,15 @@ class WebHomePage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Isletme Alani',
+                          Text(
+                            t.webHomeBusinessAreaTitle,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                           const SizedBox(height: 8),
-                          const Text(
-                            'Isletme veya admin hesabinla giris yaparak panele eris.',
-                          ),
+                          Text(t.webHomeBusinessAreaSubtitle),
                           const SizedBox(height: 12),
                           Wrap(
                             spacing: 10,
@@ -100,11 +102,11 @@ class WebHomePage extends StatelessWidget {
                             children: [
                               FilledButton(
                                 onPressed: () => context.go('/isletme-giris'),
-                                child: const Text('Isletme Girisi'),
+                                child: Text(t.webHomeBusinessLogin),
                               ),
                               OutlinedButton(
                                 onPressed: () => context.go('/isletme-kayit'),
-                                child: const Text('Isletme Kaydi'),
+                                child: Text(t.webHomeBusinessRegister),
                               ),
                             ],
                           ),

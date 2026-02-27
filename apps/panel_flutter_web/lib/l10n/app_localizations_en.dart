@@ -2287,4 +2287,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vatIncluded => 'VAT included';
+
+  @override
+  String get webHomeSubtitle =>
+      'Live menu, price transparency, and community verification platform.';
+
+  @override
+  String get webHomeNextLinkLabel => 'QR Menu Web (Next.js)';
+
+  @override
+  String get webHomeBusinessAreaTitle => 'Business Area';
+
+  @override
+  String get webHomeBusinessAreaSubtitle =>
+      'Sign in with your business or admin account to access the panel.';
+
+  @override
+  String get webHomeBusinessLogin => 'Business Login';
+
+  @override
+  String get webHomeBusinessRegister => 'Business Register';
+
+  @override
+  String get businessAuthEmailLabel => 'Email';
+
+  @override
+  String get businessAuthPasswordLabel => 'Password';
+
+  @override
+  String get businessAuthPasswordRepeatLabel => 'Password (repeat)';
+
+  @override
+  String get businessLoginTitle => 'Business Login';
+
+  @override
+  String get businessLoginIntro =>
+      'Sign in to access the owner or admin panel.';
+
+  @override
+  String get businessLoginNoPermissionError =>
+      'This account has no business or admin permission. You can continue with business registration.';
+
+  @override
+  String get businessLoginSubmitting => 'Signing in...';
+
+  @override
+  String get businessLoginGoRegister => 'Go to Business Register';
+
+  @override
+  String get businessRegisterTitle => 'Business Register';
+
+  @override
+  String get businessRegisterIntro =>
+      'Create an account to access the business panel.';
+
+  @override
+  String get businessRegisterPasswordMinError =>
+      'Password must be at least 6 characters.';
+
+  @override
+  String get businessRegisterPasswordMismatchError => 'Passwords do not match.';
+
+  @override
+  String get businessRegisterSuccess =>
+      'Registration created. After completing verification, you can sign in from business login.';
+
+  @override
+  String get businessRegisterSubmitting => 'Creating registration...';
+
+  @override
+  String get businessRegisterBackToLogin => 'Back to Business Login';
 }

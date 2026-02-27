@@ -18,7 +18,7 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
 | Guclu kesif (sehir/ilce, trend, favori, profil) | Guclu | `apps/mobile_flutter/lib/features/discovery/ui/discovery_page.dart`, `apps/mobile_flutter/lib/features/favorites/ui/favorites_page.dart`, `apps/mobile_flutter/lib/features/profile/ui/profile_page.dart` | Kesif ve favori/profil omurgasi aktif. |
 | Isletme paneli + QR olusturma | Guclu | `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/menu/page.tsx`, `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/qr/page.tsx`, `apps/web_next/app/api/qr/route.tsx` | Isletme icin menu+QR akisi calisiyor. |
 | Admin paneli | Guclu (Flutter panel) / Kismi (Next) | `apps/panel_flutter_web/lib/app_admin.dart`, `apps/panel_flutter_web/lib/src/features/admin/ui/*`, `apps/web_next/app/admin/page.tsx` | Next `/admin` placeholder; asil admin panel Flutter webde. |
-| Panel web giris/landing (normal hosting) | Kismi -> Gelisiyor | `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_register_page.dart` | `/` landing + `/isletme-giris` + `/isletme-kayit` eklendi; owner/admin role bazli yonlendirme var. |
+| Panel web giris/landing (normal hosting) | Guclu | `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_register_page.dart` | `/` landing + `/isletme-giris` + `/isletme-kayit` + owner/admin role bazli yonlendirme aktif; panel kapsam disi route'lar kaldirildi. |
 | Gozlemlenebilirlik (monitoring/perf/prefs UI) | Kismi | `apps/mobile_flutter/lib/core/monitoring/request_trace.dart`, `apps/mobile_flutter/lib/core/perf/firebase_perf_trace.dart`, `docs/devtools.md` | Altyapi var, ayri kapsamli tani ekranlari yok. |
 | Test kapsami dengesi | Kismi | `apps/mobile_flutter/test/*`, `apps/mobile_flutter/integration_test/*`, `apps/panel_flutter_web/test/*`, `apps/web_next/package.json` | Next tarafinda unit/integration test dosyasi yok; `test` scripti smoke (lint+typecheck). |
 | Dokuman ve guvenlik hijyeni | Kismi | `apps/web_next/.env.example`, `tools/l10n_audit.mjs`, `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb` | L10n mojibake temizlendi ve audit'e otomatik kontrol eklendi. Web env example placeholder formatina cekildi. |
@@ -38,7 +38,7 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
 
 ### P1
 
-- `panel_flutter_web` landing + business auth akisini owner/admin yonlendirmesi ile tamamlama (kalan kisimlar: i18n metin temizligi, tasarim sertlestirme, deep-link senaryolari).
+- `panel_flutter_web` icin deep-link testleri ve yetki-hata UX sertlestirmesi.
 - Next `admin/owner/menu-builder` stratejisini netlestir:
   - Ya Flutter panel tek kaynak olacak, Next rotalari kaldirilacak/yonlendirilecek.
   - Ya Next tarafina tam ekranlar tasinacak.

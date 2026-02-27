@@ -23,8 +23,8 @@ Bu liste yalnizca koddan gorulen aciklara dayanir.
 ## P1 (Kisa Vade)
 
 1. Flutter panel web giris akisinin sertlestirilmesi
-   - Durum: Baslangic tamamlandi (`/`, `/isletme-giris`, `/isletme-kayit` + role bazli yonlendirme)
-   - Kalan: landing metinlerinin i18n baglantisi, deep-link testleri, yetki-hata UX iyilestirmesi
+   - Durum: Cekirdek tamamlandi (`/`, `/isletme-giris`, `/isletme-kayit` + role bazli yonlendirme + panel kapsam disi route temizligi)
+   - Kalan: deep-link testleri, yetki-hata UX iyilestirmesi
 2. Next panel gecis kararini netlestir
    - `/admin`, `/owner`, `/menu-builder` stratejisi
 3. Next test katmanini smoke ustune cikar

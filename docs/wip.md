@@ -8,8 +8,6 @@
    - Kanit: `apps/web_next/app/owner/page.tsx`, `apps/web_next/app/menu-builder/page.tsx`
 3. Web public menu tarafinda detayli item bazli fiyat gecmisi/kanit paneli yok (su an ozet kart var).
    - Kanit: `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx`
-4. Flutter panel web landing/business auth akisi yeni eklendi; metinler su an hardcoded ASCII.
-   - Kanit: `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_register_page.dart`
 
 ## Icerik/L10n Aciklari
 
@@ -36,8 +34,7 @@ Kanit:
 ## Mevcut Ama Kullanilmayan/Kismi Bagli
 
 1. `qr_menu_next/` artifact klasoru.
-2. `apps/panel_flutter_web/lib/web_order/web_order_app.dart` placeholder.
-3. `packages/shared` package yapisi eksik (`package.json` yok).
+2. `packages/shared` package yapisi eksik (`package.json` yok).
 
 ## Kapatma Kriteri
 

@@ -1226,5 +1226,26 @@
       }
     }
   },
-  "vatIncluded": "VAT included"
+  "vatIncluded": "VAT included",
+  "webHomeSubtitle": "Live menu, price transparency, and community verification platform.",
+  "webHomeNextLinkLabel": "QR Menu Web (Next.js)",
+  "webHomeBusinessAreaTitle": "Business Area",
+  "webHomeBusinessAreaSubtitle": "Sign in with your business or admin account to access the panel.",
+  "webHomeBusinessLogin": "Business Login",
+  "webHomeBusinessRegister": "Business Register",
+  "businessAuthEmailLabel": "Email",
+  "businessAuthPasswordLabel": "Password",
+  "businessAuthPasswordRepeatLabel": "Password (repeat)",
+  "businessLoginTitle": "Business Login",
+  "businessLoginIntro": "Sign in to access the owner or admin panel.",
+  "businessLoginNoPermissionError": "This account has no business or admin permission. You can continue with business registration.",
+  "businessLoginSubmitting": "Signing in...",
+  "businessLoginGoRegister": "Go to Business Register",
+  "businessRegisterTitle": "Business Register",
+  "businessRegisterIntro": "Create an account to access the business panel.",
+  "businessRegisterPasswordMinError": "Password must be at least 6 characters.",
+  "businessRegisterPasswordMismatchError": "Passwords do not match.",
+  "businessRegisterSuccess": "Registration created. After completing verification, you can sign in from business login.",
+  "businessRegisterSubmitting": "Creating registration...",
+  "businessRegisterBackToLogin": "Back to Business Login"
 }

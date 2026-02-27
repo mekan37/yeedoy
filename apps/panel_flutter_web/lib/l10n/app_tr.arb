@@ -1226,5 +1226,26 @@
       }
     }
   },
-  "vatIncluded": "KDV dahil"
+  "vatIncluded": "KDV dahil",
+  "webHomeSubtitle": "Canlı menü, fiyat şeffaflığı ve topluluk doğrulama platformu.",
+  "webHomeNextLinkLabel": "QR Menü Web (Next.js)",
+  "webHomeBusinessAreaTitle": "İşletme Alanı",
+  "webHomeBusinessAreaSubtitle": "Panele erişmek için işletme veya admin hesabınla giriş yap.",
+  "webHomeBusinessLogin": "İşletme Girişi",
+  "webHomeBusinessRegister": "İşletme Kaydı",
+  "businessAuthEmailLabel": "E-posta",
+  "businessAuthPasswordLabel": "Şifre",
+  "businessAuthPasswordRepeatLabel": "Şifre (tekrar)",
+  "businessLoginTitle": "İşletme Girişi",
+  "businessLoginIntro": "İşletme sahibi veya admin paneline erişmek için giriş yap.",
+  "businessLoginNoPermissionError": "Bu hesapta işletme veya admin yetkisi bulunamadı. İşletme kaydı ile devam edebilirsin.",
+  "businessLoginSubmitting": "Giriş yapılıyor...",
+  "businessLoginGoRegister": "İşletme Kaydına Git",
+  "businessRegisterTitle": "İşletme Kaydı",
+  "businessRegisterIntro": "İşletme paneline erişmek için kayıt oluştur.",
+  "businessRegisterPasswordMinError": "Şifre en az 6 karakter olmalı.",
+  "businessRegisterPasswordMismatchError": "Şifreler aynı değil.",
+  "businessRegisterSuccess": "Kayıt oluşturuldu. Doğrulama adımını tamamladıktan sonra işletme girişi yapabilirsin.",
+  "businessRegisterSubmitting": "Kayıt oluşturuluyor...",
+  "businessRegisterBackToLogin": "İşletme Girişine Dön"
 }

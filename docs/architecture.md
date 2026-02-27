@@ -67,10 +67,8 @@ Not:
 
 - Next admin yuzeyi urunsel olarak eksik (placeholder).
 - Next owner/menu-builder bagimsiz moduller degil (redirect).
-- Panelde `web_order` placeholder.
 
 Kanit:
 - `apps/web_next/app/admin/page.tsx`
 - `apps/web_next/app/owner/page.tsx`
 - `apps/web_next/app/menu-builder/page.tsx`
-- `apps/panel_flutter_web/lib/web_order/web_order_app.dart`

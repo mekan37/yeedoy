@@ -6,23 +6,23 @@ Flutter Web owner/admin panel uygulaması.
 1. `.env.example` dosyasını `.env` olarak kopyala.
 2. Supabase ve URL değişkenlerini doldur.
 
-Admin paneli:
+Varsayilan web giris (landing + owner/admin yonlendirme):
 
 ```bash
 flutter pub get
-flutter run -d chrome -t lib/main_web_admin.dart
+flutter run -d chrome -t lib/main_web_owner.dart
 ```
 
-Owner paneli:
+Admin odakli calisma:
 
 ```bash
-flutter run -d chrome -t lib/main_web_owner.dart
+flutter run -d chrome -t lib/main_web_admin.dart
 ```
 
 ## Build
 
 ```bash
-flutter build web --release --target lib/main_web_admin.dart
+flutter build web --release --target lib/main_web_owner.dart
 ```
 
 ## Analiz

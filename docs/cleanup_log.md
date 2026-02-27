@@ -99,3 +99,34 @@ Not:
   - Dogrulama: `flutter analyze` temiz.
 - `apps/panel_flutter_web`
   - Dogrulama: `flutter analyze` temiz.
+
+## 2026-02-27 (Panel Web Amaç Daraltma - Acil)
+
+- `apps/panel_flutter_web/lib/app/router.dart`
+  - Islem: Router panel-web amacina daraltildi.
+  - Kaldirilan route gruplari: mobil kesif/topluluk/menü paylasim route'lari (`/discover`, `/feed`, `/favorites`, `/profile`, `/inbox`, `/b/*`, `/menu/*`, `/compare`, `/heroes`, vb).
+  - Korunan route gruplari: landing (`/`), isletme auth (`/isletme-giris`, `/isletme-kayit`), owner panel (`/owner/*`), admin panel (`/admin/*`), `legal`.
+- `apps/panel_flutter_web/package.json`
+  - Islem: Varsayilan `dev` ve `build` target'i `main_web_owner.dart` olacak sekilde guncellendi.
+  - Ek: `dev:admin` ve `build:admin` scriptleri eklendi.
+- `docs/setup.md`
+  - Islem: Panel calistirma bolumu yeni varsayilan akisa gore guncellendi.
+
+## 2026-02-27 (Panel Web Amaç Daraltma - Fiziksel Temizlik)
+
+- `apps/panel_flutter_web/lib/main.dart`
+  - Islem: Panel reposu icinden mobil entrypoint kaldirildi.
+- `apps/panel_flutter_web/lib/main_mobile.dart`
+  - Islem: Panel reposu icinden mobil bootstrap wrapper kaldirildi.
+- `apps/panel_flutter_web/lib/app_mobile/mobile_app.dart`
+  - Islem: Mobil app wrapper kaldirildi.
+- `apps/panel_flutter_web/lib/main_web_order.dart`
+  - Islem: Kullanilmayan web-order placeholder entrypoint kaldirildi.
+- `apps/panel_flutter_web/lib/web_order/web_order_app.dart`
+  - Islem: Kullanilmayan web-order placeholder app kaldirildi.
+- `apps/panel_flutter_web/lib/web_order/routes/web_order_routes.dart`
+  - Islem: Web-order placeholder route sabitleri kaldirildi.
+- `apps/panel_flutter_web/README.md`
+  - Islem: Varsayilan calistirma/build hedefleri owner merkezli yeni panele gore guncellendi.
+- `docs/apps.md`, `docs/architecture.md`, `docs/module_visibility_matrix.md`, `docs/cleanup_decision_matrix.md`, `docs/wip.md`
+  - Islem: Silinen placeholder yapilar ve yeni panel kapsamiyla tutarli hale getirildi.

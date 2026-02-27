@@ -48,13 +48,9 @@ Baslica sorumluluklar:
 - Admin operasyon ekranlari
 - Owner isletme/menu is akislari
 
-Ek not:
-- `web_order` girisi var ama placeholder.
-- `main_web_order.dart` root scriptlerde kullanilmiyor.
-
 Kanit:
-- `apps/panel_flutter_web/lib/main_web_order.dart`
-- `apps/panel_flutter_web/lib/web_order/web_order_app.dart`
+- `apps/panel_flutter_web/lib/main_web_owner.dart`
+- `apps/panel_flutter_web/lib/main_web_admin.dart`
 - `package.json` (repo root)
 
 ## 3) `apps/web_next`

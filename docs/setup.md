@@ -30,17 +30,17 @@ Script: `apps/mobile_flutter/package.json`
 
 ### Panel (`apps/panel_flutter_web`)
 
-Admin:
+Web site + owner/admin akisi (varsayilan):
 
 ```bash
 flutter pub get
-flutter run -d chrome -t lib/main_web_admin.dart
+flutter run -d chrome -t lib/main_web_owner.dart
 ```
 
-Owner:
+Admin odakli ayri calisma (opsiyonel):
 
 ```bash
-flutter run -d chrome -t lib/main_web_owner.dart
+flutter run -d chrome -t lib/main_web_admin.dart
 ```
 
 Script: `apps/panel_flutter_web/package.json`

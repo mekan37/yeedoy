@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../l10n/app_localizations.dart';
 import '../data/auth_service_provider.dart';
 
 class BusinessRegisterPage extends ConsumerStatefulWidget {
@@ -31,6 +32,7 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
   }
 
   Future<void> _submit() async {
+    final t = AppLocalizations.of(context);
     setState(() {
       _loading = true;
       _error = null;
@@ -40,13 +42,13 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
       final pass = _passwordCtrl.text;
       if (pass.length < 6) {
         setState(() {
-          _error = 'Sifre en az 6 karakter olmali.';
+          _error = t.businessRegisterPasswordMinError;
         });
         return;
       }
       if (pass != _passwordRepeatCtrl.text) {
         setState(() {
-          _error = 'Sifreler ayni degil.';
+          _error = t.businessRegisterPasswordMismatchError;
         });
         return;
       }
@@ -55,8 +57,7 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
           .signUpWithEmail(_emailCtrl.text.trim(), pass);
       if (!mounted) return;
       setState(() {
-        _ok =
-            'Kayit olusturuldu. Dogrulama adimini tamamladiktan sonra isletme girisi yapabilirsin.';
+        _ok = t.businessRegisterSuccess;
       });
     } catch (e) {
       if (!mounted) return;
@@ -74,8 +75,9 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Isletme Kaydi')),
+      appBar: AppBar(title: Text(t.businessRegisterTitle)),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 460),
@@ -83,27 +85,33 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
             padding: const EdgeInsets.all(20),
             shrinkWrap: true,
             children: [
-              const Text(
-                'Isletme paneline erismek icin kayit olustur.',
+              Text(
+                t.businessRegisterIntro,
                 style: TextStyle(color: Color(0xFF334155)),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _emailCtrl,
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'E-posta'),
+                decoration: InputDecoration(
+                  labelText: t.businessAuthEmailLabel,
+                ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _passwordCtrl,
                 obscureText: true,
-                decoration: const InputDecoration(labelText: 'Sifre'),
+                decoration: InputDecoration(
+                  labelText: t.businessAuthPasswordLabel,
+                ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _passwordRepeatCtrl,
                 obscureText: true,
-                decoration: const InputDecoration(labelText: 'Sifre (tekrar)'),
+                decoration: InputDecoration(
+                  labelText: t.businessAuthPasswordRepeatLabel,
+                ),
               ),
               if (_error != null) ...[
                 const SizedBox(height: 12),
@@ -116,12 +124,14 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
               const SizedBox(height: 18),
               FilledButton(
                 onPressed: _loading ? null : _submit,
-                child: Text(_loading ? 'Kayit olusturuluyor...' : 'Kayit Ol'),
+                child: Text(
+                  _loading ? t.businessRegisterSubmitting : t.register,
+                ),
               ),
               const SizedBox(height: 10),
               OutlinedButton(
                 onPressed: _loading ? null : () => context.go('/isletme-giris'),
-                child: const Text('Isletme Girisine Don'),
+                child: Text(t.businessRegisterBackToLogin),
               ),
             ],
           ),

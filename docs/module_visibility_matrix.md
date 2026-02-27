@@ -28,12 +28,11 @@ Kanit: `apps/mobile_flutter/lib/app/router.dart`
 | Admin operasyon | `/admin/reports`, `/admin/claims`, `/admin/suggestions`, `/admin/verified`, ... | Gorunur |
 | Owner dashboard | `/owner` ve altlari | Gorunur |
 | Admin devtools | `/admin/dev-tools` | Gorunur (debug/env gate) |
-| Web order alt giris | `main_web_order.dart` | Mevcut ama placeholder |
+| Public web giris | `/`, `/isletme-giris`, `/isletme-kayit` | Gorunur |
 
 Kanit:
 - `apps/panel_flutter_web/lib/app/router.dart`
 - `apps/panel_flutter_web/lib/app_admin.dart`
-- `apps/panel_flutter_web/lib/web_order/web_order_app.dart`
 
 ## Web Next (`apps/web_next`)
 

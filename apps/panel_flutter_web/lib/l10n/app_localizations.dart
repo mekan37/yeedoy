@@ -4254,6 +4254,132 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'KDV dahil'**
   String get vatIncluded;
+
+  /// No description provided for @webHomeSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Canlı menü, fiyat şeffaflığı ve topluluk doğrulama platformu.'**
+  String get webHomeSubtitle;
+
+  /// No description provided for @webHomeNextLinkLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'QR Menü Web (Next.js)'**
+  String get webHomeNextLinkLabel;
+
+  /// No description provided for @webHomeBusinessAreaTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Alanı'**
+  String get webHomeBusinessAreaTitle;
+
+  /// No description provided for @webHomeBusinessAreaSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Panele erişmek için işletme veya admin hesabınla giriş yap.'**
+  String get webHomeBusinessAreaSubtitle;
+
+  /// No description provided for @webHomeBusinessLogin.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Girişi'**
+  String get webHomeBusinessLogin;
+
+  /// No description provided for @webHomeBusinessRegister.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Kaydı'**
+  String get webHomeBusinessRegister;
+
+  /// No description provided for @businessAuthEmailLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta'**
+  String get businessAuthEmailLabel;
+
+  /// No description provided for @businessAuthPasswordLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre'**
+  String get businessAuthPasswordLabel;
+
+  /// No description provided for @businessAuthPasswordRepeatLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre (tekrar)'**
+  String get businessAuthPasswordRepeatLabel;
+
+  /// No description provided for @businessLoginTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Girişi'**
+  String get businessLoginTitle;
+
+  /// No description provided for @businessLoginIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme sahibi veya admin paneline erişmek için giriş yap.'**
+  String get businessLoginIntro;
+
+  /// No description provided for @businessLoginNoPermissionError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hesapta işletme veya admin yetkisi bulunamadı. İşletme kaydı ile devam edebilirsin.'**
+  String get businessLoginNoPermissionError;
+
+  /// No description provided for @businessLoginSubmitting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş yapılıyor...'**
+  String get businessLoginSubmitting;
+
+  /// No description provided for @businessLoginGoRegister.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Kaydına Git'**
+  String get businessLoginGoRegister;
+
+  /// No description provided for @businessRegisterTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Kaydı'**
+  String get businessRegisterTitle;
+
+  /// No description provided for @businessRegisterIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme paneline erişmek için kayıt oluştur.'**
+  String get businessRegisterIntro;
+
+  /// No description provided for @businessRegisterPasswordMinError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre en az 6 karakter olmalı.'**
+  String get businessRegisterPasswordMinError;
+
+  /// No description provided for @businessRegisterPasswordMismatchError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreler aynı değil.'**
+  String get businessRegisterPasswordMismatchError;
+
+  /// No description provided for @businessRegisterSuccess.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt oluşturuldu. Doğrulama adımını tamamladıktan sonra işletme girişi yapabilirsin.'**
+  String get businessRegisterSuccess;
+
+  /// No description provided for @businessRegisterSubmitting.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt oluşturuluyor...'**
+  String get businessRegisterSubmitting;
+
+  /// No description provided for @businessRegisterBackToLogin.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Girişine Dön'**
+  String get businessRegisterBackToLogin;
 }
 
 class _AppLocalizationsDelegate
