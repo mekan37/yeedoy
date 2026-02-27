@@ -1,50 +1,62 @@
-# Modül Görünürlük Matrisi
+# Modül Görünürlük Matrisi (Kod Tabanlı)
 
 ## Mobile (`apps/mobile_flutter`)
 
-| Modül | Route / Giriş | UI Giriş Noktası | Durum |
-|---|---|---|---|
-| Discovery | `/discover` | Alt menü + drawer | Görünür |
-| Smart Feed | `/feed` | Drawer (labs) | Görünür |
-| Business | `/b/:id` | Discovery kartları | Görünür |
-| Menus | `/b/:id/menu/:menuId` | Business sayfası | Görünür |
-| Menu Item | `/b/:id/menu-item/:itemId` | Menü listesi | Görünür |
-| Reviews | `/b/:id/reviews`, `/b/:id/review` | Business sayfası | Görünür |
-| Favorites | `/favorites` | Alt menü + drawer | Görünür |
-| Profile | `/profile` | Alt menü + drawer | Görünür |
-| Inbox | `/inbox` | Drawer + bildirim | Görünür |
-| Suggestions | `/suggest`, `/my-suggestions` | Drawer + profil | Görünür |
-| Group Requests | `/group-requests` | Drawer (labs) | Görünür |
-| Taste Twin | `/taste-twin` | Drawer (labs) | Görünür |
-| Heroes | `/heroes` | Drawer (labs) | Görünür |
-| Compare | `/compare` | Drawer (labs) | Görünür |
-| Chains | `/chain/:id` | Discovery/business linkleri | Görünür |
-| Suspended Meals | `/my-suspended` | Drawer | Görünür |
-| Top Businesses | `/top-businesses` | Drawer | Görünür |
-| Legal | `/legal` | Drawer | Görünür |
-| Developer Tools | `/dev-tools` | Drawer + Profil Ayarları | Görünür (dev gate) |
+| Modül | Route | Durum |
+|---|---|---|
+| Discovery | `/discover` | Görünür |
+| Business | `/b/:id` | Görünür |
+| Menu | `/b/:id/menu/:menuId` | Görünür |
+| Reviews | `/b/:id/reviews`, `/b/:id/review` | Görünür |
+| Favorites | `/favorites` | Görünür |
+| Profile | `/profile` | Görünür |
+| Inbox | `/inbox` | Görünür |
+| Suggestions | `/suggest`, `/my-suggestions` | Görünür |
+| Group Requests | `/group-requests` | Görünür (labs) |
+| Taste Twin | `/taste-twin` | Görünür (labs) |
+| Heroes | `/heroes` | Görünür (labs) |
+| Compare / Chain | `/compare`, `/chain/:id` | Görünür (labs) |
+| Top Businesses | `/top-businesses` | Görünür |
+| Developer Tools | `/dev-tools` | Görünür (gate'li) |
+| Panel erişimi | `/admin`, `/owner` | Mobilde web yönlendirme ekranına düşer |
+
+Kaynak: `apps/mobile_flutter/lib/app/router.dart`
+
+## Panel (`apps/panel_flutter_web`)
+
+| Modül | Route | Durum |
+|---|---|---|
+| Owner Dashboard | `/owner` | Görünür |
+| Owner Menu/Requests/Businesses | `/owner/...` | Görünür |
+| Admin Dashboard | `/admin` | Görünür |
+| Admin operasyon ekranları | `/admin/reports`, `/admin/claims`, `/admin/suggestions`, ... | Görünür |
+| Admin DevTools | `/admin/dev-tools` | Görünür (gate'li) |
+| Labs Translations | `/labs/translations` | Görünür (debug/labs şartlı) |
+| Web Order alt uygulaması | `main_web_order.dart` | Mevcut ama placeholder |
+
+Kaynak: `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/web_order/web_order_app.dart`
 
 ## Web Next (`apps/web_next`)
 
-| Modül | Route / Giriş | Durum |
+| Modül | Route | Durum |
 |---|---|---|
 | Public Landing | `/` | Görünür |
 | Public Menu | `/b/[slug]` | Görünür |
 | QR Redirect | `/q/[code]` | Görünür |
-| Dashboard | `/dashboard` | Görünür |
-| Menu Builder | `/dashboard/businesses/[id]/menu` | Görünür |
+| Login | `/login` | Görünür |
+| Dashboard | `/dashboard/...` | Görünür |
+| Menu Editor | `/dashboard/businesses/[id]/menu` | Görünür |
 | QR Generator | `/dashboard/businesses/[id]/qr` | Görünür |
-| DevTools | `/devtools` | Görünür (dev gate) |
+| Admin sayfası | `/admin` | Görünür ama içerik placeholder |
+| Owner sayfası | `/owner` | Mevcut ama dashboard'a redirect |
+| Menu Builder sayfası | `/menu-builder` | Mevcut ama dashboard'a redirect |
+| Devtools | `/devtools` | Görünür (gate'li) |
 
-## Panel (`apps/panel_flutter_web`)
+Kaynak: `apps/web_next/app/**/*`
 
-| Modül | Route / Giriş | Durum |
-|---|---|---|
-| Admin Dashboard | `/admin` | Görünür |
-| Admin DevTools | `/admin/dev-tools` | Görünür (dev gate) |
-| Owner Dashboard | `/owner` | Görünür |
+## Mevcut Ama Tam Bağlı Olmayan Unsurlar
 
-## Bekleyen Entegrasyonlar
-- `core/monitoring/request_trace.dart`: detay paneli henüz yok
-- `core/perf/firebase_perf_trace.dart`: trace bazlı izleme UI henüz yok
-- `core/storage/*_prefs.dart`: tam prefs tarayıcı ekranı henüz yok
+- `qr_menu_next/` klasörü: kaynak uygulama değil, artifact içeriği.
+- `packages/*` paketleri: repo içinde mevcut, uygulama importlarında doğrudan kullanım görünmüyor.
+
+Kaynak: klasör envanteri ve import taraması.

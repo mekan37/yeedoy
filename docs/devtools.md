@@ -1,26 +1,29 @@
-# DevTools
+# DevTools Yüzeyleri (Gerçek Durum)
 
-## Genel Kural
-- `DEV_TOOLS_ENABLED=true` ise geliştirme araçları açılır.
-- Production’da devtools kapalı kalmalıdır.
+## Mobil
 
-## Mobil (`apps/mobile_flutter`)
 - Route: `/dev-tools`
-- İçerik:
-  - Release checklist (`ReleaseGate`)
-  - Golden path kontrolleri (`GoldenPaths`)
-  - Feature flag yönetimi
-  - Dev override görünümü
-  - Env doğrulama özeti
+- Dosya: `apps/mobile_flutter/lib/features/devtools/ui/developer_tools_page.dart`
+- Gating: Debug veya `DEV_TOOLS_ENABLED` kontrolü (`router.dart` içinde)
 
-## Panel (`apps/panel_flutter_web`)
+## Panel
+
 - Route: `/admin/dev-tools`
-- Admin operasyon ve teşhis ekranı
-- Debug/flag ile erişim
+- Dosya: `apps/panel_flutter_web/lib/src/features/admin/ui/admin_dev_tools_page.dart`
+- Gating: Debug veya `DEV_TOOLS_ENABLED` kontrolü (`app/router.dart` içinde)
 
-## Web (`apps/web_next`)
+## Web Next
+
 - Route: `/devtools`
-- İçerik:
-  - Env doğrulama
-  - SEO/test bağlantıları
-  - API/download smoke bağlantıları
+- Dosya: `apps/web_next/app/devtools/page.tsx`
+- Gating: `DEV_TOOLS_ENABLED=true` ve production dışı
+
+## Not
+
+`core/monitoring` ve `core/perf` altında yardımcı altyapı dosyaları mevcut olsa da, tümü için ayrı tam teşhis ekranı bulunmuyor.
+
+Örnek kanıtlar:
+
+- `apps/mobile_flutter/lib/core/monitoring/request_trace.dart`
+- `apps/mobile_flutter/lib/core/perf/firebase_perf_trace.dart`
+- `apps/mobile_flutter/lib/core/storage/*_prefs.dart`

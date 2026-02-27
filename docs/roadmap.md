@@ -1,17 +1,31 @@
-# Yol Haritası
+# Yol Haritası (Koddan Çıkan Durum)
 
-## Faz 1 (tamamlandı)
-- Monorepo workspace scriptleri
-- Her app için README + `.env.example`
-- Devtools görünürlüğü (mobile/web/panel)
-- Ortak paket iskeletleri (`packages/*`)
+Bu doküman "plan/niyet" değil, mevcut koddan görülen açık başlıkları listeler.
 
-## Faz 2 (devam ediyor)
-- `apps/panel_flutter_web` için Next.js’e kademeli geçiş planı
-- Mobilde diagnostics kapsamını artırma
-- Modül görünürlük matrisine göre eksik UI entrypoint tamamlama
+## Tamamlanmış Görünenler
 
-## Faz 3
-- Gerçekten gereksiz dosyaların kontrollü temizliği
-- Silme oranı `%10` sınırı içinde kalacak
-- Tüm silmeler `docs/cleanup_log.md` içine işlenecek
+- 3 uygulamalı monorepo yapısı (`mobile_flutter`, `panel_flutter_web`, `web_next`)
+- QR üretim + public menü render akışı (Next)
+- Owner/Admin ana route omurgası (panel Flutter)
+- Mobilde keşif/işletme/menü/topluluk çekirdeği
+
+## Devam Eden / Kısmi Kalanlar
+
+- Next `/admin` sayfası placeholder durumda.
+- Next `/owner` ve `/menu-builder` route'ları redirect düzeyinde.
+- Panelde `web_order` uygulaması TODO içeriyor.
+- Web test pipeline'da gerçek test dosyası bulunmuyor (smoke = lint + typecheck).
+
+## Teknik Borç Başlıkları
+
+- L10n dosyalarında mojibake/encoding izleri.
+- Bazı dokümanlarda eski plan dili ve güncel kod arasında farklar.
+- PowerShell odaklı kök scriptlerin cross-platform karşılığı sınırlı.
+
+## Referans Kaynaklar
+
+- `docs/product.md`
+- `docs/apps.md`
+- `docs/architecture.md`
+- `docs/data-model.md`
+- `docs/module_visibility_matrix.md`

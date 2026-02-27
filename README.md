@@ -1,34 +1,32 @@
 # Yeedoy Monorepo
 
-## Uygulamalar
-- `apps/mobile_flutter`: Flutter mobil tüketici uygulaması
-- `apps/panel_flutter_web`: Flutter Web admin/owner paneli
-- `apps/web_next`: Next.js public web + QR menü
+Bu depo, Yeedoy'un çoklu istemci mimarisini içerir:
 
-## Ortak Paketler
-- `packages/shared_config`
-- `packages/shared_types`
-- `packages/ui_tokens`
-- `packages/l10n_assets`
-- `packages/api_client`
+- `apps/mobile_flutter` -> Mobil uygulama (Flutter)
+- `apps/panel_flutter_web` -> Owner/Admin panel (Flutter Web)
+- `apps/web_next` -> Public web + QR menü + işletme dashboard (Next.js)
 
-## Kök Komutlar
+## Hızlı Başlangıç
 
 ```bash
 npm install
 npm run dev
-npm run build
-npm run lint
-npm run clean
 ```
 
-## Dokümantasyon
-- `PLAN.md`
+## Kaynak Dokümanlar
+
+- `docs/product.md`
+- `docs/apps.md`
 - `docs/architecture.md`
+- `docs/data-model.md`
+- `docs/qr-system.md`
 - `docs/setup.md`
+- `docs/cleanup_log.md`
+
+## Yardımcı Dokümanlar
+
 - `docs/deploy.md`
-- `docs/roadmap.md`
 - `docs/devtools.md`
 - `docs/module_visibility_matrix.md`
-- `docs/cleanup_log.md`
+- `docs/roadmap.md`
 - `docs/wip.md`

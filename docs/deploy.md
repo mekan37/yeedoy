@@ -1,23 +1,32 @@
-# Dağıtım
+# Dağıtım Notları (Güncel Durum)
 
-## Mobil Flutter
-- APK:
-  - `flutter build apk --release -t apps/mobile_flutter/lib/main_mobile.dart`
-- iOS (opsiyonel):
-  - `flutter build ipa --release -t apps/mobile_flutter/lib/main_mobile.dart`
+Bu belge dağıtım notudur. Ürün/mimari gerçekleri için öncelikli kaynak:
 
-## Panel Flutter Web
-- Admin:
-  - `flutter build web --release --target apps/panel_flutter_web/lib/main_web_admin.dart`
-- Owner:
-  - `flutter build web --release --target apps/panel_flutter_web/lib/main_web_owner.dart`
+- `docs/product.md`
+- `docs/apps.md`
+- `docs/architecture.md`
+- `docs/setup.md`
 
-## Web Next
-- Build:
-  - `npm --prefix apps/web_next run build`
-- Start:
-  - `npm --prefix apps/web_next run start`
+## Build Çıktıları
 
-## Kök Kısayollar
-- `npm run build`
-- `npm run build:all`
+Kök scriptler:
+
+```bash
+npm run build:owner
+npm run build:admin
+npm run build:next
+npm run build:all
+```
+
+Kaynak: repo kökü `package.json`
+
+## Çıktı Klasörleri
+
+- `deploy/owner` -> Flutter web owner çıktısı
+- `deploy/admin` -> Flutter web admin çıktısı
+- `deploy/next` -> Next.js build çıktısı
+
+## Operasyonel Not
+
+- Flutter web owner/admin statik dağıtılabilir.
+- Next tarafı Node.js süreç gerektirir (`next start`), yalnızca statik FTP kopyası yeterli değildir.
