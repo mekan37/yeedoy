@@ -5,14 +5,14 @@ Kapsam: Sadece `C:\yeedoy` altindaki mevcut kod ve birinci parti dokumanlar (`no
 
 ## Kisa Sonuc
 
-Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki + canli menu sistemi olarak konumlanabilecek durumda. Cekirdek mekaniklerin buyuk bolumu mobilde ve Supabase katmaninda var. Public web tarafinda seffaflik ozeti eklendi, ancak detayli gecmis/kanit katmani hala mobil kadar derin degil.
+Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki + canli menu sistemi olarak konumlanabilecek durumda. Cekirdek mekaniklerin buyuk bolumu mobilde ve Supabase katmaninda var. Public web tarafinda seffaflik katmani, item bazli fiyat gecmisi ve son kanit kayitlariyla guclendirildi.
 
 ## Vizyon-Durum Matrisi
 
 | Vizyon Basligi | Durum | Kod Kaniti | Not |
 |---|---|---|---|
 | Fiyat dogrulama ve guven | Guclu | `apps/mobile_flutter/lib/features/menus/data/menu_repository.dart`, `apps/mobile_flutter/lib/features/menus/ui/menu_item_page.dart`, `supabase/migrations/20260313_000001_menu_price_confidence.sql`, `supabase/migrations/20260322000012_data_quality_engine.sql` | Fiyat statusu, history, confidence, suggestion akislari var. |
-| Seffaflik (fiyat gecmisi, son guncelleme, dogrulama izi) | Guclu (mobil) / Gelisiyor (web) | `apps/mobile_flutter/lib/features/business/ui/business_page.dart`, `apps/mobile_flutter/lib/features/discovery/data/discovery_repository.dart`, `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx` | Web public sayfada son guncelleme + confidence + 90 gun trend ozeti var; detayli item bazli gecmis kartlari hala eksik. |
+| Seffaflik (fiyat gecmisi, son guncelleme, dogrulama izi) | Guclu (mobil+web) | `apps/mobile_flutter/lib/features/business/ui/business_page.dart`, `apps/mobile_flutter/lib/features/discovery/data/discovery_repository.dart`, `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx` | Web public sayfada son guncelleme + confidence + 90 gun trend ozeti + item bazli fiyat gecmisi + son kanit kayitlari var. |
 | Canli menu (kategori, filtre, gorsel, QR erisim) | Guclu | `apps/web_next/src/ui/sections/public-menu-client.tsx`, `apps/web_next/app/api/qr/route.tsx`, `apps/web_next/app/q/[code]/page.tsx`, `apps/mobile_flutter/lib/features/contribute/ui/contribute_entry.dart` | QR uretim + menu render + mobil QR parse mevcut. |
 | Topluluk katkisi (fiyat guncelleme, raporlama, onay) | Guclu | `apps/mobile_flutter/lib/features/contribute/ui/contribute_entry.dart`, `apps/mobile_flutter/lib/features/menus/ui/components/verify_price_bottom_sheet.dart`, `apps/panel_flutter_web/lib/features/admin/ui/admin_price_suggestions_page.dart` | Katki ve moderasyon zinciri kurulu. |
 | Guclu kesif (sehir/ilce, trend, favori, profil) | Guclu | `apps/mobile_flutter/lib/features/discovery/ui/discovery_page.dart`, `apps/mobile_flutter/lib/features/favorites/ui/favorites_page.dart`, `apps/mobile_flutter/lib/features/profile/ui/profile_page.dart` | Kesif ve favori/profil omurgasi aktif. |
@@ -20,7 +20,7 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
 | Admin paneli | Guclu (Flutter panel) / Yonlendirme (Next) | `apps/panel_flutter_web/lib/app_admin.dart`, `apps/panel_flutter_web/lib/features/admin/ui/*`, `apps/web_next/app/admin/page.tsx`, `apps/web_next/src/lib/panelUrl.ts` | Next `admin/owner/menu-builder` route'lari panel webe yonlenir; admin operasyonun tek kaynagi Flutter webdir. |
 | Panel web giris/landing (normal hosting) | Guclu | `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_register_page.dart` | `/` landing + `/isletme-giris` + `/isletme-kayit` + owner/admin role bazli yonlendirme aktif; panel kapsam disi route'lar kaldirildi. |
 | Gozlemlenebilirlik (monitoring/perf/prefs UI) | Gelisiyor | `apps/panel_flutter_web/lib/features/admin/ui/admin_observability_page.dart`, `apps/panel_flutter_web/lib/core/monitoring/request_trace.dart`, `apps/panel_flutter_web/lib/core/perf/perf_slo.dart`, `apps/panel_flutter_web/lib/core/storage/*` | Admin panelde request trace + perf SLO + prefs explorer tani ekrani eklendi. |
-| Test kapsami dengesi | Gelisiyor | `apps/mobile_flutter/test/*`, `apps/mobile_flutter/integration_test/*`, `apps/panel_flutter_web/test/*`, `apps/web_next/test/*`, `apps/web_next/package.json` | Next tarafinda component + API route unit testleri eklendi; kapsamin genisletilmesi gerekiyor. |
+| Test kapsami dengesi | Gelisiyor | `apps/mobile_flutter/test/*`, `apps/mobile_flutter/integration_test/*`, `apps/panel_flutter_web/test/*`, `apps/panel_flutter_web/integration_test/*`, `apps/web_next/test/*`, `apps/web_next/e2e/*`, `apps/web_next/package.json` | Next tarafinda component + API route unit + e2e smoke testleri var. Panelde integration_test iskeleti var ancak calistirma hedefi eksik. |
 | Dokuman ve guvenlik hijyeni | Gelisiyor | `apps/web_next/.env.example`, `apps/panel_flutter_web/.env.example`, `docs/deploy.md`, `tools/l10n_audit.mjs`, `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb` | L10n mojibake temizlendi ve audit'e otomatik kontrol eklendi. Web env example placeholder formatina cekildi. Panel+Next production domain/env sozlesmesi dokumanlandi. |
 
 ## P0 Uygulama Durumu (2026-02-27)
@@ -51,7 +51,16 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
   - Component testi: `apps/web_next/test/ui/button.test.tsx`
   - API route testi: `apps/web_next/test/api/businesses-route.test.ts`
   - Script guncellemesi: `apps/web_next/package.json` (`test:unit`, `test`)
+- [x] Next tarafina Playwright e2e smoke testi eklendi.
+  - Konfig: `apps/web_next/playwright.config.ts`
+  - Test: `apps/web_next/e2e/auth-and-routing.spec.ts`
+  - Script guncellemesi: `apps/web_next/package.json` (`test:e2e`)
 - [x] `supabase/remote_schema.sql` ve `supabase/remote_schema_latest.sql` dosyalari migration-derived snapshot ile dolduruldu.
+- [x] Web public menude item bazli fiyat gecmisi/kanit paneli eklendi.
+  - Kod: `apps/web_next/app/(public)/b/[slug]/page.tsx`
+- [x] `panel_flutter_web` icin integration_test iskeleti eklendi.
+  - Kod: `apps/panel_flutter_web/integration_test/app_smoke_test.dart`
+  - Not: Webde `integration_test` destegi olmadigi ve panel projesinde desktop hedefi bulunmadigi icin dogrudan kosulamiyor.
 
 - Acik P1 kalmadi.
 
@@ -73,4 +82,4 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
 
 ## Koda Dayali Genel Degerlendirme
 
-Yeedoy'un bugunku kodu, "fiyat seffafligi + topluluk dogrulama + canli QR menu" vizyonuna temel urun seviyesinde yakindir. En buyuk fark, mobildeki derin seffaflik katmaninin web publicte hala daha ozet seviyede kalmasi ve Next panel gecisinin yari-yolda olmasidir.
+Yeedoy'un bugunku kodu, "fiyat seffafligi + topluluk dogrulama + canli QR menu" vizyonuna temel urun seviyesinde yakindir. En buyuk aciklar, Next panel route'larinin Flutter panel redirect yapisinda kalmasi ve panel integration_test calisma hedefinin henuz tamamlanmamis olmasidir.

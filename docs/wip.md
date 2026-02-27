@@ -6,8 +6,6 @@
    - Kanit: `apps/web_next/app/admin/page.tsx`
 2. Next owner ve menu-builder route'lari redirect.
    - Kanit: `apps/web_next/app/owner/page.tsx`, `apps/web_next/app/menu-builder/page.tsx`
-3. Web public menu tarafinda detayli item bazli fiyat gecmisi/kanit paneli yok (su an ozet kart var).
-   - Kanit: `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx`
 
 ## Icerik/L10n Aciklari
 
@@ -24,10 +22,11 @@ Not:
 
 ## Test Aciklari
 
-1. Panelde `integration_test` klasoru bulunamadi.
-   - Kanit: `apps/panel_flutter_web/test/*`, `apps/panel_flutter_web/integration_test` (bulunamadi)
-2. Web Next test kapsami baslangic seviyesinde (component + API route unit test var, e2e yok).
-   - Kanit: `apps/web_next/test/*`, `apps/web_next/package.json`
+1. Panelde `integration_test` iskeleti eklendi ancak calistirma ortami eksik.
+   - Kanit: `apps/panel_flutter_web/integration_test/app_smoke_test.dart`
+   - Not: Web `integration_test` desteklemiyor; proje icinde Windows desktop hedefi de yok.
+2. Web Next e2e kapsami baslangic seviyesinde (auth + redirect smoke).
+   - Kanit: `apps/web_next/e2e/auth-and-routing.spec.ts`, `apps/web_next/playwright.config.ts`, `apps/web_next/package.json`
 
 ## Mevcut Ama Kullanilmayan/Kismi Bagli
 

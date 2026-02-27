@@ -191,3 +191,22 @@ Not:
   - Islem: `panel_flutter_web` production domain/env dokumani acigi kapatildi.
 - `docs/vision_status.md`, `docs/roadmap.md`
   - Islem: Yeni dokuman durumuna gore vizyon ve yol haritasi notlari guncellendi.
+
+## 2026-02-27 (P1 Tamamlama - E2E, Web Seffaflik ve Panel Test Iskeleti)
+
+- `apps/web_next/app/(public)/b/[slug]/page.tsx`
+  - Islem: Public menuye item bazli fiyat gecmisi + son kanit kayitlari paneli eklendi.
+- `apps/web_next/playwright.config.ts`
+  - Islem: Playwright e2e konfigurasyonu eklendi.
+- `apps/web_next/e2e/auth-and-routing.spec.ts`
+  - Islem: Login render ve admin redirect smoke testleri eklendi.
+- `apps/web_next/package.json`
+  - Islem: `test:e2e`, `test:e2e:headed` scriptleri eklendi; `test:unit` komutu dogrudan vitest binary ile calisacak sekilde netlestirildi.
+- `apps/panel_flutter_web/integration_test/app_smoke_test.dart`
+  - Islem: Panel icin integration_test iskeleti eklendi.
+- `apps/panel_flutter_web/pubspec.yaml`
+  - Islem: Kullanilmayan bagimliliklar kaldirildi; `integration_test` dev dependency olarak eklendi.
+- `apps/panel_flutter_web/package.json`
+  - Islem: `test` ve `test:integration` scriptleri eklendi.
+- `docs/wip.md`, `docs/vision_status.md`, `docs/roadmap.md`, `docs/setup.md`
+  - Islem: Yeni test ve seffaflik durumuna gore dokumanlar guncellendi.

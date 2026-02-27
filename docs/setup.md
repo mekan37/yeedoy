@@ -76,13 +76,17 @@ Kanit: `package.json` (repo root)
 ## Test Durumu
 
 - Mobile: test + integration_test dosyalari var.
-- Panel: test dosyalari var, `integration_test` klasoru bulunamadi.
-- Web Next: smoke + unit test scriptleri var (`test:smoke`, `test:unit`, `test`).
+- Panel: test dosyalari var; `integration_test` iskeleti eklendi (`integration_test/app_smoke_test.dart`).
+- Web Next: smoke + unit + e2e scriptleri var (`test:smoke`, `test:unit`, `test:e2e`, `test`).
 
 Kanit:
 - `apps/mobile_flutter/test/*`, `apps/mobile_flutter/integration_test/*`
-- `apps/panel_flutter_web/test/*`
-- `apps/web_next/package.json`, `apps/web_next/test/*`
+- `apps/panel_flutter_web/test/*`, `apps/panel_flutter_web/integration_test/*`
+- `apps/web_next/package.json`, `apps/web_next/test/*`, `apps/web_next/e2e/*`
+
+Not:
+- Panel `integration_test` web cihazda desteklenmez; desktop hedefleri eklenmeden calistirilamaz.
+- Playwright icin ilk kurulumda `npx playwright install chromium` calistirilmalidir.
 
 ## Ortam Degiskenleri
 

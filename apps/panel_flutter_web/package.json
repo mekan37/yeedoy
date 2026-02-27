@@ -7,6 +7,8 @@
     "dev:owner": "flutter run -d chrome -t lib/main_web_owner.dart",
     "build": "flutter build web --release --target lib/main_web_owner.dart",
     "build:admin": "flutter build web --release --target lib/main_web_admin.dart",
-    "lint": "flutter analyze"
+    "lint": "flutter analyze",
+    "test": "flutter test",
+    "test:integration": "flutter test integration_test"
   }
 }

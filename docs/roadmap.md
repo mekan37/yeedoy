@@ -27,9 +27,13 @@ Bu liste yalnizca koddan gorulen aciklara dayanir.
 2. Next panel gecis kararini netlestir
    - Durum: Tamamlandi (`/admin`, `/owner`, `/menu-builder` -> panel web yonlendirme)
 3. Next test katmanini smoke ustune cikar
-   - Durum: Baslangic tamamlandi (vitest + component/API route unit testleri)
+   - Durum: Devam ediyor (vitest + component/API route unit testleri + playwright e2e smoke)
 4. Supabase schema snapshot bosluklarini kapat
    - Durum: Tamamlandi (`supabase/remote_schema.sql`, `supabase/remote_schema_latest.sql`)
+5. Web public item bazli fiyat gecmisi/kanit paneli
+   - Durum: Tamamlandi (`apps/web_next/app/(public)/b/[slug]/page.tsx`)
+6. Panel integration_test iskeleti
+   - Durum: Tamamlandi (`apps/panel_flutter_web/integration_test/app_smoke_test.dart`)
 
 ## P2 (Orta Vade)
 

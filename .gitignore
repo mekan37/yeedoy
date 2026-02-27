@@ -39,6 +39,8 @@ node/
 .next/
 dist/
 coverage/
+playwright-report/
+test-results/
 
 # Flutter / Dart
 .dart_tool/

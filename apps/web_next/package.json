@@ -8,8 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit --incremental false",
-    "test:unit": "vitest run",
-    "test:unit:watch": "vitest",
+    "test:unit": "node ./node_modules/vitest/vitest.mjs run",
+    "test:unit:watch": "node ./node_modules/vitest/vitest.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
     "test:smoke": "npm run typecheck && npm run lint",
     "test": "npm run test:smoke && npm run test:unit",
     "test:ci": "npm run test && npm run build"
@@ -27,9 +29,11 @@
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
     "tailwind-merge": "^3.3.1",
+    "yeedoy-repo": "file:../..",
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^24.3.0",
