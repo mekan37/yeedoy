@@ -130,3 +130,19 @@ Not:
   - Islem: Varsayilan calistirma/build hedefleri owner merkezli yeni panele gore guncellendi.
 - `docs/apps.md`, `docs/architecture.md`, `docs/module_visibility_matrix.md`, `docs/cleanup_decision_matrix.md`, `docs/wip.md`
   - Islem: Silinen placeholder yapilar ve yeni panel kapsamiyla tutarli hale getirildi.
+
+## 2026-02-27 (Panel Web Kod Ayrimi - Mobil/Kesif Cikarimi)
+
+- `apps/panel_flutter_web/lib/` altinda, `main_web.dart`, `main_web_owner.dart`, `main_web_admin.dart` import grafina girmeyen 199 adet `.dart` dosya kaldirildi.
+  - Islem kapsaminda mobil/kesif/topluluk odakli ekranlar ve bagli katmanlar panelden temizlendi.
+  - Korunan kapsam: web landing + business auth + owner/admin panel akislari.
+- `apps/panel_flutter_web/test/core/growth/ab_experiments_test.dart`
+  - Islem: Silinen quality/growth modullerine bagli oldugu icin kaldirildi.
+- `apps/panel_flutter_web/test/core/quality/golden_paths_test.dart`
+  - Islem: Silinen quality modullerine bagli oldugu icin kaldirildi.
+- `apps/panel_flutter_web/test/core/quality/release_gate_test.dart`
+  - Islem: Silinen quality modullerine bagli oldugu icin kaldirildi.
+- `apps/panel_flutter_web/tool/release_gate_check.dart`
+  - Islem: Silinen quality modullerine bagli oldugu icin kaldirildi.
+- Dogrulama:
+  - `apps/panel_flutter_web` icinde `flutter analyze` temiz.
