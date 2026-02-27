@@ -21,6 +21,9 @@
 Kanit:
 - `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`
 
+Not:
+- Root build/clean scriptlerinin PowerShell bagimliligi kapanmistir (`tools/workspace_ops.mjs`).
+
 ## Test Aciklari
 
 1. Panelde `integration_test` klasoru bulunamadi.

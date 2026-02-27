@@ -17,17 +17,17 @@
     "verify:matrix:lint": "npm run lint:web && npm run lint:panel && npm run lint:mobile",
     "verify:matrix:build": "npm run build:web && npm run build:panel && npm run build:mobile",
     "verify:matrix": "npm run l10n:audit && npm run verify:matrix:lint && npm run test:smoke:web",
-    "clean": "powershell -NoProfile -Command \"Remove-Item -Recurse -Force apps/web_next/.next,apps/web_next/node_modules/.cache -ErrorAction SilentlyContinue; Remove-Item -Recurse -Force apps/mobile_flutter/build,apps/mobile_flutter/.dart_tool -ErrorAction SilentlyContinue; Remove-Item -Recurse -Force apps/panel_flutter_web/build,apps/panel_flutter_web/.dart_tool -ErrorAction SilentlyContinue\"",
+    "clean": "node tools/workspace_ops.mjs clean",
     "build:web": "npm --prefix apps/web_next run build",
     "build:panel": "npm --prefix apps/panel_flutter_web run build",
     "build:mobile": "npm --prefix apps/mobile_flutter run build",
     "lint:web": "npm --prefix apps/web_next run lint",
     "lint:panel": "npm --prefix apps/panel_flutter_web run lint",
     "lint:mobile": "npm --prefix apps/mobile_flutter run lint",
-    "build:owner": "powershell -NoProfile -Command \"Push-Location apps/panel_flutter_web; flutter build web --release --target lib/main_web_owner.dart --base-href /owner/; Pop-Location; Remove-Item -Recurse -Force deploy/owner -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Force deploy/owner | Out-Null; Copy-Item apps/panel_flutter_web/build/web/* deploy/owner -Recurse -Force\"",
-    "build:admin": "powershell -NoProfile -Command \"Push-Location apps/panel_flutter_web; flutter build web --release --target lib/main_web_admin.dart --base-href /admin/; Pop-Location; Remove-Item -Recurse -Force deploy/admin -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Force deploy/admin | Out-Null; Copy-Item apps/panel_flutter_web/build/web/* deploy/admin -Recurse -Force\"",
-    "build:next": "powershell -NoProfile -Command \"npm --prefix apps/web_next run build; Remove-Item -Recurse -Force deploy/next -ErrorAction SilentlyContinue; New-Item -ItemType Directory -Force deploy/next | Out-Null; Copy-Item apps/web_next/.next deploy/next/.next -Recurse -Force; if (Test-Path apps/web_next/public) { Copy-Item apps/web_next/public deploy/next/public -Recurse -Force }; Copy-Item apps/web_next/package.json deploy/next/package.json -Force; Copy-Item apps/web_next/next.config.mjs deploy/next/next.config.mjs -Force\"",
-    "build:all": "npm run build:owner && npm run build:admin && npm run build:next"
+    "build:owner": "node tools/workspace_ops.mjs build-owner",
+    "build:admin": "node tools/workspace_ops.mjs build-admin",
+    "build:next": "node tools/workspace_ops.mjs build-next",
+    "build:all": "node tools/workspace_ops.mjs build-all"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.91.1",

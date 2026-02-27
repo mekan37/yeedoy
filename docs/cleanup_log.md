@@ -171,3 +171,13 @@ Not:
   - `docs/roadmap.md`
   - `docs/apps.md`
   - `docs/module_visibility_matrix.md`
+
+## 2026-02-27 (Cross-Platform Script Konsolidasyonu)
+
+- `tools/workspace_ops.mjs`
+  - Islem: Yeni eklendi.
+  - Icerik: `clean`, `build-owner`, `build-admin`, `build-next`, `build-all` komutlarini Node.js ile merkezi yonetir.
+- `package.json` (repo root)
+  - Islem: PowerShell tabanli `clean`/`build:*` scriptleri Node helper'a tasindi.
+- `docs/setup.md`, `docs/deploy.md`, `docs/roadmap.md`, `docs/vision_status.md`, `docs/wip.md`
+  - Islem: Yeni script davranisina gore guncellendi.

@@ -40,7 +40,7 @@ Bu liste yalnizca koddan gorulen aciklara dayanir.
 3. `packages/shared` konsolidasyonu
    - Durum: Tamamlandi (kaldirildi; `apps/web_next/src/shared/*` tek kaynak)
 4. Root PowerShell scriptlerine cross-platform alternatif
-   - Durum: Acik
+   - Durum: Tamamlandi (`tools/workspace_ops.mjs` + root `package.json` script guncellemesi)
 
 ## Referans
 

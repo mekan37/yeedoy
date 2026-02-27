@@ -13,6 +13,9 @@ npm run build:all
 
 Kanit: `package.json` (repo root)
 
+Not:
+- Bu komutlar `tools/workspace_ops.mjs` uzerinden calisir ve Windows/Linux/macOS ortamlarinda ayni akisi hedefler.
+
 ## Cikti Klasorleri
 
 - `deploy/owner` -> Flutter web owner

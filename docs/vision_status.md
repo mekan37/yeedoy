@@ -62,6 +62,9 @@ Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki
   - Ekran: `apps/panel_flutter_web/lib/features/admin/ui/admin_observability_page.dart`
 - [x] `qr_menu_next/` artifact klasoru kaldirildi.
 - [x] `packages/shared` klasoru kaldirildi (aktif kod importu yoktu; `apps/web_next/src/shared/*` aktif olarak kullaniliyor).
+- [x] Root build/clean scriptleri cross-platform hale getirildi.
+  - Script helper: `tools/workspace_ops.mjs`
+  - Script guncellemesi: `package.json` (`clean`, `build:owner`, `build:admin`, `build:next`, `build:all`)
 
 - Acik P2 kalmadi.
 

@@ -77,12 +77,12 @@ Kanit: `package.json` (repo root)
 
 - Mobile: test + integration_test dosyalari var.
 - Panel: test dosyalari var, `integration_test` klasoru bulunamadi.
-- Web Next: `test` scripti var ama smoke (typecheck + lint); `*.test*` / `*.spec.*` dosyasi bulunamadi.
+- Web Next: smoke + unit test scriptleri var (`test:smoke`, `test:unit`, `test`).
 
 Kanit:
 - `apps/mobile_flutter/test/*`, `apps/mobile_flutter/integration_test/*`
 - `apps/panel_flutter_web/test/*`
-- `apps/web_next/package.json`
+- `apps/web_next/package.json`, `apps/web_next/test/*`
 
 ## Ortam Degiskenleri
 
@@ -95,5 +95,5 @@ Onemli not:
 
 ## Platform Notu
 
-- Kök `clean`, `build:owner`, `build:admin`, `build:next` scriptleri PowerShell komutlari icerir.
-- Linux/macOS CI icin esdeger script planlanmalidir.
+- Kök `clean`, `build:owner`, `build:admin`, `build:next`, `build:all` scriptleri `tools/workspace_ops.mjs` uzerinden calisir.
+- Bu helper Node.js tabanlidir ve Windows/Linux/macOS ortamlari icin ortak davranis saglar.
