@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/security/app_role_providers.dart';
-import '../../../features/profile/ui/profile_settings_page.dart';
 import '../../features/owner_businesses/domain/owner_business_providers.dart';
 import '../../features/owner_businesses/domain/owner_business_state.dart';
 
@@ -69,8 +68,8 @@ class OwnerShell extends ConsumerWidget {
             const Text('Bu sayfaya erişim izniniz yok.'),
             const SizedBox(height: 12),
             FilledButton(
-              onPressed: () => context.go('/discover'),
-              child: const Text('Keşfet sayfasına dön'),
+              onPressed: () => context.go('/'),
+              child: const Text('Ana sayfaya dön'),
             ),
           ],
         ),
@@ -195,8 +194,7 @@ class _OwnerSidebar extends ConsumerWidget {
     if (location.startsWith('/owner/price-suggestions')) return 3;
     if (location.startsWith('/owner/suspended')) return 4;
     if (location.startsWith('/owner/requests')) return 5;
-    if (location.startsWith('/owner/perks')) return 6;
-    if (location.startsWith('/owner/audit')) return 7;
+    if (location.startsWith('/owner/audit')) return 6;
     return 0;
   }
 
@@ -252,25 +250,9 @@ class _OwnerSidebar extends ConsumerWidget {
           ),
           _OwnerNavItem(
             selected: idx == 6,
-            icon: Icons.card_giftcard_outlined,
-            label: 'İkram/Kampanya',
-            onTap: () => _goBusinessRoute(context, '/owner/perks', selectedId),
-          ),
-          _OwnerNavItem(
-            selected: idx == 7,
             icon: Icons.receipt_long_outlined,
             label: 'Denetim',
             onTap: () => context.go('/owner/audit'),
-          ),
-          _OwnerNavItem(
-            selected: false,
-            icon: Icons.settings_outlined,
-            label: 'Profil Ayarları',
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ProfileSettingsPage()),
-              );
-            },
           ),
         ],
       ),
@@ -338,27 +320,9 @@ class _OwnerDrawer extends ConsumerWidget {
               onTap: () => context.go('/owner/requests'),
             ),
             ListTile(
-              leading: const Icon(Icons.card_giftcard_outlined),
-              title: const Text('İkram/Kampanya'),
-              onTap: () =>
-                  _goBusinessRoute(context, '/owner/perks', selectedId),
-            ),
-            ListTile(
               leading: const Icon(Icons.receipt_long_outlined),
               title: const Text('Denetim'),
               onTap: () => context.go('/owner/audit'),
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings_outlined),
-              title: const Text('Profil Ayarları'),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ProfileSettingsPage(),
-                  ),
-                );
-              },
             ),
           ],
         ),

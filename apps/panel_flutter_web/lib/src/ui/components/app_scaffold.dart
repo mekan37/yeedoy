@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_bottom_nav.dart';
-import 'app_drawer.dart';
-
 class AppScaffold extends StatelessWidget {
   const AppScaffold({
     super.key,
@@ -24,8 +21,6 @@ class AppScaffold extends StatelessWidget {
     return Scaffold(
       appBar: appBar,
       body: body,
-      drawer: const AppDrawer(),
-      bottomNavigationBar: const AppBottomNav(),
       floatingActionButton: floatingActionButton,
       extendBody: extendBody,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,

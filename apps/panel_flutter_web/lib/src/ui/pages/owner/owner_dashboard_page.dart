@@ -8,8 +8,6 @@ import '../../../features/owner_dashboard/domain/owner_quality_score_provider.da
 import '../../../features/owner_dashboard/domain/owner_kpi_provider.dart';
 import '../../../features/owner_dashboard/domain/owner_moat_provider.dart';
 import '../../../features/owner_monetization/data/owner_monetization_repository.dart';
-import '../../../../features/profile/ui/profile_settings_page.dart';
-import '../../../../features/profile/ui/components/profile_identity_card.dart';
 import '../../components/app_card.dart';
 import '../../components/app_section_header.dart';
 
@@ -67,23 +65,6 @@ class _OwnerDashboardPageState extends ConsumerState<OwnerDashboardPage> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        const ProfileIdentityCard(compact: true),
-        const SizedBox(height: 12),
-        AppCard(
-          child: ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.settings_rounded),
-            title: const Text('Profil AyarlarÄ±'),
-            subtitle: const Text('Ä°sim gizliliÄŸi ve sosyal medya linkleri'),
-            trailing: const Icon(Icons.chevron_right_rounded),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ProfileSettingsPage()),
-              );
-            },
-          ),
-        ),
-        const SizedBox(height: 12),
         const AppSectionHeader(title: 'Genel bakÃ„Â±Ã…Å¸'),
         const SizedBox(height: 12),
         AppCard(

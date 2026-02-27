@@ -40,7 +40,6 @@ import '../src/ui/pages/legal_page.dart';
 import '../src/ui/pages/owner/owner_businesses_page.dart';
 import '../src/ui/pages/owner/owner_dashboard_page.dart';
 import '../src/ui/pages/owner/owner_menu_builder_page.dart';
-import '../src/ui/pages/owner/owner_perks_page.dart';
 import '../src/ui/shells/owner_shell.dart';
 
 String _panelHomeForRole(AppRole role) {
@@ -116,6 +115,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       GoRoute(path: '/', builder: (c, s) => const WebHomePage()),
+      GoRoute(path: '/login', builder: (c, s) => const BusinessLoginPage()),
       GoRoute(
         path: '/isletme-giris',
         builder: (c, s) => const BusinessLoginPage(),
@@ -176,10 +176,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 s.uri.queryParameters['redirect'],
               ),
             ),
-          ),
-          GoRoute(
-            path: '/owner/perks',
-            builder: (c, s) => const OwnerPerksPage(),
           ),
           GoRoute(
             path: '/owner/audit',
