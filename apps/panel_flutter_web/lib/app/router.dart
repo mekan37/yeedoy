@@ -4,51 +4,45 @@ import 'package:go_router/go_router.dart';
 
 import '../core/security/app_role_providers.dart';
 import '../core/security/route_sanitizer.dart';
+import '../features/auth/domain/business_auth_redirect.dart';
 import '../features/auth/domain/auth_providers.dart';
 import '../features/auth/ui/business_login_page.dart';
 import '../features/auth/ui/business_register_page.dart';
 import '../features/marketing/ui/web_home_page.dart';
-import '../src/features/admin/domain/admin_permissions.dart';
-import '../src/features/admin/ui/admin_appeals_page.dart';
-import '../src/features/admin/ui/admin_audit_page.dart';
-import '../src/features/admin/ui/admin_b2b_exports_page.dart';
-import '../src/features/admin/ui/admin_business_submissions_page.dart';
-import '../src/features/admin/ui/admin_claims_page.dart';
-import '../src/features/admin/ui/admin_dashboard_page.dart';
-import '../src/features/admin/ui/admin_dev_tools_page.dart';
-import '../src/features/admin/ui/admin_group_requests_page.dart';
-import '../src/features/admin/ui/admin_growth_page.dart';
-import '../src/features/admin/ui/admin_incident_center_page.dart';
-import '../src/features/admin/ui/admin_price_suggestions_page.dart';
-import '../src/features/admin/ui/admin_reports_page.dart';
-import '../src/features/admin/ui/admin_shell.dart';
-import '../src/features/admin/ui/admin_sponsorship_leads_page.dart';
-import '../src/features/admin/ui/admin_sponsorship_packages_page.dart';
-import '../src/features/admin/ui/admin_sponsorships_page.dart';
-import '../src/features/admin/ui/admin_suggestions_page.dart';
-import '../src/features/admin/ui/admin_suspended_claims_page.dart';
-import '../src/features/admin/ui/admin_table_feedback_page.dart';
-import '../src/features/admin/ui/admin_temp_uploads_page.dart';
-import '../src/features/admin/ui/admin_verified_page.dart';
-import '../src/features/owner_businesses/ui/owner_business_submissions_page.dart';
-import '../src/features/owner_businesses/ui/owner_new_business_page.dart';
-import '../src/features/owner_onboarding/ui/owner_onboarding_page.dart';
-import '../src/features/owner_price_suggestions/ui/owner_price_suggestions_page.dart';
-import '../src/features/owner_requests/ui/owner_group_requests_page.dart';
-import '../src/features/owner_suspended/ui/owner_suspended_claims_page.dart';
-import '../src/ui/pages/legal_page.dart';
-import '../src/ui/pages/owner/owner_businesses_page.dart';
-import '../src/ui/pages/owner/owner_dashboard_page.dart';
-import '../src/ui/pages/owner/owner_menu_builder_page.dart';
-import '../src/ui/shells/owner_shell.dart';
-
-String _panelHomeForRole(AppRole role) {
-  return switch (role) {
-    AppRole.admin || AppRole.communityMod => '/admin',
-    AppRole.owner => '/owner',
-    AppRole.user => '/',
-  };
-}
+import '../features/admin/domain/admin_permissions.dart';
+import '../features/admin/ui/admin_appeals_page.dart';
+import '../features/admin/ui/admin_audit_page.dart';
+import '../features/admin/ui/admin_b2b_exports_page.dart';
+import '../features/admin/ui/admin_business_submissions_page.dart';
+import '../features/admin/ui/admin_claims_page.dart';
+import '../features/admin/ui/admin_dashboard_page.dart';
+import '../features/admin/ui/admin_dev_tools_page.dart';
+import '../features/admin/ui/admin_group_requests_page.dart';
+import '../features/admin/ui/admin_growth_page.dart';
+import '../features/admin/ui/admin_incident_center_page.dart';
+import '../features/admin/ui/admin_observability_page.dart';
+import '../features/admin/ui/admin_price_suggestions_page.dart';
+import '../features/admin/ui/admin_reports_page.dart';
+import '../features/admin/ui/admin_shell.dart';
+import '../features/admin/ui/admin_sponsorship_leads_page.dart';
+import '../features/admin/ui/admin_sponsorship_packages_page.dart';
+import '../features/admin/ui/admin_sponsorships_page.dart';
+import '../features/admin/ui/admin_suggestions_page.dart';
+import '../features/admin/ui/admin_suspended_claims_page.dart';
+import '../features/admin/ui/admin_table_feedback_page.dart';
+import '../features/admin/ui/admin_temp_uploads_page.dart';
+import '../features/admin/ui/admin_verified_page.dart';
+import '../features/owner_businesses/ui/owner_business_submissions_page.dart';
+import '../features/owner_businesses/ui/owner_businesses_page.dart';
+import '../features/owner_businesses/ui/owner_new_business_page.dart';
+import '../features/owner_menu_management/ui/owner_menus_page.dart';
+import '../features/owner_onboarding/ui/owner_onboarding_page.dart';
+import '../features/owner_price_suggestions/ui/owner_price_suggestions_page.dart';
+import '../features/owner_requests/ui/owner_group_requests_page.dart';
+import '../features/owner_suspended/ui/owner_suspended_claims_page.dart';
+import '../features/legal/ui/legal_page.dart';
+import '../features/owner/ui/owner_shell.dart';
+import '../features/owner_dashboard/ui/owner_dashboard_page.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final session = ref.watch(sessionProvider);
@@ -84,7 +78,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         );
         if (redirect != null) return redirect;
         return appRoleAsync.maybeWhen(
-          data: _panelHomeForRole,
+          data: businessHomeForRole,
           orElse: () => null,
         );
       }
@@ -107,7 +101,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
       if (!isPublicRoute && !isPanelRoute) {
         return loggedIn
-            ? _panelHomeForRole(appRoleAsync.asData?.value ?? AppRole.user)
+            ? businessHomeForRole(appRoleAsync.asData?.value ?? AppRole.user)
             : '/';
       }
 
@@ -150,7 +144,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/owner/menus',
-            builder: (c, s) => const OwnerMenuBuilderPage(),
+            builder: (c, s) => const OwnerMenusPage(),
           ),
           GoRoute(
             path: '/owner/requests',
@@ -158,7 +152,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/owner/businesses',
-            builder: (c, s) => const OwnerBusinessesPageWrapper(),
+            builder: (c, s) => const OwnerBusinessesPage(),
           ),
           GoRoute(
             path: '/owner/businesses/new',
@@ -255,6 +249,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/admin/dev-tools',
             builder: (c, s) => const AdminDevToolsPage(),
+          ),
+          GoRoute(
+            path: '/admin/observability',
+            builder: (c, s) => const AdminObservabilityPage(),
           ),
           GoRoute(
             path: '/admin/b2b-exports',

@@ -45,9 +45,9 @@ Kanit:
 | QR generator | `/dashboard/businesses/[id]/qr` | Gorunur |
 | Public menu | `/b/[slug]` | Gorunur |
 | QR redirect | `/q/[code]` | Gorunur |
-| Admin | `/admin` | Gorunur ama placeholder |
-| Owner | `/owner` | Redirect (`/dashboard/businesses`) |
-| Menu builder | `/menu-builder` | Redirect (`/dashboard/businesses`) |
+| Admin | `/admin` | Panel web'e yonlendirme (`BASE_URL_PANEL/admin`) |
+| Owner | `/owner` | Panel web'e yonlendirme (`BASE_URL_PANEL/owner`) |
+| Menu builder | `/menu-builder` | Panel web'e yonlendirme (`BASE_URL_PANEL/owner/menus`) |
 | Devtools | `/devtools` | Gorunur (env + non-prod gate) |
 
 Kanit:
@@ -61,10 +61,12 @@ Kanit:
 
 ## Mevcut Ama Bagli Olmayan/Kismi Unsurlar
 
-- `qr_menu_next/` sadece artifact (`.next`, `node_modules`).
-- `packages/shared` var ama package yapisi tamam degil (`package.json` yok) ve dogrudan import izine rastlanmadi.
+- `qr_menu_next/` kaldirildi (artifact temizlik tamamlandi).
+- `packages/shared` kaldirildi; aktif schema kaynaklari `apps/web_next/src/shared/schemas/*`.
 
 Kanit:
-- `qr_menu_next/*`
-- `packages/shared/README.md`
-- `packages/*` envanteri ve import taramasi
+- `apps/web_next/app/admin/page.tsx`
+- `apps/web_next/app/owner/page.tsx`
+- `apps/web_next/app/menu-builder/page.tsx`
+- `apps/web_next/src/lib/panelUrl.ts`
+- `apps/web_next/src/shared/schemas/*`

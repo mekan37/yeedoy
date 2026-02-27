@@ -77,24 +77,23 @@ Kanit:
 - `apps/web_next/app/q/[code]/page.tsx`
 
 Dikkat:
-- `/admin` sayfasi placeholder metin seviyesinde.
-- `/owner` ve `/menu-builder` dashboard'a redirect.
+- `/admin`, `/owner`, `/menu-builder` route'lari Flutter panel web'e yonlendirilir (`BASE_URL_PANEL`).
 
 Kanit:
 - `apps/web_next/app/admin/page.tsx`
 - `apps/web_next/app/owner/page.tsx`
 - `apps/web_next/app/menu-builder/page.tsx`
+- `apps/web_next/src/lib/panelUrl.ts`
 
 ## Ortak Paketler
 
 `packages/` altinda:
-- `api_client`, `l10n_assets`, `shared`, `shared_config`, `shared_types`, `ui_tokens`
+- `api_client`, `l10n_assets`, `shared_config`, `shared_types`, `ui_tokens`
 
 Durum:
-- `packages/shared` icinde `package.json` yok.
-- Kodda `@yeedoy/*` importu bulunamadi.
+- `packages/shared` kaldirildi (kullanim izi yoktu).
+- Web tarafinda aktif ortak schema kaynagi: `apps/web_next/src/shared/schemas/*`.
 
 Kanit:
 - `packages/*`
-- `packages/shared/README.md`
-- `apps` ve `packages` genel import taramasi
+- `apps/web_next/src/shared/schemas/*`

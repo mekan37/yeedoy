@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/security/app_role_providers.dart';
 import '../../../l10n/app_localizations.dart';
+import '../domain/business_auth_redirect.dart';
 import '../data/auth_service_provider.dart';
 
 class BusinessLoginPage extends ConsumerStatefulWidget {
@@ -45,10 +46,14 @@ class _BusinessLoginPageState extends ConsumerState<BusinessLoginPage> {
       switch (role) {
         case AppRole.admin:
         case AppRole.communityMod:
-          context.go('/admin');
-          return;
         case AppRole.owner:
-          context.go('/owner');
+          context.go(
+            resolveBusinessPostLoginPath(
+              role: role,
+              encodedRedirect:
+                  GoRouterState.of(context).uri.queryParameters['redirect'],
+            ),
+          );
           return;
         case AppRole.user:
           setState(() {

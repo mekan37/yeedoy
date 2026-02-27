@@ -12,7 +12,7 @@ void main() {
       isTrue,
     );
     expect(
-      MicrocopyStyleGuide.isCanonical(intent: 'cancel', text: 'VazgeÃ§'),
+      MicrocopyStyleGuide.isCanonical(intent: 'cancel', text: 'Vazgeç'),
       isTrue,
     );
   });

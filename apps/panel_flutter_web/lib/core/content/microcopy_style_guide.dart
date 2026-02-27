@@ -1,4 +1,4 @@
-﻿class MicrocopyStyleGuide {
+class MicrocopyStyleGuide {
   const MicrocopyStyleGuide._();
 
   // Action verbs: always use the same verb for the same intent.

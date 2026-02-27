@@ -1,49 +1,67 @@
-# QA / Test Strategy (Az ama Altin)
+# Panel Web QA Stratejisi
 
-## 1) Golden path integration testleri
+Bu belge `apps/panel_flutter_web` için mevcut test ve kontrol akışını özetler.
 
-- Dosya: `integration_test/golden_paths_integration_test.dart`
-- Kapsam:
-  - `Home -> Business -> Menu -> Verify Price`
-  - `Login -> Review submit`
-- Calistirma:
-  - `flutter test integration_test/golden_paths_integration_test.dart`
+## 1) Birim ve web-guvenlik testleri
 
-## 2) Snapshot / Golden UI testleri
+- Önbellek davranışı:
+  - `flutter test test/core/cache/ttl_memory_cache_test.dart`
+- Mikro kopya kural seti:
+  - `flutter test test/core/content/microcopy_style_guide_test.dart`
+- Tasarım sistemi kalite kapısı:
+  - `flutter test test/ui/design_system_quality_gates_test.dart`
+- Web rota/sanitizasyon kuralları:
+  - `flutter test test/web/security/route_sanitizer_test.dart`
+- Admin rol yetki matrisi:
+  - `flutter test test/web/security/admin_permissions_test.dart`
+
+Tüm testleri toplu çalıştırmak için:
+
+```bash
+flutter test
+```
+
+## 2) Golden testleri (opsiyonel)
 
 - Dosya: `test/ui/golden/basic_surfaces_golden_test.dart`
-- Not: Golden testler default kapali.
-- Calistirma:
-  - `flutter test --dart-define=RUN_GOLDENS=true test/ui/golden/basic_surfaces_golden_test.dart`
-- Golden guncelleme:
-  - `flutter test --update-goldens --dart-define=RUN_GOLDENS=true test/ui/golden/basic_surfaces_golden_test.dart`
+- Varsayılan olarak kapalıdır.
 
-## 3) API contract testleri
+Çalıştırma:
 
-- Dosya: `test/core/contracts/discovery_api_contract_test.dart`
-- Kapsam:
-  - `home_feed_v1` payload parse kontrati
-  - `search_businesses_v1` item kontrati
-- Calistirma:
-  - `flutter test test/core/contracts/discovery_api_contract_test.dart`
+```bash
+flutter test --dart-define=RUN_GOLDENS=true test/ui/golden/basic_surfaces_golden_test.dart
+```
 
-## 4) Load test (home_feed, search, business)
+Golden güncelleme:
+
+```bash
+flutter test --update-goldens --dart-define=RUN_GOLDENS=true test/ui/golden/basic_surfaces_golden_test.dart
+```
+
+## 3) Statik analiz
+
+```bash
+flutter analyze
+```
+
+## 4) Güvenlik ve sürüm kapıları
+
+- Güvenlik kontrolü:
+  - `dart run tool/security_review_check.dart`
+  - Katı mod: `dart run tool/security_review_check.dart --strict`
+- RPC versiyon kuralı:
+  - `dart run tool/api_version_gate_check.dart`
+
+## 5) Yük testi (k6)
 
 - Dosya: `tool/load/k6_home_search_business.js`
-- Arac: `k6`
-- Calistirma:
-  - `k6 run tool/load/k6_home_search_business.js -e BASE_URL=https://<your-edge-base-url> -e AUTH_HEADER=\"Bearer <token>\" -e BUSINESS_ID=<uuid>`
-- Hedefler:
-  - Home p95 < 1200ms
-  - Search p95 < 800ms
-  - Business p95 < 800ms
+- Örnek:
 
-## 5) Release gate entegrasyonu
+```bash
+k6 run tool/load/k6_home_search_business.js -e BASE_URL=https://<edge-base-url> -e AUTH_HEADER="Bearer <token>" -e BUSINESS_ID=<uuid>
+```
 
-- Dosya: `tool/release_gate_check.dart`
-- Gating:
-  - Crash-free
-  - Jank rate
-  - Latency SLO
-  - Security checklist
-  - Rollout health (canary) + auto rollback
+Hedefler (script içinde):
+- `home_feed` p95 < 1200ms
+- `search` p95 < 800ms
+- `business` p95 < 800ms

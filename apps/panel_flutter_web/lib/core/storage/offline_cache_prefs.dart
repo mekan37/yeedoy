@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/business/domain/business.dart';
 import '../../features/menus/domain/menu_models.dart';
-import '../../src/domain/models/business_detail.dart';
+import '../../domain/models/business_detail.dart';
 
 class OfflineCachePrefs {
   static const _recentBusinessIdsKey = 'recent_business_ids_v1';

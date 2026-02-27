@@ -19,7 +19,7 @@ const _criticalRpcPrefixes = <String>[
 const _allowlistPathContains = <String>[
   'core/security/write_gatekeeper_client.dart',
   'core/security/admin_api_client.dart',
-  'src/features/admin/',
+  'features/admin/',
   'supabase/',
 ];
 

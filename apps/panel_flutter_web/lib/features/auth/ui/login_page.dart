@@ -1,12 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/brand/brand_widgets.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
-import '../../../src/ui/components/app_scaffold.dart';
-import '../../../src/ui/design_system.dart';
+import '../../../shared/ui/components/app_scaffold.dart';
+import '../../../shared/ui/design_system.dart';
 import '../data/auth_service_provider.dart';
 
 enum _AuthAction { signIn, signUp }

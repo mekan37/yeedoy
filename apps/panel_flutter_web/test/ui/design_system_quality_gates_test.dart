@@ -1,10 +1,10 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/src/ui/components/app_badge.dart';
-import 'package:yeedoy/src/ui/components/app_button.dart';
-import 'package:yeedoy/src/ui/components/app_chip.dart';
-import 'package:yeedoy/src/ui/components/app_empty_state.dart';
-import 'package:yeedoy/src/ui/theme/app_tokens.dart';
+import 'package:yeedoy/shared/ui/components/app_badge.dart';
+import 'package:yeedoy/shared/ui/components/app_button.dart';
+import 'package:yeedoy/shared/ui/components/app_chip.dart';
+import 'package:yeedoy/shared/ui/components/app_empty_state.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
 
 void main() {
   ThemeData testTheme() {

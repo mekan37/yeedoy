@@ -1,46 +1,47 @@
 # Release Gate
 
-Bu kontrol release oncesi kalite + guvenlik + rollout kapisi icin kullanilir.
+Bu klasörde panel web sürümü için iki zorunlu kapı scripti bulunur.
 
-## Beklenen metrik JSON formati
+## 1) Güvenlik kapısı
 
-```json
-{
-  "crash_free_rate": 0.998,
-  "jank_rate": 0.006,
-  "startup_p95_ms": 1800,
-  "home_tti_p95_ms": 1000,
-  "search_hit_p95_ms": 220,
-  "search_miss_p95_ms": 700,
-  "security": {
-    "zero_trust_write": true,
-    "waf_ip_reputation": true,
-    "device_fingerprint_soft": true,
-    "pii_minimized": true,
-    "security_review_checklist_done": true
-  },
-  "release_ops": {
-    "backend_feature_flags": true,
-    "kill_switch_ready": true,
-    "api_versioning_enforced": true,
-    "current_rollout_percent": 5,
-    "stages": [1, 5, 20, 100],
-    "crash_free_rate": 0.999,
-    "jank_rate": 0.005,
-    "home_tti_p95_ms": 980,
-    "edge_429_rate": 0.01
-  }
-}
-```
-
-## Calistirma
+Script:
 
 ```bash
-dart run tool/release_gate_check.dart <metrics.json>
+dart run tool/security_review_check.dart
 ```
 
-- `PASS` -> release devam eder
-- `BLOCK` -> release durur
-- `ACTION: ROLLOUT_NEXT_STAGE_X` -> bir sonraki asamaya gec
-- `ACTION: AUTO_ROLLBACK_TRIGGER` -> otomatik rollback tetikle
-- `ACTION: ROLLBACK_RECOMMENDED` -> SLO bazli rollback onerisi
+Katı mod (bulgu varsa hata kodu ile çık):
+
+```bash
+dart run tool/security_review_check.dart --strict
+```
+
+Kontrol ettiği başlıklar:
+- Doğrudan kritik DB yazımı (`insert/update/upsert/delete`) kullanımı
+- Kritik RPC adları (`submit_*`, `owner_*`, `admin_*`, vb.)
+- Yalnızca izinli katmanlarda (`core/security/*`, `features/admin/*`) kritik yazma akışı
+
+## 2) API versiyon kapısı
+
+Script:
+
+```bash
+dart run tool/api_version_gate_check.dart
+```
+
+Kural:
+- `rpc('...')` çağrılarında isim sonu sürüm içermelidir (`_v1`, `_v2` vb.).
+- Kural ihlalinde script `BLOCK` döndürür ve hatalı dosya/satırları listeler.
+
+## 3) CI önerisi
+
+Release pipeline sırası:
+
+1. `flutter analyze`
+2. `flutter test`
+3. `flutter test test/web/security/route_sanitizer_test.dart`
+4. `flutter test test/web/security/admin_permissions_test.dart`
+5. `dart run tool/security_review_check.dart --strict`
+6. `dart run tool/api_version_gate_check.dart`
+
+Bu adımlar geçmeden release alınmamalıdır.

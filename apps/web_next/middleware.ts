@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const protectedPrefixes = ['/dashboard', '/owner', '/admin', '/menu-builder'];
+  const protectedPrefixes = ['/dashboard'];
   const isProtected = protectedPrefixes.some((prefix) =>
     request.nextUrl.pathname.startsWith(prefix),
   );
@@ -38,45 +38,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (request.nextUrl.pathname.startsWith('/admin') && user) {
-    const [adminRpc, adminRow] = await Promise.all([
-      getIsAdmin(supabase),
-      getAdminRow(supabase, user.id),
-    ]);
-    const isAdmin = Boolean(adminRpc) || Boolean(adminRow?.user_id);
-    if (!isAdmin) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-  }
-
   return response;
 }
 
-async function getIsAdmin(supabase: ReturnType<typeof createServerClient>) {
-  try {
-    const { data } = await supabase.rpc('is_admin');
-    return Boolean(data);
-  } catch {
-    return false;
-  }
-}
-
-async function getAdminRow(
-  supabase: ReturnType<typeof createServerClient>,
-  userId: string,
-) {
-  try {
-    const { data } = await supabase
-      .from('admin_users')
-      .select('user_id')
-      .eq('user_id', userId)
-      .maybeSingle();
-    return data;
-  } catch {
-    return null;
-  }
-}
-
 export const config = {
-  matcher: ['/dashboard/:path*', '/owner/:path*', '/admin/:path*', '/menu-builder/:path*'],
+  matcher: ['/dashboard/:path*'],
 };

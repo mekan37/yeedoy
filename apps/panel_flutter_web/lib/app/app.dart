@@ -1,11 +1,11 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'router.dart';
 import '../core/i18n/app_localizations.dart';
 import '../core/i18n/locale_controller.dart';
-import '../src/ui/theme/app_theme.dart';
+import 'theme/app_theme.dart';
 
 class YeedoyApp extends ConsumerWidget {
   const YeedoyApp({super.key});

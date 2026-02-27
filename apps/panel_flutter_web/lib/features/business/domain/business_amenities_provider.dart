@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../src/data/repositories/business_amenities_repository.dart';
+import '../../../data/repositories/business_amenities_repository.dart';
 import 'business_amenity.dart';
 
 final allAmenitiesProvider = FutureProvider<List<BusinessAmenity>>((ref) async {

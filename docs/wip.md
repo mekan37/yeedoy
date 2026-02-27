@@ -16,25 +16,22 @@
 
 ## Guvenlik/Operasyon Aciklari
 
-1. `supabase/remote_schema.sql` ve `supabase/remote_schema_latest.sql` bos.
-2. `panel_flutter_web` icin production domain/env dokumani hala eksik (normal hosting + Next baglantisi).
+1. `panel_flutter_web` icin production domain/env dokumani hala eksik (normal hosting + Next baglantisi).
 
 Kanit:
-- `supabase/remote_schema.sql`
-- `supabase/remote_schema_latest.sql`
 - `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`
 
 ## Test Aciklari
 
-1. Web Next tarafinda test dosyasi bulunamadi; script smoke ile sinirli.
-   - Kanit: `apps/web_next/package.json`, `apps/web_next` test dosya taramasi
-2. Panelde `integration_test` klasoru bulunamadi.
+1. Panelde `integration_test` klasoru bulunamadi.
    - Kanit: `apps/panel_flutter_web/test/*`, `apps/panel_flutter_web/integration_test` (bulunamadi)
+2. Web Next test kapsami baslangic seviyesinde (component + API route unit test var, e2e yok).
+   - Kanit: `apps/web_next/test/*`, `apps/web_next/package.json`
 
 ## Mevcut Ama Kullanilmayan/Kismi Bagli
 
-1. `qr_menu_next/` artifact klasoru.
-2. `packages/shared` package yapisi eksik (`package.json` yok).
+1. Acik kritik artifact klasoru kalmadi (`qr_menu_next/` kaldirildi).
+2. `packages/shared` kaldirildi; aktif paylasilan schema kaynagi `apps/web_next/src/shared/*`.
 
 ## Kapatma Kriteri
 

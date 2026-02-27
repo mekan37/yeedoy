@@ -1,4 +1,4 @@
-﻿import '../config/app_config.dart';
+import '../config/app_config.dart';
 
 class AppStrings {
   const AppStrings._();

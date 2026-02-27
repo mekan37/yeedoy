@@ -13,8 +13,8 @@ import '../../../core/i18n/formatters.dart';
 import '../../../core/media/app_network_image.dart';
 import '../../../core/web/seo.dart';
 import '../../../core/web/web_utils.dart';
-import '../../../src/ui/components/app_scaffold.dart';
-import '../../../src/ui/design_system.dart';
+import '../../../shared/ui/components/app_scaffold.dart';
+import '../../../shared/ui/design_system.dart';
 import '../data/menu_repository.dart';
 
 class PublicMenuSharePage extends ConsumerStatefulWidget {

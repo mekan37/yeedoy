@@ -23,21 +23,24 @@ Bu liste yalnizca koddan gorulen aciklara dayanir.
 ## P1 (Kisa Vade)
 
 1. Flutter panel web giris akisinin sertlestirilmesi
-   - Durum: Cekirdek tamamlandi (`/`, `/isletme-giris`, `/isletme-kayit` + role bazli yonlendirme + panel kapsam disi route temizligi)
-   - Kalan: deep-link testleri, yetki-hata UX iyilestirmesi
+   - Durum: Tamamlandi (`/`, `/isletme-giris`, `/isletme-kayit` + role bazli yonlendirme + deep-link/yetki testleri)
 2. Next panel gecis kararini netlestir
-   - `/admin`, `/owner`, `/menu-builder` stratejisi
+   - Durum: Tamamlandi (`/admin`, `/owner`, `/menu-builder` -> panel web yonlendirme)
 3. Next test katmanini smoke ustune cikar
-   - Unit/integration test dosyalari eklenmeli
+   - Durum: Baslangic tamamlandi (vitest + component/API route unit testleri)
 4. Supabase schema snapshot bosluklarini kapat
-   - `supabase/remote_schema.sql`, `supabase/remote_schema_latest.sql`
+   - Durum: Tamamlandi (`supabase/remote_schema.sql`, `supabase/remote_schema_latest.sql`)
 
 ## P2 (Orta Vade)
 
 1. Monitoring/perf/prefs icin gorunur tani UI
+   - Durum: Tamamlandi (`/admin/observability`)
 2. `qr_menu_next/` artifact klasor temizligi
+   - Durum: Tamamlandi
 3. `packages/shared` konsolidasyonu
+   - Durum: Tamamlandi (kaldirildi; `apps/web_next/src/shared/*` tek kaynak)
 4. Root PowerShell scriptlerine cross-platform alternatif
+   - Durum: Acik
 
 ## Referans
 

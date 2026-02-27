@@ -146,3 +146,28 @@ Not:
   - Islem: Silinen quality modullerine bagli oldugu icin kaldirildi.
 - Dogrulama:
   - `apps/panel_flutter_web` icinde `flutter analyze` temiz.
+
+## 2026-02-27 (P2 Tamamlama - Observability ve Artifact Temizligi)
+
+- `apps/panel_flutter_web/lib/features/admin/ui/admin_observability_page.dart`
+  - Islem: Yeni tani ekrani eklendi (request trace + perf SLO + prefs explorer).
+- `apps/panel_flutter_web/lib/app/router.dart`
+  - Islem: `/admin/observability` route'u eklendi.
+- `apps/panel_flutter_web/lib/features/admin/ui/admin_shell.dart`
+  - Islem: Sol menüye `Observability` girdisi eklendi.
+- `qr_menu_next/`
+  - Islem: Kaldirildi.
+  - Gerekce: Sadece artifact (`.next`, `node_modules`), aktif kod baglantisi yok.
+- `packages/shared/`
+  - Islem: Kaldirildi.
+  - Gerekce: Dogrudan import/kullanim izi yok; aktif schema kaynaklari `apps/web_next/src/shared/schemas/*` altinda.
+- `node/`
+  - Islem: Kaldirildi.
+  - Gerekce: Sadece tarih damgali build/node_modules/dart_tool artifact klasorleri iceriyordu (`node_modules_20260217_145653`, `build_20260217_145653`, `.dart_tool_20260217_145653`); aktif kod referansi yok.
+- Dokuman guncellemeleri:
+  - `docs/vision_status.md`
+  - `docs/cleanup_decision_matrix.md`
+  - `docs/wip.md`
+  - `docs/roadmap.md`
+  - `docs/apps.md`
+  - `docs/module_visibility_matrix.md`
