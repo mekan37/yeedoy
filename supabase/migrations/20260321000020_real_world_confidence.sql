@@ -3,10 +3,8 @@ alter table if exists public.menu_item_price_suggestions
   add column if not exists captured_at timestamptz,
   add column if not exists onsite_verified boolean not null default false,
   add column if not exists onsite_signal text;
-
 create index if not exists menu_item_price_suggestions_onsite_idx
   on public.menu_item_price_suggestions(menu_item_id, onsite_verified, created_at desc);
-
 create or replace function public.submit_menu_item_price_suggestion_v3(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
@@ -81,11 +79,9 @@ begin
   );
 end;
 $$;
-
 grant all on function public.submit_menu_item_price_suggestion_v3(uuid, integer, text, text, text, text, timestamptz) to anon;
 grant all on function public.submit_menu_item_price_suggestion_v3(uuid, integer, text, text, text, text, timestamptz) to authenticated;
 grant all on function public.submit_menu_item_price_suggestion_v3(uuid, integer, text, text, text, text, timestamptz) to service_role;
-
 create or replace function public.get_menu_item_price_status_v1(p_menu_item_id uuid)
 returns jsonb
 language sql
@@ -188,7 +184,6 @@ as $$
   left join latest on true
   left join consensus on true;
 $$;
-
 create or replace function public.get_business_reality_score_v1(
   p_business_id uuid
 ) returns jsonb
@@ -247,7 +242,6 @@ as $$
   )
   from points;
 $$;
-
 grant all on function public.get_business_reality_score_v1(uuid) to anon;
 grant all on function public.get_business_reality_score_v1(uuid) to authenticated;
 grant all on function public.get_business_reality_score_v1(uuid) to service_role;

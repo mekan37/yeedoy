@@ -1,16 +1,13 @@
 begin;
-
 create table if not exists public.runtime_release_controls (
   id boolean primary key default true check (id = true),
   global_kill_switch boolean not null default false,
   updated_by uuid null,
   updated_at timestamptz not null default now()
 );
-
 insert into public.runtime_release_controls (id, global_kill_switch)
 values (true, false)
 on conflict (id) do nothing;
-
 create table if not exists public.runtime_feature_flags (
   key text primary key,
   enabled boolean not null default false,
@@ -21,17 +18,14 @@ create table if not exists public.runtime_feature_flags (
   updated_by uuid null,
   updated_at timestamptz not null default now()
 );
-
 alter table public.runtime_release_controls enable row level security;
 alter table public.runtime_feature_flags enable row level security;
-
 drop policy if exists runtime_release_controls_select_all on public.runtime_release_controls;
 create policy runtime_release_controls_select_all
 on public.runtime_release_controls
 for select
 to authenticated, anon
 using (true);
-
 drop policy if exists runtime_release_controls_admin_write on public.runtime_release_controls;
 create policy runtime_release_controls_admin_write
 on public.runtime_release_controls
@@ -39,14 +33,12 @@ for all
 to authenticated
 using (coalesce(public.is_admin(), false))
 with check (coalesce(public.is_admin(), false));
-
 drop policy if exists runtime_feature_flags_select_all on public.runtime_feature_flags;
 create policy runtime_feature_flags_select_all
 on public.runtime_feature_flags
 for select
 to authenticated, anon
 using (true);
-
 drop policy if exists runtime_feature_flags_admin_write on public.runtime_feature_flags;
 create policy runtime_feature_flags_admin_write
 on public.runtime_feature_flags
@@ -54,7 +46,6 @@ for all
 to authenticated
 using (coalesce(public.is_admin(), false))
 with check (coalesce(public.is_admin(), false));
-
 create or replace function public.get_runtime_feature_flags_v1(
   p_user_id uuid default auth.uid()
 )
@@ -94,7 +85,5 @@ begin
   );
 end;
 $$;
-
 grant execute on function public.get_runtime_feature_flags_v1(uuid) to anon, authenticated;
-
 commit;

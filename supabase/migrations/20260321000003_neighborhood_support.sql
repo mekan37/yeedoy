@@ -1,9 +1,7 @@
 alter table public.businesses
   add column if not exists neighborhood text;
-
 alter table public.user_location_prefs
   add column if not exists neighborhood text;
-
 create or replace function public.upsert_user_location_prefs_v1(
   p_city text,
   p_district text,
@@ -36,7 +34,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.get_user_location_prefs_v1()
 returns jsonb
 language plpgsql
@@ -71,11 +68,9 @@ begin
   );
 end;
 $$;
-
 grant all on function public.upsert_user_location_prefs_v1(text, text, text, text) to anon;
 grant all on function public.upsert_user_location_prefs_v1(text, text, text, text) to authenticated;
 grant all on function public.upsert_user_location_prefs_v1(text, text, text, text) to service_role;
-
 grant all on function public.get_user_location_prefs_v1() to anon;
 grant all on function public.get_user_location_prefs_v1() to authenticated;
 grant all on function public.get_user_location_prefs_v1() to service_role;

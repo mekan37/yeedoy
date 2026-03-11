@@ -1,30 +1,3 @@
-do $$
-begin
-  if not exists (
-    select 1 from pg_type where typname = 'menu_price_suggestion_status'
-  ) then
-    create type public.menu_price_suggestion_status as enum (
-      'pending', 'approved', 'rejected'
-    );
-  end if;
-end $$;
-
-create table if not exists public.menu_item_price_suggestions (
-  id uuid primary key default gen_random_uuid(),
-  menu_item_id uuid not null references public.menu_items(id) on delete cascade,
-  business_id uuid not null references public.businesses(id) on delete cascade,
-  suggested_price_cents integer not null,
-  currency text not null default 'TRY',
-  note text null,
-  created_by uuid not null,
-  created_at timestamptz default now(),
-  status public.menu_price_suggestion_status not null default 'pending',
-  handled_by uuid null,
-  handled_at timestamptz null,
-  approved_by uuid null,
-  approved_at timestamptz null
-);
-
 create or replace function public.admin_list_menu_price_suggestions_v2(
   p_status text default null,
   p_limit integer default 30,
@@ -95,7 +68,6 @@ as $function$
   order by (s.status='pending') desc, s.created_at asc
   limit greatest(p_limit,0) offset greatest(p_offset,0);
 $function$;
-
 create or replace function public.admin_export_menu_price_suggestions_csv_v1(
   p_status text default null,
   p_sla_only boolean default false,

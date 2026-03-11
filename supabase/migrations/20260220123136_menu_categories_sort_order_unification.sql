@@ -14,7 +14,7 @@ alter table public.menu_categories
 create or replace function public.menu_categories_sync_sort_columns_v1()
 returns trigger
 language plpgsql
-as 
+as $$
 begin
   if tg_op = 'INSERT' then
     if new.sort_order is null and new.sort is not null then
@@ -34,7 +34,7 @@ begin
 
   return new;
 end;
-;
+$$;
 
 drop trigger if exists trg_menu_categories_sync_sort_columns on public.menu_categories;
 create trigger trg_menu_categories_sync_sort_columns
@@ -46,4 +46,4 @@ create index if not exists idx_menu_categories_business_id_sort_order
 
 comment on column public.menu_categories.sort is 'DEPRECATED: replaced by sort_order';
 
-commit;
+commit;;

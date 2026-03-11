@@ -18,12 +18,10 @@ create table if not exists public.group_requests (
   constraint group_requests_status_check
     check (status in ('open','closed','awarded','cancelled'))
 );
-
 create index if not exists group_requests_city_date_idx
   on public.group_requests (city, date_time);
 create index if not exists group_requests_status_created_idx
   on public.group_requests (status, created_at desc);
-
 create table if not exists public.group_offers (
   id uuid primary key default gen_random_uuid(),
   request_id uuid not null references public.group_requests(id) on delete cascade,
@@ -37,16 +35,13 @@ create table if not exists public.group_offers (
   constraint group_offers_status_check
     check (status in ('submitted','withdrawn','accepted','rejected'))
 );
-
 create unique index if not exists group_offers_unique_active
   on public.group_offers (request_id, business_id)
   where status in ('submitted','accepted');
-
 create index if not exists group_offers_request_created_idx
   on public.group_offers (request_id, created_at desc);
 create index if not exists group_offers_business_created_idx
   on public.group_offers (business_id, created_at desc);
-
 create table if not exists public.offer_messages (
   id uuid primary key default gen_random_uuid(),
   request_id uuid not null references public.group_requests(id) on delete cascade,
@@ -59,29 +54,23 @@ create table if not exists public.offer_messages (
   constraint offer_messages_sender_type_check
     check (sender_type in ('user','business','admin'))
 );
-
 create index if not exists offer_messages_request_created_idx
   on public.offer_messages (request_id, created_at desc);
-
 -- RLS
 alter table public.group_requests enable row level security;
 alter table public.group_offers enable row level security;
 alter table public.offer_messages enable row level security;
-
 -- group_requests
 drop policy if exists group_requests_owner_select on public.group_requests;
 create policy group_requests_owner_select on public.group_requests
   for select using (created_by = auth.uid() or public.is_admin());
-
 drop policy if exists group_requests_owner_insert on public.group_requests;
 create policy group_requests_owner_insert on public.group_requests
   for insert with check (created_by = auth.uid() or public.is_admin());
-
 drop policy if exists group_requests_owner_update on public.group_requests;
 create policy group_requests_owner_update on public.group_requests
   for update using (created_by = auth.uid() or public.is_admin())
   with check (created_by = auth.uid() or public.is_admin());
-
 -- group_offers
 drop policy if exists group_offers_business_select on public.group_offers;
 create policy group_offers_business_select on public.group_offers
@@ -93,16 +82,13 @@ create policy group_offers_business_select on public.group_offers
       where r.id = request_id and r.created_by = auth.uid()
     )
   );
-
 drop policy if exists group_offers_business_insert on public.group_offers;
 create policy group_offers_business_insert on public.group_offers
   for insert with check (public.is_admin() or public.is_owner_of_business(business_id));
-
 drop policy if exists group_offers_business_update on public.group_offers;
 create policy group_offers_business_update on public.group_offers
   for update using (public.is_admin() or public.is_owner_of_business(business_id))
   with check (public.is_admin() or public.is_owner_of_business(business_id));
-
 -- offer_messages
 drop policy if exists offer_messages_read on public.offer_messages;
 create policy offer_messages_read on public.offer_messages
@@ -114,7 +100,6 @@ create policy offer_messages_read on public.offer_messages
     )
     or (business_id is not null and public.is_owner_of_business(business_id))
   );
-
 drop policy if exists offer_messages_insert on public.offer_messages;
 create policy offer_messages_insert on public.offer_messages
   for insert with check (
@@ -125,7 +110,6 @@ create policy offer_messages_insert on public.offer_messages
     )
     or (business_id is not null and public.is_owner_of_business(business_id))
   );
-
 -- RPCs
 create or replace function public.create_group_request_v1(
   p_city text,
@@ -187,7 +171,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id);
 end;
 $$;
-
 create or replace function public.list_group_requests_v1(
   p_status text default null,
   p_city text default null,
@@ -235,7 +218,6 @@ as $$
   order by r.created_at desc
   limit p_limit offset p_offset;
 $$;
-
 create or replace function public.list_open_requests_for_business_v1(
   p_city text,
   p_categories text[] default null,
@@ -280,7 +262,6 @@ as $$
   order by r.date_time asc
   limit p_limit offset p_offset;
 $$;
-
 create or replace function public.submit_group_offer_v1(
   p_request_id uuid,
   p_business_id uuid,
@@ -340,7 +321,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.accept_group_offer_v1(
   p_offer_id uuid
 ) returns jsonb
@@ -377,7 +357,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.close_group_request_v1(
   p_request_id uuid
 ) returns jsonb

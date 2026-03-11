@@ -6,24 +6,19 @@ create table if not exists public.group_offer_votes (
   created_at timestamptz not null default now(),
   primary key (offer_id, user_id)
 );
-
 alter table public.group_offer_votes enable row level security;
-
 create policy "group_offer_votes_select_own"
   on public.group_offer_votes
   for select
   using (auth.uid() = user_id);
-
 create policy "group_offer_votes_insert_own"
   on public.group_offer_votes
   for insert
   with check (auth.uid() = user_id);
-
 create policy "group_offer_votes_delete_own"
   on public.group_offer_votes
   for delete
   using (auth.uid() = user_id);
-
 -- Returns offers with vote counts + my_vote
 create or replace function public.get_group_offers_v1(p_request_id uuid)
 returns table(
@@ -62,7 +57,6 @@ returns table(
   where o.request_id = p_request_id
   order by v.count desc, o.created_at desc;
 $$;
-
 -- Toggle vote for an offer (1 = voted, 0 = removed)
 create or replace function public.vote_group_offer_v1(p_offer_id uuid)
 returns jsonb
@@ -90,7 +84,6 @@ begin
   end if;
 end;
 $$;
-
 grant all on table public.group_offer_votes to anon, authenticated, service_role;
 grant all on function public.get_group_offers_v1(uuid) to anon, authenticated, service_role;
 grant all on function public.vote_group_offer_v1(uuid) to anon, authenticated, service_role;

@@ -138,4 +138,3 @@ as $$
   order by total_cents asc
   limit p_limit;
 $$;
-

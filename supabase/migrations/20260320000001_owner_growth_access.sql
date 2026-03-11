@@ -47,7 +47,6 @@ begin
   order by d.day;
 end;
 $$;
-
 grant all on function public.analytics_growth_v2(integer, uuid) to anon;
 grant all on function public.analytics_growth_v2(integer, uuid) to authenticated;
 grant all on function public.analytics_growth_v2(integer, uuid) to service_role;

@@ -2,7 +2,6 @@ do $$
 begin
   raise exception 'DROP PLAN - review required';
 end $$;
-
 -- DROP PLAN ONLY - DISABLED BY DEFAULT
 -- This file is intentionally blocked to prevent accidental execution.
 -- Preconditions for each drop candidate:
@@ -48,4 +47,4 @@ end $$;
 --   c.refobjid,
 --   c.deptype
 -- from pg_depend c
--- where c.refobjid = 'public.admin_business_suggestions_queue_v1'::regclass;
+-- where c.refobjid = 'public.admin_business_suggestions_queue_v1'::regclass;;

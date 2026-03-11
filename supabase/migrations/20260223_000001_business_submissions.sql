@@ -12,24 +12,18 @@ create table if not exists public.business_submissions (
   admin_note text null,
   created_at timestamptz not null default now()
 );
-
 create index if not exists business_submissions_status_created_idx
   on public.business_submissions (status, created_at desc);
-
 alter table public.business_submissions enable row level security;
-
 drop policy if exists business_submissions_owner_select on public.business_submissions;
 create policy business_submissions_owner_select on public.business_submissions
   for select using (submitted_by = auth.uid());
-
 drop policy if exists business_submissions_owner_insert on public.business_submissions;
 create policy business_submissions_owner_insert on public.business_submissions
   for insert with check (submitted_by = auth.uid());
-
 drop policy if exists business_submissions_admin_all on public.business_submissions;
 create policy business_submissions_admin_all on public.business_submissions
   for all using (public.is_admin()) with check (public.is_admin());
-
 create or replace function public.owner_list_my_businesses_v1(
   p_status text default 'approved',
   p_limit int default 50,
@@ -65,7 +59,6 @@ as $$
   order by c.created_at desc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $$;
-
 create or replace function public.owner_list_my_business_submissions_v1(
   p_status text default null,
   p_limit int default 50,
@@ -110,7 +103,6 @@ as $$
   order by s.created_at desc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $$;
-
 create or replace function public.owner_submit_new_business_v1(
   p_name text,
   p_city text,
@@ -143,7 +135,6 @@ begin
   return jsonb_build_object('ok', true, 'request_id', v_id);
 end;
 $$;
-
 create or replace function public.admin_list_business_submissions_v1(
   p_status text default null,
   p_limit int default 50,
@@ -190,7 +181,6 @@ as $$
   order by s.created_at desc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $$;
-
 create or replace function public.admin_approve_business_submission_v1(
   p_submission_id uuid
 )
@@ -244,7 +234,6 @@ begin
   return jsonb_build_object('ok', true, 'business_id', v_business_id);
 end;
 $$;
-
 create or replace function public.admin_reject_business_submission_v1(
   p_submission_id uuid,
   p_note text default null

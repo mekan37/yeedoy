@@ -10,27 +10,21 @@ create table if not exists public.storage_deletion_queue (
   attempts int not null default 0,
   last_error text null
 );
-
 create index if not exists storage_deletion_queue_pending_idx
   on public.storage_deletion_queue (processed_at, scheduled_at)
   where processed_at is null;
-
 create index if not exists storage_deletion_queue_reason_idx
   on public.storage_deletion_queue (reason, scheduled_at desc);
-
 create unique index if not exists storage_deletion_queue_dedupe_idx
   on public.storage_deletion_queue (bucket, path, reason)
   where processed_at is null;
-
 alter table public.storage_deletion_queue enable row level security;
-
 drop policy if exists storage_deletion_queue_admin_select on public.storage_deletion_queue;
 create policy storage_deletion_queue_admin_select
 on public.storage_deletion_queue
 for select
 to authenticated
 using (coalesce(public.is_admin(), false));
-
 drop policy if exists storage_deletion_queue_admin_write on public.storage_deletion_queue;
 create policy storage_deletion_queue_admin_write
 on public.storage_deletion_queue
@@ -38,9 +32,7 @@ for all
 to authenticated
 using (coalesce(public.is_admin(), false))
 with check (coalesce(public.is_admin(), false));
-
 grant all on public.storage_deletion_queue to service_role;
-
 create or replace function public.promote_temp_upload_to_menu_asset_v1(
   p_temp_upload_id uuid,
   p_asset_type text,
@@ -131,10 +123,8 @@ begin
   );
 end;
 $$;
-
 grant execute on function public.promote_temp_upload_to_menu_asset_v1(uuid, text, int)
   to authenticated, service_role;
-
 create or replace function public.mark_expired_temp_uploads_v1(
   p_limit int default 500
 )
@@ -183,5 +173,4 @@ begin
   return v_count;
 end;
 $$;
-
 grant execute on function public.mark_expired_temp_uploads_v1(int) to service_role;

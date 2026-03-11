@@ -16,10 +16,7 @@ begin
     execute 'drop trigger trg_menu_categories_sync_sort_columns on public.menu_categories';
   end if;
 end $$;
-
 drop function if exists public.menu_categories_sync_sort_columns_v1();
-
 drop index if exists public.idx_menu_categories_business_id;
-
 alter table if exists public.menu_categories
   drop column if exists sort;

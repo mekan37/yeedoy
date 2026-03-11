@@ -84,11 +84,9 @@ as $$
     b.name asc
   limit greatest(p_limit, 1);
 $$;
-
 grant all on function public.get_chain_overview_v2(uuid, double precision, double precision, integer) to anon;
 grant all on function public.get_chain_overview_v2(uuid, double precision, double precision, integer) to authenticated;
 grant all on function public.get_chain_overview_v2(uuid, double precision, double precision, integer) to service_role;
-
 create or replace function public.analytics_growth_v3(
   p_days integer default 30,
   p_business_id uuid default null
@@ -213,7 +211,6 @@ begin
   order by e.day;
 end;
 $$;
-
 grant all on function public.analytics_growth_v3(integer, uuid) to anon;
 grant all on function public.analytics_growth_v3(integer, uuid) to authenticated;
 grant all on function public.analytics_growth_v3(integer, uuid) to service_role;

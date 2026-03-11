@@ -19,7 +19,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.admin_bulk_update_reports_status_v2(
   p_report_ids uuid[],
   p_status text,
@@ -38,7 +37,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.admin_list_reports_v5(
   p_status text default null,
   p_limit integer default 50,

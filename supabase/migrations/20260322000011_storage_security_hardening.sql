@@ -1,5 +1,4 @@
 begin;
-
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'menu-media-private',
@@ -12,7 +11,6 @@ on conflict (id) do update
 set public = excluded.public,
     file_size_limit = excluded.file_size_limit,
     allowed_mime_types = excluded.allowed_mime_types;
-
 drop policy if exists menu_media_private_insert_auth on storage.objects;
 create policy menu_media_private_insert_auth
   on storage.objects
@@ -29,7 +27,6 @@ create policy menu_media_private_insert_auth
       or lower(name) like '%.webp'
     )
   );
-
 drop policy if exists menu_media_private_read_owner_admin on storage.objects;
 create policy menu_media_private_read_owner_admin
   on storage.objects
@@ -39,7 +36,6 @@ create policy menu_media_private_read_owner_admin
     bucket_id = 'menu-media-private'
     and (owner = auth.uid() or public.is_admin())
   );
-
 drop policy if exists menu_media_private_update_owner_admin on storage.objects;
 create policy menu_media_private_update_owner_admin
   on storage.objects
@@ -53,7 +49,6 @@ create policy menu_media_private_update_owner_admin
     bucket_id = 'menu-media-private'
     and (owner = auth.uid() or public.is_admin())
   );
-
 drop policy if exists menu_media_private_delete_owner_admin on storage.objects;
 create policy menu_media_private_delete_owner_admin
   on storage.objects
@@ -63,7 +58,6 @@ create policy menu_media_private_delete_owner_admin
     bucket_id = 'menu-media-private'
     and (owner = auth.uid() or public.is_admin())
   );
-
 create or replace function public.trg_hide_reported_business_media_v1()
 returns trigger
 language plpgsql
@@ -81,11 +75,8 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_hide_reported_business_media_v1 on public.reports;
 create trigger trg_hide_reported_business_media_v1
 after insert on public.reports
 for each row execute function public.trg_hide_reported_business_media_v1();
-
 commit;
-

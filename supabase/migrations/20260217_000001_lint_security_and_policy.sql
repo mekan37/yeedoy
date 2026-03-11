@@ -36,7 +36,6 @@ BEGIN
     EXECUTE 'ALTER VIEW public.user_favorites SET (security_invoker = true)';
   END IF;
 END $$;
-
 -- Enable RLS on public tables flagged by linter (spatial_ref_sys excluded due to ownership)
 DO $$
 BEGIN
@@ -62,7 +61,6 @@ BEGIN
     EXECUTE 'ALTER TABLE public.business_presence_events ENABLE ROW LEVEL SECURITY';
   END IF;
 END $$;
-
 -- RLS policies for newly protected tables
 DO $$
 BEGIN
@@ -127,14 +125,11 @@ BEGIN
       USING (public.is_admin())';
   END IF;
 END $$;
-
 -- Fix function search_path warnings
 ALTER FUNCTION public.recalc_review_helpful_count() SET search_path = public;
 ALTER FUNCTION public.normalize_tr_text(text) SET search_path = public;
-
 -- Deduplicate permissive policies
 DROP POLICY IF EXISTS admin_users_no_select ON public.admin_users;
-
 DROP POLICY IF EXISTS business_amenities_write_owner_admin ON public.business_amenities;
 CREATE POLICY business_amenities_admin_insert ON public.business_amenities
   FOR INSERT TO authenticated
@@ -145,7 +140,6 @@ CREATE POLICY business_amenities_admin_update ON public.business_amenities
 CREATE POLICY business_amenities_admin_delete ON public.business_amenities
   FOR DELETE TO authenticated
   USING (public.is_admin());
-
 DROP POLICY IF EXISTS business_amenity_map_write_owner_admin ON public.business_amenity_map;
 CREATE POLICY business_amenity_map_owner_insert ON public.business_amenity_map
   FOR INSERT TO authenticated
@@ -157,9 +151,7 @@ CREATE POLICY business_amenity_map_owner_update ON public.business_amenity_map
 CREATE POLICY business_amenity_map_owner_delete ON public.business_amenity_map
   FOR DELETE TO authenticated
   USING (public.is_admin() OR public.is_owner_of_business(business_id));
-
 DROP POLICY IF EXISTS business_hours_owner_read ON public.business_hours;
-
 DROP POLICY IF EXISTS stories_write_owner_admin ON public.business_stories;
 CREATE POLICY stories_owner_admin_insert ON public.business_stories
   FOR INSERT TO authenticated
@@ -171,9 +163,7 @@ CREATE POLICY stories_owner_admin_update ON public.business_stories
 CREATE POLICY stories_owner_admin_delete ON public.business_stories
   FOR DELETE TO authenticated
   USING (public.is_admin() OR public.is_owner_of_business(business_id));
-
 DROP POLICY IF EXISTS businesses_select_public ON public.businesses;
-
 DROP POLICY IF EXISTS collection_items_owner_select ON public.collection_items;
 DROP POLICY IF EXISTS collection_items_public_select ON public.collection_items;
 CREATE POLICY collection_items_select_access ON public.collection_items
@@ -185,13 +175,11 @@ CREATE POLICY collection_items_select_access ON public.collection_items
         AND (c.user_id = (select auth.uid()) OR c.is_public = true)
     )
   );
-
 DROP POLICY IF EXISTS collections_owner_select ON public.collections;
 DROP POLICY IF EXISTS collections_public_select ON public.collections;
 CREATE POLICY collections_select_access ON public.collections
   FOR SELECT
   USING ((user_id = (select auth.uid())) OR (is_public = true));
-
 DROP POLICY IF EXISTS price_hist_admin_write ON public.menu_item_price_history;
 CREATE POLICY price_hist_admin_insert ON public.menu_item_price_history
   FOR INSERT TO authenticated
@@ -202,7 +190,6 @@ CREATE POLICY price_hist_admin_update ON public.menu_item_price_history
 CREATE POLICY price_hist_admin_delete ON public.menu_item_price_history
   FOR DELETE TO authenticated
   USING (public.is_admin());
-
 DROP POLICY IF EXISTS price_sugg_admin_all ON public.menu_item_price_suggestions;
 DROP POLICY IF EXISTS price_sugg_owner_read ON public.menu_item_price_suggestions;
 DROP POLICY IF EXISTS price_sugg_read_own ON public.menu_item_price_suggestions;
@@ -223,7 +210,6 @@ CREATE POLICY price_sugg_update_admin ON public.menu_item_price_suggestions
 CREATE POLICY price_sugg_delete_admin ON public.menu_item_price_suggestions
   FOR DELETE TO authenticated
   USING (public.is_admin());
-
 DROP POLICY IF EXISTS menu_items_write_owner_admin ON public.menu_items;
 CREATE POLICY menu_items_owner_insert ON public.menu_items
   FOR INSERT TO authenticated
@@ -235,7 +221,6 @@ CREATE POLICY menu_items_owner_update ON public.menu_items
 CREATE POLICY menu_items_owner_delete ON public.menu_items
   FOR DELETE TO authenticated
   USING (public.is_admin() OR public.is_owner_of_business(business_id));
-
 DROP POLICY IF EXISTS menu_sections_write ON public.menu_sections;
 CREATE POLICY menu_sections_owner_insert ON public.menu_sections
   FOR INSERT TO authenticated
@@ -271,7 +256,6 @@ CREATE POLICY menu_sections_owner_delete ON public.menu_sections
         AND (public.is_admin() OR public.is_owner_of_business(m.business_id))
     )
   );
-
 DROP POLICY IF EXISTS menus_write_owner_admin ON public.menus;
 CREATE POLICY menus_owner_insert ON public.menus
   FOR INSERT TO authenticated
@@ -283,7 +267,6 @@ CREATE POLICY menus_owner_update ON public.menus
 CREATE POLICY menus_owner_delete ON public.menus
   FOR DELETE TO authenticated
   USING (public.is_admin() OR public.is_owner_of_business(business_id));
-
 DROP POLICY IF EXISTS reviews_read ON public.reviews;
 DROP POLICY IF EXISTS reviews_select_public_approved ON public.reviews;
 CREATE POLICY reviews_select_access ON public.reviews
@@ -294,15 +277,12 @@ CREATE POLICY reviews_select_access ON public.reviews
     OR public.is_admin()
   );
 DROP POLICY IF EXISTS reviews_insert_authenticated ON public.reviews;
-
 DROP POLICY IF EXISTS votes_select_own ON public.review_votes;
 DROP POLICY IF EXISTS votes_insert_own ON public.review_votes;
 DROP POLICY IF EXISTS votes_delete_own ON public.review_votes;
-
 DROP POLICY IF EXISTS fav_select_own ON public.favorites;
 DROP POLICY IF EXISTS fav_insert_own ON public.favorites;
 DROP POLICY IF EXISTS fav_delete_own ON public.favorites;
-
 DROP POLICY IF EXISTS owner_claim_select_own ON public.owner_claims;
 DROP POLICY IF EXISTS owner_claims_select_admin ON public.owner_claims;
 DROP POLICY IF EXISTS owner_claims_select_own ON public.owner_claims;
@@ -316,7 +296,6 @@ CREATE POLICY owner_claims_select_access ON public.owner_claims
 CREATE POLICY owner_claims_insert_access ON public.owner_claims
   FOR INSERT TO authenticated
   WITH CHECK (user_id = (select auth.uid()));
-
 DROP POLICY IF EXISTS sponsorship_leads_admin_all ON public.sponsorship_leads;
 DROP POLICY IF EXISTS sponsorship_leads_owner_read ON public.sponsorship_leads;
 DROP POLICY IF EXISTS sponsorship_leads_owner_insert ON public.sponsorship_leads;
@@ -332,7 +311,6 @@ CREATE POLICY sponsorship_leads_update_admin ON public.sponsorship_leads
 CREATE POLICY sponsorship_leads_delete_admin ON public.sponsorship_leads
   FOR DELETE TO authenticated
   USING (public.is_admin());
-
 DROP POLICY IF EXISTS claims_admin_all ON public.suspended_meal_claims;
 DROP POLICY IF EXISTS claims_owner_read ON public.suspended_meal_claims;
 DROP POLICY IF EXISTS claims_read_own ON public.suspended_meal_claims;
@@ -363,7 +341,6 @@ CREATE POLICY claims_update_owner_admin ON public.suspended_meal_claims
       WHERE m.id = suspended_meal_claims.suspended_meal_id
     ))
   );
-
 DROP POLICY IF EXISTS meals_admin_all ON public.suspended_meals;
 DROP POLICY IF EXISTS meals_read_active ON public.suspended_meals;
 DROP POLICY IF EXISTS meals_read_own ON public.suspended_meals;
@@ -383,7 +360,6 @@ CREATE POLICY meals_admin_update ON public.suspended_meals
 CREATE POLICY meals_admin_delete ON public.suspended_meals
   FOR DELETE TO authenticated
   USING (public.is_admin());
-
 DROP POLICY IF EXISTS profiles_write_own ON public.user_profiles;
 CREATE POLICY profiles_insert_own ON public.user_profiles
   FOR INSERT TO authenticated
@@ -394,7 +370,6 @@ CREATE POLICY profiles_update_own ON public.user_profiles
 CREATE POLICY profiles_delete_own ON public.user_profiles
   FOR DELETE TO authenticated
   USING (user_id = (select auth.uid()));
-
 DROP POLICY IF EXISTS suggestions_insert_any ON public.business_suggestions;
 DROP POLICY IF EXISTS business_suggestions_insert_authenticated ON public.business_suggestions;
 DROP POLICY IF EXISTS business_suggestions_insert_own ON public.business_suggestions;
@@ -408,7 +383,6 @@ CREATE POLICY business_suggestions_select_access ON public.business_suggestions
 CREATE POLICY business_suggestions_insert_access ON public.business_suggestions
   FOR INSERT TO authenticated
   WITH CHECK (user_id = (select auth.uid()));
-
 DROP POLICY IF EXISTS reports_insert ON public.reports;
 DROP POLICY IF EXISTS reports_insert_authenticated ON public.reports;
 DROP POLICY IF EXISTS reports_insert_user ON public.reports;
@@ -418,7 +392,6 @@ CREATE POLICY reports_insert_access ON public.reports
     user_id = (select auth.uid())
     OR reporter_user_id = (select auth.uid())
   );
-
 -- Move extensions out of public schema
 CREATE SCHEMA IF NOT EXISTS extensions;
 DO $$

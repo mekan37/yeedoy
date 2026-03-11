@@ -10,7 +10,6 @@ begin
   return public.owner_archive_menu_v1(p_menu_id);
 end;
 $function$;
-
 create or replace function public.owner_delete_menu_item_v1(
   p_item_id uuid
 )
@@ -23,7 +22,6 @@ begin
   return public.owner_archive_menu_item_v1(p_item_id);
 end;
 $function$;
-
 create or replace function public.public_menu_share_view_v1(
   p_menu_id uuid
 )

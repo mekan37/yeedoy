@@ -8,7 +8,6 @@ create table if not exists public.business_fee_flags (
   bottled_water_paid boolean null,
   updated_at timestamptz default now()
 );
-
 create table if not exists public.business_fee_votes (
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references public.businesses(id) on delete cascade,
@@ -19,43 +18,34 @@ create table if not exists public.business_fee_votes (
   created_at timestamptz default now(),
   created_day date generated always as ((created_at at time zone 'utc')::date) stored
 );
-
 create unique index if not exists business_fee_votes_unique_day
   on public.business_fee_votes (business_id, user_id, field, created_day);
-
 create index if not exists business_fee_votes_business_time_idx
   on public.business_fee_votes (business_id, created_at desc);
-
 alter table public.business_fee_flags enable row level security;
 alter table public.business_fee_votes enable row level security;
-
 -- RLS: read for all, write for authed users (votes), admin full
 drop policy if exists "business_fee_flags_read_all" on public.business_fee_flags;
 create policy "business_fee_flags_read_all"
   on public.business_fee_flags
   for select using (true);
-
 drop policy if exists "business_fee_votes_read_all" on public.business_fee_votes;
 create policy "business_fee_votes_read_all"
   on public.business_fee_votes
   for select using (true);
-
 drop policy if exists "business_fee_votes_insert_authed" on public.business_fee_votes;
 create policy "business_fee_votes_insert_authed"
   on public.business_fee_votes
   for insert
   with check (auth.uid() is not null and user_id = auth.uid());
-
 drop policy if exists "business_fee_flags_admin_all" on public.business_fee_flags;
 create policy "business_fee_flags_admin_all"
   on public.business_fee_flags
   for all using (public.is_admin()) with check (public.is_admin());
-
 drop policy if exists "business_fee_votes_admin_all" on public.business_fee_votes;
 create policy "business_fee_votes_admin_all"
   on public.business_fee_votes
   for all using (public.is_admin()) with check (public.is_admin());
-
 create or replace function public.vote_business_fee_v1(
   p_business_id uuid,
   p_field text,
@@ -135,7 +125,6 @@ exception
     return jsonb_build_object('ok', false, 'error', 'rate_limited');
 end;
 $$;
-
 create or replace function public.get_business_fee_summary_v1(
   p_business_id uuid
 )

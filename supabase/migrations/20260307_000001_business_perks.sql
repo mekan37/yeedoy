@@ -10,7 +10,6 @@ create table if not exists public.business_perks (
   created_by uuid null,
   created_at timestamptz not null default now()
 );
-
 do $$
 begin
   if not exists (
@@ -24,10 +23,8 @@ begin
       check (status in ('active','ended','paused'));
   end if;
 end $$;
-
 create index if not exists business_perks_business_status_idx
   on public.business_perks (business_id, status, starts_at, ends_at);
-
 -- expand feed_events type check to include perk
 DO $$
 begin
@@ -43,7 +40,6 @@ begin
     add constraint feed_events_type_check
     check (type in ('menu_update','story_posted','price_verified','sponsored','new_item','perk'));
 end $$;
-
 create or replace function public.handle_business_perk_feed()
 returns trigger
 language plpgsql
@@ -72,13 +68,11 @@ begin
   return new;
 end;
 $function$;
-
 drop trigger if exists trg_business_perks_feed on public.business_perks;
 create trigger trg_business_perks_feed
 after insert or update on public.business_perks
 for each row
 execute function public.handle_business_perk_feed();
-
 create or replace function public.owner_create_perk_v1(
   p_business_id uuid,
   p_title text,
@@ -135,7 +129,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id);
 end;
 $function$;
-
 create or replace function public.owner_set_perk_status_v1(
   p_perk_id uuid,
   p_status text
@@ -176,7 +169,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.get_active_perks_v1(
   p_business_id uuid
 ) returns table(
@@ -212,7 +204,6 @@ as $$
     and (p.ends_at is null or p.ends_at >= now())
   order by p.created_at desc;
 $$;
-
 create or replace function public.owner_list_perks_v1(
   p_business_id uuid
 ) returns table(
@@ -245,7 +236,6 @@ as $$
   where p.business_id = p_business_id
   order by p.created_at desc;
 $$;
-
 create or replace function public.get_perk_feed_v1(
   p_limit int default 30,
   p_offset int default 0,

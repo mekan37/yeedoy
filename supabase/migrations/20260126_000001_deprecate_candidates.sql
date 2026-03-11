@@ -32,8 +32,6 @@ BEGIN
             quote_literal('DEPRECATED: legacy view; NOT a drop candidate; verify external usage');
   END IF;
 END $$;
-
-
 -- TABLES
 DO $$
 BEGIN
@@ -47,8 +45,6 @@ BEGIN
             quote_literal('DEPRECATED: sprint-0 cleanup candidate; staging/import table');
   END IF;
 END $$;
-
-
 -- INDEXES (duplicates only; no drop)
 DO $$
 DECLARE
@@ -94,8 +90,6 @@ BEGIN
             quote_literal('DEPRECATED: duplicate unique index; no drop in sprint-0');
   END IF;
 END $$;
-
-
 -- FUNCTIONS (dynamic, all overloads)
 DO $$
 DECLARE
@@ -155,7 +149,6 @@ BEGIN
     );
   END LOOP;
 END $$;
-
 -- ROLLBACK NOTE (manual)
 -- Use the following blocks to clear comments (COMMENT ON ... IS NULL).
 -- VIEWS
@@ -243,4 +236,4 @@ END $$;
 --       r.args
 --     );
 --   END LOOP;
--- END $$;
+-- END $$;;

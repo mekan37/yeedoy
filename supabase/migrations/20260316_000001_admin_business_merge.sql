@@ -7,7 +7,6 @@ create table if not exists public.business_merge_log (
   merged_at timestamptz not null default now(),
   note text null
 );
-
 create or replace function public.admin_merge_businesses_v1(
   p_primary_business_id uuid,
   p_duplicate_business_id uuid,
@@ -225,7 +224,6 @@ begin
   );
 end;
 $$;
-
 grant all on function public.admin_merge_businesses_v1(uuid, uuid, text, boolean) to anon;
 grant all on function public.admin_merge_businesses_v1(uuid, uuid, text, boolean) to authenticated;
 grant all on function public.admin_merge_businesses_v1(uuid, uuid, text, boolean) to service_role;

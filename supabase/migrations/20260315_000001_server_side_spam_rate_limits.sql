@@ -39,12 +39,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_reviews_rate_limit_v1 on public.reviews;
 create trigger trg_reviews_rate_limit_v1
 before insert on public.reviews
 for each row execute function public.enforce_review_insert_rate_limits_v1();
-
 create or replace function public.enforce_price_suggestion_insert_rate_limits_v1()
 returns trigger
 language plpgsql
@@ -83,20 +81,15 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_menu_item_price_suggestions_rate_limit_v1 on public.menu_item_price_suggestions;
 create trigger trg_menu_item_price_suggestions_rate_limit_v1
 before insert on public.menu_item_price_suggestions
 for each row execute function public.enforce_price_suggestion_insert_rate_limits_v1();
-
 create index if not exists idx_reviews_user_created_at_v1
   on public.reviews(user_id, created_at desc);
-
 create index if not exists idx_reviews_user_business_created_at_v1
   on public.reviews(user_id, business_id, created_at desc);
-
 create index if not exists idx_menu_item_price_suggestions_user_created_at_v1
   on public.menu_item_price_suggestions(created_by, created_at desc);
-
 create index if not exists idx_menu_item_price_suggestions_user_item_created_at_v1
   on public.menu_item_price_suggestions(created_by, menu_item_id, created_at desc);

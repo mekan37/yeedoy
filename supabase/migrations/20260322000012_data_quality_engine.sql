@@ -1,5 +1,4 @@
 begin;
-
 alter table if exists public.menu_item_price_suggestions
   add column if not exists quality_confidence numeric not null default 0,
   add column if not exists quality_user_weight numeric not null default 1,
@@ -9,13 +8,10 @@ alter table if exists public.menu_item_price_suggestions
   add column if not exists anomaly_score numeric not null default 0,
   add column if not exists conflict_state text not null default 'none',
   add column if not exists conflict_variants_24h integer not null default 0;
-
 create index if not exists idx_menu_price_suggestion_quality_conflict_v1
   on public.menu_item_price_suggestions(menu_item_id, conflict_state, created_at desc);
-
 create index if not exists idx_menu_price_suggestion_quality_anomaly_v1
   on public.menu_item_price_suggestions(menu_item_id, anomaly_score desc, created_at desc);
-
 create or replace function public.compute_price_suggestion_quality_v1(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
@@ -123,7 +119,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.submit_menu_item_price_suggestion_v4(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
@@ -244,7 +239,6 @@ begin
     );
 end;
 $$;
-
 create or replace function public.submit_menu_item_price_suggestion_v3(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
@@ -268,7 +262,6 @@ as $$
     p_captured_at
   );
 $$;
-
 create or replace function public.owner_override_price_suggestion_v1(
   p_suggestion_id uuid,
   p_reason text,
@@ -364,7 +357,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.owner_approve_price_suggestion_v1(p_suggestion_id uuid)
 returns jsonb
 language plpgsql
@@ -379,7 +371,6 @@ begin
   );
 end;
 $function$;
-
 drop function if exists public.owner_list_price_suggestions_v1(uuid, text, integer, integer);
 create or replace function public.owner_list_price_suggestions_v1(
   p_business_id uuid,
@@ -452,7 +443,6 @@ as $function$
     s.created_at asc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $function$;
-
 drop function if exists public.admin_list_menu_price_suggestions_v2(text, integer, integer, boolean, text);
 create or replace function public.admin_list_menu_price_suggestions_v2(
   p_status text default null,
@@ -535,7 +525,6 @@ as $function$
     s.created_at asc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $function$;
-
 grant all on function public.compute_price_suggestion_quality_v1(uuid, integer, text, timestamptz) to authenticated;
 grant all on function public.compute_price_suggestion_quality_v1(uuid, integer, text, timestamptz) to service_role;
 grant all on function public.submit_menu_item_price_suggestion_v4(uuid, integer, text, text, text, text, timestamptz) to anon;
@@ -543,5 +532,4 @@ grant all on function public.submit_menu_item_price_suggestion_v4(uuid, integer,
 grant all on function public.submit_menu_item_price_suggestion_v4(uuid, integer, text, text, text, text, timestamptz) to service_role;
 grant all on function public.owner_override_price_suggestion_v1(uuid, text, integer) to authenticated;
 grant all on function public.owner_override_price_suggestion_v1(uuid, text, integer) to service_role;
-
 commit;

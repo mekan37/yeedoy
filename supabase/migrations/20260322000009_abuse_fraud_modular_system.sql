@@ -1,5 +1,4 @@
 begin;
-
 create table if not exists public.user_risk_signals (
   id bigserial primary key,
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -9,13 +8,10 @@ create table if not exists public.user_risk_signals (
   signal_meta jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now()
 );
-
 create index if not exists idx_user_risk_signals_user_created
   on public.user_risk_signals (user_id, created_at desc);
-
 create index if not exists idx_user_risk_signals_signal_created
   on public.user_risk_signals (signal_key, created_at desc);
-
 create table if not exists public.user_safety_actions (
   user_id uuid primary key references auth.users(id) on delete cascade,
   risk_score integer not null default 0,
@@ -25,7 +21,6 @@ create table if not exists public.user_safety_actions (
   last_signal_at timestamptz null,
   updated_at timestamptz not null default now()
 );
-
 create table if not exists public.user_device_fingerprints (
   user_id uuid not null references auth.users(id) on delete cascade,
   fingerprint text not null,
@@ -34,14 +29,11 @@ create table if not exists public.user_device_fingerprints (
   seen_count integer not null default 1,
   primary key (user_id, fingerprint)
 );
-
 create index if not exists idx_user_device_fingerprints_user_seen
   on public.user_device_fingerprints (user_id, last_seen_at desc);
-
 alter table public.user_risk_signals enable row level security;
 alter table public.user_safety_actions enable row level security;
 alter table public.user_device_fingerprints enable row level security;
-
 drop policy if exists user_risk_signals_admin_all on public.user_risk_signals;
 create policy user_risk_signals_admin_all
   on public.user_risk_signals
@@ -49,7 +41,6 @@ create policy user_risk_signals_admin_all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
-
 drop policy if exists user_safety_actions_admin_all on public.user_safety_actions;
 create policy user_safety_actions_admin_all
   on public.user_safety_actions
@@ -57,7 +48,6 @@ create policy user_safety_actions_admin_all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
-
 drop policy if exists user_device_fingerprints_admin_all on public.user_device_fingerprints;
 create policy user_device_fingerprints_admin_all
   on public.user_device_fingerprints
@@ -65,7 +55,6 @@ create policy user_device_fingerprints_admin_all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());
-
 create or replace function public.is_user_shadowed_v1(p_user_id uuid)
 returns boolean
 language sql
@@ -77,7 +66,6 @@ as $$
     coalesce((select up.shadow_banned from public.user_profiles up where up.user_id = p_user_id), false)
     or coalesce((select usa.shadow_banned_until > now() from public.user_safety_actions usa where usa.user_id = p_user_id), false);
 $$;
-
 create or replace function public.is_user_auto_pending_v1(p_user_id uuid)
 returns boolean
 language sql
@@ -90,7 +78,6 @@ as $$
     false
   );
 $$;
-
 create or replace function public.is_user_soft_limited_v1(p_user_id uuid)
 returns boolean
 language sql
@@ -103,7 +90,6 @@ as $$
     false
   );
 $$;
-
 create or replace function public.is_shadow_banned_v1()
 returns boolean
 language sql
@@ -112,7 +98,6 @@ set search_path = public
 as $$
   select public.is_user_shadowed_v1(auth.uid());
 $$;
-
 create or replace function public.record_user_risk_signal_v1(
   p_user_id uuid,
   p_signal_key text,
@@ -220,7 +205,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.record_user_device_fingerprint_v1(
   p_user_id uuid,
   p_fingerprint text
@@ -289,7 +273,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.admin_list_risky_users_v1(
   p_limit integer default 50,
   p_offset integer default 0,
@@ -361,7 +344,6 @@ begin
   offset greatest(p_offset, 0);
 end;
 $$;
-
 create or replace function public.admin_apply_user_safety_action_v1(
   p_user_id uuid,
   p_action text,
@@ -438,7 +420,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.enforce_abuse_controls_on_reviews_v1()
 returns trigger
 language plpgsql
@@ -470,12 +451,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_reviews_abuse_controls_v1 on public.reviews;
 create trigger trg_reviews_abuse_controls_v1
 before insert on public.reviews
 for each row execute function public.enforce_abuse_controls_on_reviews_v1();
-
 create or replace function public.enforce_abuse_controls_on_price_suggestions_v1()
 returns trigger
 language plpgsql
@@ -508,12 +487,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_price_suggestions_abuse_controls_v1 on public.menu_item_price_suggestions;
 create trigger trg_price_suggestions_abuse_controls_v1
 before insert on public.menu_item_price_suggestions
 for each row execute function public.enforce_abuse_controls_on_price_suggestions_v1();
-
 create or replace function public.enforce_abuse_controls_on_menu_photos_v1()
 returns trigger
 language plpgsql
@@ -534,12 +511,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_menu_item_photos_abuse_controls_v1 on public.menu_item_photos;
 create trigger trg_menu_item_photos_abuse_controls_v1
 before insert on public.menu_item_photos
 for each row execute function public.enforce_abuse_controls_on_menu_photos_v1();
-
 create or replace function public.collect_risk_signals_on_reviews_v1()
 returns trigger
 language plpgsql
@@ -593,12 +568,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_reviews_collect_risk_signals_v1 on public.reviews;
 create trigger trg_reviews_collect_risk_signals_v1
 before insert on public.reviews
 for each row execute function public.collect_risk_signals_on_reviews_v1();
-
 create or replace function public.collect_risk_signals_on_price_suggestions_v1()
 returns trigger
 language plpgsql
@@ -653,18 +626,14 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_price_suggestions_collect_risk_signals_v1 on public.menu_item_price_suggestions;
 create trigger trg_price_suggestions_collect_risk_signals_v1
 before insert on public.menu_item_price_suggestions
 for each row execute function public.collect_risk_signals_on_price_suggestions_v1();
-
 grant all on function public.record_user_risk_signal_v1(uuid, text, integer, text, jsonb) to authenticated;
 grant all on function public.record_user_risk_signal_v1(uuid, text, integer, text, jsonb) to service_role;
 grant all on function public.record_user_device_fingerprint_v1(uuid, text) to authenticated;
 grant all on function public.record_user_device_fingerprint_v1(uuid, text) to service_role;
 grant all on function public.admin_list_risky_users_v1(integer, integer, integer) to authenticated;
 grant all on function public.admin_apply_user_safety_action_v1(uuid, text, integer, text) to authenticated;
-
 commit;
-

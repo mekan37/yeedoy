@@ -1,5 +1,4 @@
 begin;
-
 create or replace function public.consume_edge_guard_event_v1(
   p_action text,
   p_scope text default null,
@@ -48,7 +47,6 @@ begin
   end if;
 end;
 $$;
-
 create or replace function public.enforce_reviews_edge_guard_v1()
 returns trigger
 language plpgsql
@@ -64,12 +62,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_reviews_edge_guard_v1 on public.reviews;
 create trigger trg_reviews_edge_guard_v1
 before insert on public.reviews
 for each row execute function public.enforce_reviews_edge_guard_v1();
-
 create or replace function public.enforce_price_suggestions_edge_guard_v1()
 returns trigger
 language plpgsql
@@ -85,12 +81,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_price_suggestions_edge_guard_v1 on public.menu_item_price_suggestions;
 create trigger trg_price_suggestions_edge_guard_v1
 before insert on public.menu_item_price_suggestions
 for each row execute function public.enforce_price_suggestions_edge_guard_v1();
-
 create or replace function public.enforce_reports_edge_guard_v1()
 returns trigger
 language plpgsql
@@ -115,12 +109,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_reports_edge_guard_v1 on public.reports;
 create trigger trg_reports_edge_guard_v1
 before insert on public.reports
 for each row execute function public.enforce_reports_edge_guard_v1();
-
 create or replace function public.enforce_menu_item_photos_edge_guard_v1()
 returns trigger
 language plpgsql
@@ -136,11 +128,8 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_menu_item_photos_edge_guard_v1 on public.menu_item_photos;
 create trigger trg_menu_item_photos_edge_guard_v1
 before insert on public.menu_item_photos
 for each row execute function public.enforce_menu_item_photos_edge_guard_v1();
-
 commit;
-

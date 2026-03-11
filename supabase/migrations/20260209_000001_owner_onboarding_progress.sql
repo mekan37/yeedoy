@@ -4,9 +4,7 @@ create table if not exists public.owner_onboarding_progress (
   updated_at timestamptz not null default now(),
   check (step_completed >= 0 and step_completed <= 5)
 );
-
 alter table public.owner_onboarding_progress enable row level security;
-
 -- Ensure owners/admins can read/write onboarding progress
 DO $$
 BEGIN
@@ -41,10 +39,8 @@ BEGIN
       WITH CHECK (public.is_admin() OR public.is_owner_of_business(business_id))';
   END IF;
 END $$;
-
 -- Business hours RLS for owners/admins (if missing)
 ALTER TABLE public.business_hours ENABLE ROW LEVEL SECURITY;
-
 DO $$
 BEGIN
   IF NOT EXISTS (
@@ -78,7 +74,6 @@ BEGIN
       WITH CHECK (public.is_admin() OR public.is_owner_of_business(business_id))';
   END IF;
 END $$;
-
 create or replace function public.get_owner_onboarding_progress_v1(
   p_business_id uuid
 )
@@ -93,7 +88,6 @@ as $function$
   where p.business_id = p_business_id
     and (public.is_admin() or public.is_owner_of_business(p_business_id));
 $function$;
-
 create or replace function public.owner_set_onboarding_progress_v1(
   p_business_id uuid,
   p_step_completed int
@@ -121,7 +115,6 @@ begin
   return jsonb_build_object('ok', true, 'step_completed', v_step);
 end;
 $function$;
-
 create or replace function public.owner_update_business_profile_v1(
   p_business_id uuid,
   p_logo_url text default null,
@@ -146,7 +139,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.owner_upsert_business_hours_v1(
   p_business_id uuid,
   p_open time,

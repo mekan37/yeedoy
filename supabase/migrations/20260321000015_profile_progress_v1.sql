@@ -5,16 +5,13 @@ create table if not exists public.user_profile_progress (
   unlocked_count int not null default 0 check (unlocked_count >= 0),
   updated_at timestamptz not null default now()
 );
-
 alter table public.user_profile_progress enable row level security;
-
 drop policy if exists user_profile_progress_read_own on public.user_profile_progress;
 create policy user_profile_progress_read_own
 on public.user_profile_progress
 for select
 to authenticated
 using (user_id = auth.uid());
-
 create or replace function public.profile_level_from_xp_v1(p_total_xp int)
 returns int
 language sql
@@ -22,7 +19,6 @@ immutable
 as $$
   select greatest(1, (greatest(coalesce(p_total_xp, 0), 0) / 100) + 1)::int;
 $$;
-
 create or replace function public.apply_profile_xp_v1(
   p_user_id uuid,
   p_xp int
@@ -79,7 +75,6 @@ begin
   where upp.user_id = p_user_id;
 end;
 $$;
-
 create or replace function public.recompute_profile_progress_v1(
   p_user_id uuid
 )
@@ -120,7 +115,6 @@ begin
     updated_at = excluded.updated_at;
 end;
 $$;
-
 create or replace function public.get_my_profile_progress_v1()
 returns table(
   total_xp int,
@@ -162,7 +156,6 @@ begin
     coalesce(v_unlocked_count, 0);
 end;
 $$;
-
 create or replace function public.award_achievement_v1(
   p_user_id uuid,
   p_achievement_id text,
@@ -220,9 +213,7 @@ begin
   return true;
 end;
 $$;
-
 grant execute on function public.get_my_profile_progress_v1() to authenticated;
-
 do $$
 begin
   if exists (select 1 from auth.users limit 1) then

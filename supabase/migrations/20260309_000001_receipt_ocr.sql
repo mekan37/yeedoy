@@ -5,44 +5,35 @@ create table if not exists public.receipt_submissions (
   image_url text not null,
   created_at timestamptz not null default now()
 );
-
 create table if not exists public.receipt_matches (
   receipt_id uuid not null references public.receipt_submissions(id) on delete cascade,
   menu_item_id uuid not null references public.menu_items(id) on delete cascade,
   detected_price_cents int not null,
   primary key (receipt_id, menu_item_id)
 );
-
 create index if not exists receipt_submissions_user_idx
   on public.receipt_submissions (user_id, created_at desc);
-
 create index if not exists receipt_submissions_business_idx
   on public.receipt_submissions (business_id, created_at desc);
-
 create index if not exists receipt_matches_receipt_idx
   on public.receipt_matches (receipt_id);
-
 alter table public.receipt_submissions enable row level security;
 alter table public.receipt_matches enable row level security;
-
 drop policy if exists receipt_submissions_owner_select on public.receipt_submissions;
 create policy receipt_submissions_owner_select
   on public.receipt_submissions
   for select
   using (user_id = auth.uid());
-
 drop policy if exists receipt_submissions_owner_insert on public.receipt_submissions;
 create policy receipt_submissions_owner_insert
   on public.receipt_submissions
   for insert
   with check (user_id = auth.uid());
-
 drop policy if exists receipt_submissions_admin_all on public.receipt_submissions;
 create policy receipt_submissions_admin_all
   on public.receipt_submissions
   for all
   using (public.is_admin());
-
 drop policy if exists receipt_matches_owner_select on public.receipt_matches;
 create policy receipt_matches_owner_select
   on public.receipt_matches
@@ -55,7 +46,6 @@ create policy receipt_matches_owner_select
         and s.user_id = auth.uid()
     )
   );
-
 drop policy if exists receipt_matches_owner_insert on public.receipt_matches;
 create policy receipt_matches_owner_insert
   on public.receipt_matches
@@ -68,13 +58,11 @@ create policy receipt_matches_owner_insert
         and s.user_id = auth.uid()
     )
   );
-
 drop policy if exists receipt_matches_admin_all on public.receipt_matches;
 create policy receipt_matches_admin_all
   on public.receipt_matches
   for all
   using (public.is_admin());
-
 create or replace function public.submit_receipt_submission_v1(
   p_business_id uuid,
   p_image_url text,
@@ -112,7 +100,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id);
 end;
 $function$;
-
 create or replace function public.admin_list_receipt_submissions_v1(
   p_limit int default 50,
   p_offset int default 0

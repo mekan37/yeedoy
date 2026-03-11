@@ -1,6 +1,5 @@
 alter table public.analytics_events
   drop constraint if exists analytics_events_event_name_check;
-
 alter table public.analytics_events
   add constraint analytics_events_event_name_check check (
     event_name = any (
@@ -23,7 +22,6 @@ alter table public.analytics_events
       ]
     )
   );
-
 create or replace function public.log_event_v1(
   p_event_name text,
   p_business_id uuid default null,
@@ -108,7 +106,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.admin_kpi_summary_v1(p_days integer default 30)
 returns table(
   dau integer,
@@ -271,7 +268,6 @@ cross join menu_views_prev_cte mvp
 cross join price_suggestions_cte ps
 cross join price_suggestions_prev_cte psp;
 $$;
-
 create or replace function public.owner_kpi_summary_v1(
   p_business_id uuid,
   p_days integer default 30
@@ -301,6 +297,5 @@ select
   (select count(*) from events where event_name = 'business_directions_click')::int as directions_clicks,
   (select count(*) from events where event_name = 'business_impression')::int as search_impressions;
 $$;
-
 grant all on function public.admin_kpi_summary_v1(p_days integer) to anon, authenticated, service_role;
 grant all on function public.owner_kpi_summary_v1(p_business_id uuid, p_days integer) to anon, authenticated, service_role;

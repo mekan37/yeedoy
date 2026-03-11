@@ -103,11 +103,9 @@ begin
   );
 end;
 $$;
-
 grant all on function public.get_my_trust_graph_v1() to anon;
 grant all on function public.get_my_trust_graph_v1() to authenticated;
 grant all on function public.get_my_trust_graph_v1() to service_role;
-
 create or replace function public.get_my_behavior_segment_v1()
 returns jsonb
 language plpgsql
@@ -172,11 +170,9 @@ begin
   );
 end;
 $$;
-
 grant all on function public.get_my_behavior_segment_v1() to anon;
 grant all on function public.get_my_behavior_segment_v1() to authenticated;
 grant all on function public.get_my_behavior_segment_v1() to service_role;
-
 create or replace function public.get_my_silent_quality_score_v1()
 returns jsonb
 language plpgsql
@@ -240,7 +236,6 @@ begin
   );
 end;
 $$;
-
 grant all on function public.get_my_silent_quality_score_v1() to anon;
 grant all on function public.get_my_silent_quality_score_v1() to authenticated;
 grant all on function public.get_my_silent_quality_score_v1() to service_role;

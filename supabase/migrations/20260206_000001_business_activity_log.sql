@@ -5,10 +5,8 @@ create table if not exists public.business_activity_log (
   meta jsonb not null default '{}'::jsonb,
   created_at timestamp with time zone not null default now()
 );
-
 create index if not exists business_activity_log_business_id_idx
   on public.business_activity_log (business_id, created_at desc);
-
 create or replace function public.log_menu_activity_v1(
   p_business_id uuid,
   p_event text,
@@ -24,7 +22,6 @@ begin
   values (p_business_id, 'menu_update', jsonb_build_object('event', p_event) || coalesce(p_meta, '{}'::jsonb));
 end;
 $function$;
-
 create or replace function public.trg_log_menu_section_activity()
 returns trigger
 language plpgsql
@@ -54,7 +51,6 @@ begin
   return null;
 end;
 $function$;
-
 create or replace function public.trg_log_menu_item_activity()
 returns trigger
 language plpgsql
@@ -84,7 +80,6 @@ begin
   return null;
 end;
 $function$;
-
 do $$
 begin
   if not exists (
@@ -103,7 +98,6 @@ begin
       for each row execute function public.trg_log_menu_item_activity();
   end if;
 end $$;
-
 create or replace function public.get_business_activity_v1(
   p_business_id uuid,
   p_limit integer default 10
@@ -129,9 +123,7 @@ as $function$
   order by a.created_at desc
   limit greatest(p_limit, 0);
 $function$;
-
 alter table public.business_activity_log enable row level security;
-
 do $$
 begin
   if not exists (

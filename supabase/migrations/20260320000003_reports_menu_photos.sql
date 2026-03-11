@@ -1,9 +1,7 @@
 alter table public.reports
   add column if not exists menu_item_photo_id uuid;
-
 alter table public.reports
   drop constraint if exists reports_target_type_check;
-
 alter table public.reports
   add constraint reports_target_type_check
   check (
@@ -11,7 +9,6 @@ alter table public.reports
       array['business'::text, 'review'::text, 'menu_item_photo'::text]
     )
   );
-
 create or replace function public.submit_report_v1(
   p_business_id uuid default null,
   p_review_id uuid default null,
@@ -117,7 +114,6 @@ begin
   return jsonb_build_object('ok', true, 'report_id', v_report_id);
 end;
 $$;
-
 grant all on function public.submit_report_v1(
   uuid,
   uuid,
@@ -139,7 +135,6 @@ grant all on function public.submit_report_v1(
   text,
   text
 ) to service_role;
-
 create or replace function public.admin_list_reports_v4(
   p_status text default null,
   p_limit integer default 50,
@@ -209,7 +204,6 @@ as $$
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
 $$;
-
 grant all on function public.admin_list_reports_v4(
   text,
   integer,

@@ -1,7 +1,6 @@
 alter table public.menu_item_price_suggestions
   add column if not exists approved_by uuid,
   add column if not exists approved_at timestamp with time zone;
-
 create or replace function public.owner_approve_price_suggestion_v1(p_suggestion_id uuid)
 returns jsonb
 language plpgsql
@@ -12,7 +11,6 @@ begin
   return public.owner_approve_menu_price_suggestion_v1(p_suggestion_id);
 end;
 $function$;
-
 create or replace function public.owner_reject_price_suggestion_v1(
   p_suggestion_id uuid,
   p_reason text default null
@@ -26,7 +24,6 @@ begin
   return public.owner_reject_menu_price_suggestion_v1(p_suggestion_id, p_reason);
 end;
 $function$;
-
 create or replace function public.get_owner_price_suggestions_v1(
   p_business_id uuid default null,
   p_status text default 'pending',
@@ -85,7 +82,6 @@ as $function$
   order by (s.status='pending') desc, s.created_at asc
   limit greatest(p_limit,0) offset greatest(p_offset,0);
 $function$;
-
 do $$
 begin
   if not exists (

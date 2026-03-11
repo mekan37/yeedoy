@@ -29,7 +29,6 @@ begin
   return v_role;
 end;
 $$;
-
 create or replace function public.current_user_role_v1()
 returns text
 language plpgsql
@@ -72,7 +71,6 @@ begin
   return 'user';
 end;
 $$;
-
 create or replace function public.is_admin_or_community_mod_v1()
 returns boolean
 language sql
@@ -83,7 +81,6 @@ as $$
   select public.is_admin()
     or lower(coalesce(public.get_app_role_v1(), 'user')) = 'community_mod';
 $$;
-
 create table if not exists public.moderation_decision_templates (
   id uuid primary key default gen_random_uuid(),
   scope text not null check (scope in ('report', 'claim', 'appeal')),
@@ -96,7 +93,6 @@ create table if not exists public.moderation_decision_templates (
   updated_at timestamptz not null default now(),
   unique (scope, decision, title, locale)
 );
-
 insert into public.moderation_decision_templates(scope, decision, title, body, locale)
 values
   ('report', 'approved', 'Ihlal Teyit', 'Raporunuz incelendi. İhlal teyit edildi ve gerekli işlem uygulandı.', 'tr-TR'),
@@ -106,9 +102,7 @@ values
   ('appeal', 'approved', 'İtiraz Kabul', 'İtirazınız yeniden incelendi ve kararınız güncellendi.', 'tr-TR'),
   ('appeal', 'rejected', 'İtiraz Sonucu', 'İtirazınız incelendi. İlk karar geçerliliğini koruyor.', 'tr-TR')
 on conflict (scope, decision, title, locale) do nothing;
-
 alter table public.moderation_decision_templates enable row level security;
-
 do $$
 begin
   if not exists (
@@ -125,7 +119,6 @@ begin
       using (is_active = true and locale = 'tr-TR');
   end if;
 end $$;
-
 create table if not exists public.moderation_appeals (
   id uuid primary key default gen_random_uuid(),
   source_type text not null check (source_type in ('report', 'claim')),
@@ -140,16 +133,13 @@ create table if not exists public.moderation_appeals (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 create index if not exists idx_moderation_appeals_status_created_at
   on public.moderation_appeals(status, created_at desc);
 create index if not exists idx_moderation_appeals_source
   on public.moderation_appeals(source_type, source_id);
 create index if not exists idx_moderation_appeals_appellant
   on public.moderation_appeals(appellant_user_id, created_at desc);
-
 alter table public.moderation_appeals enable row level security;
-
 do $$
 begin
   if not exists (
@@ -195,7 +185,6 @@ begin
       with check (public.is_admin_or_community_mod_v1());
   end if;
 end $$;
-
 create or replace function public.get_moderation_templates_v1(
   p_scope text default null
 )
@@ -224,7 +213,6 @@ as $$
     and (p_scope is null or p_scope = '' or t.scope = p_scope)
   order by t.scope, t.decision, t.title;
 $$;
-
 create or replace function public.submit_moderation_appeal_v1(
   p_source_type text,
   p_source_id uuid,
@@ -284,7 +272,6 @@ begin
   return jsonb_build_object('ok', true, 'appeal_id', v_appeal_id);
 end;
 $$;
-
 create or replace function public.admin_list_moderation_appeals_v1(
   p_status text default null,
   p_limit integer default 50,
@@ -329,7 +316,6 @@ as $$
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
 $$;
-
 create or replace function public.admin_decide_moderation_appeal_v1(
   p_appeal_id uuid,
   p_decision text,
@@ -372,7 +358,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.admin_list_reports_v4(
   p_status text default null,
   p_limit integer default 50,
@@ -442,7 +427,6 @@ as $$
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
 $$;
-
 create or replace function public.admin_list_owner_claims_v3(
   p_status text default null,
   p_limit integer default 50,
@@ -512,7 +496,6 @@ as $function$
   order by (c.status = 'pending') desc, c.created_at asc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $function$;
-
 grant all on function public.get_app_role_v1() to authenticated;
 grant all on function public.current_user_role_v1() to authenticated;
 grant all on function public.is_admin_or_community_mod_v1() to authenticated, service_role;

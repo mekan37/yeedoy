@@ -1,5 +1,4 @@
 begin;
-
 create or replace function public.ensure_default_section_for_business_v1(
   p_business_id uuid
 )
@@ -41,7 +40,6 @@ begin
   return v_section_id;
 end;
 $$;
-
 create or replace function public.menu_items_assign_section_v1()
 returns trigger
 language plpgsql
@@ -72,12 +70,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_menu_items_assign_section on public.menu_items;
 create trigger trg_menu_items_assign_section
 before insert or update of section_id, business_id
 on public.menu_items
 for each row
 execute function public.menu_items_assign_section_v1();
-
 commit;

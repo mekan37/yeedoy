@@ -1,10 +1,8 @@
 alter table public.achievements
   add column if not exists is_hidden boolean not null default false;
-
 update public.achievements
 set is_hidden = coalesce(is_hidden, false)
 where true;
-
 insert into public.achievements(
   id, title, description, icon, color, xp, is_hidden, condition
 )
@@ -77,7 +75,6 @@ on conflict (id) do update set
   xp = excluded.xp,
   is_hidden = excluded.is_hidden,
   condition = excluded.condition;
-
 create or replace function public.get_my_achievements_v2()
 returns table(
   id text,
@@ -115,7 +112,6 @@ as $$
     coalesce(ua.unlocked_at, 'epoch'::timestamptz) desc,
     a.title asc;
 $$;
-
 create or replace function public.recompute_user_achievements_v1(
   p_user_id uuid
 )
@@ -335,7 +331,6 @@ begin
   end if;
 end;
 $$;
-
 create or replace function public.admin_reset_user_achievement_v1(
   p_user_id uuid,
   p_achievement_id text,

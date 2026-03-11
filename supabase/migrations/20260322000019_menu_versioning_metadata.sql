@@ -1,11 +1,9 @@
 begin;
-
 alter table if exists public.menus
   add column if not exists version int not null default 1,
   add column if not exists source text not null default 'owner',
   add column if not exists confidence_score numeric not null default 0,
   add column if not exists updated_at timestamptz not null default now();
-
 do $$
 begin
   if not exists (
@@ -18,7 +16,6 @@ begin
       check (source in ('owner', 'admin', 'user_promoted'));
   end if;
 end $$;
-
 create or replace function public.bump_menu_version_v1()
 returns trigger
 language plpgsql
@@ -50,10 +47,8 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_menus_versioning_v1 on public.menus;
 create trigger trg_menus_versioning_v1
 before insert or update on public.menus
 for each row execute function public.bump_menu_version_v1();
-
 commit;

@@ -1,5 +1,4 @@
 begin;
-
 -- Secure bucket for user photos.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
@@ -13,7 +12,6 @@ on conflict (id) do update
 set public = excluded.public,
     file_size_limit = excluded.file_size_limit,
     allowed_mime_types = excluded.allowed_mime_types;
-
 -- Storage object policies (for direct SDK usage if any).
 drop policy if exists menu_media_read_all on storage.objects;
 create policy menu_media_read_all
@@ -21,7 +19,6 @@ create policy menu_media_read_all
   for select
   to public
   using (bucket_id = 'menu-media');
-
 drop policy if exists menu_media_insert_auth on storage.objects;
 create policy menu_media_insert_auth
   on storage.objects
@@ -38,7 +35,6 @@ create policy menu_media_insert_auth
       or lower(name) like '%.webp'
     )
   );
-
 drop policy if exists menu_media_update_own_or_admin on storage.objects;
 create policy menu_media_update_own_or_admin
   on storage.objects
@@ -52,7 +48,6 @@ create policy menu_media_update_own_or_admin
     bucket_id = 'menu-media'
     and (owner = auth.uid() or public.is_admin())
   );
-
 drop policy if exists menu_media_delete_own_or_admin on storage.objects;
 create policy menu_media_delete_own_or_admin
   on storage.objects
@@ -62,26 +57,21 @@ create policy menu_media_delete_own_or_admin
     bucket_id = 'menu-media'
     and (owner = auth.uid() or public.is_admin())
   );
-
 -- Moderation fields.
 alter table public.menu_item_photos
   add column if not exists status text not null default 'pending'
     check (status in ('pending', 'approved', 'rejected')),
   add column if not exists is_hidden boolean not null default false,
   add column if not exists moderation_note text;
-
 alter table public.business_media
   add column if not exists status text not null default 'pending'
     check (status in ('pending', 'approved', 'rejected')),
   add column if not exists is_hidden boolean not null default false,
   add column if not exists moderation_note text;
-
 create index if not exists idx_menu_item_photos_status_hidden
   on public.menu_item_photos(status, is_hidden, created_at desc);
-
 create index if not exists idx_business_media_status_hidden
   on public.business_media(status, is_hidden, created_at desc);
-
 create or replace function public.add_menu_item_photo_v1(
   p_menu_item_id uuid,
   p_url text,
@@ -147,7 +137,6 @@ begin
   return jsonb_build_object('ok', true, 'photo_id', v_photo_id, 'shadowed', v_shadow, 'pending', true);
 end;
 $function$;
-
 create or replace function public.get_menu_item_photos_v1(
   p_menu_item_id uuid,
   p_limit integer default 12
@@ -191,7 +180,6 @@ as $$
   order by p.created_at desc
   limit greatest(p_limit, 0);
 $$;
-
 -- Reported photo => hidden + pending.
 create or replace function public.trg_hide_reported_menu_photo_v1()
 returns trigger
@@ -210,12 +198,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_hide_reported_menu_photo_v1 on public.reports;
 create trigger trg_hide_reported_menu_photo_v1
 after insert on public.reports
 for each row execute function public.trg_hide_reported_menu_photo_v1();
-
 -- Admin moderation endpoint.
 create or replace function public.admin_set_menu_item_photo_moderation_v1(
   p_photo_id uuid,
@@ -249,8 +235,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 grant all on function public.admin_set_menu_item_photo_moderation_v1(uuid, text, boolean, text) to authenticated;
 grant all on function public.admin_set_menu_item_photo_moderation_v1(uuid, text, boolean, text) to service_role;
-
 commit;

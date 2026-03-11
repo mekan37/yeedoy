@@ -7,10 +7,8 @@ create table if not exists public.user_moderation_strikes (
   source text,
   created_at timestamptz not null default now()
 );
-
 create index if not exists idx_user_moderation_strikes_user
   on public.user_moderation_strikes(user_id, created_at desc);
-
 create or replace function public.add_moderation_strike_v1(
   p_user_id uuid,
   p_reason text default null,
@@ -50,7 +48,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.auto_close_duplicate_report_v1(p_report_id uuid)
 returns boolean
 language plpgsql
@@ -99,7 +96,6 @@ begin
   return false;
 end;
 $$;
-
 create or replace function public.auto_reject_low_quality_report_v1(p_report_id uuid)
 returns boolean
 language plpgsql
@@ -142,7 +138,6 @@ begin
   return false;
 end;
 $$;
-
 create or replace function public.auto_queue_grey_report_v1(p_report_id uuid)
 returns boolean
 language plpgsql
@@ -186,7 +181,6 @@ begin
   return false;
 end;
 $$;
-
 create or replace function public.apply_auto_moderation_rules_v1(p_target text, p_id uuid)
 returns jsonb
 language plpgsql
@@ -211,7 +205,6 @@ begin
   return jsonb_build_object('ok', true, 'applied', v_applied);
 end;
 $$;
-
 create or replace function public.trg_auto_moderate_report_v1()
 returns trigger
 language plpgsql
@@ -225,7 +218,6 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_auto_moderate_report on public.reports;
 create trigger trg_auto_moderate_report
 after insert on public.reports

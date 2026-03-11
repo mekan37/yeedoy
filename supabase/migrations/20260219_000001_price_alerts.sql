@@ -12,10 +12,8 @@ create table if not exists public.price_alerts (
   is_active boolean not null default true,
   created_at timestamptz not null default now()
 );
-
 create index if not exists price_alerts_user_active_idx
   on public.price_alerts (user_id, is_active);
-
 create table if not exists public.alert_events (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null,
@@ -26,18 +24,14 @@ create table if not exists public.alert_events (
   created_at timestamptz not null default now(),
   created_day date not null default (now()::date)
 );
-
 alter table public.alert_events
   add column if not exists created_day date;
-
 update public.alert_events
   set created_day = created_at::date
   where created_day is null;
-
 alter table public.alert_events
   alter column created_day set default (now()::date),
   alter column created_day set not null;
-
 create unique index if not exists alert_events_dedupe_idx
   on public.alert_events (
     user_id,
@@ -46,35 +40,27 @@ create unique index if not exists alert_events_dedupe_idx
     menu_item_id,
     created_day
   );
-
 -- RLS
 alter table public.price_alerts enable row level security;
 alter table public.alert_events enable row level security;
-
 drop policy if exists price_alerts_owner_select on public.price_alerts;
 create policy price_alerts_owner_select on public.price_alerts
   for select using (user_id = auth.uid());
-
 drop policy if exists price_alerts_owner_insert on public.price_alerts;
 create policy price_alerts_owner_insert on public.price_alerts
   for insert with check (user_id = auth.uid());
-
 drop policy if exists price_alerts_owner_update on public.price_alerts;
 create policy price_alerts_owner_update on public.price_alerts
   for update using (user_id = auth.uid()) with check (user_id = auth.uid());
-
 drop policy if exists price_alerts_owner_delete on public.price_alerts;
 create policy price_alerts_owner_delete on public.price_alerts
   for delete using (user_id = auth.uid());
-
 drop policy if exists alert_events_owner_select on public.alert_events;
 create policy alert_events_owner_select on public.alert_events
   for select using (user_id = auth.uid());
-
 drop policy if exists alert_events_owner_insert on public.alert_events;
 create policy alert_events_owner_insert on public.alert_events
   for insert with check (user_id = auth.uid());
-
 -- alert matching function
 create or replace function public.check_price_alerts_for_item_v1(
   p_menu_item_id uuid,
@@ -114,7 +100,6 @@ begin
   on conflict do nothing;
 end;
 $$;
-
 -- trigger: call alerts on verified price changes (history insert)
 create or replace function public.handle_price_alerts_for_history_v1()
 returns trigger
@@ -158,12 +143,10 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_price_alerts_history on public.menu_item_price_history;
 create trigger trg_price_alerts_history
   after insert on public.menu_item_price_history
   for each row execute function public.handle_price_alerts_for_history_v1();
-
 -- RPCs
 create or replace function public.create_price_alert_v1(
   p_query text,
@@ -196,7 +179,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id);
 end;
 $$;
-
 create or replace function public.list_my_alerts_v1(
   p_limit int default 20,
   p_offset int default 0
@@ -231,7 +213,6 @@ as $$
   order by a.created_at desc
   limit p_limit offset p_offset;
 $$;
-
 create or replace function public.list_my_alert_events_v1(
   p_limit int default 20,
   p_offset int default 0

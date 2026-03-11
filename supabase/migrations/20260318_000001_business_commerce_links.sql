@@ -3,10 +3,8 @@ alter table public.businesses
   add column if not exists order_yemeksepeti_url text,
   add column if not exists order_trendyolgo_url text,
   add column if not exists order_getir_url text;
-
 alter table public.analytics_events
   drop constraint if exists analytics_events_event_name_check;
-
 alter table public.analytics_events
   add constraint analytics_events_event_name_check
   check (
@@ -23,7 +21,6 @@ alter table public.analytics_events
       ]
     )
   );
-
 create or replace function public.log_event_v1(
   p_event_name text,
   p_business_id uuid default null,
@@ -100,7 +97,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.analytics_growth_v2(
   p_days integer default 30,
   p_business_id uuid default null
@@ -148,11 +144,9 @@ begin
   order by d.day;
 end;
 $$;
-
 grant all on function public.analytics_growth_v2(integer, uuid) to anon;
 grant all on function public.analytics_growth_v2(integer, uuid) to authenticated;
 grant all on function public.analytics_growth_v2(integer, uuid) to service_role;
-
 create or replace function public.owner_update_business_commerce_links_v1(
   p_business_id uuid,
   p_reservation_url text default null,
@@ -182,7 +176,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 grant all on function public.owner_update_business_commerce_links_v1(
   uuid,
   text,

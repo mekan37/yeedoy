@@ -44,7 +44,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.admin_bulk_update_reports_status_v2(
   p_report_ids uuid[],
   p_status text,
@@ -90,7 +89,6 @@ begin
   return jsonb_build_object('ok', true, 'updated', v_count);
 end;
 $$;
-
 create or replace function public.admin_list_reports_v5(
   p_status text default null,
   p_limit integer default 50,
@@ -167,7 +165,6 @@ as $$
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
 $$;
-
 drop function if exists public.admin_list_reports_v4(text, integer, integer, text, text, boolean);
 drop function if exists public.admin_list_reports_v3(text, integer, integer, text, text, boolean);
 drop function if exists public.admin_list_reports_v2(text, integer, integer, text, text);

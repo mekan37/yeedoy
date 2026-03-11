@@ -4,7 +4,6 @@ create table if not exists public.business_follows (
   created_at timestamptz default now(),
   primary key (user_id, business_id)
 );
-
 create table if not exists public.feed_events (
   id uuid primary key default gen_random_uuid(),
   business_id uuid references public.businesses(id) on delete set null,
@@ -13,7 +12,6 @@ create table if not exists public.feed_events (
   meta jsonb default '{}'::jsonb,
   created_at timestamptz default now()
 );
-
 do $$
 begin
   if not exists (
@@ -27,10 +25,8 @@ begin
       check (type in ('menu_update','story_posted','price_verified','sponsored'));
   end if;
 end $$;
-
 create index if not exists feed_events_business_created_at_idx
   on public.feed_events (business_id, created_at desc);
-
 create or replace function public.follow_business_v1(
   p_business_id uuid
 ) returns jsonb
@@ -52,7 +48,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.unfollow_business_v1(
   p_business_id uuid
 ) returns jsonb
@@ -74,7 +69,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.get_my_feed_v1(
   p_limit int,
   p_offset int
@@ -115,7 +109,6 @@ begin
   offset greatest(p_offset, 0);
 end;
 $function$;
-
 create or replace function public.handle_business_activity_log_feed() returns trigger
 language plpgsql
 security definer
@@ -129,7 +122,6 @@ begin
   return new;
 end;
 $function$;
-
 drop trigger if exists trg_business_activity_log_feed on public.business_activity_log;
 create trigger trg_business_activity_log_feed
 after insert on public.business_activity_log

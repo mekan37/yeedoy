@@ -5,7 +5,6 @@
 
 alter table if exists public.menu_item_price_suggestions
   add column if not exists evidence_url text;
-
 create or replace function public.get_menu_item_price_status_v1(p_menu_item_id uuid)
 returns jsonb
 language sql
@@ -79,7 +78,6 @@ as $$
   from votes
   left join latest on true;
 $$;
-
 create or replace function public.submit_menu_item_price_suggestion_v2(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
@@ -229,7 +227,6 @@ begin
   );
 end;
 $$;
-
 grant all on function public.submit_menu_item_price_suggestion_v2(uuid, integer, text, text, text) to anon;
 grant all on function public.submit_menu_item_price_suggestion_v2(uuid, integer, text, text, text) to authenticated;
 grant all on function public.submit_menu_item_price_suggestion_v2(uuid, integer, text, text, text) to service_role;

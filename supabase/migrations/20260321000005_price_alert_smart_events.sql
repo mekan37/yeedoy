@@ -3,7 +3,6 @@
 alter table public.alert_events
   add column if not exists previous_price_cents int,
   add column if not exists district_avg_price_cents int;
-
 create or replace function public.check_price_alerts_for_item_v1(
   p_menu_item_id uuid,
   p_business_id uuid,
@@ -48,7 +47,6 @@ begin
   on conflict do nothing;
 end;
 $$;
-
 create or replace function public.handle_price_alerts_for_history_v1()
 returns trigger
 language plpgsql
@@ -115,9 +113,7 @@ begin
   return new;
 end;
 $$;
-
 drop function if exists public.list_my_alert_events_v1(int, int);
-
 create function public.list_my_alert_events_v1(
   p_limit int default 20,
   p_offset int default 0

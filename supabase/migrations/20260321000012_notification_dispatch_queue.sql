@@ -9,10 +9,8 @@ create table if not exists public.notification_dispatch_jobs (
   updated_at timestamptz not null default now(),
   unique (notification_id)
 );
-
 create index if not exists notification_dispatch_jobs_status_idx
   on public.notification_dispatch_jobs(status, created_at asc);
-
 create or replace function public.touch_updated_at_v1()
 returns trigger
 language plpgsql
@@ -22,14 +20,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_notification_dispatch_jobs_touch_v1
 on public.notification_dispatch_jobs;
 create trigger trg_notification_dispatch_jobs_touch_v1
 before update on public.notification_dispatch_jobs
 for each row
 execute function public.touch_updated_at_v1();
-
 create or replace function public.enqueue_notification_dispatch_v1()
 returns trigger
 language plpgsql
@@ -43,14 +39,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_enqueue_notification_dispatch_v1
 on public.notifications;
 create trigger trg_enqueue_notification_dispatch_v1
 after insert on public.notifications
 for each row
 execute function public.enqueue_notification_dispatch_v1();
-
 create or replace function public.dequeue_notification_dispatch_jobs_v1(
   p_limit int default 20
 )
@@ -104,7 +98,6 @@ begin
   join public.notifications n on n.id = l.notification_id;
 end;
 $$;
-
 create or replace function public.complete_notification_dispatch_job_v1(
   p_job_id uuid,
   p_success boolean,

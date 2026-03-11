@@ -3,7 +3,6 @@
 -- Purpose: Guard checks before legacy cleanup.
 
 begin;
-
 do $$
 declare
   missing_count int;
@@ -63,5 +62,4 @@ begin
 
   raise notice 'code-referenced missing objects: %', missing_count;
 end $$;
-
 commit;

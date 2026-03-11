@@ -7,16 +7,12 @@ create table if not exists public.chains (
   description text null,
   created_at timestamptz not null default now()
 );
-
 create unique index if not exists idx_chains_name_unique
   on public.chains(lower(name));
-
 alter table public.businesses
   add column if not exists chain_id uuid references public.chains(id) on delete set null;
-
 alter table public.businesses
   add column if not exists branch_label text;
-
 create table if not exists public.chain_memberships (
   chain_id uuid not null references public.chains(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -24,22 +20,17 @@ create table if not exists public.chain_memberships (
   created_at timestamptz not null default now(),
   primary key (chain_id, user_id)
 );
-
 alter table public.chains enable row level security;
 alter table public.chain_memberships enable row level security;
-
 drop policy if exists chains_read_all on public.chains;
 create policy chains_read_all on public.chains
 for select to authenticated using (true);
-
 drop policy if exists chain_memberships_owner_read on public.chain_memberships;
 create policy chain_memberships_owner_read on public.chain_memberships
 for select to authenticated using (user_id = auth.uid() or public.is_admin());
-
 drop policy if exists chain_memberships_admin_all on public.chain_memberships;
 create policy chain_memberships_admin_all on public.chain_memberships
 for all to authenticated using (public.is_admin()) with check (public.is_admin());
-
 create or replace function public.owner_list_my_businesses_v2(
   p_status text default 'approved',
   p_limit integer default 50,
@@ -82,7 +73,6 @@ as $$
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
 $$;
-
 create or replace function public.get_chain_overview_v1(
   p_chain_id uuid,
   p_lat double precision default null,
@@ -138,11 +128,9 @@ as $$
     b.name asc
   limit greatest(p_limit, 1);
 $$;
-
 grant all on function public.owner_list_my_businesses_v2(text, integer, integer) to anon;
 grant all on function public.owner_list_my_businesses_v2(text, integer, integer) to authenticated;
 grant all on function public.owner_list_my_businesses_v2(text, integer, integer) to service_role;
-
 grant all on function public.get_chain_overview_v1(uuid, double precision, double precision, integer) to anon;
 grant all on function public.get_chain_overview_v1(uuid, double precision, double precision, integer) to authenticated;
 grant all on function public.get_chain_overview_v1(uuid, double precision, double precision, integer) to service_role;

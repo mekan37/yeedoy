@@ -109,7 +109,6 @@ select
   p.has_fee_flags,
   p.weekly_verified_votes
 from points p;
-
 create or replace function public.get_business_quality_score_v1(
   p_business_id uuid
 )

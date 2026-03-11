@@ -70,11 +70,9 @@ as $$
   order by v.views_7d desc nulls last, coalesce(qs.score, 0) desc nulls last
   limit p_limit;
 $$;
-
 grant all on function public.get_district_top_views_v1(text, text, text, int) to anon;
 grant all on function public.get_district_top_views_v1(text, text, text, int) to authenticated;
 grant all on function public.get_district_top_views_v1(text, text, text, int) to service_role;
-
 create or replace function public.get_district_price_changes_v1(
   p_city text,
   p_district text,
@@ -147,11 +145,9 @@ as $$
   order by c.changes_7d desc nulls last, coalesce(qs.score, 0) desc nulls last
   limit p_limit;
 $$;
-
 grant all on function public.get_district_price_changes_v1(text, text, text, int) to anon;
 grant all on function public.get_district_price_changes_v1(text, text, text, int) to authenticated;
 grant all on function public.get_district_price_changes_v1(text, text, text, int) to service_role;
-
 create or replace function public.get_district_night_favorites_v1(
   p_city text,
   p_district text,
@@ -246,8 +242,6 @@ as $$
   order by f.favorites_count desc nulls last, coalesce(qs.score, 0) desc nulls last
   limit p_limit;
 $$;
-
 grant all on function public.get_district_night_favorites_v1(text, text, text, int) to anon;
 grant all on function public.get_district_night_favorites_v1(text, text, text, int) to authenticated;
 grant all on function public.get_district_night_favorites_v1(text, text, text, int) to service_role;
-

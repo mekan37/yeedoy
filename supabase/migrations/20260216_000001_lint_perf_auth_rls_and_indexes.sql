@@ -41,7 +41,6 @@ begin
     execute stmt;
   end loop;
 end $$;
-
 -- Drop duplicate indexes reported by linter (safe if missing)
 drop index if exists public.idx_businesses_city_district;
 drop index if exists public.businesses_address_trgm_idx;

@@ -1,6 +1,5 @@
 alter table public.achievements
   add column if not exists xp int not null default 20;
-
 update public.achievements
 set xp = case id
   when 'first_review' then 20
@@ -14,7 +13,6 @@ set xp = case id
   when 'trusted_contributor' then 80
   else xp
 end;
-
 create or replace function public.award_achievement_v1(
   p_user_id uuid,
   p_achievement_id text,
@@ -64,7 +62,6 @@ begin
   return true;
 end;
 $$;
-
 create or replace function public.get_my_achievements_v2()
 returns table(
   id text,

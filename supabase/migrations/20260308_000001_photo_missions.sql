@@ -8,7 +8,6 @@ create table if not exists public.photo_missions (
   expires_at timestamptz null,
   created_at timestamptz not null default now()
 );
-
 do $$
 begin
   if not exists (
@@ -22,13 +21,10 @@ begin
       check (mission_type in ('missing_menu_photo','stale_menu_photo'));
   end if;
 end $$;
-
 create index if not exists photo_missions_city_idx
   on public.photo_missions (city, district, created_at desc);
-
 create index if not exists photo_missions_business_idx
   on public.photo_missions (business_id, mission_type, created_at desc);
-
 create table if not exists public.user_mission_claims (
   id uuid primary key default gen_random_uuid(),
   mission_id uuid not null references public.photo_missions(id) on delete cascade,
@@ -38,7 +34,6 @@ create table if not exists public.user_mission_claims (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
 do $$
 begin
   if not exists (
@@ -52,66 +47,54 @@ begin
       check (status in ('claimed','submitted','approved','rejected'));
   end if;
 end $$;
-
 create unique index if not exists user_mission_claims_unique
   on public.user_mission_claims (mission_id, user_id);
-
 create index if not exists user_mission_claims_user_idx
   on public.user_mission_claims (user_id, status, created_at desc);
-
 create table if not exists public.user_points (
   user_id uuid primary key,
   points int not null default 0,
   updated_at timestamptz not null default now()
 );
-
 alter table public.photo_missions enable row level security;
 alter table public.user_mission_claims enable row level security;
 alter table public.user_points enable row level security;
-
 drop policy if exists photo_missions_read_all on public.photo_missions;
 create policy photo_missions_read_all
   on public.photo_missions
   for select
   using (true);
-
 drop policy if exists user_mission_claims_owner_select on public.user_mission_claims;
 create policy user_mission_claims_owner_select
   on public.user_mission_claims
   for select
   using (user_id = auth.uid());
-
 drop policy if exists user_mission_claims_owner_write on public.user_mission_claims;
 create policy user_mission_claims_owner_write
   on public.user_mission_claims
   for insert
   with check (user_id = auth.uid());
-
 drop policy if exists user_mission_claims_owner_update on public.user_mission_claims;
 create policy user_mission_claims_owner_update
   on public.user_mission_claims
   for update
   using (user_id = auth.uid())
   with check (user_id = auth.uid());
-
 drop policy if exists user_mission_claims_admin_all on public.user_mission_claims;
 create policy user_mission_claims_admin_all
   on public.user_mission_claims
   for all
   using (public.is_admin());
-
 drop policy if exists user_points_owner_select on public.user_points;
 create policy user_points_owner_select
   on public.user_points
   for select
   using (user_id = auth.uid());
-
 drop policy if exists user_points_admin_all on public.user_points;
 create policy user_points_admin_all
   on public.user_points
   for all
   using (public.is_admin());
-
 create or replace function public.get_photo_missions_v1(
   p_city text default null,
   p_district text default null,
@@ -156,7 +139,6 @@ as $$
   order by m.created_at desc
   limit greatest(p_limit, 0);
 $$;
-
 create or replace function public.claim_mission_v1(
   p_mission_id uuid
 ) returns jsonb
@@ -189,7 +171,6 @@ begin
   return jsonb_build_object('ok', true, 'claim_id', v_exists);
 end;
 $function$;
-
 create or replace function public.submit_mission_proof_v1(
   p_mission_id uuid,
   p_photo_id uuid
@@ -240,7 +221,6 @@ begin
   return jsonb_build_object('ok', true, 'claim_id', v_claim_id);
 end;
 $function$;
-
 create or replace function public.admin_list_mission_claims_v1(
   p_status text default 'submitted',
   p_limit int default 50,
@@ -281,7 +261,6 @@ as $$
   limit greatest(p_limit, 0)
   offset greatest(p_offset, 0);
 $$;
-
 create or replace function public.admin_approve_mission_claim_v1(
   p_claim_id uuid
 ) returns jsonb
@@ -321,7 +300,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.admin_reject_mission_claim_v1(
   p_claim_id uuid
 ) returns jsonb
@@ -342,7 +320,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.get_my_points_v1()
 returns jsonb
 language sql
@@ -355,7 +332,6 @@ as $$
     coalesce((select points from public.user_points where user_id = auth.uid()), 0)
   );
 $$;
-
 create or replace function public.generate_photo_missions_v1(
   p_city text default null,
   p_district text default null,
@@ -424,7 +400,6 @@ begin
   return v_count;
 end;
 $function$;
-
 create or replace function public.add_menu_item_photo_v1(
   p_menu_item_id uuid,
   p_url text,

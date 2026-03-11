@@ -7,9 +7,7 @@ create table if not exists public.business_pricing_rules (
   vat_included boolean not null default true,
   default_tip_pct int null
 );
-
 alter table if exists public.business_pricing_rules enable row level security;
-
 create or replace function public.get_bill_estimate_v1(
   p_business_id uuid,
   p_items jsonb,

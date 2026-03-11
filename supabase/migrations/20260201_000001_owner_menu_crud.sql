@@ -1,4 +1,4 @@
-create function public.owner_create_menu_v1(
+﻿create function public.owner_create_menu_v1(
   p_business_id uuid,
   p_title text,
   p_kind text default null,
@@ -50,7 +50,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_menu_id, 'message', 'Created');
 end;
 $function$;
-
 create function public.owner_update_menu_v1(
   p_menu_id uuid,
   p_title text default null,
@@ -108,7 +107,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_menu_id, 'message', 'Updated');
 end;
 $function$;
-
 create function public.owner_archive_menu_v1(
   p_menu_id uuid
 )
@@ -149,7 +147,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_menu_id, 'message', 'Archived');
 end;
 $function$;
-
 create function public.owner_publish_menu_v1(
   p_menu_id uuid
 )
@@ -190,7 +187,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_menu_id, 'message', 'Published');
 end;
 $function$;
-
 create function public.owner_create_menu_section_v1(
   p_menu_id uuid,
   p_title text,
@@ -248,7 +244,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_section_id, 'message', 'Created');
 end;
 $function$;
-
 create function public.owner_update_menu_section_v1(
   p_section_id uuid,
   p_title text
@@ -298,7 +293,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_section_id, 'message', 'Updated');
 end;
 $function$;
-
 create function public.owner_delete_menu_section_v1(
   p_section_id uuid,
   p_delete_items boolean default true
@@ -355,7 +349,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_section_id, 'message', 'Deleted');
 end;
 $function$;
-
 create function public.owner_reorder_menu_sections_v1(
   p_menu_id uuid,
   p_section_ids uuid[]
@@ -413,7 +406,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_menu_id, 'message', 'Reordered');
 end;
 $function$;
-
 create function public.owner_create_menu_item_v1(
   p_section_id uuid,
   p_name text,
@@ -504,7 +496,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_item_id, 'message', 'Created');
 end;
 $function$;
-
 create function public.owner_update_menu_item_v1(
   p_item_id uuid,
   p_name text default null,
@@ -572,7 +563,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_item_id, 'message', 'Updated');
 end;
 $function$;
-
 create function public.owner_archive_menu_item_v1(
   p_item_id uuid
 )
@@ -619,7 +609,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_item_id, 'message', 'Archived');
 end;
 $function$;
-
 create function public.owner_publish_menu_item_v1(
   p_item_id uuid
 )
@@ -666,7 +655,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_item_id, 'message', 'Published');
 end;
 $function$;
-
 -- NOTE: menu_items tablosunda sort_order bulunmadığı için
 -- owner_reorder_menu_items_v1 oluşturulmadı. Gerekirse schema'ya sort_order eklenmeli.
 
@@ -682,8 +670,4 @@ $function$;
 -- select public.owner_create_menu_item_v1('00000000-0000-0000-0000-000000000000'::uuid, 'Köfte', 'Not', 25000, 'TRY', null);
 -- select public.owner_update_menu_item_v1('00000000-0000-0000-0000-000000000000'::uuid, 'Köfte', 'Not', 26000, 'TRY', null);
 -- select public.owner_archive_menu_item_v1('00000000-0000-0000-0000-000000000000'::uuid);
--- select public.owner_publish_menu_item_v1('00000000-0000-0000-0000-000000000000'::uuid);
-
-
-
-
+-- select public.owner_publish_menu_item_v1('00000000-0000-0000-0000-000000000000'::uuid);;

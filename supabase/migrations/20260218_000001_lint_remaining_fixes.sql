@@ -41,7 +41,6 @@ begin
     execute stmt;
   end loop;
 end $$;
-
 -- analytics_events: RLS enabled but no policy
 DO $$
 BEGIN
@@ -54,7 +53,6 @@ BEGIN
     END IF;
   END IF;
 END $$;
-
 -- Add missing FK indexes
 CREATE INDEX IF NOT EXISTS business_amenity_map_amenity_id_idx ON public.business_amenity_map (amenity_id);
 CREATE INDEX IF NOT EXISTS business_follows_business_id_idx ON public.business_follows (business_id);
@@ -68,7 +66,6 @@ CREATE INDEX IF NOT EXISTS sponsorship_leads_business_id_idx ON public.sponsorsh
 CREATE INDEX IF NOT EXISTS sponsorships_business_id_idx ON public.sponsorships (business_id);
 CREATE INDEX IF NOT EXISTS sponsorships_created_by_idx ON public.sponsorships (created_by);
 CREATE INDEX IF NOT EXISTS sponsorships_package_id_idx ON public.sponsorships (package_id);
-
 -- table_feedback: add primary key
 DO $$
 BEGIN

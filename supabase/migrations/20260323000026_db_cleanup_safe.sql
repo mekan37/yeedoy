@@ -5,7 +5,6 @@
 -- 3) Create side-copy aliases for candidate views/functions when they exist
 
 create schema if not exists deprecated;
-
 -- Candidate legacy views: add comment + create deprecated side-copy view
 do $$
 begin
@@ -45,7 +44,6 @@ begin
     ';
   end if;
 end $$;
-
 -- Candidate legacy tables: comment only (no rename / no move)
 do $$
 begin
@@ -59,7 +57,6 @@ begin
       quote_literal('DEPRECATED: planned removal after compatibility window');
   end if;
 end $$;
-
 -- Candidate legacy functions: comment only (safe; no body rewrite/copy)
 do $$
 declare
@@ -93,7 +90,6 @@ begin
     );
   end loop;
 end $$;
-
 -- Keep these as dangerous/risky (comment only, no copy/drop)
 do $$
 declare

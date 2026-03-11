@@ -6,19 +6,15 @@ create table if not exists public.user_achievement_awards (
   meta jsonb not null default '{}'::jsonb,
   primary key (user_id, achievement_id, award_date)
 );
-
 alter table public.user_achievement_awards enable row level security;
-
 drop policy if exists user_achievement_awards_read_own on public.user_achievement_awards;
 create policy user_achievement_awards_read_own
 on public.user_achievement_awards
 for select
 to authenticated
 using (user_id = auth.uid());
-
 create index if not exists user_achievement_awards_user_idx
   on public.user_achievement_awards(user_id, awarded_at desc);
-
 create or replace function public.award_achievement_v1(
   p_user_id uuid,
   p_achievement_id text,
@@ -92,7 +88,6 @@ begin
   return true;
 end;
 $$;
-
 create or replace function public.recompute_user_achievements_v1(
   p_user_id uuid
 )
@@ -243,7 +238,6 @@ begin
   end if;
 end;
 $$;
-
 create or replace function public.admin_reset_user_achievement_v1(
   p_user_id uuid,
   p_achievement_id text,
@@ -291,5 +285,4 @@ begin
   return jsonb_build_object('ok', true, 'deleted', v_deleted > 0);
 end;
 $$;
-
 grant execute on function public.admin_reset_user_achievement_v1(uuid, text, text) to authenticated;

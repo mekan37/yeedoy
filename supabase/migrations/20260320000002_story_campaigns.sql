@@ -134,7 +134,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 grant all on function public.create_business_story_v1(
   uuid,
   text,
@@ -162,7 +161,6 @@ grant all on function public.create_business_story_v1(
   integer,
   text
 ) to service_role;
-
 create or replace function public.get_nearby_campaign_stories_v1(
   p_lat double precision default null,
   p_lng double precision default null,
@@ -245,7 +243,6 @@ as $$
   order by distance_km nulls last, created_at desc
   limit greatest(coalesce(p_limit, 20), 1);
 $$;
-
 grant all on function public.get_nearby_campaign_stories_v1(
   double precision,
   double precision,

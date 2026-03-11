@@ -8,7 +8,6 @@ create table if not exists public.notifications (
   is_read boolean not null default false,
   created_at timestamptz not null default now()
 );
-
 create table if not exists public.user_devices (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -19,24 +18,20 @@ create table if not exists public.user_devices (
   created_at timestamptz not null default now(),
   unique (user_id, fcm_token)
 );
-
 create index if not exists notifications_user_created_idx
   on public.notifications(user_id, created_at desc);
 create index if not exists notifications_user_unread_idx
   on public.notifications(user_id, is_read, created_at desc);
 create index if not exists user_devices_user_last_seen_idx
   on public.user_devices(user_id, last_seen_at desc);
-
 alter table public.notifications enable row level security;
 alter table public.user_devices enable row level security;
-
 drop policy if exists notifications_select_own on public.notifications;
 create policy notifications_select_own
 on public.notifications
 for select
 to authenticated
 using (user_id = auth.uid());
-
 drop policy if exists notifications_update_own on public.notifications;
 create policy notifications_update_own
 on public.notifications
@@ -44,21 +39,18 @@ for update
 to authenticated
 using (user_id = auth.uid())
 with check (user_id = auth.uid());
-
 drop policy if exists user_devices_select_own on public.user_devices;
 create policy user_devices_select_own
 on public.user_devices
 for select
 to authenticated
 using (user_id = auth.uid());
-
 drop policy if exists user_devices_insert_own on public.user_devices;
 create policy user_devices_insert_own
 on public.user_devices
 for insert
 to authenticated
 with check (user_id = auth.uid());
-
 drop policy if exists user_devices_update_own on public.user_devices;
 create policy user_devices_update_own
 on public.user_devices
@@ -66,7 +58,6 @@ for update
 to authenticated
 using (user_id = auth.uid())
 with check (user_id = auth.uid());
-
 create or replace function public.notify_user_v1(
   p_user_id uuid,
   p_type text,
@@ -99,7 +90,6 @@ begin
   return v_id;
 end;
 $$;
-
 create or replace function public.register_user_device_v1(
   p_fcm_token text,
   p_platform text,
@@ -136,7 +126,6 @@ begin
   return v_id;
 end;
 $$;
-
 create or replace function public.mark_notification_read_v1(
   p_notification_id uuid
 )
@@ -158,7 +147,6 @@ begin
   return found;
 end;
 $$;
-
 create or replace function public.mark_all_notifications_read_v1()
 returns int
 language plpgsql
@@ -181,7 +169,6 @@ begin
   return v_count;
 end;
 $$;
-
 create or replace function public.trg_notify_price_suggestion_result_v1()
 returns trigger
 language plpgsql
@@ -226,14 +213,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_notify_price_suggestion_result_v1
 on public.menu_item_price_suggestions;
 create trigger trg_notify_price_suggestion_result_v1
 after update on public.menu_item_price_suggestions
 for each row
 execute function public.trg_notify_price_suggestion_result_v1();
-
 create or replace function public.trg_notify_owner_new_price_suggestion_v1()
 returns trigger
 language plpgsql
@@ -276,14 +261,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_notify_owner_new_price_suggestion_v1
 on public.menu_item_price_suggestions;
 create trigger trg_notify_owner_new_price_suggestion_v1
 after insert on public.menu_item_price_suggestions
 for each row
 execute function public.trg_notify_owner_new_price_suggestion_v1();
-
 create or replace function public.trg_notify_owner_new_review_v1()
 returns trigger
 language plpgsql
@@ -325,14 +308,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_notify_owner_new_review_v1
 on public.reviews;
 create trigger trg_notify_owner_new_review_v1
 after insert on public.reviews
 for each row
 execute function public.trg_notify_owner_new_review_v1();
-
 create or replace function public.trg_notify_owner_reported_v1()
 returns trigger
 language plpgsql
@@ -379,14 +360,12 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_notify_owner_reported_v1
 on public.reports;
 create trigger trg_notify_owner_reported_v1
 after insert on public.reports
 for each row
 execute function public.trg_notify_owner_reported_v1();
-
 create or replace function public.trg_notify_review_reply_v1()
 returns trigger
 language plpgsql
@@ -419,7 +398,6 @@ begin
   return new;
 end;
 $$;
-
 do $$
 begin
   if to_regclass('public.review_replies') is not null then
@@ -431,7 +409,6 @@ begin
   end if;
 end;
 $$;
-
 create or replace function public.trg_notify_price_alert_event_v1()
 returns trigger
 language plpgsql
@@ -472,7 +449,6 @@ begin
   return new;
 end;
 $$;
-
 do $$
 begin
   if to_regclass('public.alert_events') is not null then
@@ -484,7 +460,6 @@ begin
   end if;
 end;
 $$;
-
 grant execute on function public.register_user_device_v1(text, text, text) to authenticated;
 grant execute on function public.mark_notification_read_v1(uuid) to authenticated;
 grant execute on function public.mark_all_notifications_read_v1() to authenticated;

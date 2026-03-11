@@ -1,4 +1,4 @@
-create or replace function public.submit_menu_item_price_suggestion_v1(
+﻿create or replace function public.submit_menu_item_price_suggestion_v1(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
   p_currency text default 'TRY',
@@ -53,7 +53,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.owner_reject_menu_price_suggestion_v1(
   p_suggestion_id uuid,
   p_note text default null
@@ -96,7 +95,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.admin_reject_menu_price_suggestion_v1(
   p_suggestion_id uuid,
   p_note text default null
@@ -130,7 +128,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.admin_reject_suspended_claim_v1(
   p_claim_id uuid,
   p_note text default null
@@ -164,7 +161,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.admin_decide_owner_claim_v1(
   p_claim_id uuid,
   p_decision text,
@@ -206,7 +202,6 @@ begin
   );
 end;
 $function$;
-
 create or replace function public.admin_bulk_decide_owner_claims_v1(
   p_claim_ids uuid[],
   p_decision text,
@@ -247,7 +242,6 @@ begin
   return jsonb_build_object('ok', true, 'updated', v_count);
 end;
 $function$;
-
 create or replace function public.submit_owner_claim_v1(
   p_business_id uuid,
   p_full_name text,
@@ -307,5 +301,3 @@ exception
     return jsonb_build_object('ok', false, 'error', 'already_submitted');
 end;
 $function$;
-
-

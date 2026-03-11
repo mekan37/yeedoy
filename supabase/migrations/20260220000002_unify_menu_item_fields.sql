@@ -4,26 +4,20 @@
 -- is_available, sort_order, created_at, updated_at
 
 begin;
-
 alter table public.menu_items
   add column if not exists sort_order integer;
-
 update public.menu_items
 set sort_order = coalesce(sort_order, 0)
 where sort_order is null;
-
 alter table public.menu_items
   alter column sort_order set default 0,
   alter column sort_order set not null;
-
 update public.menu_items
 set price_cents = 0
 where price_cents is null or price_cents < 0;
-
 alter table public.menu_items
   alter column price_cents set default 0,
   alter column price_cents set not null;
-
 do $$
 begin
   if not exists (
@@ -36,31 +30,24 @@ begin
       check (price_cents >= 0);
   end if;
 end $$;
-
 update public.menu_items
 set currency = 'TRY'
 where currency is null or btrim(currency) = '';
-
 alter table public.menu_items
   alter column currency set default 'TRY',
   alter column currency set not null;
-
 update public.menu_items
 set is_available = true
 where is_available is null;
-
 alter table public.menu_items
   alter column is_available set default true,
   alter column is_available set not null;
-
 update public.menu_items
 set tags = '[]'::jsonb
 where tags is null or jsonb_typeof(tags) <> 'array';
-
 alter table public.menu_items
   alter column tags set default '[]'::jsonb,
   alter column tags set not null;
-
 insert into public.menu_categories (business_id, sort_order, is_active)
 select distinct i.business_id, 0, true
 from public.menu_items i
@@ -70,7 +57,6 @@ where i.category_id is null
     from public.menu_categories c
     where c.business_id = i.business_id
   );
-
 insert into public.menu_translations (entity_type, entity_id, locale, name, description)
 select
   'category'::public.translation_entity_type,
@@ -86,7 +72,6 @@ where not exists (
     and t.entity_id = c.id
     and t.locale = 'tr'
 );
-
 update public.menu_items i
 set category_id = (
   select c2.id
@@ -96,8 +81,6 @@ set category_id = (
   limit 1
 )
 where i.category_id is null;
-
 create index if not exists idx_menu_items_business_category_sort_order
   on public.menu_items (business_id, category_id, sort_order);
-
 commit;

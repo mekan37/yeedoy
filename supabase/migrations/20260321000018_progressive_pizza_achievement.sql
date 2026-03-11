@@ -26,9 +26,7 @@ on conflict (id) do update set
   xp = excluded.xp,
   is_hidden = excluded.is_hidden,
   condition = excluded.condition;
-
 drop function if exists public.get_my_achievements_v2();
-
 create function public.get_my_achievements_v2()
 returns table(
   id text,
@@ -118,7 +116,6 @@ as $$
     coalesce(ua.unlocked_at, 'epoch'::timestamptz) desc,
     a.title asc;
 $$;
-
 create or replace function public.get_my_daily_micro_task_v1()
 returns table(
   task_key text,
@@ -185,9 +182,7 @@ as $$
   from d
   cross join metrics m;
 $$;
-
 grant execute on function public.get_my_daily_micro_task_v1() to authenticated;
-
 create or replace function public.recompute_user_achievements_v1(
   p_user_id uuid
 )

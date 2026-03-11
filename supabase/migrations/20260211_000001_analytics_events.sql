@@ -9,11 +9,9 @@ create table if not exists public.analytics_events (
   user_id uuid null,
   meta jsonb not null default '{}'::jsonb
 );
-
 alter table public.analytics_events
   add constraint analytics_events_event_name_check
   check (event_name in ('menu_shared','qr_scanned','menu_link_opened','app_install_from_menu'));
-
 create index if not exists analytics_events_event_name_created_at_idx
   on public.analytics_events (event_name, created_at desc);
 create index if not exists analytics_events_business_created_at_idx
@@ -22,9 +20,7 @@ create index if not exists analytics_events_menu_created_at_idx
   on public.analytics_events (menu_id, created_at desc);
 create index if not exists analytics_events_client_created_at_idx
   on public.analytics_events (client_id, created_at desc);
-
 alter table public.analytics_events enable row level security;
-
 create or replace function public.log_event_v1(
   p_event_name text,
   p_business_id uuid default null,
@@ -96,7 +92,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $function$;
-
 create or replace function public.analytics_growth_v1(
   p_days int default 30,
   p_business_id uuid default null

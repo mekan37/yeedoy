@@ -48,7 +48,6 @@ begin
   return v_csv;
 end;
 $$;
-
 create or replace function public.admin_export_regional_price_index_csv_v1(
   p_days int default 30
 )
@@ -130,7 +129,6 @@ begin
   return v_csv;
 end;
 $$;
-
 create or replace function public.admin_export_menu_inflation_csv_v1(
   p_days int default 30
 )

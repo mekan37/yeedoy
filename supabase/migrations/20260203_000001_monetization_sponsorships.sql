@@ -8,7 +8,6 @@ create table public.sponsorship_packages (
   is_active boolean not null default true,
   created_at timestamp with time zone default now()
 );
-
 create table public.sponsorships (
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references public.businesses(id) on delete cascade,
@@ -29,13 +28,10 @@ create table public.sponsorships (
   constraint sponsorships_ends_after_starts
     check (starts_at is null or ends_at is null or ends_at >= starts_at)
 );
-
 create index sponsorships_surface_status_dates_idx
   on public.sponsorships (surface, status, starts_at, ends_at);
-
 create index sponsorships_targeting_gin_idx
   on public.sponsorships using gin (targeting);
-
 create table public.sponsorship_impressions_daily (
   id uuid primary key default gen_random_uuid(),
   sponsorship_id uuid not null references public.sponsorships(id) on delete cascade,
@@ -46,12 +42,10 @@ create table public.sponsorship_impressions_daily (
   updated_at timestamp with time zone not null default now(),
   unique (sponsorship_id, day)
 );
-
 alter table public.businesses
   add column if not exists is_verified boolean not null default false,
   add column if not exists verified_at timestamp with time zone,
   add column if not exists verified_by uuid;
-
 do $$
 begin
   if not exists (
@@ -66,7 +60,6 @@ begin
       foreign key (verified_by) references public.admin_users(user_id);
   end if;
 end $$;
-
 create table public.business_premium (
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references public.businesses(id) on delete cascade,
@@ -79,11 +72,9 @@ create table public.business_premium (
   created_by uuid references public.admin_users(user_id),
   created_at timestamp with time zone not null default now()
 );
-
 create unique index business_premium_active_unique
   on public.business_premium (business_id, tier)
   where status = 'active';
-
 create table public.sponsorship_leads (
   id uuid primary key default gen_random_uuid(),
   business_id uuid not null references public.businesses(id) on delete cascade,
@@ -97,13 +88,11 @@ create table public.sponsorship_leads (
     check (status in ('new','contacted','closed')) default 'new',
   created_at timestamp with time zone not null default now()
 );
-
 alter table public.sponsorship_packages enable row level security;
 alter table public.sponsorships enable row level security;
 alter table public.sponsorship_impressions_daily enable row level security;
 alter table public.business_premium enable row level security;
 alter table public.sponsorship_leads enable row level security;
-
 do $$
 begin
   if not exists (
@@ -176,7 +165,6 @@ begin
       for insert with check (owner_user_id = auth.uid())';
   end if;
 end $$;
-
 create or replace function public.get_sponsored_businesses_v1(
   p_surface text,
   p_city text default null,
@@ -255,7 +243,6 @@ as $function$
   order by s.created_at desc
   limit greatest(p_limit, 0);
 $function$;
-
 create or replace function public.submit_sponsorship_lead_v1(
   p_business_id uuid,
   p_phone text,
@@ -300,7 +287,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id, 'message', 'Submitted');
 end;
 $function$;
-
 create or replace function public.admin_upsert_sponsorship_package_v1(
   p_id uuid default null,
   p_name text default null,
@@ -344,7 +330,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id);
 end;
 $function$;
-
 create or replace function public.admin_create_sponsorship_v1(
   p_business_id uuid,
   p_package_id uuid,
@@ -400,7 +385,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_id);
 end;
 $function$;
-
 create or replace function public.admin_set_sponsorship_status_v1(
   p_sponsorship_id uuid,
   p_status text
@@ -423,7 +407,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_sponsorship_id);
 end;
 $function$;
-
 create or replace function public.admin_list_sponsorships_v1(
   p_status text default null,
   p_surface text default null,
@@ -476,7 +459,6 @@ as $function$
   order by s.created_at desc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $function$;
-
 create or replace function public.admin_list_sponsorship_leads_v1(
   p_status text default null,
   p_limit integer default 50,
@@ -521,7 +503,6 @@ as $function$
   order by l.created_at desc
   limit greatest(p_limit, 0) offset greatest(p_offset, 0);
 $function$;
-
 create or replace function public.admin_update_sponsorship_lead_status_v1(
   p_id uuid,
   p_status text
@@ -543,7 +524,6 @@ begin
   return jsonb_build_object('ok', true, 'id', p_id);
 end;
 $function$;
-
 create or replace function public.admin_set_business_verified_v1(
   p_business_id uuid,
   p_is_verified boolean,

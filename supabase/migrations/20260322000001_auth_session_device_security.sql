@@ -53,7 +53,6 @@ begin
   return v_id;
 end;
 $$;
-
 create or replace function public.unregister_user_device_v1(
   p_fcm_token text default null
 )
@@ -85,9 +84,7 @@ begin
   return v_count;
 end;
 $$;
-
 grant execute on function public.unregister_user_device_v1(text) to authenticated;
-
 create or replace function public.trg_require_verified_contact_v1()
 returns trigger
 language plpgsql
@@ -125,25 +122,21 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_reviews_require_verified_contact_v1 on public.reviews;
 create trigger trg_reviews_require_verified_contact_v1
 before insert on public.reviews
 for each row
 execute function public.trg_require_verified_contact_v1();
-
 drop trigger if exists trg_price_suggestions_require_verified_contact_v1 on public.menu_item_price_suggestions;
 create trigger trg_price_suggestions_require_verified_contact_v1
 before insert on public.menu_item_price_suggestions
 for each row
 execute function public.trg_require_verified_contact_v1();
-
 drop trigger if exists trg_menu_item_photos_require_verified_contact_v1 on public.menu_item_photos;
 create trigger trg_menu_item_photos_require_verified_contact_v1
 before insert on public.menu_item_photos
 for each row
 execute function public.trg_require_verified_contact_v1();
-
 drop trigger if exists trg_business_media_require_verified_contact_v1 on public.business_media;
 create trigger trg_business_media_require_verified_contact_v1
 before insert on public.business_media

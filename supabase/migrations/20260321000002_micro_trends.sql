@@ -1,7 +1,6 @@
 create or replace function public.get_district_top_views_v1(
   p_city text,
   p_district text,
-  p_neighborhood text default null,
   p_limit int default 10
 )
 returns table(
@@ -29,8 +28,7 @@ as $$
   with params as (
     select
       nullif(trim(p_city), '') as city,
-      nullif(trim(p_district), '') as district,
-      nullif(trim(p_neighborhood), '') as neighborhood
+      nullif(trim(p_district), '') as district
   ),
   views as (
     select
@@ -43,41 +41,35 @@ as $$
     group by business_id
   )
   select
-    bws.id,
-    bws.name,
-    bws.category,
-    bws.city,
-    bws.district,
-    bws.address,
-    bws.lat,
-    bws.lng,
+    b.id,
+    b.name,
+    b.category,
+    b.city,
+    b.district,
+    b.address,
+    b.lat,
+    b.lng,
     null::double precision as distance_km,
-    bws.quality_score,
-    bws.avg_rating,
-    bws.median_price_cents,
+    null::double precision as quality_score,
+    null::double precision as avg_rating,
+    null::int as median_price_cents,
     null::boolean as is_open_now,
-    bws.recent_price_verified_count,
+    null::int as recent_price_verified_count,
     coalesce(v.views_7d, 0)::int as views_count
   from params p
-  join public.businesses_with_stats bws
-    on bws.city = p.city and bws.district = p.district
-  join public.businesses b on b.id = bws.id
-  left join views v on v.business_id = bws.id
-  where p.city is not null
-    and p.district is not null
-    and (p.neighborhood is null or b.neighborhood = p.neighborhood)
-  order by v.views_7d desc nulls last, bws.quality_score desc nulls last
+  join public.businesses b
+    on b.city = p.city and b.district = p.district
+  left join views v on v.business_id = b.id
+  where p.city is not null and p.district is not null
+  order by v.views_7d desc nulls last, b.name asc
   limit p_limit;
 $$;
-
-grant all on function public.get_district_top_views_v1(text, text, text, int) to anon;
-grant all on function public.get_district_top_views_v1(text, text, text, int) to authenticated;
-grant all on function public.get_district_top_views_v1(text, text, text, int) to service_role;
-
+grant all on function public.get_district_top_views_v1(text, text, int) to anon;
+grant all on function public.get_district_top_views_v1(text, text, int) to authenticated;
+grant all on function public.get_district_top_views_v1(text, text, int) to service_role;
 create or replace function public.get_district_price_changes_v1(
   p_city text,
   p_district text,
-  p_neighborhood text default null,
   p_limit int default 10
 )
 returns table(
@@ -105,8 +97,7 @@ as $$
   with params as (
     select
       nullif(trim(p_city), '') as city,
-      nullif(trim(p_district), '') as district,
-      nullif(trim(p_neighborhood), '') as neighborhood
+      nullif(trim(p_district), '') as district
   ),
   changes as (
     select
@@ -119,41 +110,35 @@ as $$
     group by mi.business_id
   )
   select
-    bws.id,
-    bws.name,
-    bws.category,
-    bws.city,
-    bws.district,
-    bws.address,
-    bws.lat,
-    bws.lng,
+    b.id,
+    b.name,
+    b.category,
+    b.city,
+    b.district,
+    b.address,
+    b.lat,
+    b.lng,
     null::double precision as distance_km,
-    bws.quality_score,
-    bws.avg_rating,
-    bws.median_price_cents,
+    null::double precision as quality_score,
+    null::double precision as avg_rating,
+    null::int as median_price_cents,
     null::boolean as is_open_now,
-    bws.recent_price_verified_count,
+    null::int as recent_price_verified_count,
     coalesce(c.changes_7d, 0)::int as price_changes_count
   from params p
-  join public.businesses_with_stats bws
-    on bws.city = p.city and bws.district = p.district
-  join public.businesses b on b.id = bws.id
-  left join changes c on c.business_id = bws.id
-  where p.city is not null
-    and p.district is not null
-    and (p.neighborhood is null or b.neighborhood = p.neighborhood)
-  order by c.changes_7d desc nulls last, bws.quality_score desc nulls last
+  join public.businesses b
+    on b.city = p.city and b.district = p.district
+  left join changes c on c.business_id = b.id
+  where p.city is not null and p.district is not null
+  order by c.changes_7d desc nulls last, b.name asc
   limit p_limit;
 $$;
-
-grant all on function public.get_district_price_changes_v1(text, text, text, int) to anon;
-grant all on function public.get_district_price_changes_v1(text, text, text, int) to authenticated;
-grant all on function public.get_district_price_changes_v1(text, text, text, int) to service_role;
-
+grant all on function public.get_district_price_changes_v1(text, text, int) to anon;
+grant all on function public.get_district_price_changes_v1(text, text, int) to authenticated;
+grant all on function public.get_district_price_changes_v1(text, text, int) to service_role;
 create or replace function public.get_district_night_favorites_v1(
   p_city text,
   p_district text,
-  p_neighborhood text default null,
   p_limit int default 10
 )
 returns table(
@@ -181,8 +166,7 @@ as $$
   with params as (
     select
       nullif(trim(p_city), '') as city,
-      nullif(trim(p_district), '') as district,
-      nullif(trim(p_neighborhood), '') as neighborhood
+      nullif(trim(p_district), '') as district
   ),
   favorites as (
     select business_id, count(*) as favorites_count
@@ -216,34 +200,30 @@ as $$
     )
   )
   select
-    bws.id,
-    bws.name,
-    bws.category,
-    bws.city,
-    bws.district,
-    bws.address,
-    bws.lat,
-    bws.lng,
+    b.id,
+    b.name,
+    b.category,
+    b.city,
+    b.district,
+    b.address,
+    b.lat,
+    b.lng,
     null::double precision as distance_km,
-    bws.quality_score,
-    bws.avg_rating,
-    bws.median_price_cents,
+    null::double precision as quality_score,
+    null::double precision as avg_rating,
+    null::int as median_price_cents,
     null::boolean as is_open_now,
-    bws.recent_price_verified_count,
+    null::int as recent_price_verified_count,
     coalesce(f.favorites_count, 0)::int as favorites_count
   from params p
-  join public.businesses_with_stats bws
-    on bws.city = p.city and bws.district = p.district
-  join public.businesses b on b.id = bws.id
-  join night_open n on n.business_id = bws.id
-  left join favorites f on f.business_id = bws.id
-  where p.city is not null
-    and p.district is not null
-    and (p.neighborhood is null or b.neighborhood = p.neighborhood)
-  order by f.favorites_count desc nulls last, bws.quality_score desc nulls last
+  join public.businesses b
+    on b.city = p.city and b.district = p.district
+  join night_open n on n.business_id = b.id
+  left join favorites f on f.business_id = b.id
+  where p.city is not null and p.district is not null
+  order by f.favorites_count desc nulls last, b.name asc
   limit p_limit;
 $$;
-
-grant all on function public.get_district_night_favorites_v1(text, text, text, int) to anon;
-grant all on function public.get_district_night_favorites_v1(text, text, text, int) to authenticated;
-grant all on function public.get_district_night_favorites_v1(text, text, text, int) to service_role;
+grant all on function public.get_district_night_favorites_v1(text, text, int) to anon;
+grant all on function public.get_district_night_favorites_v1(text, text, int) to authenticated;
+grant all on function public.get_district_night_favorites_v1(text, text, int) to service_role;

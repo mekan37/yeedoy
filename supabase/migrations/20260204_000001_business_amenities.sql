@@ -5,7 +5,6 @@ create table public.business_amenities (
   icon text not null,
   created_at timestamp with time zone default now()
 );
-
 insert into public.business_amenities (key, label, icon)
 values
   ('parking', 'Otopark', 'parking'),
@@ -16,16 +15,13 @@ values
   ('outdoor_seating', 'Dış Mekan', 'outdoor_seating'),
   ('alcohol', 'Alkol', 'alcohol')
 on conflict (key) do nothing;
-
 create table public.business_amenity_map (
   business_id uuid references public.businesses(id) on delete cascade,
   amenity_id uuid references public.business_amenities(id) on delete cascade,
   primary key (business_id, amenity_id)
 );
-
 alter table public.business_amenities enable row level security;
 alter table public.business_amenity_map enable row level security;
-
 do $$
 begin
   if not exists (
@@ -72,7 +68,6 @@ begin
       with check (public.is_admin() or public.is_owner_of_business(business_id))';
   end if;
 end $$;
-
 create or replace function public.get_business_amenities_v1(
   p_business_id uuid
 )
@@ -97,7 +92,6 @@ as $function$
   where m.business_id = p_business_id
   order by a.label asc;
 $function$;
-
 create or replace function public.owner_update_business_amenities_v1(
   p_business_id uuid,
   p_amenity_keys text[]

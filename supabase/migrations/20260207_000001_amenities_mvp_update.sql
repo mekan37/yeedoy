@@ -3,9 +3,7 @@ values
   ('delivery', 'Paket Servis', 'delivery'),
   ('takeaway', 'Gel Al', 'takeaway')
 on conflict (key) do nothing;
-
 drop function if exists public.get_business_amenities_v1(uuid);
-
 create or replace function public.get_business_amenities_v1(
   p_business_id uuid
 )

@@ -1,4 +1,4 @@
-create function public.admin_approve_price_suggestion_v1(
+﻿create function public.admin_approve_price_suggestion_v1(
   p_suggestion_id uuid
 )
 returns jsonb
@@ -10,7 +10,6 @@ begin
   return public.admin_approve_menu_price_suggestion_v1(p_suggestion_id);
 end;
 $function$;
-
 create function public.admin_reject_price_suggestion_v1(
   p_suggestion_id uuid,
   p_reason text default null
@@ -28,7 +27,6 @@ begin
   return public.admin_reject_menu_price_suggestion_v1(p_suggestion_id, v_reason);
 end;
 $function$;
-
 create function public.owner_list_price_suggestions_v1(
   p_business_id uuid,
   p_status text,
@@ -87,10 +85,7 @@ begin
   end if;
 end;
 $function$;
-
 -- Mini doğrulama (örnek çağrılar)
 -- select public.admin_approve_price_suggestion_v1('00000000-0000-0000-0000-000000000000'::uuid);
 -- select public.admin_reject_price_suggestion_v1('00000000-0000-0000-0000-000000000000'::uuid, 'test');
--- select * from public.owner_list_price_suggestions_v1(null, 'pending', 10, 0);
-
-
+-- select * from public.owner_list_price_suggestions_v1(null, 'pending', 10, 0);;

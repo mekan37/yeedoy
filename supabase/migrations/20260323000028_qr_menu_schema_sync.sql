@@ -13,7 +13,6 @@ BEGIN
   END IF;
 END
 $$;
-
 CREATE TABLE IF NOT EXISTS public.menu_categories (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id uuid NOT NULL REFERENCES public.businesses(id) ON DELETE CASCADE,
@@ -21,7 +20,6 @@ CREATE TABLE IF NOT EXISTS public.menu_categories (
   is_active boolean NOT NULL DEFAULT true,
   created_at timestamptz NOT NULL DEFAULT now()
 );
-
 CREATE TABLE IF NOT EXISTS public.menu_translations (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   entity_type public.translation_entity_type NOT NULL,
@@ -32,20 +30,16 @@ CREATE TABLE IF NOT EXISTS public.menu_translations (
   created_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT menu_translations_unique UNIQUE (entity_type, entity_id, locale)
 );
-
 ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS category_id uuid REFERENCES public.menu_categories(id) ON DELETE SET NULL;
 ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS is_available boolean NOT NULL DEFAULT true;
 ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS image_url text;
 ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS tags jsonb NOT NULL DEFAULT '[]'::jsonb;
 ALTER TABLE public.menu_items ADD COLUMN IF NOT EXISTS sort int NOT NULL DEFAULT 0;
-
 CREATE INDEX IF NOT EXISTS idx_menu_categories_business_id ON public.menu_categories (business_id, sort);
 CREATE INDEX IF NOT EXISTS idx_menu_translations_entity ON public.menu_translations (entity_type, entity_id, locale);
 CREATE INDEX IF NOT EXISTS idx_menu_items_category_sort ON public.menu_items (business_id, category_id, sort);
-
 ALTER TABLE public.menu_categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.menu_translations ENABLE ROW LEVEL SECURITY;
-
 DO $$
 BEGIN
   IF NOT EXISTS (
@@ -63,7 +57,6 @@ BEGIN
   END IF;
 END
 $$;
-
 DO $$
 BEGIN
   IF NOT EXISTS (
@@ -88,7 +81,6 @@ BEGIN
   END IF;
 END
 $$;
-
 DO $$
 BEGIN
   IF NOT EXISTS (
@@ -134,7 +126,6 @@ BEGIN
   END IF;
 END
 $$;
-
 DO $$
 BEGIN
   IF NOT EXISTS (
@@ -151,5 +142,4 @@ BEGIN
   END IF;
 END
 $$;
-
 NOTIFY pgrst, 'reload schema';

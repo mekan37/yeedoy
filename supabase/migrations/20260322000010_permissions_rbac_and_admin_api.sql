@@ -1,5 +1,4 @@
 begin;
-
 create or replace function public.get_app_role_v1()
 returns text
 language plpgsql
@@ -22,7 +21,6 @@ begin
   return v_role;
 end;
 $$;
-
 create or replace function public.can_access_business_v1(p_business_id uuid)
 returns boolean
 language sql
@@ -37,7 +35,6 @@ as $$
       or public.is_owner_of_business(p_business_id)
     );
 $$;
-
 create or replace function public.assert_owner_scope_v1(p_business_id uuid)
 returns void
 language plpgsql
@@ -54,7 +51,6 @@ begin
   end if;
 end;
 $$;
-
 create or replace function public.admin_apply_user_safety_action_v1(
   p_user_id uuid,
   p_action text,
@@ -136,10 +132,8 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 grant all on function public.get_app_role_v1() to authenticated;
 grant all on function public.can_access_business_v1(uuid) to authenticated;
 grant all on function public.assert_owner_scope_v1(uuid) to authenticated;
 grant all on function public.admin_apply_user_safety_action_v1(uuid, text, integer, text) to authenticated;
-
 commit;

@@ -6,7 +6,6 @@ select
 from public.temp_uploads t
 where t.status in ('pending', 'rejected')
   and t.expires_at < now();
-
 create or replace function public.mark_expired_temp_uploads_v1(
   p_limit int default 500
 )
@@ -36,7 +35,5 @@ begin
   return v_count;
 end;
 $$;
-
 grant select on public.expired_temp_uploads_v1 to authenticated, service_role;
 grant execute on function public.mark_expired_temp_uploads_v1(int) to service_role;
-

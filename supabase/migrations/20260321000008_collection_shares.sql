@@ -1,5 +1,4 @@
 create extension if not exists pgcrypto;
-
 create table if not exists public.collection_shares (
   slug text primary key,
   collection_key text not null,
@@ -8,22 +7,17 @@ create table if not exists public.collection_shares (
   created_by uuid references auth.users(id) on delete cascade,
   created_at timestamptz not null default now()
 );
-
 create unique index if not exists collection_shares_unique_key
   on public.collection_shares (collection_key, created_by);
-
 alter table public.collection_shares enable row level security;
-
 create policy "collection_shares_read"
 on public.collection_shares
 for select
 using (true);
-
 create policy "collection_shares_insert_own"
 on public.collection_shares
 for insert
 with check (auth.uid() = created_by);
-
 create or replace function public.upsert_collection_share_v1(
   p_collection_key text,
   p_name text,
@@ -66,7 +60,6 @@ begin
   return query select v_slug;
 end;
 $$;
-
 create or replace function public.get_collection_share_by_slug_v1(
   p_slug text
 )

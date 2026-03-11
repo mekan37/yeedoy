@@ -1,5 +1,4 @@
 begin;
-
 create or replace function public.sanitize_plain_text_v1(p_text text)
 returns text
 language sql
@@ -19,7 +18,6 @@ as $$
     )
   );
 $$;
-
 create or replace function public.mask_contact_tokens_v1(p_text text)
 returns text
 language sql
@@ -44,7 +42,6 @@ as $$
     )
   );
 $$;
-
 create or replace function public.contains_contact_or_url_v1(p_text text)
 returns boolean
 language sql
@@ -52,7 +49,6 @@ immutable
 as $$
   select coalesce(p_text, '') ~* '(https?://|www\.|t\.me/|wa\.me/|instagram\.com/|[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,}|(\+?\d[\d\s\-\(\)]{7,}\d))';
 $$;
-
 create or replace function public.normalize_for_moderation_v1(p_text text)
 returns text
 language sql
@@ -105,7 +101,6 @@ as $$
     'g'
   );
 $$;
-
 create or replace function public.contains_obfuscated_profanity_v1(p_text text)
 returns boolean
 language plpgsql
@@ -126,7 +121,6 @@ begin
   return false;
 end;
 $$;
-
 create or replace function public.submit_review_v1(
   p_business_id uuid,
   p_rating integer,
@@ -235,7 +229,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.submit_menu_item_price_suggestion_v2(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
@@ -409,7 +402,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.submit_report_v1(
   p_business_id uuid default null,
   p_review_id uuid default null,
@@ -517,6 +509,4 @@ begin
   return jsonb_build_object('ok', true, 'report_id', v_report_id);
 end;
 $$;
-
 commit;
-

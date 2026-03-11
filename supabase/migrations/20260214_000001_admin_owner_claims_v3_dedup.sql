@@ -6,7 +6,6 @@ drop function if exists public.admin_list_owner_claims_v3(
   p_assigned text,
   p_sla_only boolean
 );
-
 drop function if exists public.admin_list_owner_claims_v3(
   p_status text,
   p_limit integer,
@@ -15,7 +14,6 @@ drop function if exists public.admin_list_owner_claims_v3(
   p_assigned text,
   p_q text
 );
-
 create or replace function public.admin_list_owner_claims_v3(
   p_status text default null,
   p_limit integer default 50,

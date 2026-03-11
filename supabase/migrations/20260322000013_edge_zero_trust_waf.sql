@@ -1,5 +1,4 @@
 begin;
-
 create table if not exists public.edge_ip_denylist (
   id uuid primary key default gen_random_uuid(),
   ip_hash text not null unique,
@@ -9,19 +8,15 @@ create table if not exists public.edge_ip_denylist (
   created_at timestamptz not null default now(),
   created_by uuid null
 );
-
 alter table public.edge_ip_denylist enable row level security;
-
 drop policy if exists edge_ip_denylist_admin_all on public.edge_ip_denylist;
 create policy edge_ip_denylist_admin_all
   on public.edge_ip_denylist
   for all
   using (public.is_admin())
   with check (public.is_admin());
-
 create index if not exists idx_edge_ip_denylist_active_v1
   on public.edge_ip_denylist(is_active, expires_at);
-
 create or replace function public.is_edge_ip_denied_v1(p_ip_hash text)
 returns boolean
 language sql
@@ -37,10 +32,8 @@ as $$
       and (d.expires_at is null or d.expires_at > now())
   );
 $$;
-
 grant all on function public.is_edge_ip_denied_v1(text) to authenticated;
 grant all on function public.is_edge_ip_denied_v1(text) to service_role;
-
 create or replace function public.upsert_user_location_prefs_v1(
   p_city text,
   p_district text,
@@ -95,10 +88,8 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 grant all on function public.upsert_user_location_prefs_v1(text, text, text, text, double precision, double precision) to authenticated;
 grant all on function public.upsert_user_location_prefs_v1(text, text, text, text, double precision, double precision) to service_role;
-
 create or replace function public.upsert_user_location_prefs_v1(
   p_city text,
   p_district text,
@@ -118,8 +109,6 @@ as $$
     null
   );
 $$;
-
 grant all on function public.upsert_user_location_prefs_v1(text, text, text, text) to authenticated;
 grant all on function public.upsert_user_location_prefs_v1(text, text, text, text) to service_role;
-
 commit;

@@ -15,7 +15,6 @@ begin
     execute format('drop function if exists %I.%I(%s);', r.schema_name, r.function_name, r.args);
   end loop;
 end $$;
-
 create or replace function public.admin_list_owner_claims_v3(
   p_status text default null,
   p_limit integer default 50,

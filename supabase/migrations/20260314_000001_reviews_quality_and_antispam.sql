@@ -78,7 +78,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.get_business_reviews_v2(
   p_business_id uuid,
   p_sort text default 'newest',
@@ -155,11 +154,9 @@ as $$
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
 $$;
-
 grant all on function public.submit_review_v1(uuid, integer, text, text) to anon;
 grant all on function public.submit_review_v1(uuid, integer, text, text) to authenticated;
 grant all on function public.submit_review_v1(uuid, integer, text, text) to service_role;
-
 grant all on function public.get_business_reviews_v2(uuid, text, integer, integer) to anon;
 grant all on function public.get_business_reviews_v2(uuid, text, integer, integer) to authenticated;
 grant all on function public.get_business_reviews_v2(uuid, text, integer, integer) to service_role;

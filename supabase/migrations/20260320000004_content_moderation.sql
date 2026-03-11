@@ -2,28 +2,20 @@
 
 alter table public.user_profiles
   add column if not exists shadow_banned boolean not null default false;
-
 alter table public.menu_item_photos
   add column if not exists is_shadow boolean not null default false;
-
 alter table public.menu_item_price_suggestions
   add column if not exists is_shadow boolean not null default false;
-
 alter table public.business_media
   add column if not exists created_by uuid;
-
 alter table public.business_media
   add column if not exists is_shadow boolean not null default false;
-
 create index if not exists idx_menu_item_photos_shadow
   on public.menu_item_photos(is_shadow);
-
 create index if not exists idx_menu_item_price_suggestions_shadow
   on public.menu_item_price_suggestions(is_shadow);
-
 create index if not exists idx_business_media_shadow
   on public.business_media(is_shadow);
-
 create or replace function public.is_shadow_banned_v1()
 returns boolean
 language sql
@@ -35,7 +27,6 @@ as $$
     false
   );
 $$;
-
 create or replace function public.submit_review_v1(
   p_business_id uuid,
   p_rating integer,
@@ -129,7 +120,6 @@ begin
   return jsonb_build_object('ok', true, 'shadowed', v_shadow);
 end;
 $$;
-
 create or replace function public.submit_menu_item_price_suggestion_v2(
   p_menu_item_id uuid,
   p_suggested_price_cents integer,
@@ -302,7 +292,6 @@ begin
   );
 end;
 $$;
-
 create or replace function public.add_menu_item_photo_v1(
   p_menu_item_id uuid,
   p_url text,
@@ -364,7 +353,6 @@ begin
   return jsonb_build_object('ok', true, 'photo_id', v_photo_id, 'shadowed', v_shadow);
 end;
 $function$;
-
 create or replace function public.get_menu_item_photos_v1(
   p_menu_item_id uuid,
   p_limit integer default 12
@@ -404,7 +392,6 @@ as $$
   order by p.created_at desc
   limit greatest(p_limit, 0);
 $$;
-
 create or replace function public.add_business_media_v1(
   p_business_id uuid,
   p_url text,
@@ -445,11 +432,9 @@ begin
   return jsonb_build_object('ok', true, 'shadowed', v_shadow);
 end;
 $$;
-
 grant all on function public.add_business_media_v1(uuid, text, text, text, text, text) to anon;
 grant all on function public.add_business_media_v1(uuid, text, text, text, text, text) to authenticated;
 grant all on function public.add_business_media_v1(uuid, text, text, text, text, text) to service_role;
-
 create or replace function public.enforce_review_insert_rate_limits_v1()
 returns trigger
 language plpgsql
@@ -488,7 +473,6 @@ begin
   return new;
 end;
 $$;
-
 create or replace function public.enforce_price_suggestion_insert_rate_limits_v1()
 returns trigger
 language plpgsql
@@ -527,7 +511,6 @@ begin
   return new;
 end;
 $$;
-
 create or replace function public.owner_list_menu_price_suggestions_v1(
   p_business_id uuid,
   p_status text default 'pending',
@@ -569,7 +552,6 @@ as $$
   limit greatest(p_limit,0)
   offset greatest(p_offset,0);
 $$;
-
 create or replace function public.admin_list_menu_price_suggestions_v2(
   p_status text default null,
   p_limit integer default 30,

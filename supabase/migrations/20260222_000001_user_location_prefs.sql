@@ -5,25 +5,19 @@ create table if not exists public.user_location_prefs (
   mode text not null default 'auto' check (mode in ('auto','manual')),
   updated_at timestamptz not null default now()
 );
-
 alter table public.user_location_prefs enable row level security;
-
 drop policy if exists user_location_prefs_select_own on public.user_location_prefs;
 create policy user_location_prefs_select_own on public.user_location_prefs
   for select using (user_id = auth.uid());
-
 drop policy if exists user_location_prefs_insert_own on public.user_location_prefs;
 create policy user_location_prefs_insert_own on public.user_location_prefs
   for insert with check (user_id = auth.uid());
-
 drop policy if exists user_location_prefs_update_own on public.user_location_prefs;
 create policy user_location_prefs_update_own on public.user_location_prefs
   for update using (user_id = auth.uid()) with check (user_id = auth.uid());
-
 drop policy if exists user_location_prefs_delete_own on public.user_location_prefs;
 create policy user_location_prefs_delete_own on public.user_location_prefs
   for delete using (user_id = auth.uid());
-
 create or replace function public.upsert_user_location_prefs_v1(
   p_city text,
   p_district text,
@@ -54,7 +48,6 @@ begin
   return jsonb_build_object('ok', true);
 end;
 $$;
-
 create or replace function public.get_user_location_prefs_v1()
 returns jsonb
 language plpgsql

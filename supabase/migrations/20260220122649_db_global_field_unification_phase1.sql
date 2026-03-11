@@ -39,7 +39,7 @@ returns jsonb
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_count int;
   v_status text;
@@ -74,7 +74,7 @@ begin
 
   return jsonb_build_object('ok', true, 'updated', v_count);
 end;
-;
+$$;
 
 create or replace function public.admin_export_reports_csv_v1(
   p_status text default null,
@@ -84,7 +84,7 @@ returns text
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_csv text;
   v_status text;
@@ -107,7 +107,7 @@ begin
     select
       concat_ws(',',
         r.id::text,
-        to_char(r.created_at, 'YYYY-MM-DD THH24:MI:SSZ'),
+        to_char(r.created_at, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),
         replace(coalesce(r.status,''), ',', ' '),
         replace(coalesce(r.reason,''), ',', ' '),
         replace(coalesce(r.details,''), E'\n', ' '),
@@ -115,7 +115,7 @@ begin
         coalesce(r.business_id::text,''),
         coalesce(r.review_id::text,''),
         coalesce(r.handled_by::text,''),
-        coalesce(to_char(r.handled_at, 'YYYY-MM-DDTHH24:MI:SSZ'),''),
+        coalesce(to_char(r.handled_at, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),''),
         replace(coalesce(r.admin_note,''), E'\n', ' ')
       ) as line
     from public.reports r
@@ -138,14 +138,14 @@ begin
 
   return v_csv;
 end;
-;
+$$;
 
 create or replace function public.admin_get_queues_counts_v1()
 returns jsonb
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_reports_open int;
   v_claims_pending int;
@@ -173,7 +173,7 @@ begin
     'suggestions_pending', v_suggestions_pending
   );
 end;
-;
+$$;
 
 create or replace function public.admin_list_reports_v1(
   p_status text default null,
@@ -197,7 +197,7 @@ returns table(
 language sql
 security definer
 set search_path = public
-as 
+as $$
   with params as (
     select case
       when p_status in ('acik','open') then 'open'
@@ -222,7 +222,7 @@ as
   order by r.created_at desc
   limit greatest(p_limit,0)
   offset greatest(p_offset,0);
-;
+$$;
 
 create or replace function public.admin_list_reports_v2(
   p_status text default null,
@@ -249,7 +249,7 @@ returns table(
 language sql
 security definer
 set search_path = public
-as 
+as $$
   with params as (
     select case
       when p_status in ('acik','open') then 'open'
@@ -281,7 +281,7 @@ as
   order by r.created_at desc
   limit greatest(p_limit,0)
   offset greatest(p_offset,0);
-;
+$$;
 
 create or replace function public.admin_list_reports_v3(
   p_status text default null,
@@ -311,7 +311,7 @@ returns table(
 language sql
 security definer
 set search_path = public
-as 
+as $$
   with params as (
     select case
       when p_status in ('acik','open') then 'open'
@@ -354,7 +354,7 @@ as
   order by sla_breached desc, created_at desc
   limit greatest(p_limit,0)
   offset greatest(p_offset,0);
-;
+$$;
 
 create or replace function public.admin_list_reports_v4(
   p_status text default null,
@@ -387,7 +387,7 @@ returns table(
 language sql
 security definer
 set search_path = public
-as 
+as $$
   with params as (
     select case
       when p_status in ('acik','open') then 'open'
@@ -431,7 +431,7 @@ as
   order by sla_breached desc, created_at desc
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
-;
+$$;
 
 create or replace function public.admin_update_report_v1(
   p_report_id uuid,
@@ -442,7 +442,7 @@ returns void
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_status text;
 begin
@@ -472,14 +472,14 @@ begin
     jsonb_build_object('status', v_status, 'admin_note', p_admin_note)
   );
 end;
-;
+$$;
 
 create or replace function public.auto_close_duplicate_report_v1(p_report_id uuid)
 returns boolean
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_r public.reports%rowtype;
   v_exists boolean;
@@ -502,7 +502,7 @@ begin
     update public.reports
     set
       status = 'closed',
-      admin_note = 'Otomatik: 24 saat içinde mükerrer bildirim',
+      admin_note = 'Otomatik: 24 saat iÃ§inde mÃ¼kerrer bildirim',
       handled_at = now(),
       auto_moderated = true
     where id = p_report_id;
@@ -519,14 +519,14 @@ begin
 
   return false;
 end;
-;
+$$;
 
 create or replace function public.auto_queue_grey_report_v1(p_report_id uuid)
 returns boolean
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_r public.reports%rowtype;
   v_len int;
@@ -544,7 +544,7 @@ begin
     update public.reports
     set
       status = 'reviewing',
-      admin_note = 'Otomatik: gri alan, kuyruða alýndý',
+      admin_note = 'Otomatik: gri alan, kuyruÄŸa alÄ±ndÄ±',
       handled_at = now(),
       auto_moderated = true
     where id = p_report_id;
@@ -561,14 +561,14 @@ begin
 
   return false;
 end;
-;
+$$;
 
 create or replace function public.auto_reject_low_quality_report_v1(p_report_id uuid)
 returns boolean
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_len int;
   v_uid uuid;
@@ -581,7 +581,7 @@ begin
     update public.reports
     set
       status = 'closed',
-      admin_note = 'Otomatik: çok kýsa / düþük kaliteli bildirim',
+      admin_note = 'Otomatik: Ã§ok kÄ±sa / dÃ¼ÅŸÃ¼k kaliteli bildirim',
       handled_at = now(),
       auto_moderated = true
     where id = p_report_id;
@@ -604,7 +604,7 @@ begin
 
   return false;
 end;
-;
+$$;
 
 create or replace function public.get_business_reviews_v2(
   p_business_id uuid,
@@ -628,7 +628,7 @@ language sql
 stable
 security definer
 set search_path = public
-as 
+as $$
   with base as (
     select
       r.id,
@@ -682,7 +682,7 @@ as
     b.created_at desc
   limit greatest(p_limit, 1)
   offset greatest(p_offset, 0);
-;
+$$;
 
 -- 3) Remove deprecated favorites table usage from merge function and drop legacy table.
 create or replace function public.admin_merge_businesses_v1(
@@ -695,7 +695,7 @@ returns jsonb
 language plpgsql
 security definer
 set search_path = public
-as 
+as $$
 declare
   v_primary_exists boolean := false;
   v_duplicate_exists boolean := false;
@@ -887,7 +887,7 @@ begin
     'summary', v_summary
   );
 end;
-;
+$$;
 
 drop table if exists public.user_favorites_legacy;
 
@@ -895,4 +895,4 @@ drop table if exists public.user_favorites_legacy;
 alter table public.reports
   drop column if exists durum;
 
-commit;
+commit;;

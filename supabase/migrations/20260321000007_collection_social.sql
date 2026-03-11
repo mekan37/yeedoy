@@ -4,49 +4,38 @@ create table if not exists public.collection_social_stats (
   engagement_count integer not null default 0,
   updated_at timestamptz not null default now()
 );
-
 create table if not exists public.user_collection_follows (
   user_id uuid not null references auth.users(id) on delete cascade,
   collection_key text not null,
   created_at timestamptz not null default now(),
   primary key (user_id, collection_key)
 );
-
 alter table public.collection_social_stats enable row level security;
 alter table public.user_collection_follows enable row level security;
-
 drop policy if exists "collection_social_stats_read"
 on public.collection_social_stats;
-
 create policy "collection_social_stats_read"
 on public.collection_social_stats
 for select
 using (true);
-
 drop policy if exists "user_collection_follows_select_own"
 on public.user_collection_follows;
-
 create policy "user_collection_follows_select_own"
 on public.user_collection_follows
 for select
 using (auth.uid() = user_id);
-
 drop policy if exists "user_collection_follows_insert_own"
 on public.user_collection_follows;
-
 create policy "user_collection_follows_insert_own"
 on public.user_collection_follows
 for insert
 with check (auth.uid() = user_id);
-
 drop policy if exists "user_collection_follows_delete_own"
 on public.user_collection_follows;
-
 create policy "user_collection_follows_delete_own"
 on public.user_collection_follows
 for delete
 using (auth.uid() = user_id);
-
 create or replace function public.get_collection_social_batch_v1(
   p_keys text[]
 )
@@ -71,7 +60,6 @@ as $$
     on f.collection_key = k.key
    and f.user_id = auth.uid();
 $$;
-
 create or replace function public.toggle_collection_follow_v1(
   p_collection_key text
 )
@@ -131,7 +119,6 @@ begin
   end if;
 end;
 $$;
-
 create or replace function public.bump_collection_engagement_v1(
   p_collection_key text,
   p_delta integer default 1

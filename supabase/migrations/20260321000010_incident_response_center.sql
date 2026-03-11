@@ -9,40 +9,32 @@ create table if not exists public.incident_updates (
   created_by uuid null references auth.users(id) on delete set null,
   created_at timestamptz not null default now()
 );
-
 create index if not exists incident_updates_incident_key_created_at_idx
   on public.incident_updates (incident_key, created_at desc);
-
 create index if not exists incident_updates_visibility_created_at_idx
   on public.incident_updates (visibility, created_at desc);
-
 alter table public.incident_updates enable row level security;
-
 drop policy if exists "incident_updates_public_read" on public.incident_updates;
 create policy "incident_updates_public_read"
 on public.incident_updates
 for select
 using (visibility = 'public');
-
 drop policy if exists "incident_updates_admin_insert" on public.incident_updates;
 create policy "incident_updates_admin_insert"
 on public.incident_updates
 for insert
 with check (public.is_admin());
-
 drop policy if exists "incident_updates_admin_update" on public.incident_updates;
 create policy "incident_updates_admin_update"
 on public.incident_updates
 for update
 using (public.is_admin())
 with check (public.is_admin());
-
 drop policy if exists "incident_updates_admin_delete" on public.incident_updates;
 create policy "incident_updates_admin_delete"
 on public.incident_updates
 for delete
 using (public.is_admin());
-
 create or replace function public.admin_list_incident_updates_v1(
   p_limit int default 100
 )
@@ -76,7 +68,6 @@ as $$
   order by iu.created_at desc
   limit greatest(p_limit, 1);
 $$;
-
 create or replace function public.public_list_incident_updates_v1(
   p_limit int default 100
 )
@@ -106,7 +97,6 @@ as $$
   order by iu.created_at desc
   limit greatest(p_limit, 1);
 $$;
-
 create or replace function public.admin_create_incident_update_v1(
   p_incident_key text,
   p_title text,

@@ -7,7 +7,6 @@ create table if not exists public.achievements (
   condition jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now()
 );
-
 create table if not exists public.user_achievements (
   user_id uuid not null references auth.users(id) on delete cascade,
   achievement_id text not null references public.achievements(id) on delete cascade,
@@ -15,27 +14,22 @@ create table if not exists public.user_achievements (
   meta jsonb not null default '{}'::jsonb,
   primary key (user_id, achievement_id)
 );
-
 create index if not exists user_achievements_user_idx
   on public.user_achievements(user_id, unlocked_at desc);
-
 alter table public.achievements enable row level security;
 alter table public.user_achievements enable row level security;
-
 drop policy if exists achievements_public_read on public.achievements;
 create policy achievements_public_read
 on public.achievements
 for select
 to authenticated
 using (true);
-
 drop policy if exists user_achievements_read_own on public.user_achievements;
 create policy user_achievements_read_own
 on public.user_achievements
 for select
 to authenticated
 using (user_id = auth.uid());
-
 insert into public.achievements(id, title, description, icon, color, condition)
 values
   ('first_review', 'Ilk Yorum', 'Ilk yorumunu yaz', 'comment', '#4CAF50', '{"type":"review_count","value":1}'),
@@ -53,7 +47,6 @@ on conflict (id) do update set
   icon = excluded.icon,
   color = excluded.color,
   condition = excluded.condition;
-
 create or replace function public.award_achievement_v1(
   p_user_id uuid,
   p_achievement_id text,
@@ -98,7 +91,6 @@ begin
   return true;
 end;
 $$;
-
 create or replace function public.get_user_reputation_score_v2(
   p_user_id uuid
 )
@@ -157,7 +149,6 @@ begin
   return v_score;
 end;
 $$;
-
 create or replace function public.recompute_user_achievements_v1(
   p_user_id uuid
 )
@@ -283,7 +274,6 @@ begin
   end if;
 end;
 $$;
-
 create or replace function public.get_my_achievements_v1()
 returns table(
   id text,
@@ -317,7 +307,6 @@ as $$
     coalesce(ua.unlocked_at, 'epoch'::timestamptz) desc,
     a.title asc;
 $$;
-
 create or replace function public.trg_recompute_achievements_reviews_v1()
 returns trigger
 language plpgsql
@@ -329,13 +318,11 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_recompute_achievements_reviews_v1 on public.reviews;
 create trigger trg_recompute_achievements_reviews_v1
 after insert on public.reviews
 for each row
 execute function public.trg_recompute_achievements_reviews_v1();
-
 create or replace function public.trg_recompute_achievements_price_suggestions_v1()
 returns trigger
 language plpgsql
@@ -347,13 +334,11 @@ begin
   return new;
 end;
 $$;
-
 drop trigger if exists trg_recompute_achievements_price_suggestions_v1 on public.menu_item_price_suggestions;
 create trigger trg_recompute_achievements_price_suggestions_v1
 after insert or update of status on public.menu_item_price_suggestions
 for each row
 execute function public.trg_recompute_achievements_price_suggestions_v1();
-
 do $$
 begin
   if to_regclass('public.menu_item_photos') is not null then
@@ -376,7 +361,6 @@ begin
   end if;
 end;
 $$;
-
 do $$
 begin
   if to_regclass('public.analytics_events') is not null then
@@ -401,7 +385,6 @@ begin
   end if;
 end;
 $$;
-
 do $$
 begin
   if to_regclass('public.reports') is not null then
@@ -424,5 +407,4 @@ begin
   end if;
 end;
 $$;
-
 grant execute on function public.get_my_achievements_v1() to authenticated;

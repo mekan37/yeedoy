@@ -7,22 +7,17 @@ create table if not exists public.business_checkins (
   user_id uuid null,
   created_at timestamptz not null default now()
 );
-
 create index if not exists business_checkins_business_created_idx
   on public.business_checkins (business_id, created_at desc);
-
 create index if not exists business_checkins_client_created_idx
   on public.business_checkins (client_id, created_at desc);
-
 alter table public.business_checkins enable row level security;
-
 drop policy if exists business_checkins_admin_all on public.business_checkins;
 create policy business_checkins_admin_all
   on public.business_checkins
   for all
   using (public.is_admin())
   with check (public.is_admin());
-
 create or replace function public.log_checkin_v1(
   p_business_id uuid,
   p_menu_id uuid default null,
@@ -89,7 +84,6 @@ begin
   return jsonb_build_object('ok', true, 'id', v_exists);
 end;
 $function$;
-
 create or replace function public.get_business_recent_checkins_v1(
   p_business_id uuid,
   p_hours int default 2
@@ -109,7 +103,6 @@ as $$
     ), 0)
   );
 $$;
-
 create or replace function public.has_recent_checkin_v1(
   p_business_id uuid,
   p_client_id text,

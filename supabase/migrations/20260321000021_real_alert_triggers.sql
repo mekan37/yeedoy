@@ -64,7 +64,6 @@ begin
   on conflict do nothing;
 end;
 $$;
-
 create or replace function public.handle_price_alerts_for_history_v1()
 returns trigger
 language plpgsql
@@ -155,7 +154,6 @@ begin
   return new;
 end;
 $$;
-
 create or replace function public.trg_notify_price_alert_event_v1()
 returns trigger
 language plpgsql

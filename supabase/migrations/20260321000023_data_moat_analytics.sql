@@ -29,11 +29,9 @@ as $$
   order by h.created_at desc
   limit greatest(p_limit, 1);
 $$;
-
 grant all on function public.get_business_price_history_v1(uuid, integer, integer) to anon;
 grant all on function public.get_business_price_history_v1(uuid, integer, integer) to authenticated;
 grant all on function public.get_business_price_history_v1(uuid, integer, integer) to service_role;
-
 create or replace function public.get_regional_price_index_v2(
   p_city text default null,
   p_district text default null,
@@ -74,11 +72,9 @@ as $$
   order by median_price_cents desc nulls last
   limit greatest(p_limit, 1);
 $$;
-
 grant all on function public.get_regional_price_index_v2(text, text, integer) to anon;
 grant all on function public.get_regional_price_index_v2(text, text, integer) to authenticated;
 grant all on function public.get_regional_price_index_v2(text, text, integer) to service_role;
-
 create or replace function public.get_menu_price_anomalies_v1(
   p_city text default null,
   p_district text default null,
@@ -157,11 +153,9 @@ as $$
   order by abs(((fl.last_price_cents - fl.first_price_cents)::numeric / fl.first_price_cents::numeric) * 100) desc
   limit greatest(p_limit, 1);
 $$;
-
 grant all on function public.get_menu_price_anomalies_v1(text, text, integer, numeric, integer) to anon;
 grant all on function public.get_menu_price_anomalies_v1(text, text, integer, numeric, integer) to authenticated;
 grant all on function public.get_menu_price_anomalies_v1(text, text, integer, numeric, integer) to service_role;
-
 create or replace function public.admin_export_price_anomalies_csv_v1(
   p_days int default 30,
   p_threshold_pct numeric default 40
@@ -212,7 +206,6 @@ begin
   return v_csv;
 end;
 $$;
-
 grant all on function public.admin_export_price_anomalies_csv_v1(integer, numeric) to anon;
 grant all on function public.admin_export_price_anomalies_csv_v1(integer, numeric) to authenticated;
 grant all on function public.admin_export_price_anomalies_csv_v1(integer, numeric) to service_role;

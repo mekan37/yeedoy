@@ -46,7 +46,6 @@ from public.menu_items mi
 left join price_votes pv on pv.menu_item_id = mi.id
 left join photo_votes phv on phv.menu_item_id = mi.id
 left join price_changes pc on pc.menu_item_id = mi.id;
-
 create or replace function public.get_business_trending_items_v1(
   p_business_id uuid,
   p_limit int default 6
@@ -75,7 +74,6 @@ as $$
   order by t.score desc, mi.updated_at desc nulls last, mi.created_at desc
   limit p_limit;
 $$;
-
 -- Menu item value score (F/P)
 create or replace view public.menu_item_value_score_v1 as
 with votes_all as (
@@ -123,7 +121,6 @@ from public.menu_items mi
 left join votes_all va on va.menu_item_id = mi.id
 left join votes_30d v30 on v30.menu_item_id = mi.id
 left join price_changes_30d pc on pc.menu_item_id = mi.id;
-
 create or replace function public.get_menu_item_value_score_v1(
   p_menu_item_id uuid
 )
