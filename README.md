@@ -15,13 +15,34 @@ npm run dev
 
 ## Kaynak Dokumanlar
 
-- `docs/vision_status.md`
-- `docs/product.md`
+Ana harita:
+
+- `docs/index.md`
+
+Ana indeks:
+
 - `docs/apps.md`
+- `docs/product.md`
 - `docs/architecture.md`
 - `docs/data-model.md`
-- `docs/qr-system.md`
+
+Operasyon ve kurulum:
+
 - `docs/setup.md`
+- `docs/deploy.md`
+- `docs/runbook.md`
+
+Yol haritasi ve durum:
+
 - `docs/roadmap.md`
-- `docs/wip.md`
+- `docs/vision_status.md`
+
+Performans:
+
+- `docs/panel_perf.md`
+- `docs/web_next_perf.md`
+
+Tarihsel kayitlar:
+
+- `docs/release_index.md`
 - `docs/cleanup_log.md`

@@ -1,169 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
-import '../../../core/config/app_config.dart';
-import '../../../core/config/product_guardrail_overrides.dart';
-import '../../../core/i18n/app_localizations.dart';
-import '../../../features/shared/ui/components/app_card.dart';
+import '../../../core/errors/app_error_mapper.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
-import '../../../features/shared/ui/components/app_section_header.dart';
+import '../legal_catalog.dart';
+import '../legal_linking.dart';
 
-class LegalPage extends ConsumerWidget {
+class LegalPage extends StatelessWidget {
   const LegalPage({super.key});
 
-  static const _supportEmail = 'support@yeedoy.com';
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final guardrails = ref.watch(productGuardrailOverridesProvider);
+  Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppBar(
-        title: Text(
-          t.legalPageTitle,
-          style: const TextStyle(fontWeight: FontWeight.w700),
+        title: const Text(
+          'Yasal ve Gizlilik',
+          style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+        padding: const EdgeInsets.all(16),
         children: [
-          AppSectionHeader(title: t.legalKvkkSectionTitle),
-          const SizedBox(height: 6),
-          Text(
-            t.legalKvkkIntro,
-            style: const TextStyle(color: AppColors.muted, fontSize: 12),
+          const _IntroCard(),
+          const SizedBox(height: 16),
+          _LinkGroup(
+            title: 'Zorunlu sözleşmeler',
+            items: [
+              ...LegalCatalog.requiredAcceptanceLinks,
+              LegalCatalog.cookies,
+            ],
           ),
-          const SizedBox(height: 10),
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  t.legalKvkkCategoriesAndRights,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    OutlinedButton.icon(
-                      onPressed: () => _openUrl(AppConfig.privacyPolicyUrl),
-                      icon: const Icon(Icons.shield_outlined),
-                      label: Text(t.legalPrivacyPolicy),
-                    ),
-                    OutlinedButton.icon(
-                      onPressed: () => _openUrl(AppConfig.kvkkUrl),
-                      icon: const Icon(Icons.gavel_outlined),
-                      label: Text(t.legalKvkkText),
-                    ),
-                    OutlinedButton.icon(
-                      onPressed: () => _openUrl(AppConfig.gdprUrl),
-                      icon: const Icon(Icons.public_outlined),
-                      label: Text(t.legalGdprText),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  t.legalApplicationByEmail,
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
-                ),
-              ],
+          const SizedBox(height: 16),
+          _LinkGroup(
+            title: 'Topluluk ve güven',
+            items: LegalCatalog.trustLinks,
+          ),
+          const SizedBox(height: 16),
+          const _ActionCard(),
+        ],
+      ),
+    );
+  }
+}
+
+class _IntroCard extends StatelessWidget {
+  const _IntroCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Ana legal merkezi yeedoy.com üzerinde yayınlanır.',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: AppColors.textStrong,
             ),
           ),
-          const SizedBox(height: 18),
-          AppSectionHeader(title: t.legalCopyrightSectionTitle),
-          const SizedBox(height: 6),
+          SizedBox(height: 10),
           Text(
-            t.legalCopyrightIntro,
-            style: const TextStyle(color: AppColors.muted, fontSize: 12),
-          ),
-          const SizedBox(height: 10),
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  t.legalCopyrightDetails,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
-                const SizedBox(height: 10),
-                OutlinedButton.icon(
-                  onPressed: () => _openUrl(AppConfig.copyrightPolicyUrl),
-                  icon: const Icon(Icons.photo_outlined),
-                  label: Text(t.legalCopyrightPolicy),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 18),
-          AppSectionHeader(title: t.legalOwnershipAppealSectionTitle),
-          const SizedBox(height: 6),
-          Text(
-            t.legalOwnershipAppealIntro,
-            style: const TextStyle(color: AppColors.muted, fontSize: 12),
-          ),
-          const SizedBox(height: 10),
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  t.legalOwnershipAppealRequiredInfo,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  t.legalOwnershipAppealRequiredList,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
-                const SizedBox(height: 10),
-                OutlinedButton.icon(
-                  onPressed: () => _sendMail(_supportEmail),
-                  icon: const Icon(Icons.mail_outline),
-                  label: Text(t.legalSendAppealEmail),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 18),
-          AppSectionHeader(title: t.legalProductPrinciplesSectionTitle),
-          const SizedBox(height: 6),
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  t.legalDontsTitle,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  t.legalDontsList,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  t.legalPolicySummary(
-                    guardrails.requireSponsoredLabel.toString(),
-                    guardrails.minSponsoredTrustScore.toStringAsFixed(2),
-                    guardrails.ownerCanDeleteReviews.toString(),
-                  ),
-                  style: const TextStyle(
-                    color: AppColors.textStrong,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 18),
-          Text(
-            t.legalFooter,
-            style: const TextStyle(color: AppColors.muted, fontSize: 12),
+            'Mobil uygulama; kullanım şartları, gizlilik politikası, çerez politikası, topluluk kuralları ve trust & safety sayfalarını doğrudan ana web yüzündeki legal merkezine açar. Veri talebi ve hesap silme işlemlerini profil ayarlarından başlatabilirsiniz.',
+            style: TextStyle(color: AppColors.muted, height: 1.6),
           ),
         ],
       ),
@@ -171,16 +77,109 @@ class LegalPage extends ConsumerWidget {
   }
 }
 
-Future<void> _sendMail(String email) async {
-  final uri = Uri(
-    scheme: 'mailto',
-    path: email,
-    queryParameters: {'subject': 'Yeedoy - Sahiplik İtirazı'},
-  );
-  await launchUrl(uri, mode: LaunchMode.externalApplication);
+class _LinkGroup extends StatelessWidget {
+  const _LinkGroup({
+    required this.title,
+    required this.items,
+  });
+
+  final String title;
+  final List<LegalLinkDescriptor> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w800,
+              color: AppColors.textStrong,
+            ),
+          ),
+          const SizedBox(height: 12),
+          for (var index = 0; index < items.length; index++) ...[
+            _LinkItem(item: items[index]),
+            if (index != items.length - 1)
+              const Divider(height: 18, color: AppColors.border),
+          ],
+        ],
+      ),
+    );
+  }
 }
 
-Future<void> _openUrl(String url) async {
-  final uri = Uri.parse(url);
-  await launchUrl(uri, mode: LaunchMode.externalApplication);
+class _LinkItem extends StatelessWidget {
+  const _LinkItem({required this.item});
+
+  final LegalLinkDescriptor item;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: Text(
+        item.title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w700,
+          color: AppColors.textStrong,
+        ),
+      ),
+      subtitle: Text(item.description),
+      trailing: const Icon(Icons.open_in_new_rounded),
+      onTap: () => _openUrl(context, item.url),
+    );
+  }
+}
+
+class _ActionCard extends StatelessWidget {
+  const _ActionCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppColors.cardAlt,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Kullanıcı işlemleri',
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              color: AppColors.textStrong,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Hesap silme, verilerimi dışa aktar ve gizlilik başvurusu aksiyonları profil ayarlarında yer alır. Bu akışlar kullanıcı hesabına bağlı olarak backend üzerinde kayıt altına alınır ve bekleyen başvurular tekrar gönderilmez.',
+            style: TextStyle(color: AppColors.muted, height: 1.6),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Future<void> _openUrl(BuildContext context, String url) async {
+  try {
+    await openLegalUrl(url);
+  } catch (error) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppErrorMapper.message(error))),
+    );
+  }
 }

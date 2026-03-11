@@ -47,7 +47,7 @@ class _FollowingPageState extends ConsumerState<FollowingPage> {
       appBar: AppBar(title: Text(t.followingPageTitle)),
       body: RefreshIndicator(
         onRefresh: () =>
-            ref.read(gourmetFollowingProvider.notifier).loadInitial(),
+            ref.read(gourmetFollowingProvider.notifier).loadInitial(force: true),
         child: ListView(
           controller: scrollCtrl,
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
@@ -67,7 +67,7 @@ class _FollowingPageState extends ConsumerState<FollowingPage> {
                     OutlinedButton(
                       onPressed: () => ref
                           .read(gourmetFollowingProvider.notifier)
-                          .loadInitial(),
+                          .loadInitial(force: true),
                       child: Text(t.retry),
                     ),
                   ],

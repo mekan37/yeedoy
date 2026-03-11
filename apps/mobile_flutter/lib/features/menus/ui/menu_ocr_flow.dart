@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/media/media_upload_client.dart';
 import '../data/menu_repository.dart';
-import '../data/wp_upload.dart';
+import '../data/ocr_price_extractor.dart';
 import '../domain/menu_models.dart';
 import '../../../features/shared/ui/design_system.dart';
+
+typedef _OcrDetection = OcrPriceDetection;
 
 Future<void> startMenuPriceOcrFlow({
   required BuildContext context,
@@ -34,7 +36,7 @@ Future<void> startMenuPriceOcrFlow({
 
   List<_OcrDetection> detections = const [];
   try {
-    detections = await _runOcr(picked.path);
+    detections = await runMenuPriceOcr(picked.path);
   } catch (e) {
     if (context.mounted) {
       Navigator.of(context).pop();
@@ -104,7 +106,7 @@ Future<void> startReceiptOcrFlow({
 
   List<_OcrDetection> detections = const [];
   try {
-    detections = await _runOcr(picked.path);
+    detections = await runMenuPriceOcr(picked.path);
   } catch (e) {
     if (context.mounted) {
       Navigator.of(context).pop();
@@ -126,9 +128,10 @@ Future<void> startReceiptOcrFlow({
   }
 
   _showProgress(context, message: t.receiptUploading);
-  WpUploadResult? upload;
+  final uploadClient = const MediaUploadClient();
+  MediaUploadResult? upload;
   try {
-    upload = await uploadWpImageFromXFile(
+    upload = await uploadClient.uploadImageFromXFile(
       client: client,
       file: picked,
       title: 'receipt_${businessId}_${DateTime.now().millisecondsSinceEpoch}',
@@ -214,63 +217,6 @@ Future<ImageSource?> _pickImageSource(BuildContext context) async {
       );
     },
   );
-}
-
-Future<List<_OcrDetection>> _runOcr(String path) async {
-  final recognizer = TextRecognizer(script: TextRecognitionScript.latin);
-  try {
-    final input = InputImage.fromFilePath(path);
-    final result = await recognizer.processImage(input);
-    final detections = <_OcrDetection>[];
-    for (final block in result.blocks) {
-      for (final line in block.lines) {
-        final hit = _extractPrice(line.text);
-        if (hit == null) continue;
-        detections.add(
-          _OcrDetection(
-            line: line.text.trim(),
-            priceCents: hit.cents,
-            isFallback: hit.isFallback,
-          ),
-        );
-      }
-    }
-    return detections;
-  } finally {
-    await recognizer.close();
-  }
-}
-
-_PriceHit? _extractPrice(String text) {
-  final currencyPattern = RegExp(
-    r'(?:₺|TL|TRY)\\s*([0-9]{1,4}(?:[.,][0-9]{1,2})?)|([0-9]{1,4}(?:[.,][0-9]{1,2})?)\\s*(?:₺|TL|TRY)',
-    caseSensitive: false,
-  );
-  final currencyMatch = currencyPattern.firstMatch(text);
-  if (currencyMatch != null) {
-    final raw = (currencyMatch.group(1) ?? currencyMatch.group(2) ?? '').trim();
-    final cents = _parseCents(raw);
-    if (cents != null) return _PriceHit(cents: cents, isFallback: false);
-  }
-
-  final fallbackPattern = RegExp(r'\b([1-9][0-9]{1,3}(?:[.,][0-9]{1,2})?)\b');
-  final fallbackMatch = fallbackPattern.firstMatch(text);
-  if (fallbackMatch != null) {
-    final raw = fallbackMatch.group(1);
-    if (raw != null) {
-      final cents = _parseCents(raw);
-      if (cents != null) return _PriceHit(cents: cents, isFallback: true);
-    }
-  }
-  return null;
-}
-
-int? _parseCents(String raw) {
-  final normalized = raw.replaceAll(',', '.');
-  final value = double.tryParse(normalized);
-  if (value == null) return null;
-  if (value <= 0) return null;
-  return (value * 100).round();
 }
 
 void _showProgress(BuildContext context, {required String message}) {
@@ -527,7 +473,7 @@ class _ReceiptOcrMatchSheetState extends State<_ReceiptOcrMatchSheet> {
     }
 
     for (final row in selected) {
-      final cents = _parseCents(row.controller.text);
+      final cents = parsePriceCents(row.controller.text);
       if (cents == null) {
         ScaffoldMessenger.of(
           context,
@@ -778,7 +724,7 @@ class _MenuPriceOcrMatchSheetState extends State<_MenuPriceOcrMatchSheet> {
     }
 
     for (final row in selected) {
-      final cents = _parseCents(row.controller.text);
+      final cents = parsePriceCents(row.controller.text);
       if (cents == null) {
         ScaffoldMessenger.of(
           context,
@@ -846,25 +792,6 @@ String _formatCents(int cents) {
   return value.toStringAsFixed(2);
 }
 
-class _OcrDetection {
-  const _OcrDetection({
-    required this.line,
-    required this.priceCents,
-    required this.isFallback,
-  });
-
-  final String line;
-  final int priceCents;
-  final bool isFallback;
-}
-
-class _PriceHit {
-  const _PriceHit({required this.cents, required this.isFallback});
-
-  final int cents;
-  final bool isFallback;
-}
-
 String _normalizeText(String input) {
   var text = input.toLowerCase();
   text = text
@@ -910,4 +837,3 @@ MenuItem? _findBestMenuItem(String line, List<MenuItem> items) {
   }
   return bestScore >= 60 ? best : null;
 }
-

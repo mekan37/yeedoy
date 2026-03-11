@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/security/critical_action_guard.dart';
 import '../../../core/security/edge_rate_limit_guard.dart';
 import '../../../core/security/write_gatekeeper_client.dart';
+import '../../../core/storage/offline_mutation_idempotency.dart';
+import '../../../core/storage/offline_submission_queue.dart';
 import '../domain/review.dart';
 
 final reviewsRepositoryProvider = Provider<ReviewsRepository>((ref) {
@@ -48,23 +52,45 @@ class ReviewsRepository {
     required String content,
     String? title,
   }) async {
+    unawaited(flushOfflineSubmissionQueue(client, maxItems: 10));
     ensureCriticalActionAllowed(client, action: 'review');
-    await enforceEdgeRateLimit(
-      client,
-      action: 'review_submit',
-      scope: businessId,
-    );
-    final res = await client.rpc(
-      'submit_review_v1',
-      params: {
-        'p_business_id': businessId,
-        'p_rating': rating,
-        'p_title': title,
-        'p_content': content,
+    final queuedPayload = await attachOfflineMutationIdempotency(
+      action: OfflineSubmissionType.reviewCreate.name,
+      payload: {
+        'business_id': businessId,
+        'rating': rating,
+        'title': title,
+        'content': content,
       },
     );
-    if (res is Map && res['ok'] != true) {
-      throw Exception((res['error'] ?? 'review_failed').toString());
+    try {
+      await enforceEdgeRateLimit(
+        client,
+        action: 'review_submit',
+        scope: businessId,
+      );
+      final res = await client.rpc(
+        'submit_review_v2',
+        params: {
+          'p_business_id': businessId,
+          'p_rating': rating,
+          'p_title': title,
+          'p_content': content,
+          'p_idempotency_key': queuedPayload['idempotency_key'],
+        },
+      );
+      if (res is Map && res['ok'] != true) {
+        throw Exception((res['error'] ?? 'review_failed').toString());
+      }
+    } catch (e) {
+      if (isLikelyOfflineError(e)) {
+        await OfflineSubmissionQueueStore.enqueue(
+          OfflineSubmissionType.reviewCreate,
+          queuedPayload,
+        );
+        throw const OfflineSubmissionQueuedException();
+      }
+      rethrow;
     }
   }
 
@@ -109,5 +135,3 @@ class ReviewsRepository {
     return ids;
   }
 }
-
-

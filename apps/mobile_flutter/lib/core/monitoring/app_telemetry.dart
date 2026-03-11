@@ -159,6 +159,39 @@ class AppTelemetry {
     );
   }
 
+  Future<void> logEmbedOpenLatency({
+    required Duration elapsed,
+    required String provider,
+    required bool fallbackUsed,
+    String source = 'embed_viewer',
+  }) async {
+    final clientId = await getAnalyticsClientId();
+    final elapsedMs = elapsed.inMilliseconds;
+    await _analytics.logEvent(
+      eventName: 'perf_embed_open',
+      source: source,
+      clientId: clientId,
+      meta: {
+        'embed_open_ms': elapsedMs,
+        'provider': provider,
+        'fallback_used': fallbackUsed,
+        'slo_budget_ms': PerfSlo.embedOpenP95Ms,
+        'slo_ok': elapsedMs <= PerfSlo.embedOpenP95Ms,
+      },
+    );
+    await _analytics.logEvent(
+      eventName: AppEvents.embedOpenMs,
+      source: source,
+      clientId: clientId,
+      meta: {
+        'value': elapsedMs,
+        'provider': provider,
+        'fallback_used': fallbackUsed,
+        'slo_budget_ms': PerfSlo.embedOpenP95Ms,
+      },
+    );
+  }
+
   Future<void> logFrameWindow({
     required int sampledFrames,
     required int jankyFrames,
@@ -189,6 +222,106 @@ class AppTelemetry {
         'value': double.parse(jankRate.toStringAsFixed(4)),
         'sampled_frames': sampledFrames,
         'severe_frames': severeFrames,
+      },
+    );
+  }
+
+  Future<void> logOfflineSync({
+    required String reason,
+    required int verifySent,
+    required int submissionSent,
+    required int prunedRecords,
+    required bool skipped,
+  }) async {
+    final clientId = await getAnalyticsClientId();
+    final totalWork = verifySent + submissionSent + prunedRecords;
+    await _analytics.logEvent(
+      eventName: 'offline_sync',
+      source: 'offline',
+      clientId: clientId,
+      meta: {
+        'reason': reason,
+        'verify_sent': verifySent,
+        'submission_sent': submissionSent,
+        'pruned_records': prunedRecords,
+        'total_work': totalWork,
+        'skipped': skipped,
+      },
+    );
+    await _analytics.logEvent(
+      eventName: AppEvents.offlineSyncRun,
+      source: 'offline',
+      clientId: clientId,
+      meta: {
+        'reason': reason,
+        'value': totalWork,
+        'verify_sent': verifySent,
+        'submission_sent': submissionSent,
+        'pruned_records': prunedRecords,
+        'skipped': skipped,
+      },
+    );
+  }
+
+  Future<void> logOfflineMutationOutcome({
+    required String kind,
+    required String disposition,
+    required String source,
+    String? retryCategory,
+    int? retryCount,
+    String? detail,
+  }) async {
+    final clientId = await getAnalyticsClientId();
+    final meta = <String, Object?>{
+      'kind': kind,
+      'disposition': disposition,
+    };
+    if (retryCategory != null) {
+      meta['retry_category'] = retryCategory;
+    }
+    if (retryCount != null) {
+      meta['retry_count'] = retryCount;
+    }
+    final normalizedDetail = (detail ?? '').trim();
+    if (normalizedDetail.isNotEmpty) {
+      meta['detail'] = normalizedDetail;
+    }
+    await _analytics.logEvent(
+      eventName: AppEvents.offlineMutationOutcome,
+      source: source,
+      clientId: clientId,
+      meta: meta,
+    );
+  }
+
+  Future<void> logConnectivityRestore({
+    required String trigger,
+    required int replayWork,
+  }) async {
+    final clientId = await getAnalyticsClientId();
+    await _analytics.logEvent(
+      eventName: AppEvents.connectivityRestored,
+      source: 'offline',
+      clientId: clientId,
+      meta: {
+        'trigger': trigger,
+        'replay_work': replayWork,
+      },
+    );
+  }
+
+  Future<void> logConnectivityStateChange({
+    required String trigger,
+    required bool online,
+  }) async {
+    final clientId = await getAnalyticsClientId();
+    await _analytics.logEvent(
+      eventName: AppEvents.connectivityStateChange,
+      source: 'offline',
+      clientId: clientId,
+      meta: {
+        'trigger': trigger,
+        'online': online,
       },
     );
   }

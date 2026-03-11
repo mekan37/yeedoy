@@ -188,7 +188,10 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
     }
 
     try {
-      final newFav = await repo.toggleFavorite(businessId);
+      final newFav = await repo.setFavorite(
+        businessId,
+        isFavorited: !wasFav,
+      );
       cache.set(businessId, newFav);
       if (newFav) {
         ids.add(businessId);

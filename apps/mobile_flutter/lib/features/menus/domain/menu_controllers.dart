@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:yeedoy/core/media/media_upload_client_stub.dart';
 
-import '../../../core/network/supabase_provider.dart';
+import '../../../core/media/media_upload_repository.dart';
 import '../data/menu_repository.dart';
-import '../data/wp_upload.dart';
 import 'menu_models.dart';
 
 final menuItemPhotosProvider =
@@ -32,24 +32,23 @@ class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
     final current = state.value ?? const <MenuItemPhoto>[];
     final index = current.indexWhere((photo) => photo.id == photoId);
     if (index == -1) return;
+    final desiredVote = current[index].myVote == vote ? 0 : vote;
     final updated = [...current];
-    updated[index] = updated[index].withVote(vote);
+    updated[index] = updated[index].withVote(desiredVote);
     state = AsyncValue.data(updated);
 
     try {
       await ref
           .read(menuRepositoryProvider)
-          .voteMenuItemPhoto(photoId: photoId, vote: vote);
+          .voteMenuItemPhoto(photoId: photoId, vote: desiredVote);
     } catch (e) {
       state = AsyncValue.data(current);
       rethrow;
     }
   }
 
-  Future<WpUploadResult?> uploadAndAddPhoto() async {
-    final client = ref.read(supabaseProvider);
-    final upload = await pickAndUploadWpImage(
-      client: client,
+  Future<MediaUploadResult?> uploadAndAddPhoto() async {
+    final upload = await ref.read(mediaUploadRepositoryProvider).pickAndUploadImage(
       title: 'menu_item_$menuItemId',
       menuItemId: menuItemId,
     );
@@ -111,13 +110,14 @@ class MenuItemPriceStatusController extends AsyncNotifier<MenuItemPriceStatus> {
 
   Future<void> votePrice({required int vote}) async {
     final current = state.value;
+    final desiredVote = current?.myVote == vote ? 0 : vote;
     if (current != null) {
-      state = AsyncValue.data(current.withVote(vote));
+      state = AsyncValue.data(current.withVote(desiredVote));
     }
     try {
       await ref
           .read(menuRepositoryProvider)
-          .voteMenuItemPrice(menuItemId: menuItemId, vote: vote);
+          .voteMenuItemPrice(menuItemId: menuItemId, vote: desiredVote);
       await refresh(force: true);
     } catch (e) {
       if (current != null) {

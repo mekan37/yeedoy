@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../app/theme/colors.dart';
+import '../../../../core/i18n/app_localizations.dart';
 
 class AdminNewItemsBanner extends StatefulWidget {
   const AdminNewItemsBanner({
@@ -28,6 +29,7 @@ class _AdminNewItemsBannerState extends State<AdminNewItemsBanner> {
     if (widget.count <= 0) return const SizedBox.shrink();
     final show = widget.count > dismissedAt;
     if (!show) return const SizedBox.shrink();
+    final l10n = context.l10n;
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -38,16 +40,22 @@ class _AdminNewItemsBannerState extends State<AdminNewItemsBanner> {
       ),
       child: Row(
         children: [
-          Text('${widget.label} (+${widget.count})', style: const TextStyle(fontWeight: FontWeight.w800)),
+          Text(
+            l10n.adminNewItemsBannerLabel(widget.label, widget.count),
+            style: const TextStyle(fontWeight: FontWeight.w800),
+          ),
           const Spacer(),
           TextButton(
             onPressed: () {
               setState(() => dismissedAt = widget.count);
               widget.onDismiss?.call();
             },
-            child: const Text('Kapat'),
+            child: Text(l10n.close),
           ),
-          FilledButton(onPressed: widget.onRefresh, child: const Text('Yenile')),
+          FilledButton(
+            onPressed: widget.onRefresh,
+            child: Text(l10n.yenile),
+          ),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/config/product_guardrail_overrides.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../domain/admin_dashboard_controller.dart';
 import '../domain/admin_growth_provider.dart';
 import '../domain/admin_kpi_provider.dart';
@@ -16,6 +17,7 @@ class AdminDashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final countsAsync = ref.watch(adminDashboardProvider);
+    final l10n = context.l10n;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -37,14 +39,14 @@ class AdminDashboardPage extends ConsumerWidget {
                   const _V3QualityGateCard(),
                   const SizedBox(height: 12),
                   AppHeroHeader(
-                    title: 'Genel Bakış',
-                    subtitle: 'Operasyon ve büyüme metrikleri',
+                    title: l10n.adminDashboardOverviewTitle,
+                    subtitle: l10n.adminDashboardOverviewSubtitle,
                     icon: Icons.dashboard_outlined,
                     trailing: IconButton(
                       onPressed: () =>
                           ref.read(adminDashboardProvider.notifier).refresh(),
                       icon: const Icon(Icons.refresh, color: Colors.white),
-                      tooltip: 'Yenile',
+                      tooltip: l10n.yenile,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -58,15 +60,15 @@ class AdminDashboardPage extends ConsumerWidget {
                     data: (s) {
                       final cards = [
                         _StatCard(
-                          title: 'Açık Raporlar',
+                          title: l10n.adminDashboardOpenReports,
                           value: '${s.counts.reportsOpen}',
                         ),
                         _StatCard(
-                          title: 'Bekleyen Sahiplik',
+                          title: l10n.adminDashboardPendingClaims,
                           value: '${s.counts.claimsPending}',
                         ),
                         _StatCard(
-                          title: 'Bekleyen Öneriler',
+                          title: l10n.adminDashboardPendingSuggestions,
                           value: '${s.counts.suggestionsPending}',
                         ),
                       ];
@@ -90,11 +92,11 @@ class AdminDashboardPage extends ConsumerWidget {
                     data: (s) {
                       final cards = [
                         _StatCard(
-                          title: 'Rapor atama (dk)',
+                          title: l10n.adminDashboardReportAssignMinutes,
                           value: _fmtMinutes(s.sla.reportsAvgMinutesToAssign),
                         ),
                         _StatCard(
-                          title: 'Rapor kapanışı (dk)',
+                          title: l10n.adminDashboardReportCloseMinutes,
                           value: _fmtMinutes(s.sla.reportsAvgMinutesToClose),
                         ),
                       ];
@@ -118,11 +120,11 @@ class AdminDashboardPage extends ConsumerWidget {
                     data: (s) {
                       final cards = [
                         _StatCard(
-                          title: 'Sahiplik atama (dk)',
+                          title: l10n.adminDashboardClaimAssignMinutes,
                           value: _fmtMinutes(s.sla.claimsAvgMinutesToAssign),
                         ),
                         _StatCard(
-                          title: 'Sahiplik karar (dk)',
+                          title: l10n.adminDashboardClaimDecisionMinutes,
                           value: _fmtMinutes(s.sla.claimsAvgMinutesToDecide),
                         ),
                       ];
@@ -140,10 +142,10 @@ class AdminDashboardPage extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  const Row(
+                  Row(
                     children: [
                       Text(
-                        'Büyüme (30 gün)',
+                        l10n.adminDashboardGrowth30Days,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w900,
@@ -165,19 +167,19 @@ class AdminDashboardPage extends ConsumerWidget {
                         data: (g) {
                           final cards = [
                             _StatCard(
-                              title: 'Menü link açıldı',
+                              title: l10n.adminDashboardMenuLinkOpened,
                               value: '${g.menuLinkOpened}',
                             ),
                             _StatCard(
-                              title: 'QR okutuldu',
+                              title: l10n.adminDashboardQrScanned,
                               value: '${g.qrScanned}',
                             ),
                             _StatCard(
-                              title: 'Menü paylaşıldı',
+                              title: l10n.adminDashboardMenuShared,
                               value: '${g.menuShared}',
                             ),
                             _StatCard(
-                              title: 'Uygulama kurulum',
+                              title: l10n.adminDashboardAppInstall,
                               value: '${g.appInstallFromMenu}',
                             ),
                           ];
@@ -197,10 +199,10 @@ class AdminDashboardPage extends ConsumerWidget {
                         },
                       ),
                   const SizedBox(height: 16),
-                  const Row(
+                  Row(
                     children: [
                       Text(
-                        'KPI (30 gün)',
+                        l10n.adminDashboardKpi30Days,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w900,
@@ -227,7 +229,7 @@ class AdminDashboardPage extends ConsumerWidget {
                           );
                           final cards = [
                             _StatCard(
-                              title: 'DAU',
+                              title: l10n.adminDashboardDau,
                               value: _withTrend(
                                 '${kpi.dau}',
                                 kpi.dau,
@@ -235,7 +237,7 @@ class AdminDashboardPage extends ConsumerWidget {
                               ),
                             ),
                             _StatCard(
-                              title: 'WAU',
+                              title: l10n.adminDashboardWau,
                               value: _withTrend(
                                 '${kpi.wau}',
                                 kpi.wau,
@@ -243,7 +245,7 @@ class AdminDashboardPage extends ConsumerWidget {
                               ),
                             ),
                             _StatCard(
-                              title: 'Keşfet â†’ İşletme CTR',
+                              title: l10n.adminDashboardDiscoveryCtr,
                               value: _withTrend(
                                 '$ctr (${kpi.discoveryClicks}/${kpi.discoveryImpressions})',
                                 kpi.discoveryCtr,
@@ -251,7 +253,7 @@ class AdminDashboardPage extends ConsumerWidget {
                               ),
                             ),
                             _StatCard(
-                              title: 'İşletme â†’ Menü oranı',
+                              title: l10n.adminDashboardBusinessToMenuRate,
                               value: _withTrend(
                                 '$menuRate (${kpi.menuViews}/${kpi.businessViews})',
                                 kpi.menuViewRate,
@@ -259,7 +261,7 @@ class AdminDashboardPage extends ConsumerWidget {
                               ),
                             ),
                             _StatCard(
-                              title: 'Fiyat doğrulama dönüşümü',
+                              title: l10n.adminDashboardPriceVerificationConversion,
                               value: _withTrend(
                                 '$priceRate (${kpi.priceSuggestions}/${kpi.menuViews})',
                                 kpi.priceVerificationRate,
@@ -267,7 +269,7 @@ class AdminDashboardPage extends ConsumerWidget {
                               ),
                             ),
                             _StatCard(
-                              title: 'Rapor çözüm süresi (dk)',
+                              title: l10n.adminDashboardReportResolutionMinutes,
                               value: _withTrend(
                                 _fmtMinutes(kpi.reportsAvgResolutionMinutes),
                                 kpi.reportsAvgResolutionMinutes,
@@ -332,6 +334,7 @@ class _V3QualityGateCard extends ConsumerWidget {
     final countsAsync = ref.watch(adminDashboardProvider);
     final kpiAsync = ref.watch(adminKpiSummaryProvider);
     final guardrails = ref.watch(productGuardrailOverridesProvider);
+    final l10n = context.l10n;
 
     final queueGate = countsAsync.maybeWhen(
       data: (s) =>
@@ -374,19 +377,19 @@ class _V3QualityGateCard extends ConsumerWidget {
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'V3 Kalite & Guven Kapisi (P0)',
+          children: [
+          Text(
+            l10n.adminDashboardQualityGateTitle,
             style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Yanlış bilgiyi düşür, güveni yükselt. Büyüme için kaliteyi gevsetme.',
+          Text(
+            l10n.adminDashboardQualityGateSubtitle,
             style: TextStyle(color: AppColors.muted, fontSize: 12),
           ),
           const SizedBox(height: 10),
           Text(
-            'Canlı kapı: $passCount/$totalCount',
+            l10n.adminDashboardLiveGate(passCount, totalCount),
             style: const TextStyle(
               color: AppColors.textStrong,
               fontWeight: FontWeight.w800,
@@ -398,29 +401,31 @@ class _V3QualityGateCard extends ConsumerWidget {
             runSpacing: 8,
             children: [
               _GateChip(
-                label: 'Doğruluk skorları',
+                label: l10n.adminDashboardGateAccuracyScores,
                 ok: !guardrails.allowLowQualityGrowthBypass,
               ),
-              _GateChip(label: 'Fiyat doğrulama', ok: priceVerificationGate),
-              _GateChip(label: 'Menü versiyon/geçmiş', ok: true),
-              _GateChip(label: 'Yanlış bilgi bildirimi', ok: resolutionGate),
-              _GateChip(label: 'İşletme yaşam döngüsü', ok: true),
+              _GateChip(label: l10n.adminDashboardGatePriceVerification, ok: priceVerificationGate),
+              _GateChip(label: l10n.adminDashboardGateMenuHistory, ok: true),
+              _GateChip(label: l10n.adminDashboardGateFalseInfoReporting, ok: resolutionGate),
+              _GateChip(label: l10n.adminDashboardGateBusinessLifecycle, ok: true),
               _GateChip(
-                label: 'Yorum kalite sistemi',
+                label: l10n.adminDashboardGateReviewQuality,
                 ok: !guardrails.ownerCanDeleteReviews,
               ),
-              _GateChip(label: 'Şimdi açık kontrolü', ok: true),
-              _GateChip(label: 'İşletme panel temel', ok: true),
-              _GateChip(label: 'Admin kayruk', ok: queueGate && reportSlaGate),
-              _GateChip(label: 'Uygulama içi gelen kutusu', ok: true),
+              _GateChip(label: l10n.adminDashboardGateOpenNowCheck, ok: true),
+              _GateChip(label: l10n.adminDashboardGateBusinessPanelCore, ok: true),
+              _GateChip(label: l10n.adminDashboardGateAdminQueue, ok: queueGate && reportSlaGate),
+              _GateChip(label: l10n.adminDashboardGateInbox, ok: true),
             ],
           ),
           const SizedBox(height: 10),
           Text(
-            'Korkuluk: sponsor etiketi=${guardrails.requireSponsoredLabel}, '
-            'min sponsor güveni=${guardrails.minSponsoredTrustScore.toStringAsFixed(2)}, '
-            'işletme yorum silme=${guardrails.ownerCanDeleteReviews}, '
-            'kalite bypass=${guardrails.allowLowQualityGrowthBypass}.',
+            l10n.adminDashboardGuardrailSummary(
+              guardrails.requireSponsoredLabel.toString(),
+              guardrails.minSponsoredTrustScore.toStringAsFixed(2),
+              guardrails.ownerCanDeleteReviews.toString(),
+              guardrails.allowLowQualityGrowthBypass.toString(),
+            ),
             style: const TextStyle(color: AppColors.textStrong, fontSize: 12),
           ),
         ],
@@ -462,7 +467,7 @@ String _withTrend(
 }) {
   if (previous == 0 && current == 0) return value;
   final delta = current - previous;
-  if (delta == 0) return '$value •';
+  if (delta == 0) return '$value =';
   final up = inverse ? delta < 0 : delta > 0;
-  return up ? '$value â†‘' : '$value â†“';
+  return up ? '$value +' : '$value -';
 }

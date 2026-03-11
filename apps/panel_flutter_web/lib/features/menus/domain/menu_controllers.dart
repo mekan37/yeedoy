@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/network/supabase_provider.dart';
+import '../../../core/media/media_upload_client.dart';
+import '../../../core/media/media_upload_repository.dart';
 import '../data/menu_repository.dart';
-import '../data/wp_upload.dart';
 import 'menu_models.dart';
 
 final menuItemPhotosProvider =
@@ -46,10 +46,8 @@ class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
     }
   }
 
-  Future<WpUploadResult?> uploadAndAddPhoto() async {
-    final client = ref.read(supabaseProvider);
-    final upload = await pickAndUploadWpImage(
-      client: client,
+  Future<MediaUploadResult?> uploadAndAddPhoto() async {
+    final upload = await ref.read(mediaUploadRepositoryProvider).pickAndUploadImage(
       title: 'menu_item_$menuItemId',
       menuItemId: menuItemId,
     );

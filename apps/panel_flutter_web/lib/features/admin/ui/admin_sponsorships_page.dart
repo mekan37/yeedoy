@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/admin_monetization_repository.dart';
 import '../domain/admin_models.dart';
 import '../domain/admin_sponsorship_packages_controller.dart';
@@ -21,10 +22,13 @@ class AdminSponsorshipsPage extends ConsumerStatefulWidget {
 class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
   final scrollCtrl = ScrollController();
   bool exporting = false;
+  late Future<AdminSponsorshipSummary?> _summaryFuture;
+  late Future<List<AdminSponsorshipInventorySurface>> _inventoryFuture;
 
   @override
   void initState() {
     super.initState();
+    _refreshReporting();
     scrollCtrl.addListener(() {
       if (scrollCtrl.position.pixels >=
           scrollCtrl.position.maxScrollExtent - 300) {
@@ -39,9 +43,16 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
     super.dispose();
   }
 
+  void _refreshReporting() {
+    final repo = ref.read(adminMonetizationRepositoryProvider);
+    _summaryFuture = repo.getSummary();
+    _inventoryFuture = repo.listInventory();
+  }
+
   @override
   Widget build(BuildContext context) {
     final st = ref.watch(adminSponsorshipsControllerProvider);
+    final l10n = context.l10n;
     final packages = ref
         .watch(adminSponsorshipPackagesControllerProvider)
         .items;
@@ -54,37 +65,50 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
         children: [
           Row(
             children: [
-              const Text(
-                'Sponsorships',
+              Text(
+                l10n.adminSponsorshipsTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
               OutlinedButton.icon(
                 onPressed: exporting ? null : () => _exportCsv(st),
                 icon: const Icon(Icons.download),
-                label: Text(exporting ? 'Indiriliyor...' : 'CSV Dışa Aktar'),
+                label: Text(
+                  exporting
+                      ? l10n.adminCommonDownloading
+                      : l10n.adminCommonExportCsv,
+                ),
               ),
               const SizedBox(width: 8),
               FilledButton.icon(
-                onPressed: () => showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  showDragHandle: true,
-                  builder: (_) => const AdminSponsorshipCreateSheet(),
-                ),
+                onPressed: () async {
+                  await showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    showDragHandle: true,
+                    builder: (_) => const AdminSponsorshipCreateSheet(),
+                  );
+                  if (!mounted) return;
+                  setState(_refreshReporting);
+                },
                 icon: const Icon(Icons.add),
-                label: const Text('Yeni Sponsorluk'),
+                label: Text(l10n.adminSponsorshipsNewAction),
               ),
               const SizedBox(width: 8),
               IconButton(
-                onPressed: () => ref
-                    .read(adminSponsorshipsControllerProvider.notifier)
-                    .refresh(),
+                onPressed: () {
+                  setState(_refreshReporting);
+                  ref
+                      .read(adminSponsorshipsControllerProvider.notifier)
+                      .refresh();
+                },
                 icon: const Icon(Icons.refresh),
               ),
             ],
           ),
           const SizedBox(height: 10),
+          _reportingOverview(),
+          const SizedBox(height: 12),
           _filters(st),
           const SizedBox(height: 12),
           if (st.error != null)
@@ -105,13 +129,25 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
                           columns: [
-                            DataColumn(label: Text('İşletme')),
-                            DataColumn(label: Text('Yüzey')),
-                            DataColumn(label: Text('Durum')),
-                            DataColumn(label: Text('Tarih')),
-                            DataColumn(label: Text('Paket')),
-                            DataColumn(label: Text('Kota')),
-                            DataColumn(label: Text('Oluşturma')),
+                            DataColumn(label: Text(l10n.businessLabel)),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsSurfaceColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsStatusColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsDateRangeColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsPackageColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsQuotaColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsCreatedAtColumn),
+                            ),
                             DataColumn(label: Text('')),
                           ],
                           rows: [
@@ -119,10 +155,10 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
                               DataRow(
                                 cells: [
                                   DataCell(Text(item.businessName)),
-                                  DataCell(Text(item.surface)),
-                                  DataCell(Text(item.status)),
+                                  DataCell(Text(_surfaceLabel(context, item.surface))),
+                                  DataCell(Text(_statusLabel(context, item.status))),
                                   DataCell(
-                                    Text(_range(item.startsAt, item.endsAt)),
+                                    Text(_range(context, item.startsAt, item.endsAt)),
                                   ),
                                   DataCell(
                                     Text(
@@ -131,7 +167,7 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
                                     ),
                                   ),
                                   DataCell(
-                                    Text(_caps(item.dailyCap, item.totalCap)),
+                                    Text(_caps(context, item.dailyCap, item.totalCap)),
                                   ),
                                   DataCell(Text(_fmtDate(item.createdAt))),
                                   DataCell(_actions(item)),
@@ -143,7 +179,9 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
                       if (!st.isLoading && st.items.isEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 24),
-                          child: Center(child: Text('Kayit bulunamadi.')),
+                          child: Center(
+                            child: Text(l10n.adminCommonNoRecordsFound),
+                          ),
                         ),
                       if (st.isLoadingMore)
                         const Padding(
@@ -165,22 +203,224 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
     );
   }
 
+  Widget _reportingOverview() {
+    final l10n = context.l10n;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.adminSponsorshipsOverviewTitle,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          l10n.adminSponsorshipsOverviewDescription,
+          style: const TextStyle(color: AppColors.muted),
+        ),
+        const SizedBox(height: 12),
+        FutureBuilder<AdminSponsorshipSummary?>(
+          future: _summaryFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Padding(
+                padding: EdgeInsets.only(bottom: 12),
+                child: LinearProgressIndicator(minHeight: 6),
+              );
+            }
+            if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(
+                  AppErrorMapper.message(snapshot.error),
+                  style: const TextStyle(color: AppColors.danger),
+                ),
+              );
+            }
+            final summary = snapshot.data;
+            if (summary == null) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(
+                  l10n.adminCommonNoRecordsFound,
+                  style: const TextStyle(color: AppColors.muted),
+                ),
+              );
+            }
+            return Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                _MetricCard(
+                  label: l10n.adminSponsorshipsMetricActive,
+                  value: '${summary.activeSponsorships}',
+                ),
+                _MetricCard(
+                  label: l10n.adminSponsorshipsMetricPending,
+                  value: '${summary.pendingSponsorships}',
+                ),
+                _MetricCard(
+                  label: l10n.adminSponsorshipsMetricOpenLeads,
+                  value: '${summary.openLeads}',
+                ),
+                _MetricCard(
+                  label: l10n.adminSponsorshipsMetricImpressions30d,
+                  value: '${summary.impressions30d}',
+                ),
+                _MetricCard(
+                  label: l10n.adminSponsorshipsMetricUniqueUsers30d,
+                  value: '${summary.uniqueUsers30d}',
+                ),
+                _MetricCard(
+                  label: l10n.adminSponsorshipsMetricEstimatedRevenue,
+                  value: _formatMoneyCents(
+                    summary.estimatedActiveRevenueCents,
+                    'TRY',
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        const SizedBox(height: 12),
+        Text(
+          l10n.adminSponsorshipsInventoryTitle,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          l10n.adminSponsorshipsInventoryDescription,
+          style: const TextStyle(color: AppColors.muted),
+        ),
+        const SizedBox(height: 12),
+        FutureBuilder<List<AdminSponsorshipInventorySurface>>(
+          future: _inventoryFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Padding(
+                padding: EdgeInsets.only(bottom: 12),
+                child: LinearProgressIndicator(minHeight: 6),
+              );
+            }
+            if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(
+                  AppErrorMapper.message(snapshot.error),
+                  style: const TextStyle(color: AppColors.danger),
+                ),
+              );
+            }
+            final items = snapshot.data ?? const [];
+            if (items.isEmpty) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(
+                  l10n.adminCommonNoRecordsFound,
+                  style: const TextStyle(color: AppColors.muted),
+                ),
+              );
+            }
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: [
+                  DataColumn(label: Text(l10n.adminSponsorshipsSurfaceColumn)),
+                  DataColumn(
+                    label: Text(l10n.adminSponsorshipsInventoryPackagesColumn),
+                  ),
+                  DataColumn(
+                    label: Text(l10n.adminSponsorshipsInventoryUnitsColumn),
+                  ),
+                  DataColumn(
+                    label: Text(l10n.adminSponsorshipsMetricOpenLeads),
+                  ),
+                  DataColumn(
+                    label: Text(l10n.adminSponsorshipsInventoryDemandColumn),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      l10n.adminSponsorshipsInventoryPerformanceColumn,
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(l10n.adminSponsorshipsMetricEstimatedRevenue),
+                  ),
+                ],
+                rows: [
+                  for (final item in items)
+                    DataRow(
+                      cells: [
+                        DataCell(Text(_surfaceLabel(context, item.surface))),
+                        DataCell(
+                          Text(
+                            l10n.adminSponsorshipsInventoryPackagesValue(
+                              item.activePackages,
+                              item.totalPackages,
+                              item.inventoryLimit,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            l10n.adminSponsorshipsInventoryUnitsValue(
+                              item.liveUnits,
+                              item.openInventorySlots,
+                            ),
+                          ),
+                        ),
+                        DataCell(Text('${item.openLeads}')),
+                        DataCell(
+                          Text(
+                            l10n.adminSponsorshipsInventoryDemandValue(
+                              item.pendingSponsorships,
+                              item.openLeads,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            l10n.adminSponsorshipsInventoryPerformanceValue(
+                              item.impressions30d,
+                              item.uniqueUsers30d,
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            _formatMoneyCents(
+                              item.estimatedActiveRevenueCents,
+                              'TRY',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _actions(AdminSponsorshipItem item) {
+    final l10n = context.l10n;
     return Row(
       children: [
         OutlinedButton(
           onPressed: () => _setStatus(item.id, 'active'),
-          child: const Text('Aktif Et'),
+          child: Text(l10n.adminSponsorshipsActivateAction),
         ),
         const SizedBox(width: 6),
         OutlinedButton(
           onPressed: () => _setStatus(item.id, 'paused'),
-          child: const Text('Duraklat'),
+          child: Text(l10n.adminSponsorshipsPauseAction),
         ),
         const SizedBox(width: 6),
         TextButton(
           onPressed: () => _setStatus(item.id, 'ended'),
-          child: const Text('Bitir'),
+          child: Text(l10n.adminSponsorshipsEndAction),
         ),
       ],
     );
@@ -191,6 +431,7 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
       await ref
           .read(adminMonetizationRepositoryProvider)
           .setSponsorshipStatus(sponsorshipId: id, status: status);
+      setState(_refreshReporting);
       ref.read(adminSponsorshipsControllerProvider.notifier).refresh();
     } catch (e) {
       if (!mounted) return;
@@ -232,17 +473,49 @@ class _AdminSponsorshipsPageState extends ConsumerState<AdminSponsorshipsPage> {
   }
 }
 
-String _caps(int? daily, int? total) {
+String _caps(BuildContext context, int? daily, int? total) {
   final d = daily == null ? '-' : daily.toString();
   final t = total == null ? '-' : total.toString();
-  return 'D:$d / T:$t';
+  return context.l10n.adminSponsorshipsQuotaValue(d, t);
 }
 
-String _range(DateTime? s, DateTime? e) {
+String _range(BuildContext context, DateTime? s, DateTime? e) {
   if (s == null && e == null) return '-';
-  final ss = s == null ? 'âˆ' : _fmtDate(s);
-  final ee = e == null ? 'âˆ' : _fmtDate(e);
-  return '$ss â†’ $ee';
+  final ss = s == null ? context.l10n.adminSponsorshipsInfinity : _fmtDate(s);
+  final ee = e == null ? context.l10n.adminSponsorshipsInfinity : _fmtDate(e);
+  return context.l10n.adminSponsorshipsDateRangeValue(ss, ee);
+}
+
+String _statusLabel(BuildContext context, String status) {
+  final l10n = context.l10n;
+  switch (status) {
+    case 'active':
+      return l10n.adminSponsorshipsStatusActive;
+    case 'paused':
+      return l10n.adminSponsorshipsStatusPaused;
+    case 'ended':
+      return l10n.adminSponsorshipsStatusEnded;
+    default:
+      return status;
+  }
+}
+
+String _surfaceLabel(BuildContext context, String surface) {
+  final l10n = context.l10n;
+  switch (surface) {
+    case 'discovery':
+      return l10n.adminSponsorshipPackagesSurfaceDiscovery;
+    case 'business_page':
+      return l10n.adminSponsorshipPackagesSurfaceBusinessPage;
+    case 'verified':
+      return l10n.adminSponsorshipPackagesSurfaceVerified;
+    case 'stories':
+      return l10n.adminSponsorshipPackagesSurfaceStories;
+    case 'premium':
+      return l10n.adminSponsorshipPackagesSurfacePremium;
+    default:
+      return surface;
+  }
 }
 
 String _fmtDate(DateTime d) {
@@ -250,6 +523,42 @@ String _fmtDate(DateTime d) {
   final m = d.month.toString().padLeft(2, '0');
   final day = d.day.toString().padLeft(2, '0');
   return '$y-$m-$day';
+}
+
+String _formatMoneyCents(int amount, String currencyCode) {
+  final whole = amount / 100;
+  return '${whole.toStringAsFixed(2)} $currencyCode';
+}
+
+class _MetricCard extends StatelessWidget {
+  const _MetricCard({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 180,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: const TextStyle(color: AppColors.muted)),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 String _csvEscape(String v) {

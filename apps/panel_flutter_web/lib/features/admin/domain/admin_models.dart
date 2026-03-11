@@ -333,6 +333,8 @@ class AdminBusinessItem {
     this.coverUrl,
     this.assignedTo,
     this.isVerified = false,
+    this.slug,
+    this.publicSlug,
   });
 
   final String id;
@@ -348,6 +350,8 @@ class AdminBusinessItem {
   final String? coverUrl;
   final String? assignedTo;
   final bool isVerified;
+  final String? slug;
+  final String? publicSlug;
 
   factory AdminBusinessItem.fromMap(Map<String, dynamic> m) =>
       AdminBusinessItem(
@@ -363,8 +367,33 @@ class AdminBusinessItem {
         coverUrl: _string(m, const ['cover_url', 'cover']),
         assignedTo: _string(m, const ['assigned_to']),
         isVerified: _asBool(m['is_verified']),
+        slug: _string(m, const ['slug', 'business_slug']),
+        publicSlug: _string(m, const ['public_slug', 'business_public_slug']),
         createdAt: _asDate(m['created_at']),
       );
+
+  AdminBusinessItem copyWith({
+    String? slug,
+    String? publicSlug,
+  }) {
+    return AdminBusinessItem(
+      id: id,
+      name: name,
+      createdAt: createdAt,
+      category: category,
+      address: address,
+      city: city,
+      district: district,
+      lat: lat,
+      lng: lng,
+      logoUrl: logoUrl,
+      coverUrl: coverUrl,
+      assignedTo: assignedTo,
+      isVerified: isVerified,
+      slug: slug ?? this.slug,
+      publicSlug: publicSlug ?? this.publicSlug,
+    );
+  }
 }
 
 class AdminSponsorshipPackage {
@@ -374,6 +403,9 @@ class AdminSponsorshipPackage {
     required this.surface,
     required this.durationDays,
     required this.priceDisplay,
+    required this.priceCents,
+    required this.currencyCode,
+    required this.inventoryLimit,
     required this.isActive,
     required this.createdAt,
   });
@@ -383,6 +415,9 @@ class AdminSponsorshipPackage {
   final String surface;
   final int durationDays;
   final String priceDisplay;
+  final int priceCents;
+  final String currencyCode;
+  final int inventoryLimit;
   final bool isActive;
   final DateTime createdAt;
 
@@ -393,8 +428,82 @@ class AdminSponsorshipPackage {
         surface: _string(m, const ['surface']) ?? '',
         durationDays: _asInt(m['duration_days']),
         priceDisplay: _string(m, const ['price_display']) ?? '',
+        priceCents: _asInt(m['price_cents']),
+        currencyCode: _string(m, const ['currency_code']) ?? 'TRY',
+        inventoryLimit: _asInt(m['inventory_limit']),
         isActive: _asBool(m['is_active']),
         createdAt: _asDate(m['created_at']),
+      );
+}
+
+class AdminSponsorshipSummary {
+  AdminSponsorshipSummary({
+    required this.activeSponsorships,
+    required this.pendingSponsorships,
+    required this.openLeads,
+    required this.impressions30d,
+    required this.uniqueUsers30d,
+    required this.estimatedActiveRevenueCents,
+  });
+
+  final int activeSponsorships;
+  final int pendingSponsorships;
+  final int openLeads;
+  final int impressions30d;
+  final int uniqueUsers30d;
+  final int estimatedActiveRevenueCents;
+
+  factory AdminSponsorshipSummary.fromMap(Map<String, dynamic> m) =>
+      AdminSponsorshipSummary(
+        activeSponsorships: _asInt(m['active_sponsorships']),
+        pendingSponsorships: _asInt(m['pending_sponsorships']),
+        openLeads: _asInt(m['open_leads']),
+        impressions30d: _asInt(m['impressions_30d']),
+        uniqueUsers30d: _asInt(m['unique_users_30d']),
+        estimatedActiveRevenueCents: _asInt(m['estimated_active_revenue_cents']),
+      );
+}
+
+class AdminSponsorshipInventorySurface {
+  AdminSponsorshipInventorySurface({
+    required this.surface,
+    required this.activePackages,
+    required this.totalPackages,
+    required this.inventoryLimit,
+    required this.liveUnits,
+    required this.openInventorySlots,
+    required this.pendingSponsorships,
+    required this.openLeads,
+    required this.impressions30d,
+    required this.uniqueUsers30d,
+    required this.estimatedActiveRevenueCents,
+  });
+
+  final String surface;
+  final int activePackages;
+  final int totalPackages;
+  final int inventoryLimit;
+  final int liveUnits;
+  final int openInventorySlots;
+  final int pendingSponsorships;
+  final int openLeads;
+  final int impressions30d;
+  final int uniqueUsers30d;
+  final int estimatedActiveRevenueCents;
+
+  factory AdminSponsorshipInventorySurface.fromMap(Map<String, dynamic> m) =>
+      AdminSponsorshipInventorySurface(
+        surface: _string(m, const ['surface']) ?? '',
+        activePackages: _asInt(m['active_packages']),
+        totalPackages: _asInt(m['total_packages']),
+        inventoryLimit: _asInt(m['inventory_limit']),
+        liveUnits: _asInt(m['live_units']),
+        openInventorySlots: _asInt(m['open_inventory_slots']),
+        pendingSponsorships: _asInt(m['pending_sponsorships']),
+        openLeads: _asInt(m['open_leads']),
+        impressions30d: _asInt(m['impressions_30d']),
+        uniqueUsers30d: _asInt(m['unique_users_30d']),
+        estimatedActiveRevenueCents: _asInt(m['estimated_active_revenue_cents']),
       );
 }
 

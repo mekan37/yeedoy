@@ -39,8 +39,8 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
         children: [
           Row(
             children: [
-              const Text(
-                'BÃ¼yÃ¼me',
+              Text(
+                t.adminGrowthTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
@@ -59,10 +59,10 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
             children: [
               DropdownButton<int>(
                 value: _days,
-                items: const [
-                  DropdownMenuItem(value: 7, child: Text('Son 7 gÃ¼n')),
-                  DropdownMenuItem(value: 30, child: Text('Son 30 gÃ¼n')),
-                  DropdownMenuItem(value: 90, child: Text('Son 90 gÃ¼n')),
+                items: [
+                  DropdownMenuItem(value: 7, child: Text(t.adminGrowthLastDays(7))),
+                  DropdownMenuItem(value: 30, child: Text(t.adminGrowthLastDays(30))),
+                  DropdownMenuItem(value: 90, child: Text(t.adminGrowthLastDays(90))),
                 ],
                 onChanged: (v) {
                   if (v == null) return;
@@ -73,15 +73,15 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
                 width: 280,
                 child: TextField(
                   controller: _businessCtrl,
-                  decoration: const InputDecoration(
-                    labelText: 'Ä°ÅŸletme ID (opsiyonel)',
+                  decoration: InputDecoration(
+                    labelText: t.adminGrowthBusinessIdOptional,
                   ),
                   onSubmitted: (_) => setState(() {}),
                 ),
               ),
               FilledButton(
                 onPressed: () => setState(() {}),
-                child: const Text('Uygula'),
+                child: Text(t.apply),
               ),
             ],
           ),
@@ -106,7 +106,7 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
                 }
                 final items = snap.data ?? const [];
                 if (items.isEmpty) {
-                  return const Center(child: Text('Veri bulunamadÄ±.'));
+                  return Center(child: Text(t.adminGrowthNoData));
                 }
 
                 final totals = _sum(items);
@@ -124,35 +124,35 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
                       children: [
                         Expanded(
                           child: _StatCard(
-                            title: 'BugÃ¼n iÅŸletme trafiÄŸi',
+                            title: t.adminGrowthTodayBusinessTraffic,
                             value: '$todayTotal',
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'MenÃ¼ link aÃ§Ä±ldÄ±',
+                            title: t.adminGrowthMenuLinkOpened,
                             value: '${totals.menuLinkOpened}',
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'QR okutuldu',
+                            title: t.adminGrowthQrScanned,
                             value: '${totals.qrScanned}',
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'MenÃ¼ paylaÅŸÄ±ldÄ±',
+                            title: t.adminGrowthMenuShared,
                             value: '${totals.menuShared}',
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: _StatCard(
-                            title: 'Uygulama kurulum',
+                            title: t.adminGrowthAppInstall,
                             value: '${totals.appInstallFromMenu}',
                           ),
                         ),
@@ -165,8 +165,8 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'GÃ¼nlÃ¼k trafik (toplam)',
+                            Text(
+                              t.adminGrowthDailyTrafficTotal,
                               style: TextStyle(fontWeight: FontWeight.w900),
                             ),
                             const SizedBox(height: 12),
@@ -193,12 +193,12 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: DataTable(
-                          columns: const [
-                            DataColumn(label: Text('GÃ¼n')),
-                            DataColumn(label: Text('MenÃ¼ link aÃ§Ä±ldÄ±')),
-                            DataColumn(label: Text('QR okutuldu')),
-                            DataColumn(label: Text('MenÃ¼ paylaÅŸÄ±ldÄ±')),
-                            DataColumn(label: Text('Uygulama kurulum')),
+                          columns: [
+                            DataColumn(label: Text(t.adminGrowthDayColumn)),
+                            DataColumn(label: Text(t.adminGrowthMenuLinkOpened)),
+                            DataColumn(label: Text(t.adminGrowthQrScanned)),
+                            DataColumn(label: Text(t.adminGrowthMenuShared)),
+                            DataColumn(label: Text(t.adminGrowthAppInstall)),
                           ],
                           rows: [
                             for (final item in items)

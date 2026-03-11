@@ -7,6 +7,10 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../../legal/legal_linking.dart';
+import '../../legal/legal_providers.dart';
+import '../../legal/legal_repository.dart';
+import '../../legal/ui/widgets/legal_required_consent_card.dart';
 import '../data/auth_service_provider.dart';
 
 enum _AuthAction { signIn, signUp }
@@ -23,6 +27,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final passCtrl = TextEditingController();
 
   bool loading = false;
+  bool acceptedRequiredPolicies = false;
   String? errorMessage;
   _AuthAction? lastAction;
 
@@ -75,10 +80,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       lastAction = _AuthAction.signUp;
     });
 
+    if (!acceptedRequiredPolicies) {
+      setState(() {
+        loading = false;
+        errorMessage =
+            'Kayıt olmadan önce Kullanım Şartları ve Gizlilik Politikası’nı kabul etmelisiniz.';
+      });
+      return;
+    }
+
     try {
-      await ref
+      final response = await ref
           .read(authServiceProvider)
           .signUpWithEmail(emailCtrl.text.trim(), passCtrl.text);
+      if (response.session != null) {
+        try {
+          final snapshot = await ref
+              .read(legalRepositoryProvider)
+              .loadAcceptanceSnapshot();
+          if (snapshot != null && snapshot.pendingRequiredVersions.isNotEmpty) {
+            await ref
+                .read(legalRepositoryProvider)
+                .acceptPolicyVersions(snapshot.pendingRequiredVersions);
+          }
+        } finally {
+          ref.invalidate(legalAcceptanceSnapshotProvider);
+        }
+      }
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -134,10 +162,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           const SizedBox(height: 12),
           const BrandMascot(size: 56),
           const SizedBox(height: 10),
-          Text(
-            t.appName,
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
+          Text(t.appName, style: TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 18),
           TextField(
             controller: emailCtrl,
@@ -149,6 +174,41 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             controller: passCtrl,
             obscureText: true,
             decoration: InputDecoration(labelText: t.loginPasswordLabel),
+          ),
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Kayıt işlemi sürüm bazlı olarak saklanır. Yeni bir kullanım şartı veya gizlilik sürümü yayınlanırsa uygulama yeniden onay ister.',
+                  style: TextStyle(
+                    color: Color(0xFF475569),
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                LegalRequiredConsentCard(
+                  value: acceptedRequiredPolicies,
+                  disabled: loading,
+                  helperText:
+                      'Bu kabul yalnızca kayıt oluştururken zorunludur. Giriş yapan kullanıcılar için gerekli kontroller oturum sonrası ayrıca yapılır.',
+                  onChanged: (value) {
+                    setState(() {
+                      acceptedRequiredPolicies = value ?? false;
+                    });
+                  },
+                  onOpenLink: _openLegalUrl,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 16),
           SizedBox(
@@ -174,5 +234,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ),
     );
   }
-}
 
+  Future<void> _openLegalUrl(String url) async {
+    try {
+      await openLegalUrl(url);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppErrorMapper.message(error))),
+      );
+    }
+  }
+}

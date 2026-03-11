@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/storage/app_launch_prefs.dart';
@@ -79,15 +78,33 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = GoogleFonts.sora(
-      color: AppColors.textStrong,
-      fontSize: 46,
-      fontWeight: FontWeight.w800,
-      letterSpacing: 1.2,
-      shadows: const [
-        Shadow(color: Color(0x22000000), blurRadius: 16, offset: Offset(0, 6)),
-      ],
-    );
+    final textStyle =
+        Theme.of(context).textTheme.displayMedium?.copyWith(
+          color: AppColors.textStrong,
+          fontSize: 46,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 1.2,
+          shadows: const [
+            Shadow(
+              color: Color(0x22000000),
+              blurRadius: 16,
+              offset: Offset(0, 6),
+            ),
+          ],
+        ) ??
+        const TextStyle(
+          color: AppColors.textStrong,
+          fontSize: 46,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 1.2,
+          shadows: [
+            Shadow(
+              color: Color(0x22000000),
+              blurRadius: 16,
+              offset: Offset(0, 6),
+            ),
+          ],
+        );
 
     return PopScope(
       canPop: false,

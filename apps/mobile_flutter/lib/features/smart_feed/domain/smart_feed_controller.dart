@@ -23,7 +23,7 @@ class SmartFeedController extends Notifier<SmartFeedState> {
     return SmartFeedState.initial();
   }
 
-  Future<void> loadInitial() async {
+  Future<void> loadInitial({bool force = false}) async {
     final reqId = ++_requestId;
     state = state.copyWith(
       loading: true,
@@ -37,7 +37,7 @@ class SmartFeedController extends Notifier<SmartFeedState> {
           .read(smartFeedRepositoryProvider)
           .getPreferences();
       if (reqId != _requestId) return;
-      await _loadInitialWithPrefs(prefs, reqId: reqId);
+      await _loadInitialWithPrefs(prefs, reqId: reqId, force: force);
     } catch (e) {
       if (reqId != _requestId) return;
       state = state.copyWith(loading: false, error: e);
@@ -47,6 +47,7 @@ class SmartFeedController extends Notifier<SmartFeedState> {
   Future<void> _loadInitialWithPrefs(
     SmartFeedPreferences prefs, {
     required int reqId,
+    bool force = false,
   }) async {
     state = state.copyWith(
       preferences: prefs,
@@ -66,6 +67,7 @@ class SmartFeedController extends Notifier<SmartFeedState> {
           weatherHint: context.weatherHint,
           timeLabel: context.timeLabel,
           dayLabel: context.dayLabel,
+          force: force,
         );
     if (reqId != _requestId) return;
     state = state.copyWith(
@@ -112,7 +114,7 @@ class SmartFeedController extends Notifier<SmartFeedState> {
     _saveTimer = Timer(const Duration(milliseconds: 400), () {
       ref.read(smartFeedRepositoryProvider).upsertPreferences(prefs);
     });
-    await _loadInitialWithPrefs(prefs, reqId: reqId);
+    await _loadInitialWithPrefs(prefs, reqId: reqId, force: true);
   }
 
   Future<void> setLocation({

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/content/microcopy_style_guide.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../owner_onboarding/domain/owner_onboarding_providers.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
 import '../../../shared/ui/components/owner_business_guard.dart';
@@ -68,6 +68,7 @@ class _OwnerPriceSuggestionsPageState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return OwnerBusinessGuard(
       businessId: widget.businessId,
       builder: (context, ref) {
@@ -86,7 +87,7 @@ class _OwnerPriceSuggestionsPageState
         }
 
         return AppScaffold(
-          appBar: AppBar(title: const Text('Fiyat Onayları')),
+          appBar: AppBar(title: Text(l10n.ownerPriceSuggestionsTitle)),
           body: RefreshIndicator(
             onRefresh: () => controller.refresh(force: true),
             child: ListView(
@@ -104,7 +105,7 @@ class _OwnerPriceSuggestionsPageState
                       ),
                       const SizedBox(width: 8),
                       AppButton(
-                        label: MicrocopyStyleGuide.retry,
+                        label: l10n.retry,
                         variant: AppButtonVariant.secondary,
                         onPressed: () => controller.refresh(force: true),
                       ),
@@ -115,8 +116,8 @@ class _OwnerPriceSuggestionsPageState
                 else if (!st.isLoading && st.items.isEmpty)
                   AppEmptyState(
                     icon: Icons.price_change_outlined,
-                    title: 'Kayıt yok',
-                    description: 'Yeni fiyat önerileri burada listelenecek.',
+                    title: l10n.ownerPriceSuggestionsEmptyTitle,
+                    description: l10n.ownerPriceSuggestionsEmptyDescription,
                   )
                 else
                   Column(
@@ -150,7 +151,10 @@ class _OwnerPriceSuggestionsPageState
   }
 
   Future<void> _approve(OwnerPriceSuggestionItem item) async {
-    final ok = await _confirm(context, 'Onaylansın mı?');
+    final ok = await _confirm(
+      context,
+      context.l10n.ownerPriceSuggestionsApproveConfirm,
+    );
     if (!ok) return;
     try {
       await ref
@@ -161,7 +165,9 @@ class _OwnerPriceSuggestionsPageState
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Onaylandı.')));
+      ).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerPriceSuggestionsApproved)),
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -178,12 +184,12 @@ class _OwnerPriceSuggestionsPageState
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setModalState) {
           return AlertDialog(
-            title: const Text('Reddet'),
+            title: Text(context.l10n.ownerRejectAction),
             content: TextField(
               controller: noteCtrl,
               maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Ret nedeni (en az 3 karakter)',
+              decoration: InputDecoration(
+                labelText: context.l10n.ownerPriceSuggestionsRejectReasonLabel,
               ),
               onChanged: (value) {
                 final next = value.trim().length >= 3;
@@ -193,12 +199,12 @@ class _OwnerPriceSuggestionsPageState
             ),
             actions: [
               AppButton(
-                label: MicrocopyStyleGuide.cancel,
+                label: context.l10n.cancel,
                 variant: AppButtonVariant.ghost,
                 onPressed: () => Navigator.pop(ctx, false),
               ),
               AppButton(
-                label: MicrocopyStyleGuide.reject,
+                label: context.l10n.ownerRejectAction,
                 variant: AppButtonVariant.danger,
                 onPressed: canSubmit ? () => Navigator.pop(ctx, true) : null,
               ),
@@ -220,7 +226,9 @@ class _OwnerPriceSuggestionsPageState
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Reddedildi.')));
+      ).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerPriceSuggestionsRejected)),
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -244,6 +252,7 @@ class _OwnerPriceRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final confidencePct = (item.qualityConfidence * 100).clamp(0, 100).round();
     final hasAnomaly = item.anomalyScore >= 0.5 || item.anomalyFlags.isNotEmpty;
     final hasConflict = item.conflictState == 'queued' || conflictCount > 1;
@@ -269,22 +278,29 @@ class _OwnerPriceRow extends StatelessWidget {
                     runSpacing: 6,
                     children: [
                       AppBadge(
-                        label: 'Güven $confidencePct%',
+                        label: l10n.ownerPriceSuggestionsConfidence(
+                          confidencePct,
+                        ),
                         tone: confidencePct >= 70
                             ? AppBadgeTone.success
                             : AppBadgeTone.warning,
                       ),
                       if (hasConflict)
                         AppBadge(
-                          label:
-                              'Çakışma: ${item.conflictVariants24h > 0 ? item.conflictVariants24h : conflictCount} fiyat',
+                          label: l10n.ownerPriceSuggestionsConflictCount(
+                            item.conflictVariants24h > 0
+                                ? item.conflictVariants24h
+                                : conflictCount,
+                          ),
                           tone: AppBadgeTone.warning,
                         ),
                       if (hasAnomaly)
                         AppBadge(
                           label: item.anomalyFlags.isEmpty
-                              ? 'Anomali'
-                              : 'Anomali: ${item.anomalyFlags.first}',
+                              ? l10n.ownerPriceSuggestionsAnomaly
+                              : l10n.ownerPriceSuggestionsAnomalyFlag(
+                                  item.anomalyFlags.first,
+                                ),
                           tone: AppBadgeTone.danger,
                         ),
                     ],
@@ -292,8 +308,9 @@ class _OwnerPriceRow extends StatelessWidget {
                   if (conflictCount > 1 && !hasConflict) ...[
                     const SizedBox(height: 4),
                     AppBadge(
-                      label:
-                          'Çakışma: aynı ürün için $conflictCount farklı öneri var',
+                      label: l10n.ownerPriceSuggestionsConflictVariants(
+                        conflictCount,
+                      ),
                       tone: AppBadgeTone.warning,
                     ),
                   ],
@@ -313,13 +330,13 @@ class _OwnerPriceRow extends StatelessWidget {
                 Row(
                   children: [
                     AppButton(
-                      label: MicrocopyStyleGuide.approve,
+                      label: context.l10n.ownerApproveAction,
                       variant: AppButtonVariant.ghost,
                       onPressed: onApprove,
                     ),
                     const SizedBox(width: 6),
                     AppButton(
-                      label: MicrocopyStyleGuide.reject,
+                      label: context.l10n.ownerRejectAction,
                       variant: AppButtonVariant.secondary,
                       onPressed: onReject,
                     ),
@@ -369,16 +386,16 @@ Future<bool> _confirm(BuildContext context, String message) async {
   final res = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: const Text('Emin misin?'),
+      title: Text(context.l10n.ownerAreYouSure),
       content: Text(message),
       actions: [
         AppButton(
-          label: MicrocopyStyleGuide.cancel,
+          label: context.l10n.cancel,
           variant: AppButtonVariant.ghost,
           onPressed: () => Navigator.pop(ctx, false),
         ),
         AppButton(
-          label: MicrocopyStyleGuide.approve,
+          label: context.l10n.approved,
           onPressed: () => Navigator.pop(ctx, true),
         ),
       ],

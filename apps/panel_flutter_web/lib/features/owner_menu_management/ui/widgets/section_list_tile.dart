@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yeedoy/core/i18n/app_localizations.dart';
 
 import '../../../../app/theme/colors.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../domain/owner_menu_models.dart';
 
 class SectionListTile extends StatelessWidget {
@@ -20,7 +20,6 @@ class SectionListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
     return Card(
       child: ListTile(
         title: Text(
@@ -28,7 +27,7 @@ class SectionListTile extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.w800),
         ),
         subtitle: Text(
-          'SÄ±ra: ${section.sortOrder}',
+          context.l10n.ownerSortOrder(section.sortOrder),
           style: const TextStyle(color: AppColors.muted, fontSize: 12),
         ),
         trailing: Wrap(
@@ -37,17 +36,17 @@ class SectionListTile extends StatelessWidget {
             IconButton(
               onPressed: onOpenItems,
               icon: const Icon(Icons.list_alt_outlined),
-              tooltip: 'Urunler',
+              tooltip: context.l10n.ownerProducts,
             ),
             IconButton(
               onPressed: onEdit,
               icon: const Icon(Icons.edit_outlined),
-              tooltip: t.duzenle,
+              tooltip: context.l10n.duzenle,
             ),
             IconButton(
               onPressed: onDelete,
               icon: const Icon(Icons.delete_outline),
-              tooltip: 'Sil',
+              tooltip: context.l10n.ownerDelete,
             ),
           ],
         ),

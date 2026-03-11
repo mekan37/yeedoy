@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/colors.dart';
 import '../../../../core/errors/app_error_mapper.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../data/admin_monetization_repository.dart';
 import '../../data/admin_businesses_repository.dart';
 import '../../domain/admin_models.dart';
@@ -75,7 +76,10 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
   @override
   Widget build(BuildContext context) {
     final packagesState = ref.watch(adminSponsorshipPackagesControllerProvider);
-    final packages = packagesState.items;
+    final packages = packagesState.items
+        .where((package) => package.surface == _surface && package.isActive)
+        .toList();
+    final l10n = context.l10n;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -88,8 +92,8 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Sponsorluk Oluştur',
+            Text(
+              l10n.adminSponsorshipCreateTitle,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 10),
@@ -98,12 +102,35 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
             DropdownButtonFormField<String>(
               key: ValueKey(_surface),
               initialValue: _surface,
-              items: const [
-                DropdownMenuItem(value: 'discovery', child: Text('Ke?Yfet')),
-                DropdownMenuItem(value: 'business_page', child: Text('I?Yletme Sayfasi')),
+              items: [
+                DropdownMenuItem(
+                  value: 'discovery',
+                  child: Text(l10n.adminSponsorshipSurfaceDiscovery),
+                ),
+                DropdownMenuItem(
+                  value: 'business_page',
+                  child: Text(l10n.adminSponsorshipSurfaceBusinessPage),
+                ),
+                DropdownMenuItem(
+                  value: 'stories',
+                  child: Text(l10n.adminSponsorshipPackagesSurfaceStories),
+                ),
+                DropdownMenuItem(
+                  value: 'verified',
+                  child: Text(l10n.adminSponsorshipPackagesSurfaceVerified),
+                ),
+                DropdownMenuItem(
+                  value: 'premium',
+                  child: Text(l10n.adminSponsorshipPackagesSurfacePremium),
+                ),
               ],
-              onChanged: (v) => setState(() => _surface = v ?? 'discovery'),
-              decoration: const InputDecoration(labelText: 'Surface'),
+              onChanged: (v) => setState(() {
+                _surface = v ?? 'discovery';
+                _packageId = null;
+              }),
+              decoration: InputDecoration(
+                labelText: l10n.adminSponsorshipSurfaceLabel,
+              ),
             ),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
@@ -113,11 +140,15 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                 for (final p in packages)
                   DropdownMenuItem(
                     value: p.id,
-                    child: Text('${p.name} • ${p.durationDays}g'),
+                    child: Text(
+                      l10n.adminSponsorshipPackageOption(p.name, p.durationDays),
+                    ),
                   ),
               ],
               onChanged: (v) => setState(() => _packageId = v),
-              decoration: const InputDecoration(labelText: 'Package'),
+              decoration: InputDecoration(
+                labelText: l10n.adminSponsorshipPackageLabel,
+              ),
             ),
             const SizedBox(height: 8),
             Row(
@@ -125,8 +156,8 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                 Expanded(
                   child: TextField(
                     controller: _startsCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Başlangıç (YYYY-MM-DD)',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminSponsorshipStartDateLabel,
                     ),
                   ),
                 ),
@@ -134,8 +165,8 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                 Expanded(
                   child: TextField(
                     controller: _endsCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Bitiş (YYYY-MM-DD)',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminSponsorshipEndDateLabel,
                     ),
                   ),
                 ),
@@ -148,7 +179,9 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                   child: TextField(
                     controller: _dailyCapCtrl,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Günlük Limit'),
+                    decoration: InputDecoration(
+                      labelText: l10n.adminSponsorshipDailyCapLabel,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -156,7 +189,9 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                   child: TextField(
                     controller: _totalCapCtrl,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Toplam Limit'),
+                    decoration: InputDecoration(
+                      labelText: l10n.adminSponsorshipTotalCapLabel,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -164,16 +199,21 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                   child: TextField(
                     controller: _priorityCtrl,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Öncelik (opsiyonel)'),
+                    decoration: InputDecoration(
+                      labelText: l10n.adminSponsorshipPriorityOptionalLabel,
+                    ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 12),
-            const Text('Hedefleme', style: TextStyle(fontWeight: FontWeight.w800)),
+            Text(
+              l10n.adminSponsorshipTargetingTitle,
+              style: const TextStyle(fontWeight: FontWeight.w800),
+            ),
             const SizedBox(height: 6),
             _chipsInput(
-              label: 'Şehir',
+              label: l10n.city,
               controller: _cityCtrl,
               values: _cities,
               onAdd: (v) => setState(() => _cities = [..._cities, v]),
@@ -181,7 +221,7 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
             ),
             const SizedBox(height: 6),
             _chipsInput(
-              label: 'İlçe',
+              label: l10n.district,
               controller: _districtCtrl,
               values: _districts,
               onAdd: (v) => setState(() => _districts = [..._districts, v]),
@@ -189,7 +229,7 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
             ),
             const SizedBox(height: 6),
             _chipsInput(
-              label: 'Kategori',
+              label: l10n.ownerCategoryLabel,
               controller: _categoryCtrl,
               values: _categories,
               onAdd: (v) => setState(() => _categories = [..._categories, v]),
@@ -206,7 +246,11 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
               width: double.infinity,
               child: FilledButton(
                 onPressed: _loading ? null : _submit,
-                child: Text(_loading ? 'Kaydediliyor...' : 'Oluştur'),
+                child: Text(
+                  _loading
+                      ? l10n.adminSponsorshipSavingAction
+                      : l10n.adminSponsorshipCreateAction,
+                ),
               ),
             ),
           ],
@@ -216,25 +260,33 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
   }
 
   Widget _businessPicker() {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Işletme', style: TextStyle(fontWeight: FontWeight.w800)),
+        Text(
+          l10n.businessLabel,
+          style: const TextStyle(fontWeight: FontWeight.w800),
+        ),
         const SizedBox(height: 6),
         Row(
           children: [
             Expanded(
               child: TextField(
                 controller: _businessSearchCtrl,
-                decoration: const InputDecoration(
-                  hintText: 'Işletme ara (isim/adres)',
+                decoration: InputDecoration(
+                  hintText: l10n.adminSponsorshipSearchBusinessHint,
                 ),
               ),
             ),
             const SizedBox(width: 8),
             OutlinedButton(
               onPressed: _searching ? null : _searchBusinesses,
-              child: Text(_searching ? 'Aranıyor...' : 'Ara'),
+              child: Text(
+                _searching
+                    ? l10n.adminSponsorshipSearchingAction
+                    : l10n.adminSponsorshipSearchAction,
+              ),
             ),
           ],
         ),
@@ -257,7 +309,7 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                 ),
                 TextButton(
                   onPressed: () => setState(() => _selectedBusiness = null),
-                  child: const Text('Kaldır'),
+                  child: Text(l10n.adminSponsorshipRemoveBusinessAction),
                 ),
               ],
             ),
@@ -318,7 +370,7 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
                 controller.clear();
                 onAdd(v);
               },
-              child: const Text('Ekle'),
+              child: Text(context.l10n.adminSponsorshipAddTargetingValueAction),
             ),
           ],
         ),
@@ -357,11 +409,15 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
 
   Future<void> _submit() async {
     if (_selectedBusiness == null) {
-      setState(() => _error = Exception('Işletme seçin'));
+      setState(
+        () => _error = Exception(context.l10n.adminSponsorshipSelectBusinessError),
+      );
       return;
     }
     if (_packageId == null || _packageId!.isEmpty) {
-      setState(() => _error = Exception('Paket seçin'));
+      setState(
+        () => _error = Exception(context.l10n.adminSponsorshipSelectPackageError),
+      );
       return;
     }
     setState(() {
@@ -391,7 +447,7 @@ class _AdminSponsorshipCreateSheetState extends ConsumerState<AdminSponsorshipCr
       if (!mounted) return;
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sponsorluk oluşturuldu.')),
+        SnackBar(content: Text(context.l10n.adminSponsorshipCreated)),
       );
     } catch (e) {
       setState(() => _error = e);

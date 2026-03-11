@@ -47,7 +47,7 @@ class _GourmetsPageState extends ConsumerState<GourmetsPage> {
       appBar: AppBar(title: Text(t.gourmetsPageTitle)),
       body: RefreshIndicator(
         onRefresh: () =>
-            ref.read(gourmetDiscoverProvider.notifier).loadInitial(),
+            ref.read(gourmetDiscoverProvider.notifier).loadInitial(force: true),
         child: ListView(
           controller: scrollCtrl,
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
@@ -67,7 +67,7 @@ class _GourmetsPageState extends ConsumerState<GourmetsPage> {
                     OutlinedButton(
                       onPressed: () => ref
                           .read(gourmetDiscoverProvider.notifier)
-                          .loadInitial(),
+                          .loadInitial(force: true),
                       child: Text(t.retry),
                     ),
                   ],

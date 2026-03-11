@@ -1,11 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/cache/ttl_memory_cache.dart';
+import '../../../core/cache/request_cache.dart';
 import '../../../core/cache/swr_payload.dart';
 import '../../../core/config/product_guardrail_overrides.dart';
 import '../../../core/monitoring/app_telemetry.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../../../core/storage/local_db/local_db_models.dart';
+import '../../../core/storage/local_db/local_db_provider.dart';
+import '../../../core/storage/local_db/local_db_store.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
 import '../../business/domain/business.dart';
 import '../domain/business_card.dart';
@@ -21,27 +24,42 @@ final discoveryRepositoryProvider = Provider<DiscoveryRepository>((ref) {
     ref.watch(supabaseProvider),
     ref.watch(appTelemetryProvider),
     ref.watch(productGuardrailOverridesProvider),
+    ref.watch(requestCacheProvider),
+    ref.watch(localDbStoreProvider),
   );
 });
 
 class DiscoveryRepository {
-  DiscoveryRepository(this.client, this._telemetry, this._guardrails);
+  DiscoveryRepository(
+    this.client,
+    this._telemetry,
+    this._guardrails,
+    RequestCache requestCache,
+    this._localDb,
+  ) : _cache = requestCache.scope(_cacheScope);
 
   final SupabaseClient client;
   final AppTelemetry _telemetry;
   final ProductGuardrailOverrides _guardrails;
+  final RequestCacheScope _cache;
+  final LocalDbStore _localDb;
 
-  static final TtlMemoryCache _cache = TtlMemoryCache();
+  static const String _cacheScope = 'discovery';
   static const Duration _listTtl = Duration(minutes: 2);
   static const Duration _searchTtl = Duration(minutes: 1);
+  static const Duration _businessTtl = Duration(minutes: 2);
+  static const Duration _offlineSnapshotTtl = Duration(days: 7);
+
+  void clearCache() {
+    _cache.invalidatePrefix('');
+  }
+
+  void invalidateBusiness(String id) {
+    _cache.invalidate('business|$id');
+  }
 
   String _key(String method, Map<String, Object?> values) {
-    final ordered = values.entries.toList()
-      ..sort((a, b) => a.key.compareTo(b.key));
-    final payload = ordered
-        .map((entry) => '${entry.key}=${entry.value ?? ''}')
-        .join('&');
-    return '$method|$payload';
+    return stableRequestCacheKey(method, values);
   }
 
   String _feedDiskKey({String? query, String? category, required int limit}) {
@@ -84,6 +102,7 @@ class DiscoveryRepository {
         sampleRate: 0.2,
       );
       _cache.set(cacheKey, businesses);
+      await _writeDiscoverySnapshot(cacheKey, businesses);
       await OfflineCachePrefs.saveDiscoveryFeed(
         _feedDiskKey(query: query, category: category, limit: limit),
         businesses.map((e) => e.toMap()).toList(),
@@ -100,6 +119,8 @@ class DiscoveryRepository {
     } catch (_) {
       final stale = _cache.getStale<List<Business>>(cacheKey);
       if (stale != null) return stale;
+      final local = await _readDiscoverySnapshot(cacheKey);
+      if (local != null) return local;
       rethrow;
     }
   }
@@ -128,6 +149,16 @@ class DiscoveryRepository {
       );
     }
 
+    final local = await _readDiscoverySnapshot(cacheKey);
+    if (local != null && local.isNotEmpty) {
+      _cache.set(cacheKey, local);
+      return SwrPayload(
+        data: local,
+        isStale: true,
+        refresh: listBusinesses(query: query, category: category, limit: limit),
+      );
+    }
+
     final disk = await OfflineCachePrefs.loadDiscoveryFeed(
       _feedDiskKey(query: query, category: category, limit: limit),
     );
@@ -150,6 +181,9 @@ class DiscoveryRepository {
   }
 
   Future<Business> getBusiness(String id) async {
+    final key = 'business|$id';
+    final fresh = _cache.getFresh<Business>(key, ttl: _businessTtl);
+    if (fresh != null) return fresh;
     try {
       final business = await _telemetry.traceRpc<Business>(
         operation: 'get_business',
@@ -163,9 +197,15 @@ class DiscoveryRepository {
         },
         sampleRate: 0.3,
       );
+      _cache.set(key, business);
+      await _writeBusinessSnapshot(business);
       await OfflineCachePrefs.saveRecentBusiness(business);
       return business;
     } catch (_) {
+      final stale = _cache.getStale<Business>(key);
+      if (stale != null) return stale;
+      final local = await _readBusinessSnapshot(id);
+      if (local != null) return local;
       final cached = await OfflineCachePrefs.loadBusiness(id);
       if (cached != null) return cached;
       rethrow;
@@ -411,7 +451,51 @@ class DiscoveryRepository {
     String? district,
     int limit = 20,
   }) async {
-    return const <NearbyCampaign>[];
+    final cacheKey = _key('nearby_campaigns_v1', {
+      'lat': lat?.toStringAsFixed(4),
+      'lng': lng?.toStringAsFixed(4),
+      'radius': radiusKm,
+      'city': city?.trim(),
+      'district': district?.trim(),
+      'limit': limit,
+    });
+    final fresh = _cache.getFresh<List<NearbyCampaign>>(
+      cacheKey,
+      ttl: _searchTtl,
+    );
+    if (fresh != null) return fresh;
+
+    try {
+      final items = await _telemetry.traceRpc<List<NearbyCampaign>>(
+        operation: 'get_nearby_campaign_stories_v1',
+        run: () async {
+          final res = await client.rpc(
+            'get_nearby_campaign_stories_v1',
+            params: {
+              'p_lat': lat,
+              'p_lng': lng,
+              'p_radius_km': radiusKm,
+              'p_city': (city ?? '').trim().isEmpty ? null : city!.trim(),
+              'p_district': (district ?? '').trim().isEmpty
+                  ? null
+                  : district!.trim(),
+              'p_limit': limit,
+            },
+          );
+          return (res as List)
+              .whereType<Map>()
+              .map((row) => NearbyCampaign.fromMap(row.cast<String, dynamic>()))
+              .toList();
+        },
+        sampleRate: 0.2,
+      );
+      _cache.set(cacheKey, items);
+      return items;
+    } catch (_) {
+      final stale = _cache.getStale<List<NearbyCampaign>>(cacheKey);
+      if (stale != null) return stale;
+      rethrow;
+    }
   }
 
   Future<List<BusinessCardModel>> _attachOwnerVerification(
@@ -800,6 +884,53 @@ class DiscoveryRepository {
       rethrow;
     }
   }
+
+  Future<void> _writeDiscoverySnapshot(
+    String cacheKey,
+    List<Business> businesses,
+  ) {
+    return _localDb.upsert(
+      bucket: LocalDbBucket.discoveryFeed,
+      id: cacheKey,
+      payload: <String, dynamic>{
+        'rows': businesses.map((business) => business.toMap()).toList(),
+      },
+      expiresAt: DateTime.now().toUtc().add(_offlineSnapshotTtl),
+    );
+  }
+
+  Future<List<Business>?> _readDiscoverySnapshot(String cacheKey) async {
+    final record = await _localDb.read(
+      LocalDbBucket.discoveryFeed,
+      cacheKey,
+      allowExpired: true,
+    );
+    final rows = record?.payload['rows'];
+    if (rows is! List) return null;
+    final items = rows
+        .whereType<Map>()
+        .map((row) => Business.fromMap(row.cast<String, dynamic>()))
+        .toList(growable: false);
+    return items.isEmpty ? null : items;
+  }
+
+  Future<void> _writeBusinessSnapshot(Business business) {
+    return _localDb.upsert(
+      bucket: LocalDbBucket.businessSnapshot,
+      id: business.id,
+      payload: <String, dynamic>{'business': business.toMap()},
+      expiresAt: DateTime.now().toUtc().add(_offlineSnapshotTtl),
+    );
+  }
+
+  Future<Business?> _readBusinessSnapshot(String businessId) async {
+    final record = await _localDb.read(
+      LocalDbBucket.businessSnapshot,
+      businessId,
+      allowExpired: true,
+    );
+    final payload = record?.payload['business'];
+    if (payload is! Map) return null;
+    return Business.fromMap(payload.cast<String, dynamic>());
+  }
 }
-
-

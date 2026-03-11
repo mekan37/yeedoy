@@ -389,10 +389,10 @@ class AppLocalizationsTr extends AppLocalizations {
       'İçerik şu anda yüklenemedi. Varsa önbellek verisi gösterilecek. İnterneti kontrol edip tekrar dene.';
 
   @override
-  String get trustDataUnavailable => 'Güven verisi yok';
+  String get trustDataUnavailable => 'Veri güveni verisi yok';
 
   @override
-  String get freshnessAndTrust => 'Güncellik ve güven';
+  String get freshnessAndTrust => 'Veri güveni dökümü';
 
   @override
   String get menuUpdatedLabel => 'Menü Güncellendi';
@@ -402,6 +402,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get trustScoreLabel => 'Güven Skoru';
+
+  @override
+  String get communityScoreDataTrustLabel => 'Veri güveni';
+
+  @override
+  String get communityScoreMenuFreshnessLabel => 'Menü güncelliği';
 
   @override
   String get last3MonthsPriceChange => 'Son 3 Ay Fiyat Değişimi';
@@ -1566,7 +1572,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get trustScoreInfoNote =>
-      'Bu güven puanı kullanıcı oylaması değil, katkı kalitesinden oluşur.';
+      'Bu puan kullanıcı oylaması değil, toplulukta ne kadar güvenilir katkı verdiğini gösterir.';
 
   @override
   String plusPoints(int points) {
@@ -1575,7 +1581,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get verifyContributionRaisedScore =>
-      'Fiyat doğrulaman katkın puanını yükseltti.';
+      'Fiyat doğrulaman topluluk güvenini destekledi.';
 
   @override
   String get priceVerification => 'Fiyat doğrulama';
@@ -1655,6 +1661,10 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String get priceConfidenceDataTrustHint =>
+      'Fiyat güveni, veri güveninin bir parçasıdır; son doğrulama ve uzlaşıya bakar.';
+
+  @override
   String get seenCorrect => 'Gördüm • Doğru';
 
   @override
@@ -1689,6 +1699,80 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get valueScoreFormulaHint =>
       'Doğrulama oranı, son olumlu oylar ve fiyat istikrarına göre hesaplanır.';
+
+  @override
+  String get communityScoreExplainAction => 'Skorlar ne anlama geliyor?';
+
+  @override
+  String get communityScoreWhatImproves => 'Neler etkiler?';
+
+  @override
+  String get communityScoreHowUsed => 'Uygulamada nasıl kullanılır?';
+
+  @override
+  String get communityScoreUserTrustCategory => 'Kullanıcı güveni';
+
+  @override
+  String get communityScoreDataTrustCategory => 'Veri güveni';
+
+  @override
+  String get communityScoreInfoOnlyCategory => 'Bilgi skoru';
+
+  @override
+  String get communityScoreUserTrustSummary =>
+      'Topluluğun katkılarını ne kadar güvenilir bulduğunu gösterir. Popülerlik değil, doğruluk ve onay kalitesi bu puanı büyütür.';
+
+  @override
+  String get communityScoreUserTrustSignalAccuracy =>
+      'Doğru çıkan katkılar ve isabetli doğrulamalar';
+
+  @override
+  String get communityScoreUserTrustSignalApproval => 'Onaylanan katkı oranı';
+
+  @override
+  String get communityScoreUserTrustSignalSafety =>
+      'Düşük spam, suistimal ve red sinyali';
+
+  @override
+  String get communityScoreUserTrustUsage =>
+      'Daha güvenilir katkılar topluluk akışında ve doğrulama kararlarında daha hızlı öne çıkar.';
+
+  @override
+  String get communityScoreDataTrustSummary =>
+      'Bir menü veya fiyat bilgisinin şu anda ne kadar güvenilir olduğunu gösterir.';
+
+  @override
+  String get communityScoreDataTrustSignalFreshness =>
+      'Menünün güncelliği ve son denetim tarihi';
+
+  @override
+  String get communityScoreDataTrustSignalConsensus =>
+      'Birden fazla doğrulayıcı ve güçlü uzlaşı';
+
+  @override
+  String get communityScoreDataTrustSignalStability =>
+      'Düşük çelişki ve tutarlı değişim geçmişi';
+
+  @override
+  String get communityScoreDataTrustUsage =>
+      'Uygulama, fiyat veya menü bilgisini güvenle göstermek için bu sinyali kullanır.';
+
+  @override
+  String get communityScoreValueInsightSummary =>
+      'Bu bir güven puanı değildir; doğrulama, oy ve fiyat istikrarından üretilen bilgi skorudur.';
+
+  @override
+  String get communityScoreValueSignalVerification => 'Doğrulama oranı';
+
+  @override
+  String get communityScoreValueSignalVotes => 'Son olumlu oylar';
+
+  @override
+  String get communityScoreValueSignalStability => 'Fiyat istikrarı';
+
+  @override
+  String get communityScoreValueUsage =>
+      'Karar yardımcısıdır; tek başına kanıt yerine kullanılmaz.';
 
   @override
   String get menuPhotos => 'Menü Fotoğrafları';
@@ -2816,7 +2900,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String profileTrustScorePercent(int score) {
-    return 'Güven skoru: %$score';
+    return 'Topluluk güveni: %$score';
   }
 
   @override
@@ -2914,7 +2998,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileSegmentBalanced => 'Dengeli';
 
   @override
-  String get profileMoatSignalsTitle => 'Davranış sinyalleri';
+  String get profileMoatSignalsTitle => 'Destek sinyalleri';
 
   @override
   String get profileSignalTrust => 'Güven';
@@ -2923,14 +3007,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get profileSignalAccuracy => 'Doğruluk';
 
   @override
-  String get profileSignalSegment => 'Segment';
+  String get profileSignalSegment => 'Katkı stili';
 
   @override
-  String get profileSignalSilentQuality => 'Sessiz kalite';
+  String get profileSignalSilentQuality => 'Kalite serisi';
+
+  @override
+  String get profileSignalApprovalRate => 'Onay oranı';
+
+  @override
+  String get profileSupportSignalsSummary =>
+      'Bu sinyaller topluluk güvenini besler; ayrı ana skorlar değildir.';
 
   @override
   String profileMoatTrustedRejectedSpam(int trusted, int rejected, int spam) {
-    return 'Güvenilen katkılı: $trusted • Reddedilen: $rejected • Spam sinyali: $spam';
+    return 'Güvenilen katkı: $trusted • Reddedilen: $rejected • Spam sinyali: $spam';
   }
 
   @override
@@ -2940,7 +3031,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileMoatSilentQualityHint =>
-      'Sessiz kalite katkıcısı: Az konuşup doğru katkı yapıyorsun.';
+      'Kalite serin güçlü; az ama doğru katkıların öne çıkıyor.';
 
   @override
   String get businessReviewsCommunityExperiences => 'Topluluğun deneyimleri';

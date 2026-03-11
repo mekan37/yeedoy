@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
+import '../../../core/security/admin_impersonation_provider.dart';
 import '../../../core/security/app_role_providers.dart';
+import '../../../core/security/business_rbac_localizations.dart';
 import '../../auth/data/auth_service_provider.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../domain/admin_access_provider.dart';
@@ -19,223 +22,265 @@ class AdminShell extends ConsumerWidget {
   final Widget child;
   final String location;
 
-  static final List<_AdminEntry> _entries = [
-    const _AdminEntry(
+  static List<_AdminEntry> _entries(AppLocalizations l10n) => [
+    _AdminEntry(
       index: 0,
       route: '/admin',
-      label: 'Genel Bakış',
-      description: 'Admin panel genel görünümü ve hızlı aksiyonlar.',
+      label: l10n.adminShellDashboardLabel,
+      description: l10n.adminShellDashboardDescription,
       icon: Icons.dashboard_outlined,
       selectedIcon: Icons.dashboard,
     ),
-    const _AdminEntry(
+    _AdminEntry(
+      index: 24,
+      route: '/admin/queue',
+      label: l10n.adminShellQueueLabel,
+      description: l10n.adminShellQueueDescription,
+      icon: Icons.inbox_outlined,
+      selectedIcon: Icons.inbox,
+    ),
+    _AdminEntry(
       index: 1,
       route: '/admin/reports',
-      label: 'Raporlar',
-      description: 'Kullanıcı bildirimlerini incele, durum ve atama yönet.',
+      label: l10n.adminShellReportsLabel,
+      description: l10n.adminShellReportsDescription,
       icon: Icons.flag_outlined,
       selectedIcon: Icons.flag,
       badgeKey: 'reports',
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 21,
       route: '/admin/appeals',
-      label: 'Itirazlar',
-      description: 'Moderasyon kararlarina gelen itirazlari degerlendir.',
+      label: l10n.adminShellAppealsLabel,
+      description: l10n.adminShellAppealsDescription,
       icon: Icons.gavel_outlined,
       selectedIcon: Icons.gavel,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 2,
       route: '/admin/growth',
-      label: 'Büyüme',
-      description: 'Menü linki ve QR trafiğini günlük bazda takip et.',
+      label: l10n.adminShellGrowthLabel,
+      description: l10n.adminShellGrowthDescription,
       icon: Icons.show_chart_outlined,
       selectedIcon: Icons.show_chart,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 3,
       route: '/admin/claims',
-      label: 'Sahiplik Talepleri',
-      description: 'İşletme sahipliği taleplerini onayla ya da reddet.',
+      label: l10n.adminShellClaimsLabel,
+      description: l10n.adminShellClaimsDescription,
       icon: Icons.verified_outlined,
       selectedIcon: Icons.verified,
       badgeKey: 'claims',
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 4,
       route: '/admin/suspended',
-      label: 'Askıda Talepleri',
-      description: 'Askıda yemek taleplerini doğrula ve sonuçlandır.',
+      label: l10n.adminShellSuspendedClaimsLabel,
+      description: l10n.adminShellSuspendedClaimsDescription,
       icon: Icons.volunteer_activism_outlined,
       selectedIcon: Icons.volunteer_activism,
       badgeKey: 'suspended',
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 5,
       route: '/admin/price-suggestions',
-      label: 'Fiyat Onayları',
-      description: 'Fiyat önerilerini değerlendir, onayla veya reddet.',
+      label: l10n.adminShellPriceSuggestionsLabel,
+      description: l10n.adminShellPriceSuggestionsDescription,
       icon: Icons.price_check_outlined,
       selectedIcon: Icons.price_check,
       badgeKey: 'price',
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 17,
       route: '/admin/receipt-submissions',
-      label: 'Fiş Doğrulama',
-      description: 'Fiş doğrulama gönderimlerini listele ve kontrol et.',
+      label: l10n.adminShellReceiptSubmissionsLabel,
+      description: l10n.adminShellReceiptSubmissionsDescription,
       icon: Icons.receipt_long_outlined,
       selectedIcon: Icons.receipt_long,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 6,
       route: '/admin/suggestions',
-      label: 'İşletme Önerileri',
-      description: 'Yeni işletme önerilerini kontrol edip işleme al.',
+      label: l10n.adminShellSuggestionsLabel,
+      description: l10n.adminShellSuggestionsDescription,
       icon: Icons.lightbulb_outline,
       selectedIcon: Icons.lightbulb,
       badgeKey: 'suggestions',
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 7,
       route: '/admin/businesses',
-      label: 'İşletmeler',
-      description: 'İşletme kayıtlarını düzenle, doğrula ve güncelle.',
+      label: l10n.adminShellBusinessesLabel,
+      description: l10n.adminShellBusinessesDescription,
       icon: Icons.store_outlined,
       selectedIcon: Icons.store,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 16,
       route: '/admin/business-submissions',
-      label: 'İşletme Başvuruları',
-      description: 'Yeni işletme başvurularını onayla veya reddet.',
+      label: l10n.adminShellBusinessSubmissionsLabel,
+      description: l10n.adminShellBusinessSubmissionsDescription,
       icon: Icons.assignment_outlined,
       selectedIcon: Icons.assignment,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 8,
       route: '/admin/sponsorships',
-      label: 'Sponsorlu Gösterimler',
-      description: 'Sponsorlu işletme gösterimlerini yönet ve durum değiştir.',
+      label: l10n.adminShellSponsorshipsLabel,
+      description: l10n.adminShellSponsorshipsDescription,
       icon: Icons.campaign_outlined,
       selectedIcon: Icons.campaign,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 9,
       route: '/admin/sponsorship-packages',
-      label: 'Paketler',
-      description: 'Sponsor paketlerini oluştur ve fiyatlandırmayı yönet.',
+      label: l10n.adminShellSponsorshipPackagesLabel,
+      description: l10n.adminShellSponsorshipPackagesDescription,
       icon: Icons.inventory_2_outlined,
       selectedIcon: Icons.inventory_2,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 10,
       route: '/admin/sponsorship-leads',
-      label: 'Leadler',
-      description: 'Sponsor satış taleplerini takip et ve kapat.',
+      label: l10n.adminShellSponsorshipLeadsLabel,
+      description: l10n.adminShellSponsorshipLeadsDescription,
       icon: Icons.support_agent_outlined,
       selectedIcon: Icons.support_agent,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 11,
       route: '/admin/verified',
-      label: 'Doğrulama',
-      description: 'İşletme doğrulama ve premium statüsünü yönet.',
+      label: l10n.adminShellVerifiedLabel,
+      description: l10n.adminShellVerifiedDescription,
       icon: Icons.verified_outlined,
       selectedIcon: Icons.verified,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 13,
       route: '/admin/tools/locations',
-      label: 'Araçlar > Konumlar',
-      description: 'Konum verilerini toplu düzelt ve güncelle.',
+      label: l10n.adminShellLocationsLabel,
+      description: l10n.adminShellLocationsDescription,
       icon: Icons.place_outlined,
       selectedIcon: Icons.place,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 14,
       route: '/admin/audit',
-      label: 'Denetim Kayıtları',
-      description: 'Sistem içi işlem kayıtlarını incele.',
+      label: l10n.adminShellAuditLabel,
+      description: l10n.adminShellAuditDescription,
       icon: Icons.receipt_long_outlined,
       selectedIcon: Icons.receipt_long,
     ),
-    const _AdminEntry(
+    _AdminEntry(
+      index: 25,
+      route: '/admin/trash',
+      label: l10n.adminShellTrashLabel,
+      description: l10n.adminShellTrashDescription,
+      icon: Icons.restore_from_trash_outlined,
+      selectedIcon: Icons.restore_from_trash,
+    ),
+    _AdminEntry(
       index: 15,
       route: '/admin/table-feedback',
-      label: 'Masa Geri Bildirim',
-      description: 'Masa QR geri bildirimlerini görüntüle ve filtrele.',
+      label: l10n.adminShellTableFeedbackLabel,
+      description: l10n.adminShellTableFeedbackDescription,
       icon: Icons.table_bar_outlined,
       selectedIcon: Icons.table_bar,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 12,
       route: '/admin/group-requests',
-      label: 'Grup Talepleri',
-      description: 'Grup yemeği taleplerini ve teklifleri gözlemle.',
+      label: l10n.adminShellGroupRequestsLabel,
+      description: l10n.adminShellGroupRequestsDescription,
       icon: Icons.groups_outlined,
       selectedIcon: Icons.groups,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 18,
       route: '/admin/dev-tools',
-      label: 'Dev Tools',
-      description: 'Feature flag ve test override ayarları.',
+      label: l10n.adminShellDevToolsLabel,
+      description: l10n.adminShellDevToolsDescription,
       icon: Icons.tune_outlined,
       selectedIcon: Icons.tune,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 23,
       route: '/admin/observability',
-      label: 'Observability',
-      description: 'Request trace, perf SLO ve prefs tani gorunumu.',
+      label: l10n.adminShellObservabilityLabel,
+      description: l10n.adminShellObservabilityDescription,
       icon: Icons.monitor_heart_outlined,
       selectedIcon: Icons.monitor_heart,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 19,
       route: '/admin/b2b-exports',
-      label: 'B2B Veri İhracı',
-      description:
-          'Anonim trend, bölgesel fiyat endeksi ve menü enflasyonu çıktıları.',
+      label: l10n.adminShellB2bExportsLabel,
+      description: l10n.adminShellB2bExportsDescription,
       icon: Icons.dataset_outlined,
       selectedIcon: Icons.dataset,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 20,
       route: '/admin/incidents',
-      label: 'Kriz Müdahale',
-      description: 'Şeffaf log, hazır cevaplar ve hızlı müdahale aksiyonları.',
+      label: l10n.adminShellIncidentCenterLabel,
+      description: l10n.adminShellIncidentCenterDescription,
       icon: Icons.crisis_alert_outlined,
       selectedIcon: Icons.crisis_alert,
     ),
-    const _AdminEntry(
+    _AdminEntry(
       index: 22,
       route: '/admin/temp-uploads',
-      label: 'Geçici yükleme inceleme',
-      description: 'Bekleyen gecici menu yuklemelerini incele.',
+      label: l10n.adminShellTempUploadsLabel,
+      description: l10n.adminShellTempUploadsDescription,
       icon: Icons.upload_file_outlined,
       selectedIcon: Icons.upload_file,
     ),
   ];
 
-  int _indexFromLocation() {
-    for (final entry in _entries) {
-      if (location.startsWith(entry.route)) return entry.index;
+  _AdminEntry _searchEntry(AppLocalizations l10n) => _AdminEntry(
+    index: -1,
+    route: '/admin/search',
+    label: l10n.adminSearchTitle,
+    description: l10n.adminSearchDescription,
+    icon: Icons.manage_search_outlined,
+    selectedIcon: Icons.manage_search,
+  );
+
+  String _locationPath() {
+    final uri = Uri.tryParse(location);
+    return uri?.path ?? location;
+  }
+
+  int _indexFromLocation(List<_AdminEntry> entries, AppLocalizations l10n) {
+    final path = _locationPath();
+    if (path.startsWith('/admin/search')) return _searchEntry(l10n).index;
+    final sorted = [...entries]..sort((a, b) => b.route.length.compareTo(a.route.length));
+    for (final entry in sorted) {
+      if (path.startsWith(entry.route)) return entry.index;
     }
     return 0;
   }
 
-  List<_AdminEntry> _visibleEntries(AppRole? role) {
+  _AdminEntry _entryForLocation(List<_AdminEntry> entries, AppLocalizations l10n) {
+    final path = _locationPath();
+    if (path.startsWith('/admin/search')) return _searchEntry(l10n);
+    final sorted = [...entries]..sort((a, b) => b.route.length.compareTo(a.route.length));
+    for (final entry in sorted) {
+      if (path.startsWith(entry.route)) return entry;
+    }
+    return entries.first;
+  }
+
+  List<_AdminEntry> _visibleEntries(AppRole? role, List<_AdminEntry> entries) {
     if (role == AppRole.communityMod) {
-      return _entries
+      return entries
           .where(
             (entry) => canAccessAdminRoute(AppRole.communityMod, entry.route),
           )
           .toList(growable: false);
     }
-    return _entries;
+    return entries;
   }
 
   String _projectRef(String url) {
@@ -271,11 +316,12 @@ class AdminShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     if (!kIsWeb) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Admin')),
-        body: const Center(
-          child: Text('Bu ekran sadece web üzerinde kullanılabilir.'),
+        appBar: AppBar(title: Text(l10n.adminShellAdminTitle)),
+        body: Center(
+          child: Text(l10n.adminShellWebOnlyMessage),
         ),
       );
     }
@@ -284,21 +330,23 @@ class AdminShell extends ConsumerWidget {
     final roleAsync = ref.watch(appRoleProvider);
     final user = ref.watch(userProvider);
     final newItems = ref.watch(adminNewItemsProvider);
+    final impersonation = ref.watch(adminImpersonationProvider);
     ref.watch(adminRealtimeLifecycleProvider);
     final projectRef = _projectRef(dotenv.env['SUPABASE_URL'] ?? '');
+    final entries = _entries(l10n);
 
     return adminAsync.when(
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(
-        appBar: AppBar(title: const Text('Admin')),
-        body: const Center(child: Text('Admin erişimi doğrulanamadı.')),
+        appBar: AppBar(title: Text(l10n.adminShellAdminTitle)),
+        body: Center(child: Text(l10n.adminShellAccessCheckFailed)),
       ),
       data: (hasAccess) {
         if (!hasAccess) {
           return Scaffold(
-            appBar: AppBar(title: const Text('403')),
-            body: const Center(child: Text('Bu sayfaya erişim iznin yok.')),
+            appBar: AppBar(title: Text(l10n.forbiddenTitle)),
+            body: Center(child: Text(l10n.adminShellAccessDenied)),
           );
         }
 
@@ -306,16 +354,9 @@ class AdminShell extends ConsumerWidget {
           data: (value) => value,
           orElse: () => null,
         );
-        final visibleEntries = _visibleEntries(role);
-        final idx = _indexFromLocation();
-        final current =
-            visibleEntries.where((entry) {
-              return location.startsWith(entry.route);
-            }).isNotEmpty
-            ? visibleEntries.firstWhere(
-                (entry) => location.startsWith(entry.route),
-              )
-            : visibleEntries.first;
+        final visibleEntries = _visibleEntries(role, entries);
+        final idx = _indexFromLocation(entries, l10n);
+        final current = _entryForLocation(visibleEntries, l10n);
 
         return Scaffold(
           body: Row(
@@ -372,13 +413,21 @@ class AdminShell extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                'Proje: $projectRef • UID: ${_shortId(user?.id)}',
+                                l10n.adminShellProjectInfo(
+                                  projectRef,
+                                  _shortId(user?.id),
+                                ),
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: Colors.white.withValues(alpha: 0.8),
                                 ),
                               ),
                             ],
+                          ),
+                          const SizedBox(width: 24),
+                          SizedBox(
+                            width: 360,
+                            child: _AdminGlobalSearchField(location: location),
                           ),
                           const Spacer(),
                           Text(
@@ -400,11 +449,41 @@ class AdminShell extends ConsumerWidget {
                               if (context.mounted) context.go('/login');
                             },
                             icon: const Icon(Icons.logout),
-                            label: const Text('Çıkış'),
+                            label: Text(l10n.logout),
                           ),
                         ],
                       ),
                     ),
+                    if (impersonation.isActive)
+                      Material(
+                        color: AppColors.warning.withValues(alpha: 0.12),
+                        child: ListTile(
+                          dense: true,
+                          leading: const Icon(Icons.switch_account_outlined),
+                          title: Text(
+                            l10n.adminImpersonationBannerTitle(
+                              impersonation.userLabel ??
+                                  impersonation.userId ??
+                                  '-',
+                            ),
+                          ),
+                          subtitle: Text(
+                            impersonation.roleOverride == null
+                                ? l10n.adminImpersonationUsingActualRole
+                                : l10n.adminImpersonationRoleOverride(
+                                    l10n.ownerTeamRoleLabel(
+                                      impersonation.roleOverride!,
+                                    ),
+                                  ),
+                          ),
+                          trailing: TextButton(
+                            onPressed: () => ref
+                                .read(adminImpersonationActionsProvider)
+                                .stop(),
+                            child: Text(l10n.adminImpersonationStopAction),
+                          ),
+                        ),
+                      ),
                     Expanded(child: child),
                   ],
                 ),
@@ -414,6 +493,98 @@ class AdminShell extends ConsumerWidget {
         );
       },
     );
+  }
+}
+
+class _AdminGlobalSearchField extends StatefulWidget {
+  const _AdminGlobalSearchField({required this.location});
+
+  final String location;
+
+  @override
+  State<_AdminGlobalSearchField> createState() => _AdminGlobalSearchFieldState();
+}
+
+class _AdminGlobalSearchFieldState extends State<_AdminGlobalSearchField> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: _initialValue());
+  }
+
+  @override
+  void didUpdateWidget(covariant _AdminGlobalSearchField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final next = _initialValue();
+    if (next != _controller.text && _isSearchRoute(widget.location)) {
+      _controller.text = next;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return TextField(
+      controller: _controller,
+      onSubmitted: (_) => _openSearch(context),
+      decoration: InputDecoration(
+        hintText: l10n.adminSearchTopbarHint,
+        prefixIcon: const Icon(Icons.search),
+        suffixIcon: IconButton(
+          onPressed: () => _openSearch(context),
+          icon: const Icon(Icons.arrow_forward),
+          tooltip: l10n.adminSearchRunAction,
+        ),
+        filled: true,
+        fillColor: Colors.white.withValues(alpha: 0.16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: Colors.white.withValues(alpha: 0.18),
+          ),
+        ),
+      ),
+      style: const TextStyle(color: Colors.white),
+    );
+  }
+
+  bool _isSearchRoute(String location) {
+    final uri = Uri.tryParse(location);
+    final path = uri?.path ?? location;
+    return path.startsWith('/admin/search');
+  }
+
+  String _initialValue() {
+    final uri = Uri.tryParse(widget.location);
+    if (uri == null || uri.path != '/admin/search') return '';
+    return (uri.queryParameters['q'] ?? '').trim();
+  }
+
+  void _openSearch(BuildContext context) {
+    final query = _controller.text.trim();
+    final route = query.isEmpty
+        ? '/admin/search'
+        : Uri(
+            path: '/admin/search',
+            queryParameters: {'q': query},
+          ).toString();
+    context.go(route);
   }
 }
 
@@ -520,5 +691,3 @@ class _AdminNavItem extends StatelessWidget {
     );
   }
 }
-
-

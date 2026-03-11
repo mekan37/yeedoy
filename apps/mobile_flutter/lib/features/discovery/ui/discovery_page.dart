@@ -20,6 +20,7 @@ import '../../../core/analytics/app_events.dart';
 import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
+import '../../../core/config/feature_flags.dart';
 import '../../../core/location/user_location_controller.dart';
 import '../../../core/storage/category_prefs.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
@@ -29,6 +30,7 @@ import '../../auth/domain/auth_providers.dart';
 import '../../top_businesses/ui/top_businesses_strip.dart';
 
 import '../domain/discovery_search_notifier.dart';
+import '../domain/discovery_feed_composer.dart';
 import '../domain/nearby_campaign.dart';
 import '../domain/nearby_campaigns_provider.dart';
 import '../domain/price_anomaly.dart';
@@ -46,7 +48,6 @@ import '../../../core/growth/ab_experiments.dart';
 import '../../../core/growth/funnel_tracker.dart';
 import '../../../core/perf/firebase_perf_trace.dart';
 import '../../monetization/domain/sponsored_businesses_provider.dart';
-import '../../budget_combos/ui/budget_combo_entry_card.dart';
 import '../../ads/data/native_ad_controller.dart';
 import '../../ads/ui/native_ad_card.dart';
 import '../../profile/domain/profile_progress_provider.dart';
@@ -54,12 +55,18 @@ import '../../profile/domain/profile_progress.dart';
 import '../../contribute/ui/contribute_entry.dart';
 import '../../embed/data/embed_repository.dart';
 import '../../embed/ui/embed_viewer_page.dart';
+import '../../business/domain/meal_card_providers_provider.dart';
+import '../../shared/ui/widgets/meal_card_badge.dart';
 import 'categories_config.dart';
 import 'components/category_quick_filters.dart';
 import 'components/discovery_search_bar.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
+
+part 'surfaces/discovery_campaigns_tab.dart';
+part 'surfaces/discovery_map_surface.dart';
+part 'surfaces/discovery_insight_sections.dart';
 
 final regionalPriceIndexProvider =
     FutureProvider.family<
@@ -392,6 +399,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     _syncSurfaceModeFromRoute(context);
     final t = AppLocalizations.of(context);
     final st = ref.watch(discoverySearchProvider);
+    final flags = ref.watch(featureFlagsProvider);
     final isLoggedIn = ref.watch(userProvider.select((user) => user != null));
     final favIds = ref.watch(favoriteIdsProvider);
     final favCache = ref.watch(favoriteStatusCacheProvider);
@@ -425,13 +433,14 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         RefreshIndicator(
           onRefresh: () async {
             ref.invalidate(
-              sponsoredBusinessesProvider((
-                surface: 'discovery',
-                city: st.city,
-                district: st.district,
-                category: st.category.isEmpty ? null : st.category,
-                limit: 2,
-              )),
+              sponsoredBusinessesProvider(
+                sponsoredDiscoveryParams(
+                  city: st.city,
+                  district: st.district,
+                  category: st.category.isEmpty ? null : st.category,
+                  limit: 2,
+                ),
+              ),
             );
             await ref.read(discoverySearchProvider.notifier).refresh();
           },
@@ -577,74 +586,12 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               layout: _categoryLayout,
                             ),
                             const SizedBox(height: 12),
-                            const BudgetComboEntryCard(),
-                            const SizedBox(height: 12),
                             const _V4GrowthHubCard(),
                             const SizedBox(height: 14),
-                            AppCard(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 44,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primarySoft,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: const Icon(
-                                      Icons.auto_awesome_outlined,
-                                      color: AppColors.textStrong,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          t.quickSuggestionTitle,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            color: AppColors.textStrong,
-                                          ),
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          t.quickSuggestionSubtitle,
-                                          style: TextStyle(
-                                            color: AppColors.muted,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  FilledButton.tonal(
-                                    onPressed: () {
-                                      final city = st.city.trim();
-                                      final district = st.district.trim();
-                                      if (city.isEmpty || district.isEmpty) {
-                                        _openLocationSheet(context);
-                                        return;
-                                      }
-                                      final route = Uri(
-                                        path: '/budget-combos',
-                                        queryParameters: {
-                                          'city': city,
-                                          'district': district,
-                                          'party': '2',
-                                          'budget': '60000',
-                                        },
-                                      ).toString();
-                                      context.go(route);
-                                    },
-                                    child: Text(t.quickSuggestionPreset),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 12),
+                            if (flags.hasExperimentalNavigation) ...[
+                              const _DiscoveryLabsHubCard(),
+                              const SizedBox(height: 12),
+                            ],
                             AppCard(
                               child: Row(
                                 children: [
@@ -702,64 +649,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               ),
                             ),
                             const SizedBox(height: 12),
-                            AppCard(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 44,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primarySoft,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: const Icon(
-                                      Icons.groups_outlined,
-                                      color: AppColors.textStrong,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          t.friendGroupTitle,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            color: AppColors.textStrong,
-                                          ),
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          t.friendGroupSubtitle,
-                                          style: TextStyle(
-                                            color: AppColors.muted,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      FilledButton(
-                                        onPressed: () =>
-                                            context.go('/group-requests/new'),
-                                        child: Text(t.openGroup),
-                                      ),
-                                      const SizedBox(height: 6),
-                                      OutlinedButton(
-                                        onPressed: () =>
-                                            context.go('/group-requests'),
-                                        child: Text(t.myGroups),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 12),
                             // Quick road mode card
                             AppCard(
                               child: Row(
@@ -810,54 +699,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               ),
                             ),
                             const SizedBox(height: 12),
-                            AppCard(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 44,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.primarySoft,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: const Icon(
-                                      Icons.volunteer_activism,
-                                      color: AppColors.textStrong,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          t.heroesTitle,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            color: AppColors.textStrong,
-                                          ),
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          t.heroesSubtitle,
-                                          style: TextStyle(
-                                            color: AppColors.muted,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  FilledButton.tonal(
-                                    onPressed: () => context.go('/heroes'),
-                                    child: Text(t.view),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-
                             DiscoveryTopSectionsV2(
                               hasDistrict: hasDistrict,
                               showLocalInsights: _showLocalInsights,
@@ -1236,104 +1077,102 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               ),
                             ] else ...[
                               for (final entry in st.items.asMap().entries) ...[
-                                SizedBox(
-                                  height: 118,
-                                  child: RepaintBoundary(
-                                    child: BusinessTile(
-                                      name: entry.value.name,
-                                      category: entry.value.category,
-                                      subtitle:
-                                          '${entry.value.district ?? ''}  ${entry.value.city ?? ''}',
-                                      badgeText:
-                                          entry.value.ownerVerified == true
-                                          ? t.businessApprovedData
-                                          : t.communityData,
-                                      distanceKm: isNearby
-                                          ? entry.value.distanceKm
-                                          : null,
-                                      qualityScore: entry.value.qualityScore,
-                                      socialProof: _discoverySocialProof(
-                                        context: context,
-                                        item: entry.value,
-                                        district: st.district,
-                                        isTopResult:
-                                            st.sortBy ==
-                                                DiscoverySort.recommended &&
-                                            entry.key == 0,
-                                      ),
-                                      onWhyTap:
-                                          st.sortBy == DiscoverySort.recommended
-                                          ? () => _showRankingFormula(context)
-                                          : null,
-                                      onTap: () => _openBusiness(
-                                        entry.value.id,
-                                        source: 'discover_list',
-                                      ),
-                                      trailingAction: IconButton(
-                                        tooltip:
-                                            (favCache[entry.value.id] ??
-                                                favIds.contains(entry.value.id))
-                                            ? t.removeFromFavorites
-                                            : t.addToFavorites,
-                                        icon: AnimatedSwitcher(
-                                          duration: const Duration(
-                                            milliseconds: 180,
-                                          ),
-                                          transitionBuilder:
-                                              (child, animation) {
-                                                return ScaleTransition(
-                                                  scale: Tween<double>(
-                                                    begin: 0.7,
-                                                    end: 1,
-                                                  ).animate(animation),
-                                                  child: child,
-                                                );
-                                              },
-                                          child: Icon(
-                                            (favCache[entry.value.id] ??
-                                                    favIds.contains(
-                                                      entry.value.id,
-                                                    ))
-                                                ? Icons.star
-                                                : Icons.star_outline,
-                                            key: ValueKey(
-                                              favCache[entry.value.id] ??
+                                RepaintBoundary(
+                                  child: BusinessTile(
+                                    name: entry.value.name,
+                                    category: entry.value.category,
+                                    subtitle:
+                                        '${entry.value.district ?? ''}  ${entry.value.city ?? ''}',
+                                    badgeText: entry.value.ownerVerified == true
+                                        ? t.businessApprovedData
+                                        : t.communityData,
+                                    distanceKm: isNearby
+                                        ? entry.value.distanceKm
+                                        : null,
+                                    qualityScore: entry.value.qualityScore,
+                                    mealCardProviders:
+                                        entry.value.mealCardProviders,
+                                    socialProof: _discoverySocialProof(
+                                      context: context,
+                                      item: entry.value,
+                                      district: st.district,
+                                      isTopResult:
+                                          st.sortBy ==
+                                              DiscoverySort.recommended &&
+                                          entry.key == 0,
+                                    ),
+                                    onWhyTap:
+                                        st.sortBy == DiscoverySort.recommended
+                                        ? () => _showRankingFormula(context)
+                                        : null,
+                                    onTap: () => _openBusiness(
+                                      entry.value.id,
+                                      source: 'discover_list',
+                                    ),
+                                    trailingAction: IconButton(
+                                      tooltip:
+                                          (favCache[entry.value.id] ??
+                                              favIds.contains(entry.value.id))
+                                          ? t.removeFromFavorites
+                                          : t.addToFavorites,
+                                      icon: AnimatedSwitcher(
+                                        duration: const Duration(
+                                          milliseconds: 180,
+                                        ),
+                                        transitionBuilder:
+                                            (child, animation) {
+                                              return ScaleTransition(
+                                                scale: Tween<double>(
+                                                  begin: 0.7,
+                                                  end: 1,
+                                                ).animate(animation),
+                                                child: child,
+                                              );
+                                            },
+                                        child: Icon(
+                                          (favCache[entry.value.id] ??
                                                   favIds.contains(
                                                     entry.value.id,
-                                                  ),
-                                            ),
+                                                  ))
+                                              ? Icons.star
+                                              : Icons.star_outline,
+                                          key: ValueKey(
+                                            favCache[entry.value.id] ??
+                                                favIds.contains(
+                                                  entry.value.id,
+                                                ),
                                           ),
                                         ),
-                                        onPressed: () async {
-                                          if (!isLoggedIn) {
-                                            await showQuickLoginSheet(
-                                              context,
-                                              redirectPath: '/discover',
-                                            );
-                                            return;
-                                          }
-                                          try {
-                                            await ref
-                                                .read(
-                                                  favoritesControllerProvider
-                                                      .notifier,
-                                                )
-                                                .toggleFavorite(entry.value.id);
-                                          } catch (e) {
-                                            if (context.mounted) {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    AppErrorMapper.message(e),
-                                                  ),
-                                                ),
-                                              );
-                                            }
-                                          }
-                                        },
                                       ),
+                                      onPressed: () async {
+                                        if (!isLoggedIn) {
+                                          await showQuickLoginSheet(
+                                            context,
+                                            redirectPath: '/discover',
+                                          );
+                                          return;
+                                        }
+                                        try {
+                                          await ref
+                                              .read(
+                                                favoritesControllerProvider
+                                                    .notifier,
+                                              )
+                                              .toggleFavorite(entry.value.id);
+                                        } catch (e) {
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  AppErrorMapper.message(e),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
                                     ),
                                   ),
                                 ),
@@ -1795,109 +1634,175 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     var localPriceTier = st.priceTier;
     var localOpenNow = st.openNow;
     var localRecentBoost = st.recentPriceBoost;
+    final localMealCardKeys = <String>{...st.mealCardKeys};
 
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
       builder: (ctx) {
-        return StatefulBuilder(
-          builder: (ctx, setModalState) {
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      t.filters,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 16,
+        return Consumer(
+          builder: (context, ref, _) {
+            final mealCardOptionsAsync = ref.watch(allMealCardProvidersProvider);
+            return StatefulBuilder(
+              builder: (ctx, setModalState) {
+                return SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            t.filters,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Text(t.minRatingLabel(localRating.toStringAsFixed(1))),
+                          Slider(
+                            value: localRating,
+                            min: 0,
+                            max: 5,
+                            divisions: 10,
+                            label: localRating.toStringAsFixed(1),
+                            onChanged: (v) => setModalState(() => localRating = v),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(t.priceLevel),
+                          const SizedBox(height: 8),
+                          Wrap(
+                            spacing: 8,
+                            children: DiscoveryPriceTier.values
+                                .map(
+                                  (tier) => AppFilterChip(
+                                    label: _priceTierLabel(context, tier),
+                                    selected: localPriceTier == tier,
+                                    onTap: () => setModalState(
+                                      () => localPriceTier = tier,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Yemek Kartı',
+                            style: TextStyle(fontWeight: FontWeight.w900),
+                          ),
+                          const SizedBox(height: 8),
+                          mealCardOptionsAsync.when(
+                            loading: () => const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: LinearProgressIndicator(minHeight: 2),
+                            ),
+                            error: (error, _) => Text(
+                              AppErrorMapper.message(error),
+                              style: const TextStyle(color: AppColors.danger),
+                            ),
+                            data: (options) {
+                              if (options.isEmpty) {
+                                return const Text(
+                                  'Aktif yemek kartı tanımı bulunmuyor.',
+                                  style: TextStyle(
+                                    color: AppColors.muted,
+                                    fontSize: 12,
+                                  ),
+                                );
+                              }
+                              return Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: [
+                                  for (final option in options)
+                                    InkWell(
+                                      borderRadius: BorderRadius.circular(6),
+                                      onTap: () {
+                                        setModalState(() {
+                                          if (localMealCardKeys.contains(option.key)) {
+                                            localMealCardKeys.remove(option.key);
+                                          } else {
+                                            localMealCardKeys.add(option.key);
+                                          }
+                                        });
+                                      },
+                                      child: MealCardBadge(
+                                        provider: option,
+                                        selected: localMealCardKeys.contains(
+                                          option.key,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          SwitchListTile(
+                            contentPadding: EdgeInsets.zero,
+                            value: localOpenNow,
+                            title: Text(t.prioritizeOpenNow),
+                            onChanged: (v) => setModalState(() => localOpenNow = v),
+                          ),
+                          SwitchListTile(
+                            contentPadding: EdgeInsets.zero,
+                            value: localRecentBoost,
+                            title: Text(t.prioritizeNewlyVerified),
+                            onChanged: (v) =>
+                                setModalState(() => localRecentBoost = v),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () async {
+                                    Navigator.pop(ctx);
+                                    await ref
+                                        .read(discoverySearchProvider.notifier)
+                                        .setFilters(
+                                          minRating: 0,
+                                          priceTier: DiscoveryPriceTier.any,
+                                          openNow: false,
+                                          recentPriceBoost: true,
+                                          mealCardKeys: const <String>[],
+                                        );
+                                  },
+                                  child: Text(t.reset),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: FilledButton(
+                                  onPressed: () async {
+                                    Navigator.pop(ctx);
+                                    final mealCardKeys = localMealCardKeys
+                                        .toList(growable: false)
+                                      ..sort();
+                                    await ref
+                                        .read(discoverySearchProvider.notifier)
+                                        .setFilters(
+                                          minRating: localRating,
+                                          priceTier: localPriceTier,
+                                          openNow: localOpenNow,
+                                          recentPriceBoost: localRecentBoost,
+                                          mealCardKeys: mealCardKeys,
+                                        );
+                                  },
+                                  child: Text(t.apply),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 14),
-                    Text(t.minRatingLabel(localRating.toStringAsFixed(1))),
-                    Slider(
-                      value: localRating,
-                      min: 0,
-                      max: 5,
-                      divisions: 10,
-                      label: localRating.toStringAsFixed(1),
-                      onChanged: (v) => setModalState(() => localRating = v),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(t.priceLevel),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      children: DiscoveryPriceTier.values
-                          .map(
-                            (tier) => AppFilterChip(
-                              label: _priceTierLabel(context, tier),
-                              selected: localPriceTier == tier,
-                              onTap: () =>
-                                  setModalState(() => localPriceTier = tier),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                    const SizedBox(height: 10),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      value: localOpenNow,
-                      title: Text(t.prioritizeOpenNow),
-                      onChanged: (v) => setModalState(() => localOpenNow = v),
-                    ),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      value: localRecentBoost,
-                      title: Text(t.prioritizeNewlyVerified),
-                      onChanged: (v) =>
-                          setModalState(() => localRecentBoost = v),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () async {
-                              Navigator.pop(ctx);
-                              await ref
-                                  .read(discoverySearchProvider.notifier)
-                                  .setFilters(
-                                    minRating: 0,
-                                    priceTier: DiscoveryPriceTier.any,
-                                    openNow: false,
-                                    recentPriceBoost: true,
-                                  );
-                            },
-                            child: Text(t.reset),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: FilledButton(
-                            onPressed: () async {
-                              Navigator.pop(ctx);
-                              await ref
-                                  .read(discoverySearchProvider.notifier)
-                                  .setFilters(
-                                    minRating: localRating,
-                                    priceTier: localPriceTier,
-                                    openNow: localOpenNow,
-                                    recentPriceBoost: localRecentBoost,
-                                  );
-                            },
-                            child: Text(t.apply),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             );
           },
         );
@@ -2079,11 +1984,15 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                 const SizedBox(height: 24),
                 Row(
                   children: [
-                    Text(
-                      AppLocalizations.of(context).freshMenuUpdates,
-                      style: Theme.of(context).textTheme.titleLarge,
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context).freshMenuUpdates,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
                     ),
-                    const Spacer(),
+                    const SizedBox(width: 8),
                     TextButton(
                       onPressed: () {},
                       child: Text(AppLocalizations.of(context).seeAll),
@@ -2184,6 +2093,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     required Set<String> favIds,
     required bool isLoggedIn,
   }) {
+    if (nearbyItems.isEmpty) return const <Widget>[];
+
     ref.watch(nativeAdControllerProvider);
     final adController = ref.read(nativeAdControllerProvider.notifier);
     final widgets = <Widget>[];
@@ -2228,8 +2139,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
       );
 
       final businessCount = index + 1;
-      final shouldInsertAd =
-          businessCount >= 3 && businessCount % 8 == 0 && adShown < 2;
+      final shouldInsertAd = shouldInsertDiscoveryAdAfterBusiness(
+        businessCountShown: businessCount,
+        adsShown: adShown,
+      );
       if (!shouldInsertAd) continue;
       final ad = adController.adForSlot(adShown);
       if (ad == null) continue;
@@ -2736,246 +2649,6 @@ class _SerendipityCard extends StatelessWidget {
                 label: Text(t.pricePerformanceSurprise),
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CampaignsTab extends ConsumerWidget {
-  const _CampaignsTab();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final campaignParams = ref.watch(
-      discoverySearchProvider.select(
-        (s) => (
-          lat: s.userLat,
-          lng: s.userLng,
-          radiusKm: s.radiusKm,
-          city: s.city,
-          district: s.district,
-        ),
-      ),
-    );
-    final campaignsAsync = ref.watch(
-      nearbyCampaignsProvider((
-        lat: campaignParams.lat,
-        lng: campaignParams.lng,
-        radiusKm: campaignParams.radiusKm,
-        city: campaignParams.city,
-        district: campaignParams.district,
-        limit: 24,
-      )),
-    );
-
-    return RefreshIndicator(
-      onRefresh: () async {
-        ref.invalidate(
-          nearbyCampaignsProvider((
-            lat: campaignParams.lat,
-            lng: campaignParams.lng,
-            radiusKm: campaignParams.radiusKm,
-            city: campaignParams.city,
-            district: campaignParams.district,
-            limit: 24,
-          )),
-        );
-      },
-      child: CustomScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-            sliver: SliverList.list(
-              children: [
-                AppCard(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.campaign_outlined,
-                        color: AppColors.textStrong,
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          t.nearbyCampaignsAndAnnouncements,
-                          style: TextStyle(fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 12),
-                campaignsAsync.when(
-                  loading: () => const _DiscoverySkeleton(),
-                  error: (e, _) => AppCard(
-                    child: Text(
-                      AppErrorMapper.message(e),
-                      style: const TextStyle(color: AppColors.danger),
-                    ),
-                  ),
-                  data: (items) {
-                    if (items.isEmpty) {
-                      return AppEmptyState(
-                        icon: Icons.campaign_outlined,
-                        title: t.noNearbyCampaign,
-                        description: t.noActiveAnnouncementInArea,
-                      );
-                    }
-                    return Column(
-                      children: [
-                        for (final item in items) ...[
-                          _CampaignCard(item: item),
-                          const SizedBox(height: 10),
-                        ],
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CampaignCard extends ConsumerWidget {
-  const _CampaignCard({required this.item});
-  final NearbyCampaign item;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final subtitleParts = <String>[
-      if ((item.district ?? '').trim().isNotEmpty) item.district!.trim(),
-      if ((item.city ?? '').trim().isNotEmpty) item.city!.trim(),
-      if (item.distanceKm != null) '${item.distanceKm!.toStringAsFixed(1)} km',
-      '${t.remainingLabel}: ${_campaignTimeLeft(context, item.expiresAt)}',
-    ];
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BusinessTile(
-            name: item.businessName,
-            category: t.campaign,
-            subtitle: subtitleParts.join('  '),
-            badgeText: t.active,
-            onTap: () {
-              unawaited(
-                _logDiscoveryClick(
-                  ref.read(analyticsRepositoryProvider),
-                  businessId: item.businessId,
-                  source: 'campaign',
-                ),
-              );
-              context.go('/b/${item.businessId}');
-            },
-            trailingAction: const Icon(Icons.chevron_right),
-          ),
-          if ((item.caption ?? '').trim().isNotEmpty) ...[
-            const SizedBox(height: 8),
-            Text(
-              item.caption!.trim(),
-              style: const TextStyle(color: AppColors.muted),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _DiscoveryMapSurface extends StatelessWidget {
-  const _DiscoveryMapSurface({
-    required this.items,
-    required this.onOpenBusiness,
-  });
-
-  final List<BusinessCardModel> items;
-  final ValueChanged<String> onOpenBusiness;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    final geoItems = items
-        .where((b) => b.lat != null && b.lng != null)
-        .toList();
-    if (geoItems.isEmpty) {
-      return AppEmptyState(
-        icon: Icons.map_outlined,
-        title: t.noLocationDataForMap,
-        description: t.mapDataMissingUseList,
-      );
-    }
-
-    final minLat = geoItems.map((e) => e.lat!).reduce(math.min);
-    final maxLat = geoItems.map((e) => e.lat!).reduce(math.max);
-    final minLng = geoItems.map((e) => e.lng!).reduce(math.min);
-    final maxLng = geoItems.map((e) => e.lng!).reduce(math.max);
-    final latSpan = math.max(maxLat - minLat, 0.001);
-    final lngSpan = math.max(maxLng - minLng, 0.001);
-
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(t.openMapView, style: TextStyle(fontWeight: FontWeight.w900)),
-          const SizedBox(height: 8),
-          AspectRatio(
-            aspectRatio: 1.6,
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.cardAlt,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: LayoutBuilder(
-                builder: (context, c) {
-                  return Stack(
-                    children: [
-                      for (final b in geoItems.take(40))
-                        Positioned(
-                          left:
-                              (((b.lng! - minLng) / lngSpan) *
-                                      (c.maxWidth - 28))
-                                  .clamp(6, c.maxWidth - 28),
-                          top:
-                              (((maxLat - b.lat!) / latSpan) *
-                                      (c.maxHeight - 28))
-                                  .clamp(6, c.maxHeight - 28),
-                          child: GestureDetector(
-                            onTap: () => onOpenBusiness(b.id),
-                            child: Container(
-                              width: 22,
-                              height: 22,
-                              decoration: const BoxDecoration(
-                                color: AppColors.primary,
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Icon(
-                                Icons.place,
-                                size: 14,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            t.mapHintTapPins,
-            style: TextStyle(color: AppColors.muted, fontSize: 12),
           ),
         ],
       ),
@@ -3564,7 +3237,7 @@ class _V4GrowthHubCardState extends ConsumerState<_V4GrowthHubCard> {
                 label: Text(t.savedItems),
               ),
               OutlinedButton.icon(
-                onPressed: () => context.go('/group-requests/new'),
+                onPressed: () => context.go('/labs'),
                 icon: const Icon(Icons.how_to_vote_outlined, size: 18),
                 label: Text(t.myFriendGroup),
               ),
@@ -3574,11 +3247,68 @@ class _V4GrowthHubCardState extends ConsumerState<_V4GrowthHubCard> {
                 label: Text(t.notifications),
               ),
               FilledButton.tonalIcon(
-                onPressed: () => context.go('/gourmets'),
+                onPressed: () => context.go('/labs'),
                 icon: const Icon(Icons.emoji_events_outlined, size: 18),
                 label: Text(t.tasteExperts),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DiscoveryLabsHubCard extends StatelessWidget {
+  const _DiscoveryLabsHubCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return AppCard(
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.primarySoft,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Icon(
+              Icons.science_outlined,
+              color: AppColors.textStrong,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.drawerExperimental,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: [
+                    _SmallBadge(t.budgetComboResultsTitle),
+                    _SmallBadge(t.drawerGroupRequests),
+                    _SmallBadge(t.drawerHeroes),
+                    _SmallBadge(t.drawerTasteTwin),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          FilledButton.tonal(
+            onPressed: () => context.go('/labs'),
+            child: Text(t.view),
           ),
         ],
       ),
@@ -3959,13 +3689,14 @@ class _DiscoverySponsoredSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final sponsoredAsync = ref.watch(
-      sponsoredBusinessesProvider((
-        surface: 'discovery',
-        city: city,
-        district: district,
-        category: category,
-        limit: 2,
-      )),
+      sponsoredBusinessesProvider(
+        sponsoredDiscoveryParams(
+          city: city,
+          district: district,
+          category: category,
+          limit: 2,
+        ),
+      ),
     );
 
     return sponsoredAsync.when(
@@ -4004,6 +3735,7 @@ class _DiscoverySponsoredSection extends ConsumerWidget {
                           subtitle:
                               '${t.sponsored} · ${b.district ?? ''} ${b.city ?? ''}',
                           badgeText: t.sponsored,
+                          mealCardProviders: b.mealCardProviders,
                           onTap: () => onOpenBusiness(b.id),
                           trailingAction: const Icon(Icons.chevron_right),
                         ),
@@ -4273,248 +4005,6 @@ class _TopCategoriesSectionV2 extends StatelessWidget {
                   Chip(
                     label: Text(
                       '${item.category.isEmpty ? AppLocalizations.of(context).general : item.category}  ${_formatPrice(context, item.medianPriceCents)}',
-                    ),
-                  ),
-              ],
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class _DiscoverySkeleton extends StatelessWidget {
-  const _DiscoverySkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(6, (i) {
-        return const Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: AppSkeletonCard(),
-        );
-      }),
-    );
-  }
-}
-
-class _RegionalPriceIndexSection extends StatelessWidget {
-  const _RegionalPriceIndexSection({required this.title, required this.items});
-
-  final String title;
-  final AsyncValue<List<RegionalPriceIndexItem>> items;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppSectionHeader(title: title),
-        const SizedBox(height: 8),
-        items.when(
-          loading: () => const AppSkeletonCard(),
-          error: (_, _) => Text(
-            AppLocalizations.of(context).priceIndexLoadFailed,
-            style: TextStyle(color: AppColors.muted),
-          ),
-          data: (list) {
-            if (list.isEmpty) {
-              return Text(
-                AppLocalizations.of(context).noPriceIndexDataInArea,
-                style: TextStyle(color: AppColors.muted),
-              );
-            }
-            return Column(
-              children: [
-                for (final item in list)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: AppCard(
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.insights_outlined,
-                            color: AppColors.textStrong,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              item.category.isEmpty
-                                  ? AppLocalizations.of(context).general
-                                  : item.category,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            AppLocalizations.of(context).medianPriceLabel(
-                              _formatPrice(context, item.medianPriceCents),
-                            ),
-                            style: const TextStyle(
-                              color: AppColors.muted,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class _PriceAnomalySection extends StatelessWidget {
-  const _PriceAnomalySection({required this.title, required this.items});
-
-  final String title;
-  final AsyncValue<List<PriceAnomalyItem>> items;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppSectionHeader(title: title),
-        const SizedBox(height: 8),
-        items.when(
-          loading: () => const AppSkeletonCard(),
-          error: (_, _) => Text(
-            AppLocalizations.of(context).anomalyListLoadFailed,
-            style: TextStyle(color: AppColors.muted),
-          ),
-          data: (list) {
-            if (list.isEmpty) {
-              return Text(
-                AppLocalizations.of(context).noPriceAnomalyLast30Days,
-                style: TextStyle(color: AppColors.muted),
-              );
-            }
-            return Column(
-              children: [
-                for (final item in list)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: AppCard(
-                      onTap: () => context.go('/b/${item.businessId}'),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.warning_amber_rounded,
-                            color: AppColors.warning,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.businessName,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  '${item.menuItemName}  ${item.changePct.toStringAsFixed(0)}%',
-                                  style: const TextStyle(
-                                    color: AppColors.muted,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Icon(
-                            Icons.chevron_right,
-                            color: AppColors.muted,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class _MicroTrendSection extends StatelessWidget {
-  const _MicroTrendSection({
-    required this.title,
-    required this.emptyText,
-    required this.items,
-    required this.metricLabel,
-    required this.rankLabelPrefix,
-  });
-
-  final String title;
-  final String emptyText;
-  final AsyncValue<List<TrendBusiness>> items;
-  final String Function(TrendBusiness item) metricLabel;
-  final String rankLabelPrefix;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppSectionHeader(title: title),
-        const SizedBox(height: 8),
-        items.when(
-          loading: () => Column(
-            children: const [
-              AppSkeletonCard(),
-              SizedBox(height: 10),
-              AppSkeletonCard(),
-            ],
-          ),
-          error: (err, _) => Text(
-            AppLocalizations.of(context).sectionLoadFailed,
-            style: const TextStyle(color: AppColors.muted),
-          ),
-          data: (list) {
-            if (list.isEmpty) {
-              return Text(
-                emptyText,
-                style: const TextStyle(color: AppColors.muted),
-              );
-            }
-            return Column(
-              children: [
-                for (final entry in list.asMap().entries)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: BusinessTile(
-                      name: entry.value.business.name,
-                      category: entry.value.business.category,
-                      subtitle:
-                          _shortLocation(
-                            entry.value.business.district,
-                            entry.value.business.city,
-                          ) ??
-                          (entry.value.business.city ?? ''),
-                      distanceKm: entry.value.business.distanceKm,
-                      qualityScore: entry.value.business.qualityScore,
-                      socialProof: [
-                        AppLocalizations.of(
-                          context,
-                        ).rankedAt(entry.key + 1),
-                        metricLabel(entry.value),
-                        if (entry.value.business.isOpenNow == true)
-                          AppLocalizations.of(context).openNow,
-                      ],
-                      onTap: () => context.go('/b/${entry.value.business.id}'),
                     ),
                   ),
               ],

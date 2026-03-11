@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../core/config/feature_flags.dart';
 import '../core/constants/app_strings.dart';
 import '../core/location/user_location_controller.dart';
-import '../features/notifications/domain/push_notification_lifecycle_provider.dart';
 import '../features/notifications/ui/components/notifications_bell.dart';
 import '../features/shared/ui/components/app_appbar.dart';
 import '../features/shared/ui/components/app_bottom_nav.dart';
@@ -21,26 +20,26 @@ class AppShell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(pushNotificationLifecycleProvider);
+    final flags = ref.watch(featureFlagsProvider);
     final loc = ref.watch(userLocationProvider);
+    final titleStyle = context.appText.titleMedium?.copyWith(
+      fontWeight: FontWeight.w600,
+    );
 
     return Scaffold(
       appBar: AppAppBar(
         centerTitle: false,
-        title: const Text(
-          AppStrings.appName,
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
+        title: Text(AppStrings.appName, style: titleStyle),
         actions: [
           _LocationPill(
             label: _locationLabel(loc),
             onTap: () => _openLocationSheet(context),
           ),
-          if (FeatureFlags.enablePhotoFeed)
+          if (flags.hasExperimentalNavigation)
             IconButton(
-              tooltip: 'Feed',
-              icon: const Icon(Icons.dynamic_feed_outlined),
-              onPressed: () => context.go('/feed'),
+              tooltip: 'Labs',
+              icon: const Icon(Icons.science_outlined),
+              onPressed: () => context.go('/labs'),
             ),
           IconButton(
             tooltip: 'Bildirim Kutusu',
@@ -82,8 +81,9 @@ class _LocationPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     return Padding(
-      padding: const EdgeInsets.only(right: 4),
+      padding: EdgeInsets.only(right: tokens.space4),
       child: InkWell(
         borderRadius: BorderRadius.circular(999),
         onTap: onTap,
@@ -91,7 +91,7 @@ class _LocationPill extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(Icons.place_outlined, size: 18),
-            const SizedBox(width: 6),
+            SizedBox(width: tokens.space8),
             AppChip(label: label, filled: true),
           ],
         ),
@@ -99,5 +99,3 @@ class _LocationPill extends StatelessWidget {
     );
   }
 }
-
-

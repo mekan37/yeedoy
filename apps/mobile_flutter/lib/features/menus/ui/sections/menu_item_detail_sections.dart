@@ -1,0 +1,1058 @@
+part of '../menu_item_page.dart';
+
+class _PriceHistorySection extends StatelessWidget {
+  const _PriceHistorySection({
+    required this.historyAsync,
+    this.selectedVariant,
+    required this.onRetry,
+  });
+
+  final AsyncValue<List<MenuItemPriceHistoryEntry>> historyAsync;
+  final _MenuItemVariant? selectedVariant;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return historyAsync.when(
+      loading: () => const _PriceHistorySkeleton(),
+      error: (e, _) => _PriceHistoryError(
+        message: AppErrorMapper.message(e),
+        onRetry: onRetry,
+      ),
+      data: (items) {
+        if (items.isEmpty) return const SizedBox.shrink();
+        final latest = items.take(3).toList();
+        return AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                t.priceHistoryLast3,
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textStrong,
+                ),
+              ),
+              if (selectedVariant != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  t.menuSelectedVariantLabel(
+                    selectedVariant!.label,
+                    _formatPrice(
+                      context,
+                      selectedVariant!.priceCents / 100,
+                      currencyCode: selectedVariant!.currency,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 8),
+              for (final item in latest) ...[
+                _PriceHistoryRow(item: item),
+                const SizedBox(height: 6),
+              ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PriceHistoryRow extends StatelessWidget {
+  const _PriceHistoryRow({required this.item});
+  final MenuItemPriceHistoryEntry item;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final current = _formatPriceFromCents(context, item.priceCents) ?? '-';
+    final previous = _formatPriceFromCents(context, item.oldPriceCents);
+    final deltaText = _priceDeltaText(item.oldPriceCents, item.priceCents);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                previous == null
+                    ? t.menuPriceHistoryCurrent(current, item.source)
+                    : t.menuPriceHistoryTransition(
+                        previous,
+                        current,
+                        item.source,
+                      ),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.textStrong,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                t.menuPriceHistoryMeta(
+                  _relativeTime(context, item.createdAt),
+                  _fmtDate(item.createdAt),
+                  deltaText ?? '',
+                ),
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+String? _priceDeltaText(int? oldPriceCents, int newPriceCents) {
+  if (oldPriceCents == null || oldPriceCents <= 0) return null;
+  final diff = newPriceCents - oldPriceCents;
+  final pct = (diff / oldPriceCents * 100).abs();
+  final sign = diff >= 0 ? '+' : '-';
+  return '$sign${pct.toStringAsFixed(1)}%';
+}
+
+String _fmtDate(DateTime date) {
+  final y = date.year.toString().padLeft(4, '0');
+  final m = date.month.toString().padLeft(2, '0');
+  final d = date.day.toString().padLeft(2, '0');
+  return '$y-$m-$d';
+}
+
+class _PriceHistorySkeleton extends StatelessWidget {
+  const _PriceHistorySkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return const AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppSkeletonLine(width: 160),
+          SizedBox(height: 8),
+          AppSkeletonLine(width: 200),
+          SizedBox(height: 6),
+          AppSkeletonLine(width: 180),
+        ],
+      ),
+    );
+  }
+}
+
+class _PriceHistoryError extends StatelessWidget {
+  const _PriceHistoryError({required this.message, required this.onRetry});
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(message, style: const TextStyle(color: AppColors.danger)),
+          const SizedBox(height: 8),
+          OutlinedButton(onPressed: onRetry, child: Text(t.retry)),
+        ],
+      ),
+    );
+  }
+}
+
+class _PriceStatusCard extends StatelessWidget {
+  const _PriceStatusCard({
+    required this.item,
+    required this.statusAsync,
+    required this.onRetry,
+    required this.onVote,
+    required this.onUpdate,
+  });
+
+  final MenuItem item;
+  final AsyncValue<MenuItemPriceStatus> statusAsync;
+  final VoidCallback onRetry;
+  final Future<void> Function(int vote) onVote;
+  final VoidCallback onUpdate;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return AppCard(
+      child: statusAsync.when(
+        loading: () => const _PriceStatusSkeleton(),
+        error: (e, _) => _PriceStatusError(
+          message: AppErrorMapper.message(e),
+          onRetry: onRetry,
+        ),
+        data: (status) {
+          final priceText =
+              _formatPriceFromCents(context, status.priceCents) ??
+              _formatPrice(context, item.price);
+          final badge = _statusBadge(status.status, t);
+          final isRecent =
+              status.lastVerifiedAt != null &&
+              DateTime.now().difference(status.lastVerifiedAt!).inHours <= 48;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    t.price,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  StatusBadge(type: badge.type, label: badge.label),
+                  const Spacer(),
+                  Text(
+                    priceText,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                t.last30DaysVotes(status.okVotes, status.badVotes),
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
+              if (status.lastVerifiedAt != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  t.lastVerificationDate(_fmtDate(status.lastVerifiedAt!)),
+                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                ),
+              ],
+              if (isRecent) ...[
+                const SizedBox(height: 6),
+                AppChip(
+                  label: t.priceVerifiedInLast48h,
+                  color: AppColors.success,
+                  filled: true,
+                ),
+              ],
+              const SizedBox(height: 6),
+              Text(
+                t.uniqueVerifiersIn48h(status.verifiedSources48h),
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
+              if (status.safeToTrust) ...[
+                const SizedBox(height: 6),
+                AppChip(
+                  label: t.strongConsensusPriceSafe,
+                  color: AppColors.info,
+                  filled: true,
+                ),
+              ],
+              const SizedBox(height: 4),
+              Text(
+                t.priceConfidenceScore(
+                  (status.confidenceScore * 100).clamp(0, 100).round(),
+                ),
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                t.priceConfidenceDataTrustHint,
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () => showCommunityScoreExplainerSheet(
+                    context,
+                    kind: CommunityScoreKind.dataTrust,
+                  ),
+                  icon: const Icon(Icons.info_outline, size: 16),
+                  label: Text(t.communityScoreExplainAction),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => onVote(1),
+                      icon: Icon(
+                        Icons.thumb_up_alt_outlined,
+                        color: status.myVote == 1 ? AppColors.success : null,
+                      ),
+                      label: Text(t.seenCorrect),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: () => onVote(-1),
+                      icon: Icon(
+                        Icons.thumb_down_alt_outlined,
+                        color: status.myVote == -1 ? AppColors.danger : null,
+                      ),
+                      label: Text(t.seenIncorrect),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: OutlinedButton.icon(
+                  onPressed: onUpdate,
+                  icon: const Icon(Icons.edit_outlined),
+                  label: Text(t.suggestNewPrice),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _PriceStatusSkeleton extends StatelessWidget {
+  const _PriceStatusSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: const [
+        AppSkeletonLine(width: 140),
+        SizedBox(height: 8),
+        AppSkeletonLine(width: 200),
+        SizedBox(height: 12),
+        AppSkeletonLine(width: 180),
+      ],
+    );
+  }
+}
+
+class _PriceStatusError extends StatelessWidget {
+  const _PriceStatusError({required this.message, required this.onRetry});
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(message, style: const TextStyle(color: AppColors.danger)),
+        const SizedBox(height: 8),
+        OutlinedButton(onPressed: onRetry, child: Text(t.retry)),
+      ],
+    );
+  }
+}
+
+class _ValueScoreSheet extends StatelessWidget {
+  const _ValueScoreSheet({required this.score});
+  final MenuItemValueScore score;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ScoreCategoryPill(label: t.communityScoreInfoOnlyCategory),
+          const SizedBox(height: 12),
+          Text(
+            t.howCalculated,
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            t.communityScoreValueInsightSummary,
+            style: const TextStyle(color: AppColors.muted),
+          ),
+          const SizedBox(height: 12),
+          _BreakdownRow(
+            label: t.verificationRate,
+            value: _pct(score.verifiedRatio),
+          ),
+          _BreakdownRow(
+            label: t.recentPositiveVotes,
+            value: _pct(score.recentPositiveRatio),
+          ),
+          _BreakdownRow(
+            label: t.priceStability,
+            value: _pct(score.priceStability),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            t.priceChangeLast30Days(score.priceChanges30d),
+            style: const TextStyle(color: AppColors.muted),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            t.scoreForInfoOnly,
+            style: TextStyle(color: AppColors.muted, fontSize: 12),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            t.communityScoreValueUsage,
+            style: const TextStyle(color: AppColors.muted, fontSize: 12),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+}
+
+class _BreakdownRow extends StatelessWidget {
+  const _BreakdownRow({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+          ),
+          Text(value, style: const TextStyle(color: AppColors.muted)),
+        ],
+      ),
+    );
+  }
+}
+
+class _ValueScoreCard extends StatelessWidget {
+  const _ValueScoreCard({
+    required this.valueScoreAsync,
+    required this.onExplain,
+  });
+
+  final AsyncValue<MenuItemValueScore> valueScoreAsync;
+  final void Function(MenuItemValueScore score) onExplain;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return AppCard(
+      child: valueScoreAsync.when(
+        loading: () => const AppSkeletonLine(width: 160),
+        error: (_, _) => const SizedBox.shrink(),
+        data: (score) {
+          final pct = (score.score * 100).clamp(0, 100).round();
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    t.pricePerformance,
+                    style: TextStyle(fontWeight: FontWeight.w900),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '%$pct',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(999),
+                child: LinearProgressIndicator(
+                  value: (score.score).clamp(0.0, 1.0).toDouble(),
+                  minHeight: 8,
+                  backgroundColor: AppColors.cardAlt,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                t.valueScoreFormulaHint,
+                style: TextStyle(color: AppColors.muted),
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () => onExplain(score),
+                  child: Text(t.howCalculated),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _MenuItemPhotosSection extends ConsumerStatefulWidget {
+  const _MenuItemPhotosSection({
+    required this.menuItemId,
+    required this.photosAsync,
+    required this.onRetry,
+    required this.onVote,
+    required this.onUpload,
+    required this.onReport,
+  });
+
+  final String menuItemId;
+  final AsyncValue<List<MenuItemPhoto>> photosAsync;
+  final VoidCallback onRetry;
+  final Future<void> Function(String photoId, int vote) onVote;
+  final Future<void> Function() onUpload;
+  final void Function(MenuItemPhoto photo) onReport;
+
+  @override
+  ConsumerState<_MenuItemPhotosSection> createState() =>
+      _MenuItemPhotosSectionState();
+}
+
+class _MenuItemPhotosSectionState
+    extends ConsumerState<_MenuItemPhotosSection> {
+  bool _uploading = false;
+  String _precacheKey = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _precacheVisiblePhotos(widget.photosAsync.asData?.value ?? const []);
+  }
+
+  @override
+  void didUpdateWidget(covariant _MenuItemPhotosSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _precacheVisiblePhotos(widget.photosAsync.asData?.value ?? const []);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return AppCard(
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  t.menuPhotos,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                const Spacer(),
+                TextButton.icon(
+                  onPressed: _uploading ? null : _handleUpload,
+                  icon: _uploading
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.add_a_photo_outlined),
+                  label: Text(t.updateMenuEarnPoints(20)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(
+              t.menuPhotosHint,
+              style: TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+            const SizedBox(height: 10),
+            widget.photosAsync.when(
+              loading: () => const _PhotosSkeleton(),
+              error: (e, _) => _PhotosError(
+                message: AppErrorMapper.message(e),
+                onRetry: widget.onRetry,
+              ),
+              data: (photos) {
+                if (photos.isEmpty) {
+                  return const _PhotosEmpty();
+                }
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: photos.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 0.85,
+                  ),
+                  itemBuilder: (context, index) {
+                    final photo = photos[index];
+                    return _PhotoTile(
+                      photo: photo,
+                      onTap: () => _openPhotoViewer(context, photos, index),
+                      onVote: widget.onVote,
+                      onReport: () => widget.onReport(photo),
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleUpload() async {
+    setState(() => _uploading = true);
+    try {
+      await widget.onUpload();
+    } finally {
+      if (mounted) {
+        setState(() => _uploading = false);
+      }
+    }
+  }
+
+  void _precacheVisiblePhotos(List<MenuItemPhoto> photos) {
+    if (photos.isEmpty) return;
+    final urls = photos
+        .take(5)
+        .map(
+          (p) => p.urlThumb.isEmpty
+              ? (p.urlLarge.isEmpty ? p.url : p.urlLarge)
+              : p.urlThumb,
+        )
+        .where((u) => u.trim().isNotEmpty)
+        .toList();
+    if (urls.isEmpty) return;
+    final nextKey = urls.join('|');
+    if (nextKey == _precacheKey) return;
+    _precacheKey = nextKey;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      unawaited(
+        precacheImageUrls(
+          context,
+          urls,
+          variant: AppImageVariant.thumb,
+          take: 5,
+        ),
+      );
+    });
+  }
+}
+
+class _PhotoTile extends StatelessWidget {
+  const _PhotoTile({
+    required this.photo,
+    required this.onTap,
+    required this.onVote,
+    required this.onReport,
+  });
+
+  final MenuItemPhoto photo;
+  final VoidCallback onTap;
+  final Future<void> Function(String photoId, int vote) onVote;
+  final VoidCallback onReport;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: AppNetworkImage(
+                url: photo.urlThumb.isEmpty
+                    ? (photo.urlLarge.isEmpty ? photo.url : photo.urlLarge)
+                    : photo.urlThumb,
+                variant: AppImageVariant.thumb,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              left: 8,
+              right: 8,
+              bottom: 8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.55),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    _PhotoVoteButton(
+                      icon: Icons.thumb_up_alt_outlined,
+                      active: photo.myVote == 1,
+                      onPressed: () => onVote(photo.id, 1),
+                    ),
+                    const SizedBox(width: 6),
+                    _PhotoVoteButton(
+                      icon: Icons.thumb_down_alt_outlined,
+                      active: photo.myVote == -1,
+                      onPressed: () => onVote(photo.id, -1),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${photo.score}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 6,
+              right: 6,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.55),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+                child: IconButton(
+                  onPressed: onReport,
+                  icon: const Icon(Icons.flag_outlined, color: Colors.white),
+                  iconSize: 18,
+                  tooltip: AppLocalizations.of(context).report,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PhotoVoteButton extends StatelessWidget {
+  const _PhotoVoteButton({
+    required this.icon,
+    required this.active,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final bool active;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(999),
+      child: Icon(
+        icon,
+        size: 18,
+        color: active ? AppColors.primary : Colors.white,
+      ),
+    );
+  }
+}
+
+class _PhotosSkeleton extends StatelessWidget {
+  const _PhotosSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 4,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+      ),
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: BoxDecoration(
+            color: AppColors.cardAlt,
+            borderRadius: BorderRadius.circular(12),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _PhotosEmpty extends StatelessWidget {
+  const _PhotosEmpty();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      AppLocalizations.of(context).noPhotosYet,
+      style: const TextStyle(color: AppColors.muted),
+    );
+  }
+}
+
+class _PhotosError extends StatelessWidget {
+  const _PhotosError({required this.message, required this.onRetry});
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(message, style: const TextStyle(color: AppColors.danger)),
+        const SizedBox(height: 8),
+        OutlinedButton(onPressed: onRetry, child: Text(t.retry)),
+      ],
+    );
+  }
+}
+
+class _PhotoViewerPage extends StatelessWidget {
+  const _PhotoViewerPage({required this.photos, required this.initialIndex});
+
+  final List<MenuItemPhoto> photos;
+  final int initialIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = PageController(initialPage: initialIndex);
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+      ),
+      body: PageView.builder(
+        controller: controller,
+        itemCount: photos.length,
+        itemBuilder: (context, index) {
+          final photo = photos[index];
+          return InteractiveViewer(
+            child: Center(
+              child: AppNetworkImage(
+                url: photo.urlLarge.isEmpty ? photo.url : photo.urlLarge,
+                variant: AppImageVariant.medium,
+                fit: BoxFit.contain,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+void _openPhotoViewer(
+  BuildContext context,
+  List<MenuItemPhoto> photos,
+  int initialIndex,
+) {
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (_) =>
+          _PhotoViewerPage(photos: photos, initialIndex: initialIndex),
+    ),
+  );
+}
+
+void _openMenuPhotoReport(
+  BuildContext context,
+  String businessId,
+  MenuItemPhoto photo,
+) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    builder: (_) => ReportBottomSheet.menuPhoto(
+      menuItemPhotoId: photo.id,
+      businessId: businessId,
+      redirectUrl: GoRouterState.of(context).uri.toString(),
+      initialReason: 'copyright',
+      initialDetails: 'menu_item_photo:${photo.id}',
+    ),
+  );
+}
+
+class _PhotoQuality {
+  const _PhotoQuality({required this.isDark, required this.isBlurry});
+  final bool isDark;
+  final bool isBlurry;
+}
+
+Future<_PhotoQuality?> _checkMenuPhotoQuality(String url) async {
+  try {
+    final data = await NetworkAssetBundle(Uri.parse(url)).load(url);
+    final codec = await ui.instantiateImageCodec(
+      data.buffer.asUint8List(),
+      targetWidth: 120,
+    );
+    final frame = await codec.getNextFrame();
+    final image = frame.image;
+    final bytes = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+    if (bytes == null) return null;
+
+    final pixels = bytes.buffer.asUint8List();
+    final width = image.width;
+    final height = image.height;
+    final step = 4;
+    var sum = 0.0;
+    var sumSq = 0.0;
+    var edgeSum = 0.0;
+    var count = 0;
+    for (var y = 0; y < height; y += step) {
+      final row = y * width;
+      for (var x = 0; x < width; x += step) {
+        final idx = (row + x) * 4;
+        final r = pixels[idx];
+        final g = pixels[idx + 1];
+        final b = pixels[idx + 2];
+        final lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        sum += lum;
+        sumSq += lum * lum;
+        count++;
+        if (x + step < width) {
+          final idx2 = (row + x + step) * 4;
+          final r2 = pixels[idx2];
+          final g2 = pixels[idx2 + 1];
+          final b2 = pixels[idx2 + 2];
+          final lum2 = 0.2126 * r2 + 0.7152 * g2 + 0.0722 * b2;
+          edgeSum += (lum - lum2).abs();
+        }
+      }
+    }
+    if (count == 0) return null;
+    final mean = sum / count;
+    final variance = (sumSq / count) - (mean * mean);
+    final edgeAvg = edgeSum / count;
+    final isDark = mean < 60;
+    final isBlurry = edgeAvg < 8 && variance < 500;
+    return _PhotoQuality(isDark: isDark, isBlurry: isBlurry);
+  } catch (_) {
+    return null;
+  }
+}
+
+String _formatPrice(
+  BuildContext context,
+  double? price, {
+  String currencyCode = 'TRY',
+}) {
+  if (price == null) return context.l10n.unknown;
+  return formatCurrency(context, price, currencyCode: currencyCode);
+}
+
+String _rawPrice(double price) {
+  return price.toStringAsFixed(price.truncateToDouble() == price ? 0 : 2);
+}
+
+double? _parsePrice(String value) {
+  final cleaned = value.replaceAll(',', '.');
+  return double.tryParse(cleaned);
+}
+
+String? _formatPriceFromCents(BuildContext context, int? cents) {
+  if (cents == null) return null;
+  final value = cents / 100.0;
+  return _formatPrice(context, value);
+}
+
+String _pct(double value) {
+  final pct = (value * 100).clamp(0, 100).round();
+  return '%$pct';
+}
+
+String _relativeTime(BuildContext context, DateTime time) {
+  final t = AppLocalizations.of(context);
+  final diff = DateTime.now().difference(time);
+  if (diff.inDays < 1) return t.today;
+  if (diff.inDays == 1) return t.yesterday;
+  if (diff.inDays < 30) return t.timeDaysAgo(diff.inDays);
+  final months = (diff.inDays / 30).floor();
+  return t.timeMonthsAgo(months);
+}
+
+String _priceSuggestionErrorText(BuildContext context, Object? error) {
+  final t = AppLocalizations.of(context);
+  if (error == null) return '';
+  if (error == 'invalid_price') return t.priceInvalid;
+  if (error == AppErrorCodes.containsLinkOrPhone) {
+    return t.noteNoLinkPhone;
+  }
+  if (error == AppErrorCodes.containsProfanity) {
+    return t.noteContainsProfanity;
+  }
+  if (error == AppErrorCodes.emojiSpam) {
+    return t.noteTooManyEmoji;
+  }
+  if (error == 'rate_limited_24h') {
+    return t.rateLimited24h;
+  }
+  if (error == AppErrorCodes.priceSuggestionDailyRateLimited) {
+    return t.dailyPriceSuggestionLimitReached;
+  }
+  if (error == 'bad_evidence_url') {
+    return t.invalidEvidenceLink;
+  }
+  if (error == 'bad_currency') {
+    return t.invalidCurrency;
+  }
+  return AppErrorMapper.message(error);
+}
+
+_StatusBadgeConfig _statusBadge(String status, AppLocalizations t) {
+  switch (status) {
+    case 'verified':
+      return _StatusBadgeConfig(
+        t.statusVerifiedShort,
+        StatusBadgeType.verified,
+      );
+    case 'unverified':
+      return _StatusBadgeConfig(t.statusMixedShort, StatusBadgeType.pending);
+    case 'stale':
+      return _StatusBadgeConfig(
+        t.statusOutdatedShort,
+        StatusBadgeType.outdated,
+      );
+    default:
+      return _StatusBadgeConfig(t.statusUnknownShort, StatusBadgeType.pending);
+  }
+}
+
+class _StatusBadgeConfig {
+  const _StatusBadgeConfig(this.label, this.type);
+  final String label;
+  final StatusBadgeType type;
+}

@@ -24,6 +24,7 @@ class DiscoverySearchState {
     this.priceTier = DiscoveryPriceTier.any,
     this.sortBy = DiscoverySort.recommended,
     this.recentPriceBoost = true,
+    this.mealCardKeys = const [],
   });
 
   final List<BusinessCardModel> items;
@@ -47,6 +48,7 @@ class DiscoverySearchState {
   final DiscoveryPriceTier priceTier;
   final DiscoverySort sortBy;
   final bool recentPriceBoost;
+  final List<String> mealCardKeys;
 
   factory DiscoverySearchState.initial() => const DiscoverySearchState(
         items: [],
@@ -67,6 +69,7 @@ class DiscoverySearchState {
         priceTier: DiscoveryPriceTier.any,
         sortBy: DiscoverySort.recommended,
         recentPriceBoost: true,
+        mealCardKeys: <String>[],
       );
 
   DiscoverySearchState copyWith({
@@ -88,6 +91,7 @@ class DiscoverySearchState {
     DiscoveryPriceTier? priceTier,
     DiscoverySort? sortBy,
     bool? recentPriceBoost,
+    List<String>? mealCardKeys,
   }) {
     return DiscoverySearchState(
       items: items ?? this.items,
@@ -108,6 +112,7 @@ class DiscoverySearchState {
       priceTier: priceTier ?? this.priceTier,
       sortBy: sortBy ?? this.sortBy,
       recentPriceBoost: recentPriceBoost ?? this.recentPriceBoost,
+      mealCardKeys: mealCardKeys ?? this.mealCardKeys,
     );
   }
 }

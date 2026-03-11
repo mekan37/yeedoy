@@ -66,6 +66,9 @@ class AdminSponsorshipPackagesController extends Notifier<AdminSponsorshipPackag
     required String surface,
     required int durationDays,
     required String priceDisplay,
+    required int priceCents,
+    required String currencyCode,
+    required int inventoryLimit,
     required bool isActive,
   }) async {
     final repo = ref.read(adminMonetizationRepositoryProvider);
@@ -75,6 +78,9 @@ class AdminSponsorshipPackagesController extends Notifier<AdminSponsorshipPackag
       surface: surface,
       durationDays: durationDays,
       priceDisplay: priceDisplay,
+      priceCents: priceCents,
+      currencyCode: currencyCode,
+      inventoryLimit: inventoryLimit,
       isActive: isActive,
     );
     await refresh();

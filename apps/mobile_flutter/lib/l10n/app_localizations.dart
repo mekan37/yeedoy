@@ -797,13 +797,13 @@ abstract class AppLocalizations {
   /// Auto metadata for trustDataUnavailable
   ///
   /// In tr, this message translates to:
-  /// **'Güven verisi yok'**
+  /// **'Veri güveni verisi yok'**
   String get trustDataUnavailable;
 
   /// Auto metadata for freshnessAndTrust
   ///
   /// In tr, this message translates to:
-  /// **'Güncellik ve güven'**
+  /// **'Veri güveni dökümü'**
   String get freshnessAndTrust;
 
   /// Auto metadata for menuUpdatedLabel
@@ -823,6 +823,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Güven Skoru'**
   String get trustScoreLabel;
+
+  /// No description provided for @communityScoreDataTrustLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri güveni'**
+  String get communityScoreDataTrustLabel;
+
+  /// No description provided for @communityScoreMenuFreshnessLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü güncelliği'**
+  String get communityScoreMenuFreshnessLabel;
 
   /// Auto metadata for last3MonthsPriceChange
   ///
@@ -2968,7 +2980,7 @@ abstract class AppLocalizations {
   /// Auto metadata for trustScoreInfoNote
   ///
   /// In tr, this message translates to:
-  /// **'Bu güven puanı kullanıcı oylaması değil, katkı kalitesinden oluşur.'**
+  /// **'Bu puan kullanıcı oylaması değil, toplulukta ne kadar güvenilir katkı verdiğini gösterir.'**
   String get trustScoreInfoNote;
 
   /// Auto metadata for plusPoints
@@ -2980,7 +2992,7 @@ abstract class AppLocalizations {
   /// Auto metadata for verifyContributionRaisedScore
   ///
   /// In tr, this message translates to:
-  /// **'Fiyat doğrulaman katkın puanını yükseltti.'**
+  /// **'Fiyat doğrulaman topluluk güvenini destekledi.'**
   String get verifyContributionRaisedScore;
 
   /// Auto metadata for priceVerification
@@ -3115,6 +3127,12 @@ abstract class AppLocalizations {
   /// **'Fiyat güven puanı: %{score}'**
   String priceConfidenceScore(int score);
 
+  /// No description provided for @priceConfidenceDataTrustHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat güveni, veri güveninin bir parçasıdır; son doğrulama ve uzlaşıya bakar.'**
+  String get priceConfidenceDataTrustHint;
+
   /// Auto metadata for seenCorrect
   ///
   /// In tr, this message translates to:
@@ -3180,6 +3198,132 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Doğrulama oranı, son olumlu oylar ve fiyat istikrarına göre hesaplanır.'**
   String get valueScoreFormulaHint;
+
+  /// No description provided for @communityScoreExplainAction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Skorlar ne anlama geliyor?'**
+  String get communityScoreExplainAction;
+
+  /// No description provided for @communityScoreWhatImproves.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neler etkiler?'**
+  String get communityScoreWhatImproves;
+
+  /// No description provided for @communityScoreHowUsed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamada nasıl kullanılır?'**
+  String get communityScoreHowUsed;
+
+  /// No description provided for @communityScoreUserTrustCategory.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı güveni'**
+  String get communityScoreUserTrustCategory;
+
+  /// No description provided for @communityScoreDataTrustCategory.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri güveni'**
+  String get communityScoreDataTrustCategory;
+
+  /// No description provided for @communityScoreInfoOnlyCategory.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilgi skoru'**
+  String get communityScoreInfoOnlyCategory;
+
+  /// No description provided for @communityScoreUserTrustSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğun katkılarını ne kadar güvenilir bulduğunu gösterir. Popülerlik değil, doğruluk ve onay kalitesi bu puanı büyütür.'**
+  String get communityScoreUserTrustSummary;
+
+  /// No description provided for @communityScoreUserTrustSignalAccuracy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğru çıkan katkılar ve isabetli doğrulamalar'**
+  String get communityScoreUserTrustSignalAccuracy;
+
+  /// No description provided for @communityScoreUserTrustSignalApproval.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onaylanan katkı oranı'**
+  String get communityScoreUserTrustSignalApproval;
+
+  /// No description provided for @communityScoreUserTrustSignalSafety.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük spam, suistimal ve red sinyali'**
+  String get communityScoreUserTrustSignalSafety;
+
+  /// No description provided for @communityScoreUserTrustUsage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha güvenilir katkılar topluluk akışında ve doğrulama kararlarında daha hızlı öne çıkar.'**
+  String get communityScoreUserTrustUsage;
+
+  /// No description provided for @communityScoreDataTrustSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir menü veya fiyat bilgisinin şu anda ne kadar güvenilir olduğunu gösterir.'**
+  String get communityScoreDataTrustSummary;
+
+  /// No description provided for @communityScoreDataTrustSignalFreshness.
+  ///
+  /// In tr, this message translates to:
+  /// **'Menünün güncelliği ve son denetim tarihi'**
+  String get communityScoreDataTrustSignalFreshness;
+
+  /// No description provided for @communityScoreDataTrustSignalConsensus.
+  ///
+  /// In tr, this message translates to:
+  /// **'Birden fazla doğrulayıcı ve güçlü uzlaşı'**
+  String get communityScoreDataTrustSignalConsensus;
+
+  /// No description provided for @communityScoreDataTrustSignalStability.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük çelişki ve tutarlı değişim geçmişi'**
+  String get communityScoreDataTrustSignalStability;
+
+  /// No description provided for @communityScoreDataTrustUsage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama, fiyat veya menü bilgisini güvenle göstermek için bu sinyali kullanır.'**
+  String get communityScoreDataTrustUsage;
+
+  /// No description provided for @communityScoreValueInsightSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bir güven puanı değildir; doğrulama, oy ve fiyat istikrarından üretilen bilgi skorudur.'**
+  String get communityScoreValueInsightSummary;
+
+  /// No description provided for @communityScoreValueSignalVerification.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama oranı'**
+  String get communityScoreValueSignalVerification;
+
+  /// No description provided for @communityScoreValueSignalVotes.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son olumlu oylar'**
+  String get communityScoreValueSignalVotes;
+
+  /// No description provided for @communityScoreValueSignalStability.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat istikrarı'**
+  String get communityScoreValueSignalStability;
+
+  /// No description provided for @communityScoreValueUsage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karar yardımcısıdır; tek başına kanıt yerine kullanılmaz.'**
+  String get communityScoreValueUsage;
 
   /// Auto metadata for menuPhotos
   ///
@@ -5168,7 +5312,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileTrustScorePercent
   ///
   /// In tr, this message translates to:
-  /// **'Güven skoru: %{score}'**
+  /// **'Topluluk güveni: %{score}'**
   String profileTrustScorePercent(int score);
 
   /// Auto metadata for profileLevelXp
@@ -5342,7 +5486,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileMoatSignalsTitle
   ///
   /// In tr, this message translates to:
-  /// **'Davranış sinyalleri'**
+  /// **'Destek sinyalleri'**
   String get profileMoatSignalsTitle;
 
   /// Auto metadata for profileSignalTrust
@@ -5360,19 +5504,31 @@ abstract class AppLocalizations {
   /// Auto metadata for profileSignalSegment
   ///
   /// In tr, this message translates to:
-  /// **'Segment'**
+  /// **'Katkı stili'**
   String get profileSignalSegment;
 
   /// Auto metadata for profileSignalSilentQuality
   ///
   /// In tr, this message translates to:
-  /// **'Sessiz kalite'**
+  /// **'Kalite serisi'**
   String get profileSignalSilentQuality;
+
+  /// No description provided for @profileSignalApprovalRate.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onay oranı'**
+  String get profileSignalApprovalRate;
+
+  /// No description provided for @profileSupportSignalsSummary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu sinyaller topluluk güvenini besler; ayrı ana skorlar değildir.'**
+  String get profileSupportSignalsSummary;
 
   /// Auto metadata for profileMoatTrustedRejectedSpam
   ///
   /// In tr, this message translates to:
-  /// **'Güvenilen katkılı: {trusted} • Reddedilen: {rejected} • Spam sinyali: {spam}'**
+  /// **'Güvenilen katkı: {trusted} • Reddedilen: {rejected} • Spam sinyali: {spam}'**
   String profileMoatTrustedRejectedSpam(int trusted, int rejected, int spam);
 
   /// Auto metadata for profileMoatBehaviorSummary
@@ -5384,7 +5540,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileMoatSilentQualityHint
   ///
   /// In tr, this message translates to:
-  /// **'Sessiz kalite katkıcısı: Az konuşup doğru katkı yapıyorsun.'**
+  /// **'Kalite serin güçlü; az ama doğru katkıların öne çıkıyor.'**
   String get profileMoatSilentQualityHint;
 
   /// Auto metadata for businessReviewsCommunityExperiences

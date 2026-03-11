@@ -10,6 +10,7 @@ import '../../../core/content/content_moderation.dart';
 import '../../../core/errors/app_error_codes.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/storage/offline_submission_queue.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/reviews_repository.dart';
@@ -149,6 +150,12 @@ class _ReviewCreatePageState extends ConsumerState<ReviewCreatePage> {
                           SnackBar(content: Text(t.reviewCreateSubmitted)),
                         );
                         context.pop(); // business sayfasına dön
+                      } on OfflineSubmissionQueuedException {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(t.weakConnectionQueueNotice)),
+                        );
+                        context.pop();
                       } catch (e) {
                         if (!context.mounted) return;
                         final msg = AppErrorMapper.message(e);

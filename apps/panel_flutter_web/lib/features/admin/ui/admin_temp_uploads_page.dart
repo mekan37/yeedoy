@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/media/app_network_image.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_temp_uploads_repository.dart';
@@ -48,6 +49,7 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
   }
 
   Future<void> _promote(AdminTempUploadItem item) async {
+    final l10n = context.l10n;
     final repo = ref.read(adminTempUploadsRepositoryProvider);
     final assetType = item.kind == 'menu_pdf' ? 'menu_pdf' : 'menu_page';
     try {
@@ -56,7 +58,7 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
       setState(() => _items = _items.where((e) => e.id != item.id).toList());
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Menüye aktarıldı.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminTempUploadsPromoted)));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -66,6 +68,7 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
   }
 
   Future<void> _reject(AdminTempUploadItem item) async {
+    final l10n = context.l10n;
     final noteCtrl = TextEditingController();
     final note = await showModalBottomSheet<String>(
       context: context,
@@ -82,8 +85,8 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Reddet',
+              Text(
+                l10n.rejected,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 8),
@@ -91,8 +94,8 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
                 controller: noteCtrl,
                 minLines: 2,
                 maxLines: 4,
-                decoration: const InputDecoration(
-                  hintText: 'Red nedeni (opsiyonel)',
+                decoration: InputDecoration(
+                  hintText: l10n.adminTempUploadsRejectReasonHint,
                 ),
               ),
               const SizedBox(height: 12),
@@ -101,7 +104,7 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Vazgeç'),
+                      child: Text(l10n.cancel),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -109,7 +112,7 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
                     child: FilledButton(
                       onPressed: () =>
                           Navigator.of(context).pop(noteCtrl.text.trim()),
-                      child: const Text('Reddet'),
+                      child: Text(l10n.rejected),
                     ),
                   ),
                 ],
@@ -131,7 +134,7 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
       setState(() => _items = _items.where((e) => e.id != item.id).toList());
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Kayıt reddedildi.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminTempUploadsRejected)));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -142,6 +145,7 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -149,8 +153,8 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
         children: [
           Row(
             children: [
-              const Text(
-                'Geçici yükleme inceleme',
+              Text(
+                l10n.adminTempUploadsTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
@@ -170,11 +174,10 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
           const SizedBox(height: 12),
           Expanded(
             child: !_loading && _items.isEmpty
-                ? const AppEmptyState(
+                ? AppEmptyState(
                     icon: Icons.inbox_outlined,
-                    title: 'Bekleyen geçici yükleme yok',
-                    description:
-                        'Yeni gönderimler geldiğinde burada listelenir.',
+                    title: l10n.adminTempUploadsEmptyTitle,
+                    description: l10n.adminTempUploadsEmptyDescription,
                   )
                 : ListView.separated(
                     itemCount: _items.length,
@@ -216,7 +219,9 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    'business_id: ${item.businessId}',
+                                    l10n.adminTempUploadsBusinessId(
+                                      item.businessId,
+                                    ),
                                     style: const TextStyle(
                                       fontSize: 12,
                                       color: AppColors.muted,
@@ -236,16 +241,20 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
                                     children: [
                                       FilledButton.tonal(
                                         onPressed: () => _promote(item),
-                                        child: const Text('Menüye aktar'),
+                                        child: Text(
+                                          l10n.adminTempUploadsPromoteAction,
+                                        ),
                                       ),
                                       OutlinedButton(
                                         onPressed: () => _reject(item),
-                                        child: const Text('Reddet'),
+                                        child: Text(l10n.rejected),
                                       ),
                                       TextButton(
                                         onPressed: () =>
                                             context.go('/b/${item.businessId}'),
-                                        child: const Text('İşletmeye git'),
+                                        child: Text(
+                                          l10n.adminPriceSuggestionsGoToBusiness,
+                                        ),
                                       ),
                                     ],
                                   ),

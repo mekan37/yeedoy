@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../group_requests/domain/group_request_models.dart';
 
@@ -13,12 +14,16 @@ class AdminGroupRequestsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final requestsAsync = ref.watch(_adminRequestsProvider);
     final offersAsync = ref.watch(_adminOffersProvider);
+    final l10n = context.l10n;
 
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Text('Talepler', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          Text(
+            l10n.adminGroupRequestsRequestsTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+          ),
           const SizedBox(height: 10),
           requestsAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
@@ -28,7 +33,10 @@ class AdminGroupRequestsPage extends ConsumerWidget {
             ),
             data: (items) {
               if (items.isEmpty) {
-                return const Text('Kayıt yok', style: TextStyle(color: AppColors.muted));
+                return Text(
+                  l10n.adminGroupRequestsNoRecords,
+                  style: const TextStyle(color: AppColors.muted),
+                );
               }
               return Column(
                 children: [
@@ -41,7 +49,10 @@ class AdminGroupRequestsPage extends ConsumerWidget {
             },
           ),
           const SizedBox(height: 16),
-          const Text('Teklifler', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+          Text(
+            l10n.adminGroupRequestsOffersTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+          ),
           const SizedBox(height: 10),
           offersAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
@@ -51,7 +62,10 @@ class AdminGroupRequestsPage extends ConsumerWidget {
             ),
             data: (items) {
               if (items.isEmpty) {
-                return const Text('Kayıt yok', style: TextStyle(color: AppColors.muted));
+                return Text(
+                  l10n.adminGroupRequestsNoRecords,
+                  style: const TextStyle(color: AppColors.muted),
+                );
               }
               return Column(
                 children: [
@@ -114,7 +128,10 @@ class _RequestRow extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              '${req.city} • ${req.partySize} kişi',
+              context.l10n.adminGroupRequestsRequestSummary(
+                req.city,
+                req.partySize,
+              ),
               style: const TextStyle(fontWeight: FontWeight.w700),
             ),
           ),

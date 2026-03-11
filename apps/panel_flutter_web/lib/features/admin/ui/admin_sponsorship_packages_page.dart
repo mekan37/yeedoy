@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../domain/admin_models.dart';
 import '../domain/admin_sponsorship_packages_controller.dart';
 
@@ -19,6 +20,7 @@ class _AdminSponsorshipPackagesPageState
   @override
   Widget build(BuildContext context) {
     final st = ref.watch(adminSponsorshipPackagesControllerProvider);
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -27,15 +29,15 @@ class _AdminSponsorshipPackagesPageState
         children: [
           Row(
             children: [
-              const Text(
-                'Sponsor Paketleri',
+              Text(
+                l10n.adminSponsorshipPackagesTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
               FilledButton.icon(
                 onPressed: () => _openPackageSheet(context),
                 icon: const Icon(Icons.add),
-                label: const Text('Yeni Paket'),
+                label: Text(l10n.adminSponsorshipPackagesNewPackage),
               ),
               const SizedBox(width: 8),
               IconButton(
@@ -63,13 +65,34 @@ class _AdminSponsorshipPackagesPageState
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
-                          columns: const [
-                            DataColumn(label: Text('İsim')),
-                            DataColumn(label: Text('Yüzey')),
-                            DataColumn(label: Text('Süre')),
-                            DataColumn(label: Text('Fiyat')),
-                            DataColumn(label: Text('Aktif')),
-                            DataColumn(label: Text('Oluşturma')),
+                          columns: [
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipPackagesNameColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsSurfaceColumn),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                l10n.adminSponsorshipPackagesDurationColumn,
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipPackagesPriceColumn),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                l10n.adminSponsorshipPackagesInventoryColumn,
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipPackagesActiveColumn),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                l10n.adminSponsorshipPackagesCreatedAtColumn,
+                              ),
+                            ),
                             DataColumn(label: Text('')),
                           ],
                           rows: [
@@ -77,9 +100,36 @@ class _AdminSponsorshipPackagesPageState
                               DataRow(
                                 cells: [
                                   DataCell(Text(p.name)),
-                                  DataCell(Text(p.surface)),
-                                  DataCell(Text('${p.durationDays} gün')),
-                                  DataCell(Text(p.priceDisplay)),
+                                  DataCell(Text(_surfaceLabel(context, p.surface))),
+                                  DataCell(
+                                    Text(
+                                      l10n.adminSponsorshipPackagesDurationValue(
+                                        p.durationDays,
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(p.priceDisplay),
+                                        Text(
+                                          _formatMoneyCents(
+                                            p.priceCents,
+                                            p.currencyCode,
+                                          ),
+                                          style: const TextStyle(
+                                            color: AppColors.muted,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  DataCell(Text('${p.inventoryLimit}')),
                                   DataCell(
                                     Switch(
                                       value: p.isActive,
@@ -91,7 +141,7 @@ class _AdminSponsorshipPackagesPageState
                                     TextButton(
                                       onPressed: () =>
                                           _openPackageSheet(context, item: p),
-                                      child: const Text('Düzenle'),
+                                      child: Text(l10n.duzenle),
                                     ),
                                   ),
                                 ],
@@ -102,7 +152,9 @@ class _AdminSponsorshipPackagesPageState
                       if (!st.isLoading && st.items.isEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 24),
-                          child: Center(child: Text('Kayit bulunamadi.')),
+                          child: Center(
+                            child: Text(l10n.adminCommonNoRecordsFound),
+                          ),
                         ),
                     ],
                   ),
@@ -122,6 +174,9 @@ class _AdminSponsorshipPackagesPageState
             surface: item.surface,
             durationDays: item.durationDays,
             priceDisplay: item.priceDisplay,
+            priceCents: item.priceCents,
+            currencyCode: item.currencyCode,
+            inventoryLimit: item.inventoryLimit,
             isActive: v,
           );
     } catch (e) {
@@ -136,12 +191,20 @@ class _AdminSponsorshipPackagesPageState
     BuildContext context, {
     AdminSponsorshipPackage? item,
   }) async {
+    final l10n = context.l10n;
     final nameCtrl = TextEditingController(text: item?.name ?? '');
     final durationCtrl = TextEditingController(
       text: item?.durationDays.toString() ?? '',
     );
     final priceCtrl = TextEditingController(text: item?.priceDisplay ?? '');
+    final priceCentsCtrl = TextEditingController(
+      text: item?.priceCents.toString() ?? '',
+    );
+    final inventoryCtrl = TextEditingController(
+      text: item?.inventoryLimit.toString() ?? '1',
+    );
     var surface = item?.surface ?? 'discovery';
+    var currencyCode = item?.currencyCode ?? 'TRY';
     var isActive = item?.isActive ?? true;
     var saving = false;
 
@@ -162,13 +225,17 @@ class _AdminSponsorshipPackagesPageState
                     surface: surface,
                     durationDays: int.tryParse(durationCtrl.text.trim()) ?? 0,
                     priceDisplay: priceCtrl.text.trim(),
+                    priceCents: int.tryParse(priceCentsCtrl.text.trim()) ?? 0,
+                    currencyCode: currencyCode.trim().toUpperCase(),
+                    inventoryLimit:
+                        int.tryParse(inventoryCtrl.text.trim()) ?? 1,
                     isActive: isActive,
                   );
               if (!ctx.mounted) return;
               Navigator.pop(ctx);
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(const SnackBar(content: Text('Kaydedildi.')));
+              ).showSnackBar(SnackBar(content: Text(l10n.adminCommonSaved)));
             } catch (e) {
               if (ctx.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -191,7 +258,9 @@ class _AdminSponsorshipPackagesPageState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item == null ? 'Yeni Paket' : 'Paket Düzenle',
+                  item == null
+                      ? l10n.adminSponsorshipPackagesNewPackage
+                      : l10n.adminSponsorshipPackagesEditPackage,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
@@ -200,53 +269,119 @@ class _AdminSponsorshipPackagesPageState
                 const SizedBox(height: 10),
                 TextField(
                   controller: nameCtrl,
-                  decoration: const InputDecoration(labelText: 'İsim'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminSponsorshipPackagesNameColumn,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   key: ValueKey(surface),
                   initialValue: surface,
-                  items: const [
-                    DropdownMenuItem(value: 'discovery', child: Text('Keşfet')),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'discovery',
+                      child: Text(
+                        l10n.adminSponsorshipPackagesSurfaceDiscovery,
+                      ),
+                    ),
                     DropdownMenuItem(
                       value: 'business_page',
-                      child: Text('İşletme Sayfası'),
+                      child: Text(
+                        l10n.adminSponsorshipPackagesSurfaceBusinessPage,
+                      ),
                     ),
                     DropdownMenuItem(
                       value: 'verified',
-                      child: Text('Doğrulandı'),
+                      child: Text(
+                        l10n.adminSponsorshipPackagesSurfaceVerified,
+                      ),
                     ),
-                    DropdownMenuItem(value: 'premium', child: Text('Premium')),
+                    DropdownMenuItem(
+                      value: 'stories',
+                      child: Text(
+                        l10n.adminSponsorshipPackagesSurfaceStories,
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: 'premium',
+                      child: Text(
+                        l10n.adminSponsorshipPackagesSurfacePremium,
+                      ),
+                    ),
                   ],
                   onChanged: (v) =>
                       setModalState(() => surface = v ?? 'discovery'),
-                  decoration: const InputDecoration(labelText: 'Yüzey'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminSponsorshipsSurfaceColumn,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: durationCtrl,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: 'Süre (gün)'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminSponsorshipPackagesDurationInput,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: priceCtrl,
-                  decoration: const InputDecoration(
-                    labelText: 'Fiyat Gösterim',
+                  decoration: InputDecoration(
+                    labelText: l10n.adminSponsorshipPackagesPriceInput,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: priceCentsCtrl,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText:
+                              l10n.adminSponsorshipPackagesPriceAmountInput,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        key: ValueKey(currencyCode),
+                        initialValue: currencyCode,
+                        items: const [
+                          DropdownMenuItem(value: 'TRY', child: Text('TRY')),
+                          DropdownMenuItem(value: 'USD', child: Text('USD')),
+                          DropdownMenuItem(value: 'EUR', child: Text('EUR')),
+                        ],
+                        onChanged: (v) =>
+                            setModalState(() => currencyCode = v ?? 'TRY'),
+                        decoration: InputDecoration(
+                          labelText: l10n.adminSponsorshipPackagesCurrencyInput,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: inventoryCtrl,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: l10n.adminSponsorshipPackagesInventoryInput,
                   ),
                 ),
                 const SizedBox(height: 8),
                 SwitchListTile(
                   value: isActive,
                   onChanged: (v) => setModalState(() => isActive = v),
-                  title: const Text('Aktif'),
+                  title: Text(l10n.adminSponsorshipPackagesActiveColumn),
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
                     onPressed: saving ? null : save,
-                    child: Text(saving ? 'Kaydediliyor...' : 'Kaydet'),
+                    child: Text(saving ? l10n.saving : l10n.save),
                   ),
                 ),
               ],
@@ -256,6 +391,29 @@ class _AdminSponsorshipPackagesPageState
       ),
     );
   }
+}
+
+String _surfaceLabel(BuildContext context, String surface) {
+  final l10n = context.l10n;
+  switch (surface) {
+    case 'discovery':
+      return l10n.adminSponsorshipPackagesSurfaceDiscovery;
+    case 'business_page':
+      return l10n.adminSponsorshipPackagesSurfaceBusinessPage;
+    case 'verified':
+      return l10n.adminSponsorshipPackagesSurfaceVerified;
+    case 'stories':
+      return l10n.adminSponsorshipPackagesSurfaceStories;
+    case 'premium':
+      return l10n.adminSponsorshipPackagesSurfacePremium;
+    default:
+      return surface;
+  }
+}
+
+String _formatMoneyCents(int amount, String currencyCode) {
+  final whole = amount / 100;
+  return '${whole.toStringAsFixed(2)} $currencyCode';
 }
 
 String _fmtDate(DateTime d) {

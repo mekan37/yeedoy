@@ -10,6 +10,7 @@ void main() {
       homeTtiP95Ms: 1000,
       searchHitP95Ms: 220,
       searchMissP95Ms: 700,
+      embedOpenP95Ms: 900,
     );
 
     final result = ReleaseGate.evaluate(snapshot);
@@ -26,6 +27,7 @@ void main() {
       homeTtiP95Ms: 1000,
       searchHitP95Ms: 200,
       searchMissP95Ms: 700,
+      embedOpenP95Ms: 900,
     );
 
     final result = ReleaseGate.evaluate(snapshot);
@@ -44,6 +46,7 @@ void main() {
       homeTtiP95Ms: 1000,
       searchHitP95Ms: 200,
       searchMissP95Ms: 700,
+      embedOpenP95Ms: 900,
     );
 
     final result = ReleaseGate.evaluate(snapshot);
@@ -62,6 +65,7 @@ void main() {
       homeTtiP95Ms: 1300,
       searchHitP95Ms: 350,
       searchMissP95Ms: 900,
+      embedOpenP95Ms: 1900,
     );
 
     final result = ReleaseGate.evaluate(snapshot);

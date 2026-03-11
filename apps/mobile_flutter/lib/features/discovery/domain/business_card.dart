@@ -1,3 +1,5 @@
+import '../../business/domain/meal_card_provider_option.dart';
+
 class BusinessCardModel {
   BusinessCardModel({
     required this.id,
@@ -16,6 +18,7 @@ class BusinessCardModel {
     this.isOpenNow,
     this.recentPriceVerifiedCount,
     this.ownerVerified,
+    this.mealCardProviders = const [],
   });
 
   final String id;
@@ -35,6 +38,7 @@ class BusinessCardModel {
   final bool? isOpenNow;
   final int? recentPriceVerifiedCount;
   final bool? ownerVerified;
+  final List<MealCardProviderOption> mealCardProviders;
 
   factory BusinessCardModel.fromMap(Map<String, dynamic> m) =>
       BusinessCardModel(
@@ -57,6 +61,14 @@ class BusinessCardModel {
         recentPriceVerifiedCount: (m['recent_price_verified_count'] as num?)
             ?.toInt(),
         ownerVerified: m['owner_verified'] as bool?,
+        mealCardProviders: ((m['meal_card_providers'] as List?) ?? const [])
+            .whereType<Map>()
+            .map(
+              (row) => MealCardProviderOption.fromMap(
+                row.cast<String, dynamic>(),
+              ),
+            )
+            .toList(growable: false),
       );
 
   factory BusinessCardModel.fromSponsoredMap(Map<String, dynamic> m) =>
@@ -85,6 +97,7 @@ class BusinessCardModel {
     bool? isOpenNow,
     int? recentPriceVerifiedCount,
     bool? ownerVerified,
+    List<MealCardProviderOption>? mealCardProviders,
   }) {
     return BusinessCardModel(
       id: id ?? this.id,
@@ -104,6 +117,7 @@ class BusinessCardModel {
       recentPriceVerifiedCount:
           recentPriceVerifiedCount ?? this.recentPriceVerifiedCount,
       ownerVerified: ownerVerified ?? this.ownerVerified,
+      mealCardProviders: mealCardProviders ?? this.mealCardProviders,
     );
   }
 
@@ -124,5 +138,6 @@ class BusinessCardModel {
     'is_open_now': isOpenNow,
     'recent_price_verified_count': recentPriceVerifiedCount,
     'owner_verified': ownerVerified,
+    'meal_card_providers': mealCardProviders.map((item) => item.toMap()).toList(),
   };
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/admin_businesses_repository.dart';
 import '../data/admin_monetization_repository.dart';
 import '../domain/admin_models.dart';
@@ -28,6 +29,7 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -35,8 +37,8 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
         children: [
           Row(
             children: [
-              const Text(
-                'Do?Yrulama / Premium',
+              Text(
+                l10n.adminVerifiedTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
@@ -49,16 +51,20 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
               Expanded(
                 child: TextField(
                   controller: searchCtrl,
-                  decoration: const InputDecoration(
-                    hintText: 'I?Yletme ara (isim/adres)',
-                    prefixIcon: Icon(Icons.search),
+                  decoration: InputDecoration(
+                    hintText: l10n.adminVerifiedSearchHint,
+                    prefixIcon: const Icon(Icons.search),
                   ),
                 ),
               ),
               const SizedBox(width: 10),
               FilledButton(
                 onPressed: _search,
-                child: Text(loading ? 'Aranıyor...' : 'Ara'),
+                child: Text(
+                  loading
+                      ? l10n.adminVerifiedSearching
+                      : l10n.adminVerifiedSearchAction,
+                ),
               ),
             ],
           ),
@@ -77,11 +83,15 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
-                          columns: const [
-                            DataColumn(label: Text('İsim')),
-                            DataColumn(label: Text('Şehir')),
-                            DataColumn(label: Text('İlçe')),
-                            DataColumn(label: Text('Do?Yrulama')),
+                          columns: [
+                            DataColumn(
+                              label: Text(l10n.adminSuggestionsNameColumn),
+                            ),
+                            DataColumn(label: Text(l10n.city)),
+                            DataColumn(label: Text(l10n.district)),
+                            DataColumn(
+                              label: Text(l10n.adminVerifiedVerificationColumn),
+                            ),
                             DataColumn(label: Text('')),
                           ],
                           rows: [
@@ -92,12 +102,16 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
                                   DataCell(Text(b.city ?? '-')),
                                   DataCell(Text(b.district ?? '-')),
                                   DataCell(
-                                    Text(b.isVerified ? 'Evet' : 'Hayır'),
+                                    Text(
+                                      b.isVerified
+                                          ? l10n.adminVerifiedYes
+                                          : l10n.adminVerifiedNo,
+                                    ),
                                   ),
                                   DataCell(
                                     TextButton(
                                       onPressed: () => _openEdit(context, b),
-                                      child: const Text('Düzenle'),
+                                      child: Text(l10n.duzenle),
                                     ),
                                   ),
                                 ],
@@ -108,7 +122,9 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
                       if (!loading && items.isEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 24),
-                          child: Center(child: Text('Kayit bulunamadi.')),
+                          child: Center(
+                            child: Text(l10n.adminCommonNoRecordsFound),
+                          ),
                         ),
                     ],
                   ),
@@ -137,6 +153,7 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
   }
 
   Future<void> _openEdit(BuildContext context, AdminBusinessItem b) async {
+    final l10n = context.l10n;
     var isVerified = b.isVerified;
     var tier = 'verified';
     final endsCtrl = TextEditingController();
@@ -165,7 +182,7 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
               if (!context.mounted) return;
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(const SnackBar(content: Text('Güncellendi.')));
+              ).showSnackBar(SnackBar(content: Text(l10n.adminCommonUpdated)));
             } catch (e) {
               if (!ctx.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
@@ -187,7 +204,7 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Do?Yrulama Ayarlari',
+                  l10n.adminVerifiedSettingsTitle,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
@@ -202,27 +219,32 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
                 SwitchListTile(
                   value: isVerified,
                   onChanged: (v) => setModalState(() => isVerified = v),
-                  title: const Text('Do?Yrulama'),
+                  title: Text(l10n.adminVerifiedVerificationColumn),
                 ),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
                   key: ValueKey(tier),
                   initialValue: tier,
-                  items: const [
+                  items: [
                     DropdownMenuItem(
                       value: 'verified',
-                      child: Text('Do?Yrulandi'),
+                      child: Text(l10n.adminVerifiedTierVerified),
                     ),
-                    DropdownMenuItem(value: 'premium', child: Text('Premium')),
+                    DropdownMenuItem(
+                      value: 'premium',
+                      child: Text(l10n.adminVerifiedTierPremium),
+                    ),
                   ],
                   onChanged: (v) => setModalState(() => tier = v ?? 'verified'),
-                  decoration: const InputDecoration(labelText: 'Tier'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminVerifiedTierLabel,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 TextField(
                   controller: endsCtrl,
-                  decoration: const InputDecoration(
-                    labelText: 'Biti?Y (YYYY-MM-DD)',
+                  decoration: InputDecoration(
+                    labelText: l10n.adminVerifiedEndsAtLabel,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -230,7 +252,7 @@ class _AdminVerifiedPageState extends ConsumerState<AdminVerifiedPage> {
                   width: double.infinity,
                   child: FilledButton(
                     onPressed: saving ? null : save,
-                    child: Text(saving ? 'Kaydediliyor...' : 'Kaydet'),
+                    child: Text(saving ? l10n.saving : l10n.save),
                   ),
                 ),
               ],

@@ -1,69 +1,89 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/linking/link_provider.dart';
 import '../../../core/linking/link_utils.dart';
+import '../../../core/monitoring/app_telemetry.dart';
+import 'providers/embed_provider_webview.dart';
+import 'providers/embed_provider_youtube.dart';
 
-class EmbedViewerPage extends StatefulWidget {
+class EmbedViewerPage extends ConsumerStatefulWidget {
   const EmbedViewerPage({super.key, required this.url, this.title});
 
   final String url;
   final String? title;
 
   @override
-  State<EmbedViewerPage> createState() => _EmbedViewerPageState();
+  ConsumerState<EmbedViewerPage> createState() => _EmbedViewerPageState();
 }
 
-class _EmbedViewerPageState extends State<EmbedViewerPage> {
-  static const _loadTimeout = Duration(seconds: 9);
-
+class _EmbedViewerPageState extends ConsumerState<EmbedViewerPage> {
   EmbedDecision? _decision;
-  WebViewController? _webController;
-  Timer? _timeoutTimer;
   bool _loading = true;
   bool _openedInBrowser = false;
   String? _errorMessage;
+  final Stopwatch _openWatch = Stopwatch()..start();
+  bool _perfLogged = false;
+  bool _prepared = false;
 
   @override
   void initState() {
     super.initState();
-    _prepare();
   }
 
   @override
-  void dispose() {
-    _timeoutTimer?.cancel();
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_prepared) return;
+    _prepared = true;
+    unawaited(_prepare());
   }
 
   Future<void> _prepare() async {
     final t = AppLocalizations.of(context);
     final normalized = normalizeUrl(widget.url);
     if (normalized == null) {
+      if (!mounted) return;
       setState(() {
         _loading = false;
         _errorMessage = t.invalidLinkMessage;
       });
+      _logOpenPerf(fallbackUsed: true);
       return;
     }
 
     final decision = getEmbedDecision(normalized);
-    _decision = decision;
+    if (!mounted) return;
+    setState(() {
+      _decision = decision;
+      _loading = true;
+      _errorMessage = null;
+    });
 
     switch (decision.provider) {
       case LinkProvider.youtube:
+        if (!mounted) return;
         setState(() => _loading = false);
+        _logOpenPerf(fallbackUsed: false);
         return;
       case LinkProvider.instagram:
       case LinkProvider.facebook:
-        await _initWebView(decision);
+        if (decision.embedUrl == null) {
+          await _fallbackToBrowser(
+            decision.fallbackUrl,
+            message: t.embedFailed,
+          );
+          return;
+        }
+        if (!mounted) return;
+        setState(() => _loading = false);
+        _logOpenPerf(fallbackUsed: false);
         return;
       case LinkProvider.unknown:
         await _fallbackToBrowser(
@@ -74,66 +94,8 @@ class _EmbedViewerPageState extends State<EmbedViewerPage> {
     }
   }
 
-  Future<void> _initWebView(EmbedDecision decision) async {
-    final t = AppLocalizations.of(context);
-    final embedUrl = decision.embedUrl;
-    if (embedUrl == null) {
-      await _fallbackToBrowser(decision.fallbackUrl, message: t.embedFailed);
-      return;
-    }
-
-    final controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onNavigationRequest: (request) {
-            if (_isAllowedEmbedUrl(request.url)) {
-              return NavigationDecision.navigate;
-            }
-            return NavigationDecision.prevent;
-          },
-          onPageFinished: (_) {
-            _timeoutTimer?.cancel();
-            if (!mounted) return;
-            setState(() => _loading = false);
-          },
-          onWebResourceError: (_) async {
-            await _fallbackToBrowser(
-              decision.fallbackUrl,
-              message: t.embedFailed,
-            );
-          },
-        ),
-      )
-      ..loadRequest(embedUrl);
-
-    _webController = controller;
-    _timeoutTimer?.cancel();
-    _timeoutTimer = Timer(_loadTimeout, () async {
-      await _fallbackToBrowser(decision.fallbackUrl, message: t.embedFailed);
-    });
-
-    if (!mounted) return;
-    setState(() {
-      _loading = true;
-      _errorMessage = null;
-    });
-  }
-
-  bool _isAllowedEmbedUrl(String url) {
-    final uri = Uri.tryParse(url);
-    if (uri == null) return false;
-    if (uri.scheme == 'about') return true;
-    final host = uri.host.toLowerCase();
-    return host == 'www.instagram.com' ||
-        host == 'instagram.com' ||
-        host == 'www.facebook.com' ||
-        host == 'facebook.com' ||
-        host == 'fb.watch';
-  }
-
   Future<void> _fallbackToBrowser(Uri fallbackUrl, {String? message}) async {
-    _timeoutTimer?.cancel();
+    if (_openedInBrowser) return;
     await launchUrl(fallbackUrl, mode: LaunchMode.externalApplication);
     if (!mounted) return;
     setState(() {
@@ -141,6 +103,37 @@ class _EmbedViewerPageState extends State<EmbedViewerPage> {
       _loading = false;
       _errorMessage = message;
     });
+    _logOpenPerf(fallbackUsed: true);
+  }
+
+  void _logOpenPerf({required bool fallbackUsed}) {
+    if (_perfLogged) return;
+    _perfLogged = true;
+    _openWatch.stop();
+    final provider = (_decision?.provider.name ?? LinkProvider.unknown.name);
+    try {
+      unawaited(
+        ref.read(appTelemetryProvider).logEmbedOpenLatency(
+              elapsed: _openWatch.elapsed,
+              provider: provider,
+              fallbackUsed: fallbackUsed,
+            ),
+      );
+    } catch (_) {
+      // Telemetry bootstrap is non-blocking for embed UX.
+    }
+  }
+
+  Set<String> _allowedHosts(LinkProvider provider) {
+    switch (provider) {
+      case LinkProvider.instagram:
+        return const {'instagram.com', 'www.instagram.com'};
+      case LinkProvider.facebook:
+        return const {'facebook.com', 'www.facebook.com', 'fb.watch'};
+      case LinkProvider.youtube:
+      case LinkProvider.unknown:
+        return const <String>{};
+    }
   }
 
   @override
@@ -193,28 +186,28 @@ class _EmbedViewerPageState extends State<EmbedViewerPage> {
     }
 
     if (decision.provider == LinkProvider.youtube) {
-      final videoId = YoutubePlayerController.convertUrlToId(
-        decision.normalizedUri.toString(),
+      return EmbedProviderYoutube(
+        sourceUrl: decision.normalizedUri.toString(),
+        fallbackMessage: t.embedFailed,
       );
-      if (videoId == null || videoId.isEmpty) {
-        return _FallbackInfo(message: t.embedFailed);
-      }
-      final controller = YoutubePlayerController.fromVideoId(
-        videoId: videoId,
-        autoPlay: false,
-        params: const YoutubePlayerParams(showFullscreenButton: true),
-      );
-      return YoutubePlayer(controller: controller, aspectRatio: 16 / 9);
     }
 
-    if ((decision.provider == LinkProvider.instagram ||
-            decision.provider == LinkProvider.facebook) &&
-        _webController != null) {
-      return Stack(
-        children: [
-          WebViewWidget(controller: _webController!),
-          if (_loading) const Center(child: CircularProgressIndicator()),
-        ],
+    if (decision.provider == LinkProvider.instagram ||
+        decision.provider == LinkProvider.facebook) {
+      final embedUrl = decision.embedUrl;
+      if (embedUrl == null) {
+        return _FallbackInfo(message: t.embedFailed);
+      }
+      return EmbedProviderWebview(
+        pageUrl: embedUrl,
+        allowedHosts: _allowedHosts(decision.provider),
+        fallbackMessage: t.embedFailed,
+        onFallback: (message) => unawaited(
+          _fallbackToBrowser(
+            decision.fallbackUrl,
+            message: message ?? t.embedFailed,
+          ),
+        ),
       );
     }
 

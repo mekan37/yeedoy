@@ -129,6 +129,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
   }
 
   Future<void> refresh() async {
+    ref.read(searchRepositoryProvider).clearCache();
     await loadInitial();
   }
 
@@ -157,6 +158,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
     DiscoverySort? sortBy,
     bool? openNow,
     bool? recentPriceBoost,
+    List<String>? mealCardKeys,
   }) async {
     state = state.copyWith(
       city: city ?? state.city,
@@ -168,6 +170,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
       sortBy: sortBy ?? state.sortBy,
       openNow: openNow ?? state.openNow,
       recentPriceBoost: recentPriceBoost ?? state.recentPriceBoost,
+      mealCardKeys: mealCardKeys ?? state.mealCardKeys,
     );
     await loadInitial();
   }
@@ -282,6 +285,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
             query: q,
             city: null,
             district: null,
+            mealCardKeys: state.mealCardKeys,
             limit: limit,
             offset: 0,
           );
@@ -299,6 +303,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
         query: normalizedQuery,
         city: null,
         district: null,
+        mealCardKeys: state.mealCardKeys,
         limit: limit,
         offset: offset,
       );
@@ -316,6 +321,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
         query: null,
         city: city,
         district: district,
+        mealCardKeys: state.mealCardKeys,
         limit: limit,
         offset: offset,
       );
@@ -326,6 +332,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
       query: '',
       city: city,
       district: district,
+      mealCardKeys: state.mealCardKeys,
       limit: limit,
       offset: offset,
     );

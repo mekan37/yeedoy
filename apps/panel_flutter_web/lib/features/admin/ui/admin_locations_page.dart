@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../domain/admin_locations_controller.dart';
 
 class AdminLocationsPage extends ConsumerStatefulWidget {
@@ -30,13 +31,17 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
   @override
   Widget build(BuildContext context) {
     final st = ref.watch(adminLocationsControllerProvider);
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Araçlar > Konumlar', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
+          Text(
+            l10n.adminLocationsTitle,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+          ),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -44,12 +49,20 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                 width: 220,
                 child: DropdownButtonFormField<String>(
                   initialValue: table,
-                  items: const [
-                    DropdownMenuItem(value: 'businesses', child: Text('İşletmeler')),
-                    DropdownMenuItem(value: 'business_suggestions', child: Text('İşletme Önerileri')),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'businesses',
+                      child: Text(l10n.adminLocationsTableBusinesses),
+                    ),
+                    DropdownMenuItem(
+                      value: 'business_suggestions',
+                      child: Text(l10n.adminLocationsTableBusinessSuggestions),
+                    ),
                   ],
                   onChanged: (v) => setState(() => table = v ?? table),
-                  decoration: const InputDecoration(labelText: 'Tablo'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminLocationsTableLabel,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -57,12 +70,17 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                 width: 160,
                 child: DropdownButtonFormField<String>(
                   initialValue: column,
-                  items: const [
-                    DropdownMenuItem(value: 'city', child: Text('Şehir')),
-                    DropdownMenuItem(value: 'district', child: Text('İlçe')),
+                  items: [
+                    DropdownMenuItem(value: 'city', child: Text(l10n.city)),
+                    DropdownMenuItem(
+                      value: 'district',
+                      child: Text(l10n.district),
+                    ),
                   ],
                   onChanged: (v) => setState(() => column = v ?? column),
-                  decoration: const InputDecoration(labelText: 'Bölüm'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminLocationsFieldLabel,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
@@ -72,7 +90,7 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                     value: caseInsensitive,
                     onChanged: (v) => setState(() => caseInsensitive = v ?? true),
                   ),
-                  const Text('Büyük/küçük harf duyarsız'),
+                  Text(l10n.adminLocationsCaseInsensitive),
                 ],
               ),
             ],
@@ -83,14 +101,18 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
               Expanded(
                 child: TextField(
                   controller: fromCtrl,
-                  decoration: const InputDecoration(labelText: 'ile'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminLocationsFromLabel,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: TextField(
                   controller: toCtrl,
-                  decoration: const InputDecoration(labelText: 'için'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminLocationsToLabel,
+                  ),
                 ),
               ),
             ],
@@ -112,7 +134,11 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                               );
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Etkilenecek kayıt: $count')),
+                            SnackBar(
+                              content: Text(
+                                l10n.adminLocationsAffectedCount(count),
+                              ),
+                            ),
                           );
                         } catch (e) {
                           if (!context.mounted) return;
@@ -121,7 +147,9 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                           );
                         }
                       },
-                child: Text(st.isLoading ? 'Kontrol ediliyor...' : 'Bekleyin'),
+                child: Text(
+                  st.isLoading ? l10n.adminLocationsChecking : l10n.preview,
+                ),
               ),
               const SizedBox(width: 10),
               FilledButton(
@@ -132,25 +160,27 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                         final to = toCtrl.text.trim();
                         if (from.isEmpty || to.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('From ve To gerekli.')),
+                            SnackBar(
+                              content: Text(l10n.adminLocationsValuesRequired),
+                            ),
                           );
                           return;
                         }
                         final ok = await showDialog<bool>(
                               context: context,
                               builder: (ctx) => AlertDialog(
-                                title: const Text('Onay'),
+                                title: Text(l10n.adminLocationsConfirmTitle),
                                 content: Text(
-                                  '"$from" -> "$to" değeri değiştirilecek. Emin misin?',
+                                  l10n.adminLocationsConfirmMessage(from, to),
                                 ),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(ctx, false),
-                                    child: const Text('Vazgeç'),
+                                    child: Text(l10n.cancel),
                                   ),
                                   FilledButton(
                                     onPressed: () => Navigator.pop(ctx, true),
-                                    child: const Text('Uygula'),
+                                    child: Text(l10n.apply),
                                   ),
                                 ],
                               ),
@@ -168,7 +198,7 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                               );
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Güncellendi.')),
+                            SnackBar(content: Text(l10n.adminCommonUpdated)),
                           );
                         } catch (e) {
                           if (!context.mounted) return;
@@ -179,14 +209,18 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
                           if (mounted) setState(() => submitting = false);
                         }
                       },
-                child: Text(submitting ? 'Uygulanıyor...' : 'Uygula'),
+                child: Text(
+                  submitting ? l10n.adminLocationsApplying : l10n.apply,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 12),
           if (st.previewCount > 0)
-            Text('Etkilenecek kayıt: ${st.previewCount}',
-                style: const TextStyle(color: AppColors.muted)),
+            Text(
+              l10n.adminLocationsAffectedCount(st.previewCount),
+              style: const TextStyle(color: AppColors.muted),
+            ),
           if (st.error != null)
             Padding(
               padding: const EdgeInsets.only(top: 8),

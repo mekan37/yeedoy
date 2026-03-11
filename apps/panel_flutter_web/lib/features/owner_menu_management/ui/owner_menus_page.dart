@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
+import '../../../core/navigation/public_menu_url.dart';
+import '../../../core/network/supabase_provider.dart';
 import '../../../core/security/app_role_providers.dart';
+import '../../../core/web/web_utils.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../../domain/models/owner_claim.dart';
+import '../../owner_businesses/domain/owner_business_models.dart';
+import '../../owner_businesses/domain/owner_business_providers.dart';
+import '../../owner_businesses/domain/owner_business_state.dart';
 import '../../owner_claims/my_claims_controller.dart';
 import '../domain/owner_menu_controller.dart';
 import '../domain/owner_menu_models.dart';
-import 'owner_menu_editor_page.dart';
+import 'owner_menu_editor_page.dart' deferred as owner_menu_editor_page;
 import 'owner_menu_error_mapper.dart';
 import 'widgets/menu_list_tile.dart';
 import '../../../shared/cache/invalidate_helpers.dart';
 import '../../../data/repositories/business_amenities_repository.dart';
+import '../../../data/repositories/business_meal_card_providers_repository.dart';
 import '../../business/domain/business_amenities_provider.dart';
 import '../../business/domain/business_amenity.dart';
+import '../../business/domain/business_meal_card_providers_provider.dart';
+import '../../business/domain/meal_card_provider_option.dart';
 import '../../owner_onboarding/domain/owner_onboarding_providers.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
+import '../../../shared/ui/components/deferred_page_loader.dart';
+import '../../../shared/ui/components/owner_panel_feedback.dart';
 
 class OwnerMenusPage extends ConsumerStatefulWidget {
   const OwnerMenusPage({super.key});
@@ -28,18 +41,18 @@ class OwnerMenusPage extends ConsumerStatefulWidget {
 }
 
 class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
-  String _selectedBusinessId = '';
   bool _redirecting = false;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final user = ref.watch(userProvider);
     if (user == null) {
       final redirect = Uri.encodeComponent(
         GoRouterState.of(context).uri.toString(),
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (context.mounted) context.go('/login?redirect=$redirect');
+        if (context.mounted) context.go('/isletme-giris?redirect=$redirect');
       });
       return const AppScaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -57,18 +70,33 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
           items.where((c) => c.claim.status == 'approved').toList(),
       orElse: () => const <OwnerClaimItem>[],
     );
-    if (_selectedBusinessId.isEmpty && approved.isNotEmpty) {
+    final ownerBusinesses = ref.watch(ownerBusinessesProvider).maybeWhen(
+      data: (items) => items,
+      orElse: () => const <OwnerBusiness>[],
+    );
+    final selectedBusinessIdState =
+        ref.watch(selectedOwnerBusinessIdProvider) ?? '';
+    var selectedBusinessId = selectedBusinessIdState;
+    if (approved.isNotEmpty &&
+        (selectedBusinessId.isEmpty ||
+            !approved.any((c) => c.claim.businessId == selectedBusinessId))) {
       final preferred =
           queryBusinessId != null &&
               approved.any((c) => c.claim.businessId == queryBusinessId)
           ? queryBusinessId
           : approved.first.claim.businessId;
-      _selectedBusinessId = preferred;
+      selectedBusinessId = preferred;
+      if (selectedBusinessIdState != preferred) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          ref.read(selectedOwnerBusinessIdProvider.notifier).state = preferred;
+        });
+      }
     }
 
-    if (_selectedBusinessId.isNotEmpty) {
+    if (selectedBusinessId.isNotEmpty) {
       final canManageAsync = ref.watch(
-        canManageBusinessProvider(_selectedBusinessId),
+        canManageBusinessProvider(selectedBusinessId),
       );
       final canManage = canManageAsync.when<bool?>(
         loading: () => null,
@@ -81,19 +109,32 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
         );
       }
       if (!canManage) {
-        return const AppScaffold(
-          body: Center(child: Text('Bu işletme için yetkiniz yok.')),
+        return AppScaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(16),
+            child: OwnerPanelFeedback.error(
+              title: l10n.ownerNoBusinessPermissionTitle,
+              description: l10n.ownerNoBusinessPermissionDescription,
+              onRetry: () => context.go('/owner/businesses'),
+              retryLabel: l10n.ownerGoBusinessesAction,
+            ),
+          ),
         );
       }
     }
 
-    final menusAsync = _selectedBusinessId.isEmpty
-        ? const AsyncData(<OwnerMenu>[])
-        : ref.watch(ownerMenusProvider(_selectedBusinessId));
+    final selectedBusiness = _findOwnerBusiness(
+      ownerBusinesses,
+      selectedBusinessId,
+    );
 
-    if (!onboardingBypass && _selectedBusinessId.isNotEmpty) {
+    final menusAsync = selectedBusinessId.isEmpty
+        ? const AsyncData(<OwnerMenu>[])
+        : ref.watch(ownerMenusProvider(selectedBusinessId));
+
+    if (!onboardingBypass && selectedBusinessId.isNotEmpty) {
       final progressAsync = ref.watch(
-        ownerOnboardingProgressProvider(_selectedBusinessId),
+        ownerOnboardingProgressProvider(selectedBusinessId),
       );
       progressAsync.whenData((progress) {
         if (_redirecting || progress.stepCompleted >= 5) return;
@@ -104,7 +145,7 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
           context.go(
-            '/owner/onboarding?businessId=$_selectedBusinessId&redirect=$redirect',
+            '/owner/onboarding?businessId=$selectedBusinessId&redirect=$redirect',
           );
         });
       });
@@ -112,13 +153,20 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
 
     return AppScaffold(
       appBar: AppBar(
-        title: const Text('Menü yönetimi'),
+        title: Text(l10n.ownerMenuManagementTitle),
         actions: [
           IconButton(
-            onPressed: _selectedBusinessId.isEmpty
+            onPressed: selectedBusinessId.isEmpty
+                ? null
+                : () => context.go('/owner/trash?businessId=$selectedBusinessId'),
+            icon: const Icon(Icons.delete_sweep_outlined),
+            tooltip: l10n.ownerShellTrashLabel,
+          ),
+          IconButton(
+            onPressed: selectedBusinessId.isEmpty
                 ? null
                 : () => ref
-                      .read(ownerMenusProvider(_selectedBusinessId).notifier)
+                      .read(ownerMenusProvider(selectedBusinessId).notifier)
                       .refresh(),
             icon: const Icon(Icons.refresh),
           ),
@@ -126,116 +174,185 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          if (_selectedBusinessId.isEmpty) return;
-          await ref
-              .read(ownerMenusProvider(_selectedBusinessId).notifier)
-              .refresh();
+          if (selectedBusinessId.isEmpty) return;
+          await ref.read(ownerMenusProvider(selectedBusinessId).notifier).refresh();
         },
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-          children: [
-            claimsAsync.when(
-              loading: () => const _OwnerMenusSkeleton(),
-              error: (e, _) => _ErrorBox(
-                message: AppErrorMapper.message(e),
-                onRetry: () => ref.read(myClaimsProvider.notifier).refresh(),
+        child: CustomScrollView(
+          cacheExtent: 1200,
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  claimsAsync.when(
+                    loading: () => const OwnerPanelFeedback.loading(),
+                    error: (e, _) => _ErrorBox(
+                      message: AppErrorMapper.message(e),
+                      onRetry: () => ref.read(myClaimsProvider.notifier).refresh(),
+                    ),
+                    data: (items) {
+                      final approvedItems = items
+                          .where((c) => c.claim.status == 'approved')
+                          .toList();
+                      if (approvedItems.isEmpty) {
+                        return _EmptyBox(
+                          message: l10n.ownerApprovedBusinessNotFound,
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  if (selectedBusinessId.isNotEmpty) ...[
+                    _DigitalMenuStudioCard(
+                      onOpenQrStudio: () => _openQrStudio(selectedBusinessId),
+                      onOpenPublicMenu: () => _openPublicMenu(
+                        selectedBusinessId,
+                        publicSlug: selectedBusiness?.publicSlug,
+                        slug: selectedBusiness?.slug,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    _OwnerProfileScoreCard(
+                      key: const ValueKey('profile_score_'),
+                      businessId: selectedBusinessId,
+                    ),
+                    const SizedBox(height: 12),
+                    _OwnerAmenitiesSection(
+                      key: ValueKey(selectedBusinessId),
+                      businessId: selectedBusinessId,
+                    ),
+                    const SizedBox(height: 12),
+                    _OwnerMealCardProvidersSection(
+                      key: ValueKey('meal_cards_$selectedBusinessId'),
+                      businessId: selectedBusinessId,
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+                ]),
               ),
-              data: (items) {
-                final approvedItems = items
-                    .where((c) => c.claim.status == 'approved')
-                    .toList();
-                if (approvedItems.isEmpty) {
-                  return const _EmptyBox(message: 'Onaylı işletme bulunamadı.');
-                }
-                return _BusinessSelector(
-                  items: approvedItems,
-                  selectedId: _selectedBusinessId,
-                  onChanged: (id) {
-                    setState(() {
-                      _selectedBusinessId = id;
-                      _redirecting = false;
-                    });
-                    ref.read(ownerMenusProvider(id).notifier).refresh();
-                  },
-                );
-              },
             ),
-            const SizedBox(height: 12),
-            if (_selectedBusinessId.isNotEmpty) ...[
-              _OwnerProfileScoreCard(
-                key: ValueKey('profile_score_'),
-                businessId: _selectedBusinessId,
-              ),
-              const SizedBox(height: 12),
-              _OwnerAmenitiesSection(
-                key: ValueKey(_selectedBusinessId),
-                businessId: _selectedBusinessId,
-              ),
-              const SizedBox(height: 12),
-            ],
-            menusAsync.when(
-              loading: () => const _OwnerMenusSkeleton(),
-              error: (e, _) => _ErrorBox(
-                message: AppErrorMapper.message(e),
-                onRetry: () => ref
-                    .read(ownerMenusProvider(_selectedBusinessId).notifier)
-                    .refresh(),
-              ),
+            ...menusAsync.when(
+              loading: () => [
+                const SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: OwnerPanelFeedback.loading(),
+                  ),
+                ),
+              ],
+              error: (e, _) => [
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: _ErrorBox(
+                      message: AppErrorMapper.message(e),
+                      onRetry: () => ref
+                          .read(ownerMenusProvider(selectedBusinessId).notifier)
+                          .refresh(),
+                    ),
+                  ),
+                ),
+              ],
               data: (menus) {
                 if (menus.isEmpty) {
-                  return const _EmptyBox(message: 'Henüz menü yok.');
-                }
-                return Column(
-                  children: [
-                    _QuickQrCard(onOpenWizard: () => _openQrWizard(menus)),
-                    const SizedBox(height: 10),
-                    for (final menu in menus) ...[
-                      MenuListTile(
-                        menu: menu,
-                        onEdit: () async {
-                          final updated = await Navigator.of(context)
-                              .push<bool>(
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      OwnerMenuEditorPage(menu: menu),
-                                ),
-                              );
-                          if (updated == true && mounted) {
-                            ref
-                                .read(
-                                  ownerMenusProvider(
-                                    _selectedBusinessId,
-                                  ).notifier,
-                                )
-                                .refresh();
-                            ScaffoldMessenger.of(this.context).showSnackBar(
-                              const SnackBar(content: Text('Menü güncellendi')),
-                            );
-                          }
-                        },
-                        onArchive: () => _archiveMenu(menu),
-                        onPublish: menu.status == 'published'
-                            ? null
-                            : () => _publishMenu(menu),
+                  return [
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      sliver: SliverToBoxAdapter(
+                        child: _EmptyBox(message: l10n.ownerMenuNotFound),
                       ),
-                      const SizedBox(height: 8),
-                    ],
-                  ],
-                );
+                    ),
+                  ];
+                }
+                return [
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          _QuickQrCard(
+                            onOpenQrStudio: () => _openQrStudio(selectedBusinessId),
+                            onOpenPublicMenu: () => _openPublicMenu(
+                              selectedBusinessId,
+                              publicSlug: selectedBusiness?.publicSlug,
+                              slug: selectedBusiness?.slug,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final menu = menus[index];
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: index == menus.length - 1 ? 0 : 8,
+                          ),
+                          child: MenuListTile(
+                            menu: menu,
+                            onEdit: () async {
+                              final updated = await Navigator.of(context)
+                                  .push<bool>(
+                                    MaterialPageRoute(
+                                      builder: (_) => DeferredPageLoader(
+                                        loadLibrary:
+                                            owner_menu_editor_page.loadLibrary,
+                                        fullscreen: true,
+                                        builder: (_) =>
+                                            owner_menu_editor_page.OwnerMenuEditorPage(
+                                              menu: menu,
+                                            ),
+                                      ),
+                                    ),
+                                  );
+                              if (updated == true && mounted) {
+                                ref
+                                    .read(
+                                      ownerMenusProvider(
+                                        selectedBusinessId,
+                                      ).notifier,
+                                    )
+                                    .refresh();
+                                ScaffoldMessenger.of(this.context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(l10n.ownerMenuUpdated),
+                                  ),
+                                );
+                              }
+                            },
+                            onArchive: () => _archiveMenu(menu),
+                            onPublish: menu.status == 'published'
+                                ? null
+                                : () => _publishMenu(menu),
+                          ),
+                        );
+                      }, childCount: menus.length),
+                    ),
+                  ),
+                ];
               },
             ),
+            const SliverToBoxAdapter(child: SizedBox(height: 24)),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _selectedBusinessId.isEmpty ? null : _openCreateMenuSheet,
+        onPressed: selectedBusinessId.isEmpty ? null : _openCreateMenuSheet,
         icon: const Icon(Icons.add),
-        label: const Text('Yeni menü oluştur'),
+        label: Text(l10n.ownerCreateMenuAction),
       ),
     );
   }
 
   Future<void> _openCreateMenuSheet() async {
+    final l10n = context.l10n;
+    final businessId = _currentBusinessId();
+    if (businessId.isEmpty) return;
     final titleCtrl = TextEditingController();
     final kindCtrl = TextEditingController();
     final res = await showModalBottomSheet<bool>(
@@ -254,26 +371,28 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Yeni menü',
+              Text(
+                l10n.ownerCreateMenuTitle,
                 style: TextStyle(fontWeight: FontWeight.w900),
               ),
               const SizedBox(height: 10),
               TextField(
                 controller: titleCtrl,
-                decoration: const InputDecoration(labelText: 'Başlık'),
+                decoration: InputDecoration(labelText: l10n.title),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: kindCtrl,
-                decoration: const InputDecoration(labelText: 'Tür (opsiyonel)'),
+                decoration: InputDecoration(
+                  labelText: l10n.ownerMenuTypeOptional,
+                ),
               ),
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () => Navigator.pop(ctx, true),
-                  child: const Text('Oluştur'),
+                  child: Text(l10n.ownerCreateAction),
                 ),
               ),
             ],
@@ -283,9 +402,7 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
     );
     if (res != true) return;
     try {
-      final controller = ref.read(
-        ownerMenusProvider(_selectedBusinessId).notifier,
-      );
+      final controller = ref.read(ownerMenusProvider(businessId).notifier);
       await controller.createMenu(
         title: titleCtrl.text.trim(),
         kind: kindCtrl.text.trim(),
@@ -294,7 +411,9 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Menü oluşturuldu')));
+        ).showSnackBar(
+          SnackBar(content: Text(l10n.ownerMenuCreated)),
+        );
       }
     } catch (e) {
       _showError(e);
@@ -305,113 +424,102 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
   }
 
   Future<void> _archiveMenu(OwnerMenu menu) async {
-    final ok = await _confirm(context, 'Menüyü arşivlemek istiyor musun?');
+    final businessId = _currentBusinessId();
+    if (businessId.isEmpty) return;
+    final ok = await _confirm(context, context.l10n.ownerArchiveMenuConfirm);
     if (!ok) return;
     try {
-      await ref
-          .read(ownerMenusProvider(_selectedBusinessId).notifier)
-          .archiveMenu(menuId: menu.id);
-      invalidateMenu(ref, businessId: _selectedBusinessId, menuId: menu.id);
+      await ref.read(ownerMenusProvider(businessId).notifier).archiveMenu(
+            menuId: menu.id,
+          );
+      invalidateMenu(ref, businessId: businessId, menuId: menu.id);
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Menü arşivlendi')));
+        ).showSnackBar(
+          SnackBar(content: Text(context.l10n.ownerMenuArchived)),
+        );
       }
     } catch (e) {
       _showError(e);
     }
   }
 
-  Future<void> _openQrWizard(List<OwnerMenu> menus) async {
-    final published = menus.where((m) => m.status == 'published').toList();
-    final candidates = published.isNotEmpty ? published : menus;
-    final selected = await showModalBottomSheet<OwnerMenu>(
-      context: context,
-      showDragHandle: true,
-      builder: (ctx) {
-        var selectedId = candidates.first.id;
-        return StatefulBuilder(
-          builder: (ctx, setModalState) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'QR menü Oluştur / Yazdir',
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
-                  ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    'Menü seç, tek adımda QR panelini aç.',
-                    style: TextStyle(color: AppColors.muted),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedId,
-                    items: [
-                      for (final menu in candidates)
-                        DropdownMenuItem(
-                          value: menu.id,
-                          child: Text(
-                            menu.status == 'published'
-                                ? '${menu.title} (Yayında)'
-                                : menu.title,
-                          ),
-                        ),
-                    ],
-                    onChanged: (value) {
-                      if (value == null) return;
-                      setModalState(() => selectedId = value);
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton.icon(
-                      onPressed: () {
-                        final picked = candidates.firstWhere(
-                          (m) => m.id == selectedId,
-                          orElse: () => candidates.first,
-                        );
-                        Navigator.of(ctx).pop(picked);
-                      },
-                      icon: const Icon(Icons.qr_code_2_outlined),
-                      label: const Text('QR panelini aç'),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-    if (selected == null || !mounted) return;
-    final updated = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (_) =>
-            OwnerMenuEditorPage(menu: selected, openShareOnStart: true),
+  Future<void> _openPublicMenu(
+    String businessId, {
+    String? publicSlug,
+    String? slug,
+  }) async {
+    final uri = Uri.parse(
+      buildPublicMenuUrl(
+        businessId: businessId,
+        businessPublicSlug: publicSlug,
+        businessSlug: slug,
       ),
     );
-    if (updated == true && mounted) {
-      ref.read(ownerMenusProvider(_selectedBusinessId).notifier).refresh();
+    final launched = await launchUrl(
+      uri,
+      mode: LaunchMode.platformDefault,
+      webOnlyWindowName: '_blank',
+    );
+    if (launched && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerPublicMenuOpenedInNewTab)),
+      );
+    }
+  }
+
+  Future<void> _openQrStudio(String businessId) async {
+    final session = ref.read(supabaseProvider).auth.currentSession;
+    if (session == null) {
+      final uri = Uri.parse(buildQrLoginUrl(businessId: businessId));
+      await _openExternalLink(
+        uri,
+        context.l10n.ownerDigitalMenuOpenedInNewTab,
+      );
+      return;
+    }
+
+    final refreshToken = session.refreshToken;
+    if (refreshToken == null || refreshToken.isEmpty) {
+      final uri = Uri.parse(buildQrMenuUrl(businessId: businessId));
+      await _openExternalLink(
+        uri,
+        context.l10n.ownerDigitalMenuOpenedInNewTab,
+      );
+      return;
+    }
+
+    submitPostRedirect(buildPanelSessionHandoffUrl(), {
+      'access_token': session.accessToken,
+      'refresh_token': refreshToken,
+      'business_id': businessId,
+      'lang': 'tr',
+      'theme': 'bold',
+    }, target: '_blank');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerDigitalMenuOpenedInNewTab)),
+      );
     }
   }
 
   Future<void> _publishMenu(OwnerMenu menu) async {
-    final ok = await _confirm(context, 'Menüyü yayınlamak istiyor musun?');
+    final businessId = _currentBusinessId();
+    if (businessId.isEmpty) return;
+    final ok = await _confirm(context, context.l10n.ownerPublishMenuConfirm);
     if (!ok) return;
     try {
-      await ref
-          .read(ownerMenusProvider(_selectedBusinessId).notifier)
-          .publishMenu(menuId: menu.id);
-      invalidateMenu(ref, businessId: _selectedBusinessId, menuId: menu.id);
+      await ref.read(ownerMenusProvider(businessId).notifier).publishMenu(
+            menuId: menu.id,
+          );
+      invalidateMenu(ref, businessId: businessId, menuId: menu.id);
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Menü yayınlandı')));
+        ).showSnackBar(
+          SnackBar(content: Text(context.l10n.ownerMenuPublished)),
+        );
       }
     } catch (e) {
       _showError(e);
@@ -420,6 +528,7 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
 
   void _showError(Object error) {
     final msg = ownerMenuErrorMessage(
+      context.l10n,
       error,
       fallback: AppErrorMapper.message(error),
     );
@@ -427,56 +536,136 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     }
   }
+
+  String _currentBusinessId() {
+    return ref.read(selectedOwnerBusinessIdProvider) ?? '';
+  }
+
+  Future<void> _openExternalLink(Uri uri, String successMessage) async {
+    final launched = await launchUrl(
+      uri,
+      mode: LaunchMode.platformDefault,
+      webOnlyWindowName: '_blank',
+    );
+    if (launched && mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(successMessage)));
+    }
+  }
 }
 
-class _QuickQrCard extends StatelessWidget {
-  const _QuickQrCard({required this.onOpenWizard});
+OwnerBusiness? _findOwnerBusiness(
+  List<OwnerBusiness> businesses,
+  String businessId,
+) {
+  for (final business in businesses) {
+    if (business.businessId == businessId) return business;
+  }
+  return null;
+}
 
-  final VoidCallback onOpenWizard;
+class _DigitalMenuStudioCard extends StatelessWidget {
+  const _DigitalMenuStudioCard({
+    required this.onOpenQrStudio,
+    required this.onOpenPublicMenu,
+  });
+
+  final VoidCallback onOpenQrStudio;
+  final VoidCallback onOpenPublicMenu;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 42,
-              height: 42,
-              decoration: BoxDecoration(
-                color: AppColors.primarySoft,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Icon(
-                Icons.qr_code_2_outlined,
-                color: AppColors.textStrong,
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'QR menü',
-                    style: TextStyle(fontWeight: FontWeight.w900),
+            Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: AppColors.primarySoft,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  SizedBox(height: 2),
-                  Text(
-                    'Oluştur, indir ve yazdir.',
-                    style: TextStyle(color: AppColors.muted, fontSize: 12),
+                  child: const Icon(
+                    Icons.qr_code_2_outlined,
+                    color: AppColors.textStrong,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.l10n.ownerDigitalMenuStudioTitle,
+                        style: TextStyle(fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(height: 2),
+                      Text(
+                        context.l10n.ownerDigitalMenuStudioSubtitle,
+                        style: TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            FilledButton.tonal(
-              onPressed: onOpenWizard,
-              child: const Text('Başlat'),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                Tooltip(
+                  message: context.l10n.ownerDigitalMenuQrOpenStudioTooltip,
+                  child: OutlinedButton.icon(
+                    onPressed: onOpenQrStudio,
+                    icon: const Icon(Icons.qr_code_2_outlined),
+                    label: Text(
+                      context.l10n.ownerDigitalMenuQrOpenStudioAction,
+                    ),
+                  ),
+                ),
+                Tooltip(
+                  message: context.l10n.ownerDigitalMenuOpenPublicMenuTooltip,
+                  child: FilledButton.icon(
+                    onPressed: onOpenPublicMenu,
+                    icon: const Icon(Icons.open_in_new),
+                    label: Text(
+                      context.l10n.ownerDigitalMenuOpenPublicMenuAction,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _QuickQrCard extends StatelessWidget {
+  const _QuickQrCard({
+    required this.onOpenQrStudio,
+    required this.onOpenPublicMenu,
+  });
+
+  final VoidCallback onOpenQrStudio;
+  final VoidCallback onOpenPublicMenu;
+
+  @override
+  Widget build(BuildContext context) {
+    return _DigitalMenuStudioCard(
+      onOpenQrStudio: onOpenQrStudio,
+      onOpenPublicMenu: onOpenPublicMenu,
     );
   }
 }
@@ -495,11 +684,12 @@ class _OwnerAmenitiesSectionState
   final Set<String> _selectedKeys = {};
   Object? _error;
   bool _saving = false;
+  ProviderSubscription<AsyncValue<List<BusinessAmenity>>>? _amenitiesSub;
 
   @override
   void initState() {
     super.initState();
-    ref.listen<AsyncValue<List<BusinessAmenity>>>(
+    _amenitiesSub = ref.listenManual<AsyncValue<List<BusinessAmenity>>>(
       businessAmenitiesProvider(widget.businessId),
       (prev, next) {
         next.whenData((items) {
@@ -511,7 +701,14 @@ class _OwnerAmenitiesSectionState
           });
         });
       },
+      fireImmediately: true,
     );
+  }
+
+  @override
+  void dispose() {
+    _amenitiesSub?.close();
+    super.dispose();
   }
 
   @override
@@ -525,8 +722,8 @@ class _OwnerAmenitiesSectionState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Özellikler',
+            Text(
+              context.l10n.ownerAmenitiesTitle,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 6),
@@ -570,7 +767,9 @@ class _OwnerAmenitiesSectionState
                       width: double.infinity,
                       child: FilledButton(
                         onPressed: _saving ? null : _save,
-                        child: Text(_saving ? 'Kaydediliyor...' : 'Kaydet'),
+                        child: Text(
+                          _saving ? context.l10n.saving : context.l10n.save,
+                        ),
                       ),
                     ),
                   ],
@@ -599,11 +798,163 @@ class _OwnerAmenitiesSectionState
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Özellikler güncellendi')));
+      ).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerAmenitiesUpdated)),
+      );
     } catch (e) {
       setState(() => _error = e);
     } finally {
       if (mounted) setState(() => _saving = false);
+    }
+  }
+}
+
+class _OwnerMealCardProvidersSection extends ConsumerStatefulWidget {
+  const _OwnerMealCardProvidersSection({
+    super.key,
+    required this.businessId,
+  });
+
+  final String businessId;
+
+  @override
+  ConsumerState<_OwnerMealCardProvidersSection> createState() =>
+      _OwnerMealCardProvidersSectionState();
+}
+
+class _OwnerMealCardProvidersSectionState
+    extends ConsumerState<_OwnerMealCardProvidersSection> {
+  final Set<String> _selectedKeys = {};
+  Object? _error;
+  bool _saving = false;
+  ProviderSubscription<AsyncValue<List<MealCardProviderOption>>>?
+  _mealCardsSub;
+
+  @override
+  void initState() {
+    super.initState();
+    _mealCardsSub = ref.listenManual<AsyncValue<List<MealCardProviderOption>>>(
+      businessMealCardProvidersProvider(widget.businessId),
+      (prev, next) {
+        next.whenData((items) {
+          if (!mounted) return;
+          setState(() {
+            _selectedKeys
+              ..clear()
+              ..addAll(items.map((item) => item.key));
+          });
+        });
+      },
+      fireImmediately: true,
+    );
+  }
+
+  @override
+  void dispose() {
+    _mealCardsSub?.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final allMealCardsAsync = ref.watch(allMealCardProvidersProvider);
+    ref.watch(businessMealCardProvidersProvider(widget.businessId));
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Geçerli Yemek Kartları',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              'Kullanıcıların işletmenizde kullanabileceği yemek kartlarını seçin.',
+              style: TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+            if (_error != null) ...[
+              const SizedBox(height: 6),
+              Text(
+                AppErrorMapper.message(_error),
+                style: const TextStyle(color: AppColors.danger),
+              ),
+            ],
+            const SizedBox(height: 6),
+            allMealCardsAsync.when(
+              loading: () => const _OwnerAmenitiesSkeleton(),
+              error: (error, _) => Text(
+                AppErrorMapper.message(error),
+                style: const TextStyle(color: AppColors.danger),
+              ),
+              data: (items) {
+                if (items.isEmpty) return const SizedBox.shrink();
+                return Column(
+                  children: [
+                    for (final item in items)
+                      CheckboxListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        value: _selectedKeys.contains(item.key),
+                        onChanged: (value) {
+                          setState(() {
+                            if (value == true) {
+                              _selectedKeys.add(item.key);
+                            } else {
+                              _selectedKeys.remove(item.key);
+                            }
+                          });
+                        },
+                        title: Text(
+                          item.name,
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    const SizedBox(height: 6),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: _saving ? null : _save,
+                        child: Text(
+                          _saving ? context.l10n.saving : context.l10n.save,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _save() async {
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(businessMealCardProvidersRepositoryProvider)
+          .updateBusinessProviders(
+            businessId: widget.businessId,
+            providerKeys: _selectedKeys.toList(growable: false),
+          );
+      ref.invalidate(businessMealCardProvidersProvider(widget.businessId));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Yemek kartları güncellendi.')),
+      );
+    } catch (error) {
+      setState(() => _error = error);
+    } finally {
+      if (mounted) {
+        setState(() => _saving = false);
+      }
     }
   }
 }
@@ -619,6 +970,27 @@ class _OwnerAmenitiesSkeleton extends StatelessWidget {
         (i) => const Padding(
           padding: EdgeInsets.only(bottom: 6),
           child: _SkeletonCard(),
+        ),
+      ),
+    );
+  }
+}
+
+class _SkeletonCard extends StatelessWidget {
+  const _SkeletonCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(height: 10, color: AppColors.card),
+            const SizedBox(height: 6),
+            Container(height: 10, width: 160, color: AppColors.card),
+          ],
         ),
       ),
     );
@@ -648,27 +1020,29 @@ class _OwnerProfileScoreCard extends ConsumerWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Profil Tamamlama',
+                Text(
+                  context.l10n.ownerProfileCompletionTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 8),
                 LinearProgressIndicator(value: progress),
                 const SizedBox(height: 8),
                 Text(
-                  '%$pct tamamlandı',
+                  context.l10n.ownerProfileCompletionPercent(pct),
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 10),
                 FilledButton(
                   onPressed: isComplete
                       ? () => ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Sponsor talepleri yakinda.'),
+                          SnackBar(
+                            content: Text(
+                              context.l10n.ownerSponsoredRequestsSoon,
+                            ),
                           ),
                         )
                       : null,
-                  child: const Text('Sponsorlu görünürlük al'),
+                  child: Text(context.l10n.ownerSponsoredVisibilityAction),
                 ),
               ],
             );
@@ -699,82 +1073,6 @@ class _OwnerProfileScoreSkeleton extends StatelessWidget {
   }
 }
 
-class _BusinessSelector extends StatelessWidget {
-  const _BusinessSelector({
-    required this.items,
-    required this.selectedId,
-    required this.onChanged,
-  });
-
-  final List<OwnerClaimItem> items;
-  final String selectedId;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Text('İşletme:', style: TextStyle(fontWeight: FontWeight.w700)),
-        const SizedBox(width: 10),
-        Expanded(
-          child: DropdownButtonFormField<String>(
-            initialValue: selectedId.isEmpty ? null : selectedId,
-            items: [
-              for (final item in items)
-                DropdownMenuItem(
-                  value: item.claim.businessId,
-                  child: Text(item.businessName),
-                ),
-            ],
-            onChanged: (value) {
-              if (value == null) return;
-              onChanged(value);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _OwnerMenusSkeleton extends StatelessWidget {
-  const _OwnerMenusSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        3,
-        (i) => const Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: _SkeletonCard(),
-        ),
-      ),
-    );
-  }
-}
-
-class _SkeletonCard extends StatelessWidget {
-  const _SkeletonCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(height: 10, color: AppColors.card),
-            const SizedBox(height: 6),
-            Container(height: 10, width: 160, color: AppColors.card),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _EmptyBox extends StatelessWidget {
   const _EmptyBox({required this.message});
   final String message;
@@ -782,9 +1080,11 @@ class _EmptyBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
-      child: Center(
-        child: Text(message, style: const TextStyle(color: AppColors.muted)),
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: OwnerPanelFeedback.empty(
+        icon: Icons.inbox_outlined,
+        title: context.l10n.ownerMenuManagementTitle,
+        description: message,
       ),
     );
   }
@@ -799,17 +1099,10 @@ class _ErrorBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(color: AppColors.danger),
-            ),
-          ),
-          const SizedBox(width: 8),
-          OutlinedButton(onPressed: onRetry, child: const Text('Tekrar dene')),
-        ],
+      child: OwnerPanelFeedback.error(
+        title: context.l10n.ownerMenuManagementTitle,
+        description: message,
+        onRetry: onRetry,
       ),
     );
   }
@@ -819,16 +1112,16 @@ Future<bool> _confirm(BuildContext context, String message) async {
   final res = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: const Text('Emin misin?'),
+      title: Text(context.l10n.ownerAreYouSure),
       content: Text(message),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: const Text('Vazgeç'),
+          child: Text(context.l10n.cancel),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(ctx, true),
-          child: const Text('Onayla'),
+          child: Text(context.l10n.ownerConfirm),
         ),
       ],
     ),

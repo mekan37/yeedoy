@@ -16,6 +16,6 @@ Map<String, Object?> withRequestTrace(
 
 String createRequestId({String prefix = 'req'}) {
   final now = DateTime.now().microsecondsSinceEpoch;
-  final rnd = Random().nextInt(1 << 32);
+  final rnd = Random().nextDouble().toString().split('.').last.padRight(8, '0');
   return '$prefix-$now-$rnd';
 }

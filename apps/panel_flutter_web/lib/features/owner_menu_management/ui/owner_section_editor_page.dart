@@ -598,6 +598,7 @@ class _OwnerSectionEditorPageState
 
   void _showError(Object error) {
     final msg = ownerMenuErrorMessage(
+      context.l10n,
       error,
       fallback: AppErrorMapper.message(error),
     );

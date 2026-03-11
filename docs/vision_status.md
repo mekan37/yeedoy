@@ -1,85 +1,59 @@
 # Yeedoy Vizyon Uyum Raporu (Kod Tabanli)
 
-Tarih: 2026-02-27  
-Kapsam: Sadece `C:\yeedoy` altindaki mevcut kod ve birinci parti dokumanlar (`node_modules` ve `.next` haric).
+Tarih: 2026-03-06  
+Kapsam: `C:\yeedoy` altindaki mevcut kod ve canli Supabase schema kesfi.
 
 ## Kisa Sonuc
 
-Yeedoy, kod tabanina gore sadece QR menu degil; fiyat dogrulama + topluluk katki + canli menu sistemi olarak konumlanabilecek durumda. Cekirdek mekaniklerin buyuk bolumu mobilde ve Supabase katmaninda var. Public web tarafinda seffaflik katmani, item bazli fiyat gecmisi ve son kanit kayitlariyla guclendirildi.
+Yeedoy kod tabani, mobilde kesif + seffaflik + topluluk katkisi; panelde owner/admin operasyonlari; Next tarafinda ise public QR menu dagitimi olarak netlesmis durumda. Son turda `apps/web_next`, slug merkezli canonical public menu ve backward-compatible QR/public link modeliyle sertlestirildi.
+
+## Kritik Kesif Sonucu
+
+- `public.businesses.public_slug` migration ile tanimlandi ve canonical public link uretiminde kullaniliyor.
+- Public URL modeli artik `public_slug -> slug -> businessId` fallback zinciriyle kuruluyor.
+- Public read RLS su tablolar icin mevcut: `businesses`, `menus`, `menu_categories`, `menu_items`, `menu_sections`, `menu_item_variants`, `menu_item_photos`, `menu_translations`, `business_media`.
+- Web analytics yazimi icin `log_event_v1` RPC kullanilabiliyor.
 
 ## Vizyon-Durum Matrisi
 
 | Vizyon Basligi | Durum | Kod Kaniti | Not |
 |---|---|---|---|
-| Fiyat dogrulama ve guven | Guclu | `apps/mobile_flutter/lib/features/menus/data/menu_repository.dart`, `apps/mobile_flutter/lib/features/menus/ui/menu_item_page.dart`, `supabase/migrations/20260313_000001_menu_price_confidence.sql`, `supabase/migrations/20260322000012_data_quality_engine.sql` | Fiyat statusu, history, confidence, suggestion akislari var. |
-| Seffaflik (fiyat gecmisi, son guncelleme, dogrulama izi) | Guclu (mobil+web) | `apps/mobile_flutter/lib/features/business/ui/business_page.dart`, `apps/mobile_flutter/lib/features/discovery/data/discovery_repository.dart`, `apps/web_next/app/(public)/b/[slug]/page.tsx`, `apps/web_next/src/ui/sections/public-menu-client.tsx` | Web public sayfada son guncelleme + confidence + 90 gun trend ozeti + item bazli fiyat gecmisi + son kanit kayitlari var. |
-| Canli menu (kategori, filtre, gorsel, QR erisim) | Guclu | `apps/web_next/src/ui/sections/public-menu-client.tsx`, `apps/web_next/app/api/qr/route.tsx`, `apps/web_next/app/q/[code]/page.tsx`, `apps/mobile_flutter/lib/features/contribute/ui/contribute_entry.dart` | QR uretim + menu render + mobil QR parse mevcut. |
+| Fiyat dogrulama ve guven | Guclu | `apps/mobile_flutter/lib/features/menus/data/menu_repository.dart`, `apps/mobile_flutter/lib/features/menus/ui/menu_item_page.dart`, `supabase/migrations/20260313_000001_menu_price_confidence.sql`, `supabase/migrations/20260322000012_data_quality_engine.sql` | Fiyat statusu, history, confidence, suggestion akislari mobil ve backend tarafinda var. |
+| Seffaflik (fiyat gecmisi, son guncelleme, dogrulama izi) | Guclu | `apps/mobile_flutter/lib/features/business/ui/business_page.dart`, `apps/mobile_flutter/lib/features/discovery/data/discovery_repository.dart`, `apps/web_next/src/ui/sections/public-menu-client.tsx`, `apps/web_next/src/lib/public-menu-page.ts` | Web public sayfa canonical `public_slug` route'u ile render oluyor; eski UUID linkleri redirect ile korunuyor. |
+| Canli menu (kategori, filtre, gorsel, QR erisim) | Guclu | `apps/web_next/app/(public)/m/[slug]/page.tsx`, `apps/web_next/app/(public)/m/[slug]/c/[categoryId]/page.tsx`, `apps/web_next/app/(public)/m/[slug]/i/[itemId]/page.tsx`, `apps/web_next/app/q/[code]/route.ts` | Public menu, kategori ve urun detay route'lari aktif. Dosya klasoru `[slug]` olsa da davranis canonical slug merkezlidir. |
 | Topluluk katkisi (fiyat guncelleme, raporlama, onay) | Guclu | `apps/mobile_flutter/lib/features/contribute/ui/contribute_entry.dart`, `apps/mobile_flutter/lib/features/menus/ui/components/verify_price_bottom_sheet.dart`, `apps/panel_flutter_web/lib/features/admin/ui/admin_price_suggestions_page.dart` | Katki ve moderasyon zinciri kurulu. |
 | Guclu kesif (sehir/ilce, trend, favori, profil) | Guclu | `apps/mobile_flutter/lib/features/discovery/ui/discovery_page.dart`, `apps/mobile_flutter/lib/features/favorites/ui/favorites_page.dart`, `apps/mobile_flutter/lib/features/profile/ui/profile_page.dart` | Kesif ve favori/profil omurgasi aktif. |
-| Isletme paneli + QR olusturma | Guclu | `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/menu/page.tsx`, `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/qr/page.tsx`, `apps/web_next/app/api/qr/route.tsx` | Isletme icin menu+QR akisi calisiyor. |
-| Admin paneli | Guclu (Flutter panel) / Yonlendirme (Next) | `apps/panel_flutter_web/lib/app_admin.dart`, `apps/panel_flutter_web/lib/features/admin/ui/*`, `apps/web_next/app/admin/page.tsx`, `apps/web_next/src/lib/panelUrl.ts` | Next `admin/owner/menu-builder` route'lari panel webe yonlenir; admin operasyonun tek kaynagi Flutter webdir. |
-| Panel web giris/landing (normal hosting) | Guclu | `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/features/marketing/ui/web_home_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`, `apps/panel_flutter_web/lib/features/auth/ui/business_register_page.dart` | `/` landing + `/isletme-giris` + `/isletme-kayit` + owner/admin role bazli yonlendirme aktif; panel kapsam disi route'lar kaldirildi. |
-| Gozlemlenebilirlik (monitoring/perf/prefs UI) | Gelisiyor | `apps/panel_flutter_web/lib/features/admin/ui/admin_observability_page.dart`, `apps/panel_flutter_web/lib/core/monitoring/request_trace.dart`, `apps/panel_flutter_web/lib/core/perf/perf_slo.dart`, `apps/panel_flutter_web/lib/core/storage/*` | Admin panelde request trace + perf SLO + prefs explorer tani ekrani eklendi. |
-| Test kapsami dengesi | Gelisiyor | `apps/mobile_flutter/test/*`, `apps/mobile_flutter/integration_test/*`, `apps/panel_flutter_web/test/*`, `apps/panel_flutter_web/integration_test/*`, `apps/web_next/test/*`, `apps/web_next/e2e/*`, `apps/web_next/package.json` | Next tarafinda component + API route unit + e2e smoke testleri var. Panelde integration_test iskeleti var ancak calistirma hedefi eksik. |
-| Dokuman ve guvenlik hijyeni | Gelisiyor | `apps/web_next/.env.example`, `apps/panel_flutter_web/.env.example`, `docs/deploy.md`, `tools/l10n_audit.mjs`, `apps/mobile_flutter/lib/l10n/app_en.arb`, `apps/mobile_flutter/lib/l10n/app_tr.arb` | L10n mojibake temizlendi ve audit'e otomatik kontrol eklendi. Web env example placeholder formatina cekildi. Panel+Next production domain/env sozlesmesi dokumanlandi. |
+| Public QR menu dagitimi | Guclu | `apps/web_next/app/qr/[businessId]/page.tsx`, `apps/web_next/app/auth/panel-handoff/route.ts`, `apps/web_next/src/ui/sections/qr-generator.tsx`, `apps/web_next/src/lib/short-code.ts` | QR olusturma Next'te; sayfa artik login + business yetkisi kontrollu. |
+| Isletme paneli + CRUD | Guclu (Flutter panel) | `apps/panel_flutter_web/lib/app/router.dart`, `apps/panel_flutter_web/lib/features/*` | Owner/admin write akislari Next'e tasinmadi. |
+| Admin paneli | Guclu (Flutter panel) | `apps/panel_flutter_web/lib/app_admin.dart`, `apps/panel_flutter_web/lib/features/admin/ui/*` | Operasyon tek kaynak olarak panel uygulamasinda. |
+| Gozlemlenebilirlik | Gelisiyor | `apps/web_next/app/api/track/route.ts`, `apps/web_next/middleware.ts`, `apps/panel_flutter_web/lib/features/admin/ui/admin_observability_page.dart` | Public tarafta sade analytics var; merkezi dashboard yok. |
+| Test kapsami dengesi | Guclu | `apps/web_next/test/*`, `apps/web_next/e2e/*`, `apps/web_next/package.json`, `apps/mobile_flutter/test/*`, `apps/panel_flutter_web/test/*` | Next tarafinda typecheck + lint + build + unit + e2e geciyor; opsiyonel live smoke test de var. |
+| Dokuman ve guvenlik hijyeni | Gelisiyor | `apps/web_next/README.md`, `apps/web_next/.env.example`, `docs/deploy.md`, `docs/apps.md` | Web app kapsami ve env sozlesmesi guncellendi. |
 
-## P0 Uygulama Durumu (2026-02-27)
+## Durum Notu
 
-1. Tamamlandi: L10n mojibake temizligi yapildi (`app_en.arb`, `app_tr.arb`, generated dosyalar).
-2. Tamamlandi: `tools/l10n_audit.mjs` icine mojibake marker kontrolu eklendi.
-3. Tamamlandi: Web public `/b/[slug]` sayfasina seffaflik ozeti eklendi (son guncelleme, confidence, 90 gun trend).
-4. Tamamlandi: `apps/web_next/.env.example` degerleri placeholder formatina cekildi.
+Bu dosya backlog veya ayrintili tamamlanan is listesi tutmaz. Son snapshot'a giren tarihsel release detaylari icin:
 
-## Yapilmasi Gerekenler (P0/P1/P2)
+- `docs/release_index.md`
 
-### P0
+Acik ve sonraki adim listesi icin:
 
-- Acik P0 kalmadi.
+- `docs/roadmap.md`
 
-### P1
+## Yapilacaklarin Kaynagi
 
-- [x] `panel_flutter_web` icin deep-link testleri ve yetki-hata UX sertlestirmesi.
-  - Kod: `apps/panel_flutter_web/lib/features/auth/domain/business_auth_redirect.dart`
-  - Uygulama: `apps/panel_flutter_web/lib/features/auth/ui/business_login_page.dart`, `apps/panel_flutter_web/lib/app/router.dart`
-  - Test: `apps/panel_flutter_web/test/web/auth/business_auth_redirect_test.dart`, `apps/panel_flutter_web/test/web/security/route_sanitizer_test.dart`, `apps/panel_flutter_web/test/web/security/admin_permissions_test.dart`
-- [x] Next `admin/owner/menu-builder` stratejisi netlestirildi: Flutter panel tek kaynak.
-  - Next yonlendirme: `apps/web_next/app/admin/page.tsx`, `apps/web_next/app/owner/page.tsx`, `apps/web_next/app/menu-builder/page.tsx`
-  - Ortak panel URL helper: `apps/web_next/src/lib/panelUrl.ts`
-  - Middleware sadeleme: `apps/web_next/middleware.ts` (korunan route yalnizca `/dashboard`)
-- [x] Next tarafina birim/smoke ustu test katmani eklendi (component + API route).
-  - Test altyapisi: `apps/web_next/vitest.config.ts`, `apps/web_next/vitest.setup.ts`
-  - Component testi: `apps/web_next/test/ui/button.test.tsx`
-  - API route testi: `apps/web_next/test/api/businesses-route.test.ts`
-  - Script guncellemesi: `apps/web_next/package.json` (`test:unit`, `test`)
-- [x] Next tarafina Playwright e2e smoke testi eklendi.
-  - Konfig: `apps/web_next/playwright.config.ts`
-  - Test: `apps/web_next/e2e/auth-and-routing.spec.ts`
-  - Script guncellemesi: `apps/web_next/package.json` (`test:e2e`)
-- [x] `supabase/remote_schema.sql` ve `supabase/remote_schema_latest.sql` dosyalari migration-derived snapshot ile dolduruldu.
-- [x] Web public menude item bazli fiyat gecmisi/kanit paneli eklendi.
-  - Kod: `apps/web_next/app/(public)/b/[slug]/page.tsx`
-- [x] `panel_flutter_web` icin integration_test iskeleti eklendi.
-  - Kod: `apps/panel_flutter_web/integration_test/app_smoke_test.dart`
-  - Not: Webde `integration_test` destegi olmadigi ve panel projesinde desktop hedefi bulunmadigi icin dogrudan kosulamiyor.
+Acik ve sonraki adim listesi bu dokumanda tutulmaz. Tek backlog kaynagi:
 
-- Acik P1 kalmadi.
+- `docs/roadmap.md`
 
-### P2
-
-- [x] Monitoring/perf/prefs icin daha gorunur tani ekranlari eklendi.
-  - Route: `apps/panel_flutter_web/lib/app/router.dart` (`/admin/observability`)
-  - Ekran: `apps/panel_flutter_web/lib/features/admin/ui/admin_observability_page.dart`
-- [x] `qr_menu_next/` artifact klasoru kaldirildi.
-- [x] `packages/shared` klasoru kaldirildi (aktif kod importu yoktu; `apps/web_next/src/shared/*` aktif olarak kullaniliyor).
-- [x] Root build/clean scriptleri cross-platform hale getirildi.
-  - Script helper: `tools/workspace_ops.mjs`
-  - Script guncellemesi: `package.json` (`clean`, `build:owner`, `build:admin`, `build:next`, `build:all`)
-- [x] Panel + Next production domain/env sozlesmesi dokumani eklendi.
-  - Dokuman: `docs/deploy.md` (`Domain ve ENV Sozlesmesi` bolumu)
-  - Kod kanitlari: `apps/panel_flutter_web/lib/shared/bootstrap/web_bootstrap.dart`, `apps/web_next/src/lib/supabase*.ts`, `apps/web_next/src/lib/panelUrl.ts`
-
-- Acik P2 kalmadi.
+Bu dosya yalnizca mevcut durum ve kod kaniti raporu olarak kalir.
 
 ## Koda Dayali Genel Degerlendirme
 
-Yeedoy'un bugunku kodu, "fiyat seffafligi + topluluk dogrulama + canli QR menu" vizyonuna temel urun seviyesinde yakindir. En buyuk aciklar, Next panel route'larinin Flutter panel redirect yapisinda kalmasi ve panel integration_test calisma hedefinin henuz tamamlanmamis olmasidir.
+Yeedoy'un bugunku ayrimi nettir:
+
+- Mobil: kesif, seffaflik, katkı
+- Panel: owner/admin operasyonu
+- Next: public QR menu dagitimi
+
+Bu ayrim performans, RLS ve urun kapsam acisindan daha temizdir. Next tarafindaki ana risk CRUD degil; canli schema degisimlerinin public route sozlesmesine etkisidir.

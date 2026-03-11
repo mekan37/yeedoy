@@ -8,8 +8,8 @@ class AuthService {
     await client.auth.signInWithPassword(email: email, password: password);
   }
 
-  Future<void> signUpWithEmail(String email, String password) async {
-    await client.auth.signUp(email: email, password: password);
+  Future<AuthResponse> signUpWithEmail(String email, String password) async {
+    return client.auth.signUp(email: email, password: password);
   }
 
   Future<void> signOut() async {

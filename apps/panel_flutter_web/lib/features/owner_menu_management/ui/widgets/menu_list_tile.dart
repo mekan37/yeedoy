@@ -35,7 +35,10 @@ class MenuListTile extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.w900),
                   ),
                 ),
-                _StatusChip(label: menu.status, color: statusColor),
+                _StatusChip(
+                  label: _statusLabel(context, menu.status),
+                  color: statusColor,
+                ),
               ],
             ),
             const SizedBox(height: 6),
@@ -114,4 +117,17 @@ String _activeRange(BuildContext context, String? from, String? to) {
   final safeFrom = (from ?? '').isEmpty ? '-' : from!;
   final safeTo = (to ?? '').isEmpty ? '-' : to!;
   return context.l10n.ownerActiveRange(safeFrom, safeTo);
+}
+
+String _statusLabel(BuildContext context, String status) {
+  switch (status) {
+    case 'published':
+      return context.l10n.ownerStatusPublished;
+    case 'draft':
+      return context.l10n.ownerStatusDraft;
+    case 'archived':
+      return context.l10n.ownerStatusArchived;
+    default:
+      return status;
+  }
 }

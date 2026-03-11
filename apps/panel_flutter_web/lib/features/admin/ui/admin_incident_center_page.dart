@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/admin_incident_repository.dart';
 
 class AdminIncidentCenterPage extends ConsumerStatefulWidget {
@@ -34,17 +35,18 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ListView(
         children: [
-          const Text(
-            'Kriz Müdahale Merkezi',
+          Text(
+            l10n.adminIncidentCenterTitle,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Sahte işletme, yanlış fiyat ve medya krizleri için hızlı panel.',
+          Text(
+            l10n.adminIncidentCenterSubtitle,
             style: TextStyle(color: AppColors.muted),
           ),
           const SizedBox(height: 12),
@@ -79,7 +81,7 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
               }
               final items = snap.data ?? const [];
               if (items.isEmpty) {
-                return const Text('Henüz kayıtlı kriz logu yok.');
+                return Text(l10n.adminIncidentCenterNoLogs);
               }
               return Card(
                 child: Padding(
@@ -87,8 +89,8 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Şeffaf Log',
+                      Text(
+                        l10n.adminIncidentCenterTransparentLogTitle,
                         style: TextStyle(fontWeight: FontWeight.w900),
                       ),
                       const SizedBox(height: 10),
@@ -103,7 +105,7 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
                         Text(item.title),
                         Text(item.summary, style: const TextStyle(color: AppColors.muted)),
                         Text(
-                          'Nasıl düzelttik: ${item.actionTaken}',
+                          l10n.adminIncidentCenterHowFixed(item.actionTaken),
                           style: const TextStyle(color: AppColors.textStrong),
                         ),
                         const Divider(height: 18),
@@ -126,7 +128,9 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
         _actionCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Tüm alanları doldur.')));
+      ).showSnackBar(
+        SnackBar(content: Text(context.l10n.adminIncidentCenterFillAllFields)),
+      );
       return;
     }
     setState(() => _saving = true);
@@ -167,14 +171,15 @@ class _QuickPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Hızlı Müdahale Paneli',
+            Text(
+              l10n.adminIncidentCenterQuickPanelTitle,
               style: TextStyle(fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 8),
@@ -184,19 +189,19 @@ class _QuickPanel extends StatelessWidget {
               children: [
                 OutlinedButton(
                   onPressed: () => onTap('/admin/reports'),
-                  child: const Text('Rapor Kuyruğu'),
+                  child: Text(l10n.adminIncidentCenterReportsQueueAction),
                 ),
                 OutlinedButton(
                   onPressed: () => onTap('/admin/businesses'),
-                  child: const Text('İşletme İncele'),
+                  child: Text(l10n.adminIncidentCenterReviewBusinessAction),
                 ),
                 OutlinedButton(
                   onPressed: () => onTap('/admin/audit'),
-                  child: const Text('Denetim Log'),
+                  child: Text(l10n.adminIncidentCenterAuditLogAction),
                 ),
                 OutlinedButton(
                   onPressed: () => onTap('/guvenlik-durumu'),
-                  child: const Text('Nasıl Düzelttik Ekranı'),
+                  child: Text(l10n.adminIncidentCenterHowWeFixedAction),
                 ),
               ],
             ),
@@ -212,27 +217,28 @@ class _ReadyResponses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
-              'Hazır Cevaplar',
+              l10n.adminIncidentCenterReadyResponsesTitle,
               style: TextStyle(fontWeight: FontWeight.w900),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
-              'Yanlış fiyat: Hata kaydı açıldı, ilgili menü geçici olarak geri plana alındı, doğrulama sonrasi tekrar aktif.',
+              l10n.adminIncidentCenterReadyResponseWrongPrice,
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
-              'Sahte işletme: Kayıt incelemeye alındı, görünürlük düşürüldü, yinelenen/sahte sinyalleri ile otomatik kısıy uygulandı.',
+              l10n.adminIncidentCenterReadyResponseFakeBusiness,
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
-              'Medya senaryosu: Açık zaman çizelgesi yayınlandı, yapılan düzeltmeler ve SLA adımları şeffaf şekilde paylaşıldı.',
+              l10n.adminIncidentCenterReadyResponseMedia,
             ),
           ],
         ),
@@ -268,47 +274,65 @@ class _LogComposer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Şeffaf Log Girdisi',
+            Text(
+              l10n.adminIncidentCenterLogEntryTitle,
               style: TextStyle(fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: incidentKeyCtrl,
-              decoration: const InputDecoration(labelText: 'Olay anahtarı'),
+              decoration: InputDecoration(
+                labelText: l10n.adminIncidentCenterIncidentKeyLabel,
+              ),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: titleCtrl,
-              decoration: const InputDecoration(labelText: 'Başlık'),
+              decoration: InputDecoration(
+                labelText: l10n.adminIncidentCenterTitleLabel,
+              ),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: summaryCtrl,
               maxLines: 2,
-              decoration: const InputDecoration(labelText: 'Ne oldu?'),
+              decoration: InputDecoration(
+                labelText: l10n.adminIncidentCenterWhatHappenedLabel,
+              ),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: actionCtrl,
               maxLines: 2,
-              decoration: const InputDecoration(labelText: 'Nasıl düzelttik?'),
+              decoration: InputDecoration(
+                labelText: l10n.adminIncidentCenterHowDidWeFixLabel,
+              ),
             ),
             const SizedBox(height: 8),
             Row(
               children: [
                 DropdownButton<String>(
                   value: status,
-                  items: const [
-                    DropdownMenuItem(value: 'open', child: Text('open')),
-                    DropdownMenuItem(value: 'mitigated', child: Text('mitigated')),
-                    DropdownMenuItem(value: 'resolved', child: Text('resolved')),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'open',
+                      child: Text(l10n.adminIncidentCenterStatusOpen),
+                    ),
+                    DropdownMenuItem(
+                      value: 'mitigated',
+                      child: Text(l10n.adminIncidentCenterStatusMitigated),
+                    ),
+                    DropdownMenuItem(
+                      value: 'resolved',
+                      child: Text(l10n.adminIncidentCenterStatusResolved),
+                    ),
                   ],
                   onChanged: (v) {
                     if (v != null) onStatusChanged(v);
@@ -317,9 +341,15 @@ class _LogComposer extends StatelessWidget {
                 const SizedBox(width: 16),
                 DropdownButton<String>(
                   value: visibility,
-                  items: const [
-                    DropdownMenuItem(value: 'public', child: Text('public')),
-                    DropdownMenuItem(value: 'internal', child: Text('internal')),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'public',
+                      child: Text(l10n.adminIncidentCenterVisibilityPublic),
+                    ),
+                    DropdownMenuItem(
+                      value: 'internal',
+                      child: Text(l10n.adminIncidentCenterVisibilityInternal),
+                    ),
                   ],
                   onChanged: (v) {
                     if (v != null) onVisibilityChanged(v);
@@ -328,7 +358,11 @@ class _LogComposer extends StatelessWidget {
                 const Spacer(),
                 FilledButton(
                   onPressed: saving ? null : onSave,
-                  child: Text(saving ? 'Kaydediliyor...' : 'Log ekle'),
+                  child: Text(
+                    saving
+                        ? l10n.saving
+                        : l10n.adminIncidentCenterAddLogAction,
+                  ),
                 ),
               ],
             ),

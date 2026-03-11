@@ -14,6 +14,30 @@ void openUrl(String url) {
   html.window.location.assign(url);
 }
 
+void submitPostRedirect(
+  String url,
+  Map<String, String> fields, {
+  String? target,
+}) {
+  final form = html.FormElement()
+    ..method = 'POST'
+    ..action = url
+    ..target = target ?? ''
+    ..style.display = 'none';
+
+  fields.forEach((key, value) {
+    form.append(
+      html.InputElement(type: 'hidden')
+        ..name = key
+        ..value = value,
+    );
+  });
+
+  html.document.body?.append(form);
+  form.submit();
+  form.remove();
+}
+
 void openAppLinkWithFallback({
   required String appUrl,
   required String fallbackUrl,

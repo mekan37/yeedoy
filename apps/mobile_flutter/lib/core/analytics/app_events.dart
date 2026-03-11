@@ -33,7 +33,12 @@ class AppEvents {
   static const homeTtiMs = 'home_tti_ms';
   static const searchLatencyMs = 'search_latency_ms';
   static const businessOpenMs = 'business_open_ms';
+  static const embedOpenMs = 'embed_open_ms';
   static const frameJankRate = 'frame_jank_rate';
+  static const offlineSyncRun = 'offline_sync_run';
+  static const offlineMutationOutcome = 'offline_mutation_outcome';
+  static const connectivityRestored = 'connectivity_restored';
+  static const connectivityStateChange = 'connectivity_state_change';
 
   // Alerting
   static const observabilityAlert = 'observability_alert';

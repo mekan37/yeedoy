@@ -72,6 +72,15 @@ void main() {
         'trust_score': 0.89,
         'median_price_cents': 18000,
         'is_open_now': true,
+        'meal_card_providers': [
+          {
+            'provider_id': 'meal-1',
+            'key': 'multinet',
+            'name': 'MultiNet',
+            'asset_name': 'meal_card_multinet.png',
+            'sort_order': 10,
+          },
+        ],
       };
 
       final model = BusinessCardModel.fromMap(json);
@@ -81,6 +90,8 @@ void main() {
       expect(model.city, 'Ankara');
       expect(model.isOpenNow, isTrue);
       expect(model.medianPriceCents, 18000);
+      expect(model.mealCardProviders, hasLength(1));
+      expect(model.mealCardProviders.first.key, 'multinet');
     });
   });
 }

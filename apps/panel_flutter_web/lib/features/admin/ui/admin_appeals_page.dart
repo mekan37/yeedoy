@@ -86,7 +86,7 @@ class AdminAppealsPage extends ConsumerWidget {
                               _short(item.appellantUserId),
                             ),
                           ),
-                          trailing: Text(item.status),
+                          trailing: Text(_statusLabel(context, item.status)),
                           onTap: () => _openDecisionSheet(
                             context,
                             ref,
@@ -241,5 +241,12 @@ Future<void> _openDecisionSheet(
 String _short(String id) => id.length <= 10
     ? id
     : '${id.substring(0, 6)}...${id.substring(id.length - 4)}';
+
+String _statusLabel(BuildContext context, String status) => switch (status) {
+  'pending' => context.l10n.pending,
+  'approved' => context.l10n.approved,
+  'rejected' => context.l10n.rejected,
+  _ => status,
+};
 
 

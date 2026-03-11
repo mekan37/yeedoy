@@ -6,6 +6,7 @@ class ReleaseMetricsSnapshot {
     required this.homeTtiP95Ms,
     required this.searchHitP95Ms,
     required this.searchMissP95Ms,
+    required this.embedOpenP95Ms,
   });
 
   final double crashFreeRate;
@@ -14,6 +15,7 @@ class ReleaseMetricsSnapshot {
   final int homeTtiP95Ms;
   final int searchHitP95Ms;
   final int searchMissP95Ms;
+  final int embedOpenP95Ms;
 }
 
 class ReleaseGateResult {
@@ -35,6 +37,7 @@ class ReleaseGate {
   static const int maxHomeTtiP95Ms = 1200;
   static const int maxSearchHitP95Ms = 300;
   static const int maxSearchMissP95Ms = 800;
+  static const int maxEmbedOpenP95Ms = 1500;
 
   static ReleaseGateResult evaluate(ReleaseMetricsSnapshot snapshot) {
     final reasons = <String>[];
@@ -72,6 +75,12 @@ class ReleaseGate {
     if (snapshot.searchMissP95Ms > maxSearchMissP95Ms) {
       reasons.add(
         'search_miss_p95_above_slo:${snapshot.searchMissP95Ms}>$maxSearchMissP95Ms',
+      );
+      requireRollback = true;
+    }
+    if (snapshot.embedOpenP95Ms > maxEmbedOpenP95Ms) {
+      reasons.add(
+        'embed_open_p95_above_slo:${snapshot.embedOpenP95Ms}>$maxEmbedOpenP95Ms',
       );
       requireRollback = true;
     }

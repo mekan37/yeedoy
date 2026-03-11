@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/cache/memory_ttl_cache.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/security/admin_api_client.dart';
@@ -14,6 +15,8 @@ final adminReportsRepositoryProvider = Provider<AdminReportsRepository>((ref) {
 class AdminReportsRepository {
   AdminReportsRepository(this.client);
   final SupabaseClient client;
+  static const _cachePrefix = 'admin_reports:';
+  static const _ttl = Duration(seconds: 30);
 
   Future<List<AdminReportItem>> listReports({
     String? status,
@@ -24,24 +27,32 @@ class AdminReportsRepository {
     String? query,
   }) async {
     try {
-      final res = await client.rpc(
-        'admin_list_reports_v5',
-        params: {
-          'p_status': (status ?? '').trim().isEmpty ? null : status,
-          'p_assigned': (assigned ?? '').trim().isEmpty ? null : assigned,
-          'p_sla_only': slaOnly == true ? true : null,
-          'p_limit': limit,
-          'p_offset': offset,
-          'p_q': (query ?? '').trim().isEmpty ? null : query,
+      final key =
+          '$_cachePrefix$limit:$offset:${(status ?? '').trim()}:${(assigned ?? '').trim()}:${slaOnly == true}:${(query ?? '').trim()}';
+      return MemoryTtlCache.instance.getOrLoad<List<AdminReportItem>>(
+        key: key,
+        ttl: _ttl,
+        loader: () async {
+          final res = await client.rpc(
+            'admin_list_reports_v5',
+            params: {
+              'p_status': (status ?? '').trim().isEmpty ? null : status,
+              'p_assigned': (assigned ?? '').trim().isEmpty ? null : assigned,
+              'p_sla_only': slaOnly == true ? true : null,
+              'p_limit': limit,
+              'p_offset': offset,
+              'p_q': (query ?? '').trim().isEmpty ? null : query,
+            },
+          );
+          if (res is List) {
+            return res
+                .whereType<Map>()
+                .map((m) => AdminReportItem.fromMap(m.cast<String, dynamic>()))
+                .toList();
+          }
+          return const <AdminReportItem>[];
         },
       );
-      if (res is List) {
-        return res
-            .whereType<Map>()
-            .map((m) => AdminReportItem.fromMap(m.cast<String, dynamic>()))
-            .toList();
-      }
-      return [];
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }
@@ -57,6 +68,7 @@ class AdminReportsRepository {
         targetType: 'reports',
         targetId: reportId,
       );
+      _invalidateReportCaches();
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }
@@ -72,6 +84,7 @@ class AdminReportsRepository {
         targetType: 'reports',
         targetId: reportId,
       );
+      _invalidateReportCaches();
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }
@@ -87,6 +100,7 @@ class AdminReportsRepository {
         targetType: 'reports',
         targetId: reportId,
       );
+      _invalidateReportCaches();
       return _appliedFromResult(res);
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
@@ -130,6 +144,7 @@ class AdminReportsRepository {
         targetType: 'reports',
         targetId: reportId,
       );
+      _invalidateReportCaches();
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }
@@ -157,9 +172,14 @@ class AdminReportsRepository {
         targetType: 'reports',
         targetId: reportIds.length == 1 ? reportIds.first : 'bulk',
       );
+      _invalidateReportCaches();
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }
+  }
+
+  void _invalidateReportCaches() {
+    MemoryTtlCache.instance.invalidatePrefix(_cachePrefix);
   }
 }
 

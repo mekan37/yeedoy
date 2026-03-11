@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/owner_menu_repository.dart';
 import '../data/owner_menu_photo_repository.dart';
 import '../../menus/domain/menu_models.dart';
-import '../../menus/data/wp_upload.dart';
+import '../../../core/media/media_upload_client.dart';
 import 'owner_menu_models.dart';
 
 final ownerMenusProvider =
@@ -352,7 +352,7 @@ class OwnerMenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
     });
   }
 
-  Future<WpUploadResult?> uploadPhoto() async {
+  Future<MediaUploadResult?> uploadPhoto() async {
     final upload = await ref
         .read(ownerMenuPhotoRepositoryProvider)
         .uploadMenuItemPhoto(menuItemId);

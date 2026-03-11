@@ -9,6 +9,7 @@ create table if not exists public.businesses (
   owner_id uuid not null,
   name text not null,
   slug text not null,
+  public_slug text not null,
   city text,
   district text,
   address text,
@@ -17,7 +18,8 @@ create table if not exists public.businesses (
   currency text not null default 'TRY',
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
-  constraint businesses_slug_unique unique (slug)
+  constraint businesses_slug_unique unique (slug),
+  constraint businesses_public_slug_unique unique (public_slug)
 );
 
 create table if not exists public.menu_categories (

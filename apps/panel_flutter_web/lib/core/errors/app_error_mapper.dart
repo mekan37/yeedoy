@@ -95,6 +95,9 @@ class AppErrorMapper {
     if (raw.contains(AppErrorCodes.contactVerificationRequired)) {
       return 'Bu işlem için e-posta veya telefon doğrulaması gerekli.';
     }
+    if (raw.contains('active_business_policy_missing')) {
+      return 'Aktif işletme kullanım koşulları yayımlanmadığı için işleme devam edilemiyor.';
+    }
     return null;
   }
 }

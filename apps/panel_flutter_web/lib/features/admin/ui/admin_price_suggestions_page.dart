@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_price_suggestions_repository.dart';
 import '../domain/admin_models.dart';
@@ -51,6 +52,7 @@ class _AdminPriceSuggestionsPageState
     );
     final newItems = ref.watch(adminNewItemsProvider).priceSuggestionsNew;
     final user = ref.watch(userProvider);
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -59,15 +61,19 @@ class _AdminPriceSuggestionsPageState
         children: [
           Row(
             children: [
-              const Text(
-                'Fiyat Önerileri',
+              Text(
+                l10n.adminPriceSuggestionsTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
               OutlinedButton.icon(
                 onPressed: exporting ? null : () => _exportCsv(st),
                 icon: const Icon(Icons.download),
-                label: Text(exporting ? 'İndiriliyor...' : 'CSV Dışa Aktar'),
+                label: Text(
+                  exporting
+                      ? l10n.adminCommonDownloading
+                      : l10n.adminCommonExportCsv,
+                ),
               ),
               const SizedBox(width: 8),
               IconButton(
@@ -91,17 +97,17 @@ class _AdminPriceSuggestionsPageState
                 spacing: 8,
                 children: [
                   AppFilterChip(
-                    label: 'Aç',
+                    label: l10n.pending,
                     selected: st.statusFilter == 'pending',
                     onTap: () => controller.setStatusFilter('pending'),
                   ),
                   AppFilterChip(
-                    label: 'Onaylandı',
+                    label: l10n.approved,
                     selected: st.statusFilter == 'approved',
                     onTap: () => controller.setStatusFilter('approved'),
                   ),
                   AppFilterChip(
-                    label: 'Reddedildi',
+                    label: l10n.rejected,
                     selected: st.statusFilter == 'rejected',
                     onTap: () => controller.setStatusFilter('rejected'),
                   ),
@@ -119,19 +125,19 @@ class _AdminPriceSuggestionsPageState
           Row(
             children: [
               AppFilterChip(
-                label: 'Tümü',
+                label: l10n.tumu,
                 selected: st.assignedFilter.isEmpty,
                 onTap: () => controller.setAssignedFilter(''),
               ),
               const SizedBox(width: 8),
               AppFilterChip(
-                label: 'Boşta',
+                label: l10n.adminCommonUnassigned,
                 selected: st.assignedFilter == 'unassigned',
                 onTap: () => controller.setAssignedFilter('unassigned'),
               ),
               const SizedBox(width: 8),
               AppFilterChip(
-                label: 'Benim',
+                label: l10n.adminCommonMine,
                 selected: st.assignedFilter == 'me',
                 onTap: () => controller.setAssignedFilter('me'),
               ),
@@ -140,7 +146,7 @@ class _AdminPriceSuggestionsPageState
           const SizedBox(height: 10),
           AdminNewItemsBanner(
             count: newItems,
-            label: 'Yeni kayıtlar var',
+            label: l10n.adminCommonNewRecordsAvailable,
             onRefresh: () async {
               final ok = await controller.refresh(force: true);
               if (!context.mounted) return;
@@ -166,7 +172,7 @@ class _AdminPriceSuggestionsPageState
                   const SizedBox(width: 8),
                   OutlinedButton(
                     onPressed: () => controller.refresh(force: true),
-                    child: const Text('Tekrar dene'),
+                    child: Text(l10n.retry),
                   ),
                 ],
               ),
@@ -180,15 +186,25 @@ class _AdminPriceSuggestionsPageState
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
-                          columns: const [
-                            DataColumn(label: Text('Yaş')),
-                            DataColumn(label: Text('İşletme')),
-                            DataColumn(label: Text('Öğe')),
-                            DataColumn(label: Text('Öncelik')),
-                            DataColumn(label: Text('Mevcut')),
-                            DataColumn(label: Text('Önerilen')),
-                            DataColumn(label: Text('Atanan')),
-                            DataColumn(label: Text('SLA')),
+                          columns: [
+                            DataColumn(label: Text(l10n.adminCommonAge)),
+                            DataColumn(label: Text(l10n.businessLabel)),
+                            DataColumn(
+                              label: Text(l10n.adminPriceSuggestionsItemLabel),
+                            ),
+                            DataColumn(label: Text(l10n.adminCommonPriority)),
+                            DataColumn(
+                              label: Text(
+                                l10n.adminPriceSuggestionsCurrentPrice,
+                              ),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                l10n.adminPriceSuggestionsSuggestedPrice,
+                              ),
+                            ),
+                            DataColumn(label: Text(l10n.adminCommonAssigned)),
+                            DataColumn(label: Text(l10n.sla)),
                             DataColumn(label: Text('')),
                           ],
                           rows: [
@@ -216,7 +232,11 @@ class _AdminPriceSuggestionsPageState
                                   ),
                                   DataCell(
                                     Text(
-                                      _assignedLabel(item.assignedTo, user?.id),
+                                      _assignedLabel(
+                                        item.assignedTo,
+                                        user?.id,
+                                        l10n,
+                                      ),
                                     ),
                                   ),
                                   DataCell(
@@ -230,15 +250,15 @@ class _AdminPriceSuggestionsPageState
                                         TextButton(
                                           onPressed: () =>
                                               _openDetails(context, item),
-                                          child: const Text('Detay'),
+                                          child: Text(l10n.adminCommonDetails),
                                         ),
                                         TextButton(
                                           onPressed: () => _approveQuick(item),
-                                          child: const Text('Onayla'),
+                                          child: Text(l10n.approved),
                                         ),
                                         TextButton(
                                           onPressed: () => _rejectQuick(item),
-                                          child: const Text('Reddet'),
+                                          child: Text(l10n.rejected),
                                         ),
                                       ],
                                     ),
@@ -251,7 +271,9 @@ class _AdminPriceSuggestionsPageState
                       if (!st.isLoading && st.items.isEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 24),
-                          child: Center(child: Text('Kayit bulunamadi.')),
+                          child: Center(
+                            child: Text(l10n.adminCommonNoRecordsFound),
+                          ),
                         ),
                       if (st.isLoadingMore)
                         const Padding(
@@ -270,6 +292,7 @@ class _AdminPriceSuggestionsPageState
     BuildContext context,
     AdminMenuPriceSuggestionItem item,
   ) async {
+    final l10n = context.l10n;
     final noteCtrl = TextEditingController();
     var loading = false;
     var canReject = false;
@@ -292,27 +315,44 @@ class _AdminPriceSuggestionsPageState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (item.slaBreached)
-                  AppSlaBanner(text: 'SLA asildi: ${_ageLabel(item.ageHours)}'),
-                const Text(
-                  'Fiyat Önerisi Detay',
+                  AppSlaBanner(
+                    text: l10n.adminPriceSuggestionsSlaExceeded(
+                      _ageLabel(item.ageHours),
+                    ),
+                  ),
+                Text(
+                  l10n.adminPriceSuggestionsDetailTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 10),
-                Text('İşletme: ${item.businessName}'),
+                Text('${l10n.businessLabel}: ${item.businessName}'),
                 if ((item.city ?? '').isNotEmpty ||
                     (item.district ?? '').isNotEmpty)
                   Text(
-                    'Konum: ${(item.city ?? '-')} / ${(item.district ?? '-')}',
+                    l10n.adminPriceSuggestionsLocationValue(
+                      item.city ?? '-',
+                      item.district ?? '-',
+                    ),
                   ),
-                Text('Öğe: ${item.menuItemName}'),
-                Text('Mevcut: ${_formatPrice(item.currentPriceCents)}'),
-                Text('Önerilen: ${_formatPrice(item.suggestedPriceCents)}'),
-                Text('Para Birimi: ${item.currency}'),
+                Text(
+                  '${l10n.adminPriceSuggestionsItemLabel}: ${item.menuItemName}',
+                ),
+                Text(
+                  '${l10n.adminPriceSuggestionsCurrentPrice}: ${_formatPrice(item.currentPriceCents)}',
+                ),
+                Text(
+                  '${l10n.adminPriceSuggestionsSuggestedPrice}: ${_formatPrice(item.suggestedPriceCents)}',
+                ),
+                Text(
+                  '${l10n.adminPriceSuggestionsCurrencyLabel}: ${item.currency}',
+                ),
                 if (item.createdBy.isNotEmpty)
-                  Text('Oluşturan: ${item.createdBy}'),
+                  Text(
+                    '${l10n.adminPriceSuggestionsCreatedBy}: ${item.createdBy}',
+                  ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Meta',
+                Text(
+                  l10n.adminPriceSuggestionsMetaTitle,
                   style: TextStyle(fontWeight: FontWeight.w800),
                 ),
                 const SizedBox(height: 4),
@@ -335,8 +375,8 @@ class _AdminPriceSuggestionsPageState
                 TextField(
                   controller: noteCtrl,
                   maxLines: 2,
-                  decoration: const InputDecoration(
-                    labelText: 'Reddetme notu (en az 3 karakter)',
+                  decoration: InputDecoration(
+                    labelText: l10n.adminPriceSuggestionsRejectNoteLabel,
                   ),
                   onChanged: (value) {
                     final next = value.trim().length >= 3;
@@ -354,7 +394,7 @@ class _AdminPriceSuggestionsPageState
                             : () async {
                                 final ok = await _confirm(
                                   ctx,
-                                  'Onaylanacak mı?',
+                                  l10n.adminPriceSuggestionsApproveConfirm,
                                 );
                                 if (!ok) return;
                                 setModalState(() => loading = true);
@@ -368,7 +408,7 @@ class _AdminPriceSuggestionsPageState
                                   if (!context.mounted) return;
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Onaylandı.')),
+                                    SnackBar(content: Text(l10n.approved)),
                                   );
                                 } catch (e) {
                                   if (!context.mounted) return;
@@ -380,7 +420,11 @@ class _AdminPriceSuggestionsPageState
                                   setModalState(() => loading = false);
                                 }
                               },
-                        child: Text(loading ? 'İşleniyor...' : 'Onayla'),
+                        child: Text(
+                          loading
+                              ? l10n.adminCommonProcessing
+                              : l10n.approved,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -391,7 +435,7 @@ class _AdminPriceSuggestionsPageState
                             : () async {
                                 final ok = await _confirm(
                                   ctx,
-                                  'Reddetmek istiyor musun?',
+                                  l10n.adminPriceSuggestionsRejectConfirm,
                                 );
                                 if (!ok) return;
                                 setModalState(() => loading = true);
@@ -408,9 +452,7 @@ class _AdminPriceSuggestionsPageState
                                   if (!context.mounted) return;
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Reddedildi.'),
-                                    ),
+                                    SnackBar(content: Text(l10n.rejected)),
                                   );
                                 } catch (e) {
                                   if (!context.mounted) return;
@@ -422,7 +464,11 @@ class _AdminPriceSuggestionsPageState
                                   setModalState(() => loading = false);
                                 }
                               },
-                        child: Text(loading ? 'İşleniyor...' : 'Reddet'),
+                        child: Text(
+                          loading
+                              ? l10n.adminCommonProcessing
+                              : l10n.rejected,
+                        ),
                       ),
                     ),
                   ],
@@ -432,14 +478,14 @@ class _AdminPriceSuggestionsPageState
                   children: [
                     TextButton(
                       onPressed: () => context.go('/b/${item.businessId}'),
-                      child: const Text('İşletme sayfasına git'),
+                      child: Text(l10n.adminPriceSuggestionsGoToBusiness),
                     ),
                     const SizedBox(width: 8),
                     TextButton(
                       onPressed: () => context.go(
                         '/b/${item.businessId}/menu-item/${item.menuItemId}',
                       ),
-                      child: const Text('Öğe sayfasına git'),
+                      child: Text(l10n.adminPriceSuggestionsGoToItem),
                     ),
                   ],
                 ),
@@ -474,7 +520,11 @@ class _AdminPriceSuggestionsPageState
   }
 
   Future<void> _approveQuick(AdminMenuPriceSuggestionItem item) async {
-    final ok = await _confirm(context, 'Onaylanacak mı?');
+    final l10n = context.l10n;
+    final ok = await _confirm(
+      context,
+      l10n.adminPriceSuggestionsApproveConfirm,
+    );
     if (!ok) return;
     try {
       await ref
@@ -483,7 +533,7 @@ class _AdminPriceSuggestionsPageState
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Onaylandı.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.approved)));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -493,6 +543,7 @@ class _AdminPriceSuggestionsPageState
   }
 
   Future<void> _rejectQuick(AdminMenuPriceSuggestionItem item) async {
+    final l10n = context.l10n;
     final noteCtrl = TextEditingController();
     var canSubmit = false;
     final ok = await showDialog<bool>(
@@ -500,12 +551,12 @@ class _AdminPriceSuggestionsPageState
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setModalState) {
           return AlertDialog(
-            title: const Text('Reddet'),
+            title: Text(l10n.rejected),
             content: TextField(
               controller: noteCtrl,
               maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Reddetme notu (en az 3 karakter)',
+              decoration: InputDecoration(
+                labelText: l10n.adminPriceSuggestionsRejectNoteLabel,
               ),
               onChanged: (value) {
                 final next = value.trim().length >= 3;
@@ -516,11 +567,11 @@ class _AdminPriceSuggestionsPageState
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx, false),
-                child: const Text('Vazgeç'),
+                child: Text(l10n.cancel),
               ),
               FilledButton(
                 onPressed: canSubmit ? () => Navigator.pop(ctx, true) : null,
-                child: const Text('Reddet'),
+                child: Text(l10n.rejected),
               ),
             ],
           );
@@ -536,7 +587,7 @@ class _AdminPriceSuggestionsPageState
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Reddedildi.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.rejected)));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -559,33 +610,40 @@ String _ageLabel(double hours) {
   return '${hours.toStringAsFixed(1)}h';
 }
 
-String _assignedLabel(String? assignedTo, String? userId) {
-  if (assignedTo == null || assignedTo.isEmpty) return 'Boş';
-  if (userId != null && assignedTo == userId) return 'Ben';
-  return 'Başka admin';
+String _assignedLabel(
+  String? assignedTo,
+  String? userId,
+  AppLocalizations l10n,
+) {
+  if (assignedTo == null || assignedTo.isEmpty) {
+    return l10n.adminCommonUnassigned;
+  }
+  if (userId != null && assignedTo == userId) return l10n.adminCommonMine;
+  return l10n.adminCommonOtherAdmin;
 }
 
 String _formatPrice(int? cents) {
   if (cents == null) return '—';
   final value = cents / 100.0;
   final text = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
-  return 'â‚º$text';
+  return '₺$text';
 }
 
 Future<bool> _confirm(BuildContext context, String message) async {
+  final l10n = context.l10n;
   final res = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: const Text('Emin misin?'),
+      title: Text(l10n.adminCommonConfirmTitle),
       content: Text(message),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: const Text('Vazgeç'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(ctx, true),
-          child: const Text('Onayla'),
+          child: Text(l10n.apply),
         ),
       ],
     ),

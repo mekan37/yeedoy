@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../domain/inbox_models.dart';
+import '../domain/notification_target_path_resolver.dart';
 
 final inboxRepositoryProvider = Provider<InboxRepository>((ref) {
   return InboxRepository(ref.watch(supabaseProvider));
@@ -59,7 +60,7 @@ class InboxRepository {
       final data =
           (map['data'] as Map?)?.cast<String, dynamic>() ??
           const <String, dynamic>{};
-      final targetPath = _targetPathFromNotification(
+      final targetPath = resolveNotificationTargetPath(
         type: (map['type'] ?? '').toString(),
         data: data,
       );
@@ -76,42 +77,6 @@ class InboxRepository {
         meta: {'notification_id': id, ...data},
       );
     }).toList();
-  }
-
-  String _targetPathFromNotification({
-    required String type,
-    required Map<String, dynamic> data,
-  }) {
-    final businessId = (data['business_id'] ?? '').toString();
-    final menuItemId = (data['menu_item_id'] ?? '').toString();
-    switch (type) {
-      case 'price_verification_result':
-      case 'favorite_price_changed':
-      case 'owner_new_price_suggestion':
-        if (businessId.isNotEmpty && menuItemId.isNotEmpty) {
-          return '/b/$businessId/menu-item/$menuItemId';
-        }
-        if (businessId.isNotEmpty) return '/b/$businessId';
-        return '/inbox';
-      case 'review_reply':
-      case 'owner_new_review':
-        if (businessId.isNotEmpty) return '/b/$businessId/reviews';
-        return '/inbox';
-      case 'owner_business_reported':
-        if (businessId.isNotEmpty) return '/b/$businessId';
-        return '/discover';
-      case 'claim_result':
-        return '/profile';
-      case 'achievement_unlocked':
-        return '/profile';
-      case 'nearby_trending':
-        return '/discover';
-      case 'owner_daily_summary':
-        return '/discover';
-      default:
-        if (businessId.isNotEmpty) return '/b/$businessId';
-        return '/inbox';
-    }
   }
 
   Future<List<InboxItem>> _listLegacyNotifications({

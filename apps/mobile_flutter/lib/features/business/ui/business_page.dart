@@ -21,6 +21,7 @@ import '../../../core/network/supabase_provider.dart';
 import '../../../core/perf/firebase_perf_trace.dart';
 import '../../../core/media/app_network_image.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../../../features/shared/ui/components/community_score_explainer_sheet.dart';
 import '../domain/business_detail_controller.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
@@ -31,16 +32,21 @@ import '../../auth/domain/auth_providers.dart';
 import '../../discovery/data/discovery_repository.dart';
 import '../../favorites/domain/favorite_status_provider.dart';
 import '../../favorites/domain/favorites_controller.dart';
+import '../../menus/data/menu_repository.dart';
 import '../../menus/domain/menu_models.dart';
 import '../../menus/domain/menu_providers.dart';
 import '../../perks/domain/perk_providers.dart';
 import '../domain/business.dart';
 import '../domain/business_amenities_provider.dart';
+import '../domain/meal_card_providers_provider.dart';
 import '../domain/business_checkins_provider.dart';
 import '../domain/business_new_items_provider.dart';
 import '../domain/business_trending_provider.dart';
 import '../domain/crowd_controller.dart';
 import '../ui/components/business_header_compact.dart';
+import '../../shared/ui/widgets/meal_card_badge.dart';
+
+part 'sections/business_detail_sections.dart';
 
 final _businessProvider = FutureProvider.family<Business, String>((ref, id) {
   return ref.watch(discoveryRepositoryProvider).getBusiness(id);
@@ -416,6 +422,10 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
         ),
         data: (business) => RefreshIndicator(
           onRefresh: () async {
+            ref
+                .read(discoveryRepositoryProvider)
+                .invalidateBusiness(widget.businessId);
+            ref.read(menuRepositoryProvider).clearReadCache();
             ref.invalidate(_businessProvider(widget.businessId));
             ref.invalidate(_businessHoursProvider(widget.businessId));
             ref.invalidate(businessMenusProvider(widget.businessId));
@@ -425,6 +435,7 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
             ref.invalidate(businessTrendingItemsProvider(widget.businessId));
             ref.invalidate(businessNewItemsProvider(widget.businessId));
             ref.invalidate(businessAmenitiesProvider(widget.businessId));
+            ref.invalidate(businessMealCardProvidersProvider(widget.businessId));
             ref.invalidate(businessRecentCheckinsProvider(widget.businessId));
           },
           child: _BusinessSectionsScroll(business: business),
@@ -441,7 +452,13 @@ class _BusinessSectionsScroll extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const padding = EdgeInsets.fromLTRB(16, 12, 16, 24);
+    final tokens = AppTokens.of(context);
+    final padding = EdgeInsets.fromLTRB(
+      tokens.space16,
+      tokens.space12,
+      tokens.space16,
+      tokens.space24,
+    );
     final t = AppLocalizations.of(context);
     final trustAsync = ref.watch(_businessTrustProvider(business.id));
     final trendingAsync = ref.watch(businessTrendingItemsProvider(business.id));
@@ -462,9 +479,9 @@ class _BusinessSectionsScroll extends ConsumerWidget {
               padding: padding,
               children: [
                 _BusinessHeroTrustHeader(business: business),
-                const SizedBox(height: 12),
+                SizedBox(height: tokens.space12),
                 const WeatherHintBar(compact: true),
-                const SizedBox(height: 16),
+                SizedBox(height: tokens.space16),
                 trustAsync.when(
                   loading: () => const AppSkeletonCard(),
                   error: (error, _) => AppEmptyState(
@@ -482,7 +499,7 @@ class _BusinessSectionsScroll extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: _TopStatCard(
-                              title: t.trustScore,
+                              title: t.communityScoreDataTrustLabel,
                               value: '${trust.trustScore}',
                               subtitle: '%',
                               icon: Icons.shield_rounded,
@@ -516,23 +533,30 @@ class _BusinessSectionsScroll extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: tokens.space16),
+                      const CommunityScoreGuideCard(
+                        kind: CommunityScoreKind.dataTrust,
+                        margin: EdgeInsets.zero,
+                      ),
+                      SizedBox(height: tokens.space16),
                       _CommunityVerifiedCard(
                         usersToday: trust.lastPriceVerifiedPeople <= 0
                             ? 12
                             : trust.lastPriceVerifiedPeople,
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: tokens.space16),
                       _PriceHistorySection(points: trust.priceChanges3m),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: tokens.space16),
+                BusinessMealCardsSection(businessId: business.id),
+                SizedBox(height: tokens.space20),
                 _BusinessMenuPreviewSection(
                   businessId: business.id,
                   fallbackCategory: business.category,
                 ),
-                const SizedBox(height: 18),
+                SizedBox(height: tokens.space16),
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton.icon(
@@ -557,8 +581,9 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(tokens.radius20),
       child: AspectRatio(
         aspectRatio: 16 / 10,
         child: Stack(
@@ -578,9 +603,9 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 16,
-              right: 16,
-              bottom: 16,
+              left: tokens.space16,
+              right: tokens.space16,
+              bottom: tokens.space16,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -664,8 +689,12 @@ class _TopStatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     return AppCard(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      padding: EdgeInsets.symmetric(
+        horizontal: tokens.space12,
+        vertical: tokens.space12,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -709,11 +738,15 @@ class _CommunityVerifiedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      padding: EdgeInsets.symmetric(
+        horizontal: tokens.space12,
+        vertical: tokens.space12,
+      ),
       decoration: BoxDecoration(
         color: AppColors.success.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(tokens.radius20),
         border: Border.all(color: AppColors.success.withValues(alpha: 0.25)),
       ),
       child: Row(
@@ -755,6 +788,7 @@ class _PriceHistorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     final change = _priceDeltaPercent(points);
     final isUp = change >= 0;
     final trendColor = isUp ? AppColors.danger : AppColors.success;
@@ -773,7 +807,10 @@ class _PriceHistorySection extends StatelessWidget {
             ),
             const Spacer(),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: EdgeInsets.symmetric(
+                horizontal: tokens.space8,
+                vertical: tokens.space4,
+              ),
               decoration: BoxDecoration(
                 color: trendColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(999),
@@ -794,7 +831,7 @@ class _PriceHistorySection extends StatelessWidget {
             height: 170,
             decoration: BoxDecoration(
               color: AppColors.card,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(tokens.radius16),
               border: Border.all(color: AppColors.border),
             ),
             alignment: Alignment.center,
@@ -1065,14 +1102,18 @@ class _MenuFilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(tokens.radius24),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        padding: EdgeInsets.symmetric(
+          horizontal: tokens.space16,
+          vertical: tokens.space8,
+        ),
         decoration: BoxDecoration(
           color: active ? AppColors.primary : AppColors.cardAlt,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(tokens.radius24),
           border: Border.all(
             color: active ? AppColors.primary : AppColors.border,
           ),
@@ -1111,6 +1152,7 @@ class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     final item = widget.item;
     final variants = widget.variants;
     if (_selectedVariantId != null &&
@@ -1136,7 +1178,7 @@ class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(tokens.radius16),
           child: dataImageBytes != null
               ? Image.memory(
                   dataImageBytes,
@@ -1179,7 +1221,7 @@ class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
                               fit: BoxFit.cover,
                             ))),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: tokens.space12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1264,697 +1306,20 @@ class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
   }
 }
 
-class BusinessHeaderSection extends ConsumerWidget {
-  const BusinessHeaderSection({super.key, required this.business});
-  final Business business;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        _BusinessIdentityCard(business: business),
-        const SizedBox(height: 8),
-        _BusinessHeaderCompactContainer(business: business),
-      ],
-    );
-  }
-}
-
-class _BusinessIdentityCard extends StatelessWidget {
-  const _BusinessIdentityCard({required this.business});
-
-  final Business business;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            business.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.w900,
-              color: AppColors.textStrong,
-              fontSize: 18,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${business.category} - ${_locText(context, business.district, business.city)}',
-            style: const TextStyle(color: AppColors.muted),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BusinessHeaderCompactContainer extends ConsumerWidget {
-  const _BusinessHeaderCompactContainer({required this.business});
-
-  final Business business;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final (openNow, closeText) = ref.watch(
-      _businessHoursProvider(business.id).select((async) {
-        return async.maybeWhen(
-          data: (today) {
-            if (today == null) return (null, t.noTime);
-            return (
-              _isOpenNow(today.open, today.close, DateTime.now()),
-              today.close ?? t.noTime,
-            );
-          },
-          orElse: () => (null, t.noTime),
-        );
-      }),
-    );
-    final topItems = ref.watch(
-      businessTrendingItemsProvider(business.id).select((async) {
-        final items = async.asData?.value ?? const [];
-        if (items.isEmpty) return const <String>[];
-        return items
-            .map((e) => e.itemName.trim())
-            .where((e) => e.isNotEmpty)
-            .take(2)
-            .toList(growable: false);
-      }),
-    );
-    final topItemPriceCents = ref.watch(
-      businessTrendingItemsProvider(business.id).select((async) {
-        final items = async.asData?.value;
-        if (items == null || items.isEmpty) return null;
-        return items.first.priceCents;
-      }),
-    );
-    final topItemCurrency = ref.watch(
-      businessTrendingItemsProvider(business.id).select((async) {
-        final items = async.asData?.value;
-        if (items == null || items.isEmpty) return 'TRY';
-        return items.first.currency;
-      }),
-    );
-    final firstMenuId = ref.watch(
-      businessMenusProvider(business.id).select((async) {
-        final menus = async.asData?.value;
-        if (menus == null || menus.isEmpty) return null;
-        return menus.first.id;
-      }),
-    );
-    final lastVerifiedText = _daysAgoText(context, business.lifecycleUpdatedAt);
-    final topItemsText = topItems.isEmpty ? t.unknown : topItems.join(', ');
-
-    return BusinessHeaderCompact(
-      isOpenNow: openNow,
-      closingTimeText: closeText,
-      averagePriceText: _formatPriceWithCurrency(
-        context,
-        topItemPriceCents,
-        topItemCurrency,
-      ),
-      topItemsText: topItemsText,
-      lastVerifiedText: lastVerifiedText,
-      onDirectionsTap: () {
-        unawaited(
-          _openDirections(
-            businessName: business.name,
-            address: business.address,
-            lat: business.lat,
-            lng: business.lng,
-          ),
-        );
-      },
-      onMenuTap: () {
-        if (firstMenuId == null) return;
-        context.go('/b/${business.id}/menu/$firstMenuId');
-      },
-    );
-  }
-}
-
-class BusinessActionsSection extends ConsumerWidget {
-  const BusinessActionsSection({super.key, required this.business});
-  final Business business;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final isLoggedIn = ref.watch(userProvider.select((user) => user != null));
-    final isFavorited = ref.watch(isFavoritedProvider(business.id));
-
-    return AppCard(
-      child: Row(
-        children: [
-          Expanded(
-            child: FilledButton.tonalIcon(
-              onPressed: () async {
-                if (!isLoggedIn) {
-                  await showQuickLoginSheet(
-                    context,
-                    redirectPath: '/b/${business.id}',
-                  );
-                  return;
-                }
-                try {
-                  await ref
-                      .read(favoritesControllerProvider.notifier)
-                      .toggleFavorite(business.id);
-                } catch (error) {
-                  if (!context.mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(AppErrorMapper.message(error))),
-                  );
-                }
-              },
-              icon: Icon(isFavorited ? Icons.star : Icons.star_border),
-              label: Text(isFavorited ? t.favoriteAdded : t.addToFavorites),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () => context.go('/b/${business.id}/review'),
-              icon: const Icon(Icons.rate_review_outlined),
-              label: Text(t.writeReview),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BusinessTrustSection extends ConsumerWidget {
-  const BusinessTrustSection({super.key, required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final trustAsync = ref.watch(_businessTrustProvider(businessId));
-    return trustAsync.when(
-      loading: () => const AppSkeletonCard(),
-      error: (error, _) => AppEmptyState(
-        icon: Icons.wifi_off_outlined,
-        title: t.trustDataUnavailable,
-        description:
-            '${AppErrorMapper.message(error)}. ${t.connectionProblemTryAgain}',
-        ctaLabel: AppLocalizations.of(context).retry,
-        onCta: () => ref.invalidate(_businessTrustProvider(businessId)),
-      ),
-      data: (trust) {
-        return AppCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                t.freshnessAndTrust,
-                style: const TextStyle(fontWeight: FontWeight.w900),
-              ),
-              const SizedBox(height: 10),
-              _TrustLine(
-                icon: Icons.menu_book_outlined,
-                iconColor: AppColors.success,
-                label: t.menuUpdatedLabel,
-                value:
-                    '${t.updatedDaysAgo(_daysAgo(trust.menuUpdatedAt))} ${t.versionAndSource(trust.menuVersion, _menuSourceLabel(context, trust.menuSource))}',
-              ),
-              const SizedBox(height: 6),
-              _TrustLine(
-                icon: Icons.price_check_outlined,
-                iconColor: AppColors.success,
-                label: t.lastPriceVerification,
-                value:
-                    '${t.verifiedDaysAgo(_daysAgo(trust.lastPriceVerifiedAt))} (${trust.lastPriceVerifiedPeople} ${t.usersLabel})',
-              ),
-              const SizedBox(height: 6),
-              _TrustLine(
-                icon: Icons.shield_outlined,
-                iconColor: trust.trustScore >= 75
-                    ? AppColors.warning
-                    : AppColors.danger,
-                label: t.trustScoreLabel,
-                value: '${trust.trustScore}/100',
-              ),
-              const SizedBox(height: 12),
-              Text(
-                t.last3MonthsPriceChange,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textStrong,
-                ),
-              ),
-              const SizedBox(height: 8),
-              _PriceChangeMiniChart(points: trust.priceChanges3m),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
-class BusinessHoursSection extends ConsumerWidget {
-  const BusinessHoursSection({super.key, required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final hoursAsync = ref.watch(_businessHoursProvider(businessId));
-    return hoursAsync.when(
-      loading: () => const AppSkeletonCard(),
-      error: (_, _) => AppEmptyState(
-        icon: Icons.wifi_off_outlined,
-        title: t.hoursInfoUnavailable,
-        description: t.connectionProblemTryAgain,
-        ctaLabel: AppLocalizations.of(context).retry,
-        onCta: () => ref.invalidate(_businessHoursProvider(businessId)),
-      ),
-      data: (today) {
-        if (today == null) {
-          return AppEmptyState(
-            icon: Icons.schedule_outlined,
-            title: t.hoursInfoMissing,
-            description: t.addHoursHelp,
-            ctaLabel: t.reportHoursInfo,
-            onCta: () => _openReportSheet(context, businessId),
-          );
-        }
-        final openNow = _isOpenNow(today.open, today.close, DateTime.now());
-        return AppCard(
-          child: Row(
-            children: [
-              Icon(
-                openNow ? Icons.schedule : Icons.schedule_outlined,
-                color: openNow ? AppColors.success : AppColors.muted,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  openNow
-                      ? '${t.openNow} - ${_hoursText(context, today.open, today.close)}'
-                      : '${t.closedNow} - ${_hoursText(context, today.open, today.close)}',
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
-class BusinessMenusSection extends ConsumerWidget {
-  const BusinessMenusSection({super.key, required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final menusAsync = ref.watch(businessMenusProvider(businessId));
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            t.menus,
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              color: AppColors.textStrong,
-            ),
-          ),
-          const SizedBox(height: 8),
-          menusAsync.when(
-            loading: () => const AppSkeletonLine(width: 140),
-            error: (error, _) => AppEmptyState(
-              icon: Icons.wifi_off_outlined,
-              title: t.menusLoadFailed,
-              description:
-                  '${AppErrorMapper.message(error)}. ${t.connectionProblemTryAgain}',
-              ctaLabel: AppLocalizations.of(context).retry,
-              onCta: () => ref.invalidate(businessMenusProvider(businessId)),
-            ),
-            data: (menus) {
-              if (menus.isEmpty) {
-                return AppEmptyState(
-                  icon: Icons.menu_book_outlined,
-                  title: t.noMenu,
-                  description: t.addFirstMenuHelp,
-                  ctaLabel: AppLocalizations.of(context).addFirstMenuCta,
-                  onCta: () => _openReportSheet(context, businessId),
-                );
-              }
-              return Column(
-                children: [
-                  for (final menu in menus)
-                    ListTile(
-                      key: ValueKey(menu.id),
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(menu.title),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => context.go('/b/$businessId/menu/${menu.id}'),
-                    ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BusinessCrowdSection extends ConsumerWidget {
-  const BusinessCrowdSection({super.key, required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final crowdAsync = ref.watch(businessCrowdProvider(businessId));
-    return AppCard(
-      child: crowdAsync.when(
-        loading: () => const AppSkeletonLine(width: 150),
-        error: (error, _) => AppEmptyState(
-          icon: Icons.wifi_off_outlined,
-          title: t.crowdInfoUnavailable,
-          description:
-              '${AppErrorMapper.message(error)}. ${t.connectionProblemTryAgain}',
-          ctaLabel: AppLocalizations.of(context).retry,
-          onCta: () => ref.invalidate(businessCrowdProvider(businessId)),
-        ),
-        data: (status) => Row(
-          children: [
-            const Icon(Icons.groups_outlined, color: AppColors.textStrong),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                t.liveCrowdLabel(status.state),
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class BusinessReviewsSection extends ConsumerWidget {
-  const BusinessReviewsSection({super.key, required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final detailAsync = ref.watch(businessDetailProvider(businessId));
-    return AppCard(
-      child: detailAsync.when(
-        loading: () => const AppSkeletonCard(),
-        error: (error, _) => AppEmptyState(
-          icon: Icons.wifi_off_outlined,
-          title: t.reviewsLoadFailed,
-          description:
-              '${AppErrorMapper.message(error)}. ${t.connectionProblemTryAgain}',
-          ctaLabel: AppLocalizations.of(context).retry,
-          onCta: () => ref.invalidate(businessDetailProvider(businessId)),
-        ),
-        data: (detail) {
-          if (detail.latestReviews.isEmpty) {
-            return AppEmptyState(
-              icon: Icons.reviews_outlined,
-              title: t.noReviews,
-              description: t.leaveFirstReviewHelp,
-              ctaLabel: t.writeFirstReview,
-              onCta: () => context.go('/b/$businessId/review'),
-            );
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                t.recentReviews,
-                style: const TextStyle(fontWeight: FontWeight.w900),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${detail.latestReviews.length} ${t.reviewsCountSuffix}',
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
-              ),
-              const SizedBox(height: 8),
-              for (final review in detail.latestReviews.take(3))
-                ListTile(
-                  key: ValueKey(review.id),
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    review.title?.trim().isEmpty == false
-                        ? review.title!
-                        : t.reviewFallbackTitle,
-                  ),
-                  subtitle: Text(
-                    review.content,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class BusinessPerksSection extends ConsumerWidget {
-  const BusinessPerksSection({super.key, required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            t.activeCampaigns,
-            style: TextStyle(fontWeight: FontWeight.w900),
-          ),
-          const SizedBox(height: 8),
-          _PerksSummaryLine(businessId: businessId),
-          _AmenitiesSummaryLine(businessId: businessId),
-          _CheckinsSummaryLine(businessId: businessId),
-          _NewItemsSummaryLine(businessId: businessId),
-        ],
-      ),
-    );
-  }
-}
-
-class _PerksSummaryLine extends ConsumerWidget {
-  const _PerksSummaryLine({required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final perksAsync = ref.watch(businessPerksProvider(businessId));
-    return perksAsync.when(
-      loading: () => const AppSkeletonLine(width: 160),
-      error: (_, _) => const SizedBox.shrink(),
-      data: (perks) => Text(
-        perks.isEmpty
-            ? AppLocalizations.of(context).noActiveCampaign
-            : '${perks.length} ${AppLocalizations.of(context).activeCampaignCountLabel}',
-        style: const TextStyle(color: AppColors.muted),
-      ),
-    );
-  }
-}
-
-class _AmenitiesSummaryLine extends ConsumerWidget {
-  const _AmenitiesSummaryLine({required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final amenitiesAsync = ref.watch(businessAmenitiesProvider(businessId));
-    return amenitiesAsync.maybeWhen(
-      data: (items) => Padding(
-        padding: const EdgeInsets.only(top: 4),
-        child: Text(
-          items.isEmpty
-              ? AppLocalizations.of(context).noAmenityInfo
-              : '${items.length} ${AppLocalizations.of(context).amenityCountLabel}',
-          style: const TextStyle(color: AppColors.muted),
-        ),
-      ),
-      orElse: () => const SizedBox.shrink(),
-    );
-  }
-}
-
-class _CheckinsSummaryLine extends ConsumerWidget {
-  const _CheckinsSummaryLine({required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final checkinsAsync = ref.watch(businessRecentCheckinsProvider(businessId));
-    return checkinsAsync.maybeWhen(
-      data: (count) => Padding(
-        padding: const EdgeInsets.only(top: 4),
-        child: Text(
-          count <= 0
-              ? AppLocalizations.of(context).noLocationVerificationData
-              : '${AppLocalizations.of(context).lastLocationVerification}: $count',
-          style: const TextStyle(color: AppColors.muted),
-        ),
-      ),
-      orElse: () => const SizedBox.shrink(),
-    );
-  }
-}
-
-class _NewItemsSummaryLine extends ConsumerWidget {
-  const _NewItemsSummaryLine({required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final newItemsAsync = ref.watch(businessNewItemsProvider(businessId));
-    return newItemsAsync.maybeWhen(
-      data: (items) => Padding(
-        padding: const EdgeInsets.only(top: 4),
-        child: Text(
-          items.isEmpty
-              ? AppLocalizations.of(context).noNewProductRecord
-              : '${AppLocalizations.of(context).newProduct}: ${items.length}',
-          style: const TextStyle(color: AppColors.muted),
-        ),
-      ),
-      orElse: () => const SizedBox.shrink(),
-    );
-  }
-}
-
-class BusinessFooterSection extends StatelessWidget {
-  const BusinessFooterSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Row(
-        children: [
-          const Icon(Icons.verified_user_outlined, color: AppColors.info),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              '${AppLocalizations.of(context).reportInfoErrorPrefix} ${_fmtDate(DateTime.now())}',
-              style: const TextStyle(color: AppColors.muted),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TrustLine extends StatelessWidget {
-  const _TrustLine({
-    required this.icon,
-    required this.iconColor,
-    required this.label,
-    required this.value,
-  });
-
-  final IconData icon;
-  final Color iconColor;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: iconColor),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            '$label: $value',
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _PriceChangeMiniChart extends StatelessWidget {
-  const _PriceChangeMiniChart({required this.points});
-  final List<int> points;
-
-  @override
-  Widget build(BuildContext context) {
-    final values = points.length == 3 ? points : [0, 0, 0];
-    final maxValue = values.reduce((a, b) => a > b ? a : b);
-    return Row(
-      children: [
-        for (var i = 0; i < values.length; i++) ...[
-          Expanded(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 54,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: maxValue <= 0
-                          ? 6
-                          : (8 + (values[i] / maxValue) * 42).clamp(8, 52),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  '${values[i]}',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.muted,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (i != values.length - 1) const SizedBox(width: 8),
-        ],
-      ],
-    );
-  }
-}
-
 class _BusinessLoadingView extends StatelessWidget {
   const _BusinessLoadingView();
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     return ListView(
-      padding: const EdgeInsets.all(16),
-      children: const [
-        AppSkeletonCard(),
-        SizedBox(height: 10),
-        AppSkeletonCard(),
-        SizedBox(height: 10),
-        AppSkeletonCard(),
+      padding: EdgeInsets.all(tokens.space16),
+      children: [
+        const AppSkeletonCard(),
+        SizedBox(height: tokens.space8),
+        const AppSkeletonCard(),
+        SizedBox(height: tokens.space8),
+        const AppSkeletonCard(),
       ],
     );
   }
@@ -1967,8 +1332,14 @@ class _BusinessErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 40, 16, 24),
+      padding: EdgeInsets.fromLTRB(
+        tokens.space16,
+        40,
+        tokens.space16,
+        tokens.space24,
+      ),
       children: [
         AppEmptyState(
           icon: Icons.wifi_off_outlined,

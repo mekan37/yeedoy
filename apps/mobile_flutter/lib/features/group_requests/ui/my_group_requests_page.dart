@@ -20,7 +20,7 @@ class MyGroupRequestsPage extends ConsumerWidget {
         title: Text(t.groupRequestMyRequestsTitle),
         actions: [
           IconButton(
-            onPressed: () => ref.invalidate(_myRequestsProvider),
+            onPressed: () => _refreshRequests(ref),
             icon: const Icon(Icons.refresh),
           ),
         ],
@@ -31,7 +31,7 @@ class MyGroupRequestsPage extends ConsumerWidget {
         label: Text(t.groupRequestNewRequestAction),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => ref.invalidate(_myRequestsProvider),
+        onRefresh: () async => _refreshRequests(ref),
         child: ref
             .watch(_myRequestsProvider)
             .when(
@@ -44,7 +44,7 @@ class MyGroupRequestsPage extends ConsumerWidget {
                     title: t.sectionLoadFailed,
                     description: AppErrorMapper.message(e),
                     ctaLabel: t.retry,
-                    onCta: () => ref.invalidate(_myRequestsProvider),
+                    onCta: () => _refreshRequests(ref),
                   ),
                 ],
               ),
@@ -101,6 +101,11 @@ class MyGroupRequestsPage extends ConsumerWidget {
 final _myRequestsProvider = FutureProvider<List<GroupRequest>>((ref) async {
   return ref.read(groupRequestsRepositoryProvider).listMyRequests();
 });
+
+void _refreshRequests(WidgetRef ref) {
+  ref.read(groupRequestsRepositoryProvider).clearReadCache();
+  ref.invalidate(_myRequestsProvider);
+}
 
 class _StatusChip extends StatelessWidget {
   const _StatusChip({required this.status});

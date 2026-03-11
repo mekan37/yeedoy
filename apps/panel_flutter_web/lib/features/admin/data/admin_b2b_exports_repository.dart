@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../domain/admin_b2b_export_catalog.dart';
 
 final adminB2bExportsRepositoryProvider = Provider<AdminB2bExportsRepository>((
   ref,
@@ -15,6 +16,24 @@ class AdminB2bExportsRepository {
   AdminB2bExportsRepository(this.client);
 
   final SupabaseClient client;
+
+  Future<String> exportCsv({
+    required AdminB2bExportKind kind,
+    int days = 30,
+    double anomalyThresholdPct = 40,
+  }) {
+    return switch (kind) {
+      AdminB2bExportKind.anonymousTrends => exportAnonymousTrendsCsv(days: days),
+      AdminB2bExportKind.regionalPriceIndex => exportRegionalPriceIndexCsv(
+          days: days,
+        ),
+      AdminB2bExportKind.menuInflation => exportMenuInflationCsv(days: days),
+      AdminB2bExportKind.priceAnomalies => exportPriceAnomaliesCsv(
+          days: days,
+          thresholdPct: anomalyThresholdPct,
+        ),
+    };
+  }
 
   Future<String> exportAnonymousTrendsCsv({int days = 30}) async {
     try {

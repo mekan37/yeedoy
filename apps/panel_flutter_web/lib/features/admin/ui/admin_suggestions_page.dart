@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_suggestions_repository.dart';
 import '../domain/admin_models.dart';
@@ -53,6 +54,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
     final st = ref.watch(adminSuggestionsControllerProvider);
     final controller = ref.read(adminSuggestionsControllerProvider.notifier);
     final user = ref.watch(userProvider);
+    final l10n = context.l10n;
     final allSelected =
         st.items.isNotEmpty &&
         st.items.every((s) => st.selectedIds.contains(s.id));
@@ -74,15 +76,19 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
           children: [
             Row(
               children: [
-                const Text(
-                  'Öneriler',
+                Text(
+                  l10n.adminSuggestionsTitle,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                 ),
                 const Spacer(),
                 OutlinedButton.icon(
                   onPressed: exporting ? null : () => _exportCsv(st),
                   icon: const Icon(Icons.download),
-                  label: Text(exporting ? 'Indiriliyor...' : 'CSV Dışa Aktar'),
+                  label: Text(
+                    exporting
+                        ? l10n.adminCommonDownloading
+                        : l10n.adminCommonExportCsv,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 IconButton(
@@ -111,9 +117,9 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                     onChanged: (v) => ref
                         .read(adminSuggestionsControllerProvider.notifier)
                         .setQuery(v.trim()),
-                    decoration: const InputDecoration(
-                      hintText: 'Ara (isim, Şehir, ilçe)',
-                      prefixIcon: Icon(Icons.search),
+                    decoration: InputDecoration(
+                      hintText: l10n.adminSuggestionsSearchHint,
+                      prefixIcon: const Icon(Icons.search),
                     ),
                   ),
                 ),
@@ -129,28 +135,28 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                           .setSlaOnly(!st.slaOnly),
                     ),
                     AppFilterChip(
-                      label: 'Tümü',
+                      label: l10n.tumu,
                       selected: st.statusFilter.isEmpty,
                       onTap: () => ref
                           .read(adminSuggestionsControllerProvider.notifier)
                           .setStatusFilter(''),
                     ),
                     AppFilterChip(
-                      label: 'Beklemede',
+                      label: l10n.pending,
                       selected: st.statusFilter == 'pending',
                       onTap: () => ref
                           .read(adminSuggestionsControllerProvider.notifier)
                           .setStatusFilter('pending'),
                     ),
                     AppFilterChip(
-                      label: 'Onaylandı',
+                      label: l10n.approved,
                       selected: st.statusFilter == 'approved',
                       onTap: () => ref
                           .read(adminSuggestionsControllerProvider.notifier)
                           .setStatusFilter('approved'),
                     ),
                     AppFilterChip(
-                      label: 'Reddedildi',
+                      label: l10n.rejected,
                       selected: st.statusFilter == 'rejected',
                       onTap: () => ref
                           .read(adminSuggestionsControllerProvider.notifier)
@@ -164,7 +170,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
             Row(
               children: [
                 AppFilterChip(
-                  label: 'Tümü',
+                  label: l10n.tumu,
                   selected: st.assignedFilter.isEmpty,
                   onTap: () => ref
                       .read(adminSuggestionsControllerProvider.notifier)
@@ -172,7 +178,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                 ),
                 const SizedBox(width: 8),
                 AppFilterChip(
-                  label: 'Boşta',
+                  label: l10n.adminCommonUnassigned,
                   selected: st.assignedFilter == 'unassigned',
                   onTap: () => ref
                       .read(adminSuggestionsControllerProvider.notifier)
@@ -180,7 +186,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                 ),
                 const SizedBox(width: 8),
                 AppFilterChip(
-                  label: 'Benim',
+                  label: l10n.adminCommonMine,
                   selected: st.assignedFilter == 'me',
                   onTap: () => ref
                       .read(adminSuggestionsControllerProvider.notifier)
@@ -192,7 +198,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
 
             AdminNewItemsBanner(
               count: newItems,
-              label: 'Yeni kayıtlar var',
+              label: l10n.adminCommonNewRecordsAvailable,
               onRefresh: () async {
                 final ok = await ref
                     .read(adminSuggestionsControllerProvider.notifier)
@@ -220,7 +226,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                             .bulkReject(adminNote: bulkNoteCtrl.text.trim());
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Reddedildi.')),
+                            SnackBar(content: Text(l10n.rejected)),
                           );
                         }
                         bulkNoteCtrl.clear();
@@ -265,11 +271,17 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                 ),
                               ),
                               const DataColumn(label: Text('ID')),
-                              const DataColumn(label: Text('İsim')),
-                              const DataColumn(label: Text('Durum')),
-                              const DataColumn(label: Text('Atanan')),
-                              const DataColumn(label: Text('Oluşturma')),
-                              const DataColumn(label: Text('Yaş')),
+                              DataColumn(
+                                label: Text(l10n.adminSuggestionsNameColumn),
+                              ),
+                              DataColumn(
+                                label: Text(l10n.adminSuggestionsStatusColumn),
+                              ),
+                              DataColumn(label: Text(l10n.adminCommonAssigned)),
+                              DataColumn(
+                                label: Text(l10n.adminSuggestionsCreatedAtColumn),
+                              ),
+                              DataColumn(label: Text(l10n.adminCommonAge)),
                               const DataColumn(label: Text('')),
                             ],
                             rows: [
@@ -316,10 +328,18 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                       ),
                                     ),
                                     DataCell(Text(st.items[i].name)),
-                                    DataCell(Text(st.items[i].status)),
+                                    DataCell(
+                                      Text(
+                                        _suggestionStatusLabel(
+                                          context,
+                                          st.items[i].status,
+                                        ),
+                                      ),
+                                    ),
                                     DataCell(
                                       Text(
                                         _assignedLabel(
+                                          context,
                                           st.items[i].assignedTo,
                                           user?.id,
                                         ),
@@ -329,7 +349,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                       Text(_fmtDate(st.items[i].createdAt)),
                                     ),
                                     DataCell(
-                                      Text(_fmtDays(st.items[i].ageDays)),
+                                      Text(_fmtDays(context, st.items[i].ageDays)),
                                     ),
                                     DataCell(
                                       TextButton(
@@ -338,7 +358,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                           st.items[i],
                                           index: i,
                                         ),
-                                        child: const Text('Detay'),
+                                        child: Text(l10n.adminCommonDetails),
                                       ),
                                     ),
                                   ],
@@ -349,7 +369,9 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                         if (!st.isLoading && st.items.isEmpty)
                           Padding(
                             padding: EdgeInsets.only(top: 24),
-                            child: Center(child: Text('Kayit bulunamadi.')),
+                            child: Center(
+                              child: Text(l10n.adminCommonNoRecordsFound),
+                            ),
                           ),
                         if (st.isLoadingMore)
                           const Padding(
@@ -393,6 +415,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
     AdminSuggestionItem item, {
     int? index,
   }) async {
+    final l10n = context.l10n;
     final controller = ref.read(adminSuggestionsControllerProvider.notifier);
     if (index != null) {
       controller.selectIndex(index);
@@ -427,25 +450,31 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                 children: [
                   if (item.slaBreached)
                     AppSlaBanner(
-                      text: 'Bu kayıt SLA açtı: ${_fmtDays(item.ageDays)}',
+                      text: l10n.adminSuggestionsSlaExceeded(
+                        _fmtDays(context, item.ageDays),
+                      ),
                     ),
-                  const Text(
-                    'Öneri Detayı',
+                  Text(
+                    l10n.adminSuggestionsDetailTitle,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 10),
                   Text('ID: ${item.id}'),
                   if ((item.category ?? '').isNotEmpty)
-                    Text('Kategori: ${item.category}'),
-                  Text('Konum: ${_locText(item.district, item.city)}'),
+                    Text('${l10n.adminSuggestionsCategoryLabel}: ${item.category}'),
+                  Text(
+                    '${l10n.adminSuggestionsLocationLabel}: ${_locText(context, item.district, item.city)}',
+                  ),
                   const SizedBox(height: 10),
-                  Text('Atanan: ${_assignedLabel(item.assignedTo, userId)}'),
+                  Text(
+                    '${l10n.adminCommonAssigned}: ${_assignedLabel(context, item.assignedTo, userId)}',
+                  ),
                   const SizedBox(height: 10),
                   TextField(
                     controller: noteCtrl,
                     maxLines: 3,
-                    decoration: const InputDecoration(
-                      labelText: 'Admin Notu (opsiyonel)',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminSuggestionsAdminNoteOptional,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -472,8 +501,10 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Öneri bana atandı.'),
+                                          SnackBar(
+                                            content: Text(
+                                              l10n.adminSuggestionsAssignedToMe,
+                                            ),
                                           ),
                                         );
                                       }
@@ -492,7 +523,11 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                       setModalState(() => loading = false);
                                     }
                                   },
-                            child: Text(loading ? 'İşleniyor...' : 'Bana Ata'),
+                            child: Text(
+                              loading
+                                  ? l10n.adminCommonProcessing
+                                  : l10n.adminReportsAssignToMe,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -516,8 +551,10 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                         ScaffoldMessenger.of(
                                           context,
                                         ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Atama kaldırıldı.'),
+                                          SnackBar(
+                                            content: Text(
+                                              l10n.adminReportsAssignmentRemoved,
+                                            ),
                                           ),
                                         );
                                       }
@@ -537,7 +574,9 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                     }
                                   },
                             child: Text(
-                              loading ? 'İşleniyor...' : 'Atamayı Kaldır',
+                              loading
+                                  ? l10n.adminCommonProcessing
+                                  : l10n.adminReportsUnassign,
                             ),
                           ),
                         ),
@@ -545,8 +584,8 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                   ),
                   const SizedBox(height: 12),
 
-                  const Text(
-                    'Muhtemel Kopyalar',
+                  Text(
+                    l10n.adminSuggestionsPossibleDuplicatesTitle,
                     style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 8),
@@ -560,7 +599,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                           .loadDuplicates(item.id),
                     )
                   else if (dupState.duplicates.isEmpty)
-                    const Text('Benzer işletme bulunamadı')
+                    Text(l10n.adminSuggestionsNoSimilarBusiness)
                   else
                     Column(
                       children: [
@@ -601,9 +640,9 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
+                                        SnackBar(
                                           content: Text(
-                                            'Yeni işletme oluşturuldu.',
+                                            l10n.adminSuggestionsCreatedNewBusiness,
                                           ),
                                         ),
                                       );
@@ -624,7 +663,9 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                   }
                                 },
                           child: Text(
-                            loading ? 'İşleniyor...' : 'Yeni işletme oluştur',
+                            loading
+                                ? l10n.adminCommonProcessing
+                                : l10n.adminSuggestionsCreateNewBusiness,
                           ),
                         ),
                       ),
@@ -650,9 +691,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Reddedildi.'),
-                                        ),
+                                        SnackBar(content: Text(l10n.rejected)),
                                       );
                                     }
                                   } catch (e) {
@@ -670,7 +709,11 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                                     setModalState(() => loading = false);
                                   }
                                 },
-                          child: Text(loading ? 'İşleniyor...' : 'Reddet'),
+                          child: Text(
+                            loading
+                                ? l10n.adminCommonProcessing
+                                : l10n.rejected,
+                          ),
                         ),
                       ),
                     ],
@@ -695,6 +738,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
   }
 
   void _toggleDetail(AdminSuggestionsState st) {
+    final l10n = context.l10n;
     if (st.isDetailOpen) {
       _closeDetail();
       return;
@@ -702,7 +746,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Satır seç')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminCommonSelectRow)));
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -710,11 +754,12 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
   }
 
   Future<void> _toggleAssign(AdminSuggestionsState st, String? userId) async {
+    final l10n = context.l10n;
     if (userId == null) return;
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Satır seç')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminCommonSelectRow)));
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -734,10 +779,11 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
   }
 
   Future<void> _handleAction(AdminSuggestionsState st, String key) async {
+    final l10n = context.l10n;
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Satır seç')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminCommonSelectRow)));
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -763,26 +809,27 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
     required String suggestionId,
     required String businessId,
   }) async {
+    final l10n = context.l10n;
     final noteCtrl = TextEditingController();
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Mevcut işletmeye başla?'),
+        title: Text(l10n.adminSuggestionsLinkExistingConfirmTitle),
         content: TextField(
           controller: noteCtrl,
           maxLines: 3,
-          decoration: const InputDecoration(
-            labelText: 'Admin notu (opsiyonel)',
+          decoration: InputDecoration(
+            labelText: l10n.adminSuggestionsAdminNoteOptional,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Vazgeç'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Başla'),
+            child: Text(l10n.start),
           ),
         ],
       ),
@@ -801,7 +848,7 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
       if (!mounted) return;
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mevcut işletmeye başlatıldı.')),
+        SnackBar(content: Text(l10n.adminSuggestionsLinkedToExisting)),
       );
     } catch (e) {
       if (!mounted) return;
@@ -827,27 +874,28 @@ class _BulkBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Row(
       children: [
         Text(
-          'Seçili: $selectedCount',
+          l10n.adminReportsSelectedCount(selectedCount),
           style: const TextStyle(fontWeight: FontWeight.w800),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: TextField(
             controller: noteCtrl,
-            decoration: const InputDecoration(
-              labelText: 'Admin Notu (opsiyonel)',
+            decoration: InputDecoration(
+              labelText: l10n.adminSuggestionsAdminNoteOptional,
             ),
           ),
         ),
         const SizedBox(width: 10),
-        OutlinedButton(onPressed: onClear, child: const Text('Temizle')),
+        OutlinedButton(onPressed: onClear, child: Text(l10n.adminCommonClear)),
         const SizedBox(width: 8),
         FilledButton(
           onPressed: onApply,
-          child: const Text('Seçilileri Reddet'),
+          child: Text(l10n.adminSuggestionsRejectSelected),
         ),
       ],
     );
@@ -901,12 +949,13 @@ class _DuplicatesError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(message, style: const TextStyle(color: AppColors.danger)),
         const SizedBox(height: 6),
-        OutlinedButton(onPressed: onRetry, child: const Text('Tekrar dene')),
+        OutlinedButton(onPressed: onRetry, child: Text(l10n.retry)),
       ],
     );
   }
@@ -919,6 +968,7 @@ class _DuplicateRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final score = dup.score;
     final scoreColor = score >= 0.8
         ? AppColors.success
@@ -943,7 +993,7 @@ class _DuplicateRow extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _locText(dup.district, dup.city),
+                  _locText(context, dup.district, dup.city),
                   style: const TextStyle(color: AppColors.muted),
                 ),
               ],
@@ -963,7 +1013,7 @@ class _DuplicateRow extends StatelessWidget {
           const SizedBox(width: 10),
           OutlinedButton(
             onPressed: onLink,
-            child: const Text('Bu işletmeye başla'),
+            child: Text(l10n.adminSuggestionsLinkToThisBusiness),
           ),
         ],
       ),
@@ -971,10 +1021,10 @@ class _DuplicateRow extends StatelessWidget {
   }
 }
 
-String _locText(String? district, String? city) {
+String _locText(BuildContext context, String? district, String? city) {
   final d = (district ?? '').trim();
   final c = (city ?? '').trim();
-  if (d.isEmpty && c.isEmpty) return 'Konum yok';
+  if (d.isEmpty && c.isEmpty) return context.l10n.adminSuggestionsNoLocation;
   if (d.isEmpty) return c;
   if (c.isEmpty) return d;
   return '$d • $c';
@@ -985,13 +1035,30 @@ String _short(String id) => id.length > 8 ? '${id.substring(0, 8)}...' : id;
 WidgetStateProperty<Color?> _rowColor(bool active, bool slaBreached) =>
     appAdminRowColor(active: active, slaBreached: slaBreached);
 
-String _assignedLabel(String? assignedTo, String? userId) {
-  if (assignedTo == null || assignedTo.isEmpty) return 'Boş';
-  if (userId != null && assignedTo == userId) return 'Ben';
-  return 'Başka admin';
+String _assignedLabel(BuildContext context, String? assignedTo, String? userId) {
+  final l10n = context.l10n;
+  if (assignedTo == null || assignedTo.isEmpty) return l10n.adminCommonUnassigned;
+  if (userId != null && assignedTo == userId) return l10n.adminCommonMine;
+  return l10n.adminCommonOtherAdmin;
 }
 
-String _fmtDays(double v) => '${v.toStringAsFixed(1)}gün';
+String _fmtDays(BuildContext context, double v) {
+  return context.l10n.adminSuggestionsDaysValue(v.toStringAsFixed(1));
+}
+
+String _suggestionStatusLabel(BuildContext context, String status) {
+  final l10n = context.l10n;
+  switch (status) {
+    case 'pending':
+      return l10n.pending;
+    case 'approved':
+      return l10n.approved;
+    case 'rejected':
+      return l10n.rejected;
+    default:
+      return status;
+  }
+}
 
 String _fmtDate(DateTime d) {
   final y = d.year.toString().padLeft(4, '0');

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../legal/legal_routes.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
 import '../data/owner_business_repository.dart';
 
@@ -25,6 +26,8 @@ class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
   final phoneCtrl = TextEditingController();
   final websiteCtrl = TextEditingController();
   bool _saving = false;
+  bool _acceptedBusinessTerms = false;
+  bool _acceptedAccuracyResponsibility = false;
 
   @override
   void dispose() {
@@ -95,6 +98,59 @@ class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
             ),
           ),
           const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _acceptedBusinessTerms,
+                  onChanged: _saving
+                      ? null
+                      : (value) {
+                          setState(() {
+                            _acceptedBusinessTerms = value ?? false;
+                          });
+                        },
+                  title: const Text(
+                    'İşletme Kullanım Koşulları’nı kabul ediyorum.',
+                  ),
+                ),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _acceptedAccuracyResponsibility,
+                  onChanged: _saving
+                      ? null
+                      : (value) {
+                          setState(() {
+                            _acceptedAccuracyResponsibility = value ?? false;
+                          });
+                        },
+                  title: const Text(
+                    'Menü ve işletme bilgilerinin doğruluğundan sorumlu olduğumu kabul ediyorum.',
+                  ),
+                ),
+                TextButton.icon(
+                  onPressed: _saving
+                      ? null
+                      : () => context.go(
+                          LegalRoutes.detail(LegalRoutes.businessSlug),
+                        ),
+                  icon: const Icon(Icons.open_in_new),
+                  label: const Text('İşletme Kullanım Koşulları’nı aç'),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: FilledButton(
@@ -122,18 +178,32 @@ class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
       );
       return;
     }
+    if (!_acceptedBusinessTerms || !_acceptedAccuracyResponsibility) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Devam etmek için işletme koşullarını ve doğruluk beyanını kabul edin.',
+          ),
+        ),
+      );
+      return;
+    }
 
     setState(() => _saving = true);
     try {
-      await ref.read(ownerBusinessRepositoryProvider).submitNewBusiness(
-        name: nameCtrl.text.trim(),
-        city: cityCtrl.text.trim(),
-        district: districtCtrl.text.trim(),
-        category: categoryCtrl.text.trim(),
-        address: addressCtrl.text.trim(),
-        phone: phoneCtrl.text.trim().isEmpty ? null : phoneCtrl.text.trim(),
-        website: websiteCtrl.text.trim().isEmpty ? null : websiteCtrl.text.trim(),
-      );
+      await ref
+          .read(ownerBusinessRepositoryProvider)
+          .submitNewBusiness(
+            name: nameCtrl.text.trim(),
+            city: cityCtrl.text.trim(),
+            district: districtCtrl.text.trim(),
+            category: categoryCtrl.text.trim(),
+            address: addressCtrl.text.trim(),
+            phone: phoneCtrl.text.trim().isEmpty ? null : phoneCtrl.text.trim(),
+            website: websiteCtrl.text.trim().isEmpty
+                ? null
+                : websiteCtrl.text.trim(),
+          );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(context.l10n.ownerApplicationReceived)),

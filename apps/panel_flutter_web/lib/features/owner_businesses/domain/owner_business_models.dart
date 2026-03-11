@@ -10,6 +10,8 @@ class OwnerBusiness {
     this.chainName,
     this.branchLabel,
     this.ownerRole = 'owner',
+    this.slug,
+    this.publicSlug,
   });
 
   final String businessId;
@@ -22,6 +24,8 @@ class OwnerBusiness {
   final String? chainName;
   final String? branchLabel;
   final String ownerRole;
+  final String? slug;
+  final String? publicSlug;
 
   factory OwnerBusiness.fromMap(Map<String, dynamic> map) {
     return OwnerBusiness(
@@ -43,6 +47,32 @@ class OwnerBusiness {
           ? null
           : (map['branch_label'] ?? '').toString(),
       ownerRole: (map['owner_role'] ?? 'owner').toString(),
+      slug: _nullableString(
+        map['slug'] ?? map['business_slug'] ?? map['legacy_slug'],
+      ),
+      publicSlug: _nullableString(
+        map['public_slug'] ?? map['business_public_slug'],
+      ),
+    );
+  }
+
+  OwnerBusiness copyWith({
+    String? slug,
+    String? publicSlug,
+  }) {
+    return OwnerBusiness(
+      businessId: businessId,
+      businessName: businessName,
+      city: city,
+      district: district,
+      claimStatus: claimStatus,
+      claimedAt: claimedAt,
+      chainId: chainId,
+      chainName: chainName,
+      branchLabel: branchLabel,
+      ownerRole: ownerRole,
+      slug: slug ?? this.slug,
+      publicSlug: publicSlug ?? this.publicSlug,
     );
   }
 }
@@ -91,4 +121,10 @@ class BusinessSubmission {
           DateTime.now(),
     );
   }
+}
+
+String? _nullableString(Object? value) {
+  final text = (value ?? '').toString().trim();
+  if (text.isEmpty) return null;
+  return text;
 }

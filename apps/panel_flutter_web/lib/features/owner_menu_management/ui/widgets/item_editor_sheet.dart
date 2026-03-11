@@ -232,6 +232,7 @@ class _ItemEditorSheetState extends ConsumerState<ItemEditorSheet> {
         setState(() {
           _saving = false;
           _error = ownerMenuErrorMessage(
+            context.l10n,
             e,
             fallback: AppErrorMapper.message(e),
           );
@@ -287,7 +288,11 @@ class _OwnerItemVariantsSectionState
             variantsAsync.when(
               loading: () => const LinearProgressIndicator(),
               error: (e, _) => Text(
-                ownerMenuErrorMessage(e, fallback: AppErrorMapper.message(e)),
+                ownerMenuErrorMessage(
+                  context.l10n,
+                  e,
+                  fallback: AppErrorMapper.message(e),
+                ),
                 style: const TextStyle(color: AppColors.danger),
               ),
               data: (variants) {
@@ -606,7 +611,9 @@ class _OwnerItemPhotosSectionState
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(_uploadErrorMessage(e))));
+        ).showSnackBar(
+          SnackBar(content: Text(_uploadErrorMessageWithContext(e, context))),
+        );
       }
     } finally {
       if (mounted) {
@@ -620,7 +627,7 @@ class _OwnerItemPhotosSectionState
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(context.l10n.ownerDeletePhoto),
-        content: Text(context.l10n.ownerDeletePhotoConfirm),
+        content: Text(context.l10n.ownerDeletePhotoToTrashConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -641,7 +648,9 @@ class _OwnerItemPhotosSectionState
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(context.l10n.ownerPhotoDeleted)));
+        ).showSnackBar(
+          SnackBar(content: Text(context.l10n.ownerPhotoMovedToTrash)),
+        );
       }
     } catch (e) {
       if (mounted) {
@@ -826,13 +835,15 @@ void _openPhotoViewer(
   );
 }
 
-String _uploadErrorMessage(Object error) {
+String _uploadErrorMessageWithContext(Object error, BuildContext? context) {
   final msg = AppErrorMapper.message(error).toLowerCase();
   if (msg.contains('not_owner')) {
-    return 'Bu iÅŸlem iÃ§in iÅŸletme sahibi olmalÄ±sÄ±n';
+    return context?.l10n.ownerUploadRequiresOwnership ??
+        'Bu işlem için işletme sahibi olmalısın';
   }
   if (msg.contains('rate')) {
-    return 'Cok hizli denedin';
+    return context?.l10n.ownerUploadRateLimited ??
+        'Çok sık denedin, lütfen biraz sonra tekrar dene';
   }
-  return 'Yukleme basarisiz';
+  return context?.l10n.ownerUploadFailed ?? 'Yükleme başarısız';
 }

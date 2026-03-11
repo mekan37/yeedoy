@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../group_requests/data/group_requests_repository.dart';
 import '../../group_requests/domain/group_request_models.dart';
@@ -26,6 +27,7 @@ class _OwnerGroupRequestsPageState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final user = ref.watch(userProvider);
     if (user == null) {
       final redirect = Uri.encodeComponent(
@@ -59,7 +61,7 @@ class _OwnerGroupRequestsPageState
 
     return AppScaffold(
       appBar: AppBar(
-        title: const Text('Talepler'),
+        title: Text(l10n.ownerGroupRequestsTitle),
         actions: [
           IconButton(
             onPressed: _selectedBusinessId.isEmpty
@@ -86,7 +88,7 @@ class _OwnerGroupRequestsPageState
                   .where((c) => c.claim.status == 'approved')
                   .toList();
               if (approvedItems.isEmpty) {
-                return const _EmptyBox(message: 'Onaylı işletme bulunamadı.');
+                return _EmptyBox(message: l10n.ownerApprovedBusinessNotFound);
               }
               return _BusinessSelector(
                 items: approvedItems,
@@ -100,8 +102,8 @@ class _OwnerGroupRequestsPageState
             },
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Açık talepler',
+          Text(
+            l10n.ownerGroupRequestsOpenRequests,
             style: TextStyle(fontWeight: FontWeight.w900),
           ),
           const SizedBox(height: 8),
@@ -111,10 +113,10 @@ class _OwnerGroupRequestsPageState
                 _ErrorBox(message: AppErrorMapper.message(e), onRetry: () {}),
             data: (items) {
               if (items.isEmpty) {
-                return const AppEmptyState(
+                return AppEmptyState(
                   icon: Icons.inbox_outlined,
-                  title: 'Talep yok',
-                  description: 'Açık grup yemeği talebi bulunamadı.',
+                  title: l10n.ownerGroupRequestsEmptyTitle,
+                  description: l10n.ownerGroupRequestsEmptyDescription,
                 );
               }
               return Column(
@@ -130,7 +132,10 @@ class _OwnerGroupRequestsPageState
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            '${req.partySize} kişi • ${_formatPrice(req.budgetTotalCents)}',
+                            l10n.ownerGroupRequestsPartyBudget(
+                              req.partySize,
+                              _formatPrice(req.budgetTotalCents),
+                            ),
                             style: const TextStyle(color: AppColors.muted),
                           ),
                           const SizedBox(height: 8),
@@ -138,7 +143,9 @@ class _OwnerGroupRequestsPageState
                             alignment: Alignment.centerRight,
                             child: FilledButton(
                               onPressed: () => _openOfferSheet(req),
-                              child: const Text('Teklif Ver'),
+                              child: Text(
+                                l10n.ownerGroupRequestsOfferAction,
+                              ),
                             ),
                           ),
                         ],
@@ -151,8 +158,8 @@ class _OwnerGroupRequestsPageState
             },
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Tekliflerim',
+          Text(
+            l10n.ownerGroupRequestsMyOffers,
             style: TextStyle(fontWeight: FontWeight.w900),
           ),
           const SizedBox(height: 8),
@@ -162,10 +169,10 @@ class _OwnerGroupRequestsPageState
                 _ErrorBox(message: AppErrorMapper.message(e), onRetry: () {}),
             data: (offers) {
               if (offers.isEmpty) {
-                return const AppEmptyState(
+                return AppEmptyState(
                   icon: Icons.outbox_outlined,
-                  title: 'Teklif yok',
-                  description: 'Verdiğin teklifler burada görünür.',
+                  title: l10n.ownerGroupRequestsOffersEmptyTitle,
+                  description: l10n.ownerGroupRequestsOffersEmptyDescription,
                 );
               }
               return Column(
@@ -181,7 +188,9 @@ class _OwnerGroupRequestsPageState
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            'Durum: ${offer.status}',
+                            l10n.ownerGroupRequestsOfferStatus(
+                              _localizedOfferStatus(context, offer.status),
+                            ),
                             style: const TextStyle(color: AppColors.muted),
                           ),
                         ],
@@ -221,8 +230,8 @@ class _OwnerGroupRequestsPageState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Teklif Ver',
+              Text(
+                context.l10n.ownerGroupRequestsOfferAction,
                 style: TextStyle(fontWeight: FontWeight.w900),
               ),
               const SizedBox(height: 8),
@@ -231,8 +240,8 @@ class _OwnerGroupRequestsPageState
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                decoration: const InputDecoration(
-                  labelText: 'Toplam teklif (\u20BA)',
+                decoration: InputDecoration(
+                  labelText: context.l10n.ownerGroupRequestsTotalOfferLabel,
                 ),
               ),
               const SizedBox(height: 8),
@@ -241,7 +250,7 @@ class _OwnerGroupRequestsPageState
                 builder: (_, value, _) => CheckboxListTile(
                   value: value,
                   onChanged: (v) => dessert.value = v ?? false,
-                  title: const Text('Tatlı dahil'),
+                  title: Text(context.l10n.ownerGroupRequestsDessertIncluded),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -251,7 +260,7 @@ class _OwnerGroupRequestsPageState
                 builder: (_, value, _) => CheckboxListTile(
                   value: value,
                   onChanged: (v) => drinks.value = v ?? false,
-                  title: const Text('İçecek dahil'),
+                  title: Text(context.l10n.ownerGroupRequestsDrinksIncluded),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -261,7 +270,7 @@ class _OwnerGroupRequestsPageState
                 builder: (_, value, _) => CheckboxListTile(
                   value: value,
                   onChanged: (v) => menuFixed.value = v ?? false,
-                  title: const Text('Menü sabit'),
+                  title: Text(context.l10n.ownerGroupRequestsMenuFixed),
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -270,8 +279,8 @@ class _OwnerGroupRequestsPageState
               TextField(
                 controller: messageCtrl,
                 maxLines: 2,
-                decoration: const InputDecoration(
-                  labelText: 'Mesaj (opsiyonel)',
+                decoration: InputDecoration(
+                  labelText: context.l10n.ownerDescriptionOptional,
                 ),
               ),
               const SizedBox(height: 12),
@@ -279,7 +288,7 @@ class _OwnerGroupRequestsPageState
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () => Navigator.pop(ctx, true),
-                  child: const Text('Gönder'),
+                  child: Text(context.l10n.submit),
                 ),
               ),
             ],
@@ -294,7 +303,11 @@ class _OwnerGroupRequestsPageState
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Geçerli fiyat girin.')));
+        ).showSnackBar(
+          SnackBar(
+            content: Text(context.l10n.ownerGroupRequestsEnterValidPrice),
+          ),
+        );
       }
       return;
     }
@@ -317,7 +330,9 @@ class _OwnerGroupRequestsPageState
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Teklif gönderildi')));
+        ).showSnackBar(
+          SnackBar(content: Text(context.l10n.ownerGroupRequestsOfferSent)),
+        );
       }
       ref.invalidate(_openRequestsProvider(_selectedBusinessId));
       ref.invalidate(_myOffersProvider(_selectedBusinessId));
@@ -370,7 +385,10 @@ class _BusinessSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Text('İşletme:', style: TextStyle(fontWeight: FontWeight.w700)),
+        Text(
+          '${context.l10n.businessLabel}:',
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: DropdownButtonFormField<String>(
@@ -464,7 +482,10 @@ class _ErrorBox extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          OutlinedButton(onPressed: onRetry, child: const Text('Tekrar dene')),
+          OutlinedButton(
+            onPressed: onRetry,
+            child: Text(context.l10n.retry),
+          ),
         ],
       ),
     );
@@ -474,7 +495,7 @@ class _ErrorBox extends StatelessWidget {
 String _formatPrice(int cents) {
   final value = cents / 100.0;
   final text = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
-  return 'â‚º$text';
+  return 'TL $text';
 }
 
 String _formatDate(DateTime time) {
@@ -489,4 +510,17 @@ int? _parseBudget(String raw) {
   final value = double.tryParse(normalized);
   if (value == null || value <= 0) return null;
   return (value * 100).round();
+}
+
+String _localizedOfferStatus(BuildContext context, String status) {
+  switch (status.trim().toLowerCase()) {
+    case 'approved':
+      return context.l10n.approved;
+    case 'rejected':
+      return context.l10n.rejected;
+    case 'pending':
+      return context.l10n.pending;
+    default:
+      return status;
+  }
 }

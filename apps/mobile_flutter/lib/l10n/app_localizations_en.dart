@@ -387,10 +387,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Content could not be loaded right now. Cached data will be shown if available. Check internet and try again.';
 
   @override
-  String get trustDataUnavailable => 'Trust data unavailable';
+  String get trustDataUnavailable => 'Data trust unavailable';
 
   @override
-  String get freshnessAndTrust => 'Freshness and trust';
+  String get freshnessAndTrust => 'Data trust breakdown';
 
   @override
   String get menuUpdatedLabel => 'Menu Updated';
@@ -400,6 +400,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trustScoreLabel => 'Trust Score';
+
+  @override
+  String get communityScoreDataTrustLabel => 'Data trust';
+
+  @override
+  String get communityScoreMenuFreshnessLabel => 'Menu freshness';
 
   @override
   String get last3MonthsPriceChange => 'Last 3 Months Price Change';
@@ -1581,7 +1587,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trustScoreInfoNote =>
-      'This trust score is not user voting; it is based on contribution quality.';
+      'This score is not user voting; it shows how reliably you contribute to the community.';
 
   @override
   String plusPoints(int points) {
@@ -1590,7 +1596,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verifyContributionRaisedScore =>
-      'Your price verification increased your contribution score.';
+      'Your price verification strengthened your community trust.';
 
   @override
   String get priceVerification => 'Price verification';
@@ -1669,6 +1675,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get priceConfidenceDataTrustHint =>
+      'Price confidence is one part of data trust; it looks at recent verification and consensus.';
+
+  @override
   String get seenCorrect => 'Seen • Correct';
 
   @override
@@ -1704,6 +1714,81 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get valueScoreFormulaHint =>
       'Calculated by verification rate, recent positive votes, and price stability.';
+
+  @override
+  String get communityScoreExplainAction => 'What do these scores mean?';
+
+  @override
+  String get communityScoreWhatImproves => 'What improves it?';
+
+  @override
+  String get communityScoreHowUsed => 'How the app uses it';
+
+  @override
+  String get communityScoreUserTrustCategory => 'User trust';
+
+  @override
+  String get communityScoreDataTrustCategory => 'Data trust';
+
+  @override
+  String get communityScoreInfoOnlyCategory => 'Info score';
+
+  @override
+  String get communityScoreUserTrustSummary =>
+      'Shows how reliable the community finds your contributions. Popularity does not grow this score; accuracy and approval quality do.';
+
+  @override
+  String get communityScoreUserTrustSignalAccuracy =>
+      'Accurate contributions and price checks';
+
+  @override
+  String get communityScoreUserTrustSignalApproval =>
+      'How often your contributions are approved';
+
+  @override
+  String get communityScoreUserTrustSignalSafety =>
+      'Low spam, abuse, and rejection signals';
+
+  @override
+  String get communityScoreUserTrustUsage =>
+      'More trusted contributions can surface faster in community flows and verification decisions.';
+
+  @override
+  String get communityScoreDataTrustSummary =>
+      'Shows how dependable a menu or price data is right now.';
+
+  @override
+  String get communityScoreDataTrustSignalFreshness =>
+      'Menu freshness and the latest audit date';
+
+  @override
+  String get communityScoreDataTrustSignalConsensus =>
+      'Multiple verifiers and strong consensus';
+
+  @override
+  String get communityScoreDataTrustSignalStability =>
+      'Low conflict and a consistent change history';
+
+  @override
+  String get communityScoreDataTrustUsage =>
+      'The app uses this signal before presenting menu and price data as dependable.';
+
+  @override
+  String get communityScoreValueInsightSummary =>
+      'This is not a trust score; it is an informational score built from verification, votes, and price stability.';
+
+  @override
+  String get communityScoreValueSignalVerification => 'Verification rate';
+
+  @override
+  String get communityScoreValueSignalVotes => 'Recent positive votes';
+
+  @override
+  String get communityScoreValueSignalStability => 'Price stability';
+
+  @override
+  String get communityScoreValueUsage =>
+      'Use it as a decision aid, not as proof on its own.';
 
   @override
   String get menuPhotos => 'Menu Photos';
@@ -2834,7 +2919,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String profileTrustScorePercent(int score) {
-    return 'Trust score: %$score';
+    return 'Community trust: %$score';
   }
 
   @override
@@ -2932,7 +3017,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSegmentBalanced => 'Balanced';
 
   @override
-  String get profileMoatSignalsTitle => 'Behavior signals';
+  String get profileMoatSignalsTitle => 'Supporting signals';
 
   @override
   String get profileSignalTrust => 'Trust';
@@ -2941,10 +3026,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSignalAccuracy => 'Accuracy';
 
   @override
-  String get profileSignalSegment => 'Segment';
+  String get profileSignalSegment => 'Contribution style';
 
   @override
-  String get profileSignalSilentQuality => 'Silent quality';
+  String get profileSignalSilentQuality => 'Quality streak';
+
+  @override
+  String get profileSignalApprovalRate => 'Approval rate';
+
+  @override
+  String get profileSupportSignalsSummary =>
+      'These signals feed your community trust; they are not separate primary scores.';
 
   @override
   String profileMoatTrustedRejectedSpam(int trusted, int rejected, int spam) {
@@ -2958,7 +3050,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileMoatSilentQualityHint =>
-      'Silent quality contributor: you make accurate contributions with fewer actions.';
+      'Your quality streak is strong; fewer but accurate contributions stand out.';
 
   @override
   String get businessReviewsCommunityExperiences => 'Community experiences';

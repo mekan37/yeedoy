@@ -7,6 +7,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/ui/link_paste_field.dart';
 import '../../../features/shared/ui/achievements/achievement_visuals.dart';
+import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../price_alerts/domain/price_alert_models.dart';
 import '../../price_alerts/domain/price_alerts_provider.dart';
@@ -231,6 +232,8 @@ class _ProfileTab extends ConsumerWidget {
               ),
             ),
           ),
+          const SizedBox(height: 12),
+          const CommunityScoreGuideCard(kind: CommunityScoreKind.userTrust),
           const SizedBox(height: 12),
           moatSignalsAsync.when(
             loading: () => const SizedBox.shrink(),
@@ -576,6 +579,11 @@ class _MoatSignalsCard extends StatelessWidget {
       'photo_proof' => t.profileSegmentPhotoProof,
       _ => t.profileSegmentBalanced,
     };
+    final approvalRate = signals.contributionCount <= 0
+        ? 0
+        : ((signals.approvedCount * 100) / signals.contributionCount)
+              .round()
+              .clamp(0, 100);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -587,16 +595,27 @@ class _MoatSignalsCard extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.w800),
             ),
             const SizedBox(height: 8),
+            Text(
+              t.profileSupportSignalsSummary,
+              style: const TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+            const SizedBox(height: 8),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
-                _SignalChip(label: t.profileSignalTrust, value: '%${signals.trustScore}'),
                 _SignalChip(
                   label: t.profileSignalAccuracy,
                   value: '%${signals.accuracyScore}',
                 ),
-                _SignalChip(label: t.profileSignalSegment, value: segmentLabel),
+                _SignalChip(
+                  label: t.profileSignalApprovalRate,
+                  value: '%$approvalRate',
+                ),
+                _SignalChip(
+                  label: t.profileSignalSegment,
+                  value: segmentLabel,
+                ),
                 _SignalChip(
                   label: t.profileSignalSilentQuality,
                   value: '${signals.silentQualityScore}',

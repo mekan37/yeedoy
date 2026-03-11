@@ -18,7 +18,7 @@ dependencies:
   go_router: ^17.0.1
   flutter_dotenv: ^6.0.0
   shared_preferences: ^2.5.4
-  google_fonts: ^7.0.2
+  sqflite: ^2.4.2
   gap: ^3.0.1
   flutter_screenutil: ^5.9.0
   supabase_flutter: ^2.12.0
@@ -75,6 +75,7 @@ flutter:
     - .env
     - assets/images/
     - assets/images/categories/
+    - assets/meal_cards/
     - assets/json/karaliste.txt
     - assets/json/yemek.v4.json
 

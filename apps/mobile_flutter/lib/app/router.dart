@@ -37,7 +37,10 @@ import '../features/suspended_meals/ui/my_suspended_claims_page.dart';
 import '../features/taste_twin/ui/taste_twin_page.dart';
 import '../features/top_businesses/ui/top_businesses_page.dart';
 import '../features/legal/ui/legal_page.dart';
+import '../features/legal/ui/legal_acceptance_page.dart';
+import '../features/legal/legal_providers.dart';
 import '../features/devtools/ui/developer_tools_page.dart';
+import '../features/shared/ui/labs_page.dart';
 import '../core/i18n/app_localizations.dart';
 import '../core/config/app_config.dart';
 
@@ -45,6 +48,8 @@ bool _bootSplashHandled = false;
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final session = ref.watch(sessionProvider);
+  final flags = ref.watch(featureFlagsProvider);
+  final legalSnapshot = ref.watch(legalAcceptanceSnapshotProvider);
   ref.watch(ensureMyProfileProvider);
   final authRefresh = ValueNotifier<int>(0);
   ref.listen(authStateProvider, (_, _) {
@@ -102,13 +107,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         if (redirect != null) return redirect;
         return '/discover';
       }
+      final legalAcceptanceRoute =
+          path == '/legal/acceptance' || path.startsWith('/legal/acceptance');
+      final legalAcceptanceCheckFailed = legalSnapshot.hasError;
+      final pendingLegalAcceptance =
+          legalSnapshot.asData?.value?.requiresMandatoryAcceptance ?? false;
+      if (loggedIn &&
+          (pendingLegalAcceptance || legalAcceptanceCheckFailed) &&
+          !legalAcceptanceRoute) {
+        final from = Uri.encodeComponent(state.uri.toString());
+        return '/legal/acceptance?from=$from';
+      }
 
       final photoFeedRoute =
           path == '/feed' ||
           path.startsWith('/feed/') ||
           path == '/gourmets' ||
-          path.startsWith('/gourmets/');
-      if (!FeatureFlags.enablePhotoFeed && photoFeedRoute) {
+          path.startsWith('/gourmets/') ||
+          path == '/following' ||
+          path.startsWith('/following/');
+      if (!flags.enablePhotoFeed && photoFeedRoute) {
+        return '/discover';
+      }
+
+      final experimentalHubRoute = path == '/labs' || path.startsWith('/labs/');
+      if (experimentalHubRoute && !flags.hasExperimentalNavigation) {
         return '/discover';
       }
 
@@ -119,14 +142,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path.startsWith('/taste-twin/') ||
           path == '/group-requests' ||
           path.startsWith('/group-requests/') ||
+          path == '/budget-combos' ||
+          path.startsWith('/budget-combos/') ||
           path == '/compare' ||
           path.startsWith('/compare/') ||
+          path == '/my-suspended' ||
+          path.startsWith('/my-suspended/') ||
           path == '/chain' ||
           path.startsWith('/chain/');
-      if (!FeatureFlags.enableLabs && labsRoute) {
+      if (!flags.enableLabs && labsRoute) {
         return '/discover';
       }
-      final devToolsRoute = path == '/dev-tools' || path.startsWith('/dev-tools/');
+      final devToolsRoute =
+          path == '/dev-tools' || path.startsWith('/dev-tools/');
       if (devToolsRoute && !(kDebugMode || AppConfig.devToolsEnabled)) {
         return '/discover';
       }
@@ -143,6 +171,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(path: '/onboarding', builder: (c, s) => const OnboardingPage()),
+      GoRoute(
+        path: '/legal/acceptance',
+        builder: (context, state) {
+          final from = sanitizeInternalRedirect(
+            state.uri.queryParameters['from'],
+          );
+          return LegalAcceptancePage(fromPath: from);
+        },
+      ),
       GoRoute(
         path: '/panel-web',
         builder: (context, state) {
@@ -207,6 +244,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: '/labs',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const LabsPage()),
+      ),
+      GoRoute(
         path: '/compare',
         pageBuilder: (c, s) =>
             buildFadeSlidePage(state: s, child: const ComparePage()),
@@ -255,7 +297,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           if (chainId == null) {
             return buildFadeSlidePage(state: s, child: const DiscoveryPage());
           }
-          return buildFadeSlidePage(state: s, child: ChainPage(chainId: chainId));
+          return buildFadeSlidePage(
+            state: s,
+            child: ChainPage(chainId: chainId),
+          );
         },
       ),
       GoRoute(
@@ -337,7 +382,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(path: '/suggest', builder: (c, s) => const SuggestBusinessPage()),
-      GoRoute(path: '/dev-tools', builder: (c, s) => const DeveloperToolsPage()),
+      GoRoute(
+        path: '/dev-tools',
+        builder: (c, s) => const DeveloperToolsPage(),
+      ),
       GoRoute(
         path: '/my-suggestions',
         builder: (c, s) => const MySuggestionsPage(),
@@ -402,7 +450,10 @@ class _PanelWebOnlyPage extends StatelessWidget {
               Text(
                 t.panelWebOnlyMessage,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18,
+                ),
               ),
               if (fromPath.isNotEmpty) ...[
                 const SizedBox(height: 10),

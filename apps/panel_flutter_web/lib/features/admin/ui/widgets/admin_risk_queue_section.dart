@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/errors/app_error_mapper.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../shared/ui/design_system.dart';
 import '../../domain/admin_risk_controller.dart';
 import '../../domain/admin_risk_models.dart';
@@ -42,6 +43,7 @@ class _AdminRiskQueueSectionState extends ConsumerState<AdminRiskQueueSection> {
   Widget build(BuildContext context) {
     final st = ref.watch(adminRiskControllerProvider);
     final tokens = AppTokens.of(context);
+    final l10n = context.l10n;
     return AppCard(
       padding: EdgeInsets.all(tokens.space12),
       child: Column(
@@ -49,17 +51,29 @@ class _AdminRiskQueueSectionState extends ConsumerState<AdminRiskQueueSection> {
         children: [
           Row(
             children: [
-              Text('Riskli Kullanicilar', style: context.subtitleStyle),
+              Text(l10n.adminRiskQueueTitle, style: context.subtitleStyle),
               const Spacer(),
               SizedBox(
                 width: 150,
                 child: DropdownButtonFormField<int>(
                   initialValue: st.minScore,
-                  items: const [
-                    DropdownMenuItem(value: 15, child: Text('Skor >= 15')),
-                    DropdownMenuItem(value: 20, child: Text('Skor >= 20')),
-                    DropdownMenuItem(value: 30, child: Text('Skor >= 30')),
-                    DropdownMenuItem(value: 40, child: Text('Skor >= 40')),
+                  items: [
+                    DropdownMenuItem(
+                      value: 15,
+                      child: Text(l10n.adminRiskQueueScoreThreshold(15)),
+                    ),
+                    DropdownMenuItem(
+                      value: 20,
+                      child: Text(l10n.adminRiskQueueScoreThreshold(20)),
+                    ),
+                    DropdownMenuItem(
+                      value: 30,
+                      child: Text(l10n.adminRiskQueueScoreThreshold(30)),
+                    ),
+                    DropdownMenuItem(
+                      value: 40,
+                      child: Text(l10n.adminRiskQueueScoreThreshold(40)),
+                    ),
                   ],
                   onChanged: (v) {
                     if (v == null) return;
@@ -67,15 +81,15 @@ class _AdminRiskQueueSectionState extends ConsumerState<AdminRiskQueueSection> {
                         .read(adminRiskControllerProvider.notifier)
                         .setMinScore(v);
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     isDense: true,
-                    labelText: 'Filtre',
+                    labelText: l10n.adminRiskQueueFilterLabel,
                   ),
                 ),
               ),
               SizedBox(width: tokens.space8),
               AppButton(
-                label: 'Yenile',
+                label: l10n.yenile,
                 icon: Icons.refresh,
                 variant: AppButtonVariant.ghost,
                 onPressed: () =>
@@ -98,10 +112,10 @@ class _AdminRiskQueueSectionState extends ConsumerState<AdminRiskQueueSection> {
               child: Center(child: CircularProgressIndicator()),
             )
           else if (st.items.isEmpty)
-            const AppEmptyState(
+            AppEmptyState(
               icon: Icons.shield_outlined,
-              title: 'Riskli kullanici yok',
-              description: 'Bu filtrede su an islem gerektiren kullanici yok.',
+              title: l10n.adminRiskQueueEmptyTitle,
+              description: l10n.adminRiskQueueEmptyDescription,
             )
           else
             ConstrainedBox(
@@ -121,6 +135,7 @@ class _AdminRiskQueueSectionState extends ConsumerState<AdminRiskQueueSection> {
                   return _RiskRow(
                     item: item,
                     isBusy: isBusy,
+                    l10n: l10n,
                     onAction: (action, minutes) async {
                       final reason = await _askReason(context, action);
                       if (reason == null || reason.trim().isEmpty) return;
@@ -145,25 +160,26 @@ class _AdminRiskQueueSectionState extends ConsumerState<AdminRiskQueueSection> {
 }
 
 Future<String?> _askReason(BuildContext context, String action) async {
+  final l10n = context.l10n;
   final controller = TextEditingController();
   final result = await showDialog<String>(
     context: context,
     builder: (ctx) {
       return AlertDialog(
-        title: const Text('Aksiyon Nedeni'),
+        title: Text(l10n.adminRiskQueueReasonDialogTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Aksiyon: $action'),
+            Text(l10n.adminRiskQueueActionWithName(action)),
             const SizedBox(height: 8),
             TextField(
               controller: controller,
               minLines: 2,
               maxLines: 4,
-              decoration: const InputDecoration(
-                labelText: 'Reason (zorunlu)',
-                hintText: 'Kisa aciklama girin',
+              decoration: InputDecoration(
+                labelText: l10n.adminRiskQueueReasonLabel,
+                hintText: l10n.adminRiskQueueReasonHint,
               ),
             ),
           ],
@@ -171,11 +187,11 @@ Future<String?> _askReason(BuildContext context, String action) async {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(null),
-            child: const Text('Vazgeç'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(controller.text.trim()),
-            child: const Text('Uygula'),
+            child: Text(l10n.apply),
           ),
         ],
       );
@@ -189,11 +205,13 @@ class _RiskRow extends StatelessWidget {
   const _RiskRow({
     required this.item,
     required this.isBusy,
+    required this.l10n,
     required this.onAction,
   });
 
   final AdminRiskQueueItem item;
   final bool isBusy;
+  final AppLocalizations l10n;
   final Future<void> Function(String action, int minutes) onAction;
 
   @override
@@ -213,10 +231,10 @@ class _RiskRow extends StatelessWidget {
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(width: 6),
-                _scoreChip(item.riskScore),
+                _scoreChip(l10n, item.riskScore),
                 const Spacer(),
                 IconButton(
-                  tooltip: 'Kopyala',
+                  tooltip: l10n.adminRiskQueueCopyUserId,
                   onPressed: () =>
                       Clipboard.setData(ClipboardData(text: item.userId)),
                   icon: const Icon(Icons.copy, size: 16),
@@ -228,11 +246,19 @@ class _RiskRow extends StatelessWidget {
               spacing: 6,
               runSpacing: 6,
               children: [
-                _smallChip('Sinyal: ${item.signalCount}'),
-                _smallChip('Yeni hesap: ${item.newAccountHits}'),
-                _smallChip('Cihaz degisimi: ${item.deviceChangeHits}'),
-                _smallChip('IP burst: ${item.sameIpHits}'),
-                _smallChip('Kopya metin: ${item.duplicateTextHits}'),
+                _smallChip(l10n.adminRiskQueueSignalCount(item.signalCount)),
+                _smallChip(
+                  l10n.adminRiskQueueNewAccountHits(item.newAccountHits),
+                ),
+                _smallChip(
+                  l10n.adminRiskQueueDeviceChangeHits(item.deviceChangeHits),
+                ),
+                _smallChip(l10n.adminRiskQueueSameIpHits(item.sameIpHits)),
+                _smallChip(
+                  l10n.adminRiskQueueDuplicateTextHits(
+                    item.duplicateTextHits,
+                  ),
+                ),
               ],
             ),
             SizedBox(height: tokens.space8),
@@ -241,24 +267,24 @@ class _RiskRow extends StatelessWidget {
               runSpacing: 8,
               children: [
                 AppButton(
-                  label: 'Soft limit 60dk',
+                  label: l10n.adminRiskQueueSoftLimitAction(60),
                   variant: AppButtonVariant.secondary,
                   onPressed: isBusy ? null : () => onAction('soft_limit', 60),
                 ),
                 AppButton(
-                  label: 'Auto pending 12s',
+                  label: l10n.adminRiskQueueAutoPendingAction(12),
                   variant: AppButtonVariant.secondary,
                   onPressed: isBusy
                       ? null
                       : () => onAction('auto_pending', 720),
                 ),
                 AppButton(
-                  label: 'Shadow ban 24s',
+                  label: l10n.adminRiskQueueShadowBanAction(24),
                   variant: AppButtonVariant.secondary,
                   onPressed: isBusy ? null : () => onAction('shadow_ban', 1440),
                 ),
                 AppButton(
-                  label: 'Temizle',
+                  label: l10n.adminRiskQueueClearAction,
                   variant: AppButtonVariant.ghost,
                   onPressed: isBusy ? null : () => onAction('clear', 1),
                 ),
@@ -271,11 +297,11 @@ class _RiskRow extends StatelessWidget {
   }
 }
 
-Widget _scoreChip(int score) {
+Widget _scoreChip(AppLocalizations l10n, int score) {
   final tone = score >= 80
       ? AppBadgeTone.danger
       : (score >= 50 ? AppBadgeTone.warning : AppBadgeTone.info);
-  return AppBadge(label: 'Skor $score', tone: tone);
+  return AppBadge(label: l10n.adminRiskQueueScoreLabel(score), tone: tone);
 }
 
 Widget _smallChip(String text) {

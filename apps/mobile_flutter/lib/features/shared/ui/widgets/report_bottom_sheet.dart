@@ -164,16 +164,16 @@ class _ReportBottomSheetState extends ConsumerState<ReportBottomSheet> {
             items: reasons
                 .map((r) => DropdownMenuItem(value: r.$1, child: Text(r.$2)))
                 .toList(),
-            onChanged: isLoading ? null : (v) => setState(() => reason = v ?? 'other'),
+            onChanged: isLoading
+                ? null
+                : (v) => setState(() => reason = v ?? 'other'),
             decoration: InputDecoration(labelText: t.reportReasonLabel),
           ),
           const SizedBox(height: 12),
           if (showCopyright) ...[
             TextField(
               controller: copyrightUrlCtrl,
-              decoration: InputDecoration(
-                labelText: t.reportCopyrightUrlLabel,
-              ),
+              decoration: InputDecoration(labelText: t.reportCopyrightUrlLabel),
             ),
             const SizedBox(height: 8),
             TextField(
@@ -249,7 +249,11 @@ class _ReportBottomSheetState extends ConsumerState<ReportBottomSheet> {
 
     if (res.ok) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(t.reportSubmittedThanks)),
+        SnackBar(
+          content: Text(
+            res.queued ? t.weakConnectionQueueNotice : t.reportSubmittedThanks,
+          ),
+        ),
       );
       Navigator.pop(context);
       return;
@@ -263,9 +267,9 @@ class _ReportBottomSheetState extends ConsumerState<ReportBottomSheet> {
     }
 
     if (res.error != 'rate_limited_24h') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(res.error ?? t.unexpectedError)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(res.error ?? t.unexpectedError)));
     }
   }
 

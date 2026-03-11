@@ -18,6 +18,6 @@ Future<String> getAnalyticsClientId() async {
 String _generateClientId() {
   final rand = Random();
   final time = DateTime.now().microsecondsSinceEpoch;
-  final salt = rand.nextInt(1 << 32);
+  final salt = rand.nextDouble().toString().split('.').last.padRight(8, '0');
   return '$time-$salt';
 }

@@ -20,6 +20,7 @@ Yeedoy, menu/fiyat bilgisini topluluk ve dogrulama katmani ile seffaflastiran, Q
 - Menu item bazinda fiyat, dogrulama, confidence ve gecmis gorunumu
 - Fiyat bildirme/duzeltme ve katkida bulunma akislari
 - Favori/kolleksiyon/paylasim, profil ve bildirimler
+- Skor dili iki ana katmana indirgenmistir: `topluluk guveni` (kullanici guveni) ve `veri guveni` (menu/fiyat guveni)
 
 Kanit:
 - `apps/mobile_flutter/lib/features/discovery/ui/discovery_page.dart`
@@ -30,15 +31,20 @@ Kanit:
 
 ## Isletmeye Etkisi (Kodda Olan)
 
-- Isletme dashboard
-- Menu editor
-- QR varlik uretimi (SVG/PNG/PDF) ve paylasim
+- Public menu linki uretme
+- QR olusturma, PNG/SVG indirme, link kopyalama
+- SEO ve paylasim icin tekil public menu sayfasi
 
 Kanit:
-- `apps/web_next/app/(dashboard)/dashboard/page.tsx`
-- `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/menu/page.tsx`
-- `apps/web_next/app/(dashboard)/dashboard/businesses/[id]/qr/page.tsx`
-- `apps/web_next/app/api/qr/route.tsx`
+- `apps/web_next/app/qr/[businessId]/page.tsx`
+- `apps/web_next/src/ui/sections/qr-generator.tsx`
+- `apps/web_next/app/(public)/m/[slug]/page.tsx`
+
+Not:
+- Semantik public route `/m/[businessId]` olsa da mevcut App Router klasor yolu `apps/web_next/app/(public)/m/[slug]/...` olarak kalir.
+- Owner/admin CRUD ekranlari `apps/web_next` icinde tutulmaz.
+- Isletme yonetimi ve menu yazma akislarinin sahibi `apps/panel_flutter_web` uygulamasidir.
+- Uygulama sinirlari ve teknik sahiplik icin tek kaynak `docs/apps.md` dosyasidir.
 
 ## Admin/Operasyon Etkisi (Kodda Olan)
 
@@ -47,9 +53,12 @@ Kanit:
 
 Kanit:
 - `apps/panel_flutter_web/lib/app_admin.dart`
-- `apps/panel_flutter_web/lib/src/features/admin/ui/*`
+- `apps/panel_flutter_web/lib/features/admin/ui/*`
 
 ## Kritik Not
 
 Vizyon uyumu detaylari ve aciklar icin ana rapor:
 - `docs/vision_status.md`
+
+UI token, template ve branding dili icin:
+- `docs/ui-style.md`

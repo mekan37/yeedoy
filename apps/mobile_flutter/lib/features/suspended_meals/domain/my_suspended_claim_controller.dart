@@ -76,6 +76,7 @@ class MySuspendedClaimsController extends Notifier<MySuspendedClaimsState> {
         status: state.statusFilter,
         limit: pageSize,
         offset: 0,
+        force: force,
       );
       state = state.copyWith(
         items: items,
@@ -98,6 +99,7 @@ class MySuspendedClaimsController extends Notifier<MySuspendedClaimsState> {
         status: state.statusFilter,
         limit: pageSize,
         offset: state.items.length,
+        force: false,
       );
       state = state.copyWith(
         items: [...state.items, ...items],
@@ -129,13 +131,15 @@ class MySuspendedClaimsController extends Notifier<MySuspendedClaimsState> {
 class MySuspendedBadgeController extends AsyncNotifier<MySuspendedBadge> {
   @override
   Future<MySuspendedBadge> build() async {
-    return ref.read(mySuspendedClaimRepositoryProvider).getBadge();
+    return ref.read(mySuspendedClaimRepositoryProvider).getBadge(force: false);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(mySuspendedClaimRepositoryProvider).getBadge();
+      return ref
+          .read(mySuspendedClaimRepositoryProvider)
+          .getBadge(force: force);
     });
   }
 }

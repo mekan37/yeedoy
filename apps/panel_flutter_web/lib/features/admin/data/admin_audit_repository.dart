@@ -21,15 +21,21 @@ class AdminAuditRepository {
     String? targetTypeFilter,
     String? actorFilter,
     String? targetId,
+    String? businessId,
+    DateTime? from,
+    DateTime? to,
+    String? query,
   }) async {
     try {
       final af = (actionFilter ?? '').trim();
       final tf = (targetTypeFilter ?? '').trim();
       final actor = (actorFilter ?? '').trim();
       final tid = (targetId ?? '').trim();
+      final bid = (businessId ?? '').trim();
+      final q = (query ?? '').trim();
 
       final dynamic rpcRes = await client.rpc(
-        'list_audit_timeline_v1',
+        'list_audit_timeline_v2',
         params: {
           'p_limit': limit,
           'p_offset': offset,
@@ -37,6 +43,10 @@ class AdminAuditRepository {
           'p_target_type': tf.isEmpty ? null : tf,
           'p_target_id': tid.isEmpty ? null : tid,
           'p_actor_id': actor.isEmpty ? null : actor,
+          'p_business_id': bid.isEmpty ? null : bid,
+          'p_from': from?.toIso8601String(),
+          'p_to': to?.toIso8601String(),
+          'p_q': q.isEmpty ? null : q,
         },
       );
 

@@ -4,9 +4,9 @@ import '../../auth/domain/auth_providers.dart';
 import 'push_notification_service.dart';
 
 final pushNotificationLifecycleProvider = Provider<void>((ref) {
-  void sync() {
-    final session = ref.read(sessionProvider);
-    final service = ref.read(pushNotificationServiceProvider);
+  final service = ref.read(pushNotificationServiceProvider);
+
+  void syncWithSession(Object? session) {
     if (session != null) {
       service.start();
     } else {
@@ -14,7 +14,7 @@ final pushNotificationLifecycleProvider = Provider<void>((ref) {
     }
   }
 
-  ref.listen(sessionProvider, (previous, next) => sync());
-  ref.onDispose(() => ref.read(pushNotificationServiceProvider).stop());
-  sync();
+  ref.listen(sessionProvider, (previous, next) => syncWithSession(next));
+  ref.onDispose(service.stop);
+  syncWithSession(ref.read(sessionProvider));
 });

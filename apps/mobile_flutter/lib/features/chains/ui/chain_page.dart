@@ -8,6 +8,7 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
+import '../../../features/shared/ui/design_system.dart';
 
 class ChainPage extends ConsumerStatefulWidget {
   const ChainPage({super.key, required this.chainId});
@@ -48,6 +49,19 @@ class _ChainPageState extends ConsumerState<ChainPage> {
   @override
   Widget build(BuildContext context) {
     final t = context.l10n;
+    final tokens = AppTokens.of(context);
+    final titleStyle = context.appText.titleMedium?.copyWith(
+      fontWeight: FontWeight.w900,
+    );
+    final sectionTitleStyle = context.appText.titleSmall?.copyWith(
+      fontWeight: FontWeight.w900,
+    );
+    final branchTitleStyle = context.appText.bodyLarge?.copyWith(
+      fontWeight: FontWeight.w900,
+    );
+    final hintStyle = context.appText.bodySmall?.copyWith(
+      color: AppColors.muted,
+    );
     final async = ref.watch(
       _chainOverviewProvider((widget.chainId, _pos?.latitude, _pos?.longitude)),
     );
@@ -58,56 +72,40 @@ class _ChainPageState extends ConsumerState<ChainPage> {
         error: (e, _) => Center(
           child: Text(
             AppErrorMapper.message(e),
-            style: const TextStyle(color: AppColors.danger),
+            style: context.bodyStyle.copyWith(color: AppColors.danger),
           ),
         ),
         data: (items) {
           if (items.isEmpty) {
             return Center(
-              child: Text(
-                t.chainPageNoBranches,
-                style: const TextStyle(color: AppColors.muted),
-              ),
+              child: Text(t.chainPageNoBranches, style: context.subtitleStyle),
             );
           }
           final first = items.first;
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(_chainOverviewProvider),
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              padding: EdgeInsets.fromLTRB(
+                tokens.space16,
+                tokens.space12,
+                tokens.space16,
+                tokens.space24,
+              ),
               children: [
-                Text(
-                  first.chainName,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
+                Text(first.chainName, style: titleStyle),
                 if (first.chainDescription.trim().isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    first.chainDescription,
-                    style: const TextStyle(color: AppColors.muted),
-                  ),
+                  SizedBox(height: tokens.space4),
+                  Text(first.chainDescription, style: context.subtitleStyle),
                 ],
-                const SizedBox(height: 14),
-                Text(
-                  t.chainPageNearbyBranchesTitle,
-                  style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  t.chainPageBranchMenuPriceHint,
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
-                ),
-                const SizedBox(height: 10),
+                SizedBox(height: tokens.space12),
+                Text(t.chainPageNearbyBranchesTitle, style: sectionTitleStyle),
+                SizedBox(height: tokens.space4),
+                Text(t.chainPageBranchMenuPriceHint, style: hintStyle),
+                SizedBox(height: tokens.space8),
                 for (final b in items) ...[
                   Card(
                     child: ListTile(
-                      title: Text(
-                        b.businessName,
-                        style: const TextStyle(fontWeight: FontWeight.w900),
-                      ),
+                      title: Text(b.businessName, style: branchTitleStyle),
                       subtitle: Text(
                         '${b.branchLabel.isEmpty ? '-' : b.branchLabel} • ${b.district} / ${b.city}'
                         '${_priceCompareLabel(context, b.priceDeltaPct) == null ? '' : '\n${_priceCompareLabel(context, b.priceDeltaPct)}'}',
@@ -116,12 +114,12 @@ class _ChainPageState extends ConsumerState<ChainPage> {
                           ? null
                           : Text(
                               '${b.distanceKm!.toStringAsFixed(b.distanceKm! < 10 ? 1 : 0)} km',
-                              style: const TextStyle(color: AppColors.muted),
+                              style: context.captionStyle,
                             ),
                       onTap: () => context.go('/b/${b.businessId}'),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: tokens.space8),
                 ],
               ],
             ),
@@ -233,4 +231,3 @@ class _ChainBranchItem {
     );
   }
 }
-

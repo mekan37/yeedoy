@@ -13,16 +13,26 @@ import '../features/admin/domain/admin_permissions.dart';
 import '../features/admin/ui/admin_appeals_page.dart';
 import '../features/admin/ui/admin_audit_page.dart';
 import '../features/admin/ui/admin_b2b_exports_page.dart';
-import '../features/admin/ui/admin_business_submissions_page.dart';
-import '../features/admin/ui/admin_claims_page.dart';
+import '../features/admin/ui/admin_businesses_page.dart'
+    deferred as admin_businesses_page;
+import '../features/admin/ui/admin_business_submissions_page.dart'
+    deferred as admin_business_submissions_page;
+import '../features/admin/ui/admin_claims_page.dart'
+    deferred as admin_claims_page;
 import '../features/admin/ui/admin_dashboard_page.dart';
 import '../features/admin/ui/admin_dev_tools_page.dart';
 import '../features/admin/ui/admin_group_requests_page.dart';
 import '../features/admin/ui/admin_growth_page.dart';
 import '../features/admin/ui/admin_incident_center_page.dart';
+import '../features/admin/ui/admin_menu_restore_page.dart';
 import '../features/admin/ui/admin_observability_page.dart';
 import '../features/admin/ui/admin_price_suggestions_page.dart';
-import '../features/admin/ui/admin_reports_page.dart';
+import '../features/admin/ui/admin_queue_page.dart'
+    deferred as admin_queue_page;
+import '../features/admin/ui/admin_receipt_submissions_page.dart';
+import '../features/admin/ui/admin_reports_page.dart'
+    deferred as admin_reports_page;
+import '../features/admin/ui/admin_search_page.dart';
 import '../features/admin/ui/admin_shell.dart';
 import '../features/admin/ui/admin_sponsorship_leads_page.dart';
 import '../features/admin/ui/admin_sponsorship_packages_page.dart';
@@ -31,20 +41,33 @@ import '../features/admin/ui/admin_suggestions_page.dart';
 import '../features/admin/ui/admin_suspended_claims_page.dart';
 import '../features/admin/ui/admin_table_feedback_page.dart';
 import '../features/admin/ui/admin_temp_uploads_page.dart';
+import '../features/admin/ui/admin_user_access_page.dart';
 import '../features/admin/ui/admin_verified_page.dart';
 import '../features/owner_businesses/ui/owner_business_submissions_page.dart';
-import '../features/owner_businesses/ui/owner_businesses_page.dart';
+import '../features/owner_businesses/ui/owner_businesses_page.dart'
+    deferred as owner_businesses_page;
 import '../features/owner_businesses/ui/owner_new_business_page.dart';
-import '../features/owner_menu_management/ui/owner_menus_page.dart';
-import '../features/owner_onboarding/ui/owner_onboarding_page.dart';
+import '../features/legal/legal_routes.dart';
+import '../features/owner_analytics/ui/owner_analytics_page.dart'
+    deferred as owner_analytics_page;
+import '../features/owner_menu_management/ui/owner_menus_page.dart'
+    deferred as owner_menus_page;
+import '../features/owner_menu_management/ui/owner_menu_trash_page.dart';
 import '../features/owner_price_suggestions/ui/owner_price_suggestions_page.dart';
 import '../features/owner_requests/ui/owner_group_requests_page.dart';
 import '../features/owner_suspended/ui/owner_suspended_claims_page.dart';
 import '../features/legal/ui/legal_page.dart';
 import '../features/owner/ui/owner_shell.dart';
+import '../features/owner/ui/owner_activity_page.dart';
 import '../features/owner_dashboard/ui/owner_dashboard_page.dart';
+import '../features/owner_dashboard/ui/owner_growth_page.dart';
+import '../features/owner_onboarding/ui/owner_onboarding_page.dart'
+    deferred as owner_onboarding_page;
+import '../features/owner_team/ui/owner_team_page.dart';
+import '../shared/ui/components/deferred_page_loader.dart';
+import '../shared/ui/pages/forbidden_page.dart';
 
-final appRouterProvider = Provider<GoRouter>((ref) {
+GoRouter buildAppRouter(Ref ref, {String initialLocation = '/'}) {
   final session = ref.watch(sessionProvider);
   final appRoleAsync = ref.watch(appRoleProvider);
   final authRefresh = ValueNotifier<int>(0);
@@ -54,7 +77,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(authRefresh.dispose);
 
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: initialLocation,
     refreshListenable: authRefresh,
     redirect: (context, state) {
       final loggedIn = session != null;
@@ -62,7 +85,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       final isBusinessAuthRoute =
           path == '/isletme-giris' || path == '/isletme-kayit';
       final isPublicRoute =
-          path == '/' || path == '/legal' || isBusinessAuthRoute;
+          path == '/' ||
+          LegalRoutes.matches(path) ||
+          isBusinessAuthRoute;
       final isAdminRoute = path == '/admin' || path.startsWith('/admin/');
       final isOwnerRoute = path == '/owner' || path.startsWith('/owner/');
       final isPanelRoute = isAdminRoute || isOwnerRoute;
@@ -88,7 +113,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           data: (role) => canAccessAdminRoute(role, path),
           orElse: () => false,
         );
-        if (!canAccess) return '/owner';
+        if (!canAccess) {
+          final from = Uri.encodeComponent(state.uri.toString());
+          return '/forbidden?panel=admin&from=$from';
+        }
       }
 
       if (loggedIn && isOwnerRoute) {
@@ -96,7 +124,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           data: (role) => role == AppRole.owner || role == AppRole.admin,
           orElse: () => false,
         );
-        if (!isOwnerOrAdmin) return '/';
+        if (!isOwnerOrAdmin) {
+          final from = Uri.encodeComponent(state.uri.toString());
+          return '/forbidden?panel=owner&from=$from';
+        }
       }
 
       if (!isPublicRoute && !isPanelRoute) {
@@ -118,7 +149,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/isletme-kayit',
         builder: (c, s) => const BusinessRegisterPage(),
       ),
-      GoRoute(path: '/legal', builder: (c, s) => const LegalPage()),
+      GoRoute(path: LegalRoutes.hub, builder: (c, s) => const LegalPage()),
+      GoRoute(
+        path: '${LegalRoutes.hub}/:slug',
+        builder: (c, s) =>
+            LegalDetailPage(slug: sanitizeSlug(s.pathParameters['slug'])),
+      ),
+      GoRoute(
+        path: '/forbidden',
+        builder: (c, s) => ForbiddenPage(
+          panel: s.uri.queryParameters['panel'],
+          from: sanitizeInternalRedirect(s.uri.queryParameters['from']),
+        ),
+      ),
       ShellRoute(
         builder: (context, state, child) {
           return OwnerShell(location: state.uri.path, child: child);
@@ -127,6 +170,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/owner',
             builder: (c, s) => const OwnerDashboardPage(),
+          ),
+          GoRoute(
+            path: '/owner/growth',
+            builder: (c, s) => OwnerGrowthPage(
+              businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+            ),
           ),
           GoRoute(
             path: '/owner/suspended',
@@ -144,7 +193,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/owner/menus',
-            builder: (c, s) => const OwnerMenusPage(),
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: owner_menus_page.loadLibrary,
+              builder: (_) => owner_menus_page.OwnerMenusPage(),
+            ),
+          ),
+          GoRoute(
+            path: '/owner/trash',
+            builder: (c, s) => OwnerMenuTrashPage(
+              businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+            ),
+          ),
+          GoRoute(
+            path: '/owner/analytics',
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: owner_analytics_page.loadLibrary,
+              builder: (_) => owner_analytics_page.OwnerAnalyticsPage(
+                businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+              ),
+            ),
           ),
           GoRoute(
             path: '/owner/requests',
@@ -152,7 +219,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/owner/businesses',
-            builder: (c, s) => const OwnerBusinessesPage(),
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: owner_businesses_page.loadLibrary,
+              builder: (_) => owner_businesses_page.OwnerBusinessesPage(),
+            ),
           ),
           GoRoute(
             path: '/owner/businesses/new',
@@ -164,22 +234,39 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/owner/onboarding',
-            builder: (c, s) => OwnerOnboardingPage(
-              businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
-              redirect: sanitizeInternalRedirect(
-                s.uri.queryParameters['redirect'],
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: owner_onboarding_page.loadLibrary,
+              builder: (_) => owner_onboarding_page.OwnerOnboardingPage(
+                businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+                redirect: sanitizeInternalRedirect(
+                  s.uri.queryParameters['redirect'],
+                ),
               ),
             ),
           ),
           GoRoute(
+            path: '/owner/activity',
+            builder: (c, s) => OwnerActivityPage(
+              businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+            ),
+          ),
+          GoRoute(
             path: '/owner/audit',
-            builder: (c, s) => const AdminAuditPage(ownerMode: true),
+            builder: (c, s) => OwnerActivityPage(
+              businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+            ),
+          ),
+          GoRoute(
+            path: '/owner/team',
+            builder: (c, s) => OwnerTeamPage(
+              businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+            ),
           ),
         ],
       ),
       ShellRoute(
         builder: (context, state, child) {
-          return AdminShell(location: state.uri.path, child: child);
+          return AdminShell(location: state.uri.toString(), child: child);
         },
         routes: [
           GoRoute(
@@ -187,8 +274,28 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             builder: (c, s) => const AdminDashboardPage(),
           ),
           GoRoute(
+            path: '/admin/search',
+            builder: (c, s) =>
+                AdminSearchPage(initialQuery: s.uri.queryParameters['q']),
+          ),
+          GoRoute(
+            path: '/admin/queue',
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: admin_queue_page.loadLibrary,
+              builder: (_) => admin_queue_page.AdminQueuePage(
+                initialType: s.uri.queryParameters['type'],
+                initialStatus: s.uri.queryParameters['status'],
+                initialCity: s.uri.queryParameters['city'],
+                initialQuery: s.uri.queryParameters['q'],
+              ),
+            ),
+          ),
+          GoRoute(
             path: '/admin/reports',
-            builder: (c, s) => const AdminReportsPage(),
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: admin_reports_page.loadLibrary,
+              builder: (_) => admin_reports_page.AdminReportsPage(),
+            ),
           ),
           GoRoute(
             path: '/admin/appeals',
@@ -200,7 +307,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/admin/claims',
-            builder: (c, s) => const AdminClaimsPage(),
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: admin_claims_page.loadLibrary,
+              builder: (_) => admin_claims_page.AdminClaimsPage(),
+            ),
           ),
           GoRoute(
             path: '/admin/suspended',
@@ -236,15 +346,40 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/admin/business-submissions',
-            builder: (c, s) => const AdminBusinessSubmissionsPage(),
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: admin_business_submissions_page.loadLibrary,
+              builder: (_) =>
+                  admin_business_submissions_page.AdminBusinessSubmissionsPage(),
+            ),
+          ),
+          GoRoute(
+            path: '/admin/businesses',
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: admin_businesses_page.loadLibrary,
+              builder: (_) => admin_businesses_page.AdminBusinessesPage(
+                initialQuery: s.uri.queryParameters['q'],
+              ),
+            ),
           ),
           GoRoute(
             path: '/admin/table-feedback',
             builder: (c, s) => const AdminTableFeedbackPage(),
           ),
           GoRoute(
+            path: '/admin/receipt-submissions',
+            builder: (c, s) => const AdminReceiptSubmissionsPage(),
+          ),
+          GoRoute(
             path: '/admin/audit',
             builder: (c, s) => const AdminAuditPage(),
+          ),
+          GoRoute(
+            path: '/admin/trash',
+            builder: (c, s) => AdminMenuRestorePage(
+              initialBusinessId: sanitizeUuid(
+                s.uri.queryParameters['businessId'],
+              ),
+            ),
           ),
           GoRoute(
             path: '/admin/dev-tools',
@@ -266,8 +401,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '/admin/temp-uploads',
             builder: (c, s) => const AdminTempUploadsPage(),
           ),
+          GoRoute(
+            path: '/admin/users/:id',
+            builder: (c, s) => AdminUserAccessPage(
+              userId: sanitizeUuid(s.pathParameters['id']) ?? '',
+            ),
+          ),
         ],
       ),
     ],
   );
+}
+
+final appRouterProvider = Provider<GoRouter>((ref) {
+  return buildAppRouter(ref);
 });

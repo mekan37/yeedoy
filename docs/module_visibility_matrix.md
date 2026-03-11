@@ -38,35 +38,42 @@ Kanit:
 
 | Modul | Route | Durum |
 |---|---|---|
-| Hub root | `/` | Mevcut, login olmayani `/login`e yonlendiriyor |
+| Landing | `/` | Gorunur |
 | Login | `/login` | Gorunur |
-| Dashboard | `/dashboard/*` | Gorunur |
-| Menu editor | `/dashboard/businesses/[id]/menu` | Gorunur |
-| QR generator | `/dashboard/businesses/[id]/qr` | Gorunur |
-| Public menu | `/b/[slug]` | Gorunur |
+| Public menu | `/m/[businessId]` | Gorunur |
+| Category menu | `/m/[businessId]/c/[categoryId]` | Gorunur |
+| Item detail menu | `/m/[businessId]/i/[itemId]` | Gorunur |
+| QR generator | `/qr/[businessId]` | Sadece authenticated owner/admin + yetkili business |
 | QR redirect | `/q/[code]` | Gorunur |
-| Admin | `/admin` | Panel web'e yonlendirme (`BASE_URL_PANEL/admin`) |
-| Owner | `/owner` | Panel web'e yonlendirme (`BASE_URL_PANEL/owner`) |
-| Menu builder | `/menu-builder` | Panel web'e yonlendirme (`BASE_URL_PANEL/owner/menus`) |
-| Devtools | `/devtools` | Gorunur (env + non-prod gate) |
+| Panel handoff | `/auth/panel-handoff` | Route handler, panel session bridge |
+| Legacy menu redirect | `/b/[slug]` | Yalnizca UUID -> `/m/[businessId]` yonlendirme |
+| Tracking API | `/api/track` | Gorunur |
+| OG image API | `/api/og` | Gorunur |
 
 Kanit:
 - `apps/web_next/app/page.tsx`
-- `apps/web_next/src/ui/sections/HomeHub.tsx`
-- `apps/web_next/app/admin/page.tsx`
-- `apps/web_next/app/owner/page.tsx`
-- `apps/web_next/app/menu-builder/page.tsx`
+- `apps/web_next/app/login/page.tsx`
+- `apps/web_next/app/(public)/m/[slug]/page.tsx`
+- `apps/web_next/app/(public)/m/[slug]/c/[categoryId]/page.tsx`
+- `apps/web_next/app/(public)/m/[slug]/i/[itemId]/page.tsx`
+- `apps/web_next/app/qr/[businessId]/page.tsx`
+- `apps/web_next/app/auth/panel-handoff/route.ts`
+- `apps/web_next/app/q/[code]/route.ts`
 - `apps/web_next/app/(public)/b/[slug]/page.tsx`
-- `apps/web_next/app/q/[code]/page.tsx`
+- `apps/web_next/app/api/track/route.ts`
+- `apps/web_next/app/api/og/route.tsx`
+
+Not:
+- Admin/owner/menu-builder CRUD akislarinin sahibi `apps/web_next` degildir.
+- QR erisimi panel session handoff veya Next login ile acilir.
+- Bu akislar `apps/panel_flutter_web` uygulamasinda yer alir.
+- Semantik public route `/m/[businessId]` olsa da mevcut App Router klasor yolu `apps/web_next/app/(public)/m/[slug]/...` seklindedir.
 
 ## Mevcut Ama Bagli Olmayan/Kismi Unsurlar
 
-- `qr_menu_next/` kaldirildi (artifact temizlik tamamlandi).
-- `packages/shared` kaldirildi; aktif schema kaynaklari `apps/web_next/src/shared/schemas/*`.
+- `packages/shared` kaldirildi.
+- `apps/web_next` tarafinda route param klasor adi `[slug]` olsa da semantik olarak `businessId` kullanilir.
 
 Kanit:
-- `apps/web_next/app/admin/page.tsx`
-- `apps/web_next/app/owner/page.tsx`
-- `apps/web_next/app/menu-builder/page.tsx`
-- `apps/web_next/src/lib/panelUrl.ts`
-- `apps/web_next/src/shared/schemas/*`
+- `apps/web_next/app/(public)/m/[slug]/page.tsx`
+- `apps/web_next/src/lib/public-menu-page.ts`

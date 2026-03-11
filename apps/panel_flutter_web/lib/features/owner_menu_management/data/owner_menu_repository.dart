@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/cache/memory_ttl_cache.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../domain/owner_menu_models.dart';
@@ -12,20 +13,28 @@ final ownerMenuRepositoryProvider = Provider<OwnerMenuRepository>((ref) {
 class OwnerMenuRepository {
   OwnerMenuRepository(this.client);
   final SupabaseClient client;
+  static const _menuCachePrefix = 'owner_menus:';
+  static const _ttl = Duration(seconds: 45);
 
   Future<List<OwnerMenu>> listMenus({required String businessId}) async {
     try {
-      final List<dynamic> res = await client
-          .from('menus')
-          .select(
-            'id,business_id,title,status,kind,active_from,active_to,created_at,updated_at,version,source,confidence_score',
-          )
-          .eq('business_id', businessId)
-          .order('created_at', ascending: false);
-      return res
-          .whereType<Map>()
-          .map((m) => OwnerMenu.fromMap(m.cast<String, dynamic>()))
-          .toList();
+      return MemoryTtlCache.instance.getOrLoad<List<OwnerMenu>>(
+        key: '$_menuCachePrefix$businessId',
+        ttl: _ttl,
+        loader: () async {
+          final List<dynamic> res = await client
+              .from('menus')
+              .select(
+                'id,business_id,title,status,kind,active_from,active_to,created_at,updated_at,version,source,confidence_score',
+              )
+              .eq('business_id', businessId)
+              .order('created_at', ascending: false);
+          return res
+              .whereType<Map>()
+              .map((m) => OwnerMenu.fromMap(m.cast<String, dynamic>()))
+              .toList();
+        },
+      );
     } catch (e) {
       _rethrowMapped(e);
     }
@@ -56,6 +65,7 @@ class OwnerMenuRepository {
           result.message ?? 'Bilinmeyen hata',
         );
       }
+      _invalidateMenuCache(businessId);
       return result;
     } catch (e) {
       _rethrowMapped(e);
@@ -87,6 +97,7 @@ class OwnerMenuRepository {
           result.message ?? 'Bilinmeyen hata',
         );
       }
+      MemoryTtlCache.instance.invalidatePrefix(_menuCachePrefix);
       return result;
     } catch (e) {
       _rethrowMapped(e);
@@ -106,6 +117,7 @@ class OwnerMenuRepository {
           result.message ?? 'Bilinmeyen hata',
         );
       }
+      MemoryTtlCache.instance.invalidatePrefix(_menuCachePrefix);
       return result;
     } catch (e) {
       _rethrowMapped(e);
@@ -125,6 +137,7 @@ class OwnerMenuRepository {
           result.message ?? 'Bilinmeyen hata',
         );
       }
+      MemoryTtlCache.instance.invalidatePrefix(_menuCachePrefix);
       return result;
     } catch (e) {
       _rethrowMapped(e);
@@ -452,6 +465,10 @@ class OwnerMenuRepository {
     } catch (e) {
       _rethrowMapped(e);
     }
+  }
+
+  void _invalidateMenuCache(String businessId) {
+    MemoryTtlCache.instance.invalidate('$_menuCachePrefix$businessId');
   }
 }
 

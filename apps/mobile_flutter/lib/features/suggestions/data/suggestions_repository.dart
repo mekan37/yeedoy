@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../../../core/storage/offline_mutation_idempotency.dart';
+import '../../../core/storage/offline_submission_queue.dart';
 import '../domain/suggestion.dart';
 
 final suggestionsRepositoryProvider = Provider<SuggestionsRepository>((ref) {
@@ -23,21 +27,47 @@ class SuggestionsRepository {
     String? website,
     String? notes,
   }) async {
-    final res = await client.rpc(
-      'submit_business_suggestion',
-      params: {
-        'p_name': name,
-        'p_category': category,
-        'p_city': city,
-        'p_district': district,
-        'p_address': address,
-        'p_phone': phone,
-        'p_website': website,
-        'p_notes': notes,
+    unawaited(flushOfflineSubmissionQueue(client, maxItems: 10));
+    final queuedPayload = await attachOfflineMutationIdempotency(
+      action: OfflineSubmissionType.businessSuggestion.name,
+      payload: {
+        'name': name,
+        'category': category,
+        'city': city,
+        'district': district,
+        'address': address,
+        'phone': phone,
+        'website': website,
+        'notes': notes,
       },
     );
+    try {
+      final res = await client.rpc(
+        'submit_business_suggestion_v2',
+        params: {
+          'p_name': name,
+          'p_category': category,
+          'p_city': city,
+          'p_district': district,
+          'p_address': address,
+          'p_phone': phone,
+          'p_website': website,
+          'p_notes': notes,
+          'p_idempotency_key': queuedPayload['idempotency_key'],
+        },
+      );
 
-    return res.toString(); // uuid string
+      return _parseSuggestionId(res);
+    } catch (e) {
+      if (isLikelyOfflineError(e)) {
+        await OfflineSubmissionQueueStore.enqueue(
+          OfflineSubmissionType.businessSuggestion,
+          queuedPayload,
+        );
+        throw const OfflineSubmissionQueuedException();
+      }
+      throw Exception(AppErrorMapper.message(e));
+    }
   }
 
   Future<List<BusinessSuggestion>> listMySuggestions() async {
@@ -110,6 +140,24 @@ class SuggestionsRepository {
     });
     return all;
   }
+}
+
+String _parseSuggestionId(dynamic res) {
+  if (res is Map) {
+    final data = res.cast<String, dynamic>();
+    if (data['ok'] == true) {
+      final suggestionId = (data['suggestion_id'] ?? '').toString().trim();
+      if (suggestionId.isNotEmpty) return suggestionId;
+    }
+    final error = (data['error'] ?? '').toString().trim();
+    if (error.isNotEmpty) throw Exception(error);
+  }
+  if (res is List && res.isNotEmpty && res.first is Map) {
+    return _parseSuggestionId((res.first as Map).cast<String, dynamic>());
+  }
+  final text = (res ?? '').toString().trim();
+  if (text.isNotEmpty) return text;
+  throw Exception('business_suggestion_submit_failed');
 }
 
 class ExistingBusinessCandidate {

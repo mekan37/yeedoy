@@ -149,6 +149,20 @@ class AdminBusinessesController extends Notifier<AdminBusinessesState> {
     loadInitial();
   }
 
+  Future<void> applyFilters({
+    required String query,
+    required String city,
+    required String district,
+  }) async {
+    _debounce?.cancel();
+    state = state.copyWith(
+      query: query,
+      city: city,
+      district: district,
+    );
+    await loadInitial(force: true);
+  }
+
   Future<void> updateBusiness({
     required String businessId,
     required String name,

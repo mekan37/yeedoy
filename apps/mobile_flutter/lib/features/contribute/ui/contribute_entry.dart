@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../app/theme/colors.dart';
-import '../../../core/config/app_config.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/linking/yeedoy_route_resolver.dart';
 import '../../../features/auth/domain/auth_providers.dart';
 import '../../../features/discovery/data/discovery_repository.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -236,7 +236,7 @@ class _ContributeFabState extends ConsumerState<ContributeFab> {
         return;
       }
 
-      final targetRoute = _resolveYeedoyRoute(decoded);
+      final targetRoute = resolveYeedoyRouteFromQr(decoded);
       if (targetRoute != null) {
         _toast(t.contributeQrVerifiedRedirecting);
         if (!mounted) return;
@@ -267,61 +267,6 @@ class _ContributeFabState extends ConsumerState<ContributeFab> {
     } finally {
       await scanner.close();
     }
-  }
-
-  String? _resolveYeedoyRoute(String raw) {
-    Uri? uri = Uri.tryParse(raw.trim());
-    if (uri == null) return null;
-    if (!uri.hasScheme) {
-      uri = Uri.tryParse('https://${raw.trim()}');
-      if (uri == null) return null;
-    }
-
-    final normalized = _normalizePathSegments(uri);
-    if (!_isYeedoyLink(uri)) return null;
-
-    if (normalized.length == 2 && normalized.first == 'menu') {
-      final menuId = normalized[1];
-      return '/menu/$menuId?src=qr';
-    }
-    if (normalized.length == 2 && normalized.first == 'b') {
-      final businessId = normalized[1];
-      return '/b/$businessId';
-    }
-    if (normalized.length == 4 &&
-        normalized[0] == 'b' &&
-        normalized[2] == 'menu') {
-      final businessId = normalized[1];
-      final menuId = normalized[3];
-      return '/b/$businessId/menu/$menuId';
-    }
-
-    return null;
-  }
-
-  bool _isYeedoyLink(Uri uri) {
-    final scheme = uri.scheme.toLowerCase();
-    if (scheme == AppConfig.deepLinkScheme.toLowerCase()) return true;
-    if (scheme != 'https' && scheme != 'http') return false;
-    final host = uri.host.toLowerCase();
-    final configured = AppConfig.webDomain.toLowerCase();
-    return host == configured ||
-        host.endsWith('.$configured') ||
-        host.contains('yeedoy') ||
-        host.contains('yeedoy');
-  }
-
-  List<String> _normalizePathSegments(Uri uri) {
-    final segments = <String>[];
-    if (uri.scheme.toLowerCase() == AppConfig.deepLinkScheme.toLowerCase() &&
-        uri.host.isNotEmpty) {
-      segments.add(uri.host.toLowerCase());
-    }
-    for (final segment in uri.pathSegments) {
-      final clean = segment.trim();
-      if (clean.isNotEmpty) segments.add(clean.toLowerCase());
-    }
-    return segments;
   }
 
   Future<void> _uploadQrForReview(XFile file, {String? scannedText}) async {
@@ -486,6 +431,3 @@ class _EntryActionTile extends StatelessWidget {
     );
   }
 }
-
-
-

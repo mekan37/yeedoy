@@ -35,6 +35,7 @@ Future<void> main(List<String> args) async {
     homeTtiP95Ms: (json['home_tti_p95_ms'] as num?)?.toInt() ?? 999999,
     searchHitP95Ms: (json['search_hit_p95_ms'] as num?)?.toInt() ?? 999999,
     searchMissP95Ms: (json['search_miss_p95_ms'] as num?)?.toInt() ?? 999999,
+    embedOpenP95Ms: (json['embed_open_p95_ms'] as num?)?.toInt() ?? 999999,
   );
 
   final result = ReleaseGate.evaluate(metrics);
@@ -125,12 +126,14 @@ _ReleaseOpsResult _evaluateReleaseOps(Map<String, dynamic> json) {
   final crashFree = readDouble('crash_free_rate', 1);
   final jankRate = readDouble('jank_rate', 0);
   final homeTtiP95Ms = readInt('home_tti_p95_ms', 0);
+  final embedOpenP95Ms = readInt('embed_open_p95_ms', 0);
   final edge429Rate = readDouble('edge_429_rate', 0);
 
   final healthyCanary =
       crashFree >= 0.997 &&
       jankRate <= 0.01 &&
       homeTtiP95Ms <= 1200 &&
+      embedOpenP95Ms <= 1500 &&
       edge429Rate <= 0.03;
 
   if (!healthyCanary) {

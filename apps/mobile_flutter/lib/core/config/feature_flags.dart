@@ -6,7 +6,7 @@ class FeatureFlags {
   const FeatureFlags._();
 
   static const bool enablePhotoFeed = false;
-  static const bool enableLabs = true;
+  static const bool enableLabs = false;
 }
 
 class FeatureFlagDef {
@@ -45,6 +45,22 @@ class FeatureFlagsState {
 
   factory FeatureFlagsState.empty() =>
       const FeatureFlagsState(localFlags: <String, bool>{});
+
+  bool _value(String key, bool fallback) {
+    return localFlags[key] ?? fallback;
+  }
+
+  bool get enablePhotoFeed {
+    return _value('enablePhotoFeed', FeatureFlags.enablePhotoFeed);
+  }
+
+  bool get enableLabs {
+    return _value('enableLabs', FeatureFlags.enableLabs);
+  }
+
+  bool get hasExperimentalNavigation {
+    return enablePhotoFeed || enableLabs;
+  }
 }
 
 final featureFlagsProvider = NotifierProvider<FeatureFlagsController, FeatureFlagsState>(

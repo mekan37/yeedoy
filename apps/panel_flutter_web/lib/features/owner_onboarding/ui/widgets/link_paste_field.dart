@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../embed/ui/embed_viewer_page.dart';
+import '../../../embed/ui/embed_viewer_page.dart' deferred as embed_viewer_page;
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/linking/link_provider.dart';
 import '../../../../core/linking/link_utils.dart';
+import '../../../../shared/ui/components/deferred_page_loader.dart';
 
 class LinkPasteField extends StatefulWidget {
   const LinkPasteField({
@@ -75,9 +77,13 @@ class _LinkPasteFieldState extends State<LinkPasteField> {
     if (uri == null) return;
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => EmbedViewerPage(
-          url: uri.toString(),
-          title: widget.previewTitle,
+        builder: (_) => DeferredPageLoader(
+          loadLibrary: embed_viewer_page.loadLibrary,
+          fullscreen: true,
+          builder: (_) => embed_viewer_page.EmbedViewerPage(
+            url: uri.toString(),
+            title: widget.previewTitle,
+          ),
         ),
       ),
     );
@@ -86,6 +92,7 @@ class _LinkPasteFieldState extends State<LinkPasteField> {
   @override
   Widget build(BuildContext context) {
     final canPreview = _normalized != null;
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -97,9 +104,9 @@ class _LinkPasteFieldState extends State<LinkPasteField> {
           onSubmitted: _scheduleEvaluate,
           decoration: InputDecoration(
             labelText: widget.label,
-            hintText: widget.hintText ?? 'https://...',
+            hintText: widget.hintText ?? l10n.ownerOnboardingUrlHint,
             suffixIcon: IconButton(
-              tooltip: 'Yapıştır',
+              tooltip: l10n.ownerOnboardingPasteAction,
               onPressed: _pasteFromClipboard,
               icon: const Icon(Icons.paste_rounded),
             ),
@@ -112,7 +119,7 @@ class _LinkPasteFieldState extends State<LinkPasteField> {
             const Spacer(),
             FilledButton.tonal(
               onPressed: canPreview ? _openPreview : null,
-              child: const Text('Önizle'),
+              child: Text(l10n.preview),
             ),
           ],
         ),
@@ -132,7 +139,7 @@ class _ProviderBadge extends StatelessWidget {
       LinkProvider.youtube => ('YouTube', Colors.red),
       LinkProvider.instagram => ('Instagram', Colors.pink),
       LinkProvider.facebook => ('Facebook', Colors.blue),
-      LinkProvider.unknown => ('Bilinmiyor', Colors.grey),
+      LinkProvider.unknown => (context.l10n.unknown, Colors.grey),
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

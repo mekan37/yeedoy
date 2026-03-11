@@ -104,6 +104,18 @@ class AppErrorMapper {
     if (raw.contains(AppErrorCodes.locationResolveFailed)) {
       return 'Konum çözümlenemedi.';
     }
+    if (raw.contains('legal_policy_versions_missing')) {
+      return 'Gerekli yasal sürümler yayımlanmadığı için işleme devam edilemiyor.';
+    }
+    if (raw.contains('legal_link_unavailable')) {
+      return 'Legal bağlantısı açılamadı. Lütfen tekrar deneyin.';
+    }
+    if (raw.contains('privacy_request_already_open')) {
+      return 'Bekleyen bir gizlilik başvurunuz zaten var.';
+    }
+    if (raw.contains('account_deletion_request_already_open')) {
+      return 'Bekleyen bir hesap silme talebiniz zaten var.';
+    }
     return null;
   }
 }

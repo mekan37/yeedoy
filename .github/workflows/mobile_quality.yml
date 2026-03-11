@@ -1,0 +1,55 @@
+name: Mobile Quality
+
+on:
+  pull_request:
+    paths:
+      - 'apps/mobile_flutter/**'
+      - 'docs/mobile_*'
+      - 'docs/system_full_documentation.md'
+      - '.github/workflows/mobile_*.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/mobile_flutter/**'
+      - 'docs/mobile_*'
+      - 'docs/system_full_documentation.md'
+      - '.github/workflows/mobile_*.yml'
+  workflow_dispatch:
+
+jobs:
+  mobile_quality:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile_flutter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Unit and widget tests
+        run: flutter test test
+
+      - name: Offline write guard
+        run: dart run tool/offline_write_guard_check.dart
+
+      - name: Release gate dry run
+        run: dart run tool/release_gate_check.dart tool/release_gate_metrics_example.json

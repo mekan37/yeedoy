@@ -14,6 +14,10 @@ class AdminAuditState {
     required this.targetTypeFilter,
     required this.actorFilter,
     required this.targetId,
+    required this.businessId,
+    required this.from,
+    required this.to,
+    required this.query,
   });
 
   final List<AdminAuditLogItem> items;
@@ -25,6 +29,10 @@ class AdminAuditState {
   final String targetTypeFilter;
   final String actorFilter;
   final String targetId;
+  final String businessId;
+  final DateTime? from;
+  final DateTime? to;
+  final String query;
 
   factory AdminAuditState.initial() => const AdminAuditState(
     items: [],
@@ -36,6 +44,10 @@ class AdminAuditState {
     targetTypeFilter: '',
     actorFilter: '',
     targetId: '',
+    businessId: '',
+    from: null,
+    to: null,
+    query: '',
   );
 
   AdminAuditState copyWith({
@@ -48,6 +60,10 @@ class AdminAuditState {
     String? targetTypeFilter,
     String? actorFilter,
     String? targetId,
+    String? businessId,
+    Object? from = _unset,
+    Object? to = _unset,
+    String? query,
   }) {
     return AdminAuditState(
       items: items ?? this.items,
@@ -59,9 +75,15 @@ class AdminAuditState {
       targetTypeFilter: targetTypeFilter ?? this.targetTypeFilter,
       actorFilter: actorFilter ?? this.actorFilter,
       targetId: targetId ?? this.targetId,
+      businessId: businessId ?? this.businessId,
+      from: identical(from, _unset) ? this.from : from as DateTime?,
+      to: identical(to, _unset) ? this.to : to as DateTime?,
+      query: query ?? this.query,
     );
   }
 }
+
+const Object _unset = Object();
 
 final adminAuditControllerProvider =
     NotifierProvider<AdminAuditController, AdminAuditState>(
@@ -86,6 +108,10 @@ class AdminAuditController extends Notifier<AdminAuditState> {
         targetTypeFilter: state.targetTypeFilter,
         actorFilter: state.actorFilter,
         targetId: state.targetId,
+        businessId: state.businessId,
+        from: state.from,
+        to: state.to,
+        query: state.query,
       );
       state = state.copyWith(
         items: items,
@@ -109,6 +135,10 @@ class AdminAuditController extends Notifier<AdminAuditState> {
         targetTypeFilter: state.targetTypeFilter,
         actorFilter: state.actorFilter,
         targetId: state.targetId,
+        businessId: state.businessId,
+        from: state.from,
+        to: state.to,
+        query: state.query,
       );
       state = state.copyWith(
         items: [...state.items, ...items],
@@ -136,12 +166,20 @@ class AdminAuditController extends Notifier<AdminAuditState> {
     String? targetTypeFilter,
     String? actorFilter,
     String? targetId,
+    String? businessId,
+    Object? from = _unset,
+    Object? to = _unset,
+    String? query,
   }) {
     state = state.copyWith(
       actionFilter: actionFilter ?? state.actionFilter,
       targetTypeFilter: targetTypeFilter ?? state.targetTypeFilter,
       actorFilter: actorFilter ?? state.actorFilter,
       targetId: targetId ?? state.targetId,
+      businessId: businessId ?? state.businessId,
+      from: from,
+      to: to,
+      query: query ?? state.query,
     );
   }
 }

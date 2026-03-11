@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/admin_monetization_repository.dart';
 import '../domain/admin_models.dart';
 import '../domain/admin_sponsorship_leads_controller.dart';
@@ -41,6 +42,7 @@ class _AdminSponsorshipLeadsPageState
   @override
   Widget build(BuildContext context) {
     final st = ref.watch(adminSponsorshipLeadsControllerProvider);
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -49,8 +51,8 @@ class _AdminSponsorshipLeadsPageState
         children: [
           Row(
             children: [
-              const Text(
-                'Sponsor Talepleri',
+              Text(
+                l10n.adminSponsorshipLeadsTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
@@ -67,28 +69,28 @@ class _AdminSponsorshipLeadsPageState
             spacing: 8,
             children: [
               AppFilterChip(
-                label: 'Tümü',
+                label: l10n.tumu,
                 selected: st.statusFilter.isEmpty,
                 onTap: () => ref
                     .read(adminSponsorshipLeadsControllerProvider.notifier)
                     .setStatusFilter(''),
               ),
               AppFilterChip(
-                label: 'Yeni',
+                label: l10n.adminSponsorshipLeadStatusNew,
                 selected: st.statusFilter == 'new',
                 onTap: () => ref
                     .read(adminSponsorshipLeadsControllerProvider.notifier)
                     .setStatusFilter('new'),
               ),
               AppFilterChip(
-                label: 'İletişime Geçildi',
+                label: l10n.adminSponsorshipLeadStatusContacted,
                 selected: st.statusFilter == 'contacted',
                 onTap: () => ref
                     .read(adminSponsorshipLeadsControllerProvider.notifier)
                     .setStatusFilter('contacted'),
               ),
               AppFilterChip(
-                label: 'Kapandı',
+                label: l10n.adminSponsorshipLeadStatusClosed,
                 selected: st.statusFilter == 'closed',
                 onTap: () => ref
                     .read(adminSponsorshipLeadsControllerProvider.notifier)
@@ -115,11 +117,21 @@ class _AdminSponsorshipLeadsPageState
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
                           columns: [
-                            DataColumn(label: Text('İletişim')),
-                            DataColumn(label: Text('Yüzey')),
-                            DataColumn(label: Text('Durum')),
-                            DataColumn(label: Text('İşletme Sahibi')),
-                            DataColumn(label: Text('Oluşturan')),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipLeadsContactColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsSurfaceColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipsStatusColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipLeadsOwnerColumn),
+                            ),
+                            DataColumn(
+                              label: Text(l10n.adminSponsorshipLeadsCreatedAtColumn),
+                            ),
                             DataColumn(label: Text('')),
                           ],
                           rows: [
@@ -127,15 +139,24 @@ class _AdminSponsorshipLeadsPageState
                               DataRow(
                                 cells: [
                                   DataCell(Text(lead.businessName)),
-                                  DataCell(Text(lead.preferredSurface)),
-                                  DataCell(Text(lead.status)),
+                                  DataCell(
+                                    Text(
+                                      _surfaceLabel(
+                                        context,
+                                        lead.preferredSurface,
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(_leadStatusLabel(context, lead.status)),
+                                  ),
                                   DataCell(Text(_short(lead.ownerUserId))),
                                   DataCell(Text(_fmtDate(lead.createdAt))),
                                   DataCell(
                                     TextButton(
                                       onPressed: () =>
                                           _openDetail(context, lead),
-                                      child: const Text('Detay'),
+                                      child: Text(l10n.adminCommonDetails),
                                     ),
                                   ),
                                 ],
@@ -146,7 +167,9 @@ class _AdminSponsorshipLeadsPageState
                       if (!st.isLoading && st.items.isEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 24),
-                          child: Center(child: Text('Kayit bulunamadi.')),
+                          child: Center(
+                            child: Text(l10n.adminCommonNoRecordsFound),
+                          ),
                         ),
                       if (st.isLoadingMore)
                         const Padding(
@@ -165,6 +188,7 @@ class _AdminSponsorshipLeadsPageState
     BuildContext context,
     AdminSponsorshipLead lead,
   ) async {
+    final l10n = context.l10n;
     var status = lead.status;
     var saving = false;
 
@@ -187,7 +211,7 @@ class _AdminSponsorshipLeadsPageState
               Navigator.pop(ctx);
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(const SnackBar(content: Text('Güncellendi.')));
+              ).showSnackBar(SnackBar(content: Text(l10n.adminCommonUpdated)));
             } catch (e) {
               if (!ctx.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
@@ -208,33 +232,45 @@ class _AdminSponsorshipLeadsPageState
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Lead Detayı',
+                Text(
+                  l10n.adminSponsorshipLeadsDetailTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 10),
-                Text('İşletme: ${lead.businessName}'),
-                Text('İşletme Sahibi: ${lead.ownerUserId}'),
+                Text('${l10n.businessLabel}: ${lead.businessName}'),
+                Text(
+                  '${l10n.adminSponsorshipLeadsOwnerColumn}: ${lead.ownerUserId}',
+                ),
                 if ((lead.phone ?? '').isNotEmpty)
-                  Text('Telefon: ${lead.phone}'),
+                  Text('${l10n.adminSponsorshipLeadsPhoneLabel}: ${lead.phone}'),
                 if ((lead.message ?? '').isNotEmpty)
-                  Text('Mesaj: ${lead.message}'),
+                  Text('${l10n.adminSponsorshipLeadsMessageLabel}: ${lead.message}'),
                 const SizedBox(height: 8),
-                Text('Hedeflenen: ${_fmtTargeting(lead.preferredTargeting)}'),
+                Text(
+                  '${l10n.adminSponsorshipLeadsTargetingLabel}: ${_fmtTargeting(lead.preferredTargeting)}',
+                ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   key: ValueKey(status),
                   initialValue: status,
-                  items: const [
-                    DropdownMenuItem(value: 'new', child: Text('Yeni')),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'new',
+                      child: Text(l10n.adminSponsorshipLeadStatusNew),
+                    ),
                     DropdownMenuItem(
                       value: 'contacted',
-                      child: Text('İletişime Geçildi'),
+                      child: Text(l10n.adminSponsorshipLeadStatusContacted),
                     ),
-                    DropdownMenuItem(value: 'closed', child: Text('Kapandı')),
+                    DropdownMenuItem(
+                      value: 'closed',
+                      child: Text(l10n.adminSponsorshipLeadStatusClosed),
+                    ),
                   ],
                   onChanged: (v) => setModalState(() => status = v ?? 'new'),
-                  decoration: const InputDecoration(labelText: 'Durum'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminSponsorshipsStatusColumn,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Row(
@@ -242,7 +278,7 @@ class _AdminSponsorshipLeadsPageState
                     Expanded(
                       child: FilledButton(
                         onPressed: saving ? null : saveStatus,
-                        child: Text(saving ? 'Kaydediliyor...' : 'Kaydet'),
+                        child: Text(saving ? l10n.saving : l10n.save),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -267,7 +303,7 @@ class _AdminSponsorshipLeadsPageState
                         );
                       },
                       icon: const Icon(Icons.auto_awesome),
-                      label: const Text('Sponsorluk Oluştur'),
+                      label: Text(l10n.adminSponsorshipLeadsCreateSponsorship),
                     ),
                   ],
                 ),
@@ -277,6 +313,36 @@ class _AdminSponsorshipLeadsPageState
         },
       ),
     );
+  }
+}
+
+String _leadStatusLabel(BuildContext context, String status) {
+  final l10n = context.l10n;
+  switch (status) {
+    case 'new':
+      return l10n.adminSponsorshipLeadStatusNew;
+    case 'contacted':
+      return l10n.adminSponsorshipLeadStatusContacted;
+    case 'closed':
+      return l10n.adminSponsorshipLeadStatusClosed;
+    default:
+      return status;
+  }
+}
+
+String _surfaceLabel(BuildContext context, String surface) {
+  final l10n = context.l10n;
+  switch (surface) {
+    case 'discovery':
+      return l10n.adminSponsorshipPackagesSurfaceDiscovery;
+    case 'business_page':
+      return l10n.adminSponsorshipPackagesSurfaceBusinessPage;
+    case 'verified':
+      return l10n.adminSponsorshipPackagesSurfaceVerified;
+    case 'premium':
+      return l10n.adminSponsorshipPackagesSurfacePremium;
+    default:
+      return surface;
   }
 }
 

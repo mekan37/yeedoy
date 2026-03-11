@@ -42,7 +42,8 @@ class TasteTwinPage extends ConsumerWidget {
     return AppScaffold(
       appBar: AppBar(title: Text(t.tasteTwinTitle)),
       body: RefreshIndicator(
-        onRefresh: () => ref.read(tasteMatchesProvider.notifier).loadInitial(),
+        onRefresh: () =>
+            ref.read(tasteMatchesProvider.notifier).loadInitial(force: true),
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
           children: [
@@ -65,7 +66,9 @@ class TasteTwinPage extends ConsumerWidget {
                     const SizedBox(width: 8),
                     OutlinedButton(
                       onPressed: () =>
-                          ref.read(tasteMatchesProvider.notifier).loadInitial(),
+                          ref
+                              .read(tasteMatchesProvider.notifier)
+                              .loadInitial(force: true),
                       child: Text(t.retry),
                     ),
                   ],

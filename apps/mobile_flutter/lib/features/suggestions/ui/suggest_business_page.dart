@@ -8,6 +8,7 @@ import '../../../app/brand/brand_widgets.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/storage/offline_submission_queue.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../data/suggestions_repository.dart';
 
@@ -36,11 +37,7 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
   List<ExistingBusinessCandidate> _duplicates = const [];
   Timer? _dupTimer;
 
-  final categories = const [
-    'cafe',
-    'restaurant',
-    'fish',
-  ];
+  final categories = const ['cafe', 'restaurant', 'fish'];
 
   @override
   void dispose() {
@@ -103,6 +100,12 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
         ),
       );
       if (!mounted) return;
+      context.pop();
+    } on OfflineSubmissionQueuedException {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(t.weakConnectionQueueNotice)));
       context.pop();
     } catch (e) {
       if (!mounted) return;
@@ -268,7 +271,7 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
     }
     if (mounted) setState(() => _checkingDuplicates = true);
     try {
-          final list = await ref
+      final list = await ref
           .read(suggestionsRepositoryProvider)
           .findPossibleExisting(
             name: name,
@@ -386,4 +389,3 @@ String _categoryLabel(AppLocalizations t, String key) {
       return key;
   }
 }
-

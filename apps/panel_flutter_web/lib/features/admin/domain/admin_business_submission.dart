@@ -1,5 +1,6 @@
 class AdminBusinessSubmission {
   AdminBusinessSubmission({
+    required this.totalCount,
     required this.id,
     required this.submittedBy,
     required this.name,
@@ -14,6 +15,7 @@ class AdminBusinessSubmission {
     required this.createdAt,
   });
 
+  final int totalCount;
   final String id;
   final String submittedBy;
   final String name;
@@ -29,6 +31,7 @@ class AdminBusinessSubmission {
 
   factory AdminBusinessSubmission.fromMap(Map<String, dynamic> map) {
     return AdminBusinessSubmission(
+      totalCount: _asInt(map['total_count']),
       id: (map['id'] ?? '').toString(),
       submittedBy: (map['submitted_by'] ?? '').toString(),
       name: (map['name'] ?? '').toString(),
@@ -43,4 +46,10 @@ class AdminBusinessSubmission {
       createdAt: DateTime.tryParse((map['created_at'] ?? '').toString()) ?? DateTime.now(),
     );
   }
+}
+
+int _asInt(Object? value) {
+  if (value is int) return value;
+  if (value is num) return value.toInt();
+  return int.tryParse((value ?? '').toString()) ?? 0;
 }

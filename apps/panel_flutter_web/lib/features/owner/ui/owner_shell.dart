@@ -4,9 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/app_role_providers.dart';
-import '../../owner_businesses/domain/owner_business_providers.dart';
+import '../../../core/security/admin_impersonation_provider.dart';
+import '../../../core/security/business_rbac_localizations.dart';
 import '../../owner_businesses/domain/owner_business_state.dart';
+import '../../../shared/ui/components/owner_business_context_bar.dart';
+import '../../../shared/ui/components/permission_denied_view.dart';
 
 class OwnerShell extends ConsumerWidget {
   const OwnerShell({super.key, required this.child, required this.location});
@@ -31,6 +35,7 @@ class OwnerShell extends ConsumerWidget {
   Widget _buildAuthorizedShell(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final isWide = kIsWeb && width >= 1024;
+    final impersonation = ref.watch(adminImpersonationProvider);
 
     if (isWide) {
       return Scaffold(
@@ -42,6 +47,9 @@ class OwnerShell extends ConsumerWidget {
               child: Column(
                 children: [
                   const _OwnerHeader(),
+                  if (impersonation.isActive)
+                    _OwnerImpersonationBanner(impersonation: impersonation),
+                  const OwnerBusinessContextBar(),
                   Expanded(child: child),
                 ],
               ),
@@ -52,47 +60,36 @@ class OwnerShell extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('İşletme Paneli')),
+      appBar: AppBar(title: Text(context.l10n.ownerShellPanelTitle)),
       drawer: const _OwnerDrawer(),
-      body: child,
+      body: Column(
+        children: [
+          if (impersonation.isActive)
+            _OwnerImpersonationBanner(impersonation: impersonation),
+          const OwnerBusinessContextBar(),
+          Expanded(child: child),
+        ],
+      ),
     );
   }
 
   Widget _forbidden(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('403')),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Bu sayfaya erişim izniniz yok.'),
-            const SizedBox(height: 12),
-            FilledButton(
-              onPressed: () => context.go('/'),
-              child: const Text('Ana sayfaya dön'),
-            ),
-          ],
-        ),
+      appBar: AppBar(title: Text(context.l10n.forbiddenTitle)),
+      body: PermissionDeniedView(
+        primaryRoute: '/',
+        primaryLabel: context.l10n.forbiddenBackHomeAction,
       ),
     );
   }
 }
 
-class _OwnerHeader extends ConsumerWidget {
+class _OwnerHeader extends StatelessWidget {
   const _OwnerHeader();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final businessesAsync = ref.watch(ownerBusinessesProvider);
-    final selectedId = ref.watch(selectedOwnerBusinessIdProvider);
-
-    businessesAsync.whenData((items) {
-      if (selectedId == null && items.isNotEmpty) {
-        ref.read(selectedOwnerBusinessIdProvider.notifier).state =
-            items.first.businessId;
-      }
-    });
-
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Container(
       height: 64,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -105,77 +102,17 @@ class _OwnerHeader extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          const Text(
-            'İşletme Paneli',
+          Text(
+            l10n.ownerShellPanelTitle,
             style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: businessesAsync.when(
-              loading: () => const SizedBox.shrink(),
-              error: (_, _) => const SizedBox.shrink(),
-              data: (items) {
-                if (items.isEmpty) return const SizedBox.shrink();
-                final current = selectedId ?? items.first.businessId;
-                return Align(
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    width: 320,
-                    child: DropdownButtonFormField<String>(
-                      initialValue: current,
-                      iconEnabledColor: Colors.white,
-                      dropdownColor: AppColors.card,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        filled: true,
-                        fillColor: Colors.white.withValues(alpha: 0.15),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(999),
-                          borderSide: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.35),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(999),
-                          borderSide: BorderSide(
-                            color: Colors.white.withValues(alpha: 0.35),
-                          ),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 10,
-                        ),
-                      ),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      items: [
-                        for (final b in items)
-                          DropdownMenuItem(
-                            value: b.businessId,
-                            child: Text('${b.businessName} - ${b.district}'),
-                          ),
-                      ],
-                      onChanged: (value) {
-                        if (value == null) return;
-                        ref
-                                .read(selectedOwnerBusinessIdProvider.notifier)
-                                .state =
-                            value;
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+          const Spacer(),
           TextButton.icon(
             onPressed: () => context.go('/owner/businesses'),
             icon: const Icon(Icons.storefront_outlined, color: Colors.white),
-            label: const Text(
-              'İşletmelerim',
-              style: TextStyle(color: Colors.white),
+            label: Text(
+              l10n.ownerBusinessesTitle,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -191,15 +128,24 @@ class _OwnerSidebar extends ConsumerWidget {
   int _indexFromLocation() {
     if (location.startsWith('/owner/businesses')) return 1;
     if (location.startsWith('/owner/menus')) return 2;
-    if (location.startsWith('/owner/price-suggestions')) return 3;
-    if (location.startsWith('/owner/suspended')) return 4;
-    if (location.startsWith('/owner/requests')) return 5;
-    if (location.startsWith('/owner/audit')) return 6;
+    if (location.startsWith('/owner/trash')) return 3;
+    if (location.startsWith('/owner/growth') ||
+        location.startsWith('/owner/analytics')) {
+      return 4;
+    }
+    if (location.startsWith('/owner/price-suggestions')) return 5;
+    if (location.startsWith('/owner/suspended')) return 6;
+    if (location.startsWith('/owner/requests')) return 7;
+    if (location.startsWith('/owner/team')) return 8;
+    if (location.startsWith('/owner/activity') || location.startsWith('/owner/audit')) {
+      return 9;
+    }
     return 0;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final idx = _indexFromLocation();
     final selectedId = ref.watch(selectedOwnerBusinessIdProvider);
     return SizedBox(
@@ -210,25 +156,37 @@ class _OwnerSidebar extends ConsumerWidget {
           _OwnerNavItem(
             selected: idx == 0,
             icon: Icons.dashboard_outlined,
-            label: 'Genel Bakış',
+            label: l10n.ownerShellOverviewLabel,
             onTap: () => context.go('/owner'),
           ),
           _OwnerNavItem(
             selected: idx == 1,
             icon: Icons.storefront_outlined,
-            label: 'İşletmelerim',
+            label: l10n.ownerBusinessesTitle,
             onTap: () => context.go('/owner/businesses'),
           ),
           _OwnerNavItem(
             selected: idx == 2,
             icon: Icons.menu_book_outlined,
-            label: 'Menü Yönetimi',
+            label: l10n.ownerMenuManagementTitle,
             onTap: () => context.go('/owner/menus'),
           ),
           _OwnerNavItem(
             selected: idx == 3,
+            icon: Icons.delete_sweep_outlined,
+            label: l10n.ownerShellTrashLabel,
+            onTap: () => _goBusinessRoute(context, '/owner/trash', selectedId),
+          ),
+          _OwnerNavItem(
+            selected: idx == 4,
+            icon: Icons.trending_up_outlined,
+            label: l10n.ownerShellGrowthLabel,
+            onTap: () => _goBusinessRoute(context, '/owner/growth', selectedId),
+          ),
+          _OwnerNavItem(
+            selected: idx == 5,
             icon: Icons.price_check_outlined,
-            label: 'Fiyat Önerileri',
+            label: l10n.ownerShellPriceSuggestionsLabel,
             onTap: () => _goBusinessRoute(
               context,
               '/owner/price-suggestions',
@@ -236,23 +194,29 @@ class _OwnerSidebar extends ConsumerWidget {
             ),
           ),
           _OwnerNavItem(
-            selected: idx == 4,
+            selected: idx == 6,
             icon: Icons.volunteer_activism_outlined,
-            label: 'Askıda Talepleri',
+            label: l10n.ownerShellSuspendedClaimsLabel,
             onTap: () =>
                 _goBusinessRoute(context, '/owner/suspended', selectedId),
           ),
           _OwnerNavItem(
-            selected: idx == 5,
+            selected: idx == 7,
             icon: Icons.groups_outlined,
-            label: 'Talepler',
+            label: l10n.ownerShellRequestsLabel,
             onTap: () => context.go('/owner/requests'),
           ),
           _OwnerNavItem(
-            selected: idx == 6,
+            selected: idx == 8,
+            icon: Icons.manage_accounts_outlined,
+            label: l10n.ownerShellTeamLabel,
+            onTap: () => _goBusinessRoute(context, '/owner/team', selectedId),
+          ),
+          _OwnerNavItem(
+            selected: idx == 9,
             icon: Icons.receipt_long_outlined,
-            label: 'Denetim',
-            onTap: () => context.go('/owner/audit'),
+            label: l10n.ownerShellActivityLabel,
+            onTap: () => _goBusinessRoute(context, '/owner/activity', selectedId),
           ),
         ],
       ),
@@ -273,35 +237,46 @@ class _OwnerDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final selectedId = ref.watch(selectedOwnerBusinessIdProvider);
     return Drawer(
       child: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const Text(
-              'İşletme Paneli',
+            Text(
+              l10n.ownerShellPanelTitle,
               style: TextStyle(fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 12),
             ListTile(
               leading: const Icon(Icons.dashboard_outlined),
-              title: const Text('Genel Bakış'),
+              title: Text(l10n.ownerShellOverviewLabel),
               onTap: () => context.go('/owner'),
             ),
             ListTile(
               leading: const Icon(Icons.storefront_outlined),
-              title: const Text('İşletmelerim'),
+              title: Text(l10n.ownerBusinessesTitle),
               onTap: () => context.go('/owner/businesses'),
             ),
             ListTile(
               leading: const Icon(Icons.menu_book_outlined),
-              title: const Text('Menü Yönetimi'),
+              title: Text(l10n.ownerMenuManagementTitle),
               onTap: () => context.go('/owner/menus'),
             ),
             ListTile(
+              leading: const Icon(Icons.delete_sweep_outlined),
+              title: Text(l10n.ownerShellTrashLabel),
+              onTap: () => _goBusinessRoute(context, '/owner/trash', selectedId),
+            ),
+            ListTile(
+              leading: const Icon(Icons.trending_up_outlined),
+              title: Text(l10n.ownerShellGrowthLabel),
+              onTap: () => _goBusinessRoute(context, '/owner/growth', selectedId),
+            ),
+            ListTile(
               leading: const Icon(Icons.price_check_outlined),
-              title: const Text('Fiyat Önerileri'),
+              title: Text(l10n.ownerShellPriceSuggestionsLabel),
               onTap: () => _goBusinessRoute(
                 context,
                 '/owner/price-suggestions',
@@ -310,19 +285,24 @@ class _OwnerDrawer extends ConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.volunteer_activism_outlined),
-              title: const Text('Askıda Talepleri'),
+              title: Text(l10n.ownerShellSuspendedClaimsLabel),
               onTap: () =>
                   _goBusinessRoute(context, '/owner/suspended', selectedId),
             ),
             ListTile(
               leading: const Icon(Icons.groups_outlined),
-              title: const Text('Talepler'),
+              title: Text(l10n.ownerShellRequestsLabel),
               onTap: () => context.go('/owner/requests'),
             ),
             ListTile(
+              leading: const Icon(Icons.manage_accounts_outlined),
+              title: Text(l10n.ownerShellTeamLabel),
+              onTap: () => _goBusinessRoute(context, '/owner/team', selectedId),
+            ),
+            ListTile(
               leading: const Icon(Icons.receipt_long_outlined),
-              title: const Text('Denetim'),
-              onTap: () => context.go('/owner/audit'),
+              title: Text(l10n.ownerShellActivityLabel),
+              onTap: () => _goBusinessRoute(context, '/owner/activity', selectedId),
             ),
           ],
         ),
@@ -377,6 +357,40 @@ class _OwnerNavItem extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OwnerImpersonationBanner extends ConsumerWidget {
+  const _OwnerImpersonationBanner({required this.impersonation});
+
+  final AdminImpersonationState impersonation;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    return Material(
+      color: AppColors.warning.withValues(alpha: 0.12),
+      child: ListTile(
+        leading: const Icon(Icons.switch_account_outlined),
+        title: Text(
+          l10n.adminImpersonationBannerTitle(
+            impersonation.userLabel ?? impersonation.userId ?? '-',
+          ),
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+        subtitle: Text(
+          impersonation.roleOverride == null
+              ? l10n.adminImpersonationUsingActualRole
+              : l10n.adminImpersonationRoleOverride(
+                  l10n.ownerTeamRoleLabel(impersonation.roleOverride!),
+                ),
+        ),
+        trailing: TextButton(
+          onPressed: () => ref.read(adminImpersonationActionsProvider).stop(),
+          child: Text(l10n.adminImpersonationStopAction),
         ),
       ),
     );

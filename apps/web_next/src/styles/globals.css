@@ -1,26 +1,114 @@
+@import './tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary: 127 29 29;
-  --slate: 67 77 87;
-  --bg: 249 250 251;
-  --card: 255 255 255;
-  --border: 229 231 235;
-  --text: 67 77 87;
-  --muted: 107 114 128;
-  --success: 21 128 61;
-  --warning: 245 158 11;
-  --danger: 185 28 28;
-  --info: 29 78 216;
-  --star: 251 191 36;
-  --starOff: 209 213 219;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: rgb(var(--bg));
-  color: rgb(var(--text));
+  font-family: var(--yd-font-family);
+  background-color: rgb(var(--yd-color-bg-rgb));
+  color: rgb(var(--yd-color-text-rgb));
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  background-image:
+    radial-gradient(circle at top left, rgba(127, 29, 29, 0.06), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(249, 250, 251, 1));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(127, 29, 29, 0.16);
+  color: rgb(var(--yd-color-text-strong-rgb));
+}
+
+a,
+button {
+  transition:
+    color var(--yd-duration-medium) ease,
+    background-color var(--yd-duration-medium) ease,
+    border-color var(--yd-duration-medium) ease,
+    transform var(--yd-duration-medium) ease,
+    box-shadow var(--yd-duration-medium) ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(127, 29, 29, 0.32);
+  outline-offset: 2px;
+}
+
+@keyframes sheet-in {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes success-pop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-sheet-in {
+  animation: sheet-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.animate-overlay-in {
+  animation: overlay-in 180ms ease-out;
+}
+
+.animate-success-pop {
+  animation: success-pop 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-sheet-in,
+  .animate-overlay-in,
+  .animate-success-pop {
+    animation: none;
+  }
 }

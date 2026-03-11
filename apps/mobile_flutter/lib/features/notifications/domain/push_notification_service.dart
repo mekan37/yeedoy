@@ -4,15 +4,45 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/analytics/analytics_client.dart';
+import '../../../core/analytics/analytics_repository.dart';
+import '../../../core/analytics/app_events.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/inbox_repository.dart';
 import 'inbox_provider.dart';
+import 'notification_target_path_resolver.dart';
 
 final pushNotificationServiceProvider = Provider<PushNotificationService>((
   ref,
 ) {
   return PushNotificationService(ref);
 });
+
+class PushTapIntent {
+  const PushTapIntent({required this.route, required this.nonce});
+
+  final String route;
+  final int nonce;
+}
+
+final pushTapIntentProvider =
+    NotifierProvider<PushTapIntentNotifier, PushTapIntent?>(
+      PushTapIntentNotifier.new,
+    );
+
+class PushTapIntentNotifier extends Notifier<PushTapIntent?> {
+  @override
+  PushTapIntent? build() => null;
+
+  void emit(String route) {
+    state = PushTapIntent(
+      route: route,
+      nonce: DateTime.now().microsecondsSinceEpoch,
+    );
+  }
+
+  void clear() => state = null;
+}
 
 class PushNotificationService {
   PushNotificationService(this.ref);
@@ -21,10 +51,13 @@ class PushNotificationService {
   bool _started = false;
   StreamSubscription<String>? _tokenSub;
   StreamSubscription<RemoteMessage>? _messageSub;
+  StreamSubscription<RemoteMessage>? _messageOpenSub;
   String? _lastToken;
 
   Future<void> start() async {
     if (_started) return;
+    final platform = _mobilePlatform();
+    if (platform == null) return;
     final user = ref.read(userProvider);
     if (user == null) return;
 
@@ -52,6 +85,19 @@ class PushNotificationService {
       // Keep in-app inbox and badge live on foreground push.
       unawaited(ref.read(inboxProvider.notifier).refresh());
     });
+
+    _messageOpenSub = FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      _emitPushTapIntent(message.data);
+    });
+
+    try {
+      final initialMessage = await messaging.getInitialMessage();
+      if (initialMessage != null) {
+        _emitPushTapIntent(initialMessage.data);
+      }
+    } catch (_) {
+      // no-op
+    }
   }
 
   Future<void> _registerCurrentToken(FirebaseMessaging messaging) async {
@@ -66,19 +112,10 @@ class PushNotificationService {
   }
 
   Future<void> _registerToken(String token) async {
+    final platform = _mobilePlatform();
+    if (platform == null) return;
     final repo = ref.read(inboxRepositoryProvider);
-    final platform = switch (defaultTargetPlatform) {
-      TargetPlatform.android => 'android',
-      TargetPlatform.iOS => 'ios',
-      TargetPlatform.macOS => 'macos',
-      TargetPlatform.windows => 'windows',
-      TargetPlatform.linux => 'linux',
-      TargetPlatform.fuchsia => 'fuchsia',
-    };
-    await repo.registerDevice(
-      fcmToken: token,
-      platform: kIsWeb ? 'web' : platform,
-    );
+    await repo.registerDevice(fcmToken: token, platform: platform);
     _lastToken = token;
   }
 
@@ -102,5 +139,75 @@ class PushNotificationService {
     _tokenSub = null;
     _messageSub?.cancel();
     _messageSub = null;
+    _messageOpenSub?.cancel();
+    _messageOpenSub = null;
+  }
+
+  void simulatePushPayload(
+    Map<String, dynamic> data, {
+    String source = 'devtools_push_simulator',
+  }) {
+    _emitPushTapIntent(data, source: source);
+  }
+
+  void _emitPushTapIntent(
+    Map<String, dynamic> data, {
+    String source = 'push_notification_service',
+  }) {
+    final route = resolvePushTapRoute(data);
+    if (route == null) return;
+    ref.read(pushTapIntentProvider.notifier).emit(route);
+    unawaited(_logPushOpen(data: data, route: route, source: source));
+  }
+
+  Future<void> _logPushOpen({
+    required Map<String, dynamic> data,
+    required String route,
+    required String source,
+  }) async {
+    final type = (data['type'] ?? '').toString();
+    final businessId = (data['business_id'] ?? '').toString().trim();
+    final menuId = (data['menu_id'] ?? '').toString().trim();
+    final clientId = await getAnalyticsClientId();
+
+    await ref
+        .read(analyticsRepositoryProvider)
+        .logEvent(
+          eventName: _eventNameForType(type),
+          businessId: businessId.isEmpty ? null : businessId,
+          menuId: menuId.isEmpty ? null : menuId,
+          source: source,
+          clientId: clientId,
+          meta: {
+            'type': type,
+            'target_path': route,
+            'transport': 'push_tap',
+          },
+        );
+  }
+
+  String _eventNameForType(String type) {
+    switch (type) {
+      case 'price_verification_result':
+      case 'favorite_price_changed':
+      case 'owner_new_price_suggestion':
+        return AppEvents.priceChangePushOpen;
+      case 'review_reply':
+      case 'owner_new_review':
+        return AppEvents.commentReplyPushOpen;
+      default:
+        return AppEvents.notificationOpen;
+    }
+  }
+
+  String? _mobilePlatform() {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return 'android';
+      case TargetPlatform.iOS:
+        return 'ios';
+      default:
+        return null;
+    }
   }
 }

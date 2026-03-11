@@ -82,8 +82,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).loginRegisterSuccess),
         ),
       );
     } catch (e) {
@@ -115,7 +115,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     return AppScaffold(
-      appBar: AppBar(title: const Text('Giriş Yap')),
+      appBar: AppBar(title: Text(t.login)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -126,10 +126,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           if (errorMessage != null) ...[
             AppEmptyState(
               icon: Icons.wifi_off_outlined,
-              title: 'İşlem tamamlanamadı',
-              description:
-                  '$errorMessage\nBağlantını kontrol edip tekrar dene.',
-              ctaLabel: lastAction == null ? null : 'Tekrar dene',
+              title: t.loginActionFailedTitle,
+              description: t.loginActionFailedDescription(errorMessage!),
+              ctaLabel: lastAction == null ? null : t.retry,
               onCta: lastAction == null ? null : _retryLastAction,
             ),
             const SizedBox(height: 12),
@@ -145,20 +144,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           TextField(
             controller: emailCtrl,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(labelText: 'E-posta'),
+            decoration: InputDecoration(labelText: t.businessAuthEmailLabel),
           ),
           const SizedBox(height: 12),
           TextField(
             controller: passCtrl,
             obscureText: true,
-            decoration: const InputDecoration(labelText: 'Şifre'),
+            decoration: InputDecoration(labelText: t.businessAuthPasswordLabel),
           ),
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: FilledButton(
               onPressed: loading ? null : _signIn,
-              child: Text(loading ? 'Giriş yapılıyor...' : 'Giriş Yap'),
+              child: Text(loading ? t.loginSubmitting : t.login),
             ),
           ),
           const SizedBox(height: 10),
@@ -166,7 +165,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             width: double.infinity,
             child: OutlinedButton(
               onPressed: loading ? null : _signUp,
-              child: Text(loading ? 'Kayıt oluşturuluyor...' : 'Kayıt Ol'),
+              child: Text(loading ? t.loginRegisterSubmitting : t.register),
             ),
           ),
         ],

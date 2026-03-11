@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/admin_suspended_claims_repository.dart';
 import '../domain/admin_models.dart';
 import '../domain/admin_new_items_controller.dart';
@@ -49,6 +50,7 @@ class _AdminSuspendedClaimsPageState
       adminSuspendedClaimsControllerProvider.notifier,
     );
     final newItems = ref.watch(adminNewItemsProvider).suspendedClaimsNew;
+    final l10n = context.l10n;
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -57,15 +59,19 @@ class _AdminSuspendedClaimsPageState
         children: [
           Row(
             children: [
-              const Text(
-                'Askıda Talepleri',
+              Text(
+                l10n.adminSuspendedClaimsTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
               OutlinedButton.icon(
                 onPressed: exporting ? null : () => _exportCsv(st),
                 icon: const Icon(Icons.download),
-                label: Text(exporting ? 'İndiriliyor...' : 'CSV Dışa Aktar'),
+                label: Text(
+                  exporting
+                      ? l10n.adminCommonDownloading
+                      : l10n.adminCommonExportCsv,
+                ),
               ),
               const SizedBox(width: 8),
               IconButton(
@@ -89,17 +95,17 @@ class _AdminSuspendedClaimsPageState
                 spacing: 8,
                 children: [
                   AppFilterChip(
-                    label: 'Beklemede',
+                    label: l10n.pending,
                     selected: st.statusFilter == 'pending',
                     onTap: () => controller.setStatusFilter('pending'),
                   ),
                   AppFilterChip(
-                    label: 'Onaylandı',
+                    label: l10n.approved,
                     selected: st.statusFilter == 'approved',
                     onTap: () => controller.setStatusFilter('approved'),
                   ),
                   AppFilterChip(
-                    label: 'Reddedildi',
+                    label: l10n.rejected,
                     selected: st.statusFilter == 'rejected',
                     onTap: () => controller.setStatusFilter('rejected'),
                   ),
@@ -116,7 +122,7 @@ class _AdminSuspendedClaimsPageState
           const SizedBox(height: 10),
           AdminNewItemsBanner(
             count: newItems,
-            label: 'Yeni kayıtlar var',
+            label: l10n.adminCommonNewRecordsAvailable,
             onRefresh: () async {
               final ok = await controller.refresh(force: true);
               if (!context.mounted) return;
@@ -144,10 +150,16 @@ class _AdminSuspendedClaimsPageState
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
                           columns: [
-                            DataColumn(label: Text('Yaş')),
-                            DataColumn(label: Text('İşletme')),
-                            DataColumn(label: Text('Miktar')),
-                            DataColumn(label: Text('Davacı')),
+                            DataColumn(label: Text(l10n.adminCommonAge)),
+                            DataColumn(label: Text(l10n.businessLabel)),
+                            DataColumn(
+                              label: Text(l10n.adminSuspendedClaimsAmountColumn),
+                            ),
+                            DataColumn(
+                              label: Text(
+                                l10n.adminSuspendedClaimsClaimantColumn,
+                              ),
+                            ),
                             DataColumn(label: Text('SLA')),
                             DataColumn(label: Text('')),
                           ],
@@ -175,7 +187,7 @@ class _AdminSuspendedClaimsPageState
                                     TextButton(
                                       onPressed: () =>
                                           _openDetails(context, st.items[i]),
-                                      child: const Text('Detay'),
+                                      child: Text(l10n.adminCommonDetails),
                                     ),
                                   ),
                                 ],
@@ -186,7 +198,9 @@ class _AdminSuspendedClaimsPageState
                       if (!st.isLoading && st.items.isEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 24),
-                          child: Center(child: Text('Kayit bulunamadi.')),
+                          child: Center(
+                            child: Text(l10n.adminCommonNoRecordsFound),
+                          ),
                         ),
                       if (st.isLoadingMore)
                         const Padding(
@@ -226,6 +240,7 @@ class _AdminSuspendedClaimsPageState
     BuildContext context,
     AdminSuspendedClaimItem item,
   ) async {
+    final l10n = context.l10n;
     final controller = ref.read(
       adminSuspendedClaimsControllerProvider.notifier,
     );
@@ -251,24 +266,34 @@ class _AdminSuspendedClaimsPageState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (item.slaBreached)
-                  AppSlaBanner(text: 'SLA aşıldı: ${_ageLabel(item.ageHours)}'),
-                const Text(
-                  'Talep Detayi',
+                  AppSlaBanner(
+                    text: l10n.adminSuspendedClaimsSlaExceeded(
+                      _ageLabel(item.ageHours),
+                    ),
+                  ),
+                Text(
+                  l10n.adminSuspendedClaimsDetailTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 10),
                 Text('ID: ${item.id}'),
-                Text('İşletme: ${item.businessName}'),
-                Text('Miktar: ${_formatPrice(item.amountCents)}'),
-                Text('Davacı: ${item.claimantName} (${item.claimantId})'),
+                Text('${l10n.businessLabel}: ${item.businessName}'),
+                Text(
+                  '${l10n.adminSuspendedClaimsAmountColumn}: ${_formatPrice(item.amountCents)}',
+                ),
+                Text(
+                  '${l10n.adminSuspendedClaimsClaimantColumn}: ${item.claimantName} (${item.claimantId})',
+                ),
                 if (item.mealMessage.isNotEmpty)
-                  Text('Meal: ${item.mealMessage}'),
+                  Text(
+                    '${l10n.adminSuspendedClaimsMealLabel}: ${item.mealMessage}',
+                  ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: noteCtrl,
                   maxLines: 3,
-                  decoration: const InputDecoration(
-                    labelText: 'Reddetme notu (opsiyonel)',
+                  decoration: InputDecoration(
+                    labelText: l10n.adminSuspendedClaimsRejectNoteOptional,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -281,7 +306,7 @@ class _AdminSuspendedClaimsPageState
                             : () async {
                                 final ok = await _confirm(
                                   ctx,
-                                  'Onaylansın mı?',
+                                  l10n.adminSuspendedClaimsApproveConfirm,
                                 );
                                 if (!ok) return;
                                 setModalState(() => loading = true);
@@ -295,7 +320,7 @@ class _AdminSuspendedClaimsPageState
                                   if (!context.mounted) return;
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Onaylandı.')),
+                                    SnackBar(content: Text(l10n.approved)),
                                   );
                                 } catch (e) {
                                   if (!context.mounted) return;
@@ -307,7 +332,11 @@ class _AdminSuspendedClaimsPageState
                                   setModalState(() => loading = false);
                                 }
                               },
-                        child: Text(loading ? 'İşleniyor...' : 'Onayla'),
+                        child: Text(
+                          loading
+                              ? l10n.adminCommonProcessing
+                              : l10n.approved,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -318,7 +347,7 @@ class _AdminSuspendedClaimsPageState
                             : () async {
                                 final ok = await _confirm(
                                   ctx,
-                                  'Reddetmek istiyor musun?',
+                                  l10n.adminSuspendedClaimsRejectConfirm,
                                 );
                                 if (!ok) return;
                                 setModalState(() => loading = true);
@@ -335,9 +364,7 @@ class _AdminSuspendedClaimsPageState
                                   if (!context.mounted) return;
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Reddedildi.'),
-                                    ),
+                                    SnackBar(content: Text(l10n.rejected)),
                                   );
                                 } catch (e) {
                                   if (!context.mounted) return;
@@ -349,7 +376,11 @@ class _AdminSuspendedClaimsPageState
                                   setModalState(() => loading = false);
                                 }
                               },
-                        child: Text(loading ? 'İşleniyor...' : 'Reddet'),
+                        child: Text(
+                          loading
+                              ? l10n.adminCommonProcessing
+                              : l10n.rejected,
+                        ),
                       ),
                     ),
                   ],
@@ -357,7 +388,7 @@ class _AdminSuspendedClaimsPageState
                 const SizedBox(height: 8),
                 TextButton(
                   onPressed: () => context.go('/b/${item.businessId}'),
-                  child: const Text('İşletme sayfasına git'),
+                  child: Text(l10n.adminPriceSuggestionsGoToBusiness),
                 ),
               ],
             ),
@@ -386,23 +417,24 @@ String _formatPrice(int? cents) {
   if (cents == null) return '—';
   final value = cents / 100.0;
   final text = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
-  return 'â‚º$text';
+  return '₺$text';
 }
 
 Future<bool> _confirm(BuildContext context, String message) async {
+  final l10n = context.l10n;
   final res = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: const Text('Emin misin?'),
+      title: Text(l10n.adminCommonConfirmTitle),
       content: Text(message),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx, false),
-          child: const Text('Vazgeç'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: () => Navigator.pop(ctx, true),
-          child: const Text('Onayla'),
+          child: Text(l10n.apply),
         ),
       ],
     ),

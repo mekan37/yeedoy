@@ -19,6 +19,7 @@ class AppDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final unread = ref.watch(inboxUnreadCountProvider);
+    final flags = ref.watch(featureFlagsProvider);
     final t = context.l10n;
     return Drawer(
       child: SafeArea(
@@ -63,50 +64,15 @@ class AppDrawer extends ConsumerWidget {
               ],
             ),
             const Gap(8),
-            _Section(
-              title: t.drawerSocial,
-              children: [
-                _LinkTile(
-                  icon: Icons.people_outline,
-                  label: t.drawerGourmets,
-                  onTap: () => context.go('/gourmets'),
-                ),
-                _LinkTile(
-                  icon: Icons.favorite_outline,
-                  label: t.drawerFollowing,
-                  onTap: () => context.go('/following'),
-                ),
-              ],
-            ),
-            if (FeatureFlags.enableLabs) ...[
+            if (flags.hasExperimentalNavigation) ...[
               const Gap(8),
               _Section(
                 title: t.drawerExperimental,
                 children: [
                   _LinkTile(
-                    icon: Icons.dynamic_feed_outlined,
-                    label: t.drawerFeed,
-                    onTap: () => context.go('/feed'),
-                  ),
-                  _LinkTile(
-                    icon: Icons.psychology_outlined,
-                    label: t.drawerTasteTwin,
-                    onTap: () => context.go('/taste-twin'),
-                  ),
-                  _LinkTile(
-                    icon: Icons.emoji_events_outlined,
-                    label: t.drawerHeroes,
-                    onTap: () => context.go('/heroes'),
-                  ),
-                  _LinkTile(
-                    icon: Icons.groups_outlined,
-                    label: t.drawerGroupRequests,
-                    onTap: () => context.go('/group-requests'),
-                  ),
-                  _LinkTile(
-                    icon: Icons.compare_arrows_outlined,
-                    label: t.drawerCompare,
-                    onTap: () => context.go('/compare'),
+                    icon: Icons.science_outlined,
+                    label: t.drawerExperimental,
+                    onTap: () => context.go('/labs'),
                   ),
                 ],
               ),
@@ -165,11 +131,6 @@ class AppDrawer extends ConsumerWidget {
                   icon: Icons.lightbulb_outline,
                   label: t.drawerMySuggestions,
                   onTap: () => context.go('/my-suggestions'),
-                ),
-                _LinkTile(
-                  icon: Icons.volunteer_activism_outlined,
-                  label: t.drawerSuspendedMeals,
-                  onTap: () => context.go('/my-suspended'),
                 ),
                 _LinkTile(
                   icon: Icons.policy_outlined,

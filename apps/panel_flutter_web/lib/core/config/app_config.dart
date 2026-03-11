@@ -24,10 +24,30 @@ class AppConfig {
 
   static String get webBaseUrl => 'https://$webDomain';
   static String get adminWebUrl => '$webBaseUrl/admin';
-  static String get privacyPolicyUrl => '$webBaseUrl/privacy';
-  static String get kvkkUrl => '$webBaseUrl/kvkk';
-  static String get gdprUrl => '$webBaseUrl/gdpr';
-  static String get copyrightPolicyUrl => '$webBaseUrl/copyright';
+  static String get legalIndexUrl => '$webBaseUrl/legal';
+  static const playStoreUrl = String.fromEnvironment(
+    'PLAY_STORE_URL',
+    defaultValue: 'https://play.google.com/store/apps/details?id=com.yeedoy.app',
+  );
+  static const appStoreUrl = String.fromEnvironment(
+    'APP_STORE_URL',
+    defaultValue: 'https://apps.apple.com/app/id0000000000',
+  );
+  static const publicQrWebUrl = String.fromEnvironment(
+    'WEB_NEXT_URL',
+    defaultValue: 'http://localhost:3000',
+  );
+  static String legalUrl(String slug) => '$webBaseUrl/legal/$slug';
+  static String get termsUrl => legalUrl('terms');
+  static String get privacyPolicyUrl => legalUrl('privacy');
+  static String get cookiesUrl => legalUrl('cookies');
+  static String get communityGuidelinesUrl => legalUrl('community');
+  static String get businessTermsUrl => legalUrl('business');
+  static String get copyrightPolicyUrl => legalUrl('copyright');
+  static String get trustSafetyUrl => legalUrl('trust-safety');
+  static String get deleteAccountUrl => legalUrl('delete-account');
+  static String get kvkkUrl => privacyPolicyUrl;
+  static String get gdprUrl => privacyPolicyUrl;
   static String get menuQrFileName => '${appSlug}_menu_qr.png';
 
   static String businessWebUrl(String businessId) =>

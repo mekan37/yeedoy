@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../network/supabase_provider.dart';
+import 'admin_impersonation_provider.dart';
+import 'business_rbac.dart';
 
 enum AppRole { user, owner, communityMod, admin }
 
@@ -79,6 +81,50 @@ final isOwnerProvider = FutureProvider<bool>((ref) async {
 });
 
 final canManageBusinessProvider = FutureProvider.family<bool, String>((
+  ref,
+  businessId,
+) async {
+  return ref.watch(
+    hasBusinessPermissionProvider((businessId, BusinessPermission.menuWrite)).future,
+  );
+});
+
+final canViewBusinessProvider = FutureProvider.family<bool, String>((
+  ref,
+  businessId,
+) async {
+  return ref.watch(
+    hasBusinessPermissionProvider((businessId, BusinessPermission.businessRead)).future,
+  );
+});
+
+final hasBusinessPermissionProvider =
+    FutureProvider.family<bool, (String, BusinessPermission)>((ref, request) async {
+      final businessId = request.$1.trim();
+      if (businessId.isEmpty) return false;
+      final permission = request.$2;
+      final client = ref.read(supabaseProvider);
+      final impersonation = ref.read(adminImpersonationProvider);
+      try {
+        final params = <String, Object?>{
+          'p_business_id': businessId,
+          'p_permission': permission.rpcName,
+        };
+        if (impersonation.isActive) {
+          params['p_actor_user_id'] = impersonation.userId;
+          params['p_role_override'] = impersonation.roleOverride?.value;
+        }
+        final raw = await client.rpc(
+          'has_business_permission_v1',
+          params: params,
+        );
+        return raw == true;
+      } catch (_) {
+        return false;
+      }
+    });
+
+final canManageBusinessProviderLegacy = FutureProvider.family<bool, String>((
   ref,
   businessId,
 ) async {

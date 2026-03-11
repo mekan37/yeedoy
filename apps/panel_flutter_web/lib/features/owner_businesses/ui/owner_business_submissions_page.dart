@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
 import '../domain/owner_business_models.dart';
 import '../domain/owner_business_providers.dart';
@@ -13,9 +14,10 @@ class OwnerBusinessSubmissionsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final submissionsAsync = ref.watch(ownerBusinessSubmissionsProvider);
+    final l10n = context.l10n;
 
     return AppScaffold(
-      appBar: AppBar(title: const Text('Başvurularım')),
+      appBar: AppBar(title: Text(l10n.ownerMyApplications)),
       body: submissionsAsync.when(
         loading: () => const _SubmissionsSkeleton(),
         error: (e, _) => _ErrorState(
@@ -82,7 +84,7 @@ class _SubmissionCard extends StatelessWidget {
                     border: Border.all(color: color.withValues(alpha: 0.4)),
                   ),
                   child: Text(
-                    _statusLabel(item.status),
+                    _statusLabel(context, item.status),
                     style: TextStyle(
                       color: color,
                       fontWeight: FontWeight.w800,
@@ -154,20 +156,21 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: const [
-          Icon(Icons.assignment_outlined, size: 46, color: AppColors.muted),
-          SizedBox(height: 10),
+        children: [
+          const Icon(Icons.assignment_outlined, size: 46, color: AppColors.muted),
+          const SizedBox(height: 10),
           Text(
-            'Henüz başvuru yok',
-            style: TextStyle(fontWeight: FontWeight.w900),
+            l10n.ownerBusinessSubmissionsEmptyTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           Text(
-            'Yeni işletme başvuruları burada listelenecek.',
-            style: TextStyle(color: AppColors.muted),
+            l10n.ownerBusinessSubmissionsEmptyDescription,
+            style: const TextStyle(color: AppColors.muted),
           ),
         ],
       ),
@@ -182,6 +185,7 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -192,7 +196,7 @@ class _ErrorState extends StatelessWidget {
             const SizedBox(height: 10),
             OutlinedButton(
               onPressed: onRetry,
-              child: const Text('Tekrar dene'),
+              child: Text(l10n.retry),
             ),
           ],
         ),
@@ -201,11 +205,12 @@ class _ErrorState extends StatelessWidget {
   }
 }
 
-String _statusLabel(String status) {
+String _statusLabel(BuildContext context, String status) {
+  final l10n = context.l10n;
   return switch (status) {
-    'approved' => 'Onaylandı',
-    'rejected' => 'Reddedildi',
-    _ => 'Beklemede',
+    'approved' => l10n.approved,
+    'rejected' => l10n.rejected,
+    _ => l10n.pending,
   };
 }
 

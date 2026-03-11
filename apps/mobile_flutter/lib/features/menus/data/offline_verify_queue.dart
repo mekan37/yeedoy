@@ -1,6 +1,5 @@
-import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/storage/offline_mutation_idempotency.dart';
+import '../../../core/storage/offline_mutation_queue.dart';
 
 enum OfflineVerifyActionType { votePrice, suggestPrice }
 
@@ -10,12 +9,18 @@ class OfflineVerifyQueueItem {
     required this.type,
     required this.createdAt,
     required this.payload,
+    this.retryCount = 0,
+    this.lastError,
+    this.nextRetryAt,
   });
 
   final String id;
   final OfflineVerifyActionType type;
   final DateTime createdAt;
   final Map<String, dynamic> payload;
+  final int retryCount;
+  final String? lastError;
+  final DateTime? nextRetryAt;
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,6 +28,9 @@ class OfflineVerifyQueueItem {
       'type': type.name,
       'created_at': createdAt.toUtc().toIso8601String(),
       'payload': payload,
+      'retry_count': retryCount,
+      'last_error': lastError,
+      'next_retry_at': nextRetryAt?.toUtc().toIso8601String(),
     };
   }
 
@@ -39,69 +47,121 @@ class OfflineVerifyQueueItem {
     final createdAtText = (map['created_at'] ?? '').toString();
     final createdAt =
         DateTime.tryParse(createdAtText)?.toLocal() ?? DateTime.now().toLocal();
+    final retryCount =
+        int.tryParse((map['retry_count'] ?? '').toString()) ?? 0;
+    final nextRetryAt = DateTime.tryParse(
+      (map['next_retry_at'] ?? '').toString(),
+    )?.toLocal();
+    final lastErrorText = (map['last_error'] ?? '').toString().trim();
     return OfflineVerifyQueueItem(
       id: (map['id'] ?? '').toString(),
       type: type,
       createdAt: createdAt,
       payload: payload,
+      retryCount: retryCount,
+      lastError: lastErrorText.isEmpty ? null : lastErrorText,
+      nextRetryAt: nextRetryAt,
     );
   }
 }
 
 class OfflineVerifyQueueStore {
-  static const _queueKey = 'offline_verify_queue_v1';
-  static const int _maxItems = 200;
+  static const Set<OfflineMutationQueueKind> _kinds = <OfflineMutationQueueKind>{
+    OfflineMutationQueueKind.verifyVotePrice,
+    OfflineMutationQueueKind.verifySuggestPrice,
+  };
 
   static Future<List<OfflineVerifyQueueItem>> readAll() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_queueKey);
-    if (raw == null || raw.trim().isEmpty) return const [];
-    try {
-      final list = (jsonDecode(raw) as List).whereType<Map>().map((e) {
-        return OfflineVerifyQueueItem.fromMap(e.cast<String, dynamic>());
-      }).toList();
-      list.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-      return list;
-    } catch (_) {
-      return const [];
-    }
+    final items = await OfflineMutationQueueStore.readAll(kinds: _kinds);
+    return items.map(_fromMutationItem).toList(growable: false);
+  }
+
+  static Future<List<OfflineVerifyQueueItem>> readReady({
+    int limit = 100,
+  }) async {
+    final items = await OfflineMutationQueueStore.readReady(
+      kinds: _kinds,
+      limit: limit,
+    );
+    return items.map(_fromMutationItem).toList(growable: false);
   }
 
   static Future<void> enqueue(
     OfflineVerifyActionType type,
     Map<String, dynamic> payload,
   ) async {
-    final prefs = await SharedPreferences.getInstance();
-    final existing = await readAll();
-    final now = DateTime.now().toLocal();
-    final next = [
-      ...existing,
-      OfflineVerifyQueueItem(
-        id: '${now.microsecondsSinceEpoch}_${type.name}',
-        type: type,
-        createdAt: now,
-        payload: payload,
-      ),
-    ];
-    final trimmed = next.length > _maxItems
-        ? next.sublist(next.length - _maxItems)
-        : next;
-    await prefs.setString(
-      _queueKey,
-      jsonEncode(trimmed.map((e) => e.toMap()).toList()),
+    final enriched = await attachOfflineMutationIdempotency(
+      action: type.name,
+      payload: payload,
+      clientId: (payload['client_id'] ?? '').toString().trim().isEmpty
+          ? null
+          : (payload['client_id'] ?? '').toString().trim(),
+    );
+    await OfflineMutationQueueStore.enqueue(
+      kind: _kindFor(type),
+      payload: enriched,
     );
   }
 
   static Future<void> replaceAll(List<OfflineVerifyQueueItem> items) async {
-    final prefs = await SharedPreferences.getInstance();
-    if (items.isEmpty) {
-      await prefs.remove(_queueKey);
-      return;
-    }
-    await prefs.setString(
-      _queueKey,
-      jsonEncode(items.map((e) => e.toMap()).toList()),
+    await OfflineMutationQueueStore.replaceKinds(
+      kinds: _kinds,
+      items: items.map(_toMutationItem).toList(growable: false),
     );
+  }
+
+  static Future<void> remove(String id) {
+    return OfflineMutationQueueStore.remove(id);
+  }
+
+  static Future<void> markRetry(
+    OfflineVerifyQueueItem item, {
+    required Object error,
+  }) {
+    return OfflineMutationQueueStore.markRetry(
+      _toMutationItem(item),
+      error: error,
+    );
+  }
+
+  static OfflineVerifyQueueItem _fromMutationItem(
+    OfflineMutationQueueItem item,
+  ) {
+    return OfflineVerifyQueueItem(
+      id: item.id,
+      type: item.kind == OfflineMutationQueueKind.verifySuggestPrice
+          ? OfflineVerifyActionType.suggestPrice
+          : OfflineVerifyActionType.votePrice,
+      createdAt: item.createdAt.toLocal(),
+      payload: item.payload,
+      retryCount: item.retryCount,
+      lastError: item.lastError,
+      nextRetryAt: item.nextRetryAt?.toLocal(),
+    );
+  }
+
+  static OfflineMutationQueueItem _toMutationItem(OfflineVerifyQueueItem item) {
+    return OfflineMutationQueueItem(
+      id: item.id,
+      kind: _kindFor(item.type),
+      createdAt: item.createdAt.toUtc(),
+      payload: item.payload,
+      retryCount: item.retryCount,
+      lastError: item.lastError,
+      nextRetryAt: item.nextRetryAt?.toUtc(),
+      status: item.retryCount > 0
+          ? OfflineMutationQueueStatus.retrying
+          : OfflineMutationQueueStatus.pending,
+    );
+  }
+
+  static OfflineMutationQueueKind _kindFor(OfflineVerifyActionType type) {
+    return switch (type) {
+      OfflineVerifyActionType.votePrice =>
+        OfflineMutationQueueKind.verifyVotePrice,
+      OfflineVerifyActionType.suggestPrice =>
+        OfflineMutationQueueKind.verifySuggestPrice,
+    };
   }
 }
 

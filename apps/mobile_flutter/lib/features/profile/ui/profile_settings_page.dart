@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/locale_controller.dart';
 import '../../../core/privacy/name_masking.dart';
 import '../../embed/ui/embed_viewer_page.dart';
+import '../../legal/legal_catalog.dart';
+import '../../legal/legal_linking.dart';
+import '../../legal/legal_models.dart';
+import '../../legal/legal_providers.dart';
+import '../../legal/legal_repository.dart';
 import '../data/profile_model.dart';
 import '../data/profile_repository.dart';
 
@@ -174,9 +181,255 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     Navigator.of(context).pop();
   }
 
+  Future<void> _openLegalUrl(String url) async {
+    try {
+      await openLegalUrl(url);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppErrorMapper.message(error))),
+      );
+    }
+  }
+
+  Future<void> _showPrivacyRequestDialog({
+    required String title,
+    required String requestType,
+    required String helper,
+  }) async {
+    final overview = ref.read(legalRequestOverviewProvider).asData?.value;
+    if (overview?.hasOpenPrivacyRequest ?? false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bekleyen bir gizlilik başvurunuz zaten var.')),
+      );
+      return;
+    }
+
+    final controller = TextEditingController();
+    try {
+      final submitted = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: Text(title),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  helper,
+                  style: const TextStyle(color: AppColors.muted),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: controller,
+                  maxLines: 4,
+                  decoration: const InputDecoration(
+                    labelText: 'Detaylar',
+                    hintText: 'Talebinizi kısaca açıklayın',
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(false),
+                child: const Text('Vazgeç'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.of(dialogContext).pop(true),
+                child: const Text('Gönder'),
+              ),
+            ],
+          );
+        },
+      );
+      if (submitted != true) return;
+      await ref.read(legalRepositoryProvider).submitPrivacyRequest(
+            requestType: requestType,
+            details: controller.text,
+          );
+      ref.invalidate(legalRequestOverviewProvider);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Başvurunuz kaydedildi.')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppErrorMapper.message(error))),
+      );
+    } finally {
+      controller.dispose();
+    }
+  }
+
+  Future<void> _showAccountDeletionDialog() async {
+    final overview = ref.read(legalRequestOverviewProvider).asData?.value;
+    if (overview?.hasOpenAccountDeletionRequest ?? false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Bekleyen bir hesap silme talebiniz zaten var.')),
+      );
+      return;
+    }
+
+    final reasonController = TextEditingController();
+    final confirmationController = TextEditingController();
+    try {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) {
+          return StatefulBuilder(
+            builder: (dialogContext, setDialogState) {
+              final canSubmit =
+                  confirmationController.text.trim().toUpperCase() == 'SIL';
+              return AlertDialog(
+                title: const Text('Hesabımı sil'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır. Yasal saklama yükümlülükleri kapsamındaki kayıtlar tutulabilir.',
+                      style: TextStyle(color: AppColors.muted, height: 1.5),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: reasonController,
+                      maxLines: 4,
+                      decoration: const InputDecoration(
+                        labelText: 'Silme nedeni',
+                        hintText: 'İsterseniz nedeninizi paylaşın',
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: confirmationController,
+                      onChanged: (_) => setDialogState(() {}),
+                      decoration: const InputDecoration(
+                        labelText: 'Onay',
+                        hintText: 'Devam etmek için SIL yazın',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Yanlışlıkla silme talebi oluşturulmaması için onay alanına SIL yazmanız gerekir.',
+                      style: TextStyle(color: AppColors.muted, fontSize: 12),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(dialogContext).pop(false),
+                    child: const Text('Vazgeç'),
+                  ),
+                  FilledButton(
+                    onPressed: canSubmit
+                        ? () => Navigator.of(dialogContext).pop(true)
+                        : null,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.danger,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Silme Talebi Oluştur'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+      if (confirmed != true) return;
+      await ref.read(legalRepositoryProvider).submitAccountDeletionRequest(
+            reason: reasonController.text,
+          );
+      ref.invalidate(legalRequestOverviewProvider);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Hesap silme talebiniz kaydedildi.')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppErrorMapper.message(error))),
+      );
+    } finally {
+      reasonController.dispose();
+      confirmationController.dispose();
+    }
+  }
+
+  String _requestStatusText(LegalRequestRecord? request) {
+    if (request == null) return '';
+    final date = _formatLegalDate(request.submittedAt);
+    switch (request.status) {
+      case 'submitted':
+      case 'requested':
+        return 'Bekleyen talep • $date';
+      case 'in_review':
+        return 'İncelemede • $date';
+      case 'resolved':
+      case 'completed':
+        return 'Tamamlandı • $date';
+      case 'rejected':
+        return 'Reddedildi • $date';
+      case 'cancelled':
+        return 'İptal edildi • $date';
+      default:
+        return '${request.status} • $date';
+    }
+  }
+
+  Widget _buildLegalRequestOverview(LegalRequestOverview? overview) {
+    if (overview == null ||
+        (!overview.hasOpenPrivacyRequest &&
+            !overview.hasOpenAccountDeletionRequest)) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.cardAlt,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Bekleyen başvurular',
+            style: TextStyle(
+              color: AppColors.textStrong,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          if (overview.privacyRequest != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              'Gizlilik başvurusu: ${_requestStatusText(overview.privacyRequest)}',
+              style: const TextStyle(color: AppColors.muted, height: 1.5),
+            ),
+          ],
+          if (overview.accountDeletionRequest != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              'Hesap silme: ${_requestStatusText(overview.accountDeletionRequest)}',
+              style: const TextStyle(color: AppColors.muted, height: 1.5),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    final legalOverviewAsync = ref.watch(legalRequestOverviewProvider);
+    final legalOverview = legalOverviewAsync.asData?.value;
     return Scaffold(
       appBar: AppBar(
         title: Text(t.profileSettings),
@@ -321,6 +574,98 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   ),
                   const SizedBox(height: 16),
                   _SectionCard(
+                    title: 'Legal ve Gizlilik',
+                    child: Column(
+                      children: [
+                        if (legalOverviewAsync.isLoading)
+                          const LinearProgressIndicator(minHeight: 2),
+                        if (legalOverviewAsync.hasError) ...[
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Başvuru durumu şu anda alınamadı. Yine de legal bağlantılarını açabilir veya daha sonra tekrar deneyebilirsiniz.',
+                            style: TextStyle(
+                              color: AppColors.muted,
+                              fontSize: 12,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
+                        _buildLegalRequestOverview(legalOverview),
+                        for (final item in LegalCatalog.settingsLinks)
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Icon(_iconForLegalSlug(item.slug)),
+                            title: Text(item.title),
+                            subtitle: Text(item.description),
+                            onTap: () => _openLegalUrl(item.url),
+                          ),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          enabled: !(legalOverview?.hasOpenPrivacyRequest ?? false),
+                          leading: const Icon(Icons.download_outlined),
+                          title: const Text('Verilerimi dışa aktar'),
+                          subtitle: legalOverview?.privacyRequest != null
+                              ? Text(_requestStatusText(legalOverview?.privacyRequest))
+                              : const Text(
+                                  'Hesabınıza bağlı verilerin kopyasını talep edin.',
+                                ),
+                          onTap: legalOverview?.hasOpenPrivacyRequest ?? false
+                              ? null
+                              : () => _showPrivacyRequestDialog(
+                                  title: 'Veri Dışa Aktarma Talebi',
+                                  requestType: 'data_export',
+                                  helper:
+                                      'Hesabınıza bağlı verilerin kopyasını istemek için kısa bir açıklama ekleyebilirsiniz.',
+                                ),
+                        ),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          enabled: !(legalOverview?.hasOpenPrivacyRequest ?? false),
+                          leading: const Icon(Icons.mark_email_read_outlined),
+                          title: const Text('Gizlilik başvurusu'),
+                          subtitle: legalOverview?.privacyRequest != null
+                              ? Text(_requestStatusText(legalOverview?.privacyRequest))
+                              : const Text(
+                                  'Düzeltme, itiraz veya kısıtlama gibi taleplerinizi gönderin.',
+                                ),
+                          onTap: legalOverview?.hasOpenPrivacyRequest ?? false
+                              ? null
+                              : () => _showPrivacyRequestDialog(
+                                  title: 'Gizlilik Başvurusu',
+                                  requestType: 'privacy_application',
+                                  helper:
+                                      'Düzeltme, itiraz, kısıtlama veya benzeri gizlilik taleplerinizi yazabilirsiniz.',
+                                ),
+                        ),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          enabled:
+                              !(legalOverview?.hasOpenAccountDeletionRequest ??
+                                  false),
+                          leading: const Icon(
+                            Icons.delete_forever_outlined,
+                            color: AppColors.danger,
+                          ),
+                          title: const Text('Hesabımı sil'),
+                          subtitle: legalOverview?.accountDeletionRequest != null
+                              ? Text(
+                                  _requestStatusText(
+                                    legalOverview?.accountDeletionRequest,
+                                  ),
+                                )
+                              : const Text(
+                                  'Kalıcı silme sürecini başlatır; geri alınamaz olabilir.',
+                                ),
+                          onTap: legalOverview?.hasOpenAccountDeletionRequest ??
+                                  false
+                              ? null
+                              : _showAccountDeletionDialog,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _SectionCard(
                     title: t.account,
                     child: Column(
                       children: [
@@ -348,6 +693,39 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
             ),
     );
   }
+}
+
+IconData _iconForLegalSlug(String slug) {
+  switch (slug) {
+    case LegalPolicyType.terms:
+      return Icons.gavel_outlined;
+    case LegalPolicyType.privacy:
+      return Icons.privacy_tip_outlined;
+    case LegalPolicyType.community:
+      return Icons.groups_outlined;
+    case LegalPolicyType.deleteAccount:
+      return Icons.manage_accounts_outlined;
+    default:
+      return Icons.open_in_new_rounded;
+  }
+}
+
+String _formatLegalDate(DateTime value) {
+  const months = <int, String>{
+    1: 'Ocak',
+    2: 'Şubat',
+    3: 'Mart',
+    4: 'Nisan',
+    5: 'Mayıs',
+    6: 'Haziran',
+    7: 'Temmuz',
+    8: 'Ağustos',
+    9: 'Eylül',
+    10: 'Ekim',
+    11: 'Kasım',
+    12: 'Aralık',
+  };
+  return '${value.day} ${months[value.month]} ${value.year}';
 }
 
 class _SectionCard extends StatelessWidget {

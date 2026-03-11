@@ -8,6 +8,7 @@ import 'app_tokens.dart';
 ThemeData buildAppTheme() {
   final base = ThemeData(
     useMaterial3: true,
+    fontFamily: 'Sora',
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.primary,
       brightness: Brightness.light,
@@ -178,4 +179,3 @@ ThemeData buildAppTheme() {
     ),
   );
 }
-

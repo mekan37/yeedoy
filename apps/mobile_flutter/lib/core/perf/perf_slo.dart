@@ -8,6 +8,7 @@ class PerfSlo {
   static const int homeTtiP95Ms = 1200;
   static const int searchCacheHitP95Ms = 300;
   static const int searchCacheMissP95Ms = 800;
+  static const int embedOpenP95Ms = 1500;
   static const double frameBudgetMs = 16.0;
   static const double maxJankRate = 0.01;
 }

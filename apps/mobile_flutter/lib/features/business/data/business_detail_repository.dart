@@ -5,6 +5,9 @@ import '../../../core/cache/swr_payload.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/monitoring/app_telemetry.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../../../core/storage/local_db/local_db_models.dart';
+import '../../../core/storage/local_db/local_db_provider.dart';
+import '../../../core/storage/local_db/local_db_store.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
 import '../domain/business_detail.dart';
 
@@ -12,7 +15,11 @@ final businessDetailRepositoryProvider = Provider<BusinessDetailRepository>((
   ref,
 ) {
   final client = ref.watch(supabaseProvider);
-  return BusinessDetailRepository(client, ref.watch(appTelemetryProvider));
+  return BusinessDetailRepository(
+    client,
+    ref.watch(appTelemetryProvider),
+    ref.watch(localDbStoreProvider),
+  );
 });
 
 class _CacheEntry {
@@ -22,11 +29,13 @@ class _CacheEntry {
 }
 
 class BusinessDetailRepository {
-  BusinessDetailRepository(this.client, this._telemetry);
+  BusinessDetailRepository(this.client, this._telemetry, this._localDb);
   final SupabaseClient client;
   final AppTelemetry _telemetry;
+  final LocalDbStore _localDb;
 
   static const Duration _ttl = Duration(minutes: 5);
+  static const Duration _offlineSnapshotTtl = Duration(days: 7);
   static final Map<String, _CacheEntry> _cache = {};
 
   Future<BusinessDetail> getBusinessDetail(
@@ -57,6 +66,11 @@ class BusinessDetailRepository {
         (res as Map).cast<String, dynamic>(),
       );
       _cache[key] = _CacheEntry(data: detail, fetchedAt: DateTime.now());
+      await _writeLocalSnapshot(
+        businessId: businessId,
+        latestLimit: latestLimit,
+        detail: detail,
+      );
       await OfflineCachePrefs.saveBusinessDetail(
         businessId: businessId,
         latestLimit: latestLimit,
@@ -66,6 +80,11 @@ class BusinessDetailRepository {
     } catch (e) {
       final stale = _cache[key];
       if (stale != null) return stale.data;
+      final local = await _readLocalSnapshot(
+        businessId: businessId,
+        latestLimit: latestLimit,
+      );
+      if (local != null) return local;
       final cached = await OfflineCachePrefs.loadBusinessDetail(
         businessId: businessId,
         latestLimit: latestLimit,
@@ -97,6 +116,22 @@ class BusinessDetailRepository {
       );
     }
 
+    final local = await _readLocalSnapshot(
+      businessId: businessId,
+      latestLimit: latestLimit,
+    );
+    if (local != null) {
+      return SwrPayload(
+        data: local,
+        isStale: true,
+        refresh: getBusinessDetail(
+          businessId,
+          latestLimit: latestLimit,
+          force: true,
+        ),
+      );
+    }
+
     final disk = await OfflineCachePrefs.loadBusinessDetail(
       businessId: businessId,
       latestLimit: latestLimit,
@@ -115,5 +150,39 @@ class BusinessDetailRepository {
 
     final live = await getBusinessDetail(businessId, latestLimit: latestLimit);
     return SwrPayload(data: live, isStale: false);
+  }
+
+  Future<void> _writeLocalSnapshot({
+    required String businessId,
+    required int latestLimit,
+    required BusinessDetail detail,
+  }) {
+    return _localDb.upsert(
+      bucket: LocalDbBucket.businessSnapshot,
+      id: _localKey(businessId, latestLimit),
+      payload: <String, dynamic>{
+        'type': 'business_detail',
+        'detail': detail.toJson(),
+      },
+      expiresAt: DateTime.now().toUtc().add(_offlineSnapshotTtl),
+    );
+  }
+
+  Future<BusinessDetail?> _readLocalSnapshot({
+    required String businessId,
+    required int latestLimit,
+  }) async {
+    final record = await _localDb.read(
+      LocalDbBucket.businessSnapshot,
+      _localKey(businessId, latestLimit),
+      allowExpired: true,
+    );
+    final detail = record?.payload['detail'];
+    if (detail is! Map) return null;
+    return BusinessDetail.fromJson(detail.cast<String, dynamic>());
+  }
+
+  String _localKey(String businessId, int latestLimit) {
+    return 'detail|$businessId|$latestLimit';
   }
 }

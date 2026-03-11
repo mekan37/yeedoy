@@ -14,13 +14,18 @@ import 'package:share_plus/share_plus.dart';
 import '../../../core/config/app_config.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/web/download_utils.dart';
 import 'widgets/link_paste_field.dart';
 import '../../../core/security/app_role_providers.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../owner_claims/my_claims_controller.dart';
 import '../../../data/repositories/business_amenities_repository.dart';
+import '../../../data/repositories/business_meal_card_providers_repository.dart';
+import '../../legal/data/legal_compliance_repository.dart';
+import '../../legal/legal_routes.dart';
 import '../../business/domain/business_amenities_provider.dart';
+import '../../business/domain/business_meal_card_providers_provider.dart';
 import '../domain/owner_onboarding_models.dart';
 import '../domain/owner_onboarding_providers.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
@@ -44,10 +49,14 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   final _facebookLinkCtrl = TextEditingController();
   final _qrKey = GlobalKey();
   final Set<String> _amenityKeys = {};
+  final Set<String> _mealCardKeys = {};
 
   String _selectedBusinessId = '';
   bool _profileSeeded = false;
   bool _amenitiesSeeded = false;
+  bool _mealCardsSeeded = false;
+  bool _acceptedBusinessTerms = false;
+  bool _acceptedAccuracyResponsibility = false;
   int _currentStep = 0;
   bool _stepBusy = false;
   TimeOfDay? _openTime;
@@ -65,6 +74,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final user = ref.watch(userProvider);
     if (user == null) {
       final redirect = Uri.encodeComponent(
@@ -97,6 +107,9 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
           _selectedBusinessId = preferred;
           _profileSeeded = false;
           _amenitiesSeeded = false;
+          _mealCardsSeeded = false;
+          _acceptedBusinessTerms = false;
+          _acceptedAccuracyResponsibility = false;
         });
       });
     }
@@ -116,15 +129,15 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
         );
       }
       if (!canManage) {
-        return const AppScaffold(
-          body: Center(child: Text('Bu iÅŸletme iÃ§in yetkiniz yok.')),
+        return AppScaffold(
+          body: Center(child: Text(l10n.ownerDashboardNoPermission)),
         );
       }
     }
 
     return AppScaffold(
       appBar: AppBar(
-        title: const Text('Kurulum'),
+        title: Text(l10n.ownerOnboardingTitle),
         actions: [
           IconButton(
             onPressed: _selectedBusinessId.isEmpty
@@ -163,8 +176,8 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                     .where((c) => c.claim.status == 'approved')
                     .toList();
                 if (approvedItems.isEmpty) {
-                  return const Center(
-                    child: Text('OnaylÄ± iÅŸletme bulunamadÄ±.'),
+                  return Center(
+                    child: Text(l10n.ownerApprovedBusinessNotFound),
                   );
                 }
 
@@ -202,6 +215,9 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                                 _selectedBusinessId = id;
                                 _profileSeeded = false;
                                 _amenitiesSeeded = false;
+                                _mealCardsSeeded = false;
+                                _acceptedBusinessTerms = false;
+                                _acceptedAccuracyResponsibility = false;
                                 _currentStep = min(progress.stepCompleted, 4);
                               });
                             },
@@ -227,7 +243,9 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                                           ? null
                                           : details.onStepContinue,
                                       child: Text(
-                                        _currentStep == 4 ? 'Bitir' : 'Devam',
+                                        _currentStep == 4
+                                            ? l10n.ownerOnboardingFinish
+                                            : l10n.ownerOnboardingContinue,
                                       ),
                                     ),
                                     const SizedBox(width: 8),
@@ -236,7 +254,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                                         onPressed: _stepBusy
                                             ? null
                                             : details.onStepCancel,
-                                        child: const Text('Geri'),
+                                        child: Text(l10n.back),
                                       ),
                                   ],
                                 ),
@@ -250,7 +268,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                             },
                             steps: [
                               Step(
-                                title: const Text('Profil'),
+                                title: Text(l10n.ownerOnboardingStepProfile),
                                 content: _buildProfileStep(),
                                 isActive: _currentStep == 0,
                                 state: progress.stepCompleted >= 1
@@ -258,7 +276,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                                     : StepState.indexed,
                               ),
                               Step(
-                                title: const Text('Ã–zellikler'),
+                                title: Text(l10n.ownerOnboardingStepAmenities),
                                 content: _buildAmenitiesStep(),
                                 isActive: _currentStep == 1,
                                 state: progress.stepCompleted >= 2
@@ -266,7 +284,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                                     : StepState.indexed,
                               ),
                               Step(
-                                title: const Text('Menu'),
+                                title: Text(l10n.ownerOnboardingStepMenu),
                                 content: _buildMenuStep(),
                                 isActive: _currentStep == 2,
                                 state: progress.stepCompleted >= 3
@@ -274,7 +292,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                                     : StepState.indexed,
                               ),
                               Step(
-                                title: const Text('Ã–nizleme'),
+                                title: Text(l10n.ownerOnboardingStepPreview),
                                 content: _buildPreviewStep(),
                                 isActive: _currentStep == 3,
                                 state: progress.stepCompleted >= 4
@@ -282,7 +300,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                                     : StepState.indexed,
                               ),
                               Step(
-                                title: const Text('PaylaÅŸ'),
+                                title: Text(l10n.ownerOnboardingStepShare),
                                 content: _buildShareStep(),
                                 isActive: _currentStep == 4,
                                 state: progress.stepCompleted >= 5
@@ -302,6 +320,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   Widget _buildProfileStep() {
+    final l10n = context.l10n;
     final profileAsync = ref.watch(
       ownerBusinessProfileProvider(_selectedBusinessId),
     );
@@ -330,16 +349,20 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Logo ve kapak ekleyin, saatleri belirleyin.'),
+            Text(l10n.ownerOnboardingProfileIntro),
             const SizedBox(height: 12),
             TextField(
               controller: _logoCtrl,
-              decoration: const InputDecoration(labelText: 'Logo URL'),
+              decoration: InputDecoration(
+                labelText: l10n.ownerOnboardingLogoUrl,
+              ),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _coverCtrl,
-              decoration: const InputDecoration(labelText: 'Kapak URL'),
+              decoration: InputDecoration(
+                labelText: l10n.ownerOnboardingCoverUrl,
+              ),
             ),
             const SizedBox(height: 12),
             Row(
@@ -349,8 +372,10 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                     onPressed: () => _pickTime(isOpen: true),
                     child: Text(
                       _openTime == null
-                          ? 'AÃ§Ä±lÄ±ÅŸ saati seÃ§'
-                          : 'AÃ§Ä±lÄ±ÅŸ: ${_openTime!.format(context)}',
+                          ? l10n.ownerOnboardingSelectOpenTime
+                          : l10n.ownerOnboardingOpenTime(
+                              _openTime!.format(context),
+                            ),
                     ),
                   ),
                 ),
@@ -360,48 +385,97 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                     onPressed: () => _pickTime(isOpen: false),
                     child: Text(
                       _closeTime == null
-                          ? 'KapanÄ±ÅŸ saati seÃ§'
-                          : 'KapanÄ±ÅŸ: ${_closeTime!.format(context)}',
+                          ? l10n.ownerOnboardingSelectCloseTime
+                          : l10n.ownerOnboardingCloseTime(
+                              _closeTime!.format(context),
+                            ),
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Saatler tÃ¼m gÃ¼nlere uygulanÄ±r.',
+            Text(
+              l10n.ownerOnboardingHoursHint,
               style: TextStyle(color: AppColors.muted, fontSize: 12),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Ä°ÅŸletme Linkleri (IG/YouTube/Facebook)',
+            Text(
+              l10n.ownerOnboardingBusinessLinks,
               style: TextStyle(fontWeight: FontWeight.w800),
             ),
             const SizedBox(height: 8),
             LinkPasteField(
               label: 'Instagram',
               hintText: 'https://instagram.com/...',
-              previewTitle: 'Instagram Ã–nizleme',
+              previewTitle: l10n.ownerOnboardingInstagramPreview,
               controller: _instagramLinkCtrl,
             ),
             const SizedBox(height: 10),
             LinkPasteField(
               label: 'YouTube',
               hintText: 'https://youtube.com/...',
-              previewTitle: 'YouTube Ã–nizleme',
+              previewTitle: l10n.ownerOnboardingYoutubePreview,
               controller: _youtubeLinkCtrl,
             ),
             const SizedBox(height: 10),
             LinkPasteField(
               label: 'Facebook',
               hintText: 'https://facebook.com/...',
-              previewTitle: 'Facebook Ã–nizleme',
+              previewTitle: l10n.ownerOnboardingFacebookPreview,
               controller: _facebookLinkCtrl,
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Kaydetme adÄ±mÄ± yakÄ±nda eklenecek.',
+            Text(
+              l10n.ownerOnboardingLinksPending,
               style: TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: _acceptedBusinessTerms,
+                    onChanged: (value) {
+                      setState(() {
+                        _acceptedBusinessTerms = value ?? false;
+                      });
+                    },
+                    title: const Text(
+                      'İşletme Kullanım Koşulları’nı kabul ediyorum.',
+                    ),
+                  ),
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: _acceptedAccuracyResponsibility,
+                    onChanged: (value) {
+                      setState(() {
+                        _acceptedAccuracyResponsibility = value ?? false;
+                      });
+                    },
+                    title: const Text(
+                      'Menü ve işletme bilgilerinin doğruluğundan sorumlu olduğumu kabul ediyorum.',
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () => context.go(
+                      LegalRoutes.detail(LegalRoutes.businessSlug),
+                    ),
+                    icon: const Icon(Icons.open_in_new),
+                    label: const Text('İşletme Kullanım Koşulları’nı aç'),
+                  ),
+                ],
+              ),
             ),
           ],
         );
@@ -410,9 +484,14 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   Widget _buildAmenitiesStep() {
+    final l10n = context.l10n;
     final allAmenitiesAsync = ref.watch(allAmenitiesProvider);
+    final allMealCardsAsync = ref.watch(allMealCardProvidersProvider);
     final selectedAsync = ref.watch(
       businessAmenitiesProvider(_selectedBusinessId),
+    );
+    final selectedMealCardsAsync = ref.watch(
+      businessMealCardProvidersProvider(_selectedBusinessId),
     );
 
     selectedAsync.whenData((items) {
@@ -422,6 +501,13 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
         ..clear()
         ..addAll(items.map((e) => e.key));
     });
+    selectedMealCardsAsync.whenData((items) {
+      if (_mealCardsSeeded) return;
+      _mealCardsSeeded = true;
+      _mealCardKeys
+        ..clear()
+        ..addAll(items.map((item) => item.key));
+    });
 
     return allAmenitiesAsync.when(
       loading: () => const Padding(
@@ -430,11 +516,13 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
       ),
       error: (e, _) => Text(AppErrorMapper.message(e)),
       data: (items) {
-        if (items.isEmpty) return const Text('Ã–zellik listesi bulunamadÄ±.');
+        if (items.isEmpty) {
+          return Text(l10n.ownerOnboardingAmenitiesListNotFound);
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('En az 2 Ã¶zellik seÃ§melisiniz.'),
+            Text(l10n.ownerOnboardingSelectAtLeastTwoAmenities),
             const SizedBox(height: 8),
             for (final a in items)
               CheckboxListTile(
@@ -455,6 +543,52 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
+            const SizedBox(height: 16),
+            const Text(
+              'Geçerli Yemek Kartları',
+              style: TextStyle(fontWeight: FontWeight.w900),
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              'İsteğe bağlı: İşletmenizde kabul edilen yemek kartlarını seçin.',
+              style: TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+            const SizedBox(height: 8),
+            allMealCardsAsync.when(
+              loading: () => const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+              error: (error, _) => Text(AppErrorMapper.message(error)),
+              data: (mealCards) {
+                if (mealCards.isEmpty) {
+                  return const Text('Aktif yemek kartı listesi bulunamadı.');
+                }
+                return Column(
+                  children: [
+                    for (final mealCard in mealCards)
+                      CheckboxListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        value: _mealCardKeys.contains(mealCard.key),
+                        onChanged: (value) {
+                          setState(() {
+                            if (value == true) {
+                              _mealCardKeys.add(mealCard.key);
+                            } else {
+                              _mealCardKeys.remove(mealCard.key);
+                            }
+                          });
+                        },
+                        title: Text(
+                          mealCard.name,
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                  ],
+                );
+              },
+            ),
           ],
         );
       },
@@ -462,6 +596,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   Widget _buildMenuStep() {
+    final l10n = context.l10n;
     final statusAsync = ref.watch(
       ownerOnboardingMenuStatusProvider(_selectedBusinessId),
     );
@@ -477,22 +612,22 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('En az 1 bÃ¶lÃ¼m ve 1 Ã¼rÃ¼n gerekli.'),
+            Text(l10n.ownerOnboardingMenuRequirement),
             const SizedBox(height: 8),
-            Text('MenÃ¼ sayÄ±sÄ±: ${status.menuCount}'),
-            Text('BÃ¶lÃ¼m sayÄ±sÄ±: ${status.sectionCount}'),
-            Text('ÃœrÃ¼n sayÄ±sÄ±: ${status.itemCount}'),
+            Text(l10n.ownerOnboardingMenuCount(status.menuCount)),
+            Text(l10n.ownerOnboardingSectionCount(status.sectionCount)),
+            Text(l10n.ownerOnboardingItemCount(status.itemCount)),
             const SizedBox(height: 8),
             if (!complete)
-              const Text(
-                'MenÃ¼sÃ¼z paylaÅŸÄ±m olmaz.',
+              Text(
+                l10n.ownerOnboardingNoShareWithoutMenu,
                 style: TextStyle(color: AppColors.danger),
               ),
             const SizedBox(height: 8),
             FilledButton.icon(
               onPressed: () => _openMenuManagement(),
               icon: const Icon(Icons.restaurant_menu),
-              label: const Text('MenÃ¼ yÃ¶netimine Git'),
+              label: Text(l10n.ownerOnboardingGoToMenuManagement),
             ),
           ],
         );
@@ -501,6 +636,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   Widget _buildPreviewStep() {
+    final l10n = context.l10n;
     final previewAsync = ref.watch(
       ownerOnboardingMenuPreviewProvider(_selectedBusinessId),
     );
@@ -512,7 +648,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
       error: (e, _) => Text(AppErrorMapper.message(e)),
       data: (preview) {
         if (preview == null || preview.sections.isEmpty) {
-          return const Text('Ã–nizleme icin once menu olusturun.');
+          return Text(l10n.ownerOnboardingPreviewRequiresMenu);
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -529,7 +665,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
               ),
               const SizedBox(height: 6),
               if (section.items.isEmpty)
-                const Text('ÃœrÃ¼n bulunamadÄ±.')
+                Text(l10n.ownerOnboardingPreviewNoItems)
               else
                 for (final item in section.items) ...[
                   _PreviewItemRow(item: item),
@@ -544,6 +680,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   Widget _buildShareStep() {
+    final l10n = context.l10n;
     final statusAsync = ref.watch(
       ownerOnboardingMenuStatusProvider(_selectedBusinessId),
     );
@@ -559,13 +696,13 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
       error: (e, _) => Text(AppErrorMapper.message(e)),
       data: (status) {
         if (status.primaryMenuId == null || status.primaryMenuId!.isEmpty) {
-          return const Text('PaylaÅŸim icin once menu olusturun.');
+          return Text(l10n.ownerOnboardingShareRequiresMenu);
         }
         final link = _buildShareLink(status.primaryMenuId!);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('PaylaÅŸim linki'),
+            Text(l10n.ownerOnboardingShareLinkTitle),
             const SizedBox(height: 6),
             SelectableText(link),
             const SizedBox(height: 8),
@@ -576,12 +713,12 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                 OutlinedButton.icon(
                   onPressed: () => _copyText(link),
                   icon: const Icon(Icons.copy),
-                  label: const Text('Linki kopyala'),
+                  label: Text(l10n.ownerOnboardingCopyLink),
                 ),
                 OutlinedButton.icon(
                   onPressed: () => _shareLink(link),
                   icon: const Icon(Icons.share_outlined),
-                  label: const Text('PaylaÅŸ'),
+                  label: Text(l10n.share),
                 ),
               ],
             ),
@@ -605,30 +742,33 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
               child: OutlinedButton.icon(
                 onPressed: () => _downloadQr(link),
                 icon: const Icon(Icons.qr_code_2),
-                label: const Text('QR indir'),
+                label: Text(l10n.ownerOnboardingDownloadQr),
               ),
             ),
             const SizedBox(height: 16),
-            const _ShareSectionLabel(
+            _ShareSectionLabel(
               icon: FontAwesomeIcons.whatsapp,
-              text: 'WhatsApp metni',
+              text: l10n.ownerWhatsappText,
             ),
             const SizedBox(height: 6),
-            _CopyRow(text: _whatsAppText(link), label: 'WhatsApp kopyala'),
+            _CopyRow(text: _whatsAppText(link), label: l10n.ownerCopyWhatsapp),
             const SizedBox(height: 12),
-            const _ShareSectionLabel(
+            _ShareSectionLabel(
               icon: FontAwesomeIcons.xTwitter,
-              text: 'Twitter (X) metni',
+              text: l10n.ownerXText,
             ),
             const SizedBox(height: 6),
-            _CopyRow(text: _twitterText(link), label: 'X kopyala'),
+            _CopyRow(text: _twitterText(link), label: l10n.ownerCopyX),
             const SizedBox(height: 12),
-            const _ShareSectionLabel(
+            _ShareSectionLabel(
               icon: FontAwesomeIcons.instagram,
-              text: 'Instagram metni',
+              text: l10n.ownerInstagramBio,
             ),
             const SizedBox(height: 6),
-            _CopyRow(text: _instagramText(link), label: 'Instagram kopyala'),
+            _CopyRow(
+              text: _instagramText(link),
+              label: l10n.ownerCopyInstagram,
+            ),
             const SizedBox(height: 12),
             previewAsync.when(
               loading: () => const SizedBox.shrink(),
@@ -636,7 +776,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
               data: (preview) => preview == null
                   ? const SizedBox.shrink()
                   : Text(
-                      'Menu: ${preview.menuTitle}',
+                      l10n.ownerOnboardingPreviewMenu(preview.menuTitle),
                       style: const TextStyle(color: AppColors.muted),
                     ),
             ),
@@ -673,11 +813,17 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
     final logo = _logoCtrl.text.trim();
     final cover = _coverCtrl.text.trim();
     if (logo.isEmpty || cover.isEmpty) {
-      _showSnack('Logo ve kapak zorunlu.');
+      _showSnack(context.l10n.ownerOnboardingLogoCoverRequired);
       return;
     }
     if (_openTime == null || _closeTime == null) {
-      _showSnack('Saatler zorunlu.');
+      _showSnack(context.l10n.ownerOnboardingHoursRequired);
+      return;
+    }
+    if (!_acceptedBusinessTerms || !_acceptedAccuracyResponsibility) {
+      _showSnack(
+        'Devam etmek için işletme kullanım koşullarını ve doğruluk beyanını kabul edin.',
+      );
       return;
     }
     final open = _formatTime(_openTime!);
@@ -696,6 +842,9 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
         openTime: open,
         closeTime: close,
       );
+      await ref
+          .read(legalComplianceRepositoryProvider)
+          .acceptActiveBusinessPolicy(businessId: _selectedBusinessId);
       await repo.setProgress(_selectedBusinessId, 1);
       ref.invalidate(ownerOnboardingProgressProvider(_selectedBusinessId));
       ref.invalidate(ownerBusinessProfileProvider(_selectedBusinessId));
@@ -711,7 +860,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
 
   Future<void> _completeStep2() async {
     if (_amenityKeys.length < 2) {
-      _showSnack('En az 2 Ã¶zellik seÃ§melisiniz.');
+      _showSnack(context.l10n.ownerOnboardingSelectAtLeastTwoAmenities);
       return;
     }
     setState(() => _stepBusy = true);
@@ -722,7 +871,14 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
             businessId: _selectedBusinessId,
             amenityKeys: _amenityKeys.toList(),
           );
+      await ref
+          .read(businessMealCardProvidersRepositoryProvider)
+          .updateBusinessProviders(
+            businessId: _selectedBusinessId,
+            providerKeys: _mealCardKeys.toList(growable: false),
+          );
       ref.invalidate(businessAmenitiesProvider(_selectedBusinessId));
+      ref.invalidate(businessMealCardProvidersProvider(_selectedBusinessId));
       await ref
           .read(ownerOnboardingRepositoryProvider)
           .setProgress(_selectedBusinessId, 2);
@@ -737,13 +893,14 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   Future<void> _completeStep3() async {
+    final l10n = context.l10n;
     setState(() => _stepBusy = true);
     try {
       final status = await ref
           .read(ownerOnboardingRepositoryProvider)
           .getMenuStatus(_selectedBusinessId);
       if (!status.isComplete) {
-        _showSnack('MenÃ¼sÃ¼z paylaÅŸÄ±m olmaz.');
+        _showSnack(l10n.ownerOnboardingNoShareWithoutMenu);
         return;
       }
       await ref
@@ -815,16 +972,17 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   Future<void> _downloadQr(String link) async {
+    final l10n = context.l10n;
     final boundary =
         _qrKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     if (boundary == null) {
-      _showSnack('QR hazÄ±r deÄŸil.');
+      _showSnack(l10n.ownerOnboardingQrNotReady);
       return;
     }
     final image = await boundary.toImage(pixelRatio: 3);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     if (byteData == null) {
-      _showSnack('QR indirilemedi.');
+      _showSnack(l10n.ownerOnboardingQrDownloadFailed);
       return;
     }
     final bytes = byteData.buffer.asUint8List();
@@ -860,7 +1018,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
 
   void _copyText(String text) {
     Clipboard.setData(ClipboardData(text: text));
-    _showSnack('KopyalandÄ±');
+    _showSnack(context.l10n.ownerCopied);
   }
 
   String _buildShareLink(String menuId) {
@@ -873,16 +1031,17 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   }
 
   String _whatsAppText(String link) {
-    return 'MenÃ¼mÃ¼z gÃ¼ncel. Buradan inceleyebilirsiniz: $link';
+    return context.l10n.ownerOnboardingWhatsappShareText(link);
   }
 
   String _twitterText(String link) {
-    return 'GÃ¼ncel menÃ¼ - DoÄŸrulanmÄ±ÅŸ fiyatlar - $link';
+    return context.l10n.ownerOnboardingXShareText(link);
   }
 
   String _instagramText(String link) {
-    return 'GÃ¼ncel menÃ¼ - DoÄŸrulanmÄ±ÅŸ fiyatlar - $link';
+    return context.l10n.ownerOnboardingInstagramShareText(link);
   }
+
   String _formatTime(TimeOfDay time) {
     final h = time.hour.toString().padLeft(2, '0');
     final m = time.minute.toString().padLeft(2, '0');
@@ -1002,7 +1161,10 @@ class _BusinessSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Text('Ä°ÅŸletme:', style: TextStyle(fontWeight: FontWeight.w700)),
+        Text(
+          '${context.l10n.businessLabel}:',
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
         const SizedBox(width: 10),
         Expanded(
           child: DropdownButtonFormField<String>(
@@ -1024,5 +1186,3 @@ class _BusinessSelector extends StatelessWidget {
     );
   }
 }
-
-

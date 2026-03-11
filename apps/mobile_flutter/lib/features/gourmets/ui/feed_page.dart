@@ -44,7 +44,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
     return AppScaffold(
       appBar: AppBar(title: Text(t.drawerFeed)),
       body: RefreshIndicator(
-        onRefresh: () => ref.read(feedProvider.notifier).loadInitial(),
+        onRefresh: () => ref.read(feedProvider.notifier).loadInitial(force: true),
         child: ListView(
           controller: scrollCtrl,
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
@@ -63,7 +63,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                     const SizedBox(width: 8),
                     OutlinedButton(
                       onPressed: () =>
-                          ref.read(feedProvider.notifier).loadInitial(),
+                          ref.read(feedProvider.notifier).loadInitial(force: true),
                       child: Text(t.retry),
                     ),
                   ],

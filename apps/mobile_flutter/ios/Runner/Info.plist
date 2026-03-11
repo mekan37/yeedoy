@@ -45,6 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<!-- AdMob App ID (required by SDK). -->
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1150074560839161~8895703262</string>

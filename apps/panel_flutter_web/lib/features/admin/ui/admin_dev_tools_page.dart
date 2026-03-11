@@ -5,6 +5,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/config/dev_overrides.dart';
 import '../../../core/config/feature_flags.dart';
 import '../../../core/config/product_guardrail_overrides.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../../shared/ui/design_system.dart';
@@ -49,6 +50,7 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
   }
 
   Future<void> _resetAchievement(BuildContext context, WidgetRef ref) async {
+    final l10n = context.l10n;
     final userId = _achievementUserIdCtrl.text.trim();
     final achievementId = _achievementIdCtrl.text.trim();
     final reason = _achievementReasonCtrl.text.trim();
@@ -56,7 +58,7 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
     if (userId.isEmpty || achievementId.isEmpty) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Kullanıcı ID ve Başarı ID zorunlu.')),
+        SnackBar(content: Text(l10n.adminDevToolsAchievementRequired)),
       );
       return;
     }
@@ -82,15 +84,17 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
         final error = (map['error'] ?? 'rpc_failed').toString();
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Reset başarısız: $error')));
+        ).showSnackBar(
+          SnackBar(content: Text(l10n.adminDevToolsResetFailed(error))),
+        );
         return;
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             deleted
-                ? 'Başarı resetlendi ve denetim kayda yazıldı.'
-                : 'Kayıt bulunmadı ama denetim kayda yazıldı.',
+                ? l10n.adminDevToolsAchievementResetLogged
+                : l10n.adminDevToolsNoRecordButLogged,
           ),
         ),
       );
@@ -98,7 +102,9 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
       if (!context.mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Hata: $e')));
+      ).showSnackBar(
+        SnackBar(content: Text(l10n.adminDevToolsError(e.toString()))),
+      );
     } finally {
       if (mounted) setState(() => _resettingAchievement = false);
     }
@@ -110,6 +116,7 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
     final overrides = ref.watch(devOverridesProvider);
     final guardrails = ref.watch(productGuardrailOverridesProvider);
     final user = ref.watch(userProvider);
+    final l10n = context.l10n;
 
     _syncController(_userIdCtrl, overrides.testUserId ?? '');
     _syncController(_cityCtrl, overrides.testCity ?? '');
@@ -129,10 +136,10 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AppSectionHeader(title: 'Geliştirici Araçları'),
+            AppSectionHeader(title: l10n.adminDevToolsTitle),
             const SizedBox(height: 6),
-            const Text(
-              'Özellik, test kullanıcı ve test şehir ayarları.',
+            Text(
+              l10n.adminDevToolsSubtitle,
               style: TextStyle(color: AppColors.muted, fontSize: 12),
             ),
             const SizedBox(height: 12),
@@ -140,36 +147,36 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Başarı Moderasyonu',
+                  Text(
+                    l10n.adminDevToolsAchievementModerationTitle,
                     style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
-                    'Gerekirse başarı kaydını sil ve profile XP/leveli yeniden hesapla.',
+                  Text(
+                    l10n.adminDevToolsAchievementModerationDescription,
                     style: TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
                   const SizedBox(height: 10),
                   TextField(
                     controller: _achievementUserIdCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Kullanıcı ID (uuid)',
-                      hintText: 'yazar kullanıcı id',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminDevToolsUserIdUuidLabel,
+                      hintText: l10n.adminDevToolsWriterUserIdHint,
                     ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _achievementIdCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Başarı ID',
-                      hintText: 'ornek: trusted_contributor',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminDevToolsAchievementIdLabel,
+                      hintText: l10n.adminDevToolsAchievementIdHint,
                     ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _achievementReasonCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Neden (opsiyonel)',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminDevToolsReasonOptionalLabel,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -180,8 +187,8 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                     icon: const Icon(Icons.restart_alt),
                     label: Text(
                       _resettingAchievement
-                          ? 'Resetleniyor...'
-                          : 'Başarı Reset',
+                          ? l10n.adminDevToolsResettingAction
+                          : l10n.adminDevToolsAchievementResetAction,
                     ),
                   ),
                 ],
@@ -192,20 +199,20 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Korkuluk Eşikleri',
+                  Text(
+                    l10n.adminDevToolsGuardrailThresholdsTitle,
                     style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
-                    'Canlı kalite eşiklerini admin panelinden ayarla.',
+                  Text(
+                    l10n.adminDevToolsGuardrailThresholdsDescription,
                     style: TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
                   const SizedBox(height: 8),
                   SwitchListTile(
                     dense: true,
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Sponsor etiketi zorunlu'),
+                    title: Text(l10n.adminDevToolsRequireSponsoredLabel),
                     value: guardrails.requireSponsoredLabel,
                     onChanged: (value) => ref
                         .read(productGuardrailOverridesProvider.notifier)
@@ -216,7 +223,7 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                   SwitchListTile(
                     dense: true,
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('İşletme yorum silebilir'),
+                    title: Text(l10n.adminDevToolsOwnerCanDeleteReviews),
                     value: guardrails.ownerCanDeleteReviews,
                     onChanged: (value) => ref
                         .read(productGuardrailOverridesProvider.notifier)
@@ -227,7 +234,7 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                   SwitchListTile(
                     dense: true,
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Düşük kalite büyüme bypass'),
+                    title: Text(l10n.adminDevToolsLowQualityGrowthBypass),
                     value: guardrails.allowLowQualityGrowthBypass,
                     onChanged: (value) => ref
                         .read(productGuardrailOverridesProvider.notifier)
@@ -246,8 +253,8 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: const InputDecoration(
-                            labelText: 'Min sponsor trust (0-1)',
+                          decoration: InputDecoration(
+                            labelText: l10n.adminDevToolsMinSponsorTrustLabel,
                           ),
                         ),
                       ),
@@ -258,8 +265,8 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: const InputDecoration(
-                            labelText: 'Min sponsor rating (0-5)',
+                          decoration: InputDecoration(
+                            labelText: l10n.adminDevToolsMinSponsorRatingLabel,
                           ),
                         ),
                       ),
@@ -279,8 +286,8 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                           if (trust == null || rating == null) {
                             if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Geçerli eşik değerleri gir.'),
+                              SnackBar(
+                                content: Text(l10n.adminDevToolsEnterValidThresholds),
                               ),
                             );
                             return;
@@ -295,14 +302,14 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                               .read(productGuardrailOverridesProvider.notifier)
                               .save(next);
                         },
-                        child: const Text('Eşikleri Kaydet'),
+                        child: Text(l10n.adminDevToolsSaveThresholdsAction),
                       ),
                       const SizedBox(width: 8),
                       OutlinedButton(
                         onPressed: () => ref
                             .read(productGuardrailOverridesProvider.notifier)
                             .resetDefaults(),
-                        child: const Text('Varsayılan'),
+                        child: Text(l10n.adminDevToolsDefaultAction),
                       ),
                     ],
                   ),
@@ -315,8 +322,8 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Özellik Bayrakları',
+                  Text(
+                    l10n.adminDevToolsFeatureFlagsTitle,
                     style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 8),
@@ -343,13 +350,13 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Test kullanıcı',
+                  Text(
+                    l10n.adminDevToolsTestUserTitle,
                     style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Aktif kullanıcı: ${user?.id ?? '-'}',
+                    l10n.adminDevToolsActiveUser(user?.id ?? '-'),
                     style: const TextStyle(
                       color: AppColors.muted,
                       fontSize: 12,
@@ -358,8 +365,8 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                   const SizedBox(height: 8),
                   TextField(
                     controller: _userIdCtrl,
-                    decoration: const InputDecoration(
-                      labelText: 'Test kullanıcı UID',
+                    decoration: InputDecoration(
+                      labelText: l10n.adminDevToolsTestUserUidLabel,
                       hintText: 'uuid',
                     ),
                   ),
@@ -370,14 +377,14 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                         onPressed: () => ref
                             .read(devOverridesProvider.notifier)
                             .setTestUserId(_userIdCtrl.text),
-                        child: const Text('Kaydet'),
+                        child: Text(l10n.save),
                       ),
                       const SizedBox(width: 8),
                       OutlinedButton(
                         onPressed: () => ref
                             .read(devOverridesProvider.notifier)
                             .setTestUserId(null),
-                        child: const Text('Temizle'),
+                        child: Text(l10n.adminDevToolsClearAction),
                       ),
                     ],
                   ),
@@ -389,13 +396,13 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Test Şehir',
+                  Text(
+                    l10n.adminDevToolsTestCityTitle,
                     style: TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 6),
-                  const Text(
-                    'Konum geçersiz bırakıldığında otomatik konum akışı devre dışı kalır.',
+                  Text(
+                    l10n.adminDevToolsTestCityDescription,
                     style: TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
                   const SizedBox(height: 10),
@@ -404,14 +411,14 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                       Expanded(
                         child: TextField(
                           controller: _cityCtrl,
-                          decoration: const InputDecoration(labelText: 'Şehir'),
+                          decoration: InputDecoration(labelText: l10n.city),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: TextField(
                           controller: _districtCtrl,
-                          decoration: const InputDecoration(labelText: 'İlçe'),
+                          decoration: InputDecoration(labelText: l10n.district),
                         ),
                       ),
                     ],
@@ -426,21 +433,24 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
                               city: _cityCtrl.text,
                               district: _districtCtrl.text,
                             ),
-                        child: const Text('Kaydet'),
+                        child: Text(l10n.save),
                       ),
                       const SizedBox(width: 8),
                       OutlinedButton(
                         onPressed: () => ref
                             .read(devOverridesProvider.notifier)
                             .clearTestLocation(),
-                        child: const Text('Temizle'),
+                        child: Text(l10n.adminDevToolsClearAction),
                       ),
                     ],
                   ),
                   if (overrides.hasTestLocation) ...[
                     const SizedBox(height: 8),
                     Text(
-                      'Aktif: ${overrides.testCity} / ${overrides.testDistrict}',
+                      l10n.adminDevToolsActiveLocation(
+                        overrides.testCity ?? '-',
+                        overrides.testDistrict ?? '-',
+                      ),
                       style: const TextStyle(
                         color: AppColors.textStrong,
                         fontWeight: FontWeight.w700,

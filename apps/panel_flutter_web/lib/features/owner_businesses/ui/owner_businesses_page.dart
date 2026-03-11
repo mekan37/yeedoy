@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/network/supabase_provider.dart';
+import '../../../core/navigation/public_menu_url.dart';
+import '../../../core/web/web_utils.dart';
 import '../../owner_dashboard/domain/owner_growth_provider.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
+import '../../../shared/ui/components/owner_panel_feedback.dart';
 import '../data/owner_business_repository.dart';
 import '../domain/owner_business_models.dart';
 import '../domain/owner_business_providers.dart';
+import '../domain/owner_business_state.dart';
 
 class OwnerBusinessesPage extends ConsumerStatefulWidget {
   const OwnerBusinessesPage({super.key});
@@ -20,7 +26,6 @@ class OwnerBusinessesPage extends ConsumerStatefulWidget {
 }
 
 class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
-  String? _selectedBusinessId;
   String _selectedChainId = '';
 
   @override
@@ -38,13 +43,29 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
         ],
       ),
       body: businessesAsync.when(
-        loading: () => const _OwnerBusinessesSkeleton(),
-        error: (e, _) => _ErrorState(
-          message: AppErrorMapper.message(e),
-          onRetry: () => ref.invalidate(ownerBusinessesProvider),
+        loading: () => const Padding(
+          padding: EdgeInsets.all(16),
+          child: OwnerPanelFeedback.loading(),
+        ),
+        error: (e, _) => Padding(
+          padding: const EdgeInsets.all(16),
+          child: OwnerPanelFeedback.error(
+            title: context.l10n.ownerBusinessesTitle,
+            description: AppErrorMapper.message(e),
+            onRetry: () => ref.invalidate(ownerBusinessesProvider),
+          ),
         ),
         data: (items) {
-          if (items.isEmpty) return const _EmptyState();
+          if (items.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: OwnerPanelFeedback.empty(
+                icon: Icons.store_outlined,
+                title: context.l10n.ownerNoBusinessesTitle,
+                description: context.l10n.ownerNoBusinessesDescription,
+              ),
+            );
+          }
 
           final chains = <String, String>{};
           for (final item in items) {
@@ -63,84 +84,127 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
           final visible = _selectedChainId.isEmpty
               ? items
               : items.where((e) => e.chainId == _selectedChainId).toList();
-          if (visible.isEmpty) return const _EmptyState();
-
-          _selectedBusinessId ??= visible.first.businessId;
-          if (!visible.any((e) => e.businessId == _selectedBusinessId)) {
-            _selectedBusinessId = visible.first.businessId;
+          if (visible.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: OwnerPanelFeedback.empty(
+                icon: Icons.account_tree_outlined,
+                title: context.l10n.ownerNoBusinessesTitle,
+                description: context.l10n.ownerBusinessContextEmptyDescription,
+              ),
+            );
           }
-          final selectedBusinessId = _selectedBusinessId!;
+
+          final selectedBusinessIdState = ref.watch(
+            selectedOwnerBusinessIdProvider,
+          );
+          final selectedBusinessId = visible.any(
+            (e) => e.businessId == selectedBusinessIdState,
+          )
+              ? selectedBusinessIdState!
+              : visible.first.businessId;
+          if (selectedBusinessIdState != selectedBusinessId) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) return;
+              ref.read(selectedOwnerBusinessIdProvider.notifier).state =
+                  selectedBusinessId;
+            });
+          }
           final selectedBusiness = visible.firstWhere(
             (e) => e.businessId == selectedBusinessId,
           );
 
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(ownerBusinessesProvider),
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-              children: [
-                if (chains.isNotEmpty) ...[
-                  _ChainSwitcher(
-                    chains: chains,
-                    selectedChainId: _selectedChainId,
-                    onChanged: (id) => setState(() => _selectedChainId = id),
-                  ),
-                  const SizedBox(height: 10),
-                ],
-                _BusinessSwitcher(
-                  items: visible,
-                  selectedBusinessId: selectedBusinessId,
-                  onChanged: (id) => setState(() => _selectedBusinessId = id),
-                ),
-                const SizedBox(height: 12),
-                _BranchQuickActions(
-                  selectedBusinessId: selectedBusinessId,
-                  ownerRole: selectedBusiness.ownerRole,
-                  onEditCommerceLinks: () =>
-                      _openCommerceLinksSheet(selectedBusinessId),
-                ),
-                if (_selectedChainId.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: OutlinedButton.icon(
-                      onPressed: () => context.go('/chain/$_selectedChainId'),
-                      icon: const Icon(Icons.hub_outlined),
-                      label: Text(context.l10n.ownerChainPage),
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 12),
-                _OwnerGrowthCard(businessId: selectedBusinessId),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: FilledButton.icon(
-                        onPressed: () => context.go('/owner/businesses/new'),
-                        icon: const Icon(Icons.add_business),
-                        label: Text(context.l10n.ownerNewBusinessTitle),
+            child: CustomScrollView(
+              cacheExtent: 1200,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                      if (chains.isNotEmpty) ...[
+                        _ChainSwitcher(
+                          chains: chains,
+                          selectedChainId: _selectedChainId,
+                          onChanged: (id) => setState(() => _selectedChainId = id),
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                      _BranchQuickActions(
+                        selectedBusinessId: selectedBusinessId,
+                        ownerRole: selectedBusiness.ownerRole,
+                        onEditCommerceLinks: () =>
+                            _openCommerceLinksSheet(selectedBusinessId),
+                        onCreateQrMenu: () => _openQrMenu(selectedBusinessId),
+                        onOpenPublicMenu: () => _openPublicMenu(
+                          selectedBusinessId,
+                          publicSlug: selectedBusiness.publicSlug,
+                          slug: selectedBusiness.slug,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () =>
-                            context.go('/owner/businesses/submissions'),
-                        icon: const Icon(Icons.assignment_outlined),
-                        label: Text(context.l10n.ownerMyApplications),
+                      if (_selectedChainId.isNotEmpty) ...[
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: OutlinedButton.icon(
+                            onPressed: () => context.go('/chain/$_selectedChainId'),
+                            icon: const Icon(Icons.hub_outlined),
+                            label: Text(context.l10n.ownerChainPage),
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+                      _OwnerGrowthCard(businessId: selectedBusinessId),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FilledButton.icon(
+                              onPressed: () => context.go('/owner/businesses/new'),
+                              icon: const Icon(Icons.add_business),
+                              label: Text(context.l10n.ownerNewBusinessTitle),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () =>
+                                  context.go('/owner/businesses/submissions'),
+                              icon: const Icon(Icons.assignment_outlined),
+                              label: Text(context.l10n.ownerMyApplications),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                for (final business in visible) ...[
-                  _BusinessCard(
-                    item: business,
-                    selected: business.businessId == selectedBusinessId,
+                      const SizedBox(height: 16),
+                    ]),
                   ),
-                  const SizedBox(height: 10),
-                ],
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final business = visible[index];
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: index == visible.length - 1 ? 0 : 10,
+                        ),
+                        child: _BusinessCard(
+                          item: business,
+                          selected: business.businessId == selectedBusinessId,
+                          onCreateQrMenu: () => _openQrMenu(business.businessId),
+                          onOpenPublicMenu: () => _openPublicMenu(
+                            business.businessId,
+                            publicSlug: business.publicSlug,
+                            slug: business.slug,
+                          ),
+                        ),
+                      );
+                    }, childCount: visible.length),
+                  ),
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 24)),
               ],
             ),
           );
@@ -208,7 +272,9 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
                   const SizedBox(height: 8),
                   TextField(
                     controller: getirCtrl,
-                    decoration: InputDecoration(labelText: l10n.ownerGetirUrlLabel),
+                    decoration: InputDecoration(
+                      labelText: l10n.ownerGetirUrlLabel,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   SizedBox(
@@ -223,7 +289,8 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
                                     .read(ownerBusinessRepositoryProvider)
                                     .updateCommerceLinks(
                                       businessId: businessId,
-                                      reservationUrl: reservationCtrl.text.trim(),
+                                      reservationUrl: reservationCtrl.text
+                                          .trim(),
                                       orderYemeksepetiUrl: yemeksepetiCtrl.text
                                           .trim(),
                                       orderTrendyolgoUrl: trendyolgoCtrl.text
@@ -264,6 +331,46 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
     yemeksepetiCtrl.dispose();
     trendyolgoCtrl.dispose();
     getirCtrl.dispose();
+  }
+
+  Future<void> _openPublicMenu(
+    String businessId, {
+    String? publicSlug,
+    String? slug,
+  }) async {
+    final url = buildPublicMenuUrl(
+      businessId: businessId,
+      businessPublicSlug: publicSlug,
+      businessSlug: slug,
+    );
+    final uri = Uri.parse(url);
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
+  Future<void> _openQrMenu(String businessId) async {
+    final session = ref.read(supabaseProvider).auth.currentSession;
+    if (session == null) {
+      final loginUrl = buildQrLoginUrl(businessId: businessId);
+      final uri = Uri.parse(loginUrl);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      return;
+    }
+
+    final refreshToken = session.refreshToken;
+    if (refreshToken == null || refreshToken.isEmpty) {
+      final url = buildQrMenuUrl(businessId: businessId);
+      final uri = Uri.parse(url);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      return;
+    }
+
+    submitPostRedirect(buildPanelSessionHandoffUrl(), {
+      'access_token': session.accessToken,
+      'refresh_token': refreshToken,
+      'business_id': businessId,
+      'lang': 'tr',
+      'theme': 'bold',
+    });
   }
 }
 
@@ -310,56 +417,18 @@ class _ChainSwitcher extends StatelessWidget {
   }
 }
 
-class _BusinessSwitcher extends StatelessWidget {
-  const _BusinessSwitcher({
-    required this.items,
-    required this.selectedBusinessId,
-    required this.onChanged,
-  });
-
-  final List<OwnerBusiness> items;
-  final String selectedBusinessId;
-  final ValueChanged<String> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          '${context.l10n.ownerBranchLabel}:',
-          style: const TextStyle(fontWeight: FontWeight.w700),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: DropdownButtonFormField<String>(
-            initialValue: selectedBusinessId,
-            items: [
-              for (final item in items)
-                DropdownMenuItem(
-                  value: item.businessId,
-                  child: Text(
-                    item.branchLabel?.trim().isNotEmpty == true
-                        ? '${item.businessName} (${item.branchLabel})'
-                        : item.businessName,
-                  ),
-                ),
-            ],
-            onChanged: (value) {
-              if (value == null) return;
-              onChanged(value);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class _BusinessCard extends StatelessWidget {
-  const _BusinessCard({required this.item, required this.selected});
+  const _BusinessCard({
+    required this.item,
+    required this.selected,
+    required this.onCreateQrMenu,
+    required this.onOpenPublicMenu,
+  });
 
   final OwnerBusiness item;
   final bool selected;
+  final VoidCallback onCreateQrMenu;
+  final VoidCallback onOpenPublicMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -407,7 +476,11 @@ class _BusinessCard extends StatelessWidget {
                 ),
                 if (selected) ...[
                   const SizedBox(width: 8),
-                  const Icon(Icons.check_circle, color: AppColors.success, size: 18),
+                  const Icon(
+                    Icons.check_circle,
+                    color: AppColors.success,
+                    size: 18,
+                  ),
                 ],
               ],
             ),
@@ -456,6 +529,23 @@ class _BusinessCard extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                OutlinedButton.icon(
+                  onPressed: onCreateQrMenu,
+                  icon: const Icon(Icons.qr_code_2_outlined),
+                  label: Text(context.l10n.adminBusinessesQrMenuAction),
+                ),
+                FilledButton.icon(
+                  onPressed: onOpenPublicMenu,
+                  icon: const Icon(Icons.open_in_new),
+                  label: Text(context.l10n.ownerPublicMenuLinkAction),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -468,10 +558,14 @@ class _BranchQuickActions extends StatelessWidget {
     required this.selectedBusinessId,
     required this.ownerRole,
     required this.onEditCommerceLinks,
+    required this.onCreateQrMenu,
+    required this.onOpenPublicMenu,
   });
   final String selectedBusinessId;
   final String ownerRole;
   final VoidCallback onEditCommerceLinks;
+  final VoidCallback onCreateQrMenu;
+  final VoidCallback onOpenPublicMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -496,6 +590,12 @@ class _BranchQuickActions extends StatelessWidget {
               label: Text(context.l10n.ownerPriceVerificationAction),
             ),
             OutlinedButton.icon(
+              onPressed: () =>
+                  context.go('/owner/growth?businessId=$selectedBusinessId'),
+              icon: const Icon(Icons.trending_up_outlined),
+              label: Text(context.l10n.ownerShellGrowthLabel),
+            ),
+            OutlinedButton.icon(
               onPressed: ownerRole == 'manager'
                   ? null
                   : () => context.go(
@@ -512,6 +612,16 @@ class _BranchQuickActions extends StatelessWidget {
               onPressed: onEditCommerceLinks,
               icon: const Icon(Icons.link_outlined),
               label: Text(context.l10n.ownerReservationOrderLinksAction),
+            ),
+            OutlinedButton.icon(
+              onPressed: onCreateQrMenu,
+              icon: const Icon(Icons.qr_code_2_outlined),
+              label: Text(context.l10n.adminBusinessesQrMenuAction),
+            ),
+            FilledButton.icon(
+              onPressed: onOpenPublicMenu,
+              icon: const Icon(Icons.open_in_new),
+              label: Text(context.l10n.ownerPublicMenuLinkAction),
             ),
           ],
         ),
@@ -557,7 +667,10 @@ class _OwnerGrowthCard extends ConsumerWidget {
               children: [
                 Text(
                   context.l10n.ownerPerformanceLast30Days,
-                  style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Wrap(
@@ -608,8 +721,14 @@ class _OwnerGrowthCard extends ConsumerWidget {
   }
 }
 
-String _pricePositionLabel(BuildContext context, String position, double? gapPct) {
-  final pctText = gapPct == null ? '' : ' (%${gapPct.abs().toStringAsFixed(0)})';
+String _pricePositionLabel(
+  BuildContext context,
+  String position,
+  double? gapPct,
+) {
+  final pctText = gapPct == null
+      ? ''
+      : ' (%${gapPct.abs().toStringAsFixed(0)})';
   return switch (position) {
     'higher' => context.l10n.ownerPricePositionHigher(pctText),
     'lower' => context.l10n.ownerPricePositionLower(pctText),
@@ -636,99 +755,6 @@ class _MetricPill extends StatelessWidget {
       child: Text(
         '$label: $value',
         style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-      ),
-    );
-  }
-}
-
-class _OwnerBusinessesSkeleton extends StatelessWidget {
-  const _OwnerBusinessesSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-      itemCount: 4,
-      separatorBuilder: (_, _) => const SizedBox(height: 10),
-      itemBuilder: (_, _) => const Card(
-        child: Padding(
-          padding: EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _SkeletonLine(width: 160),
-              SizedBox(height: 8),
-              _SkeletonLine(width: 120),
-              SizedBox(height: 12),
-              _SkeletonLine(width: 90),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SkeletonLine extends StatelessWidget {
-  const _SkeletonLine({this.width});
-  final double? width;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(height: 10, width: width, color: AppColors.card);
-  }
-}
-
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.store_outlined, size: 48, color: AppColors.muted),
-            const SizedBox(height: 12),
-            Text(
-              context.l10n.ownerNoBusinessesTitle,
-              style: const TextStyle(fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              context.l10n.ownerNoBusinessesDescription,
-              style: const TextStyle(color: AppColors.muted),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.message, required this.onRetry});
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(message, style: const TextStyle(color: AppColors.danger)),
-            const SizedBox(height: 10),
-            OutlinedButton(
-              onPressed: onRetry,
-              child: Text(context.l10n.retry),
-            ),
-          ],
-        ),
       ),
     );
   }

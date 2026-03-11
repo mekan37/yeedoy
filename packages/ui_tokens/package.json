@@ -3,5 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "tokens.json"
+  "main": "tokens.json",
+  "exports": {
+    ".": "./tokens.json",
+    "./tokens.json": "./tokens.json",
+    "./tokens.css": "./tokens.css",
+    "./tailwind.preset.cjs": "./tailwind.preset.cjs"
+  },
+  "files": [
+    "tokens.css",
+    "tokens.json",
+    "tailwind.preset.cjs",
+    "flutter_tokens.md"
+  ]
 }

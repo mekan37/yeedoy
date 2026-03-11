@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/media/app_network_image.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../../../core/storage/admin_table_saved_views_prefs.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_reports_repository.dart';
 import '../domain/admin_models.dart';
@@ -15,6 +18,7 @@ import '../domain/admin_reports_controller.dart';
 import 'keyboard/admin_keyboard_shortcuts.dart';
 import 'web_download.dart';
 import 'widgets/admin_new_items_banner.dart';
+import 'widgets/admin_table.dart';
 import '../../../shared/ui/design_system.dart';
 
 class AdminReportsPage extends ConsumerStatefulWidget {
@@ -25,6 +29,8 @@ class AdminReportsPage extends ConsumerStatefulWidget {
 }
 
 class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
+  static const _savedViewScope = 'admin_reports';
+
   final searchCtrl = TextEditingController();
   final searchFocus = FocusNode();
   final bulkNoteCtrl = TextEditingController();
@@ -34,10 +40,18 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   bool moderationToolsLoading = false;
   int duplicatePhotoGroups = 0;
   int copiedMenuGroups = 0;
+  DateTimeRange? _dateRange;
+  String _sortKey = 'createdAt';
+  bool _sortAscending = false;
+  int _page = 0;
+  int _rowsPerPage = 20;
+  List<AdminSavedViewRecord> _savedViews = const [];
+  String? _selectedSavedViewId;
 
   @override
   void initState() {
     super.initState();
+    _loadSavedViews();
     scrollCtrl.addListener(() {
       if (scrollCtrl.position.pixels >=
           scrollCtrl.position.maxScrollExtent - 300) {
@@ -55,18 +69,36 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
     super.dispose();
   }
 
+  Future<void> _loadSavedViews() async {
+    final views = await AdminTableSavedViewsPrefs.read(_savedViewScope);
+    if (!mounted) return;
+    setState(() => _savedViews = views);
+  }
+
   @override
   Widget build(BuildContext context) {
     final st = ref.watch(adminReportsControllerProvider);
     final controller = ref.read(adminReportsControllerProvider.notifier);
     final user = ref.watch(userProvider);
-    final allSelected =
-        st.items.isNotEmpty &&
-        st.items.every((r) => st.selectedIds.contains(r.id));
+    final l10n = context.l10n;
+    final filteredItems = _filterAndSortReports(st);
+    final estimatedTotalCount =
+        filteredItems.length + (st.hasMore ? _rowsPerPage : 0);
+    final safePage = estimatedTotalCount == 0
+        ? 0
+        : _page.clamp(0, ((estimatedTotalCount - 1) ~/ _rowsPerPage)).toInt();
+    final start = safePage * _rowsPerPage;
+    final end = (start + _rowsPerPage).clamp(0, filteredItems.length);
+    final pageItems = filteredItems.sublist(start, end);
+    final allPageSelected =
+        pageItems.isNotEmpty &&
+        pageItems.every((item) => st.selectedIds.contains(item.id));
     final newItems = ref.watch(adminNewItemsProvider).reportsNew;
     final reasonCounts = <String, int>{};
-    for (final item in st.items) {
-      final key = item.reason.trim().isEmpty ? 'diÄŸer' : item.reason.trim();
+    for (final item in filteredItems) {
+      final key = item.reason.trim().isEmpty
+          ? l10n.adminReportsOtherReason
+          : item.reason.trim();
       reasonCounts[key] = (reasonCounts[key] ?? 0) + 1;
     }
     final sortedReasons = reasonCounts.entries.toList()
@@ -88,8 +120,8 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
           children: [
             Row(
               children: [
-                const Text(
-                  'Raporlar',
+                Text(
+                  l10n.adminReportsTitle,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                 ),
                 const Spacer(),
@@ -97,8 +129,21 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                   onPressed: exporting ? null : () => _exportCsv(st),
                   icon: const Icon(Icons.download),
                   label: Text(
-                    exporting ? 'Ä°ndiriliyor...' : 'CSV DÄ±ÅŸa Aktar',
+                    exporting
+                        ? l10n.adminCommonDownloading
+                        : l10n.adminCommonExportCsv,
+                    ),
+                ),
+                const SizedBox(width: 8),
+                OutlinedButton.icon(
+                  onPressed: () => context.go(
+                    _queueRouteForReports(
+                      query: st.query,
+                      status: st.statusFilter,
+                    ),
                   ),
+                  icon: const Icon(Icons.alt_route),
+                  label: Text(l10n.adminQueueOpenFromReportsAction),
                 ),
                 const SizedBox(width: 8),
                 IconButton(
@@ -116,96 +161,101 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
               ],
             ),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: searchCtrl,
-                    focusNode: searchFocus,
-                    onChanged: (v) => ref
-                        .read(adminReportsControllerProvider.notifier)
-                        .setQuery(v.trim()),
-                    decoration: const InputDecoration(
-                      hintText: 'Ara (id, reason, detay)',
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                  ),
+            AdminTableFilterBar(
+              searchController: searchCtrl,
+              searchHint: l10n.adminReportsSearchHint,
+              statusValue: st.statusFilter,
+              statusOptions: [
+                AdminTableStatusOption(value: '', label: l10n.tumu),
+                AdminTableStatusOption(
+                  value: 'acik',
+                  label: l10n.adminReportsStatusOpen,
                 ),
-                const SizedBox(width: 12),
-                Wrap(
-                  spacing: 8,
-                  children: [
-                    AppFilterChip(
-                      label: 'SLA',
-                      selected: st.slaOnly,
-                      onTap: () => ref
-                          .read(adminReportsControllerProvider.notifier)
-                          .setSlaOnly(!st.slaOnly),
-                    ),
-                    AppFilterChip(
-                      label: 'TÃ¼mÃ¼',
-                      selected: st.statusFilter.isEmpty,
-                      onTap: () => ref
-                          .read(adminReportsControllerProvider.notifier)
-                          .setStatusFilter(''),
-                    ),
-                    AppFilterChip(
-                      label: 'AÃ§Ä±k',
-                      selected: st.statusFilter == 'acik',
-                      onTap: () => ref
-                          .read(adminReportsControllerProvider.notifier)
-                          .setStatusFilter('acik'),
-                    ),
-                    AppFilterChip(
-                      label: 'Ä°nceleniyor',
-                      selected: st.statusFilter == 'inceleniyor',
-                      onTap: () => ref
-                          .read(adminReportsControllerProvider.notifier)
-                          .setStatusFilter('inceleniyor'),
-                    ),
-                    AppFilterChip(
-                      label: 'KapandÄ±',
-                      selected: st.statusFilter == 'kapandi',
-                      onTap: () => ref
-                          .read(adminReportsControllerProvider.notifier)
-                          .setStatusFilter('kapandi'),
-                    ),
-                    AppFilterChip(
-                      label: 'Reddedildi',
-                      selected: st.statusFilter == 'reddedildi',
-                      onTap: () => ref
-                          .read(adminReportsControllerProvider.notifier)
-                          .setStatusFilter('reddedildi'),
-                    ),
-                  ],
+                AdminTableStatusOption(
+                  value: 'inceleniyor',
+                  label: l10n.adminReportsStatusInvestigating,
+                ),
+                AdminTableStatusOption(
+                  value: 'kapandi',
+                  label: l10n.adminReportsStatusClosed,
+                ),
+                AdminTableStatusOption(
+                  value: 'reddedildi',
+                  label: l10n.rejected,
                 ),
               ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
+              onSearchChanged: (value) {
+                controller.setQuery(value.trim());
+                setState(() {
+                  _page = 0;
+                  _selectedSavedViewId = null;
+                });
+              },
+              onStatusChanged: (value) {
+                controller.setStatusFilter(value);
+                setState(() {
+                  _page = 0;
+                  _selectedSavedViewId = null;
+                });
+              },
+              dateRange: _dateRange,
+              onPickDateRange: _pickDateRange,
+              onClearDateRange: () {
+                setState(() {
+                  _dateRange = null;
+                  _page = 0;
+                  _selectedSavedViewId = null;
+                });
+              },
+              savedViews: _savedViews,
+              selectedSavedViewId: _selectedSavedViewId,
+              onSavedViewSelected: (value) => _applySavedView(value, controller),
+              onSaveCurrentView: () => _saveCurrentView(st),
+              onDeleteSavedView: _deleteSavedView,
+              extraFilters: [
                 AppFilterChip(
-                  label: 'TÃ¼mÃ¼',
+                  label: l10n.sla,
+                  selected: st.slaOnly,
+                  onTap: () {
+                    controller.setSlaOnly(!st.slaOnly);
+                    setState(() {
+                      _page = 0;
+                      _selectedSavedViewId = null;
+                    });
+                  },
+                ),
+                AppFilterChip(
+                  label: l10n.tumu,
                   selected: st.assignedFilter.isEmpty,
-                  onTap: () => ref
-                      .read(adminReportsControllerProvider.notifier)
-                      .setAssignedFilter(''),
+                  onTap: () {
+                    controller.setAssignedFilter('');
+                    setState(() {
+                      _page = 0;
+                      _selectedSavedViewId = null;
+                    });
+                  },
                 ),
-                const SizedBox(width: 8),
                 AppFilterChip(
-                  label: 'BoÅŸta',
+                  label: l10n.adminCommonUnassigned,
                   selected: st.assignedFilter == 'unassigned',
-                  onTap: () => ref
-                      .read(adminReportsControllerProvider.notifier)
-                      .setAssignedFilter('unassigned'),
+                  onTap: () {
+                    controller.setAssignedFilter('unassigned');
+                    setState(() {
+                      _page = 0;
+                      _selectedSavedViewId = null;
+                    });
+                  },
                 ),
-                const SizedBox(width: 8),
                 AppFilterChip(
-                  label: 'Benim',
+                  label: l10n.adminCommonMine,
                   selected: st.assignedFilter == 'me',
-                  onTap: () => ref
-                      .read(adminReportsControllerProvider.notifier)
-                      .setAssignedFilter('me'),
+                  onTap: () {
+                    controller.setAssignedFilter('me');
+                    setState(() {
+                      _page = 0;
+                      _selectedSavedViewId = null;
+                    });
+                  },
                 ),
               ],
             ),
@@ -224,7 +274,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
 
             AdminNewItemsBanner(
               count: newItems,
-              label: 'Yeni kayÄ±tlar var',
+              label: l10n.adminCommonNewRecordsAvailable,
               onRefresh: () async {
                 final ok = await ref
                     .read(adminReportsControllerProvider.notifier)
@@ -236,70 +286,66 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
               },
             ),
             if (newItems > 0) const SizedBox(height: 10),
-
-            _BulkBar(
+            AdminTableBulkBar(
               selectedCount: st.selectedIds.length,
-              bulkStatus: bulkStatus,
-              onStatusChanged: (v) => setState(() => bulkStatus = v),
-              noteCtrl: bulkNoteCtrl,
-              onClear: () => ref
-                  .read(adminReportsControllerProvider.notifier)
-                  .clearSelection(),
-              onApply: st.selectedIds.isEmpty || bulkStatus.isEmpty
-                  ? null
-                  : () async {
-                      try {
-                        await ref
-                            .read(adminReportsControllerProvider.notifier)
-                            .bulkUpdateStatus(
-                              status: bulkStatus,
-                              adminNote: bulkNoteCtrl.text.trim(),
-                            );
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('GÃ¼ncellendi.')),
-                          );
-                        }
-                        setState(() => bulkStatus = '');
-                        bulkNoteCtrl.clear();
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(AppErrorMapper.message(e))),
-                          );
-                        }
-                      }
-                    },
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                OutlinedButton.icon(
-                  onPressed: st.selectedIndex == null
-                      ? null
-                      : () => _selectSameReporter(st),
-                  icon: const Icon(Icons.group_work_outlined),
-                  label: const Text('AynÄ± HesabÄ± SeÃ§'),
+              onClear: controller.clearSelection,
+              actions: [
+                AdminTableBulkAction(
+                  label: l10n.adminReportsSelectSameReporter,
+                  icon: Icons.group_work_outlined,
+                  onPressed:
+                      st.selectedIndex == null ? null : () => _selectSameReporter(st),
                 ),
-                const SizedBox(width: 8),
-                OutlinedButton.icon(
+                AdminTableBulkAction(
+                  label: l10n.adminTableAssignToMeAction,
+                  icon: Icons.assignment_ind_outlined,
                   onPressed: st.selectedIds.isEmpty || user?.id == null
                       ? null
                       : () => _assignSelectedToMe(st, user!.id),
-                  icon: const Icon(Icons.assignment_ind_outlined),
-                  label: const Text('SeÃ§ili KayÄ±tlarÄ± Bana Ata'),
                 ),
-                const SizedBox(width: 8),
-                FilledButton.icon(
-                  onPressed: st.selectedIds.isEmpty
-                      ? null
-                      : () => _closeSelectedAsSpam(st),
-                  icon: const Icon(Icons.block_outlined),
-                  label: const Text('Spam DalgasÄ±nÄ± Kapat'),
+                AdminTableBulkAction(
+                  label: l10n.adminReportsCloseSpamWave,
+                  icon: Icons.block_outlined,
+                  onPressed:
+                      st.selectedIds.isEmpty ? null : () => _closeSelectedAsSpam(st),
+                  primary: true,
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            if (st.selectedIds.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              _BulkBar(
+                selectedCount: st.selectedIds.length,
+                bulkStatus: bulkStatus,
+                onStatusChanged: (v) => setState(() => bulkStatus = v),
+                noteCtrl: bulkNoteCtrl,
+                onClear: controller.clearSelection,
+                onApply: st.selectedIds.isEmpty || bulkStatus.isEmpty
+                    ? null
+                    : () async {
+                        try {
+                          await controller.bulkUpdateStatus(
+                            status: bulkStatus,
+                            adminNote: bulkNoteCtrl.text.trim(),
+                          );
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(l10n.adminCommonUpdated)),
+                            );
+                          }
+                          setState(() => bulkStatus = '');
+                          bulkNoteCtrl.clear();
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(AppErrorMapper.message(e))),
+                            );
+                          }
+                        }
+                      },
+              ),
+              const SizedBox(height: 12),
+            ],
 
             if (st.error != null)
               Padding(
@@ -312,183 +358,333 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
             Expanded(
               child: st.isLoading && st.items.isEmpty
                   ? const Center(child: CircularProgressIndicator())
-                  : ListView(
-                      controller: scrollCtrl,
+                  : Column(
                       children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(
+                        Expanded(
+                          child: AdminTableCard(
+                            emptyLabel: l10n.adminCommonNoRecordsFound,
                             columns: [
                               DataColumn(
                                 label: Checkbox(
-                                  value: allSelected,
-                                  onChanged: (v) => ref
-                                      .read(
-                                        adminReportsControllerProvider.notifier,
-                                      )
-                                      .selectAllVisible(v ?? false),
+                                  value: allPageSelected,
+                                  onChanged: (value) {
+                                    for (final item in pageItems) {
+                                      controller.toggleSelection(
+                                        item.id,
+                                        value ?? false,
+                                      );
+                                    }
+                                  },
                                 ),
                               ),
-                              const DataColumn(label: Text('ID')),
-                              const DataColumn(label: Text('Sebep')),
-                              const DataColumn(label: Text('Ã–ncelik')),
-                              const DataColumn(label: Text('Durum')),
-                              const DataColumn(label: Text('Atanan')),
-                              const DataColumn(label: Text('OluÅŸturulma')),
-                              const DataColumn(label: Text('YaÅŸ')),
-                              const DataColumn(label: Text('Foto')),
+                              DataColumn(
+                                label: const Text('ID'),
+                                onSort: (_, ascending) =>
+                                    _sortReportsBy('id', ascending),
+                              ),
+                              DataColumn(
+                                label: Text(l10n.adminReportsReasonColumn),
+                                onSort: (_, ascending) =>
+                                    _sortReportsBy('reason', ascending),
+                              ),
+                              DataColumn(
+                                label: Text(l10n.adminCommonPriority),
+                                onSort: (_, ascending) =>
+                                    _sortReportsBy('priority', ascending),
+                              ),
+                              DataColumn(
+                                label: Text(l10n.adminReportsStatusColumn),
+                                onSort: (_, ascending) =>
+                                    _sortReportsBy('status', ascending),
+                              ),
+                              DataColumn(
+                                label: Text(l10n.adminCommonAssigned),
+                                onSort: (_, ascending) =>
+                                    _sortReportsBy('assigned', ascending),
+                              ),
+                              DataColumn(
+                                label: Text(l10n.adminReportsCreatedAtColumn),
+                                onSort: (_, ascending) =>
+                                    _sortReportsBy('createdAt', ascending),
+                              ),
+                              DataColumn(
+                                label: Text(l10n.adminCommonAge),
+                                onSort: (_, ascending) =>
+                                    _sortReportsBy('age', ascending),
+                              ),
+                              DataColumn(label: Text(l10n.adminReportsPhotoColumn)),
                               const DataColumn(label: Text('')),
                             ],
                             rows: [
-                              for (var i = 0; i < st.items.length; i++)
-                                DataRow(
-                                  color: _rowColor(
-                                    st.selectedIndex == i,
-                                    st.items[i].slaBreached,
-                                  ),
-                                  selected: st.selectedIds.contains(
-                                    st.items[i].id,
-                                  ),
-                                  onSelectChanged: (_) => _openDetails(
-                                    context,
-                                    st.items[i],
-                                    index: i,
-                                  ),
-                                  cells: [
-                                    DataCell(
-                                      Checkbox(
-                                        value: st.selectedIds.contains(
-                                          st.items[i].id,
-                                        ),
-                                        onChanged: (v) => ref
-                                            .read(
-                                              adminReportsControllerProvider
-                                                  .notifier,
-                                            )
-                                            .toggleSelection(
-                                              st.items[i].id,
-                                              v ?? false,
-                                            ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Row(
-                                        children: [
-                                          if (st.items[i].slaBreached) ...[
-                                            const AppSlaBadge(),
-                                            const SizedBox(width: 6),
-                                          ],
-                                          Text(_short(st.items[i].id)),
-                                        ],
-                                      ),
-                                    ),
-                                    DataCell(Text(st.items[i].reason)),
-                                    DataCell(
-                                      AppPriorityBadge(
-                                        score: _reportPriority(st.items[i]),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Row(
-                                        children: [
-                                          Text(st.items[i].status),
-                                          if (st.items[i].autoModerated) ...[
-                                            const SizedBox(width: 6),
-                                            Tooltip(
-                                              message:
-                                                  'Otomatik moderasyon uygulandÄ±',
-                                              child: const AppAutoBadge(),
-                                            ),
-                                          ],
-                                        ],
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Text(
-                                        _assignedLabel(
-                                          st.items[i].assignedTo,
-                                          user?.id,
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Text(_fmtDate(st.items[i].createdAt)),
-                                    ),
-                                    DataCell(
-                                      Text(_fmtHours(st.items[i].ageHours)),
-                                    ),
-                                    DataCell(
-                                      Row(
-                                        children: [
-                                          if ((st.items[i].menuItemPhotoId ??
-                                                  '')
-                                              .isNotEmpty)
-                                            IconButton(
-                                              onPressed: () =>
-                                                  _openReportedMenuPhoto(
-                                                    context,
-                                                    ref,
-                                                    st
-                                                        .items[i]
-                                                        .menuItemPhotoId!,
-                                                  ),
-                                              tooltip: 'MenÃ¼ fotoÄŸrafÄ±',
-                                              icon: const Icon(
-                                                Icons.photo_outlined,
-                                                size: 18,
-                                              ),
-                                            ),
-                                          if ((st.items[i].targetType ?? '') ==
-                                                  'business_media' &&
-                                              (st.items[i].targetId ?? '')
-                                                  .isNotEmpty)
-                                            IconButton(
-                                              onPressed: () =>
-                                                  _openReportedBusinessMedia(
-                                                    context,
-                                                    ref,
-                                                    st.items[i].targetId!,
-                                                  ),
-                                              tooltip: 'Mekan fotoÄŸrafÄ±',
-                                              icon: const Icon(
-                                                Icons.storefront_outlined,
-                                                size: 18,
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: () => _openDetails(
-                                          context,
-                                          st.items[i],
-                                          index: i,
-                                        ),
-                                        child: const Text('Detay'),
-                                      ),
-                                    ),
-                                  ],
+                              for (final item in pageItems)
+                                _buildReportRow(
+                                  context: context,
+                                  item: item,
+                                  state: st,
+                                  userId: user?.id,
                                 ),
                             ],
                           ),
                         ),
-                        if (!st.isLoading && st.items.isEmpty)
-                          Padding(
-                            padding: EdgeInsets.only(top: 24),
-                            child: Center(child: Text('Kayit bulunamadi.')),
-                          ),
                         if (st.isLoadingMore)
                           const Padding(
                             padding: EdgeInsets.only(top: 12),
                             child: Center(child: CircularProgressIndicator()),
                           ),
+                        const SizedBox(height: 12),
+                        AdminTablePaginationBar(
+                          page: safePage,
+                          rowsPerPage: _rowsPerPage,
+                          totalCount: estimatedTotalCount,
+                          onPageChanged: (value) => _changeReportsPage(
+                            value,
+                            state: st,
+                            filteredCount: filteredItems.length,
+                          ),
+                          onRowsPerPageChanged: (value) {
+                            setState(() {
+                              _rowsPerPage = value;
+                              _page = 0;
+                              _selectedSavedViewId = null;
+                            });
+                          },
+                        ),
                       ],
                     ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  List<AdminReportItem> _filterAndSortReports(AdminReportsState state) {
+    final filtered = state.items.where((item) {
+      if (_dateRange == null) return true;
+      final createdDay = DateTime(
+        item.createdAt.year,
+        item.createdAt.month,
+        item.createdAt.day,
+      );
+      final start = DateTime(
+        _dateRange!.start.year,
+        _dateRange!.start.month,
+        _dateRange!.start.day,
+      );
+      final end = DateTime(
+        _dateRange!.end.year,
+        _dateRange!.end.month,
+        _dateRange!.end.day,
+      );
+      return !createdDay.isBefore(start) && !createdDay.isAfter(end);
+    }).toList();
+
+    filtered.sort((a, b) {
+      final direction = _sortAscending ? 1 : -1;
+      return switch (_sortKey) {
+        'id' => direction * a.id.compareTo(b.id),
+        'reason' => direction *
+            a.reason.toLowerCase().compareTo(b.reason.toLowerCase()),
+        'priority' => direction * _reportPriority(a).compareTo(_reportPriority(b)),
+        'status' => direction * a.status.compareTo(b.status),
+        'assigned' =>
+          direction * (a.assignedTo ?? '').compareTo(b.assignedTo ?? ''),
+        'age' => direction * a.ageHours.compareTo(b.ageHours),
+        _ => direction * a.createdAt.compareTo(b.createdAt),
+      };
+    });
+    return filtered;
+  }
+
+  void _sortReportsBy(String key, bool ascending) {
+    setState(() {
+      _sortKey = key;
+      _sortAscending = ascending;
+      _page = 0;
+      _selectedSavedViewId = null;
+    });
+  }
+
+  Future<void> _pickDateRange() async {
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2024, 1, 1),
+      lastDate: DateTime.now().add(const Duration(days: 30)),
+      initialDateRange: _dateRange,
+    );
+    if (picked == null || !mounted) return;
+    setState(() {
+      _dateRange = picked;
+      _page = 0;
+      _selectedSavedViewId = null;
+    });
+  }
+
+  Future<void> _saveCurrentView(AdminReportsState state) async {
+    final label = await promptAdminTableSavedViewLabel(context);
+    if (label == null) return;
+    await AdminTableSavedViewsPrefs.upsert(
+      scope: _savedViewScope,
+      label: label,
+      payload: {
+        'query': searchCtrl.text.trim(),
+        'status': state.statusFilter,
+        'assigned': state.assignedFilter,
+        'sla_only': state.slaOnly,
+        'date_start': _dateRange?.start.toIso8601String(),
+        'date_end': _dateRange?.end.toIso8601String(),
+        'sort_key': _sortKey,
+        'sort_ascending': _sortAscending,
+        'rows_per_page': _rowsPerPage,
+      },
+    );
+    await _loadSavedViews();
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(context.l10n.adminTableSavedViewCreated)),
+    );
+  }
+
+  Future<void> _deleteSavedView(String id) async {
+    await AdminTableSavedViewsPrefs.delete(scope: _savedViewScope, id: id);
+    await _loadSavedViews();
+    if (!mounted) return;
+    setState(() => _selectedSavedViewId = null);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(context.l10n.adminTableSavedViewDeleted)),
+    );
+  }
+
+  void _applySavedView(
+    String? id,
+    AdminReportsController controller,
+  ) {
+    if (id == null) {
+      setState(() => _selectedSavedViewId = null);
+      return;
+    }
+    final savedView = _savedViews.where((item) => item.id == id).firstOrNull;
+    if (savedView == null) return;
+    final payload = savedView.payload;
+    searchCtrl.text = (payload['query'] ?? '').toString();
+    controller.setQuery(searchCtrl.text.trim());
+    controller.setStatusFilter((payload['status'] ?? '').toString());
+    controller.setAssignedFilter((payload['assigned'] ?? '').toString());
+    controller.setSlaOnly(payload['sla_only'] == true);
+    final start = DateTime.tryParse((payload['date_start'] ?? '').toString());
+    final end = DateTime.tryParse((payload['date_end'] ?? '').toString());
+    setState(() {
+      _selectedSavedViewId = id;
+      _dateRange = start == null || end == null
+          ? null
+          : DateTimeRange(start: start, end: end);
+      _sortKey = (payload['sort_key'] ?? 'createdAt').toString();
+      _sortAscending = payload['sort_ascending'] == true;
+      _rowsPerPage =
+          int.tryParse((payload['rows_per_page'] ?? '20').toString()) ?? 20;
+      _page = 0;
+    });
+  }
+
+  void _changeReportsPage(
+    int value, {
+    required AdminReportsState state,
+    required int filteredCount,
+  }) {
+    setState(() => _page = value);
+    final requiredItems = (value + 1) * _rowsPerPage;
+    if (requiredItems > filteredCount && state.hasMore && !state.isLoadingMore) {
+      ref.read(adminReportsControllerProvider.notifier).loadMore();
+    }
+  }
+
+  DataRow _buildReportRow({
+    required BuildContext context,
+    required AdminReportItem item,
+    required AdminReportsState state,
+    required String? userId,
+  }) {
+    final sourceIndex = state.items.indexWhere((entry) => entry.id == item.id);
+    final l10n = context.l10n;
+    return DataRow(
+      color: _rowColor(state.selectedIndex == sourceIndex, item.slaBreached),
+      selected: state.selectedIds.contains(item.id),
+      onSelectChanged: (_) => _openDetails(
+        context,
+        item,
+        index: sourceIndex >= 0 ? sourceIndex : null,
+      ),
+      cells: [
+        DataCell(
+          Checkbox(
+            value: state.selectedIds.contains(item.id),
+            onChanged: (value) => ref
+                .read(adminReportsControllerProvider.notifier)
+                .toggleSelection(item.id, value ?? false),
+          ),
+        ),
+        DataCell(
+          Row(
+            children: [
+              if (item.slaBreached) ...[
+                const AppSlaBadge(),
+                const SizedBox(width: 6),
+              ],
+              Text(_short(item.id)),
+            ],
+          ),
+        ),
+        DataCell(Text(item.reason)),
+        DataCell(AppPriorityBadge(score: _reportPriority(item))),
+        DataCell(
+          Row(
+            children: [
+              Text(_reportStatusLabel(context, item.status)),
+              if (item.autoModerated) ...[
+                const SizedBox(width: 6),
+                Tooltip(
+                  message: l10n.adminReportsAutoModerationApplied,
+                  child: const AppAutoBadge(),
+                ),
+              ],
+            ],
+          ),
+        ),
+        DataCell(Text(_assignedLabel(context, item.assignedTo, userId))),
+        DataCell(Text(_fmtDate(item.createdAt))),
+        DataCell(Text(_fmtHours(context, item.ageHours))),
+        DataCell(
+          Row(
+            children: [
+              if ((item.menuItemPhotoId ?? '').isNotEmpty)
+                IconButton(
+                  onPressed: () =>
+                      _openReportedMenuPhoto(context, ref, item.menuItemPhotoId!),
+                  tooltip: l10n.adminReportsMenuPhotoTooltip,
+                  icon: const Icon(Icons.photo_outlined, size: 18),
+                ),
+              if ((item.targetType ?? '') == 'business_media' &&
+                  (item.targetId ?? '').isNotEmpty)
+                IconButton(
+                  onPressed: () =>
+                      _openReportedBusinessMedia(context, ref, item.targetId!),
+                  tooltip: l10n.adminReportsBusinessPhotoTooltip,
+                  icon: const Icon(Icons.storefront_outlined, size: 18),
+                ),
+            ],
+          ),
+        ),
+        DataCell(
+          TextButton(
+            onPressed: () => _openDetails(
+              context,
+              item,
+              index: sourceIndex >= 0 ? sourceIndex : null,
+            ),
+            child: Text(l10n.adminCommonDetails),
+          ),
+        ),
+      ],
     );
   }
 
@@ -520,6 +716,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
     AdminReportItem item, {
     int? index,
   }) async {
+    final l10n = context.l10n;
     final controller = ref.read(adminReportsControllerProvider.notifier);
     if (index != null) {
       controller.selectIndex(index);
@@ -550,22 +747,31 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
               children: [
                 if (item.slaBreached)
                   AppSlaBanner(
-                    text: 'Bu kayit SLA aÃ§tÄ±: ${_fmtHours(item.ageHours)}',
+                    text: l10n.adminReportsSlaExceeded(
+                      _fmtHours(context, item.ageHours),
+                    ),
                   ),
-                const Text(
-                  'Rapor DetayÄ±',
+                Text(
+                  l10n.adminReportsDetailTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 10),
                 Text('ID: ${item.id}'),
                 if ((item.businessId ?? '').isNotEmpty)
-                  Text('Ä°ÅŸletme: ${item.businessId}'),
+                  Text('${l10n.businessLabel}: ${item.businessId}'),
                 if ((item.reviewId ?? '').isNotEmpty)
-                  Text('Ä°nceleme: ${item.reviewId}'),
+                  Text('${l10n.adminReportsReviewLabel}: ${item.reviewId}'),
                 if ((item.menuItemPhotoId ?? '').isNotEmpty)
-                  Text('MenÃ¼ FotoÄŸrafÄ±: ${item.menuItemPhotoId}'),
+                  Text(
+                    '${l10n.adminReportsMenuPhotoLabel}: ${item.menuItemPhotoId}',
+                  ),
                 if ((item.targetType ?? '').isNotEmpty)
-                  Text('Hedef: ${item.targetType} / ${item.targetId ?? '-'}'),
+                  Text(
+                    l10n.adminReportsTargetValue(
+                      item.targetType!,
+                      item.targetId ?? '-',
+                    ),
+                  ),
                 if ((item.menuItemPhotoId ?? '').isNotEmpty) ...[
                   const SizedBox(height: 6),
                   OutlinedButton.icon(
@@ -575,11 +781,11 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                       item.menuItemPhotoId!,
                     ),
                     icon: const Icon(Icons.photo_outlined),
-                    label: const Text('FotoÄŸrafÄ± AÃ§'),
+                    label: Text(l10n.adminReportsOpenPhoto),
                   ),
                   const SizedBox(height: 6),
                   _ShadowInfo(
-                    label: 'MenÃ¼ FotoÄŸrafÄ±',
+                    label: l10n.adminReportsMenuPhotoLabel,
                     future: _fetchMenuPhotoShadow(ref, item.menuItemPhotoId!),
                   ),
                 ],
@@ -593,56 +799,66 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                       item.targetId!,
                     ),
                     icon: const Icon(Icons.photo_outlined),
-                    label: const Text('FotoÄŸrafÄ± AÃ§'),
+                    label: Text(l10n.adminReportsOpenPhoto),
                   ),
                   const SizedBox(height: 6),
                   _ShadowInfo(
-                    label: 'Mekan FotoÄŸrafÄ±',
+                    label: l10n.adminReportsBusinessPhotoLabel,
                     future: _fetchBusinessMediaShadow(ref, item.targetId!),
                   ),
                 ],
                 const SizedBox(height: 6),
-                Text('Sebep: ${item.reason}'),
+                Text('${l10n.adminReportsReasonLabel}: ${item.reason}'),
                 if ((item.details ?? '').trim().isNotEmpty) ...[
                   const SizedBox(height: 6),
-                  Text('Detay: ${item.details}'),
+                  Text('${l10n.adminCommonDetails}: ${item.details}'),
                 ],
                 const SizedBox(height: 10),
-                Text('Atanan: ${_assignedLabel(item.assignedTo, userId)}'),
+                Text(
+                  '${l10n.adminCommonAssigned}: ${_assignedLabel(context, item.assignedTo, userId)}',
+                ),
                 const SizedBox(height: 10),
                 DropdownButtonFormField<String>(
                   key: ValueKey(status),
                   initialValue: status,
-                  items: const [
-                    DropdownMenuItem(value: 'acik', child: Text('AÃ§Ä±k')),
+                  items: [
+                    DropdownMenuItem(
+                      value: 'acik',
+                      child: Text(l10n.adminReportsStatusOpen),
+                    ),
                     DropdownMenuItem(
                       value: 'inceleniyor',
-                      child: Text('Ä°nceleniyor'),
+                      child: Text(l10n.adminReportsStatusInvestigating),
                     ),
-                    DropdownMenuItem(value: 'kapandi', child: Text('KapandÄ±')),
+                    DropdownMenuItem(
+                      value: 'kapandi',
+                      child: Text(l10n.adminReportsStatusClosed),
+                    ),
                     DropdownMenuItem(
                       value: 'reddedildi',
-                      child: Text('Reddedildi'),
+                      child: Text(l10n.rejected),
                     ),
                   ],
                   onChanged: loading
                       ? null
                       : (v) => setModalState(() => status = v ?? status),
-                  decoration: const InputDecoration(labelText: 'Durum'),
+                  decoration: InputDecoration(
+                    labelText: l10n.adminReportsStatusColumn,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: noteCtrl,
                   maxLines: 3,
-                  decoration: const InputDecoration(
-                    labelText: 'Admin Notu (opsiyonel)',
+                  decoration: InputDecoration(
+                    labelText: l10n.adminReportsAdminNoteOptional,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
-                  children: _reportDecisionTemplates
+                  children: _reportDecisionTemplates(context)
                       .map(
                         (template) => ActionChip(
                           label: Text(template),
@@ -654,8 +870,8 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                       .toList(),
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Otomatik Kurallar',
+                Text(
+                  l10n.adminReportsAutomaticRulesTitle,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                 ),
                 const SizedBox(height: 6),
@@ -677,15 +893,17 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                                     .clearReports();
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Otomatik kural uygulandÄ±.'),
+                                  SnackBar(
+                                    content: Text(
+                                      l10n.adminReportsAutomaticRuleApplied,
+                                    ),
                                   ),
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
+                                  SnackBar(
                                     content: Text(
-                                      'Uygun otomatik kural bulunamadÄ±',
+                                      l10n.adminReportsAutomaticRuleNotFound,
                                     ),
                                   ),
                                 );
@@ -703,7 +921,9 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                           },
                     icon: const Icon(Icons.auto_fix_high),
                     label: Text(
-                      applyingRules ? 'UygulanÄ±yor...' : 'KurallarÄ± Uygula',
+                      applyingRules
+                          ? l10n.adminReportsApplyingRules
+                          : l10n.adminReportsApplyRules,
                     ),
                   ),
                 ),
@@ -731,8 +951,8 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Ãœzerine alÄ±ndÄ±.'),
+                                        SnackBar(
+                                          content: Text(l10n.adminReportsClaimed),
                                         ),
                                       );
                                     }
@@ -751,7 +971,11 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                                     setModalState(() => loading = false);
                                   }
                                 },
-                          child: Text(loading ? 'Ä°ÅŸleniyor...' : 'Bana Ata'),
+                          child: Text(
+                            loading
+                                ? l10n.adminCommonProcessing
+                                : l10n.adminReportsAssignToMe,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -775,8 +999,10 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Atama kaldÄ±rÄ±ldÄ±.'),
+                                        SnackBar(
+                                          content: Text(
+                                            l10n.adminReportsAssignmentRemoved,
+                                          ),
                                         ),
                                       );
                                     }
@@ -796,7 +1022,9 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                                   }
                                 },
                           child: Text(
-                            loading ? 'Ä°ÅŸleniyor...' : 'AtamayÄ± KaldÄ±r',
+                            loading
+                                ? l10n.adminCommonProcessing
+                                : l10n.adminReportsUnassign,
                           ),
                         ),
                       ),
@@ -821,8 +1049,8 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                               if (context.mounted) {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('GÃ¼ncellendi.'),
+                                  SnackBar(
+                                    content: Text(l10n.adminCommonUpdated),
                                   ),
                                 );
                               }
@@ -837,7 +1065,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                               setModalState(() => loading = false);
                             }
                           },
-                    child: Text(loading ? 'Kaydediliyor...' : 'Kaydet'),
+                    child: Text(loading ? l10n.saving : l10n.save),
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -859,6 +1087,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   }
 
   void _toggleDetail(AdminReportsState st) {
+    final l10n = context.l10n;
     if (st.isDetailOpen) {
       _closeDetail();
       return;
@@ -866,7 +1095,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('SatÄ±r seÃ§')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminCommonSelectRow)));
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -874,11 +1103,12 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   }
 
   Future<void> _toggleAssign(AdminReportsState st, String? userId) async {
+    final l10n = context.l10n;
     if (userId == null) return;
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('SatÄ±r seÃ§')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminCommonSelectRow)));
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -898,10 +1128,11 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   }
 
   Future<void> _handleAction(AdminReportsState st, String key) async {
+    final l10n = context.l10n;
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('SatÄ±r seÃ§')));
+      ).showSnackBar(SnackBar(content: Text(l10n.adminCommonSelectRow)));
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -931,7 +1162,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
     if (reporterId.isEmpty) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bu kayÄ±tta reporter bilgisi yok.')),
+        SnackBar(content: Text(context.l10n.adminReportsMissingReporterInfo)),
       );
       return;
     }
@@ -947,16 +1178,17 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   }
 
   Future<void> _closeSelectedAsSpam(AdminReportsState st) async {
+    final l10n = context.l10n;
     try {
       await ref
           .read(adminReportsControllerProvider.notifier)
           .bulkUpdateStatus(
             status: 'kapandi',
-            adminNote: 'Toplu: spam dalgasÄ± nedeniyle kapatÄ±ldÄ±',
+            adminNote: l10n.adminReportsBulkSpamNote,
           );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('SeÃ§ili raporlar kapatÄ±ldÄ±.')),
+        SnackBar(content: Text(l10n.adminReportsSelectedClosed)),
       );
     } catch (e) {
       if (!mounted) return;
@@ -967,6 +1199,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   }
 
   Future<void> _assignSelectedToMe(AdminReportsState st, String adminId) async {
+    final l10n = context.l10n;
     final controller = ref.read(adminReportsControllerProvider.notifier);
     final selected = st.items
         .where((r) => st.selectedIds.contains(r.id))
@@ -984,10 +1217,13 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
     if (!mounted) return;
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('$assigned rapor sana atandÄ±.')));
+    ).showSnackBar(
+      SnackBar(content: Text(l10n.adminReportsAssignedCount(assigned))),
+    );
   }
 
   Future<void> _runModerationScans() async {
+    final l10n = context.l10n;
     setState(() => moderationToolsLoading = true);
     try {
       final client = ref.read(supabaseProvider);
@@ -1001,7 +1237,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Tarama tamamlandÄ±. Benzer foto grup: $photoGroups, menÃ¼ kopya grup: $menuGroups',
+            l10n.adminReportsModerationScanComplete(photoGroups, menuGroups),
           ),
         ),
       );
@@ -1079,6 +1315,7 @@ class _ReasonSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final total = items.fold<int>(0, (sum, e) => sum + e.value);
+    final l10n = context.l10n;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -1091,7 +1328,7 @@ class _ReasonSummaryCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Sebep DaÄŸÄ±lÄ±mÄ± ($total)',
+            l10n.adminReportsReasonDistribution(total),
             style: const TextStyle(fontWeight: FontWeight.w900),
           ),
           const SizedBox(height: 8),
@@ -1141,6 +1378,7 @@ class _ModerationToolsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(12),
@@ -1153,7 +1391,10 @@ class _ModerationToolsCard extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'Moderasyon: Benzer foto grup $duplicatePhotoGroups, Kopya menÃ¼ grup $copiedMenuGroups',
+              l10n.adminReportsModerationSummary(
+                duplicatePhotoGroups,
+                copiedMenuGroups,
+              ),
               style: const TextStyle(fontWeight: FontWeight.w700),
             ),
           ),
@@ -1167,7 +1408,9 @@ class _ModerationToolsCard extends StatelessWidget {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.auto_fix_high_outlined),
-            label: Text(loading ? 'TarÄ±yor...' : 'Tara'),
+            label: Text(
+              loading ? l10n.adminReportsScanning : l10n.adminReportsScan,
+            ),
           ),
         ],
       ),
@@ -1194,10 +1437,11 @@ class _BulkBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Row(
       children: [
         Text(
-          'SeÃ§ili: $selectedCount',
+          l10n.adminReportsSelectedCount(selectedCount),
           style: const TextStyle(fontWeight: FontWeight.w800),
         ),
         const SizedBox(width: 10),
@@ -1206,32 +1450,44 @@ class _BulkBar extends StatelessWidget {
           child: DropdownButtonFormField<String>(
             key: ValueKey(bulkStatus),
             initialValue: bulkStatus.isEmpty ? null : bulkStatus,
-            items: const [
-              DropdownMenuItem(value: 'acik', child: Text('AÃ§Ä±k')),
+            items: [
+              DropdownMenuItem(
+                value: 'acik',
+                child: Text(l10n.adminReportsStatusOpen),
+              ),
               DropdownMenuItem(
                 value: 'inceleniyor',
-                child: Text('Ä°nceleniyor'),
+                child: Text(l10n.adminReportsStatusInvestigating),
               ),
-              DropdownMenuItem(value: 'kapandi', child: Text('KapandÄ±')),
-              DropdownMenuItem(value: 'reddedildi', child: Text('Reddedildi')),
+              DropdownMenuItem(
+                value: 'kapandi',
+                child: Text(l10n.adminReportsStatusClosed),
+              ),
+              DropdownMenuItem(
+                value: 'reddedildi',
+                child: Text(l10n.rejected),
+              ),
             ],
             onChanged: (v) => onStatusChanged(v ?? ''),
-            decoration: const InputDecoration(labelText: 'Durum'),
+            decoration: InputDecoration(labelText: l10n.adminReportsStatusColumn),
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: TextField(
             controller: noteCtrl,
-            decoration: const InputDecoration(
-              labelText: 'Admin Notu (opsiyonel)',
+            decoration: InputDecoration(
+              labelText: l10n.adminReportsAdminNoteOptional,
             ),
           ),
         ),
         const SizedBox(width: 10),
-        OutlinedButton(onPressed: onClear, child: const Text('Temizle')),
+        OutlinedButton(
+          onPressed: onClear,
+          child: Text(l10n.adminCommonClear),
+        ),
         const SizedBox(width: 8),
-        FilledButton(onPressed: onApply, child: const Text('Uygula')),
+        FilledButton(onPressed: onApply, child: Text(l10n.apply)),
       ],
     );
   }
@@ -1251,25 +1507,50 @@ int _reportPriority(AdminReportItem item) {
 WidgetStateProperty<Color?> _rowColor(bool active, bool slaBreached) =>
     appAdminRowColor(active: active, slaBreached: slaBreached);
 
-String _assignedLabel(String? assignedTo, String? userId) {
-  if (assignedTo == null || assignedTo.isEmpty) return 'BoÅŸ';
-  if (userId != null && assignedTo == userId) return 'Ben';
-  return 'BaÅŸka admin';
+String _reportStatusLabel(BuildContext context, String status) {
+  final l10n = context.l10n;
+  switch (status) {
+    case 'acik':
+      return l10n.adminReportsStatusOpen;
+    case 'inceleniyor':
+      return l10n.adminReportsStatusInvestigating;
+    case 'kapandi':
+      return l10n.adminReportsStatusClosed;
+    case 'reddedildi':
+      return l10n.rejected;
+    default:
+      return status;
+  }
 }
 
-String _fmtHours(double v) => '${v.toStringAsFixed(1)}saat';
+String _assignedLabel(BuildContext context, String? assignedTo, String? userId) {
+  final l10n = context.l10n;
+  if (assignedTo == null || assignedTo.isEmpty) {
+    return l10n.adminCommonUnassigned;
+  }
+  if (userId != null && assignedTo == userId) return l10n.adminCommonMine;
+  return l10n.adminCommonOtherAdmin;
+}
 
-const List<String> _reportDecisionTemplates = <String>[
-  'Ihlal teyit edildi, gerekli islem uygulandi.',
-  'Kanit yetersiz, rapor kapatildi.',
-  'Ek bilgi gerekiyor, kayit inceleniyor.',
-];
+String _fmtHours(BuildContext context, double v) {
+  return context.l10n.adminReportsHoursValue(v.toStringAsFixed(1));
+}
+
+List<String> _reportDecisionTemplates(BuildContext context) {
+  final l10n = context.l10n;
+  return <String>[
+    l10n.adminReportsDecisionTemplateViolationConfirmed,
+    l10n.adminReportsDecisionTemplateInsufficientEvidence,
+    l10n.adminReportsDecisionTemplateNeedsMoreInfo,
+  ];
+}
 
 Future<void> _openReportedMenuPhoto(
   BuildContext context,
   WidgetRef ref,
   String photoId,
 ) async {
+  final l10n = context.l10n;
   try {
     final res = await ref
         .read(supabaseProvider)
@@ -1281,7 +1562,7 @@ Future<void> _openReportedMenuPhoto(
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('FotoÄŸraf bulunamadÄ±')));
+        ).showSnackBar(SnackBar(content: Text(l10n.adminReportsPhotoNotFound)));
       }
       return;
     }
@@ -1292,7 +1573,7 @@ Future<void> _openReportedMenuPhoto(
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('FotoÄŸraf bulunamadÄ±')));
+        ).showSnackBar(SnackBar(content: Text(l10n.adminReportsPhotoNotFound)));
       }
       return;
     }
@@ -1338,6 +1619,10 @@ String _fmtDate(DateTime d) {
   return '$y-$m-$day';
 }
 
+extension<T> on Iterable<T> {
+  T? get firstOrNull => isEmpty ? null : first;
+}
+
 String _stamp() {
   final now = DateTime.now();
   final y = now.year.toString().padLeft(4, '0');
@@ -1348,11 +1633,35 @@ String _stamp() {
   return '$y$m${d}_$hh$mm';
 }
 
+String _queueRouteForReports({
+  required String query,
+  required String status,
+}) {
+  final mappedStatus = switch (status) {
+    'acik' => 'open',
+    'inceleniyor' => 'reviewing',
+    'kapandi' => 'closed',
+    'reddedildi' => 'rejected',
+    _ => '',
+  };
+  final queryParameters = <String, String>{
+    'type': 'report',
+  };
+  if (query.trim().isNotEmpty) {
+    queryParameters['q'] = query.trim();
+  }
+  if (mappedStatus.isNotEmpty) {
+    queryParameters['status'] = mappedStatus;
+  }
+  return Uri(path: '/admin/queue', queryParameters: queryParameters).toString();
+}
+
 Future<void> _openReportedBusinessMedia(
   BuildContext context,
   WidgetRef ref,
   String mediaId,
 ) async {
+  final l10n = context.l10n;
   try {
     final res = await ref
         .read(supabaseProvider)
@@ -1364,7 +1673,7 @@ Future<void> _openReportedBusinessMedia(
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('FotoÄŸraf bulunamadÄ±')));
+        ).showSnackBar(SnackBar(content: Text(l10n.adminReportsPhotoNotFound)));
       }
       return;
     }
@@ -1375,7 +1684,7 @@ Future<void> _openReportedBusinessMedia(
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('FotoÄŸraf bulunamadÄ±')));
+        ).showSnackBar(SnackBar(content: Text(l10n.adminReportsPhotoNotFound)));
       }
       return;
     }
@@ -1448,18 +1757,21 @@ class _ShadowInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return FutureBuilder<bool?>(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('$label Â· gÃ¶rÃ¼nÃ¼rlÃ¼k yÃ¼kleniyor...');
+          return Text(l10n.adminReportsVisibilityLoading(label));
         }
         final value = snapshot.data;
         if (value == null) {
-          return Text('$label Â· gÃ¶rÃ¼nÃ¼rlÃ¼k bilinmiyor');
+          return Text(l10n.adminReportsVisibilityUnknown(label));
         }
         return Text(
-          value ? '$label Â· gÃ¶lge (gizli)' : '$label Â· normal (aÃ§Ä±k)',
+          value
+              ? l10n.adminReportsVisibilityHidden(label)
+              : l10n.adminReportsVisibilityNormal(label),
         );
       },
     );

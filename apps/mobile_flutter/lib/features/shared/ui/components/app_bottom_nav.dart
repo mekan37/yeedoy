@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/theme/colors.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../contribute/ui/contribute_entry.dart';
-import '../../../../core/config/feature_flags.dart';
 
-class AppBottomNav extends StatelessWidget {
+class AppBottomNav extends ConsumerWidget {
   const AppBottomNav({super.key});
 
   int _indexFromLocation(Uri uri) {
@@ -22,7 +22,7 @@ class AppBottomNav extends StatelessWidget {
   void _goBranch(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go(FeatureFlags.enablePhotoFeed ? '/feed' : '/discover');
+        context.go('/discover');
         break;
       case 1:
         context.go('/discover?view=map');
@@ -66,7 +66,7 @@ class AppBottomNav extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final width = MediaQuery.of(context).size.width;
     if (width >= 1024) return const SizedBox.shrink();

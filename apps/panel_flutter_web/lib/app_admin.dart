@@ -11,12 +11,14 @@ import 'features/auth/domain/auth_providers.dart';
 import 'features/auth/ui/login_page.dart';
 import 'features/admin/ui/admin_shell.dart';
 import 'features/admin/ui/admin_dashboard_page.dart';
+import 'features/admin/ui/admin_queue_page.dart';
 import 'features/admin/ui/admin_reports_page.dart';
 import 'features/admin/ui/admin_growth_page.dart';
 import 'features/admin/ui/admin_claims_page.dart';
 import 'features/admin/ui/admin_suggestions_page.dart';
 import 'features/admin/ui/admin_audit_page.dart';
 import 'features/admin/ui/admin_businesses_page.dart';
+import 'features/admin/ui/admin_search_page.dart';
 import 'features/admin/ui/admin_locations_page.dart';
 import 'features/admin/ui/admin_suspended_claims_page.dart';
 import 'features/admin/ui/admin_price_suggestions_page.dart';
@@ -28,7 +30,7 @@ import 'features/admin/ui/admin_table_feedback_page.dart';
 import 'features/admin/ui/admin_receipt_submissions_page.dart';
 import 'app/theme/app_theme.dart';
 
-final adminRouterProvider = Provider<GoRouter>((ref) {
+GoRouter buildAdminRouter(Ref ref, {String initialLocation = '/admin'}) {
   final session = ref.watch(sessionProvider);
   final authRefresh = ValueNotifier<int>(0);
   ref.listen(authStateProvider, (_, _) {
@@ -37,7 +39,7 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
   ref.onDispose(authRefresh.dispose);
 
   return GoRouter(
-    initialLocation: '/admin',
+    initialLocation: initialLocation,
     refreshListenable: authRefresh,
     redirect: (context, state) {
       final loggedIn = session != null;
@@ -55,12 +57,27 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/login', builder: (c, s) => const LoginPage()),
       ShellRoute(
         builder: (context, state, child) {
-          return AdminShell(location: state.uri.path, child: child);
+          return AdminShell(location: state.uri.toString(), child: child);
         },
         routes: [
           GoRoute(
             path: '/admin',
             builder: (c, s) => const AdminDashboardPage(),
+          ),
+          GoRoute(
+            path: '/admin/search',
+            builder: (c, s) => AdminSearchPage(
+              initialQuery: s.uri.queryParameters['q'],
+            ),
+          ),
+          GoRoute(
+            path: '/admin/queue',
+            builder: (c, s) => AdminQueuePage(
+              initialType: s.uri.queryParameters['type'],
+              initialStatus: s.uri.queryParameters['status'],
+              initialCity: s.uri.queryParameters['city'],
+              initialQuery: s.uri.queryParameters['q'],
+            ),
           ),
           GoRoute(
             path: '/admin/reports',
@@ -88,7 +105,9 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/admin/businesses',
-            builder: (c, s) => const AdminBusinessesPage(),
+            builder: (c, s) => AdminBusinessesPage(
+              initialQuery: s.uri.queryParameters['q'],
+            ),
           ),
           GoRoute(
             path: '/admin/sponsorships',
@@ -138,6 +157,10 @@ final adminRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
   );
+}
+
+final adminRouterProvider = Provider<GoRouter>((ref) {
+  return buildAdminRouter(ref);
 });
 
 class YeedoyAdminApp extends ConsumerWidget {

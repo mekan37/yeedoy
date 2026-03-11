@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yeedoy/core/i18n/app_localizations.dart';
 
 import '../../../../app/theme/colors.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../domain/owner_menu_models.dart';
 
 class ItemListTile extends StatelessWidget {
@@ -18,7 +18,6 @@ class ItemListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
     final price = _formatPrice(item.priceCents, item.currency);
     return Card(
       child: ListTile(
@@ -44,12 +43,12 @@ class ItemListTile extends StatelessWidget {
             IconButton(
               onPressed: onEdit,
               icon: const Icon(Icons.edit_outlined),
-              tooltip: t.duzenle,
+              tooltip: context.l10n.duzenle,
             ),
             IconButton(
               onPressed: onArchive,
               icon: const Icon(Icons.archive_outlined),
-              tooltip: 'Arsivle',
+              tooltip: context.l10n.ownerArchiveAction,
             ),
           ],
         ),
@@ -69,8 +68,8 @@ class _CatalogChip extends StatelessWidget {
         color: AppColors.primary.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(999),
       ),
-      child: const Text(
-        'Katalog',
+      child: Text(
+        context.l10n.ownerCatalogLabel,
         style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800),
       ),
     );
@@ -91,7 +90,7 @@ class _StatusChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        status,
+        _statusLabel(context, status),
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w800,
@@ -99,6 +98,19 @@ class _StatusChip extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+String _statusLabel(BuildContext context, String status) {
+  switch (status) {
+    case 'published':
+      return context.l10n.ownerStatusPublished;
+    case 'draft':
+      return context.l10n.ownerStatusDraft;
+    case 'archived':
+      return context.l10n.ownerStatusArchived;
+    default:
+      return status;
   }
 }
 

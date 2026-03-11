@@ -39,6 +39,9 @@ class AdminMonetizationRepository {
     required String surface,
     required int durationDays,
     required String priceDisplay,
+    required int priceCents,
+    required String currencyCode,
+    required int inventoryLimit,
     required bool isActive,
   }) async {
     try {
@@ -51,6 +54,9 @@ class AdminMonetizationRepository {
           'p_surface': surface,
           'p_duration_days': durationDays,
           'p_price_display': priceDisplay.trim(),
+          'p_price_cents': priceCents,
+          'p_currency_code': currencyCode.trim(),
+          'p_inventory_limit': inventoryLimit,
           'p_is_active': isActive,
         },
         reason: 'sponsorship_package_upsert',
@@ -59,6 +65,39 @@ class AdminMonetizationRepository {
       );
       if (res is Map) return res['id']?.toString();
       return null;
+    } catch (e) {
+      throw Exception(AppErrorMapper.message(e));
+    }
+  }
+
+  Future<AdminSponsorshipSummary?> getSummary() async {
+    try {
+      final res = await client.rpc('admin_get_sponsorship_summary_v1');
+      if (res is List && res.isNotEmpty && res.first is Map) {
+        return AdminSponsorshipSummary.fromMap(
+          (res.first as Map).cast<String, dynamic>(),
+        );
+      }
+      if (res is Map) {
+        return AdminSponsorshipSummary.fromMap(res.cast<String, dynamic>());
+      }
+      return null;
+    } catch (e) {
+      throw Exception(AppErrorMapper.message(e));
+    }
+  }
+
+  Future<List<AdminSponsorshipInventorySurface>> listInventory() async {
+    try {
+      final res = await client.rpc('admin_list_sponsorship_inventory_v1');
+      return (res as List)
+          .whereType<Map>()
+          .map(
+            (m) => AdminSponsorshipInventorySurface.fromMap(
+              m.cast<String, dynamic>(),
+            ),
+          )
+          .toList();
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }

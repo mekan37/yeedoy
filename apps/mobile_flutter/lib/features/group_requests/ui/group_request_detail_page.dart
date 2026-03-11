@@ -52,7 +52,7 @@ class _GroupRequestDetailPageState
             icon: const Icon(Icons.link),
           ),
           IconButton(
-            onPressed: () => ref.invalidate(_offersProvider(widget.requestId)),
+            onPressed: () => _reloadRequestAndOffers(force: true),
             icon: const Icon(Icons.refresh),
           ),
         ],
@@ -235,10 +235,20 @@ class _GroupRequestDetailPageState
           title: t.sectionLoadFailed,
           description: AppErrorMapper.message(error),
           ctaLabel: t.retry,
-          onCta: () => setState(() {}),
+          onCta: () => _reloadRequestAndOffers(force: true),
         ),
       ],
     );
+  }
+
+  void _reloadRequestAndOffers({required bool force}) {
+    if (force) {
+      ref.read(groupRequestsRepositoryProvider).invalidateRequest(widget.requestId);
+    }
+    ref.invalidate(_offersProvider(widget.requestId));
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _acceptOffer(GroupOffer offer) async {
@@ -250,7 +260,7 @@ class _GroupRequestDetailPageState
           .acceptGroupOffer(offer.id);
       if (!mounted) return;
       await _showAcceptedSuccess(context, offer, _shareUrl);
-      ref.invalidate(_offersProvider(widget.requestId));
+      _reloadRequestAndOffers(force: false);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -263,8 +273,11 @@ class _GroupRequestDetailPageState
 
   Future<void> _vote(GroupOffer offer) async {
     try {
-      await ref.read(groupRequestsRepositoryProvider).voteGroupOffer(offer.id);
-      ref.invalidate(_offersProvider(widget.requestId));
+      await ref.read(groupRequestsRepositoryProvider).voteGroupOffer(
+        offer.id,
+        voted: offer.myVote != 1,
+      );
+      _reloadRequestAndOffers(force: false);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -559,6 +572,9 @@ class _SuggestBusinessSheetState extends ConsumerState<_SuggestBusinessSheet> {
           );
       if (!mounted) return;
       Navigator.of(context).pop();
+      ref
+          .read(groupRequestsRepositoryProvider)
+          .invalidateRequest(widget.request.id);
       ref.invalidate(_offersProvider(widget.request.id));
       ScaffoldMessenger.of(
         context,

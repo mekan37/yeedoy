@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/follow_repository.dart';
@@ -26,13 +28,14 @@ class GourmetDiscoverController extends Notifier<GourmetListState> {
     return GourmetListState.initial();
   }
 
-  Future<void> loadInitial() async {
+  Future<void> loadInitial({bool force = false}) async {
     final reqId = ++_requestId;
     state = state.copyWith(loading: true, isLoadingMore: false, items: [], hasMore: true, error: null);
     try {
       final list = await ref.read(gourmetRepositoryProvider).discover(
             limit: pageSize,
             offset: 0,
+            force: force,
           );
       if (reqId != _requestId) return;
       state = state.copyWith(
@@ -73,14 +76,29 @@ class GourmetDiscoverController extends Notifier<GourmetListState> {
     final idx = current.indexWhere((u) => u.id == user.id);
     if (idx == -1) return;
     final updated = [...current];
-    final nowFollowing = !user.isFollowing;
+    final desiredFollowing = !user.isFollowing;
     updated[idx] = user.copyWith(
-      isFollowing: nowFollowing,
-      followerCount: (user.followerCount + (nowFollowing ? 1 : -1)).clamp(0, 1 << 30),
+      isFollowing: desiredFollowing,
+      followerCount:
+          (user.followerCount + (desiredFollowing ? 1 : -1)).clamp(0, 1 << 30),
     );
     state = state.copyWith(items: updated);
     try {
-      await ref.read(followControllerProvider.notifier).toggle(user.id);
+      final actualFollowing = await ref
+          .read(followControllerProvider.notifier)
+          .setFollow(user.id, following: desiredFollowing);
+      if (actualFollowing != desiredFollowing) {
+        final corrected = [...current];
+        corrected[idx] = user.copyWith(
+          isFollowing: actualFollowing,
+          followerCount:
+              (user.followerCount + (actualFollowing ? 1 : -1)).clamp(
+                0,
+                1 << 30,
+              ),
+        );
+        state = state.copyWith(items: corrected);
+      }
     } catch (e) {
       state = state.copyWith(items: current);
       rethrow;
@@ -99,13 +117,14 @@ class GourmetFollowingController extends Notifier<GourmetListState> {
     return GourmetListState.initial();
   }
 
-  Future<void> loadInitial() async {
+  Future<void> loadInitial({bool force = false}) async {
     final reqId = ++_requestId;
     state = state.copyWith(loading: true, isLoadingMore: false, items: [], hasMore: true, error: null);
     try {
       final list = await ref.read(gourmetRepositoryProvider).getMyFollowing(
             limit: pageSize,
             offset: 0,
+            force: force,
           );
       if (reqId != _requestId) return;
       state = state.copyWith(
@@ -146,8 +165,8 @@ class GourmetFollowingController extends Notifier<GourmetListState> {
     final idx = current.indexWhere((u) => u.id == user.id);
     if (idx == -1) return;
     final updated = [...current];
-    final nowFollowing = !user.isFollowing;
-    if (nowFollowing) {
+    final desiredFollowing = !user.isFollowing;
+    if (desiredFollowing) {
       updated[idx] = user.copyWith(
         isFollowing: true,
         followerCount: user.followerCount + 1,
@@ -157,7 +176,12 @@ class GourmetFollowingController extends Notifier<GourmetListState> {
     }
     state = state.copyWith(items: updated);
     try {
-      await ref.read(followControllerProvider.notifier).toggle(user.id);
+      final actualFollowing = await ref
+          .read(followControllerProvider.notifier)
+          .setFollow(user.id, following: desiredFollowing);
+      if (actualFollowing != desiredFollowing) {
+        state = state.copyWith(items: current);
+      }
     } catch (e) {
       state = state.copyWith(items: current);
       rethrow;
@@ -176,13 +200,14 @@ class FeedController extends Notifier<FeedState> {
     return FeedState.initial();
   }
 
-  Future<void> loadInitial() async {
+  Future<void> loadInitial({bool force = false}) async {
     final reqId = ++_requestId;
     state = state.copyWith(loading: true, isLoadingMore: false, items: [], hasMore: true, error: null);
     try {
       final list = await ref.read(feedRepositoryProvider).getMyFeed(
             limit: pageSize,
             offset: 0,
+            force: force,
           );
       if (reqId != _requestId) return;
       state = state.copyWith(
@@ -223,7 +248,26 @@ class FollowController extends Notifier<void> {
   @override
   void build() {}
 
-  Future<void> toggle(String followeeId) async {
-    await ref.read(followRepositoryProvider).toggleFollow(followeeId);
+  Future<bool> toggle(String followeeId) async {
+    final following = await ref.read(followRepositoryProvider).toggleFollow(
+      followeeId,
+    );
+    unawaited(ref.read(feedProvider.notifier).loadInitial(force: true));
+    unawaited(ref.read(gourmetFollowingProvider.notifier).loadInitial(force: true));
+    return following;
+  }
+
+  Future<bool> setFollow(
+    String followeeId, {
+    required bool following,
+  }) async {
+    final actual = await ref
+        .read(followRepositoryProvider)
+        .setFollow(followeeId, following: following);
+    unawaited(ref.read(feedProvider.notifier).loadInitial(force: true));
+    unawaited(
+      ref.read(gourmetFollowingProvider.notifier).loadInitial(force: true),
+    );
+    return actual;
   }
 }

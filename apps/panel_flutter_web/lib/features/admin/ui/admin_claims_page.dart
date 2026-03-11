@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_claims_repository.dart';
 import '../domain/admin_claims_controller.dart';
@@ -53,6 +55,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     final st = ref.watch(adminClaimsControllerProvider);
     final controller = ref.read(adminClaimsControllerProvider.notifier);
     final user = ref.watch(userProvider);
+    final l10n = context.l10n;
     final allSelected =
         st.items.isNotEmpty &&
         st.items.every((c) => st.selectedIds.contains(c.id));
@@ -74,8 +77,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
           children: [
             Row(
               children: [
-                const Text(
-                  'Sahiplik Talepleri',
+                Text(
+                  l10n.adminClaimsTitle,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                 ),
                 const Spacer(),
@@ -83,8 +86,21 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                   onPressed: exporting ? null : () => _exportCsv(st),
                   icon: const Icon(Icons.download),
                   label: Text(
-                    exporting ? 'Ã„Â°ndiriliyor...' : 'CSV DÃ„Â±Ã…Å¸a Aktar',
+                    exporting
+                        ? l10n.adminClaimsExportingAction
+                        : l10n.adminClaimsExportCsvAction,
+                    ),
+                ),
+                const SizedBox(width: 8),
+                OutlinedButton.icon(
+                  onPressed: () => context.go(
+                    _queueRouteForClaims(
+                      query: st.query,
+                      status: st.statusFilter,
+                    ),
                   ),
+                  icon: const Icon(Icons.alt_route),
+                  label: Text(l10n.adminQueueOpenFromClaimsAction),
                 ),
                 const SizedBox(width: 8),
                 IconButton(
@@ -111,8 +127,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                     onChanged: (v) => ref
                         .read(adminClaimsControllerProvider.notifier)
                         .setQuery(v.trim()),
-                    decoration: const InputDecoration(
-                      hintText: 'Ara (id, isim, telefon)',
+                    decoration: InputDecoration(
+                      hintText: l10n.adminClaimsSearchHint,
                       prefixIcon: Icon(Icons.search),
                     ),
                   ),
@@ -122,35 +138,35 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                   spacing: 8,
                   children: [
                     AppFilterChip(
-                      label: 'SLA',
+                      label: l10n.sla,
                       selected: st.slaOnly,
                       onTap: () => ref
                           .read(adminClaimsControllerProvider.notifier)
                           .setSlaOnly(!st.slaOnly),
                     ),
                     AppFilterChip(
-                      label: 'TÃƒÂ¼mÃƒÂ¼',
+                      label: l10n.tumu,
                       selected: st.statusFilter.isEmpty,
                       onTap: () => ref
                           .read(adminClaimsControllerProvider.notifier)
                           .setStatusFilter(''),
                     ),
                     AppFilterChip(
-                      label: 'Beklemede',
+                      label: l10n.pending,
                       selected: st.statusFilter == 'pending',
                       onTap: () => ref
                           .read(adminClaimsControllerProvider.notifier)
                           .setStatusFilter('pending'),
                     ),
                     AppFilterChip(
-                      label: 'OnaylandÃ„Â±',
+                      label: l10n.approved,
                       selected: st.statusFilter == 'approved',
                       onTap: () => ref
                           .read(adminClaimsControllerProvider.notifier)
                           .setStatusFilter('approved'),
                     ),
                     AppFilterChip(
-                      label: 'Reddedildi',
+                      label: l10n.rejected,
                       selected: st.statusFilter == 'rejected',
                       onTap: () => ref
                           .read(adminClaimsControllerProvider.notifier)
@@ -164,7 +180,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
             Row(
               children: [
                 AppFilterChip(
-                  label: 'TÃƒÂ¼mÃƒÂ¼',
+                  label: l10n.tumu,
                   selected: st.assignedFilter.isEmpty,
                   onTap: () => ref
                       .read(adminClaimsControllerProvider.notifier)
@@ -172,7 +188,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                 ),
                 const SizedBox(width: 8),
                 AppFilterChip(
-                  label: 'BoÃ…Å¸ta',
+                  label: l10n.adminClaimsAssignedUnassigned,
                   selected: st.assignedFilter == 'unassigned',
                   onTap: () => ref
                       .read(adminClaimsControllerProvider.notifier)
@@ -180,7 +196,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                 ),
                 const SizedBox(width: 8),
                 AppFilterChip(
-                  label: 'Benim',
+                  label: l10n.adminClaimsAssignedMine,
                   selected: st.assignedFilter == 'me',
                   onTap: () => ref
                       .read(adminClaimsControllerProvider.notifier)
@@ -192,7 +208,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
 
             AdminNewItemsBanner(
               count: newItems,
-              label: 'Yeni kayÃ„Â±tlar var',
+              label: l10n.adminClaimsNewRecordsAvailable,
               onRefresh: () async {
                 final ok = await ref
                     .read(adminClaimsControllerProvider.notifier)
@@ -225,7 +241,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                             );
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('GÃƒÂ¼ncellendi.')),
+                            SnackBar(content: Text(l10n.adminClaimsBulkUpdated)),
                           );
                         }
                         setState(() => bulkDecision = '');
@@ -247,7 +263,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                       ? null
                       : () => _selectSamePhone(st),
                   icon: const Icon(Icons.group_work_outlined),
-                  label: const Text('AynÃ„Â± Telefonu SeÃƒÂ§'),
+                  label: Text(l10n.adminClaimsSelectSamePhoneAction),
                 ),
                 const SizedBox(width: 8),
                 OutlinedButton.icon(
@@ -255,7 +271,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                       ? null
                       : () => _assignSelectedToMe(st, user!.id),
                   icon: const Icon(Icons.assignment_ind_outlined),
-                  label: const Text('SeÃƒÂ§ilileri Bana Ata'),
+                  label: Text(l10n.adminClaimsAssignSelectedToMeAction),
                 ),
               ],
             ),
@@ -290,12 +306,12 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                 ),
                               ),
                               const DataColumn(label: Text('ID')),
-                              const DataColumn(label: Text('Ad Soyad')),
-                              const DataColumn(label: Text('Oncelik')),
-                              const DataColumn(label: Text('Durum')),
-                              const DataColumn(label: Text('Atanan')),
-                              const DataColumn(label: Text('OluÃ…Å¸turulma')),
-                              const DataColumn(label: Text('YaÃ…Å¸')),
+                              DataColumn(label: Text(l10n.adminClaimsFullNameColumn)),
+                              DataColumn(label: Text(l10n.adminClaimsPriorityColumn)),
+                              DataColumn(label: Text(l10n.adminClaimsStatusColumn)),
+                              DataColumn(label: Text(l10n.adminClaimsAssignedColumn)),
+                              DataColumn(label: Text(l10n.adminClaimsCreatedAtColumn)),
+                              DataColumn(label: Text(l10n.adminClaimsAgeColumn)),
                               const DataColumn(label: Text('')),
                             ],
                             rows: [
@@ -350,12 +366,11 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                     DataCell(
                                       Row(
                                         children: [
-                                          Text(st.items[i].status),
+                                          Text(_claimStatusLabel(l10n, st.items[i].status)),
                                           if (st.items[i].autoModerated) ...[
                                             const SizedBox(width: 6),
                                             Tooltip(
-                                              message:
-                                                  'Otomatik moderasyon uygulandÃ„Â±',
+                                              message: l10n.adminClaimsAutoModeratedTooltip,
                                               child: const AppAutoBadge(),
                                             ),
                                           ],
@@ -365,6 +380,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                     DataCell(
                                       Text(
                                         _assignedLabel(
+                                          l10n,
                                           st.items[i].assignedTo,
                                           user?.id,
                                         ),
@@ -374,7 +390,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                       Text(_fmtDate(st.items[i].createdAt)),
                                     ),
                                     DataCell(
-                                      Text(_fmtDays(st.items[i].ageDays)),
+                                      Text(_fmtDays(l10n, st.items[i].ageDays)),
                                     ),
                                     DataCell(
                                       TextButton(
@@ -383,7 +399,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                           st.items[i],
                                           index: i,
                                         ),
-                                        child: const Text('Detay'),
+                                        child: Text(l10n.adminClaimsDetailsAction),
                                       ),
                                     ),
                                   ],
@@ -394,7 +410,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                         if (!st.isLoading && st.items.isEmpty)
                           Padding(
                             padding: EdgeInsets.only(top: 24),
-                            child: Center(child: Text('Kayit bulunamadi.')),
+                            child: Center(child: Text(l10n.adminClaimsEmpty)),
                           ),
                         if (st.isLoadingMore)
                           const Padding(
@@ -439,6 +455,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     int? index,
   }) async {
     final controller = ref.read(adminClaimsControllerProvider.notifier);
+    final l10n = context.l10n;
     if (index != null) {
       controller.selectIndex(index);
     }
@@ -467,38 +484,41 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
               children: [
                 if (item.slaBreached)
                   AppSlaBanner(
-                    text:
-                        'Bu kayÃ„Â±t SLA aÃƒÂ§tÃ„Â±: ${_fmtDays(item.ageDays)}',
+                    text: l10n.adminClaimsSlaBreached(
+                      _fmtDays(l10n, item.ageDays),
+                    ),
                   ),
-                const Text(
-                  'KayÃ„Â±t DetayÃ„Â±',
+                Text(
+                  l10n.adminClaimsDetailTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 10),
                 Text('ID: ${item.id}'),
                 if ((item.businessId ?? '').isNotEmpty)
-                  Text('Ã„Â°Ã…Å¸letme: ${item.businessId}'),
+                  Text('${l10n.businessLabel}: ${item.businessId}'),
                 const SizedBox(height: 6),
-                Text('Ad Soyad: ${item.fullName}'),
-                Text('Telefon: ${item.phone}'),
+                Text('${l10n.adminClaimsFullNameColumn}: ${item.fullName}'),
+                Text('${l10n.adminClaimsPhoneLabel}: ${item.phone}'),
                 if ((item.evidenceUrl ?? '').isNotEmpty)
-                  Text('KanÃ„Â±t: ${item.evidenceUrl}'),
-                if ((item.note ?? '').isNotEmpty) Text('Not: ${item.note}'),
+                  Text('${l10n.adminClaimsEvidenceLabel}: ${item.evidenceUrl}'),
+                if ((item.note ?? '').isNotEmpty) Text('${l10n.note}: ${item.note}'),
                 const SizedBox(height: 10),
-                Text('Atanan: ${_assignedLabel(item.assignedTo, userId)}'),
+                Text(
+                  '${l10n.adminClaimsAssignedColumn}: ${_assignedLabel(l10n, item.assignedTo, userId)}',
+                ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: noteCtrl,
                   maxLines: 3,
-                  decoration: const InputDecoration(
-                    labelText: 'Admin Notu (opsiyonel)',
+                  decoration: InputDecoration(
+                    labelText: l10n.adminClaimsAdminNoteOptionalLabel,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
-                  children: _claimDecisionTemplates
+                  children: _claimDecisionTemplates(l10n)
                       .map(
                         (template) => ActionChip(
                           label: Text(template),
@@ -510,8 +530,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                       .toList(),
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Otomatik Kurallar',
+                Text(
+                  l10n.adminClaimsAutoRulesTitle,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
                 ),
                 const SizedBox(height: 6),
@@ -533,18 +553,14 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                     .clearClaims();
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Otomatik kural uygulandÃ„Â±.',
-                                    ),
+                                  SnackBar(
+                                    content: Text(l10n.adminClaimsAutoRuleApplied),
                                   ),
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Uygun otomatik kural bulunamadÃ„Â±',
-                                    ),
+                                  SnackBar(
+                                    content: Text(l10n.adminClaimsNoAutoRuleFound),
                                   ),
                                 );
                                 setModalState(() => applyingRules = false);
@@ -562,8 +578,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                     icon: const Icon(Icons.auto_fix_high),
                     label: Text(
                       applyingRules
-                          ? 'UygulanÃ„Â±yor...'
-                          : 'KurallarÃ„Â± Uygula',
+                          ? l10n.adminClaimsApplyingAction
+                          : l10n.adminClaimsApplyRulesAction,
                     ),
                   ),
                 ),
@@ -591,8 +607,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Ã„Â°Ã…Å¸lem bitti.'),
+                                        SnackBar(
+                                          content: Text(l10n.adminClaimsDone),
                                         ),
                                       );
                                     }
@@ -612,7 +628,9 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                   }
                                 },
                           child: Text(
-                            loading ? 'Ã„Â°Ã…Å¸leniyor...' : 'Bana Ata',
+                            loading
+                                ? l10n.adminClaimsProcessingAction
+                                : l10n.adminClaimsAssignToMeAction,
                           ),
                         ),
                       ),
@@ -637,9 +655,9 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
+                                        SnackBar(
                                           content: Text(
-                                            'Atama kaldÃ„Â±rÃ„Â±ldÃ„Â±.',
+                                            l10n.adminClaimsAssignmentRemoved,
                                           ),
                                         ),
                                       );
@@ -661,8 +679,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                 },
                           child: Text(
                             loading
-                                ? 'Ã„Â°Ã…Å¸leniyor...'
-                                : 'AtamayÃ„Â± KaldÃ„Â±r',
+                                ? l10n.adminClaimsProcessingAction
+                                : l10n.adminClaimsUnassignAction,
                           ),
                         ),
                       ),
@@ -690,8 +708,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                   if (context.mounted) {
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('OnaylandÃ„Â±.'),
+                                      SnackBar(
+                                        content: Text(l10n.adminClaimsApproved),
                                       ),
                                     );
                                   }
@@ -708,7 +726,11 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                   setModalState(() => loading = false);
                                 }
                               },
-                        child: Text(loading ? 'Ã„Â°Ã…Å¸leniyor...' : 'Onayla'),
+                        child: Text(
+                          loading
+                              ? l10n.adminClaimsProcessingAction
+                              : l10n.adminAppealApproveAction,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -731,8 +753,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                   if (context.mounted) {
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Reddedildi.'),
+                                      SnackBar(
+                                        content: Text(l10n.adminClaimsRejected),
                                       ),
                                     );
                                   }
@@ -749,7 +771,11 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                                   setModalState(() => loading = false);
                                 }
                               },
-                        child: Text(loading ? 'Ã„Â°Ã…Å¸leniyor...' : 'Reddet'),
+                        child: Text(
+                          loading
+                              ? l10n.adminClaimsProcessingAction
+                              : l10n.adminAppealRejectAction,
+                        ),
                       ),
                     ),
                   ],
@@ -780,7 +806,9 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('SatÃ„Â±r seÃƒÂ§')));
+      ).showSnackBar(
+        SnackBar(content: Text(context.l10n.adminClaimsSelectRowFirst)),
+      );
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -792,7 +820,9 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('SatÃ„Â±r seÃƒÂ§')));
+      ).showSnackBar(
+        SnackBar(content: Text(context.l10n.adminClaimsSelectRowFirst)),
+      );
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -815,7 +845,9 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     if (st.selectedIndex == null || st.selectedIndex! >= st.items.length) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('SatÃ„Â±r seÃƒÂ§')));
+      ).showSnackBar(
+        SnackBar(content: Text(context.l10n.adminClaimsSelectRowFirst)),
+      );
       return;
     }
     final item = st.items[st.selectedIndex!];
@@ -844,7 +876,7 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     if (phone.isEmpty) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bu kayÃ„Â±tta telefon yok.')),
+        SnackBar(content: Text(context.l10n.adminClaimsNoPhone)),
       );
       return;
     }
@@ -877,7 +909,9 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     if (!mounted) return;
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('$assigned talep sana atandÃ„Â±.')));
+    ).showSnackBar(
+      SnackBar(content: Text(context.l10n.adminClaimsAssignedToYou(assigned))),
+    );
   }
 }
 
@@ -900,10 +934,11 @@ class _BulkBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Row(
       children: [
         Text(
-          'SeÃƒÂ§ili: $selectedCount',
+          l10n.adminClaimsSelectedCount(selectedCount),
           style: const TextStyle(fontWeight: FontWeight.w800),
         ),
         const SizedBox(width: 10),
@@ -913,26 +948,37 @@ class _BulkBar extends StatelessWidget {
             key: ValueKey(bulkDecision),
             initialValue: bulkDecision.isEmpty ? null : bulkDecision,
             items: [
-              DropdownMenuItem(value: 'approved', child: Text('Onayla')),
-              DropdownMenuItem(value: 'rejected', child: Text('Reddet')),
+              DropdownMenuItem(
+                value: 'approved',
+                child: Text(l10n.adminAppealApproveAction),
+              ),
+              DropdownMenuItem(
+                value: 'rejected',
+                child: Text(l10n.adminAppealRejectAction),
+              ),
             ],
             onChanged: (v) => onDecisionChanged(v ?? ''),
-            decoration: const InputDecoration(labelText: 'Karar'),
+            decoration: InputDecoration(
+              labelText: l10n.adminAppealDecisionLabel,
+            ),
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: TextField(
             controller: noteCtrl,
-            decoration: const InputDecoration(
-              labelText: 'Admin Notu (opsiyonel)',
+            decoration: InputDecoration(
+              labelText: l10n.adminClaimsAdminNoteOptionalLabel,
             ),
           ),
         ),
         const SizedBox(width: 10),
-        OutlinedButton(onPressed: onClear, child: const Text('Temizle')),
+        OutlinedButton(
+          onPressed: onClear,
+          child: Text(l10n.adminClaimsClearSelectionAction),
+        ),
         const SizedBox(width: 8),
-        FilledButton(onPressed: onApply, child: const Text('Uygula')),
+        FilledButton(onPressed: onApply, child: Text(l10n.apply)),
       ],
     );
   }
@@ -943,13 +989,16 @@ String _short(String id) => id.length > 8 ? '${id.substring(0, 8)}...' : id;
 WidgetStateProperty<Color?> _rowColor(bool active, bool slaBreached) =>
     appAdminRowColor(active: active, slaBreached: slaBreached);
 
-String _assignedLabel(String? assignedTo, String? userId) {
-  if (assignedTo == null || assignedTo.isEmpty) return 'BoÃ…Å¸';
-  if (userId != null && assignedTo == userId) return 'Ben';
-  return 'BaÃ…Å¸ka admin';
+String _assignedLabel(AppLocalizations l10n, String? assignedTo, String? userId) {
+  if (assignedTo == null || assignedTo.isEmpty) {
+    return l10n.adminClaimsAssignedUnassigned;
+  }
+  if (userId != null && assignedTo == userId) return l10n.adminClaimsAssignedMine;
+  return l10n.adminClaimsAssignedAnotherAdmin;
 }
 
-String _fmtDays(double v) => '${v.toStringAsFixed(1)}gÃƒÂ¼n';
+String _fmtDays(AppLocalizations l10n, double v) =>
+    l10n.adminClaimsAgeValue(v.toStringAsFixed(1));
 
 String _fmtDate(DateTime d) {
   final y = d.year.toString().padLeft(4, '0');
@@ -967,10 +1016,17 @@ int _claimPriority(AdminOwnerClaimItem item) {
   return score;
 }
 
-const List<String> _claimDecisionTemplates = <String>[
-  'Belge ve bilgiler doÃ„Å¸rulandÃ„Â±, talep onaylandÃ„Â±.',
-  'Dogrulama kriterleri saglanamadi, talep reddedildi.',
-  'Ek belge gerekiyor, inceleme devam ediyor.',
+String _claimStatusLabel(AppLocalizations l10n, String status) => switch (status) {
+  'pending' => l10n.pending,
+  'approved' => l10n.approved,
+  'rejected' => l10n.rejected,
+  _ => status,
+};
+
+List<String> _claimDecisionTemplates(AppLocalizations l10n) => <String>[
+  l10n.adminClaimsDecisionTemplateApproved,
+  l10n.adminClaimsDecisionTemplateRejected,
+  l10n.adminClaimsDecisionTemplateNeedsDocuments,
 ];
 
 String _stamp() {
@@ -981,4 +1037,20 @@ String _stamp() {
   final hh = now.hour.toString().padLeft(2, '0');
   final mm = now.minute.toString().padLeft(2, '0');
   return '$y$m${d}_$hh$mm';
+}
+
+String _queueRouteForClaims({
+  required String query,
+  required String status,
+}) {
+  final queryParameters = <String, String>{
+    'type': 'claim',
+  };
+  if (query.trim().isNotEmpty) {
+    queryParameters['q'] = query.trim();
+  }
+  if (status.trim().isNotEmpty) {
+    queryParameters['status'] = status.trim();
+  }
+  return Uri(path: '/admin/queue', queryParameters: queryParameters).toString();
 }

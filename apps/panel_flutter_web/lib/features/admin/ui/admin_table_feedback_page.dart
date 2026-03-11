@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/admin_table_feedback_repository.dart';
 import '../domain/admin_table_feedback_models.dart';
 
@@ -70,6 +71,7 @@ class _AdminTableFeedbackPageState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -77,8 +79,8 @@ class _AdminTableFeedbackPageState
         children: [
           Row(
             children: [
-              const Text(
-                'Masa Geri Bildirimleri',
+              Text(
+                l10n.adminTableFeedbackTitle,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
               ),
               const Spacer(),
@@ -119,7 +121,12 @@ class _AdminTableFeedbackPageState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 4),
-                            Text('Masa ${item.tableNo} • Puan ${item.rating}'),
+                            Text(
+                              l10n.adminTableFeedbackTableAndRating(
+                                item.tableNo.toString(),
+                                item.rating.toString(),
+                              ),
+                            ),
                             if (item.note.isNotEmpty)
                               Text(
                                 item.note,
@@ -136,7 +143,7 @@ class _AdminTableFeedbackPageState
                           ],
                         ),
                         trailing: IconButton(
-                          tooltip: 'İşletme',
+                          tooltip: l10n.businessLabel,
                           onPressed: () =>
                               _openBusiness(context, item.businessId),
                           icon: const Icon(Icons.open_in_new),

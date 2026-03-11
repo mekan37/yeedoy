@@ -1,31 +1,57 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/cache/ttl_memory_cache.dart';
+import '../../../core/analytics/analytics_client.dart';
+import '../../../core/cache/request_cache.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/monitoring/app_telemetry.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/security/critical_action_guard.dart';
 import '../../../core/security/edge_rate_limit_guard.dart';
+import '../../../core/storage/local_db/local_db_models.dart';
+import '../../../core/storage/local_db/local_db_provider.dart';
+import '../../../core/storage/local_db/local_db_store.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
+import '../../../core/storage/offline_mutation_idempotency.dart';
+import '../../../core/storage/offline_mutation_queue.dart';
 import 'offline_verify_queue.dart';
 import 'local_food_catalog_data_source.dart';
 import '../domain/menu_models.dart';
 
 final menuRepositoryProvider = Provider<MenuRepository>((ref) {
   final client = ref.watch(supabaseProvider);
-  return MenuRepository(client, ref.watch(appTelemetryProvider));
+  return MenuRepository(
+    client,
+    ref.watch(appTelemetryProvider),
+    ref.watch(requestCacheProvider),
+    ref.watch(localDbStoreProvider),
+  );
 });
 
 class MenuRepository {
-  MenuRepository(this.client, this._telemetry);
+  MenuRepository(
+    this.client,
+    this._telemetry,
+    RequestCache requestCache,
+    this._localDb,
+  )
+    : _cache = requestCache.scope(_cacheScope);
   final SupabaseClient client;
   final AppTelemetry _telemetry;
+  final RequestCacheScope _cache;
+  final LocalDbStore _localDb;
   final LocalFoodCatalogDataSource _localCatalog =
       const LocalFoodCatalogDataSource();
 
-  static final TtlMemoryCache _cache = TtlMemoryCache();
+  static const String _cacheScope = 'menus';
   static const Duration _menuTtl = Duration(minutes: 5);
+  static const Duration _offlineSnapshotTtl = Duration(days: 7);
+
+  void clearReadCache() {
+    _cache.invalidatePrefix('');
+  }
 
   Future<List<BusinessMenu>> getBusinessMenus(String businessId) async {
     final key = 'business_menus|$businessId';
@@ -46,11 +72,20 @@ class MenuRepository {
           .map((row) => BusinessMenu.fromMap(row.cast<String, dynamic>()))
           .toList();
       _cache.set(key, menus);
+      await _writeMenuSnapshot(
+        key,
+        <String, dynamic>{
+          'type': 'business_menus',
+          'menus': menus.map((menu) => menu.toMap()).toList(),
+        },
+      );
       await OfflineCachePrefs.saveBusinessMenus(businessId, menus);
       return menus;
     } catch (e) {
       final stale = _cache.getStale<List<BusinessMenu>>(key);
       if (stale != null) return stale;
+      final local = await _readBusinessMenusSnapshot(key);
+      if (local != null) return local;
       final cached = await OfflineCachePrefs.loadBusinessMenus(businessId);
       if (cached != null) return cached;
       throw Exception(AppErrorMapper.message(e));
@@ -104,11 +139,20 @@ class MenuRepository {
           .map((row) => MenuSection.fromMap(row.cast<String, dynamic>()))
           .toList();
       _cache.set(key, sections);
+      await _writeMenuSnapshot(
+        key,
+        <String, dynamic>{
+          'type': 'menu_sections',
+          'sections': sections.map((section) => section.toMap()).toList(),
+        },
+      );
       await OfflineCachePrefs.saveMenuSections(menuId, sections);
       return sections;
     } catch (e) {
       final stale = _cache.getStale<List<MenuSection>>(key);
       if (stale != null) return stale;
+      final local = await _readMenuSectionsSnapshot(key);
+      if (local != null) return local;
       final cached = await OfflineCachePrefs.loadMenuSections(menuId);
       if (cached != null) return cached;
       throw Exception(AppErrorMapper.message(e));
@@ -131,6 +175,13 @@ class MenuRepository {
         sampleRate: 0.2,
       );
       _cache.set(key, items);
+      await _writeMenuSnapshot(
+        key,
+        <String, dynamic>{
+          'type': 'menu_items',
+          'items': items.map((item) => item.toMap()).toList(),
+        },
+      );
       await OfflineCachePrefs.saveMenuItems(menuId, items);
       final hasSuspiciousDuplicates = _hasDuplicatedItemIds(items);
       final hasNoSectionBinding =
@@ -156,11 +207,20 @@ class MenuRepository {
         sampleRate: 0.2,
       );
       _cache.set(key, items);
+      await _writeMenuSnapshot(
+        key,
+        <String, dynamic>{
+          'type': 'menu_items',
+          'items': items.map((item) => item.toMap()).toList(),
+        },
+      );
       await OfflineCachePrefs.saveMenuItems(menuId, items);
       return items;
     } catch (e) {
       final stale = _cache.getStale<List<MenuItem>>(key);
       if (stale != null) return stale;
+      final local = await _readMenuItemsSnapshot(key);
+      if (local != null) return local;
       final cached = await OfflineCachePrefs.loadMenuItems(menuId);
       if (cached != null) return cached;
       throw Exception(AppErrorMapper.message(e));
@@ -186,15 +246,42 @@ class MenuRepository {
     required Map<String, dynamic> payload,
   }) async {
     try {
-      await client.rpc(
-        'submit_menu_item_suggestion_v1',
-        params: {
-          'p_business_id': businessId,
-          'p_menu_item_id': menuItemId,
-          'p_action': action,
-          'p_payload': payload,
+      final token = await createOfflineMutationIdempotencyToken(
+        action: 'menu_item_suggestion_$action',
+        payload: {
+          'business_id': businessId,
+          'menu_item_id': menuItemId,
+          'action': action,
+          'payload': payload,
         },
       );
+      dynamic res;
+      try {
+        res = await client.rpc(
+          'submit_menu_item_suggestion_v2',
+          params: {
+            'p_business_id': businessId,
+            'p_menu_item_id': menuItemId,
+            'p_action': action,
+            'p_payload': payload,
+            'p_idempotency_key': token.idempotencyKey,
+          },
+        );
+      } catch (e) {
+        if (!_isMissingRpcError(e, 'submit_menu_item_suggestion_v2')) {
+          rethrow;
+        }
+        res = await client.rpc(
+          'submit_menu_item_suggestion_v1',
+          params: {
+            'p_business_id': businessId,
+            'p_menu_item_id': menuItemId,
+            'p_action': action,
+            'p_payload': payload,
+          },
+        );
+      }
+      _ensureOkResponse(res, fallbackError: 'menu_item_suggestion_failed');
       _cache.invalidatePrefix('menu_items|');
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
@@ -326,10 +413,33 @@ class MenuRepository {
     required int vote,
   }) async {
     try {
-      await client.rpc(
-        'vote_menu_item_photo_v1',
-        params: {'p_photo_id': photoId, 'p_vote': vote},
+      final token = await createOfflineMutationIdempotencyToken(
+        action: 'menu_item_photo_vote',
+        payload: {
+          'photo_id': photoId,
+          'vote': vote,
+        },
       );
+      try {
+        final res = await client.rpc(
+          'set_menu_item_photo_vote_v2',
+          params: {
+            'p_photo_id': photoId,
+            'p_vote': vote,
+            'p_idempotency_key': token.idempotencyKey,
+          },
+        );
+        _ensureOkResponse(res, fallbackError: 'photo_vote_failed');
+      } catch (e) {
+        if (!_isMissingRpcError(e, 'set_menu_item_photo_vote_v2')) {
+          rethrow;
+        }
+        await _submitDesiredPhotoVoteLegacy(
+          client: client,
+          photoId: photoId,
+          desiredVote: vote,
+        );
+      }
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }
@@ -342,22 +452,42 @@ class MenuRepository {
     String? businessId,
     String? menuId,
   }) async {
+    final queuedPayload = await attachOfflineMutationIdempotency(
+      action: OfflineVerifyActionType.votePrice.name,
+      payload: {
+        'menu_item_id': menuItemId,
+        'vote': vote,
+        'business_id': businessId,
+        'menu_id': menuId,
+      },
+    );
     try {
-      await client.rpc(
-        'vote_menu_item_price_v1',
-        params: {'p_menu_item_id': menuItemId, 'p_vote': vote},
-      );
+      try {
+        final res = await client.rpc(
+          'set_menu_item_price_vote_v2',
+          params: {
+            'p_menu_item_id': menuItemId,
+            'p_vote': vote,
+            'p_idempotency_key': queuedPayload['idempotency_key'],
+          },
+        );
+        _ensureOkResponse(res, fallbackError: 'price_vote_failed');
+      } catch (e) {
+        if (!_isMissingRpcError(e, 'set_menu_item_price_vote_v2')) {
+          rethrow;
+        }
+        await _submitDesiredPriceVoteLegacy(
+          client: client,
+          menuItemId: menuItemId,
+          desiredVote: vote,
+        );
+      }
       _cache.invalidatePrefix('menu_items|');
     } catch (e) {
       if (queueOnOffline && _isLikelyOfflineError(e)) {
         await OfflineVerifyQueueStore.enqueue(
           OfflineVerifyActionType.votePrice,
-          {
-            'menu_item_id': menuItemId,
-            'vote': vote,
-            'business_id': businessId,
-            'menu_id': menuId,
-          },
+          queuedPayload,
         );
         throw const OfflineQueuedException();
       }
@@ -377,6 +507,24 @@ class MenuRepository {
     String? businessId,
     String? menuId,
   }) async {
+    final resolvedClientId =
+        (clientId ?? await getAnalyticsClientId()).trim();
+    final capturedAtValue = capturedAt ?? DateTime.now();
+    final queuedPayload = await attachOfflineMutationIdempotency(
+      action: OfflineVerifyActionType.suggestPrice.name,
+      payload: {
+        'menu_item_id': menuItemId,
+        'suggested_price_cents': suggestedPriceCents,
+        'currency': currency,
+        'note': note,
+        'evidence_url': evidenceUrl,
+        'client_id': resolvedClientId,
+        'captured_at': capturedAtValue.toIso8601String(),
+        'business_id': businessId,
+        'menu_id': menuId,
+      },
+      clientId: resolvedClientId,
+    );
     try {
       ensureCriticalActionAllowed(client, action: 'price_suggestion');
       await enforceEdgeRateLimit(
@@ -397,20 +545,43 @@ class MenuRepository {
       dynamic res;
       try {
         res = await client.rpc(
-          'submit_menu_item_price_suggestion_v3',
+          'submit_menu_item_price_suggestion_v5',
           params: {
             ...params,
-            'p_client_id': (clientId ?? '').trim().isEmpty
+            'p_client_id': resolvedClientId.isEmpty
                 ? null
-                : clientId!.trim(),
-            'p_captured_at': (capturedAt ?? DateTime.now()).toIso8601String(),
+                : resolvedClientId,
+            'p_captured_at': capturedAtValue.toIso8601String(),
+            'p_idempotency_key': queuedPayload['idempotency_key'],
           },
         );
-      } catch (_) {
-        res = await client.rpc(
-          'submit_menu_item_price_suggestion_v2',
-          params: params,
-        );
+      } catch (e) {
+        if (!_isMissingRpcError(e, 'submit_menu_item_price_suggestion_v5')) {
+          rethrow;
+        }
+        try {
+          res = await client.rpc(
+            'submit_menu_item_price_suggestion_v3',
+            params: {
+              ...params,
+              'p_client_id': resolvedClientId.isEmpty
+                  ? null
+                  : resolvedClientId,
+              'p_captured_at': capturedAtValue.toIso8601String(),
+            },
+          );
+        } catch (legacyError) {
+          if (!_isMissingRpcError(
+            legacyError,
+            'submit_menu_item_price_suggestion_v3',
+          )) {
+            rethrow;
+          }
+          res = await client.rpc(
+            'submit_menu_item_price_suggestion_v2',
+            params: params,
+          );
+        }
       }
       _cache.invalidatePrefix('menu_items|');
       if (res is Map) {
@@ -439,17 +610,7 @@ class MenuRepository {
       if (queueOnOffline && _isLikelyOfflineError(e)) {
         await OfflineVerifyQueueStore.enqueue(
           OfflineVerifyActionType.suggestPrice,
-          {
-            'menu_item_id': menuItemId,
-            'suggested_price_cents': suggestedPriceCents,
-            'currency': currency,
-            'note': note,
-            'evidence_url': evidenceUrl,
-            'client_id': clientId,
-            'captured_at': (capturedAt ?? DateTime.now()).toIso8601String(),
-            'business_id': businessId,
-            'menu_id': menuId,
-          },
+          queuedPayload,
         );
         throw const OfflineQueuedException();
       }
@@ -458,25 +619,40 @@ class MenuRepository {
   }
 
   Future<int> flushOfflineVerifyQueue({int maxItems = 20}) async {
-    final queue = await OfflineVerifyQueueStore.readAll();
+    final queue = await OfflineVerifyQueueStore.readReady(limit: maxItems);
     if (queue.isEmpty) return 0;
-    final nextQueue = <OfflineVerifyQueueItem>[];
     var sent = 0;
-    for (var i = 0; i < queue.length; i++) {
-      final item = queue[i];
-      if (i >= maxItems) {
-        nextQueue.addAll(queue.sublist(i));
-        break;
-      }
+    for (final item in queue) {
       try {
         if (item.type == OfflineVerifyActionType.votePrice) {
           final menuItemId = (item.payload['menu_item_id'] ?? '').toString();
           final vote = _asInt(item.payload['vote']) ?? 0;
-          if (menuItemId.isEmpty || vote == 0) continue;
+          if (menuItemId.isEmpty || (vote != -1 && vote != 0 && vote != 1)) {
+            await OfflineVerifyQueueStore.remove(item.id);
+            unawaited(
+              _telemetry.logOfflineMutationOutcome(
+                kind: item.type.name,
+                disposition: 'drop',
+                source: 'offline_verify_replay',
+                retryCount: item.retryCount,
+                detail: 'invalid_payload',
+              ),
+            );
+            continue;
+          }
           await voteMenuItemPrice(
             menuItemId: menuItemId,
             vote: vote,
             queueOnOffline: false,
+          );
+          await OfflineVerifyQueueStore.remove(item.id);
+          unawaited(
+            _telemetry.logOfflineMutationOutcome(
+              kind: item.type.name,
+              disposition: 'success',
+              source: 'offline_verify_replay',
+              retryCount: item.retryCount,
+            ),
           );
           sent++;
           continue;
@@ -492,7 +668,19 @@ class MenuRepository {
           final capturedAtRaw = (item.payload['captured_at'] ?? '').toString();
           final capturedAt = DateTime.tryParse(capturedAtRaw) ?? DateTime.now();
 
-          if (menuItemId.isEmpty || cents <= 0) continue;
+          if (menuItemId.isEmpty || cents <= 0) {
+            await OfflineVerifyQueueStore.remove(item.id);
+            unawaited(
+              _telemetry.logOfflineMutationOutcome(
+                kind: item.type.name,
+                disposition: 'drop',
+                source: 'offline_verify_replay',
+                retryCount: item.retryCount,
+                detail: 'invalid_payload',
+              ),
+            );
+            continue;
+          }
           await submitMenuItemPriceSuggestion(
             menuItemId: menuItemId,
             suggestedPriceCents: cents,
@@ -503,20 +691,62 @@ class MenuRepository {
             capturedAt: capturedAt,
             queueOnOffline: false,
           );
+          await OfflineVerifyQueueStore.remove(item.id);
+          unawaited(
+            _telemetry.logOfflineMutationOutcome(
+              kind: item.type.name,
+              disposition: 'success',
+              source: 'offline_verify_replay',
+              retryCount: item.retryCount,
+            ),
+          );
           sent++;
           continue;
         }
       } catch (e) {
-        if (_isLikelyOfflineError(e)) {
-          nextQueue.add(item);
-          nextQueue.addAll(queue.sublist(i + 1));
+        final decision = classifyOfflineMutationError(e);
+        if (decision.disposition == OfflineMutationFailureDisposition.retry) {
+          await OfflineVerifyQueueStore.markRetry(item, error: e);
+          unawaited(
+            _telemetry.logOfflineMutationOutcome(
+              kind: item.type.name,
+              disposition: 'retry',
+              source: 'offline_verify_replay',
+              retryCategory: classifyOfflineMutationRetryCategory(e).name,
+              retryCount: item.retryCount + 1,
+              detail: decision.reason,
+            ),
+          );
           break;
         }
-        // If payload became invalid or is permanently rejected, skip it.
+        await OfflineVerifyQueueStore.remove(item.id);
+        if (decision.disposition == OfflineMutationFailureDisposition.resolve) {
+          unawaited(
+            _telemetry.logOfflineMutationOutcome(
+              kind: item.type.name,
+              disposition: 'resolve',
+              source: 'offline_verify_replay',
+              retryCategory: classifyOfflineMutationRetryCategory(e).name,
+              retryCount: item.retryCount,
+              detail: decision.reason,
+            ),
+          );
+          sent++;
+        } else {
+          unawaited(
+            _telemetry.logOfflineMutationOutcome(
+              kind: item.type.name,
+              disposition: 'drop',
+              source: 'offline_verify_replay',
+              retryCategory: classifyOfflineMutationRetryCategory(e).name,
+              retryCount: item.retryCount,
+              detail: decision.reason,
+            ),
+          );
+        }
         continue;
       }
     }
-    await OfflineVerifyQueueStore.replaceAll(nextQueue);
     return sent;
   }
 
@@ -730,6 +960,60 @@ class MenuRepository {
       );
     }).toList();
   }
+
+  Future<void> _writeMenuSnapshot(
+    String id,
+    Map<String, dynamic> payload,
+  ) {
+    return _localDb.upsert(
+      bucket: LocalDbBucket.menuSnapshot,
+      id: id,
+      payload: payload,
+      expiresAt: DateTime.now().toUtc().add(_offlineSnapshotTtl),
+    );
+  }
+
+  Future<List<BusinessMenu>?> _readBusinessMenusSnapshot(String id) async {
+    final record = await _localDb.read(
+      LocalDbBucket.menuSnapshot,
+      id,
+      allowExpired: true,
+    );
+    final menus = record?.payload['menus'];
+    if (menus is! List) return null;
+    return menus
+        .whereType<Map>()
+        .map((row) => BusinessMenu.fromMap(row.cast<String, dynamic>()))
+        .toList(growable: false);
+  }
+
+  Future<List<MenuSection>?> _readMenuSectionsSnapshot(String id) async {
+    final record = await _localDb.read(
+      LocalDbBucket.menuSnapshot,
+      id,
+      allowExpired: true,
+    );
+    final sections = record?.payload['sections'];
+    if (sections is! List) return null;
+    return sections
+        .whereType<Map>()
+        .map((row) => MenuSection.fromMap(row.cast<String, dynamic>()))
+        .toList(growable: false);
+  }
+
+  Future<List<MenuItem>?> _readMenuItemsSnapshot(String id) async {
+    final record = await _localDb.read(
+      LocalDbBucket.menuSnapshot,
+      id,
+      allowExpired: true,
+    );
+    final items = record?.payload['items'];
+    if (items is! List) return null;
+    return items
+        .whereType<Map>()
+        .map((row) => MenuItem.fromMap(row.cast<String, dynamic>()))
+        .toList(growable: false);
+  }
 }
 
 bool _hasDuplicatedItemIds(List<MenuItem> items) {
@@ -799,6 +1083,115 @@ bool _isLikelyOfflineError(Object error) {
       text.contains('connection refused') ||
       text.contains('timed out') ||
       text.contains('timeout');
+}
+
+Future<void> _submitDesiredPriceVoteLegacy({
+  required SupabaseClient client,
+  required String menuItemId,
+  required int desiredVote,
+}) async {
+  final currentVote = await _readCurrentUserMenuItemPriceVote(
+    client,
+    menuItemId: menuItemId,
+  );
+  if (currentVote == desiredVote) return;
+  if (desiredVote == 0) {
+    if (currentVote == null || currentVote == 0) return;
+    final res = await client.rpc(
+      'vote_menu_item_price_v1',
+      params: {
+        'p_menu_item_id': menuItemId,
+        'p_vote': currentVote,
+      },
+    );
+    _ensureOkResponse(res, fallbackError: 'price_vote_failed');
+    return;
+  }
+  final res = await client.rpc(
+    'vote_menu_item_price_v1',
+    params: {'p_menu_item_id': menuItemId, 'p_vote': desiredVote},
+  );
+  _ensureOkResponse(res, fallbackError: 'price_vote_failed');
+}
+
+Future<void> _submitDesiredPhotoVoteLegacy({
+  required SupabaseClient client,
+  required String photoId,
+  required int desiredVote,
+}) async {
+  final currentVote = await _readCurrentUserMenuItemPhotoVote(
+    client,
+    photoId: photoId,
+  );
+  if (currentVote == desiredVote) return;
+  if (desiredVote == 0) {
+    if (currentVote == null || currentVote == 0) return;
+    final res = await client.rpc(
+      'vote_menu_item_photo_v1',
+      params: {
+        'p_photo_id': photoId,
+        'p_vote': currentVote,
+      },
+    );
+    _ensureOkResponse(res, fallbackError: 'photo_vote_failed');
+    return;
+  }
+  final res = await client.rpc(
+    'vote_menu_item_photo_v1',
+    params: {'p_photo_id': photoId, 'p_vote': desiredVote},
+  );
+  _ensureOkResponse(res, fallbackError: 'photo_vote_failed');
+}
+
+Future<int?> _readCurrentUserMenuItemPriceVote(
+  SupabaseClient client, {
+  required String menuItemId,
+}) async {
+  final res = await client
+      .from('menu_item_price_votes')
+      .select('vote')
+      .eq('menu_item_id', menuItemId)
+      .maybeSingle();
+  if (res == null) return null;
+  return _asInt((res as Map)['vote']);
+}
+
+Future<int?> _readCurrentUserMenuItemPhotoVote(
+  SupabaseClient client, {
+  required String photoId,
+}) async {
+  final res = await client
+      .from('menu_item_photo_votes')
+      .select('vote')
+      .eq('photo_id', photoId)
+      .maybeSingle();
+  if (res == null) return null;
+  return _asInt((res as Map)['vote']);
+}
+
+void _ensureOkResponse(dynamic res, {required String fallbackError}) {
+  if (res is Map) {
+    final data = res.cast<String, dynamic>();
+    if (data['ok'] == true) return;
+    final error = (data['error'] ?? '').toString().trim();
+    throw Exception(error.isEmpty ? fallbackError : error);
+  }
+  if (res is List && res.isNotEmpty && res.first is Map) {
+    _ensureOkResponse((res.first as Map).cast<String, dynamic>(), fallbackError: fallbackError);
+    return;
+  }
+  throw Exception(fallbackError);
+}
+
+bool _isMissingRpcError(Object error, String rpcName) {
+  final text = error.toString().toLowerCase();
+  final normalized = rpcName.toLowerCase();
+  return text.contains(normalized) &&
+      (text.contains('could not find') ||
+          text.contains('does not exist') ||
+          text.contains('not found') ||
+          text.contains('undefined function') ||
+          text.contains('pgrst202'));
 }
 
 int? _asInt(Object? value) {

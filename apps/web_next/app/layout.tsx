@@ -1,21 +1,31 @@
 import '@/src/styles/globals.css';
 import type { Metadata } from 'next';
+import { Sora } from 'next/font/google';
 import type { ReactNode } from 'react';
-import { colorRgbVars } from '@/src/theme/colors';
+import { appConfig } from '@/src/lib/config';
+
+const sora = Sora({
+  subsets: ['latin'],
+  variable: '--font-sora',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'Yeedoy Digital QR Menu',
-  description: 'Digital QR menu builder for businesses',
+  metadataBase: new URL(appConfig.siteUrl()),
+  title: {
+    default: 'Yeedoy QR Menu',
+    template: '%s | Yeedoy QR Menu',
+  },
+  description: 'High-performance public digital restaurant menu and QR generation experience.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const cssVars: Record<string, string> = Object.fromEntries(
-    Object.entries(colorRgbVars).map(([token, rgb]) => [`--${token}`, rgb]),
-  );
-
   return (
     <html lang="tr">
-      <body style={cssVars} className="bg-bg text-text">
+      <body
+        className={`${sora.variable} bg-bg text-text`}
+        style={{ ['--yd-font-family' as any]: 'var(--font-sora), "Segoe UI", sans-serif' }}
+      >
         {children}
       </body>
     </html>

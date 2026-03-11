@@ -4,48 +4,66 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/cache/ttl_memory_cache.dart';
+import '../../../core/cache/request_cache.dart';
 import '../../../core/monitoring/app_telemetry.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/perf/perf_slo.dart';
 import '../../../core/privacy/pii_minimizer.dart';
 import '../../../core/search/query_normalizer.dart';
+import '../../business/data/meal_card_providers_repository.dart';
+import '../../business/domain/meal_card_provider_option.dart';
 import '../domain/business_card.dart';
 
 final searchRepositoryProvider = Provider<SearchRepository>((ref) {
   final client = ref.watch(supabaseProvider);
   final telemetry = ref.watch(appTelemetryProvider);
-  return SearchRepository(client, telemetry);
+  return SearchRepository(
+    client,
+    telemetry,
+    ref.watch(requestCacheProvider),
+    ref.watch(mealCardProvidersRepositoryProvider),
+  );
 });
 
 class SearchRepository {
-  SearchRepository(this.client, this._telemetry);
+  SearchRepository(
+    this.client,
+    this._telemetry,
+    RequestCache requestCache,
+    this._mealCardProvidersRepository,
+  ) : _cache = requestCache.scope(_cacheScope);
+
   final SupabaseClient client;
   final AppTelemetry _telemetry;
-  static final TtlMemoryCache _cache = TtlMemoryCache();
+  final RequestCacheScope _cache;
+  final MealCardProvidersRepository _mealCardProvidersRepository;
+
+  static const String _cacheScope = 'discovery_search';
   static const Duration _searchTtl = Duration(seconds: 45);
 
+  void clearCache() {
+    _cache.invalidatePrefix('');
+  }
+
   String _key(String method, Map<String, Object?> values) {
-    final ordered = values.entries.toList()
-      ..sort((a, b) => a.key.compareTo(b.key));
-    final payload = ordered
-        .map((entry) => '${entry.key}=${entry.value ?? ''}')
-        .join('&');
-    return '$method|$payload';
+    return stableRequestCacheKey(method, values);
   }
 
   Future<List<BusinessCardModel>> searchBusinesses({
     required String query,
     String? city,
     String? district,
+    List<String> mealCardKeys = const [],
     int limit = 50,
     int offset = 0,
   }) async {
     final watch = Stopwatch()..start();
+    final normalizedMealCardKeys = _normalizeMealCardKeys(mealCardKeys);
     final cacheKey = _key('search_businesses', {
       'query': query.trim(),
       'city': city?.trim(),
       'district': district?.trim(),
+      'meal_card_keys': normalizedMealCardKeys,
       'limit': limit,
       'offset': offset,
     });
@@ -64,6 +82,47 @@ class SearchRepository {
       return fresh;
     }
 
+    final rows = normalizedMealCardKeys.isEmpty
+        ? await _searchBusinessesBase(
+            query: query,
+            city: city,
+            district: district,
+            limit: limit,
+            offset: offset,
+          )
+        : await _filterPagedByMealCards(
+            mealCardKeys: normalizedMealCardKeys,
+            limit: limit,
+            offset: offset,
+            fetchBatch: ({required int batchLimit, required int batchOffset}) {
+              return _searchBusinessesBase(
+                query: query,
+                city: city,
+                district: district,
+                limit: batchLimit,
+                offset: batchOffset,
+              );
+            },
+          );
+
+    _cache.set(cacheKey, rows);
+    watch.stop();
+    unawaited(
+      _telemetry.logSearchLatency(
+        elapsed: watch.elapsed,
+        cacheType: SearchCacheType.miss,
+      ),
+    );
+    return rows;
+  }
+
+  Future<List<BusinessCardModel>> _searchBusinessesBase({
+    required String query,
+    String? city,
+    String? district,
+    required int limit,
+    required int offset,
+  }) async {
     final normalized = normalizeSearchQuery(query);
     final trigramRes = await client.rpc(
       'search_businesses_v1',
@@ -77,7 +136,7 @@ class SearchRepository {
     );
     final trigramRows = (trigramRes as List)
         .map((e) => BusinessCardModel.fromMap(e))
-        .toList();
+        .toList(growable: false);
     List<BusinessCardModel> prefixRows = const [];
     try {
       prefixRows = await _searchBusinessesPrefix(
@@ -87,25 +146,16 @@ class SearchRepository {
         limit: limit,
         offset: offset,
       );
-    } catch (e) {
+    } catch (error) {
       if (kDebugMode) {
-        debugPrint('[SearchRepository] prefix fallback failed: $e');
+        debugPrint('[SearchRepository] prefix fallback failed: $error');
       }
     }
-    final rows = _mergeSearchRows(
+    return _mergeSearchRows(
       prefixRows: prefixRows,
       trigramRows: trigramRows,
       limit: limit,
     );
-    _cache.set(cacheKey, rows);
-    watch.stop();
-    unawaited(
-      _telemetry.logSearchLatency(
-        elapsed: watch.elapsed,
-        cacheType: SearchCacheType.miss,
-      ),
-    );
-    return rows;
   }
 
   Future<List<BusinessCardModel>> searchNearby({
@@ -115,12 +165,14 @@ class SearchRepository {
     String? city,
     String? district,
     String? query,
+    List<String> mealCardKeys = const [],
     int limit = 50,
     int offset = 0,
   }) async {
     final watch = Stopwatch()..start();
     final roundedLat = roundCoordinate(userLat, decimals: 3);
     final roundedLng = roundCoordinate(userLng, decimals: 3);
+    final normalizedMealCardKeys = _normalizeMealCardKeys(mealCardKeys);
     final cacheKey = _key('search_nearby', {
       'lat': roundedLat.toStringAsFixed(3),
       'lng': roundedLng.toStringAsFixed(3),
@@ -128,6 +180,7 @@ class SearchRepository {
       'city': city?.trim(),
       'district': district?.trim(),
       'query': query?.trim(),
+      'meal_card_keys': normalizedMealCardKeys,
       'limit': limit,
       'offset': offset,
     });
@@ -147,24 +200,35 @@ class SearchRepository {
       return fresh;
     }
 
-    final normalized = normalizeSearchQuery(query ?? '');
-    final res = await client.rpc(
-      'search_nearby_businesses_v3',
-      params: {
-        'p_user_lat': roundedLat,
-        'p_user_lng': roundedLng,
-        'p_radius_km': radiusKm,
-        'p_limit': limit,
-        'p_offset': offset,
-        'p_city': (city ?? '').trim().isEmpty ? null : city!.trim(),
-        'p_district': (district ?? '').trim().isEmpty ? null : district!.trim(),
-        'p_query': normalized.isEmpty ? null : normalized,
-      },
-    );
+    final rows = normalizedMealCardKeys.isEmpty
+        ? await _searchNearbyBase(
+            userLat: roundedLat,
+            userLng: roundedLng,
+            radiusKm: radiusKm,
+            city: city,
+            district: district,
+            query: query,
+            limit: limit,
+            offset: offset,
+          )
+        : await _filterPagedByMealCards(
+            mealCardKeys: normalizedMealCardKeys,
+            limit: limit,
+            offset: offset,
+            fetchBatch: ({required int batchLimit, required int batchOffset}) {
+              return _searchNearbyBase(
+                userLat: roundedLat,
+                userLng: roundedLng,
+                radiusKm: radiusKm,
+                city: city,
+                district: district,
+                query: query,
+                limit: batchLimit,
+                offset: batchOffset,
+              );
+            },
+          );
 
-    final rows = (res as List)
-        .map((e) => BusinessCardModel.fromMap(e))
-        .toList();
     _cache.set(cacheKey, rows);
     watch.stop();
     unawaited(
@@ -177,6 +241,35 @@ class SearchRepository {
     return rows;
   }
 
+  Future<List<BusinessCardModel>> _searchNearbyBase({
+    required double userLat,
+    required double userLng,
+    required double radiusKm,
+    String? city,
+    String? district,
+    String? query,
+    required int limit,
+    required int offset,
+  }) async {
+    final normalized = normalizeSearchQuery(query ?? '');
+    final response = await client.rpc(
+      'search_nearby_businesses_v3',
+      params: {
+        'p_user_lat': userLat,
+        'p_user_lng': userLng,
+        'p_radius_km': radiusKm,
+        'p_limit': limit,
+        'p_offset': offset,
+        'p_city': (city ?? '').trim().isEmpty ? null : city!.trim(),
+        'p_district': (district ?? '').trim().isEmpty ? null : district!.trim(),
+        'p_query': normalized.isEmpty ? null : normalized,
+      },
+    );
+    return (response as List)
+        .map((e) => BusinessCardModel.fromMap(e))
+        .toList(growable: false);
+  }
+
   Future<List<BusinessCardModel>> _searchBusinessesPrefix({
     required String normalizedQuery,
     String? city,
@@ -185,20 +278,20 @@ class SearchRepository {
     required int offset,
   }) async {
     if (normalizedQuery.isEmpty) return const [];
-    var q = client
+    var query = client
         .from('businesses_with_stats')
-        .select(
-          'id,name,category,city,district,address,lat,lng,avg_rating',
-        )
+        .select('id,name,category,city,district,address,lat,lng,avg_rating')
         .ilike('name', '$normalizedQuery%');
     if ((city ?? '').trim().isNotEmpty) {
-      q = q.eq('city', city!.trim());
+      query = query.eq('city', city!.trim());
     }
     if ((district ?? '').trim().isNotEmpty) {
-      q = q.eq('district', district!.trim());
+      query = query.eq('district', district!.trim());
     }
-    final res = await q.range(offset, offset + limit - 1);
-    return (res as List).map((e) => BusinessCardModel.fromMap(e)).toList();
+    final response = await query.range(offset, offset + limit - 1);
+    return (response as List)
+        .map((e) => BusinessCardModel.fromMap(e))
+        .toList(growable: false);
   }
 
   List<BusinessCardModel> _mergeSearchRows({
@@ -213,20 +306,21 @@ class SearchRepository {
     for (final row in trigramRows) {
       map.putIfAbsent(row.id, () => row);
     }
-    return map.values.take(limit).toList();
+    return map.values.take(limit).toList(growable: false);
   }
 
   Future<List<BusinessCardModel>> enrichBusinessCards(
     List<BusinessCardModel> cards,
   ) async {
     if (cards.isEmpty) return cards;
-    final ids = cards.map((e) => e.id).toList();
+    final ids = cards.map((e) => e.id).toList(growable: false);
 
     final ratings = <String, double>{};
     final qualityScores = <String, double>{};
     final medianPrice = <String, int>{};
     final openNow = <String, bool>{};
     final recentVerified = <String, int>{};
+    var mealCardProviders = <String, List<MealCardProviderOption>>{};
 
     try {
       final rows = await client
@@ -234,11 +328,11 @@ class SearchRepository {
           .select('id,avg_rating,quality_score')
           .inFilter('id', ids);
       for (final row in (rows as List)) {
-        final m = (row as Map<String, dynamic>);
-        ratings[m['id'].toString()] = ((m['avg_rating'] as num?) ?? 0)
+        final map = (row as Map<String, dynamic>);
+        ratings[map['id'].toString()] = ((map['avg_rating'] as num?) ?? 0)
             .toDouble();
-        qualityScores[m['id'].toString()] = ((m['quality_score'] as num?) ?? 0)
-            .toDouble();
+        qualityScores[map['id'].toString()] =
+            ((map['quality_score'] as num?) ?? 0).toDouble();
       }
     } catch (_) {}
 
@@ -248,9 +342,9 @@ class SearchRepository {
           .select('business_id,median_price_cents')
           .inFilter('business_id', ids);
       for (final row in (rows as List)) {
-        final m = (row as Map<String, dynamic>);
-        medianPrice[m['business_id'].toString()] =
-            ((m['median_price_cents'] as num?) ?? 0).toInt();
+        final map = (row as Map<String, dynamic>);
+        medianPrice[map['business_id'].toString()] =
+            ((map['median_price_cents'] as num?) ?? 0).toInt();
       }
     } catch (_) {}
 
@@ -262,8 +356,8 @@ class SearchRepository {
           )
           .inFilter('business_id', ids);
       for (final row in (rows as List)) {
-        final m = (row as Map<String, dynamic>);
-        openNow[m['business_id'].toString()] = _isOpenNow(m);
+        final map = (row as Map<String, dynamic>);
+        openNow[map['business_id'].toString()] = _isOpenNow(map);
       }
     } catch (_) {}
 
@@ -279,32 +373,91 @@ class SearchRepository {
           .gte('created_at', fromIso)
           .inFilter('business_id', ids);
       for (final row in (rows as List)) {
-        final m = (row as Map<String, dynamic>);
-        final bid = m['business_id'].toString();
-        recentVerified[bid] = (recentVerified[bid] ?? 0) + 1;
+        final map = (row as Map<String, dynamic>);
+        final businessId = map['business_id'].toString();
+        recentVerified[businessId] = (recentVerified[businessId] ?? 0) + 1;
       }
     } catch (_) {}
 
-    return cards.map((c) {
-      final rating = ratings[c.id] ?? c.avgRating ?? 0;
-      final quality = qualityScores[c.id] ?? c.qualityScore ?? 0;
-      final verified = recentVerified[c.id] ?? c.recentPriceVerifiedCount ?? 0;
-      final isOpen = openNow[c.id] ?? c.isOpenNow ?? false;
+    try {
+      mealCardProviders = await _mealCardProvidersRepository
+          .listBusinessProvidersByIds(ids);
+    } catch (_) {}
+
+    return cards.map((card) {
+      final rating = ratings[card.id] ?? card.avgRating ?? 0;
+      final quality = qualityScores[card.id] ?? card.qualityScore ?? 0;
+      final verified =
+          recentVerified[card.id] ?? card.recentPriceVerifiedCount ?? 0;
+      final isOpen = openNow[card.id] ?? card.isOpenNow ?? false;
       final trustScore = _computeTrustScore(
         qualityScore: quality,
         recentVerifiedCount: verified,
         avgRating: rating,
         isOpenNow: isOpen,
       );
-      return c.copyWith(
+      return card.copyWith(
         avgRating: rating,
         qualityScore: quality,
         trustScore: trustScore,
-        medianPriceCents: medianPrice[c.id],
+        medianPriceCents: medianPrice[card.id],
         isOpenNow: isOpen,
         recentPriceVerifiedCount: verified,
+        mealCardProviders: mealCardProviders[card.id] ?? card.mealCardProviders,
       );
-    }).toList();
+    }).toList(growable: false);
+  }
+
+  List<String> _normalizeMealCardKeys(List<String> mealCardKeys) {
+    final normalized = mealCardKeys
+        .map((key) => key.trim().toLowerCase())
+        .where((key) => key.isNotEmpty)
+        .toSet()
+        .toList(growable: false);
+    normalized.sort();
+    return normalized;
+  }
+
+  Future<List<BusinessCardModel>> _filterPagedByMealCards({
+    required List<String> mealCardKeys,
+    required int limit,
+    required int offset,
+    required Future<List<BusinessCardModel>> Function({
+      required int batchLimit,
+      required int batchOffset,
+    })
+    fetchBatch,
+  }) async {
+    final targetCount = offset + limit;
+    final batchSize = limit <= 20 ? 60 : limit * 3;
+    final matches = <BusinessCardModel>[];
+    final seenIds = <String>{};
+    var batchOffset = 0;
+    var rounds = 0;
+
+    while (matches.length < targetCount && rounds < 8) {
+      final batch = await fetchBatch(
+        batchLimit: batchSize,
+        batchOffset: batchOffset,
+      );
+      if (batch.isEmpty) break;
+      batchOffset += batch.length;
+      final matchingIds = await _mealCardProvidersRepository
+          .matchBusinessIdsByProviderKeys(
+            mealCardKeys,
+            candidateBusinessIds: batch.map((item) => item.id).toList(),
+          );
+      for (final item in batch) {
+        if (!matchingIds.contains(item.id)) continue;
+        if (seenIds.add(item.id)) {
+          matches.add(item);
+        }
+      }
+      if (batch.length < batchSize) break;
+      rounds += 1;
+    }
+
+    return matches.skip(offset).take(limit).toList(growable: false);
   }
 
   double _computeTrustScore({

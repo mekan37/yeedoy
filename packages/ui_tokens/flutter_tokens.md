@@ -1,7 +1,13 @@
 # Flutter Token Eşlemesi
 
-`packages/ui_tokens/tokens.json` içeriğini şu hedeflere eşle:
-- `apps/mobile_flutter/lib/app/theme/*`
-- `apps/panel_flutter_web/lib/app/theme/*`
+Kaynak tema:
+- `apps/mobile_flutter/lib/app/theme/colors.dart`
+- `apps/mobile_flutter/lib/app/theme/app_text.dart`
+- `apps/mobile_flutter/lib/app/theme/app_tokens.dart`
 
-Bu dosya, web CSS tokenları ile Flutter tema tokenları arasındaki sözleşmedir.
+Bu paket:
+- `tokens.json` -> platform bağımsız token sözleşmesi
+- `tokens.css` -> web CSS variable sözleşmesi
+- `tailwind.preset.cjs` -> Next/Tailwind theme genişletmesi
+
+Panel Flutter web tarafı aynı semantik token isimleri ile (`AppColors`, `AppTokens`) çalışır.

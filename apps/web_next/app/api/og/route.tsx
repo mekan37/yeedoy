@@ -15,13 +15,16 @@ export async function GET(request: Request) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          padding: 48,
-          background: '#0f172a',
+          padding: 56,
+          background:
+            'linear-gradient(135deg, rgba(127,29,29,1) 0%, rgba(220,38,38,1) 100%)',
           color: '#fff',
         }}
       >
-        <div style={{ fontSize: 30, opacity: 0.9 }}>Digital QR Menu</div>
-        <div style={{ marginTop: 16, fontSize: 56, fontWeight: 700 }}>{title}</div>
+        <div style={{ fontSize: 28, letterSpacing: 6, textTransform: 'uppercase', opacity: 0.82 }}>
+          Yeedoy QR Menu
+        </div>
+        <div style={{ marginTop: 18, fontSize: 60, fontWeight: 800, lineHeight: 1.1 }}>{title}</div>
       </div>
     ),
     { width: 1200, height: 630 },

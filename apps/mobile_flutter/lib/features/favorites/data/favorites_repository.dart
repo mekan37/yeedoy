@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
+import '../../../core/storage/offline_mutation_idempotency.dart';
 import '../../discovery/domain/business_card.dart';
 
 final favoritesRepositoryProvider = Provider<FavoritesRepository>((ref) {
@@ -25,21 +26,46 @@ class FavoritesRepository {
       'id,name,category,address,city,district,lat,lng,is_open_now,recent_price_verified_count';
 
   Future<bool> toggleFavorite(String businessId) async {
-    final res = await client.rpc(
-      'toggle_favorite_v1',
-      params: {'p_business_id': businessId},
+    final current = await isFavorited(businessId);
+    return setFavorite(businessId, isFavorited: !current);
+  }
+
+  Future<bool> setFavorite(
+    String businessId, {
+    required bool isFavorited,
+  }) async {
+    final token = await createOfflineMutationIdempotencyToken(
+      action: 'set_favorite',
+      payload: {
+        'business_id': businessId,
+        'is_favorited': isFavorited,
+      },
     );
-    if (res is Map && res['is_favorited'] is bool) {
-      return res['is_favorited'] as bool;
-    }
-    if (res is List && res.isNotEmpty) {
-      final first = res.first;
-      if (first is Map && first['is_favorited'] is bool) {
-        return first['is_favorited'] as bool;
+    dynamic res;
+    try {
+      res = await client.rpc(
+        'set_favorite_v2',
+        params: {
+          'p_business_id': businessId,
+          'p_is_favorited': isFavorited,
+          'p_idempotency_key': token.idempotencyKey,
+        },
+      );
+    } catch (e) {
+      if (!_isMissingRpcError(e, 'set_favorite_v2')) rethrow;
+      final current = await this.isFavorited(businessId);
+      if (current == isFavorited) {
+        return isFavorited;
       }
+      res = await client.rpc(
+        'toggle_favorite_v1',
+        params: {'p_business_id': businessId},
+      );
     }
-    if (res is bool) return res;
-    throw Exception('Favori islemi basarisiz.');
+    return _parseFavoriteStateResponse(
+      res,
+      fallbackError: 'Favori islemi basarisiz.',
+    );
   }
 
   Future<bool> isFavorited(String businessId) async {
@@ -142,4 +168,42 @@ class FavoritesRepository {
     final items = rows.map(BusinessCardModel.fromMap).toList();
     return PaginatedFavorites(ids: ids, items: items);
   }
+}
+
+bool _isMissingRpcError(Object error, String rpcName) {
+  final text = error.toString().toLowerCase();
+  final normalized = rpcName.toLowerCase();
+  return text.contains(normalized) &&
+      (text.contains('could not find') ||
+          text.contains('does not exist') ||
+          text.contains('not found') ||
+          text.contains('undefined function') ||
+          text.contains('pgrst202'));
+}
+
+bool _parseFavoriteStateResponse(
+  dynamic res, {
+  required String fallbackError,
+}) {
+  if (res is Map) {
+    final data = res.cast<String, dynamic>();
+    final error = (data['error'] ?? '').toString().trim();
+    if (error.isNotEmpty) {
+      throw Exception(error);
+    }
+    if (data['is_favorited'] is bool) {
+      return data['is_favorited'] as bool;
+    }
+  }
+  if (res is List && res.isNotEmpty) {
+    final first = res.first;
+    if (first is Map) {
+      return _parseFavoriteStateResponse(
+        first.cast<String, dynamic>(),
+        fallbackError: fallbackError,
+      );
+    }
+  }
+  if (res is bool) return res;
+  throw Exception(fallbackError);
 }

@@ -4,6 +4,28 @@
 
 Bu tarihlerdeki onceki kayitlar korunmustur; asagida bugunku guncellemeler listelenir.
 
+## 2026-03-04 (Docs Cleanup)
+
+- `docs/release_smoke_checklist.md`
+  - Islem: Silindi.
+  - Neden: `deploy.md` ve `runbook.md` ile ayni release/smoke akislarini tekrar ediyordu.
+  - Yeni hedef: `docs/runbook.md`
+
+- `docs/security_env_cleanup_plan.md`
+  - Islem: Silindi.
+  - Neden: Tek seferlik env hijyeni plani tamamlanmis durumdaydi; ayri belge olarak yasamasi gereksizdi.
+  - Yeni hedef: `docs/deploy.md`
+
+- `docs/cleanup_decision_matrix.md`
+  - Islem: Silindi.
+  - Neden: Temizlik kararlarinin arsiv kaydi `cleanup_log.md` icinde tutuldugu icin ayri matris dosyasi cift kaynak olusturuyordu.
+  - Yeni hedef: `docs/cleanup_log.md`
+
+- `docs/panel_perf.md`
+  - Islem: Guncellendi.
+  - Neden: `panel_scale.md` ile tekrar eden runtime/olcek notlari azaltildi.
+  - Yeni hedef: `docs/panel_scale.md`
+
 ## 2026-02-27 (Vizyon Uyumu Turu)
 
 - `docs/vision_status.md`
@@ -212,3 +234,72 @@ Not:
   - Islem: `test` ve `test:integration` scriptleri eklendi.
 - `docs/wip.md`, `docs/vision_status.md`, `docs/roadmap.md`, `docs/setup.md`
   - Islem: Yeni test ve seffaflik durumuna gore dokumanlar guncellendi.
+
+## 2026-02-27 (Panel Integration Test Dogrulama - Windows)
+
+- `apps/panel_flutter_web/package.json`
+  - Islem: `test:integration` komutu `flutter test integration_test -d windows` olarak netlestirildi.
+- `apps/panel_flutter_web/integration_test/app_smoke_test.dart`
+  - Dogrulama: Windows cihazda basarili calisti.
+- `docs/wip.md`, `docs/setup.md`, `docs/vision_status.md`
+  - Islem: Panel integration testinin calisma durumu "eksik"ten "dogrulandi"ya cekildi.
+
+## 2026-03-04 (Docs Scope Hardening)
+
+- `docs/perf.md`
+  - Islem: web tarafi performans raporu daha net isimle tasindi.
+  - Yeni hedef: `docs/web_next_perf.md`
+- `docs/deploy.md`
+  - Islem: belge siniri sertlestirildi; smoke ve incident adimlari bu dosyadan cikarildi.
+- `docs/runbook.md`
+  - Islem: smoke, incident ve release dogrulama kaynagi olarak netlestirildi.
+- `docs/panel_scale.md`
+  - Islem: cache key ve invalidation ornekleri eklendi.
+
+## 2026-03-09 (Panel Smoke Migration)
+
+- `apps/panel_flutter_web/e2e/panel-smoke.spec.cjs`
+  - Islem: Panel smoke hattı Playwright browser suite'e tasindi.
+  - Kapsam: owner shell, owner businesses, owner business submissions, owner menus, owner trash, owner onboarding, owner requests, owner suspended, owner activity, owner growth, owner growth lead submit, owner team, owner price suggestions, admin login redirect, admin search, admin queue, admin reports, admin businesses, admin receipt submissions, admin observability.
+  - Aksiyon kapsami: owner commerce links save, owner menus create, owner requests offer sheet, owner team invite, owner price suggestion approve, admin queue assign, admin reports assign, admin observability calibration save.
+- `apps/panel_flutter_web/playwright.config.cjs`
+  - Islem: Smoke web-server modeli debug `flutter run` yerine derlenmis web artifact + static server olarak sertlestirildi.
+- `apps/panel_flutter_web/lib/main_web_smoke.dart`
+  - Islem: Smoke entrypoint'i `dotenv` + semantics + smoke harness akisina guncellendi.
+- `apps/panel_flutter_web/lib/smoke/panel_smoke_harness.dart`
+  - Islem: Fake owner/admin provider override'lari browser smoke icin tek yerde toplandi.
+- `apps/panel_flutter_web/scripts/serve-smoke.cjs`
+  - Islem: Flutter web SPA fallback'li static smoke server eklendi.
+- `apps/panel_flutter_web/integration_test/app_smoke_test.dart`
+  - Islem: Kaldirildi.
+  - Neden: Web panel browser smoke icin `integration_test` yerine Playwright kullanimi standarda alindi.
+- `apps/panel_flutter_web/pubspec.yaml`
+  - Islem: `integration_test` dev dependency kaldirildi.
+- `docs/test_strategy.md`, `docs/setup.md`, `docs/system_full_documentation.md`, `docs/mobile_audit_report.md`
+  - Islem: Panel smoke modeli ve kalan riskler yeni browser suite'e gore guncellendi.
+
+## 2026-03-10 (Panel/Web Doc Entry Points)
+
+- `apps/panel_flutter_web/README.md`
+  - Islem: Panel icin ilk app-bazli README eklendi.
+  - Kapsam: owner/admin siniri, route omurgasi, QR/public handoff, Playwright smoke ve CI giris bilgileri.
+- `apps/web_next/README.md`
+  - Islem: Public route anlatimi canonical `public_slug` modeliyle hizalandi.
+  - Islem: Tek kaynak belge referanslari eklendi.
+- `docs/apps.md`, `docs/setup.md`, `docs/system_full_documentation.md`
+  - Islem: Panel/web icin app-bazli giris belgeleri referanslandi.
+  - Sonuc: 13.10 altindaki panel/web README drift'i kapatildi.
+
+## 2026-03-10 (Panel Browser Smoke Hardening)
+
+- `apps/panel_flutter_web/e2e/panel-smoke.spec.cjs`
+  - Islem: Playwright browser smoke kapsami owner/admin cekirdek route ve secili write/modal akislarini kapsayacak sekilde genisletildi.
+  - Kapsam: owner shell, owner businesses, owner business submissions, owner new business submit, owner menus, owner menu editor, owner trash, owner trash restore, owner onboarding, owner requests, owner suspended, owner activity, owner analytics, owner audit alias, owner growth, owner growth lead submit, owner team, owner price suggestions, admin dashboard, admin login redirect, admin search, admin queue, admin reports, admin businesses, admin receipt submissions, admin observability.
+  - Aksiyon kapsami: owner commerce links save, owner menus create, owner requests offer sheet, owner team invite, owner price suggestion approve, admin queue assign, admin reports assign, admin observability calibration save.
+- `apps/panel_flutter_web/lib/smoke/panel_smoke_harness.dart`
+  - Islem: Yeni owner/admin route'lar ve aksiyonlar icin stateful fake repository override'lari genisletildi.
+- `docs/test_strategy.md`, `docs/system_full_documentation.md`, `docs/mobile_audit_report.md`, `apps/panel_flutter_web/README.md`
+  - Islem: Panel browser smoke artik cekirdek release kapisi olarak anlatilacak sekilde guncellendi.
+- Dogrulama:
+  - `flutter analyze` (`apps/panel_flutter_web`) temiz.
+  - `npm --prefix apps/panel_flutter_web run test:smoke` basariyla gecti (`30 passed`).

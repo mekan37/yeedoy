@@ -1,0 +1,330 @@
+name: Mobile Readiness
+
+on:
+  workflow_dispatch:
+    inputs:
+      metrics_path:
+        description: 'Release gate metrics json path'
+        required: false
+        default: 'tool/release_gate_metrics_example.json'
+        type: string
+      run_ios_release:
+        description: 'Run signed iOS IPA dry run with CI secrets'
+        required: false
+        type: boolean
+        default: false
+      upload_ios_artifact:
+        description: 'Upload signed iOS IPA artifact when dry run succeeds'
+        required: false
+        type: boolean
+        default: true
+      ios_export_method:
+        description: 'iOS export method'
+        required: false
+        default: 'app-store'
+        type: string
+      ios_firebase_config_mode:
+        description: 'flutterfire_options or google_service_info'
+        required: false
+        default: 'flutterfire_options'
+        type: string
+      run_android_release:
+        description: 'Run Android release dry run with CI secrets'
+        required: false
+        type: boolean
+        default: false
+      upload_android_artifact:
+        description: 'Upload Android APK artifact when dry run succeeds'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  ios_readiness_audit:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: apps/mobile_flutter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: iOS readiness audit
+        run: dart tool/ios_readiness_check.dart
+
+  release_gate_audit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile_flutter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Release gate audit
+        run: dart run tool/release_gate_check.dart "${{ inputs.metrics_path }}"
+
+  ios_release_dry_run:
+    needs:
+      - ios_readiness_audit
+      - release_gate_audit
+    if: ${{ inputs.run_ios_release == true }}
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: apps/mobile_flutter
+    env:
+      IOS_APPLE_TEAM_ID: ${{ secrets.IOS_APPLE_TEAM_ID }}
+      IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64 }}
+      IOS_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+      IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+      IOS_GOOGLE_SERVICE_INFO_BASE64: ${{ secrets.IOS_GOOGLE_SERVICE_INFO_BASE64 }}
+      IOS_EXPORT_METHOD: ${{ inputs.ios_export_method }}
+      IOS_FIREBASE_CONFIG_MODE: ${{ inputs.ios_firebase_config_mode }}
+      APPLE_TEAM_ID: ${{ secrets.IOS_APPLE_TEAM_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: iOS signing audit
+        run: dart tool/ios_signing_check.dart --ci
+
+      - name: Prepare signing assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          KEYCHAIN_PATH="$RUNNER_TEMP/yeedoy-signing.keychain-db"
+          CERT_PATH="$RUNNER_TEMP/yeedoy-distribution.p12"
+          PROFILE_PATH="$RUNNER_TEMP/yeedoy.mobileprovision"
+          PROFILE_PLIST="$PWD/build/ios-ci/ProvisioningProfile.plist"
+          EXPORT_PLIST="$PWD/build/ios-ci/ExportOptions.ci.plist"
+          EXPECTED_PUSH_ENV="production"
+
+          if [ "$IOS_EXPORT_METHOD" = "development" ]; then
+            EXPECTED_PUSH_ENV="development"
+          fi
+
+          mkdir -p "$PWD/build/ios-ci"
+
+          echo "$IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64" | base64 --decode > "$CERT_PATH"
+          echo "$IOS_PROVISIONING_PROFILE_BASE64" | base64 --decode > "$PROFILE_PATH"
+          security cms -D -i "$PROFILE_PATH" > "$PROFILE_PLIST"
+
+          security create-keychain -p "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH"
+          security import "$CERT_PATH" \
+            -P "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" \
+            -A \
+            -t cert \
+            -f pkcs12 \
+            -k "$KEYCHAIN_PATH"
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: \
+            -s \
+            -k "$IOS_DISTRIBUTION_CERTIFICATE_PASSWORD" \
+            "$KEYCHAIN_PATH"
+
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$PROFILE_PATH" "$HOME/Library/MobileDevice/Provisioning Profiles/yeedoy.mobileprovision"
+
+          if [ "$IOS_FIREBASE_CONFIG_MODE" = "google_service_info" ]; then
+            echo "$IOS_GOOGLE_SERVICE_INFO_BASE64" | base64 --decode > ios/Runner/GoogleService-Info.plist
+          fi
+
+          /usr/libexec/PlistBuddy -c "Set :aps-environment $EXPECTED_PUSH_ENV" ios/Runner/Runner.entitlements
+          cp ios/ExportOptions.plist "$EXPORT_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :teamID $IOS_APPLE_TEAM_ID" "$EXPORT_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :method $IOS_EXPORT_METHOD" "$EXPORT_PLIST"
+
+          {
+            echo "IOS_PROVISIONING_PROFILE_PLIST_PATH=$PROFILE_PLIST"
+            echo "IOS_EXPORT_OPTIONS_PLIST_PATH=$EXPORT_PLIST"
+          } >> "$GITHUB_ENV"
+
+      - name: iOS signing asset contract audit
+        run: dart tool/ios_signing_assets_check.dart
+
+      - name: Signed IPA dry run
+        run: |
+          flutter build ipa \
+            --release \
+            -t lib/main_mobile.dart \
+            --export-options-plist="$PWD/build/ios-ci/ExportOptions.ci.plist"
+
+      - name: Resolve iOS artifact paths
+        if: ${{ inputs.upload_ios_artifact == true }}
+        id: ios_artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          IPA_PATH="$(find "$PWD/build/ios/ipa" -maxdepth 1 -name '*.ipa' -print -quit)"
+          if [ -z "$IPA_PATH" ]; then
+            echo "::error::IPA artifact was not produced under build/ios/ipa"
+            exit 1
+          fi
+
+          {
+            echo "ipa_path=$IPA_PATH"
+            echo "export_plist=$PWD/build/ios-ci/ExportOptions.ci.plist"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload signed iOS IPA artifact
+        if: ${{ inputs.upload_ios_artifact == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-ios-ipa-${{ github.run_id }}
+          path: |
+            ${{ steps.ios_artifacts.outputs.ipa_path }}
+            ${{ steps.ios_artifacts.outputs.export_plist }}
+          if-no-files-found: error
+
+      - name: iOS release summary
+        if: always()
+        env:
+          IOS_IPA_PATH: ${{ steps.ios_artifacts.outputs.ipa_path }}
+        shell: bash
+        run: |
+          {
+            echo "## iOS Release Dry Run"
+            echo ""
+            echo "- export method: \`${IOS_EXPORT_METHOD}\`"
+            echo "- firebase config mode: \`${IOS_FIREBASE_CONFIG_MODE}\`"
+            echo "- artifact upload: \`${{ inputs.upload_ios_artifact }}\`"
+            if [ -n "${IOS_IPA_PATH:-}" ]; then
+              echo "- ipa artifact: \`${IOS_IPA_PATH}\`"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Cleanup signing assets
+        if: always()
+        shell: bash
+        run: |
+          rm -f ios/Runner/GoogleService-Info.plist
+          rm -f "$RUNNER_TEMP/yeedoy-distribution.p12"
+          rm -f "$RUNNER_TEMP/yeedoy.mobileprovision"
+          rm -f "$HOME/Library/MobileDevice/Provisioning Profiles/yeedoy.mobileprovision"
+          rm -rf "$PWD/build/ios-ci"
+          security delete-keychain "$RUNNER_TEMP/yeedoy-signing.keychain-db" || true
+
+  android_release_dry_run:
+    needs:
+      - ios_readiness_audit
+      - release_gate_audit
+    if: ${{ inputs.run_android_release == true }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/mobile_flutter
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Decode Android release keystore
+        shell: bash
+        env:
+          ANDROID_RELEASE_KEYSTORE_BASE64: ${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$ANDROID_RELEASE_KEYSTORE_BASE64" ]; then
+            echo "::error::ANDROID_RELEASE_KEYSTORE_BASE64 is missing"
+            exit 1
+          fi
+          echo "$ANDROID_RELEASE_KEYSTORE_BASE64" | base64 --decode > android/app/ci-release.keystore
+
+      - name: Android release build
+        env:
+          ANDROID_RELEASE_STORE_FILE: android/app/ci-release.keystore
+          ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
+          ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+        run: |
+          flutter build apk --release -t lib/main_mobile.dart
+
+      - name: Resolve Android artifact path
+        if: ${{ inputs.upload_android_artifact == true }}
+        id: android_artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          APK_PATH="$(find "$PWD/build/app/outputs/flutter-apk" -maxdepth 1 -name '*.apk' -print -quit)"
+          if [ -z "$APK_PATH" ]; then
+            echo "::error::Android APK artifact was not produced under build/app/outputs/flutter-apk"
+            exit 1
+          fi
+
+          echo "apk_path=$APK_PATH" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Android APK artifact
+        if: ${{ inputs.upload_android_artifact == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-android-apk-${{ github.run_id }}
+          path: ${{ steps.android_artifacts.outputs.apk_path }}
+          if-no-files-found: error
+
+      - name: Android release summary
+        if: always()
+        env:
+          ANDROID_APK_PATH: ${{ steps.android_artifacts.outputs.apk_path }}
+        shell: bash
+        run: |
+          {
+            echo "## Android Release Dry Run"
+            echo ""
+            echo "- artifact upload: \`${{ inputs.upload_android_artifact }}\`"
+            if [ -n "${ANDROID_APK_PATH:-}" ]; then
+              echo "- apk artifact: \`${ANDROID_APK_PATH}\`"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

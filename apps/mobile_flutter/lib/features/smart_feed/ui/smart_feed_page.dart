@@ -68,7 +68,7 @@ class _SmartFeedPageState extends ConsumerState<SmartFeedPage> {
           children: [
             RefreshIndicator(
               onRefresh: () =>
-                  ref.read(smartFeedProvider.notifier).loadInitial(),
+                  ref.read(smartFeedProvider.notifier).loadInitial(force: true),
               child: ListView(
                 controller: scrollCtrl,
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
@@ -104,7 +104,7 @@ class _SmartFeedPageState extends ConsumerState<SmartFeedPage> {
                           OutlinedButton(
                             onPressed: () => ref
                                 .read(smartFeedProvider.notifier)
-                                .loadInitial(),
+                                .loadInitial(force: true),
                             child: Text(t.retry),
                           ),
                         ],

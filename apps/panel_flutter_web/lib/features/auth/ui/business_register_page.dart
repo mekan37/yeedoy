@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../legal/legal_routes.dart';
 import '../data/auth_service_provider.dart';
 
 class BusinessRegisterPage extends ConsumerStatefulWidget {
@@ -20,6 +21,7 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
   final _passwordRepeatCtrl = TextEditingController();
 
   bool _loading = false;
+  bool _acceptedBusinessTerms = false;
   String? _error;
   String? _ok;
 
@@ -49,6 +51,12 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
       if (pass != _passwordRepeatCtrl.text) {
         setState(() {
           _error = t.businessRegisterPasswordMismatchError;
+        });
+        return;
+      }
+      if (!_acceptedBusinessTerms) {
+        setState(() {
+          _error = 'Devam etmek için İşletme Kullanım Koşulları’nı kabul edin.';
         });
         return;
       }
@@ -111,6 +119,44 @@ class _BusinessRegisterPageState extends ConsumerState<BusinessRegisterPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: t.businessAuthPasswordRepeatLabel,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CheckboxListTile(
+                      contentPadding: EdgeInsets.zero,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: _acceptedBusinessTerms,
+                      onChanged: _loading
+                          ? null
+                          : (value) {
+                              setState(() {
+                                _acceptedBusinessTerms = value ?? false;
+                              });
+                            },
+                      title: const Text(
+                        'İşletme Kullanım Koşulları’nı kabul ediyorum.',
+                      ),
+                    ),
+                    TextButton.icon(
+                      onPressed: _loading
+                          ? null
+                          : () => context.go(
+                              LegalRoutes.detail(LegalRoutes.businessSlug),
+                            ),
+                      icon: const Icon(Icons.open_in_new),
+                      label: const Text('İşletme koşullarını görüntüle'),
+                    ),
+                  ],
                 ),
               ),
               if (_error != null) ...[

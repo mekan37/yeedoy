@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../business/domain/meal_card_provider_option.dart';
 import '../../../features/shared/ui/design_system.dart';
+import 'widgets/meal_card_badge.dart';
 
 class BusinessTile extends StatelessWidget {
   const BusinessTile({
@@ -17,6 +19,7 @@ class BusinessTile extends StatelessWidget {
     this.socialProof,
     this.trailingAction,
     this.onWhyTap,
+    this.mealCardProviders = const [],
   });
 
   final String name;
@@ -29,6 +32,7 @@ class BusinessTile extends StatelessWidget {
   final List<String>? socialProof;
   final Widget? trailingAction;
   final VoidCallback? onWhyTap;
+  final List<MealCardProviderOption> mealCardProviders;
 
   String? _fmtKm(double? km) {
     if (km == null) return null;
@@ -161,6 +165,13 @@ class BusinessTile extends StatelessWidget {
                   style: const TextStyle(color: AppColors.muted, fontSize: 12),
                   overflow: TextOverflow.ellipsis,
                 ),
+                if (mealCardProviders.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  MealCardBadgeRow(
+                    providers: mealCardProviders,
+                    maxVisible: 3,
+                  ),
+                ],
                 if (socialProof != null && socialProof!.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   Wrap(

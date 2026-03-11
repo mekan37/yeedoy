@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/storage/offline_mutation_idempotency.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../domain/price_alert_models.dart';
@@ -22,14 +23,39 @@ class PriceAlertsRepository {
     String? category,
   }) async {
     try {
-      final res = await client.rpc('create_price_alert_v1', params: {
-        'p_query': query.trim(),
+      final trimmedQuery = query.trim();
+      final token = await createOfflineMutationIdempotencyToken(
+        action: 'create_price_alert',
+        payload: {
+          'query': trimmedQuery,
+          'max_price_cents': maxPriceCents,
+          'city': city,
+          'district': district,
+          'category': category,
+          'currency': 'TRY',
+        },
+      );
+      final params = {
+        'p_query': trimmedQuery,
         'p_max_price_cents': maxPriceCents,
         'p_city': city,
         'p_district': district,
         'p_currency': 'TRY',
         'p_category': category,
-      });
+      };
+      dynamic res;
+      try {
+        res = await client.rpc(
+          'create_price_alert_v2',
+          params: {
+            ...params,
+            'p_idempotency_key': token.idempotencyKey,
+          },
+        );
+      } catch (e) {
+        if (!_isMissingRpcError(e, 'create_price_alert_v2')) rethrow;
+        res = await client.rpc('create_price_alert_v1', params: params);
+      }
       if (res is Map && res['ok'] == true) return;
       throw Exception((res is Map ? res['error'] : null) ?? 'unknown_error');
     } catch (e) {
@@ -122,4 +148,15 @@ class PriceAlertsRepository {
     }
     return map;
   }
+}
+
+bool _isMissingRpcError(Object error, String rpcName) {
+  final text = error.toString().toLowerCase();
+  final normalized = rpcName.toLowerCase();
+  return text.contains(normalized) &&
+      (text.contains('could not find') ||
+          text.contains('does not exist') ||
+          text.contains('not found') ||
+          text.contains('undefined function') ||
+          text.contains('pgrst202'));
 }
