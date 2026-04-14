@@ -61,7 +61,7 @@ Navigasyon karari:
 | Deneysel read-cache hardening | Tamam | `apps/mobile_flutter/lib/features/{smart_feed,taste_twin,gourmets,group_requests,suspended_meals,budget_combos}/data/*` | request cache + invalidation rollout tamamlandi |
 | Runtime feature-flag gates | Tamam | `apps/mobile_flutter/lib/{app/router.dart,app/app_shell.dart,features/shared/ui/components/*}` | feed/labs rollout kapilari runtime provider ile yonetiliyor; `Labs` hub route'u eklendi, cekirdek alt-nav `/discover`'a sabitlendi |
 | Embed hardening | Tamam | `apps/mobile_flutter/{lib/features/embed/*,integration_test/embed_smoke_integration_test.dart,test/features/embed/ui/embed_viewer_page_test.dart}` | fallback akisi + coverage + release gate metrik baglantisi tamamlandi |
-| Upload naming | Tamam | `apps/mobile_flutter/lib/core/media/media_upload_repository.dart` | aktif call site'lar `media upload` katmanina tasindi; eski `wp_upload*` dosyalari kaldirildi |
+| Upload naming | Tamam | `apps/mobile_flutter/lib/core/media/media_upload_repository.dart` | aktif call site'lar `media upload` katmanina tasindi; eski upload wrapper dosyalari kaldirildi |
 
 ## Mobilde Olmamali
 

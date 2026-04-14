@@ -285,7 +285,8 @@ Tespit edilen ana fonksiyon aileleri:
 - `push-dispatch`: notification kayitlarini FCM cihazlarina dagitir.
 - `admin-api`: admin yazma RPC'lerini allowlist mantigiyla daha kontrollu bir kanaldan gecirir.
 - `purge-temp-uploads`: gecici medya ve silme kuyrugu temizligi yapar.
-- `wp-upload` ve `wp-upload-user`: medya upload uyumluluk katmani gorevi gorur.
+- `media-upload`: panel/admin tarafinda medya upload uyumluluk katmani gorevi gorur.
+- `media-upload-user`: mobile ve user-scoped medya upload akislarini Supabase Storage uzerinden calistirir.
 - `import_places_json`: veri aktarim veya seed yardimcisi olarak kullanilir.
 
 ### 2.8 Paylasilan paketler

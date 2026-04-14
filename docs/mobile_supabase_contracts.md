@@ -299,7 +299,7 @@ Kanit:
 
 ### Menu/photo upload adapter
 
-- edge function endpoint: `/functions/v1/wp-upload-user`
+- edge function endpoint: `/functions/v1/media-upload-user`
 - aktif adapter:
   - `apps/mobile_flutter/lib/core/media/media_upload_client.dart`
   - `apps/mobile_flutter/lib/core/media/media_upload_client_io.dart`
@@ -309,8 +309,8 @@ Kanit:
 
 Not:
 
-- Backend kontrati ayni kalir, ama mobile UI/controller katmani artik `media upload` dili kullanmalidir.
-- Aktif mobile call site'larda `wp_upload` importu kalmamistir ve legacy wrapper dosyalari kaldirilmistir.
+- Mobile upload akisi `media-upload-user` function adini kullanir ve `wp-*` adlandirmasi kaldirilmistir.
+- Aktif mobile call site'larda eski upload importlari kalmamistir ve legacy wrapper dosyalari kaldirilmistir.
 
 ## Erisim Beklentisi
 

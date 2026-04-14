@@ -54,7 +54,7 @@ class MediaUploadClient {
     }
 
     final url = Uri.parse(
-      '${supabaseUrl.replaceAll(RegExp(r"/$"), "")}/functions/v1/wp-upload-user',
+      '${supabaseUrl.replaceAll(RegExp(r"/$"), "")}/functions/v1/media-upload-user',
     );
     final request = http.MultipartRequest('POST', url);
     request.headers['Authorization'] = 'Bearer $accessToken';

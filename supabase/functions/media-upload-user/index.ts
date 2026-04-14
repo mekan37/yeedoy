@@ -1,4 +1,4 @@
-﻿import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 function json(data: unknown, status = 200) {
@@ -131,7 +131,7 @@ serve(async (req) => {
   const userId = userRes.user.id;
 
   const { data: rl, error: rlErr } = await supabase.rpc("consume_rate_limit_v1", {
-    p_action: "wp_upload",
+    p_action: "media_upload",
     p_daily_limit: 10,
   });
   if (rlErr) return json({ ok: false, error: "rate_limit_failed", detail: rlErr.message }, 500);
@@ -271,4 +271,3 @@ serve(async (req) => {
     remaining: rl?.remaining ?? null,
   });
 });
-

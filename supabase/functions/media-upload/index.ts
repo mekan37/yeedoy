@@ -1,4 +1,3 @@
-﻿// supabase/functions/wp-upload/index.ts
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -91,12 +90,10 @@ serve(async (req) => {
     return json({ ok: false, error: "missing_supabase_env" }, 500);
   }
 
-  // User-context client: JWT ile is_admin() Ã§aÄŸÄ±racaÄŸÄ±z
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     global: { headers: { Authorization: auth } },
   });
 
-  // Admin check
   const { data: isAdmin, error: adminErr } = await supabase.rpc("is_admin");
   if (adminErr) return json({ ok: false, error: "admin_check_failed", detail: adminErr.message }, 500);
   if (!isAdmin) return json({ ok: false, error: "not_admin" }, 403);
@@ -141,7 +138,7 @@ serve(async (req) => {
 
   if (!res.ok) {
     const txt = await res.text();
-    return json({ ok: false, error: "wp_upload_failed", status: res.status, detail: txt.slice(0, 400) }, 500);
+    return json({ ok: false, error: "media_upload_failed", status: res.status, detail: txt.slice(0, 400) }, 500);
   }
 
   const media = await res.json();
@@ -161,4 +158,3 @@ serve(async (req) => {
     title,
   });
 });
-

@@ -122,7 +122,7 @@ class MediaUploadClient {
     }
 
     final url =
-        '${supabaseUrl.replaceAll(RegExp(r'/$'), '')}/functions/v1/wp-upload';
+        '${supabaseUrl.replaceAll(RegExp(r'/$'), '')}/functions/v1/media-upload';
     final request = html.HttpRequest();
     final completer = Completer<MediaUploadResult?>();
 

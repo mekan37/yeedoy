@@ -19,9 +19,9 @@ Bu konularin tek kaynaklari:
 
 Panel tarafinda medya yukleme katmani `core/media` altinda toplanmistir.
 
-## Eski Kontrat
+## Backend Kontrati
 
-- Backend endpoint ayni kalir: `/functions/v1/wp-upload`
+- Backend endpoint: `/functions/v1/media-upload`
 - Payload ayni kalir:
   - `file`
   - `title`
@@ -29,14 +29,14 @@ Panel tarafinda medya yukleme katmani `core/media` altinda toplanmistir.
   - `menu_item_id`
   - `critical`
 
-Bu refactor sadece panel ici isimlendirme ve adapter sinirini degistirir.
+Bu kontrat panel tarafinda halen WordPress media uyumluluk katmani gibi calisir; sadece `wp-*` adlandirmasi kaldirilmistir.
 
 ## Yeni Giris Noktasi
 
 - `MediaUploadClient`
 - `MediaUploadRepository`
 
-Feature ve UI katmani artik `wp_upload` yerine bu API'yi kullanmalidir. Eski `features/menus/data/wp_upload.dart` dosyalari yalnizca backward compatibility wrapper'i olarak degerlendirilir ve aktif call site icermemelidir.
+Feature ve UI katmani yalnizca `core/media` altindaki bu API'yi kullanmalidir. Legacy upload wrapper dosyalari kaldirilmistir.
 
 ## Storage Migration Notu
 

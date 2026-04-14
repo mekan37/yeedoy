@@ -351,7 +351,7 @@ Bu siniflandirma koddan cikan inferanstir; RLS dogrulamasi icin Supabase policy 
   - tablo: `temp_uploads`
   - kanit: `apps/mobile_flutter/lib/features/contribute/data/temp_uploads_repository.dart`
 - Menu / photo upload:
-  - edge function: `/functions/v1/wp-upload-user`
+  - edge function: `/functions/v1/media-upload-user`
   - aktif adapter: `apps/mobile_flutter/lib/core/media/media_upload_client_io.dart`, `media_upload_client_web.dart`
   - Bu katman storage detayini dogrudan expose etmiyor ama backend upload kontratina bagli.
 
