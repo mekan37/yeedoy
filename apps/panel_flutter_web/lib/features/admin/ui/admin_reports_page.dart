@@ -20,6 +20,7 @@ import 'web_download.dart';
 import 'widgets/admin_new_items_banner.dart';
 import 'widgets/admin_table.dart';
 import '../../../shared/ui/design_system.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 
 class AdminReportsPage extends ConsumerStatefulWidget {
   const AdminReportsPage({super.key});
@@ -30,6 +31,18 @@ class AdminReportsPage extends ConsumerStatefulWidget {
 
 class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   static const _savedViewScope = 'admin_reports';
+  static const _columns = <AdminVirtualTableColumn>[
+    AdminVirtualTableColumn(width: 56, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 220, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 170, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 140, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 140, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+  ];
 
   final searchCtrl = TextEditingController();
   final searchFocus = FocusNode();
@@ -118,13 +131,11 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  l10n.adminReportsTitle,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-                ),
-                const Spacer(),
+            PanelPageHeader(
+              padding: EdgeInsets.zero,
+              title: Text(l10n.adminReportsTitle),
+              description: l10n.adminShellReportsDescription,
+              actions: [
                 OutlinedButton.icon(
                   onPressed: exporting ? null : () => _exportCsv(st),
                   icon: const Icon(Icons.download),
@@ -132,9 +143,8 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                     exporting
                         ? l10n.adminCommonDownloading
                         : l10n.adminCommonExportCsv,
-                    ),
+                  ),
                 ),
-                const SizedBox(width: 8),
                 OutlinedButton.icon(
                   onPressed: () => context.go(
                     _queueRouteForReports(
@@ -145,7 +155,6 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                   icon: const Icon(Icons.alt_route),
                   label: Text(l10n.adminQueueOpenFromReportsAction),
                 ),
-                const SizedBox(width: 8),
                 IconButton(
                   onPressed: () async {
                     final ok = await ref
@@ -361,10 +370,11 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                   : Column(
                       children: [
                         Expanded(
-                          child: AdminTableCard(
+                          child: AdminVirtualTableCard(
                             emptyLabel: l10n.adminCommonNoRecordsFound,
                             columns: [
-                              DataColumn(
+                              AdminVirtualTableColumn(
+                                width: 56,
                                 label: Checkbox(
                                   value: allPageSelected,
                                   onChanged: (value) {
@@ -377,53 +387,112 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                                   },
                                 ),
                               ),
-                              DataColumn(
-                                label: const Text('ID'),
-                                onSort: (_, ascending) =>
-                                    _sortReportsBy('id', ascending),
-                              ),
-                              DataColumn(
-                                label: Text(l10n.adminReportsReasonColumn),
-                                onSort: (_, ascending) =>
-                                    _sortReportsBy('reason', ascending),
-                              ),
-                              DataColumn(
-                                label: Text(l10n.adminCommonPriority),
-                                onSort: (_, ascending) =>
-                                    _sortReportsBy('priority', ascending),
-                              ),
-                              DataColumn(
-                                label: Text(l10n.adminReportsStatusColumn),
-                                onSort: (_, ascending) =>
-                                    _sortReportsBy('status', ascending),
-                              ),
-                              DataColumn(
-                                label: Text(l10n.adminCommonAssigned),
-                                onSort: (_, ascending) =>
-                                    _sortReportsBy('assigned', ascending),
-                              ),
-                              DataColumn(
-                                label: Text(l10n.adminReportsCreatedAtColumn),
-                                onSort: (_, ascending) =>
-                                    _sortReportsBy('createdAt', ascending),
-                              ),
-                              DataColumn(
-                                label: Text(l10n.adminCommonAge),
-                                onSort: (_, ascending) =>
-                                    _sortReportsBy('age', ascending),
-                              ),
-                              DataColumn(label: Text(l10n.adminReportsPhotoColumn)),
-                              const DataColumn(label: Text('')),
-                            ],
-                            rows: [
-                              for (final item in pageItems)
-                                _buildReportRow(
-                                  context: context,
-                                  item: item,
-                                  state: st,
-                                  userId: user?.id,
+                              AdminVirtualTableColumn(
+                                width: 120,
+                                label: _HeaderSortLabel(
+                                  label: 'ID',
+                                  active: _sortKey == 'id',
+                                  ascending: _sortAscending,
+                                  onTap: () => _sortReportsBy(
+                                    'id',
+                                    _sortKey == 'id' ? !_sortAscending : true,
+                                  ),
                                 ),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 220,
+                                label: _HeaderSortLabel(
+                                  label: l10n.adminReportsReasonColumn,
+                                  active: _sortKey == 'reason',
+                                  ascending: _sortAscending,
+                                  onTap: () => _sortReportsBy(
+                                    'reason',
+                                    _sortKey == 'reason' ? !_sortAscending : true,
+                                  ),
+                                ),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 120,
+                                label: _HeaderSortLabel(
+                                  label: l10n.adminCommonPriority,
+                                  active: _sortKey == 'priority',
+                                  ascending: _sortAscending,
+                                  onTap: () => _sortReportsBy(
+                                    'priority',
+                                    _sortKey == 'priority'
+                                        ? !_sortAscending
+                                        : false,
+                                  ),
+                                ),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 170,
+                                label: _HeaderSortLabel(
+                                  label: l10n.adminReportsStatusColumn,
+                                  active: _sortKey == 'status',
+                                  ascending: _sortAscending,
+                                  onTap: () => _sortReportsBy(
+                                    'status',
+                                    _sortKey == 'status' ? !_sortAscending : true,
+                                  ),
+                                ),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 140,
+                                label: _HeaderSortLabel(
+                                  label: l10n.adminCommonAssigned,
+                                  active: _sortKey == 'assigned',
+                                  ascending: _sortAscending,
+                                  onTap: () => _sortReportsBy(
+                                    'assigned',
+                                    _sortKey == 'assigned'
+                                        ? !_sortAscending
+                                        : true,
+                                  ),
+                                ),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 140,
+                                label: _HeaderSortLabel(
+                                  label: l10n.adminReportsCreatedAtColumn,
+                                  active: _sortKey == 'createdAt',
+                                  ascending: _sortAscending,
+                                  onTap: () => _sortReportsBy(
+                                    'createdAt',
+                                    _sortKey == 'createdAt'
+                                        ? !_sortAscending
+                                        : false,
+                                  ),
+                                ),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 120,
+                                label: _HeaderSortLabel(
+                                  label: l10n.adminCommonAge,
+                                  active: _sortKey == 'age',
+                                  ascending: _sortAscending,
+                                  onTap: () => _sortReportsBy(
+                                    'age',
+                                    _sortKey == 'age' ? !_sortAscending : false,
+                                  ),
+                                ),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 120,
+                                label: Text(l10n.adminReportsPhotoColumn),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 120,
+                                label: Text(l10n.adminCommonActionsLabel),
+                              ),
                             ],
+                            rowCount: pageItems.length,
+                            rowBuilder: (context, index) => _buildReportRow(
+                              context: context,
+                              item: pageItems[index],
+                              state: st,
+                              userId: user?.id,
+                            ),
                           ),
                         ),
                         if (st.isLoadingMore)
@@ -598,7 +667,7 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
     }
   }
 
-  DataRow _buildReportRow({
+  Widget _buildReportRow({
     required BuildContext context,
     required AdminReportItem item,
     required AdminReportsState state,
@@ -606,37 +675,48 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
   }) {
     final sourceIndex = state.items.indexWhere((entry) => entry.id == item.id);
     final l10n = context.l10n;
-    return DataRow(
-      color: _rowColor(state.selectedIndex == sourceIndex, item.slaBreached),
-      selected: state.selectedIds.contains(item.id),
-      onSelectChanged: (_) => _openDetails(
-        context,
-        item,
-        index: sourceIndex >= 0 ? sourceIndex : null,
-      ),
-      cells: [
-        DataCell(
+    return AdminVirtualTableRowView(
+      columns: _columns,
+      row: AdminVirtualTableRow(
+        key: ValueKey(item.id),
+        backgroundColor:
+            _rowColor(
+              state.selectedIndex == sourceIndex,
+              item.slaBreached,
+            ).resolve({}),
+        selected: state.selectedIds.contains(item.id),
+        onTap: () => _openDetails(
+          context,
+          item,
+          index: sourceIndex >= 0 ? sourceIndex : null,
+        ),
+        cells: [
           Checkbox(
             value: state.selectedIds.contains(item.id),
             onChanged: (value) => ref
                 .read(adminReportsControllerProvider.notifier)
                 .toggleSelection(item.id, value ?? false),
           ),
-        ),
-        DataCell(
           Row(
             children: [
               if (item.slaBreached) ...[
                 const AppSlaBadge(),
                 const SizedBox(width: 6),
               ],
-              Text(_short(item.id)),
+              Flexible(
+                child: Text(
+                  _short(item.id),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
-        ),
-        DataCell(Text(item.reason)),
-        DataCell(AppPriorityBadge(score: _reportPriority(item))),
-        DataCell(
+          Text(
+            item.reason,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          AppPriorityBadge(score: _reportPriority(item)),
           Row(
             children: [
               Text(_reportStatusLabel(context, item.status)),
@@ -649,11 +729,9 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
               ],
             ],
           ),
-        ),
-        DataCell(Text(_assignedLabel(context, item.assignedTo, userId))),
-        DataCell(Text(_fmtDate(item.createdAt))),
-        DataCell(Text(_fmtHours(context, item.ageHours))),
-        DataCell(
+          Text(_assignedLabel(context, item.assignedTo, userId)),
+          Text(_fmtDate(item.createdAt)),
+          Text(_fmtHours(context, item.ageHours)),
           Row(
             children: [
               if ((item.menuItemPhotoId ?? '').isNotEmpty)
@@ -673,8 +751,6 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
                 ),
             ],
           ),
-        ),
-        DataCell(
           TextButton(
             onPressed: () => _openDetails(
               context,
@@ -683,8 +759,8 @@ class _AdminReportsPageState extends ConsumerState<AdminReportsPage> {
             ),
             child: Text(l10n.adminCommonDetails),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -1747,6 +1823,40 @@ Future<bool?> _fetchBusinessMediaShadow(WidgetRef ref, String mediaId) async {
       .maybeSingle();
   if (res == null) return null;
   return (res['is_shadow'] ?? false) == true;
+}
+
+class _HeaderSortLabel extends StatelessWidget {
+  const _HeaderSortLabel({
+    required this.label,
+    required this.active,
+    required this.ascending,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool active;
+  final bool ascending;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(child: Text(label)),
+          const SizedBox(width: 4),
+          Icon(
+            active
+                ? (ascending ? Icons.arrow_upward : Icons.arrow_downward)
+                : Icons.unfold_more,
+            size: 14,
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _ShadowInfo extends StatelessWidget {

@@ -18,7 +18,7 @@ class BudgetCombosRepository {
     _cache.invalidatePrefix('');
   }
 
-  Future<List<BudgetComboResult>> getCombos(
+  Future<List<BudgetComboResult>> fetchCombos(
     BudgetComboQuery query, {
     bool force = false,
   }) async {

@@ -98,79 +98,79 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
-  /// L10n key: appName
+  /// Auto metadata for appName
   ///
   /// In tr, this message translates to:
   /// **'Yeedoy'**
   String get appName;
 
-  /// L10n key: map
+  /// Auto metadata for map
   ///
   /// In tr, this message translates to:
   /// **'Harita'**
   String get map;
 
-  /// L10n key: save
+  /// Auto metadata for save
   ///
   /// In tr, this message translates to:
   /// **'Kaydet'**
   String get save;
 
-  /// L10n key: cancel
+  /// Auto metadata for cancel
   ///
   /// In tr, this message translates to:
   /// **'İptal'**
   String get cancel;
 
-  /// L10n key: logout
+  /// Auto metadata for logout
   ///
   /// In tr, this message translates to:
   /// **'Çıkış Yap'**
   String get logout;
 
-  /// L10n key: uploadPhoto
+  /// Auto metadata for uploadPhoto
   ///
   /// In tr, this message translates to:
   /// **'Fotoğraf Yükle'**
   String get uploadPhoto;
 
-  /// L10n key: saving
+  /// Auto metadata for saving
   ///
   /// In tr, this message translates to:
   /// **'Kaydediliyor...'**
   String get saving;
 
-  /// L10n key: preview
+  /// Auto metadata for preview
   ///
   /// In tr, this message translates to:
   /// **'Önizleme'**
   String get preview;
 
-  /// L10n key: embed
+  /// Auto metadata for embed
   ///
   /// In tr, this message translates to:
   /// **'Gömülü'**
   String get embed;
 
-  /// L10n key: share
+  /// Auto metadata for share
   ///
   /// In tr, this message translates to:
   /// **'Paylaş'**
   String get share;
 
-  /// L10n key: invalidLinkMessage
+  /// Auto metadata for invalidLinkMessage
   ///
   /// In tr, this message translates to:
   /// **'Geçersiz bağlantı'**
   String get invalidLinkMessage;
 
-  /// L10n key: browserOpened
+  /// Auto metadata for browserOpened
   ///
   /// In tr, this message translates to:
   /// **'Tarayıcıda açıldı'**
   String get browserOpened;
 
-  /// L10n key: embedFailed
+  /// Auto metadata for embedFailed
   ///
   /// In tr, this message translates to:
   /// **'İçerik görüntülenemedi, tarayıcıya yönlendirdik.'**
@@ -194,265 +194,265 @@ abstract class AppLocalizations {
   /// **'Tarayıcıda aç'**
   String get embedOpenBrowserAction;
 
-  /// L10n key: back
+  /// Auto metadata for back
   ///
   /// In tr, this message translates to:
   /// **'Geri'**
   String get back;
 
-  /// L10n key: reviewsCount
+  /// Auto metadata for reviewsCount
   ///
   /// In tr, this message translates to:
   /// **'Yorum ({count})'**
   String reviewsCount(int count);
 
-  /// L10n key: openNow
+  /// Auto metadata for openNow
   ///
   /// In tr, this message translates to:
   /// **'Şuan açık'**
   String get openNow;
 
-  /// L10n key: verified
+  /// Auto metadata for verified
   ///
   /// In tr, this message translates to:
   /// **'Doğrulandı'**
   String get verified;
 
-  /// L10n key: businessLabel
+  /// Auto metadata for businessLabel
   ///
   /// In tr, this message translates to:
   /// **'İşletme'**
   String get businessLabel;
 
-  /// L10n key: menu
+  /// Auto metadata for menu
   ///
   /// In tr, this message translates to:
   /// **'Menü'**
   String get menu;
 
-  /// L10n key: apply
+  /// Auto metadata for apply
   ///
   /// In tr, this message translates to:
   /// **'Uygula'**
   String get apply;
 
-  /// L10n key: unknown
+  /// Auto metadata for unknown
   ///
   /// In tr, this message translates to:
   /// **'Bilinmiyor'**
   String get unknown;
 
-  /// L10n key: title
+  /// Auto metadata for title
   ///
   /// In tr, this message translates to:
-  /// **'Başlık'**
+  /// **'title'**
   String get title;
 
-  /// L10n key: approved
+  /// Auto metadata for approved
   ///
   /// In tr, this message translates to:
   /// **'Onaylandı'**
   String get approved;
 
-  /// L10n key: tumu
+  /// Auto metadata for tumu
   ///
   /// In tr, this message translates to:
   /// **'Tümü'**
   String get tumu;
 
-  /// L10n key: pending
+  /// Auto metadata for pending
   ///
   /// In tr, this message translates to:
   /// **'Beklemede'**
   String get pending;
 
-  /// L10n key: rejected
+  /// Auto metadata for rejected
   ///
   /// In tr, this message translates to:
   /// **'Reddedildi'**
   String get rejected;
 
-  /// L10n key: duzenle
+  /// Auto metadata for duzenle
   ///
   /// In tr, this message translates to:
   /// **'Düzenle'**
   String get duzenle;
 
-  /// L10n key: sla
+  /// Auto metadata for sla
   ///
   /// In tr, this message translates to:
   /// **'Geri Dönüş Süresi'**
   String get sla;
 
-  /// L10n key: yenile
+  /// Auto metadata for yenile
   ///
   /// In tr, this message translates to:
   /// **'Yenile'**
   String get yenile;
 
-  /// L10n key: start
+  /// Auto metadata for start
   ///
   /// In tr, this message translates to:
   /// **'Başla'**
   String get start;
 
-  /// L10n key: campaign
+  /// Auto metadata for campaign
   ///
   /// In tr, this message translates to:
   /// **'Kampanya'**
   String get campaign;
 
-  /// L10n key: go
+  /// Auto metadata for go
   ///
   /// In tr, this message translates to:
   /// **'Git'**
   String get go;
 
-  /// L10n key: menuShareNotFoundTitle
+  /// Auto metadata for menuShareNotFoundTitle
   ///
   /// In tr, this message translates to:
   /// **'Menü bulunamadı • {appName}'**
   String menuShareNotFoundTitle(String appName);
 
-  /// L10n key: menuShareNotFoundDescription
+  /// Auto metadata for menuShareNotFoundDescription
   ///
   /// In tr, this message translates to:
   /// **'Paylaşılan menü içeriği bulunamadı.'**
   String get menuShareNotFoundDescription;
 
-  /// L10n key: menuContentNotFound
+  /// Auto metadata for menuContentNotFound
   ///
   /// In tr, this message translates to:
   /// **'Menü içeriği bulunamadı'**
   String get menuContentNotFound;
 
-  /// L10n key: openAppForBetterExperience
+  /// Auto metadata for openAppForBetterExperience
   ///
   /// In tr, this message translates to:
   /// **'Daha iyi deneyim için uygulamayı aç.'**
   String get openAppForBetterExperience;
 
-  /// L10n key: openApp
+  /// Auto metadata for openApp
   ///
   /// In tr, this message translates to:
   /// **'Uygulamayı Aç'**
   String get openApp;
 
-  /// L10n key: nearbyPeopleViewed
+  /// Auto metadata for nearbyPeopleViewed
   ///
   /// In tr, this message translates to:
-  /// **'{count} kişi yakında görüntüledi'**
+  /// **'Yakındaki {count} kişi görüntüledi'**
   String nearbyPeopleViewed(int count);
 
-  /// L10n key: verifiedPrices
+  /// Auto metadata for verifiedPrices
   ///
   /// In tr, this message translates to:
   /// **'Doğrulanmış fiyatlar'**
   String get verifiedPrices;
 
-  /// L10n key: selectRatingFirst
+  /// Auto metadata for selectRatingFirst
   ///
   /// In tr, this message translates to:
   /// **'Önce puan seç'**
   String get selectRatingFirst;
 
-  /// L10n key: thankYou
+  /// Auto metadata for thankYou
   ///
   /// In tr, this message translates to:
   /// **'Teşekkürler'**
   String get thankYou;
 
-  /// L10n key: noProductsFound
+  /// Auto metadata for noProductsFound
   ///
   /// In tr, this message translates to:
   /// **'Ürün bulunamadı'**
   String get noProductsFound;
 
-  /// L10n key: preparedWithApp
+  /// Auto metadata for preparedWithApp
   ///
   /// In tr, this message translates to:
   /// **'{appName} ile hazırlandı'**
   String preparedWithApp(String appName);
 
-  /// L10n key: tableLabel
+  /// Auto metadata for tableLabel
   ///
   /// In tr, this message translates to:
   /// **'Masa {tableNo}'**
   String tableLabel(String tableNo);
 
-  /// L10n key: tableServiceQuestion
+  /// Auto metadata for tableServiceQuestion
   ///
   /// In tr, this message translates to:
-  /// **'Masa {tableNo} servisi nasıldı?'**
+  /// **'Masa {tableNo} - servis var mı?'**
   String tableServiceQuestion(String tableNo);
 
-  /// L10n key: shortNoteOptional
+  /// Auto metadata for shortNoteOptional
   ///
   /// In tr, this message translates to:
   /// **'Kısa not (opsiyonel)'**
   String get shortNoteOptional;
 
-  /// L10n key: submit
+  /// Auto metadata for submit
   ///
   /// In tr, this message translates to:
   /// **'Gönder'**
   String get submit;
 
-  /// L10n key: submitted
+  /// Auto metadata for submitted
   ///
   /// In tr, this message translates to:
   /// **'Gönderildi'**
   String get submitted;
 
-  /// L10n key: submitting
+  /// Auto metadata for submitting
   ///
   /// In tr, this message translates to:
   /// **'Gönderiliyor'**
   String get submitting;
 
-  /// L10n key: retry
+  /// Auto metadata for retry
   ///
   /// In tr, this message translates to:
   /// **'Tekrar dene'**
   String get retry;
 
-  /// L10n key: register
+  /// Auto metadata for register
   ///
   /// In tr, this message translates to:
   /// **'Kayıt Ol'**
   String get register;
 
-  /// L10n key: login
+  /// Auto metadata for login
   ///
   /// In tr, this message translates to:
   /// **'Giriş Yap'**
   String get login;
 
-  /// L10n key: cover
+  /// Auto metadata for cover
   ///
   /// In tr, this message translates to:
   /// **'Kuver'**
   String get cover;
 
-  /// L10n key: note
+  /// Auto metadata for note
   ///
   /// In tr, this message translates to:
   /// **'Not'**
   String get note;
 
-  /// L10n key: menuItemName
+  /// Auto metadata for menuItemName
   ///
   /// In tr, this message translates to:
   /// **'Ürün adı'**
   String get menuItemName;
 
-  /// L10n key: price
+  /// Auto metadata for price
   ///
   /// In tr, this message translates to:
   /// **'Fiyat'**
   String get price;
 
-  /// L10n key: priceStability
+  /// Auto metadata for priceStability
   ///
   /// In tr, this message translates to:
   /// **'Fiyat istikrarı'**
@@ -5611,16 +5611,16 @@ abstract class AppLocalizations {
   /// **'Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.'**
   String get loginRegisterSuccess;
 
-  /// L10n key: loginActionFailedTitle
+  /// Auto metadata for loginActionFailedTitle
   ///
   /// In tr, this message translates to:
   /// **'İşlem tamamlanamadı'**
   String get loginActionFailedTitle;
 
-  /// L10n key: loginActionFailedDescription
+  /// Auto metadata for loginActionFailedDescription
   ///
   /// In tr, this message translates to:
-  /// **'{error}\nBağlantını kontrol edip tekrar dene.'**
+  /// **'{error}\nBağlantıyı kontrol edip tekrar dene.'**
   String loginActionFailedDescription(String error);
 
   /// L10n key: legalTitle
@@ -5671,7 +5671,7 @@ abstract class AppLocalizations {
   /// **'Başvuru: e-posta ile talep oluştur.'**
   String get legalPrivacyApplicationHint;
 
-  /// L10n key: legalCopyrightSectionTitle
+  /// Auto metadata for legalCopyrightSectionTitle
   ///
   /// In tr, this message translates to:
   /// **'Foto Telif Bildirimi'**
@@ -5695,7 +5695,7 @@ abstract class AppLocalizations {
   /// **'Telif Politikası'**
   String get legalCopyrightPolicyAction;
 
-  /// L10n key: legalOwnershipAppealSectionTitle
+  /// Auto metadata for legalOwnershipAppealSectionTitle
   ///
   /// In tr, this message translates to:
   /// **'İşletme Sahipliği İtirazı'**
@@ -5731,7 +5731,7 @@ abstract class AppLocalizations {
   /// **'{appName} - Sahiplik İtirazı'**
   String legalOwnershipAppealMailSubject(String appName);
 
-  /// L10n key: legalProductPrinciplesSectionTitle
+  /// Auto metadata for legalProductPrinciplesSectionTitle
   ///
   /// In tr, this message translates to:
   /// **'Ürün İlkeleri'**
@@ -8626,6 +8626,18 @@ abstract class AppLocalizations {
   /// **'Son 90 gün'**
   String get ownerAnalyticsPreset90Days;
 
+  /// L10n key: ownerAnalyticsPreset24Hours
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 24 saat'**
+  String get ownerAnalyticsPreset24Hours;
+
+  /// L10n key: ownerAnalyticsHourlyTrendTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 24 saatlik akış'**
+  String get ownerAnalyticsHourlyTrendTitle;
+
   /// L10n key: ownerAnalyticsBranchCompareToggle
   ///
   /// In tr, this message translates to:
@@ -9386,6 +9398,168 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Fotoğraf çöp kutusuna taşındı.'**
   String get ownerPhotoMovedToTrash;
+
+  /// L10n key: ownerAiAnalysisTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'AI Menü Analizi'**
+  String get ownerAiAnalysisTitle;
+
+  /// L10n key: ownerAiAnalysisNoBusinessTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme seçilmedi'**
+  String get ownerAiAnalysisNoBusinessTitle;
+
+  /// L10n key: ownerAiAnalysisNoBusinessDescription
+  ///
+  /// In tr, this message translates to:
+  /// **'AI analizini kullanmak için önce bir işletme seç.'**
+  String get ownerAiAnalysisNoBusinessDescription;
+
+  /// L10n key: ownerAiAnalysisDisclaimer
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bilgiler otomatik analiz ile oluşturulmuştur. Kesin bilgi değildir; lütfen işletmeden doğrulayınız.'**
+  String get ownerAiAnalysisDisclaimer;
+
+  /// L10n key: ownerAiAnalysisUploadTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü Fotoğrafı Yükle'**
+  String get ownerAiAnalysisUploadTitle;
+
+  /// L10n key: ownerAiAnalysisUploadDescription
+  ///
+  /// In tr, this message translates to:
+  /// **'JPG, PNG veya WEBP formatında menü görseli yükle. AI otomatik ürün, alerjen ve kalori bilgisi üretir.'**
+  String get ownerAiAnalysisUploadDescription;
+
+  /// L10n key: ownerAiAnalysisUploadAction
+  ///
+  /// In tr, this message translates to:
+  /// **'Görsel Seç'**
+  String get ownerAiAnalysisUploadAction;
+
+  /// L10n key: ownerAiAnalysisUploading
+  ///
+  /// In tr, this message translates to:
+  /// **'Yükleniyor...'**
+  String get ownerAiAnalysisUploading;
+
+  /// L10n key: ownerAiAnalysisAnalyzing
+  ///
+  /// In tr, this message translates to:
+  /// **'AI analiz yapıyor...'**
+  String get ownerAiAnalysisAnalyzing;
+
+  /// L10n key: ownerAiAnalysisComplete
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} ürün analiz edildi. Sonuçları incele ve onayla.'**
+  String ownerAiAnalysisComplete(int count);
+
+  /// L10n key: ownerAiAnalysisJobsTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Son İşler'**
+  String get ownerAiAnalysisJobsTitle;
+
+  /// L10n key: ownerAiAnalysisResultsTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Analiz Sonuçları'**
+  String get ownerAiAnalysisResultsTitle;
+
+  /// L10n key: ownerAiAnalysisEmptyTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz analiz yok'**
+  String get ownerAiAnalysisEmptyTitle;
+
+  /// L10n key: ownerAiAnalysisEmptyDescription
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü görseli yükle, AI alerjen ve kalori bilgisi üretsin.'**
+  String get ownerAiAnalysisEmptyDescription;
+
+  /// L10n key: ownerAiAnalysisFilterAll
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get ownerAiAnalysisFilterAll;
+
+  /// L10n key: ownerAiAnalysisFilterPending
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekliyor'**
+  String get ownerAiAnalysisFilterPending;
+
+  /// L10n key: ownerAiAnalysisFilterApproved
+  ///
+  /// In tr, this message translates to:
+  /// **'Onaylandı'**
+  String get ownerAiAnalysisFilterApproved;
+
+  /// L10n key: ownerAiAnalysisFilterRejected
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedildi'**
+  String get ownerAiAnalysisFilterRejected;
+
+  /// L10n key: ownerAiAnalysisReviewRequired
+  ///
+  /// In tr, this message translates to:
+  /// **'Manuel inceleme gerekiyor'**
+  String get ownerAiAnalysisReviewRequired;
+
+  /// L10n key: ownerAiAnalysisApproveAction
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
+  String get ownerAiAnalysisApproveAction;
+
+  /// L10n key: ownerAiAnalysisRejectAction
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddet'**
+  String get ownerAiAnalysisRejectAction;
+
+  /// L10n key: ownerAiAnalysisApproved
+  ///
+  /// In tr, this message translates to:
+  /// **'Onaylandı.'**
+  String get ownerAiAnalysisApproved;
+
+  /// L10n key: ownerAiAnalysisRejected
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedildi.'**
+  String get ownerAiAnalysisRejected;
+
+  /// L10n key: ownerAiAnalysisStatusPending
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekliyor'**
+  String get ownerAiAnalysisStatusPending;
+
+  /// L10n key: ownerAiAnalysisStatusApproved
+  ///
+  /// In tr, this message translates to:
+  /// **'Onaylandı'**
+  String get ownerAiAnalysisStatusApproved;
+
+  /// L10n key: ownerAiAnalysisStatusRejected
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedildi'**
+  String get ownerAiAnalysisStatusRejected;
+
+  /// L10n key: ownerShellAiAnalysisLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'AI Analiz'**
+  String get ownerShellAiAnalysisLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_suggestions_repository.dart';
 import '../domain/admin_models.dart';
@@ -74,13 +75,10 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  l10n.adminSuggestionsTitle,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-                ),
-                const Spacer(),
+            PanelPageHeader(
+              padding: EdgeInsets.zero,
+              title: Text(l10n.adminSuggestionsTitle),
+              actions: [
                 OutlinedButton.icon(
                   onPressed: exporting ? null : () => _exportCsv(st),
                   icon: const Icon(Icons.download),
@@ -90,7 +88,6 @@ class _AdminSuggestionsPageState extends ConsumerState<AdminSuggestionsPage> {
                         : l10n.adminCommonExportCsv,
                   ),
                 ),
-                const SizedBox(width: 8),
                 IconButton(
                   onPressed: () async {
                     final ok = await ref

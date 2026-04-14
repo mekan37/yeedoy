@@ -1,0 +1,287 @@
+{
+  "@@locale": "en",
+  "@@description": "Shared localization keys present in both mobile and panel apps. Edit here, then run scripts/sync-l10n.mjs to propagate.",
+  "appName": "Yeedoy",
+  "@appName": {
+    "description": "Auto metadata for appName"
+  },
+  "map": "Map",
+  "@map": {
+    "description": "Auto metadata for map"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Auto metadata for save"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Auto metadata for cancel"
+  },
+  "logout": "Log Out",
+  "@logout": {
+    "description": "Auto metadata for logout"
+  },
+  "uploadPhoto": "Upload Photo",
+  "@uploadPhoto": {
+    "description": "Auto metadata for uploadPhoto"
+  },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "Auto metadata for saving"
+  },
+  "preview": "Preview",
+  "@preview": {
+    "description": "Auto metadata for preview"
+  },
+  "embed": "Embed",
+  "@embed": {
+    "description": "Auto metadata for embed"
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Auto metadata for share"
+  },
+  "invalidLinkMessage": "Invalid link",
+  "@invalidLinkMessage": {
+    "description": "Auto metadata for invalidLinkMessage"
+  },
+  "browserOpened": "Opened in browser",
+  "@browserOpened": {
+    "description": "Auto metadata for browserOpened"
+  },
+  "embedFailed": "Embed could not be displayed, redirected to browser.",
+  "@embedFailed": {
+    "description": "Auto metadata for embedFailed"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Auto metadata for back"
+  },
+  "reviewsCount": "Reviews ({count})",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for reviewsCount"
+  },
+  "openNow": "Open now",
+  "@openNow": {
+    "description": "Auto metadata for openNow"
+  },
+  "verified": "Verified",
+  "@verified": {
+    "description": "Auto metadata for verified"
+  },
+  "businessLabel": "Business",
+  "@businessLabel": {
+    "description": "Auto metadata for businessLabel"
+  },
+  "menu": "Menu",
+  "@menu": {
+    "description": "Auto metadata for menu"
+  },
+  "apply": "Apply",
+  "@apply": {
+    "description": "Auto metadata for apply"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Auto metadata for unknown"
+  },
+  "title": "Title",
+  "@title": {
+    "description": "Auto metadata for title"
+  },
+  "approved": "Approved",
+  "@approved": {
+    "description": "Auto metadata for approved"
+  },
+  "tumu": "All",
+  "@tumu": {
+    "description": "Auto metadata for tumu"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Auto metadata for pending"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Auto metadata for rejected"
+  },
+  "duzenle": "Edit",
+  "@duzenle": {
+    "description": "Auto metadata for duzenle"
+  },
+  "sla": "SLA",
+  "@sla": {
+    "description": "Auto metadata for sla"
+  },
+  "yenile": "Refresh",
+  "@yenile": {
+    "description": "Auto metadata for yenile"
+  },
+  "start": "Start",
+  "@start": {
+    "description": "Auto metadata for start"
+  },
+  "campaign": "Campaign",
+  "@campaign": {
+    "description": "Auto metadata for campaign"
+  },
+  "go": "Go",
+  "@go": {
+    "description": "Auto metadata for go"
+  },
+  "menuShareNotFoundTitle": "Menu not found • {appName}",
+  "@menuShareNotFoundTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuShareNotFoundTitle"
+  },
+  "menuShareNotFoundDescription": "Menu was not found or is not published.",
+  "@menuShareNotFoundDescription": {
+    "description": "Auto metadata for menuShareNotFoundDescription"
+  },
+  "menuContentNotFound": "Menu content not found.",
+  "@menuContentNotFound": {
+    "description": "Auto metadata for menuContentNotFound"
+  },
+  "openAppForBetterExperience": "Open the app for a better experience",
+  "@openAppForBetterExperience": {
+    "description": "Auto metadata for openAppForBetterExperience"
+  },
+  "openApp": "Open App",
+  "@openApp": {
+    "description": "Auto metadata for openApp"
+  },
+  "nearbyPeopleViewed": "{count} people nearby viewed this",
+  "@nearbyPeopleViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for nearbyPeopleViewed"
+  },
+  "verifiedPrices": "Verified prices",
+  "@verifiedPrices": {
+    "description": "Auto metadata for verifiedPrices"
+  },
+  "selectRatingFirst": "Please select a rating",
+  "@selectRatingFirst": {
+    "description": "Auto metadata for selectRatingFirst"
+  },
+  "thankYou": "Thank you!",
+  "@thankYou": {
+    "description": "Auto metadata for thankYou"
+  },
+  "noProductsFound": "No products found.",
+  "@noProductsFound": {
+    "description": "Auto metadata for noProductsFound"
+  },
+  "preparedWithApp": "Prepared with {appName}",
+  "@preparedWithApp": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for preparedWithApp"
+  },
+  "tableLabel": "Table {tableNo}",
+  "@tableLabel": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tableLabel"
+  },
+  "tableServiceQuestion": "How was the service? (Table {tableNo})",
+  "@tableServiceQuestion": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tableServiceQuestion"
+  },
+  "shortNoteOptional": "Short note (optional)",
+  "@shortNoteOptional": {
+    "description": "Auto metadata for shortNoteOptional"
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "Auto metadata for submit"
+  },
+  "submitted": "Submitted",
+  "@submitted": {
+    "description": "Auto metadata for submitted"
+  },
+  "submitting": "Submitting...",
+  "@submitting": {
+    "description": "Auto metadata for submitting"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Auto metadata for retry"
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Auto metadata for register"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Auto metadata for login"
+  },
+  "cover": "Cover",
+  "@cover": {
+    "description": "Auto metadata for cover"
+  },
+  "note": "Note",
+  "@note": {
+    "description": "Auto metadata for note"
+  },
+  "menuItemName": "Item name",
+  "@menuItemName": {
+    "description": "Auto metadata for menuItemName"
+  },
+  "price": "Price",
+  "@price": {
+    "description": "Auto metadata for price"
+  },
+  "priceStability": "Price stability",
+  "@priceStability": {
+    "description": "Auto metadata for priceStability"
+  },
+  "loginActionFailedTitle": "Action could not be completed",
+  "@loginActionFailedTitle": {
+    "description": "Auto metadata for loginActionFailedTitle"
+  },
+  "loginActionFailedDescription": "{error}\nCheck your connection and try again.",
+  "@loginActionFailedDescription": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for loginActionFailedDescription"
+  },
+  "legalCopyrightSectionTitle": "Photo Copyright Notice",
+  "@legalCopyrightSectionTitle": {
+    "description": "Auto metadata for legalCopyrightSectionTitle"
+  },
+  "legalOwnershipAppealSectionTitle": "Business Ownership Appeal",
+  "@legalOwnershipAppealSectionTitle": {
+    "description": "Auto metadata for legalOwnershipAppealSectionTitle"
+  },
+  "legalProductPrinciplesSectionTitle": "Product Principles",
+  "@legalProductPrinciplesSectionTitle": {
+    "description": "Auto metadata for legalProductPrinciplesSectionTitle"
+  }
+}

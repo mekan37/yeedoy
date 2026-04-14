@@ -32,7 +32,7 @@ final favoritePriceChangesProvider = FutureProvider<List<BusinessCardModel>>((
   ref,
 ) async {
   final repo = ref.read(favoritesRepositoryProvider);
-  final res = await repo.getMyFavoritesWithBusinesses(limit: 20);
+  final res = await repo.fetchMyFavoritesWithBusinesses(limit: 20);
   return res.items.where((e) => (e.recentPriceVerifiedCount ?? 0) > 0).toList();
 });
 

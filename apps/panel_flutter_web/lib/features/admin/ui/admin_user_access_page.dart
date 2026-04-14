@@ -8,6 +8,7 @@ import '../../../core/security/admin_impersonation_provider.dart';
 import '../../../core/security/business_rbac.dart';
 import '../../../core/security/business_rbac_localizations.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/components/permission_denied_view.dart';
 import '../data/admin_user_access_repository.dart';
 import '../domain/admin_access_provider.dart';
@@ -59,14 +60,12 @@ class _AdminUserAccessPageState extends ConsumerState<AdminUserAccessPage> {
           body: ListView(
             padding: const EdgeInsets.all(24),
             children: [
-              Text(
-                context.l10n.adminUserAccessTitle,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                context.l10n.adminUserAccessDescription(widget.userId),
-                style: const TextStyle(color: AppColors.muted),
+              PanelPageHeader(
+                padding: EdgeInsets.zero,
+                title: Text(context.l10n.adminUserAccessTitle),
+                description: context.l10n.adminUserAccessDescription(
+                  widget.userId,
+                ),
               ),
               const SizedBox(height: 16),
               Container(

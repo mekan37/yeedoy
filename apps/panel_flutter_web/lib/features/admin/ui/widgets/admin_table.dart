@@ -45,12 +45,14 @@ class AdminVirtualTableRow {
     required this.key,
     required this.cells,
     this.selected = false,
+    this.backgroundColor,
     this.onTap,
   });
 
   final ValueKey<String> key;
   final List<Widget> cells;
   final bool selected;
+  final Color? backgroundColor;
   final VoidCallback? onTap;
 }
 
@@ -505,7 +507,9 @@ class AdminVirtualTableRowView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final background = row.selected ? AppColors.primarySoft : Colors.transparent;
+    final background =
+        row.backgroundColor ??
+        (row.selected ? AppColors.primarySoft : Colors.transparent);
     return InkWell(
       key: row.key,
       onTap: row.onTap,

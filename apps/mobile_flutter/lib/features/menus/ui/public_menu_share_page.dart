@@ -61,7 +61,7 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
         centerTitle: false,
       ),
       body: FutureBuilder<Map<String, dynamic>>(
-        future: repo.getPublicMenuShare(widget.menuId),
+        future: repo.fetchPublicMenuShare(widget.menuId),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -102,7 +102,7 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
           return FutureBuilder<Map<String, dynamic>?>(
             future: businessId.isEmpty
                 ? Future.value(null)
-                : repo.getBusinessMini(businessId),
+                : repo.fetchBusinessMini(businessId),
             builder: (context, bizSnap) {
               final business = bizSnap.data;
               final businessName = (business?['name'] ?? t.businessLabel)

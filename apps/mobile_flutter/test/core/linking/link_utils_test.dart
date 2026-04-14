@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:yeedoy/core/linking/link_provider.dart';
 import 'package:yeedoy/core/linking/link_utils.dart';
 
 void main() {

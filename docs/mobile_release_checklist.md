@@ -1,4 +1,4 @@
-# Mobile Release Checklist
+# Mobil Release Kontrol Listesi
 
 Bu belge `apps/mobile_flutter` release oncesi kontrol listesi icin tek kaynaktir.
 

@@ -1,4 +1,4 @@
-# Mobile Supabase Contracts
+# Mobil Supabase Kontratlari
 
 Bu belge `apps/mobile_flutter` tarafinin gercekte kullandigi Supabase kontratlarinin tek kaynagidir.
 

@@ -7,5 +7,5 @@ import 'user_moat_signals.dart';
 final myMoatSignalsProvider = FutureProvider<UserMoatSignals?>((ref) async {
   final user = ref.watch(userProvider);
   if (user == null) return null;
-  return ref.read(profileRepositoryProvider).getMyMoatSignals();
+  return ref.read(profileRepositoryProvider).fetchMyMoatSignals();
 });

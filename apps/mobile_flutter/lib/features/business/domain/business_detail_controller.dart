@@ -43,7 +43,7 @@ class BusinessDetailController extends AsyncNotifier<BusinessDetail> {
     state = await AsyncValue.guard(() {
       return ref
           .read(businessDetailRepositoryProvider)
-          .getBusinessDetail(businessId, force: force);
+          .fetchBusinessDetail(businessId, force: force);
     });
   }
 }

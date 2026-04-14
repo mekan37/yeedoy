@@ -92,7 +92,7 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
         );
         _syncIds(cached.ids);
       }
-      final page = await repo.getMyFavoritesWithBusinesses(
+      final page = await repo.fetchMyFavoritesWithBusinesses(
         limit: pageSize,
         offset: 0,
       );
@@ -115,7 +115,7 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
 
     try {
       final repo = ref.read(favoritesRepositoryProvider);
-      final page = await repo.getMyFavoritesWithBusinesses(
+      final page = await repo.fetchMyFavoritesWithBusinesses(
         limit: pageSize,
         offset: state.items.length,
       );
@@ -197,7 +197,7 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
         ids.add(businessId);
         final exists = state.items.any((b) => b.id == businessId);
         if (!exists) {
-          final card = await repo.getBusinessById(businessId);
+          final card = await repo.fetchBusinessById(businessId);
           if (card != null) {
             state = state.copyWith(items: [card, ...state.items]);
           }

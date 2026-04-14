@@ -57,7 +57,7 @@ final ensureMyProfileProvider = Provider<void>((ref) {
     final profileRepo = ref.read(tasteTwinRepositoryProvider);
     PublicProfile? publicProfile;
     try {
-      publicProfile = await profileRepo.getUserPublicProfile(user.id);
+      publicProfile = await profileRepo.fetchUserPublicProfile(user.id);
     } catch (_) {
       publicProfile = null;
     }

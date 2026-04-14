@@ -14,5 +14,5 @@ final myProfileStatsProvider = FutureProvider<ProfileStats>((ref) async {
       visitsCount: 0,
     );
   }
-  return ref.read(profileRepositoryProvider).getMyStats();
+  return ref.read(profileRepositoryProvider).fetchMyStats();
 });

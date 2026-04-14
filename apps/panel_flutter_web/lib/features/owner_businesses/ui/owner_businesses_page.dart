@@ -370,7 +370,12 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
       'business_id': businessId,
       'lang': 'tr',
       'theme': 'bold',
-    });
+    }, target: '_blank');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerDigitalMenuOpenedInNewTab)),
+      );
+    }
   }
 }
 

@@ -5,6 +5,7 @@
   "type": "module",
   "main": "README.md",
   "scripts": {
-    "report": "node scripts/missing-keys-report.mjs"
+    "report": "node scripts/missing-keys-report.mjs",
+    "sync-l10n": "node scripts/sync-l10n.mjs"
   }
 }

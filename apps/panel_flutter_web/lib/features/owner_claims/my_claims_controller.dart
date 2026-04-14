@@ -16,10 +16,10 @@ class MyClaimsController extends AsyncNotifier<List<OwnerClaimItem>> {
 
   Future<List<OwnerClaimItem>> _load() async {
     final repo = ref.read(ownerClaimRepositoryProvider);
-    final claims = await repo.getMyClaims();
+    final claims = await repo.fetchMyClaims();
     if (claims.isEmpty) return [];
     final ids = claims.map((c) => c.businessId).toSet().toList();
-    final names = await repo.getBusinessNamesByIds(ids);
+    final names = await repo.fetchBusinessNamesByIds(ids);
     return claims
         .map(
           (c) => OwnerClaimItem(

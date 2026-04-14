@@ -15,6 +15,7 @@ import '../../../core/storage/dev_overrides_prefs.dart';
 import '../../../core/storage/feature_flags_prefs.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
 import '../../../core/storage/product_guardrails_prefs.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/design_system.dart';
 import '../data/admin_observability_repository.dart';
 import '../domain/admin_offline_mutation_alert_settings.dart';
@@ -325,17 +326,17 @@ class _AdminObservabilityPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppSectionHeader(
-            title: l10n.adminObservabilityTitle,
-            subtitle: Text(
-              l10n.adminObservabilitySubtitle,
-              style: TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-            trailing: IconButton(
-              onPressed: _refreshPrefs,
-              icon: const Icon(Icons.refresh),
-              tooltip: l10n.yenile,
-            ),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminObservabilityTitle),
+            description: l10n.adminObservabilitySubtitle,
+            actions: [
+              IconButton(
+                onPressed: _refreshPrefs,
+                icon: const Icon(Icons.refresh),
+                tooltip: l10n.yenile,
+              ),
+            ],
           ),
           const SizedBox(height: 12),
           AppCard(

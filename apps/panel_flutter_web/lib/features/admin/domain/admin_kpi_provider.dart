@@ -5,5 +5,5 @@ import 'admin_kpi_models.dart';
 
 final adminKpiSummaryProvider = FutureProvider<AdminKpiSummary>((ref) async {
   final repo = ref.watch(adminAnalyticsRepositoryProvider);
-  return repo.getKpiSummary(days: 30);
+  return repo.fetchKpiSummary(days: 30);
 });

@@ -1,0 +1,72 @@
+name: Web Release Smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      smoke_business_id:
+        description: 'Business UUID for public menu smoke (overrides secret)'
+        required: false
+        type: string
+      smoke_lang:
+        description: 'Language code for smoke (default: tr)'
+        required: false
+        default: 'tr'
+        type: string
+      smoke_business_path:
+        description: 'Expected public slug or UUID path segment (optional)'
+        required: false
+        type: string
+
+jobs:
+  web_release_smoke:
+    name: Live smoke against production Supabase
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web_next
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+      NEXT_PUBLIC_PANEL_URL: ${{ secrets.NEXT_PUBLIC_PANEL_URL }}
+      PLAYWRIGHT_SMOKE_BUSINESS_ID: ${{ inputs.smoke_business_id || secrets.PLAYWRIGHT_SMOKE_BUSINESS_ID }}
+      PLAYWRIGHT_SMOKE_BUSINESS_PATH: ${{ inputs.smoke_business_path || secrets.PLAYWRIGHT_SMOKE_BUSINESS_PATH }}
+      PLAYWRIGHT_SMOKE_LANG: ${{ inputs.smoke_lang }}
+      PLAYWRIGHT_SMOKE_CATEGORY_ID: ${{ secrets.PLAYWRIGHT_SMOKE_CATEGORY_ID }}
+      PLAYWRIGHT_SMOKE_ITEM_ID: ${{ secrets.PLAYWRIGHT_SMOKE_ITEM_ID }}
+      PLAYWRIGHT_USE_START: 'true'
+      PLAYWRIGHT_PORT: '3201'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: apps/web_next/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Validate NEXT_PUBLIC_PANEL_URL
+        run: node scripts/validate-panel-url.mjs
+        env:
+          NEXT_PUBLIC_PANEL_URL: ${{ secrets.NEXT_PUBLIC_PANEL_URL }}
+
+      - name: Run live smoke
+        run: npm run test:e2e:live
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-release-smoke-report
+          path: apps/web_next/playwright-report/
+          retention-days: 7

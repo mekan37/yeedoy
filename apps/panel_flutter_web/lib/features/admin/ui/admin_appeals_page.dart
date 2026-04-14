@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../domain/admin_appeals_controller.dart';
 import '../domain/admin_moderation_models.dart';
 
@@ -19,13 +20,10 @@ class AdminAppealsPage extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                context.l10n.adminAppealsTitle,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-              ),
-              const Spacer(),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(context.l10n.adminAppealsTitle),
+            actions: [
               OutlinedButton.icon(
                 onPressed: state.isLoading ? null : controller.refresh,
                 icon: const Icon(Icons.refresh),

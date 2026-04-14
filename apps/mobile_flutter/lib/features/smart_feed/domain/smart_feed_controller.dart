@@ -60,7 +60,7 @@ class SmartFeedController extends Notifier<SmartFeedState> {
     final context = await _resolveContext();
     final list = await ref
         .read(smartFeedRepositoryProvider)
-        .getSmartFeed(
+        .fetchSmartFeed(
           limit: pageSize,
           offset: 0,
           prefs: prefs,
@@ -88,7 +88,7 @@ class SmartFeedController extends Notifier<SmartFeedState> {
       final context = await _resolveContext();
       final list = await ref
           .read(smartFeedRepositoryProvider)
-          .getSmartFeed(
+          .fetchSmartFeed(
             limit: pageSize,
             offset: state.items.length,
             prefs: state.preferences,

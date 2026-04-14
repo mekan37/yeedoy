@@ -1,4 +1,4 @@
-# Mobile Test Strategy
+# Mobil Test Stratejisi
 
 Bu belge `apps/mobile_flutter` test yuzeyinin tek kaynagidir.
 

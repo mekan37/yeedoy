@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/i18n/app_localizations.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../owner_menu_management/ui/owner_menu_trash_page.dart';
 import '../data/admin_businesses_repository.dart';
 import '../domain/admin_models.dart';
@@ -26,7 +27,7 @@ final _adminTrashBusinessProvider =
       businessId,
     ) async {
       if (businessId.trim().isEmpty) return null;
-      return ref.read(adminBusinessesRepositoryProvider).getBusinessById(
+      return ref.read(adminBusinessesRepositoryProvider).fetchBusinessById(
             businessId: businessId,
           );
     });
@@ -74,14 +75,10 @@ class _AdminMenuRestorePageState extends ConsumerState<AdminMenuRestorePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n.adminMenuRestoreTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.adminMenuRestoreDescription,
-            style: const TextStyle(color: Colors.black54),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminMenuRestoreTitle),
+            description: l10n.adminMenuRestoreDescription,
           ),
           const SizedBox(height: 12),
           Row(

@@ -28,7 +28,7 @@ class TasteTwinRepository {
     return stableRequestCacheKey(method, values);
   }
 
-  Future<List<TasteMatch>> getMatches({
+  Future<List<TasteMatch>> fetchMatches({
     int limit = 20,
     int minOverlap = 3,
     bool force = false,
@@ -58,7 +58,7 @@ class TasteTwinRepository {
     }
   }
 
-  Future<List<TasteRecommendation>> getRecommendations({
+  Future<List<TasteRecommendation>> fetchRecommendations({
     required String matchUserId,
     int limit = 10,
     bool force = false,
@@ -91,7 +91,7 @@ class TasteTwinRepository {
     }
   }
 
-  Future<List<TasteOverlapExample>> getOverlapExamples({
+  Future<List<TasteOverlapExample>> fetchOverlapExamples({
     required String otherUserId,
     int limit = 5,
     bool force = false,
@@ -124,7 +124,7 @@ class TasteTwinRepository {
     }
   }
 
-  Future<List<TasteSignalOverlapExample>> getSignalOverlapExamples({
+  Future<List<TasteSignalOverlapExample>> fetchSignalOverlapExamples({
     required String otherUserId,
     int limit = 5,
     bool force = false,
@@ -158,7 +158,7 @@ class TasteTwinRepository {
     }
   }
 
-  Future<List<TasteDivergenceExample>> getDivergenceExamples({
+  Future<List<TasteDivergenceExample>> fetchDivergenceExamples({
     required String otherUserId,
     int limit = 3,
     bool force = false,
@@ -191,7 +191,7 @@ class TasteTwinRepository {
     }
   }
 
-  Future<PublicProfile> getUserPublicProfile(String userId, {bool force = false}) async {
+  Future<PublicProfile> fetchUserPublicProfile(String userId, {bool force = false}) async {
     final cacheKey = _key('public_profile', {'user_id': userId});
     if (!force) {
       final fresh = _cache.getFresh<PublicProfile>(cacheKey, ttl: _readTtl);

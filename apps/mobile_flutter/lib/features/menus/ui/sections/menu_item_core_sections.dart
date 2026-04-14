@@ -753,7 +753,7 @@ class _CartSheetState extends ConsumerState<_CartSheet> {
     try {
       final res = await ref
           .read(menuRepositoryProvider)
-          .getBillEstimate(
+          .fetchBillEstimate(
             businessId: widget.businessId,
             items: items,
             tipPct: tipPct,

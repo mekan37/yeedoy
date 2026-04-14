@@ -7,6 +7,11 @@ import '../../../../app/theme/colors.dart';
 import '../../../../core/errors/app_error_mapper.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/media/app_network_image.dart';
+import 'menu_item_allergen_section.dart';
+import 'menu_item_image_picker_sheet.dart';
+import 'menu_item_ingredients_section.dart';
+import 'menu_item_nutrition_section.dart';
+import 'menu_item_variant_groups_section.dart';
 import '../../../menus/domain/food_catalog_models.dart';
 import '../../../menus/domain/food_catalog_search_controller.dart';
 import '../../../menus/domain/menu_models.dart';
@@ -156,9 +161,44 @@ class _ItemEditorSheetState extends ConsumerState<ItemEditorSheet> {
             ],
             if (widget.initial != null) ...[
               const SizedBox(height: 12),
-              _OwnerItemVariantsSection(itemId: widget.initial!.id),
+              MenuItemVariantGroupsSection(itemId: widget.initial!.id),
               const SizedBox(height: 12),
-              _OwnerItemPhotosSection(itemId: widget.initial!.id),
+              _OwnerItemPhotosSection(
+                itemId: widget.initial!.id,
+                itemName: _nameCtrl.text.trim().isNotEmpty
+                    ? _nameCtrl.text.trim()
+                    : (widget.initial?.name ?? ''),
+              ),
+              const SizedBox(height: 12),
+              MenuItemNutritionSection(
+                itemId: widget.initial!.id,
+                itemName: _nameCtrl.text.trim().isNotEmpty
+                    ? _nameCtrl.text.trim()
+                    : (widget.initial?.name ?? ''),
+                description: _descCtrl.text.trim().isNotEmpty
+                    ? _descCtrl.text.trim()
+                    : null,
+              ),
+              const SizedBox(height: 12),
+              MenuItemAllergenSection(
+                itemId: widget.initial!.id,
+                itemName: _nameCtrl.text.trim().isNotEmpty
+                    ? _nameCtrl.text.trim()
+                    : (widget.initial?.name ?? ''),
+                description: _descCtrl.text.trim().isNotEmpty
+                    ? _descCtrl.text.trim()
+                    : null,
+              ),
+              const SizedBox(height: 12),
+              MenuItemIngredientsSection(
+                itemId: widget.initial!.id,
+                itemName: _nameCtrl.text.trim().isNotEmpty
+                    ? _nameCtrl.text.trim()
+                    : (widget.initial?.name ?? ''),
+                description: _descCtrl.text.trim().isNotEmpty
+                    ? _descCtrl.text.trim()
+                    : null,
+              ),
             ],
             const SizedBox(height: 12),
             Row(
@@ -242,6 +282,20 @@ class _ItemEditorSheetState extends ConsumerState<ItemEditorSheet> {
     }
     if (mounted) {
       setState(() => _saving = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.bolt, size: 16, color: Colors.white),
+              SizedBox(width: 6),
+              Text('Değişiklikler anında yayında'),
+            ],
+          ),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          width: 260,
+        ),
+      );
     }
   }
 }
@@ -474,8 +528,12 @@ class ItemEditorPayload {
 }
 
 class _OwnerItemPhotosSection extends ConsumerStatefulWidget {
-  const _OwnerItemPhotosSection({required this.itemId});
+  const _OwnerItemPhotosSection({
+    required this.itemId,
+    required this.itemName,
+  });
   final String itemId;
+  final String itemName;
 
   @override
   ConsumerState<_OwnerItemPhotosSection> createState() =>
@@ -484,7 +542,6 @@ class _OwnerItemPhotosSection extends ConsumerStatefulWidget {
 
 class _OwnerItemPhotosSectionState
     extends ConsumerState<_OwnerItemPhotosSection> {
-  bool _uploading = false;
   String _precacheKey = '';
   ProviderSubscription<AsyncValue<List<MenuItemPhoto>>>? _photosSub;
 
@@ -524,19 +581,9 @@ class _OwnerItemPhotosSectionState
                 ),
                 const Spacer(),
                 TextButton.icon(
-                  onPressed: _uploading ? null : _handleUpload,
-                  icon: _uploading
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.add_a_photo_outlined),
-                  label: Text(
-                    _uploading
-                        ? context.l10n.ownerUploading
-                        : context.l10n.ownerAddPhoto,
-                  ),
+                  onPressed: _openImagePicker,
+                  icon: const Icon(Icons.add_a_photo_outlined),
+                  label: Text(context.l10n.ownerAddPhoto),
                 ),
               ],
             ),
@@ -595,32 +642,28 @@ class _OwnerItemPhotosSectionState
     );
   }
 
-  Future<void> _handleUpload() async {
-    setState(() => _uploading = true);
-    try {
-      final res = await ref
-          .read(ownerMenuItemPhotosProvider(widget.itemId).notifier)
-          .uploadPhoto();
-      if (res == null) return;
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.ownerPhotoUploaded)),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(
-          SnackBar(content: Text(_uploadErrorMessageWithContext(e, context))),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _uploading = false);
-      }
+  Future<void> _openImagePicker() async {
+    // _OwnerItemPhotosSection'ın parent'ından itemName lazım —
+    // widget.itemId üzerinden notifier'dan adı almak yerine
+    // PhotosSection itemName prop alacak şekilde tasarlandı.
+    // Şimdilik boş string geçiyoruz; section zaten itemName'i biliyor.
+    final added = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: false,
+      builder: (_) => MenuItemImagePickerSheet(
+        itemId: widget.itemId,
+        itemName: widget.itemName,
+      ),
+    );
+    if (added == true && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerPhotoUploaded)),
+      );
     }
   }
+
+
 
   Future<void> _confirmDelete(MenuItemPhoto photo) async {
     final ok = await showDialog<bool>(
@@ -833,17 +876,4 @@ void _openPhotoViewer(
           _PhotoViewerPage(photos: photos, initialIndex: initialIndex),
     ),
   );
-}
-
-String _uploadErrorMessageWithContext(Object error, BuildContext? context) {
-  final msg = AppErrorMapper.message(error).toLowerCase();
-  if (msg.contains('not_owner')) {
-    return context?.l10n.ownerUploadRequiresOwnership ??
-        'Bu işlem için işletme sahibi olmalısın';
-  }
-  if (msg.contains('rate')) {
-    return context?.l10n.ownerUploadRateLimited ??
-        'Çok sık denedin, lütfen biraz sonra tekrar dene';
-  }
-  return context?.l10n.ownerUploadFailed ?? 'Yükleme başarısız';
 }

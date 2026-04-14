@@ -1,4 +1,4 @@
-# UI Style Sistemi (Mobile -> Web)
+# UI Stil Sistemi (Mobil -> Web)
 
 Bu belge `apps/mobile_flutter/lib/app/theme` altindaki theme kaynaklarinin `apps/web_next` tarafina nasil tasindigini aciklar.
 

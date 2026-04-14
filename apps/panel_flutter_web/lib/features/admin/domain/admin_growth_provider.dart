@@ -5,7 +5,7 @@ import 'admin_growth_models.dart';
 
 final adminGrowthSummaryProvider = FutureProvider<AdminGrowthSummary>((ref) async {
   final repo = ref.watch(adminAnalyticsRepositoryProvider);
-  final items = await repo.getGrowth(days: 30);
+  final items = await repo.fetchGrowth(days: 30);
   var menuLinkOpened = 0;
   var qrScanned = 0;
   var menuShared = 0;

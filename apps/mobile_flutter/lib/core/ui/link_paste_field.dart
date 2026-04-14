@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 import '../../features/embed/ui/embed_viewer_page.dart';
 import '../i18n/app_localizations.dart';
-import '../linking/link_provider.dart';
 import '../linking/link_utils.dart';
 
 class LinkPasteField extends StatefulWidget {

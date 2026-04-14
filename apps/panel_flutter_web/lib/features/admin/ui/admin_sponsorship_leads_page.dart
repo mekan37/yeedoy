@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../data/admin_monetization_repository.dart';
 import '../domain/admin_models.dart';
 import '../domain/admin_sponsorship_leads_controller.dart';
@@ -49,13 +50,10 @@ class _AdminSponsorshipLeadsPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                l10n.adminSponsorshipLeadsTitle,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-              ),
-              const Spacer(),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminSponsorshipLeadsTitle),
+            actions: [
               IconButton(
                 onPressed: () => ref
                     .read(adminSponsorshipLeadsControllerProvider.notifier)

@@ -19,7 +19,7 @@ final nearbyCampaignsProvider =
     ) async {
       return ref
           .read(discoveryRepositoryProvider)
-          .getNearbyCampaigns(
+          .fetchNearbyCampaigns(
             lat: params.lat,
             lng: params.lng,
             radiusKm: params.radiusKm,

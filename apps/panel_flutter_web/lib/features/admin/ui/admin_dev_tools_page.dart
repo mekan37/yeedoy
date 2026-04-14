@@ -8,6 +8,7 @@ import '../../../core/config/product_guardrail_overrides.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../auth/domain/auth_providers.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/design_system.dart';
 
 class AdminDevToolsPage extends ConsumerStatefulWidget {
@@ -136,11 +137,10 @@ class _AdminDevToolsPageState extends ConsumerState<AdminDevToolsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppSectionHeader(title: l10n.adminDevToolsTitle),
-            const SizedBox(height: 6),
-            Text(
-              l10n.adminDevToolsSubtitle,
-              style: TextStyle(color: AppColors.muted, fontSize: 12),
+            PanelPageHeader(
+              padding: EdgeInsets.zero,
+              title: Text(l10n.adminDevToolsTitle),
+              description: l10n.adminDevToolsSubtitle,
             ),
             const SizedBox(height: 12),
             AppCard(

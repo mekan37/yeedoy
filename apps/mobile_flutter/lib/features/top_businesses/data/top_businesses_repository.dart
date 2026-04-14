@@ -23,7 +23,7 @@ class TopBusinessesRepository {
   static const Duration _ttl = Duration(minutes: 10);
   static final Map<String, _CacheEntry> _cache = {};
 
-  Future<List<TopBusiness>> getTopBusinesses({
+  Future<List<TopBusiness>> fetchTopBusinesses({
     required String period,
     int limit = 6,
     int minReviews = 2,

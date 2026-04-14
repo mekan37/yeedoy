@@ -16,7 +16,7 @@ class AdminReceiptSubmissionsRepository {
   AdminReceiptSubmissionsRepository(this.client);
   final SupabaseClient client;
 
-  Future<AdminReceiptSubmissionSummary?> getSummary({
+  Future<AdminReceiptSubmissionSummary?> fetchSummary({
     String? query,
     String? reviewStatus,
     bool onlyUnmatched = false,

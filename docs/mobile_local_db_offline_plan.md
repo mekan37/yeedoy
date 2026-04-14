@@ -1,4 +1,4 @@
-# Mobile Local DB Offline Plan
+# Mobil Lokal DB ve Offline Plani
 
 Tarih: 2026-03-07  
 Kapsam: `apps/mobile_flutter` local DB tabanli offline mode degerlendirmesi

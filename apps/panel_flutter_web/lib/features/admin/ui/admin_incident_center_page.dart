@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../data/admin_incident_repository.dart';
 
 class AdminIncidentCenterPage extends ConsumerStatefulWidget {
@@ -40,14 +41,10 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
       padding: const EdgeInsets.all(16),
       child: ListView(
         children: [
-          Text(
-            l10n.adminIncidentCenterTitle,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.adminIncidentCenterSubtitle,
-            style: TextStyle(color: AppColors.muted),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminIncidentCenterTitle),
+            description: l10n.adminIncidentCenterSubtitle,
           ),
           const SizedBox(height: 12),
           _QuickPanel(onTap: (route) => context.go(route)),

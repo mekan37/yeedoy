@@ -63,7 +63,7 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     setState(() => _loading = true);
     try {
       final repo = ref.read(profileRepositoryProvider);
-      final profile = await repo.getMyProfile();
+      final profile = await repo.fetchMyProfile();
       if (!mounted) return;
       if (profile != null) {
         _firstNameCtrl.text = profile.firstName;

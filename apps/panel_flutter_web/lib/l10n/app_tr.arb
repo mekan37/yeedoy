@@ -2,55 +2,55 @@
   "@@locale": "tr",
   "appName": "Yeedoy",
   "@appName": {
-    "description": "L10n key: appName"
+    "description": "Auto metadata for appName"
   },
   "map": "Harita",
   "@map": {
-    "description": "L10n key: map"
+    "description": "Auto metadata for map"
   },
   "save": "Kaydet",
   "@save": {
-    "description": "L10n key: save"
+    "description": "Auto metadata for save"
   },
   "cancel": "İptal",
   "@cancel": {
-    "description": "L10n key: cancel"
+    "description": "Auto metadata for cancel"
   },
   "logout": "Çıkış Yap",
   "@logout": {
-    "description": "L10n key: logout"
+    "description": "Auto metadata for logout"
   },
   "uploadPhoto": "Fotoğraf Yükle",
   "@uploadPhoto": {
-    "description": "L10n key: uploadPhoto"
+    "description": "Auto metadata for uploadPhoto"
   },
   "saving": "Kaydediliyor...",
   "@saving": {
-    "description": "L10n key: saving"
+    "description": "Auto metadata for saving"
   },
   "preview": "Önizleme",
   "@preview": {
-    "description": "L10n key: preview"
+    "description": "Auto metadata for preview"
   },
   "embed": "Gömülü",
   "@embed": {
-    "description": "L10n key: embed"
+    "description": "Auto metadata for embed"
   },
   "share": "Paylaş",
   "@share": {
-    "description": "L10n key: share"
+    "description": "Auto metadata for share"
   },
   "invalidLinkMessage": "Geçersiz bağlantı",
   "@invalidLinkMessage": {
-    "description": "L10n key: invalidLinkMessage"
+    "description": "Auto metadata for invalidLinkMessage"
   },
   "browserOpened": "Tarayıcıda açıldı",
   "@browserOpened": {
-    "description": "L10n key: browserOpened"
+    "description": "Auto metadata for browserOpened"
   },
   "embedFailed": "İçerik görüntülenemedi, tarayıcıya yönlendirdik.",
   "@embedFailed": {
-    "description": "L10n key: embedFailed"
+    "description": "Auto metadata for embedFailed"
   },
   "embedUnsupported": "Bu bağlantı gömülü olarak desteklenmiyor. Bağlantıyı kopyalayabilir veya tarayıcıda açabilirsin.",
   "@embedUnsupported": {
@@ -66,7 +66,7 @@
   },
   "back": "Geri",
   "@back": {
-    "description": "L10n key: back"
+    "description": "Auto metadata for back"
   },
   "reviewsCount": "Yorum ({count})",
   "@reviewsCount": {
@@ -75,75 +75,75 @@
         "type": "int"
       }
     },
-    "description": "L10n key: reviewsCount"
+    "description": "Auto metadata for reviewsCount"
   },
   "openNow": "Şuan açık",
   "@openNow": {
-    "description": "L10n key: openNow"
+    "description": "Auto metadata for openNow"
   },
   "verified": "Doğrulandı",
   "@verified": {
-    "description": "L10n key: verified"
+    "description": "Auto metadata for verified"
   },
   "businessLabel": "İşletme",
   "@businessLabel": {
-    "description": "L10n key: businessLabel"
+    "description": "Auto metadata for businessLabel"
   },
   "menu": "Menü",
   "@menu": {
-    "description": "L10n key: menu"
+    "description": "Auto metadata for menu"
   },
   "apply": "Uygula",
   "@apply": {
-    "description": "L10n key: apply"
+    "description": "Auto metadata for apply"
   },
   "unknown": "Bilinmiyor",
   "@unknown": {
-    "description": "L10n key: unknown"
+    "description": "Auto metadata for unknown"
   },
-  "title": "Başlık",
+  "title": "title",
   "@title": {
-    "description": "L10n key: title"
+    "description": "Auto metadata for title"
   },
   "approved": "Onaylandı",
   "@approved": {
-    "description": "L10n key: approved"
+    "description": "Auto metadata for approved"
   },
   "tumu": "Tümü",
   "@tumu": {
-    "description": "L10n key: tumu"
+    "description": "Auto metadata for tumu"
   },
   "pending": "Beklemede",
   "@pending": {
-    "description": "L10n key: pending"
+    "description": "Auto metadata for pending"
   },
   "rejected": "Reddedildi",
   "@rejected": {
-    "description": "L10n key: rejected"
+    "description": "Auto metadata for rejected"
   },
   "duzenle": "Düzenle",
   "@duzenle": {
-    "description": "L10n key: duzenle"
+    "description": "Auto metadata for duzenle"
   },
   "sla": "Geri Dönüş Süresi",
   "@sla": {
-    "description": "L10n key: sla"
+    "description": "Auto metadata for sla"
   },
   "yenile": "Yenile",
   "@yenile": {
-    "description": "L10n key: yenile"
+    "description": "Auto metadata for yenile"
   },
   "start": "Başla",
   "@start": {
-    "description": "L10n key: start"
+    "description": "Auto metadata for start"
   },
   "campaign": "Kampanya",
   "@campaign": {
-    "description": "L10n key: campaign"
+    "description": "Auto metadata for campaign"
   },
   "go": "Git",
   "@go": {
-    "description": "L10n key: go"
+    "description": "Auto metadata for go"
   },
   "menuShareNotFoundTitle": "Menü bulunamadı • {appName}",
   "@menuShareNotFoundTitle": {
@@ -152,57 +152,57 @@
         "type": "String"
       }
     },
-    "description": "L10n key: menuShareNotFoundTitle"
+    "description": "Auto metadata for menuShareNotFoundTitle"
   },
   "menuShareNotFoundDescription": "Paylaşılan menü içeriği bulunamadı.",
   "@menuShareNotFoundDescription": {
-    "description": "L10n key: menuShareNotFoundDescription"
+    "description": "Auto metadata for menuShareNotFoundDescription"
   },
   "menuContentNotFound": "Menü içeriği bulunamadı",
   "@menuContentNotFound": {
-    "description": "L10n key: menuContentNotFound"
+    "description": "Auto metadata for menuContentNotFound"
   },
   "openAppForBetterExperience": "Daha iyi deneyim için uygulamayı aç.",
   "@openAppForBetterExperience": {
-    "description": "L10n key: openAppForBetterExperience"
+    "description": "Auto metadata for openAppForBetterExperience"
   },
   "openApp": "Uygulamayı Aç",
   "@openApp": {
-    "description": "L10n key: openApp"
+    "description": "Auto metadata for openApp"
   },
-  "nearbyPeopleViewed": "{count} kişi yakında görüntüledi",
+  "nearbyPeopleViewed": "Yakındaki {count} kişi görüntüledi",
   "@nearbyPeopleViewed": {
-    "description": "L10n key: nearbyPeopleViewed",
     "placeholders": {
       "count": {
         "type": "int"
       }
-    }
+    },
+    "description": "Auto metadata for nearbyPeopleViewed"
   },
   "verifiedPrices": "Doğrulanmış fiyatlar",
   "@verifiedPrices": {
-    "description": "L10n key: verifiedPrices"
+    "description": "Auto metadata for verifiedPrices"
   },
   "selectRatingFirst": "Önce puan seç",
   "@selectRatingFirst": {
-    "description": "L10n key: selectRatingFirst"
+    "description": "Auto metadata for selectRatingFirst"
   },
   "thankYou": "Teşekkürler",
   "@thankYou": {
-    "description": "L10n key: thankYou"
+    "description": "Auto metadata for thankYou"
   },
   "noProductsFound": "Ürün bulunamadı",
   "@noProductsFound": {
-    "description": "L10n key: noProductsFound"
+    "description": "Auto metadata for noProductsFound"
   },
   "preparedWithApp": "{appName} ile hazırlandı",
   "@preparedWithApp": {
-    "description": "L10n key: preparedWithApp",
     "placeholders": {
       "appName": {
         "type": "String"
       }
-    }
+    },
+    "description": "Auto metadata for preparedWithApp"
   },
   "tableLabel": "Masa {tableNo}",
   "@tableLabel": {
@@ -211,64 +211,64 @@
         "type": "String"
       }
     },
-    "description": "L10n key: tableLabel"
+    "description": "Auto metadata for tableLabel"
   },
-  "tableServiceQuestion": "Masa {tableNo} servisi nasıldı?",
+  "tableServiceQuestion": "Masa {tableNo} - servis var mı?",
   "@tableServiceQuestion": {
-    "description": "L10n key: tableServiceQuestion",
     "placeholders": {
       "tableNo": {
         "type": "String"
       }
-    }
+    },
+    "description": "Auto metadata for tableServiceQuestion"
   },
   "shortNoteOptional": "Kısa not (opsiyonel)",
   "@shortNoteOptional": {
-    "description": "L10n key: shortNoteOptional"
+    "description": "Auto metadata for shortNoteOptional"
   },
   "submit": "Gönder",
   "@submit": {
-    "description": "L10n key: submit"
+    "description": "Auto metadata for submit"
   },
   "submitted": "Gönderildi",
   "@submitted": {
-    "description": "L10n key: submitted"
+    "description": "Auto metadata for submitted"
   },
   "submitting": "Gönderiliyor",
   "@submitting": {
-    "description": "L10n key: submitting"
+    "description": "Auto metadata for submitting"
   },
   "retry": "Tekrar dene",
   "@retry": {
-    "description": "L10n key: retry"
+    "description": "Auto metadata for retry"
   },
   "register": "Kayıt Ol",
   "@register": {
-    "description": "L10n key: register"
+    "description": "Auto metadata for register"
   },
   "login": "Giriş Yap",
   "@login": {
-    "description": "L10n key: login"
+    "description": "Auto metadata for login"
   },
   "cover": "Kuver",
   "@cover": {
-    "description": "L10n key: cover"
+    "description": "Auto metadata for cover"
   },
   "note": "Not",
   "@note": {
-    "description": "L10n key: note"
+    "description": "Auto metadata for note"
   },
   "menuItemName": "Ürün adı",
   "@menuItemName": {
-    "description": "L10n key: menuItemName"
+    "description": "Auto metadata for menuItemName"
   },
   "price": "Fiyat",
   "@price": {
-    "description": "L10n key: price"
+    "description": "Auto metadata for price"
   },
   "priceStability": "Fiyat istikrarı",
   "@priceStability": {
-    "description": "L10n key: priceStability"
+    "description": "Auto metadata for priceStability"
   },
   "ownerSections": "Bölümler",
   "@ownerSections": {
@@ -3501,216 +3501,426 @@
     }
   },
   "adminShellDashboardLabel": "Genel bakış",
-  "@adminShellDashboardLabel": {"description": "L10n key: adminShellDashboardLabel"},
+  "@adminShellDashboardLabel": {
+    "description": "L10n key: adminShellDashboardLabel"
+  },
   "adminShellDashboardDescription": "Admin panel genel görünümü ve hızlı aksiyonlar.",
-  "@adminShellDashboardDescription": {"description": "L10n key: adminShellDashboardDescription"},
+  "@adminShellDashboardDescription": {
+    "description": "L10n key: adminShellDashboardDescription"
+  },
   "adminShellQueueLabel": "Birleşik kuyruk",
-  "@adminShellQueueLabel": {"description": "L10n key: adminShellQueueLabel"},
+  "@adminShellQueueLabel": {
+    "description": "L10n key: adminShellQueueLabel"
+  },
   "adminShellQueueDescription": "Rapor, claim, fiyat ve medya moderasyonunu tek kuyrukta yönet.",
-  "@adminShellQueueDescription": {"description": "L10n key: adminShellQueueDescription"},
+  "@adminShellQueueDescription": {
+    "description": "L10n key: adminShellQueueDescription"
+  },
   "adminShellReportsLabel": "Raporlar",
-  "@adminShellReportsLabel": {"description": "L10n key: adminShellReportsLabel"},
+  "@adminShellReportsLabel": {
+    "description": "L10n key: adminShellReportsLabel"
+  },
   "adminShellReportsDescription": "Kullanıcı bildirimlerini incele, durum ve atama yönet.",
-  "@adminShellReportsDescription": {"description": "L10n key: adminShellReportsDescription"},
+  "@adminShellReportsDescription": {
+    "description": "L10n key: adminShellReportsDescription"
+  },
   "adminShellAppealsLabel": "İtirazlar",
-  "@adminShellAppealsLabel": {"description": "L10n key: adminShellAppealsLabel"},
+  "@adminShellAppealsLabel": {
+    "description": "L10n key: adminShellAppealsLabel"
+  },
   "adminShellAppealsDescription": "Moderasyon kararlarına gelen itirazları değerlendir.",
-  "@adminShellAppealsDescription": {"description": "L10n key: adminShellAppealsDescription"},
+  "@adminShellAppealsDescription": {
+    "description": "L10n key: adminShellAppealsDescription"
+  },
   "adminShellGrowthLabel": "Büyüme",
-  "@adminShellGrowthLabel": {"description": "L10n key: adminShellGrowthLabel"},
+  "@adminShellGrowthLabel": {
+    "description": "L10n key: adminShellGrowthLabel"
+  },
   "adminShellGrowthDescription": "Menü linki ve QR trafiğini günlük bazda takip et.",
-  "@adminShellGrowthDescription": {"description": "L10n key: adminShellGrowthDescription"},
+  "@adminShellGrowthDescription": {
+    "description": "L10n key: adminShellGrowthDescription"
+  },
   "adminShellClaimsLabel": "Sahiplik talepleri",
-  "@adminShellClaimsLabel": {"description": "L10n key: adminShellClaimsLabel"},
+  "@adminShellClaimsLabel": {
+    "description": "L10n key: adminShellClaimsLabel"
+  },
   "adminShellClaimsDescription": "İşletme sahipliği taleplerini onayla ya da reddet.",
-  "@adminShellClaimsDescription": {"description": "L10n key: adminShellClaimsDescription"},
+  "@adminShellClaimsDescription": {
+    "description": "L10n key: adminShellClaimsDescription"
+  },
   "adminShellSuspendedClaimsLabel": "Askıdaki talepler",
-  "@adminShellSuspendedClaimsLabel": {"description": "L10n key: adminShellSuspendedClaimsLabel"},
+  "@adminShellSuspendedClaimsLabel": {
+    "description": "L10n key: adminShellSuspendedClaimsLabel"
+  },
   "adminShellSuspendedClaimsDescription": "Askıdaki yemek taleplerini doğrula ve sonuçlandır.",
-  "@adminShellSuspendedClaimsDescription": {"description": "L10n key: adminShellSuspendedClaimsDescription"},
+  "@adminShellSuspendedClaimsDescription": {
+    "description": "L10n key: adminShellSuspendedClaimsDescription"
+  },
   "adminShellPriceSuggestionsLabel": "Fiyat onayları",
-  "@adminShellPriceSuggestionsLabel": {"description": "L10n key: adminShellPriceSuggestionsLabel"},
+  "@adminShellPriceSuggestionsLabel": {
+    "description": "L10n key: adminShellPriceSuggestionsLabel"
+  },
   "adminShellPriceSuggestionsDescription": "Fiyat önerilerini değerlendir, onayla veya reddet.",
-  "@adminShellPriceSuggestionsDescription": {"description": "L10n key: adminShellPriceSuggestionsDescription"},
+  "@adminShellPriceSuggestionsDescription": {
+    "description": "L10n key: adminShellPriceSuggestionsDescription"
+  },
   "adminShellReceiptSubmissionsLabel": "Fiş doğrulama",
-  "@adminShellReceiptSubmissionsLabel": {"description": "L10n key: adminShellReceiptSubmissionsLabel"},
+  "@adminShellReceiptSubmissionsLabel": {
+    "description": "L10n key: adminShellReceiptSubmissionsLabel"
+  },
   "adminShellReceiptSubmissionsDescription": "Fiş doğrulama gönderimlerini listele ve kontrol et.",
-  "@adminShellReceiptSubmissionsDescription": {"description": "L10n key: adminShellReceiptSubmissionsDescription"},
+  "@adminShellReceiptSubmissionsDescription": {
+    "description": "L10n key: adminShellReceiptSubmissionsDescription"
+  },
   "adminShellSuggestionsLabel": "İşletme önerileri",
-  "@adminShellSuggestionsLabel": {"description": "L10n key: adminShellSuggestionsLabel"},
+  "@adminShellSuggestionsLabel": {
+    "description": "L10n key: adminShellSuggestionsLabel"
+  },
   "adminShellSuggestionsDescription": "Yeni işletme önerilerini kontrol edip işleme al.",
-  "@adminShellSuggestionsDescription": {"description": "L10n key: adminShellSuggestionsDescription"},
+  "@adminShellSuggestionsDescription": {
+    "description": "L10n key: adminShellSuggestionsDescription"
+  },
   "adminShellBusinessesLabel": "İşletmeler",
-  "@adminShellBusinessesLabel": {"description": "L10n key: adminShellBusinessesLabel"},
+  "@adminShellBusinessesLabel": {
+    "description": "L10n key: adminShellBusinessesLabel"
+  },
   "adminShellBusinessesDescription": "İşletme kayıtlarını düzenle, doğrula ve güncelle.",
-  "@adminShellBusinessesDescription": {"description": "L10n key: adminShellBusinessesDescription"},
+  "@adminShellBusinessesDescription": {
+    "description": "L10n key: adminShellBusinessesDescription"
+  },
   "adminShellBusinessSubmissionsLabel": "İşletme başvuruları",
-  "@adminShellBusinessSubmissionsLabel": {"description": "L10n key: adminShellBusinessSubmissionsLabel"},
+  "@adminShellBusinessSubmissionsLabel": {
+    "description": "L10n key: adminShellBusinessSubmissionsLabel"
+  },
   "adminShellBusinessSubmissionsDescription": "Yeni işletme başvurularını onayla veya reddet.",
-  "@adminShellBusinessSubmissionsDescription": {"description": "L10n key: adminShellBusinessSubmissionsDescription"},
+  "@adminShellBusinessSubmissionsDescription": {
+    "description": "L10n key: adminShellBusinessSubmissionsDescription"
+  },
   "adminShellSponsorshipsLabel": "Sponsorlu gösterimler",
-  "@adminShellSponsorshipsLabel": {"description": "L10n key: adminShellSponsorshipsLabel"},
+  "@adminShellSponsorshipsLabel": {
+    "description": "L10n key: adminShellSponsorshipsLabel"
+  },
   "adminShellSponsorshipsDescription": "Sponsorlu işletme gösterimlerini yönet ve durum değiştir.",
-  "@adminShellSponsorshipsDescription": {"description": "L10n key: adminShellSponsorshipsDescription"},
+  "@adminShellSponsorshipsDescription": {
+    "description": "L10n key: adminShellSponsorshipsDescription"
+  },
   "adminShellSponsorshipPackagesLabel": "Paketler",
-  "@adminShellSponsorshipPackagesLabel": {"description": "L10n key: adminShellSponsorshipPackagesLabel"},
+  "@adminShellSponsorshipPackagesLabel": {
+    "description": "L10n key: adminShellSponsorshipPackagesLabel"
+  },
   "adminShellSponsorshipPackagesDescription": "Sponsor paketlerini oluştur ve fiyatlandırmayı yönet.",
-  "@adminShellSponsorshipPackagesDescription": {"description": "L10n key: adminShellSponsorshipPackagesDescription"},
+  "@adminShellSponsorshipPackagesDescription": {
+    "description": "L10n key: adminShellSponsorshipPackagesDescription"
+  },
   "adminShellSponsorshipLeadsLabel": "Lead'ler",
-  "@adminShellSponsorshipLeadsLabel": {"description": "L10n key: adminShellSponsorshipLeadsLabel"},
+  "@adminShellSponsorshipLeadsLabel": {
+    "description": "L10n key: adminShellSponsorshipLeadsLabel"
+  },
   "adminShellSponsorshipLeadsDescription": "Sponsor satış taleplerini takip et ve kapat.",
-  "@adminShellSponsorshipLeadsDescription": {"description": "L10n key: adminShellSponsorshipLeadsDescription"},
+  "@adminShellSponsorshipLeadsDescription": {
+    "description": "L10n key: adminShellSponsorshipLeadsDescription"
+  },
   "adminShellVerifiedLabel": "Doğrulama",
-  "@adminShellVerifiedLabel": {"description": "L10n key: adminShellVerifiedLabel"},
+  "@adminShellVerifiedLabel": {
+    "description": "L10n key: adminShellVerifiedLabel"
+  },
   "adminShellVerifiedDescription": "İşletme doğrulama ve premium statüsünü yönet.",
-  "@adminShellVerifiedDescription": {"description": "L10n key: adminShellVerifiedDescription"},
+  "@adminShellVerifiedDescription": {
+    "description": "L10n key: adminShellVerifiedDescription"
+  },
   "adminShellLocationsLabel": "Araçlar > Konumlar",
-  "@adminShellLocationsLabel": {"description": "L10n key: adminShellLocationsLabel"},
+  "@adminShellLocationsLabel": {
+    "description": "L10n key: adminShellLocationsLabel"
+  },
   "adminShellLocationsDescription": "Konum verilerini toplu düzelt ve güncelle.",
-  "@adminShellLocationsDescription": {"description": "L10n key: adminShellLocationsDescription"},
+  "@adminShellLocationsDescription": {
+    "description": "L10n key: adminShellLocationsDescription"
+  },
   "adminShellAuditLabel": "Denetim kayıtları",
-  "@adminShellAuditLabel": {"description": "L10n key: adminShellAuditLabel"},
+  "@adminShellAuditLabel": {
+    "description": "L10n key: adminShellAuditLabel"
+  },
   "adminShellAuditDescription": "Sistem içi işlem kayıtlarını incele.",
-  "@adminShellAuditDescription": {"description": "L10n key: adminShellAuditDescription"},
+  "@adminShellAuditDescription": {
+    "description": "L10n key: adminShellAuditDescription"
+  },
   "adminShellTableFeedbackLabel": "Masa geri bildirim",
-  "@adminShellTableFeedbackLabel": {"description": "L10n key: adminShellTableFeedbackLabel"},
+  "@adminShellTableFeedbackLabel": {
+    "description": "L10n key: adminShellTableFeedbackLabel"
+  },
   "adminShellTableFeedbackDescription": "Masa QR geri bildirimlerini görüntüle ve filtrele.",
-  "@adminShellTableFeedbackDescription": {"description": "L10n key: adminShellTableFeedbackDescription"},
+  "@adminShellTableFeedbackDescription": {
+    "description": "L10n key: adminShellTableFeedbackDescription"
+  },
   "adminShellGroupRequestsLabel": "Grup talepleri",
-  "@adminShellGroupRequestsLabel": {"description": "L10n key: adminShellGroupRequestsLabel"},
+  "@adminShellGroupRequestsLabel": {
+    "description": "L10n key: adminShellGroupRequestsLabel"
+  },
   "adminShellGroupRequestsDescription": "Grup yemeği taleplerini ve teklifleri gözlemle.",
-  "@adminShellGroupRequestsDescription": {"description": "L10n key: adminShellGroupRequestsDescription"},
+  "@adminShellGroupRequestsDescription": {
+    "description": "L10n key: adminShellGroupRequestsDescription"
+  },
   "adminShellDevToolsLabel": "Dev tools",
-  "@adminShellDevToolsLabel": {"description": "L10n key: adminShellDevToolsLabel"},
+  "@adminShellDevToolsLabel": {
+    "description": "L10n key: adminShellDevToolsLabel"
+  },
   "adminShellDevToolsDescription": "Feature flag ve test override ayarları.",
-  "@adminShellDevToolsDescription": {"description": "L10n key: adminShellDevToolsDescription"},
+  "@adminShellDevToolsDescription": {
+    "description": "L10n key: adminShellDevToolsDescription"
+  },
   "adminShellObservabilityLabel": "Observability",
-  "@adminShellObservabilityLabel": {"description": "L10n key: adminShellObservabilityLabel"},
+  "@adminShellObservabilityLabel": {
+    "description": "L10n key: adminShellObservabilityLabel"
+  },
   "adminShellObservabilityDescription": "Request trace, perf SLO ve prefs görünümü.",
-  "@adminShellObservabilityDescription": {"description": "L10n key: adminShellObservabilityDescription"},
+  "@adminShellObservabilityDescription": {
+    "description": "L10n key: adminShellObservabilityDescription"
+  },
   "adminShellB2bExportsLabel": "B2B veri ihracı",
-  "@adminShellB2bExportsLabel": {"description": "L10n key: adminShellB2bExportsLabel"},
+  "@adminShellB2bExportsLabel": {
+    "description": "L10n key: adminShellB2bExportsLabel"
+  },
   "adminShellB2bExportsDescription": "Anonim trend, bölgesel fiyat endeksi ve menü enflasyonu çıktıları.",
-  "@adminShellB2bExportsDescription": {"description": "L10n key: adminShellB2bExportsDescription"},
+  "@adminShellB2bExportsDescription": {
+    "description": "L10n key: adminShellB2bExportsDescription"
+  },
   "adminShellIncidentCenterLabel": "Kriz müdahale",
-  "@adminShellIncidentCenterLabel": {"description": "L10n key: adminShellIncidentCenterLabel"},
+  "@adminShellIncidentCenterLabel": {
+    "description": "L10n key: adminShellIncidentCenterLabel"
+  },
   "adminShellIncidentCenterDescription": "Şeffaf log, hazır cevaplar ve hızlı müdahale aksiyonları.",
-  "@adminShellIncidentCenterDescription": {"description": "L10n key: adminShellIncidentCenterDescription"},
+  "@adminShellIncidentCenterDescription": {
+    "description": "L10n key: adminShellIncidentCenterDescription"
+  },
   "adminShellTempUploadsLabel": "Geçici yükleme inceleme",
-  "@adminShellTempUploadsLabel": {"description": "L10n key: adminShellTempUploadsLabel"},
+  "@adminShellTempUploadsLabel": {
+    "description": "L10n key: adminShellTempUploadsLabel"
+  },
   "adminShellTempUploadsDescription": "Bekleyen geçici menü yüklemelerini incele.",
-  "@adminShellTempUploadsDescription": {"description": "L10n key: adminShellTempUploadsDescription"},
+  "@adminShellTempUploadsDescription": {
+    "description": "L10n key: adminShellTempUploadsDescription"
+  },
   "adminSponsorshipLeadsTitle": "Sponsor talepleri",
-  "@adminSponsorshipLeadsTitle": {"description": "L10n key: adminSponsorshipLeadsTitle"},
+  "@adminSponsorshipLeadsTitle": {
+    "description": "L10n key: adminSponsorshipLeadsTitle"
+  },
   "adminSponsorshipLeadsContactColumn": "İletişim",
-  "@adminSponsorshipLeadsContactColumn": {"description": "L10n key: adminSponsorshipLeadsContactColumn"},
+  "@adminSponsorshipLeadsContactColumn": {
+    "description": "L10n key: adminSponsorshipLeadsContactColumn"
+  },
   "adminSponsorshipLeadsOwnerColumn": "İşletme sahibi",
-  "@adminSponsorshipLeadsOwnerColumn": {"description": "L10n key: adminSponsorshipLeadsOwnerColumn"},
+  "@adminSponsorshipLeadsOwnerColumn": {
+    "description": "L10n key: adminSponsorshipLeadsOwnerColumn"
+  },
   "adminSponsorshipLeadsCreatedAtColumn": "Oluşturma",
-  "@adminSponsorshipLeadsCreatedAtColumn": {"description": "L10n key: adminSponsorshipLeadsCreatedAtColumn"},
+  "@adminSponsorshipLeadsCreatedAtColumn": {
+    "description": "L10n key: adminSponsorshipLeadsCreatedAtColumn"
+  },
   "adminSponsorshipLeadsDetailTitle": "Lead detayı",
-  "@adminSponsorshipLeadsDetailTitle": {"description": "L10n key: adminSponsorshipLeadsDetailTitle"},
+  "@adminSponsorshipLeadsDetailTitle": {
+    "description": "L10n key: adminSponsorshipLeadsDetailTitle"
+  },
   "adminSponsorshipLeadsPhoneLabel": "Telefon",
-  "@adminSponsorshipLeadsPhoneLabel": {"description": "L10n key: adminSponsorshipLeadsPhoneLabel"},
+  "@adminSponsorshipLeadsPhoneLabel": {
+    "description": "L10n key: adminSponsorshipLeadsPhoneLabel"
+  },
   "adminSponsorshipLeadsMessageLabel": "Mesaj",
-  "@adminSponsorshipLeadsMessageLabel": {"description": "L10n key: adminSponsorshipLeadsMessageLabel"},
+  "@adminSponsorshipLeadsMessageLabel": {
+    "description": "L10n key: adminSponsorshipLeadsMessageLabel"
+  },
   "adminSponsorshipLeadsTargetingLabel": "Hedefleme",
-  "@adminSponsorshipLeadsTargetingLabel": {"description": "L10n key: adminSponsorshipLeadsTargetingLabel"},
+  "@adminSponsorshipLeadsTargetingLabel": {
+    "description": "L10n key: adminSponsorshipLeadsTargetingLabel"
+  },
   "adminSponsorshipLeadsCreateSponsorship": "Sponsorluk oluştur",
-  "@adminSponsorshipLeadsCreateSponsorship": {"description": "L10n key: adminSponsorshipLeadsCreateSponsorship"},
+  "@adminSponsorshipLeadsCreateSponsorship": {
+    "description": "L10n key: adminSponsorshipLeadsCreateSponsorship"
+  },
   "adminSponsorshipLeadStatusNew": "Yeni",
-  "@adminSponsorshipLeadStatusNew": {"description": "L10n key: adminSponsorshipLeadStatusNew"},
+  "@adminSponsorshipLeadStatusNew": {
+    "description": "L10n key: adminSponsorshipLeadStatusNew"
+  },
   "adminSponsorshipLeadStatusContacted": "İletişime geçildi",
-  "@adminSponsorshipLeadStatusContacted": {"description": "L10n key: adminSponsorshipLeadStatusContacted"},
+  "@adminSponsorshipLeadStatusContacted": {
+    "description": "L10n key: adminSponsorshipLeadStatusContacted"
+  },
   "adminSponsorshipLeadStatusClosed": "Kapandı",
-  "@adminSponsorshipLeadStatusClosed": {"description": "L10n key: adminSponsorshipLeadStatusClosed"},
+  "@adminSponsorshipLeadStatusClosed": {
+    "description": "L10n key: adminSponsorshipLeadStatusClosed"
+  },
   "adminSponsorshipPackagesTitle": "Sponsor paketleri",
-  "@adminSponsorshipPackagesTitle": {"description": "L10n key: adminSponsorshipPackagesTitle"},
+  "@adminSponsorshipPackagesTitle": {
+    "description": "L10n key: adminSponsorshipPackagesTitle"
+  },
   "adminSponsorshipPackagesNewPackage": "Yeni paket",
-  "@adminSponsorshipPackagesNewPackage": {"description": "L10n key: adminSponsorshipPackagesNewPackage"},
+  "@adminSponsorshipPackagesNewPackage": {
+    "description": "L10n key: adminSponsorshipPackagesNewPackage"
+  },
   "adminSponsorshipPackagesEditPackage": "Paket düzenle",
-  "@adminSponsorshipPackagesEditPackage": {"description": "L10n key: adminSponsorshipPackagesEditPackage"},
+  "@adminSponsorshipPackagesEditPackage": {
+    "description": "L10n key: adminSponsorshipPackagesEditPackage"
+  },
   "adminSponsorshipPackagesNameColumn": "İsim",
-  "@adminSponsorshipPackagesNameColumn": {"description": "L10n key: adminSponsorshipPackagesNameColumn"},
+  "@adminSponsorshipPackagesNameColumn": {
+    "description": "L10n key: adminSponsorshipPackagesNameColumn"
+  },
   "adminSponsorshipPackagesDurationColumn": "Süre",
-  "@adminSponsorshipPackagesDurationColumn": {"description": "L10n key: adminSponsorshipPackagesDurationColumn"},
+  "@adminSponsorshipPackagesDurationColumn": {
+    "description": "L10n key: adminSponsorshipPackagesDurationColumn"
+  },
   "adminSponsorshipPackagesPriceColumn": "Fiyat",
-  "@adminSponsorshipPackagesPriceColumn": {"description": "L10n key: adminSponsorshipPackagesPriceColumn"},
+  "@adminSponsorshipPackagesPriceColumn": {
+    "description": "L10n key: adminSponsorshipPackagesPriceColumn"
+  },
   "adminSponsorshipPackagesActiveColumn": "Aktif",
-  "@adminSponsorshipPackagesActiveColumn": {"description": "L10n key: adminSponsorshipPackagesActiveColumn"},
+  "@adminSponsorshipPackagesActiveColumn": {
+    "description": "L10n key: adminSponsorshipPackagesActiveColumn"
+  },
   "adminSponsorshipPackagesCreatedAtColumn": "Oluşturma",
-  "@adminSponsorshipPackagesCreatedAtColumn": {"description": "L10n key: adminSponsorshipPackagesCreatedAtColumn"},
+  "@adminSponsorshipPackagesCreatedAtColumn": {
+    "description": "L10n key: adminSponsorshipPackagesCreatedAtColumn"
+  },
   "adminSponsorshipPackagesDurationValue": "{days} gün",
   "@adminSponsorshipPackagesDurationValue": {
     "description": "L10n key: adminSponsorshipPackagesDurationValue",
-    "placeholders": {"days": {"type": "int"}}
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
   },
   "adminSponsorshipPackagesDurationInput": "Süre (gün)",
-  "@adminSponsorshipPackagesDurationInput": {"description": "L10n key: adminSponsorshipPackagesDurationInput"},
+  "@adminSponsorshipPackagesDurationInput": {
+    "description": "L10n key: adminSponsorshipPackagesDurationInput"
+  },
   "adminSponsorshipPackagesPriceInput": "Fiyat gösterimi",
-  "@adminSponsorshipPackagesPriceInput": {"description": "L10n key: adminSponsorshipPackagesPriceInput"},
+  "@adminSponsorshipPackagesPriceInput": {
+    "description": "L10n key: adminSponsorshipPackagesPriceInput"
+  },
   "adminSponsorshipPackagesPriceAmountInput": "Fiyat (kuruş)",
-  "@adminSponsorshipPackagesPriceAmountInput": {"description": "L10n key: adminSponsorshipPackagesPriceAmountInput"},
+  "@adminSponsorshipPackagesPriceAmountInput": {
+    "description": "L10n key: adminSponsorshipPackagesPriceAmountInput"
+  },
   "adminSponsorshipPackagesCurrencyInput": "Para birimi",
-  "@adminSponsorshipPackagesCurrencyInput": {"description": "L10n key: adminSponsorshipPackagesCurrencyInput"},
+  "@adminSponsorshipPackagesCurrencyInput": {
+    "description": "L10n key: adminSponsorshipPackagesCurrencyInput"
+  },
   "adminSponsorshipPackagesInventoryInput": "Envanter limiti",
-  "@adminSponsorshipPackagesInventoryInput": {"description": "L10n key: adminSponsorshipPackagesInventoryInput"},
+  "@adminSponsorshipPackagesInventoryInput": {
+    "description": "L10n key: adminSponsorshipPackagesInventoryInput"
+  },
   "adminSponsorshipPackagesSurfaceDiscovery": "Keşfet",
-  "@adminSponsorshipPackagesSurfaceDiscovery": {"description": "L10n key: adminSponsorshipPackagesSurfaceDiscovery"},
+  "@adminSponsorshipPackagesSurfaceDiscovery": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceDiscovery"
+  },
   "adminSponsorshipPackagesSurfaceBusinessPage": "İşletme sayfası",
-  "@adminSponsorshipPackagesSurfaceBusinessPage": {"description": "L10n key: adminSponsorshipPackagesSurfaceBusinessPage"},
+  "@adminSponsorshipPackagesSurfaceBusinessPage": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceBusinessPage"
+  },
   "adminSponsorshipPackagesSurfaceStories": "Hikayeler",
-  "@adminSponsorshipPackagesSurfaceStories": {"description": "L10n key: adminSponsorshipPackagesSurfaceStories"},
+  "@adminSponsorshipPackagesSurfaceStories": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceStories"
+  },
   "adminSponsorshipPackagesSurfaceVerified": "Doğrulandı",
-  "@adminSponsorshipPackagesSurfaceVerified": {"description": "L10n key: adminSponsorshipPackagesSurfaceVerified"},
+  "@adminSponsorshipPackagesSurfaceVerified": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceVerified"
+  },
   "adminSponsorshipPackagesSurfacePremium": "Premium",
-  "@adminSponsorshipPackagesSurfacePremium": {"description": "L10n key: adminSponsorshipPackagesSurfacePremium"},
+  "@adminSponsorshipPackagesSurfacePremium": {
+    "description": "L10n key: adminSponsorshipPackagesSurfacePremium"
+  },
   "adminSponsorshipPackagesInventoryColumn": "Envanter",
-  "@adminSponsorshipPackagesInventoryColumn": {"description": "L10n key: adminSponsorshipPackagesInventoryColumn"},
+  "@adminSponsorshipPackagesInventoryColumn": {
+    "description": "L10n key: adminSponsorshipPackagesInventoryColumn"
+  },
   "adminSponsorshipsTitle": "Sponsorluklar",
-  "@adminSponsorshipsTitle": {"description": "L10n key: adminSponsorshipsTitle"},
+  "@adminSponsorshipsTitle": {
+    "description": "L10n key: adminSponsorshipsTitle"
+  },
   "adminSponsorshipsNewAction": "Yeni sponsorluk",
-  "@adminSponsorshipsNewAction": {"description": "L10n key: adminSponsorshipsNewAction"},
+  "@adminSponsorshipsNewAction": {
+    "description": "L10n key: adminSponsorshipsNewAction"
+  },
   "adminSponsorshipsOverviewTitle": "Portföy özeti",
-  "@adminSponsorshipsOverviewTitle": {"description": "L10n key: adminSponsorshipsOverviewTitle"},
+  "@adminSponsorshipsOverviewTitle": {
+    "description": "L10n key: adminSponsorshipsOverviewTitle"
+  },
   "adminSponsorshipsOverviewDescription": "Aktif sponsorluk, açık lead, erişim ve tahmini gelir tek ekranda izlenir.",
-  "@adminSponsorshipsOverviewDescription": {"description": "L10n key: adminSponsorshipsOverviewDescription"},
+  "@adminSponsorshipsOverviewDescription": {
+    "description": "L10n key: adminSponsorshipsOverviewDescription"
+  },
   "adminSponsorshipsInventoryTitle": "Yüzey envanteri",
-  "@adminSponsorshipsInventoryTitle": {"description": "L10n key: adminSponsorshipsInventoryTitle"},
+  "@adminSponsorshipsInventoryTitle": {
+    "description": "L10n key: adminSponsorshipsInventoryTitle"
+  },
   "adminSponsorshipsInventoryDescription": "Her gösterim yüzeyinde canlı doluluk, boş slot ve son 30 gün performansı görünür.",
-  "@adminSponsorshipsInventoryDescription": {"description": "L10n key: adminSponsorshipsInventoryDescription"},
+  "@adminSponsorshipsInventoryDescription": {
+    "description": "L10n key: adminSponsorshipsInventoryDescription"
+  },
   "adminSponsorshipsSurfaceColumn": "Yüzey",
-  "@adminSponsorshipsSurfaceColumn": {"description": "L10n key: adminSponsorshipsSurfaceColumn"},
+  "@adminSponsorshipsSurfaceColumn": {
+    "description": "L10n key: adminSponsorshipsSurfaceColumn"
+  },
   "adminSponsorshipsStatusColumn": "Durum",
-  "@adminSponsorshipsStatusColumn": {"description": "L10n key: adminSponsorshipsStatusColumn"},
+  "@adminSponsorshipsStatusColumn": {
+    "description": "L10n key: adminSponsorshipsStatusColumn"
+  },
   "adminSponsorshipsDateRangeColumn": "Tarih",
-  "@adminSponsorshipsDateRangeColumn": {"description": "L10n key: adminSponsorshipsDateRangeColumn"},
+  "@adminSponsorshipsDateRangeColumn": {
+    "description": "L10n key: adminSponsorshipsDateRangeColumn"
+  },
   "adminSponsorshipsPackageColumn": "Paket",
-  "@adminSponsorshipsPackageColumn": {"description": "L10n key: adminSponsorshipsPackageColumn"},
+  "@adminSponsorshipsPackageColumn": {
+    "description": "L10n key: adminSponsorshipsPackageColumn"
+  },
   "adminSponsorshipsQuotaColumn": "Kota",
-  "@adminSponsorshipsQuotaColumn": {"description": "L10n key: adminSponsorshipsQuotaColumn"},
+  "@adminSponsorshipsQuotaColumn": {
+    "description": "L10n key: adminSponsorshipsQuotaColumn"
+  },
   "adminSponsorshipsCreatedAtColumn": "Oluşturma",
-  "@adminSponsorshipsCreatedAtColumn": {"description": "L10n key: adminSponsorshipsCreatedAtColumn"},
+  "@adminSponsorshipsCreatedAtColumn": {
+    "description": "L10n key: adminSponsorshipsCreatedAtColumn"
+  },
   "adminSponsorshipsMetricActive": "Aktif sponsorluk",
-  "@adminSponsorshipsMetricActive": {"description": "L10n key: adminSponsorshipsMetricActive"},
+  "@adminSponsorshipsMetricActive": {
+    "description": "L10n key: adminSponsorshipsMetricActive"
+  },
   "adminSponsorshipsMetricPending": "Bekleyen sponsorluk",
-  "@adminSponsorshipsMetricPending": {"description": "L10n key: adminSponsorshipsMetricPending"},
+  "@adminSponsorshipsMetricPending": {
+    "description": "L10n key: adminSponsorshipsMetricPending"
+  },
   "adminSponsorshipsMetricOpenLeads": "Açık lead",
-  "@adminSponsorshipsMetricOpenLeads": {"description": "L10n key: adminSponsorshipsMetricOpenLeads"},
+  "@adminSponsorshipsMetricOpenLeads": {
+    "description": "L10n key: adminSponsorshipsMetricOpenLeads"
+  },
   "adminSponsorshipsMetricImpressions30d": "30 gün gösterim",
-  "@adminSponsorshipsMetricImpressions30d": {"description": "L10n key: adminSponsorshipsMetricImpressions30d"},
+  "@adminSponsorshipsMetricImpressions30d": {
+    "description": "L10n key: adminSponsorshipsMetricImpressions30d"
+  },
   "adminSponsorshipsMetricUniqueUsers30d": "30 gün tekil kullanıcı",
-  "@adminSponsorshipsMetricUniqueUsers30d": {"description": "L10n key: adminSponsorshipsMetricUniqueUsers30d"},
+  "@adminSponsorshipsMetricUniqueUsers30d": {
+    "description": "L10n key: adminSponsorshipsMetricUniqueUsers30d"
+  },
   "adminSponsorshipsMetricEstimatedRevenue": "Tahmini aktif gelir",
-  "@adminSponsorshipsMetricEstimatedRevenue": {"description": "L10n key: adminSponsorshipsMetricEstimatedRevenue"},
+  "@adminSponsorshipsMetricEstimatedRevenue": {
+    "description": "L10n key: adminSponsorshipsMetricEstimatedRevenue"
+  },
   "adminSponsorshipsInventoryPackagesColumn": "Paketler",
-  "@adminSponsorshipsInventoryPackagesColumn": {"description": "L10n key: adminSponsorshipsInventoryPackagesColumn"},
+  "@adminSponsorshipsInventoryPackagesColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryPackagesColumn"
+  },
   "adminSponsorshipsInventoryUnitsColumn": "Canlı / boş",
-  "@adminSponsorshipsInventoryUnitsColumn": {"description": "L10n key: adminSponsorshipsInventoryUnitsColumn"},
+  "@adminSponsorshipsInventoryUnitsColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryUnitsColumn"
+  },
   "adminSponsorshipsInventoryDemandColumn": "Talep",
-  "@adminSponsorshipsInventoryDemandColumn": {"description": "L10n key: adminSponsorshipsInventoryDemandColumn"},
+  "@adminSponsorshipsInventoryDemandColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryDemandColumn"
+  },
   "adminSponsorshipsInventoryPerformanceColumn": "Performans",
-  "@adminSponsorshipsInventoryPerformanceColumn": {"description": "L10n key: adminSponsorshipsInventoryPerformanceColumn"},
+  "@adminSponsorshipsInventoryPerformanceColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryPerformanceColumn"
+  },
   "adminSponsorshipsInventoryPackagesValue": "{active} aktif / {total} toplam • limit {inventory}",
   "@adminSponsorshipsInventoryPackagesValue": {
     "description": "L10n key: adminSponsorshipsInventoryPackagesValue",
@@ -3745,225 +3955,431 @@
     }
   },
   "adminSponsorshipsActivateAction": "Aktif et",
-  "@adminSponsorshipsActivateAction": {"description": "L10n key: adminSponsorshipsActivateAction"},
+  "@adminSponsorshipsActivateAction": {
+    "description": "L10n key: adminSponsorshipsActivateAction"
+  },
   "adminSponsorshipsPauseAction": "Duraklat",
-  "@adminSponsorshipsPauseAction": {"description": "L10n key: adminSponsorshipsPauseAction"},
+  "@adminSponsorshipsPauseAction": {
+    "description": "L10n key: adminSponsorshipsPauseAction"
+  },
   "adminSponsorshipsEndAction": "Bitir",
-  "@adminSponsorshipsEndAction": {"description": "L10n key: adminSponsorshipsEndAction"},
+  "@adminSponsorshipsEndAction": {
+    "description": "L10n key: adminSponsorshipsEndAction"
+  },
   "adminSponsorshipsStatusActive": "Aktif",
-  "@adminSponsorshipsStatusActive": {"description": "L10n key: adminSponsorshipsStatusActive"},
+  "@adminSponsorshipsStatusActive": {
+    "description": "L10n key: adminSponsorshipsStatusActive"
+  },
   "adminSponsorshipsStatusPaused": "Duraklatıldı",
-  "@adminSponsorshipsStatusPaused": {"description": "L10n key: adminSponsorshipsStatusPaused"},
+  "@adminSponsorshipsStatusPaused": {
+    "description": "L10n key: adminSponsorshipsStatusPaused"
+  },
   "adminSponsorshipsStatusEnded": "Bitti",
-  "@adminSponsorshipsStatusEnded": {"description": "L10n key: adminSponsorshipsStatusEnded"},
+  "@adminSponsorshipsStatusEnded": {
+    "description": "L10n key: adminSponsorshipsStatusEnded"
+  },
   "adminSponsorshipsQuotaValue": "D:{daily} / T:{total}",
   "@adminSponsorshipsQuotaValue": {
     "description": "L10n key: adminSponsorshipsQuotaValue",
-    "placeholders": {"daily": {"type": "String"}, "total": {"type": "String"}}
+    "placeholders": {
+      "daily": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
   },
   "adminSponsorshipsInfinity": "Sınırsız",
-  "@adminSponsorshipsInfinity": {"description": "L10n key: adminSponsorshipsInfinity"},
+  "@adminSponsorshipsInfinity": {
+    "description": "L10n key: adminSponsorshipsInfinity"
+  },
   "adminSponsorshipsDateRangeValue": "{start} -> {end}",
   "@adminSponsorshipsDateRangeValue": {
     "description": "L10n key: adminSponsorshipsDateRangeValue",
-    "placeholders": {"start": {"type": "String"}, "end": {"type": "String"}}
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
   },
   "adminSuggestionsTitle": "Öneriler",
-  "@adminSuggestionsTitle": {"description": "L10n key: adminSuggestionsTitle"},
+  "@adminSuggestionsTitle": {
+    "description": "L10n key: adminSuggestionsTitle"
+  },
   "adminSuggestionsSearchHint": "Ara (isim, şehir, ilçe)",
-  "@adminSuggestionsSearchHint": {"description": "L10n key: adminSuggestionsSearchHint"},
+  "@adminSuggestionsSearchHint": {
+    "description": "L10n key: adminSuggestionsSearchHint"
+  },
   "adminSuggestionsNameColumn": "İsim",
-  "@adminSuggestionsNameColumn": {"description": "L10n key: adminSuggestionsNameColumn"},
+  "@adminSuggestionsNameColumn": {
+    "description": "L10n key: adminSuggestionsNameColumn"
+  },
   "adminSuggestionsStatusColumn": "Durum",
-  "@adminSuggestionsStatusColumn": {"description": "L10n key: adminSuggestionsStatusColumn"},
+  "@adminSuggestionsStatusColumn": {
+    "description": "L10n key: adminSuggestionsStatusColumn"
+  },
   "adminSuggestionsCreatedAtColumn": "Oluşturma",
-  "@adminSuggestionsCreatedAtColumn": {"description": "L10n key: adminSuggestionsCreatedAtColumn"},
+  "@adminSuggestionsCreatedAtColumn": {
+    "description": "L10n key: adminSuggestionsCreatedAtColumn"
+  },
   "adminSuggestionsSlaExceeded": "Bu kayıt SLA aştı: {age}",
   "@adminSuggestionsSlaExceeded": {
     "description": "L10n key: adminSuggestionsSlaExceeded",
-    "placeholders": {"age": {"type": "String"}}
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
   },
   "adminSuggestionsDetailTitle": "Öneri detayı",
-  "@adminSuggestionsDetailTitle": {"description": "L10n key: adminSuggestionsDetailTitle"},
+  "@adminSuggestionsDetailTitle": {
+    "description": "L10n key: adminSuggestionsDetailTitle"
+  },
   "adminSuggestionsCategoryLabel": "Kategori",
-  "@adminSuggestionsCategoryLabel": {"description": "L10n key: adminSuggestionsCategoryLabel"},
+  "@adminSuggestionsCategoryLabel": {
+    "description": "L10n key: adminSuggestionsCategoryLabel"
+  },
   "adminSuggestionsLocationLabel": "Konum",
-  "@adminSuggestionsLocationLabel": {"description": "L10n key: adminSuggestionsLocationLabel"},
+  "@adminSuggestionsLocationLabel": {
+    "description": "L10n key: adminSuggestionsLocationLabel"
+  },
   "adminSuggestionsAdminNoteOptional": "Admin notu (opsiyonel)",
-  "@adminSuggestionsAdminNoteOptional": {"description": "L10n key: adminSuggestionsAdminNoteOptional"},
+  "@adminSuggestionsAdminNoteOptional": {
+    "description": "L10n key: adminSuggestionsAdminNoteOptional"
+  },
   "adminSuggestionsAssignedToMe": "Öneri bana atandı.",
-  "@adminSuggestionsAssignedToMe": {"description": "L10n key: adminSuggestionsAssignedToMe"},
+  "@adminSuggestionsAssignedToMe": {
+    "description": "L10n key: adminSuggestionsAssignedToMe"
+  },
   "adminSuggestionsPossibleDuplicatesTitle": "Muhtemel kopyalar",
-  "@adminSuggestionsPossibleDuplicatesTitle": {"description": "L10n key: adminSuggestionsPossibleDuplicatesTitle"},
+  "@adminSuggestionsPossibleDuplicatesTitle": {
+    "description": "L10n key: adminSuggestionsPossibleDuplicatesTitle"
+  },
   "adminSuggestionsNoSimilarBusiness": "Benzer işletme bulunamadı.",
-  "@adminSuggestionsNoSimilarBusiness": {"description": "L10n key: adminSuggestionsNoSimilarBusiness"},
+  "@adminSuggestionsNoSimilarBusiness": {
+    "description": "L10n key: adminSuggestionsNoSimilarBusiness"
+  },
   "adminSuggestionsCreatedNewBusiness": "Yeni işletme oluşturuldu.",
-  "@adminSuggestionsCreatedNewBusiness": {"description": "L10n key: adminSuggestionsCreatedNewBusiness"},
+  "@adminSuggestionsCreatedNewBusiness": {
+    "description": "L10n key: adminSuggestionsCreatedNewBusiness"
+  },
   "adminSuggestionsCreateNewBusiness": "Yeni işletme oluştur",
-  "@adminSuggestionsCreateNewBusiness": {"description": "L10n key: adminSuggestionsCreateNewBusiness"},
+  "@adminSuggestionsCreateNewBusiness": {
+    "description": "L10n key: adminSuggestionsCreateNewBusiness"
+  },
   "adminSuggestionsLinkExistingConfirmTitle": "Mevcut işletmeyle eşleştirilsin mi?",
-  "@adminSuggestionsLinkExistingConfirmTitle": {"description": "L10n key: adminSuggestionsLinkExistingConfirmTitle"},
+  "@adminSuggestionsLinkExistingConfirmTitle": {
+    "description": "L10n key: adminSuggestionsLinkExistingConfirmTitle"
+  },
   "adminSuggestionsLinkedToExisting": "Mevcut işletmeyle eşleştirildi.",
-  "@adminSuggestionsLinkedToExisting": {"description": "L10n key: adminSuggestionsLinkedToExisting"},
+  "@adminSuggestionsLinkedToExisting": {
+    "description": "L10n key: adminSuggestionsLinkedToExisting"
+  },
   "adminSuggestionsRejectSelected": "Seçilileri reddet",
-  "@adminSuggestionsRejectSelected": {"description": "L10n key: adminSuggestionsRejectSelected"},
+  "@adminSuggestionsRejectSelected": {
+    "description": "L10n key: adminSuggestionsRejectSelected"
+  },
   "adminSuggestionsLinkToThisBusiness": "Bu işletmeyle eşleştir",
-  "@adminSuggestionsLinkToThisBusiness": {"description": "L10n key: adminSuggestionsLinkToThisBusiness"},
+  "@adminSuggestionsLinkToThisBusiness": {
+    "description": "L10n key: adminSuggestionsLinkToThisBusiness"
+  },
   "adminSuggestionsNoLocation": "Konum yok",
-  "@adminSuggestionsNoLocation": {"description": "L10n key: adminSuggestionsNoLocation"},
+  "@adminSuggestionsNoLocation": {
+    "description": "L10n key: adminSuggestionsNoLocation"
+  },
   "adminSuggestionsDaysValue": "{days} gün",
   "@adminSuggestionsDaysValue": {
     "description": "L10n key: adminSuggestionsDaysValue",
-    "placeholders": {"days": {"type": "String"}}
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
   },
   "adminSuspendedClaimsTitle": "Askıdaki talepler",
-  "@adminSuspendedClaimsTitle": {"description": "L10n key: adminSuspendedClaimsTitle"},
+  "@adminSuspendedClaimsTitle": {
+    "description": "L10n key: adminSuspendedClaimsTitle"
+  },
   "adminSuspendedClaimsAmountColumn": "Miktar",
-  "@adminSuspendedClaimsAmountColumn": {"description": "L10n key: adminSuspendedClaimsAmountColumn"},
+  "@adminSuspendedClaimsAmountColumn": {
+    "description": "L10n key: adminSuspendedClaimsAmountColumn"
+  },
   "adminSuspendedClaimsClaimantColumn": "Davacı",
-  "@adminSuspendedClaimsClaimantColumn": {"description": "L10n key: adminSuspendedClaimsClaimantColumn"},
+  "@adminSuspendedClaimsClaimantColumn": {
+    "description": "L10n key: adminSuspendedClaimsClaimantColumn"
+  },
   "adminSuspendedClaimsSlaExceeded": "SLA aşıldı: {age}",
   "@adminSuspendedClaimsSlaExceeded": {
     "description": "L10n key: adminSuspendedClaimsSlaExceeded",
-    "placeholders": {"age": {"type": "String"}}
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
   },
   "adminSuspendedClaimsDetailTitle": "Talep detayı",
-  "@adminSuspendedClaimsDetailTitle": {"description": "L10n key: adminSuspendedClaimsDetailTitle"},
+  "@adminSuspendedClaimsDetailTitle": {
+    "description": "L10n key: adminSuspendedClaimsDetailTitle"
+  },
   "adminSuspendedClaimsMealLabel": "Meal",
-  "@adminSuspendedClaimsMealLabel": {"description": "L10n key: adminSuspendedClaimsMealLabel"},
+  "@adminSuspendedClaimsMealLabel": {
+    "description": "L10n key: adminSuspendedClaimsMealLabel"
+  },
   "adminSuspendedClaimsRejectNoteOptional": "Reddetme notu (opsiyonel)",
-  "@adminSuspendedClaimsRejectNoteOptional": {"description": "L10n key: adminSuspendedClaimsRejectNoteOptional"},
+  "@adminSuspendedClaimsRejectNoteOptional": {
+    "description": "L10n key: adminSuspendedClaimsRejectNoteOptional"
+  },
   "adminSuspendedClaimsApproveConfirm": "Talep onaylansın mı?",
-  "@adminSuspendedClaimsApproveConfirm": {"description": "L10n key: adminSuspendedClaimsApproveConfirm"},
+  "@adminSuspendedClaimsApproveConfirm": {
+    "description": "L10n key: adminSuspendedClaimsApproveConfirm"
+  },
   "adminSuspendedClaimsRejectConfirm": "Talep reddedilsin mi?",
-  "@adminSuspendedClaimsRejectConfirm": {"description": "L10n key: adminSuspendedClaimsRejectConfirm"},
+  "@adminSuspendedClaimsRejectConfirm": {
+    "description": "L10n key: adminSuspendedClaimsRejectConfirm"
+  },
   "adminTableFeedbackTitle": "Masa geri bildirimleri",
-  "@adminTableFeedbackTitle": {"description": "L10n key: adminTableFeedbackTitle"},
+  "@adminTableFeedbackTitle": {
+    "description": "L10n key: adminTableFeedbackTitle"
+  },
   "adminTableFeedbackTableAndRating": "Masa {tableNo} • Puan {rating}",
   "@adminTableFeedbackTableAndRating": {
     "description": "L10n key: adminTableFeedbackTableAndRating",
     "placeholders": {
-      "tableNo": {"type": "String"},
-      "rating": {"type": "String"}
+      "tableNo": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "String"
+      }
     }
   },
   "adminTempUploadsTitle": "Geçici yükleme inceleme",
-  "@adminTempUploadsTitle": {"description": "L10n key: adminTempUploadsTitle"},
+  "@adminTempUploadsTitle": {
+    "description": "L10n key: adminTempUploadsTitle"
+  },
   "adminTempUploadsPromoted": "Menüye aktarıldı.",
-  "@adminTempUploadsPromoted": {"description": "L10n key: adminTempUploadsPromoted"},
+  "@adminTempUploadsPromoted": {
+    "description": "L10n key: adminTempUploadsPromoted"
+  },
   "adminTempUploadsRejectReasonHint": "Red nedeni (opsiyonel)",
-  "@adminTempUploadsRejectReasonHint": {"description": "L10n key: adminTempUploadsRejectReasonHint"},
+  "@adminTempUploadsRejectReasonHint": {
+    "description": "L10n key: adminTempUploadsRejectReasonHint"
+  },
   "adminTempUploadsRejected": "Kayıt reddedildi.",
-  "@adminTempUploadsRejected": {"description": "L10n key: adminTempUploadsRejected"},
+  "@adminTempUploadsRejected": {
+    "description": "L10n key: adminTempUploadsRejected"
+  },
   "adminTempUploadsEmptyTitle": "Bekleyen geçici yükleme yok",
-  "@adminTempUploadsEmptyTitle": {"description": "L10n key: adminTempUploadsEmptyTitle"},
+  "@adminTempUploadsEmptyTitle": {
+    "description": "L10n key: adminTempUploadsEmptyTitle"
+  },
   "adminTempUploadsEmptyDescription": "Yeni gönderimler geldiğinde burada listelenir.",
-  "@adminTempUploadsEmptyDescription": {"description": "L10n key: adminTempUploadsEmptyDescription"},
+  "@adminTempUploadsEmptyDescription": {
+    "description": "L10n key: adminTempUploadsEmptyDescription"
+  },
   "adminTempUploadsBusinessId": "business_id: {businessId}",
   "@adminTempUploadsBusinessId": {
     "description": "L10n key: adminTempUploadsBusinessId",
-    "placeholders": {"businessId": {"type": "String"}}
+    "placeholders": {
+      "businessId": {
+        "type": "String"
+      }
+    }
   },
   "adminTempUploadsPromoteAction": "Menüye aktar",
-  "@adminTempUploadsPromoteAction": {"description": "L10n key: adminTempUploadsPromoteAction"},
+  "@adminTempUploadsPromoteAction": {
+    "description": "L10n key: adminTempUploadsPromoteAction"
+  },
   "adminVerifiedTitle": "Doğrulama / Premium",
-  "@adminVerifiedTitle": {"description": "L10n key: adminVerifiedTitle"},
+  "@adminVerifiedTitle": {
+    "description": "L10n key: adminVerifiedTitle"
+  },
   "adminVerifiedSearchHint": "İşletme ara (isim/adres)",
-  "@adminVerifiedSearchHint": {"description": "L10n key: adminVerifiedSearchHint"},
+  "@adminVerifiedSearchHint": {
+    "description": "L10n key: adminVerifiedSearchHint"
+  },
   "adminVerifiedSearching": "Aranıyor...",
-  "@adminVerifiedSearching": {"description": "L10n key: adminVerifiedSearching"},
+  "@adminVerifiedSearching": {
+    "description": "L10n key: adminVerifiedSearching"
+  },
   "adminVerifiedSearchAction": "Ara",
-  "@adminVerifiedSearchAction": {"description": "L10n key: adminVerifiedSearchAction"},
+  "@adminVerifiedSearchAction": {
+    "description": "L10n key: adminVerifiedSearchAction"
+  },
   "adminVerifiedVerificationColumn": "Doğrulama",
-  "@adminVerifiedVerificationColumn": {"description": "L10n key: adminVerifiedVerificationColumn"},
+  "@adminVerifiedVerificationColumn": {
+    "description": "L10n key: adminVerifiedVerificationColumn"
+  },
   "adminVerifiedYes": "Evet",
-  "@adminVerifiedYes": {"description": "L10n key: adminVerifiedYes"},
+  "@adminVerifiedYes": {
+    "description": "L10n key: adminVerifiedYes"
+  },
   "adminVerifiedNo": "Hayır",
-  "@adminVerifiedNo": {"description": "L10n key: adminVerifiedNo"},
+  "@adminVerifiedNo": {
+    "description": "L10n key: adminVerifiedNo"
+  },
   "adminVerifiedSettingsTitle": "Doğrulama ayarları",
-  "@adminVerifiedSettingsTitle": {"description": "L10n key: adminVerifiedSettingsTitle"},
+  "@adminVerifiedSettingsTitle": {
+    "description": "L10n key: adminVerifiedSettingsTitle"
+  },
   "adminVerifiedTierVerified": "Doğrulandı",
-  "@adminVerifiedTierVerified": {"description": "L10n key: adminVerifiedTierVerified"},
+  "@adminVerifiedTierVerified": {
+    "description": "L10n key: adminVerifiedTierVerified"
+  },
   "adminVerifiedTierPremium": "Premium",
-  "@adminVerifiedTierPremium": {"description": "L10n key: adminVerifiedTierPremium"},
+  "@adminVerifiedTierPremium": {
+    "description": "L10n key: adminVerifiedTierPremium"
+  },
   "adminVerifiedTierLabel": "Tier",
-  "@adminVerifiedTierLabel": {"description": "L10n key: adminVerifiedTierLabel"},
+  "@adminVerifiedTierLabel": {
+    "description": "L10n key: adminVerifiedTierLabel"
+  },
   "adminVerifiedEndsAtLabel": "Bitiş (YYYY-MM-DD)",
-  "@adminVerifiedEndsAtLabel": {"description": "L10n key: adminVerifiedEndsAtLabel"}
-  ,
+  "@adminVerifiedEndsAtLabel": {
+    "description": "L10n key: adminVerifiedEndsAtLabel"
+  },
   "loginSubmitting": "Giriş yapılıyor...",
-  "@loginSubmitting": {"description": "L10n key: loginSubmitting"},
+  "@loginSubmitting": {
+    "description": "L10n key: loginSubmitting"
+  },
   "loginRegisterSubmitting": "Kayıt oluşturuluyor...",
-  "@loginRegisterSubmitting": {"description": "L10n key: loginRegisterSubmitting"},
+  "@loginRegisterSubmitting": {
+    "description": "L10n key: loginRegisterSubmitting"
+  },
   "loginRegisterSuccess": "Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.",
-  "@loginRegisterSuccess": {"description": "L10n key: loginRegisterSuccess"},
+  "@loginRegisterSuccess": {
+    "description": "L10n key: loginRegisterSuccess"
+  },
   "loginActionFailedTitle": "İşlem tamamlanamadı",
-  "@loginActionFailedTitle": {"description": "L10n key: loginActionFailedTitle"},
-  "loginActionFailedDescription": "{error}\nBağlantını kontrol edip tekrar dene.",
+  "@loginActionFailedTitle": {
+    "description": "Auto metadata for loginActionFailedTitle"
+  },
+  "loginActionFailedDescription": "{error}\nBağlantıyı kontrol edip tekrar dene.",
   "@loginActionFailedDescription": {
-    "description": "L10n key: loginActionFailedDescription",
-    "placeholders": {"error": {"type": "String"}}
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for loginActionFailedDescription"
   },
   "legalTitle": "Yasal ve Güven",
-  "@legalTitle": {"description": "L10n key: legalTitle"},
+  "@legalTitle": {
+    "description": "L10n key: legalTitle"
+  },
   "legalPrivacySectionTitle": "KVKK / GDPR",
-  "@legalPrivacySectionTitle": {"description": "L10n key: legalPrivacySectionTitle"},
+  "@legalPrivacySectionTitle": {
+    "description": "L10n key: legalPrivacySectionTitle"
+  },
   "legalPrivacyIntro": "{appName} kişisel verileri yalnızca hizmeti sunmak için işler. Açık rıza gerektiren işlemler için onay alınır, talep halinde veriler silinir veya taşınabilir şekilde paylaşılır.",
   "@legalPrivacyIntro": {
     "description": "L10n key: legalPrivacyIntro",
-    "placeholders": {"appName": {"type": "String"}}
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
   },
   "legalPrivacyCategoriesAndRights": "Veri kategorileri: profil, konum, cihaz bilgisi, kullanım analitiği. Haklar: erişim, düzeltme, silme, itiraz, taşınabilirlik.",
-  "@legalPrivacyCategoriesAndRights": {"description": "L10n key: legalPrivacyCategoriesAndRights"},
+  "@legalPrivacyCategoriesAndRights": {
+    "description": "L10n key: legalPrivacyCategoriesAndRights"
+  },
   "legalPrivacyPolicyAction": "Gizlilik Politikası",
-  "@legalPrivacyPolicyAction": {"description": "L10n key: legalPrivacyPolicyAction"},
+  "@legalPrivacyPolicyAction": {
+    "description": "L10n key: legalPrivacyPolicyAction"
+  },
   "legalKvkkAction": "KVKK Metni",
-  "@legalKvkkAction": {"description": "L10n key: legalKvkkAction"},
+  "@legalKvkkAction": {
+    "description": "L10n key: legalKvkkAction"
+  },
   "legalGdprAction": "GDPR Metni",
-  "@legalGdprAction": {"description": "L10n key: legalGdprAction"},
+  "@legalGdprAction": {
+    "description": "L10n key: legalGdprAction"
+  },
   "legalPrivacyApplicationHint": "Başvuru: e-posta ile talep oluştur.",
-  "@legalPrivacyApplicationHint": {"description": "L10n key: legalPrivacyApplicationHint"},
+  "@legalPrivacyApplicationHint": {
+    "description": "L10n key: legalPrivacyApplicationHint"
+  },
   "legalCopyrightSectionTitle": "Foto Telif Bildirimi",
-  "@legalCopyrightSectionTitle": {"description": "L10n key: legalCopyrightSectionTitle"},
+  "@legalCopyrightSectionTitle": {
+    "description": "Auto metadata for legalCopyrightSectionTitle"
+  },
   "legalCopyrightIntro": "Menü ve mekan fotoğrafları telif hakkına tabi olabilir. İhlal gördüğünde Bildir > Telif ile iletebilirsin.",
-  "@legalCopyrightIntro": {"description": "L10n key: legalCopyrightIntro"},
+  "@legalCopyrightIntro": {
+    "description": "L10n key: legalCopyrightIntro"
+  },
   "legalCopyrightBody": "Telif bildirimi için içerik bağlantısı, kanıt ve kısa açıklama yeterlidir. Doğrulanan ihlaller içerikten kaldırılır.",
-  "@legalCopyrightBody": {"description": "L10n key: legalCopyrightBody"},
+  "@legalCopyrightBody": {
+    "description": "L10n key: legalCopyrightBody"
+  },
   "legalCopyrightPolicyAction": "Telif Politikası",
-  "@legalCopyrightPolicyAction": {"description": "L10n key: legalCopyrightPolicyAction"},
+  "@legalCopyrightPolicyAction": {
+    "description": "L10n key: legalCopyrightPolicyAction"
+  },
   "legalOwnershipAppealSectionTitle": "İşletme Sahipliği İtirazı",
-  "@legalOwnershipAppealSectionTitle": {"description": "L10n key: legalOwnershipAppealSectionTitle"},
+  "@legalOwnershipAppealSectionTitle": {
+    "description": "Auto metadata for legalOwnershipAppealSectionTitle"
+  },
   "legalOwnershipAppealIntro": "Sahiplik talebi reddedildiyse itiraz edebilirsin. Belgelerin tekrar incelenir.",
-  "@legalOwnershipAppealIntro": {"description": "L10n key: legalOwnershipAppealIntro"},
+  "@legalOwnershipAppealIntro": {
+    "description": "L10n key: legalOwnershipAppealIntro"
+  },
   "legalOwnershipAppealRequirementsTitle": "İtiraz için gerekli bilgiler:",
-  "@legalOwnershipAppealRequirementsTitle": {"description": "L10n key: legalOwnershipAppealRequirementsTitle"},
+  "@legalOwnershipAppealRequirementsTitle": {
+    "description": "L10n key: legalOwnershipAppealRequirementsTitle"
+  },
   "legalOwnershipAppealRequirementsBody": "• İşyeri ünvanı ve vergi/ruhsat bilgisi\n• Yetkilendirme belgesi\n• İletişim telefonu",
-  "@legalOwnershipAppealRequirementsBody": {"description": "L10n key: legalOwnershipAppealRequirementsBody"},
+  "@legalOwnershipAppealRequirementsBody": {
+    "description": "L10n key: legalOwnershipAppealRequirementsBody"
+  },
   "legalOwnershipAppealMailAction": "İtiraz e-postası gönder",
-  "@legalOwnershipAppealMailAction": {"description": "L10n key: legalOwnershipAppealMailAction"},
+  "@legalOwnershipAppealMailAction": {
+    "description": "L10n key: legalOwnershipAppealMailAction"
+  },
   "legalOwnershipAppealMailSubject": "{appName} - Sahiplik İtirazı",
   "@legalOwnershipAppealMailSubject": {
     "description": "L10n key: legalOwnershipAppealMailSubject",
-    "placeholders": {"appName": {"type": "String"}}
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
   },
   "legalProductPrinciplesSectionTitle": "Ürün İlkeleri",
-  "@legalProductPrinciplesSectionTitle": {"description": "L10n key: legalProductPrinciplesSectionTitle"},
+  "@legalProductPrinciplesSectionTitle": {
+    "description": "Auto metadata for legalProductPrinciplesSectionTitle"
+  },
   "legalProductPrinciplesDontsTitle": "Yapılmaması gerekenler:",
-  "@legalProductPrinciplesDontsTitle": {"description": "L10n key: legalProductPrinciplesDontsTitle"},
+  "@legalProductPrinciplesDontsTitle": {
+    "description": "L10n key: legalProductPrinciplesDontsTitle"
+  },
   "legalProductPrinciplesDontsBody": "• Herkese her şeyi açmak\n• Sponsorlu içeriği gizlemek\n• Owner hesaba yorum silme yetkisi vermek\n• Büyüme için kalite eşiğini gevşetmek",
-  "@legalProductPrinciplesDontsBody": {"description": "L10n key: legalProductPrinciplesDontsBody"},
+  "@legalProductPrinciplesDontsBody": {
+    "description": "L10n key: legalProductPrinciplesDontsBody"
+  },
   "legalProductPrinciplesPolicy": "Policy: sponsor etiketi zorunlu={requireSponsoredLabel}, min sponsor trust={minSponsoredTrust}, owner yorum silme={ownerCanDeleteReviews}.",
   "@legalProductPrinciplesPolicy": {
     "description": "L10n key: legalProductPrinciplesPolicy",
     "placeholders": {
-      "requireSponsoredLabel": {"type": "String"},
-      "minSponsoredTrust": {"type": "String"},
-      "ownerCanDeleteReviews": {"type": "String"}
+      "requireSponsoredLabel": {
+        "type": "String"
+      },
+      "minSponsoredTrust": {
+        "type": "String"
+      },
+      "ownerCanDeleteReviews": {
+        "type": "String"
+      }
     }
   },
   "legalFooterNote": "Güncel politika metinleri ve detaylar web sitesinde yayımlanır.",
-  "@legalFooterNote": {"description": "L10n key: legalFooterNote"}
-  ,
+  "@legalFooterNote": {
+    "description": "L10n key: legalFooterNote"
+  },
   "ownerBusinessSubmissionsEmptyTitle": "Henüz başvuru yok",
   "@ownerBusinessSubmissionsEmptyTitle": {
     "description": "L10n key: ownerBusinessSubmissionsEmptyTitle"
@@ -6166,6 +6582,14 @@
   "@ownerAnalyticsPreset90Days": {
     "description": "L10n key: ownerAnalyticsPreset90Days"
   },
+  "ownerAnalyticsPreset24Hours": "Son 24 saat",
+  "@ownerAnalyticsPreset24Hours": {
+    "description": "L10n key: ownerAnalyticsPreset24Hours"
+  },
+  "ownerAnalyticsHourlyTrendTitle": "Son 24 saatlik akış",
+  "@ownerAnalyticsHourlyTrendTitle": {
+    "description": "L10n key: ownerAnalyticsHourlyTrendTitle"
+  },
   "ownerAnalyticsBranchCompareToggle": "Şubeleri karşılaştır",
   "@ownerAnalyticsBranchCompareToggle": {
     "description": "L10n key: ownerAnalyticsBranchCompareToggle"
@@ -6730,5 +7154,116 @@
   "ownerPhotoMovedToTrash": "Fotoğraf çöp kutusuna taşındı.",
   "@ownerPhotoMovedToTrash": {
     "description": "L10n key: ownerPhotoMovedToTrash"
+  },
+  "ownerAiAnalysisTitle": "AI Menü Analizi",
+  "@ownerAiAnalysisTitle": {
+    "description": "L10n key: ownerAiAnalysisTitle"
+  },
+  "ownerAiAnalysisNoBusinessTitle": "İşletme seçilmedi",
+  "@ownerAiAnalysisNoBusinessTitle": {
+    "description": "L10n key: ownerAiAnalysisNoBusinessTitle"
+  },
+  "ownerAiAnalysisNoBusinessDescription": "AI analizini kullanmak için önce bir işletme seç.",
+  "@ownerAiAnalysisNoBusinessDescription": {
+    "description": "L10n key: ownerAiAnalysisNoBusinessDescription"
+  },
+  "ownerAiAnalysisDisclaimer": "Bu bilgiler otomatik analiz ile oluşturulmuştur. Kesin bilgi değildir; lütfen işletmeden doğrulayınız.",
+  "@ownerAiAnalysisDisclaimer": {
+    "description": "L10n key: ownerAiAnalysisDisclaimer"
+  },
+  "ownerAiAnalysisUploadTitle": "Menü Fotoğrafı Yükle",
+  "@ownerAiAnalysisUploadTitle": {
+    "description": "L10n key: ownerAiAnalysisUploadTitle"
+  },
+  "ownerAiAnalysisUploadDescription": "JPG, PNG veya WEBP formatında menü görseli yükle. AI otomatik ürün, alerjen ve kalori bilgisi üretir.",
+  "@ownerAiAnalysisUploadDescription": {
+    "description": "L10n key: ownerAiAnalysisUploadDescription"
+  },
+  "ownerAiAnalysisUploadAction": "Görsel Seç",
+  "@ownerAiAnalysisUploadAction": {
+    "description": "L10n key: ownerAiAnalysisUploadAction"
+  },
+  "ownerAiAnalysisUploading": "Yükleniyor...",
+  "@ownerAiAnalysisUploading": {
+    "description": "L10n key: ownerAiAnalysisUploading"
+  },
+  "ownerAiAnalysisAnalyzing": "AI analiz yapıyor...",
+  "@ownerAiAnalysisAnalyzing": {
+    "description": "L10n key: ownerAiAnalysisAnalyzing"
+  },
+  "ownerAiAnalysisComplete": "{count} ürün analiz edildi. Sonuçları incele ve onayla.",
+  "@ownerAiAnalysisComplete": {
+    "description": "L10n key: ownerAiAnalysisComplete",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "ownerAiAnalysisJobsTitle": "Son İşler",
+  "@ownerAiAnalysisJobsTitle": {
+    "description": "L10n key: ownerAiAnalysisJobsTitle"
+  },
+  "ownerAiAnalysisResultsTitle": "Analiz Sonuçları",
+  "@ownerAiAnalysisResultsTitle": {
+    "description": "L10n key: ownerAiAnalysisResultsTitle"
+  },
+  "ownerAiAnalysisEmptyTitle": "Henüz analiz yok",
+  "@ownerAiAnalysisEmptyTitle": {
+    "description": "L10n key: ownerAiAnalysisEmptyTitle"
+  },
+  "ownerAiAnalysisEmptyDescription": "Menü görseli yükle, AI alerjen ve kalori bilgisi üretsin.",
+  "@ownerAiAnalysisEmptyDescription": {
+    "description": "L10n key: ownerAiAnalysisEmptyDescription"
+  },
+  "ownerAiAnalysisFilterAll": "Tümü",
+  "@ownerAiAnalysisFilterAll": {
+    "description": "L10n key: ownerAiAnalysisFilterAll"
+  },
+  "ownerAiAnalysisFilterPending": "Bekliyor",
+  "@ownerAiAnalysisFilterPending": {
+    "description": "L10n key: ownerAiAnalysisFilterPending"
+  },
+  "ownerAiAnalysisFilterApproved": "Onaylandı",
+  "@ownerAiAnalysisFilterApproved": {
+    "description": "L10n key: ownerAiAnalysisFilterApproved"
+  },
+  "ownerAiAnalysisFilterRejected": "Reddedildi",
+  "@ownerAiAnalysisFilterRejected": {
+    "description": "L10n key: ownerAiAnalysisFilterRejected"
+  },
+  "ownerAiAnalysisReviewRequired": "Manuel inceleme gerekiyor",
+  "@ownerAiAnalysisReviewRequired": {
+    "description": "L10n key: ownerAiAnalysisReviewRequired"
+  },
+  "ownerAiAnalysisApproveAction": "Onayla",
+  "@ownerAiAnalysisApproveAction": {
+    "description": "L10n key: ownerAiAnalysisApproveAction"
+  },
+  "ownerAiAnalysisRejectAction": "Reddet",
+  "@ownerAiAnalysisRejectAction": {
+    "description": "L10n key: ownerAiAnalysisRejectAction"
+  },
+  "ownerAiAnalysisApproved": "Onaylandı.",
+  "@ownerAiAnalysisApproved": {
+    "description": "L10n key: ownerAiAnalysisApproved"
+  },
+  "ownerAiAnalysisRejected": "Reddedildi.",
+  "@ownerAiAnalysisRejected": {
+    "description": "L10n key: ownerAiAnalysisRejected"
+  },
+  "ownerAiAnalysisStatusPending": "Bekliyor",
+  "@ownerAiAnalysisStatusPending": {
+    "description": "L10n key: ownerAiAnalysisStatusPending"
+  },
+  "ownerAiAnalysisStatusApproved": "Onaylandı",
+  "@ownerAiAnalysisStatusApproved": {
+    "description": "L10n key: ownerAiAnalysisStatusApproved"
+  },
+  "ownerAiAnalysisStatusRejected": "Reddedildi",
+  "@ownerAiAnalysisStatusRejected": {
+    "description": "L10n key: ownerAiAnalysisStatusRejected"
+  },
+  "ownerShellAiAnalysisLabel": "AI Analiz",
+  "@ownerShellAiAnalysisLabel": {
+    "description": "L10n key: ownerShellAiAnalysisLabel"
   }
 }

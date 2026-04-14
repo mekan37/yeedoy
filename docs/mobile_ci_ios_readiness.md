@@ -1,4 +1,4 @@
-# Mobile CI ve iOS Readiness
+# Mobil CI ve iOS Hazirlik Durumu
 
 Bu belge `apps/mobile_flutter` icin CI workflow'larini ve iOS release readiness kontrolunu tanimlar.
 

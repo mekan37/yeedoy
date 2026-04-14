@@ -137,6 +137,53 @@ class OwnerAnalyticsBranchRow {
   }
 }
 
+class OwnerAnalyticsHourlySnapshot {
+  const OwnerAnalyticsHourlySnapshot({
+    required this.summary,
+    required this.hourly,
+  });
+
+  final OwnerAnalyticsSummary summary;
+  final List<OwnerAnalyticsHourlyPoint> hourly;
+
+  factory OwnerAnalyticsHourlySnapshot.fromMap(Map<String, dynamic> map) {
+    return OwnerAnalyticsHourlySnapshot(
+      summary: OwnerAnalyticsSummary.fromMap(
+        (map['summary'] as Map?)?.cast<String, dynamic>() ?? const {},
+      ),
+      hourly: _listOfMap(map['hourly'])
+          .map(OwnerAnalyticsHourlyPoint.fromMap)
+          .toList(growable: false),
+    );
+  }
+}
+
+class OwnerAnalyticsHourlyPoint {
+  const OwnerAnalyticsHourlyPoint({
+    required this.hour,
+    required this.qrScans,
+    required this.menuOpens,
+    required this.menuViews,
+    required this.itemClicks,
+  });
+
+  final int hour;
+  final int qrScans;
+  final int menuOpens;
+  final int menuViews;
+  final int itemClicks;
+
+  factory OwnerAnalyticsHourlyPoint.fromMap(Map<String, dynamic> map) {
+    return OwnerAnalyticsHourlyPoint(
+      hour: _asInt(map['hour']),
+      qrScans: _asInt(map['qr_scans']),
+      menuOpens: _asInt(map['menu_opens']),
+      menuViews: _asInt(map['menu_views']),
+      itemClicks: _asInt(map['item_clicks']),
+    );
+  }
+}
+
 List<Map<String, dynamic>> _listOfMap(Object? value) {
   final list = (value as List?) ?? const [];
   return list

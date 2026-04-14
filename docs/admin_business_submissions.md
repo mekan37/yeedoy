@@ -1,4 +1,4 @@
-# Admin Business Submissions
+# Admin Isletme Basvurulari
 
 Bu dokuman `/admin/business-submissions` ekraninin veri ve UI sozlesmesini aciklar.
 

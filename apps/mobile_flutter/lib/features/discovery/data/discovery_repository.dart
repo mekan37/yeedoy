@@ -180,7 +180,7 @@ class DiscoveryRepository {
     return SwrPayload(data: live, isStale: false);
   }
 
-  Future<Business> getBusiness(String id) async {
+  Future<Business> fetchBusiness(String id) async {
     final key = 'business|$id';
     final fresh = _cache.getFresh<Business>(key, ttl: _businessTtl);
     if (fresh != null) return fresh;
@@ -212,7 +212,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<TopBusiness>> getTopBusinesses({
+  Future<List<TopBusiness>> fetchTopBusinesses({
     required String period,
     int limit = 10,
     int minReviews = 2,
@@ -233,7 +233,7 @@ class DiscoveryRepository {
     return (res as List).map((e) => TopBusiness.fromMap(e)).toList();
   }
 
-  Future<List<TopBusiness>> getDailyPicks({int limit = 3}) async {
+  Future<List<TopBusiness>> fetchDailyPicks({int limit = 3}) async {
     final res = await _telemetry.traceRpc<dynamic>(
       operation: 'get_daily_picks',
       run: () => client.rpc('get_daily_picks', params: {'p_limit': limit}),
@@ -242,7 +242,7 @@ class DiscoveryRepository {
     return (res as List).map((e) => TopBusiness.fromMap(e)).toList();
   }
 
-  Future<List<Map<String, dynamic>>> getCityDistricts() async {
+  Future<List<Map<String, dynamic>>> fetchCityDistricts() async {
     final res = await _telemetry.traceRpc<dynamic>(
       operation: 'get_city_districts',
       run: () => client.rpc('get_city_districts_v1'),
@@ -366,7 +366,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<BusinessCardModel>> getSponsoredBusinesses({
+  Future<List<BusinessCardModel>> fetchSponsoredBusinesses({
     required String surface,
     String? city,
     String? district,
@@ -443,7 +443,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<NearbyCampaign>> getNearbyCampaigns({
+  Future<List<NearbyCampaign>> fetchNearbyCampaigns({
     double? lat,
     double? lng,
     int radiusKm = 10,
@@ -530,7 +530,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<TrendBusiness>> getDistrictTopViews({
+  Future<List<TrendBusiness>> fetchDistrictTopViews({
     required String city,
     required String district,
     String? neighborhood,
@@ -582,7 +582,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<TrendBusiness>> getDistrictPriceChanges({
+  Future<List<TrendBusiness>> fetchDistrictPriceChanges({
     required String city,
     required String district,
     String? neighborhood,
@@ -634,7 +634,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<TrendBusiness>> getDistrictNightFavorites({
+  Future<List<TrendBusiness>> fetchDistrictNightFavorites({
     required String city,
     required String district,
     String? neighborhood,
@@ -686,7 +686,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<RegionalPriceIndexItem>> getRegionalPriceIndex({
+  Future<List<RegionalPriceIndexItem>> fetchRegionalPriceIndex({
     String? city,
     String? district,
     int limit = 12,
@@ -735,7 +735,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<PriceAnomalyItem>> getPriceAnomalies({
+  Future<List<PriceAnomalyItem>> fetchPriceAnomalies({
     String? city,
     String? district,
     int days = 30,
@@ -789,7 +789,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getBusinessPriceHistory({
+  Future<List<Map<String, dynamic>>> fetchBusinessPriceHistory({
     required String businessId,
     int days = 60,
     int limit = 120,
@@ -833,7 +833,7 @@ class DiscoveryRepository {
     }
   }
 
-  Future<HomeFeedData> getHomeFeed({
+  Future<HomeFeedData> fetchHomeFeed({
     required String city,
     required String district,
     String? neighborhood,

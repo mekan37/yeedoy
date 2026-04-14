@@ -14,7 +14,7 @@ class PerkRepository {
 
   final SupabaseClient client;
 
-  Future<List<BusinessPerk>> getActivePerks(String businessId) async {
+  Future<List<BusinessPerk>> fetchActivePerks(String businessId) async {
     try {
       final res = await client.rpc('get_active_perks_v1', params: {
         'p_business_id': businessId,

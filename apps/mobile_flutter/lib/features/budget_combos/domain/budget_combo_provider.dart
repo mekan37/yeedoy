@@ -14,5 +14,5 @@ final budgetCombosRepositoryProvider = Provider<BudgetCombosRepository>((ref) {
 
 final budgetCombosProvider =
     FutureProvider.family<List<BudgetComboResult>, BudgetComboQuery>((ref, query) async {
-  return ref.read(budgetCombosRepositoryProvider).getCombos(query);
+  return ref.read(budgetCombosRepositoryProvider).fetchCombos(query);
 });

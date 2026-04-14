@@ -24,7 +24,7 @@ class FeedRepository {
     _cache.invalidatePrefix('');
   }
 
-  Future<List<FeedItem>> getMyFeed({
+  Future<List<FeedItem>> fetchMyFeed({
     int limit = 20,
     int offset = 0,
     bool force = false,

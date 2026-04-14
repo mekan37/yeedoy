@@ -423,7 +423,7 @@ class _SmokeOwnerClaimRepository extends OwnerClaimRepository {
     : super(SupabaseClient('http://127.0.0.1:54321', 'smoke-key'));
 
   @override
-  Future<List<OwnerClaim>> getMyClaims({int? limit, int? offset}) async {
+  Future<List<OwnerClaim>> fetchMyClaims({int? limit, int? offset}) async {
     return <OwnerClaim>[
       OwnerClaim(
         id: 'claim-1',
@@ -435,7 +435,7 @@ class _SmokeOwnerClaimRepository extends OwnerClaimRepository {
   }
 
   @override
-  Future<Map<String, String>> getBusinessNamesByIds(List<String> ids) async {
+  Future<Map<String, String>> fetchBusinessNamesByIds(List<String> ids) async {
     return <String, String>{
       _ownerBusinesses.first.businessId: _ownerBusinesses.first.businessName,
     };
@@ -572,7 +572,7 @@ class _SmokeOwnerOnboardingRepository extends OwnerOnboardingRepository {
   OwnerBusinessHours? _hours;
 
   @override
-  Future<OwnerOnboardingProgress> getProgress(String businessId) async {
+  Future<OwnerOnboardingProgress> fetchProgress(String businessId) async {
     return _progress;
   }
 
@@ -585,7 +585,7 @@ class _SmokeOwnerOnboardingRepository extends OwnerOnboardingRepository {
   }
 
   @override
-  Future<OwnerBusinessProfile> getBusinessProfile(String businessId) async {
+  Future<OwnerBusinessProfile> fetchBusinessProfile(String businessId) async {
     return _profile;
   }
 
@@ -599,7 +599,7 @@ class _SmokeOwnerOnboardingRepository extends OwnerOnboardingRepository {
   }
 
   @override
-  Future<OwnerBusinessHours?> getBusinessHours(String businessId) async {
+  Future<OwnerBusinessHours?> fetchBusinessHours(String businessId) async {
     return _hours;
   }
 
@@ -613,7 +613,7 @@ class _SmokeOwnerOnboardingRepository extends OwnerOnboardingRepository {
   }
 
   @override
-  Future<OwnerOnboardingMenuStatus> getMenuStatus(String businessId) async {
+  Future<OwnerOnboardingMenuStatus> fetchMenuStatus(String businessId) async {
     return const OwnerOnboardingMenuStatus(
       menuCount: 1,
       sectionCount: 1,
@@ -624,7 +624,7 @@ class _SmokeOwnerOnboardingRepository extends OwnerOnboardingRepository {
   }
 
   @override
-  Future<OwnerOnboardingMenuPreview?> getMenuPreview(String businessId) async {
+  Future<OwnerOnboardingMenuPreview?> fetchMenuPreview(String businessId) async {
     return const OwnerOnboardingMenuPreview(
       menuId: 'menu-1',
       menuTitle: 'Cafe Nova Menu',
@@ -646,7 +646,7 @@ class _SmokeOwnerOnboardingRepository extends OwnerOnboardingRepository {
   }
 
   @override
-  Future<OwnerBusinessProfileScore> getProfileScore(String businessId) async {
+  Future<OwnerBusinessProfileScore> fetchProfileScore(String businessId) async {
     return const OwnerBusinessProfileScore(
       score: 72,
       breakdown: <String, dynamic>{
@@ -832,7 +832,7 @@ class _SmokeOwnerAnalyticsRepository extends OwnerAnalyticsRepository {
     : super(SupabaseClient('http://127.0.0.1:54321', 'smoke-key'));
 
   @override
-  Future<OwnerAnalyticsSnapshot> getAnalytics({
+  Future<OwnerAnalyticsSnapshot> fetchAnalytics({
     required String businessId,
     required int days,
     required bool compareBranches,
@@ -1220,7 +1220,7 @@ class _SmokeAdminRepository extends AdminRepository {
     : super(SupabaseClient('http://127.0.0.1:54321', 'smoke-key'));
 
   @override
-  Future<AdminQueueCounts> getQueueCounts() async {
+  Future<AdminQueueCounts> fetchQueueCounts() async {
     return const AdminQueueCounts(
       reportsOpen: 12,
       claimsPending: 5,
@@ -1229,7 +1229,7 @@ class _SmokeAdminRepository extends AdminRepository {
   }
 
   @override
-  Future<AdminSlaMetrics> getSlaMetrics() async {
+  Future<AdminSlaMetrics> fetchSlaMetrics() async {
     return const AdminSlaMetrics(
       reportsAvgMinutesToAssign: 11,
       reportsAvgMinutesToClose: 38,
@@ -1244,7 +1244,7 @@ class _SmokeAdminAnalyticsRepository extends AdminAnalyticsRepository {
     : super(SupabaseClient('http://127.0.0.1:54321', 'smoke-key'));
 
   @override
-  Future<List<AdminGrowthDay>> getGrowth({
+  Future<List<AdminGrowthDay>> fetchGrowth({
     int days = 30,
     String? businessId,
   }) async {
@@ -1267,7 +1267,7 @@ class _SmokeAdminAnalyticsRepository extends AdminAnalyticsRepository {
   }
 
   @override
-  Future<AdminKpiSummary> getKpiSummary({int days = 30}) async {
+  Future<AdminKpiSummary> fetchKpiSummary({int days = 30}) async {
     return const AdminKpiSummary(
       dau: 320,
       dauPrev: 280,
@@ -1487,7 +1487,7 @@ class _SmokeAdminBusinessesRepository extends AdminBusinessesRepository {
   }
 
   @override
-  Future<Map<String, BusinessRiskSignal>> getRiskSignals(
+  Future<Map<String, BusinessRiskSignal>> fetchRiskSignals(
     List<String> businessIds,
   ) async {
     return <String, BusinessRiskSignal>{
@@ -1510,7 +1510,7 @@ class _SmokeAdminReceiptSubmissionsRepository
     : super(SupabaseClient('http://127.0.0.1:54321', 'smoke-key'));
 
   @override
-  Future<AdminReceiptSubmissionSummary?> getSummary({
+  Future<AdminReceiptSubmissionSummary?> fetchSummary({
     String? query,
     String? reviewStatus,
     bool onlyUnmatched = false,
@@ -1635,7 +1635,7 @@ class _SmokeOwnerMonetizationRepository extends OwnerMonetizationRepository {
     : super(SupabaseClient('http://127.0.0.1:54321', 'smoke-key'));
 
   @override
-  Future<List<OwnerSponsorshipCatalogItem>> getSponsorshipCatalog({
+  Future<List<OwnerSponsorshipCatalogItem>> fetchSponsorshipCatalog({
     required String businessId,
   }) async {
     if (!_matchesOwnerBusiness(businessId)) {

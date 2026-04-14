@@ -20,7 +20,7 @@ class ProfileRepository {
 
   final SupabaseClient _supabase;
 
-  Future<Profile?> getMyProfile() async {
+  Future<Profile?> fetchMyProfile() async {
     final uid = _supabase.auth.currentUser?.id;
     if (uid == null) return null;
 
@@ -79,7 +79,7 @@ class ProfileRepository {
     }, onConflict: 'user_id');
   }
 
-  Future<ProfileStats> getMyStats() async {
+  Future<ProfileStats> fetchMyStats() async {
     final res = await _supabase.rpc('get_my_profile_stats');
     if (res is List && res.isNotEmpty) {
       return ProfileStats.fromMap(res.first as Map<String, dynamic>);
@@ -96,7 +96,7 @@ class ProfileRepository {
     );
   }
 
-  Future<int> getMyReputationScore() async {
+  Future<int> fetchMyReputationScore() async {
     final res = await _supabase.rpc('get_my_reputation_score_v1');
     if (res is num) return res.toInt();
     if (res is Map<String, dynamic>) {
@@ -114,7 +114,7 @@ class ProfileRepository {
     return 0;
   }
 
-  Future<WeeklyMissions> getMyWeeklyMissions() async {
+  Future<WeeklyMissions> fetchMyWeeklyMissions() async {
     final res = await _supabase.rpc('get_my_weekly_missions');
     if (res is List && res.isNotEmpty) {
       return WeeklyMissions.fromMap(res.first as Map<String, dynamic>);
@@ -134,7 +134,7 @@ class ProfileRepository {
     );
   }
 
-  Future<ContributionHistory> getMyContributionHistory({int limit = 12}) async {
+  Future<ContributionHistory> fetchMyContributionHistory({int limit = 12}) async {
     final userId = _supabase.auth.currentUser?.id;
     if (userId == null) {
       return ContributionHistory(
@@ -226,7 +226,7 @@ class ProfileRepository {
     );
   }
 
-  Future<List<Achievement>> getMyAchievements() async {
+  Future<List<Achievement>> fetchMyAchievements() async {
     dynamic res;
     try {
       res = await _supabase.rpc('get_my_achievements_v2');
@@ -240,12 +240,12 @@ class ProfileRepository {
         .toList();
   }
 
-  Future<ProfileProgress> getMyProfileProgress() async {
+  Future<ProfileProgress> fetchMyProfileProgress() async {
     dynamic res;
     try {
       res = await _supabase.rpc('get_my_profile_progress_v1');
     } catch (_) {
-      final achievements = await getMyAchievements();
+      final achievements = await fetchMyAchievements();
       final xp = achievements
           .where((e) => e.unlocked)
           .fold<int>(0, (sum, e) => sum + e.xp);
@@ -274,7 +274,7 @@ class ProfileRepository {
     );
   }
 
-  Future<DailyMicroTask?> getMyDailyMicroTask() async {
+  Future<DailyMicroTask?> fetchMyDailyMicroTask() async {
     final res = await _supabase.rpc('get_my_daily_micro_task_v1');
     if (res is List && res.isNotEmpty && res.first is Map) {
       return DailyMicroTask.fromMap((res.first as Map).cast<String, dynamic>());
@@ -285,7 +285,7 @@ class ProfileRepository {
     return null;
   }
 
-  Future<UserMoatSignals> getMyMoatSignals() async {
+  Future<UserMoatSignals> fetchMyMoatSignals() async {
     final trustRes = await _supabase.rpc('get_my_trust_graph_v1');
     final segmentRes = await _supabase.rpc('get_my_behavior_segment_v1');
     final silentRes = await _supabase.rpc('get_my_silent_quality_score_v1');

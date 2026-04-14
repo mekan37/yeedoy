@@ -105,7 +105,7 @@ class OwnerMenuSafetyRepository {
     }
   }
 
-  Future<OwnerMenuVersionDetail> getMenuVersionDetail({
+  Future<OwnerMenuVersionDetail> fetchMenuVersionDetail({
     required String snapshotId,
   }) async {
     try {
@@ -123,7 +123,7 @@ class OwnerMenuSafetyRepository {
     }
   }
 
-  Future<OwnerMenuStructureSummary> getCurrentMenuStructure({
+  Future<OwnerMenuStructureSummary> fetchCurrentMenuStructure({
     required String menuId,
   }) async {
     try {

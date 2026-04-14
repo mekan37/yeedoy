@@ -5,6 +5,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../group_requests/domain/group_request_models.dart';
 
 class AdminGroupRequestsPage extends ConsumerWidget {
@@ -20,6 +21,12 @@ class AdminGroupRequestsPage extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminShellGroupRequestsLabel),
+            description: l10n.adminShellGroupRequestsDescription,
+          ),
+          const SizedBox(height: 12),
           Text(
             l10n.adminGroupRequestsRequestsTitle,
             style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),

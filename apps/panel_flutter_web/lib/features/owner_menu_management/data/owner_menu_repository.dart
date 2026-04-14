@@ -449,7 +449,7 @@ class OwnerMenuRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getPublicMenuShare({
+  Future<Map<String, dynamic>> fetchPublicMenuShare({
     required String menuId,
   }) async {
     try {

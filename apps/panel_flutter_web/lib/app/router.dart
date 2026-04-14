@@ -64,6 +64,8 @@ import '../features/owner_dashboard/ui/owner_growth_page.dart';
 import '../features/owner_onboarding/ui/owner_onboarding_page.dart'
     deferred as owner_onboarding_page;
 import '../features/owner_team/ui/owner_team_page.dart';
+import '../features/owner_ai_analysis/ui/owner_ai_analysis_page.dart'
+    deferred as owner_ai_analysis_page;
 import '../shared/ui/components/deferred_page_loader.dart';
 import '../shared/ui/pages/forbidden_page.dart';
 
@@ -72,6 +74,9 @@ GoRouter buildAppRouter(Ref ref, {String initialLocation = '/'}) {
   final appRoleAsync = ref.watch(appRoleProvider);
   final authRefresh = ValueNotifier<int>(0);
   ref.listen(authStateProvider, (_, _) {
+    authRefresh.value++;
+  });
+  ref.listen(appRoleProvider, (_, _) {
     authRefresh.value++;
   });
   ref.onDispose(authRefresh.dispose);
@@ -260,6 +265,16 @@ GoRouter buildAppRouter(Ref ref, {String initialLocation = '/'}) {
             path: '/owner/team',
             builder: (c, s) => OwnerTeamPage(
               businessId: sanitizeUuid(s.uri.queryParameters['businessId']),
+            ),
+          ),
+          GoRoute(
+            path: '/owner/ai-analysis',
+            builder: (c, s) => DeferredPageLoader(
+              loadLibrary: owner_ai_analysis_page.loadLibrary,
+              builder: (_) => owner_ai_analysis_page.OwnerAiAnalysisPage(
+                businessId:
+                    sanitizeUuid(s.uri.queryParameters['businessId']) ?? '',
+              ),
             ),
           ),
         ],

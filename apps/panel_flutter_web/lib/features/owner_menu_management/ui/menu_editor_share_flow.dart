@@ -52,7 +52,7 @@ class _MenuEditorShareSheetState extends ConsumerState<MenuEditorShareSheet> {
     );
 
     return FutureBuilder<Map<String, dynamic>>(
-      future: repo.getPublicMenuShare(menuId: widget.menu.id),
+      future: repo.fetchPublicMenuShare(menuId: widget.menu.id),
       builder: (context, snap) {
         if (snap.connectionState == ConnectionState.waiting) {
           return const OwnerPanelFeedback.loading(cardCount: 2);

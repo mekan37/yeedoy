@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 import '../../../embed/ui/embed_viewer_page.dart' deferred as embed_viewer_page;
 import '../../../../core/i18n/app_localizations.dart';
-import '../../../../core/linking/link_provider.dart';
 import '../../../../core/linking/link_utils.dart';
 import '../../../../shared/ui/components/deferred_page_loader.dart';
 

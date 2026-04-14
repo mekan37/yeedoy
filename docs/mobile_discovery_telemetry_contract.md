@@ -1,4 +1,4 @@
-# Mobile Discovery Telemetry Contract
+# Mobil Kesif Telemetry Kontrati
 
 Tarih: 2026-03-05  
 Kapsam: `apps/mobile_flutter` discovery/search/perf telemetry olaylari

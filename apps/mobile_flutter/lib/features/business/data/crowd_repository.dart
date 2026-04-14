@@ -15,7 +15,7 @@ class CrowdRepository {
   CrowdRepository(this.client);
   final SupabaseClient client;
 
-  Future<BusinessCrowdStatus> getBusinessCrowd(String businessId) async {
+  Future<BusinessCrowdStatus> fetchBusinessCrowd(String businessId) async {
     try {
       final res = await client.rpc('get_business_crowd_v1', params: {
         'p_business_id': businessId,

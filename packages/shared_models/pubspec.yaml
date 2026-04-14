@@ -1,0 +1,10 @@
+name: yeedoy_shared_models
+description: Shared pure-Dart models and utilities for Yeedoy apps.
+version: 0.0.1
+publish_to: none
+environment:
+  sdk: ^3.10.7
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.20.2

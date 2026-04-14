@@ -25,7 +25,7 @@ class MenuItemContextController extends AsyncNotifier<MenuItemContext> {
     state = await AsyncValue.guard(() async {
       final data = await ref
           .read(menuItemContextRepositoryProvider)
-          .getMenuItemContext(menuItemId, force: force);
+          .fetchMenuItemContext(menuItemId, force: force);
       if (reqId != _requestId) return data;
       return data;
     });
@@ -35,7 +35,7 @@ class MenuItemContextController extends AsyncNotifier<MenuItemContext> {
     final reqId = ++_requestId;
     final data = await ref
         .read(menuItemContextRepositoryProvider)
-        .getMenuItemContext(menuItemId, force: force);
+        .fetchMenuItemContext(menuItemId, force: force);
     if (reqId != _requestId) return data;
     return data;
   }

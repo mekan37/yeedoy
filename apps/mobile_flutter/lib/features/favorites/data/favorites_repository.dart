@@ -77,7 +77,7 @@ class FavoritesRepository {
     return res != null;
   }
 
-  Future<BusinessCardModel?> getBusinessById(String businessId) async {
+  Future<BusinessCardModel?> fetchBusinessById(String businessId) async {
     final res = await client
         .from('businesses_with_stats')
         .select(_businessSelect)
@@ -87,7 +87,7 @@ class FavoritesRepository {
     return BusinessCardModel.fromMap(res);
   }
 
-  Future<List<BusinessCardModel>> getBusinessesByIds(List<String> ids) async {
+  Future<List<BusinessCardModel>> fetchBusinessesByIds(List<String> ids) async {
     if (ids.isEmpty) return const [];
     final businesses = await client
         .from('businesses_with_stats')
@@ -106,7 +106,7 @@ class FavoritesRepository {
     return ordered;
   }
 
-  Future<List<String>> getMyFavoriteBusinessIds({
+  Future<List<String>> fetchMyFavoriteBusinessIds({
     int limit = 50,
     int offset = 0,
   }) async {
@@ -119,7 +119,7 @@ class FavoritesRepository {
         .toList();
   }
 
-  Future<PaginatedFavorites> getMyFavoritesWithBusinesses({
+  Future<PaginatedFavorites> fetchMyFavoritesWithBusinesses({
     int limit = 50,
     int offset = 0,
   }) async {

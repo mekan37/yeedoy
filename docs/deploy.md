@@ -116,6 +116,52 @@ Bu modelde:
 - `403` panel istekleri `/forbidden` ekranina dusur.
 - `BASE_URL_WEB_NEXT`, panelden ayri origin olsa bile handoff, CORS ve yeni sekme davranisi ile uyumlu olmalidir.
 
+## Cache Invalidation (`/api/revalidate`)
+
+`POST /api/revalidate` ile on-demand cache temizleme yapilir. Bu endpoint deployment pipeline veya Supabase webhook tarafindan cagirilmali.
+
+Gerekli env: `REVALIDATE_SECRET` (production'da zorunlu; yoksa endpoint 503 doner).
+
+### Cagirim ornekleri
+
+Tek slug temizle:
+```bash
+curl -X POST https://menu.example.com/api/revalidate \
+  -H "Content-Type: application/json" \
+  -d '{"secret":"$REVALIDATE_SECRET","slug":"kafe-yeedoy"}'
+```
+
+Business ID ile slug + QR temizle:
+```bash
+curl -X POST https://menu.example.com/api/revalidate \
+  -H "Content-Type: application/json" \
+  -d '{"secret":"$REVALIDATE_SECRET","businessId":"<uuid>"}'
+```
+
+Tum `/m/*` sayfalarini temizle (genis tarama):
+```bash
+curl -X POST https://menu.example.com/api/revalidate \
+  -H "Content-Type: application/json" \
+  -d '{"secret":"$REVALIDATE_SECRET"}'
+```
+
+### Deployment pipeline entegrasyonu
+
+Her deploy sonrasinda genis tarama cagrisi onerilen minimum adimdir:
+```bash
+curl -sf -X POST "$NEXT_PUBLIC_SITE_URL/api/revalidate" \
+  -H "Content-Type: application/json" \
+  -d "{\"secret\":\"$REVALIDATE_SECRET\"}" || echo "revalidate skipped (secret not set)"
+```
+
+### Supabase webhook entegrasyonu
+
+`businesses`, `menus` veya `menu_items` tablolarinda write sonrasi Supabase Database Webhook ile `/api/revalidate` cagrilabilir. Payload `businessId` icermeli; `REVALIDATE_SECRET` webhook secret olarak gonderilmeli.
+
+### TTL fallback
+
+`REVALIDATE_SECRET` set edilmezse endpoint 503 doner ve sayfalar zaman asimina (revalidate TTL) birakilir. Varsayilan TTL: `menu-read.ts` icinde route tipine gore 120-600 saniye.
+
 ## Vercel Notu (`apps/web_next`)
 
 Onerilen ayar:
@@ -174,4 +220,4 @@ Ek tarihsel release notlari:
 
 - `apps/web_next/RELEASE_NOTES.md`
 - `apps/web_next/DEPLOY_CHECKLIST.md`
-- `docs/release_index.md`
+- `docs/archive/history/release_index.md`

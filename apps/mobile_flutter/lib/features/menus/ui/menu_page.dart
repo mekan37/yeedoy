@@ -48,7 +48,7 @@ final _menuBusinessProvider = FutureProvider.family<Business, String>((
   ref,
   businessId,
 ) {
-  return ref.watch(discoveryRepositoryProvider).getBusiness(businessId);
+  return ref.watch(discoveryRepositoryProvider).fetchBusiness(businessId);
 });
 
 class _MenuItemVariant {
@@ -558,7 +558,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
     try {
       final res = await ref
           .read(menuRepositoryProvider)
-          .getMenuItemsPriceAge(ids);
+          .fetchMenuItemsPriceAge(ids);
       if (!mounted || reqId != _requestId) return;
       setState(() {
         _priceAgeMap = res;

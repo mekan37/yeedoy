@@ -9,27 +9,27 @@ final ownerOnboardingRepositoryProvider = Provider<OwnerOnboardingRepository>((r
 });
 
 final ownerOnboardingProgressProvider = FutureProvider.family<OwnerOnboardingProgress, String>(
-  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).getProgress(businessId),
+  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).fetchProgress(businessId),
 );
 
 final ownerBusinessProfileProvider = FutureProvider.family<OwnerBusinessProfile, String>(
-  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).getBusinessProfile(businessId),
+  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).fetchBusinessProfile(businessId),
 );
 
 final ownerBusinessHoursProvider = FutureProvider.family<OwnerBusinessHours?, String>(
-  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).getBusinessHours(businessId),
+  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).fetchBusinessHours(businessId),
 );
 
 final ownerOnboardingMenuStatusProvider = FutureProvider.family<OwnerOnboardingMenuStatus, String>(
-  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).getMenuStatus(businessId),
+  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).fetchMenuStatus(businessId),
 );
 
 final ownerOnboardingMenuPreviewProvider = FutureProvider.family<OwnerOnboardingMenuPreview?, String>(
-  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).getMenuPreview(businessId),
+  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).fetchMenuPreview(businessId),
 );
 
 final ownerBusinessProfileScoreProvider = FutureProvider.family<OwnerBusinessProfileScore, String>(
-  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).getProfileScore(businessId),
+  (ref, businessId) => ref.read(ownerOnboardingRepositoryProvider).fetchProfileScore(businessId),
 );
 
 

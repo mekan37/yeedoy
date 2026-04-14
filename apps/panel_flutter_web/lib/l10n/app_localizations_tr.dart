@@ -84,7 +84,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get unknown => 'Bilinmiyor';
 
   @override
-  String get title => 'Başlık';
+  String get title => 'title';
 
   @override
   String get approved => 'Onaylandı';
@@ -137,7 +137,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String nearbyPeopleViewed(int count) {
-    return '$count kişi yakında görüntüledi';
+    return 'Yakındaki $count kişi görüntüledi';
   }
 
   @override
@@ -164,7 +164,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String tableServiceQuestion(String tableNo) {
-    return 'Masa $tableNo servisi nasıldı?';
+    return 'Masa $tableNo - servis var mı?';
   }
 
   @override
@@ -3096,7 +3096,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String loginActionFailedDescription(String error) {
-    return '$error\nBağlantını kontrol edip tekrar dene.';
+    return '$error\nBağlantıyı kontrol edip tekrar dene.';
   }
 
   @override
@@ -4827,6 +4827,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ownerAnalyticsPreset90Days => 'Son 90 gün';
 
   @override
+  String get ownerAnalyticsPreset24Hours => 'Son 24 saat';
+
+  @override
+  String get ownerAnalyticsHourlyTrendTitle => 'Son 24 saatlik akış';
+
+  @override
   String get ownerAnalyticsBranchCompareToggle => 'Şubeleri karşılaştır';
 
   @override
@@ -5283,4 +5289,91 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ownerPhotoMovedToTrash => 'Fotoğraf çöp kutusuna taşındı.';
+
+  @override
+  String get ownerAiAnalysisTitle => 'AI Menü Analizi';
+
+  @override
+  String get ownerAiAnalysisNoBusinessTitle => 'İşletme seçilmedi';
+
+  @override
+  String get ownerAiAnalysisNoBusinessDescription =>
+      'AI analizini kullanmak için önce bir işletme seç.';
+
+  @override
+  String get ownerAiAnalysisDisclaimer =>
+      'Bu bilgiler otomatik analiz ile oluşturulmuştur. Kesin bilgi değildir; lütfen işletmeden doğrulayınız.';
+
+  @override
+  String get ownerAiAnalysisUploadTitle => 'Menü Fotoğrafı Yükle';
+
+  @override
+  String get ownerAiAnalysisUploadDescription =>
+      'JPG, PNG veya WEBP formatında menü görseli yükle. AI otomatik ürün, alerjen ve kalori bilgisi üretir.';
+
+  @override
+  String get ownerAiAnalysisUploadAction => 'Görsel Seç';
+
+  @override
+  String get ownerAiAnalysisUploading => 'Yükleniyor...';
+
+  @override
+  String get ownerAiAnalysisAnalyzing => 'AI analiz yapıyor...';
+
+  @override
+  String ownerAiAnalysisComplete(int count) {
+    return '$count ürün analiz edildi. Sonuçları incele ve onayla.';
+  }
+
+  @override
+  String get ownerAiAnalysisJobsTitle => 'Son İşler';
+
+  @override
+  String get ownerAiAnalysisResultsTitle => 'Analiz Sonuçları';
+
+  @override
+  String get ownerAiAnalysisEmptyTitle => 'Henüz analiz yok';
+
+  @override
+  String get ownerAiAnalysisEmptyDescription =>
+      'Menü görseli yükle, AI alerjen ve kalori bilgisi üretsin.';
+
+  @override
+  String get ownerAiAnalysisFilterAll => 'Tümü';
+
+  @override
+  String get ownerAiAnalysisFilterPending => 'Bekliyor';
+
+  @override
+  String get ownerAiAnalysisFilterApproved => 'Onaylandı';
+
+  @override
+  String get ownerAiAnalysisFilterRejected => 'Reddedildi';
+
+  @override
+  String get ownerAiAnalysisReviewRequired => 'Manuel inceleme gerekiyor';
+
+  @override
+  String get ownerAiAnalysisApproveAction => 'Onayla';
+
+  @override
+  String get ownerAiAnalysisRejectAction => 'Reddet';
+
+  @override
+  String get ownerAiAnalysisApproved => 'Onaylandı.';
+
+  @override
+  String get ownerAiAnalysisRejected => 'Reddedildi.';
+
+  @override
+  String get ownerAiAnalysisStatusPending => 'Bekliyor';
+
+  @override
+  String get ownerAiAnalysisStatusApproved => 'Onaylandı';
+
+  @override
+  String get ownerAiAnalysisStatusRejected => 'Reddedildi';
+
+  @override
+  String get ownerShellAiAnalysisLabel => 'AI Analiz';
 }

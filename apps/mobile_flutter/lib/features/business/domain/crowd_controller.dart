@@ -14,13 +14,13 @@ class BusinessCrowdController extends AsyncNotifier<BusinessCrowdStatus> {
 
   @override
   Future<BusinessCrowdStatus> build() async {
-    return ref.read(crowdRepositoryProvider).getBusinessCrowd(businessId);
+    return ref.read(crowdRepositoryProvider).fetchBusinessCrowd(businessId);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(crowdRepositoryProvider).getBusinessCrowd(businessId);
+      return ref.read(crowdRepositoryProvider).fetchBusinessCrowd(businessId);
     });
   }
 

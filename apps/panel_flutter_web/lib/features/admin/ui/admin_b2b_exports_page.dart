@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../data/admin_b2b_exports_repository.dart';
 import '../domain/admin_b2b_export_catalog.dart';
 import 'web_download.dart';
@@ -29,14 +30,10 @@ class _AdminB2bExportsPageState extends ConsumerState<AdminB2bExportsPage> {
       padding: const EdgeInsets.all(16),
       child: ListView(
         children: [
-          Text(
-            l10n.adminB2bExportsTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.adminB2bExportsSubtitle,
-            style: const TextStyle(color: AppColors.muted),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminB2bExportsTitle),
+            description: l10n.adminB2bExportsSubtitle,
           ),
           const SizedBox(height: 10),
           Wrap(

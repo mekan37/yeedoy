@@ -15,6 +15,7 @@ import '../../../core/web/seo.dart';
 import '../../../core/web/web_utils.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
 import '../../../shared/ui/design_system.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../data/menu_repository.dart';
 
 class PublicMenuSharePage extends ConsumerStatefulWidget {
@@ -35,6 +36,13 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
   bool _submittingFeedback = false;
   final TextEditingController _noteController = TextEditingController();
 
+  // ── Realtime price updates ────────────────────────────────────────────────
+  RealtimeChannel? _priceChannel;
+  final Map<String, int> _priceOverrides = {};
+  final Set<String> _flashItems = {};
+  bool _realtimeActive = false;
+  String? _subscribedBusinessId;
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +52,49 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
   @override
   void dispose() {
     _noteController.dispose();
+    _priceChannel?.unsubscribe();
     super.dispose();
+  }
+
+  void _subscribeRealtimePrices(String businessId) {
+    if (_subscribedBusinessId == businessId) return; // already subscribed
+    _subscribedBusinessId = businessId;
+    _priceChannel?.unsubscribe();
+
+    final client = ref.read(supabaseProvider);
+    _priceChannel = client
+        .channel('public_menu_prices_$businessId')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.update,
+          schema: 'public',
+          table: 'menu_items',
+          filter: PostgresChangeFilter(
+            type: PostgresChangeFilterType.eq,
+            column: 'business_id',
+            value: businessId,
+          ),
+          callback: (payload) {
+            final rec = payload.newRecord;
+            final itemId = rec['id']?.toString();
+            final cents = rec['price_cents'];
+            if (itemId == null || cents == null) return;
+            if (!mounted) return;
+            setState(() {
+              _priceOverrides[itemId] = (cents as num).toInt();
+              _flashItems.add(itemId);
+            });
+            Future.delayed(const Duration(seconds: 3), () {
+              if (mounted) setState(() => _flashItems.remove(itemId));
+            });
+          },
+        )
+        .subscribe((status, [err]) {
+          if (!mounted) return;
+          setState(() {
+            _realtimeActive =
+                status == RealtimeSubscribeStatus.subscribed;
+          });
+        });
   }
 
   @override
@@ -61,7 +111,7 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
         centerTitle: false,
       ),
       body: FutureBuilder<Map<String, dynamic>>(
-        future: repo.getPublicMenuShare(widget.menuId),
+        future: repo.fetchPublicMenuShare(widget.menuId),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -91,6 +141,13 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
               .trim()
               .toLowerCase();
 
+          // Subscribe to realtime price updates for this business
+          if (businessId.isNotEmpty) {
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => _subscribeRealtimePrices(businessId),
+            );
+          }
+
           if (source == 'qr' && businessId.isNotEmpty) {
             _logCheckinOnce(
               businessId: businessId,
@@ -102,7 +159,7 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
           return FutureBuilder<Map<String, dynamic>?>(
             future: businessId.isEmpty
                 ? Future.value(null)
-                : repo.getBusinessMini(businessId),
+                : repo.fetchBusinessMini(businessId),
             builder: (context, bizSnap) {
               final business = bizSnap.data;
               final businessName = (business?['name'] ?? t.businessLabel)
@@ -178,6 +235,8 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
                         icon: Icons.verified_outlined,
                         label: t.verifiedPrices,
                       ),
+                      if (_realtimeActive)
+                        const _LivePriceBadge(),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -185,7 +244,11 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
                     Text(t.menuContentNotFound)
                   else
                     for (final s in sections) ...[
-                      _SectionBlock(section: s),
+                      _SectionBlock(
+                        section: s,
+                        priceOverrides: _priceOverrides,
+                        flashItems: _flashItems,
+                      ),
                       const SizedBox(height: 16),
                     ],
                   if (tableNo.isNotEmpty && businessId.isNotEmpty) ...[
@@ -440,8 +503,15 @@ class _BusinessHeader extends StatelessWidget {
 }
 
 class _SectionBlock extends StatelessWidget {
-  const _SectionBlock({required this.section});
+  const _SectionBlock({
+    required this.section,
+    this.priceOverrides = const {},
+    this.flashItems = const {},
+  });
+
   final Map section;
+  final Map<String, int> priceOverrides;
+  final Set<String> flashItems;
 
   @override
   Widget build(BuildContext context) {
@@ -461,7 +531,11 @@ class _SectionBlock extends StatelessWidget {
           Text(t.noProductsFound)
         else
           for (final item in items) ...[
-            _MenuItemRow(item: item),
+            _MenuItemRow(
+              item: item,
+              priceOverrides: priceOverrides,
+              flashItems: flashItems,
+            ),
             const SizedBox(height: 8),
           ],
       ],
@@ -470,38 +544,134 @@ class _SectionBlock extends StatelessWidget {
 }
 
 class _MenuItemRow extends StatelessWidget {
-  const _MenuItemRow({required this.item});
+  const _MenuItemRow({
+    required this.item,
+    this.priceOverrides = const {},
+    this.flashItems = const {},
+  });
+
   final Map item;
+  final Map<String, int> priceOverrides;
+  final Set<String> flashItems;
 
   @override
   Widget build(BuildContext context) {
+    final itemId = (item['id'] ?? '').toString();
     final name = (item['name'] ?? '').toString();
     final desc = (item['description'] ?? '').toString();
-    final price = _fmtPrice(
-      context,
-      item['price_cents'] as num?,
-      item['currency']?.toString(),
-    );
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    // Use realtime override if available, else original
+    final rawCents = priceOverrides.containsKey(itemId)
+        ? priceOverrides[itemId]
+        : item['price_cents'] as num?;
+    final price = _fmtPrice(context, rawCents, item['currency']?.toString());
+    final isFlashing = flashItems.contains(itemId);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 600),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      decoration: BoxDecoration(
+        color: isFlashing
+            ? const Color(0xFFDCFCE7)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name,
+                    style: const TextStyle(fontWeight: FontWeight.w800)),
+                if (desc.trim().isNotEmpty)
+                  Text(
+                    desc,
+                    style: const TextStyle(
+                        color: AppColors.muted, fontSize: 12),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(name, style: const TextStyle(fontWeight: FontWeight.w800)),
-              if (desc.trim().isNotEmpty)
-                Text(
-                  desc,
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              Text(price,
+                  style: const TextStyle(fontWeight: FontWeight.w800)),
+              if (isFlashing)
+                const Text(
+                  'güncellendi',
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: Color(0xFF16A34A),
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LivePriceBadge extends StatefulWidget {
+  const _LivePriceBadge();
+
+  @override
+  State<_LivePriceBadge> createState() => _LivePriceBadgeState();
+}
+
+class _LivePriceBadgeState extends State<_LivePriceBadge>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+    _opacity = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: const Color(0xFFDCFCE7),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFF86EFAC)),
         ),
-        const SizedBox(width: 8),
-        Text(price, style: const TextStyle(fontWeight: FontWeight.w800)),
-      ],
+        child: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.circle, size: 7, color: Color(0xFF16A34A)),
+            SizedBox(width: 4),
+            Text(
+              'Canlı Fiyatlar',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF15803D),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

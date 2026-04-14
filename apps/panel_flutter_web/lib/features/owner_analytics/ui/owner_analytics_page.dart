@@ -20,10 +20,20 @@ final _ownerAnalyticsSnapshotProvider =
       ref,
       args,
     ) {
-      return ref.read(ownerAnalyticsRepositoryProvider).getAnalytics(
+      return ref.read(ownerAnalyticsRepositoryProvider).fetchAnalytics(
             businessId: args.$1,
             days: args.$2,
             compareBranches: args.$3,
+          );
+    });
+
+final _ownerAnalyticsHourlyProvider =
+    FutureProvider.autoDispose.family<OwnerAnalyticsHourlySnapshot, String>((
+      ref,
+      businessId,
+    ) {
+      return ref.read(ownerAnalyticsRepositoryProvider).fetchAnalyticsHourly(
+            businessId: businessId,
           );
     });
 
@@ -39,6 +49,7 @@ class OwnerAnalyticsPage extends ConsumerStatefulWidget {
 class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
   int _days = 30;
   bool _compareBranches = false;
+  bool _showHourly = false;
 
   @override
   Widget build(BuildContext context) {
@@ -142,19 +153,24 @@ class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     _PresetChip(
+                      label: l10n.ownerAnalyticsPreset24Hours,
+                      selected: _showHourly,
+                      onTap: () => setState(() => _showHourly = true),
+                    ),
+                    _PresetChip(
                       label: l10n.ownerAnalyticsPreset7Days,
-                      selected: _days == 7,
-                      onTap: () => setState(() => _days = 7),
+                      selected: !_showHourly && _days == 7,
+                      onTap: () => setState(() { _showHourly = false; _days = 7; }),
                     ),
                     _PresetChip(
                       label: l10n.ownerAnalyticsPreset30Days,
-                      selected: _days == 30,
-                      onTap: () => setState(() => _days = 30),
+                      selected: !_showHourly && _days == 30,
+                      onTap: () => setState(() { _showHourly = false; _days = 30; }),
                     ),
                     _PresetChip(
                       label: l10n.ownerAnalyticsPreset90Days,
-                      selected: _days == 90,
-                      onTap: () => setState(() => _days = 90),
+                      selected: !_showHourly && _days == 90,
+                      onTap: () => setState(() { _showHourly = false; _days = 90; }),
                     ),
                     if (branchCompareAvailable)
                       FilterChip(
@@ -167,6 +183,25 @@ class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
                 ),
               ),
               const SizedBox(height: 12),
+              if (_showHourly)
+                ref.watch(_ownerAnalyticsHourlyProvider(selectedBusinessId)).when(
+                  loading: () => const OwnerPanelFeedback.loading(cardCount: 4),
+                  error: (error, _) => OwnerPanelFeedback.error(
+                    title: l10n.ownerAnalyticsErrorTitle,
+                    description: error.toString(),
+                    onRetry: () => ref.invalidate(
+                      _ownerAnalyticsHourlyProvider(selectedBusinessId),
+                    ),
+                  ),
+                  data: (hourlySnapshot) => Column(
+                    children: [
+                      _KpiGrid(summary: hourlySnapshot.summary),
+                      const SizedBox(height: 12),
+                      _HourlyTrendCard(points: hourlySnapshot.hourly),
+                    ],
+                  ),
+                )
+              else
               snapshotAsync.when(
                 loading: () => const OwnerPanelFeedback.loading(cardCount: 6),
                 error: (error, _) => OwnerPanelFeedback.error(
@@ -312,6 +347,76 @@ class _PresetChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFilterChip(label: label, selected: selected, onTap: onTap);
+  }
+}
+
+class _HourlyTrendCard extends StatelessWidget {
+  const _HourlyTrendCard({required this.points});
+
+  final List<OwnerAnalyticsHourlyPoint> points;
+
+  @override
+  Widget build(BuildContext context) {
+    final maxValue = points.fold<int>(
+      1,
+      (prev, item) => [prev, item.menuOpens, item.qrScans].reduce((a, b) => a > b ? a : b),
+    );
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.l10n.ownerAnalyticsHourlyTrendTitle,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 12),
+          if (points.isEmpty)
+            Text(
+              context.l10n.ownerAnalyticsNoTrendDataDescription,
+              style: const TextStyle(color: AppColors.muted),
+            )
+          else
+            Column(
+              children: [
+                for (final point in points)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 56,
+                          child: Text(
+                            '${point.hour.toString().padLeft(2, '0')}:00',
+                            style: const TextStyle(
+                              color: AppColors.muted,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: _MetricBar(
+                            color: AppColors.primary,
+                            value: point.menuOpens,
+                            max: maxValue,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 36,
+                          child: Text(
+                            '${point.menuOpens}',
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+        ],
+      ),
+    );
   }
 }
 

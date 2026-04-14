@@ -6,6 +6,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/media/app_network_image.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_temp_uploads_repository.dart';
 import '../domain/admin_temp_upload_item.dart';
@@ -151,13 +152,10 @@ class _AdminTempUploadsPageState extends ConsumerState<AdminTempUploadsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                l10n.adminTempUploadsTitle,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-              ),
-              const Spacer(),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminTempUploadsTitle),
+            actions: [
               IconButton(onPressed: _load, icon: const Icon(Icons.refresh)),
             ],
           ),

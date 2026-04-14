@@ -8,6 +8,7 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/storage/admin_table_saved_views_prefs.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../data/admin_business_submissions_repository.dart';
 import '../domain/admin_business_submission.dart';
 import 'widgets/admin_table.dart';
@@ -139,14 +140,16 @@ class _AdminBusinessSubmissionsPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                l10n.adminShellBusinessSubmissionsLabel,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminShellBusinessSubmissionsLabel),
+            description: l10n.adminShellBusinessSubmissionsDescription,
+            actions: [
+              OutlinedButton.icon(
+                onPressed: _loadPage,
+                icon: const Icon(Icons.refresh),
+                label: Text(l10n.retry),
               ),
-              const Spacer(),
-              IconButton(onPressed: _loadPage, icon: const Icon(Icons.refresh)),
             ],
           ),
           const SizedBox(height: 12),

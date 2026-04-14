@@ -30,7 +30,7 @@ class AdminRepository {
     }
   }
 
-  Future<AdminQueueCounts> getQueueCounts() async {
+  Future<AdminQueueCounts> fetchQueueCounts() async {
     try {
       final res = await client.rpc('admin_get_queues_counts_v1');
       if (res is Map) {
@@ -49,7 +49,7 @@ class AdminRepository {
     }
   }
 
-  Future<AdminSlaMetrics> getSlaMetrics() async {
+  Future<AdminSlaMetrics> fetchSlaMetrics() async {
     try {
       final res = await client.rpc('admin_sla_metrics_v1');
       if (res is Map) {

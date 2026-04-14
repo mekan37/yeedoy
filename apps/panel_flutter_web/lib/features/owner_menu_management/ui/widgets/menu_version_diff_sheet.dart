@@ -127,8 +127,8 @@ class MenuVersionDiffSheet extends ConsumerWidget {
   Future<_MenuVersionDiffData> _load(WidgetRef ref) async {
     final repo = ref.read(ownerMenuSafetyRepositoryProvider);
     final results = await Future.wait([
-      repo.getMenuVersionDetail(snapshotId: snapshot.snapshotId),
-      repo.getCurrentMenuStructure(menuId: menu.id),
+      repo.fetchMenuVersionDetail(snapshotId: snapshot.snapshotId),
+      repo.fetchCurrentMenuStructure(menuId: menu.id),
     ]);
     return _MenuVersionDiffData(
       version: results[0] as OwnerMenuVersionDetail,

@@ -22,8 +22,8 @@ class AdminDashboardController extends AsyncNotifier<AdminDashboardState> {
 
   Future<AdminDashboardState> _load() async {
     final repo = ref.read(adminRepositoryProvider);
-    final counts = await repo.getQueueCounts();
-    final sla = await repo.getSlaMetrics();
+    final counts = await repo.fetchQueueCounts();
+    final sla = await repo.fetchSlaMetrics();
     return AdminDashboardState(counts: counts, sla: sla);
   }
 

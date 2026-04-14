@@ -63,7 +63,7 @@ class CollectionShareRepository {
     return '';
   }
 
-  Future<CollectionShare?> getBySlug(String slug) async {
+  Future<CollectionShare?> fetchBySlug(String slug) async {
     if (slug.trim().isEmpty) return null;
     final res = await client.rpc(
       'get_collection_share_by_slug_v1',

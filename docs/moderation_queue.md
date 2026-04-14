@@ -1,4 +1,4 @@
-# Moderation Queue
+# Moderasyon Kuyrugu
 
 `/admin/queue`, dağınık moderasyon ekranlarını tek operasyon kuyruğunda toplar. Amaç, 10k+ işletme ve çok operatörlü moderasyon akışında atama, SLA ve bulk işlem disiplinini tek yerden yönetmektir.
 

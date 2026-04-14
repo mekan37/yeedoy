@@ -13,7 +13,9 @@ import '../domain/admin_new_items_controller.dart';
 import 'keyboard/admin_keyboard_shortcuts.dart';
 import 'web_download.dart';
 import 'widgets/admin_new_items_banner.dart';
+import 'widgets/admin_table.dart';
 import '../../../shared/ui/design_system.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 
 class AdminClaimsPage extends ConsumerStatefulWidget {
   const AdminClaimsPage({super.key});
@@ -23,30 +25,31 @@ class AdminClaimsPage extends ConsumerStatefulWidget {
 }
 
 class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
+  static const _columns = <AdminVirtualTableColumn>[
+    AdminVirtualTableColumn(width: 56, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 220, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 170, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 140, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 140, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+  ];
+
   final searchCtrl = TextEditingController();
   final searchFocus = FocusNode();
   final bulkNoteCtrl = TextEditingController();
-  final scrollCtrl = ScrollController();
   String bulkDecision = '';
   bool exporting = false;
-
-  @override
-  void initState() {
-    super.initState();
-    scrollCtrl.addListener(() {
-      if (scrollCtrl.position.pixels >=
-          scrollCtrl.position.maxScrollExtent - 300) {
-        ref.read(adminClaimsControllerProvider.notifier).loadMore();
-      }
-    });
-  }
+  int _page = 0;
+  int _rowsPerPage = 20;
 
   @override
   void dispose() {
     searchCtrl.dispose();
     searchFocus.dispose();
     bulkNoteCtrl.dispose();
-    scrollCtrl.dispose();
     super.dispose();
   }
 
@@ -56,9 +59,16 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
     final controller = ref.read(adminClaimsControllerProvider.notifier);
     final user = ref.watch(userProvider);
     final l10n = context.l10n;
+    final estimatedTotalCount = st.items.length + (st.hasMore ? _rowsPerPage : 0);
+    final safePage = estimatedTotalCount == 0
+        ? 0
+        : _page.clamp(0, ((estimatedTotalCount - 1) ~/ _rowsPerPage)).toInt();
+    final start = safePage * _rowsPerPage;
+    final end = (start + _rowsPerPage).clamp(0, st.items.length);
+    final pageItems = st.items.sublist(start, end);
     final allSelected =
-        st.items.isNotEmpty &&
-        st.items.every((c) => st.selectedIds.contains(c.id));
+        pageItems.isNotEmpty &&
+        pageItems.every((c) => st.selectedIds.contains(c.id));
     final newItems = ref.watch(adminNewItemsProvider).claimsNew;
 
     return AdminKeyboardShortcuts(
@@ -75,13 +85,11 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  l10n.adminClaimsTitle,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-                ),
-                const Spacer(),
+            PanelPageHeader(
+              padding: EdgeInsets.zero,
+              title: Text(l10n.adminShellClaimsLabel),
+              description: l10n.adminShellClaimsDescription,
+              actions: [
                 OutlinedButton.icon(
                   onPressed: exporting ? null : () => _exportCsv(st),
                   icon: const Icon(Icons.download),
@@ -89,9 +97,8 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                     exporting
                         ? l10n.adminClaimsExportingAction
                         : l10n.adminClaimsExportCsvAction,
-                    ),
+                  ),
                 ),
-                const SizedBox(width: 8),
                 OutlinedButton.icon(
                   onPressed: () => context.go(
                     _queueRouteForClaims(
@@ -102,7 +109,6 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                   icon: const Icon(Icons.alt_route),
                   label: Text(l10n.adminQueueOpenFromClaimsAction),
                 ),
-                const SizedBox(width: 8),
                 IconButton(
                   onPressed: () async {
                     final ok = await ref
@@ -124,9 +130,12 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                   child: TextField(
                     controller: searchCtrl,
                     focusNode: searchFocus,
-                    onChanged: (v) => ref
-                        .read(adminClaimsControllerProvider.notifier)
-                        .setQuery(v.trim()),
+                    onChanged: (v) {
+                      setState(() => _page = 0);
+                      ref
+                          .read(adminClaimsControllerProvider.notifier)
+                          .setQuery(v.trim());
+                    },
                     decoration: InputDecoration(
                       hintText: l10n.adminClaimsSearchHint,
                       prefixIcon: Icon(Icons.search),
@@ -140,37 +149,52 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                     AppFilterChip(
                       label: l10n.sla,
                       selected: st.slaOnly,
-                      onTap: () => ref
-                          .read(adminClaimsControllerProvider.notifier)
-                          .setSlaOnly(!st.slaOnly),
+                      onTap: () {
+                        setState(() => _page = 0);
+                        ref
+                            .read(adminClaimsControllerProvider.notifier)
+                            .setSlaOnly(!st.slaOnly);
+                      },
                     ),
                     AppFilterChip(
                       label: l10n.tumu,
                       selected: st.statusFilter.isEmpty,
-                      onTap: () => ref
-                          .read(adminClaimsControllerProvider.notifier)
-                          .setStatusFilter(''),
+                      onTap: () {
+                        setState(() => _page = 0);
+                        ref
+                            .read(adminClaimsControllerProvider.notifier)
+                            .setStatusFilter('');
+                      },
                     ),
                     AppFilterChip(
                       label: l10n.pending,
                       selected: st.statusFilter == 'pending',
-                      onTap: () => ref
-                          .read(adminClaimsControllerProvider.notifier)
-                          .setStatusFilter('pending'),
+                      onTap: () {
+                        setState(() => _page = 0);
+                        ref
+                            .read(adminClaimsControllerProvider.notifier)
+                            .setStatusFilter('pending');
+                      },
                     ),
                     AppFilterChip(
                       label: l10n.approved,
                       selected: st.statusFilter == 'approved',
-                      onTap: () => ref
-                          .read(adminClaimsControllerProvider.notifier)
-                          .setStatusFilter('approved'),
+                      onTap: () {
+                        setState(() => _page = 0);
+                        ref
+                            .read(adminClaimsControllerProvider.notifier)
+                            .setStatusFilter('approved');
+                      },
                     ),
                     AppFilterChip(
                       label: l10n.rejected,
                       selected: st.statusFilter == 'rejected',
-                      onTap: () => ref
-                          .read(adminClaimsControllerProvider.notifier)
-                          .setStatusFilter('rejected'),
+                      onTap: () {
+                        setState(() => _page = 0);
+                        ref
+                            .read(adminClaimsControllerProvider.notifier)
+                            .setStatusFilter('rejected');
+                      },
                     ),
                   ],
                 ),
@@ -182,25 +206,34 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
                 AppFilterChip(
                   label: l10n.tumu,
                   selected: st.assignedFilter.isEmpty,
-                  onTap: () => ref
-                      .read(adminClaimsControllerProvider.notifier)
-                      .setAssignedFilter(''),
+                  onTap: () {
+                    setState(() => _page = 0);
+                    ref
+                        .read(adminClaimsControllerProvider.notifier)
+                        .setAssignedFilter('');
+                  },
                 ),
                 const SizedBox(width: 8),
                 AppFilterChip(
                   label: l10n.adminClaimsAssignedUnassigned,
                   selected: st.assignedFilter == 'unassigned',
-                  onTap: () => ref
-                      .read(adminClaimsControllerProvider.notifier)
-                      .setAssignedFilter('unassigned'),
+                  onTap: () {
+                    setState(() => _page = 0);
+                    ref
+                        .read(adminClaimsControllerProvider.notifier)
+                        .setAssignedFilter('unassigned');
+                  },
                 ),
                 const SizedBox(width: 8),
                 AppFilterChip(
                   label: l10n.adminClaimsAssignedMine,
                   selected: st.assignedFilter == 'me',
-                  onTap: () => ref
-                      .read(adminClaimsControllerProvider.notifier)
-                      .setAssignedFilter('me'),
+                  onTap: () {
+                    setState(() => _page = 0);
+                    ref
+                        .read(adminClaimsControllerProvider.notifier)
+                        .setAssignedFilter('me');
+                  },
                 ),
               ],
             ),
@@ -288,135 +321,161 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
             Expanded(
               child: st.isLoading && st.items.isEmpty
                   ? const Center(child: CircularProgressIndicator())
-                  : ListView(
-                      controller: scrollCtrl,
+                  : Column(
                       children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(
+                        Expanded(
+                          child: AdminVirtualTableCard(
+                            emptyLabel: l10n.adminClaimsEmpty,
                             columns: [
-                              DataColumn(
+                              AdminVirtualTableColumn(
+                                width: 56,
                                 label: Checkbox(
                                   value: allSelected,
-                                  onChanged: (v) => ref
-                                      .read(
-                                        adminClaimsControllerProvider.notifier,
-                                      )
-                                      .selectAllVisible(v ?? false),
+                                  onChanged: (value) {
+                                    for (final item in pageItems) {
+                                      controller.toggleSelection(
+                                        item.id,
+                                        value ?? false,
+                                      );
+                                    }
+                                  },
                                 ),
                               ),
-                              const DataColumn(label: Text('ID')),
-                              DataColumn(label: Text(l10n.adminClaimsFullNameColumn)),
-                              DataColumn(label: Text(l10n.adminClaimsPriorityColumn)),
-                              DataColumn(label: Text(l10n.adminClaimsStatusColumn)),
-                              DataColumn(label: Text(l10n.adminClaimsAssignedColumn)),
-                              DataColumn(label: Text(l10n.adminClaimsCreatedAtColumn)),
-                              DataColumn(label: Text(l10n.adminClaimsAgeColumn)),
-                              const DataColumn(label: Text('')),
+                              const AdminVirtualTableColumn(
+                                width: 120,
+                                label: Text('ID'),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 220,
+                                label: Text(l10n.adminClaimsFullNameColumn),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 120,
+                                label: Text(l10n.adminClaimsPriorityColumn),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 170,
+                                label: Text(l10n.adminClaimsStatusColumn),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 140,
+                                label: Text(l10n.adminClaimsAssignedColumn),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 140,
+                                label: Text(l10n.adminClaimsCreatedAtColumn),
+                              ),
+                              AdminVirtualTableColumn(
+                                width: 120,
+                                label: Text(l10n.adminClaimsAgeColumn),
+                              ),
+                              const AdminVirtualTableColumn(
+                                width: 120,
+                                label: Text(''),
+                              ),
                             ],
-                            rows: [
-                              for (var i = 0; i < st.items.length; i++)
-                                DataRow(
-                                  color: _rowColor(
-                                    st.selectedIndex == i,
-                                    st.items[i].slaBreached,
-                                  ),
-                                  selected: st.selectedIds.contains(
-                                    st.items[i].id,
-                                  ),
-                                  onSelectChanged: (_) => _openDetails(
+                            rowCount: pageItems.length,
+                            rowBuilder: (context, index) {
+                              final item = pageItems[index];
+                              final sourceIndex = st.items.indexWhere(
+                                (entry) => entry.id == item.id,
+                              );
+                              return AdminVirtualTableRowView(
+                                columns: _columns,
+                                row: AdminVirtualTableRow(
+                                  key: ValueKey(item.id),
+                                  backgroundColor: _rowColor(
+                                    st.selectedIndex == sourceIndex,
+                                    item.slaBreached,
+                                  ).resolve({}),
+                                  selected: st.selectedIds.contains(item.id),
+                                  onTap: () => _openDetails(
                                     context,
-                                    st.items[i],
-                                    index: i,
+                                    item,
+                                    index: sourceIndex >= 0 ? sourceIndex : null,
                                   ),
                                   cells: [
-                                    DataCell(
-                                      Checkbox(
-                                        value: st.selectedIds.contains(
-                                          st.items[i].id,
-                                        ),
-                                        onChanged: (v) => ref
-                                            .read(
-                                              adminClaimsControllerProvider
-                                                  .notifier,
-                                            )
-                                            .toggleSelection(
-                                              st.items[i].id,
-                                              v ?? false,
-                                            ),
-                                      ),
+                                    Checkbox(
+                                      value: st.selectedIds.contains(item.id),
+                                      onChanged: (value) => controller
+                                          .toggleSelection(item.id, value ?? false),
                                     ),
-                                    DataCell(
-                                      Row(
-                                        children: [
-                                          if (st.items[i].slaBreached) ...[
-                                            const AppSlaBadge(),
-                                            const SizedBox(width: 6),
-                                          ],
-                                          Text(_short(st.items[i].id)),
+                                    Row(
+                                      children: [
+                                        if (item.slaBreached) ...[
+                                          const AppSlaBadge(),
+                                          const SizedBox(width: 6),
                                         ],
-                                      ),
+                                        Flexible(
+                                          child: Text(
+                                            _short(item.id),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    DataCell(Text(st.items[i].fullName)),
-                                    DataCell(
-                                      AppPriorityBadge(
-                                        score: _claimPriority(st.items[i]),
-                                      ),
+                                    Text(
+                                      item.fullName,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    DataCell(
-                                      Row(
-                                        children: [
-                                          Text(_claimStatusLabel(l10n, st.items[i].status)),
-                                          if (st.items[i].autoModerated) ...[
-                                            const SizedBox(width: 6),
-                                            Tooltip(
-                                              message: l10n.adminClaimsAutoModeratedTooltip,
-                                              child: const AppAutoBadge(),
-                                            ),
-                                          ],
+                                    AppPriorityBadge(score: _claimPriority(item)),
+                                    Row(
+                                      children: [
+                                        Text(_claimStatusLabel(l10n, item.status)),
+                                        if (item.autoModerated) ...[
+                                          const SizedBox(width: 6),
+                                          Tooltip(
+                                            message: l10n.adminClaimsAutoModeratedTooltip,
+                                            child: const AppAutoBadge(),
+                                          ),
                                         ],
+                                      ],
+                                    ),
+                                    Text(
+                                      _assignedLabel(
+                                        l10n,
+                                        item.assignedTo,
+                                        user?.id,
                                       ),
                                     ),
-                                    DataCell(
-                                      Text(
-                                        _assignedLabel(
-                                          l10n,
-                                          st.items[i].assignedTo,
-                                          user?.id,
-                                        ),
+                                    Text(_fmtDate(item.createdAt)),
+                                    Text(_fmtDays(l10n, item.ageDays)),
+                                    TextButton(
+                                      onPressed: () => _openDetails(
+                                        context,
+                                        item,
+                                        index: sourceIndex >= 0 ? sourceIndex : null,
                                       ),
-                                    ),
-                                    DataCell(
-                                      Text(_fmtDate(st.items[i].createdAt)),
-                                    ),
-                                    DataCell(
-                                      Text(_fmtDays(l10n, st.items[i].ageDays)),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: () => _openDetails(
-                                          context,
-                                          st.items[i],
-                                          index: i,
-                                        ),
-                                        child: Text(l10n.adminClaimsDetailsAction),
-                                      ),
+                                      child: Text(l10n.adminClaimsDetailsAction),
                                     ),
                                   ],
                                 ),
-                            ],
+                              );
+                            },
                           ),
                         ),
-                        if (!st.isLoading && st.items.isEmpty)
-                          Padding(
-                            padding: EdgeInsets.only(top: 24),
-                            child: Center(child: Text(l10n.adminClaimsEmpty)),
-                          ),
                         if (st.isLoadingMore)
                           const Padding(
                             padding: EdgeInsets.only(top: 12),
                             child: Center(child: CircularProgressIndicator()),
                           ),
+                        const SizedBox(height: 12),
+                        AdminTablePaginationBar(
+                          page: safePage,
+                          rowsPerPage: _rowsPerPage,
+                          totalCount: estimatedTotalCount,
+                          onPageChanged: (value) => _changeClaimsPage(
+                            value,
+                            state: st,
+                          ),
+                          onRowsPerPageChanged: (value) {
+                            setState(() {
+                              _rowsPerPage = value;
+                              _page = 0;
+                            });
+                          },
+                        ),
                       ],
                     ),
             ),
@@ -424,6 +483,17 @@ class _AdminClaimsPageState extends ConsumerState<AdminClaimsPage> {
         ),
       ),
     );
+  }
+
+  void _changeClaimsPage(
+    int value, {
+    required AdminClaimsState state,
+  }) {
+    setState(() => _page = value);
+    final requiredItems = (value + 1) * _rowsPerPage;
+    if (requiredItems > state.items.length && state.hasMore && !state.isLoadingMore) {
+      ref.read(adminClaimsControllerProvider.notifier).loadMore();
+    }
   }
 
   Future<void> _exportCsv(AdminClaimsState st) async {

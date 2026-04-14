@@ -2,55 +2,55 @@
   "@@locale": "en",
   "appName": "Yeedoy",
   "@appName": {
-    "description": "L10n key: appName"
+    "description": "Auto metadata for appName"
   },
   "map": "Map",
   "@map": {
-    "description": "L10n key: map"
+    "description": "Auto metadata for map"
   },
   "save": "Save",
   "@save": {
-    "description": "L10n key: save"
+    "description": "Auto metadata for save"
   },
   "cancel": "Cancel",
   "@cancel": {
-    "description": "L10n key: cancel"
+    "description": "Auto metadata for cancel"
   },
   "logout": "Log Out",
   "@logout": {
-    "description": "L10n key: logout"
+    "description": "Auto metadata for logout"
   },
   "uploadPhoto": "Upload Photo",
   "@uploadPhoto": {
-    "description": "L10n key: uploadPhoto"
+    "description": "Auto metadata for uploadPhoto"
   },
   "saving": "Saving...",
   "@saving": {
-    "description": "L10n key: saving"
+    "description": "Auto metadata for saving"
   },
   "preview": "Preview",
   "@preview": {
-    "description": "L10n key: preview"
+    "description": "Auto metadata for preview"
   },
   "embed": "Embed",
   "@embed": {
-    "description": "L10n key: embed"
+    "description": "Auto metadata for embed"
   },
   "share": "Share",
   "@share": {
-    "description": "L10n key: share"
+    "description": "Auto metadata for share"
   },
   "invalidLinkMessage": "Invalid link",
   "@invalidLinkMessage": {
-    "description": "L10n key: invalidLinkMessage"
+    "description": "Auto metadata for invalidLinkMessage"
   },
   "browserOpened": "Opened in browser",
   "@browserOpened": {
-    "description": "L10n key: browserOpened"
+    "description": "Auto metadata for browserOpened"
   },
   "embedFailed": "Embed could not be displayed, redirected to browser.",
   "@embedFailed": {
-    "description": "L10n key: embedFailed"
+    "description": "Auto metadata for embedFailed"
   },
   "embedUnsupported": "This link is not supported as an embed. You can copy the link or open it in the browser.",
   "@embedUnsupported": {
@@ -66,7 +66,7 @@
   },
   "back": "Back",
   "@back": {
-    "description": "L10n key: back"
+    "description": "Auto metadata for back"
   },
   "reviewsCount": "Reviews ({count})",
   "@reviewsCount": {
@@ -75,75 +75,75 @@
         "type": "int"
       }
     },
-    "description": "L10n key: reviewsCount"
+    "description": "Auto metadata for reviewsCount"
   },
   "openNow": "Open now",
   "@openNow": {
-    "description": "L10n key: openNow"
+    "description": "Auto metadata for openNow"
   },
   "verified": "Verified",
   "@verified": {
-    "description": "L10n key: verified"
+    "description": "Auto metadata for verified"
   },
   "businessLabel": "Business",
   "@businessLabel": {
-    "description": "L10n key: businessLabel"
+    "description": "Auto metadata for businessLabel"
   },
   "menu": "Menu",
   "@menu": {
-    "description": "L10n key: menu"
+    "description": "Auto metadata for menu"
   },
   "apply": "Apply",
   "@apply": {
-    "description": "L10n key: apply"
+    "description": "Auto metadata for apply"
   },
   "unknown": "Unknown",
   "@unknown": {
-    "description": "L10n key: unknown"
+    "description": "Auto metadata for unknown"
   },
   "title": "Title",
   "@title": {
-    "description": "L10n key: title"
+    "description": "Auto metadata for title"
   },
   "approved": "Approved",
   "@approved": {
-    "description": "L10n key: approved"
+    "description": "Auto metadata for approved"
   },
   "tumu": "All",
   "@tumu": {
-    "description": "L10n key: tumu"
+    "description": "Auto metadata for tumu"
   },
   "pending": "Pending",
   "@pending": {
-    "description": "L10n key: pending"
+    "description": "Auto metadata for pending"
   },
   "rejected": "Rejected",
   "@rejected": {
-    "description": "L10n key: rejected"
+    "description": "Auto metadata for rejected"
   },
   "duzenle": "Edit",
   "@duzenle": {
-    "description": "L10n key: duzenle"
+    "description": "Auto metadata for duzenle"
   },
   "sla": "SLA",
   "@sla": {
-    "description": "L10n key: sla"
+    "description": "Auto metadata for sla"
   },
   "yenile": "Refresh",
   "@yenile": {
-    "description": "L10n key: yenile"
+    "description": "Auto metadata for yenile"
   },
   "start": "Start",
   "@start": {
-    "description": "L10n key: start"
+    "description": "Auto metadata for start"
   },
   "campaign": "Campaign",
   "@campaign": {
-    "description": "L10n key: campaign"
+    "description": "Auto metadata for campaign"
   },
   "go": "Go",
   "@go": {
-    "description": "L10n key: go"
+    "description": "Auto metadata for go"
   },
   "menuShareNotFoundTitle": "Menu not found • {appName}",
   "@menuShareNotFoundTitle": {
@@ -152,23 +152,23 @@
         "type": "String"
       }
     },
-    "description": "L10n key: menuShareNotFoundTitle"
+    "description": "Auto metadata for menuShareNotFoundTitle"
   },
   "menuShareNotFoundDescription": "Menu was not found or is not published.",
   "@menuShareNotFoundDescription": {
-    "description": "L10n key: menuShareNotFoundDescription"
+    "description": "Auto metadata for menuShareNotFoundDescription"
   },
   "menuContentNotFound": "Menu content not found.",
   "@menuContentNotFound": {
-    "description": "L10n key: menuContentNotFound"
+    "description": "Auto metadata for menuContentNotFound"
   },
   "openAppForBetterExperience": "Open the app for a better experience",
   "@openAppForBetterExperience": {
-    "description": "L10n key: openAppForBetterExperience"
+    "description": "Auto metadata for openAppForBetterExperience"
   },
   "openApp": "Open App",
   "@openApp": {
-    "description": "L10n key: openApp"
+    "description": "Auto metadata for openApp"
   },
   "nearbyPeopleViewed": "{count} people nearby viewed this",
   "@nearbyPeopleViewed": {
@@ -177,23 +177,23 @@
         "type": "int"
       }
     },
-    "description": "L10n key: nearbyPeopleViewed"
+    "description": "Auto metadata for nearbyPeopleViewed"
   },
   "verifiedPrices": "Verified prices",
   "@verifiedPrices": {
-    "description": "L10n key: verifiedPrices"
+    "description": "Auto metadata for verifiedPrices"
   },
   "selectRatingFirst": "Please select a rating",
   "@selectRatingFirst": {
-    "description": "L10n key: selectRatingFirst"
+    "description": "Auto metadata for selectRatingFirst"
   },
   "thankYou": "Thank you!",
   "@thankYou": {
-    "description": "L10n key: thankYou"
+    "description": "Auto metadata for thankYou"
   },
   "noProductsFound": "No products found.",
   "@noProductsFound": {
-    "description": "L10n key: noProductsFound"
+    "description": "Auto metadata for noProductsFound"
   },
   "preparedWithApp": "Prepared with {appName}",
   "@preparedWithApp": {
@@ -202,7 +202,7 @@
         "type": "String"
       }
     },
-    "description": "L10n key: preparedWithApp"
+    "description": "Auto metadata for preparedWithApp"
   },
   "tableLabel": "Table {tableNo}",
   "@tableLabel": {
@@ -211,7 +211,7 @@
         "type": "String"
       }
     },
-    "description": "L10n key: tableLabel"
+    "description": "Auto metadata for tableLabel"
   },
   "tableServiceQuestion": "How was the service? (Table {tableNo})",
   "@tableServiceQuestion": {
@@ -220,55 +220,55 @@
         "type": "String"
       }
     },
-    "description": "L10n key: tableServiceQuestion"
+    "description": "Auto metadata for tableServiceQuestion"
   },
   "shortNoteOptional": "Short note (optional)",
   "@shortNoteOptional": {
-    "description": "L10n key: shortNoteOptional"
+    "description": "Auto metadata for shortNoteOptional"
   },
   "submit": "Submit",
   "@submit": {
-    "description": "L10n key: submit"
+    "description": "Auto metadata for submit"
   },
   "submitted": "Submitted",
   "@submitted": {
-    "description": "L10n key: submitted"
+    "description": "Auto metadata for submitted"
   },
   "submitting": "Submitting...",
   "@submitting": {
-    "description": "L10n key: submitting"
+    "description": "Auto metadata for submitting"
   },
   "retry": "Retry",
   "@retry": {
-    "description": "L10n key: retry"
+    "description": "Auto metadata for retry"
   },
   "register": "Register",
   "@register": {
-    "description": "L10n key: register"
+    "description": "Auto metadata for register"
   },
   "login": "Login",
   "@login": {
-    "description": "L10n key: login"
+    "description": "Auto metadata for login"
   },
   "cover": "Cover",
   "@cover": {
-    "description": "L10n key: cover"
+    "description": "Auto metadata for cover"
   },
   "note": "Note",
   "@note": {
-    "description": "L10n key: note"
+    "description": "Auto metadata for note"
   },
   "menuItemName": "Item name",
   "@menuItemName": {
-    "description": "L10n key: menuItemName"
+    "description": "Auto metadata for menuItemName"
   },
   "price": "Price",
   "@price": {
-    "description": "L10n key: price"
+    "description": "Auto metadata for price"
   },
   "priceStability": "Price stability",
   "@priceStability": {
-    "description": "L10n key: priceStability"
+    "description": "Auto metadata for priceStability"
   },
   "ownerSections": "Sections",
   "@ownerSections": {
@@ -3473,434 +3473,913 @@
     "description": "L10n key: adminCommonSaved"
   },
   "adminShellAdminTitle": "Admin",
-  "@adminShellAdminTitle": {"description": "L10n key: adminShellAdminTitle"},
+  "@adminShellAdminTitle": {
+    "description": "L10n key: adminShellAdminTitle"
+  },
   "adminShellWebOnlyMessage": "This screen is only available on the web.",
-  "@adminShellWebOnlyMessage": {"description": "L10n key: adminShellWebOnlyMessage"},
+  "@adminShellWebOnlyMessage": {
+    "description": "L10n key: adminShellWebOnlyMessage"
+  },
   "adminShellAccessCheckFailed": "Admin access could not be verified.",
-  "@adminShellAccessCheckFailed": {"description": "L10n key: adminShellAccessCheckFailed"},
+  "@adminShellAccessCheckFailed": {
+    "description": "L10n key: adminShellAccessCheckFailed"
+  },
   "adminShellAccessDenied": "You do not have permission to access this page.",
-  "@adminShellAccessDenied": {"description": "L10n key: adminShellAccessDenied"},
+  "@adminShellAccessDenied": {
+    "description": "L10n key: adminShellAccessDenied"
+  },
   "adminShellProjectInfo": "Project: {projectRef} • UID: {userId}",
   "@adminShellProjectInfo": {
     "description": "L10n key: adminShellProjectInfo",
     "placeholders": {
-      "projectRef": {"type": "String"},
-      "userId": {"type": "String"}
+      "projectRef": {
+        "type": "String"
+      },
+      "userId": {
+        "type": "String"
+      }
     }
   },
   "adminShellDashboardLabel": "Overview",
-  "@adminShellDashboardLabel": {"description": "L10n key: adminShellDashboardLabel"},
+  "@adminShellDashboardLabel": {
+    "description": "L10n key: adminShellDashboardLabel"
+  },
   "adminShellDashboardDescription": "Admin panel overview and quick actions.",
-  "@adminShellDashboardDescription": {"description": "L10n key: adminShellDashboardDescription"},
+  "@adminShellDashboardDescription": {
+    "description": "L10n key: adminShellDashboardDescription"
+  },
   "adminShellQueueLabel": "Unified Queue",
-  "@adminShellQueueLabel": {"description": "L10n key: adminShellQueueLabel"},
+  "@adminShellQueueLabel": {
+    "description": "L10n key: adminShellQueueLabel"
+  },
   "adminShellQueueDescription": "Manage reports, claims, pricing, and media moderation from one queue.",
-  "@adminShellQueueDescription": {"description": "L10n key: adminShellQueueDescription"},
+  "@adminShellQueueDescription": {
+    "description": "L10n key: adminShellQueueDescription"
+  },
   "adminShellReportsLabel": "Reports",
-  "@adminShellReportsLabel": {"description": "L10n key: adminShellReportsLabel"},
+  "@adminShellReportsLabel": {
+    "description": "L10n key: adminShellReportsLabel"
+  },
   "adminShellReportsDescription": "Review user reports and manage status and assignment.",
-  "@adminShellReportsDescription": {"description": "L10n key: adminShellReportsDescription"},
+  "@adminShellReportsDescription": {
+    "description": "L10n key: adminShellReportsDescription"
+  },
   "adminShellAppealsLabel": "Appeals",
-  "@adminShellAppealsLabel": {"description": "L10n key: adminShellAppealsLabel"},
+  "@adminShellAppealsLabel": {
+    "description": "L10n key: adminShellAppealsLabel"
+  },
   "adminShellAppealsDescription": "Evaluate appeals submitted for moderation decisions.",
-  "@adminShellAppealsDescription": {"description": "L10n key: adminShellAppealsDescription"},
+  "@adminShellAppealsDescription": {
+    "description": "L10n key: adminShellAppealsDescription"
+  },
   "adminShellGrowthLabel": "Growth",
-  "@adminShellGrowthLabel": {"description": "L10n key: adminShellGrowthLabel"},
+  "@adminShellGrowthLabel": {
+    "description": "L10n key: adminShellGrowthLabel"
+  },
   "adminShellGrowthDescription": "Track menu link and QR traffic on a daily basis.",
-  "@adminShellGrowthDescription": {"description": "L10n key: adminShellGrowthDescription"},
+  "@adminShellGrowthDescription": {
+    "description": "L10n key: adminShellGrowthDescription"
+  },
   "adminShellClaimsLabel": "Ownership claims",
-  "@adminShellClaimsLabel": {"description": "L10n key: adminShellClaimsLabel"},
+  "@adminShellClaimsLabel": {
+    "description": "L10n key: adminShellClaimsLabel"
+  },
   "adminShellClaimsDescription": "Approve or reject business ownership claims.",
-  "@adminShellClaimsDescription": {"description": "L10n key: adminShellClaimsDescription"},
+  "@adminShellClaimsDescription": {
+    "description": "L10n key: adminShellClaimsDescription"
+  },
   "adminShellSuspendedClaimsLabel": "Suspended claims",
-  "@adminShellSuspendedClaimsLabel": {"description": "L10n key: adminShellSuspendedClaimsLabel"},
+  "@adminShellSuspendedClaimsLabel": {
+    "description": "L10n key: adminShellSuspendedClaimsLabel"
+  },
   "adminShellSuspendedClaimsDescription": "Validate and resolve suspended meal claims.",
-  "@adminShellSuspendedClaimsDescription": {"description": "L10n key: adminShellSuspendedClaimsDescription"},
+  "@adminShellSuspendedClaimsDescription": {
+    "description": "L10n key: adminShellSuspendedClaimsDescription"
+  },
   "adminShellPriceSuggestionsLabel": "Price approvals",
-  "@adminShellPriceSuggestionsLabel": {"description": "L10n key: adminShellPriceSuggestionsLabel"},
+  "@adminShellPriceSuggestionsLabel": {
+    "description": "L10n key: adminShellPriceSuggestionsLabel"
+  },
   "adminShellPriceSuggestionsDescription": "Review, approve, or reject price suggestions.",
-  "@adminShellPriceSuggestionsDescription": {"description": "L10n key: adminShellPriceSuggestionsDescription"},
+  "@adminShellPriceSuggestionsDescription": {
+    "description": "L10n key: adminShellPriceSuggestionsDescription"
+  },
   "adminShellReceiptSubmissionsLabel": "Receipt verification",
-  "@adminShellReceiptSubmissionsLabel": {"description": "L10n key: adminShellReceiptSubmissionsLabel"},
+  "@adminShellReceiptSubmissionsLabel": {
+    "description": "L10n key: adminShellReceiptSubmissionsLabel"
+  },
   "adminShellReceiptSubmissionsDescription": "List and review receipt verification submissions.",
-  "@adminShellReceiptSubmissionsDescription": {"description": "L10n key: adminShellReceiptSubmissionsDescription"},
+  "@adminShellReceiptSubmissionsDescription": {
+    "description": "L10n key: adminShellReceiptSubmissionsDescription"
+  },
   "adminShellSuggestionsLabel": "Business suggestions",
-  "@adminShellSuggestionsLabel": {"description": "L10n key: adminShellSuggestionsLabel"},
+  "@adminShellSuggestionsLabel": {
+    "description": "L10n key: adminShellSuggestionsLabel"
+  },
   "adminShellSuggestionsDescription": "Review and process new business suggestions.",
-  "@adminShellSuggestionsDescription": {"description": "L10n key: adminShellSuggestionsDescription"},
+  "@adminShellSuggestionsDescription": {
+    "description": "L10n key: adminShellSuggestionsDescription"
+  },
   "adminShellBusinessesLabel": "Businesses",
-  "@adminShellBusinessesLabel": {"description": "L10n key: adminShellBusinessesLabel"},
+  "@adminShellBusinessesLabel": {
+    "description": "L10n key: adminShellBusinessesLabel"
+  },
   "adminShellBusinessesDescription": "Edit, verify, and update business records.",
-  "@adminShellBusinessesDescription": {"description": "L10n key: adminShellBusinessesDescription"},
+  "@adminShellBusinessesDescription": {
+    "description": "L10n key: adminShellBusinessesDescription"
+  },
   "adminShellBusinessSubmissionsLabel": "Business submissions",
-  "@adminShellBusinessSubmissionsLabel": {"description": "L10n key: adminShellBusinessSubmissionsLabel"},
+  "@adminShellBusinessSubmissionsLabel": {
+    "description": "L10n key: adminShellBusinessSubmissionsLabel"
+  },
   "adminShellBusinessSubmissionsDescription": "Approve or reject new business submissions.",
-  "@adminShellBusinessSubmissionsDescription": {"description": "L10n key: adminShellBusinessSubmissionsDescription"},
+  "@adminShellBusinessSubmissionsDescription": {
+    "description": "L10n key: adminShellBusinessSubmissionsDescription"
+  },
   "adminShellSponsorshipsLabel": "Sponsored placements",
-  "@adminShellSponsorshipsLabel": {"description": "L10n key: adminShellSponsorshipsLabel"},
+  "@adminShellSponsorshipsLabel": {
+    "description": "L10n key: adminShellSponsorshipsLabel"
+  },
   "adminShellSponsorshipsDescription": "Manage sponsored placements and change their status.",
-  "@adminShellSponsorshipsDescription": {"description": "L10n key: adminShellSponsorshipsDescription"},
+  "@adminShellSponsorshipsDescription": {
+    "description": "L10n key: adminShellSponsorshipsDescription"
+  },
   "adminShellSponsorshipPackagesLabel": "Packages",
-  "@adminShellSponsorshipPackagesLabel": {"description": "L10n key: adminShellSponsorshipPackagesLabel"},
+  "@adminShellSponsorshipPackagesLabel": {
+    "description": "L10n key: adminShellSponsorshipPackagesLabel"
+  },
   "adminShellSponsorshipPackagesDescription": "Create sponsorship packages and manage pricing.",
-  "@adminShellSponsorshipPackagesDescription": {"description": "L10n key: adminShellSponsorshipPackagesDescription"},
+  "@adminShellSponsorshipPackagesDescription": {
+    "description": "L10n key: adminShellSponsorshipPackagesDescription"
+  },
   "adminShellSponsorshipLeadsLabel": "Leads",
-  "@adminShellSponsorshipLeadsLabel": {"description": "L10n key: adminShellSponsorshipLeadsLabel"},
+  "@adminShellSponsorshipLeadsLabel": {
+    "description": "L10n key: adminShellSponsorshipLeadsLabel"
+  },
   "adminShellSponsorshipLeadsDescription": "Track and close sponsorship sales inquiries.",
-  "@adminShellSponsorshipLeadsDescription": {"description": "L10n key: adminShellSponsorshipLeadsDescription"},
+  "@adminShellSponsorshipLeadsDescription": {
+    "description": "L10n key: adminShellSponsorshipLeadsDescription"
+  },
   "adminShellVerifiedLabel": "Verification",
-  "@adminShellVerifiedLabel": {"description": "L10n key: adminShellVerifiedLabel"},
+  "@adminShellVerifiedLabel": {
+    "description": "L10n key: adminShellVerifiedLabel"
+  },
   "adminShellVerifiedDescription": "Manage business verification and premium status.",
-  "@adminShellVerifiedDescription": {"description": "L10n key: adminShellVerifiedDescription"},
+  "@adminShellVerifiedDescription": {
+    "description": "L10n key: adminShellVerifiedDescription"
+  },
   "adminShellLocationsLabel": "Tools > Locations",
-  "@adminShellLocationsLabel": {"description": "L10n key: adminShellLocationsLabel"},
+  "@adminShellLocationsLabel": {
+    "description": "L10n key: adminShellLocationsLabel"
+  },
   "adminShellLocationsDescription": "Bulk-fix and update location data.",
-  "@adminShellLocationsDescription": {"description": "L10n key: adminShellLocationsDescription"},
+  "@adminShellLocationsDescription": {
+    "description": "L10n key: adminShellLocationsDescription"
+  },
   "adminShellAuditLabel": "Audit logs",
-  "@adminShellAuditLabel": {"description": "L10n key: adminShellAuditLabel"},
+  "@adminShellAuditLabel": {
+    "description": "L10n key: adminShellAuditLabel"
+  },
   "adminShellAuditDescription": "Review internal system activity logs.",
-  "@adminShellAuditDescription": {"description": "L10n key: adminShellAuditDescription"},
+  "@adminShellAuditDescription": {
+    "description": "L10n key: adminShellAuditDescription"
+  },
   "adminShellTableFeedbackLabel": "Table feedback",
-  "@adminShellTableFeedbackLabel": {"description": "L10n key: adminShellTableFeedbackLabel"},
+  "@adminShellTableFeedbackLabel": {
+    "description": "L10n key: adminShellTableFeedbackLabel"
+  },
   "adminShellTableFeedbackDescription": "View and filter table QR feedback.",
-  "@adminShellTableFeedbackDescription": {"description": "L10n key: adminShellTableFeedbackDescription"},
+  "@adminShellTableFeedbackDescription": {
+    "description": "L10n key: adminShellTableFeedbackDescription"
+  },
   "adminShellGroupRequestsLabel": "Group requests",
-  "@adminShellGroupRequestsLabel": {"description": "L10n key: adminShellGroupRequestsLabel"},
+  "@adminShellGroupRequestsLabel": {
+    "description": "L10n key: adminShellGroupRequestsLabel"
+  },
   "adminShellGroupRequestsDescription": "Monitor group meal requests and offers.",
-  "@adminShellGroupRequestsDescription": {"description": "L10n key: adminShellGroupRequestsDescription"},
+  "@adminShellGroupRequestsDescription": {
+    "description": "L10n key: adminShellGroupRequestsDescription"
+  },
   "adminShellDevToolsLabel": "Dev tools",
-  "@adminShellDevToolsLabel": {"description": "L10n key: adminShellDevToolsLabel"},
+  "@adminShellDevToolsLabel": {
+    "description": "L10n key: adminShellDevToolsLabel"
+  },
   "adminShellDevToolsDescription": "Feature flag and test override settings.",
-  "@adminShellDevToolsDescription": {"description": "L10n key: adminShellDevToolsDescription"},
+  "@adminShellDevToolsDescription": {
+    "description": "L10n key: adminShellDevToolsDescription"
+  },
   "adminShellObservabilityLabel": "Observability",
-  "@adminShellObservabilityLabel": {"description": "L10n key: adminShellObservabilityLabel"},
+  "@adminShellObservabilityLabel": {
+    "description": "L10n key: adminShellObservabilityLabel"
+  },
   "adminShellObservabilityDescription": "Request trace, perf SLO, and prefs overview.",
-  "@adminShellObservabilityDescription": {"description": "L10n key: adminShellObservabilityDescription"},
+  "@adminShellObservabilityDescription": {
+    "description": "L10n key: adminShellObservabilityDescription"
+  },
   "adminShellB2bExportsLabel": "B2B exports",
-  "@adminShellB2bExportsLabel": {"description": "L10n key: adminShellB2bExportsLabel"},
+  "@adminShellB2bExportsLabel": {
+    "description": "L10n key: adminShellB2bExportsLabel"
+  },
   "adminShellB2bExportsDescription": "Anonymous trend, regional price index, and menu inflation outputs.",
-  "@adminShellB2bExportsDescription": {"description": "L10n key: adminShellB2bExportsDescription"},
+  "@adminShellB2bExportsDescription": {
+    "description": "L10n key: adminShellB2bExportsDescription"
+  },
   "adminShellIncidentCenterLabel": "Incident response",
-  "@adminShellIncidentCenterLabel": {"description": "L10n key: adminShellIncidentCenterLabel"},
+  "@adminShellIncidentCenterLabel": {
+    "description": "L10n key: adminShellIncidentCenterLabel"
+  },
   "adminShellIncidentCenterDescription": "Transparent logs, prepared responses, and rapid response actions.",
-  "@adminShellIncidentCenterDescription": {"description": "L10n key: adminShellIncidentCenterDescription"},
+  "@adminShellIncidentCenterDescription": {
+    "description": "L10n key: adminShellIncidentCenterDescription"
+  },
   "adminShellTempUploadsLabel": "Temporary upload review",
-  "@adminShellTempUploadsLabel": {"description": "L10n key: adminShellTempUploadsLabel"},
+  "@adminShellTempUploadsLabel": {
+    "description": "L10n key: adminShellTempUploadsLabel"
+  },
   "adminShellTempUploadsDescription": "Review pending temporary menu uploads.",
-  "@adminShellTempUploadsDescription": {"description": "L10n key: adminShellTempUploadsDescription"},
+  "@adminShellTempUploadsDescription": {
+    "description": "L10n key: adminShellTempUploadsDescription"
+  },
   "adminSponsorshipLeadsTitle": "Sponsorship leads",
-  "@adminSponsorshipLeadsTitle": {"description": "L10n key: adminSponsorshipLeadsTitle"},
+  "@adminSponsorshipLeadsTitle": {
+    "description": "L10n key: adminSponsorshipLeadsTitle"
+  },
   "adminSponsorshipLeadsContactColumn": "Contact",
-  "@adminSponsorshipLeadsContactColumn": {"description": "L10n key: adminSponsorshipLeadsContactColumn"},
+  "@adminSponsorshipLeadsContactColumn": {
+    "description": "L10n key: adminSponsorshipLeadsContactColumn"
+  },
   "adminSponsorshipLeadsOwnerColumn": "Business owner",
-  "@adminSponsorshipLeadsOwnerColumn": {"description": "L10n key: adminSponsorshipLeadsOwnerColumn"},
+  "@adminSponsorshipLeadsOwnerColumn": {
+    "description": "L10n key: adminSponsorshipLeadsOwnerColumn"
+  },
   "adminSponsorshipLeadsCreatedAtColumn": "Created",
-  "@adminSponsorshipLeadsCreatedAtColumn": {"description": "L10n key: adminSponsorshipLeadsCreatedAtColumn"},
+  "@adminSponsorshipLeadsCreatedAtColumn": {
+    "description": "L10n key: adminSponsorshipLeadsCreatedAtColumn"
+  },
   "adminSponsorshipLeadsDetailTitle": "Lead details",
-  "@adminSponsorshipLeadsDetailTitle": {"description": "L10n key: adminSponsorshipLeadsDetailTitle"},
+  "@adminSponsorshipLeadsDetailTitle": {
+    "description": "L10n key: adminSponsorshipLeadsDetailTitle"
+  },
   "adminSponsorshipLeadsPhoneLabel": "Phone",
-  "@adminSponsorshipLeadsPhoneLabel": {"description": "L10n key: adminSponsorshipLeadsPhoneLabel"},
+  "@adminSponsorshipLeadsPhoneLabel": {
+    "description": "L10n key: adminSponsorshipLeadsPhoneLabel"
+  },
   "adminSponsorshipLeadsMessageLabel": "Message",
-  "@adminSponsorshipLeadsMessageLabel": {"description": "L10n key: adminSponsorshipLeadsMessageLabel"},
+  "@adminSponsorshipLeadsMessageLabel": {
+    "description": "L10n key: adminSponsorshipLeadsMessageLabel"
+  },
   "adminSponsorshipLeadsTargetingLabel": "Targeting",
-  "@adminSponsorshipLeadsTargetingLabel": {"description": "L10n key: adminSponsorshipLeadsTargetingLabel"},
+  "@adminSponsorshipLeadsTargetingLabel": {
+    "description": "L10n key: adminSponsorshipLeadsTargetingLabel"
+  },
   "adminSponsorshipLeadsCreateSponsorship": "Create sponsorship",
-  "@adminSponsorshipLeadsCreateSponsorship": {"description": "L10n key: adminSponsorshipLeadsCreateSponsorship"},
+  "@adminSponsorshipLeadsCreateSponsorship": {
+    "description": "L10n key: adminSponsorshipLeadsCreateSponsorship"
+  },
   "adminSponsorshipLeadStatusNew": "New",
-  "@adminSponsorshipLeadStatusNew": {"description": "L10n key: adminSponsorshipLeadStatusNew"},
+  "@adminSponsorshipLeadStatusNew": {
+    "description": "L10n key: adminSponsorshipLeadStatusNew"
+  },
   "adminSponsorshipLeadStatusContacted": "Contacted",
-  "@adminSponsorshipLeadStatusContacted": {"description": "L10n key: adminSponsorshipLeadStatusContacted"},
+  "@adminSponsorshipLeadStatusContacted": {
+    "description": "L10n key: adminSponsorshipLeadStatusContacted"
+  },
   "adminSponsorshipLeadStatusClosed": "Closed",
-  "@adminSponsorshipLeadStatusClosed": {"description": "L10n key: adminSponsorshipLeadStatusClosed"},
+  "@adminSponsorshipLeadStatusClosed": {
+    "description": "L10n key: adminSponsorshipLeadStatusClosed"
+  },
   "adminSponsorshipPackagesTitle": "Sponsorship packages",
-  "@adminSponsorshipPackagesTitle": {"description": "L10n key: adminSponsorshipPackagesTitle"},
+  "@adminSponsorshipPackagesTitle": {
+    "description": "L10n key: adminSponsorshipPackagesTitle"
+  },
   "adminSponsorshipPackagesNewPackage": "New package",
-  "@adminSponsorshipPackagesNewPackage": {"description": "L10n key: adminSponsorshipPackagesNewPackage"},
+  "@adminSponsorshipPackagesNewPackage": {
+    "description": "L10n key: adminSponsorshipPackagesNewPackage"
+  },
   "adminSponsorshipPackagesEditPackage": "Edit package",
-  "@adminSponsorshipPackagesEditPackage": {"description": "L10n key: adminSponsorshipPackagesEditPackage"},
+  "@adminSponsorshipPackagesEditPackage": {
+    "description": "L10n key: adminSponsorshipPackagesEditPackage"
+  },
   "adminSponsorshipPackagesNameColumn": "Name",
-  "@adminSponsorshipPackagesNameColumn": {"description": "L10n key: adminSponsorshipPackagesNameColumn"},
+  "@adminSponsorshipPackagesNameColumn": {
+    "description": "L10n key: adminSponsorshipPackagesNameColumn"
+  },
   "adminSponsorshipPackagesDurationColumn": "Duration",
-  "@adminSponsorshipPackagesDurationColumn": {"description": "L10n key: adminSponsorshipPackagesDurationColumn"},
+  "@adminSponsorshipPackagesDurationColumn": {
+    "description": "L10n key: adminSponsorshipPackagesDurationColumn"
+  },
   "adminSponsorshipPackagesPriceColumn": "Price",
-  "@adminSponsorshipPackagesPriceColumn": {"description": "L10n key: adminSponsorshipPackagesPriceColumn"},
+  "@adminSponsorshipPackagesPriceColumn": {
+    "description": "L10n key: adminSponsorshipPackagesPriceColumn"
+  },
   "adminSponsorshipPackagesActiveColumn": "Active",
-  "@adminSponsorshipPackagesActiveColumn": {"description": "L10n key: adminSponsorshipPackagesActiveColumn"},
+  "@adminSponsorshipPackagesActiveColumn": {
+    "description": "L10n key: adminSponsorshipPackagesActiveColumn"
+  },
   "adminSponsorshipPackagesCreatedAtColumn": "Created",
-  "@adminSponsorshipPackagesCreatedAtColumn": {"description": "L10n key: adminSponsorshipPackagesCreatedAtColumn"},
+  "@adminSponsorshipPackagesCreatedAtColumn": {
+    "description": "L10n key: adminSponsorshipPackagesCreatedAtColumn"
+  },
   "adminSponsorshipPackagesDurationValue": "{days} days",
-  "@adminSponsorshipPackagesDurationValue": {"description": "L10n key: adminSponsorshipPackagesDurationValue","placeholders": {"days": {"type": "int"}}},
+  "@adminSponsorshipPackagesDurationValue": {
+    "description": "L10n key: adminSponsorshipPackagesDurationValue",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "adminSponsorshipPackagesDurationInput": "Duration (days)",
-  "@adminSponsorshipPackagesDurationInput": {"description": "L10n key: adminSponsorshipPackagesDurationInput"},
+  "@adminSponsorshipPackagesDurationInput": {
+    "description": "L10n key: adminSponsorshipPackagesDurationInput"
+  },
   "adminSponsorshipPackagesPriceInput": "Price display",
-  "@adminSponsorshipPackagesPriceInput": {"description": "L10n key: adminSponsorshipPackagesPriceInput"},
+  "@adminSponsorshipPackagesPriceInput": {
+    "description": "L10n key: adminSponsorshipPackagesPriceInput"
+  },
   "adminSponsorshipPackagesPriceAmountInput": "Price (cents)",
-  "@adminSponsorshipPackagesPriceAmountInput": {"description": "L10n key: adminSponsorshipPackagesPriceAmountInput"},
+  "@adminSponsorshipPackagesPriceAmountInput": {
+    "description": "L10n key: adminSponsorshipPackagesPriceAmountInput"
+  },
   "adminSponsorshipPackagesCurrencyInput": "Currency",
-  "@adminSponsorshipPackagesCurrencyInput": {"description": "L10n key: adminSponsorshipPackagesCurrencyInput"},
+  "@adminSponsorshipPackagesCurrencyInput": {
+    "description": "L10n key: adminSponsorshipPackagesCurrencyInput"
+  },
   "adminSponsorshipPackagesInventoryInput": "Inventory limit",
-  "@adminSponsorshipPackagesInventoryInput": {"description": "L10n key: adminSponsorshipPackagesInventoryInput"},
+  "@adminSponsorshipPackagesInventoryInput": {
+    "description": "L10n key: adminSponsorshipPackagesInventoryInput"
+  },
   "adminSponsorshipPackagesSurfaceDiscovery": "Discovery",
-  "@adminSponsorshipPackagesSurfaceDiscovery": {"description": "L10n key: adminSponsorshipPackagesSurfaceDiscovery"},
+  "@adminSponsorshipPackagesSurfaceDiscovery": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceDiscovery"
+  },
   "adminSponsorshipPackagesSurfaceBusinessPage": "Business page",
-  "@adminSponsorshipPackagesSurfaceBusinessPage": {"description": "L10n key: adminSponsorshipPackagesSurfaceBusinessPage"},
+  "@adminSponsorshipPackagesSurfaceBusinessPage": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceBusinessPage"
+  },
   "adminSponsorshipPackagesSurfaceStories": "Stories",
-  "@adminSponsorshipPackagesSurfaceStories": {"description": "L10n key: adminSponsorshipPackagesSurfaceStories"},
+  "@adminSponsorshipPackagesSurfaceStories": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceStories"
+  },
   "adminSponsorshipPackagesSurfaceVerified": "Verified",
-  "@adminSponsorshipPackagesSurfaceVerified": {"description": "L10n key: adminSponsorshipPackagesSurfaceVerified"},
+  "@adminSponsorshipPackagesSurfaceVerified": {
+    "description": "L10n key: adminSponsorshipPackagesSurfaceVerified"
+  },
   "adminSponsorshipPackagesSurfacePremium": "Premium",
-  "@adminSponsorshipPackagesSurfacePremium": {"description": "L10n key: adminSponsorshipPackagesSurfacePremium"},
+  "@adminSponsorshipPackagesSurfacePremium": {
+    "description": "L10n key: adminSponsorshipPackagesSurfacePremium"
+  },
   "adminSponsorshipPackagesInventoryColumn": "Inventory",
-  "@adminSponsorshipPackagesInventoryColumn": {"description": "L10n key: adminSponsorshipPackagesInventoryColumn"},
+  "@adminSponsorshipPackagesInventoryColumn": {
+    "description": "L10n key: adminSponsorshipPackagesInventoryColumn"
+  },
   "adminSponsorshipsTitle": "Sponsorships",
-  "@adminSponsorshipsTitle": {"description": "L10n key: adminSponsorshipsTitle"},
+  "@adminSponsorshipsTitle": {
+    "description": "L10n key: adminSponsorshipsTitle"
+  },
   "adminSponsorshipsNewAction": "New sponsorship",
-  "@adminSponsorshipsNewAction": {"description": "L10n key: adminSponsorshipsNewAction"},
+  "@adminSponsorshipsNewAction": {
+    "description": "L10n key: adminSponsorshipsNewAction"
+  },
   "adminSponsorshipsOverviewTitle": "Portfolio summary",
-  "@adminSponsorshipsOverviewTitle": {"description": "L10n key: adminSponsorshipsOverviewTitle"},
+  "@adminSponsorshipsOverviewTitle": {
+    "description": "L10n key: adminSponsorshipsOverviewTitle"
+  },
   "adminSponsorshipsOverviewDescription": "Track active sponsorships, open leads, reach, and estimated revenue in one place.",
-  "@adminSponsorshipsOverviewDescription": {"description": "L10n key: adminSponsorshipsOverviewDescription"},
+  "@adminSponsorshipsOverviewDescription": {
+    "description": "L10n key: adminSponsorshipsOverviewDescription"
+  },
   "adminSponsorshipsInventoryTitle": "Surface inventory",
-  "@adminSponsorshipsInventoryTitle": {"description": "L10n key: adminSponsorshipsInventoryTitle"},
+  "@adminSponsorshipsInventoryTitle": {
+    "description": "L10n key: adminSponsorshipsInventoryTitle"
+  },
   "adminSponsorshipsInventoryDescription": "Review live occupancy, open slots, and last-30-day performance for each placement surface.",
-  "@adminSponsorshipsInventoryDescription": {"description": "L10n key: adminSponsorshipsInventoryDescription"},
+  "@adminSponsorshipsInventoryDescription": {
+    "description": "L10n key: adminSponsorshipsInventoryDescription"
+  },
   "adminSponsorshipsSurfaceColumn": "Surface",
-  "@adminSponsorshipsSurfaceColumn": {"description": "L10n key: adminSponsorshipsSurfaceColumn"},
+  "@adminSponsorshipsSurfaceColumn": {
+    "description": "L10n key: adminSponsorshipsSurfaceColumn"
+  },
   "adminSponsorshipsStatusColumn": "Status",
-  "@adminSponsorshipsStatusColumn": {"description": "L10n key: adminSponsorshipsStatusColumn"},
+  "@adminSponsorshipsStatusColumn": {
+    "description": "L10n key: adminSponsorshipsStatusColumn"
+  },
   "adminSponsorshipsDateRangeColumn": "Date range",
-  "@adminSponsorshipsDateRangeColumn": {"description": "L10n key: adminSponsorshipsDateRangeColumn"},
+  "@adminSponsorshipsDateRangeColumn": {
+    "description": "L10n key: adminSponsorshipsDateRangeColumn"
+  },
   "adminSponsorshipsPackageColumn": "Package",
-  "@adminSponsorshipsPackageColumn": {"description": "L10n key: adminSponsorshipsPackageColumn"},
+  "@adminSponsorshipsPackageColumn": {
+    "description": "L10n key: adminSponsorshipsPackageColumn"
+  },
   "adminSponsorshipsQuotaColumn": "Quota",
-  "@adminSponsorshipsQuotaColumn": {"description": "L10n key: adminSponsorshipsQuotaColumn"},
+  "@adminSponsorshipsQuotaColumn": {
+    "description": "L10n key: adminSponsorshipsQuotaColumn"
+  },
   "adminSponsorshipsCreatedAtColumn": "Created",
-  "@adminSponsorshipsCreatedAtColumn": {"description": "L10n key: adminSponsorshipsCreatedAtColumn"},
+  "@adminSponsorshipsCreatedAtColumn": {
+    "description": "L10n key: adminSponsorshipsCreatedAtColumn"
+  },
   "adminSponsorshipsMetricActive": "Active sponsorships",
-  "@adminSponsorshipsMetricActive": {"description": "L10n key: adminSponsorshipsMetricActive"},
+  "@adminSponsorshipsMetricActive": {
+    "description": "L10n key: adminSponsorshipsMetricActive"
+  },
   "adminSponsorshipsMetricPending": "Pending sponsorships",
-  "@adminSponsorshipsMetricPending": {"description": "L10n key: adminSponsorshipsMetricPending"},
+  "@adminSponsorshipsMetricPending": {
+    "description": "L10n key: adminSponsorshipsMetricPending"
+  },
   "adminSponsorshipsMetricOpenLeads": "Open leads",
-  "@adminSponsorshipsMetricOpenLeads": {"description": "L10n key: adminSponsorshipsMetricOpenLeads"},
+  "@adminSponsorshipsMetricOpenLeads": {
+    "description": "L10n key: adminSponsorshipsMetricOpenLeads"
+  },
   "adminSponsorshipsMetricImpressions30d": "30d impressions",
-  "@adminSponsorshipsMetricImpressions30d": {"description": "L10n key: adminSponsorshipsMetricImpressions30d"},
+  "@adminSponsorshipsMetricImpressions30d": {
+    "description": "L10n key: adminSponsorshipsMetricImpressions30d"
+  },
   "adminSponsorshipsMetricUniqueUsers30d": "30d unique users",
-  "@adminSponsorshipsMetricUniqueUsers30d": {"description": "L10n key: adminSponsorshipsMetricUniqueUsers30d"},
+  "@adminSponsorshipsMetricUniqueUsers30d": {
+    "description": "L10n key: adminSponsorshipsMetricUniqueUsers30d"
+  },
   "adminSponsorshipsMetricEstimatedRevenue": "Estimated active revenue",
-  "@adminSponsorshipsMetricEstimatedRevenue": {"description": "L10n key: adminSponsorshipsMetricEstimatedRevenue"},
+  "@adminSponsorshipsMetricEstimatedRevenue": {
+    "description": "L10n key: adminSponsorshipsMetricEstimatedRevenue"
+  },
   "adminSponsorshipsInventoryPackagesColumn": "Packages",
-  "@adminSponsorshipsInventoryPackagesColumn": {"description": "L10n key: adminSponsorshipsInventoryPackagesColumn"},
+  "@adminSponsorshipsInventoryPackagesColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryPackagesColumn"
+  },
   "adminSponsorshipsInventoryUnitsColumn": "Live / open",
-  "@adminSponsorshipsInventoryUnitsColumn": {"description": "L10n key: adminSponsorshipsInventoryUnitsColumn"},
+  "@adminSponsorshipsInventoryUnitsColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryUnitsColumn"
+  },
   "adminSponsorshipsInventoryDemandColumn": "Demand",
-  "@adminSponsorshipsInventoryDemandColumn": {"description": "L10n key: adminSponsorshipsInventoryDemandColumn"},
+  "@adminSponsorshipsInventoryDemandColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryDemandColumn"
+  },
   "adminSponsorshipsInventoryPerformanceColumn": "Performance",
-  "@adminSponsorshipsInventoryPerformanceColumn": {"description": "L10n key: adminSponsorshipsInventoryPerformanceColumn"},
+  "@adminSponsorshipsInventoryPerformanceColumn": {
+    "description": "L10n key: adminSponsorshipsInventoryPerformanceColumn"
+  },
   "adminSponsorshipsInventoryPackagesValue": "{active} active / {total} total • limit {inventory}",
-  "@adminSponsorshipsInventoryPackagesValue": {"description": "L10n key: adminSponsorshipsInventoryPackagesValue","placeholders": {"active": {},"total": {},"inventory": {}}},
+  "@adminSponsorshipsInventoryPackagesValue": {
+    "description": "L10n key: adminSponsorshipsInventoryPackagesValue",
+    "placeholders": {
+      "active": {},
+      "total": {},
+      "inventory": {}
+    }
+  },
   "adminSponsorshipsInventoryUnitsValue": "{live} live • {open} open",
-  "@adminSponsorshipsInventoryUnitsValue": {"description": "L10n key: adminSponsorshipsInventoryUnitsValue","placeholders": {"live": {},"open": {}}},
+  "@adminSponsorshipsInventoryUnitsValue": {
+    "description": "L10n key: adminSponsorshipsInventoryUnitsValue",
+    "placeholders": {
+      "live": {},
+      "open": {}
+    }
+  },
   "adminSponsorshipsInventoryDemandValue": "{pending} pending • {leads} leads",
-  "@adminSponsorshipsInventoryDemandValue": {"description": "L10n key: adminSponsorshipsInventoryDemandValue","placeholders": {"pending": {},"leads": {}}},
+  "@adminSponsorshipsInventoryDemandValue": {
+    "description": "L10n key: adminSponsorshipsInventoryDemandValue",
+    "placeholders": {
+      "pending": {},
+      "leads": {}
+    }
+  },
   "adminSponsorshipsInventoryPerformanceValue": "{impressions} impressions • {users} users",
-  "@adminSponsorshipsInventoryPerformanceValue": {"description": "L10n key: adminSponsorshipsInventoryPerformanceValue","placeholders": {"impressions": {},"users": {}}},
+  "@adminSponsorshipsInventoryPerformanceValue": {
+    "description": "L10n key: adminSponsorshipsInventoryPerformanceValue",
+    "placeholders": {
+      "impressions": {},
+      "users": {}
+    }
+  },
   "adminSponsorshipsActivateAction": "Activate",
-  "@adminSponsorshipsActivateAction": {"description": "L10n key: adminSponsorshipsActivateAction"},
+  "@adminSponsorshipsActivateAction": {
+    "description": "L10n key: adminSponsorshipsActivateAction"
+  },
   "adminSponsorshipsPauseAction": "Pause",
-  "@adminSponsorshipsPauseAction": {"description": "L10n key: adminSponsorshipsPauseAction"},
+  "@adminSponsorshipsPauseAction": {
+    "description": "L10n key: adminSponsorshipsPauseAction"
+  },
   "adminSponsorshipsEndAction": "End",
-  "@adminSponsorshipsEndAction": {"description": "L10n key: adminSponsorshipsEndAction"},
+  "@adminSponsorshipsEndAction": {
+    "description": "L10n key: adminSponsorshipsEndAction"
+  },
   "adminSponsorshipsStatusActive": "Active",
-  "@adminSponsorshipsStatusActive": {"description": "L10n key: adminSponsorshipsStatusActive"},
+  "@adminSponsorshipsStatusActive": {
+    "description": "L10n key: adminSponsorshipsStatusActive"
+  },
   "adminSponsorshipsStatusPaused": "Paused",
-  "@adminSponsorshipsStatusPaused": {"description": "L10n key: adminSponsorshipsStatusPaused"},
+  "@adminSponsorshipsStatusPaused": {
+    "description": "L10n key: adminSponsorshipsStatusPaused"
+  },
   "adminSponsorshipsStatusEnded": "Ended",
-  "@adminSponsorshipsStatusEnded": {"description": "L10n key: adminSponsorshipsStatusEnded"},
+  "@adminSponsorshipsStatusEnded": {
+    "description": "L10n key: adminSponsorshipsStatusEnded"
+  },
   "adminSponsorshipsQuotaValue": "D:{daily} / T:{total}",
-  "@adminSponsorshipsQuotaValue": {"description": "L10n key: adminSponsorshipsQuotaValue","placeholders": {"daily": {"type": "String"},"total": {"type": "String"}}},
+  "@adminSponsorshipsQuotaValue": {
+    "description": "L10n key: adminSponsorshipsQuotaValue",
+    "placeholders": {
+      "daily": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
   "adminSponsorshipsInfinity": "Unlimited",
-  "@adminSponsorshipsInfinity": {"description": "L10n key: adminSponsorshipsInfinity"},
+  "@adminSponsorshipsInfinity": {
+    "description": "L10n key: adminSponsorshipsInfinity"
+  },
   "adminSponsorshipsDateRangeValue": "{start} -> {end}",
-  "@adminSponsorshipsDateRangeValue": {"description": "L10n key: adminSponsorshipsDateRangeValue","placeholders": {"start": {"type": "String"},"end": {"type": "String"}}},
+  "@adminSponsorshipsDateRangeValue": {
+    "description": "L10n key: adminSponsorshipsDateRangeValue",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
   "adminSuggestionsTitle": "Suggestions",
-  "@adminSuggestionsTitle": {"description": "L10n key: adminSuggestionsTitle"},
+  "@adminSuggestionsTitle": {
+    "description": "L10n key: adminSuggestionsTitle"
+  },
   "adminSuggestionsSearchHint": "Search (name, city, district)",
-  "@adminSuggestionsSearchHint": {"description": "L10n key: adminSuggestionsSearchHint"},
+  "@adminSuggestionsSearchHint": {
+    "description": "L10n key: adminSuggestionsSearchHint"
+  },
   "adminSuggestionsNameColumn": "Name",
-  "@adminSuggestionsNameColumn": {"description": "L10n key: adminSuggestionsNameColumn"},
+  "@adminSuggestionsNameColumn": {
+    "description": "L10n key: adminSuggestionsNameColumn"
+  },
   "adminSuggestionsStatusColumn": "Status",
-  "@adminSuggestionsStatusColumn": {"description": "L10n key: adminSuggestionsStatusColumn"},
+  "@adminSuggestionsStatusColumn": {
+    "description": "L10n key: adminSuggestionsStatusColumn"
+  },
   "adminSuggestionsCreatedAtColumn": "Created",
-  "@adminSuggestionsCreatedAtColumn": {"description": "L10n key: adminSuggestionsCreatedAtColumn"},
+  "@adminSuggestionsCreatedAtColumn": {
+    "description": "L10n key: adminSuggestionsCreatedAtColumn"
+  },
   "adminSuggestionsSlaExceeded": "This record exceeded SLA: {age}",
-  "@adminSuggestionsSlaExceeded": {"description": "L10n key: adminSuggestionsSlaExceeded","placeholders": {"age": {"type": "String"}}},
+  "@adminSuggestionsSlaExceeded": {
+    "description": "L10n key: adminSuggestionsSlaExceeded",
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
+  },
   "adminSuggestionsDetailTitle": "Suggestion details",
-  "@adminSuggestionsDetailTitle": {"description": "L10n key: adminSuggestionsDetailTitle"},
+  "@adminSuggestionsDetailTitle": {
+    "description": "L10n key: adminSuggestionsDetailTitle"
+  },
   "adminSuggestionsCategoryLabel": "Category",
-  "@adminSuggestionsCategoryLabel": {"description": "L10n key: adminSuggestionsCategoryLabel"},
+  "@adminSuggestionsCategoryLabel": {
+    "description": "L10n key: adminSuggestionsCategoryLabel"
+  },
   "adminSuggestionsLocationLabel": "Location",
-  "@adminSuggestionsLocationLabel": {"description": "L10n key: adminSuggestionsLocationLabel"},
+  "@adminSuggestionsLocationLabel": {
+    "description": "L10n key: adminSuggestionsLocationLabel"
+  },
   "adminSuggestionsAdminNoteOptional": "Admin note (optional)",
-  "@adminSuggestionsAdminNoteOptional": {"description": "L10n key: adminSuggestionsAdminNoteOptional"},
+  "@adminSuggestionsAdminNoteOptional": {
+    "description": "L10n key: adminSuggestionsAdminNoteOptional"
+  },
   "adminSuggestionsAssignedToMe": "Suggestion assigned to me.",
-  "@adminSuggestionsAssignedToMe": {"description": "L10n key: adminSuggestionsAssignedToMe"},
+  "@adminSuggestionsAssignedToMe": {
+    "description": "L10n key: adminSuggestionsAssignedToMe"
+  },
   "adminSuggestionsPossibleDuplicatesTitle": "Possible duplicates",
-  "@adminSuggestionsPossibleDuplicatesTitle": {"description": "L10n key: adminSuggestionsPossibleDuplicatesTitle"},
+  "@adminSuggestionsPossibleDuplicatesTitle": {
+    "description": "L10n key: adminSuggestionsPossibleDuplicatesTitle"
+  },
   "adminSuggestionsNoSimilarBusiness": "No similar business found.",
-  "@adminSuggestionsNoSimilarBusiness": {"description": "L10n key: adminSuggestionsNoSimilarBusiness"},
+  "@adminSuggestionsNoSimilarBusiness": {
+    "description": "L10n key: adminSuggestionsNoSimilarBusiness"
+  },
   "adminSuggestionsCreatedNewBusiness": "New business created.",
-  "@adminSuggestionsCreatedNewBusiness": {"description": "L10n key: adminSuggestionsCreatedNewBusiness"},
+  "@adminSuggestionsCreatedNewBusiness": {
+    "description": "L10n key: adminSuggestionsCreatedNewBusiness"
+  },
   "adminSuggestionsCreateNewBusiness": "Create new business",
-  "@adminSuggestionsCreateNewBusiness": {"description": "L10n key: adminSuggestionsCreateNewBusiness"},
+  "@adminSuggestionsCreateNewBusiness": {
+    "description": "L10n key: adminSuggestionsCreateNewBusiness"
+  },
   "adminSuggestionsLinkExistingConfirmTitle": "Link to an existing business?",
-  "@adminSuggestionsLinkExistingConfirmTitle": {"description": "L10n key: adminSuggestionsLinkExistingConfirmTitle"},
+  "@adminSuggestionsLinkExistingConfirmTitle": {
+    "description": "L10n key: adminSuggestionsLinkExistingConfirmTitle"
+  },
   "adminSuggestionsLinkedToExisting": "Linked to the existing business.",
-  "@adminSuggestionsLinkedToExisting": {"description": "L10n key: adminSuggestionsLinkedToExisting"},
+  "@adminSuggestionsLinkedToExisting": {
+    "description": "L10n key: adminSuggestionsLinkedToExisting"
+  },
   "adminSuggestionsRejectSelected": "Reject selected",
-  "@adminSuggestionsRejectSelected": {"description": "L10n key: adminSuggestionsRejectSelected"},
+  "@adminSuggestionsRejectSelected": {
+    "description": "L10n key: adminSuggestionsRejectSelected"
+  },
   "adminSuggestionsLinkToThisBusiness": "Link to this business",
-  "@adminSuggestionsLinkToThisBusiness": {"description": "L10n key: adminSuggestionsLinkToThisBusiness"},
+  "@adminSuggestionsLinkToThisBusiness": {
+    "description": "L10n key: adminSuggestionsLinkToThisBusiness"
+  },
   "adminSuggestionsNoLocation": "No location",
-  "@adminSuggestionsNoLocation": {"description": "L10n key: adminSuggestionsNoLocation"},
+  "@adminSuggestionsNoLocation": {
+    "description": "L10n key: adminSuggestionsNoLocation"
+  },
   "adminSuggestionsDaysValue": "{days} days",
-  "@adminSuggestionsDaysValue": {"description": "L10n key: adminSuggestionsDaysValue","placeholders": {"days": {"type": "String"}}}
-  ,
+  "@adminSuggestionsDaysValue": {
+    "description": "L10n key: adminSuggestionsDaysValue",
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
   "adminSuspendedClaimsTitle": "Suspended claims",
-  "@adminSuspendedClaimsTitle": {"description": "L10n key: adminSuspendedClaimsTitle"},
+  "@adminSuspendedClaimsTitle": {
+    "description": "L10n key: adminSuspendedClaimsTitle"
+  },
   "adminSuspendedClaimsAmountColumn": "Amount",
-  "@adminSuspendedClaimsAmountColumn": {"description": "L10n key: adminSuspendedClaimsAmountColumn"},
+  "@adminSuspendedClaimsAmountColumn": {
+    "description": "L10n key: adminSuspendedClaimsAmountColumn"
+  },
   "adminSuspendedClaimsClaimantColumn": "Claimant",
-  "@adminSuspendedClaimsClaimantColumn": {"description": "L10n key: adminSuspendedClaimsClaimantColumn"},
+  "@adminSuspendedClaimsClaimantColumn": {
+    "description": "L10n key: adminSuspendedClaimsClaimantColumn"
+  },
   "adminSuspendedClaimsSlaExceeded": "SLA exceeded: {age}",
-  "@adminSuspendedClaimsSlaExceeded": {"description": "L10n key: adminSuspendedClaimsSlaExceeded","placeholders": {"age": {"type": "String"}}},
+  "@adminSuspendedClaimsSlaExceeded": {
+    "description": "L10n key: adminSuspendedClaimsSlaExceeded",
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
+  },
   "adminSuspendedClaimsDetailTitle": "Claim details",
-  "@adminSuspendedClaimsDetailTitle": {"description": "L10n key: adminSuspendedClaimsDetailTitle"},
+  "@adminSuspendedClaimsDetailTitle": {
+    "description": "L10n key: adminSuspendedClaimsDetailTitle"
+  },
   "adminSuspendedClaimsMealLabel": "Meal",
-  "@adminSuspendedClaimsMealLabel": {"description": "L10n key: adminSuspendedClaimsMealLabel"},
+  "@adminSuspendedClaimsMealLabel": {
+    "description": "L10n key: adminSuspendedClaimsMealLabel"
+  },
   "adminSuspendedClaimsRejectNoteOptional": "Rejection note (optional)",
-  "@adminSuspendedClaimsRejectNoteOptional": {"description": "L10n key: adminSuspendedClaimsRejectNoteOptional"},
+  "@adminSuspendedClaimsRejectNoteOptional": {
+    "description": "L10n key: adminSuspendedClaimsRejectNoteOptional"
+  },
   "adminSuspendedClaimsApproveConfirm": "Approve this claim?",
-  "@adminSuspendedClaimsApproveConfirm": {"description": "L10n key: adminSuspendedClaimsApproveConfirm"},
+  "@adminSuspendedClaimsApproveConfirm": {
+    "description": "L10n key: adminSuspendedClaimsApproveConfirm"
+  },
   "adminSuspendedClaimsRejectConfirm": "Reject this claim?",
-  "@adminSuspendedClaimsRejectConfirm": {"description": "L10n key: adminSuspendedClaimsRejectConfirm"},
+  "@adminSuspendedClaimsRejectConfirm": {
+    "description": "L10n key: adminSuspendedClaimsRejectConfirm"
+  },
   "adminTableFeedbackTitle": "Table feedback",
-  "@adminTableFeedbackTitle": {"description": "L10n key: adminTableFeedbackTitle"},
+  "@adminTableFeedbackTitle": {
+    "description": "L10n key: adminTableFeedbackTitle"
+  },
   "adminTableFeedbackTableAndRating": "Table {tableNo} • Rating {rating}",
-  "@adminTableFeedbackTableAndRating": {"description": "L10n key: adminTableFeedbackTableAndRating","placeholders": {"tableNo": {"type": "String"},"rating": {"type": "String"}}},
+  "@adminTableFeedbackTableAndRating": {
+    "description": "L10n key: adminTableFeedbackTableAndRating",
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      },
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
   "adminTempUploadsTitle": "Temporary upload review",
-  "@adminTempUploadsTitle": {"description": "L10n key: adminTempUploadsTitle"},
+  "@adminTempUploadsTitle": {
+    "description": "L10n key: adminTempUploadsTitle"
+  },
   "adminTempUploadsPromoted": "Moved to menu.",
-  "@adminTempUploadsPromoted": {"description": "L10n key: adminTempUploadsPromoted"},
+  "@adminTempUploadsPromoted": {
+    "description": "L10n key: adminTempUploadsPromoted"
+  },
   "adminTempUploadsRejectReasonHint": "Rejection reason (optional)",
-  "@adminTempUploadsRejectReasonHint": {"description": "L10n key: adminTempUploadsRejectReasonHint"},
+  "@adminTempUploadsRejectReasonHint": {
+    "description": "L10n key: adminTempUploadsRejectReasonHint"
+  },
   "adminTempUploadsRejected": "Record rejected.",
-  "@adminTempUploadsRejected": {"description": "L10n key: adminTempUploadsRejected"},
+  "@adminTempUploadsRejected": {
+    "description": "L10n key: adminTempUploadsRejected"
+  },
   "adminTempUploadsEmptyTitle": "No pending temporary uploads",
-  "@adminTempUploadsEmptyTitle": {"description": "L10n key: adminTempUploadsEmptyTitle"},
+  "@adminTempUploadsEmptyTitle": {
+    "description": "L10n key: adminTempUploadsEmptyTitle"
+  },
   "adminTempUploadsEmptyDescription": "New submissions will appear here.",
-  "@adminTempUploadsEmptyDescription": {"description": "L10n key: adminTempUploadsEmptyDescription"},
+  "@adminTempUploadsEmptyDescription": {
+    "description": "L10n key: adminTempUploadsEmptyDescription"
+  },
   "adminTempUploadsBusinessId": "business_id: {businessId}",
-  "@adminTempUploadsBusinessId": {"description": "L10n key: adminTempUploadsBusinessId","placeholders": {"businessId": {"type": "String"}}},
+  "@adminTempUploadsBusinessId": {
+    "description": "L10n key: adminTempUploadsBusinessId",
+    "placeholders": {
+      "businessId": {
+        "type": "String"
+      }
+    }
+  },
   "adminTempUploadsPromoteAction": "Move to menu",
-  "@adminTempUploadsPromoteAction": {"description": "L10n key: adminTempUploadsPromoteAction"},
+  "@adminTempUploadsPromoteAction": {
+    "description": "L10n key: adminTempUploadsPromoteAction"
+  },
   "adminVerifiedTitle": "Verification / Premium",
-  "@adminVerifiedTitle": {"description": "L10n key: adminVerifiedTitle"},
+  "@adminVerifiedTitle": {
+    "description": "L10n key: adminVerifiedTitle"
+  },
   "adminVerifiedSearchHint": "Search business (name/address)",
-  "@adminVerifiedSearchHint": {"description": "L10n key: adminVerifiedSearchHint"},
+  "@adminVerifiedSearchHint": {
+    "description": "L10n key: adminVerifiedSearchHint"
+  },
   "adminVerifiedSearching": "Searching...",
-  "@adminVerifiedSearching": {"description": "L10n key: adminVerifiedSearching"},
+  "@adminVerifiedSearching": {
+    "description": "L10n key: adminVerifiedSearching"
+  },
   "adminVerifiedSearchAction": "Search",
-  "@adminVerifiedSearchAction": {"description": "L10n key: adminVerifiedSearchAction"},
+  "@adminVerifiedSearchAction": {
+    "description": "L10n key: adminVerifiedSearchAction"
+  },
   "adminVerifiedVerificationColumn": "Verification",
-  "@adminVerifiedVerificationColumn": {"description": "L10n key: adminVerifiedVerificationColumn"},
+  "@adminVerifiedVerificationColumn": {
+    "description": "L10n key: adminVerifiedVerificationColumn"
+  },
   "adminVerifiedYes": "Yes",
-  "@adminVerifiedYes": {"description": "L10n key: adminVerifiedYes"},
+  "@adminVerifiedYes": {
+    "description": "L10n key: adminVerifiedYes"
+  },
   "adminVerifiedNo": "No",
-  "@adminVerifiedNo": {"description": "L10n key: adminVerifiedNo"},
+  "@adminVerifiedNo": {
+    "description": "L10n key: adminVerifiedNo"
+  },
   "adminVerifiedSettingsTitle": "Verification settings",
-  "@adminVerifiedSettingsTitle": {"description": "L10n key: adminVerifiedSettingsTitle"},
+  "@adminVerifiedSettingsTitle": {
+    "description": "L10n key: adminVerifiedSettingsTitle"
+  },
   "adminVerifiedTierVerified": "Verified",
-  "@adminVerifiedTierVerified": {"description": "L10n key: adminVerifiedTierVerified"},
+  "@adminVerifiedTierVerified": {
+    "description": "L10n key: adminVerifiedTierVerified"
+  },
   "adminVerifiedTierPremium": "Premium",
-  "@adminVerifiedTierPremium": {"description": "L10n key: adminVerifiedTierPremium"},
+  "@adminVerifiedTierPremium": {
+    "description": "L10n key: adminVerifiedTierPremium"
+  },
   "adminVerifiedTierLabel": "Tier",
-  "@adminVerifiedTierLabel": {"description": "L10n key: adminVerifiedTierLabel"},
+  "@adminVerifiedTierLabel": {
+    "description": "L10n key: adminVerifiedTierLabel"
+  },
   "adminVerifiedEndsAtLabel": "Ends at (YYYY-MM-DD)",
-  "@adminVerifiedEndsAtLabel": {"description": "L10n key: adminVerifiedEndsAtLabel"}
-  ,
+  "@adminVerifiedEndsAtLabel": {
+    "description": "L10n key: adminVerifiedEndsAtLabel"
+  },
   "loginSubmitting": "Signing in...",
-  "@loginSubmitting": {"description": "L10n key: loginSubmitting"},
+  "@loginSubmitting": {
+    "description": "L10n key: loginSubmitting"
+  },
   "loginRegisterSubmitting": "Creating account...",
-  "@loginRegisterSubmitting": {"description": "L10n key: loginRegisterSubmitting"},
+  "@loginRegisterSubmitting": {
+    "description": "L10n key: loginRegisterSubmitting"
+  },
   "loginRegisterSuccess": "Account created. Complete email/phone verification.",
-  "@loginRegisterSuccess": {"description": "L10n key: loginRegisterSuccess"},
+  "@loginRegisterSuccess": {
+    "description": "L10n key: loginRegisterSuccess"
+  },
   "loginActionFailedTitle": "Action could not be completed",
-  "@loginActionFailedTitle": {"description": "L10n key: loginActionFailedTitle"},
+  "@loginActionFailedTitle": {
+    "description": "Auto metadata for loginActionFailedTitle"
+  },
   "loginActionFailedDescription": "{error}\nCheck your connection and try again.",
   "@loginActionFailedDescription": {
-    "description": "L10n key: loginActionFailedDescription",
-    "placeholders": {"error": {"type": "String"}}
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for loginActionFailedDescription"
   },
   "legalTitle": "Legal and Trust",
-  "@legalTitle": {"description": "L10n key: legalTitle"},
+  "@legalTitle": {
+    "description": "L10n key: legalTitle"
+  },
   "legalPrivacySectionTitle": "KVKK / GDPR",
-  "@legalPrivacySectionTitle": {"description": "L10n key: legalPrivacySectionTitle"},
+  "@legalPrivacySectionTitle": {
+    "description": "L10n key: legalPrivacySectionTitle"
+  },
   "legalPrivacyIntro": "{appName} processes personal data only to provide the service. Consent is obtained for actions that require explicit consent, and data is deleted or shared in portable form upon request.",
   "@legalPrivacyIntro": {
     "description": "L10n key: legalPrivacyIntro",
-    "placeholders": {"appName": {"type": "String"}}
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
   },
   "legalPrivacyCategoriesAndRights": "Data categories: profile, location, device information, usage analytics. Rights: access, correction, deletion, objection, portability.",
-  "@legalPrivacyCategoriesAndRights": {"description": "L10n key: legalPrivacyCategoriesAndRights"},
+  "@legalPrivacyCategoriesAndRights": {
+    "description": "L10n key: legalPrivacyCategoriesAndRights"
+  },
   "legalPrivacyPolicyAction": "Privacy Policy",
-  "@legalPrivacyPolicyAction": {"description": "L10n key: legalPrivacyPolicyAction"},
+  "@legalPrivacyPolicyAction": {
+    "description": "L10n key: legalPrivacyPolicyAction"
+  },
   "legalKvkkAction": "KVKK Text",
-  "@legalKvkkAction": {"description": "L10n key: legalKvkkAction"},
+  "@legalKvkkAction": {
+    "description": "L10n key: legalKvkkAction"
+  },
   "legalGdprAction": "GDPR Text",
-  "@legalGdprAction": {"description": "L10n key: legalGdprAction"},
+  "@legalGdprAction": {
+    "description": "L10n key: legalGdprAction"
+  },
   "legalPrivacyApplicationHint": "Application: create a request by email.",
-  "@legalPrivacyApplicationHint": {"description": "L10n key: legalPrivacyApplicationHint"},
+  "@legalPrivacyApplicationHint": {
+    "description": "L10n key: legalPrivacyApplicationHint"
+  },
   "legalCopyrightSectionTitle": "Photo Copyright Notice",
-  "@legalCopyrightSectionTitle": {"description": "L10n key: legalCopyrightSectionTitle"},
+  "@legalCopyrightSectionTitle": {
+    "description": "Auto metadata for legalCopyrightSectionTitle"
+  },
   "legalCopyrightIntro": "Menu and venue photos may be subject to copyright. If you see an infringement, you can report it via Report > Copyright.",
-  "@legalCopyrightIntro": {"description": "L10n key: legalCopyrightIntro"},
+  "@legalCopyrightIntro": {
+    "description": "L10n key: legalCopyrightIntro"
+  },
   "legalCopyrightBody": "For a copyright notice, a content link, evidence, and a short explanation are sufficient. Verified infringements are removed from the content.",
-  "@legalCopyrightBody": {"description": "L10n key: legalCopyrightBody"},
+  "@legalCopyrightBody": {
+    "description": "L10n key: legalCopyrightBody"
+  },
   "legalCopyrightPolicyAction": "Copyright Policy",
-  "@legalCopyrightPolicyAction": {"description": "L10n key: legalCopyrightPolicyAction"},
+  "@legalCopyrightPolicyAction": {
+    "description": "L10n key: legalCopyrightPolicyAction"
+  },
   "legalOwnershipAppealSectionTitle": "Business Ownership Appeal",
-  "@legalOwnershipAppealSectionTitle": {"description": "L10n key: legalOwnershipAppealSectionTitle"},
+  "@legalOwnershipAppealSectionTitle": {
+    "description": "Auto metadata for legalOwnershipAppealSectionTitle"
+  },
   "legalOwnershipAppealIntro": "If your ownership claim was rejected, you can appeal. Your documents will be reviewed again.",
-  "@legalOwnershipAppealIntro": {"description": "L10n key: legalOwnershipAppealIntro"},
+  "@legalOwnershipAppealIntro": {
+    "description": "L10n key: legalOwnershipAppealIntro"
+  },
   "legalOwnershipAppealRequirementsTitle": "Required information for appeal:",
-  "@legalOwnershipAppealRequirementsTitle": {"description": "L10n key: legalOwnershipAppealRequirementsTitle"},
+  "@legalOwnershipAppealRequirementsTitle": {
+    "description": "L10n key: legalOwnershipAppealRequirementsTitle"
+  },
   "legalOwnershipAppealRequirementsBody": "• Business name and tax/license information\n• Authorization document\n• Contact phone number",
-  "@legalOwnershipAppealRequirementsBody": {"description": "L10n key: legalOwnershipAppealRequirementsBody"},
+  "@legalOwnershipAppealRequirementsBody": {
+    "description": "L10n key: legalOwnershipAppealRequirementsBody"
+  },
   "legalOwnershipAppealMailAction": "Send appeal email",
-  "@legalOwnershipAppealMailAction": {"description": "L10n key: legalOwnershipAppealMailAction"},
+  "@legalOwnershipAppealMailAction": {
+    "description": "L10n key: legalOwnershipAppealMailAction"
+  },
   "legalOwnershipAppealMailSubject": "{appName} - Ownership Appeal",
   "@legalOwnershipAppealMailSubject": {
     "description": "L10n key: legalOwnershipAppealMailSubject",
-    "placeholders": {"appName": {"type": "String"}}
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
   },
   "legalProductPrinciplesSectionTitle": "Product Principles",
-  "@legalProductPrinciplesSectionTitle": {"description": "L10n key: legalProductPrinciplesSectionTitle"},
+  "@legalProductPrinciplesSectionTitle": {
+    "description": "Auto metadata for legalProductPrinciplesSectionTitle"
+  },
   "legalProductPrinciplesDontsTitle": "What not to do:",
-  "@legalProductPrinciplesDontsTitle": {"description": "L10n key: legalProductPrinciplesDontsTitle"},
+  "@legalProductPrinciplesDontsTitle": {
+    "description": "L10n key: legalProductPrinciplesDontsTitle"
+  },
   "legalProductPrinciplesDontsBody": "• Open everything to everyone\n• Hide sponsored content\n• Give owners permission to delete reviews\n• Relax the quality threshold for growth",
-  "@legalProductPrinciplesDontsBody": {"description": "L10n key: legalProductPrinciplesDontsBody"},
+  "@legalProductPrinciplesDontsBody": {
+    "description": "L10n key: legalProductPrinciplesDontsBody"
+  },
   "legalProductPrinciplesPolicy": "Policy: sponsored label required={requireSponsoredLabel}, min sponsored trust={minSponsoredTrust}, owner review deletion={ownerCanDeleteReviews}.",
   "@legalProductPrinciplesPolicy": {
     "description": "L10n key: legalProductPrinciplesPolicy",
     "placeholders": {
-      "requireSponsoredLabel": {"type": "String"},
-      "minSponsoredTrust": {"type": "String"},
-      "ownerCanDeleteReviews": {"type": "String"}
+      "requireSponsoredLabel": {
+        "type": "String"
+      },
+      "minSponsoredTrust": {
+        "type": "String"
+      },
+      "ownerCanDeleteReviews": {
+        "type": "String"
+      }
     }
   },
   "legalFooterNote": "Current policy texts and details are published on the website.",
-  "@legalFooterNote": {"description": "L10n key: legalFooterNote"}
-  ,
+  "@legalFooterNote": {
+    "description": "L10n key: legalFooterNote"
+  },
   "ownerBusinessSubmissionsEmptyTitle": "No applications yet",
   "@ownerBusinessSubmissionsEmptyTitle": {
     "description": "L10n key: ownerBusinessSubmissionsEmptyTitle"
@@ -6103,6 +6582,14 @@
   "@ownerAnalyticsPreset90Days": {
     "description": "L10n key: ownerAnalyticsPreset90Days"
   },
+  "ownerAnalyticsPreset24Hours": "Last 24 hours",
+  "@ownerAnalyticsPreset24Hours": {
+    "description": "L10n key: ownerAnalyticsPreset24Hours"
+  },
+  "ownerAnalyticsHourlyTrendTitle": "Hourly flow — last 24 hours",
+  "@ownerAnalyticsHourlyTrendTitle": {
+    "description": "L10n key: ownerAnalyticsHourlyTrendTitle"
+  },
   "ownerAnalyticsBranchCompareToggle": "Compare branches",
   "@ownerAnalyticsBranchCompareToggle": {
     "description": "L10n key: ownerAnalyticsBranchCompareToggle"
@@ -6667,5 +7154,116 @@
   "ownerPhotoMovedToTrash": "Photo moved to trash.",
   "@ownerPhotoMovedToTrash": {
     "description": "L10n key: ownerPhotoMovedToTrash"
+  },
+  "ownerAiAnalysisTitle": "AI Menu Analysis",
+  "@ownerAiAnalysisTitle": {
+    "description": "L10n key: ownerAiAnalysisTitle"
+  },
+  "ownerAiAnalysisNoBusinessTitle": "No business selected",
+  "@ownerAiAnalysisNoBusinessTitle": {
+    "description": "L10n key: ownerAiAnalysisNoBusinessTitle"
+  },
+  "ownerAiAnalysisNoBusinessDescription": "Select a business to use AI analysis.",
+  "@ownerAiAnalysisNoBusinessDescription": {
+    "description": "L10n key: ownerAiAnalysisNoBusinessDescription"
+  },
+  "ownerAiAnalysisDisclaimer": "This information was generated by automatic analysis. It is not definitive; please verify with the business.",
+  "@ownerAiAnalysisDisclaimer": {
+    "description": "L10n key: ownerAiAnalysisDisclaimer"
+  },
+  "ownerAiAnalysisUploadTitle": "Upload Menu Photo",
+  "@ownerAiAnalysisUploadTitle": {
+    "description": "L10n key: ownerAiAnalysisUploadTitle"
+  },
+  "ownerAiAnalysisUploadDescription": "Upload a menu image in JPG, PNG or WEBP format. AI will automatically generate product, allergen and calorie information.",
+  "@ownerAiAnalysisUploadDescription": {
+    "description": "L10n key: ownerAiAnalysisUploadDescription"
+  },
+  "ownerAiAnalysisUploadAction": "Select Image",
+  "@ownerAiAnalysisUploadAction": {
+    "description": "L10n key: ownerAiAnalysisUploadAction"
+  },
+  "ownerAiAnalysisUploading": "Uploading...",
+  "@ownerAiAnalysisUploading": {
+    "description": "L10n key: ownerAiAnalysisUploading"
+  },
+  "ownerAiAnalysisAnalyzing": "AI is analyzing...",
+  "@ownerAiAnalysisAnalyzing": {
+    "description": "L10n key: ownerAiAnalysisAnalyzing"
+  },
+  "ownerAiAnalysisComplete": "{count} items analyzed. Review and approve the results.",
+  "@ownerAiAnalysisComplete": {
+    "description": "L10n key: ownerAiAnalysisComplete",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "ownerAiAnalysisJobsTitle": "Recent Jobs",
+  "@ownerAiAnalysisJobsTitle": {
+    "description": "L10n key: ownerAiAnalysisJobsTitle"
+  },
+  "ownerAiAnalysisResultsTitle": "Analysis Results",
+  "@ownerAiAnalysisResultsTitle": {
+    "description": "L10n key: ownerAiAnalysisResultsTitle"
+  },
+  "ownerAiAnalysisEmptyTitle": "No analysis yet",
+  "@ownerAiAnalysisEmptyTitle": {
+    "description": "L10n key: ownerAiAnalysisEmptyTitle"
+  },
+  "ownerAiAnalysisEmptyDescription": "Upload a menu image and let AI generate allergen and calorie information.",
+  "@ownerAiAnalysisEmptyDescription": {
+    "description": "L10n key: ownerAiAnalysisEmptyDescription"
+  },
+  "ownerAiAnalysisFilterAll": "All",
+  "@ownerAiAnalysisFilterAll": {
+    "description": "L10n key: ownerAiAnalysisFilterAll"
+  },
+  "ownerAiAnalysisFilterPending": "Pending",
+  "@ownerAiAnalysisFilterPending": {
+    "description": "L10n key: ownerAiAnalysisFilterPending"
+  },
+  "ownerAiAnalysisFilterApproved": "Approved",
+  "@ownerAiAnalysisFilterApproved": {
+    "description": "L10n key: ownerAiAnalysisFilterApproved"
+  },
+  "ownerAiAnalysisFilterRejected": "Rejected",
+  "@ownerAiAnalysisFilterRejected": {
+    "description": "L10n key: ownerAiAnalysisFilterRejected"
+  },
+  "ownerAiAnalysisReviewRequired": "Manual review required",
+  "@ownerAiAnalysisReviewRequired": {
+    "description": "L10n key: ownerAiAnalysisReviewRequired"
+  },
+  "ownerAiAnalysisApproveAction": "Approve",
+  "@ownerAiAnalysisApproveAction": {
+    "description": "L10n key: ownerAiAnalysisApproveAction"
+  },
+  "ownerAiAnalysisRejectAction": "Reject",
+  "@ownerAiAnalysisRejectAction": {
+    "description": "L10n key: ownerAiAnalysisRejectAction"
+  },
+  "ownerAiAnalysisApproved": "Approved.",
+  "@ownerAiAnalysisApproved": {
+    "description": "L10n key: ownerAiAnalysisApproved"
+  },
+  "ownerAiAnalysisRejected": "Rejected.",
+  "@ownerAiAnalysisRejected": {
+    "description": "L10n key: ownerAiAnalysisRejected"
+  },
+  "ownerAiAnalysisStatusPending": "Pending",
+  "@ownerAiAnalysisStatusPending": {
+    "description": "L10n key: ownerAiAnalysisStatusPending"
+  },
+  "ownerAiAnalysisStatusApproved": "Approved",
+  "@ownerAiAnalysisStatusApproved": {
+    "description": "L10n key: ownerAiAnalysisStatusApproved"
+  },
+  "ownerAiAnalysisStatusRejected": "Rejected",
+  "@ownerAiAnalysisStatusRejected": {
+    "description": "L10n key: ownerAiAnalysisStatusRejected"
+  },
+  "ownerShellAiAnalysisLabel": "AI Analysis",
+  "@ownerShellAiAnalysisLabel": {
+    "description": "L10n key: ownerShellAiAnalysisLabel"
   }
 }

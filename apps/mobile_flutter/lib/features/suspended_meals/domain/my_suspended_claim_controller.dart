@@ -131,7 +131,7 @@ class MySuspendedClaimsController extends Notifier<MySuspendedClaimsState> {
 class MySuspendedBadgeController extends AsyncNotifier<MySuspendedBadge> {
   @override
   Future<MySuspendedBadge> build() async {
-    return ref.read(mySuspendedClaimRepositoryProvider).getBadge(force: false);
+    return ref.read(mySuspendedClaimRepositoryProvider).fetchBadge(force: false);
   }
 
   Future<void> refresh({bool force = false}) async {
@@ -139,7 +139,7 @@ class MySuspendedBadgeController extends AsyncNotifier<MySuspendedBadge> {
     state = await AsyncValue.guard(() {
       return ref
           .read(mySuspendedClaimRepositoryProvider)
-          .getBadge(force: force);
+          .fetchBadge(force: force);
     });
   }
 }

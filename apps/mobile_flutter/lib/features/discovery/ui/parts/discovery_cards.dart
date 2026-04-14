@@ -1,0 +1,520 @@
+part of '../discovery_page.dart';
+
+class _FreshLinkCard extends StatelessWidget {
+  const _FreshLinkCard({required this.item, required this.onTap});
+
+  final Embed item;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = item.provider.toLowerCase();
+    final (icon, color, label) = switch (provider) {
+      'youtube' => (Icons.play_circle_fill_rounded, Colors.red, 'YouTube'),
+      'instagram' => (Icons.camera_alt_rounded, Colors.pink, 'Instagram'),
+      'facebook' => (Icons.facebook_rounded, Colors.blue, 'Facebook'),
+      _ => (
+        Icons.link_rounded,
+        AppColors.muted,
+        AppLocalizations.of(context).link,
+      ),
+    };
+    final title = item.title?.trim().isNotEmpty == true
+        ? item.title!.trim()
+        : AppLocalizations.of(context).untitledLink;
+    final ownerType = item.ownerType.toLowerCase() == 'business'
+        ? AppLocalizations.of(context).businessLabel
+        : AppLocalizations.of(context).profile;
+    return SizedBox(
+      width: 220,
+      child: AppCard(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(icon, size: 14, color: color),
+                  const SizedBox(width: 4),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: color,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: AppColors.textStrong,
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              ownerType,
+              style: const TextStyle(
+                color: AppColors.muted,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              _agoText(context, item.createdAt),
+              style: const TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+String _agoText(BuildContext context, DateTime value) {
+  final t = AppLocalizations.of(context);
+  final diff = DateTime.now().difference(value);
+  if (diff.inMinutes < 60) return t.timeMinutesAgo(diff.inMinutes);
+  if (diff.inHours < 24) return t.timeHoursAgo(diff.inHours);
+  return t.timeDaysAgo(diff.inDays);
+}
+
+class _PremiumFilterChip extends StatelessWidget {
+  const _PremiumFilterChip({
+    required this.label,
+    required this.icon,
+    required this.selected,
+    required this.filledPrimary,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final bool selected;
+  final bool filledPrimary;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final usePrimary = selected && filledPrimary;
+    final bg = usePrimary ? AppColors.primary : AppColors.card;
+    final textColor = usePrimary ? AppColors.onPrimary : AppColors.textStrong;
+    final borderColor = usePrimary ? AppColors.primary : AppColors.borderStrong;
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: borderColor),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 16, color: textColor),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DiscoveryUpdateCard extends StatelessWidget {
+  const _DiscoveryUpdateCard({
+    required this.item,
+    required this.imageAsset,
+    required this.timeLabel,
+    required this.onTap,
+  });
+
+  final BusinessCardModel item;
+  final String imageAsset;
+  final String timeLabel;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 190,
+      child: AppCard(
+        onTap: onTap,
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+              child: AspectRatio(
+                aspectRatio: 16 / 10,
+                child: Image.asset(imageAsset, fit: BoxFit.cover),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    timeLabel,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NearbyVerifiedSpotCard extends StatelessWidget {
+  const _NearbyVerifiedSpotCard({
+    required this.item,
+    required this.imageAsset,
+    required this.ratingLabel,
+    required this.averageSpend,
+    required this.updatedLabel,
+    required this.statusType,
+    required this.isFavorite,
+    required this.onTap,
+    required this.onFavoriteTap,
+  });
+
+  final BusinessCardModel item;
+  final String imageAsset;
+  final String ratingLabel;
+  final String averageSpend;
+  final String updatedLabel;
+  final StatusBadgeType statusType;
+  final bool isFavorite;
+  final VoidCallback onTap;
+  final VoidCallback onFavoriteTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final distance = t.distanceKm(
+      double.parse((item.distanceKm ?? 0.4).toStringAsFixed(1)),
+    );
+    return AppCard(
+      padding: const EdgeInsets.all(0),
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.asset(imageAsset, fit: BoxFit.cover),
+                ),
+              ),
+              Positioned(
+                left: 10,
+                bottom: 10,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.68),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.star,
+                        size: 10,
+                        color: Color(0xFFFFD54F),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        ratingLabel,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: Material(
+                  color: Colors.white.withValues(alpha: 0.92),
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: onFavoriteTap,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? AppColors.primary : AppColors.muted,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        item.name,
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.w900),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          t.avgSpend,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        Text(
+                          averageSpend,
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.w900),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '$distance • ${item.category}',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+                ),
+                const SizedBox(height: 12),
+                const Divider(height: 1),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    StatusBadge(type: statusType, label: t.priceVerified),
+                    const Spacer(),
+                    Text(
+                      updatedLabel,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SerendipityCard extends StatelessWidget {
+  const _SerendipityCard({required this.onPick});
+
+  final void Function(_SerendipityKind kind) onPick;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            t.surpriseDiscoveryTitle,
+            style: TextStyle(fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            t.surpriseDiscoverySubtitle,
+            style: TextStyle(color: AppColors.muted, fontSize: 12),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: () => onPick(_SerendipityKind.randomGood),
+                icon: const Icon(Icons.shuffle),
+                label: Text(t.randomButGood),
+              ),
+              OutlinedButton.icon(
+                onPressed: () => onPick(_SerendipityKind.unexpected),
+                icon: const Icon(Icons.explore_outlined),
+                label: Text(t.outsideYourUsual),
+              ),
+              OutlinedButton.icon(
+                onPressed: () => onPick(_SerendipityKind.valueSurprise),
+                icon: const Icon(Icons.savings_outlined),
+                label: Text(t.pricePerformanceSurprise),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SponsoredSkeleton extends StatelessWidget {
+  const _SponsoredSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        AppSkeletonCard(),
+        SizedBox(height: 10),
+        AppSkeletonCard(),
+        SizedBox(height: 6),
+      ],
+    );
+  }
+}
+
+class _TodayPickCard extends StatelessWidget {
+  const _TodayPickCard({required this.item, required this.onRetry});
+
+  final MenuItemSearchResult item;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final priceText = _formatPrice(context, item.priceCents);
+    final status = _statusBadge(context, item.priceStatus);
+    final locationText = _shortLocation(item.district, item.city);
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    item.name,
+                    style: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
+                ),
+                Text(
+                  priceText,
+                  style: const TextStyle(fontWeight: FontWeight.w900),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            _StatusBadge(config: status),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    item.businessName,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ),
+                if (item.distanceKm != null)
+                  Text(
+                    '${item.distanceKm!.toStringAsFixed(1)} km',
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 12,
+                    ),
+                  ),
+              ],
+            ),
+            if (locationText != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                locationText,
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
+            ],
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton(
+                    onPressed: () => _openMenuItem(context, item),
+                    child: Text(AppLocalizations.of(context).go),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: onRetry,
+                    child: Text(AppLocalizations.of(context).restart),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

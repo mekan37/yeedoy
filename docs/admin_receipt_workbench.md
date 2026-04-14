@@ -1,4 +1,4 @@
-# Admin Receipt Workbench
+# Admin Fis Inceleme Tezgahi
 
 Bu dokuman `/admin/receipt-submissions` ekraninin urun ve operasyon sinirini tanimlar.
 

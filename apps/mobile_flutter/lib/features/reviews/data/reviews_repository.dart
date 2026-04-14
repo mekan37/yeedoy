@@ -19,7 +19,7 @@ class ReviewsRepository {
   final SupabaseClient client;
 
   Future<List<Review>> listReviews(String businessId) async {
-    return getBusinessReviews(
+    return fetchBusinessReviews(
       businessId: businessId,
       sort: 'helpful',
       limit: 50,
@@ -28,7 +28,7 @@ class ReviewsRepository {
   }
 
   // Index önerisi: (business_id, status, created_at desc) ve (business_id, status, helpful_count desc)
-  Future<List<Review>> getBusinessReviews({
+  Future<List<Review>> fetchBusinessReviews({
     required String businessId,
     required String sort, // 'newest' | 'helpful'
     int limit = 20,

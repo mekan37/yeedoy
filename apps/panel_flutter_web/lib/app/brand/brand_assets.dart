@@ -1,3 +1,1 @@
-class BrandAssets {
-  static const logo = 'assets/images/logo.png';
-}
+export 'package:yeedoy_shared_ui_components/brand_assets.dart';

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../domain/admin_locations_controller.dart';
 
 class AdminLocationsPage extends ConsumerStatefulWidget {
@@ -38,9 +39,9 @@ class _AdminLocationsPageState extends ConsumerState<AdminLocationsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n.adminLocationsTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminLocationsTitle),
           ),
           const SizedBox(height: 12),
           Row(

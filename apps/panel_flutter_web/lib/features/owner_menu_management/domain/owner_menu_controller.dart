@@ -361,6 +361,14 @@ class OwnerMenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
     return upload;
   }
 
+  Future<String?> addPhotoFromUrl({required String url}) async {
+    final photoId = await ref
+        .read(ownerMenuPhotoRepositoryProvider)
+        .addMenuItemPhotoFromUrl(menuItemId: menuItemId, url: url);
+    await refresh(force: true);
+    return photoId;
+  }
+
   Future<void> deletePhoto({required String photoId}) async {
     await ref
         .read(ownerMenuPhotoRepositoryProvider)

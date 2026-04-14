@@ -495,7 +495,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
       if (slug.isNotEmpty && ids.isEmpty) {
         final share = await ref
             .read(collectionShareRepositoryProvider)
-            .getBySlug(slug);
+            .fetchBySlug(slug);
         ids = share?.businessIds ?? const <String>[];
         name = share?.name ?? name;
         _sharedIds = ids;
@@ -503,7 +503,7 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
       }
       final items = await ref
           .read(favoritesRepositoryProvider)
-          .getBusinessesByIds(ids);
+          .fetchBusinessesByIds(ids);
       if (!mounted) return;
       setState(() => _sharedItems = items);
       if (!_sharedEngagementBumped) {

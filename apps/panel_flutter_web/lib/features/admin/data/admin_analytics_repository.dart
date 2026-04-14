@@ -17,7 +17,7 @@ class AdminAnalyticsRepository {
   AdminAnalyticsRepository(this.client);
   final SupabaseClient client;
 
-  Future<List<AdminGrowthDay>> getGrowth({
+  Future<List<AdminGrowthDay>> fetchGrowth({
     int days = 30,
     String? businessId,
   }) async {
@@ -36,7 +36,7 @@ class AdminAnalyticsRepository {
     }
   }
 
-  Future<AdminKpiSummary> getKpiSummary({int days = 30}) async {
+  Future<AdminKpiSummary> fetchKpiSummary({int days = 30}) async {
     try {
       final res = await client.rpc(
         'admin_kpi_summary_v1',

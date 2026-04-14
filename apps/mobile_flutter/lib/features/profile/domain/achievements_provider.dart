@@ -7,5 +7,5 @@ import 'achievement.dart';
 final myAchievementsProvider = FutureProvider<List<Achievement>>((ref) async {
   final user = ref.watch(userProvider);
   if (user == null) return const [];
-  return ref.read(profileRepositoryProvider).getMyAchievements();
+  return ref.read(profileRepositoryProvider).fetchMyAchievements();
 });

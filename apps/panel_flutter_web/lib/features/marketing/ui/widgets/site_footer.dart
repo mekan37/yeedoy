@@ -6,66 +6,128 @@ import '../../../../core/config/app_config.dart';
 import '../../../legal/legal_routes.dart';
 
 class SiteFooter extends StatelessWidget {
-  const SiteFooter({super.key});
+  const SiteFooter({super.key, this.compact = false});
+
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeInOut,
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0xFF0F172A),
         border: Border(top: BorderSide(color: Color(0x1F334155))),
       ),
-      padding: const EdgeInsets.fromLTRB(24, 28, 24, 28),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1180),
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            runSpacing: 28,
-            spacing: 28,
-            children: [
-              const _FooterLead(),
-              _FooterColumn(
-                title: 'Legal',
-                items: LegalRoutes.footerLinks
-                    .map(
-                      (link) => _FooterItem(
-                        link.label,
-                        LegalRoutes.detail(link.slug),
+      padding: EdgeInsets.fromLTRB(24, compact ? 12 : 28, 24, compact ? 12 : 28),
+      child: compact ? _CompactFooter() : _FullFooter(),
+    );
+  }
+}
+
+class _CompactFooter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1180),
+        child: Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 16,
+          runSpacing: 8,
+          children: [
+            const Text(
+              'Yeedoy © 2026',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w900,
+                fontSize: 14,
+              ),
+            ),
+            Wrap(
+              spacing: 20,
+              runSpacing: 8,
+              children: [
+                for (final link in LegalRoutes.footerLinks)
+                  InkWell(
+                    onTap: () => context.go(LegalRoutes.detail(link.slug)),
+                    child: Text(
+                      link.label,
+                      style: const TextStyle(
+                        color: Color(0xFFCBD5E1),
+                        fontSize: 12,
                       ),
-                    )
-                    .toList(),
-              ),
-              _FooterColumn(
-                title: 'Ürün',
-                items: LegalRoutes.productLinks
-                    .map(
-                      (link) => _FooterItem(
-                        link.label,
-                        LegalRoutes.detail(link.slug),
-                      ),
-                    )
-                    .toList(),
-              ),
-              _FooterColumn(
-                title: 'Uygulamalar',
-                items: [
-                  _FooterItem(
-                    'Google Play',
-                    AppConfig.playStoreUrl,
-                    external: true,
+                    ),
                   ),
-                  _FooterItem(
-                    'App Store',
-                    AppConfig.appStoreUrl,
-                    external: true,
+                InkWell(
+                  onTap: () => context.go(LegalRoutes.hub),
+                  child: const Text(
+                    'Legal Merkezi',
+                    style: TextStyle(color: Color(0xFFCBD5E1), fontSize: 12),
                   ),
-                  _FooterItem('Tüm Legal Belgeler', LegalRoutes.hub),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FullFooter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1180),
+        child: Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          runSpacing: 28,
+          spacing: 28,
+          children: [
+            const _FooterLead(),
+            _FooterColumn(
+              title: 'Legal',
+              items: LegalRoutes.footerLinks
+                  .map(
+                    (link) => _FooterItem(
+                      link.label,
+                      LegalRoutes.detail(link.slug),
+                    ),
+                  )
+                  .toList(),
+            ),
+            _FooterColumn(
+              title: 'Ürün',
+              items: LegalRoutes.productLinks
+                  .map(
+                    (link) => _FooterItem(
+                      link.label,
+                      LegalRoutes.detail(link.slug),
+                    ),
+                  )
+                  .toList(),
+            ),
+            _FooterColumn(
+              title: 'Uygulamalar',
+              items: [
+                _FooterItem(
+                  'Google Play',
+                  AppConfig.playStoreUrl,
+                  external: true,
+                ),
+                _FooterItem(
+                  'App Store',
+                  AppConfig.appStoreUrl,
+                  external: true,
+                ),
+                _FooterItem('Tüm Legal Belgeler', LegalRoutes.hub),
+              ],
+            ),
+          ],
         ),
       ),
     );

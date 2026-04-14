@@ -1,4 +1,4 @@
-# Panel Tools Envanteri
+# Panel Arac Envanteri
 
 Bu doküman `apps/panel_flutter_web` için aktif yardımcı script envanteridir.
 

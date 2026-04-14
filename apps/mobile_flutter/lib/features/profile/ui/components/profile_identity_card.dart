@@ -11,7 +11,7 @@ import '../../data/profile_model.dart';
 import '../../data/profile_repository.dart';
 
 final myProfileProvider = FutureProvider<Profile?>((ref) async {
-  return ref.read(profileRepositoryProvider).getMyProfile();
+  return ref.read(profileRepositoryProvider).fetchMyProfile();
 });
 
 class ProfileIdentityCard extends ConsumerWidget {

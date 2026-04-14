@@ -24,7 +24,7 @@ final tasteDivergenceProvider =
   TasteDivergenceController.new,
 );
 final publicProfileProvider = FutureProvider.family<PublicProfile, String>((ref, userId) {
-  return ref.read(tasteTwinRepositoryProvider).getUserPublicProfile(userId);
+  return ref.read(tasteTwinRepositoryProvider).fetchUserPublicProfile(userId);
 });
 
 class TasteMatchesState {
@@ -70,7 +70,7 @@ class TasteMatchesController extends Notifier<TasteMatchesState> {
     final reqId = ++_requestId;
     state = state.copyWith(loading: true, items: [], error: null);
     try {
-      final list = await ref.read(tasteTwinRepositoryProvider).getMatches(
+      final list = await ref.read(tasteTwinRepositoryProvider).fetchMatches(
             limit: 20,
             minOverlap: 3,
             force: force,
@@ -101,7 +101,7 @@ class TasteRecommendationsController extends AsyncNotifier<List<TasteRecommendat
     state = await AsyncValue.guard(() async {
       final data = await ref
           .read(tasteTwinRepositoryProvider)
-          .getRecommendations(matchUserId: matchUserId, force: force);
+          .fetchRecommendations(matchUserId: matchUserId, force: force);
       if (reqId != _requestId) return data;
       return data;
     });
@@ -111,7 +111,7 @@ class TasteRecommendationsController extends AsyncNotifier<List<TasteRecommendat
     final reqId = ++_requestId;
     final data = await ref
         .read(tasteTwinRepositoryProvider)
-        .getRecommendations(matchUserId: matchUserId);
+        .fetchRecommendations(matchUserId: matchUserId);
     if (reqId != _requestId) return data;
     return data;
   }
@@ -134,7 +134,7 @@ class TasteOverlapController extends AsyncNotifier<List<TasteOverlapExample>> {
     state = await AsyncValue.guard(() async {
       final data = await ref
           .read(tasteTwinRepositoryProvider)
-          .getOverlapExamples(
+          .fetchOverlapExamples(
             otherUserId: otherUserId,
             limit: 5,
             force: force,
@@ -148,7 +148,7 @@ class TasteOverlapController extends AsyncNotifier<List<TasteOverlapExample>> {
     final reqId = ++_requestId;
     final data = await ref
         .read(tasteTwinRepositoryProvider)
-        .getOverlapExamples(otherUserId: otherUserId, limit: 5);
+        .fetchOverlapExamples(otherUserId: otherUserId, limit: 5);
     if (reqId != _requestId) return data;
     return data;
   }
@@ -171,7 +171,7 @@ class TasteDivergenceController extends AsyncNotifier<List<TasteDivergenceExampl
     state = await AsyncValue.guard(() async {
       final data = await ref
           .read(tasteTwinRepositoryProvider)
-          .getDivergenceExamples(
+          .fetchDivergenceExamples(
             otherUserId: otherUserId,
             limit: 3,
             force: force,
@@ -185,7 +185,7 @@ class TasteDivergenceController extends AsyncNotifier<List<TasteDivergenceExampl
     final reqId = ++_requestId;
     final data = await ref
         .read(tasteTwinRepositoryProvider)
-        .getDivergenceExamples(otherUserId: otherUserId, limit: 3);
+        .fetchDivergenceExamples(otherUserId: otherUserId, limit: 3);
     if (reqId != _requestId) return data;
     return data;
   }
@@ -208,7 +208,7 @@ class TasteSignalOverlapController extends AsyncNotifier<List<TasteSignalOverlap
     state = await AsyncValue.guard(() async {
       final data = await ref
           .read(tasteTwinRepositoryProvider)
-          .getSignalOverlapExamples(
+          .fetchSignalOverlapExamples(
             otherUserId: otherUserId,
             limit: 5,
             force: force,
@@ -222,7 +222,7 @@ class TasteSignalOverlapController extends AsyncNotifier<List<TasteSignalOverlap
     final reqId = ++_requestId;
     final data = await ref
         .read(tasteTwinRepositoryProvider)
-        .getSignalOverlapExamples(otherUserId: otherUserId, limit: 5);
+        .fetchSignalOverlapExamples(otherUserId: otherUserId, limit: 5);
     if (reqId != _requestId) return data;
     return data;
   }

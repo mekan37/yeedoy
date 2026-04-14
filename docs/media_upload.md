@@ -1,4 +1,4 @@
-# Panel Media Upload
+# Panel Medya Yukleme
 
 Bu dokuman `apps/panel_flutter_web` icindeki medya yukleme adapter katmaninin tek kaynak aciklamasidir.
 

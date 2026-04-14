@@ -1,4 +1,4 @@
-# Admin Businesses Operasyon Yuzeyi
+# Admin Isletmeler Operasyon Yuzeyi
 
 Bu dokuman `/admin/businesses` ekraninin operasyon sozlesmesini ve mevcut tablo davranisini aciklar.
 

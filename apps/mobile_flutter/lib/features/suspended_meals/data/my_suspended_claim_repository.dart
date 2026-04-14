@@ -67,7 +67,7 @@ class MySuspendedClaimRepository {
     }
   }
 
-  Future<MySuspendedBadge> getBadge({bool force = false}) async {
+  Future<MySuspendedBadge> fetchBadge({bool force = false}) async {
     const key = 'badge|current';
     if (!force) {
       final fresh = _cache.getFresh<MySuspendedBadge>(key, ttl: _badgeTtl);

@@ -15,7 +15,7 @@ class OwnerMonetizationRepository {
 
   final SupabaseClient _client;
 
-  Future<List<OwnerSponsorshipCatalogItem>> getSponsorshipCatalog({
+  Future<List<OwnerSponsorshipCatalogItem>> fetchSponsorshipCatalog({
     required String businessId,
   }) async {
     try {

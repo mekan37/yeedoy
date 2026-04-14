@@ -16,6 +16,7 @@ import 'owner_menu_error_mapper.dart';
 import 'menu_editor_embed_flow.dart' deferred as embed_flow;
 import 'menu_editor_share_flow.dart' deferred as share_flow;
 import 'owner_section_editor_page.dart';
+import 'widgets/bulk_menu_import_sheet.dart';
 import 'widgets/menu_versions_sheet.dart';
 import 'widgets/section_list_tile.dart';
 import '../../../shared/ui/components/app_scaffold.dart';
@@ -80,6 +81,12 @@ class _OwnerMenuEditorPageState extends ConsumerState<OwnerMenuEditorPage> {
       appBar: AppBar(
         title: Text(menu.title),
         actions: [
+          TextButton.icon(
+            onPressed: () => _openBulkImport(menu.id),
+            icon: const Icon(Icons.upload_file_outlined),
+            label: const Text('Toplu Yükle'),
+          ),
+          const SizedBox(width: 4),
           TextButton.icon(
             onPressed: _openPreview,
             icon: const Icon(Icons.visibility_outlined),
@@ -486,6 +493,17 @@ class _OwnerMenuEditorPageState extends ConsumerState<OwnerMenuEditorPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _openBulkImport(String menuId) async {
+    final ok = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => BulkMenuImportSheet(menuId: menuId),
+    );
+    if (ok == true && mounted) {
+      ref.read(ownerMenuSectionsProvider(menuId).notifier).refresh();
+    }
   }
 
   Future<void> _openVersionsPanel() async {

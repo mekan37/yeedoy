@@ -78,7 +78,7 @@ class BusinessReviewsController extends Notifier<BusinessReviewsState> {
 
     try {
       final repo = ref.read(reviewsRepositoryProvider);
-      final list = await repo.getBusinessReviews(
+      final list = await repo.fetchBusinessReviews(
         businessId: businessId,
         sort: state.sort,
         limit: pageSize,
@@ -104,7 +104,7 @@ class BusinessReviewsController extends Notifier<BusinessReviewsState> {
 
     try {
       final repo = ref.read(reviewsRepositoryProvider);
-      final list = await repo.getBusinessReviews(
+      final list = await repo.fetchBusinessReviews(
         businessId: businessId,
         sort: state.sort,
         limit: pageSize,

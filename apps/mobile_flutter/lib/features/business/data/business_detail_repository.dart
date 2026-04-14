@@ -38,7 +38,7 @@ class BusinessDetailRepository {
   static const Duration _offlineSnapshotTtl = Duration(days: 7);
   static final Map<String, _CacheEntry> _cache = {};
 
-  Future<BusinessDetail> getBusinessDetail(
+  Future<BusinessDetail> fetchBusinessDetail(
     String businessId, {
     int latestLimit = 5,
     bool force = false,
@@ -108,7 +108,7 @@ class BusinessDetailRepository {
       return SwrPayload(
         data: cached.data,
         isStale: true,
-        refresh: getBusinessDetail(
+        refresh: fetchBusinessDetail(
           businessId,
           latestLimit: latestLimit,
           force: true,
@@ -124,7 +124,7 @@ class BusinessDetailRepository {
       return SwrPayload(
         data: local,
         isStale: true,
-        refresh: getBusinessDetail(
+        refresh: fetchBusinessDetail(
           businessId,
           latestLimit: latestLimit,
           force: true,
@@ -140,7 +140,7 @@ class BusinessDetailRepository {
       return SwrPayload(
         data: disk,
         isStale: true,
-        refresh: getBusinessDetail(
+        refresh: fetchBusinessDetail(
           businessId,
           latestLimit: latestLimit,
           force: true,
@@ -148,7 +148,7 @@ class BusinessDetailRepository {
       );
     }
 
-    final live = await getBusinessDetail(businessId, latestLimit: latestLimit);
+    final live = await fetchBusinessDetail(businessId, latestLimit: latestLimit);
     return SwrPayload(data: live, isStale: false);
   }
 

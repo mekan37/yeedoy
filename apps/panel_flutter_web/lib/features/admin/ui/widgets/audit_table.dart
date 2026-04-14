@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../../shared/ui/components/panel_page_header.dart';
 import '../../../../shared/ui/design_system.dart';
 import '../../domain/admin_audit_models.dart';
 
@@ -125,28 +126,15 @@ class AuditTable extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: context.titleStyle),
-                  if ((description ?? '').isNotEmpty) ...[
-                    SizedBox(height: tokens.space4),
-                    Text(
-                      description!,
-                      style: context.bodyStyle.copyWith(color: Colors.black54),
-                    ),
-                  ],
-                ],
-              ),
-            ),
+        PanelPageHeader(
+          padding: EdgeInsets.zero,
+          title: Text(title),
+          description: (description ?? '').isNotEmpty ? description : null,
+          actions: [
             AppBadge(
               label: l10n.adminAuditRecordCount(items.length),
               tone: AppBadgeTone.info,
             ),
-            SizedBox(width: tokens.space8),
             if (onExportCsv != null)
               AppButton(
                 label: l10n.adminAuditExportCsvAction,
@@ -154,7 +142,6 @@ class AuditTable extends StatelessWidget {
                 variant: AppButtonVariant.secondary,
                 onPressed: onExportCsv,
               ),
-            if (onExportCsv != null) SizedBox(width: tokens.space8),
             AppButton(
               label: l10n.yenile,
               icon: Icons.refresh,

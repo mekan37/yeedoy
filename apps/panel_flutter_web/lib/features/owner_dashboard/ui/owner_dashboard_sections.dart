@@ -21,7 +21,7 @@ final ownerSponsorshipCatalogProvider =
         return const [];
       }
       final repo = ref.read(ownerMonetizationRepositoryProvider);
-      return repo.getSponsorshipCatalog(businessId: businessId);
+      return repo.fetchSponsorshipCatalog(businessId: businessId);
     });
 
 class OwnerKpiOverviewCard extends ConsumerWidget {

@@ -33,7 +33,7 @@ final sponsoredBusinessesProvider =
     ) async {
       return ref
           .watch(discoveryRepositoryProvider)
-          .getSponsoredBusinesses(
+          .fetchSponsoredBusinesses(
             surface: params.surface,
             city: params.city,
             district: params.district,

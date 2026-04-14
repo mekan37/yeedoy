@@ -70,7 +70,7 @@ class AdminBusinessesRepository {
     }
   }
 
-  Future<AdminBusinessItem?> getBusinessById({
+  Future<AdminBusinessItem?> fetchBusinessById({
     required String businessId,
   }) async {
     try {
@@ -272,7 +272,7 @@ class AdminBusinessesRepository {
     MemoryTtlCache.instance.invalidatePrefix(_detailCachePrefix);
   }
 
-  Future<Map<String, BusinessRiskSignal>> getRiskSignals(
+  Future<Map<String, BusinessRiskSignal>> fetchRiskSignals(
     List<String> businessIds,
   ) async {
     if (businessIds.isEmpty) return const {};

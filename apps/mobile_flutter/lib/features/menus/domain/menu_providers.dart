@@ -6,7 +6,7 @@ import 'menu_models.dart';
 
 final businessMenusProvider = FutureProvider.family<List<BusinessMenu>, String>(
   (ref, businessId) async {
-    return ref.watch(menuRepositoryProvider).getBusinessMenus(businessId);
+    return ref.watch(menuRepositoryProvider).fetchBusinessMenus(businessId);
   },
 );
 
@@ -14,7 +14,7 @@ final menuSectionsProvider = FutureProvider.family<List<MenuSection>, String>((
   ref,
   menuId,
 ) async {
-  return ref.watch(menuRepositoryProvider).getMenuSections(menuId);
+  return ref.watch(menuRepositoryProvider).fetchMenuSections(menuId);
 });
 
 final menuItemsProvider = FutureProvider.family<List<MenuItem>, String>((
@@ -24,14 +24,14 @@ final menuItemsProvider = FutureProvider.family<List<MenuItem>, String>((
   final sections = await ref.watch(menuSectionsProvider(menuId).future);
   return ref
       .watch(menuRepositoryProvider)
-      .getMenuItems(menuId, sections: sections, allowV1Fallback: true);
+      .fetchMenuItems(menuId, sections: sections, allowV1Fallback: true);
 });
 
 final businessPriceTrustProvider =
     FutureProvider.family<BusinessPriceTrust, String>((ref, businessId) async {
       return ref
           .watch(menuRepositoryProvider)
-          .getBusinessPriceTrust(businessId);
+          .fetchBusinessPriceTrust(businessId);
     });
 
 final menuItemsCacheUpdatedAtProvider =

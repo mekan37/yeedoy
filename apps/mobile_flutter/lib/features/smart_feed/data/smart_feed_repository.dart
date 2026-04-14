@@ -35,7 +35,7 @@ class SmartFeedRepository {
     _cache.invalidatePrefix('');
   }
 
-  Future<List<SmartFeedEvent>> getSmartFeed({
+  Future<List<SmartFeedEvent>> fetchSmartFeed({
     required int limit,
     required int offset,
     SmartFeedPreferences? prefs,

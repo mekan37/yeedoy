@@ -45,7 +45,7 @@ class _ContributeFabState extends ConsumerState<ContributeFab> {
       try {
         final business = await ref
             .read(discoveryRepositoryProvider)
-            .getBusiness(businessId);
+            .fetchBusiness(businessId);
         final resolved = business.name.trim();
         if (resolved.isNotEmpty) {
           businessName = resolved;

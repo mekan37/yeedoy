@@ -1,4 +1,4 @@
-# Mobile Mimari
+# Mobil Mimari
 
 Bu belge `apps/mobile_flutter` icin mimari tek kaynaktir. Ayrintili tablo/RPC envanteri burada tutulmaz; onun tek kaynagi `docs/mobile_supabase_contracts.md` dosyasidir.
 

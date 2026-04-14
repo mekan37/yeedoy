@@ -1,4 +1,4 @@
-# Owner Analytics
+# Owner Analytics Yuzeyi
 
 Bu ekran owner panelde `/owner/analytics` route'u altında çalışır. Ust seviye growth merkezi ise `/owner/growth` route'udur. Amaç, işletme sahibine gerçekten operasyonel değeri olan analitik yuzeyi vermektir; pazarlama ve lead toplama katmani `/owner/growth` ekraninda, detayli analitik okuma ise bu ekranda tutulur.
 

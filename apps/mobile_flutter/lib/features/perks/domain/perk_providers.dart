@@ -5,5 +5,5 @@ import 'perk_models.dart';
 
 final businessPerksProvider =
     FutureProvider.family<List<BusinessPerk>, String>((ref, businessId) async {
-  return ref.watch(perkRepositoryProvider).getActivePerks(businessId);
+  return ref.watch(perkRepositoryProvider).fetchActivePerks(businessId);
 });

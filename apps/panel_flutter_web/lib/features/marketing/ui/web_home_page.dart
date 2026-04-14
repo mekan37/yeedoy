@@ -1,24 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/security/app_role_providers.dart';
+import '../../../features/auth/domain/auth_providers.dart';
 import '../../legal/data/legal_registry.dart';
 import '../../legal/legal_routes.dart';
 import 'widgets/site_footer.dart';
 
-class WebHomePage extends StatelessWidget {
+class WebHomePage extends ConsumerStatefulWidget {
   const WebHomePage({super.key});
 
   @override
+  ConsumerState<WebHomePage> createState() => _WebHomePageState();
+
+  static Future<void> openExternal(String raw) async {
+    final uri = Uri.tryParse(raw);
+    if (uri == null) return;
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+}
+
+class _WebHomePageState extends ConsumerState<WebHomePage> {
+  final _scrollController = ScrollController();
+  bool _footerCompact = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final compact = _scrollController.offset > 120;
+    if (compact != _footerCompact) {
+      setState(() => _footerCompact = compact);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final session = ref.watch(sessionProvider);
+    final appRoleAsync = ref.watch(appRoleProvider);
+    final role = appRoleAsync.asData?.value;
+    final loggedIn = session != null;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       body: Column(
         children: [
           Expanded(
             child: ListView(
+              controller: _scrollController,
               children: [
                 Center(
                   child: ConstrainedBox(
@@ -29,17 +72,24 @@ class WebHomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _TopNav(
+                            loggedIn: loggedIn,
+                            role: role,
                             onBusinessLogin: () => context.go('/isletme-giris'),
                             onBusinessRegister: () =>
                                 context.go('/isletme-kayit'),
+                            onOwnerPanel: () => context.go('/owner'),
+                            onAdminPanel: () => context.go('/admin'),
                           ),
                           const SizedBox(height: 28),
                           _HeroSection(
+                            loggedIn: loggedIn,
+                            role: role,
                             onBusinessLogin: () => context.go('/isletme-giris'),
                             onBusinessRegister: () =>
                                 context.go('/isletme-kayit'),
-                            onOpenLegalHub: () =>
-                                context.go(LegalRoutes.hub),
+                            onOwnerPanel: () => context.go('/owner'),
+                            onAdminPanel: () => context.go('/admin'),
+                            onOpenLegalHub: () => context.go(LegalRoutes.hub),
                           ),
                           const SizedBox(height: 32),
                           const _AssuranceStrip(),
@@ -53,9 +103,13 @@ class WebHomePage extends StatelessWidget {
                           const _TrustSection(),
                           const SizedBox(height: 24),
                           _CtaSection(
+                            loggedIn: loggedIn,
+                            role: role,
                             onBusinessLogin: () => context.go('/isletme-giris'),
                             onBusinessRegister: () =>
                                 context.go('/isletme-kayit'),
+                            onOwnerPanel: () => context.go('/owner'),
+                            onAdminPanel: () => context.go('/admin'),
                           ),
                         ],
                       ),
@@ -65,30 +119,37 @@ class WebHomePage extends StatelessWidget {
               ],
             ),
           ),
-          const SiteFooter(),
+          SiteFooter(compact: _footerCompact),
         ],
       ),
     );
-  }
-
-  static Future<void> _openExternal(String raw) async {
-    final uri = Uri.tryParse(raw);
-    if (uri == null) return;
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 }
 
 class _TopNav extends StatelessWidget {
   const _TopNav({
+    required this.loggedIn,
+    required this.role,
     required this.onBusinessLogin,
     required this.onBusinessRegister,
+    required this.onOwnerPanel,
+    required this.onAdminPanel,
   });
 
+  final bool loggedIn;
+  final AppRole? role;
   final VoidCallback onBusinessLogin;
   final VoidCallback onBusinessRegister;
+  final VoidCallback onOwnerPanel;
+  final VoidCallback onAdminPanel;
 
   @override
   Widget build(BuildContext context) {
+    final showOwner = loggedIn &&
+        (role == AppRole.owner || role == AppRole.admin);
+    final showAdmin = loggedIn &&
+        (role == AppRole.admin || role == AppRole.communityMod);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       decoration: BoxDecoration(
@@ -131,14 +192,32 @@ class _TopNav extends StatelessWidget {
             spacing: 10,
             runSpacing: 10,
             children: [
-              OutlinedButton(
-                onPressed: onBusinessLogin,
-                child: const Text('İşletme Girişi'),
-              ),
-              FilledButton(
-                onPressed: onBusinessRegister,
-                child: const Text('İşletme Kaydı'),
-              ),
+              if (!loggedIn) ...[
+                OutlinedButton(
+                  onPressed: onBusinessLogin,
+                  child: const Text('İşletme Girişi'),
+                ),
+                FilledButton(
+                  onPressed: onBusinessRegister,
+                  child: const Text('İşletme Kaydı'),
+                ),
+              ],
+              if (showOwner)
+                FilledButton.icon(
+                  onPressed: onOwnerPanel,
+                  icon: const Icon(Icons.storefront_outlined, size: 18),
+                  label: const Text('İşletme Paneli'),
+                ),
+              if (showAdmin)
+                FilledButton.icon(
+                  onPressed: onAdminPanel,
+                  icon: const Icon(Icons.admin_panel_settings_outlined,
+                      size: 18),
+                  label: const Text('Admin Paneli'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.textStrong,
+                  ),
+                ),
             ],
           ),
         ],
@@ -166,13 +245,21 @@ class _NavLabel extends StatelessWidget {
 
 class _HeroSection extends StatelessWidget {
   const _HeroSection({
+    required this.loggedIn,
+    required this.role,
     required this.onBusinessLogin,
     required this.onBusinessRegister,
+    required this.onOwnerPanel,
+    required this.onAdminPanel,
     required this.onOpenLegalHub,
   });
 
+  final bool loggedIn;
+  final AppRole? role;
   final VoidCallback onBusinessLogin;
   final VoidCallback onBusinessRegister;
+  final VoidCallback onOwnerPanel;
+  final VoidCallback onAdminPanel;
   final VoidCallback onOpenLegalHub;
 
   @override
@@ -239,26 +326,52 @@ class _HeroSection extends StatelessWidget {
                   spacing: 12,
                   runSpacing: 12,
                   children: [
-                    FilledButton.icon(
-                      onPressed: onBusinessRegister,
-                      icon: const Icon(Icons.storefront_outlined),
-                      label: const Text('İşletmemi Başlat'),
-                      style: FilledButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: AppColors.primary,
+                    if (!loggedIn) ...[
+                      FilledButton.icon(
+                        onPressed: onBusinessRegister,
+                        icon: const Icon(Icons.storefront_outlined),
+                        label: const Text('İşletmemi Başlat'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: AppColors.primary,
+                        ),
                       ),
-                    ),
-                    OutlinedButton.icon(
-                      onPressed: onBusinessLogin,
-                      icon: const Icon(Icons.login_rounded),
-                      label: const Text('Panel Girişi'),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.white24),
+                      OutlinedButton.icon(
+                        onPressed: onBusinessLogin,
+                        icon: const Icon(Icons.login_rounded),
+                        label: const Text('Panel Girişi'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          side: const BorderSide(color: Colors.white24),
+                        ),
                       ),
-                    ),
+                    ],
+                    if (loggedIn &&
+                        (role == AppRole.owner || role == AppRole.admin))
+                      FilledButton.icon(
+                        onPressed: onOwnerPanel,
+                        icon: const Icon(Icons.storefront_outlined),
+                        label: const Text('İşletme Paneli'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: AppColors.primary,
+                        ),
+                      ),
+                    if (loggedIn &&
+                        (role == AppRole.admin ||
+                            role == AppRole.communityMod))
+                      FilledButton.icon(
+                        onPressed: onAdminPanel,
+                        icon: const Icon(
+                            Icons.admin_panel_settings_outlined),
+                        label: const Text('Admin Paneli'),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF0F172A),
+                        ),
+                      ),
                     OutlinedButton.icon(
-                      onPressed: () => WebHomePage._openExternal(
+                      onPressed: () => WebHomePage.openExternal(
                         AppConfig.publicQrWebUrl,
                       ),
                       icon: const Icon(Icons.qr_code_2_outlined),
@@ -404,7 +517,7 @@ class _StoreButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => WebHomePage._openExternal(url),
+      onTap: () => WebHomePage.openExternal(url),
       borderRadius: BorderRadius.circular(18),
       child: Ink(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -828,12 +941,20 @@ class _TrustBadge extends StatelessWidget {
 
 class _CtaSection extends StatelessWidget {
   const _CtaSection({
+    required this.loggedIn,
+    required this.role,
     required this.onBusinessLogin,
     required this.onBusinessRegister,
+    required this.onOwnerPanel,
+    required this.onAdminPanel,
   });
 
+  final bool loggedIn;
+  final AppRole? role;
   final VoidCallback onBusinessLogin;
   final VoidCallback onBusinessRegister;
+  final VoidCallback onOwnerPanel;
+  final VoidCallback onAdminPanel;
 
   @override
   Widget build(BuildContext context) {
@@ -875,18 +996,38 @@ class _CtaSection extends StatelessWidget {
             spacing: 12,
             runSpacing: 12,
             children: [
-              FilledButton(
-                onPressed: onBusinessRegister,
-                child: const Text('İşletme Kaydını Başlat'),
-              ),
-              OutlinedButton(
-                onPressed: onBusinessLogin,
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: const BorderSide(color: Colors.white24),
+              if (!loggedIn) ...[
+                FilledButton(
+                  onPressed: onBusinessRegister,
+                  child: const Text('İşletme Kaydını Başlat'),
                 ),
-                child: const Text('Panele Git'),
-              ),
+                OutlinedButton(
+                  onPressed: onBusinessLogin,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white24),
+                  ),
+                  child: const Text('Giriş Yap'),
+                ),
+              ],
+              if (loggedIn &&
+                  (role == AppRole.owner || role == AppRole.admin))
+                FilledButton.icon(
+                  onPressed: onOwnerPanel,
+                  icon: const Icon(Icons.storefront_outlined),
+                  label: const Text('İşletme Paneli'),
+                ),
+              if (loggedIn &&
+                  (role == AppRole.admin || role == AppRole.communityMod))
+                FilledButton.icon(
+                  onPressed: onAdminPanel,
+                  icon: const Icon(Icons.admin_panel_settings_outlined),
+                  label: const Text('Admin Paneli'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF111827),
+                  ),
+                ),
               OutlinedButton(
                 onPressed: () => context.go(LegalRoutes.hub),
                 style: OutlinedButton.styleFrom(

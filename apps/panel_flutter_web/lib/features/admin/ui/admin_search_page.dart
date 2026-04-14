@@ -10,6 +10,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/components/permission_denied_view.dart';
 import '../data/admin_search_repository.dart';
 import '../domain/admin_access_provider.dart';
@@ -128,16 +129,10 @@ class _AdminSearchPageState extends ConsumerState<AdminSearchPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      context.l10n.adminSearchTitle,
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      context.l10n.adminSearchDescription,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: Colors.black54),
+                    PanelPageHeader(
+                      padding: EdgeInsets.zero,
+                      title: Text(context.l10n.adminSearchTitle),
+                      description: context.l10n.adminSearchDescription,
                     ),
                     const SizedBox(height: 12),
                     Container(

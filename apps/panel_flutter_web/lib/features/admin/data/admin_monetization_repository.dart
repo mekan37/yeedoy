@@ -70,7 +70,7 @@ class AdminMonetizationRepository {
     }
   }
 
-  Future<AdminSponsorshipSummary?> getSummary() async {
+  Future<AdminSponsorshipSummary?> fetchSummary() async {
     try {
       final res = await client.rpc('admin_get_sponsorship_summary_v1');
       if (res is List && res.isNotEmpty && res.first is Map) {

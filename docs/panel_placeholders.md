@@ -1,4 +1,4 @@
-# Panel Placeholder Klasorleri
+# Panel Gecici Placeholder Klasorleri
 
 Bu dokuman `apps/panel_flutter_web` icinde bilincli olarak korunan fakat bugun aktif runtime kodu tasimayan klasorleri aciklar.
 

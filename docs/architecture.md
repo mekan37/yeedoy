@@ -12,7 +12,7 @@ Tek kaynaklar:
 
 - tablo ve RPC envanteri: `docs/data-model.md`
 - ekran bazli operasyon sozlesmeleri: `docs/admin_businesses.md`, `docs/admin_business_submissions.md`, `docs/moderation_queue.md`, `docs/audit.md`
-- tarihsel release notlari: `docs/release_index.md`
+- tarihsel release notlari: `docs/archive/history/release_index.md`
 
 ## Ust Seviye
 

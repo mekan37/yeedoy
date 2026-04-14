@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
-import '../../../core/linking/link_provider.dart';
 import '../../../core/linking/link_utils.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
 import 'embed_provider_iframe.dart';

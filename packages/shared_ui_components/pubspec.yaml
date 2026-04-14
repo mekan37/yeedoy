@@ -1,0 +1,11 @@
+name: yeedoy_shared_ui_components
+description: Shared Flutter UI components for Yeedoy apps.
+version: 0.0.1
+publish_to: none
+environment:
+  sdk: ^3.10.7
+dependencies:
+  flutter:
+    sdk: flutter
+  yeedoy_shared_models:
+    path: ../shared_models

@@ -81,7 +81,7 @@ class SuggestionsRepository {
     return (res as List).map((e) => BusinessSuggestion.fromMap(e)).toList();
   }
 
-  Future<List<BusinessSuggestion>> getMySuggestions({
+  Future<List<BusinessSuggestion>> fetchMySuggestions({
     required String userId,
     int limit = 20,
     int offset = 0,

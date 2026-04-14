@@ -1,4 +1,4 @@
-# Panel RBAC Contract
+# Panel RBAC Kontrati
 
 Date: `2026-03-03`  
 Workspace: `C:\yeedoy`

@@ -12,7 +12,7 @@ class DietProfileController extends AsyncNotifier<DietProfile?> {
   Future<DietProfile?> build() async {
     final user = ref.read(userProvider);
     if (user == null) return null;
-    return ref.read(dietProfileRepositoryProvider).getMyDietProfile();
+    return ref.read(dietProfileRepositoryProvider).fetchMyDietProfile();
   }
 
   Future<void> refresh() async {
@@ -23,7 +23,7 @@ class DietProfileController extends AsyncNotifier<DietProfile?> {
     }
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(dietProfileRepositoryProvider).getMyDietProfile();
+      return ref.read(dietProfileRepositoryProvider).fetchMyDietProfile();
     });
   }
 

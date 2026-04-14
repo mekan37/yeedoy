@@ -9,6 +9,7 @@ import '../domain/admin_dashboard_controller.dart';
 import '../domain/admin_growth_provider.dart';
 import '../domain/admin_kpi_provider.dart';
 import '../../../shared/ui/components/app_hero_header.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/design_system.dart';
 
 class AdminDashboardPage extends ConsumerWidget {
@@ -142,17 +143,9 @@ class AdminDashboardPage extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Text(
-                        l10n.adminDashboardGrowth30Days,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Spacer(),
-                    ],
+                  PanelPageHeader(
+                    padding: EdgeInsets.zero,
+                    title: Text(l10n.adminDashboardGrowth30Days),
                   ),
                   const SizedBox(height: 12),
                   ref
@@ -199,17 +192,9 @@ class AdminDashboardPage extends ConsumerWidget {
                         },
                       ),
                   const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Text(
-                        l10n.adminDashboardKpi30Days,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Spacer(),
-                    ],
+                  PanelPageHeader(
+                    padding: EdgeInsets.zero,
+                    title: Text(l10n.adminDashboardKpi30Days),
                   ),
                   const SizedBox(height: 12),
                   ref

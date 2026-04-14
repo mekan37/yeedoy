@@ -19,7 +19,31 @@ class OwnerAnalyticsRepository {
   static final TtlMemoryCache _cache = TtlMemoryCache();
   static const Duration _ttl = Duration(minutes: 5);
 
-  Future<OwnerAnalyticsSnapshot> getAnalytics({
+  Future<OwnerAnalyticsHourlySnapshot> fetchAnalyticsHourly({
+    required String businessId,
+    int hours = 24,
+  }) async {
+    final key = 'owner_analytics_hourly|$businessId|$hours';
+    final fresh = _cache.getFresh<OwnerAnalyticsHourlySnapshot>(key, ttl: const Duration(minutes: 5));
+    if (fresh != null) return fresh;
+    try {
+      final res = await client.rpc(
+        'list_owner_analytics_hourly_v1',
+        params: {'p_business_id': businessId, 'p_hours': hours},
+      );
+      final snapshot = OwnerAnalyticsHourlySnapshot.fromMap(
+        (res as Map).cast<String, dynamic>(),
+      );
+      _cache.set(key, snapshot);
+      return snapshot;
+    } catch (error) {
+      final stale = _cache.getStale<OwnerAnalyticsHourlySnapshot>(key);
+      if (stale != null) return stale;
+      throw Exception(AppErrorMapper.message(error));
+    }
+  }
+
+  Future<OwnerAnalyticsSnapshot> fetchAnalytics({
     required String businessId,
     required int days,
     required bool compareBranches,

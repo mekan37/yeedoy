@@ -9,6 +9,7 @@ import '../../../core/security/app_role_providers.dart';
 import '../../../core/security/admin_impersonation_provider.dart';
 import '../../../core/security/business_rbac_localizations.dart';
 import '../../owner_businesses/domain/owner_business_state.dart';
+import '../../../shared/ui/components/currency_selector.dart';
 import '../../../shared/ui/components/owner_business_context_bar.dart';
 import '../../../shared/ui/components/permission_denied_view.dart';
 
@@ -107,6 +108,8 @@ class _OwnerHeader extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white),
           ),
           const Spacer(),
+          const CurrencySelector(),
+          const SizedBox(width: 12),
           TextButton.icon(
             onPressed: () => context.go('/owner/businesses'),
             icon: const Icon(Icons.storefront_outlined, color: Colors.white),
@@ -140,6 +143,7 @@ class _OwnerSidebar extends ConsumerWidget {
     if (location.startsWith('/owner/activity') || location.startsWith('/owner/audit')) {
       return 9;
     }
+    if (location.startsWith('/owner/ai-analysis')) return 10;
     return 0;
   }
 
@@ -217,6 +221,13 @@ class _OwnerSidebar extends ConsumerWidget {
             icon: Icons.receipt_long_outlined,
             label: l10n.ownerShellActivityLabel,
             onTap: () => _goBusinessRoute(context, '/owner/activity', selectedId),
+          ),
+          _OwnerNavItem(
+            selected: idx == 10,
+            icon: Icons.psychology_outlined,
+            label: l10n.ownerShellAiAnalysisLabel,
+            onTap: () =>
+                _goBusinessRoute(context, '/owner/ai-analysis', selectedId),
           ),
         ],
       ),
@@ -303,6 +314,12 @@ class _OwnerDrawer extends ConsumerWidget {
               leading: const Icon(Icons.receipt_long_outlined),
               title: Text(l10n.ownerShellActivityLabel),
               onTap: () => _goBusinessRoute(context, '/owner/activity', selectedId),
+            ),
+            ListTile(
+              leading: const Icon(Icons.psychology_outlined),
+              title: Text(l10n.ownerShellAiAnalysisLabel),
+              onTap: () =>
+                  _goBusinessRoute(context, '/owner/ai-analysis', selectedId),
             ),
           ],
         ),

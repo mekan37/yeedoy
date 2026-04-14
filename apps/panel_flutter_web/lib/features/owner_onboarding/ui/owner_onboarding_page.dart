@@ -898,7 +898,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
     try {
       final status = await ref
           .read(ownerOnboardingRepositoryProvider)
-          .getMenuStatus(_selectedBusinessId);
+          .fetchMenuStatus(_selectedBusinessId);
       if (!status.isComplete) {
         _showSnack(l10n.ownerOnboardingNoShareWithoutMenu);
         return;

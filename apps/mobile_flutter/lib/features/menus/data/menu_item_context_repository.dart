@@ -23,7 +23,7 @@ class MenuItemContextRepository {
   static const Duration _ttl = Duration(minutes: 10);
   static final Map<String, _CacheEntry> _cache = {};
 
-  Future<MenuItemContext> getMenuItemContext(
+  Future<MenuItemContext> fetchMenuItemContext(
     String menuItemId, {
     bool force = false,
   }) async {

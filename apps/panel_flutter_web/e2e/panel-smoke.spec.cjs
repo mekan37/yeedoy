@@ -348,6 +348,55 @@ test('admin receipt submissions smoke', async ({ page }) => {
   ).toBeVisible();
 });
 
+test('admin business submissions smoke', async ({ page }) => {
+  await page.goto('/admin/business-submissions');
+  await expect(page.getByText('Başvuru bulunamadı.').or(page.getByRole('heading', { name: /başvuru/i }))).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test('admin price suggestions smoke', async ({ page }) => {
+  await page.goto('/admin/price-suggestions');
+  await expect(page.getByText('Fiyat önerileri')).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test('admin claims smoke', async ({ page }) => {
+  await page.goto('/admin/claims');
+  await expect(page.getByText('Sahiplik talepleri')).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test('admin group requests smoke', async ({ page }) => {
+  await page.goto('/admin/group-requests');
+  await expect(page.getByText('Grup talepleri')).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test('admin b2b exports smoke', async ({ page }) => {
+  await page.goto('/admin/b2b-exports');
+  await expect(page.getByText('B2B veri ihracı')).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test('admin sponsorships smoke', async ({ page }) => {
+  await page.goto('/admin/monetization');
+  await expect(page.getByText('Sponsorluklar')).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test('admin growth smoke', async ({ page }) => {
+  await page.goto('/admin/growth');
+  await expect(page.getByText('Büyüme')).toBeVisible({
+    timeout: 15000,
+  });
+});
+
 test('admin observability smoke', async ({ page }) => {
   await page.goto('/admin/observability');
   await expect(page.getByText('Observability')).toBeVisible({

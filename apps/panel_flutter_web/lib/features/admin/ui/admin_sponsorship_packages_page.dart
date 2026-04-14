@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../domain/admin_models.dart';
 import '../domain/admin_sponsorship_packages_controller.dart';
 
@@ -27,19 +28,15 @@ class _AdminSponsorshipPackagesPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                l10n.adminSponsorshipPackagesTitle,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-              ),
-              const Spacer(),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminSponsorshipPackagesTitle),
+            actions: [
               FilledButton.icon(
                 onPressed: () => _openPackageSheet(context),
                 icon: const Icon(Icons.add),
                 label: Text(l10n.adminSponsorshipPackagesNewPackage),
               ),
-              const SizedBox(width: 8),
               IconButton(
                 onPressed: () => ref
                     .read(adminSponsorshipPackagesControllerProvider.notifier)

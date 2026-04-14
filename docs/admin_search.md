@@ -1,4 +1,4 @@
-# Admin Global Search
+# Admin Genel Arama
 
 Bu doküman `panel_flutter_web` içindeki global yönetici aramasının sözleşmesini ve operasyon davranışını tanımlar.
 

@@ -27,7 +27,7 @@ class MenuRepository {
   static final TtlMemoryCache _cache = TtlMemoryCache();
   static const Duration _menuTtl = Duration(minutes: 5);
 
-  Future<List<BusinessMenu>> getBusinessMenus(String businessId) async {
+  Future<List<BusinessMenu>> fetchBusinessMenus(String businessId) async {
     final key = 'business_menus|$businessId';
     final fresh = _cache.getFresh<List<BusinessMenu>>(key, ttl: _menuTtl);
     if (fresh != null) return fresh;
@@ -57,7 +57,7 @@ class MenuRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getPublicMenuShare(String menuId) async {
+  Future<Map<String, dynamic>> fetchPublicMenuShare(String menuId) async {
     try {
       final res = await client.rpc(
         'public_menu_share_view_v1',
@@ -73,7 +73,7 @@ class MenuRepository {
     }
   }
 
-  Future<Map<String, dynamic>?> getBusinessMini(String businessId) async {
+  Future<Map<String, dynamic>?> fetchBusinessMini(String businessId) async {
     try {
       final res = await client
           .from('businesses')
@@ -87,7 +87,7 @@ class MenuRepository {
     }
   }
 
-  Future<List<MenuSection>> getMenuSections(String menuId) async {
+  Future<List<MenuSection>> fetchMenuSections(String menuId) async {
     final key = 'menu_sections|$menuId';
     final fresh = _cache.getFresh<List<MenuSection>>(key, ttl: _menuTtl);
     if (fresh != null) return fresh;
@@ -115,7 +115,7 @@ class MenuRepository {
     }
   }
 
-  Future<List<MenuItem>> getMenuItems(
+  Future<List<MenuItem>> fetchMenuItems(
     String menuId, {
     List<MenuSection>? sections,
     bool allowV1Fallback = true,
@@ -157,7 +157,7 @@ class MenuRepository {
     }
   }
 
-  Future<BusinessPriceTrust> getBusinessPriceTrust(String businessId) async {
+  Future<BusinessPriceTrust> fetchBusinessPriceTrust(String businessId) async {
     try {
       final res = await client.rpc(
         'get_business_price_trust_v1',
@@ -250,7 +250,7 @@ class MenuRepository {
     }
   }
 
-  Future<List<MenuItemPhoto>> getMenuItemPhotos(
+  Future<List<MenuItemPhoto>> fetchMenuItemPhotos(
     String menuItemId, {
     int limit = 30,
   }) async {
@@ -530,7 +530,7 @@ class MenuRepository {
     }
   }
 
-  Future<List<MenuItemPriceHistoryEntry>> getMenuItemPriceHistory(
+  Future<List<MenuItemPriceHistoryEntry>> fetchMenuItemPriceHistory(
     String menuItemId, {
     int limit = 5,
   }) async {
@@ -552,7 +552,7 @@ class MenuRepository {
     }
   }
 
-  Future<MenuItemPriceStatus> getMenuItemPriceStatus(String menuItemId) async {
+  Future<MenuItemPriceStatus> fetchMenuItemPriceStatus(String menuItemId) async {
     try {
       final res = await client.rpc(
         'get_menu_item_price_status_v1',
@@ -564,7 +564,7 @@ class MenuRepository {
     }
   }
 
-  Future<MenuItemValueScore> getMenuItemValueScore(String menuItemId) async {
+  Future<MenuItemValueScore> fetchMenuItemValueScore(String menuItemId) async {
     try {
       final res = await client.rpc(
         'get_menu_item_value_score_v1',
@@ -576,7 +576,7 @@ class MenuRepository {
     }
   }
 
-  Future<Map<String, DateTime?>> getMenuItemsPriceAge(
+  Future<Map<String, DateTime?>> fetchMenuItemsPriceAge(
     List<String> itemIds,
   ) async {
     try {
@@ -599,7 +599,7 @@ class MenuRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getBillEstimate({
+  Future<Map<String, dynamic>> fetchBillEstimate({
     required String businessId,
     required List<Map<String, dynamic>> items,
     int? tipPct,
@@ -656,7 +656,7 @@ class MenuRepository {
     int limit = 200,
     int offset = 0,
   }) async {
-    final resolvedSections = sections ?? await getMenuSections(menuId);
+    final resolvedSections = sections ?? await fetchMenuSections(menuId);
     final sectionIds = resolvedSections
         .map((section) => section.id)
         .where((id) => id.isNotEmpty)

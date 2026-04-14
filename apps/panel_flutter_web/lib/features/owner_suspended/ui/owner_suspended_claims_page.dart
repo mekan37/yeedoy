@@ -89,17 +89,17 @@ class _OwnerSuspendedClaimsPageState
                   spacing: 8,
                   children: [
                     AppFilterChip(
-                      label: 'Pending',
+                      label: 'Bekliyor',
                       selected: st.statusFilter == 'pending',
                       onTap: () => controller.setStatusFilter('pending'),
                     ),
                     AppFilterChip(
-                      label: 'Approved',
+                      label: 'Onaylandı',
                       selected: st.statusFilter == 'approved',
                       onTap: () => controller.setStatusFilter('approved'),
                     ),
                     AppFilterChip(
-                      label: 'Fulfilled',
+                      label: 'Teslim edildi',
                       selected: st.statusFilter == 'fulfilled',
                       onTap: () => controller.setStatusFilter('fulfilled'),
                     ),

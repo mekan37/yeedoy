@@ -17,5 +17,5 @@ final myWeeklyMissionsProvider = FutureProvider<WeeklyMissions>((ref) async {
       completedCount: 0,
     );
   }
-  return ref.read(profileRepositoryProvider).getMyWeeklyMissions();
+  return ref.read(profileRepositoryProvider).fetchMyWeeklyMissions();
 });

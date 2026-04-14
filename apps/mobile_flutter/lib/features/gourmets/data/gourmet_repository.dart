@@ -66,7 +66,7 @@ class GourmetRepository {
     }
   }
 
-  Future<List<GourmetUser>> getMyFollowing({
+  Future<List<GourmetUser>> fetchMyFollowing({
     int limit = 20,
     int offset = 0,
     bool force = false,

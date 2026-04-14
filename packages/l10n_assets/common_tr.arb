@@ -1,0 +1,287 @@
+{
+  "@@locale": "tr",
+  "@@description": "Shared localization keys present in both mobile and panel apps. Edit here, then run scripts/sync-l10n.mjs to propagate.",
+  "appName": "Yeedoy",
+  "@appName": {
+    "description": "Auto metadata for appName"
+  },
+  "map": "Harita",
+  "@map": {
+    "description": "Auto metadata for map"
+  },
+  "save": "Kaydet",
+  "@save": {
+    "description": "Auto metadata for save"
+  },
+  "cancel": "İptal",
+  "@cancel": {
+    "description": "Auto metadata for cancel"
+  },
+  "logout": "Çıkış Yap",
+  "@logout": {
+    "description": "Auto metadata for logout"
+  },
+  "uploadPhoto": "Fotoğraf Yükle",
+  "@uploadPhoto": {
+    "description": "Auto metadata for uploadPhoto"
+  },
+  "saving": "Kaydediliyor...",
+  "@saving": {
+    "description": "Auto metadata for saving"
+  },
+  "preview": "Önizleme",
+  "@preview": {
+    "description": "Auto metadata for preview"
+  },
+  "embed": "Gömülü",
+  "@embed": {
+    "description": "Auto metadata for embed"
+  },
+  "share": "Paylaş",
+  "@share": {
+    "description": "Auto metadata for share"
+  },
+  "invalidLinkMessage": "Geçersiz bağlantı",
+  "@invalidLinkMessage": {
+    "description": "Auto metadata for invalidLinkMessage"
+  },
+  "browserOpened": "Tarayıcıda açıldı",
+  "@browserOpened": {
+    "description": "Auto metadata for browserOpened"
+  },
+  "embedFailed": "İçerik görüntülenemedi, tarayıcıya yönlendirdik.",
+  "@embedFailed": {
+    "description": "Auto metadata for embedFailed"
+  },
+  "back": "Geri",
+  "@back": {
+    "description": "Auto metadata for back"
+  },
+  "reviewsCount": "Yorum ({count})",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for reviewsCount"
+  },
+  "openNow": "Şuan açık",
+  "@openNow": {
+    "description": "Auto metadata for openNow"
+  },
+  "verified": "Doğrulandı",
+  "@verified": {
+    "description": "Auto metadata for verified"
+  },
+  "businessLabel": "İşletme",
+  "@businessLabel": {
+    "description": "Auto metadata for businessLabel"
+  },
+  "menu": "Menü",
+  "@menu": {
+    "description": "Auto metadata for menu"
+  },
+  "apply": "Uygula",
+  "@apply": {
+    "description": "Auto metadata for apply"
+  },
+  "unknown": "Bilinmiyor",
+  "@unknown": {
+    "description": "Auto metadata for unknown"
+  },
+  "title": "title",
+  "@title": {
+    "description": "Auto metadata for title"
+  },
+  "approved": "Onaylandı",
+  "@approved": {
+    "description": "Auto metadata for approved"
+  },
+  "tumu": "Tümü",
+  "@tumu": {
+    "description": "Auto metadata for tumu"
+  },
+  "pending": "Beklemede",
+  "@pending": {
+    "description": "Auto metadata for pending"
+  },
+  "rejected": "Reddedildi",
+  "@rejected": {
+    "description": "Auto metadata for rejected"
+  },
+  "duzenle": "Düzenle",
+  "@duzenle": {
+    "description": "Auto metadata for duzenle"
+  },
+  "sla": "Geri Dönüş Süresi",
+  "@sla": {
+    "description": "Auto metadata for sla"
+  },
+  "yenile": "Yenile",
+  "@yenile": {
+    "description": "Auto metadata for yenile"
+  },
+  "start": "Başla",
+  "@start": {
+    "description": "Auto metadata for start"
+  },
+  "campaign": "Kampanya",
+  "@campaign": {
+    "description": "Auto metadata for campaign"
+  },
+  "go": "Git",
+  "@go": {
+    "description": "Auto metadata for go"
+  },
+  "menuShareNotFoundTitle": "Menü bulunamadı • {appName}",
+  "@menuShareNotFoundTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuShareNotFoundTitle"
+  },
+  "menuShareNotFoundDescription": "Paylaşılan menü içeriği bulunamadı.",
+  "@menuShareNotFoundDescription": {
+    "description": "Auto metadata for menuShareNotFoundDescription"
+  },
+  "menuContentNotFound": "Menü içeriği bulunamadı",
+  "@menuContentNotFound": {
+    "description": "Auto metadata for menuContentNotFound"
+  },
+  "openAppForBetterExperience": "Daha iyi deneyim için uygulamayı aç.",
+  "@openAppForBetterExperience": {
+    "description": "Auto metadata for openAppForBetterExperience"
+  },
+  "openApp": "Uygulamayı Aç",
+  "@openApp": {
+    "description": "Auto metadata for openApp"
+  },
+  "nearbyPeopleViewed": "Yakındaki {count} kişi görüntüledi",
+  "@nearbyPeopleViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for nearbyPeopleViewed"
+  },
+  "verifiedPrices": "Doğrulanmış fiyatlar",
+  "@verifiedPrices": {
+    "description": "Auto metadata for verifiedPrices"
+  },
+  "selectRatingFirst": "Önce puan seç",
+  "@selectRatingFirst": {
+    "description": "Auto metadata for selectRatingFirst"
+  },
+  "thankYou": "Teşekkürler",
+  "@thankYou": {
+    "description": "Auto metadata for thankYou"
+  },
+  "noProductsFound": "Ürün bulunamadı",
+  "@noProductsFound": {
+    "description": "Auto metadata for noProductsFound"
+  },
+  "preparedWithApp": "{appName} ile hazırlandı",
+  "@preparedWithApp": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for preparedWithApp"
+  },
+  "tableLabel": "Masa {tableNo}",
+  "@tableLabel": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tableLabel"
+  },
+  "tableServiceQuestion": "Masa {tableNo} - servis var mı?",
+  "@tableServiceQuestion": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tableServiceQuestion"
+  },
+  "shortNoteOptional": "Kısa not (opsiyonel)",
+  "@shortNoteOptional": {
+    "description": "Auto metadata for shortNoteOptional"
+  },
+  "submit": "Gönder",
+  "@submit": {
+    "description": "Auto metadata for submit"
+  },
+  "submitted": "Gönderildi",
+  "@submitted": {
+    "description": "Auto metadata for submitted"
+  },
+  "submitting": "Gönderiliyor",
+  "@submitting": {
+    "description": "Auto metadata for submitting"
+  },
+  "retry": "Tekrar dene",
+  "@retry": {
+    "description": "Auto metadata for retry"
+  },
+  "register": "Kayıt Ol",
+  "@register": {
+    "description": "Auto metadata for register"
+  },
+  "login": "Giriş Yap",
+  "@login": {
+    "description": "Auto metadata for login"
+  },
+  "cover": "Kuver",
+  "@cover": {
+    "description": "Auto metadata for cover"
+  },
+  "note": "Not",
+  "@note": {
+    "description": "Auto metadata for note"
+  },
+  "menuItemName": "Ürün adı",
+  "@menuItemName": {
+    "description": "Auto metadata for menuItemName"
+  },
+  "price": "Fiyat",
+  "@price": {
+    "description": "Auto metadata for price"
+  },
+  "priceStability": "Fiyat istikrarı",
+  "@priceStability": {
+    "description": "Auto metadata for priceStability"
+  },
+  "loginActionFailedTitle": "İşlem tamamlanamadı",
+  "@loginActionFailedTitle": {
+    "description": "Auto metadata for loginActionFailedTitle"
+  },
+  "loginActionFailedDescription": "{error}\nBağlantıyı kontrol edip tekrar dene.",
+  "@loginActionFailedDescription": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for loginActionFailedDescription"
+  },
+  "legalCopyrightSectionTitle": "Foto Telif Bildirimi",
+  "@legalCopyrightSectionTitle": {
+    "description": "Auto metadata for legalCopyrightSectionTitle"
+  },
+  "legalOwnershipAppealSectionTitle": "İşletme Sahipliği İtirazı",
+  "@legalOwnershipAppealSectionTitle": {
+    "description": "Auto metadata for legalOwnershipAppealSectionTitle"
+  },
+  "legalProductPrinciplesSectionTitle": "Ürün İlkeleri",
+  "@legalProductPrinciplesSectionTitle": {
+    "description": "Auto metadata for legalProductPrinciplesSectionTitle"
+  }
+}

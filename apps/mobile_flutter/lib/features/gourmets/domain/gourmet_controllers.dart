@@ -121,7 +121,7 @@ class GourmetFollowingController extends Notifier<GourmetListState> {
     final reqId = ++_requestId;
     state = state.copyWith(loading: true, isLoadingMore: false, items: [], hasMore: true, error: null);
     try {
-      final list = await ref.read(gourmetRepositoryProvider).getMyFollowing(
+      final list = await ref.read(gourmetRepositoryProvider).fetchMyFollowing(
             limit: pageSize,
             offset: 0,
             force: force,
@@ -144,7 +144,7 @@ class GourmetFollowingController extends Notifier<GourmetListState> {
     final loadMoreId = ++_loadMoreId;
     state = state.copyWith(isLoadingMore: true, error: null);
     try {
-      final list = await ref.read(gourmetRepositoryProvider).getMyFollowing(
+      final list = await ref.read(gourmetRepositoryProvider).fetchMyFollowing(
             limit: pageSize,
             offset: state.items.length,
           );
@@ -204,7 +204,7 @@ class FeedController extends Notifier<FeedState> {
     final reqId = ++_requestId;
     state = state.copyWith(loading: true, isLoadingMore: false, items: [], hasMore: true, error: null);
     try {
-      final list = await ref.read(feedRepositoryProvider).getMyFeed(
+      final list = await ref.read(feedRepositoryProvider).fetchMyFeed(
             limit: pageSize,
             offset: 0,
             force: force,
@@ -227,7 +227,7 @@ class FeedController extends Notifier<FeedState> {
     final loadMoreId = ++_loadMoreId;
     state = state.copyWith(isLoadingMore: true, error: null);
     try {
-      final list = await ref.read(feedRepositoryProvider).getMyFeed(
+      final list = await ref.read(feedRepositoryProvider).fetchMyFeed(
             limit: pageSize,
             offset: state.items.length,
           );

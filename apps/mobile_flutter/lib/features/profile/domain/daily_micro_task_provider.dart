@@ -7,5 +7,5 @@ import 'daily_micro_task.dart';
 final myDailyMicroTaskProvider = FutureProvider<DailyMicroTask?>((ref) async {
   final user = ref.watch(userProvider);
   if (user == null) return null;
-  return ref.read(profileRepositoryProvider).getMyDailyMicroTask();
+  return ref.read(profileRepositoryProvider).fetchMyDailyMicroTask();
 });

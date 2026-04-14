@@ -14,7 +14,7 @@ class DietProfileRepository {
   DietProfileRepository(this.client);
   final SupabaseClient client;
 
-  Future<DietProfile?> getMyDietProfile() async {
+  Future<DietProfile?> fetchMyDietProfile() async {
     try {
       final res = await client.rpc('get_my_diet_profile_v1');
       if (res == null) return null;

@@ -68,7 +68,7 @@ class MySuggestionsController extends Notifier<MySuggestionsPagingState> {
 
     try {
       final repo = ref.read(suggestionsRepositoryProvider);
-      final list = await repo.getMySuggestions(
+      final list = await repo.fetchMySuggestions(
         userId: user.id,
         limit: pageSize,
         offset: 0,
@@ -90,7 +90,7 @@ class MySuggestionsController extends Notifier<MySuggestionsPagingState> {
 
     try {
       final repo = ref.read(suggestionsRepositoryProvider);
-      final list = await repo.getMySuggestions(
+      final list = await repo.fetchMySuggestions(
         userId: user.id,
         limit: pageSize,
         offset: state.items.length,

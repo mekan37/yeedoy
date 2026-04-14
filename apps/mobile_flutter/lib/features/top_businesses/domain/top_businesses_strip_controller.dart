@@ -11,7 +11,7 @@ class _TopBusinessesController extends AsyncNotifier<List<TopBusiness>> {
 
   @override
   Future<List<TopBusiness>> build() async {
-    return ref.read(topBusinessesRepositoryProvider).getTopBusinesses(
+    return ref.read(topBusinessesRepositoryProvider).fetchTopBusinesses(
           period: period,
           limit: limit,
           minReviews: minReviews,
@@ -21,7 +21,7 @@ class _TopBusinessesController extends AsyncNotifier<List<TopBusiness>> {
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(topBusinessesRepositoryProvider).getTopBusinesses(
+      return ref.read(topBusinessesRepositoryProvider).fetchTopBusinesses(
             period: period,
             limit: limit,
             minReviews: minReviews,

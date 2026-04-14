@@ -18,13 +18,13 @@ class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
 
   @override
   Future<List<MenuItemPhoto>> build() async {
-    return ref.read(menuRepositoryProvider).getMenuItemPhotos(menuItemId);
+    return ref.read(menuRepositoryProvider).fetchMenuItemPhotos(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(menuRepositoryProvider).getMenuItemPhotos(menuItemId);
+      return ref.read(menuRepositoryProvider).fetchMenuItemPhotos(menuItemId);
     });
   }
 
@@ -95,7 +95,7 @@ class MenuItemPriceStatusController extends AsyncNotifier<MenuItemPriceStatus> {
 
   @override
   Future<MenuItemPriceStatus> build() async {
-    return ref.read(menuRepositoryProvider).getMenuItemPriceStatus(menuItemId);
+    return ref.read(menuRepositoryProvider).fetchMenuItemPriceStatus(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
@@ -103,7 +103,7 @@ class MenuItemPriceStatusController extends AsyncNotifier<MenuItemPriceStatus> {
     state = await AsyncValue.guard(() {
       return ref
           .read(menuRepositoryProvider)
-          .getMenuItemPriceStatus(menuItemId);
+          .fetchMenuItemPriceStatus(menuItemId);
     });
   }
 
@@ -132,13 +132,13 @@ class MenuItemValueScoreController extends AsyncNotifier<MenuItemValueScore> {
 
   @override
   Future<MenuItemValueScore> build() async {
-    return ref.read(menuRepositoryProvider).getMenuItemValueScore(menuItemId);
+    return ref.read(menuRepositoryProvider).fetchMenuItemValueScore(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(menuRepositoryProvider).getMenuItemValueScore(menuItemId);
+      return ref.read(menuRepositoryProvider).fetchMenuItemValueScore(menuItemId);
     });
   }
 }
@@ -150,7 +150,7 @@ class MenuItemPriceHistoryController
 
   @override
   Future<List<MenuItemPriceHistoryEntry>> build() async {
-    return ref.read(menuRepositoryProvider).getMenuItemPriceHistory(menuItemId);
+    return ref.read(menuRepositoryProvider).fetchMenuItemPriceHistory(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
@@ -158,7 +158,7 @@ class MenuItemPriceHistoryController
     state = await AsyncValue.guard(() {
       return ref
           .read(menuRepositoryProvider)
-          .getMenuItemPriceHistory(menuItemId);
+          .fetchMenuItemPriceHistory(menuItemId);
     });
   }
 }

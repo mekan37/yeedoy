@@ -6,6 +6,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/media/app_network_image.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_receipt_submissions_repository.dart';
 import '../domain/admin_receipt_submission.dart';
@@ -54,7 +55,7 @@ class _AdminReceiptSubmissionsPageState
     try {
       final repo = ref.read(adminReceiptSubmissionsRepositoryProvider);
       final results = await Future.wait<dynamic>([
-        repo.getSummary(
+        repo.fetchSummary(
           query: _queryCtrl.text,
           reviewStatus: _normalizedReviewStatus,
           onlyUnmatched: _onlyUnmatched,
@@ -251,24 +252,17 @@ class _AdminReceiptSubmissionsPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                l10n.adminReceiptSubmissionsTitle,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-              ),
-              const Spacer(),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminReceiptSubmissionsTitle),
+            description: l10n.adminReceiptSubmissionsSubtitle,
+            actions: [
               IconButton(
                 onPressed: _load,
                 icon: const Icon(Icons.refresh),
                 tooltip: l10n.yenile,
               ),
             ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            l10n.adminReceiptSubmissionsSubtitle,
-            style: const TextStyle(color: AppColors.muted),
           ),
           const SizedBox(height: 12),
           _buildFilters(context),

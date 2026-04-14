@@ -1,4 +1,4 @@
-# Mobile Features Matrix
+# Mobil Ozellik Matrisi
 
 Bu belge `apps/mobile_flutter` urun kapsam matrisi icin tek kaynaktir.
 

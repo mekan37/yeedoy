@@ -7,7 +7,7 @@ class OwnerOnboardingRepository {
   OwnerOnboardingRepository(this.client);
   final SupabaseClient client;
 
-  Future<OwnerOnboardingProgress> getProgress(String businessId) async {
+  Future<OwnerOnboardingProgress> fetchProgress(String businessId) async {
     try {
       final res = await client.rpc('get_owner_onboarding_progress_v1', params: {
         'p_business_id': businessId,
@@ -44,7 +44,7 @@ class OwnerOnboardingRepository {
     }
   }
 
-  Future<OwnerBusinessProfile> getBusinessProfile(String businessId) async {
+  Future<OwnerBusinessProfile> fetchBusinessProfile(String businessId) async {
     try {
       final res = await client
           .from('businesses')
@@ -83,7 +83,7 @@ class OwnerOnboardingRepository {
     }
   }
 
-  Future<OwnerBusinessHours?> getBusinessHours(String businessId) async {
+  Future<OwnerBusinessHours?> fetchBusinessHours(String businessId) async {
     try {
       final res = await client
           .from('business_hours')
@@ -123,7 +123,7 @@ class OwnerOnboardingRepository {
     }
   }
 
-  Future<OwnerOnboardingMenuStatus> getMenuStatus(String businessId) async {
+  Future<OwnerOnboardingMenuStatus> fetchMenuStatus(String businessId) async {
     try {
       final menusRes = await client
           .from('menus')
@@ -188,7 +188,7 @@ class OwnerOnboardingRepository {
     }
   }
 
-  Future<OwnerOnboardingMenuPreview?> getMenuPreview(String businessId) async {
+  Future<OwnerOnboardingMenuPreview?> fetchMenuPreview(String businessId) async {
     try {
       final menusRes = await client
           .from('menus')
@@ -245,7 +245,7 @@ class OwnerOnboardingRepository {
     }
   }
 
-  Future<OwnerBusinessProfileScore> getProfileScore(String businessId) async {
+  Future<OwnerBusinessProfileScore> fetchProfileScore(String businessId) async {
     try {
       final res = await client.rpc('get_business_profile_score_v1', params: {
         'p_business_id': businessId,

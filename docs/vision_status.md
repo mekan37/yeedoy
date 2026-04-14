@@ -34,7 +34,7 @@ Yeedoy kod tabani, mobilde kesif + seffaflik + topluluk katkisi; panelde owner/a
 
 Bu dosya backlog veya ayrintili tamamlanan is listesi tutmaz. Son snapshot'a giren tarihsel release detaylari icin:
 
-- `docs/release_index.md`
+- `docs/archive/history/release_index.md`
 
 Acik ve sonraki adim listesi icin:
 

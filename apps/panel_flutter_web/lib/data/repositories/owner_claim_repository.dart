@@ -55,7 +55,7 @@ class OwnerClaimRepository {
     }
   }
 
-  Future<List<OwnerClaim>> getMyClaims({int? limit, int? offset}) async {
+  Future<List<OwnerClaim>> fetchMyClaims({int? limit, int? offset}) async {
     try {
       var query = client
           .from('owner_claims')
@@ -76,7 +76,7 @@ class OwnerClaimRepository {
     }
   }
 
-  Future<Map<String, String>> getBusinessNamesByIds(List<String> ids) async {
+  Future<Map<String, String>> fetchBusinessNamesByIds(List<String> ids) async {
     if (ids.isEmpty) return {};
     try {
       final List<dynamic> res = await client

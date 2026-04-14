@@ -26,7 +26,7 @@ class OwnerMenuPhotoRepository {
   final MenuRepository menuRepository;
 
   Future<List<MenuItemPhoto>> listMenuItemPhotos(String menuItemId) async {
-    return menuRepository.getMenuItemPhotos(menuItemId);
+    return menuRepository.fetchMenuItemPhotos(menuItemId);
   }
 
   Future<MediaUploadResult?> uploadMenuItemPhoto(String menuItemId) async {
@@ -44,6 +44,20 @@ class OwnerMenuPhotoRepository {
       provider: 'supabase_storage',
     );
     return upload;
+  }
+
+  Future<String?> addMenuItemPhotoFromUrl({
+    required String menuItemId,
+    required String url,
+    String provider = 'ai_generated',
+  }) async {
+    return menuRepository.addMenuItemPhoto(
+      menuItemId: menuItemId,
+      url: url,
+      urlLarge: url,
+      urlThumb: url,
+      provider: provider,
+    );
   }
 
   Future<void> deleteMenuItemPhoto(String photoId) async {

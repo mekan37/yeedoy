@@ -14,6 +14,7 @@ import '../../../core/network/supabase_provider.dart';
 import '../../../core/storage/admin_table_saved_views_prefs.dart';
 import '../../../core/web/web_utils.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/components/permission_denied_view.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/admin_businesses_repository.dart';
@@ -39,6 +40,18 @@ class AdminBusinessesPage extends ConsumerStatefulWidget {
 
 class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
   static const _savedViewScope = 'admin_businesses';
+  static const _columns = <AdminVirtualTableColumn>[
+    AdminVirtualTableColumn(width: 56, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 56, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 240, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 160, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 140, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 150, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 140, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 120, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 140, label: SizedBox.shrink()),
+    AdminVirtualTableColumn(width: 360, label: SizedBox.shrink()),
+  ];
 
   final searchCtrl = TextEditingController();
   final cityCtrl = TextEditingController();
@@ -129,13 +142,11 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                l10n.adminBusinessesTitle,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-              ),
-              const Spacer(),
+          PanelPageHeader(
+            padding: EdgeInsets.zero,
+            title: Text(l10n.adminBusinessesTitle),
+            description: l10n.adminShellBusinessesDescription,
+            actions: [
               if (_riskLoading)
                 const Padding(
                   padding: EdgeInsets.only(right: 8),
@@ -299,12 +310,11 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
                 return Column(
                   children: [
                     Expanded(
-                      child: AdminTableCard(
+                      child: AdminVirtualTableCard(
                         emptyLabel: l10n.adminBusinessesEmpty,
-                        sortColumnIndex: _sortColumnIndex,
-                        sortAscending: _sortAscending,
                         columns: [
-                          DataColumn(
+                          AdminVirtualTableColumn(
+                            width: 56,
                             label: Checkbox(
                               value: allPageSelected,
                               onChanged: (value) {
@@ -322,52 +332,113 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
                               },
                             ),
                           ),
-                          const DataColumn(label: Text('')),
-                          DataColumn(
-                            label: Text(l10n.adminBusinessesNameColumn),
-                            onSort: (_, ascending) =>
-                                _sortBusinessesBy('name', ascending),
+                          const AdminVirtualTableColumn(
+                            width: 56,
+                            label: Text(''),
                           ),
-                          DataColumn(
-                            label: Text(l10n.adminCommonLocationLabel),
-                            onSort: (_, ascending) =>
-                                _sortBusinessesBy('location', ascending),
-                          ),
-                          DataColumn(
-                            label: Text(l10n.ownerCategoryLabel),
-                            onSort: (_, ascending) =>
-                                _sortBusinessesBy('category', ascending),
-                          ),
-                          DataColumn(
-                            label: Text(l10n.adminCommonStatusLabel),
-                            onSort: (_, ascending) =>
-                                _sortBusinessesBy('status', ascending),
-                          ),
-                          DataColumn(
-                            label: Text(l10n.adminBusinessesRiskColumn),
-                            onSort: (_, ascending) =>
-                                _sortBusinessesBy('risk', ascending),
-                          ),
-                          DataColumn(
-                            label: Text(l10n.adminBusinessesCreatedAtColumn),
-                            onSort: (_, ascending) =>
-                                _sortBusinessesBy('createdAt', ascending),
-                          ),
-                          DataColumn(
-                            label: Text(l10n.adminBusinessesAssignedColumn),
-                            onSort: (_, ascending) =>
-                                _sortBusinessesBy('assigned', ascending),
-                          ),
-                          DataColumn(label: Text(l10n.adminCommonActionsLabel)),
-                        ],
-                        rows: [
-                          for (final item in pageItems)
-                            _buildBusinessRow(
-                              context: context,
-                              item: item,
-                              currentUserId: user?.id,
+                          AdminVirtualTableColumn(
+                            width: 240,
+                            label: _HeaderSortLabel(
+                              label: l10n.adminBusinessesNameColumn,
+                              active: _sortKey == 'name',
+                              ascending: _sortAscending,
+                              onTap: () => _sortBusinessesBy(
+                                'name',
+                                _sortKey == 'name' ? !_sortAscending : true,
+                              ),
                             ),
+                          ),
+                          AdminVirtualTableColumn(
+                            width: 160,
+                            label: _HeaderSortLabel(
+                              label: l10n.adminCommonLocationLabel,
+                              active: _sortKey == 'location',
+                              ascending: _sortAscending,
+                              onTap: () => _sortBusinessesBy(
+                                'location',
+                                _sortKey == 'location'
+                                    ? !_sortAscending
+                                    : true,
+                              ),
+                            ),
+                          ),
+                          AdminVirtualTableColumn(
+                            width: 140,
+                            label: _HeaderSortLabel(
+                              label: l10n.ownerCategoryLabel,
+                              active: _sortKey == 'category',
+                              ascending: _sortAscending,
+                              onTap: () => _sortBusinessesBy(
+                                'category',
+                                _sortKey == 'category'
+                                    ? !_sortAscending
+                                    : true,
+                              ),
+                            ),
+                          ),
+                          AdminVirtualTableColumn(
+                            width: 150,
+                            label: _HeaderSortLabel(
+                              label: l10n.adminCommonStatusLabel,
+                              active: _sortKey == 'status',
+                              ascending: _sortAscending,
+                              onTap: () => _sortBusinessesBy(
+                                'status',
+                                _sortKey == 'status' ? !_sortAscending : true,
+                              ),
+                            ),
+                          ),
+                          AdminVirtualTableColumn(
+                            width: 140,
+                            label: _HeaderSortLabel(
+                              label: l10n.adminBusinessesRiskColumn,
+                              active: _sortKey == 'risk',
+                              ascending: _sortAscending,
+                              onTap: () => _sortBusinessesBy(
+                                'risk',
+                                _sortKey == 'risk' ? !_sortAscending : false,
+                              ),
+                            ),
+                          ),
+                          AdminVirtualTableColumn(
+                            width: 120,
+                            label: _HeaderSortLabel(
+                              label: l10n.adminBusinessesCreatedAtColumn,
+                              active: _sortKey == 'createdAt',
+                              ascending: _sortAscending,
+                              onTap: () => _sortBusinessesBy(
+                                'createdAt',
+                                _sortKey == 'createdAt'
+                                    ? !_sortAscending
+                                    : false,
+                              ),
+                            ),
+                          ),
+                          AdminVirtualTableColumn(
+                            width: 140,
+                            label: _HeaderSortLabel(
+                              label: l10n.adminBusinessesAssignedColumn,
+                              active: _sortKey == 'assigned',
+                              ascending: _sortAscending,
+                              onTap: () => _sortBusinessesBy(
+                                'assigned',
+                                _sortKey == 'assigned'
+                                    ? !_sortAscending
+                                    : true,
+                              ),
+                            ),
+                          ),
+                          AdminVirtualTableColumn(
+                            width: 360,
+                            label: Text(l10n.adminCommonActionsLabel),
+                          ),
                         ],
+                        rowCount: pageItems.length,
+                        rowBuilder: (context, index) => _buildBusinessRow(
+                          context: context,
+                          item: pageItems[index],
+                          currentUserId: user?.id,
+                        ),
                       ),
                     ),
                     if (st.isLoadingMore)
@@ -419,26 +490,28 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
     );
   }
 
-  DataRow _buildBusinessRow({
+  Widget _buildBusinessRow({
     required BuildContext context,
     required AdminBusinessItem item,
     required String? currentUserId,
   }) {
     final l10n = context.l10n;
     final risk = _riskById[item.id];
-    return DataRow(
-      selected: _selectedIds.contains(item.id),
-      onSelectChanged: (value) {
-        setState(() {
-          if (value ?? false) {
-            _selectedIds.add(item.id);
-          } else {
-            _selectedIds.remove(item.id);
-          }
-        });
-      },
-      cells: [
-        DataCell(
+    return AdminVirtualTableRowView(
+      columns: _columns,
+      row: AdminVirtualTableRow(
+        key: ValueKey(item.id),
+        selected: _selectedIds.contains(item.id),
+        onTap: () {
+          setState(() {
+            if (_selectedIds.contains(item.id)) {
+              _selectedIds.remove(item.id);
+            } else {
+              _selectedIds.add(item.id);
+            }
+          });
+        },
+        cells: [
           Checkbox(
             value: _selectedIds.contains(item.id),
             onChanged: (value) {
@@ -451,9 +524,7 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
               });
             },
           ),
-        ),
-        DataCell(_logoPreview(item.logoUrl)),
-        DataCell(
+          _logoPreview(item.logoUrl),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 220),
             child: Column(
@@ -479,19 +550,15 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
               ],
             ),
           ),
-        ),
-        DataCell(Text(_locationLabel(item))),
-        DataCell(Text((item.category ?? '-').trim().isEmpty ? '-' : item.category!)),
-        DataCell(
+          Text(_locationLabel(item)),
+          Text((item.category ?? '-').trim().isEmpty ? '-' : item.category!),
           _BusinessStatusBadge(
             label: _businessStatusLabel(context, item, risk),
             status: _businessStatus(item, risk),
           ),
-        ),
-        DataCell(_riskCell(context, risk)),
-        DataCell(Text(_fmtDate(item.createdAt))),
-        DataCell(Text(_assignedLabel(context, item.assignedTo, currentUserId))),
-        DataCell(
+          _riskCell(context, risk),
+          Text(_fmtDate(item.createdAt)),
+          Text(_assignedLabel(context, item.assignedTo, currentUserId)),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 340),
             child: Wrap(
@@ -521,8 +588,8 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -1253,7 +1320,7 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
     try {
       final map = await ref
           .read(adminBusinessesRepositoryProvider)
-          .getRiskSignals(items.map((e) => e.id).toList());
+          .fetchRiskSignals(items.map((e) => e.id).toList());
       if (!mounted) return;
       setState(() {
         _riskById
@@ -1300,7 +1367,12 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
       'business_id': item.id,
       'lang': 'tr',
       'theme': 'bold',
-    });
+    }, target: '_blank');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerDigitalMenuOpenedInNewTab)),
+      );
+    }
   }
 
   Future<void> _copyPublicMenuUrl(
@@ -1503,16 +1575,6 @@ class _AdminBusinessesPageState extends ConsumerState<AdminBusinessesPage> {
     }
   }
 
-  int? get _sortColumnIndex => switch (_sortKey) {
-        'name' => 2,
-        'location' => 3,
-        'category' => 4,
-        'status' => 5,
-        'risk' => 6,
-        'createdAt' => 7,
-        'assigned' => 8,
-        _ => null,
-      };
 }
 
 class _BusinessBulkStatusBar extends StatelessWidget {
@@ -1568,6 +1630,40 @@ class _BusinessBulkStatusBar extends StatelessWidget {
           child: Text(l10n.apply),
         ),
       ],
+    );
+  }
+}
+
+class _HeaderSortLabel extends StatelessWidget {
+  const _HeaderSortLabel({
+    required this.label,
+    required this.active,
+    required this.ascending,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool active;
+  final bool ascending;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(child: Text(label)),
+          const SizedBox(width: 4),
+          Icon(
+            active
+                ? (ascending ? Icons.arrow_upward : Icons.arrow_downward)
+                : Icons.unfold_more,
+            size: 14,
+          ),
+        ],
+      ),
     );
   }
 }

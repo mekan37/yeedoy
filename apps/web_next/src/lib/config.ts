@@ -12,4 +12,5 @@ export const appConfig = {
   siteUrl: () => process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'http://localhost:3000',
   panelUrl: () => process.env.NEXT_PUBLIC_PANEL_URL?.trim() || null,
   serviceRoleKey: () => process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || null,
+  revalidateSecret: () => process.env.REVALIDATE_SECRET?.trim() || null,
 };
