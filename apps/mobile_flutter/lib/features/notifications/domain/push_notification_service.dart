@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/analytics_repository.dart';
@@ -29,6 +30,19 @@ final pushTapIntentProvider =
     NotifierProvider<PushTapIntentNotifier, PushTapIntent?>(
       PushTapIntentNotifier.new,
     );
+
+/// True if the user has explicitly denied notification permission.
+final notificationsDeniedProvider =
+    NotifierProvider<NotificationsDeniedNotifier, bool>(
+      NotificationsDeniedNotifier.new,
+    );
+
+class NotificationsDeniedNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void deny() => state = true;
+}
 
 class PushTapIntentNotifier extends Notifier<PushTapIntent?> {
   @override
@@ -65,12 +79,15 @@ class PushNotificationService {
     final messaging = FirebaseMessaging.instance;
 
     try {
-      await messaging.requestPermission(
+      final settings = await messaging.requestPermission(
         alert: true,
         badge: true,
         sound: true,
         provisional: false,
       );
+      if (settings.authorizationStatus == AuthorizationStatus.denied) {
+        ref.read(notificationsDeniedProvider.notifier).deny();
+      }
     } catch (_) {
       // Some platforms may throw when notification permission is unsupported.
     }
@@ -114,8 +131,13 @@ class PushNotificationService {
   Future<void> _registerToken(String token) async {
     final platform = _mobilePlatform();
     if (platform == null) return;
+    String? appVersion;
+    try {
+      final info = await PackageInfo.fromPlatform();
+      appVersion = '${info.version}+${info.buildNumber}';
+    } catch (_) {}
     final repo = ref.read(inboxRepositoryProvider);
-    await repo.registerDevice(fcmToken: token, platform: platform);
+    await repo.registerDevice(fcmToken: token, platform: platform, appVersion: appVersion);
     _lastToken = token;
   }
 
@@ -188,6 +210,7 @@ class PushNotificationService {
 
   String _eventNameForType(String type) {
     switch (type) {
+      case 'price_suggestion_result':
       case 'price_verification_result':
       case 'favorite_price_changed':
       case 'owner_new_price_suggestion':
@@ -195,6 +218,8 @@ class PushNotificationService {
       case 'review_reply':
       case 'owner_new_review':
         return AppEvents.commentReplyPushOpen;
+      case 'favorite_revisit_reminder':
+        return AppEvents.notificationOpen;
       default:
         return AppEvents.notificationOpen;
     }

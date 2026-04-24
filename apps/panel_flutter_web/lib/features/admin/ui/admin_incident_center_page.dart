@@ -80,16 +80,20 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
               if (items.isEmpty) {
                 return Text(l10n.adminIncidentCenterNoLogs);
               }
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        l10n.adminIncidentCenterTransparentLogTitle,
-                        style: TextStyle(fontWeight: FontWeight.w900),
-                      ),
+              return Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.card,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.adminIncidentCenterTransparentLogTitle,
+                      style: const TextStyle(fontWeight: FontWeight.w900),
+                    ),
                       const SizedBox(height: 10),
                       for (final item in items.take(20)) ...[
                         Text(
@@ -109,7 +113,6 @@ class _AdminIncidentCenterPageState extends ConsumerState<AdminIncidentCenterPag
                       ],
                     ],
                   ),
-                ),
               );
             },
           ),
@@ -169,41 +172,44 @@ class _QuickPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.adminIncidentCenterQuickPanelTitle,
-              style: TextStyle(fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                OutlinedButton(
-                  onPressed: () => onTap('/admin/reports'),
-                  child: Text(l10n.adminIncidentCenterReportsQueueAction),
-                ),
-                OutlinedButton(
-                  onPressed: () => onTap('/admin/businesses'),
-                  child: Text(l10n.adminIncidentCenterReviewBusinessAction),
-                ),
-                OutlinedButton(
-                  onPressed: () => onTap('/admin/audit'),
-                  child: Text(l10n.adminIncidentCenterAuditLogAction),
-                ),
-                OutlinedButton(
-                  onPressed: () => onTap('/guvenlik-durumu'),
-                  child: Text(l10n.adminIncidentCenterHowWeFixedAction),
-                ),
-              ],
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.adminIncidentCenterQuickPanelTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton(
+                onPressed: () => onTap('/admin/reports'),
+                child: Text(l10n.adminIncidentCenterReportsQueueAction),
+              ),
+              OutlinedButton(
+                onPressed: () => onTap('/admin/businesses'),
+                child: Text(l10n.adminIncidentCenterReviewBusinessAction),
+              ),
+              OutlinedButton(
+                onPressed: () => onTap('/admin/audit'),
+                child: Text(l10n.adminIncidentCenterAuditLogAction),
+              ),
+              OutlinedButton(
+                onPressed: () => onTap('/guvenlik-durumu'),
+                child: Text(l10n.adminIncidentCenterHowWeFixedAction),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -215,30 +221,27 @@ class _ReadyResponses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.adminIncidentCenterReadyResponsesTitle,
-              style: TextStyle(fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.adminIncidentCenterReadyResponseWrongPrice,
-            ),
-            const SizedBox(height: 6),
-            Text(
-              l10n.adminIncidentCenterReadyResponseFakeBusiness,
-            ),
-            const SizedBox(height: 6),
-            Text(
-              l10n.adminIncidentCenterReadyResponseMedia,
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.adminIncidentCenterReadyResponsesTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 8),
+          Text(l10n.adminIncidentCenterReadyResponseWrongPrice),
+          const SizedBox(height: 6),
+          Text(l10n.adminIncidentCenterReadyResponseFakeBusiness),
+          const SizedBox(height: 6),
+          Text(l10n.adminIncidentCenterReadyResponseMedia),
+        ],
       ),
     );
   }
@@ -272,16 +275,20 @@ class _LogComposer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.adminIncidentCenterLogEntryTitle,
-              style: TextStyle(fontWeight: FontWeight.w900),
-            ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.adminIncidentCenterLogEntryTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900),
+          ),
             const SizedBox(height: 10),
             TextField(
               controller: incidentKeyCtrl,
@@ -365,7 +372,6 @@ class _LogComposer extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

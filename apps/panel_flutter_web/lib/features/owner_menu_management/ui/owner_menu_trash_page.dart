@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/business_rbac.dart';
 import '../../../shared/ui/components/app_card.dart';
 import '../../../shared/ui/components/app_filter_chip.dart';
-import '../../../shared/ui/components/app_section_header.dart';
 import '../../../shared/ui/components/owner_business_guard.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
 import '../../owner_businesses/domain/owner_business_state.dart';
 import '../data/owner_menu_safety_repository.dart';
@@ -95,93 +96,95 @@ class _OwnerMenuTrashPanelState extends ConsumerState<OwnerMenuTrashPanel> {
     return RefreshIndicator(
       onRefresh: () async => ref.invalidate(_ownerTrashProvider(widget.businessId)),
       child: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.zero,
         children: [
-          AppSectionHeader(
-            title: widget.title ?? l10n.ownerTrashTitle,
-            subtitle: Text(
-              widget.description ?? l10n.ownerTrashDescription,
-              style: const TextStyle(color: AppColors.muted),
-            ),
+          PanelPageHeader(
+            eyebrow: 'Owner',
+            title: Text(widget.title ?? l10n.ownerTrashTitle),
+            description: widget.description ?? l10n.ownerTrashDescription,
           ),
-          const SizedBox(height: 12),
-          AppCard(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
-                  controller: _searchCtrl,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: l10n.ownerTrashSearchLabel,
-                    prefixIcon: const Icon(Icons.search),
+                AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextField(
+                        controller: _searchCtrl,
+                        onChanged: (_) => setState(() {}),
+                        decoration: InputDecoration(
+                          labelText: l10n.ownerTrashSearchLabel,
+                          prefixIcon: const Icon(Icons.search),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          AppFilterChip(
+                            label: l10n.ownerTrashFilterAll,
+                            selected: _filter == null,
+                            onTap: () => setState(() => _filter = null),
+                          ),
+                          AppFilterChip(
+                            label: l10n.ownerTrashFilterMenus,
+                            selected: _filter == OwnerTrashEntityType.menu,
+                            onTap: () => setState(() => _filter = OwnerTrashEntityType.menu),
+                          ),
+                          AppFilterChip(
+                            label: l10n.ownerTrashFilterItems,
+                            selected: _filter == OwnerTrashEntityType.item,
+                            onTap: () => setState(() => _filter = OwnerTrashEntityType.item),
+                          ),
+                          AppFilterChip(
+                            label: l10n.ownerTrashFilterPhotos,
+                            selected: _filter == OwnerTrashEntityType.photo,
+                            onTap: () => setState(() => _filter = OwnerTrashEntityType.photo),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      DropdownButtonFormField<OwnerTrashSortMode>(
+                        initialValue: _sortMode,
+                        decoration: InputDecoration(
+                          labelText: l10n.ownerTrashSortLabel,
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                            value: OwnerTrashSortMode.newest,
+                            child: Text(l10n.ownerTrashSortNewest),
+                          ),
+                          DropdownMenuItem(
+                            value: OwnerTrashSortMode.oldest,
+                            child: Text(l10n.ownerTrashSortOldest),
+                          ),
+                          DropdownMenuItem(
+                            value: OwnerTrashSortMode.title,
+                            child: Text(l10n.ownerTrashSortTitle),
+                          ),
+                          DropdownMenuItem(
+                            value: OwnerTrashSortMode.type,
+                            child: Text(l10n.ownerTrashSortType),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          if (value == null) return;
+                          setState(() => _sortMode = value);
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    AppFilterChip(
-                      label: l10n.ownerTrashFilterAll,
-                      selected: _filter == null,
-                      onTap: () => setState(() => _filter = null),
-                    ),
-                    AppFilterChip(
-                      label: l10n.ownerTrashFilterMenus,
-                      selected: _filter == OwnerTrashEntityType.menu,
-                      onTap: () => setState(() => _filter = OwnerTrashEntityType.menu),
-                    ),
-                    AppFilterChip(
-                      label: l10n.ownerTrashFilterItems,
-                      selected: _filter == OwnerTrashEntityType.item,
-                      onTap: () => setState(() => _filter = OwnerTrashEntityType.item),
-                    ),
-                    AppFilterChip(
-                      label: l10n.ownerTrashFilterPhotos,
-                      selected: _filter == OwnerTrashEntityType.photo,
-                      onTap: () => setState(() => _filter = OwnerTrashEntityType.photo),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<OwnerTrashSortMode>(
-                  initialValue: _sortMode,
-                  decoration: InputDecoration(
-                    labelText: l10n.ownerTrashSortLabel,
-                  ),
-                  items: [
-                    DropdownMenuItem(
-                      value: OwnerTrashSortMode.newest,
-                      child: Text(l10n.ownerTrashSortNewest),
-                    ),
-                    DropdownMenuItem(
-                      value: OwnerTrashSortMode.oldest,
-                      child: Text(l10n.ownerTrashSortOldest),
-                    ),
-                    DropdownMenuItem(
-                      value: OwnerTrashSortMode.title,
-                      child: Text(l10n.ownerTrashSortTitle),
-                    ),
-                    DropdownMenuItem(
-                      value: OwnerTrashSortMode.type,
-                      child: Text(l10n.ownerTrashSortType),
-                    ),
-                  ],
-                  onChanged: (value) {
-                    if (value == null) return;
-                    setState(() => _sortMode = value);
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          trashAsync.when(
+                trashAsync.when(
             loading: () => const OwnerPanelFeedback.loading(cardCount: 6),
             error: (error, _) => OwnerPanelFeedback.error(
               title: l10n.ownerTrashLoadErrorTitle,
-              description: error.toString(),
+              description: AppErrorMapper.message(error),
               onRetry: () => ref.invalidate(_ownerTrashProvider(widget.businessId)),
             ),
             data: (entries) {
@@ -206,6 +209,9 @@ class _OwnerMenuTrashPanelState extends ConsumerState<OwnerMenuTrashPanel> {
                 ],
               );
             },
+          ),
+              ],
+            ),
           ),
         ],
       ),
@@ -254,7 +260,7 @@ class _OwnerMenuTrashPanelState extends ConsumerState<OwnerMenuTrashPanel> {
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
+        SnackBar(content: Text(AppErrorMapper.message(error))),
       );
     }
   }
@@ -275,7 +281,7 @@ class _OwnerMenuTrashPanelState extends ConsumerState<OwnerMenuTrashPanel> {
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error.toString())),
+        SnackBar(content: Text(AppErrorMapper.message(error))),
       );
     }
   }

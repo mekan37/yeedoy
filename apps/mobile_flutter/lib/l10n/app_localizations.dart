@@ -440,6 +440,18 @@ abstract class AppLocalizations {
   /// **'Paylaş'**
   String get share;
 
+  /// Share as image card button
+  ///
+  /// In tr, this message translates to:
+  /// **'Görsel Paylaş'**
+  String get shareAsImage;
+
+  /// Share as plain link button
+  ///
+  /// In tr, this message translates to:
+  /// **'Link Paylaş'**
+  String get shareLink;
+
   /// Auto metadata for invalidLinkMessage
   ///
   /// In tr, this message translates to:
@@ -1417,6 +1429,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yenile'**
   String get yenile;
+
+  /// No description provided for @decreaseQuantity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Azalt'**
+  String get decreaseQuantity;
+
+  /// No description provided for @increaseQuantity.
+  ///
+  /// In tr, this message translates to:
+  /// **'Artır'**
+  String get increaseQuantity;
+
+  /// No description provided for @kapat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapat'**
+  String get kapat;
+
+  /// No description provided for @suspendedMealsEmptyDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Askıya aldığınız yemek planları burada görünecek.'**
+  String get suspendedMealsEmptyDescription;
+
+  /// No description provided for @ara.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ara'**
+  String get ara;
+
+  /// Star rating tooltip label
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} yıldız'**
+  String ratingLabel(int count);
 
   /// Auto metadata for atanan
   ///
@@ -2544,6 +2592,90 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Topluluk için fiyatları doğrula ve güncelle.'**
   String get onboardingContributeDescription;
+
+  /// No description provided for @onboardingPriceTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şehrin Fiyatlarını\nSen Belirle'**
+  String get onboardingPriceTitle;
+
+  /// No description provided for @onboardingPriceBody1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Restoranları gerçek fiyatlarıyla keşfet'**
+  String get onboardingPriceBody1;
+
+  /// No description provided for @onboardingPriceBody2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat geçmişini ve şehir ortalamasını gör'**
+  String get onboardingPriceBody2;
+
+  /// No description provided for @onboardingPriceBody3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bütçene göre filtrele, tasarruf et'**
+  String get onboardingPriceBody3;
+
+  /// No description provided for @onboardingCommunityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğun Gücü'**
+  String get onboardingCommunityTitle;
+
+  /// No description provided for @onboardingCommunitySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her fiyat doğrulaması herkese yardım eder'**
+  String get onboardingCommunitySubtitle;
+
+  /// No description provided for @onboardingCommunityBody1.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçek kullanıcılar menüleri güncel tutar'**
+  String get onboardingCommunityBody1;
+
+  /// No description provided for @onboardingCommunityBody2.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat sapmaları anında tespit edilir'**
+  String get onboardingCommunityBody2;
+
+  /// No description provided for @onboardingCommunityBody3.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkın için XP ve rozetler kazan'**
+  String get onboardingCommunityBody3;
+
+  /// No description provided for @onboardingNotificationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anlık Bildirimler'**
+  String get onboardingNotificationTitle;
+
+  /// No description provided for @onboardingNotificationDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favori mekanlarındaki fiyat değişikliklerini, kampanyaları ve grup taleplerini anında öğren.'**
+  String get onboardingNotificationDescription;
+
+  /// No description provided for @onboardingNotificationsEnabled.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirimler etkinleştirildi'**
+  String get onboardingNotificationsEnabled;
+
+  /// No description provided for @onboardingAllowNotifications.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirimlere İzin Ver'**
+  String get onboardingAllowNotifications;
+
+  /// No description provided for @onboardingSkipNotifications.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şimdi değil'**
+  String get onboardingSkipNotifications;
 
   /// Auto metadata for getStarted
   ///
@@ -5573,6 +5705,12 @@ abstract class AppLocalizations {
   /// **'En faydalı'**
   String get sortMostHelpful;
 
+  /// No description provided for @sortVerified.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulanmış'**
+  String get sortVerified;
+
   /// Auto metadata for businessReviewsQualityLabel
   ///
   /// In tr, this message translates to:
@@ -6662,6 +6800,138 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'KDV dahil'**
   String get vatIncluded;
+
+  /// Number of people currently viewing this business page
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} kişi şu an bakıyor'**
+  String businessViewingNow(int count);
+
+  /// Generic delete action
+  ///
+  /// In tr, this message translates to:
+  /// **'Sil'**
+  String get delete;
+
+  /// Generic remove action
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaldır'**
+  String get remove;
+
+  /// Generic create action
+  ///
+  /// In tr, this message translates to:
+  /// **'Oluştur'**
+  String get create;
+
+  /// Validation error for required field
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu alan zorunludur'**
+  String get required;
+
+  /// Collab lists page title
+  ///
+  /// In tr, this message translates to:
+  /// **'Ortak Listelerim'**
+  String get collabListsTitle;
+
+  /// Create collab list button
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste Oluştur'**
+  String get collabListCreate;
+
+  /// Empty state title for collab lists
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz liste yok'**
+  String get collabListsEmpty;
+
+  /// Empty state description for collab lists
+  ///
+  /// In tr, this message translates to:
+  /// **'Arkadaşlarınla ortak listeler oluştur ve favori mekanları birlikte oylayın.'**
+  String get collabListsEmptyDesc;
+
+  /// Collab list name field label
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste adı'**
+  String get collabListNameLabel;
+
+  /// Collab list description field label
+  ///
+  /// In tr, this message translates to:
+  /// **'Açıklama (isteğe bağlı)'**
+  String get collabListDescLabel;
+
+  /// Empty state for items inside a collab list
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste boş'**
+  String get collabListItemsEmpty;
+
+  /// Empty state description for collab list items
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme sayfasından bu listeye ekleyebilirsin.'**
+  String get collabListItemsEmptyDesc;
+
+  /// Share collab list action
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet Bağlantısını Kopyala'**
+  String get collabListShare;
+
+  /// Delete collab list action
+  ///
+  /// In tr, this message translates to:
+  /// **'Listeyi Sil'**
+  String get collabListDelete;
+
+  /// Delete collab list confirmation
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu listeyi ve tüm içeriğini silmek istediğinden emin misin?'**
+  String get collabListDeleteConfirm;
+
+  /// Leave collab list action
+  ///
+  /// In tr, this message translates to:
+  /// **'Listeden Ayrıl'**
+  String get collabListLeave;
+
+  /// Leave collab list confirmation
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu listeden ayrılmak istediğinden emin misin?'**
+  String get collabListLeaveConfirm;
+
+  /// Snackbar when invite link is copied
+  ///
+  /// In tr, this message translates to:
+  /// **'Davet bağlantısı kopyalandı'**
+  String get collabListLinkCopied;
+
+  /// Joining a collab list via invite token
+  ///
+  /// In tr, this message translates to:
+  /// **'Listeye katılınıyor...'**
+  String get collabListJoining;
+
+  /// Error when invite token is invalid
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçersiz davet bağlantısı.'**
+  String get collabListInvalidInvite;
+
+  /// Navigate to collab lists page
+  ///
+  /// In tr, this message translates to:
+  /// **'Listelerime Git'**
+  String get goToMyLists;
 }
 
 class _AppLocalizationsDelegate

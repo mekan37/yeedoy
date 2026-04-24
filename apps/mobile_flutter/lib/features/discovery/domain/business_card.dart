@@ -19,6 +19,7 @@ class BusinessCardModel {
     this.recentPriceVerifiedCount,
     this.ownerVerified,
     this.mealCardProviders = const [],
+    this.reviewCount,
   });
 
   final String id;
@@ -39,6 +40,7 @@ class BusinessCardModel {
   final int? recentPriceVerifiedCount;
   final bool? ownerVerified;
   final List<MealCardProviderOption> mealCardProviders;
+  final int? reviewCount;
 
   factory BusinessCardModel.fromMap(Map<String, dynamic> m) =>
       BusinessCardModel(
@@ -61,6 +63,7 @@ class BusinessCardModel {
         recentPriceVerifiedCount: (m['recent_price_verified_count'] as num?)
             ?.toInt(),
         ownerVerified: m['owner_verified'] as bool?,
+        reviewCount: (m['review_count'] as num?)?.toInt(),
         mealCardProviders: ((m['meal_card_providers'] as List?) ?? const [])
             .whereType<Map>()
             .map(
@@ -98,6 +101,7 @@ class BusinessCardModel {
     int? recentPriceVerifiedCount,
     bool? ownerVerified,
     List<MealCardProviderOption>? mealCardProviders,
+    int? reviewCount,
   }) {
     return BusinessCardModel(
       id: id ?? this.id,
@@ -118,6 +122,7 @@ class BusinessCardModel {
           recentPriceVerifiedCount ?? this.recentPriceVerifiedCount,
       ownerVerified: ownerVerified ?? this.ownerVerified,
       mealCardProviders: mealCardProviders ?? this.mealCardProviders,
+      reviewCount: reviewCount ?? this.reviewCount,
     );
   }
 
@@ -139,5 +144,6 @@ class BusinessCardModel {
     'recent_price_verified_count': recentPriceVerifiedCount,
     'owner_verified': ownerVerified,
     'meal_card_providers': mealCardProviders.map((item) => item.toMap()).toList(),
+    'review_count': reviewCount,
   };
 }

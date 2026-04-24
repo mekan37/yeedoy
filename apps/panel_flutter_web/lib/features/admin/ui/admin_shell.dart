@@ -38,6 +38,7 @@ class AdminShell extends ConsumerWidget {
       description: l10n.adminShellQueueDescription,
       icon: Icons.inbox_outlined,
       selectedIcon: Icons.inbox,
+      badgeKey: 'queue',
     ),
     _AdminEntry(
       index: 1,
@@ -299,6 +300,8 @@ class AdminShell extends ConsumerWidget {
 
   int _badgeCount(String? key, AdminNewItemsState newItems) {
     switch (key) {
+      case 'queue':
+        return newItems.businessSubmissionsNew;
       case 'reports':
         return newItems.reportsNew;
       case 'claims':

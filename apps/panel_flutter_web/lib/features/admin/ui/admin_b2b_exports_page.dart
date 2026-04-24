@@ -196,59 +196,62 @@ class _ExportCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                        ),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
                       ),
-                      const SizedBox(height: 6),
-                      Text(
-                        description,
-                        style: const TextStyle(color: AppColors.muted),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      description,
+                      style: const TextStyle(color: AppColors.muted),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                _StatusChip(label: statusLabel, color: statusColor),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final item in metadata)
-                  _MetaChip(label: item.label, value: item.value),
-              ],
-            ),
-            const SizedBox(height: 12),
-            FilledButton.icon(
-              onPressed: loading ? null : onExport,
-              icon: const Icon(Icons.download_outlined),
-              label: Text(
-                loading
-                    ? context.l10n.adminB2bExportsPreparingAction
-                    : context.l10n.adminB2bExportsDownloadCsvAction,
               ),
+              const SizedBox(width: 12),
+              _StatusChip(label: statusLabel, color: statusColor),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final item in metadata)
+                _MetaChip(label: item.label, value: item.value),
+            ],
+          ),
+          const SizedBox(height: 12),
+          FilledButton.icon(
+            onPressed: loading ? null : onExport,
+            icon: const Icon(Icons.download_outlined),
+            label: Text(
+              loading
+                  ? context.l10n.adminB2bExportsPreparingAction
+                  : context.l10n.adminB2bExportsDownloadCsvAction,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -266,7 +269,7 @@ class _SummaryCard extends StatelessWidget {
       width: 180,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.border),
       ),
@@ -298,40 +301,43 @@ class _GovernanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 6),
-            Text(description, style: const TextStyle(color: AppColors.muted)),
-            const SizedBox(height: 10),
-            for (final item in items)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 2),
-                      child: Icon(
-                        Icons.shield_outlined,
-                        size: 16,
-                        color: AppColors.info,
-                      ),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 6),
+          Text(description, style: const TextStyle(color: AppColors.muted)),
+          const SizedBox(height: 10),
+          for (final item in items)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 2),
+                    child: Icon(
+                      Icons.shield_outlined,
+                      size: 16,
+                      color: AppColors.info,
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(item)),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(item)),
+                ],
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

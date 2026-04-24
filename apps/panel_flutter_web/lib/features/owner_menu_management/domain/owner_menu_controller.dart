@@ -271,14 +271,14 @@ class OwnerSectionItemsController extends Notifier<OwnerSectionItemsState> {
     await loadInitial(force: true);
   }
 
-  Future<void> createItem({
+  Future<String?> createItem({
     required String name,
     String? description,
     int? priceCents,
     String currency = 'TRY',
     int? catalogItemId,
   }) async {
-    await ref
+    final result = await ref
         .read(ownerMenuRepositoryProvider)
         .createItem(
           sectionId: key.sectionId,
@@ -289,6 +289,7 @@ class OwnerSectionItemsController extends Notifier<OwnerSectionItemsState> {
           catalogItemId: catalogItemId,
         );
     await refresh();
+    return result.id;
   }
 
   Future<void> updateItem({

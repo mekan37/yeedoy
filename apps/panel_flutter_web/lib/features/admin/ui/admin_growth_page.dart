@@ -7,6 +7,7 @@ import 'package:yeedoy/core/i18n/app_localizations.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../shared/ui/components/panel_page_header.dart';
+import '../../../shared/ui/design_system.dart';
 import '../data/admin_analytics_repository.dart';
 import '../domain/admin_growth_models.dart';
 
@@ -104,7 +105,13 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
                 }
                 final items = snap.data ?? const [];
                 if (items.isEmpty) {
-                  return Center(child: Text(t.adminGrowthNoData));
+                  return Center(
+                    child: AppEmptyState(
+                      icon: Icons.bar_chart_outlined,
+                      title: t.adminGrowthNoData,
+                      description: 'Seçili dönem için büyüme verisi bulunamadı.',
+                    ),
+                  );
                 }
 
                 final totals = _sum(items);
@@ -157,39 +164,50 @@ class _AdminGrowthPageState extends ConsumerState<AdminGrowthPage> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              t.adminGrowthDailyTrafficTotal,
-                              style: TextStyle(fontWeight: FontWeight.w900),
+                    _FunnelChartCard(totals: totals, t: t),
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.card,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            t.adminGrowthDailyTrafficTotal,
+                            style: const TextStyle(fontWeight: FontWeight.w900),
+                          ),
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            height: 180,
+                            child: _MiniLineChart(
+                              values: items
+                                  .map(
+                                    (e) =>
+                                        e.menuLinkOpened +
+                                        e.qrScanned +
+                                        e.menuShared +
+                                        e.appInstallFromMenu,
+                                  )
+                                  .toList(),
                             ),
-                            const SizedBox(height: 12),
-                            SizedBox(
-                              height: 180,
-                              child: _MiniLineChart(
-                                values: items
-                                    .map(
-                                      (e) =>
-                                          e.menuLinkOpened +
-                                          e.qrScanned +
-                                          e.menuShared +
-                                          e.appInstallFromMenu,
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.card,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
                         child: DataTable(
                           columns: [
                             DataColumn(label: Text(t.adminGrowthDayColumn)),
@@ -250,20 +268,23 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(color: AppColors.muted)),
-            const SizedBox(height: 6),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: const TextStyle(color: AppColors.muted)),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
+          ),
+        ],
       ),
     );
   }
@@ -318,5 +339,163 @@ String _fmtDate(DateTime d) {
   final m = d.month.toString().padLeft(2, '0');
   final day = d.day.toString().padLeft(2, '0');
   return '$y-$m-$day';
+}
+
+// ─── Funnel chart ─────────────────────────────────────────────────────────────
+
+class _FunnelChartCard extends StatelessWidget {
+  const _FunnelChartCard({required this.totals, required this.t});
+
+  final AdminGrowthSummary totals;
+  final AppLocalizations t;
+
+  @override
+  Widget build(BuildContext context) {
+    final discovery = totals.menuLinkOpened + totals.qrScanned;
+    final engagement = totals.menuShared;
+    final conversion = totals.appInstallFromMenu;
+    final top = discovery == 0 ? 1 : discovery;
+
+    final steps = [
+      (
+        label: t.adminGrowthFunnelDiscovery,
+        value: discovery,
+        color: AppColors.primary,
+        pct: 1.0,
+      ),
+      (
+        label: t.adminGrowthFunnelEngagement,
+        value: engagement,
+        color: AppColors.info,
+        pct: engagement / top,
+      ),
+      (
+        label: t.adminGrowthFunnelConversion,
+        value: conversion,
+        color: AppColors.success,
+        pct: conversion / top,
+      ),
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            t.adminGrowthFunnelTitle,
+            style: const TextStyle(fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            t.adminGrowthFunnelSubtitle,
+            style: const TextStyle(color: AppColors.muted, fontSize: 13),
+          ),
+          const SizedBox(height: 16),
+          for (final step in steps) ...[
+            _FunnelStep(
+              label: step.label,
+              value: step.value,
+              pct: step.pct,
+              color: step.color,
+            ),
+            const SizedBox(height: 10),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _FunnelStep extends StatelessWidget {
+  const _FunnelStep({
+    required this.label,
+    required this.value,
+    required this.pct,
+    required this.color,
+  });
+
+  final String label;
+  final int value;
+  final double pct;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final pctLabel = pct >= 1.0 ? '100%' : '${(pct * 100).toStringAsFixed(1)}%';
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: 110,
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textStrong,
+                ),
+              ),
+            ),
+            Expanded(
+              child: LayoutBuilder(builder: (context, constraints) {
+                return Stack(
+                  children: [
+                    Container(
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: AppColors.border,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    Container(
+                      height: 20,
+                      width: constraints.maxWidth * pct.clamp(0.0, 1.0),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ),
+            const SizedBox(width: 10),
+            SizedBox(
+              width: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '$value',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    pctLabel,
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
 

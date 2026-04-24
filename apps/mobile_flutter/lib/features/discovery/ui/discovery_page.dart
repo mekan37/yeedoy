@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -57,6 +58,8 @@ import '../../embed/data/embed_repository.dart';
 import '../../embed/ui/embed_viewer_page.dart';
 import '../../business/domain/meal_card_providers_provider.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
+import '../../../core/services/home_widget_service.dart';
+import '../../../core/services/assistant_shortcuts_service.dart';
 import 'categories_config.dart';
 import 'components/category_quick_filters.dart';
 import 'components/discovery_search_bar.dart';
@@ -75,7 +78,11 @@ part 'parts/discovery_widgets.dart';
 part 'parts/discovery_controls.dart';
 
 class DiscoveryPage extends ConsumerWidget {
-  const DiscoveryPage({super.key});
+  const DiscoveryPage({super.key, this.initialSort});
+
+  /// Optional initial sort to apply when the page is opened via deep link.
+  /// Matches [DiscoverySort] enum name, e.g. 'priceLow'.
+  final String? initialSort;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -94,7 +101,7 @@ class DiscoveryPage extends ConsumerWidget {
           Expanded(
             child: TabBarView(
               children: [
-                _KeepAliveTab(child: _RecommendedTab()),
+                _KeepAliveTab(child: _RecommendedTab(initialSort: initialSort)),
                 _KeepAliveTab(child: _CampaignsTab()),
                 _KeepAliveTab(child: MenuItemsTab()),
               ],

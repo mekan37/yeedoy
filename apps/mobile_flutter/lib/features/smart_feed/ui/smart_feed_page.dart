@@ -120,7 +120,7 @@ class _SmartFeedPageState extends ConsumerState<SmartFeedPage> {
                     )
                   else ...[
                     for (final item in st.items) ...[
-                      _FeedCard(item: item, preferences: prefs),
+                      RepaintBoundary(child: _FeedCard(item: item, preferences: prefs)),
                       const SizedBox(height: 10),
                     ],
                   ],

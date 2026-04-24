@@ -5,7 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../core/network/connectivity_restore_service.dart';
+import '../core/storage/theme_prefs.dart';
+import '../features/auth/domain/auth_providers.dart';
 import '../features/notifications/domain/push_notification_lifecycle_provider.dart';
 import '../features/notifications/domain/push_notification_service.dart';
 import '../core/storage/offline_sync_service.dart';
@@ -21,6 +25,8 @@ class YeedoyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(localeControllerProvider).asData?.value;
+    final themeMode =
+        ref.watch(themeModeProvider).asData?.value ?? ThemeMode.system;
 
     return ScreenUtilInit(
       designSize: const Size(375, 812),
@@ -46,6 +52,8 @@ class YeedoyApp extends ConsumerWidget {
             return const Locale('tr');
           },
           theme: buildAppTheme(),
+          darkTheme: buildDarkAppTheme(),
+          themeMode: themeMode,
           builder: (context, child) {
             final media = MediaQuery.of(context);
             return _GlobalPushIntentListener(
@@ -83,6 +91,17 @@ class _GlobalPushIntentListener extends ConsumerWidget {
     ref.watch(connectivityRestoreLifecycleProvider);
     ref.watch(offlineSyncLifecycleProvider);
     ref.watch(pushNotificationLifecycleProvider);
+
+    // Password-recovery deep link: redirect to account-security page
+    ref.listen<AsyncValue<AuthState>>(authStateProvider, (prev, next) {
+      final event = next.asData?.value.event;
+      if (event == AuthChangeEvent.passwordRecovery) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          router.go('/account-security');
+        });
+      }
+    });
+
     ref.listen<PushTapIntent?>(pushTapIntentProvider, (previous, next) {
       if (next == null) return;
       assert(() {

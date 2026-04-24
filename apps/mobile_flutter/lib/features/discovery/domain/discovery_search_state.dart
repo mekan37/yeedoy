@@ -25,6 +25,8 @@ class DiscoverySearchState {
     this.sortBy = DiscoverySort.recommended,
     this.recentPriceBoost = true,
     this.mealCardKeys = const [],
+    this.maxBudgetCents,
+    this.tasteTwinEnabled = false,
   });
 
   final List<BusinessCardModel> items;
@@ -50,6 +52,16 @@ class DiscoverySearchState {
   final bool recentPriceBoost;
   final List<String> mealCardKeys;
 
+  /// Max per-person budget in cents. Null = no limit.
+  final int? maxBudgetCents;
+
+  /// When true, Taste Twin recommendations boost matching businesses in the
+  /// discovery feed. Feature-flag gated: only active for authenticated users
+  /// who opt in (toggle in discovery controls).
+  final bool tasteTwinEnabled;
+
+  bool get hasBudgetFilter => maxBudgetCents != null && maxBudgetCents! > 0;
+
   factory DiscoverySearchState.initial() => const DiscoverySearchState(
         items: [],
         loading: false,
@@ -70,6 +82,8 @@ class DiscoverySearchState {
         sortBy: DiscoverySort.recommended,
         recentPriceBoost: true,
         mealCardKeys: <String>[],
+        maxBudgetCents: null,
+        tasteTwinEnabled: false,
       );
 
   DiscoverySearchState copyWith({
@@ -92,6 +106,9 @@ class DiscoverySearchState {
     DiscoverySort? sortBy,
     bool? recentPriceBoost,
     List<String>? mealCardKeys,
+    // Nullable sentinel: use Object? to allow explicit null pass-through
+    Object? maxBudgetCents = _sentinel,
+    bool? tasteTwinEnabled,
   }) {
     return DiscoverySearchState(
       items: items ?? this.items,
@@ -113,6 +130,13 @@ class DiscoverySearchState {
       sortBy: sortBy ?? this.sortBy,
       recentPriceBoost: recentPriceBoost ?? this.recentPriceBoost,
       mealCardKeys: mealCardKeys ?? this.mealCardKeys,
+      maxBudgetCents: identical(maxBudgetCents, _sentinel)
+          ? this.maxBudgetCents
+          : maxBudgetCents as int?,
+      tasteTwinEnabled: tasteTwinEnabled ?? this.tasteTwinEnabled,
     );
   }
 }
+
+// Sentinel for nullable copyWith params.
+const Object _sentinel = Object();

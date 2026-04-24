@@ -10,11 +10,14 @@ export function getLocale(lang?: string | null) {
 }
 
 export function formatCurrency(
-  cents: number,
+  cents: number | null | undefined,
   lang?: string | null,
   currency = 'TRY',
   showSymbol = true,
 ) {
+  if (cents == null) {
+    return lang?.startsWith('tr') ? 'Fiyata sorunuz' : 'Price on request';
+  }
   if (!showSymbol) {
     return `${(cents / 100).toFixed(2)} ${currency}`;
   }

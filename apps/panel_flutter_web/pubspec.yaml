@@ -38,6 +38,7 @@ dependencies:
   html: ^0.15.6
   web: ^1.1.1
   excel: ^4.0.6
+  sentry_flutter: ^8.14.2
 
 dev_dependencies:
   flutter_test:

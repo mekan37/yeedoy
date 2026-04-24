@@ -21,54 +21,107 @@ class MenuListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = _statusColor(menu.status);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    menu.title,
-                    style: const TextStyle(fontWeight: FontWeight.w900),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(width: 4, color: statusColor),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: AppColors.primarySoft,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            alignment: Alignment.center,
+                            child: const Icon(
+                              Icons.menu_book_outlined,
+                              size: 18,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              menu.title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.textStrong,
+                              ),
+                            ),
+                          ),
+                          _StatusChip(
+                            label: _statusLabel(context, menu.status),
+                            color: statusColor,
+                          ),
+                        ],
+                      ),
+                      if ((menu.activeFrom ?? '').isNotEmpty ||
+                          (menu.activeTo ?? '').isNotEmpty) ...[
+                        const SizedBox(height: 6),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.schedule_outlined,
+                              size: 13,
+                              color: AppColors.muted,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              _activeRange(context, menu.activeFrom, menu.activeTo),
+                              style: const TextStyle(
+                                color: AppColors.muted,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: onEdit,
+                            icon: const Icon(Icons.edit_outlined, size: 15),
+                            label: Text(context.l10n.duzenle),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: onArchive,
+                            icon: const Icon(Icons.archive_outlined, size: 15),
+                            label: Text(context.l10n.ownerArchiveAction),
+                          ),
+                          if (onPublish != null)
+                            FilledButton.icon(
+                              onPressed: onPublish,
+                              icon: const Icon(Icons.publish_outlined, size: 15),
+                              label: Text(context.l10n.ownerPublishAction),
+                            ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                _StatusChip(
-                  label: _statusLabel(context, menu.status),
-                  color: statusColor,
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            if ((menu.activeFrom ?? '').isNotEmpty ||
-                (menu.activeTo ?? '').isNotEmpty)
-              Text(
-                _activeRange(context, menu.activeFrom, menu.activeTo),
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
               ),
-            const SizedBox(height: 6),
-            Row(
-              children: [
-                TextButton(
-                  onPressed: onEdit,
-                  child: Text(context.l10n.duzenle),
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: onArchive,
-                  child: Text(context.l10n.ownerArchiveAction),
-                ),
-                const Spacer(),
-                if (onPublish != null)
-                  FilledButton(
-                    onPressed: onPublish,
-                    child: Text(context.l10n.ownerPublishAction),
-                  ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -83,9 +136,9 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(

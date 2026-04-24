@@ -42,7 +42,12 @@ class _ComparePageState extends ConsumerState<ComparePage> {
         ],
       ),
       body: compareAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: 4,
+          separatorBuilder: (_, _) => const SizedBox(height: 10),
+          itemBuilder: (_, _) => const AppSkeletonCard(),
+        ),
         error: (e, _) => Center(child: Text(AppErrorMapper.message(e))),
         data: (items) {
           if (ids.isEmpty) {

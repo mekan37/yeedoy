@@ -21,9 +21,9 @@ class MealCardBadge extends StatelessWidget {
       height: 28,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: selected ? const Color(0xFFEEF4FF) : const Color(0xFFF7F8FA),
+        color: selected ? const Color(0xFFEEF4FF) : AppColors.bg,
         border: Border.all(
-          color: selected ? AppColors.primary : const Color(0xFFE3E5E8),
+          color: selected ? AppColors.primary : AppColors.border,
         ),
         borderRadius: BorderRadius.circular(6),
       ),
@@ -91,8 +91,8 @@ class _MealCardOverflowBadge extends StatelessWidget {
       height: 28,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7F8FA),
-        border: Border.all(color: const Color(0xFFE3E5E8)),
+        color: AppColors.bg,
+        border: Border.all(color: AppColors.border),
         borderRadius: BorderRadius.circular(6),
       ),
       alignment: Alignment.center,

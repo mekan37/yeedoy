@@ -156,14 +156,18 @@ class _MenuItemAllergenSectionState
   Widget build(BuildContext context) {
     final allergensAsync = ref.watch(_allergensProvider(widget.itemId));
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header row
-            Row(
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header row
+          Row(
               children: [
                 const Icon(Icons.warning_amber_rounded,
                     size: 18, color: AppColors.primary),
@@ -257,7 +261,6 @@ class _MenuItemAllergenSectionState
             ],
           ],
         ),
-      ),
     );
   }
 }

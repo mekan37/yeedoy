@@ -89,7 +89,7 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
               ),
             ] else ...[
               for (final s in st.items) ...[
-                _SuggestionCard(suggestion: s),
+                RepaintBoundary(child: _SuggestionCard(suggestion: s)),
                 const SizedBox(height: 10),
               ],
             ],

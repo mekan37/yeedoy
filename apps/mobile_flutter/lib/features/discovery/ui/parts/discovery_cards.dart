@@ -271,7 +271,7 @@ class _NearbyVerifiedSpotCard extends StatelessWidget {
                       const FaIcon(
                         FontAwesomeIcons.star,
                         size: 10,
-                        color: Color(0xFFFFD54F),
+                        color: AppColors.star,
                       ),
                       const SizedBox(width: 6),
                       Text(
@@ -354,6 +354,19 @@ class _NearbyVerifiedSpotCard extends StatelessWidget {
                   children: [
                     StatusBadge(type: statusType, label: t.priceVerified),
                     const Spacer(),
+                    if ((item.reviewCount ?? 0) > 0) ...[
+                      GestureDetector(
+                        onTap: () => context.push('/b/${item.id}/reviews'),
+                        child: Text(
+                          AppLocalizations.of(context).reviewsCount(item.reviewCount!),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
                     Text(
                       updatedLabel,
                       style: Theme.of(context).textTheme.bodySmall,

@@ -41,6 +41,7 @@ class _GroupRequestDetailPageState
         title: Text(t.groupRequestDetailTitle),
         actions: [
           IconButton(
+            tooltip: t.share,
             onPressed: () async {
               final messenger = ScaffoldMessenger.of(context);
               await Clipboard.setData(ClipboardData(text: shareUrl));
@@ -52,6 +53,7 @@ class _GroupRequestDetailPageState
             icon: const Icon(Icons.link),
           ),
           IconButton(
+            tooltip: t.yenile,
             onPressed: () => _reloadRequestAndOffers(force: true),
             icon: const Icon(Icons.refresh),
           ),
@@ -61,7 +63,12 @@ class _GroupRequestDetailPageState
         future: _loadRequest(repo, widget.requestId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: 5,
+              separatorBuilder: (_, _) => const SizedBox(height: 10),
+              itemBuilder: (_, _) => const AppSkeletonCard(),
+            );
           }
           if (snapshot.hasError) {
             return _errorState(context, snapshot.error);
@@ -184,8 +191,13 @@ class _GroupRequestDetailPageState
               ref
                   .watch(_offersProvider(widget.requestId))
                   .when(
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
+                    loading: () => Column(
+                      children: [
+                        const AppSkeletonCard(),
+                        const SizedBox(height: 10),
+                        const AppSkeletonCard(),
+                      ],
+                    ),
                     error: (e, _) => _errorState(context, e),
                     data: (offers) {
                       if (offers.isEmpty) {
@@ -601,7 +613,7 @@ class _SuggestBusinessSheetState extends ConsumerState<_SuggestBusinessSheet> {
           children: [
             Text(
               t.groupRequestAddSuggestionTitle,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+              style: context.sectionTitleStyle,
             ),
             const SizedBox(height: 8),
             if (_error != null) ...[
@@ -619,6 +631,7 @@ class _SuggestBusinessSheetState extends ConsumerState<_SuggestBusinessSheet> {
                 decoration: InputDecoration(
                   labelText: t.groupRequestSearchBusinessLabel,
                   suffixIcon: IconButton(
+                    tooltip: t.ara,
                     onPressed: _searching ? null : _search,
                     icon: const Icon(Icons.search),
                   ),

@@ -454,7 +454,7 @@ class _SectionBlock extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          style: context.sectionTitleStyle,
         ),
         const SizedBox(height: 8),
         if (items.isEmpty)

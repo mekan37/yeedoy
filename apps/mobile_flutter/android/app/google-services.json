@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "772285544200",
-    "project_id": "yeedoy-8cd31",
-    "storage_bucket": "yeedoy-8cd31.firebasestorage.app"
+    "project_number": "794015534793",
+    "project_id": "yeedoy",
+    "storage_bucket": "yeedoy.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:772285544200:android:99f08cdcb3afa935a95ebd",
+        "mobilesdk_app_id": "1:794015534793:android:3484c5c8bbaf5ea0648718",
         "android_client_info": {
           "package_name": "com.yeedoy.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyALRxIBw1NgnnYoHeIjWiHF0Ob1TESDw38"
+          "current_key": "AIzaSyALjk5LY-mAIDGThUIJyjt7m1sx3YunQak"
         }
       ],
       "services": {

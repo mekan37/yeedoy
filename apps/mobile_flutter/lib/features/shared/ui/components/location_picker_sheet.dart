@@ -102,10 +102,7 @@ class _LocationPickerSheetState extends ConsumerState<LocationPickerSheet> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    t.selectLocation,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-                  ),
+                  Text(t.selectLocation, style: context.sectionTitleStyle),
                   const SizedBox(height: 10),
                   Container(
                     width: double.infinity,

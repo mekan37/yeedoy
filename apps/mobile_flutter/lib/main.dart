@@ -13,6 +13,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app_mobile/mobile_app.dart';
 import 'core/monitoring/app_telemetry.dart';
+import 'core/monitoring/error_taxonomy.dart';
 import 'core/perf/perf_slo.dart';
 import 'core/security/secure_local_storage.dart';
 import 'core/security/safe_debug_print.dart';
@@ -61,9 +62,11 @@ Future<void> main() async {
   final startupWatch = Stopwatch()..start();
   WidgetsFlutterBinding.ensureInitialized();
   installSafeDebugPrint();
-  await MobileAds.instance.initialize();
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Run Firebase and MobileAds initialization in parallel — they are independent.
+  await Future.wait([
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    MobileAds.instance.initialize(),
+  ]);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await dotenv.load(fileName: ".env");
@@ -92,6 +95,9 @@ Future<void> main() async {
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
+    final taxonomy = classifyError(details.exception);
+    FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
+    FirebaseCrashlytics.instance.setCustomKey('error_source', 'flutter_error');
     FirebaseCrashlytics.instance.recordFlutterFatalError(details);
     unawaited(
       rootContainer
@@ -105,6 +111,9 @@ Future<void> main() async {
   };
 
   PlatformDispatcher.instance.onError = (error, stack) {
+    final taxonomy = classifyError(error);
+    FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
+    FirebaseCrashlytics.instance.setCustomKey('error_source', 'platform_dispatcher');
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     unawaited(
       rootContainer

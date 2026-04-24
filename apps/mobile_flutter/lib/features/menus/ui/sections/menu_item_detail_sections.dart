@@ -22,6 +22,8 @@ class _PriceHistorySection extends StatelessWidget {
       ),
       data: (items) {
         if (items.isEmpty) return const SizedBox.shrink();
+        final sorted = [...items]
+          ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
         final latest = items.take(3).toList();
         return AppCard(
           child: Column(
@@ -29,7 +31,7 @@ class _PriceHistorySection extends StatelessWidget {
             children: [
               Text(
                 t.priceHistoryLast3,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w900,
                   color: AppColors.textStrong,
                 ),
@@ -52,6 +54,13 @@ class _PriceHistorySection extends StatelessWidget {
                   ),
                 ),
               ],
+              if (sorted.length >= 2) ...[
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 100,
+                  child: _PriceLineChart(entries: sorted),
+                ),
+              ],
               const SizedBox(height: 8),
               for (final item in latest) ...[
                 _PriceHistoryRow(item: item),
@@ -63,6 +72,142 @@ class _PriceHistorySection extends StatelessWidget {
       },
     );
   }
+}
+
+class _PriceLineChart extends StatelessWidget {
+  const _PriceLineChart({required this.entries});
+  final List<MenuItemPriceHistoryEntry> entries;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _PriceLinePainter(
+        entries: entries,
+        lineColor: AppColors.primary,
+        dotColor: AppColors.primary,
+        gridColor: AppColors.border.withValues(alpha: 0.5),
+        labelColor: AppColors.muted,
+      ),
+    );
+  }
+}
+
+class _PriceLinePainter extends CustomPainter {
+  _PriceLinePainter({
+    required this.entries,
+    required this.lineColor,
+    required this.dotColor,
+    required this.gridColor,
+    required this.labelColor,
+  });
+
+  final List<MenuItemPriceHistoryEntry> entries;
+  final Color lineColor;
+  final Color dotColor;
+  final Color gridColor;
+  final Color labelColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (entries.length < 2) return;
+
+    const double paddingLeft = 44;
+    const double paddingRight = 8;
+    const double paddingTop = 8;
+    const double paddingBottom = 20;
+
+    final chartW = size.width - paddingLeft - paddingRight;
+    final chartH = size.height - paddingTop - paddingBottom;
+
+    final prices = entries.map((e) => e.priceCents).toList();
+    final minPrice = prices.reduce((a, b) => a < b ? a : b);
+    final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+    final priceRange = (maxPrice - minPrice).toDouble();
+    // Avoid division by zero
+    final effectiveRange = priceRange < 1 ? 100.0 : priceRange;
+
+    final times = entries.map((e) => e.createdAt.millisecondsSinceEpoch).toList();
+    final minTime = times.reduce((a, b) => a < b ? a : b);
+    final maxTime = times.reduce((a, b) => a > b ? a : b);
+    final timeRange = (maxTime - minTime).toDouble();
+    final effectiveTimeRange = timeRange < 1 ? 1.0 : timeRange;
+
+    // Grid lines
+    final gridPaint = Paint()
+      ..color = gridColor
+      ..strokeWidth = 0.5;
+    for (int i = 0; i <= 2; i++) {
+      final y = paddingTop + chartH * (1 - i / 2);
+      canvas.drawLine(
+        Offset(paddingLeft, y),
+        Offset(size.width - paddingRight, y),
+        gridPaint,
+      );
+    }
+
+    // Y-axis labels
+    final labelStyle = TextStyle(color: labelColor, fontSize: 9);
+    for (int i = 0; i <= 2; i++) {
+      final price = minPrice + (effectiveRange * i / 2);
+      final y = paddingTop + chartH * (1 - i / 2);
+      final text = '${(price / 100).toStringAsFixed(0)}₺';
+      final tp = TextPainter(
+        text: TextSpan(text: text, style: labelStyle),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      tp.paint(canvas, Offset(0, y - tp.height / 2));
+    }
+
+    // Build points
+    final points = <Offset>[];
+    for (int i = 0; i < entries.length; i++) {
+      final t =
+          (entries[i].createdAt.millisecondsSinceEpoch - minTime) /
+          effectiveTimeRange;
+      final p =
+          (entries[i].priceCents - minPrice) / effectiveRange;
+      final x = paddingLeft + t * chartW;
+      final y = paddingTop + chartH * (1 - (priceRange < 1 ? 0.5 : p));
+      points.add(Offset(x, y));
+    }
+
+    // Filled area under line
+    final fillPath = Path()..moveTo(points.first.dx, paddingTop + chartH);
+    for (final pt in points) {
+      fillPath.lineTo(pt.dx, pt.dy);
+    }
+    fillPath
+      ..lineTo(points.last.dx, paddingTop + chartH)
+      ..close();
+    canvas.drawPath(
+      fillPath,
+      Paint()..color = lineColor.withValues(alpha: 0.08),
+    );
+
+    // Line
+    final linePaint = Paint()
+      ..color = lineColor
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+    final linePath = Path()..moveTo(points.first.dx, points.first.dy);
+    for (int i = 1; i < points.length; i++) {
+      linePath.lineTo(points[i].dx, points[i].dy);
+    }
+    canvas.drawPath(linePath, linePaint);
+
+    // Dots
+    final dotPaint = Paint()..color = dotColor;
+    final dotBgPaint = Paint()..color = AppColors.card;
+    for (final pt in points) {
+      canvas.drawCircle(pt, 4, dotBgPaint);
+      canvas.drawCircle(pt, 3, dotPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _PriceLinePainter old) =>
+      old.entries != entries;
 }
 
 class _PriceHistoryRow extends StatelessWidget {
@@ -168,13 +313,15 @@ class _PriceHistoryError extends StatelessWidget {
   }
 }
 
-class _PriceStatusCard extends StatelessWidget {
+class _PriceStatusCard extends ConsumerWidget {
   const _PriceStatusCard({
     required this.item,
     required this.statusAsync,
     required this.onRetry,
     required this.onVote,
     required this.onUpdate,
+    this.city,
+    this.businessId,
   });
 
   final MenuItem item;
@@ -182,10 +329,19 @@ class _PriceStatusCard extends StatelessWidget {
   final VoidCallback onRetry;
   final Future<void> Function(int vote) onVote;
   final VoidCallback onUpdate;
+  final String? city;
+  final String? businessId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    final benchmarkKey =
+        (city != null && city!.isNotEmpty && item.name.isNotEmpty)
+        ? '${item.name}|$city|${businessId ?? ''}'
+        : null;
+    final benchmarkAsync = benchmarkKey != null
+        ? ref.watch(menuItemPriceBenchmarkProvider(benchmarkKey))
+        : null;
     return AppCard(
       child: statusAsync.when(
         loading: () => const _PriceStatusSkeleton(),
@@ -194,13 +350,16 @@ class _PriceStatusCard extends StatelessWidget {
           onRetry: onRetry,
         ),
         data: (status) {
+          final priceCents = status.priceCents;
           final priceText =
-              _formatPriceFromCents(context, status.priceCents) ??
+              _formatPriceFromCents(context, priceCents) ??
               _formatPrice(context, item.price);
           final badge = _statusBadge(status.status, t);
           final isRecent =
               status.lastVerifiedAt != null &&
               DateTime.now().difference(status.lastVerifiedAt!).inHours <= 48;
+          final benchmark = benchmarkAsync?.asData?.value;
+          final isTr = t.localeName.startsWith('tr');
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -226,6 +385,31 @@ class _PriceStatusCard extends StatelessWidget {
                   ),
                 ],
               ),
+              if (benchmark != null && priceCents != null && priceCents > 0) ...[
+                const SizedBox(height: 8),
+                _PriceBenchmarkChip(
+                  itemPriceCents: priceCents,
+                  benchmark: benchmark,
+                  isTr: isTr,
+                ),
+              ],
+              if (item.timeWindows.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                _TimeWindowInsightChip(
+                  windows: item.timeWindows,
+                  isTr: isTr,
+                ),
+              ],
+              if (status.okVotes >= 3) ...[
+                const SizedBox(height: 8),
+                AppChip(
+                  label: isTr
+                      ? '✓ ${status.okVotes} kişi doğruladı'
+                      : '✓ Verified by ${status.okVotes} people',
+                  color: AppColors.success,
+                  filled: true,
+                ),
+              ],
               const SizedBox(height: 8),
               Text(
                 t.last30DaysVotes(status.okVotes, status.badVotes),
@@ -970,7 +1154,11 @@ String _formatPrice(
   double? price, {
   String currencyCode = 'TRY',
 }) {
-  if (price == null) return context.l10n.unknown;
+  if (price == null) {
+    return AppLocalizations.of(context).localeName.startsWith('tr')
+        ? 'Fiyata sorunuz'
+        : 'Price on request';
+  }
   return formatCurrency(context, price, currencyCode: currencyCode);
 }
 
@@ -1055,4 +1243,107 @@ class _StatusBadgeConfig {
   const _StatusBadgeConfig(this.label, this.type);
   final String label;
   final StatusBadgeType type;
+}
+
+class _TimeWindowInsightChip extends StatelessWidget {
+  const _TimeWindowInsightChip({
+    required this.windows,
+    required this.isTr,
+  });
+
+  final List<MenuItemTimeWindow> windows;
+  final bool isTr;
+
+  @override
+  Widget build(BuildContext context) {
+    // Prefer the currently-active window; otherwise the next upcoming one.
+    final active = windows.where((w) => w.isActiveNow()).firstOrNull;
+    final now = DateTime.now().hour;
+    final upcoming = active == null
+        ? (windows.where((w) => w.startHour > now).toList()
+            ..sort((a, b) => a.startHour.compareTo(b.startHour)))
+        : <MenuItemTimeWindow>[];
+    final window = active ?? (upcoming.isNotEmpty ? upcoming.first : null);
+    if (window == null) return const SizedBox.shrink();
+
+    final label = window.label(isTr);
+    final timeRange =
+        '${window.startHour.toString().padLeft(2, '0')}:00–'
+        '${window.endHour.toString().padLeft(2, '0')}:00';
+
+    final String chipText;
+    if (window.discountPct != null && window.discountPct! > 0) {
+      chipText = active != null
+          ? (isTr
+              ? '⏱ Şu an: $label • %${window.discountPct} indirimli ($timeRange)'
+              : '⏱ Now: $label • ${window.discountPct}% off ($timeRange)')
+          : (isTr
+              ? '⏱ $label daha uygun ($timeRange) • %${window.discountPct} indirim'
+              : '⏱ $label is cheaper ($timeRange) • ${window.discountPct}% off');
+    } else if (window.priceCents != null) {
+      final priceText =
+          '${(window.priceCents! / 100).toStringAsFixed(window.priceCents! % 100 == 0 ? 0 : 2)}₺';
+      chipText = active != null
+          ? (isTr
+              ? '⏱ Şu an: $label $priceText ($timeRange)'
+              : '⏱ Now: $label $priceText ($timeRange)')
+          : (isTr
+              ? '⏱ $label fiyatı $priceText ($timeRange)'
+              : '⏱ $label price $priceText ($timeRange)');
+    } else {
+      chipText = active != null
+          ? (isTr ? '⏱ Şu an: $label ($timeRange)' : '⏱ Now: $label ($timeRange)')
+          : (isTr ? '⏱ $label ($timeRange)' : '⏱ $label ($timeRange)');
+    }
+
+    return AppChip(
+      label: chipText,
+      color: active != null ? AppColors.success : AppColors.info,
+      filled: active != null,
+    );
+  }
+}
+
+class _PriceBenchmarkChip extends StatelessWidget {
+  const _PriceBenchmarkChip({
+    required this.itemPriceCents,
+    required this.benchmark,
+    required this.isTr,
+  });
+
+  final int itemPriceCents;
+  final MenuItemPriceBenchmark benchmark;
+  final bool isTr;
+
+  @override
+  Widget build(BuildContext context) {
+    final avgPrice = benchmark.avgPriceCents / 100;
+    final thisPrice = itemPriceCents / 100;
+    final diff = thisPrice - avgPrice;
+    final pctDiff = avgPrice > 0 ? (diff / avgPrice * 100).abs().round() : 0;
+    final cheaper = diff < 0;
+    final same = pctDiff <= 3;
+    final color = same
+        ? AppColors.muted
+        : (cheaper ? AppColors.success : AppColors.danger);
+    final avgText =
+        avgPrice.truncateToDouble() == avgPrice
+        ? '${avgPrice.toInt()}₺'
+        : '${avgPrice.toStringAsFixed(2)}₺';
+    final String label;
+    if (same) {
+      label = isTr
+          ? 'Şehir ort: $avgText (benzer fiyat)'
+          : 'City avg: $avgText (similar)';
+    } else if (cheaper) {
+      label = isTr
+          ? 'Şehir ort: $avgText • %$pctDiff daha ucuz'
+          : 'City avg: $avgText • $pctDiff% cheaper';
+    } else {
+      label = isTr
+          ? 'Şehir ort: $avgText • %$pctDiff daha pahalı'
+          : 'City avg: $avgText • $pctDiff% pricier';
+    }
+    return AppChip(label: label, color: color, filled: false);
+  }
 }

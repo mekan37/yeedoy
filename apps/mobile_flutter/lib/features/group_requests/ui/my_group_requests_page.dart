@@ -20,6 +20,7 @@ class MyGroupRequestsPage extends ConsumerWidget {
         title: Text(t.groupRequestMyRequestsTitle),
         actions: [
           IconButton(
+            tooltip: t.yenile,
             onPressed: () => _refreshRequests(ref),
             icon: const Icon(Icons.refresh),
           ),

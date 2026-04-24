@@ -1,13 +1,16 @@
+import 'dart:async';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/brand/brand_widgets.dart';
 import '../../../app/theme/colors.dart';
+import '../../../core/analytics/analytics_repository.dart';
+import '../../../core/analytics/app_events.dart';
 import '../../../core/i18n/app_localizations.dart';
-import '../../../core/location/user_location_controller.dart';
 import '../../../core/storage/app_launch_prefs.dart';
-import '../../../features/shared/ui/components/location_picker_sheet.dart';
 
 class OnboardingPage extends ConsumerStatefulWidget {
   const OnboardingPage({super.key});
@@ -20,7 +23,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   static const int _pageCount = 3;
   final _controller = PageController();
   int _index = 0;
-  bool _locationPermissionGranted = false;
+  bool _notificationsGranted = false;
 
   @override
   void dispose() {
@@ -40,6 +43,18 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   }
 
   Future<void> _finish() async {
+    unawaited(
+      ref
+          .read(analyticsRepositoryProvider)
+          .logEvent(
+            eventName: AppEvents.onboardingComplete,
+            source: 'onboarding_page',
+            meta: {
+              'slide_index': _index,
+              'notifications_granted': _notificationsGranted,
+            },
+          ),
+    );
     await AppLaunchPrefs.setSeenOnboarding(true);
     if (!mounted) return;
     context.go('/discover');
@@ -85,11 +100,15 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                     children: [
                       const BrandMascot(size: 32),
                       const SizedBox(width: 8),
-                      Text(
-                        t.appName,
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                      Expanded(
+                        child: Text(
+                          t.appName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
                       ),
-                      const Spacer(),
+                      const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
@@ -127,37 +146,52 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       controller: _controller,
                       onPageChanged: (v) => setState(() => _index = v),
                       children: [
-                        _Slide(
-                          icon: Icons.menu_book_outlined,
-                          title: t.onboardingLiveMenusTitle,
-                          description: t.onboardingLiveMenusDescription,
-                        ),
-                        _LocationSlide(
+                        _PriceValueSlide(t: t),
+                        _CommunitySlide(t: t),
+                        _NotificationSlide(
+                          granted: _notificationsGranted,
                           onAllow: () async {
-                            await ref
-                                .read(userLocationProvider.notifier)
-                                .useAutoLocation();
-                            if (!mounted) return;
-                            setState(() => _locationPermissionGranted = true);
-                            await _next();
-                          },
-                          onManual: () async {
-                            await showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              showDragHandle: true,
-                              builder: (_) => const LocationPickerSheet(),
+                            unawaited(
+                              ref
+                                  .read(analyticsRepositoryProvider)
+                                  .logEvent(
+                                    eventName:
+                                        AppEvents.onboardingNotificationAllow,
+                                    source: 'onboarding_page',
+                                  ),
                             );
+                            try {
+                              final settings = await FirebaseMessaging.instance
+                                  .requestPermission(
+                                    alert: true,
+                                    badge: true,
+                                    sound: true,
+                                  );
+                              final authorized =
+                                  settings.authorizationStatus ==
+                                      AuthorizationStatus.authorized ||
+                                  settings.authorizationStatus ==
+                                      AuthorizationStatus.provisional;
+                              if (!mounted) return;
+                              setState(
+                                () => _notificationsGranted = authorized,
+                              );
+                            } catch (_) {}
                             if (!mounted) return;
                             await _next();
                           },
-                          onLater: _next,
-                          locationAllowed: _locationPermissionGranted,
-                        ),
-                        _Slide(
-                          icon: Icons.flash_on_outlined,
-                          title: t.onboardingContributeTitle,
-                          description: t.onboardingContributeDescription,
+                          onLater: () async {
+                            unawaited(
+                              ref
+                                  .read(analyticsRepositoryProvider)
+                                  .logEvent(
+                                    eventName:
+                                        AppEvents.onboardingNotificationSkip,
+                                    source: 'onboarding_page',
+                                  ),
+                            );
+                            await _next();
+                          },
                         ),
                       ],
                     ),
@@ -203,7 +237,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () => context.go('/login'),
+                            onPressed: () => context.go('/login?mode=signin'),
                             icon: const Icon(Icons.login_rounded, size: 18),
                             label: Text(t.login),
                           ),
@@ -211,7 +245,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () => context.go('/login'),
+                            onPressed: () => context.go('/login?mode=signup'),
                             icon: const Icon(
                               Icons.person_add_alt_1_rounded,
                               size: 18,
@@ -232,65 +266,16 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   }
 }
 
-class _Slide extends StatelessWidget {
-  const _Slide({
-    required this.icon,
-    required this.title,
-    required this.description,
-  });
-
-  final IconData icon;
-  final String title;
-  final String description;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 460),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 72,
-              height: 72,
-              decoration: BoxDecoration(
-                color: AppColors.primarySoft,
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Icon(icon, size: 34, color: AppColors.primary),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: AppColors.muted),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _LocationSlide extends StatelessWidget {
-  const _LocationSlide({
+class _NotificationSlide extends StatelessWidget {
+  const _NotificationSlide({
+    required this.granted,
     required this.onAllow,
-    required this.onManual,
     required this.onLater,
-    required this.locationAllowed,
   });
 
+  final bool granted;
   final Future<void> Function() onAllow;
-  final Future<void> Function() onManual;
   final Future<void> Function() onLater;
-  final bool locationAllowed;
 
   @override
   Widget build(BuildContext context) {
@@ -309,25 +294,25 @@ class _LocationSlide extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18),
               ),
               child: const Icon(
-                Icons.place_outlined,
+                Icons.notifications_active_outlined,
                 size: 34,
                 color: AppColors.primary,
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              t.enableLocationTitle,
+              t.onboardingNotificationTitle,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 10),
             Text(
-              t.enableLocationSubtitle,
+              t.onboardingNotificationDescription,
               textAlign: TextAlign.center,
               style: const TextStyle(color: AppColors.muted),
             ),
             const SizedBox(height: 12),
-            if (locationAllowed) ...[
+            if (granted) ...[
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
@@ -349,7 +334,7 @@ class _LocationSlide extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        t.locationPermissionGranted,
+                        t.onboardingNotificationsEnabled,
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -357,36 +342,17 @@ class _LocationSlide extends StatelessWidget {
                 ),
               ),
             ] else ...[
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AppColors.cardAlt,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.border),
-                ),
-                child: Text(
-                  t.locationOptionalInfo,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
-              ),
-              const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: onAllow,
-                  child: Text(t.allowLocation),
+                  child: Text(t.onboardingAllowNotifications),
                 ),
               ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: onManual,
-                  child: Text(t.chooseLocationManually),
-                ),
+              TextButton(
+                onPressed: onLater,
+                child: Text(t.onboardingSkipNotifications),
               ),
-              TextButton(onPressed: onLater, child: Text(t.notNow)),
             ],
           ],
         ),
@@ -395,3 +361,147 @@ class _LocationSlide extends StatelessWidget {
   }
 }
 
+class _PriceValueSlide extends StatelessWidget {
+  const _PriceValueSlide({required this.t});
+  final AppLocalizations t;
+
+  @override
+  Widget build(BuildContext context) {
+    final bullets = [
+      t.onboardingPriceBody1,
+      t.onboardingPriceBody2,
+      t.onboardingPriceBody3,
+    ];
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 460),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: AppColors.primarySoft,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(
+                Icons.price_check_outlined,
+                size: 38,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              t.onboardingPriceTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.w900,
+                height: 1.2,
+              ),
+            ),
+            const SizedBox(height: 20),
+            for (final bullet in bullets) ...[
+              Row(
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      bullet,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: AppColors.textStrong,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CommunitySlide extends StatelessWidget {
+  const _CommunitySlide({required this.t});
+  final AppLocalizations t;
+
+  @override
+  Widget build(BuildContext context) {
+    final bullets = [
+      t.onboardingCommunityBody1,
+      t.onboardingCommunityBody2,
+      t.onboardingCommunityBody3,
+    ];
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 460),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: AppColors.primarySoft,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(
+                Icons.groups_outlined,
+                size: 38,
+                color: AppColors.primary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              t.onboardingCommunityTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              t.onboardingCommunitySubtitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: AppColors.muted),
+            ),
+            const SizedBox(height: 20),
+            for (final bullet in bullets) ...[
+              Row(
+                children: [
+                  const Icon(
+                    Icons.check_circle_outline,
+                    size: 18,
+                    color: AppColors.primary,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      bullet,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: AppColors.textStrong,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}

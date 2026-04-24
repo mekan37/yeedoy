@@ -2552,6 +2552,26 @@
   "@adminGrowthDayColumn": {
     "description": "L10n key: adminGrowthDayColumn"
   },
+  "adminGrowthFunnelTitle": "User funnel",
+  "@adminGrowthFunnelTitle": {
+    "description": "L10n key: adminGrowthFunnelTitle"
+  },
+  "adminGrowthFunnelSubtitle": "Discovery → Engagement → Conversion (selected period total)",
+  "@adminGrowthFunnelSubtitle": {
+    "description": "L10n key: adminGrowthFunnelSubtitle"
+  },
+  "adminGrowthFunnelDiscovery": "Discovery",
+  "@adminGrowthFunnelDiscovery": {
+    "description": "L10n key: adminGrowthFunnelDiscovery"
+  },
+  "adminGrowthFunnelEngagement": "Engagement",
+  "@adminGrowthFunnelEngagement": {
+    "description": "L10n key: adminGrowthFunnelEngagement"
+  },
+  "adminGrowthFunnelConversion": "Conversion",
+  "@adminGrowthFunnelConversion": {
+    "description": "L10n key: adminGrowthFunnelConversion"
+  },
   "adminIncidentCenterTitle": "Incident response center",
   "@adminIncidentCenterTitle": {
     "description": "L10n key: adminIncidentCenterTitle"
@@ -2805,6 +2825,54 @@
   "adminObservabilityRequestTraceTitle": "Request Trace",
   "@adminObservabilityRequestTraceTitle": {
     "description": "L10n key: adminObservabilityRequestTraceTitle"
+  },
+  "adminObservabilityEdgeOpsTitle": "Edge maintenance",
+  "@adminObservabilityEdgeOpsTitle": {
+    "description": "Admin observability edge maintenance section title"
+  },
+  "adminObservabilityEdgeOpsSummary": "Run admin-only Supabase edge maintenance tasks without leaving the panel.",
+  "@adminObservabilityEdgeOpsSummary": {
+    "description": "Admin observability edge maintenance summary"
+  },
+  "adminObservabilityPushDispatchTitle": "Push dispatch queue",
+  "@adminObservabilityPushDispatchTitle": {
+    "description": "Admin observability push dispatch card title"
+  },
+  "adminObservabilityPushDispatchDescription": "Dequeues queued notification jobs and sends them through the push worker.",
+  "@adminObservabilityPushDispatchDescription": {
+    "description": "Admin observability push dispatch description"
+  },
+  "adminObservabilityPushDispatchAction": "Run push dispatch",
+  "@adminObservabilityPushDispatchAction": {
+    "description": "Admin observability push dispatch action"
+  },
+  "adminObservabilityTempPurgeTitle": "Temporary upload cleanup",
+  "@adminObservabilityTempPurgeTitle": {
+    "description": "Admin observability temp purge title"
+  },
+  "adminObservabilityTempPurgeDescription": "Processes the storage deletion queue for temporary uploads waiting to be purged.",
+  "@adminObservabilityTempPurgeDescription": {
+    "description": "Admin observability temp purge description"
+  },
+  "adminObservabilityTempPurgeAction": "Run cleanup",
+  "@adminObservabilityTempPurgeAction": {
+    "description": "Admin observability temp purge action"
+  },
+  "adminObservabilityRunning": "Running...",
+  "@adminObservabilityRunning": {
+    "description": "Admin observability running button label"
+  },
+  "adminObservabilityLastRunResult": "{label}: {summary}",
+  "@adminObservabilityLastRunResult": {
+    "description": "Admin observability last run result",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "summary": {
+        "type": "String"
+      }
+    }
   },
   "adminObservabilityRequestIdValue": "request_id: {requestId}",
   "@adminObservabilityRequestIdValue": {
@@ -6809,6 +6877,14 @@
   "@ownerGrowthDistrictGapLabel": {
     "description": "L10n key: ownerGrowthDistrictGapLabel"
   },
+  "ownerGrowthBarChartTitle": "Last 30 days — daily traffic",
+  "@ownerGrowthBarChartTitle": {
+    "description": "L10n key: ownerGrowthBarChartTitle"
+  },
+  "ownerGrowthBarChartSubtitle": "Menu views, QR scans and outbound clicks compared",
+  "@ownerGrowthBarChartSubtitle": {
+    "description": "L10n key: ownerGrowthBarChartSubtitle"
+  },
   "ownerShellTrashLabel": "Trash",
   "@ownerShellTrashLabel": {
     "description": "L10n key: ownerShellTrashLabel"
@@ -7265,5 +7341,74 @@
   "ownerShellAiAnalysisLabel": "AI Analysis",
   "@ownerShellAiAnalysisLabel": {
     "description": "L10n key: ownerShellAiAnalysisLabel"
+  },
+  "ownerShellReviewsLabel": "Reviews",
+  "@ownerShellReviewsLabel": {
+    "description": "L10n key: ownerShellReviewsLabel"
+  },
+  "ownerReviewsTitle": "Customer Reviews",
+  "@ownerReviewsTitle": {
+    "description": "L10n key: ownerReviewsTitle"
+  },
+  "ownerReviewsDescription": "View and reply to customer reviews",
+  "@ownerReviewsDescription": {
+    "description": "L10n key: ownerReviewsDescription"
+  },
+  "ownerReviewsReplyButton": "Reply",
+  "@ownerReviewsReplyButton": {
+    "description": "L10n key: ownerReviewsReplyButton"
+  },
+  "ownerReviewsEditReplyButton": "Edit reply",
+  "@ownerReviewsEditReplyButton": {
+    "description": "L10n key: ownerReviewsEditReplyButton"
+  },
+  "ownerReviewsDeleteReplyButton": "Delete reply",
+  "@ownerReviewsDeleteReplyButton": {
+    "description": "L10n key: ownerReviewsDeleteReplyButton"
+  },
+  "ownerReviewsReplyHint": "Write your response to the customer…",
+  "@ownerReviewsReplyHint": {
+    "description": "L10n key: ownerReviewsReplyHint"
+  },
+  "ownerReviewsReplySaved": "Your reply has been saved.",
+  "@ownerReviewsReplySaved": {
+    "description": "L10n key: ownerReviewsReplySaved"
+  },
+  "ownerReviewsReplyDeleted": "Reply deleted.",
+  "@ownerReviewsReplyDeleted": {
+    "description": "L10n key: ownerReviewsReplyDeleted"
+  },
+  "ownerReviewsOwnerReplyLabel": "Owner Response",
+  "@ownerReviewsOwnerReplyLabel": {
+    "description": "L10n key: ownerReviewsOwnerReplyLabel"
+  },
+  "ownerReviewsEmpty": "No reviews yet.",
+  "@ownerReviewsEmpty": {
+    "description": "L10n key: ownerReviewsEmpty"
+  },
+  "ownerReviewsReplyCancelButton": "Cancel",
+  "@ownerReviewsReplyCancelButton": {
+    "description": "L10n key: ownerReviewsReplyCancelButton"
+  },
+  "ownerReviewsReplySaveButton": "Save",
+  "@ownerReviewsReplySaveButton": {
+    "description": "L10n key: ownerReviewsReplySaveButton"
+  },
+  "sortNewest": "Newest",
+  "@sortNewest": {
+    "description": "Sort by newest"
+  },
+  "sortMostHelpful": "Most helpful",
+  "@sortMostHelpful": {
+    "description": "Sort by most helpful"
+  },
+  "helpfulCount": "{count} helpful",
+  "@helpfulCount": {
+    "description": "Helpful vote count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

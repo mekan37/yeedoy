@@ -18,7 +18,7 @@ class DiscoverySearchBar extends StatefulWidget {
     required this.onClearRecent,
     this.suggestions = const [],
     this.hintText,
-    this.debounce = const Duration(milliseconds: 300),
+    this.debounce = const Duration(milliseconds: 500),
   });
 
   final TextEditingController controller;

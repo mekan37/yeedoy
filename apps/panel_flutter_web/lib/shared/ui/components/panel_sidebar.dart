@@ -110,7 +110,8 @@ class PanelSidebar extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ListView(
+                child: FocusTraversalGroup(
+                  child: ListView(
                   padding: EdgeInsets.fromLTRB(
                     iconOnly ? tokens.space8 : tokens.space12,
                     tokens.space16,
@@ -145,6 +146,7 @@ class PanelSidebar extends StatelessWidget {
                       SizedBox(height: tokens.space8),
                     ],
                   ],
+                ),
                 ),
               ),
               if (footerActions.isNotEmpty)
@@ -212,7 +214,7 @@ class PanelSidebarItem extends StatelessWidget {
         final tile = AnimatedContainer(
           duration: tokens.medium,
           curve: Curves.easeOutCubic,
-          height: 48,
+          constraints: const BoxConstraints(minHeight: 48),
           margin: EdgeInsets.only(
             bottom: tokens.space8,
             left: iconOnly ? 0 : depth * tokens.space16,
@@ -298,12 +300,19 @@ class PanelSidebarItem extends StatelessWidget {
           ),
         );
 
-        return Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(tokens.radius16),
-            child: tile,
+        return Semantics(
+          button: true,
+          label: item.title,
+          selected: active,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(tokens.radius16),
+              focusColor: AppColors.primary.withValues(alpha: 0.12),
+              highlightColor: AppColors.primary.withValues(alpha: 0.08),
+              child: tile,
+            ),
           ),
         );
       },
@@ -406,14 +415,20 @@ class _SidebarFooterAction extends StatelessWidget {
     final button = LayoutBuilder(
       builder: (context, constraints) {
         final iconOnly = collapsed || constraints.maxWidth < 170;
-        return Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: action.onTap ??
-                (action.route == null ? null : () => context.go(action.route!)),
-            borderRadius: BorderRadius.circular(tokens.radius16),
-            child: Container(
-              height: 46,
+        return Semantics(
+          button: true,
+          label: action.title,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: action.onTap ??
+                  (action.route == null ? null : () => context.go(action.route!)),
+              borderRadius: BorderRadius.circular(tokens.radius16),
+              focusColor: action.danger
+                  ? AppColors.danger.withValues(alpha: 0.10)
+                  : AppColors.primary.withValues(alpha: 0.10),
+              child: Container(
+              constraints: const BoxConstraints(minHeight: 46),
               margin: EdgeInsets.only(bottom: tokens.space8),
               decoration: BoxDecoration(
                 color: action.danger ? const Color(0xFFFFF5F5) : Colors.transparent,
@@ -454,7 +469,8 @@ class _SidebarFooterAction extends StatelessWidget {
               ),
             ),
           ),
-        );
+        ),
+      );
       },
     );
 

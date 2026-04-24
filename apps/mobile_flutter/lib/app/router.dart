@@ -9,6 +9,9 @@ import '../core/config/feature_flags.dart';
 import '../core/security/route_sanitizer.dart';
 import '../features/auth/domain/auth_providers.dart';
 import '../features/auth/ui/login_page.dart';
+import '../features/auth/ui/forgot_password_page.dart';
+import '../features/auth/ui/account_security_page.dart';
+import '../features/perks/ui/perks_page.dart';
 import '../features/business/ui/business_page.dart';
 import '../features/budget_combos/ui/budget_combo_results_page.dart';
 import '../features/chains/ui/chain_page.dart';
@@ -36,6 +39,9 @@ import '../features/suggestions/ui/suggest_business_page.dart';
 import '../features/suspended_meals/ui/my_suspended_claims_page.dart';
 import '../features/taste_twin/ui/taste_twin_page.dart';
 import '../features/top_businesses/ui/top_businesses_page.dart';
+import '../features/collab_lists/ui/collab_lists_page.dart';
+import '../features/collab_lists/ui/collab_list_detail_page.dart';
+import '../features/collab_lists/ui/collab_list_join_page.dart';
 import '../features/legal/ui/legal_page.dart';
 import '../features/legal/ui/legal_acceptance_page.dart';
 import '../features/legal/legal_providers.dart';
@@ -94,7 +100,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path.startsWith('/following') ||
           path.startsWith('/taste-twin') ||
           path.startsWith('/my-suspended') ||
-          path.startsWith('/group-requests');
+          path.startsWith('/group-requests') ||
+          path.startsWith('/collab-lists');
 
       if (!loggedIn && requiresAuth) {
         final redirect = Uri.encodeComponent(state.uri.toString());
@@ -193,7 +200,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
         routes: [
           GoRoute(path: '/feed', builder: (c, s) => const SmartFeedPage()),
-          GoRoute(path: '/discover', builder: (c, s) => const DiscoveryPage()),
+          GoRoute(
+            path: '/discover',
+            builder: (c, s) {
+              final sort = s.uri.queryParameters['sort'];
+              return DiscoveryPage(initialSort: sort == 'price_asc' ? 'priceLow' : null);
+            },
+          ),
           GoRoute(
             path: '/c/:slug',
             builder: (c, s) {
@@ -406,7 +419,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return GroupRequestDetailPage(requestId: requestId);
         },
       ),
-      GoRoute(path: '/login', builder: (c, s) => const LoginPage()),
+      GoRoute(
+        path: '/login',
+        builder: (c, s) =>
+            LoginPage(initialSignup: s.uri.queryParameters['mode'] == 'signup'),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (c, s) => const ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: '/account-security',
+        builder: (c, s) => const AccountSecurityPage(),
+      ),
+      GoRoute(
+        path: '/perks/:businessId',
+        builder: (c, s) {
+          final id = sanitizeUuid(s.pathParameters['businessId']) ?? '';
+          final name = s.uri.queryParameters['name'] ?? '';
+          return PerksPage(businessId: id, businessName: name);
+        },
+      ),
       GoRoute(path: '/legal', builder: (c, s) => const LegalPage()),
       GoRoute(
         path: '/top-businesses',
@@ -423,6 +456,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/my-suspended',
         builder: (c, s) => const MySuspendedClaimsPage(),
+      ),
+      GoRoute(
+        path: '/collab-lists',
+        builder: (c, s) => const CollabListsPage(),
+      ),
+      GoRoute(
+        path: '/collab-lists/join',
+        builder: (c, s) {
+          final token = sanitizeFreeText(
+            s.uri.queryParameters['token'],
+            maxLen: 40,
+          );
+          return CollabListJoinPage(token: token);
+        },
+      ),
+      GoRoute(
+        path: '/collab-lists/:id',
+        builder: (c, s) {
+          final id = sanitizeUuid(s.pathParameters['id']) ?? '';
+          return CollabListDetailPage(listId: id);
+        },
       ),
     ],
     errorBuilder: (context, state) => const _NotFoundPage(),

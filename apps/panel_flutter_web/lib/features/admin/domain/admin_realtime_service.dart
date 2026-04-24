@@ -18,6 +18,7 @@ class AdminRealtimeService {
   RealtimeChannel? _suggestionsChannel;
   RealtimeChannel? _priceSuggestionsChannel;
   RealtimeChannel? _suspendedClaimsChannel;
+  RealtimeChannel? _businessSubmissionsChannel;
   bool _started = false;
 
   void start() {
@@ -74,6 +75,17 @@ class AdminRealtimeService {
           callback: (_) => ref.read(adminNewItemsProvider.notifier).incSuspendedClaims(),
         )
         .subscribe();
+
+    _businessSubmissionsChannel = client
+        .channel('admin_business_submissions_insert')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.insert,
+          schema: 'public',
+          table: 'business_submissions',
+          callback: (_) =>
+              ref.read(adminNewItemsProvider.notifier).incBusinessSubmissions(),
+        )
+        .subscribe();
   }
 
   void stop() {
@@ -99,6 +111,10 @@ class AdminRealtimeService {
     if (_suspendedClaimsChannel != null) {
       client.removeChannel(_suspendedClaimsChannel!);
       _suspendedClaimsChannel = null;
+    }
+    if (_businessSubmissionsChannel != null) {
+      client.removeChannel(_businessSubmissionsChannel!);
+      _businessSubmissionsChannel = null;
     }
   }
 }

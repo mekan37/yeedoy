@@ -7,6 +7,7 @@ class AdminNewItemsState {
     required this.suggestionsNew,
     required this.priceSuggestionsNew,
     required this.suspendedClaimsNew,
+    required this.businessSubmissionsNew,
   });
 
   final int reportsNew;
@@ -14,6 +15,7 @@ class AdminNewItemsState {
   final int suggestionsNew;
   final int priceSuggestionsNew;
   final int suspendedClaimsNew;
+  final int businessSubmissionsNew;
 
   factory AdminNewItemsState.initial() => const AdminNewItemsState(
         reportsNew: 0,
@@ -21,6 +23,7 @@ class AdminNewItemsState {
         suggestionsNew: 0,
         priceSuggestionsNew: 0,
         suspendedClaimsNew: 0,
+        businessSubmissionsNew: 0,
       );
 
   AdminNewItemsState copyWith({
@@ -29,6 +32,7 @@ class AdminNewItemsState {
     int? suggestionsNew,
     int? priceSuggestionsNew,
     int? suspendedClaimsNew,
+    int? businessSubmissionsNew,
   }) {
     return AdminNewItemsState(
       reportsNew: reportsNew ?? this.reportsNew,
@@ -36,6 +40,8 @@ class AdminNewItemsState {
       suggestionsNew: suggestionsNew ?? this.suggestionsNew,
       priceSuggestionsNew: priceSuggestionsNew ?? this.priceSuggestionsNew,
       suspendedClaimsNew: suspendedClaimsNew ?? this.suspendedClaimsNew,
+      businessSubmissionsNew:
+          businessSubmissionsNew ?? this.businessSubmissionsNew,
     );
   }
 }
@@ -68,6 +74,11 @@ class AdminNewItemsController extends Notifier<AdminNewItemsState> {
     state = state.copyWith(priceSuggestionsNew: state.priceSuggestionsNew + 1);
   }
 
+  void incBusinessSubmissions() {
+    state = state.copyWith(
+        businessSubmissionsNew: state.businessSubmissionsNew + 1);
+  }
+
   void clearReports() {
     state = state.copyWith(reportsNew: 0);
   }
@@ -86,6 +97,10 @@ class AdminNewItemsController extends Notifier<AdminNewItemsState> {
 
   void clearSuspendedClaims() {
     state = state.copyWith(suspendedClaimsNew: 0);
+  }
+
+  void clearBusinessSubmissions() {
+    state = state.copyWith(businessSubmissionsNew: 0);
   }
 
   void clearAll() {

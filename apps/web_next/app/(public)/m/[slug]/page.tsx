@@ -3,10 +3,12 @@ import { notFound, redirect } from 'next/navigation';
 import { PublicMenuClient } from '@/src/ui/sections/public-menu-client';
 import { getBrandThemeDefinition, getBrandThemeOptions, type BrandTheme } from '@/src/lib/brand-theme';
 import { getPublicMenuPageData, getTranslationValue } from '@/src/lib/public-menu-page';
+import { getBusinessHoursInfo } from '@/src/lib/db/menu-read';
 import { appConfig } from '@/src/lib/config';
 import { formatBusinessLocation } from '@/src/lib/format';
 import { getImageBlurDataUrl } from '@/src/lib/image-placeholder';
 import { copy } from '@/src/lib/i18n';
+import { appendMediaVersion, buildMenuImageUrl } from '@/src/lib/media-url';
 import {
   buildBusinessMenuHref,
   resolveBusinessMenuPathKeyFromRecord,
@@ -141,6 +143,9 @@ export async function renderPublicMenuRoute(input: {
 
   if (!data) notFound();
 
+  const hoursInfo = await getBusinessHoursInfo(data.business.id);
+  const isOpenNow = hoursInfo.isOpenNow;
+
   const normalized = normalizeDisplayParams(
     {
       lang: input.lang,
@@ -178,6 +183,16 @@ export async function renderPublicMenuRoute(input: {
   }));
   const blurDataUrl = getImageBlurDataUrl(themeDefinition);
 
+  const _schemaDow = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as const;
+  const openingHoursSpecification = hoursInfo.weekly
+    .filter((h) => !h.is_closed)
+    .map((h) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: `https://schema.org/${_schemaDow[h.day_of_week]}`,
+      opens: h.open_time,
+      closes: h.close_time,
+    }));
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Restaurant',
@@ -185,6 +200,7 @@ export async function renderPublicMenuRoute(input: {
     servesCuisine: data.business.category,
     image: data.media.coverUrl ?? data.media.logoUrl ?? undefined,
     description: data.business.description ?? undefined,
+    ...(openingHoursSpecification.length > 0 ? { openingHoursSpecification } : {}),
     address: data.business.address
       ? {
           '@type': 'PostalAddress',
@@ -240,8 +256,17 @@ export async function renderPublicMenuRoute(input: {
     },
   };
 
+  const heroPreloadUrl = buildMenuImageUrl(
+    appendMediaVersion(data.presentation.backgroundUrl || data.media.coverUrl, data.presentation.updatedAt),
+    { width: 1400, quality: 85 },
+  );
+
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 sm:py-6">
+      {heroPreloadUrl ? (
+        // eslint-disable-next-line @next/next/no-head-element
+        <link rel="preload" as="image" href={heroPreloadUrl} fetchPriority="high" />
+      ) : null}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
@@ -256,6 +281,7 @@ export async function renderPublicMenuRoute(input: {
         data={data}
         isPreview={Boolean(input.preview)}
         selectedCategoryId={input.selectedCategoryId}
+        isOpenNow={isOpenNow}
       />
     </main>
   );

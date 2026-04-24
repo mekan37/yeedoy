@@ -1,10 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef, type ReactNode } from 'react';
 import type { BrandTheme, BrandThemeDefinition } from '@/src/lib/brand-theme';
 import { formatCurrency } from '@/src/lib/format';
 import type { AppLang, MenuCopy } from '@/src/lib/i18n';
+import { buildMenuImageUrl } from '@/src/lib/media-url';
 import { getTranslationValue } from '@/src/lib/menu-text';
 import { getPresentationViewModel } from '@/src/lib/presentation-view';
 import type { SelectedItemDetails } from '@/src/lib/public-menu-page';
@@ -106,14 +107,16 @@ export function MenuItemDetailSheet({
           <div className="grid gap-4 md:grid-cols-[1fr_0.9fr]">
             <div className="space-y-4">
               {item.image_url ? (
-                <div className="relative overflow-hidden rounded-[28px] bg-cardAlt">
-                  <img
-                    src={item.image_url}
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[28px] bg-cardAlt">
+                  <Image
+                    src={buildMenuImageUrl(item.image_url, { width: 900, quality: 85 }) ?? item.image_url}
                     alt={title}
-                    loading="eager"
-                    decoding="async"
-                    data-blur={blurDataUrl}
-                    className="h-auto w-full object-cover"
+                    fill
+                    priority
+                    unoptimized
+                    placeholder="blur"
+                    blurDataURL={blurDataUrl}
+                    className="object-cover"
                   />
                 </div>
               ) : (
@@ -179,14 +182,15 @@ export function MenuItemDetailSheet({
                     <p className="col-span-2 text-sm text-muted">{labels.noResultsBody}</p>
                   ) : (
                     selectedItemDetails?.photos.map((photo) => (
-                      <div key={photo.id} className="relative overflow-hidden rounded-2xl bg-card">
-                        <img
+                      <div key={photo.id} className="relative h-28 overflow-hidden rounded-2xl bg-card">
+                        <Image
                           src={photo.url_thumb || photo.url_large || photo.url}
                           alt={title}
-                          loading="lazy"
-                          decoding="async"
-                          data-blur={blurDataUrl}
-                          className="h-28 w-full object-cover"
+                          fill
+                          unoptimized
+                          placeholder="blur"
+                          blurDataURL={blurDataUrl}
+                          className="object-cover"
                         />
                       </div>
                     ))

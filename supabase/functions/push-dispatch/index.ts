@@ -18,6 +18,9 @@ const ALLOWED_PUSH_TYPES = new Set<string>([
   "price_changed",
   "comment_reply",
   "achievement_unlocked",
+  "owner_new_review",
+  "favorite_revisit_reminder",
+  "friend_checkin",
 ]);
 
 function isInvalidFcmTokenError(raw: string): boolean {
@@ -197,6 +200,29 @@ serve(async (req) => {
       const token = String(d.fcm_token ?? "");
       if (!token) continue;
 
+      // Build FCM data payload — include routing fields so Flutter can
+      // deep-link without a network round-trip on push tap.
+      const notifData = (n.data ?? {}) as Record<string, unknown>;
+      const fcmData: Record<string, string> = {
+        notification_id: String(n.id ?? ""),
+        type: notificationType,
+      };
+      for (const key of [
+        "business_id",
+        "menu_item_id",
+        "menu_id",
+        "review_id",
+        "target_path",
+        "savings_cents",
+        "matched_price_cents",
+        "previous_price_cents",
+      ]) {
+        const val = notifData[key];
+        if (val !== undefined && val !== null) {
+          fcmData[key] = String(val);
+        }
+      }
+
       const endpoint = `https://fcm.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/messages:send`;
       const res = await fetch(endpoint, {
         method: "POST",
@@ -211,9 +237,7 @@ serve(async (req) => {
               title: String(n.title ?? "Bildirim"),
               body: String(n.body ?? ""),
             },
-            data: {
-              notification_id: String(n.id ?? ""),
-            },
+            data: fcmData,
           },
         }),
       });

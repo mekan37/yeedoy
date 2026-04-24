@@ -18,9 +18,13 @@ import '../../../core/storage/product_guardrails_prefs.dart';
 import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/design_system.dart';
 import '../data/admin_observability_repository.dart';
+import '../domain/admin_edge_maintenance_action.dart';
+import '../domain/admin_edge_maintenance_result.dart';
 import '../domain/admin_offline_mutation_alert_settings.dart';
 import '../domain/admin_offline_mutation_alerts.dart';
 import '../domain/admin_observability_models.dart';
+
+part 'parts/observability_sections.dart';
 
 class AdminObservabilityPage extends ConsumerStatefulWidget {
   const AdminObservabilityPage({super.key});
@@ -60,6 +64,10 @@ class _AdminObservabilityPageState
       AdminOfflineMutationAlertSettings.defaults();
   bool _offlineAlertSettingsLoaded = false;
   bool _savingOfflineAlertSettings = false;
+  bool _runningPushDispatch = false;
+  bool _runningTempPurge = false;
+  AdminEdgeMaintenanceResult? _pushDispatchResult;
+  AdminEdgeMaintenanceResult? _tempPurgeResult;
 
   @override
   void initState() {
@@ -96,8 +104,8 @@ class _AdminObservabilityPageState
     final favoriteIds = await OfflineCachePrefs.loadFavoriteIds();
     final recentBusinessIds = await OfflineCachePrefs.getRecentBusinessIds();
     final categories = await OfflineCachePrefs.loadCategoriesSnapshot();
-    final favoriteCachedAt = await OfflineCachePrefs
-        .loadFavoriteBusinessesCachedAt();
+    final favoriteCachedAt =
+        await OfflineCachePrefs.loadFavoriteBusinessesCachedAt();
 
     return _PrefsSnapshot(
       featureFlags: featureFlags,
@@ -165,10 +173,7 @@ class _AdminObservabilityPageState
     _syncController(_attentionWarnCtrl, '${settings.attentionWarningCount}');
     _syncController(_authAlarmCtrl, '${settings.authAlarmCount}');
     _syncController(_serverAlarmCtrl, '${settings.serverAlarmCount}');
-    _syncController(
-      _rateLimitWarnCtrl,
-      '${settings.rateLimitWarningCount}',
-    );
+    _syncController(_rateLimitWarnCtrl, '${settings.rateLimitWarningCount}');
     _syncController(
       _warningWindowsCtrl,
       '${settings.warningEscalationWindows}',
@@ -313,13 +318,10 @@ class _AdminObservabilityPageState
     );
 
     final headers = traceHeaders(_requestId);
-    final payload = withRequestTrace(
-      <String, Object?>{
-        'surface': 'admin_observability',
-        'action': 'debug_preview',
-      },
-      requestId: _requestId,
-    );
+    final payload = withRequestTrace(<String, Object?>{
+      'surface': 'admin_observability',
+      'action': 'debug_preview',
+    }, requestId: _requestId);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
@@ -344,32 +346,55 @@ class _AdminObservabilityPageState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.adminObservabilityRequestTraceTitle,
-                  style: TextStyle(fontWeight: FontWeight.w900),
+                  l10n.adminObservabilityEdgeOpsTitle,
+                  style: const TextStyle(fontWeight: FontWeight.w900),
                 ),
                 const SizedBox(height: 8),
-                SelectableText(
-                  l10n.adminObservabilityRequestIdValue(_requestId),
-                  style: const TextStyle(fontSize: 12),
+                Text(
+                  l10n.adminObservabilityEdgeOpsSummary,
+                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
                 ),
-                const SizedBox(height: 8),
-                SelectableText(
-                  l10n.adminObservabilityHeadersValue(jsonEncode(headers)),
-                  style: const TextStyle(fontSize: 12),
-                ),
-                const SizedBox(height: 8),
-                SelectableText(
-                  l10n.adminObservabilityPayloadValue(jsonEncode(payload)),
-                  style: const TextStyle(fontSize: 12),
-                ),
-                const SizedBox(height: 10),
-                FilledButton.icon(
-                  onPressed: _generateRequestId,
-                  icon: const Icon(Icons.vpn_key_outlined),
-                  label: Text(l10n.adminObservabilityGenerateRequestId),
+                const SizedBox(height: 12),
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: [
+                    _buildEdgeActionCard(
+                      context,
+                      title: l10n.adminObservabilityPushDispatchTitle,
+                      description:
+                          l10n.adminObservabilityPushDispatchDescription,
+                      buttonLabel: l10n.adminObservabilityPushDispatchAction,
+                      running: _runningPushDispatch,
+                      result: _pushDispatchResult,
+                      onPressed: () => _runEdgeMaintenance(
+                        context,
+                        action: AdminEdgeMaintenanceAction.pushDispatch,
+                      ),
+                    ),
+                    _buildEdgeActionCard(
+                      context,
+                      title: l10n.adminObservabilityTempPurgeTitle,
+                      description: l10n.adminObservabilityTempPurgeDescription,
+                      buttonLabel: l10n.adminObservabilityTempPurgeAction,
+                      running: _runningTempPurge,
+                      result: _tempPurgeResult,
+                      onPressed: () => _runEdgeMaintenance(
+                        context,
+                        action: AdminEdgeMaintenanceAction.purgeTempUploads,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
+          ),
+          const SizedBox(height: 12),
+          _RequestTraceCard(
+            requestId: _requestId,
+            headers: headers,
+            payload: payload,
+            onGenerate: _generateRequestId,
           ),
           const SizedBox(height: 12),
           AppCard(
@@ -484,10 +509,7 @@ class _AdminObservabilityPageState
                 const SizedBox(height: 6),
                 Text(
                   'Tune replay warning/alarm thresholds and escalation persistence without a deploy.',
-                  style: const TextStyle(
-                    color: AppColors.muted,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
                 ),
                 const SizedBox(height: 10),
                 if (!_offlineAlertSettingsLoaded)
@@ -702,9 +724,8 @@ class _AdminObservabilityPageState
                 );
                 final items = allItems
                     .where(
-                      (item) => !item.createdAt.toUtc().isBefore(
-                        currentWindowStart,
-                      ),
+                      (item) =>
+                          !item.createdAt.toUtc().isBefore(currentWindowStart),
                     )
                     .toList(growable: false);
                 final previousItems = allItems
@@ -730,10 +751,7 @@ class _AdminObservabilityPageState
                       previous: previousSummary,
                       settings: _offlineAlertSettings,
                     );
-                _maybeEmitOfflineHealthAlert(
-                  healthSummary,
-                  escalationDecision,
-                );
+                _maybeEmitOfflineHealthAlert(healthSummary, escalationDecision);
                 final dispositionCounts = _countBy(
                   items.map((item) => item.disposition),
                 );
@@ -890,55 +908,7 @@ class _AdminObservabilityPageState
             ),
           ),
           const SizedBox(height: 12),
-          AppCard(
-            child: FutureBuilder<_PrefsSnapshot>(
-              future: _prefsFuture,
-              builder: (context, snap) {
-                if (snap.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snap.hasError) {
-                  return Text(
-                    l10n.adminObservabilityPrefsReadError('${snap.error}'),
-                    style: const TextStyle(color: AppColors.danger),
-                  );
-                }
-                final data = snap.data;
-                if (data == null) {
-                  return Text(l10n.adminObservabilityPrefsEmpty);
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.adminObservabilityPrefsExplorerTitle,
-                      style: TextStyle(fontWeight: FontWeight.w900),
-                    ),
-                    const SizedBox(height: 8),
-                    SelectableText(
-                      jsonEncode({
-                        'feature_flags': data.featureFlags,
-                        'dev_overrides': {
-                          'test_user_id': data.testUserId,
-                          'test_city': data.testCity,
-                          'test_district': data.testDistrict,
-                        },
-                        'product_guardrails': data.guardrails,
-                        'offline_cache': {
-                          'favorite_ids_count': data.favoriteIdsCount,
-                          'recent_businesses_count': data.recentBusinessesCount,
-                          'categories_count': data.categoriesCount,
-                          'favorite_cached_at':
-                              data.favoriteCachedAt?.toIso8601String(),
-                        },
-                      }),
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
+          _PrefsExplorerCard(future: _prefsFuture),
         ],
       ),
     );
@@ -949,7 +919,9 @@ class _AdminObservabilityPageState
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: ok ? AppColors.success.withValues(alpha: 0.12) : AppColors.danger.withValues(alpha: 0.12),
+        color: ok
+            ? AppColors.success.withValues(alpha: 0.12)
+            : AppColors.danger.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(999),
         border: Border.all(
           color: ok
@@ -1059,10 +1031,7 @@ class _AdminObservabilityPageState
           ...summary.reasons.map(
             (reason) => Padding(
               padding: const EdgeInsets.only(bottom: 4),
-              child: Text(
-                '• $reason',
-                style: const TextStyle(fontSize: 12),
-              ),
+              child: Text('• $reason', style: const TextStyle(fontSize: 12)),
             ),
           ),
           const SizedBox(height: 6),
@@ -1171,7 +1140,9 @@ class _AdminObservabilityPageState
   }
 
   Widget _buildOfflineOutcomeTile(AdminOfflineMutationOutcome item) {
-    final timestamp = DateFormat('dd MMM HH:mm').format(item.createdAt.toLocal());
+    final timestamp = DateFormat(
+      'dd MMM HH:mm',
+    ).format(item.createdAt.toLocal());
     final retryLabel = item.retryCategory ?? 'n/a';
     final detail = item.detail ?? 'No detail';
     final userLabel = item.userId == null
@@ -1211,10 +1182,7 @@ class _AdminObservabilityPageState
             style: const TextStyle(color: AppColors.muted, fontSize: 12),
           ),
           const SizedBox(height: 6),
-          Text(
-            detail,
-            style: const TextStyle(fontSize: 12),
-          ),
+          Text(detail, style: const TextStyle(fontSize: 12)),
           const SizedBox(height: 6),
           Text(
             'Suggested action: ${_suggestedAction(item)}',
@@ -1289,6 +1257,103 @@ class _AdminObservabilityPageState
     final entries = counts.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     return Map<String, int>.fromEntries(entries);
+  }
+
+  Future<void> _runEdgeMaintenance(
+    BuildContext context, {
+    required AdminEdgeMaintenanceAction action,
+  }) async {
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() {
+      if (action == AdminEdgeMaintenanceAction.pushDispatch) {
+        _runningPushDispatch = true;
+      } else {
+        _runningTempPurge = true;
+      }
+    });
+
+    try {
+      final result = await ref
+          .read(adminObservabilityRepositoryProvider)
+          .runEdgeMaintenance(action);
+      if (!mounted) return;
+      setState(() {
+        if (action == AdminEdgeMaintenanceAction.pushDispatch) {
+          _pushDispatchResult = result;
+        } else {
+          _tempPurgeResult = result;
+        }
+      });
+      messenger.showSnackBar(SnackBar(content: Text(result.summary)));
+    } catch (e) {
+      if (mounted) {
+        messenger.showSnackBar(SnackBar(content: Text('$e')));
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          if (action == AdminEdgeMaintenanceAction.pushDispatch) {
+            _runningPushDispatch = false;
+          } else {
+            _runningTempPurge = false;
+          }
+        });
+      }
+    }
+  }
+
+  Widget _buildEdgeActionCard(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required String buttonLabel,
+    required bool running,
+    required VoidCallback onPressed,
+    AdminEdgeMaintenanceResult? result,
+  }) {
+    final width = MediaQuery.sizeOf(context).width >= 980
+        ? 360.0
+        : double.infinity;
+    return SizedBox(
+      width: width,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.bg,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
+            const SizedBox(height: 6),
+            Text(
+              description,
+              style: const TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
+            const SizedBox(height: 10),
+            FilledButton.icon(
+              onPressed: running ? null : onPressed,
+              icon: Icon(running ? Icons.sync : Icons.play_arrow_rounded),
+              label: Text(
+                running ? context.l10n.adminObservabilityRunning : buttonLabel,
+              ),
+            ),
+            if (result != null) ...[
+              const SizedBox(height: 10),
+              Text(
+                context.l10n.adminObservabilityLastRunResult(
+                  result.label,
+                  result.summary,
+                ),
+                style: const TextStyle(fontSize: 12),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }
 

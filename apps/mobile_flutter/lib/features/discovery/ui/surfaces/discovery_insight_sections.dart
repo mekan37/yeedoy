@@ -16,6 +16,24 @@ class _DiscoverySkeleton extends StatelessWidget {
   }
 }
 
+class _DiscoveryMapSkeleton extends StatelessWidget {
+  const _DiscoveryMapSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const AppSkeletonLine(width: 120, height: 14),
+        const SizedBox(height: 10),
+        const AppSkeletonBox(height: 220),
+        const SizedBox(height: 8),
+        const AppSkeletonLine(width: 200, height: 10),
+      ],
+    );
+  }
+}
+
 class _RegionalPriceIndexSection extends StatelessWidget {
   const _RegionalPriceIndexSection({required this.title, required this.items});
 

@@ -88,7 +88,8 @@ void main() {
       ),
     );
 
-    expect(find.text('Feed'), findsOneWidget);
+    // 'Feed' appears in both the status chip row and the entry list.
+    expect(find.text('Feed'), findsAtLeastNWidgets(1));
     expect(find.text('Food experts'), findsOneWidget);
     expect(find.text('Heroes'), findsNothing);
     expect(find.text('Budget Combos'), findsNothing);
@@ -107,7 +108,8 @@ void main() {
       ),
     );
 
-    expect(find.text('Heroes'), findsOneWidget);
+    // 'Heroes' appears in both the status chip row and the entry list.
+    expect(find.text('Heroes'), findsAtLeastNWidgets(1));
     expect(find.text('Group requests'), findsOneWidget);
     expect(find.text('Budget Combos'), findsOneWidget);
     expect(find.text('Feed'), findsNothing);

@@ -10,7 +10,7 @@ import '../../group_requests/data/group_requests_repository.dart';
 import '../../group_requests/domain/group_request_models.dart';
 import '../../owner_claims/my_claims_controller.dart';
 import '../../../domain/models/owner_claim.dart';
-import '../../../shared/ui/components/app_scaffold.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/design_system.dart';
 
 class OwnerGroupRequestsPage extends ConsumerStatefulWidget {
@@ -36,9 +36,7 @@ class _OwnerGroupRequestsPageState
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) context.go('/login?redirect=$redirect');
       });
-      return const AppScaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     final claimsAsync = ref.watch(myClaimsProvider);
@@ -59,24 +57,19 @@ class _OwnerGroupRequestsPageState
         ? const AsyncData(<GroupOffer>[])
         : ref.watch(_myOffersProvider(_selectedBusinessId));
 
-    return AppScaffold(
-      appBar: AppBar(
-        title: Text(l10n.ownerGroupRequestsTitle),
-        actions: [
-          IconButton(
-            onPressed: _selectedBusinessId.isEmpty
-                ? null
-                : () {
-                    ref.invalidate(_openRequestsProvider(_selectedBusinessId));
-                    ref.invalidate(_myOffersProvider(_selectedBusinessId));
-                  },
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        PanelPageHeader(
+          eyebrow: 'Owner',
+          title: Text(l10n.ownerGroupRequestsTitle),
+          description: 'Gelen grup rezervasyon taleplerini inceleyin ve teklif gönderin.',
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
           claimsAsync.when(
             loading: () => const _SkeletonBlock(),
             error: (e, _) => _ErrorBox(
@@ -202,8 +195,10 @@ class _OwnerGroupRequestsPageState
               );
             },
           ),
-        ],
-      ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -433,17 +428,20 @@ class _SkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(height: 10, color: AppColors.card),
-            const SizedBox(height: 6),
-            Container(height: 10, width: 160, color: AppColors.card),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(height: 10, color: AppColors.border),
+          const SizedBox(height: 6),
+          Container(height: 10, width: 160, color: AppColors.border),
+        ],
       ),
     );
   }

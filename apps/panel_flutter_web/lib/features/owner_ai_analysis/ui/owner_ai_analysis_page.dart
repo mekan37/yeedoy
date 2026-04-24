@@ -4,8 +4,8 @@ import 'package:file_picker/file_picker.dart';
 
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
-import '../../../shared/ui/components/app_scaffold.dart';
 import '../../../shared/ui/components/owner_business_guard.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/design_system.dart';
 import '../data/ai_analysis_repository.dart';
 import '../domain/ai_analysis_models.dart';
@@ -56,18 +56,16 @@ class OwnerAiAnalysisPage extends ConsumerStatefulWidget {
 class _OwnerAiAnalysisPageState extends ConsumerState<OwnerAiAnalysisPage> {
   String? _statusFilter;
   bool _uploading = false;
+  bool _analyzing = false;
   String? _uploadError;
 
   @override
   Widget build(BuildContext context) {
     if (widget.businessId.isEmpty) {
-      return AppScaffold(
-        appBar: AppBar(title: Text(context.l10n.ownerAiAnalysisTitle)),
-        body: AppEmptyState(
-          icon: Icons.psychology_outlined,
-          title: context.l10n.ownerAiAnalysisNoBusinessTitle,
-          description: context.l10n.ownerAiAnalysisNoBusinessDescription,
-        ),
+      return AppEmptyState(
+        icon: Icons.psychology_outlined,
+        title: context.l10n.ownerAiAnalysisNoBusinessTitle,
+        description: context.l10n.ownerAiAnalysisNoBusinessDescription,
       );
     }
 
@@ -85,77 +83,81 @@ class _OwnerAiAnalysisPageState extends ConsumerState<OwnerAiAnalysisPage> {
     );
     final analysisAsync = ref.watch(_analysisProvider(query));
 
-    return AppScaffold(
-      appBar: AppBar(title: Text(l10n.ownerAiAnalysisTitle)),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(_jobsProvider(widget.businessId));
-          ref.invalidate(_analysisProvider(query));
-        },
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
-          children: [
-            // Disclaimer banner
-            _DisclaimerBanner(),
-            const SizedBox(height: 16),
-
-            // Upload section
-            _UploadSection(
-              uploading: _uploading,
-              error: _uploadError,
-              onUpload: _handleUpload,
+    return RefreshIndicator(
+      onRefresh: () async {
+        ref.invalidate(_jobsProvider(widget.businessId));
+        ref.invalidate(_analysisProvider(query));
+      },
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          PanelPageHeader(
+            eyebrow: 'Owner',
+            title: Text(l10n.ownerAiAnalysisTitle),
+            description: 'Menü fotoğraflarını yükleyin, yapay zeka analiz edip ürün önerileri sunsun.',
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _DisclaimerBanner(),
+                const SizedBox(height: 16),
+                _UploadSection(
+                  uploading: _uploading,
+                  analyzing: _analyzing,
+                  error: _uploadError,
+                  onUpload: _handleUpload,
+                ),
+                const SizedBox(height: 20),
+                _JobsSection(businessId: widget.businessId),
+                const SizedBox(height: 20),
+                Text(
+                  l10n.ownerAiAnalysisResultsTitle,
+                  style: context.titleStyle,
+                ),
+                const SizedBox(height: 8),
+                _StatusFilterChips(
+                  selected: _statusFilter,
+                  onChanged: (v) => setState(() => _statusFilter = v),
+                ),
+                const SizedBox(height: 12),
+                analysisAsync.when(
+                  loading: () => const _AnalysisSkeleton(),
+                  error: (e, _) => Text(
+                    AppErrorMapper.message(e),
+                    style: context.bodyStyle.copyWith(color: Colors.red),
+                  ),
+                  data: (items) {
+                    if (items.isEmpty) {
+                      return AppEmptyState(
+                        icon: Icons.auto_awesome_outlined,
+                        title: l10n.ownerAiAnalysisEmptyTitle,
+                        description: l10n.ownerAiAnalysisEmptyDescription,
+                      );
+                    }
+                    return Column(
+                      children: [
+                        for (final item in items) ...[
+                          _AnalysisCard(
+                            item: item,
+                            onApprove: item.status == 'pending_review'
+                                ? () => _onApprove(item)
+                                : null,
+                            onReject: item.status == 'pending_review'
+                                ? () => _onReject(item)
+                                : null,
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ],
+                    );
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-
-            // Jobs history
-            _JobsSection(businessId: widget.businessId),
-            const SizedBox(height: 20),
-
-            // Analysis results
-            Text(
-              l10n.ownerAiAnalysisResultsTitle,
-              style: context.titleStyle,
-            ),
-            const SizedBox(height: 8),
-            _StatusFilterChips(
-              selected: _statusFilter,
-              onChanged: (v) => setState(() => _statusFilter = v),
-            ),
-            const SizedBox(height: 12),
-            analysisAsync.when(
-              loading: () => const _AnalysisSkeleton(),
-              error: (e, _) => Text(
-                AppErrorMapper.message(e),
-                style: context.bodyStyle.copyWith(color: Colors.red),
-              ),
-              data: (items) {
-                if (items.isEmpty) {
-                  return AppEmptyState(
-                    icon: Icons.auto_awesome_outlined,
-                    title: l10n.ownerAiAnalysisEmptyTitle,
-                    description: l10n.ownerAiAnalysisEmptyDescription,
-                  );
-                }
-                return Column(
-                  children: [
-                    for (final item in items) ...[
-                      _AnalysisCard(
-                        item: item,
-                        onApprove: item.status == 'pending_review'
-                            ? () => _onApprove(item)
-                            : null,
-                        onReject: item.status == 'pending_review'
-                            ? () => _onReject(item)
-                            : null,
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -205,18 +207,17 @@ class _OwnerAiAnalysisPageState extends ConsumerState<OwnerAiAnalysisPage> {
       );
 
       if (!mounted) return;
-      setState(() => _uploading = false);
+      setState(() {
+        _uploading = false;
+        _analyzing = true;
+      });
 
       ref.invalidate(_jobsProvider(widget.businessId));
-
-      // Trigger analysis (show progress snackbar)
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.ownerAiAnalysisAnalyzing)),
-      );
 
       try {
         final count = await repo.triggerAnalysis(jobId: jobId);
         if (!mounted) return;
+        setState(() => _analyzing = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.l10n.ownerAiAnalysisComplete(count)),
@@ -228,6 +229,7 @@ class _OwnerAiAnalysisPageState extends ConsumerState<OwnerAiAnalysisPage> {
         ));
       } catch (e) {
         if (!mounted) return;
+        setState(() => _analyzing = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppErrorMapper.message(e)),
@@ -325,11 +327,13 @@ class _DisclaimerBanner extends StatelessWidget {
 class _UploadSection extends StatelessWidget {
   const _UploadSection({
     required this.uploading,
+    required this.analyzing,
     required this.error,
     required this.onUpload,
   });
 
   final bool uploading;
+  final bool analyzing;
   final String? error;
   final VoidCallback onUpload;
 
@@ -337,12 +341,11 @@ class _UploadSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return AppCard(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.ownerAiAnalysisUploadTitle, style: context.titleStyle),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.ownerAiAnalysisUploadTitle, style: context.titleStyle),
             const SizedBox(height: 4),
             Text(
               l10n.ownerAiAnalysisUploadDescription,
@@ -357,11 +360,16 @@ class _UploadSection extends StatelessWidget {
               label: uploading
                   ? l10n.ownerAiAnalysisUploading
                   : l10n.ownerAiAnalysisUploadAction,
-              onPressed: uploading ? null : onUpload,
+              onPressed: (uploading || analyzing) ? null : onUpload,
               icon: uploading ? null : Icons.upload_outlined,
             ),
-          ],
-        ),
+            if (analyzing) ...[
+              const SizedBox(height: 12),
+              const LinearProgressIndicator(),
+              const SizedBox(height: 8),
+              Text('Yapay zeka analiz ediyor...', style: context.captionStyle),
+            ],
+        ],
       ),
     );
   }
@@ -414,9 +422,8 @@ class _JobStatusTile extends StatelessWidget {
             : Icons.hourglass_top_outlined;
 
     return AppCard(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Row(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Row(
           children: [
             Icon(icon, color: color, size: 18),
             const SizedBox(width: 8),
@@ -445,7 +452,6 @@ class _JobStatusTile extends StatelessWidget {
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
           ],
-        ),
       ),
     );
   }
@@ -514,16 +520,15 @@ class _AnalysisCard extends StatelessWidget {
     final confidencePct = (item.confidence * 100).toStringAsFixed(0);
 
     return AppCard(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    item.displayName,
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  item.displayName,
                     style: const TextStyle(fontWeight: FontWeight.w800),
                   ),
                 ),
@@ -636,8 +641,7 @@ class _AnalysisCard extends StatelessWidget {
                 ],
               ),
             ],
-          ],
-        ),
+        ],
       ),
     );
   }

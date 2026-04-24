@@ -26,6 +26,7 @@ import '../../../features/shared/ui/components/weather_hint_bar.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../business/domain/business.dart';
 import '../../discovery/data/discovery_repository.dart';
+import '../../../core/storage/offline_cache_prefs.dart';
 import '../data/menu_repository.dart';
 import '../data/offline_verify_queue.dart';
 import '../domain/menu_models.dart';
@@ -132,6 +133,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
   Object? _ageError;
   bool _loggedView = false;
   bool _queueSyncing = false;
+  bool _savingOffline = false;
   VerifyPriceCtaPlacement _verifyPriceCtaPlacement =
       VerifyPriceCtaPlacement.bottom;
   bool _loggedVerifyCtaExperiment = false;
@@ -252,8 +254,39 @@ class _MenuPageState extends ConsumerState<MenuPage>
       orElse: () => t.menu,
     );
 
+    final offlineSaved = ref
+        .watch(menuOfflineSavedProvider(menuId))
+        .asData
+        ?.value ?? false;
+
     return AppScaffold(
-      appBar: AppAppBar(title: Text(title)),
+      appBar: AppAppBar(
+        title: Text(title),
+        actions: [
+          if (_savingOffline)
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            )
+          else
+            IconButton(
+              tooltip: t.localeName.startsWith('tr')
+                  ? (offlineSaved ? 'Çevrimdışı kaydedildi' : 'Çevrimdışı kaydet')
+                  : (offlineSaved ? 'Saved offline' : 'Save for offline'),
+              onPressed: _saveForOffline,
+              icon: Icon(
+                offlineSaved
+                    ? Icons.offline_pin_outlined
+                    : Icons.download_outlined,
+                color: offlineSaved ? AppColors.success : null,
+              ),
+            ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           _refreshMenu(businessId: businessId, menuId: menuId);
@@ -593,6 +626,39 @@ class _MenuPageState extends ConsumerState<MenuPage>
       _lastIdsKey = '';
       _lastAgeFetch = null;
     });
+  }
+
+  Future<void> _saveForOffline() async {
+    if (_savingOffline) return;
+    setState(() => _savingOffline = true);
+    try {
+      ref.invalidate(menuSectionsProvider(widget.menuId));
+      ref.invalidate(menuItemsProvider(widget.menuId));
+      ref.invalidate(businessMenusProvider(widget.businessId));
+      // Wait for providers to finish fetching (they will re-save to cache)
+      await Future.wait([
+        ref.read(menuSectionsProvider(widget.menuId).future).catchError((_) => <MenuSection>[]),
+        ref.read(menuItemsProvider(widget.menuId).future).catchError((_) => <MenuItem>[]),
+      ]);
+      await OfflineCachePrefs.markMenuSavedForOffline(widget.menuId);
+      ref.invalidate(menuOfflineSavedProvider(widget.menuId));
+      if (!mounted) return;
+      final t = AppLocalizations.of(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            t.localeName.startsWith('tr')
+                ? 'Menü çevrimdışı için kaydedildi'
+                : 'Menu saved for offline use',
+          ),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } catch (_) {
+      // no-op — cache may be stale but not a blocker
+    } finally {
+      if (mounted) setState(() => _savingOffline = false);
+    }
   }
 
   Future<void> _openVerifyPriceSheet(MenuItem item) async {
@@ -1182,7 +1248,11 @@ String _formatPriceLocalized(
   double? price, {
   String currencyCode = 'TRY',
 }) {
-  if (price == null) return AppLocalizations.of(context).unknown;
+  if (price == null) {
+    return AppLocalizations.of(context).localeName.startsWith('tr')
+        ? 'Fiyata sorunuz'
+        : 'Price on request';
+  }
   return formatCurrency(context, price, currencyCode: currencyCode);
 }
 

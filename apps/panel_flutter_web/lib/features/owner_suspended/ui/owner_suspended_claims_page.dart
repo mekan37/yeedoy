@@ -6,8 +6,9 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../domain/owner_suspended_controller.dart';
 import '../domain/owner_suspended_models.dart';
 import '../../owner_onboarding/domain/owner_onboarding_providers.dart';
-import '../../../shared/ui/components/app_scaffold.dart';
 import '../../../shared/ui/components/owner_business_guard.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
+import '../../../app/theme/colors.dart';
 import '../../../shared/ui/design_system.dart';
 
 class OwnerSuspendedClaimsPage extends ConsumerStatefulWidget {
@@ -77,75 +78,87 @@ class _OwnerSuspendedClaimsPageState
           ownerSuspendedClaimsControllerProvider(widget.businessId).notifier,
         );
 
-        return AppScaffold(
-          appBar: AppBar(title: const Text('Askıda Yönetimi')),
-          body: RefreshIndicator(
-            onRefresh: () => controller.refresh(force: true),
-            child: ListView(
-              controller: scrollCtrl,
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-              children: [
-                Wrap(
-                  spacing: 8,
+        return RefreshIndicator(
+          onRefresh: () => controller.refresh(force: true),
+          child: ListView(
+            controller: scrollCtrl,
+            padding: EdgeInsets.zero,
+            children: [
+              const PanelPageHeader(
+                eyebrow: 'Owner',
+                title: Text('Askıda Yönetimi'),
+                description: 'Müşterilerden gelen askıda taleplerini onaylayın ve teslim edin.',
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                child: Column(
                   children: [
-                    AppFilterChip(
-                      label: 'Bekliyor',
-                      selected: st.statusFilter == 'pending',
-                      onTap: () => controller.setStatusFilter('pending'),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Wrap(
+                        spacing: 8,
+                        children: [
+                          AppFilterChip(
+                            label: 'Bekliyor',
+                            selected: st.statusFilter == 'pending',
+                            onTap: () => controller.setStatusFilter('pending'),
+                          ),
+                          AppFilterChip(
+                            label: 'Onaylandı',
+                            selected: st.statusFilter == 'approved',
+                            onTap: () => controller.setStatusFilter('approved'),
+                          ),
+                          AppFilterChip(
+                            label: 'Teslim edildi',
+                            selected: st.statusFilter == 'fulfilled',
+                            onTap: () => controller.setStatusFilter('fulfilled'),
+                          ),
+                        ],
+                      ),
                     ),
-                    AppFilterChip(
-                      label: 'Onaylandı',
-                      selected: st.statusFilter == 'approved',
-                      onTap: () => controller.setStatusFilter('approved'),
-                    ),
-                    AppFilterChip(
-                      label: 'Teslim edildi',
-                      selected: st.statusFilter == 'fulfilled',
-                      onTap: () => controller.setStatusFilter('fulfilled'),
-                    ),
+                    const SizedBox(height: 12),
+                    if (st.error != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          AppErrorMapper.message(st.error),
+                          style: context.bodyStyle.copyWith(color: Colors.red),
+                        ),
+                      ),
+                    if (st.isLoading && st.items.isEmpty)
+                      const _OwnerSuspendedSkeleton()
+                    else if (!st.isLoading && st.items.isEmpty)
+                      AppEmptyState(
+                        icon: Icons.volunteer_activism_outlined,
+                        title: 'Kayıt yok',
+                        description: 'Yeni askıda talepler burada görünecek.',
+                      )
+                    else
+                      Column(
+                        children: [
+                          for (final item in st.items) ...[
+                            _ClaimCard(
+                              item: item,
+                              onApprove: item.status == 'pending'
+                                  ? () => _onApprove(item)
+                                  : null,
+                              onFulfill: item.status == 'approved'
+                                  ? () => _onFulfill(item)
+                                  : null,
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                          if (st.isLoadingMore)
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8),
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                        ],
+                      ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                if (st.error != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      AppErrorMapper.message(st.error),
-                      style: context.bodyStyle.copyWith(color: Colors.red),
-                    ),
-                  ),
-                if (st.isLoading && st.items.isEmpty)
-                  const _OwnerSuspendedSkeleton()
-                else if (!st.isLoading && st.items.isEmpty)
-                  AppEmptyState(
-                    icon: Icons.volunteer_activism_outlined,
-                    title: 'Kayıt yok',
-                    description: 'Yeni askıda talepler burada görünecek.',
-                  )
-                else
-                  Column(
-                    children: [
-                      for (final item in st.items) ...[
-                        _ClaimCard(
-                          item: item,
-                          onApprove: item.status == 'pending'
-                              ? () => _onApprove(item)
-                              : null,
-                          onFulfill: item.status == 'approved'
-                              ? () => _onFulfill(item)
-                              : null,
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                      if (st.isLoadingMore)
-                        const Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                    ],
-                  ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -243,60 +256,122 @@ class _ClaimCard extends StatelessWidget {
   final VoidCallback? onApprove;
   final VoidCallback? onFulfill;
 
+  Color _accentColor() {
+    switch (item.status) {
+      case 'pending':
+        return AppColors.warning;
+      case 'approved':
+        return AppColors.info;
+      case 'fulfilled':
+        return AppColors.success;
+      default:
+        return AppColors.muted;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AppCard(
-      child: Padding(
-        padding: const EdgeInsets.all(2),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    item.claimantName,
-                    style: const TextStyle(fontWeight: FontWeight.w900),
-                  ),
-                ),
-                Text(
-                  _formatPrice(item.amountCents),
-                  style: context.subtitleStyle.copyWith(
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text(
-              item.mealMessage.isEmpty ? '-' : item.mealMessage,
-              style: context.bodyStyle.copyWith(
-                color: Theme.of(context).textTheme.bodySmall?.color,
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(_ageLabel(item.ageHours), style: context.captionStyle),
-            const SizedBox(height: 10),
-            if (onApprove != null || onFulfill != null)
-              Row(
-                children: [
-                  if (onApprove != null)
-                    Expanded(
-                      child: AppButton(label: 'Onayla', onPressed: onApprove),
-                    ),
-                  if (onApprove != null && onFulfill != null)
-                    const SizedBox(width: 10),
-                  if (onFulfill != null)
-                    Expanded(
-                      child: AppButton(
-                        label: 'Teslim Et',
-                        variant: AppButtonVariant.secondary,
-                        onPressed: onFulfill,
+    final accent = _accentColor();
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(width: 4, color: accent),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 34,
+                            height: 34,
+                            decoration: BoxDecoration(
+                              color: accent.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.volunteer_activism_outlined,
+                              size: 17,
+                              color: accent,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              item.claimantName,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.textStrong,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            _formatPrice(item.amountCents),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              color: accent,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                ],
+                      if (item.mealMessage.isNotEmpty) ...[
+                        const SizedBox(height: 6),
+                        Text(
+                          item.mealMessage,
+                          style: const TextStyle(
+                            color: AppColors.muted,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 6),
+                      Text(
+                        _ageLabel(item.ageHours),
+                        style: const TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 12,
+                        ),
+                      ),
+                      if (onApprove != null || onFulfill != null) ...[
+                        const SizedBox(height: 10),
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 8,
+                          children: [
+                            if (onApprove != null)
+                              FilledButton.icon(
+                                onPressed: onApprove,
+                                icon: const Icon(Icons.check_outlined, size: 15),
+                                label: const Text('Onayla'),
+                              ),
+                            if (onFulfill != null)
+                              OutlinedButton.icon(
+                                onPressed: onFulfill,
+                                icon: const Icon(Icons.handshake_outlined, size: 15),
+                                label: const Text('Teslim Et'),
+                              ),
+                          ],
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );

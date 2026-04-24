@@ -3,6 +3,59 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
 
+class OwnerGrowthDayRow {
+  const OwnerGrowthDayRow({
+    required this.day,
+    required this.menuViews,
+    required this.qrScans,
+    required this.outboundClicks,
+  });
+
+  final DateTime day;
+  final int menuViews;
+  final int qrScans;
+  final int outboundClicks;
+}
+
+final ownerGrowthSeriesProvider =
+    FutureProvider.family<List<OwnerGrowthDayRow>, String?>((
+      ref,
+      businessId,
+    ) async {
+      if (businessId == null || businessId.trim().isEmpty) return const [];
+      final client = ref.watch(supabaseProvider);
+      try {
+        final res = await client.rpc(
+          'analytics_growth_v3',
+          params: {'p_days': 30, 'p_business_id': businessId},
+        );
+        final rows = (res as List?) ?? const [];
+        return rows.whereType<Map>().map((r) {
+          final map = r.cast<String, dynamic>();
+          final dayRaw = map['day'];
+          final day = dayRaw is String
+              ? DateTime.tryParse(dayRaw) ?? DateTime.now()
+              : DateTime.now();
+          final menuViews = (map['menu_link_opened'] as num?)?.toInt() ?? 0;
+          final qrScans = (map['qr_scanned'] as num?)?.toInt() ?? 0;
+          final outboundClicks =
+              ((map['business_reservation_click'] as num?)?.toInt() ?? 0) +
+              ((map['business_order_click'] as num?)?.toInt() ?? 0) +
+              ((map['business_phone_click'] as num?)?.toInt() ?? 0) +
+              ((map['business_whatsapp_click'] as num?)?.toInt() ?? 0);
+          return OwnerGrowthDayRow(
+            day: day,
+            menuViews: menuViews,
+            qrScans: qrScans,
+            outboundClicks: outboundClicks,
+          );
+        }).toList()
+          ..sort((a, b) => a.day.compareTo(b.day));
+      } catch (_) {
+        return const [];
+      }
+    });
+
 class OwnerGrowthSummary {
   const OwnerGrowthSummary({
     required this.menuViews,

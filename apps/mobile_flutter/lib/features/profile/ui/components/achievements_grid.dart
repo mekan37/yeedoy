@@ -45,7 +45,7 @@ class _AchievementTile extends StatelessWidget {
       fallbackHex: item.colorHex,
     );
     final unlocked = item.unlocked;
-    final iconColor = unlocked ? visual.color : const Color(0xFF9CA3AF);
+    final iconColor = unlocked ? visual.color : AppColors.muted;
 
     return Tooltip(
       message: item.description,

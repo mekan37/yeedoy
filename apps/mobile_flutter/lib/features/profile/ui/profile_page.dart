@@ -101,6 +101,16 @@ class _ProfileTab extends ConsumerWidget {
               },
             ),
           ),
+          const SizedBox(height: 8),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.shield_outlined),
+              title: const Text('Hesap Güvenliği'),
+              subtitle: const Text('Şifre ve e-posta değiştir'),
+              trailing: const Icon(Icons.chevron_right_rounded),
+              onTap: () => context.push('/account-security'),
+            ),
+          ),
           const SizedBox(height: 12),
           if (user == null) ...[
             _InfoCard(
@@ -349,7 +359,7 @@ class _FeedTab extends ConsumerWidget {
                 title: Text(item.businessName),
                 subtitle: Text(_feedSubtitle(context, item)),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.push('/business/${item.event.businessId}'),
+                onTap: () => context.push('/b/${item.event.businessId}'),
               ),
             );
           },

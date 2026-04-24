@@ -17,6 +17,14 @@ class _BusinessSectionsScroll extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final trustAsync = ref.watch(_businessTrustProvider(business.id));
     final trendingAsync = ref.watch(businessTrendingItemsProvider(business.id));
+    final isOpenNow = ref.watch(
+      _businessHoursProvider(business.id).select((async) => async.maybeWhen(
+            data: (today) => today == null
+                ? null
+                : _isOpenNow(today.open, today.close, DateTime.now()),
+            orElse: () => null,
+          )),
+    );
     final topPriceCents = trendingAsync.maybeWhen(
       data: (items) => items.isEmpty ? null : items.first.priceCents,
       orElse: () => null,
@@ -33,8 +41,9 @@ class _BusinessSectionsScroll extends ConsumerWidget {
             child: ListView(
               padding: padding,
               children: [
-                _BusinessHeroTrustHeader(business: business),
+                _BusinessHeroTrustHeader(business: business, isOpenNow: isOpenNow),
                 SizedBox(height: tokens.space12),
+                _BusinessPresenceBadge(businessId: business.id),
                 const WeatherHintBar(compact: true),
                 SizedBox(height: tokens.space16),
                 trustAsync.when(
@@ -105,12 +114,21 @@ class _BusinessSectionsScroll extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: tokens.space16),
+                BusinessPerksSection(
+                  businessId: business.id,
+                  businessName: business.name,
+                ),
+                SizedBox(height: tokens.space16),
                 BusinessMealCardsSection(businessId: business.id),
                 SizedBox(height: tokens.space20),
                 _BusinessMenuPreviewSection(
                   businessId: business.id,
                   fallbackCategory: business.category,
                 ),
+                SizedBox(height: tokens.space16),
+                BusinessFrequentTagsSection(businessId: business.id),
+                SizedBox(height: tokens.space16),
+                BusinessReviewPhotosSection(businessId: business.id),
                 SizedBox(height: tokens.space16),
                 SizedBox(
                   width: double.infinity,

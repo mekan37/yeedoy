@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/app_role_providers.dart';
 import '../../../core/security/business_rbac.dart';
 import '../../../shared/ui/components/app_card.dart';
 import '../../../shared/ui/components/app_filter_chip.dart';
-import '../../../shared/ui/components/app_section_header.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../owner_businesses/domain/owner_business_models.dart';
 import '../../owner_businesses/domain/owner_business_providers.dart';
 import '../../owner_businesses/domain/owner_business_state.dart';
@@ -106,7 +107,7 @@ class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
         padding: const EdgeInsets.all(16),
         child: OwnerPanelFeedback.error(
           title: l10n.ownerAnalyticsErrorTitle,
-          description: error.toString(),
+          description: AppErrorMapper.message(error),
           onRetry: () => ref.invalidate(ownerBusinessesProvider),
         ),
       ),
@@ -136,17 +137,18 @@ class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
             );
           },
           child: ListView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.zero,
             children: [
-              AppSectionHeader(
-                title: l10n.ownerAnalyticsTitle,
-                subtitle: Text(
-                  l10n.ownerAnalyticsDescription,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
+              PanelPageHeader(
+                eyebrow: 'Owner',
+                title: Text(l10n.ownerAnalyticsTitle),
+                description: l10n.ownerAnalyticsDescription,
               ),
-              const SizedBox(height: 12),
-              AppCard(
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Column(
+                  children: [
+                AppCard(
                 child: Wrap(
                   spacing: 10,
                   runSpacing: 10,
@@ -188,7 +190,7 @@ class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
                   loading: () => const OwnerPanelFeedback.loading(cardCount: 4),
                   error: (error, _) => OwnerPanelFeedback.error(
                     title: l10n.ownerAnalyticsErrorTitle,
-                    description: error.toString(),
+                    description: AppErrorMapper.message(error),
                     onRetry: () => ref.invalidate(
                       _ownerAnalyticsHourlyProvider(selectedBusinessId),
                     ),
@@ -206,7 +208,7 @@ class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
                 loading: () => const OwnerPanelFeedback.loading(cardCount: 6),
                 error: (error, _) => OwnerPanelFeedback.error(
                   title: l10n.ownerAnalyticsErrorTitle,
-                  description: error.toString(),
+                  description: AppErrorMapper.message(error),
                   onRetry: () => ref.invalidate(
                     _ownerAnalyticsSnapshotProvider((
                       selectedBusinessId,
@@ -297,6 +299,9 @@ class _OwnerAnalyticsPageState extends ConsumerState<OwnerAnalyticsPage> {
                         );
                       },
                     ),
+                  ],
+                ),
+              ),
                   ],
                 ),
               ),
@@ -430,18 +435,26 @@ class _KpiGrid extends StatelessWidget {
     final l10n = context.l10n;
     final cards = <Widget>[
       _KpiCard(
+        icon: Icons.qr_code_scanner_rounded,
+        iconColor: AppColors.info,
         title: l10n.ownerAnalyticsQrScansTitle,
         value: '${summary.qrScans}',
       ),
       _KpiCard(
+        icon: Icons.menu_book_rounded,
+        iconColor: AppColors.primary,
         title: l10n.ownerAnalyticsMenuOpensTitle,
         value: '${summary.menuOpens}',
       ),
       _KpiCard(
+        icon: Icons.category_rounded,
+        iconColor: AppColors.success,
         title: l10n.ownerAnalyticsCategoryViewsTitle,
         value: '${summary.categoryViews}',
       ),
       _KpiCard(
+        icon: Icons.touch_app_rounded,
+        iconColor: AppColors.warning,
         title: l10n.ownerAnalyticsItemClicksTitle,
         value: '${summary.itemClicks}',
       ),
@@ -460,10 +473,14 @@ class _KpiGrid extends StatelessWidget {
 
 class _KpiCard extends StatelessWidget {
   const _KpiCard({
+    required this.icon,
+    required this.iconColor,
     required this.title,
     required this.value,
   });
 
+  final IconData icon;
+  final Color iconColor;
   final String title;
   final String value;
 
@@ -474,17 +491,39 @@ class _KpiCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: AppColors.muted,
-              fontWeight: FontWeight.w600,
-            ),
+          Row(
+            children: [
+              Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: iconColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, size: 15, color: iconColor),
+              ),
+              const Spacer(),
+            ],
           ),
           const SizedBox(height: 8),
           Text(
             value,
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900),
+            style: const TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.w900,
+              color: AppColors.textStrong,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 12,
+              color: AppColors.muted,
+              fontWeight: FontWeight.w600,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -503,73 +542,254 @@ class _DailyTrendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxValue = points.fold<int>(
-      1,
-      (prev, item) => [
-        prev,
-        item.menuOpens,
-        item.qrScans,
-        item.menuViews,
-        item.itemClicks,
-      ].reduce((a, b) => a > b ? a : b),
-    );
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.l10n.ownerAnalyticsDailyTrendTitle(days),
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  context.l10n.ownerAnalyticsDailyTrendTitle(days),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              _ChartLegend(color: AppColors.primary, label: 'Menü açılışı'),
+              const SizedBox(width: 12),
+              _ChartLegend(color: AppColors.info, label: 'QR tarama'),
+            ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           if (points.isEmpty)
             Text(
               context.l10n.ownerAnalyticsNoTrendDataDescription,
               style: const TextStyle(color: AppColors.muted),
             )
           else
-            Column(
-              children: [
-                for (final point in points.take(12).toList().reversed)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 86,
-                          child: Text(
-                            point.day.substring(5),
-                            style: const TextStyle(
-                              color: AppColors.muted,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: _MetricBar(
-                            color: AppColors.primary,
-                            value: point.menuOpens,
-                            max: maxValue,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          width: 36,
-                          child: Text(
-                            '${point.menuOpens}',
-                            textAlign: TextAlign.right,
-                            style: const TextStyle(fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
+            SizedBox(
+              height: 160,
+              child: _AnalyticsLineChart(
+                points: points,
+                primaryValue: (p) => p.menuOpens,
+                secondaryValue: (p) => p.qrScans,
+                xLabel: (p) => p.day.length >= 10 ? p.day.substring(5) : p.day,
+              ),
             ),
         ],
       ),
     );
   }
+}
+
+class _ChartLegend extends StatelessWidget {
+  const _ChartLegend({required this.color, required this.label});
+  final Color color;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 12,
+          height: 3,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(label,
+            style: const TextStyle(fontSize: 11, color: AppColors.muted)),
+      ],
+    );
+  }
+}
+
+class _AnalyticsLineChart extends StatelessWidget {
+  const _AnalyticsLineChart({
+    required this.points,
+    required this.primaryValue,
+    required this.secondaryValue,
+    required this.xLabel,
+  });
+
+  final List<OwnerAnalyticsDailyPoint> points;
+  final int Function(OwnerAnalyticsDailyPoint) primaryValue;
+  final int Function(OwnerAnalyticsDailyPoint) secondaryValue;
+  final String Function(OwnerAnalyticsDailyPoint) xLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _AnalyticsLinePainter(
+        points: points,
+        primaryValue: primaryValue,
+        secondaryValue: secondaryValue,
+        xLabel: xLabel,
+        primaryColor: AppColors.primary,
+        secondaryColor: AppColors.info,
+        gridColor: AppColors.border,
+        labelColor: AppColors.muted,
+      ),
+      child: const SizedBox.expand(),
+    );
+  }
+}
+
+class _AnalyticsLinePainter extends CustomPainter {
+  const _AnalyticsLinePainter({
+    required this.points,
+    required this.primaryValue,
+    required this.secondaryValue,
+    required this.xLabel,
+    required this.primaryColor,
+    required this.secondaryColor,
+    required this.gridColor,
+    required this.labelColor,
+  });
+
+  final List<OwnerAnalyticsDailyPoint> points;
+  final int Function(OwnerAnalyticsDailyPoint) primaryValue;
+  final int Function(OwnerAnalyticsDailyPoint) secondaryValue;
+  final String Function(OwnerAnalyticsDailyPoint) xLabel;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color gridColor;
+  final Color labelColor;
+
+  static const double _leftPad = 40;
+  static const double _bottomPad = 24;
+  static const double _rightPad = 8;
+  static const double _topPad = 8;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (points.isEmpty) return;
+
+    final chartW = size.width - _leftPad - _rightPad;
+    final chartH = size.height - _topPad - _bottomPad;
+
+    final maxVal = points.fold<int>(1, (m, p) {
+      final v = [primaryValue(p), secondaryValue(p)];
+      return v.fold(m, (a, b) => b > a ? b : a);
+    });
+
+    double xOf(int i) => _leftPad + i * chartW / (points.length - 1);
+    double yOf(int v) => _topPad + chartH * (1 - v / maxVal);
+
+    // Grid lines + Y labels
+    final gridPaint = Paint()
+      ..color = gridColor
+      ..strokeWidth = 1;
+    final labelStyle = TextStyle(color: labelColor, fontSize: 10);
+
+    const gridCount = 4;
+    for (var i = 0; i <= gridCount; i++) {
+      final y = _topPad + chartH * i / gridCount;
+      canvas.drawLine(Offset(_leftPad, y), Offset(size.width - _rightPad, y),
+          gridPaint);
+      final val = (maxVal * (1 - i / gridCount)).round();
+      _drawText(canvas, '$val', Offset(0, y - 6), labelStyle, width: 36);
+    }
+
+    // X axis labels — show up to 7 evenly
+    final step = (points.length / 6).ceil().clamp(1, points.length);
+    for (var i = 0; i < points.length; i += step) {
+      final x = xOf(i);
+      _drawText(
+        canvas,
+        xLabel(points[i]),
+        Offset(x - 20, size.height - _bottomPad + 5),
+        labelStyle,
+        width: 40,
+        center: true,
+      );
+    }
+
+    // Draw series
+    _drawSeries(canvas, points, secondaryValue, xOf, yOf, secondaryColor,
+        fill: false);
+    _drawSeries(canvas, points, primaryValue, xOf, yOf, primaryColor,
+        fill: true);
+  }
+
+  void _drawSeries(
+    Canvas canvas,
+    List<OwnerAnalyticsDailyPoint> pts,
+    int Function(OwnerAnalyticsDailyPoint) val,
+    double Function(int) xOf,
+    double Function(int) yOf,
+    Color color, {
+    required bool fill,
+  }) {
+    final linePaint = Paint()
+      ..color = color
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    final path = Path();
+    for (var i = 0; i < pts.length; i++) {
+      final x = xOf(i);
+      final y = yOf(val(pts[i]));
+      if (i == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    }
+    canvas.drawPath(path, linePaint);
+
+    if (fill) {
+      final fillPath = Path.from(path)
+        ..lineTo(xOf(pts.length - 1), _topPad + (yOf(0) - _topPad + _bottomPad))
+        ..lineTo(xOf(0), _topPad + (yOf(0) - _topPad + _bottomPad))
+        ..close();
+      canvas.drawPath(
+        fillPath,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [color.withValues(alpha: 0.18), color.withValues(alpha: 0)],
+          ).createShader(Rect.fromLTWH(0, _topPad, 1, yOf(0) - _topPad)),
+      );
+    }
+
+    // Dots
+    final dotPaint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+    for (var i = 0; i < pts.length; i++) {
+      canvas.drawCircle(Offset(xOf(i), yOf(val(pts[i]))), 3, dotPaint);
+    }
+  }
+
+  void _drawText(
+    Canvas canvas,
+    String text,
+    Offset offset,
+    TextStyle style, {
+    required double width,
+    bool center = false,
+  }) {
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: width);
+    final dx = center ? offset.dx + (width - tp.width) / 2 : offset.dx;
+    tp.paint(canvas, Offset(dx, offset.dy));
+  }
+
+  @override
+  bool shouldRepaint(_AnalyticsLinePainter old) =>
+      old.points != points || old.primaryColor != primaryColor;
 }
 
 class _RankedCard extends StatelessWidget {

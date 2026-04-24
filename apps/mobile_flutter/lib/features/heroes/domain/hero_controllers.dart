@@ -19,3 +19,23 @@ class HeroesController extends AsyncNotifier<List<HeroEntry>> {
     });
   }
 }
+
+final weeklyLeaderboardProvider =
+    AsyncNotifierProvider<WeeklyLeaderboardController, List<WeeklyLeaderboardEntry>>(
+  WeeklyLeaderboardController.new,
+);
+
+class WeeklyLeaderboardController
+    extends AsyncNotifier<List<WeeklyLeaderboardEntry>> {
+  @override
+  Future<List<WeeklyLeaderboardEntry>> build() async {
+    return ref.read(heroRepositoryProvider).listWeeklyLeaderboard(limit: 10);
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(heroRepositoryProvider).listWeeklyLeaderboard(limit: 10),
+    );
+  }
+}

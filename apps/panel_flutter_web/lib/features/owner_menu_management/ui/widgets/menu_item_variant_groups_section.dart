@@ -14,14 +14,18 @@ class MenuItemVariantGroupsSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final groupsAsync = ref.watch(variantGroupsProvider(itemId));
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
               children: [
                 const Icon(Icons.tune_outlined,
                     size: 18, color: AppColors.primary),
@@ -64,7 +68,6 @@ class MenuItemVariantGroupsSection extends ConsumerWidget {
             ),
           ],
         ),
-      ),
     );
   }
 

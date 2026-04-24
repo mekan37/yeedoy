@@ -47,15 +47,19 @@ class _MenuItemNutritionSectionState
   Widget build(BuildContext context) {
     final nutritionAsync = ref.watch(_nutritionProvider(widget.itemId));
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.local_fire_department_outlined,
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.local_fire_department_outlined,
                     size: 18, color: AppColors.primary),
                 const SizedBox(width: 6),
                 const Expanded(
@@ -103,7 +107,6 @@ class _MenuItemNutritionSectionState
             ),
           ],
         ),
-      ),
     );
   }
 

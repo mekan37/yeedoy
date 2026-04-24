@@ -188,6 +188,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get share => 'Paylaş';
 
   @override
+  String get shareAsImage => 'Görsel Paylaş';
+
+  @override
+  String get shareLink => 'Link Paylaş';
+
+  @override
   String get invalidLinkMessage => 'Geçersiz bağlantı';
 
   @override
@@ -709,6 +715,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get yenile => 'Yenile';
+
+  @override
+  String get decreaseQuantity => 'Azalt';
+
+  @override
+  String get increaseQuantity => 'Artır';
+
+  @override
+  String get kapat => 'Kapat';
+
+  @override
+  String get suspendedMealsEmptyDescription =>
+      'Askıya aldığınız yemek planları burada görünecek.';
+
+  @override
+  String get ara => 'Ara';
+
+  @override
+  String ratingLabel(int count) {
+    return '$count yıldız';
+  }
 
   @override
   String get atanan => 'Atanan';
@@ -1339,6 +1366,52 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get onboardingContributeDescription =>
       'Topluluk için fiyatları doğrula ve güncelle.';
+
+  @override
+  String get onboardingPriceTitle => 'Şehrin Fiyatlarını\nSen Belirle';
+
+  @override
+  String get onboardingPriceBody1 => 'Restoranları gerçek fiyatlarıyla keşfet';
+
+  @override
+  String get onboardingPriceBody2 =>
+      'Fiyat geçmişini ve şehir ortalamasını gör';
+
+  @override
+  String get onboardingPriceBody3 => 'Bütçene göre filtrele, tasarruf et';
+
+  @override
+  String get onboardingCommunityTitle => 'Topluluğun Gücü';
+
+  @override
+  String get onboardingCommunitySubtitle =>
+      'Her fiyat doğrulaması herkese yardım eder';
+
+  @override
+  String get onboardingCommunityBody1 =>
+      'Gerçek kullanıcılar menüleri güncel tutar';
+
+  @override
+  String get onboardingCommunityBody2 => 'Fiyat sapmaları anında tespit edilir';
+
+  @override
+  String get onboardingCommunityBody3 => 'Katkın için XP ve rozetler kazan';
+
+  @override
+  String get onboardingNotificationTitle => 'Anlık Bildirimler';
+
+  @override
+  String get onboardingNotificationDescription =>
+      'Favori mekanlarındaki fiyat değişikliklerini, kampanyaları ve grup taleplerini anında öğren.';
+
+  @override
+  String get onboardingNotificationsEnabled => 'Bildirimler etkinleştirildi';
+
+  @override
+  String get onboardingAllowNotifications => 'Bildirimlere İzin Ver';
+
+  @override
+  String get onboardingSkipNotifications => 'Şimdi değil';
 
   @override
   String get getStarted => 'Başlayalım';
@@ -3051,6 +3124,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get sortMostHelpful => 'En faydalı';
 
   @override
+  String get sortVerified => 'Doğrulanmış';
+
+  @override
   String businessReviewsQualityLabel(String score) {
     return 'Kalite skoru: $score';
   }
@@ -3671,4 +3747,76 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get vatIncluded => 'KDV dahil';
+
+  @override
+  String businessViewingNow(int count) {
+    return '$count kişi şu an bakıyor';
+  }
+
+  @override
+  String get delete => 'Sil';
+
+  @override
+  String get remove => 'Kaldır';
+
+  @override
+  String get create => 'Oluştur';
+
+  @override
+  String get required => 'Bu alan zorunludur';
+
+  @override
+  String get collabListsTitle => 'Ortak Listelerim';
+
+  @override
+  String get collabListCreate => 'Liste Oluştur';
+
+  @override
+  String get collabListsEmpty => 'Henüz liste yok';
+
+  @override
+  String get collabListsEmptyDesc =>
+      'Arkadaşlarınla ortak listeler oluştur ve favori mekanları birlikte oylayın.';
+
+  @override
+  String get collabListNameLabel => 'Liste adı';
+
+  @override
+  String get collabListDescLabel => 'Açıklama (isteğe bağlı)';
+
+  @override
+  String get collabListItemsEmpty => 'Liste boş';
+
+  @override
+  String get collabListItemsEmptyDesc =>
+      'İşletme sayfasından bu listeye ekleyebilirsin.';
+
+  @override
+  String get collabListShare => 'Davet Bağlantısını Kopyala';
+
+  @override
+  String get collabListDelete => 'Listeyi Sil';
+
+  @override
+  String get collabListDeleteConfirm =>
+      'Bu listeyi ve tüm içeriğini silmek istediğinden emin misin?';
+
+  @override
+  String get collabListLeave => 'Listeden Ayrıl';
+
+  @override
+  String get collabListLeaveConfirm =>
+      'Bu listeden ayrılmak istediğinden emin misin?';
+
+  @override
+  String get collabListLinkCopied => 'Davet bağlantısı kopyalandı';
+
+  @override
+  String get collabListJoining => 'Listeye katılınıyor...';
+
+  @override
+  String get collabListInvalidInvite => 'Geçersiz davet bağlantısı.';
+
+  @override
+  String get goToMyLists => 'Listelerime Git';
 }

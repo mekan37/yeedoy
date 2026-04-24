@@ -5,8 +5,61 @@ import { resolveBrandTheme } from '@/src/lib/brand-theme';
 import { isBusinessMenuPathKey, isUuid } from '@/src/lib/business-path';
 import { resolveLang } from '@/src/lib/i18n';
 
-export function middleware(request: NextRequest) {
+// ── Custom domain → slug cache (in-memory, per Edge runtime instance, ~5 min TTL) ──
+const _domainCache = new Map<string, { slug: string; expiresAt: number }>();
+const _DOMAIN_TTL_MS = 5 * 60 * 1_000;
+
+async function resolveCustomDomainSlug(hostname: string): Promise<string | null> {
+  const now = Date.now();
+  const cached = _domainCache.get(hostname);
+  if (cached && cached.expiresAt > now) return cached.slug;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+
+  try {
+    const url = `${supabaseUrl}/rest/v1/rpc/get_slug_for_domain_v1`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': supabaseAnonKey,
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+      },
+      body: JSON.stringify({ p_domain: hostname }),
+    });
+    if (!res.ok) return null;
+    const slug = await res.json() as string | null;
+    if (slug) {
+      _domainCache.set(hostname, { slug, expiresAt: now + _DOMAIN_TTL_MS });
+    }
+    return slug ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const hostname = request.headers.get('host')?.split(':')[0] ?? '';
+
+  // ── Custom domain rewrite ─────────────────────────────────────────────────
+  // If the request comes in on a custom domain (not yeedoy.com / localhost),
+  // look up the business slug and rewrite to /m/[slug] (URL stays unchanged).
+  const ownHostnames = (process.env.OWN_HOSTNAMES ?? 'localhost,yeedoy.com').split(',').map((h) => h.trim());
+  const isOwnHost = ownHostnames.some((h) => hostname === h || hostname.endsWith(`.${h}`));
+
+  if (!isOwnHost && hostname && hostname !== '') {
+    const slug = await resolveCustomDomainSlug(hostname);
+    if (slug) {
+      const url = request.nextUrl.clone();
+      // Rewrite root and any sub-path to /m/[slug]/...
+      const suffix = pathname === '/' ? '' : pathname;
+      url.pathname = `/m/${slug}${suffix}`;
+      return NextResponse.rewrite(url);
+    }
+  }
 
   const routeGuard = normalizePublicRoute(request);
   if (routeGuard) {
@@ -48,12 +101,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/m/:path*',
-    '/api/track',
-    '/api/media/upload',
-    '/api/presentation-settings',
-    '/qr/:path*',
-    '/auth/panel-handoff',
+    // Custom domain rewrite needs to run on all paths
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 };
 

@@ -1419,7 +1419,7 @@ class _ReasonSummaryCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.card,
                     borderRadius: BorderRadius.circular(999),
                     border: Border.all(color: AppColors.border),
                   ),

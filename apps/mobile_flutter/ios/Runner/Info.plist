@@ -52,5 +52,42 @@
 	<!-- AdMob App ID (required by SDK). -->
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1150074560839161~8895703262</string>
+
+	<!-- ── İzin açıklamaları (App Store zorunlu) ─────────────────── -->
+	<key>NSCameraUsageDescription</key>
+	<string>Menü fotoğrafı çekmek ve barkod/QR okumak için kamera gereklidir.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Menü ve profil görseli seçmek için fotoğraf kütüphanesine erişim gereklidir.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Çekilen fotoğrafları galerinize kaydetmek için izin gereklidir.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Yakınızdaki restoranları bulmak için konumunuz kullanılır.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Yakınızdaki restoranları bulmak için konumunuz kullanılır.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Sesli arama ve video özellikleri için mikrofon gereklidir.</string>
+
+	<!-- Deep link URL scheme (Supabase auth callback) -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>yeedoy</string>
+				<string>io.supabase.yeedoy</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- Siri Shortcuts / App Intents -->
+	<key>NSSiriUsageDescription</key>
+	<string>Siri, Yeedoy'da yakınındaki ucuz yemekleri bulmanıza yardımcı olur.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.yeedoy.app.findNearbyCheap</string>
+		<string>com.yeedoy.app.openDiscover</string>
+	</array>
 </dict>
 </plist>

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/storage/admin_table_saved_views_prefs.dart';
@@ -16,6 +17,7 @@ import '../data/admin_business_submissions_repository.dart';
 import '../data/admin_claims_repository.dart';
 import '../data/admin_price_suggestions_repository.dart';
 import '../data/admin_queue_repository.dart';
+import '../domain/admin_new_items_controller.dart';
 import '../domain/admin_queue_explainer.dart';
 import '../domain/admin_queue_models.dart';
 import 'web_download.dart';
@@ -126,6 +128,7 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final wideLayout = constraints.maxWidth >= 1320;
+        final narrowLayout = constraints.maxWidth < 720;
         final detailItem = _selectedItem;
         return Padding(
           padding: const EdgeInsets.all(16),
@@ -150,6 +153,7 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
                     _page = 0;
                     _selectedSavedViewId = null;
                   });
+                  _pushUrlFilters();
                   _load();
                 },
                 dateRange: _dateRange,
@@ -160,6 +164,7 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
                     _page = 0;
                     _selectedSavedViewId = null;
                   });
+                  _pushUrlFilters();
                   _load();
                 },
                 savedViews: _savedViews,
@@ -212,6 +217,7 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
                           _page = 0;
                           _selectedSavedViewId = null;
                         });
+                        _pushUrlFilters();
                         _load();
                       },
                     ),
@@ -273,15 +279,54 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
                     Expanded(
                       child: Column(
                         children: [
-                          Expanded(
-                            child: AdminTableCard(
-                              emptyLabel: l10n.adminQueueEmptyDescription,
-                              sortColumnIndex: _sortColumnIndex,
-                              sortAscending: _sortAscending,
-                              columns: _buildColumns(context),
-                              rows: _buildRows(context, wideLayout, userId),
+                          if (narrowLayout)
+                            Expanded(
+                              child: _items.isEmpty
+                                  ? Center(child: Text(l10n.adminQueueEmptyDescription))
+                                  : ListView.separated(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      itemCount: _items.length,
+                                      separatorBuilder: (context, index) =>
+                                          const SizedBox(height: 8),
+                                      itemBuilder: (context, index) {
+                                        final item = _items[index];
+                                        return _QueueMobileListCard(
+                                          item: item,
+                                          isSelected: _selectedIds.contains(item.id),
+                                          userId: userId,
+                                          onTap: () =>
+                                              _openDetails(item, wideLayout),
+                                          onSelectChanged: (value) {
+                                            setState(() {
+                                              if (value == true) {
+                                                _selectedIds.add(item.id);
+                                              } else {
+                                                _selectedIds.remove(item.id);
+                                              }
+                                            });
+                                          },
+                                          onToggleAssignment: () =>
+                                              _toggleAssignment(item),
+                                          onApprove: item.canApprove
+                                              ? () => _approveItem(item)
+                                              : null,
+                                          onReject: item.canReject
+                                              ? () => _rejectItem(item)
+                                              : null,
+                                        );
+                                      },
+                                    ),
+                            )
+                          else
+                            Expanded(
+                              child: AdminTableCard(
+                                emptyLabel: l10n.adminQueueEmptyDescription,
+                                sortColumnIndex: _sortColumnIndex,
+                                sortAscending: _sortAscending,
+                                columns: _buildColumns(context),
+                                rows: _buildRows(context, wideLayout, userId),
+                              ),
                             ),
-                          ),
                           const SizedBox(height: 12),
                           AdminTablePaginationBar(
                             page: _page,
@@ -555,6 +600,7 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
             offset: _page * _rowsPerPage,
           );
       if (!mounted) return;
+      ref.read(adminNewItemsProvider.notifier).clearBusinessSubmissions();
       setState(() {
         _items = result.items;
         _totalCount = result.totalCount;
@@ -588,8 +634,25 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
         _page = 0;
         _selectedSavedViewId = null;
       });
+      _pushUrlFilters();
       _load();
     });
+  }
+
+  void _pushUrlFilters() {
+    if (!mounted) return;
+    final params = <String, String>{};
+    if (_typeFilter.isNotEmpty) params['type'] = _typeFilter;
+    if (_statusFilter.isNotEmpty) params['status'] = _statusFilter;
+    final q = _searchCtrl.text.trim();
+    if (q.isNotEmpty) params['q'] = q;
+    final city = _cityCtrl.text.trim();
+    if (city.isNotEmpty) params['city'] = city;
+    final uri = Uri(
+      path: '/admin/queue',
+      queryParameters: params.isEmpty ? null : params,
+    );
+    GoRouter.of(context).replace(uri.toString());
   }
 
   Future<void> _pickDateRange() async {
@@ -606,6 +669,7 @@ class _AdminQueuePageState extends ConsumerState<AdminQueuePage> {
       _page = 0;
       _selectedSavedViewId = null;
     });
+    _pushUrlFilters();
     _load();
   }
 

@@ -1840,6 +1840,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get adminGrowthDayColumn => 'Gün';
 
   @override
+  String get adminGrowthFunnelTitle => 'Kullanıcı hunisi';
+
+  @override
+  String get adminGrowthFunnelSubtitle =>
+      'Keşif → Etkileşim → Dönüşüm (seçili dönem toplamı)';
+
+  @override
+  String get adminGrowthFunnelDiscovery => 'Keşif';
+
+  @override
+  String get adminGrowthFunnelEngagement => 'Etkileşim';
+
+  @override
+  String get adminGrowthFunnelConversion => 'Dönüşüm';
+
+  @override
   String get adminIncidentCenterTitle => 'Kriz müdahale merkezi';
 
   @override
@@ -2027,6 +2043,41 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adminObservabilityRequestTraceTitle => 'Request Trace';
+
+  @override
+  String get adminObservabilityEdgeOpsTitle => 'Edge operasyonları';
+
+  @override
+  String get adminObservabilityEdgeOpsSummary =>
+      'Panelden çıkmadan admin yetkili Supabase edge bakım işlerini çalıştır.';
+
+  @override
+  String get adminObservabilityPushDispatchTitle => 'Push dispatch kuyruğu';
+
+  @override
+  String get adminObservabilityPushDispatchDescription =>
+      'Kuyruktaki bildirim işlerini dequeue edip push worker üzerinden gönderir.';
+
+  @override
+  String get adminObservabilityPushDispatchAction => 'Push dispatch çalıştır';
+
+  @override
+  String get adminObservabilityTempPurgeTitle => 'Geçici yükleme temizliği';
+
+  @override
+  String get adminObservabilityTempPurgeDescription =>
+      'Silinmeyi bekleyen geçici upload storage queue kayıtlarını işler.';
+
+  @override
+  String get adminObservabilityTempPurgeAction => 'Temizliği çalıştır';
+
+  @override
+  String get adminObservabilityRunning => 'Çalışıyor...';
+
+  @override
+  String adminObservabilityLastRunResult(String label, String summary) {
+    return '$label: $summary';
+  }
 
   @override
   String adminObservabilityRequestIdValue(String requestId) {
@@ -5015,6 +5066,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ownerGrowthDistrictGapLabel => 'İlçe fiyat farkı';
 
   @override
+  String get ownerGrowthBarChartTitle => 'Son 30 gün — günlük trafik';
+
+  @override
+  String get ownerGrowthBarChartSubtitle =>
+      'Menü görüntüleme, QR tarama ve dışa tıklama karşılaştırması';
+
+  @override
   String get ownerShellTrashLabel => 'Çöp kutusu';
 
   @override
@@ -5376,4 +5434,54 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ownerShellAiAnalysisLabel => 'AI Analiz';
+
+  @override
+  String get ownerShellReviewsLabel => 'Yorumlar';
+
+  @override
+  String get ownerReviewsTitle => 'Müşteri Yorumları';
+
+  @override
+  String get ownerReviewsDescription => 'Gelen yorumları görüntüle ve yanıtla';
+
+  @override
+  String get ownerReviewsReplyButton => 'Yanıtla';
+
+  @override
+  String get ownerReviewsEditReplyButton => 'Yanıtı düzenle';
+
+  @override
+  String get ownerReviewsDeleteReplyButton => 'Yanıtı sil';
+
+  @override
+  String get ownerReviewsReplyHint => 'Müşteriye yanıtınızı yazın…';
+
+  @override
+  String get ownerReviewsReplySaved => 'Yanıtınız kaydedildi.';
+
+  @override
+  String get ownerReviewsReplyDeleted => 'Yanıt silindi.';
+
+  @override
+  String get ownerReviewsOwnerReplyLabel => 'İşletme Yanıtı';
+
+  @override
+  String get ownerReviewsEmpty => 'Henüz yorum yok.';
+
+  @override
+  String get ownerReviewsReplyCancelButton => 'İptal';
+
+  @override
+  String get ownerReviewsReplySaveButton => 'Kaydet';
+
+  @override
+  String get sortNewest => 'En yeni';
+
+  @override
+  String get sortMostHelpful => 'En faydalı';
+
+  @override
+  String helpfulCount(int count) {
+    return '$count faydalı';
+  }
 }

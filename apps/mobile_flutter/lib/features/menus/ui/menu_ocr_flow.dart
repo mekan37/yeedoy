@@ -321,6 +321,7 @@ class _ReceiptOcrMatchSheetState extends State<_ReceiptOcrMatchSheet> {
                 ),
               ),
               IconButton(
+                tooltip: AppLocalizations.of(context).kapat,
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.close),
               ),
@@ -424,6 +425,7 @@ class _ReceiptOcrMatchSheetState extends State<_ReceiptOcrMatchSheet> {
                             ),
                           ),
                           IconButton(
+                            tooltip: AppLocalizations.of(context).sil,
                             onPressed: () {
                               setState(() {
                                 _rows.removeAt(index);
@@ -569,6 +571,7 @@ class _MenuPriceOcrMatchSheetState extends State<_MenuPriceOcrMatchSheet> {
                 ),
               ),
               IconButton(
+                tooltip: AppLocalizations.of(context).kapat,
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.close),
               ),
@@ -672,6 +675,7 @@ class _MenuPriceOcrMatchSheetState extends State<_MenuPriceOcrMatchSheet> {
                             ),
                           ),
                           IconButton(
+                            tooltip: AppLocalizations.of(context).sil,
                             onPressed: () {
                               setState(() {
                                 _rows.removeAt(index);

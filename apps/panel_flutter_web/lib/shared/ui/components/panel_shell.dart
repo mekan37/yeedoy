@@ -87,7 +87,8 @@ class _PanelShellState extends State<PanelShell> {
     final body = Row(
       children: [
         if (showDesktopSidebar)
-          AnimatedContainer(
+          FocusTraversalGroup(
+            child: AnimatedContainer(
             duration: tokens.medium,
             curve: Curves.easeOutCubic,
             width: collapsed ? 84 : 256,
@@ -112,7 +113,9 @@ class _PanelShellState extends State<PanelShell> {
               ),
             ),
           ),
+          ),
         Expanded(
+          child: FocusTraversalGroup(
           child: DecoratedBox(
             decoration: const BoxDecoration(color: AppColors.bg),
             child: Column(
@@ -186,6 +189,7 @@ class _PanelShellState extends State<PanelShell> {
                 ),
               ],
             ),
+          ),
           ),
         ),
       ],

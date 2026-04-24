@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/colors.dart';
 import '../../legal_catalog.dart';
 
 enum LegalConsentLinkStyle { text, outlined }
@@ -47,7 +48,7 @@ class LegalRequiredConsentCard extends StatelessWidget {
           Text(
             helperText!,
             style: const TextStyle(
-              color: Color(0xFF64748B),
+              color: AppColors.muted,
               fontSize: 12,
               height: 1.5,
             ),

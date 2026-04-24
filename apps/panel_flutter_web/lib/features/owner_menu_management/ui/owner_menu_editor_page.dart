@@ -132,19 +132,28 @@ class _OwnerMenuEditorPageState extends ConsumerState<OwnerMenuEditorPage> {
               onOpenVersions: _openVersionsPanel,
             ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Text(
-                  context.l10n.ownerSections,
-                  style: TextStyle(fontWeight: FontWeight.w900),
-                ),
-                const Spacer(),
-                TextButton.icon(
-                  onPressed: _openCreateSection,
-                  icon: const Icon(Icons.add),
-                  label: Text(context.l10n.ownerAddSection),
-                ),
-              ],
+            Container(
+              padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+              decoration: BoxDecoration(
+                color: AppColors.card,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      context.l10n.ownerSections,
+                      style: const TextStyle(fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                  FilledButton.icon(
+                    onPressed: _openCreateSection,
+                    icon: const Icon(Icons.add, size: 16),
+                    label: Text(context.l10n.ownerAddSection),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8),
             sectionsAsync.when(
@@ -584,17 +593,20 @@ class _SkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(height: 10, color: AppColors.card),
-            const SizedBox(height: 6),
-            Container(height: 10, width: 160, color: AppColors.card),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(height: 10, color: AppColors.border),
+          const SizedBox(height: 6),
+          Container(height: 10, width: 160, color: AppColors.border),
+        ],
       ),
     );
   }
@@ -690,59 +702,116 @@ class _MenuHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              menu.title,
-              style: const TextStyle(fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              context.l10n.ownerMenuStatus(
-                _localizedStatus(context, menu.status),
+    final statusColor = switch (menu.status.trim().toLowerCase()) {
+      'published' => AppColors.success,
+      'archived' => AppColors.muted,
+      _ => AppColors.warning,
+    };
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.primarySoft,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.menu_book_outlined,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
               ),
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                OutlinedButton(
-                  onPressed: onEdit,
-                  child: Text(context.l10n.duzenle),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      menu.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textStrong,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        Container(
+                          width: 6,
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: statusColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          context.l10n.ownerMenuStatus(
+                            _localizedStatus(context, menu.status),
+                          ),
+                          style: const TextStyle(
+                            color: AppColors.muted,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                OutlinedButton.icon(
-                  onPressed: onOpenQrStudio,
-                  icon: const Icon(Icons.qr_code_2_outlined),
-                  label: Text(context.l10n.adminBusinessesQrMenuAction),
-                ),
-                FilledButton.tonalIcon(
-                  onPressed: onOpenPublicMenu,
-                  icon: const Icon(Icons.open_in_new),
-                  label: Text(context.l10n.ownerPublicMenuLinkAction),
-                ),
-                OutlinedButton.icon(
-                  onPressed: onOpenVersions,
-                  icon: const Icon(Icons.history_outlined),
-                  label: Text(context.l10n.ownerMenuVersionsAction),
-                ),
-                OutlinedButton(
-                  onPressed: onArchive,
-                  child: Text(context.l10n.ownerArchiveAction),
-                ),
-                FilledButton(
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: onEdit,
+                icon: const Icon(Icons.edit_outlined, size: 15),
+                label: Text(context.l10n.duzenle),
+              ),
+              OutlinedButton.icon(
+                onPressed: onOpenQrStudio,
+                icon: const Icon(Icons.qr_code_2_outlined, size: 15),
+                label: Text(context.l10n.adminBusinessesQrMenuAction),
+              ),
+              FilledButton.tonalIcon(
+                onPressed: onOpenPublicMenu,
+                icon: const Icon(Icons.open_in_new, size: 15),
+                label: Text(context.l10n.ownerPublicMenuLinkAction),
+              ),
+              OutlinedButton.icon(
+                onPressed: onOpenVersions,
+                icon: const Icon(Icons.history_outlined, size: 15),
+                label: Text(context.l10n.ownerMenuVersionsAction),
+              ),
+              OutlinedButton.icon(
+                onPressed: onArchive,
+                icon: const Icon(Icons.archive_outlined, size: 15),
+                label: Text(context.l10n.ownerArchiveAction),
+              ),
+              if (onPublish != null)
+                FilledButton.icon(
                   onPressed: onPublish,
-                  child: Text(context.l10n.ownerPublishAction),
+                  icon: const Icon(Icons.publish_outlined, size: 15),
+                  label: Text(context.l10n.ownerPublishAction),
                 ),
-              ],
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -25,7 +25,9 @@ enum _DiscoverySurfaceMode { list, map }
 enum _SerendipityKind { randomGood, unexpected, valueSurprise }
 
 class _RecommendedTab extends ConsumerStatefulWidget {
-  const _RecommendedTab();
+  const _RecommendedTab({this.initialSort});
+
+  final String? initialSort;
 
   @override
   ConsumerState<_RecommendedTab> createState() => _RecommendedTabState();
@@ -74,6 +76,19 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     }
     unawaited(_loadCategoryOrder());
     unawaited(_loadRecentSearches());
+    unawaited(AssistantShortcutsService.donateDiscoverActivity());
+    if (widget.initialSort != null) {
+      final sortBy = DiscoverySort.values.where(
+        (s) => s.name == widget.initialSort,
+      ).firstOrNull;
+      if (sortBy != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            ref.read(discoverySearchProvider.notifier).setFilters(sortBy: sortBy);
+          }
+        });
+      }
+    }
     _impressionSub = ref.listenManual<DiscoverySearchState>(
       discoverySearchProvider,
       (_, next) {
@@ -923,7 +938,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                             ),
 
                             if (st.loading && st.items.isEmpty) ...[
-                              const _DiscoverySkeleton(),
+                              if (_surfaceMode == _DiscoverySurfaceMode.map)
+                                const _DiscoveryMapSkeleton()
+                              else
+                                const _DiscoverySkeleton(),
                             ] else if (_surfaceMode ==
                                 _DiscoverySurfaceMode.map) ...[
                               _DiscoveryMapSurface(
@@ -1009,6 +1027,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                           return;
                                         }
                                         try {
+                                          HapticFeedback.lightImpact();
                                           await ref
                                               .read(
                                                 favoritesControllerProvider
@@ -1221,6 +1240,15 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                                     t.suggestBusiness,
                                                   ),
                                                 ),
+                                                OutlinedButton.icon(
+                                                  onPressed: () =>
+                                                      _openLocationSheet(context),
+                                                  icon: const Icon(
+                                                    Icons.location_on_outlined,
+                                                    size: 18,
+                                                  ),
+                                                  label: Text(t.selectLocation),
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -1421,7 +1449,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
             children: [
               Text(
                 t.rankingFormulaTitle,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                style: context.sectionTitleStyle,
               ),
               const SizedBox(height: 8),
               Text(t.rankingFormulaIntro),
@@ -1491,6 +1519,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     var localOpenNow = st.openNow;
     var localRecentBoost = st.recentPriceBoost;
     final localMealCardKeys = <String>{...st.mealCardKeys};
+    // Budget slider: 0 means no limit; stored as TL value (cents / 100)
+    var localMaxBudgetTl = st.maxBudgetCents != null
+        ? (st.maxBudgetCents! / 100).roundToDouble()
+        : 0.0;
 
     await showModalBottomSheet<void>(
       context: context,
@@ -1526,6 +1558,29 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                             divisions: 10,
                             label: localRating.toStringAsFixed(1),
                             onChanged: (v) => setModalState(() => localRating = v),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            t.localeName.startsWith('tr')
+                                ? (localMaxBudgetTl <= 0
+                                    ? 'Kişi başı bütçe: Sınırsız'
+                                    : 'Kişi başı max bütçe: ${localMaxBudgetTl.round()}₺')
+                                : (localMaxBudgetTl <= 0
+                                    ? 'Budget per person: No limit'
+                                    : 'Max budget per person: ${localMaxBudgetTl.round()}₺'),
+                          ),
+                          Slider(
+                            value: localMaxBudgetTl,
+                            min: 0,
+                            max: 500,
+                            divisions: 50,
+                            label: localMaxBudgetTl <= 0
+                                ? (t.localeName.startsWith('tr')
+                                    ? 'Sınırsız'
+                                    : 'No limit')
+                                : '${localMaxBudgetTl.round()}₺',
+                            onChanged: (v) =>
+                                setModalState(() => localMaxBudgetTl = v),
                           ),
                           const SizedBox(height: 8),
                           Text(t.priceLevel),
@@ -1625,6 +1680,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                           openNow: false,
                                           recentPriceBoost: true,
                                           mealCardKeys: const <String>[],
+                                          maxBudgetCents: null,
                                         );
                                   },
                                   child: Text(t.reset),
@@ -1646,6 +1702,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                           openNow: localOpenNow,
                                           recentPriceBoost: localRecentBoost,
                                           mealCardKeys: mealCardKeys,
+                                          maxBudgetCents: localMaxBudgetTl <= 0
+                                              ? null
+                                              : (localMaxBudgetTl * 100)
+                                                  .round(),
                                         );
                                   },
                                   child: Text(t.apply),
@@ -1834,6 +1894,38 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               .setFilters(openNow: !st.openNow);
                         },
                       ),
+                      if (st.hasBudgetFilter) ...[
+                        const SizedBox(width: 8),
+                        _PremiumFilterChip(
+                          label: AppLocalizations.of(
+                                    context,
+                                  ).localeName.startsWith('tr')
+                              ? 'Max ${(st.maxBudgetCents! / 100).round()}₺'
+                              : 'Max ${(st.maxBudgetCents! / 100).round()}₺',
+                          icon: Icons.money_off_rounded,
+                          selected: true,
+                          filledPrimary: false,
+                          onTap: () {
+                            ref
+                                .read(discoverySearchProvider.notifier)
+                                .setFilters(maxBudgetCents: null);
+                          },
+                        ),
+                      ],
+                      const SizedBox(width: 8),
+                      _PremiumFilterChip(
+                        label: AppLocalizations.of(context).localeName.startsWith('tr')
+                            ? 'Taste Twin'
+                            : 'Taste Twin',
+                        icon: Icons.auto_awesome_rounded,
+                        selected: st.tasteTwinEnabled,
+                        filledPrimary: true,
+                        onTap: () {
+                          ref
+                              .read(discoverySearchProvider.notifier)
+                              .toggleTasteTwin(enabled: !st.tasteTwinEnabled);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -1980,6 +2072,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                 return;
               }
               try {
+                HapticFeedback.lightImpact();
                 await ref
                     .read(favoritesControllerProvider.notifier)
                     .toggleFavorite(item.id);

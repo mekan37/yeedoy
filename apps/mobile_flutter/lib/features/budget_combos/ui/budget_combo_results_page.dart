@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/analytics/analytics_repository.dart';
+import '../../../core/analytics/app_events.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
@@ -82,7 +84,12 @@ class _BudgetComboResultsPageState
     return AppScaffold(
       appBar: AppBar(title: Text(t.budgetComboResultsTitle)),
       body: async.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: 6,
+          separatorBuilder: (_, _) => const SizedBox(height: 10),
+          itemBuilder: (_, _) => const AppSkeletonCard(),
+        ),
         error: (err, _) => Center(child: Text(AppErrorMapper.message(err))),
         data: (items) {
           if (items.isEmpty) {
@@ -296,14 +303,14 @@ class _BudgetComboResultsPageState
   }
 }
 
-class _ComboCard extends StatelessWidget {
+class _ComboCard extends ConsumerWidget {
   const _ComboCard({required this.item, this.highlight = false});
 
   final BudgetComboResult item;
   final bool highlight;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = context.l10n;
     final meta = <String>[];
     if (item.distanceKm != null) {
@@ -368,7 +375,14 @@ class _ComboCard extends StatelessWidget {
               ),
               const Spacer(),
               OutlinedButton(
-                onPressed: () => context.go('/b/${item.businessId}'),
+                onPressed: () {
+                  ref.read(analyticsRepositoryProvider).logEvent(
+                    eventName: AppEvents.budgetComboBusinessOpen,
+                    businessId: item.businessId,
+                    source: 'budget_combo_results',
+                  );
+                  context.go('/b/${item.businessId}');
+                },
                 child: Text(t.budgetComboGoToBusinessAction),
               ),
             ],

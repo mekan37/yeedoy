@@ -6,7 +6,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../legal/legal_routes.dart';
-import '../../../shared/ui/components/app_scaffold.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../data/owner_business_repository.dart';
 
 class OwnerNewBusinessPage extends ConsumerStatefulWidget {
@@ -18,6 +18,7 @@ class OwnerNewBusinessPage extends ConsumerStatefulWidget {
 }
 
 class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
+  final _formKey = GlobalKey<FormState>();
   final nameCtrl = TextEditingController();
   final cityCtrl = TextEditingController();
   final districtCtrl = TextEditingController();
@@ -41,125 +42,209 @@ class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
     super.dispose();
   }
 
+  String? _required(String? value) {
+    if (value == null || value.trim().isEmpty) return 'Bu alan zorunludur';
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      appBar: AppBar(title: Text(context.l10n.ownerNewBusinessTitle)),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
+    final l10n = context.l10n;
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          Text(
-            context.l10n.ownerNewBusinessIntro,
-            style: const TextStyle(color: AppColors.muted),
+          PanelPageHeader(
+            eyebrow: 'Owner',
+            title: Text(l10n.ownerNewBusinessTitle),
+            description: l10n.ownerNewBusinessIntro,
           ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: nameCtrl,
-            decoration: InputDecoration(
-              labelText: context.l10n.ownerBusinessNameLabel,
-            ),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: cityCtrl,
-            decoration: InputDecoration(labelText: context.l10n.city),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: districtCtrl,
-            decoration: InputDecoration(labelText: context.l10n.district),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: categoryCtrl,
-            decoration: InputDecoration(
-              labelText: context.l10n.ownerCategoryLabel,
-            ),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: addressCtrl,
-            decoration: InputDecoration(
-              labelText: context.l10n.ownerAddressLabel,
-            ),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: phoneCtrl,
-            decoration: InputDecoration(
-              labelText: context.l10n.ownerPhoneOptionalLabel,
-            ),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: websiteCtrl,
-            decoration: InputDecoration(
-              labelText: context.l10n.ownerWebsiteOptionalLabel,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.border),
-            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CheckboxListTile(
-                  contentPadding: EdgeInsets.zero,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: _acceptedBusinessTerms,
-                  onChanged: _saving
-                      ? null
-                      : (value) {
-                          setState(() {
-                            _acceptedBusinessTerms = value ?? false;
-                          });
-                        },
-                  title: const Text(
-                    'İşletme Kullanım Koşulları’nı kabul ediyorum.',
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.border),
                   ),
-                ),
-                CheckboxListTile(
-                  contentPadding: EdgeInsets.zero,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  value: _acceptedAccuracyResponsibility,
-                  onChanged: _saving
-                      ? null
-                      : (value) {
-                          setState(() {
-                            _acceptedAccuracyResponsibility = value ?? false;
-                          });
-                        },
-                  title: const Text(
-                    'Menü ve işletme bilgilerinin doğruluğundan sorumlu olduğumu kabul ediyorum.',
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: _saving
-                      ? null
-                      : () => context.go(
-                          LegalRoutes.detail(LegalRoutes.businessSlug),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'İşletme Bilgileri',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textStrong,
                         ),
-                  icon: const Icon(Icons.open_in_new),
-                  label: const Text('İşletme Kullanım Koşulları’nı aç'),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: nameCtrl,
+                        validator: _required,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          labelText: l10n.ownerBusinessNameLabel,
+                          prefixIcon: const Icon(Icons.storefront_outlined),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: cityCtrl,
+                              validator: _required,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                labelText: l10n.city,
+                                prefixIcon: const Icon(Icons.location_city_outlined),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: TextFormField(
+                              controller: districtCtrl,
+                              validator: _required,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                labelText: l10n.district,
+                                prefixIcon: const Icon(Icons.map_outlined),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: categoryCtrl,
+                        validator: _required,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          labelText: l10n.ownerCategoryLabel,
+                          prefixIcon: const Icon(Icons.category_outlined),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: addressCtrl,
+                        validator: _required,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          labelText: l10n.ownerAddressLabel,
+                          prefixIcon: const Icon(Icons.place_outlined),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: phoneCtrl,
+                              decoration: InputDecoration(
+                                labelText: l10n.ownerPhoneOptionalLabel,
+                                prefixIcon: const Icon(Icons.phone_outlined),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: TextFormField(
+                              controller: websiteCtrl,
+                              decoration: InputDecoration(
+                                labelText: l10n.ownerWebsiteOptionalLabel,
+                                prefixIcon: const Icon(Icons.language_outlined),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Sözleşme ve Onay',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textStrong,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: _acceptedBusinessTerms,
+                        onChanged: _saving
+                            ? null
+                            : (value) => setState(
+                                  () => _acceptedBusinessTerms = value ?? false,
+                                ),
+                        title: const Text(
+                          "İşletme Kullanım Koşulları'nı kabul ediyorum.",
+                        ),
+                      ),
+                      CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: _acceptedAccuracyResponsibility,
+                        onChanged: _saving
+                            ? null
+                            : (value) => setState(
+                                  () => _acceptedAccuracyResponsibility =
+                                      value ?? false,
+                                ),
+                        title: const Text(
+                          'Menü ve işletme bilgilerinin doğruluğundan sorumlu olduğumu kabul ediyorum.',
+                        ),
+                      ),
+                      TextButton.icon(
+                        onPressed: _saving
+                            ? null
+                            : () => context.go(
+                                  LegalRoutes.detail(LegalRoutes.businessSlug),
+                                ),
+                        icon: const Icon(Icons.open_in_new, size: 16),
+                        label: const Text("İşletme Kullanım Koşulları'nı aç"),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: _saving ? null : _submit,
+                    icon: _saving
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.send_outlined),
+                    label: Text(
+                      _saving
+                          ? l10n.ownerSubmitting
+                          : l10n.ownerSubmitApplication,
+                    ),
+                  ),
                 ),
               ],
-            ),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: _saving ? null : _submit,
-              child: Text(
-                _saving
-                    ? context.l10n.ownerSubmitting
-                    : context.l10n.ownerSubmitApplication,
-              ),
             ),
           ),
         ],
@@ -168,16 +253,7 @@ class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
   }
 
   Future<void> _submit() async {
-    if (nameCtrl.text.trim().isEmpty ||
-        cityCtrl.text.trim().isEmpty ||
-        districtCtrl.text.trim().isEmpty ||
-        categoryCtrl.text.trim().isEmpty ||
-        addressCtrl.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.ownerRequiredFieldsWarning)),
-      );
-      return;
-    }
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     if (!_acceptedBusinessTerms || !_acceptedAccuracyResponsibility) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -191,9 +267,7 @@ class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
 
     setState(() => _saving = true);
     try {
-      await ref
-          .read(ownerBusinessRepositoryProvider)
-          .submitNewBusiness(
+      await ref.read(ownerBusinessRepositoryProvider).submitNewBusiness(
             name: nameCtrl.text.trim(),
             city: cityCtrl.text.trim(),
             district: districtCtrl.text.trim(),
@@ -211,9 +285,8 @@ class _OwnerNewBusinessPageState extends ConsumerState<OwnerNewBusinessPage> {
       context.go('/owner/businesses/submissions');
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
     } finally {
       if (mounted) setState(() => _saving = false);
     }

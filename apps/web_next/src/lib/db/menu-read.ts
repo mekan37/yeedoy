@@ -163,6 +163,48 @@ export async function getBusinessHours(businessId: string) {
   return getBusinessHoursCached(businessId);
 }
 
+export type BusinessHoursInfo = {
+  isOpenNow: boolean | null;
+  weekly: Array<{
+    day_of_week: number;
+    open_time: string;
+    close_time: string;
+    is_closed: boolean;
+  }>;
+};
+
+const getBusinessHoursInfoCached = unstable_cache(
+  async (businessId: string): Promise<BusinessHoursInfo> => {
+    const supabase = createSupabasePublicClient();
+    try {
+      const { data, error } = await (supabase as unknown as {
+        rpc: (
+          fn: 'get_business_hours_v1',
+          args: { p_business_id: string },
+        ) => Promise<{
+          data: { is_open_now: boolean | null; weekly: BusinessHoursInfo['weekly'] } | null;
+          error: unknown;
+        }>;
+      }).rpc('get_business_hours_v1', { p_business_id: businessId });
+      if (error || !data) return { isOpenNow: null, weekly: [] };
+      return { isOpenNow: data.is_open_now ?? null, weekly: data.weekly ?? [] };
+    } catch {
+      return { isOpenNow: null, weekly: [] };
+    }
+  },
+  ['public-business-hours-info'],
+  { revalidate: 120 },
+);
+
+export async function getBusinessHoursInfo(businessId: string): Promise<BusinessHoursInfo> {
+  return getBusinessHoursInfoCached(businessId);
+}
+
+/** @deprecated Use getBusinessHoursInfo instead */
+export async function getBusinessIsOpenNow(businessId: string): Promise<boolean | null> {
+  return (await getBusinessHoursInfoCached(businessId)).isOpenNow;
+}
+
 const getBusinessMediaCached = unstable_cache(
   async (businessId: string, logoUrl: string | null, coverUrl: string | null) => {
     const supabase = createSupabasePublicClient();

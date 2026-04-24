@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -57,7 +56,6 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
   bool _mealCardsSeeded = false;
   bool _acceptedBusinessTerms = false;
   bool _acceptedAccuracyResponsibility = false;
-  int _currentStep = 0;
   bool _stepBusy = false;
   TimeOfDay? _openTime;
   TimeOfDay? _closeTime;
@@ -198,117 +196,77 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    final maxStep = min(progress.stepCompleted, 4);
-                    if (_currentStep < maxStep) {
-                      _currentStep = maxStep;
-                    }
-
-                    return Column(
+                    return ListView(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 40),
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                          child: _BusinessSelector(
-                            items: approvedItems,
-                            selectedId: _selectedBusinessId,
-                            onChanged: (id) {
-                              setState(() {
-                                _selectedBusinessId = id;
-                                _profileSeeded = false;
-                                _amenitiesSeeded = false;
-                                _mealCardsSeeded = false;
-                                _acceptedBusinessTerms = false;
-                                _acceptedAccuracyResponsibility = false;
-                                _currentStep = min(progress.stepCompleted, 4);
-                              });
-                            },
-                          ),
+                        _BusinessSelector(
+                          items: approvedItems,
+                          selectedId: _selectedBusinessId,
+                          onChanged: (id) {
+                            setState(() {
+                              _selectedBusinessId = id;
+                              _profileSeeded = false;
+                              _amenitiesSeeded = false;
+                              _mealCardsSeeded = false;
+                              _acceptedBusinessTerms = false;
+                              _acceptedAccuracyResponsibility = false;
+                            });
+                          },
                         ),
-                        Expanded(
-                          child: Stepper(
-                            currentStep: _currentStep,
-                            onStepTapped: (idx) {
-                              final allowed =
-                                  idx <=
-                                  max(progress.stepCompleted, _currentStep);
-                              if (!allowed) return;
-                              setState(() => _currentStep = idx);
-                            },
-                            controlsBuilder: (ctx, details) {
-                              return Padding(
-                                padding: const EdgeInsets.only(top: 12),
-                                child: Row(
-                                  children: [
-                                    FilledButton(
-                                      onPressed: _stepBusy
-                                          ? null
-                                          : details.onStepContinue,
-                                      child: Text(
-                                        _currentStep == 4
-                                            ? l10n.ownerOnboardingFinish
-                                            : l10n.ownerOnboardingContinue,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    if (_currentStep > 0)
-                                      OutlinedButton(
-                                        onPressed: _stepBusy
-                                            ? null
-                                            : details.onStepCancel,
-                                        child: Text(l10n.back),
-                                      ),
-                                  ],
-                                ),
-                              );
-                            },
-                            onStepContinue: () => _handleContinue(),
-                            onStepCancel: () {
-                              if (_currentStep > 0) {
-                                setState(() => _currentStep -= 1);
-                              }
-                            },
-                            steps: [
-                              Step(
-                                title: Text(l10n.ownerOnboardingStepProfile),
-                                content: _buildProfileStep(),
-                                isActive: _currentStep == 0,
-                                state: progress.stepCompleted >= 1
-                                    ? StepState.complete
-                                    : StepState.indexed,
-                              ),
-                              Step(
-                                title: Text(l10n.ownerOnboardingStepAmenities),
-                                content: _buildAmenitiesStep(),
-                                isActive: _currentStep == 1,
-                                state: progress.stepCompleted >= 2
-                                    ? StepState.complete
-                                    : StepState.indexed,
-                              ),
-                              Step(
-                                title: Text(l10n.ownerOnboardingStepMenu),
-                                content: _buildMenuStep(),
-                                isActive: _currentStep == 2,
-                                state: progress.stepCompleted >= 3
-                                    ? StepState.complete
-                                    : StepState.indexed,
-                              ),
-                              Step(
-                                title: Text(l10n.ownerOnboardingStepPreview),
-                                content: _buildPreviewStep(),
-                                isActive: _currentStep == 3,
-                                state: progress.stepCompleted >= 4
-                                    ? StepState.complete
-                                    : StepState.indexed,
-                              ),
-                              Step(
-                                title: Text(l10n.ownerOnboardingStepShare),
-                                content: _buildShareStep(),
-                                isActive: _currentStep == 4,
-                                state: progress.stepCompleted >= 5
-                                    ? StepState.complete
-                                    : StepState.indexed,
-                              ),
-                            ],
-                          ),
+                        const SizedBox(height: 16),
+                        _OnboardingSection(
+                          stepNumber: 1,
+                          title: l10n.ownerOnboardingStepProfile,
+                          completed: progress.stepCompleted >= 1,
+                          locked: false,
+                          isLast: false,
+                          busy: _stepBusy,
+                          onSave: _completeStep1,
+                          child: _buildProfileStep(),
+                        ),
+                        const SizedBox(height: 12),
+                        _OnboardingSection(
+                          stepNumber: 2,
+                          title: l10n.ownerOnboardingStepAmenities,
+                          completed: progress.stepCompleted >= 2,
+                          locked: progress.stepCompleted < 1,
+                          isLast: false,
+                          busy: _stepBusy,
+                          onSave: _completeStep2,
+                          child: _buildAmenitiesStep(),
+                        ),
+                        const SizedBox(height: 12),
+                        _OnboardingSection(
+                          stepNumber: 3,
+                          title: l10n.ownerOnboardingStepMenu,
+                          completed: progress.stepCompleted >= 3,
+                          locked: progress.stepCompleted < 2,
+                          isLast: false,
+                          busy: _stepBusy,
+                          onSave: _completeStep3,
+                          child: _buildMenuStep(),
+                        ),
+                        const SizedBox(height: 12),
+                        _OnboardingSection(
+                          stepNumber: 4,
+                          title: l10n.ownerOnboardingStepPreview,
+                          completed: progress.stepCompleted >= 4,
+                          locked: progress.stepCompleted < 3,
+                          isLast: false,
+                          busy: _stepBusy,
+                          onSave: _completeStep4,
+                          child: _buildPreviewStep(),
+                        ),
+                        const SizedBox(height: 12),
+                        _OnboardingSection(
+                          stepNumber: 5,
+                          title: l10n.ownerOnboardingStepShare,
+                          completed: progress.stepCompleted >= 5,
+                          locked: progress.stepCompleted < 4,
+                          isLast: true,
+                          busy: _stepBusy,
+                          onSave: _completeStep5,
+                          child: _buildShareStep(),
                         ),
                       ],
                     );
@@ -786,29 +744,6 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
     );
   }
 
-  Future<void> _handleContinue() async {
-    if (_selectedBusinessId.isEmpty) return;
-    if (_stepBusy) return;
-
-    switch (_currentStep) {
-      case 0:
-        await _completeStep1();
-        break;
-      case 1:
-        await _completeStep2();
-        break;
-      case 2:
-        await _completeStep3();
-        break;
-      case 3:
-        await _completeStep4();
-        break;
-      case 4:
-        await _completeStep5();
-        break;
-    }
-  }
-
   Future<void> _completeStep1() async {
     final logo = _logoCtrl.text.trim();
     final cover = _coverCtrl.text.trim();
@@ -850,7 +785,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
       ref.invalidate(ownerBusinessProfileProvider(_selectedBusinessId));
       ref.invalidate(ownerBusinessHoursProvider(_selectedBusinessId));
       if (!mounted) return;
-      setState(() => _currentStep = 1);
+      setState(() {});
     } catch (e) {
       _showSnack(AppErrorMapper.message(e));
     } finally {
@@ -884,7 +819,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
           .setProgress(_selectedBusinessId, 2);
       ref.invalidate(ownerOnboardingProgressProvider(_selectedBusinessId));
       if (!mounted) return;
-      setState(() => _currentStep = 2);
+      setState(() {});
     } catch (e) {
       _showSnack(AppErrorMapper.message(e));
     } finally {
@@ -908,7 +843,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
           .setProgress(_selectedBusinessId, 3);
       ref.invalidate(ownerOnboardingProgressProvider(_selectedBusinessId));
       if (!mounted) return;
-      setState(() => _currentStep = 3);
+      setState(() {});
     } catch (e) {
       _showSnack(AppErrorMapper.message(e));
     } finally {
@@ -924,7 +859,7 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
           .setProgress(_selectedBusinessId, 4);
       ref.invalidate(ownerOnboardingProgressProvider(_selectedBusinessId));
       if (!mounted) return;
-      setState(() => _currentStep = 4);
+      setState(() {});
     } catch (e) {
       _showSnack(AppErrorMapper.message(e));
     } finally {
@@ -1063,6 +998,99 @@ class _OwnerOnboardingPageState extends ConsumerState<OwnerOnboardingPage> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(message)));
+  }
+}
+
+class _OnboardingSection extends StatelessWidget {
+  const _OnboardingSection({
+    required this.stepNumber,
+    required this.title,
+    required this.completed,
+    required this.locked,
+    required this.isLast,
+    required this.busy,
+    required this.onSave,
+    required this.child,
+  });
+
+  final int stepNumber;
+  final String title;
+  final bool completed;
+  final bool locked;
+  final bool isLast;
+  final bool busy;
+  final VoidCallback onSave;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: completed
+              ? AppColors.success.withValues(alpha: 0.5)
+              : AppColors.border,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 14,
+                  backgroundColor:
+                      completed ? AppColors.success : AppColors.border,
+                  foregroundColor: completed ? Colors.white : AppColors.muted,
+                  child: completed
+                      ? const Icon(Icons.check, size: 16)
+                      : Text(
+                          '$stepNumber',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                if (locked)
+                  const Icon(Icons.lock_outline, size: 18, color: AppColors.muted),
+              ],
+            ),
+            if (!locked) ...[
+              const SizedBox(height: 16),
+              child,
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerRight,
+                child: FilledButton(
+                  onPressed: busy ? null : onSave,
+                  child: Text(
+                    isLast
+                        ? l10n.ownerOnboardingFinish
+                        : l10n.ownerOnboardingContinue,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }
 

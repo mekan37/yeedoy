@@ -77,6 +77,44 @@ class MenuSection {
   };
 }
 
+class MenuItemTimeWindow {
+  MenuItemTimeWindow({
+    required this.labelTr,
+    required this.labelEn,
+    required this.startHour,
+    required this.endHour,
+    this.priceCents,
+    this.discountPct,
+  });
+
+  final String labelTr;
+  final String labelEn;
+  /// Inclusive local hour (0-23)
+  final int startHour;
+  /// Exclusive local hour (0-23)
+  final int endHour;
+  final int? priceCents;
+  final int? discountPct;
+
+  String label(bool isTr) => isTr ? labelTr : labelEn;
+
+  bool isActiveNow() {
+    final hour = DateTime.now().hour;
+    return hour >= startHour && hour < endHour;
+  }
+
+  factory MenuItemTimeWindow.fromMap(Map<String, dynamic> map) {
+    return MenuItemTimeWindow(
+      labelTr: map['label_tr']?.toString() ?? '',
+      labelEn: map['label_en']?.toString() ?? '',
+      startHour: (map['start_hour'] as num?)?.toInt() ?? 0,
+      endHour: (map['end_hour'] as num?)?.toInt() ?? 0,
+      priceCents: (map['price_cents'] as num?)?.toInt(),
+      discountPct: (map['discount_pct'] as num?)?.toInt(),
+    );
+  }
+}
+
 class MenuItem {
   MenuItem({
     required this.id,
@@ -93,6 +131,7 @@ class MenuItem {
     this.catalogCategoryName,
     this.priceStatus = 'unverified',
     this.total30d,
+    this.timeWindows = const [],
   });
 
   final String id;
@@ -109,6 +148,7 @@ class MenuItem {
   final String? catalogCategoryName;
   final String priceStatus;
   final int? total30d;
+  final List<MenuItemTimeWindow> timeWindows;
 
   MenuItem copyWith({
     String? id,
@@ -125,6 +165,7 @@ class MenuItem {
     String? catalogCategoryName,
     String? priceStatus,
     int? total30d,
+    List<MenuItemTimeWindow>? timeWindows,
   }) {
     return MenuItem(
       id: id ?? this.id,
@@ -141,6 +182,7 @@ class MenuItem {
       catalogCategoryName: catalogCategoryName ?? this.catalogCategoryName,
       priceStatus: priceStatus ?? this.priceStatus,
       total30d: total30d ?? this.total30d,
+      timeWindows: timeWindows ?? this.timeWindows,
     );
   }
 
@@ -175,6 +217,7 @@ class MenuItem {
       ]),
       priceStatus: _asString(map, ['price_status', 'status']) ?? 'unverified',
       total30d: _asInt(map, ['total_30d', 'total30d', 'votes_30d']),
+      timeWindows: _parseTimeWindows(map['time_windows']),
     );
   }
 
@@ -193,6 +236,14 @@ class MenuItem {
     'catalog_category_name': catalogCategoryName,
     'price_status': priceStatus,
     'total_30d': total30d,
+    'time_windows': timeWindows.map((w) => {
+      'label_tr': w.labelTr,
+      'label_en': w.labelEn,
+      'start_hour': w.startHour,
+      'end_hour': w.endHour,
+      if (w.priceCents != null) 'price_cents': w.priceCents,
+      if (w.discountPct != null) 'discount_pct': w.discountPct,
+    }).toList(),
   };
 }
 
@@ -411,6 +462,14 @@ class BusinessPriceTrust {
       totalCount: _asInt(map, ['total_count', 'total']) ?? 0,
     );
   }
+}
+
+List<MenuItemTimeWindow> _parseTimeWindows(Object? raw) {
+  if (raw is! List) return const [];
+  return raw
+      .whereType<Map>()
+      .map((e) => MenuItemTimeWindow.fromMap(e.cast<String, dynamic>()))
+      .toList(growable: false);
 }
 
 String? _asString(Map<String, dynamic> map, List<String> keys) {

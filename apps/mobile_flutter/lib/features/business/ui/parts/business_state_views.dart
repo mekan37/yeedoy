@@ -48,6 +48,81 @@ class _BusinessErrorView extends StatelessWidget {
   }
 }
 
+/// Shows "Şu an X kişi bakıyor" when ≥2 users are present.
+/// Hidden while connecting (null) or when only 1 user (the local user).
+class _BusinessPresenceBadge extends ConsumerWidget {
+  const _BusinessPresenceBadge({required this.businessId});
+  final String businessId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count =
+        ref.watch(businessPresenceCountProvider(businessId));
+    if (count == null || count < 2) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          _PulsingDot(),
+          const SizedBox(width: 6),
+          Text(
+            AppLocalizations.of(context).businessViewingNow(count),
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: AppColors.muted,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PulsingDot extends StatefulWidget {
+  @override
+  State<_PulsingDot> createState() => _PulsingDotState();
+}
+
+class _PulsingDotState extends State<_PulsingDot>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+    _anim = Tween<double>(begin: 0.4, end: 1.0).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _anim,
+      child: Container(
+        width: 7,
+        height: 7,
+        decoration: const BoxDecoration(
+          color: AppColors.success,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+}
+
 void _openReportSheet(BuildContext context, String businessId) {
   showModalBottomSheet(
     context: context,
@@ -61,16 +136,16 @@ void _openReportSheet(BuildContext context, String businessId) {
 }
 
 Future<void> _shareBusiness(BuildContext context, Business business) async {
-  final t = AppLocalizations.of(context);
-  final deep = AppConfig.businessDeepLink(business.id);
-  final web = AppConfig.businessWebUrl(business.id);
-  final msg = t.shareBusinessMessage(
-    business.name,
-    _locText(context, business.district, business.city),
-    web,
-    deep,
+  await showBusinessShareCardSheet(
+    context,
+    businessId: business.id,
+    businessName: business.name,
+    category: business.category,
+    district: business.district,
+    city: business.city,
+    avgRating: business.avgRating > 0 ? business.avgRating : null,
+    reviewCount: business.reviewsCount > 0 ? business.reviewsCount : null,
   );
-  await SharePlus.instance.share(ShareParams(text: msg));
 }
 
 String _locText(BuildContext context, String? district, String? city) {

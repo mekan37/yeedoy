@@ -199,6 +199,10 @@ class _ItemEditorSheetState extends ConsumerState<ItemEditorSheet> {
                     ? _descCtrl.text.trim()
                     : null,
               ),
+            ] else ...[
+              // Yeni ürün: fotoğraf/AI eklemek için önce kaydetmek gerekir
+              const SizedBox(height: 12),
+              _NewItemMediaHint(),
             ],
             const SizedBox(height: 12),
             Row(
@@ -318,21 +322,25 @@ class _OwnerItemVariantsSectionState
     final variantsAsync = ref.watch(
       ownerMenuItemVariantsProvider(widget.itemId),
     );
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  context.l10n.ownerVariants,
-                  style: TextStyle(fontWeight: FontWeight.w900),
-                ),
-                const Spacer(),
-                TextButton.icon(
-                  onPressed: _saving ? null : _openCreateVariantSheet,
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                context.l10n.ownerVariants,
+                style: const TextStyle(fontWeight: FontWeight.w900),
+              ),
+              const Spacer(),
+              TextButton.icon(
+                onPressed: _saving ? null : _openCreateVariantSheet,
                   icon: const Icon(Icons.add),
                   label: Text(context.l10n.ownerAddVariant),
                 ),
@@ -394,7 +402,6 @@ class _OwnerItemVariantsSectionState
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -567,21 +574,25 @@ class _OwnerItemPhotosSectionState
   @override
   Widget build(BuildContext context) {
     final photosAsync = ref.watch(ownerMenuItemPhotosProvider(widget.itemId));
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  context.l10n.ownerPhotos,
-                  style: TextStyle(fontWeight: FontWeight.w900),
-                ),
-                const Spacer(),
-                TextButton.icon(
-                  onPressed: _openImagePicker,
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                context.l10n.ownerPhotos,
+                style: const TextStyle(fontWeight: FontWeight.w900),
+              ),
+              const Spacer(),
+              TextButton.icon(
+                onPressed: _openImagePicker,
                   icon: const Icon(Icons.add_a_photo_outlined),
                   label: Text(context.l10n.ownerAddPhoto),
                 ),
@@ -638,7 +649,6 @@ class _OwnerItemPhotosSectionState
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -860,6 +870,63 @@ class _PhotoViewerPage extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+// ── Yeni ürün: fotoğraf/AI ön bildirim kartı ────────────────────────────────
+
+class _NewItemMediaHint extends StatelessWidget {
+  const _NewItemMediaHint();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            alignment: Alignment.center,
+            child: const Icon(
+              Icons.add_a_photo_outlined,
+              size: 18,
+              color: AppColors.primary,
+            ),
+          ),
+          const SizedBox(width: 10),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Fotoğraf & AI Görsel',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 13,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Kaydedin, ardından fotoğraf yükleyin veya AI ile görsel oluşturun.',
+                  style: TextStyle(color: AppColors.muted, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

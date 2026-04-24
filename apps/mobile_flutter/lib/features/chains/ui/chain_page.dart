@@ -68,7 +68,12 @@ class _ChainPageState extends ConsumerState<ChainPage> {
     return AppScaffold(
       appBar: AppBar(title: Text(t.chainPageTitle)),
       body: async.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => ListView.separated(
+          padding: const EdgeInsets.all(16),
+          itemCount: 5,
+          separatorBuilder: (_, _) => const SizedBox(height: 10),
+          itemBuilder: (_, _) => const AppSkeletonCard(),
+        ),
         error: (e, _) => Center(
           child: Text(
             AppErrorMapper.message(e),

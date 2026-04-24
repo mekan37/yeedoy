@@ -74,6 +74,7 @@ class _MenuItemBodyState extends ConsumerState<_MenuItemBody> {
       _menuItemVariantsProvider(widget.menuItemId),
     );
     final isLoggedIn = ref.watch(userProvider.select((user) => user != null));
+    final cityAsync = ref.watch(_businessCityProvider(widget.businessId));
 
     return PopScope(
       canPop: false,
@@ -125,6 +126,24 @@ class _MenuItemBodyState extends ConsumerState<_MenuItemBody> {
               ListView(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                 children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      tooltip: AppLocalizations.of(context).share,
+                      icon: const Icon(Icons.share_outlined),
+                      onPressed: () => _shareMenuItem(
+                        context,
+                        item: item,
+                        businessId: widget.businessId,
+                        menuId: widget.menuId,
+                        priceDisplay: _formatPrice(
+                          context,
+                          displayPrice,
+                          currencyCode: displayCurrency,
+                        ),
+                      ),
+                    ),
+                  ),
                   AppHeroHeader(
                     title: item.name,
                     subtitle: _formatPrice(
@@ -181,12 +200,15 @@ class _MenuItemBodyState extends ConsumerState<_MenuItemBody> {
                   _PriceStatusCard(
                     item: item,
                     statusAsync: priceStatusAsync,
+                    city: cityAsync.asData?.value,
+                    businessId: widget.businessId,
                     onRetry: () => _refreshPriceData(ref, widget.menuItemId),
                     onUpdate: () async {
                       if (!isLoggedIn) {
                         _redirectToLogin(context);
                         return;
                       }
+                      HapticFeedback.lightImpact();
                       final submission = await _openPriceSuggestionSheet(
                         context,
                         widget.menuItemId,
@@ -594,6 +616,7 @@ class _CartSheetState extends ConsumerState<_CartSheet> {
                             ),
                           ),
                           IconButton(
+                            tooltip: t.decreaseQuantity,
                             onPressed: () => _changeQty(entry.item.id, -1),
                             icon: const Icon(Icons.remove_circle_outline),
                           ),
@@ -602,6 +625,7 @@ class _CartSheetState extends ConsumerState<_CartSheet> {
                             style: const TextStyle(fontWeight: FontWeight.w900),
                           ),
                           IconButton(
+                            tooltip: t.increaseQuantity,
                             onPressed: () => _changeQty(entry.item.id, 1),
                             icon: const Icon(Icons.add_circle_outline),
                           ),
@@ -830,6 +854,24 @@ class _MenuItemError extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _shareMenuItem(
+  BuildContext context, {
+  required MenuItem item,
+  required String businessId,
+  required String menuId,
+  required String priceDisplay,
+  String businessName = '',
+}) async {
+  await showMenuItemShareCardSheet(
+    context,
+    businessId: businessId,
+    menuId: menuId,
+    itemName: item.name,
+    businessName: businessName,
+    priceDisplay: priceDisplay.isNotEmpty ? priceDisplay : null,
+  );
 }
 
 class _MenuItemNotFound extends StatelessWidget {

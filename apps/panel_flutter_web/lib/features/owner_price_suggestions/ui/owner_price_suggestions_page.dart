@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../owner_onboarding/domain/owner_onboarding_providers.dart';
-import '../../../shared/ui/components/app_scaffold.dart';
 import '../../../shared/ui/components/owner_business_guard.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/design_system.dart';
 import '../domain/owner_price_suggestion_models.dart';
 import '../domain/owner_price_suggestions_controller.dart';
@@ -86,64 +87,84 @@ class _OwnerPriceSuggestionsPageState
           conflictCountByItem[key] = (conflictCountByItem[key] ?? 0) + 1;
         }
 
-        return AppScaffold(
-          appBar: AppBar(title: Text(l10n.ownerPriceSuggestionsTitle)),
-          body: RefreshIndicator(
-            onRefresh: () => controller.refresh(force: true),
-            child: ListView(
-              controller: scrollCtrl,
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-              children: [
-                if (st.error != null)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          AppErrorMapper.message(st.error),
-                          style: context.bodyStyle.copyWith(color: Colors.red),
+        return RefreshIndicator(
+          onRefresh: () => controller.refresh(force: true),
+          child: ListView(
+            controller: scrollCtrl,
+            padding: EdgeInsets.zero,
+            children: [
+              PanelPageHeader(
+                eyebrow: 'Owner',
+                title: Text(l10n.ownerPriceSuggestionsTitle),
+                description: 'Rakip verilerine dayalı fiyat önerilerini onaylayın veya reddedin.',
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                child: Column(
+                  children: [
+                    if (st.error != null)
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppColors.danger.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColors.danger.withValues(alpha: 0.3)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.error_outline, color: AppColors.danger, size: 16),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                AppErrorMapper.message(st.error),
+                                style: context.bodyStyle.copyWith(color: AppColors.danger),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            AppButton(
+                              label: l10n.retry,
+                              variant: AppButtonVariant.secondary,
+                              onPressed: () => controller.refresh(force: true),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      AppButton(
-                        label: l10n.retry,
-                        variant: AppButtonVariant.secondary,
-                        onPressed: () => controller.refresh(force: true),
+                    if (st.isLoading && st.items.isEmpty)
+                      const _OwnerPriceSkeleton()
+                    else if (!st.isLoading && st.items.isEmpty)
+                      AppEmptyState(
+                        icon: Icons.price_change_outlined,
+                        title: l10n.ownerPriceSuggestionsEmptyTitle,
+                        description: l10n.ownerPriceSuggestionsEmptyDescription,
+                      )
+                    else
+                      Column(
+                        children: [
+                          for (final item in st.items) ...[
+                            _OwnerPriceRow(
+                              item: item,
+                              conflictCount:
+                                  conflictCountByItem[item.menuItemId.isEmpty
+                                      ? item.menuItemName
+                                      : item.menuItemId] ??
+                                  1,
+                              onApprove: () => _approve(item),
+                              onReject: () => _reject(item),
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                          if (st.isLoadingMore)
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8),
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                        ],
                       ),
-                    ],
-                  ),
-                if (st.isLoading && st.items.isEmpty)
-                  const _OwnerPriceSkeleton()
-                else if (!st.isLoading && st.items.isEmpty)
-                  AppEmptyState(
-                    icon: Icons.price_change_outlined,
-                    title: l10n.ownerPriceSuggestionsEmptyTitle,
-                    description: l10n.ownerPriceSuggestionsEmptyDescription,
-                  )
-                else
-                  Column(
-                    children: [
-                      for (final item in st.items) ...[
-                        _OwnerPriceRow(
-                          item: item,
-                          conflictCount:
-                              conflictCountByItem[item.menuItemId.isEmpty
-                                  ? item.menuItemName
-                                  : item.menuItemId] ??
-                              1,
-                          onApprove: () => _approve(item),
-                          onReject: () => _reject(item),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                      if (st.isLoadingMore)
-                        const Padding(
-                          padding: EdgeInsets.only(top: 8),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                    ],
-                  ),
-              ],
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -256,95 +277,140 @@ class _OwnerPriceRow extends StatelessWidget {
     final confidencePct = (item.qualityConfidence * 100).clamp(0, 100).round();
     final hasAnomaly = item.anomalyScore >= 0.5 || item.anomalyFlags.isNotEmpty;
     final hasConflict = item.conflictState == 'queued' || conflictCount > 1;
+    final accentColor = hasAnomaly
+        ? AppColors.danger
+        : hasConflict
+            ? AppColors.warning
+            : AppColors.success;
 
-    return AppCard(
-      child: Padding(
-        padding: const EdgeInsets.all(2),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.menuItemName,
-                    style: const TextStyle(fontWeight: FontWeight.w900),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(_fmtDate(item.createdAt), style: context.captionStyle),
-                  const SizedBox(height: 6),
-                  Wrap(
-                    spacing: 6,
-                    runSpacing: 6,
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(width: 4, color: accentColor),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppBadge(
-                        label: l10n.ownerPriceSuggestionsConfidence(
-                          confidencePct,
-                        ),
-                        tone: confidencePct >= 70
-                            ? AppBadgeTone.success
-                            : AppBadgeTone.warning,
-                      ),
-                      if (hasConflict)
-                        AppBadge(
-                          label: l10n.ownerPriceSuggestionsConflictCount(
-                            item.conflictVariants24h > 0
-                                ? item.conflictVariants24h
-                                : conflictCount,
-                          ),
-                          tone: AppBadgeTone.warning,
-                        ),
-                      if (hasAnomaly)
-                        AppBadge(
-                          label: item.anomalyFlags.isEmpty
-                              ? l10n.ownerPriceSuggestionsAnomaly
-                              : l10n.ownerPriceSuggestionsAnomalyFlag(
-                                  item.anomalyFlags.first,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.menuItemName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    color: AppColors.textStrong,
+                                  ),
                                 ),
-                          tone: AppBadgeTone.danger,
-                        ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  _fmtDate(item.createdAt),
+                                  style: const TextStyle(
+                                    color: AppColors.muted,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: accentColor.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                  color: accentColor.withValues(alpha: 0.3)),
+                            ),
+                            child: Text(
+                              _formatPrice(item.suggestedPriceCents),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: accentColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: [
+                          AppBadge(
+                            label: l10n.ownerPriceSuggestionsConfidence(
+                              confidencePct,
+                            ),
+                            tone: confidencePct >= 70
+                                ? AppBadgeTone.success
+                                : AppBadgeTone.warning,
+                          ),
+                          if (hasConflict)
+                            AppBadge(
+                              label: l10n.ownerPriceSuggestionsConflictCount(
+                                item.conflictVariants24h > 0
+                                    ? item.conflictVariants24h
+                                    : conflictCount,
+                              ),
+                              tone: AppBadgeTone.warning,
+                            ),
+                          if (hasAnomaly)
+                            AppBadge(
+                              label: item.anomalyFlags.isEmpty
+                                  ? l10n.ownerPriceSuggestionsAnomaly
+                                  : l10n.ownerPriceSuggestionsAnomalyFlag(
+                                      item.anomalyFlags.first,
+                                    ),
+                              tone: AppBadgeTone.danger,
+                            ),
+                          if (conflictCount > 1 && !hasConflict)
+                            AppBadge(
+                              label: l10n.ownerPriceSuggestionsConflictVariants(
+                                conflictCount,
+                              ),
+                              tone: AppBadgeTone.warning,
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 6,
+                        children: [
+                          FilledButton.icon(
+                            onPressed: onApprove,
+                            icon: const Icon(Icons.check_outlined, size: 15),
+                            label: Text(l10n.ownerApproveAction),
+                          ),
+                          OutlinedButton.icon(
+                            onPressed: onReject,
+                            icon: const Icon(Icons.close_outlined, size: 15),
+                            label: Text(l10n.ownerRejectAction),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                  if (conflictCount > 1 && !hasConflict) ...[
-                    const SizedBox(height: 4),
-                    AppBadge(
-                      label: l10n.ownerPriceSuggestionsConflictVariants(
-                        conflictCount,
-                      ),
-                      tone: AppBadgeTone.warning,
-                    ),
-                  ],
-                ],
+                ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  _formatPrice(item.suggestedPriceCents),
-                  style: context.subtitleStyle.copyWith(
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    AppButton(
-                      label: context.l10n.ownerApproveAction,
-                      variant: AppButtonVariant.ghost,
-                      onPressed: onApprove,
-                    ),
-                    const SizedBox(width: 6),
-                    AppButton(
-                      label: context.l10n.ownerRejectAction,
-                      variant: AppButtonVariant.secondary,
-                      onPressed: onReject,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -187,6 +187,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get share => 'Share';
 
   @override
+  String get shareAsImage => 'Share as Image';
+
+  @override
+  String get shareLink => 'Share Link';
+
+  @override
   String get invalidLinkMessage => 'Invalid link';
 
   @override
@@ -707,6 +713,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yenile => 'Refresh';
+
+  @override
+  String get decreaseQuantity => 'Decrease quantity';
+
+  @override
+  String get increaseQuantity => 'Increase quantity';
+
+  @override
+  String get kapat => 'Close';
+
+  @override
+  String get suspendedMealsEmptyDescription =>
+      'Your suspended meal plans will appear here.';
+
+  @override
+  String get ara => 'Search';
+
+  @override
+  String ratingLabel(int count) {
+    return '$count stars';
+  }
 
   @override
   String get atanan => 'Assigned';
@@ -1352,6 +1379,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onboardingContributeDescription =>
       'You can continue quickly with actions like votes, reviews and price verification.';
+
+  @override
+  String get onboardingPriceTitle => 'You Set the\nCity\'s Prices';
+
+  @override
+  String get onboardingPriceBody1 => 'Discover restaurants with real prices';
+
+  @override
+  String get onboardingPriceBody2 => 'Track price history and city averages';
+
+  @override
+  String get onboardingPriceBody3 => 'Filter by budget, save money';
+
+  @override
+  String get onboardingCommunityTitle => 'The Power of Community';
+
+  @override
+  String get onboardingCommunitySubtitle =>
+      'Every price verification helps everyone';
+
+  @override
+  String get onboardingCommunityBody1 => 'Real users keep menus up-to-date';
+
+  @override
+  String get onboardingCommunityBody2 =>
+      'Price deviations are detected instantly';
+
+  @override
+  String get onboardingCommunityBody3 =>
+      'Earn XP and badges for your contributions';
+
+  @override
+  String get onboardingNotificationTitle => 'Instant notifications';
+
+  @override
+  String get onboardingNotificationDescription =>
+      'Get price changes, campaigns, and group requests from your favorite places as they happen.';
+
+  @override
+  String get onboardingNotificationsEnabled => 'Notifications are enabled';
+
+  @override
+  String get onboardingAllowNotifications => 'Allow Notifications';
+
+  @override
+  String get onboardingSkipNotifications => 'Not now';
 
   @override
   String get getStarted => 'Get Started';
@@ -3070,6 +3143,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sortMostHelpful => 'Most helpful';
 
   @override
+  String get sortVerified => 'Verified first';
+
+  @override
   String businessReviewsQualityLabel(String score) {
     return 'Quality score: $score';
   }
@@ -3691,4 +3767,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vatIncluded => 'VAT included';
+
+  @override
+  String businessViewingNow(int count) {
+    return '$count people viewing now';
+  }
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get required => 'This field is required';
+
+  @override
+  String get collabListsTitle => 'My Shared Lists';
+
+  @override
+  String get collabListCreate => 'Create List';
+
+  @override
+  String get collabListsEmpty => 'No lists yet';
+
+  @override
+  String get collabListsEmptyDesc =>
+      'Create shared lists with friends and vote on favorite spots together.';
+
+  @override
+  String get collabListNameLabel => 'List name';
+
+  @override
+  String get collabListDescLabel => 'Description (optional)';
+
+  @override
+  String get collabListItemsEmpty => 'List is empty';
+
+  @override
+  String get collabListItemsEmptyDesc =>
+      'Add businesses from their page to this list.';
+
+  @override
+  String get collabListShare => 'Copy Invite Link';
+
+  @override
+  String get collabListDelete => 'Delete List';
+
+  @override
+  String get collabListDeleteConfirm =>
+      'Are you sure you want to delete this list and all its content?';
+
+  @override
+  String get collabListLeave => 'Leave List';
+
+  @override
+  String get collabListLeaveConfirm =>
+      'Are you sure you want to leave this list?';
+
+  @override
+  String get collabListLinkCopied => 'Invite link copied';
+
+  @override
+  String get collabListJoining => 'Joining list...';
+
+  @override
+  String get collabListInvalidInvite => 'Invalid invite link.';
+
+  @override
+  String get goToMyLists => 'Go to My Lists';
 }

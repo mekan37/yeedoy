@@ -29,6 +29,30 @@ void main() {
       );
       expect(route, '/b/$businessId/reviews');
     });
+
+    test('returns menu item route for price_suggestion_result', () {
+      final route = resolveNotificationTargetPath(
+        type: 'price_suggestion_result',
+        data: const {'business_id': businessId, 'menu_item_id': menuItemId},
+      );
+      expect(route, '/b/$businessId/menu-item/$menuItemId');
+    });
+
+    test('returns inbox for report_result', () {
+      final route = resolveNotificationTargetPath(
+        type: 'report_result',
+        data: const {},
+      );
+      expect(route, '/inbox');
+    });
+
+    test('default with business_id returns business route', () {
+      final route = resolveNotificationTargetPath(
+        type: 'unknown_type',
+        data: const {'business_id': businessId},
+      );
+      expect(route, '/b/$businessId');
+    });
   });
 
   group('resolvePushTapRoute', () {

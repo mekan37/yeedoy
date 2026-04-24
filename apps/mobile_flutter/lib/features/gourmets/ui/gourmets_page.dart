@@ -79,9 +79,10 @@ class _GourmetsPageState extends ConsumerState<GourmetsPage> {
               _EmptyState(message: t.gourmetsPageEmpty)
             else ...[
               for (final g in st.items) ...[
-                _GourmetTile(
-                  user: g,
-                  onFollow: () async {
+                RepaintBoundary(
+                  child: _GourmetTile(
+                    user: g,
+                    onFollow: () async {
                     if (user == null) {
                       context.go('/login?redirect=/gourmets');
                       return;
@@ -98,6 +99,7 @@ class _GourmetsPageState extends ConsumerState<GourmetsPage> {
                       }
                     }
                   },
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],

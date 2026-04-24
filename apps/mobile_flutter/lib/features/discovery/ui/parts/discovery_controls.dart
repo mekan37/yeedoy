@@ -304,7 +304,9 @@ class DiscoveryCategoryChips extends StatelessWidget {
             CategoryChip(
               label: _discoveryFilterLabel(context, category.labelKey),
               selected: selectedCategory == category.value,
-              onTap: () => onSelect(category.value),
+              onTap: () => onSelect(
+                selectedCategory == category.value ? '' : category.value,
+              ),
             ),
             const SizedBox(width: 8),
           ],
@@ -495,13 +497,14 @@ class DiscoveryTopSectionsV2 extends ConsumerWidget {
       );
     }
 
-    final homeFeedAsync = ref.watch(
-      homeFeedProvider((
-        city: city,
-        district: district,
-        neighborhood: neighborhood,
-      )),
-    );
+    final homeFeedKey = (city: city, district: district, neighborhood: neighborhood);
+    final homeFeedAsync = ref.watch(homeFeedProvider(homeFeedKey));
+
+    ref.listen(homeFeedProvider(homeFeedKey), (_, next) {
+      next.whenData((feed) {
+        HomeWidgetService.update(feed.nearOpenBusinesses);
+      });
+    });
 
     return Column(
       children: [

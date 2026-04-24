@@ -73,6 +73,7 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
                     suffixIcon: qCtrl.text.isEmpty
                         ? null
                         : IconButton(
+                            tooltip: t.kapat,
                             icon: const Icon(Icons.close),
                             onPressed: () {
                               qCtrl.clear();
@@ -192,10 +193,12 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
             const _MenuItemsSkeleton(),
           ] else ...[
             for (final item in st.items) ...[
-              _MenuItemCard(
-                item: item,
-                onTap: () => _openMenuItem(context, item),
-                onAlertTap: () => _openPriceAlert(context, item, user != null),
+              RepaintBoundary(
+                child: _MenuItemCard(
+                  item: item,
+                  onTap: () => _openMenuItem(context, item),
+                  onAlertTap: () => _openPriceAlert(context, item, user != null),
+                ),
               ),
               const SizedBox(height: 10),
             ],
@@ -335,7 +338,7 @@ class _MenuItemCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    _formatPrice(item.priceCents),
+                    _formatPrice(item.priceCents, locale: t.localeName),
                     style: const TextStyle(fontWeight: FontWeight.w900),
                   ),
                 ],
@@ -345,15 +348,33 @@ class _MenuItemCard extends StatelessWidget {
                 children: [
                   _StatusBadge(config: _statusBadge(item.priceStatus, t)),
                   const SizedBox(width: 6),
-                  Text(
-                    item.total30d == null
-                        ? '(${t.unknown})'
-                        : '(${t.votes(item.total30d!)})',
-                    style: const TextStyle(
-                      color: AppColors.muted,
-                      fontSize: 11,
+                  if (item.priceStatus == 'verified' &&
+                      (item.total30d ?? 0) > 0) ...[
+                    Icon(
+                      Icons.check_circle_outline,
+                      size: 12,
+                      color: AppColors.success,
                     ),
-                  ),
+                    const SizedBox(width: 3),
+                    Text(
+                      t.localeName.startsWith('tr')
+                          ? '${item.total30d} kişi onayladı'
+                          : '${item.total30d} verified',
+                      style: const TextStyle(
+                        color: AppColors.success,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ] else if (item.total30d != null) ...[
+                    Text(
+                      '(${t.votes(item.total30d!)})',
+                      style: const TextStyle(
+                        color: AppColors.muted,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
                   if (item.calories != null) ...[
                     const SizedBox(width: 8),
                     Text(
@@ -569,7 +590,7 @@ class _MenuItemFilterSheetState extends State<_MenuItemFilterSheet> {
           children: [
             Text(
               t.filters,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+              style: context.sectionTitleStyle,
             ),
             const SizedBox(height: 12),
             if (widget.profileEnabled) ...[
@@ -707,8 +728,10 @@ void _redirectToLogin(BuildContext context) {
   showQuickLoginSheet(context);
 }
 
-String _formatPrice(int? cents) {
-  if (cents == null) return '—';
+String _formatPrice(int? cents, {String? locale}) {
+  if (cents == null) {
+    return (locale ?? '').startsWith('tr') ? 'Fiyata sorunuz' : 'Price on request';
+  }
   final value = cents / 100.0;
   final text = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
   return 'TL$text';

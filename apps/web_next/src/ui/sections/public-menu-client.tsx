@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import type { MouseEvent, ReactNode } from 'react';
 import { startTransition, useDeferredValue, useEffect, useRef, useState } from 'react';
@@ -11,7 +11,7 @@ import type { AppLang, MenuCopy } from '@/src/lib/i18n';
 import { PUBLIC_QR_LEGAL_LINKS } from '@/src/lib/legal-links';
 import { buildBusinessMenuHref, buildQrHref } from '@/src/lib/menu-links';
 import { getTranslationValue } from '@/src/lib/menu-text';
-import { appendMediaVersion } from '@/src/lib/media-url';
+import { appendMediaVersion, buildMenuImageUrl } from '@/src/lib/media-url';
 import { getPresentationViewModel } from '@/src/lib/presentation-view';
 import type { PublicMenuPageData } from '@/src/lib/public-menu-page';
 
@@ -33,6 +33,7 @@ type Props = {
   data: PublicMenuPageData;
   isPreview: boolean;
   selectedCategoryId?: string | null;
+  isOpenNow?: boolean | null;
 };
 
 type TrackPayload = {
@@ -52,6 +53,7 @@ export function PublicMenuClient({
   data,
   isPreview,
   selectedCategoryId,
+  isOpenNow,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -65,11 +67,14 @@ export function PublicMenuClient({
   const businessPath = data.business;
   const businessLocation = formatBusinessLocation(data.business);
   const mediaVersion = data.presentation.updatedAt;
-  const heroImageUrl = appendMediaVersion(
-    data.presentation.backgroundUrl || data.media.coverUrl,
-    mediaVersion,
+  const heroImageUrl = buildMenuImageUrl(
+    appendMediaVersion(data.presentation.backgroundUrl || data.media.coverUrl, mediaVersion),
+    { width: 1400, quality: 85 },
   );
-  const brandLogoUrl = appendMediaVersion(data.media.logoUrl, mediaVersion);
+  const brandLogoUrl = buildMenuImageUrl(
+    appendMediaVersion(data.media.logoUrl, mediaVersion),
+    { width: 200, quality: 90 },
+  );
   const businessName =
     getTranslationValue({
       translations: data.translations,
@@ -227,6 +232,36 @@ export function PublicMenuClient({
     });
   }
 
+  function handleLangSelect(nextLang: 'tr' | 'en') {
+    const params = new URLSearchParams();
+    params.set('lang', nextLang);
+    params.set('theme', brandTheme);
+    if (isPreview) params.set('preview', '1');
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`);
+    });
+  }
+
+  async function handleShare() {
+    const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+    const shareData = {
+      title: businessName,
+      text: `${businessName} menüsüne göz at`,
+      url: shareUrl,
+    };
+    if (typeof navigator !== 'undefined' && 'share' in navigator) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch {
+        // fallthrough to clipboard
+      }
+    }
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      await navigator.clipboard.writeText(shareUrl);
+    }
+  }
+
   return (
     <div
       className={`space-y-6 rounded-[36px] p-3 pb-10 sm:p-4 ${presentationView.fontScaleClassName}`}
@@ -235,14 +270,15 @@ export function PublicMenuClient({
       <section className="overflow-hidden rounded-[32px] border border-border bg-card shadow-yd2">
         <div className="relative min-h-[340px] overflow-hidden p-6 text-white sm:p-8" style={presentationView.heroStyle}>
           {heroImageUrl ? (
-            <img
+            <Image
               src={heroImageUrl}
               alt={businessName}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              data-blur={blurDataUrl}
-              className={`absolute inset-0 h-full w-full object-cover ${presentationView.isPhotoHeavy ? 'opacity-34' : 'opacity-20'}`}
+              fill
+              priority
+              unoptimized
+              placeholder="blur"
+              blurDataURL={blurDataUrl}
+              className={`object-cover ${presentationView.isPhotoHeavy ? 'opacity-34' : 'opacity-20'}`}
             />
           ) : null}
           <div className="absolute inset-x-6 bottom-6 top-6 hidden rounded-[30px] border border-white/12 xl:block" style={{ backgroundImage: brand.heroOrnament }} />
@@ -271,6 +307,17 @@ export function PublicMenuClient({
                       Verified
                     </span>
                   ) : null}
+                  {isOpenNow === true ? (
+                    <span className="flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-emerald-300">
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      {labels.openNow}
+                    </span>
+                  ) : isOpenNow === false ? (
+                    <span className="flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-white/60">
+                      <span className="inline-block h-1.5 w-1.5 rounded-full bg-white/40" />
+                      {labels.closedNow}
+                    </span>
+                  ) : null}
                 </div>
                 <h1 className="max-w-3xl text-3xl font-black leading-tight sm:text-5xl">{businessName}</h1>
                 <p className="max-w-2xl text-sm leading-7 text-white/85 sm:text-base">
@@ -282,13 +329,14 @@ export function PublicMenuClient({
               </div>
               {brandLogoUrl ? (
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[28px] border border-white/20 bg-white/10 shadow-yd2">
-                  <img
+                  <Image
                     src={brandLogoUrl}
                     alt={`${businessName} logo`}
-                    loading="lazy"
-                    decoding="async"
-                    data-blur={blurDataUrl}
-                    className="h-full w-full object-cover"
+                    fill
+                    unoptimized
+                    placeholder="blur"
+                    blurDataURL={blurDataUrl}
+                    className="object-cover"
                   />
                 </div>
               ) : null}
@@ -349,6 +397,14 @@ export function PublicMenuClient({
               >
                 {labels.qrTitle}
               </a>
+              <button
+                type="button"
+                onClick={() => void handleShare()}
+                className="rounded-2xl border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                aria-label={lang === 'tr' ? 'Paylaş' : 'Share'}
+              >
+                {lang === 'tr' ? 'Paylaş' : 'Share'}
+              </button>
               {data.business.phone ? (
                 <a
                   href={`tel:${data.business.phone}`}
@@ -374,14 +430,39 @@ export function PublicMenuClient({
 
       <section className="sticky top-3 z-30">
         <div className="overflow-hidden rounded-[28px] border border-border bg-card/90 p-3 shadow-yd2 backdrop-blur">
+          {/* Mobile-only search input inside sticky bar */}
+          <div className="mb-2 md:hidden">
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={labels.searchPlaceholder}
+              className="w-full rounded-2xl border border-border bg-bg px-4 py-2.5 text-sm text-text outline-none transition focus:border-primary"
+              aria-label={labels.searchPlaceholder}
+            />
+          </div>
           <div className="flex items-center justify-between gap-3 pb-2">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.24em] text-muted">{labels.categoryView}</p>
               <p className="text-sm font-semibold text-textStrong">{activeCategoryLabel}</p>
             </div>
-            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-black text-primary">
-              {filteredItems.length}
-            </span>
+            <div className="flex shrink-0 items-center gap-2">
+              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-black text-primary">
+                {filteredItems.length}
+              </span>
+              <div className="flex rounded-full border border-border bg-bg p-0.5" role="group" aria-label="Language">
+                {(['tr', 'en'] as const).map((l) => (
+                  <button
+                    key={l}
+                    type="button"
+                    onClick={() => handleLangSelect(l)}
+                    className={`rounded-full px-2.5 py-1 text-xs font-black uppercase transition ${lang === l ? 'bg-primary text-white' : 'text-muted hover:text-text'}`}
+                    aria-pressed={lang === l}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label={labels.categoryJump}>
             <PillButton
@@ -399,17 +480,20 @@ export function PublicMenuClient({
                 role="tab"
                 ariaSelected={activeCategoryId === category.id}
                 onClick={(event) => {
-                  void trackEvent({
-                    eventName: 'category_view',
-                    businessId: data.business.id,
-                    menuId: data.menu.id,
-                    meta: {
-                      category_id: category.id,
-                      theme: brandTheme,
-                      preview: isPreview,
-                    },
-                  });
-                  handleCategorySelect(category.id, event.currentTarget);
+                  const nextId = activeCategoryId === category.id ? 'all' : category.id;
+                  if (nextId !== 'all') {
+                    void trackEvent({
+                      eventName: 'category_view',
+                      businessId: data.business.id,
+                      menuId: data.menu.id,
+                      meta: {
+                        category_id: category.id,
+                        theme: brandTheme,
+                        preview: isPreview,
+                      },
+                    });
+                  }
+                  handleCategorySelect(nextId, event.currentTarget);
                 }}
               >
                 {category.label}
@@ -531,7 +615,7 @@ export function PublicMenuClient({
           ) : null}
         </div>
 
-        <section ref={resultsRef} className="space-y-3" aria-label={labels.allItems}>
+        <section ref={resultsRef} aria-label={labels.allItems}>
           {filteredItems.length === 0 ? (
             <div className="rounded-[28px] border border-dashed border-border bg-card p-10 text-center shadow-yd1">
               <h2 className="text-xl font-black text-textStrong">{labels.noResultsTitle}</h2>
@@ -548,7 +632,8 @@ export function PublicMenuClient({
               </button>
             </div>
           ) : (
-            filteredItems.map((item) => {
+            <ul role="list" className="space-y-3">
+            {filteredItems.map((item) => {
               const itemName =
                 getTranslationValue({
                   translations: data.translations,
@@ -569,8 +654,9 @@ export function PublicMenuClient({
                 }) ?? item.description;
 
               return (
-                <article
+                <li
                   key={item.id}
+                  role="listitem"
                   className={`group overflow-hidden rounded-[28px] border shadow-yd1 transition ${brand.itemCardClassName}`}
                 >
                   <button
@@ -602,23 +688,24 @@ export function PublicMenuClient({
                       presentationView.isPhotoHeavy ? 'lg:grid-cols-[220px_1fr]' : 'sm:grid-cols-[148px_1fr]'
                     }`}
                   >
-                    <div className="relative overflow-hidden rounded-[24px] bg-cardAlt">
+                    <div
+                      className={`relative overflow-hidden rounded-[24px] bg-cardAlt ${
+                        presentationView.isPhotoHeavy ? 'h-44' : 'h-36'
+                      }`}
+                    >
                       {item.image_url ? (
-                        <img
-                          src={item.image_url}
+                        <Image
+                          src={buildMenuImageUrl(item.image_url, { width: 480, quality: 80 }) ?? item.image_url}
                           alt={itemName}
-                          loading="lazy"
-                          decoding="async"
-                          data-blur={blurDataUrl}
-                          className={`w-full object-cover transition duration-500 group-hover:scale-[1.04] group-active:scale-[1.01] ${
-                            presentationView.isPhotoHeavy ? 'h-44' : 'h-36'
-                          }`}
+                          fill
+                          unoptimized
+                          placeholder="blur"
+                          blurDataURL={blurDataUrl}
+                          className="object-cover transition duration-500 group-hover:scale-[1.04] group-active:scale-[1.01]"
                         />
                       ) : (
                         <div
-                          className={`flex items-center justify-center text-xs font-black uppercase tracking-[0.24em] text-muted ${
-                            presentationView.isPhotoHeavy ? 'h-44' : 'h-36'
-                          }`}
+                          className="flex h-full items-center justify-center text-xs font-black uppercase tracking-[0.24em] text-muted"
                           style={{ backgroundImage: brand.itemImageFallback }}
                         >
                           {labels.details}
@@ -660,9 +747,10 @@ export function PublicMenuClient({
                       </div>
                     </div>
                   </button>
-                </article>
+                </li>
               );
-            })
+            })}
+            </ul>
           )}
         </section>
       </section>
@@ -742,21 +830,26 @@ function FeatureCard({
 
   return (
     <div className="overflow-hidden rounded-[24px] border border-border bg-cardAlt shadow-yd1 transition hover:-translate-y-1 hover:shadow-yd2">
-      {item.image_url ? (
-        <img
-          src={item.image_url}
-          alt={name}
-          loading="lazy"
-          decoding="async"
-          data-blur={blurDataUrl}
-          className={`w-full object-cover ${presentationView.isPhotoHeavy ? 'h-52' : 'h-36'}`}
-        />
-      ) : (
-        <div
-          className={`${presentationView.isPhotoHeavy ? 'h-52' : 'h-36'} w-full`}
-          style={{ backgroundImage: brand.itemImageFallback }}
-        />
-      )}
+      <div
+        className={`relative w-full ${presentationView.isPhotoHeavy ? 'h-52' : 'h-36'}`}
+      >
+        {item.image_url ? (
+          <Image
+            src={buildMenuImageUrl(item.image_url, { width: 600, quality: 80 }) ?? item.image_url}
+            alt={name}
+            fill
+            unoptimized
+            placeholder="blur"
+            blurDataURL={blurDataUrl}
+            className="object-cover"
+          />
+        ) : (
+          <div
+            className="h-full w-full"
+            style={{ backgroundImage: brand.itemImageFallback }}
+          />
+        )}
+      </div>
       <div className="space-y-2 p-4">
         <p className="text-lg font-black text-textStrong">{name}</p>
         <p className="text-base font-black text-primary">

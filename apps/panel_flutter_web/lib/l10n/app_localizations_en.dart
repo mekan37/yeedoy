@@ -1843,6 +1843,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminGrowthDayColumn => 'Day';
 
   @override
+  String get adminGrowthFunnelTitle => 'User funnel';
+
+  @override
+  String get adminGrowthFunnelSubtitle =>
+      'Discovery → Engagement → Conversion (selected period total)';
+
+  @override
+  String get adminGrowthFunnelDiscovery => 'Discovery';
+
+  @override
+  String get adminGrowthFunnelEngagement => 'Engagement';
+
+  @override
+  String get adminGrowthFunnelConversion => 'Conversion';
+
+  @override
   String get adminIncidentCenterTitle => 'Incident response center';
 
   @override
@@ -2030,6 +2046,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminObservabilityRequestTraceTitle => 'Request Trace';
+
+  @override
+  String get adminObservabilityEdgeOpsTitle => 'Edge maintenance';
+
+  @override
+  String get adminObservabilityEdgeOpsSummary =>
+      'Run admin-only Supabase edge maintenance tasks without leaving the panel.';
+
+  @override
+  String get adminObservabilityPushDispatchTitle => 'Push dispatch queue';
+
+  @override
+  String get adminObservabilityPushDispatchDescription =>
+      'Dequeues queued notification jobs and sends them through the push worker.';
+
+  @override
+  String get adminObservabilityPushDispatchAction => 'Run push dispatch';
+
+  @override
+  String get adminObservabilityTempPurgeTitle => 'Temporary upload cleanup';
+
+  @override
+  String get adminObservabilityTempPurgeDescription =>
+      'Processes the storage deletion queue for temporary uploads waiting to be purged.';
+
+  @override
+  String get adminObservabilityTempPurgeAction => 'Run cleanup';
+
+  @override
+  String get adminObservabilityRunning => 'Running...';
+
+  @override
+  String adminObservabilityLastRunResult(String label, String summary) {
+    return '$label: $summary';
+  }
 
   @override
   String adminObservabilityRequestIdValue(String requestId) {
@@ -5026,6 +5077,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ownerGrowthDistrictGapLabel => 'District price gap';
 
   @override
+  String get ownerGrowthBarChartTitle => 'Last 30 days — daily traffic';
+
+  @override
+  String get ownerGrowthBarChartSubtitle =>
+      'Menu views, QR scans and outbound clicks compared';
+
+  @override
   String get ownerShellTrashLabel => 'Trash';
 
   @override
@@ -5388,4 +5446,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ownerShellAiAnalysisLabel => 'AI Analysis';
+
+  @override
+  String get ownerShellReviewsLabel => 'Reviews';
+
+  @override
+  String get ownerReviewsTitle => 'Customer Reviews';
+
+  @override
+  String get ownerReviewsDescription => 'View and reply to customer reviews';
+
+  @override
+  String get ownerReviewsReplyButton => 'Reply';
+
+  @override
+  String get ownerReviewsEditReplyButton => 'Edit reply';
+
+  @override
+  String get ownerReviewsDeleteReplyButton => 'Delete reply';
+
+  @override
+  String get ownerReviewsReplyHint => 'Write your response to the customer…';
+
+  @override
+  String get ownerReviewsReplySaved => 'Your reply has been saved.';
+
+  @override
+  String get ownerReviewsReplyDeleted => 'Reply deleted.';
+
+  @override
+  String get ownerReviewsOwnerReplyLabel => 'Owner Response';
+
+  @override
+  String get ownerReviewsEmpty => 'No reviews yet.';
+
+  @override
+  String get ownerReviewsReplyCancelButton => 'Cancel';
+
+  @override
+  String get ownerReviewsReplySaveButton => 'Save';
+
+  @override
+  String get sortNewest => 'Newest';
+
+  @override
+  String get sortMostHelpful => 'Most helpful';
+
+  @override
+  String helpfulCount(int count) {
+    return '$count helpful';
+  }
 }

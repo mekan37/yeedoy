@@ -238,6 +238,14 @@
   "@share": {
     "description": "Auto metadata for share"
   },
+  "shareAsImage": "Görsel Paylaş",
+  "@shareAsImage": {
+    "description": "Share as image card button"
+  },
+  "shareLink": "Link Paylaş",
+  "@shareLink": {
+    "description": "Share as plain link button"
+  },
   "invalidLinkMessage": "Geçersiz bağlantı",
   "@invalidLinkMessage": {
     "description": "Auto metadata for invalidLinkMessage"
@@ -631,6 +639,18 @@
   "csvDisaAktar": "CSV Dışa Aktar",
   "onaylandi": "Onaylandı",
   "yenile": "Yenile",
+  "decreaseQuantity": "Azalt",
+  "increaseQuantity": "Artır",
+  "kapat": "Kapat",
+  "suspendedMealsEmptyDescription": "Askıya aldığınız yemek planları burada görünecek.",
+  "ara": "Ara",
+  "ratingLabel": "{count} yıldız",
+  "@ratingLabel": {
+    "description": "Star rating tooltip label",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
   "atanan": "Atanan",
   "beklemede": "Beklemede",
   "durum": "Durum",
@@ -1054,6 +1074,20 @@
   "onboardingLiveMenusDescription": "Güncel menülere anında eriş.",
   "onboardingContributeTitle": "Katkıda Bulun",
   "onboardingContributeDescription": "Topluluk için fiyatları doğrula ve güncelle.",
+  "onboardingPriceTitle": "Şehrin Fiyatlarını\nSen Belirle",
+  "onboardingPriceBody1": "Restoranları gerçek fiyatlarıyla keşfet",
+  "onboardingPriceBody2": "Fiyat geçmişini ve şehir ortalamasını gör",
+  "onboardingPriceBody3": "Bütçene göre filtrele, tasarruf et",
+  "onboardingCommunityTitle": "Topluluğun Gücü",
+  "onboardingCommunitySubtitle": "Her fiyat doğrulaması herkese yardım eder",
+  "onboardingCommunityBody1": "Gerçek kullanıcılar menüleri güncel tutar",
+  "onboardingCommunityBody2": "Fiyat sapmaları anında tespit edilir",
+  "onboardingCommunityBody3": "Katkın için XP ve rozetler kazan",
+  "onboardingNotificationTitle": "Anlık Bildirimler",
+  "onboardingNotificationDescription": "Favori mekanlarındaki fiyat değişikliklerini, kampanyaları ve grup taleplerini anında öğren.",
+  "onboardingNotificationsEnabled": "Bildirimler etkinleştirildi",
+  "onboardingAllowNotifications": "Bildirimlere İzin Ver",
+  "onboardingSkipNotifications": "Şimdi değil",
   "getStarted": "Başlayalım",
   "continueAction": "Devam",
   "register": "Kayıt Ol",
@@ -2049,6 +2083,7 @@
   "businessReviewsOwnersCanOnlyReply": "İşletme sahipleri yalnızca yorumlara cevap verebilir.",
   "sortNewest": "En yeni",
   "sortMostHelpful": "En faydalı",
+  "sortVerified": "Doğrulanmış",
   "businessReviewsQualityLabel": "Kalite skoru: {score}",
   "@businessReviewsQualityLabel": {
     "placeholders": {
@@ -4986,5 +5021,56 @@
   },
   "@vatIncluded": {
     "description": "Auto metadata for vatIncluded"
-  }
+  },
+  "businessViewingNow": "{count} kişi şu an bakıyor",
+  "@businessViewingNow": {
+    "description": "Number of people currently viewing this business page",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "delete": "Sil",
+  "@delete": {"description": "Generic delete action"},
+  "remove": "Kaldır",
+  "@remove": {"description": "Generic remove action"},
+  "create": "Oluştur",
+  "@create": {"description": "Generic create action"},
+  "required": "Bu alan zorunludur",
+  "@required": {"description": "Validation error for required field"},
+  "collabListsTitle": "Ortak Listelerim",
+  "@collabListsTitle": {"description": "Collab lists page title"},
+  "collabListCreate": "Liste Oluştur",
+  "@collabListCreate": {"description": "Create collab list button"},
+  "collabListsEmpty": "Henüz liste yok",
+  "@collabListsEmpty": {"description": "Empty state title for collab lists"},
+  "collabListsEmptyDesc": "Arkadaşlarınla ortak listeler oluştur ve favori mekanları birlikte oylayın.",
+  "@collabListsEmptyDesc": {"description": "Empty state description for collab lists"},
+  "collabListNameLabel": "Liste adı",
+  "@collabListNameLabel": {"description": "Collab list name field label"},
+  "collabListDescLabel": "Açıklama (isteğe bağlı)",
+  "@collabListDescLabel": {"description": "Collab list description field label"},
+  "collabListItemsEmpty": "Liste boş",
+  "@collabListItemsEmpty": {"description": "Empty state for items inside a collab list"},
+  "collabListItemsEmptyDesc": "İşletme sayfasından bu listeye ekleyebilirsin.",
+  "@collabListItemsEmptyDesc": {"description": "Empty state description for collab list items"},
+  "collabListShare": "Davet Bağlantısını Kopyala",
+  "@collabListShare": {"description": "Share collab list action"},
+  "collabListDelete": "Listeyi Sil",
+  "@collabListDelete": {"description": "Delete collab list action"},
+  "collabListDeleteConfirm": "Bu listeyi ve tüm içeriğini silmek istediğinden emin misin?",
+  "@collabListDeleteConfirm": {"description": "Delete collab list confirmation"},
+  "collabListLeave": "Listeden Ayrıl",
+  "@collabListLeave": {"description": "Leave collab list action"},
+  "collabListLeaveConfirm": "Bu listeden ayrılmak istediğinden emin misin?",
+  "@collabListLeaveConfirm": {"description": "Leave collab list confirmation"},
+  "collabListLinkCopied": "Davet bağlantısı kopyalandı",
+  "@collabListLinkCopied": {"description": "Snackbar when invite link is copied"},
+  "collabListJoining": "Listeye katılınıyor...",
+  "@collabListJoining": {"description": "Joining a collab list via invite token"},
+  "collabListInvalidInvite": "Geçersiz davet bağlantısı.",
+  "@collabListInvalidInvite": {"description": "Error when invite token is invalid"},
+  "goToMyLists": "Listelerime Git",
+  "@goToMyLists": {"description": "Navigate to collab lists page"}
 }

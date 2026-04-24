@@ -12,6 +12,7 @@ import '../../../core/search/query_normalizer.dart';
 import '../data/search_repository.dart';
 import 'discovery_search_state.dart';
 import '../../../core/storage/location_prefs.dart';
+import '../../taste_twin/data/taste_twin_repository.dart';
 
 final discoverySearchProvider =
     NotifierProvider<DiscoverySearchNotifier, DiscoverySearchState>(
@@ -24,6 +25,10 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
   int _loadMoreId = 0;
   Timer? _debounce;
   bool _homeTtiLogged = false;
+
+  /// Cached set of business IDs recommended by Taste Twin.
+  /// Populated lazily when tasteTwinEnabled is toggled on and cleared on toggle off.
+  Set<String> _tasteTwinBusinessIds = const {};
 
   @override
   DiscoverySearchState build() {
@@ -143,7 +148,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
       return;
     }
     if (q.trim().isEmpty) return;
-    _debounce = Timer(const Duration(milliseconds: 300), () {
+    _debounce = Timer(const Duration(milliseconds: 500), () {
       unawaited(loadInitial());
     });
   }
@@ -159,6 +164,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
     bool? openNow,
     bool? recentPriceBoost,
     List<String>? mealCardKeys,
+    Object? maxBudgetCents = _noChange,
   }) async {
     state = state.copyWith(
       city: city ?? state.city,
@@ -171,6 +177,9 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
       openNow: openNow ?? state.openNow,
       recentPriceBoost: recentPriceBoost ?? state.recentPriceBoost,
       mealCardKeys: mealCardKeys ?? state.mealCardKeys,
+      maxBudgetCents: identical(maxBudgetCents, _noChange)
+          ? state.maxBudgetCents
+          : maxBudgetCents as int?,
     );
     await loadInitial();
   }
@@ -255,6 +264,44 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
   Future<void> setRadius(int km) async {
     state = state.copyWith(radiusKm: km);
     await loadInitial();
+  }
+
+  /// Enables or disables Taste Twin feed boosting.
+  /// When enabled, fetches the top taste match's recommended businesses and
+  /// boosts them in `_scoreOf`. Requires the user to be authenticated; silently
+  /// falls back to standard ranking if the RPC fails or the user has no matches.
+  Future<void> toggleTasteTwin({required bool enabled}) async {
+    if (state.tasteTwinEnabled == enabled) return;
+    state = state.copyWith(tasteTwinEnabled: enabled);
+    if (!enabled) {
+      _tasteTwinBusinessIds = const {};
+      await loadInitial();
+      return;
+    }
+    // Populate the boost set before refreshing the feed.
+    await _loadTasteTwinBoostIds();
+    await loadInitial();
+  }
+
+  Future<void> _loadTasteTwinBoostIds() async {
+    try {
+      final repo = ref.read(tasteTwinRepositoryProvider);
+      final matches = await repo.fetchMatches(limit: 1, minOverlap: 3);
+      if (matches.isEmpty) {
+        _tasteTwinBusinessIds = const {};
+        return;
+      }
+      final topMatch = matches.first;
+      final recs = await repo.fetchRecommendations(
+        matchUserId: topMatch.userId,
+        limit: 20,
+      );
+      _tasteTwinBusinessIds = recs.map((r) => r.businessId).toSet();
+      _dbg('_loadTasteTwinBoostIds: ${_tasteTwinBusinessIds.length} business IDs');
+    } catch (e) {
+      _dbg('_loadTasteTwinBoostIds:error $e — falling back to empty set');
+      _tasteTwinBusinessIds = const {};
+    }
   }
 
   Future<void> toggleOpenNow(bool v) async {
@@ -380,6 +427,16 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
       _dbg('_postProcess:priceTier ${state.priceTier.name} -> ${list.length}');
     }
 
+    if (state.hasBudgetFilter) {
+      list = list
+          .where((b) =>
+              b.medianPriceCents != null &&
+              b.medianPriceCents! > 0 &&
+              b.medianPriceCents! <= state.maxBudgetCents!)
+          .toList();
+      _dbg('_postProcess:maxBudget ${state.maxBudgetCents} -> ${list.length}');
+    }
+
     list.sort((a, b) => _scoreOf(b).compareTo(_scoreOf(a)));
     if (state.sortBy == DiscoverySort.recommended) {
       list = _prioritizeInstantCandidates(list);
@@ -429,13 +486,19 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
     final trustScore = _trustScore(b.trustScore);
     final ownerBoost = _ownerVerificationBoost(b.ownerVerified);
     final freshnessPenalty = _freshnessPenalty(b.recentPriceVerifiedCount);
+    // Taste Twin boost: +0.12 for businesses recommended by the top taste match.
+    final tasteTwinBoost =
+        state.tasteTwinEnabled && _tasteTwinBusinessIds.contains(b.id)
+        ? 0.12
+        : 0.0;
     final raw =
         (distanceScore * _distanceWeight +
             accuracyScore * _accuracyWeight +
             engagementScore * _engagementWeight +
             qualityScore * _qualityWeight +
             trustScore * _trustWeight) +
-        ownerBoost -
+        ownerBoost +
+        tasteTwinBoost -
         freshnessPenalty;
     return (raw.clamp(0, 1) * 100).toDouble();
   }
@@ -548,3 +611,5 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
     }
   }
 }
+
+const Object _noChange = Object();

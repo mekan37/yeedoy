@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_client.dart';
@@ -22,6 +23,7 @@ import '../../../features/shared/ui/achievements/achievement_visuals.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../domain/inbox_models.dart';
 import '../domain/inbox_provider.dart';
+import '../domain/push_notification_service.dart';
 import '../../../features/shared/ui/design_system.dart';
 
 final recentBusinessesProvider = FutureProvider<List<Business>>((ref) async {
@@ -47,6 +49,7 @@ class InboxPage extends ConsumerWidget {
     final recentBusinesses = ref.watch(recentBusinessesProvider);
     final favoriteChanges = ref.watch(favoritePriceChangesProvider);
     final userLocation = ref.watch(userLocationProvider);
+    final notificationsDenied = ref.watch(notificationsDeniedProvider);
     final user = ref.watch(userProvider);
     final moatSignalsAsync = user == null
         ? const AsyncValue<UserMoatSignals?>.data(null)
@@ -66,6 +69,7 @@ class InboxPage extends ConsumerWidget {
             child: Text(t.inboxMarkAllRead),
           ),
           IconButton(
+            tooltip: t.yenile,
             onPressed: () => controller.refresh(),
             icon: const Icon(Icons.refresh),
           ),
@@ -76,6 +80,11 @@ class InboxPage extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (notificationsDenied)
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: _NotificationDeniedBanner(),
+              ),
             if (st.error != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -107,12 +116,14 @@ class InboxPage extends ConsumerWidget {
                   description: t.inboxEmptyDescription,
                 ),
               for (final item in st.items) ...[
-                _buildInboxTile(
-                  context: context,
-                  ref: ref,
-                  controller: controller,
-                  item: item,
-                  unread: !st.isRead(item),
+                RepaintBoundary(
+                  child: _buildInboxTile(
+                    context: context,
+                    ref: ref,
+                    controller: controller,
+                    item: item,
+                    unread: !st.isRead(item),
+                  ),
                 ),
                 const SizedBox(height: 8),
               ],
@@ -172,6 +183,18 @@ Widget _buildInboxTile({
 
 String _messageForInboxItem(BuildContext context, InboxItem item) {
   final t = AppLocalizations.of(context);
+
+  if (item.type == 'favorite_price_changed') {
+    final prevCents = (item.meta['previous_price_cents'] as num?)?.toInt();
+    final newCents = (item.meta['matched_price_cents'] as num?)?.toInt();
+    if (prevCents != null && newCents != null && newCents < prevCents) {
+      final savingsCents = prevCents - newCents;
+      final savings = _formatCents(savingsCents);
+      return '${item.message} • $savings tasarruf';
+    }
+    return item.message;
+  }
+
   if (item.type != 'achievement_unlocked') return item.message;
   final xp = (item.meta['xp'] as num?)?.toInt();
   final level = (item.meta['level'] as num?)?.toInt();
@@ -182,6 +205,13 @@ String _messageForInboxItem(BuildContext context, InboxItem item) {
     parts.add(leveledUp ? t.inboxNewLevel(level) : t.inboxLevel(level));
   }
   return parts.join(' • ');
+}
+
+String _formatCents(int cents) {
+  final tl = cents ~/ 100;
+  final kr = cents % 100;
+  if (kr == 0) return '₺$tl';
+  return '₺$tl,${kr.toString().padLeft(2, '0')}';
 }
 
 class _InboxTile extends StatelessWidget {
@@ -750,5 +780,47 @@ String _lifecycleWarning(BuildContext context, String? status) {
   if (s == 'moved') return t.inboxBusinessMoved;
   if (s == 'temporarily_closed') return t.inboxBusinessTemporarilyClosed;
   return t.inboxBusinessStatusUpdated;
+}
+
+class _NotificationDeniedBanner extends StatelessWidget {
+  const _NotificationDeniedBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppColors.warning.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.notifications_off_outlined,
+              color: AppColors.warning, size: 20),
+          const SizedBox(width: 10),
+          const Expanded(
+            child: Text(
+              'Bildirimler kapalı. Fiyat değişikliklerini kaçırmamak için bildirimlere izin ver.',
+              style: TextStyle(fontSize: 12, color: AppColors.warning),
+            ),
+          ),
+          const SizedBox(width: 8),
+          GestureDetector(
+            onTap: () => launchUrl(Uri.parse('app-settings:')),
+            child: const Text(
+              'İzin ver',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.warning,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 

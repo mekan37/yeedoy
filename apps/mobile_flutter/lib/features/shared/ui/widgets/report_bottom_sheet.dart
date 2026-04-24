@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/colors.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../business/domain/report_controller.dart';
@@ -147,10 +148,7 @@ class _ReportBottomSheetState extends ConsumerState<ReportBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.report,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-          ),
+          Text(t.report, style: context.sectionTitleStyle),
           const SizedBox(height: 12),
           if (widget.businessId != null) ...[
             Text(

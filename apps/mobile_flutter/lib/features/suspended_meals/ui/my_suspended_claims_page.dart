@@ -106,12 +106,16 @@ class _MySuspendedClaimsPageState extends ConsumerState<MySuspendedClaimsPage> {
             if (st.isLoading && st.items.isEmpty)
               const _MySuspendedSkeleton()
             else if (!st.isLoading && st.items.isEmpty)
-              Center(child: Text(t.suspendedMealsNoRecords))
+              AppEmptyState(
+                icon: Icons.receipt_long_outlined,
+                title: t.suspendedMealsNoRecords,
+                description: t.suspendedMealsEmptyDescription,
+              )
             else
               Column(
                 children: [
                   for (final item in st.items) ...[
-                    _ClaimCard(item: item, onTap: () => _openDetails(item)),
+                    RepaintBoundary(child: _ClaimCard(item: item, onTap: () => _openDetails(item))),
                     const SizedBox(height: 10),
                   ],
                   if (st.isLoadingMore)

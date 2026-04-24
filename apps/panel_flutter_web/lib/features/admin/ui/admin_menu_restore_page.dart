@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
 import '../../../shared/ui/components/panel_page_header.dart';
@@ -112,14 +113,23 @@ class _AdminMenuRestorePageState extends ConsumerState<AdminMenuRestorePage> {
               ),
               data: (business) {
                 if (business == null) return const SizedBox.shrink();
-                return Card(
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.border),
+                  ),
                   child: ListTile(
-                    leading: const Icon(Icons.storefront_outlined),
-                    title: Text(business.name),
+                    leading: const Icon(Icons.storefront_outlined,
+                        color: AppColors.primary),
+                    title: Text(business.name,
+                        style: const TextStyle(fontWeight: FontWeight.w700)),
                     subtitle: Text(_businessLocation(business)),
                     trailing: Text(
                       business.id,
-                      style: const TextStyle(fontSize: 12),
+                      style: const TextStyle(
+                          fontSize: 12, color: AppColors.muted),
                     ),
                   ),
                 );
@@ -149,19 +159,28 @@ class _AdminMenuRestorePageState extends ConsumerState<AdminMenuRestorePage> {
                     description: l10n.adminMenuRestoreNoBusinessDescription,
                   );
                 }
-                return Card(
+                return Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.border),
+                  ),
                   child: Column(
                     children: [
                       for (final item in items)
                         ListTile(
-                          leading: const Icon(Icons.store_outlined),
-                          title: Text(item.name),
+                          leading: const Icon(Icons.store_outlined,
+                              color: AppColors.slate),
+                          title: Text(item.name,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w700)),
                           subtitle: Text(_businessLocation(item)),
                           trailing: TextButton(
                             onPressed: () => setState(() {
                               _selectedBusinessId = item.id;
                             }),
-                            child: Text(l10n.adminMenuRestoreSelectBusinessAction),
+                            child: Text(
+                                l10n.adminMenuRestoreSelectBusinessAction),
                           ),
                         ),
                     ],

@@ -106,14 +106,18 @@ class _MenuItemIngredientsSectionState
   Widget build(BuildContext context) {
     final dataAsync = ref.watch(_ingredientDataProvider(widget.itemId));
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
               children: [
                 const Icon(Icons.restaurant_menu_outlined,
                     size: 18, color: AppColors.primary),
@@ -166,7 +170,6 @@ class _MenuItemIngredientsSectionState
             ),
           ],
         ),
-      ),
     );
   }
 }

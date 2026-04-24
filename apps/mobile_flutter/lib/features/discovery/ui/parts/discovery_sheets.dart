@@ -17,7 +17,7 @@ class _TodayPickSheet extends ConsumerWidget {
           children: [
             Text(
               t.whatToEatTitle,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+              style: context.sectionTitleStyle,
             ),
             const SizedBox(height: 12),
             if (state.loading)
@@ -178,7 +178,7 @@ class _WhatToEatSheetState extends ConsumerState<_WhatToEatSheet> {
           children: [
             Text(
               t.whatToEatTitle,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+              style: context.sectionTitleStyle,
             ),
             const SizedBox(height: 4),
             Text(
@@ -194,6 +194,7 @@ class _WhatToEatSheetState extends ConsumerState<_WhatToEatSheet> {
             Row(
               children: [
                 IconButton(
+                  tooltip: t.decreaseQuantity,
                   onPressed: _partySize <= 1
                       ? null
                       : () => setState(() => _partySize--),
@@ -204,6 +205,7 @@ class _WhatToEatSheetState extends ConsumerState<_WhatToEatSheet> {
                   style: const TextStyle(fontWeight: FontWeight.w900),
                 ),
                 IconButton(
+                  tooltip: t.increaseQuantity,
                   onPressed: () => setState(() => _partySize++),
                   icon: const Icon(Icons.add_circle_outline),
                 ),

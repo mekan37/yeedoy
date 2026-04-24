@@ -17,6 +17,8 @@
     "verify:matrix:lint": "npm run lint:web && npm run lint:panel && npm run lint:mobile",
     "verify:matrix:build": "npm run build:web && npm run build:panel && npm run build:mobile",
     "verify:matrix": "npm run l10n:audit && npm run verify:matrix:lint && npm run test:smoke:web",
+    "ci": "npm run verify:matrix && npm --prefix apps/mobile_flutter run test && npm --prefix apps/panel_flutter_web run test",
+    "hooks:install": "node tools/install_hooks.mjs",
     "clean": "node tools/workspace_ops.mjs clean",
     "build:web": "npm --prefix apps/web_next run build",
     "build:panel": "npm --prefix apps/panel_flutter_web run build",

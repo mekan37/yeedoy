@@ -46,7 +46,7 @@ class _QueueDecisionSupportCard extends StatelessWidget {
               l10n.adminQueueDecisionSupportEmpty,
               style: Theme.of(
                 context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.black54),
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
             ),
           if ((support.pendingReasonCode ?? '').isNotEmpty)
             _DetailLine(
@@ -128,7 +128,7 @@ class _QueueDecisionHistoryCard extends StatelessWidget {
                 ),
                 style: Theme.of(
                   context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.black54),
+                ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
               ),
               if (summary.recentItems.isEmpty) ...[
                 const SizedBox(height: 10),
@@ -136,7 +136,7 @@ class _QueueDecisionHistoryCard extends StatelessWidget {
                   l10n.adminQueueDecisionHistoryEmpty,
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.black54),
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
                 ),
               ] else ...[
                 const SizedBox(height: 12),
@@ -170,7 +170,154 @@ class _QueueDecisionHistoryCard extends StatelessWidget {
           '${l10n.adminQueueDecisionHistoryError}: ${AppErrorMapper.message(error)}',
           style: Theme.of(
             context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.red.shade700),
+          ).textTheme.bodyMedium?.copyWith(color: AppColors.danger),
+        ),
+      ),
+    );
+  }
+}
+
+/// Mobile card view for a single queue item (used when viewport < 720px).
+class _QueueMobileListCard extends StatelessWidget {
+  const _QueueMobileListCard({
+    required this.item,
+    required this.isSelected,
+    required this.userId,
+    required this.onTap,
+    required this.onSelectChanged,
+    required this.onToggleAssignment,
+    this.onApprove,
+    this.onReject,
+  });
+
+  final AdminQueueItem item;
+  final bool isSelected;
+  final String? userId;
+  final VoidCallback onTap;
+  final ValueChanged<bool?> onSelectChanged;
+  final VoidCallback onToggleAssignment;
+  final VoidCallback? onApprove;
+  final VoidCallback? onReject;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? AppColors.primary.withValues(alpha: 0.06)
+              : AppColors.card,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? AppColors.primary.withValues(alpha: 0.4) : AppColors.border,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Checkbox(
+                  value: isSelected,
+                  onChanged: onSelectChanged,
+                  visualDensity: VisualDensity.compact,
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Wrap(
+                    spacing: 6,
+                    runSpacing: 4,
+                    children: [
+                      _StatusPill(label: _typeLabel(context, item.type)),
+                      _StatusPill(label: _statusLabel(context, item.status)),
+                      _SlaBadge(
+                        label: _slaLabel(context, item),
+                        breached: item.slaBreached,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              item.title,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            if (item.subtitle.trim().isNotEmpty) ...[
+              const SizedBox(height: 2),
+              Text(
+                item.subtitle,
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                const Icon(Icons.location_on_outlined, size: 14, color: AppColors.muted),
+                const SizedBox(width: 2),
+                Expanded(
+                  child: Text(
+                    _cityValue(item),
+                    style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Text(
+                  _fmtDateTime(item.createdAt),
+                  style: const TextStyle(color: AppColors.muted, fontSize: 11),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  tooltip: item.assignedTo == null
+                      ? l10n.adminQueueAssignToMeAction
+                      : l10n.adminQueueUnassignAction,
+                  onPressed: onToggleAssignment,
+                  icon: Icon(
+                    item.assignedTo == null
+                        ? Icons.assignment_ind_outlined
+                        : Icons.assignment_late_outlined,
+                    size: 20,
+                  ),
+                ),
+                if (onApprove != null)
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    tooltip: l10n.approved,
+                    onPressed: onApprove,
+                    icon: const Icon(Icons.check_circle_outline, size: 20),
+                  ),
+                if (onReject != null)
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    tooltip: l10n.rejected,
+                    onPressed: onReject,
+                    icon: const Icon(Icons.cancel_outlined, size: 20),
+                  ),
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  tooltip: l10n.adminQueueOpenDetailsAction,
+                  onPressed: onTap,
+                  icon: const Icon(Icons.chevron_right, size: 20),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -194,9 +341,9 @@ class _QueueInfoCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.03),
+        color: AppColors.bg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.black.withValues(alpha: 0.08)),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

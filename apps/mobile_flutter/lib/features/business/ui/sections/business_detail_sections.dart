@@ -155,6 +155,7 @@ class BusinessActionsSection extends ConsumerWidget {
                   return;
                 }
                 try {
+                  HapticFeedback.lightImpact();
                   await ref
                       .read(favoritesControllerProvider.notifier)
                       .toggleFavorite(business.id);
@@ -365,38 +366,111 @@ class BusinessMenusSection extends ConsumerWidget {
   }
 }
 
-class BusinessCrowdSection extends ConsumerWidget {
+class BusinessCrowdSection extends ConsumerStatefulWidget {
   const BusinessCrowdSection({super.key, required this.businessId});
   final String businessId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BusinessCrowdSection> createState() => _BusinessCrowdSectionState();
+}
+
+class _BusinessCrowdSectionState extends ConsumerState<BusinessCrowdSection> {
+  bool _submitting = false;
+
+  Future<void> _report(String crowd) async {
+    if (_submitting) return;
+    setState(() => _submitting = true);
+    try {
+      await ref
+          .read(businessCrowdProvider(widget.businessId).notifier)
+          .submitPresence(crowd);
+      ref.invalidate(businessCrowdProvider(widget.businessId));
+    } catch (_) {
+      // silent — best-effort crowd report
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final crowdAsync = ref.watch(businessCrowdProvider(businessId));
+    final crowdAsync = ref.watch(businessCrowdProvider(widget.businessId));
     return AppCard(
       child: crowdAsync.when(
         loading: () => const AppSkeletonLine(width: 150),
-        error: (error, _) => AppEmptyState(
+        error: (error, s) => AppEmptyState(
           icon: Icons.wifi_off_outlined,
           title: t.crowdInfoUnavailable,
           description:
               '${AppErrorMapper.message(error)}. ${t.connectionProblemTryAgain}',
           ctaLabel: AppLocalizations.of(context).retry,
-          onCta: () => ref.invalidate(businessCrowdProvider(businessId)),
+          onCta: () => ref.invalidate(businessCrowdProvider(widget.businessId)),
         ),
-        data: (status) => Row(
+        data: (status) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.groups_outlined, color: AppColors.textStrong),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                t.liveCrowdLabel(status.state),
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
+            Row(
+              children: [
+                const Icon(Icons.groups_outlined, color: AppColors.textStrong),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    t.liveCrowdLabel(status.state),
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                ),
+              ],
             ),
+            if (status.userCanReport) ...[
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                children: [
+                  _CrowdChip(
+                    label: 'Sakin',
+                    icon: Icons.sentiment_satisfied_outlined,
+                    onTap: _submitting ? null : () => _report('quiet'),
+                  ),
+                  _CrowdChip(
+                    label: 'Orta',
+                    icon: Icons.sentiment_neutral_outlined,
+                    onTap: _submitting ? null : () => _report('moderate'),
+                  ),
+                  _CrowdChip(
+                    label: 'Kalabalık',
+                    icon: Icons.sentiment_very_dissatisfied_outlined,
+                    onTap: _submitting ? null : () => _report('busy'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Şu anki kalabalığı bildirerek diğer kullanıcılara yardım et.',
+                style: const TextStyle(color: AppColors.muted, fontSize: 11),
+              ),
+            ],
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CrowdChip extends StatelessWidget {
+  const _CrowdChip({required this.label, required this.icon, this.onTap});
+
+  final String label;
+  final IconData icon;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ActionChip(
+      avatar: Icon(icon, size: 14),
+      label: Text(label, style: const TextStyle(fontSize: 12)),
+      onPressed: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: 4),
     );
   }
 }
@@ -502,19 +576,42 @@ class BusinessMealCardsSection extends ConsumerWidget {
 }
 
 class BusinessPerksSection extends ConsumerWidget {
-  const BusinessPerksSection({super.key, required this.businessId});
+  const BusinessPerksSection({
+    super.key,
+    required this.businessId,
+    required this.businessName,
+  });
   final String businessId;
+  final String businessName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    final perksAsync = ref.watch(businessPerksProvider(businessId));
+    final hasPerks = perksAsync.asData?.value.isNotEmpty ?? false;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.activeCampaigns,
-            style: TextStyle(fontWeight: FontWeight.w900),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  t.activeCampaigns,
+                  style: const TextStyle(fontWeight: FontWeight.w900),
+                ),
+              ),
+              if (hasPerks)
+                TextButton(
+                  onPressed: () => context.push(
+                    Uri(
+                      path: '/perks/$businessId',
+                      queryParameters: {'name': businessName},
+                    ).toString(),
+                  ),
+                  child: const Text('Tümünü gör'),
+                ),
+            ],
           ),
           const SizedBox(height: 8),
           _PerksSummaryLine(businessId: businessId),
@@ -709,6 +806,207 @@ class _PriceChangeMiniChart extends StatelessWidget {
           if (i != values.length - 1) const SizedBox(width: 8),
         ],
       ],
+    );
+  }
+}
+
+class BusinessReviewPhotosSection extends ConsumerWidget {
+  const BusinessReviewPhotosSection({super.key, required this.businessId});
+  final String businessId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(businessReviewPhotosProvider(businessId));
+    return async.when(
+      loading: () => const SizedBox.shrink(),
+      error: (e, _) => const SizedBox.shrink(),
+      data: (urls) {
+        if (urls.isEmpty) return const SizedBox.shrink();
+        final t = AppLocalizations.of(context);
+        final isLocTr = t.localeName.startsWith('tr');
+        return AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      isLocTr ? 'Topluluk Fotoğrafları' : 'Community Photos',
+                      style: const TextStyle(fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                  if (urls.length >= 6)
+                    TextButton(
+                      onPressed: () =>
+                          _openAllPhotos(context, urls),
+                      child: Text(
+                        isLocTr ? 'Tümünü gör' : 'See all',
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 90,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: urls.length,
+                  separatorBuilder: (context, i) => const SizedBox(width: 6),
+                  itemBuilder: (context, i) => GestureDetector(
+                    onTap: () => _openAllPhotos(context, urls, initial: i),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        urls[i],
+                        width: 90,
+                        height: 90,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, e, stack) => Container(
+                          width: 90,
+                          height: 90,
+                          color: AppColors.card,
+                          child: const Icon(
+                            Icons.broken_image_outlined,
+                            color: AppColors.muted,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _openAllPhotos(BuildContext context, List<String> urls,
+      {int initial = 0}) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (_) =>
+            _BusinessPhotosViewer(urls: urls, initialIndex: initial),
+      ),
+    );
+  }
+}
+
+class _BusinessPhotosViewer extends StatefulWidget {
+  const _BusinessPhotosViewer(
+      {required this.urls, required this.initialIndex});
+  final List<String> urls;
+  final int initialIndex;
+
+  @override
+  State<_BusinessPhotosViewer> createState() => _BusinessPhotosViewerState();
+}
+
+class _BusinessPhotosViewerState extends State<_BusinessPhotosViewer> {
+  late final PageController _ctrl;
+  late int _current;
+
+  @override
+  void initState() {
+    super.initState();
+    _current = widget.initialIndex;
+    _ctrl = PageController(initialPage: widget.initialIndex);
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isLocTr = AppLocalizations.of(context).localeName.startsWith('tr');
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        title: Text(
+          isLocTr
+              ? 'Fotoğraf ${_current + 1} / ${widget.urls.length}'
+              : 'Photo ${_current + 1} / ${widget.urls.length}',
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+      body: PageView.builder(
+        controller: _ctrl,
+        itemCount: widget.urls.length,
+        onPageChanged: (i) => setState(() => _current = i),
+        itemBuilder: (context, i) => InteractiveViewer(
+          child: Center(
+            child: Image.network(
+              widget.urls[i],
+              fit: BoxFit.contain,
+              errorBuilder: (context, e, stack) => const Icon(
+                Icons.broken_image_outlined,
+                color: Colors.white54,
+                size: 64,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BusinessFrequentTagsSection extends ConsumerWidget {
+  const BusinessFrequentTagsSection({super.key, required this.businessId});
+  final String businessId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tagsAsync = ref.watch(_businessFrequentTagsProvider(businessId));
+    return tagsAsync.maybeWhen(
+      data: (tags) {
+        if (tags.isEmpty) return const SizedBox.shrink();
+        final t = AppLocalizations.of(context);
+        final isLocTr = t.localeName.startsWith('tr');
+        return AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                isLocTr ? 'Sıkça Bahsedilen' : 'Frequently Mentioned',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textStrong,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final tag in tags)
+                    Chip(
+                      label: Text(
+                        tag.count >= 5 ? '${tag.tag} (${tag.count})' : tag.tag,
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      backgroundColor: AppColors.primarySoft,
+                      side: BorderSide(
+                        color: AppColors.primary.withValues(alpha: 0.25),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+      orElse: () => const SizedBox.shrink(),
     );
   }
 }

@@ -10,8 +10,8 @@ import '../../../core/network/supabase_provider.dart';
 import '../../../core/navigation/public_menu_url.dart';
 import '../../../core/web/web_utils.dart';
 import '../../owner_dashboard/domain/owner_growth_provider.dart';
-import '../../../shared/ui/components/app_scaffold.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../data/owner_business_repository.dart';
 import '../domain/owner_business_models.dart';
 import '../domain/owner_business_providers.dart';
@@ -32,17 +32,7 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
   Widget build(BuildContext context) {
     final businessesAsync = ref.watch(ownerBusinessesProvider);
 
-    return AppScaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.ownerBusinessesTitle),
-        actions: [
-          IconButton(
-            onPressed: () => ref.invalidate(ownerBusinessesProvider),
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
-      ),
-      body: businessesAsync.when(
+    return businessesAsync.when(
         loading: () => const Padding(
           padding: EdgeInsets.all(16),
           child: OwnerPanelFeedback.loading(),
@@ -119,8 +109,15 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
             child: CustomScrollView(
               cacheExtent: 1200,
               slivers: [
+                SliverToBoxAdapter(
+                  child: PanelPageHeader(
+                    eyebrow: 'Owner',
+                    title: Text(context.l10n.ownerBusinessesTitle),
+                    description: 'Sahip olduğunuz işletmeleri yönetin, menüye erişin ve performansı takip edin.',
+                  ),
+                ),
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       if (chains.isNotEmpty) ...[
@@ -209,8 +206,7 @@ class _OwnerBusinessesPageState extends ConsumerState<OwnerBusinessesPage> {
             ),
           );
         },
-      ),
-    );
+      );
   }
 
   Future<void> _openCommerceLinksSheet(String businessId) async {
@@ -442,116 +438,180 @@ class _BusinessCard extends StatelessWidget {
       'rejected' => AppColors.danger,
       _ => AppColors.warning,
     };
+    final statusIcon = switch (item.claimStatus) {
+      'approved' => Icons.check_circle_rounded,
+      'rejected' => Icons.cancel_rounded,
+      _ => Icons.schedule_rounded,
+    };
     final roleLabel = item.ownerRole == 'owner'
         ? context.l10n.ownerRoleOwner
         : context.l10n.ownerRoleManager;
     final location = '${item.district} • ${item.city}';
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    item.businessName,
-                    style: const TextStyle(fontWeight: FontWeight.w900),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: selected
+              ? AppColors.primary.withValues(alpha: 0.4)
+              : AppColors.border,
+          width: selected ? 1.5 : 1,
+        ),
+        boxShadow: [
+          if (selected)
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            )
+          else
+            const BoxShadow(
+              color: AppColors.shadow,
+              blurRadius: 4,
+              offset: Offset(0, 1),
+            ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Status accent bar
+              Container(width: 4, color: statusColor),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              item.businessName,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.textStrong,
+                              ),
+                            ),
+                          ),
+                          if (selected)
+                            Container(
+                              margin: const EdgeInsets.only(left: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: AppColors.primarySoft,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Text(
+                                'Seçili',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppColors.bg,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: AppColors.border),
+                            ),
+                            child: Text(
+                              roleLabel,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.slate,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        item.branchLabel?.trim().isNotEmpty == true
+                            ? '${item.branchLabel} • $location'
+                            : location,
+                        style: const TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 13,
+                        ),
+                      ),
+                      if (item.chainName?.trim().isNotEmpty == true) ...[
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            const Icon(Icons.hub_rounded,
+                                size: 12, color: AppColors.muted),
+                            const SizedBox(width: 4),
+                            Text(
+                              context.l10n.ownerChainPrefix(item.chainName!),
+                              style: const TextStyle(
+                                  color: AppColors.muted, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Icon(statusIcon, size: 14, color: statusColor),
+                          const SizedBox(width: 4),
+                          Text(
+                            _statusLabel(context, item.claimStatus),
+                            style: TextStyle(
+                              color: statusColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            _fmtDate(item.claimedAt),
+                            style: const TextStyle(
+                                color: AppColors.muted, fontSize: 11),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          OutlinedButton.icon(
+                            onPressed: onCreateQrMenu,
+                            icon: const Icon(Icons.qr_code_2_rounded, size: 16),
+                            label: Text(context.l10n.adminBusinessesQrMenuAction),
+                            style: OutlinedButton.styleFrom(
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ),
+                          FilledButton.icon(
+                            onPressed: onOpenPublicMenu,
+                            icon: const Icon(Icons.open_in_new_rounded, size: 16),
+                            label: Text(context.l10n.ownerPublicMenuLinkAction),
+                            style: FilledButton.styleFrom(
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.cardAlt,
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: AppColors.border),
-                  ),
-                  child: Text(
-                    roleLabel,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-                if (selected) ...[
-                  const SizedBox(width: 8),
-                  const Icon(
-                    Icons.check_circle,
-                    color: AppColors.success,
-                    size: 18,
-                  ),
-                ],
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text(
-              item.branchLabel?.trim().isNotEmpty == true
-                  ? '${item.branchLabel} • $location'
-                  : location,
-              style: const TextStyle(color: AppColors.muted),
-            ),
-            if (item.chainName?.trim().isNotEmpty == true) ...[
-              const SizedBox(height: 4),
-              Text(
-                context.l10n.ownerChainPrefix(item.chainName!),
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
               ),
             ],
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: statusColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(
-                      color: statusColor.withValues(alpha: 0.4),
-                    ),
-                  ),
-                  child: Text(
-                    _statusLabel(context, item.claimStatus),
-                    style: TextStyle(
-                      color: statusColor,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  _fmtDate(item.claimedAt),
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: onCreateQrMenu,
-                  icon: const Icon(Icons.qr_code_2_outlined),
-                  label: Text(context.l10n.adminBusinessesQrMenuAction),
-                ),
-                FilledButton.icon(
-                  onPressed: onOpenPublicMenu,
-                  icon: const Icon(Icons.open_in_new),
-                  label: Text(context.l10n.ownerPublicMenuLinkAction),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -574,59 +634,147 @@ class _BranchQuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Wrap(
-          spacing: 8,
-          runSpacing: 8,
+    final l10n = context.l10n;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'HIZ­LI İŞLEMLER',
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w800,
+            color: AppColors.muted,
+            letterSpacing: 0.8,
+          ),
+        ),
+        const SizedBox(height: 8),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final cols = constraints.maxWidth >= 720 ? 4 : 2;
+            return GridView.count(
+              crossAxisCount: cols,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 2.4,
+              children: [
+                _QuickActionTile(
+                  icon: Icons.menu_book_rounded,
+                  label: l10n.ownerMenuAction,
+                  primary: true,
+                  onTap: () => context
+                      .go('/owner/menus?businessId=$selectedBusinessId'),
+                ),
+                _QuickActionTile(
+                  icon: Icons.open_in_new_rounded,
+                  label: l10n.ownerPublicMenuLinkAction,
+                  primary: true,
+                  onTap: onOpenPublicMenu,
+                ),
+                _QuickActionTile(
+                  icon: Icons.trending_up_rounded,
+                  label: l10n.ownerShellGrowthLabel,
+                  onTap: () => context
+                      .go('/owner/growth?businessId=$selectedBusinessId'),
+                ),
+                _QuickActionTile(
+                  icon: Icons.price_change_rounded,
+                  label: l10n.ownerPriceVerificationAction,
+                  onTap: () => context.go(
+                    '/owner/price-suggestions?businessId=$selectedBusinessId',
+                  ),
+                ),
+                _QuickActionTile(
+                  icon: Icons.qr_code_2_rounded,
+                  label: l10n.adminBusinessesQrMenuAction,
+                  onTap: onCreateQrMenu,
+                ),
+                _QuickActionTile(
+                  icon: Icons.link_rounded,
+                  label: l10n.ownerReservationOrderLinksAction,
+                  onTap: onEditCommerceLinks,
+                ),
+                _QuickActionTile(
+                  icon: Icons.group_add_rounded,
+                  label: ownerRole == 'manager'
+                      ? l10n.ownerRequestsOwnerOnly
+                      : l10n.ownerRequestsAction,
+                  disabled: ownerRole == 'manager',
+                  onTap: ownerRole == 'manager'
+                      ? null
+                      : () => context.go(
+                          '/owner/requests?businessId=$selectedBusinessId',
+                        ),
+                ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _QuickActionTile extends StatelessWidget {
+  const _QuickActionTile({
+    required this.icon,
+    required this.label,
+    this.onTap,
+    this.primary = false,
+    this.disabled = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback? onTap;
+  final bool primary;
+  final bool disabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final bg = disabled
+        ? AppColors.bg
+        : primary
+            ? AppColors.primary
+            : AppColors.card;
+    final fg = disabled
+        ? AppColors.muted
+        : primary
+            ? Colors.white
+            : AppColors.textStrong;
+    final iconFg = disabled
+        ? AppColors.muted
+        : primary
+            ? Colors.white
+            : AppColors.primary;
+    final border = disabled || primary ? Colors.transparent : AppColors.border;
+
+    return InkWell(
+      onTap: disabled ? null : onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: border),
+        ),
+        child: Row(
           children: [
-            FilledButton.icon(
-              onPressed: () =>
-                  context.go('/owner/menus?businessId=$selectedBusinessId'),
-              icon: const Icon(Icons.restaurant_menu),
-              label: Text(context.l10n.ownerMenuAction),
-            ),
-            OutlinedButton.icon(
-              onPressed: () => context.go(
-                '/owner/price-suggestions?businessId=$selectedBusinessId',
+            Icon(icon, size: 18, color: iconFg),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: fg,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              icon: const Icon(Icons.price_change_outlined),
-              label: Text(context.l10n.ownerPriceVerificationAction),
-            ),
-            OutlinedButton.icon(
-              onPressed: () =>
-                  context.go('/owner/growth?businessId=$selectedBusinessId'),
-              icon: const Icon(Icons.trending_up_outlined),
-              label: Text(context.l10n.ownerShellGrowthLabel),
-            ),
-            OutlinedButton.icon(
-              onPressed: ownerRole == 'manager'
-                  ? null
-                  : () => context.go(
-                      '/owner/requests?businessId=$selectedBusinessId',
-                    ),
-              icon: const Icon(Icons.groups_2_outlined),
-              label: Text(
-                ownerRole == 'manager'
-                    ? context.l10n.ownerRequestsOwnerOnly
-                    : context.l10n.ownerRequestsAction,
-              ),
-            ),
-            OutlinedButton.icon(
-              onPressed: onEditCommerceLinks,
-              icon: const Icon(Icons.link_outlined),
-              label: Text(context.l10n.ownerReservationOrderLinksAction),
-            ),
-            OutlinedButton.icon(
-              onPressed: onCreateQrMenu,
-              icon: const Icon(Icons.qr_code_2_outlined),
-              label: Text(context.l10n.adminBusinessesQrMenuAction),
-            ),
-            FilledButton.icon(
-              onPressed: onOpenPublicMenu,
-              icon: const Icon(Icons.open_in_new),
-              label: Text(context.l10n.ownerPublicMenuLinkAction),
             ),
           ],
         ),
@@ -642,10 +790,14 @@ class _OwnerGrowthCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final growthAsync = ref.watch(ownerGrowthSummaryProvider(businessId));
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: growthAsync.when(
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: growthAsync.when(
           loading: () => const LinearProgressIndicator(minHeight: 6),
           error: (e, _) => Text(
             AppErrorMapper.message(e),
@@ -720,7 +872,6 @@ class _OwnerGrowthCard extends ConsumerWidget {
               ],
             );
           },
-        ),
       ),
     );
   }
@@ -751,15 +902,33 @@ class _MetricPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.bg,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.border),
       ),
-      child: Text(
-        '$label: $value',
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: AppColors.textStrong,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 11,
+              color: AppColors.muted,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

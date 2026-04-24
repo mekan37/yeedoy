@@ -3395,6 +3395,36 @@ abstract class AppLocalizations {
   /// **'Gün'**
   String get adminGrowthDayColumn;
 
+  /// L10n key: adminGrowthFunnelTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı hunisi'**
+  String get adminGrowthFunnelTitle;
+
+  /// L10n key: adminGrowthFunnelSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Keşif → Etkileşim → Dönüşüm (seçili dönem toplamı)'**
+  String get adminGrowthFunnelSubtitle;
+
+  /// L10n key: adminGrowthFunnelDiscovery
+  ///
+  /// In tr, this message translates to:
+  /// **'Keşif'**
+  String get adminGrowthFunnelDiscovery;
+
+  /// L10n key: adminGrowthFunnelEngagement
+  ///
+  /// In tr, this message translates to:
+  /// **'Etkileşim'**
+  String get adminGrowthFunnelEngagement;
+
+  /// L10n key: adminGrowthFunnelConversion
+  ///
+  /// In tr, this message translates to:
+  /// **'Dönüşüm'**
+  String get adminGrowthFunnelConversion;
+
   /// L10n key: adminIncidentCenterTitle
   ///
   /// In tr, this message translates to:
@@ -3748,6 +3778,66 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Request Trace'**
   String get adminObservabilityRequestTraceTitle;
+
+  /// Admin observability edge maintenance section title
+  ///
+  /// In tr, this message translates to:
+  /// **'Edge operasyonları'**
+  String get adminObservabilityEdgeOpsTitle;
+
+  /// Admin observability edge maintenance summary
+  ///
+  /// In tr, this message translates to:
+  /// **'Panelden çıkmadan admin yetkili Supabase edge bakım işlerini çalıştır.'**
+  String get adminObservabilityEdgeOpsSummary;
+
+  /// Admin observability push dispatch card title
+  ///
+  /// In tr, this message translates to:
+  /// **'Push dispatch kuyruğu'**
+  String get adminObservabilityPushDispatchTitle;
+
+  /// Admin observability push dispatch description
+  ///
+  /// In tr, this message translates to:
+  /// **'Kuyruktaki bildirim işlerini dequeue edip push worker üzerinden gönderir.'**
+  String get adminObservabilityPushDispatchDescription;
+
+  /// Admin observability push dispatch action
+  ///
+  /// In tr, this message translates to:
+  /// **'Push dispatch çalıştır'**
+  String get adminObservabilityPushDispatchAction;
+
+  /// Admin observability temp purge title
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçici yükleme temizliği'**
+  String get adminObservabilityTempPurgeTitle;
+
+  /// Admin observability temp purge description
+  ///
+  /// In tr, this message translates to:
+  /// **'Silinmeyi bekleyen geçici upload storage queue kayıtlarını işler.'**
+  String get adminObservabilityTempPurgeDescription;
+
+  /// Admin observability temp purge action
+  ///
+  /// In tr, this message translates to:
+  /// **'Temizliği çalıştır'**
+  String get adminObservabilityTempPurgeAction;
+
+  /// Admin observability running button label
+  ///
+  /// In tr, this message translates to:
+  /// **'Çalışıyor...'**
+  String get adminObservabilityRunning;
+
+  /// Admin observability last run result
+  ///
+  /// In tr, this message translates to:
+  /// **'{label}: {summary}'**
+  String adminObservabilityLastRunResult(String label, String summary);
 
   /// L10n key: adminObservabilityRequestIdValue
   ///
@@ -8939,6 +9029,18 @@ abstract class AppLocalizations {
   /// **'İlçe fiyat farkı'**
   String get ownerGrowthDistrictGapLabel;
 
+  /// L10n key: ownerGrowthBarChartTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 30 gün — günlük trafik'**
+  String get ownerGrowthBarChartTitle;
+
+  /// L10n key: ownerGrowthBarChartSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü görüntüleme, QR tarama ve dışa tıklama karşılaştırması'**
+  String get ownerGrowthBarChartSubtitle;
+
   /// L10n key: ownerShellTrashLabel
   ///
   /// In tr, this message translates to:
@@ -9560,6 +9662,102 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'AI Analiz'**
   String get ownerShellAiAnalysisLabel;
+
+  /// L10n key: ownerShellReviewsLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumlar'**
+  String get ownerShellReviewsLabel;
+
+  /// L10n key: ownerReviewsTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Müşteri Yorumları'**
+  String get ownerReviewsTitle;
+
+  /// L10n key: ownerReviewsDescription
+  ///
+  /// In tr, this message translates to:
+  /// **'Gelen yorumları görüntüle ve yanıtla'**
+  String get ownerReviewsDescription;
+
+  /// L10n key: ownerReviewsReplyButton
+  ///
+  /// In tr, this message translates to:
+  /// **'Yanıtla'**
+  String get ownerReviewsReplyButton;
+
+  /// L10n key: ownerReviewsEditReplyButton
+  ///
+  /// In tr, this message translates to:
+  /// **'Yanıtı düzenle'**
+  String get ownerReviewsEditReplyButton;
+
+  /// L10n key: ownerReviewsDeleteReplyButton
+  ///
+  /// In tr, this message translates to:
+  /// **'Yanıtı sil'**
+  String get ownerReviewsDeleteReplyButton;
+
+  /// L10n key: ownerReviewsReplyHint
+  ///
+  /// In tr, this message translates to:
+  /// **'Müşteriye yanıtınızı yazın…'**
+  String get ownerReviewsReplyHint;
+
+  /// L10n key: ownerReviewsReplySaved
+  ///
+  /// In tr, this message translates to:
+  /// **'Yanıtınız kaydedildi.'**
+  String get ownerReviewsReplySaved;
+
+  /// L10n key: ownerReviewsReplyDeleted
+  ///
+  /// In tr, this message translates to:
+  /// **'Yanıt silindi.'**
+  String get ownerReviewsReplyDeleted;
+
+  /// L10n key: ownerReviewsOwnerReplyLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Yanıtı'**
+  String get ownerReviewsOwnerReplyLabel;
+
+  /// L10n key: ownerReviewsEmpty
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz yorum yok.'**
+  String get ownerReviewsEmpty;
+
+  /// L10n key: ownerReviewsReplyCancelButton
+  ///
+  /// In tr, this message translates to:
+  /// **'İptal'**
+  String get ownerReviewsReplyCancelButton;
+
+  /// L10n key: ownerReviewsReplySaveButton
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get ownerReviewsReplySaveButton;
+
+  /// Sort by newest
+  ///
+  /// In tr, this message translates to:
+  /// **'En yeni'**
+  String get sortNewest;
+
+  /// Sort by most helpful
+  ///
+  /// In tr, this message translates to:
+  /// **'En faydalı'**
+  String get sortMostHelpful;
+
+  /// Helpful vote count
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} faydalı'**
+  String helpfulCount(int count);
 }
 
 class _AppLocalizationsDelegate

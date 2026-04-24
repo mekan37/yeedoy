@@ -35,6 +35,18 @@ class _OwnerSectionEditorPageState
       OwnerSectionKey(widget.menu.id, widget.section.id);
   bool _bulkUpdating = false;
 
+  // Hızlı ekleme satırı
+  final _quickNameCtrl = TextEditingController();
+  final _quickPriceCtrl = TextEditingController();
+  bool _quickAdding = false;
+
+  @override
+  void dispose() {
+    _quickNameCtrl.dispose();
+    _quickPriceCtrl.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final st = ref.watch(ownerSectionItemsProvider(_key));
@@ -52,39 +64,65 @@ class _OwnerSectionEditorPageState
       body: RefreshIndicator(
         onRefresh: () async => controller.refresh(),
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
           children: [
-            Row(
-              children: [
-                Text(
-                  context.l10n.ownerProducts,
-                  style: TextStyle(fontWeight: FontWeight.w900),
-                ),
-                const Spacer(),
-                TextButton.icon(
-                  onPressed: st.items.isEmpty || _bulkUpdating
-                      ? null
-                      : () => _openBulkPriceSheet(st.items),
-                  icon: const Icon(Icons.tune),
-                  label: Text(
-                    _bulkUpdating
-                        ? context.l10n.ownerApplying
-                        : context.l10n.ownerBulkPrice,
+            // ── OCR / Hızlı İşlemler Kartı ──────────────────────────────
+            _QuickActionsCard(
+              bulkUpdating: _bulkUpdating,
+              hasItems: st.items.isNotEmpty,
+              onOcr: _openBulkImport,
+              onCsv: _bulkUpdating ? null : _openCsvImportSheet,
+              onBulkPrice: st.items.isEmpty || _bulkUpdating
+                  ? null
+                  : () => _openBulkPriceSheet(st.items),
+            ),
+            const SizedBox(height: 12),
+
+            // ── Hızlı ürün ekleme satırı ────────────────────────────────
+            _QuickAddRow(
+              nameCtrl: _quickNameCtrl,
+              priceCtrl: _quickPriceCtrl,
+              adding: _quickAdding,
+              onAdd: _quickAddItem,
+            ),
+            const SizedBox(height: 12),
+
+            // ── Ürün başlığı + Detaylı Ekle butonu ──────────────────────
+            Container(
+              padding: const EdgeInsets.fromLTRB(14, 10, 10, 10),
+              decoration: BoxDecoration(
+                color: AppColors.card,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.restaurant_menu,
+                    size: 16,
+                    color: AppColors.primary,
                   ),
-                ),
-                TextButton.icon(
-                  onPressed: _bulkUpdating ? null : _openCsvImportSheet,
-                  icon: const Icon(Icons.upload_file_outlined),
-                  label: Text(context.l10n.ownerCsvImport),
-                ),
-                TextButton.icon(
-                  onPressed: _openCreateItem,
-                  icon: const Icon(Icons.add),
-                  label: Text(context.l10n.ownerAddItem),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      context.l10n.ownerProducts,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textStrong,
+                      ),
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: _openCreateItem,
+                    icon: const Icon(Icons.add, size: 16),
+                    label: Text(context.l10n.ownerAddItem),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8),
+
+            // ── Hata / Yükleme / Liste ───────────────────────────────────
             if (st.error != null)
               _ErrorBox(
                 message: AppErrorMapper.message(st.error),
@@ -123,7 +161,58 @@ class _OwnerSectionEditorPageState
     );
   }
 
+  // ── Hızlı ekle (sadece ad + fiyat, oluştur → edit sheet aç) ────────────────
+  Future<void> _quickAddItem() async {
+    final name = _quickNameCtrl.text.trim();
+    if (name.length < 2) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.ownerItemNameMin2)),
+      );
+      return;
+    }
+    int? priceCents;
+    final priceText = _quickPriceCtrl.text.trim();
+    if (priceText.isNotEmpty) {
+      final parsed = double.tryParse(priceText.replaceAll(',', '.'));
+      if (parsed != null && parsed > 0) {
+        priceCents = (parsed * 100).round();
+      }
+    }
+    setState(() => _quickAdding = true);
+    try {
+      final newId = await ref
+          .read(ownerSectionItemsProvider(_key).notifier)
+          .createItem(name: name, priceCents: priceCents);
+      invalidateSection(
+        ref,
+        menuId: widget.menu.id,
+        sectionId: widget.section.id,
+      );
+      _quickNameCtrl.clear();
+      _quickPriceCtrl.clear();
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.ownerItemAdded)));
+
+      // Yeni oluşturulan ürünü bul → edit sheet aç (fotoğraf / AI eklemek için)
+      if (newId != null && newId.isNotEmpty) {
+        final items = ref.read(ownerSectionItemsProvider(_key)).items;
+        final created = items.where((i) => i.id == newId).firstOrNull;
+        if (created != null && mounted) {
+          await _openEditItem(created);
+        }
+      }
+    } catch (e) {
+      _showError(e);
+    } finally {
+      if (mounted) setState(() => _quickAdding = false);
+    }
+  }
+
+  // ── Detaylı oluştur → kaydet → edit sheet aç ────────────────────────────────
   Future<void> _openCreateItem() async {
+    String? newItemId;
     final ok = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -131,7 +220,7 @@ class _OwnerSectionEditorPageState
       builder: (_) => ItemEditorSheet(
         title: context.l10n.ownerAddItem,
         onSave: (payload) async {
-          await ref
+          newItemId = await ref
               .read(ownerSectionItemsProvider(_key).notifier)
               .createItem(
                 name: payload.name,
@@ -155,6 +244,14 @@ class _OwnerSectionEditorPageState
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(context.l10n.ownerItemAdded)));
+      }
+      // Oluşturulan ürünü otomatik edit sheet'te aç (fotoğraf / AI)
+      if (newItemId != null && newItemId!.isNotEmpty && mounted) {
+        final items = ref.read(ownerSectionItemsProvider(_key)).items;
+        final created = items.where((i) => i.id == newItemId).firstOrNull;
+        if (created != null && mounted) {
+          await _openEditItem(created);
+        }
       }
     }
   }
@@ -215,6 +312,23 @@ class _OwnerSectionEditorPageState
     }
   }
 
+  Future<void> _openBulkImport() async {
+    // Bulk import (OCR / PDF / fotoğraftan menü okuma)
+    final ok = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (ctx) => _BulkImportPickerSheet(
+        sectionId: widget.section.id,
+        menuId: widget.menu.id,
+        onCsvImport: _openCsvImportSheet,
+      ),
+    );
+    if (ok == true && mounted) {
+      ref.read(ownerSectionItemsProvider(_key).notifier).refresh();
+    }
+  }
+
   Future<void> _openBulkPriceSheet(List<OwnerMenuItem> items) async {
     final amountCtrl = TextEditingController();
     var mode = 'percent';
@@ -239,7 +353,7 @@ class _OwnerSectionEditorPageState
                 children: [
                   Text(
                     context.l10n.ownerBulkPriceUpdate,
-                    style: TextStyle(fontWeight: FontWeight.w900),
+                    style: const TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 10),
                   DropdownButtonFormField<String>(
@@ -324,7 +438,7 @@ class _OwnerSectionEditorPageState
     setState(() => _bulkUpdating = true);
     var changed = 0;
     try {
-      final controller = ref.read(ownerSectionItemsProvider(_key).notifier);
+      final ctrl = ref.read(ownerSectionItemsProvider(_key).notifier);
       for (final item in items) {
         final current = item.priceCents ?? 0;
         final next = _nextPriceCents(
@@ -334,7 +448,7 @@ class _OwnerSectionEditorPageState
           direction: direction,
         );
         if (next == current) continue;
-        await controller.updateItem(
+        await ctrl.updateItem(
           itemId: item.id,
           name: item.name,
           description: item.description,
@@ -383,12 +497,12 @@ class _OwnerSectionEditorPageState
                 children: [
                   Text(
                     context.l10n.ownerCsvImport,
-                    style: TextStyle(fontWeight: FontWeight.w900),
+                    style: const TextStyle(fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     context.l10n.ownerCsvFormatHint,
-                    style: TextStyle(color: AppColors.muted, fontSize: 12),
+                    style: const TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
                   const SizedBox(height: 8),
                   OutlinedButton.icon(
@@ -520,10 +634,9 @@ class _OwnerSectionEditorPageState
     for (var i = start; i < lines.length; i++) {
       final line = lines[i];
       final delimiter = line.contains(';') ? ';' : ',';
-      final cells = _splitCsvLine(
-        line,
-        delimiter,
-      ).map((e) => e.trim().replaceAll('"', '')).toList();
+      final cells = _splitCsvLine(line, delimiter)
+          .map((e) => e.trim().replaceAll('"', ''))
+          .toList();
       if (cells.isEmpty || cells.first.isEmpty) continue;
       final name = cells[0];
       final priceText = cells.length > 1 ? cells[1] : '';
@@ -608,6 +721,429 @@ class _OwnerSectionEditorPageState
   }
 }
 
+// ── Hızlı İşlemler Kartı ────────────────────────────────────────────────────
+
+class _QuickActionsCard extends StatelessWidget {
+  const _QuickActionsCard({
+    required this.bulkUpdating,
+    required this.hasItems,
+    required this.onOcr,
+    required this.onCsv,
+    required this.onBulkPrice,
+  });
+
+  final bool bulkUpdating;
+  final bool hasItems;
+  final VoidCallback onOcr;
+  final VoidCallback? onCsv;
+  final VoidCallback? onBulkPrice;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: const Icon(Icons.bolt, size: 16, color: Colors.white),
+              ),
+              const SizedBox(width: 10),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hızlı İşlemler',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textStrong,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Text(
+                      'Menü fotoğrafından içe aktar veya toplu düzenle',
+                      style: TextStyle(color: AppColors.muted, fontSize: 11),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _ActionTile(
+                icon: Icons.document_scanner_outlined,
+                label: 'Fotoğraftan / PDF\nOCR ile Aktar',
+                color: AppColors.primary,
+                onTap: onOcr,
+              ),
+              _ActionTile(
+                icon: Icons.upload_file_outlined,
+                label: 'CSV / Excel\nDosya Aktar',
+                color: AppColors.info,
+                onTap: onCsv ?? onOcr,
+                disabled: onCsv == null,
+              ),
+              if (hasItems)
+                _ActionTile(
+                  icon: Icons.price_change_outlined,
+                  label: 'Toplu Fiyat\nGüncelle',
+                  color: AppColors.warning,
+                  onTap: onBulkPrice ?? () {},
+                  disabled: onBulkPrice == null || bulkUpdating,
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ActionTile extends StatelessWidget {
+  const _ActionTile({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+    this.disabled = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+  final bool disabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: disabled ? null : onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: disabled
+              ? AppColors.card
+              : Colors.white.withValues(alpha: 0.8),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: disabled
+                ? AppColors.border
+                : color.withValues(alpha: 0.3),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18, color: disabled ? AppColors.muted : color),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: disabled ? AppColors.muted : AppColors.textStrong,
+                height: 1.3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Hızlı ekleme satırı ─────────────────────────────────────────────────────
+
+class _QuickAddRow extends StatelessWidget {
+  const _QuickAddRow({
+    required this.nameCtrl,
+    required this.priceCtrl,
+    required this.adding,
+    required this.onAdd,
+  });
+
+  final TextEditingController nameCtrl;
+  final TextEditingController priceCtrl;
+  final bool adding;
+  final VoidCallback onAdd;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 10, 10, 10),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Hızlı Ürün Ekle',
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 12,
+              color: AppColors.muted,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 3,
+                child: TextField(
+                  controller: nameCtrl,
+                  enabled: !adding,
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                    hintText: 'Ürün adı (örn: Adana Kebap)',
+                    isDense: true,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                flex: 2,
+                child: TextField(
+                  controller: priceCtrl,
+                  enabled: !adding,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) => onAdd(),
+                  decoration: const InputDecoration(
+                    hintText: 'Fiyat (₺)',
+                    isDense: true,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              SizedBox(
+                height: 42,
+                child: FilledButton(
+                  onPressed: adding ? null : onAdd,
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: adding
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.add, size: 20),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            '↵ Kaydedildikten sonra fotoğraf ve AI görseli ekleyebilirsiniz',
+            style: TextStyle(color: AppColors.muted, fontSize: 11),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Bulk import picker sheet (OCR vurgusu) ───────────────────────────────────
+
+class _BulkImportPickerSheet extends StatelessWidget {
+  const _BulkImportPickerSheet({
+    required this.sectionId,
+    required this.menuId,
+    required this.onCsvImport,
+  });
+
+  final String sectionId;
+  final String menuId;
+  final VoidCallback onCsvImport;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Menüyü İçe Aktar',
+              style: TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 16,
+                color: AppColors.textStrong,
+              ),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Aşağıdaki yöntemlerden birini seçin',
+              style: TextStyle(color: AppColors.muted, fontSize: 13),
+            ),
+            const SizedBox(height: 20),
+            _ImportOption(
+              icon: Icons.document_scanner_outlined,
+              color: AppColors.primary,
+              title: 'Fotoğraf / PDF\'den Oku (OCR)',
+              subtitle:
+                  'Menü fotoğrafı veya PDF yükleyin, ürünler otomatik tanınsın',
+              onTap: () {
+                Navigator.pop(context, false);
+                // Bulk import sheet açılır — parent zaten BulkMenuImportSheet'i açıyor
+                onCsvImport();
+              },
+            ),
+            const SizedBox(height: 8),
+            _ImportOption(
+              icon: Icons.table_chart_outlined,
+              color: AppColors.info,
+              title: 'CSV / Excel Dosyası',
+              subtitle: 'ad, fiyat, açıklama sütunlarını otomatik tanır',
+              onTap: () {
+                Navigator.pop(context, false);
+                onCsvImport();
+              },
+            ),
+            const SizedBox(height: 8),
+            _ImportOption(
+              icon: Icons.close,
+              color: AppColors.muted,
+              title: 'Vazgeç',
+              subtitle: '',
+              onTap: () => Navigator.pop(context, false),
+              muted: true,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ImportOption extends StatelessWidget {
+  const _ImportOption({
+    required this.icon,
+    required this.color,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+    this.muted = false,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+  final bool muted;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: muted ? AppColors.bg : AppColors.card,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: muted
+                ? AppColors.border
+                : color.withValues(alpha: 0.25),
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, size: 20, color: color),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: muted ? AppColors.muted : AppColors.textStrong,
+                    ),
+                  ),
+                  if (subtitle.isNotEmpty)
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        color: AppColors.muted,
+                        fontSize: 12,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            if (!muted)
+              const Icon(
+                Icons.chevron_right,
+                size: 18,
+                color: AppColors.muted,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Yardımcılar ─────────────────────────────────────────────────────────────
+
 class _CsvImportRow {
   _CsvImportRow({
     required this.name,
@@ -644,17 +1180,20 @@ class _SkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(height: 10, color: AppColors.card),
-            const SizedBox(height: 6),
-            Container(height: 10, width: 160, color: AppColors.card),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(height: 10, color: AppColors.border),
+          const SizedBox(height: 6),
+          Container(height: 10, width: 160, color: AppColors.border),
+        ],
       ),
     );
   }
@@ -667,9 +1206,22 @@ class _EmptyBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
-      child: Center(
-        child: Text(message, style: const TextStyle(color: AppColors.muted)),
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.restaurant_menu,
+            size: 40,
+            color: AppColors.border,
+          ),
+          const SizedBox(height: 12),
+          Text(message, style: const TextStyle(color: AppColors.muted)),
+          const SizedBox(height: 4),
+          const Text(
+            'Yukarıdaki hızlı ekleme satırını kullanın',
+            style: TextStyle(color: AppColors.muted, fontSize: 12),
+          ),
+        ],
       ),
     );
   }

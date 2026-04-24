@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/analytics/analytics_repository.dart';
+import '../../../core/analytics/app_events.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/location/user_location_controller.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -97,6 +99,7 @@ class _BudgetComboEntryCardState extends ConsumerState<BudgetComboEntryCard> {
                   Row(
                     children: [
                       IconButton(
+                        tooltip: context.l10n.decreaseQuantity,
                         onPressed: _partySize <= 1
                             ? null
                             : () => setState(() => _partySize--),
@@ -107,6 +110,7 @@ class _BudgetComboEntryCardState extends ConsumerState<BudgetComboEntryCard> {
                         style: const TextStyle(fontWeight: FontWeight.w800),
                       ),
                       IconButton(
+                        tooltip: context.l10n.increaseQuantity,
                         onPressed: () => setState(() => _partySize++),
                         icon: const Icon(Icons.add_circle_outline),
                       ),
@@ -139,6 +143,15 @@ class _BudgetComboEntryCardState extends ConsumerState<BudgetComboEntryCard> {
               onPressed: !hasLocation || budgetCents <= 0
                   ? null
                   : () {
+                      ref.read(analyticsRepositoryProvider).logEvent(
+                        eventName: AppEvents.budgetComboSearch,
+                        source: 'budget_combo_entry',
+                        meta: {
+                          'party_size': _partySize,
+                          'budget_cents': budgetCents,
+                          if (_category != null) 'category': _category,
+                        },
+                      );
                       final params = {
                         'city': city,
                         'district': district,

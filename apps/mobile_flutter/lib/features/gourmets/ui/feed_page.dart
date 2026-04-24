@@ -75,7 +75,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
               _EmptyState(message: t.feedEmptyMessage)
             else ...[
               for (final item in st.items) ...[
-                _ReviewFeedCard(item: item),
+                RepaintBoundary(child: _ReviewFeedCard(item: item)),
                 const SizedBox(height: 10),
               ],
             ],

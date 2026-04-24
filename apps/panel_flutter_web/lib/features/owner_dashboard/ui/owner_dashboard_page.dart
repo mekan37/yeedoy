@@ -5,8 +5,11 @@ import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/app_role_providers.dart';
 import '../../../core/security/business_rbac.dart';
-import '../../../shared/ui/components/app_section_header.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
+import '../../../shared/ui/components/panel_action_button.dart';
 import '../../owner_businesses/domain/owner_business_state.dart';
+import '../domain/owner_growth_provider.dart';
+import '../domain/owner_kpi_provider.dart';
 import 'owner_dashboard_sections.dart';
 
 class OwnerDashboardPage extends ConsumerWidget {
@@ -35,22 +38,65 @@ class OwnerDashboardPage extends ConsumerWidget {
     }
 
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.zero,
       children: [
-        AppSectionHeader(
-          title: l10n.ownerDashboardOverview,
-          subtitle: Text(
-            l10n.ownerDashboardOperationsDescription,
-            style: const TextStyle(color: AppColors.muted),
+        PanelPageHeader(
+          eyebrow: 'Owner',
+          title: const Text('Genel Bakış'),
+          description: 'İşletmenizin bugünkü durumu, büyüme sinyalleri ve hızlı işlemler.',
+          compactActions: [
+            PanelActionButton(
+              label: 'Yenile',
+              tooltip: 'Verileri yenile',
+              icon: Icons.refresh_rounded,
+              variant: PanelActionButtonVariant.ghost,
+              onPressed: () {
+                ref.invalidate(ownerKpiSummaryProvider(businessId));
+                ref.invalidate(ownerGrowthSummaryProvider(businessId));
+              },
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              OwnerOperationsQuickActionsCard(businessId: businessId),
+              const SizedBox(height: 16),
+              _SectionLabel(label: 'Performans'),
+              const SizedBox(height: 8),
+              OwnerKpiOverviewCard(businessId: businessId),
+              const SizedBox(height: 12),
+              OwnerAnalyticsPreviewCard(businessId: businessId),
+              const SizedBox(height: 16),
+              _SectionLabel(label: 'İşletme Sağlığı'),
+              const SizedBox(height: 8),
+              OwnerQualityScoreCard(businessId: businessId),
+              const SizedBox(height: 12),
+              OwnerMoatCard(businessId: businessId),
+            ],
           ),
         ),
-        const SizedBox(height: 12),
-        OwnerOperationsQuickActionsCard(businessId: businessId),
-        const SizedBox(height: 12),
-        OwnerQualityScoreCard(businessId: businessId),
-        const SizedBox(height: 12),
-        OwnerMoatCard(businessId: businessId),
       ],
+    );
+  }
+}
+
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel({required this.label});
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      label.toUpperCase(),
+      style: const TextStyle(
+        fontSize: 11,
+        fontWeight: FontWeight.w800,
+        color: AppColors.muted,
+        letterSpacing: 0.8,
+      ),
     );
   }
 }

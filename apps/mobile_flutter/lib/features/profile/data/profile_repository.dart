@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/network/supabase_provider.dart';
@@ -283,6 +284,43 @@ class ProfileRepository {
       return DailyMicroTask.fromMap(res);
     }
     return null;
+  }
+
+  /// Picks an image from gallery and uploads it as the user's avatar.
+  /// Returns the public URL of the uploaded avatar, or null if cancelled/failed.
+  Future<String?> pickAndUploadAvatar() async {
+    final uid = _supabase.auth.currentUser?.id;
+    if (uid == null) return null;
+
+    final picker = ImagePicker();
+    final file = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+      imageQuality: 85,
+    );
+    if (file == null) return null;
+
+    final bytes = await file.readAsBytes();
+    final ext = file.path.split('.').last.toLowerCase();
+    final mime = ext == 'png' ? 'image/png' : 'image/jpeg';
+    final storagePath = 'user-avatars/$uid.$ext';
+
+    await _supabase.storage
+        .from('menu-media')
+        .uploadBinary(storagePath, bytes,
+            fileOptions: FileOptions(contentType: mime, upsert: true));
+
+    final publicUrl = _supabase.storage
+        .from('menu-media')
+        .getPublicUrl(storagePath);
+
+    await _supabase.from('user_profiles').upsert(
+      {'user_id': uid, 'avatar_url': publicUrl},
+      onConflict: 'user_id',
+    );
+
+    return publicUrl;
   }
 
   Future<UserMoatSignals> fetchMyMoatSignals() async {

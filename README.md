@@ -210,12 +210,8 @@ PaddleOCR, sunucu taraflı yüksek doğruluklu OCR sağlar. Kurmak için:
 
 ```bash
 # Docker ile PaddleOCR REST servisi başlat
-docker run -d \
-  --name paddleocr-service \
-  -p 8765:8765 \
-  -e SERVICE_SECRET=<PADDLE_OCR_SECRET ile aynı değer> \
-  paddlepaddle/paddle:latest \
-  python -m paddleocr.server --port 8765
+docker run -d --name paddleocr-service -p 8765:8765 -e "SERVICE_SECRET=Tunahan_120819" paddlepaddle/paddle:latest python -m paddleocr.server --port 8765
+
 ```
 
 > Not: PaddleOCR Docker image ilk çalıştırmada ~2GB indirir. Hazır olana kadar Edge Function ham metinle çalışmaya devam eder.

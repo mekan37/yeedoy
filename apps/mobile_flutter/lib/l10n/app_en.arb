@@ -238,6 +238,14 @@
   "@share": {
     "description": "Auto metadata for share"
   },
+  "shareAsImage": "Share as Image",
+  "@shareAsImage": {
+    "description": "Share as image card button"
+  },
+  "shareLink": "Share Link",
+  "@shareLink": {
+    "description": "Share as plain link button"
+  },
   "invalidLinkMessage": "Invalid link",
   "@invalidLinkMessage": {
     "description": "Auto metadata for invalidLinkMessage"
@@ -943,6 +951,18 @@
   "yenile": "Refresh",
   "@yenile": {
     "description": "Auto metadata for yenile"
+  },
+  "decreaseQuantity": "Decrease quantity",
+  "increaseQuantity": "Increase quantity",
+  "kapat": "Close",
+  "suspendedMealsEmptyDescription": "Your suspended meal plans will appear here.",
+  "ara": "Search",
+  "ratingLabel": "{count} stars",
+  "@ratingLabel": {
+    "description": "Star rating tooltip label",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
   },
   "atanan": "Assigned",
   "@atanan": {
@@ -1839,6 +1859,20 @@
   "@onboardingContributeDescription": {
     "description": "Auto metadata for onboardingContributeDescription"
   },
+  "onboardingPriceTitle": "You Set the\nCity's Prices",
+  "onboardingPriceBody1": "Discover restaurants with real prices",
+  "onboardingPriceBody2": "Track price history and city averages",
+  "onboardingPriceBody3": "Filter by budget, save money",
+  "onboardingCommunityTitle": "The Power of Community",
+  "onboardingCommunitySubtitle": "Every price verification helps everyone",
+  "onboardingCommunityBody1": "Real users keep menus up-to-date",
+  "onboardingCommunityBody2": "Price deviations are detected instantly",
+  "onboardingCommunityBody3": "Earn XP and badges for your contributions",
+  "onboardingNotificationTitle": "Instant notifications",
+  "onboardingNotificationDescription": "Get price changes, campaigns, and group requests from your favorite places as they happen.",
+  "onboardingNotificationsEnabled": "Notifications are enabled",
+  "onboardingAllowNotifications": "Allow Notifications",
+  "onboardingSkipNotifications": "Not now",
   "getStarted": "Get Started",
   "@getStarted": {
     "description": "Auto metadata for getStarted"
@@ -4109,6 +4143,10 @@
   "@sortMostHelpful": {
     "description": "Auto metadata for sortMostHelpful"
   },
+  "sortVerified": "Verified first",
+  "@sortVerified": {
+    "description": "Sort reviews showing verified visits first"
+  },
   "businessReviewsQualityLabel": "Quality score: {score}",
   "@businessReviewsQualityLabel": {
     "placeholders": {
@@ -4976,5 +5014,56 @@
   "vatIncluded": "VAT included",
   "@vatIncluded": {
     "description": "Auto metadata for vatIncluded"
-  }
+  },
+  "businessViewingNow": "{count} people viewing now",
+  "@businessViewingNow": {
+    "description": "Number of people currently viewing this business page",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "delete": "Delete",
+  "@delete": {"description": "Generic delete action"},
+  "remove": "Remove",
+  "@remove": {"description": "Generic remove action"},
+  "create": "Create",
+  "@create": {"description": "Generic create action"},
+  "required": "This field is required",
+  "@required": {"description": "Validation error for required field"},
+  "collabListsTitle": "My Shared Lists",
+  "@collabListsTitle": {"description": "Collab lists page title"},
+  "collabListCreate": "Create List",
+  "@collabListCreate": {"description": "Create collab list button"},
+  "collabListsEmpty": "No lists yet",
+  "@collabListsEmpty": {"description": "Empty state title for collab lists"},
+  "collabListsEmptyDesc": "Create shared lists with friends and vote on favorite spots together.",
+  "@collabListsEmptyDesc": {"description": "Empty state description for collab lists"},
+  "collabListNameLabel": "List name",
+  "@collabListNameLabel": {"description": "Collab list name field label"},
+  "collabListDescLabel": "Description (optional)",
+  "@collabListDescLabel": {"description": "Collab list description field label"},
+  "collabListItemsEmpty": "List is empty",
+  "@collabListItemsEmpty": {"description": "Empty state for items inside a collab list"},
+  "collabListItemsEmptyDesc": "Add businesses from their page to this list.",
+  "@collabListItemsEmptyDesc": {"description": "Empty state description for collab list items"},
+  "collabListShare": "Copy Invite Link",
+  "@collabListShare": {"description": "Share collab list action"},
+  "collabListDelete": "Delete List",
+  "@collabListDelete": {"description": "Delete collab list action"},
+  "collabListDeleteConfirm": "Are you sure you want to delete this list and all its content?",
+  "@collabListDeleteConfirm": {"description": "Delete collab list confirmation"},
+  "collabListLeave": "Leave List",
+  "@collabListLeave": {"description": "Leave collab list action"},
+  "collabListLeaveConfirm": "Are you sure you want to leave this list?",
+  "@collabListLeaveConfirm": {"description": "Leave collab list confirmation"},
+  "collabListLinkCopied": "Invite link copied",
+  "@collabListLinkCopied": {"description": "Snackbar when invite link is copied"},
+  "collabListJoining": "Joining list...",
+  "@collabListJoining": {"description": "Joining a collab list via invite token"},
+  "collabListInvalidInvite": "Invalid invite link.",
+  "@collabListInvalidInvite": {"description": "Error when invite token is invalid"},
+  "goToMyLists": "Go to My Lists",
+  "@goToMyLists": {"description": "Navigate to collab lists page"}
 }

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
 import 'package:yeedoy/features/admin/data/admin_audit_repository.dart';
 import 'package:yeedoy/features/admin/data/admin_queue_repository.dart';
 import 'package:yeedoy/features/admin/domain/admin_audit_models.dart';
@@ -82,6 +83,29 @@ void main() {
             locale: const Locale('tr'),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
+            theme: ThemeData(
+              extensions: const <ThemeExtension<dynamic>>[
+                AppTokens(
+                  space4: 4,
+                  space8: 8,
+                  space12: 12,
+                  space16: 16,
+                  space20: 20,
+                  space24: 24,
+                  radius12: 12,
+                  radius16: 16,
+                  radius20: 20,
+                  radius24: 24,
+                  elevation1: 1,
+                  elevation2: 6,
+                  elevation3: 12,
+                  minHitTarget: 44,
+                  fast: Duration(milliseconds: 150),
+                  medium: Duration(milliseconds: 180),
+                  slow: Duration(milliseconds: 220),
+                ),
+              ],
+            ),
             home: const Scaffold(body: AdminQueuePage()),
           ),
         ),

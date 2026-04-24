@@ -51,5 +51,8 @@ jobs:
       - name: Offline write guard
         run: dart run tool/offline_write_guard_check.dart
 
+      - name: Hardcoded color check
+        run: dart run tool/hardcoded_color_check.dart
+
       - name: Release gate dry run
         run: dart run tool/release_gate_check.dart tool/release_gate_metrics_example.json

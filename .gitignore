@@ -26,6 +26,14 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Local agent/tool state
+.agents/
+.claude/
+.claude-flow/
+.codex/
+.mcp.json
+.swarm/
+
 # Secrets / env
 .env
 .env.*
@@ -41,6 +49,7 @@ dist/
 coverage/
 playwright-report/
 test-results/
+*.tsbuildinfo
 
 # Flutter / Dart
 .dart_tool/
@@ -72,3 +81,5 @@ app.*.map.json
 
 # Deploy/runtime temp artifacts
 deploy/next/.next/
+supabase/.branches/
+supabase/.temp/

@@ -70,7 +70,7 @@ class InboxController extends Notifier<InboxState> {
     }
 
     _subscribeRealtime(user.id);
-    Future.microtask(refresh);
+    Future.microtask(_loadWithCache);
     return InboxState.initial();
   }
 
@@ -104,6 +104,17 @@ class InboxController extends Notifier<InboxState> {
     _channel = null;
   }
 
+  Future<void> _loadWithCache() async {
+    // Show cached items immediately while fetching fresh data
+    final cachedMaps = await InboxPrefs.getCachedItems();
+    if (cachedMaps.isNotEmpty) {
+      final cached = cachedMaps.map(InboxItem.fromMap).toList();
+      final readIds = await InboxPrefs.getReadIds();
+      state = state.copyWith(items: cached, readIds: readIds, isLoading: true);
+    }
+    await refresh();
+  }
+
   Future<void> refresh() async {
     state = state.copyWith(isLoading: true, error: null);
     try {
@@ -111,6 +122,8 @@ class InboxController extends Notifier<InboxState> {
       final items = await repo.listInboxItems();
       final readIds = await InboxPrefs.getReadIds();
       state = state.copyWith(items: items, readIds: readIds, isLoading: false);
+      // Persist items for next cold start
+      await InboxPrefs.cacheItems(items.map((e) => e.toMap()).toList());
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e);
     }

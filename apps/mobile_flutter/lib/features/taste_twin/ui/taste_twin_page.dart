@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/theme/app_typography.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
@@ -80,7 +81,7 @@ class TasteTwinPage extends ConsumerWidget {
               _EmptyState(message: t.tasteTwinNoMatches)
             else ...[
               for (final m in st.items) ...[
-                _MatchCard(match: m),
+                RepaintBoundary(child: _MatchCard(match: m)),
                 const SizedBox(height: 10),
               ],
             ],
@@ -273,7 +274,7 @@ class _RecommendationSheetState extends ConsumerState<_RecommendationSheet> {
                 Expanded(
                   child: Text(
                     t.tasteTwinRecommendationsTitle(match.displayName),
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                    style: context.sectionTitleStyle,
                   ),
                 ),
                 const SizedBox(width: 8),

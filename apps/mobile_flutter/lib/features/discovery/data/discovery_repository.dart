@@ -295,7 +295,8 @@ class DiscoveryRepository {
           final cards = (res as List)
               .map((e) => BusinessCardModel.fromMap(e))
               .toList();
-          return _attachOwnerVerification(cards);
+          final withOwner = await _attachOwnerVerification(cards);
+          return _attachReviewCounts(withOwner);
         },
         sampleRate: 0.2,
       );
@@ -353,7 +354,8 @@ class DiscoveryRepository {
           final cards = (res as List)
               .map((e) => BusinessCardModel.fromMap(e))
               .toList();
-          return _attachOwnerVerification(cards);
+          final withOwner = await _attachOwnerVerification(cards);
+          return _attachReviewCounts(withOwner);
         },
         sampleRate: 0.2,
       );
@@ -524,6 +526,32 @@ class DiscoveryRepository {
               ownerVerified: map[item.id] == true ? true : false,
             ),
           )
+          .toList();
+    } catch (_) {
+      return items;
+    }
+  }
+
+  Future<List<BusinessCardModel>> _attachReviewCounts(
+    List<BusinessCardModel> items,
+  ) async {
+    if (items.isEmpty) return items;
+    final ids = items.map((e) => e.id).where((id) => id.isNotEmpty).toList();
+    if (ids.isEmpty) return items;
+    try {
+      final res = await client.rpc(
+        'get_business_review_counts_batch_v1',
+        params: {'p_ids': ids},
+      );
+      final map = <String, int>{};
+      for (final row in (res as List).whereType<Map>()) {
+        final m = row.cast<String, dynamic>();
+        final businessId = (m['business_id'] ?? '').toString();
+        if (businessId.isEmpty) continue;
+        map[businessId] = (m['review_count'] as num?)?.toInt() ?? 0;
+      }
+      return items
+          .map((item) => item.copyWith(reviewCount: map[item.id]))
           .toList();
     } catch (_) {
       return items;

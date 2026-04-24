@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../shared/ui/components/panel_page_header.dart';
+import '../../../shared/ui/design_system.dart';
 import '../domain/admin_appeals_controller.dart';
 import '../domain/admin_moderation_models.dart';
 
@@ -70,26 +72,74 @@ class AdminAppealsPage extends ConsumerWidget {
             child: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state.items.isEmpty
-                ? Center(child: Text(context.l10n.adminAppealsEmptySla))
+                ? Center(
+                    child: AppEmptyState(
+                      icon: Icons.gavel_outlined,
+                      title: context.l10n.adminAppealsEmptySla,
+                      description: 'Filtre kriterlerinize uyan başvuru bulunamadı.',
+                    ),
+                  )
                 : ListView.builder(
                     itemCount: state.items.length,
                     itemBuilder: (context, index) {
                       final item = state.items[index];
-                      return Card(
-                        child: ListTile(
-                          title: Text('${item.sourceType} · ${item.reason}'),
-                          subtitle: Text(
-                            context.l10n.adminAppealSourceAndUser(
-                              _short(item.sourceId),
-                              _short(item.appellantUserId),
-                            ),
-                          ),
-                          trailing: Text(_statusLabel(context, item.status)),
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(12),
                           onTap: () => _openDecisionSheet(
                             context,
                             ref,
                             item: item,
                             templates: state.templates,
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: AppColors.card,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: AppColors.border),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${item.sourceType} · ${item.reason}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColors.textStrong,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        context.l10n.adminAppealSourceAndUser(
+                                          _short(item.sourceId),
+                                          _short(item.appellantUserId),
+                                        ),
+                                        style: const TextStyle(
+                                          color: AppColors.muted,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  _statusLabel(context, item.status),
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.slate,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

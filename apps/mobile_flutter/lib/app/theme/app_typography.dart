@@ -8,6 +8,11 @@ extension AppTypographyX on BuildContext {
         fontWeight: FontWeight.w900,
         color: AppColors.textStrong,
       );
+  /// Sheet / section header: 16sp w900. Use for bottom sheet titles, section labels.
+  TextStyle get sectionTitleStyle => appText.titleMedium!.copyWith(
+        fontWeight: FontWeight.w900,
+        color: AppColors.textStrong,
+      );
   TextStyle get subtitleStyle => appText.bodyMedium!.copyWith(
         color: AppColors.muted,
         fontWeight: FontWeight.w500,

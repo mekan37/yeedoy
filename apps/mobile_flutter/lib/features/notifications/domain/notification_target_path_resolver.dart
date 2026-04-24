@@ -8,6 +8,7 @@ String resolveNotificationTargetPath({
   final menuItemId = sanitizeUuid((data['menu_item_id'] ?? '').toString());
 
   switch (type) {
+    case 'price_suggestion_result':
     case 'price_verification_result':
     case 'favorite_price_changed':
     case 'owner_new_price_suggestion':
@@ -20,12 +21,18 @@ String resolveNotificationTargetPath({
     case 'owner_new_review':
       if (businessId != null) return '/b/$businessId/reviews';
       return '/inbox';
+    case 'favorite_revisit_reminder':
+    case 'friend_checkin':
+      if (businessId != null) return '/b/$businessId';
+      return '/discover';
     case 'owner_business_reported':
       if (businessId != null) return '/b/$businessId';
       return '/discover';
     case 'claim_result':
     case 'achievement_unlocked':
       return '/profile';
+    case 'report_result':
+      return '/inbox';
     case 'nearby_trending':
     case 'owner_daily_summary':
       return '/discover';

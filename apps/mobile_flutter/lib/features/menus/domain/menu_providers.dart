@@ -38,3 +38,23 @@ final menuItemsCacheUpdatedAtProvider =
     FutureProvider.family<DateTime?, String>((ref, menuId) async {
       return OfflineCachePrefs.loadMenuItemsCachedAt(menuId);
     });
+
+final menuOfflineSavedProvider =
+    FutureProvider.family<bool, String>((ref, menuId) async {
+      return OfflineCachePrefs.isMenuSavedForOffline(menuId);
+    });
+
+/// Key: '${itemName}|${city}|${excludeBusinessId ?? ''}'
+final menuItemPriceBenchmarkProvider =
+    FutureProvider.family<MenuItemPriceBenchmark?, String>((ref, key) async {
+      final parts = key.split('|');
+      if (parts.length < 2) return null;
+      final itemName = parts[0];
+      final city = parts[1];
+      final excludeId = parts.length > 2 && parts[2].isNotEmpty ? parts[2] : null;
+      return ref.watch(menuRepositoryProvider).fetchCategoryPriceBenchmark(
+        itemName: itemName,
+        city: city,
+        excludeBusinessId: excludeId,
+      );
+    });

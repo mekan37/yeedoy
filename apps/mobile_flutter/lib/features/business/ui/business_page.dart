@@ -1,18 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/analytics_repository.dart';
-import '../../../core/config/app_config.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
@@ -43,8 +41,12 @@ import '../domain/business_checkins_provider.dart';
 import '../domain/business_new_items_provider.dart';
 import '../domain/business_trending_provider.dart';
 import '../domain/crowd_controller.dart';
+import '../domain/business_presence_provider.dart';
 import '../ui/components/business_header_compact.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
+import '../../contribute/ui/contribute_entry.dart';
+import '../../shared/ui/share/business_share_card_sheet.dart';
+import '../../reviews/domain/reviews_provider.dart';
 
 part 'sections/business_detail_sections.dart';
 part 'parts/business_models.dart';
@@ -143,6 +145,30 @@ final _menuItemVariantsProvider =
         });
       }
       return byItem;
+    });
+
+final _businessFrequentTagsProvider =
+    FutureProvider.family<List<({String tag, int count})>, String>((
+      ref,
+      businessId,
+    ) async {
+      final client = ref.watch(supabaseProvider);
+      final res = await client.rpc(
+        'get_business_frequent_tags_v1',
+        params: {'p_business_id': businessId, 'p_limit': 8},
+      );
+      final rows = (res as List?) ?? const [];
+      return rows
+          .whereType<Map>()
+          .map((row) {
+            final m = row.cast<String, dynamic>();
+            return (
+              tag: (m['tag'] ?? '').toString(),
+              count: (m['mention_count'] as num?)?.toInt() ?? 0,
+            );
+          })
+          .where((e) => e.tag.isNotEmpty)
+          .toList(growable: false);
     });
 
 final _businessTrustProvider =
@@ -347,6 +373,7 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
     final businessAsync = ref.watch(_businessProvider(widget.businessId));
 
     return AppScaffold(
+      floatingActionButton: ContributeFab(businessId: widget.businessId),
       appBar: AppAppBar(
         title: Text(t.businessLabel),
         actions: [

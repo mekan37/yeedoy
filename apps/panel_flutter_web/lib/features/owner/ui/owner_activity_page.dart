@@ -6,7 +6,7 @@ import '../../../core/security/business_rbac.dart';
 import '../../admin/ui/admin_audit_page.dart';
 import '../../owner_businesses/domain/owner_business_state.dart';
 import '../../../shared/ui/components/owner_business_guard.dart';
-import '../../../shared/ui/components/permission_denied_view.dart';
+import '../../../shared/ui/components/owner_panel_feedback.dart';
 
 class OwnerActivityPage extends ConsumerWidget {
   const OwnerActivityPage({super.key, this.businessId});
@@ -20,12 +20,12 @@ class OwnerActivityPage extends ConsumerWidget {
         : (ref.watch(selectedOwnerBusinessIdProvider) ?? '');
 
     if (resolvedBusinessId.isEmpty) {
-      return Scaffold(
-        body: PermissionDeniedView(
+      return Padding(
+        padding: const EdgeInsets.all(16),
+        child: OwnerPanelFeedback.empty(
+          icon: Icons.receipt_long_outlined,
           title: context.l10n.ownerActivityMissingBusinessTitle,
           description: context.l10n.ownerActivityMissingBusinessDescription,
-          primaryRoute: '/owner/businesses',
-          primaryLabel: context.l10n.ownerGoBusinessesAction,
         ),
       );
     }

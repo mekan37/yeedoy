@@ -1,12 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../app/theme/colors.dart';
+import '../../../../core/errors/app_error_mapper.dart';
 import '../../../../core/i18n/app_localizations.dart';
+import '../../../../core/media/app_image_cache_manager.dart';
 import '../../../../core/privacy/name_masking.dart';
+import '../../../auth/domain/auth_providers.dart';
 import '../../../embed/ui/embed_viewer_page.dart';
+import '../../../taste_twin/data/taste_twin_repository.dart';
+import '../../../taste_twin/domain/taste_twin_controllers.dart';
 import '../../data/profile_model.dart';
 import '../../data/profile_repository.dart';
 
@@ -14,15 +20,50 @@ final myProfileProvider = FutureProvider<Profile?>((ref) async {
   return ref.read(profileRepositoryProvider).fetchMyProfile();
 });
 
-class ProfileIdentityCard extends ConsumerWidget {
+class ProfileIdentityCard extends ConsumerStatefulWidget {
   const ProfileIdentityCard({super.key, this.userEmail, this.compact = false});
 
   final String? userEmail;
   final bool compact;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfileIdentityCard> createState() => _ProfileIdentityCardState();
+}
+
+class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
+  bool _uploadingAvatar = false;
+
+  Future<void> _changeAvatar() async {
+    if (_uploadingAvatar) return;
+    setState(() => _uploadingAvatar = true);
+    try {
+      final url = await ref.read(profileRepositoryProvider).pickAndUploadAvatar();
+      if (url != null) {
+        final uid = ref.read(userProvider)?.id;
+        // Clear in-memory cache so publicProfileProvider returns fresh data.
+        ref.read(tasteTwinRepositoryProvider).clearReadCache();
+        if (uid != null) ref.invalidate(publicProfileProvider(uid));
+        ref.invalidate(myProfileProvider);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppErrorMapper.message(e))),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _uploadingAvatar = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final profileAsync = ref.watch(myProfileProvider);
+    final user = ref.watch(userProvider);
+    final avatarUrl = user != null
+        ? (ref.watch(publicProfileProvider(user.id)).value?.avatarUrl ?? '')
+        : '';
+
     return profileAsync.when(
       loading: () => _card(
         child: const Row(
@@ -33,14 +74,14 @@ class ProfileIdentityCard extends ConsumerWidget {
           ],
         ),
       ),
-      error: (_, _) => _buildContent(context, null),
-      data: (profile) => _buildContent(context, profile),
+      error: (_, s) => _buildContent(context, null, avatarUrl),
+      data: (profile) => _buildContent(context, profile, avatarUrl),
     );
   }
 
-  Widget _buildContent(BuildContext context, Profile? profile) {
+  Widget _buildContent(BuildContext context, Profile? profile, String avatarUrl) {
     final t = AppLocalizations.of(context);
-    final emailLabel = (userEmail ?? t.profileGuestUser).split('@').first;
+    final emailLabel = (widget.userEmail ?? t.profileGuestUser).split('@').first;
     final first = profile?.firstName ?? '';
     final last = profile?.lastName ?? '';
     final mode = profile?.privacyMode ?? NamePrivacyMode.full;
@@ -61,8 +102,50 @@ class ProfileIdentityCard extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CircleAvatar(child: Icon(Icons.person_outline)),
-          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: _changeAvatar,
+            child: Stack(
+              children: [
+                CircleAvatar(
+                  radius: 24,
+                  backgroundColor: AppColors.cardAlt,
+                  backgroundImage: avatarUrl.isNotEmpty
+                      ? CachedNetworkImageProvider(
+                          avatarUrl,
+                          cacheManager: AppImageCacheManager.instance,
+                          maxWidth: 512,
+                        )
+                      : null,
+                  child: avatarUrl.isEmpty
+                      ? const Icon(Icons.person_outline)
+                      : null,
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 1.5),
+                    ),
+                    child: _uploadingAvatar
+                        ? const Padding(
+                            padding: EdgeInsets.all(3),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Icon(Icons.camera_alt, size: 10, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +154,7 @@ class ProfileIdentityCard extends ConsumerWidget {
                   mainName,
                   style: TextStyle(
                     fontWeight: FontWeight.w800,
-                    fontSize: compact ? 15 : 16,
+                    fontSize: widget.compact ? 15 : 16,
                     color: AppColors.textStrong,
                   ),
                 ),

@@ -2552,6 +2552,26 @@
   "@adminGrowthDayColumn": {
     "description": "L10n key: adminGrowthDayColumn"
   },
+  "adminGrowthFunnelTitle": "Kullanıcı hunisi",
+  "@adminGrowthFunnelTitle": {
+    "description": "L10n key: adminGrowthFunnelTitle"
+  },
+  "adminGrowthFunnelSubtitle": "Keşif → Etkileşim → Dönüşüm (seçili dönem toplamı)",
+  "@adminGrowthFunnelSubtitle": {
+    "description": "L10n key: adminGrowthFunnelSubtitle"
+  },
+  "adminGrowthFunnelDiscovery": "Keşif",
+  "@adminGrowthFunnelDiscovery": {
+    "description": "L10n key: adminGrowthFunnelDiscovery"
+  },
+  "adminGrowthFunnelEngagement": "Etkileşim",
+  "@adminGrowthFunnelEngagement": {
+    "description": "L10n key: adminGrowthFunnelEngagement"
+  },
+  "adminGrowthFunnelConversion": "Dönüşüm",
+  "@adminGrowthFunnelConversion": {
+    "description": "L10n key: adminGrowthFunnelConversion"
+  },
   "adminIncidentCenterTitle": "Kriz müdahale merkezi",
   "@adminIncidentCenterTitle": {
     "description": "L10n key: adminIncidentCenterTitle"
@@ -2805,6 +2825,54 @@
   "adminObservabilityRequestTraceTitle": "Request Trace",
   "@adminObservabilityRequestTraceTitle": {
     "description": "L10n key: adminObservabilityRequestTraceTitle"
+  },
+  "adminObservabilityEdgeOpsTitle": "Edge operasyonları",
+  "@adminObservabilityEdgeOpsTitle": {
+    "description": "Admin observability edge maintenance section title"
+  },
+  "adminObservabilityEdgeOpsSummary": "Panelden çıkmadan admin yetkili Supabase edge bakım işlerini çalıştır.",
+  "@adminObservabilityEdgeOpsSummary": {
+    "description": "Admin observability edge maintenance summary"
+  },
+  "adminObservabilityPushDispatchTitle": "Push dispatch kuyruğu",
+  "@adminObservabilityPushDispatchTitle": {
+    "description": "Admin observability push dispatch card title"
+  },
+  "adminObservabilityPushDispatchDescription": "Kuyruktaki bildirim işlerini dequeue edip push worker üzerinden gönderir.",
+  "@adminObservabilityPushDispatchDescription": {
+    "description": "Admin observability push dispatch description"
+  },
+  "adminObservabilityPushDispatchAction": "Push dispatch çalıştır",
+  "@adminObservabilityPushDispatchAction": {
+    "description": "Admin observability push dispatch action"
+  },
+  "adminObservabilityTempPurgeTitle": "Geçici yükleme temizliği",
+  "@adminObservabilityTempPurgeTitle": {
+    "description": "Admin observability temp purge title"
+  },
+  "adminObservabilityTempPurgeDescription": "Silinmeyi bekleyen geçici upload storage queue kayıtlarını işler.",
+  "@adminObservabilityTempPurgeDescription": {
+    "description": "Admin observability temp purge description"
+  },
+  "adminObservabilityTempPurgeAction": "Temizliği çalıştır",
+  "@adminObservabilityTempPurgeAction": {
+    "description": "Admin observability temp purge action"
+  },
+  "adminObservabilityRunning": "Çalışıyor...",
+  "@adminObservabilityRunning": {
+    "description": "Admin observability running button label"
+  },
+  "adminObservabilityLastRunResult": "{label}: {summary}",
+  "@adminObservabilityLastRunResult": {
+    "description": "Admin observability last run result",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "summary": {
+        "type": "String"
+      }
+    }
   },
   "adminObservabilityRequestIdValue": "request_id: {requestId}",
   "@adminObservabilityRequestIdValue": {
@@ -6809,6 +6877,14 @@
   "@ownerGrowthDistrictGapLabel": {
     "description": "L10n key: ownerGrowthDistrictGapLabel"
   },
+  "ownerGrowthBarChartTitle": "Son 30 gün — günlük trafik",
+  "@ownerGrowthBarChartTitle": {
+    "description": "L10n key: ownerGrowthBarChartTitle"
+  },
+  "ownerGrowthBarChartSubtitle": "Menü görüntüleme, QR tarama ve dışa tıklama karşılaştırması",
+  "@ownerGrowthBarChartSubtitle": {
+    "description": "L10n key: ownerGrowthBarChartSubtitle"
+  },
   "ownerShellTrashLabel": "Çöp kutusu",
   "@ownerShellTrashLabel": {
     "description": "L10n key: ownerShellTrashLabel"
@@ -7265,5 +7341,74 @@
   "ownerShellAiAnalysisLabel": "AI Analiz",
   "@ownerShellAiAnalysisLabel": {
     "description": "L10n key: ownerShellAiAnalysisLabel"
+  },
+  "ownerShellReviewsLabel": "Yorumlar",
+  "@ownerShellReviewsLabel": {
+    "description": "L10n key: ownerShellReviewsLabel"
+  },
+  "ownerReviewsTitle": "Müşteri Yorumları",
+  "@ownerReviewsTitle": {
+    "description": "L10n key: ownerReviewsTitle"
+  },
+  "ownerReviewsDescription": "Gelen yorumları görüntüle ve yanıtla",
+  "@ownerReviewsDescription": {
+    "description": "L10n key: ownerReviewsDescription"
+  },
+  "ownerReviewsReplyButton": "Yanıtla",
+  "@ownerReviewsReplyButton": {
+    "description": "L10n key: ownerReviewsReplyButton"
+  },
+  "ownerReviewsEditReplyButton": "Yanıtı düzenle",
+  "@ownerReviewsEditReplyButton": {
+    "description": "L10n key: ownerReviewsEditReplyButton"
+  },
+  "ownerReviewsDeleteReplyButton": "Yanıtı sil",
+  "@ownerReviewsDeleteReplyButton": {
+    "description": "L10n key: ownerReviewsDeleteReplyButton"
+  },
+  "ownerReviewsReplyHint": "Müşteriye yanıtınızı yazın…",
+  "@ownerReviewsReplyHint": {
+    "description": "L10n key: ownerReviewsReplyHint"
+  },
+  "ownerReviewsReplySaved": "Yanıtınız kaydedildi.",
+  "@ownerReviewsReplySaved": {
+    "description": "L10n key: ownerReviewsReplySaved"
+  },
+  "ownerReviewsReplyDeleted": "Yanıt silindi.",
+  "@ownerReviewsReplyDeleted": {
+    "description": "L10n key: ownerReviewsReplyDeleted"
+  },
+  "ownerReviewsOwnerReplyLabel": "İşletme Yanıtı",
+  "@ownerReviewsOwnerReplyLabel": {
+    "description": "L10n key: ownerReviewsOwnerReplyLabel"
+  },
+  "ownerReviewsEmpty": "Henüz yorum yok.",
+  "@ownerReviewsEmpty": {
+    "description": "L10n key: ownerReviewsEmpty"
+  },
+  "ownerReviewsReplyCancelButton": "İptal",
+  "@ownerReviewsReplyCancelButton": {
+    "description": "L10n key: ownerReviewsReplyCancelButton"
+  },
+  "ownerReviewsReplySaveButton": "Kaydet",
+  "@ownerReviewsReplySaveButton": {
+    "description": "L10n key: ownerReviewsReplySaveButton"
+  },
+  "sortNewest": "En yeni",
+  "@sortNewest": {
+    "description": "Sort by newest"
+  },
+  "sortMostHelpful": "En faydalı",
+  "@sortMostHelpful": {
+    "description": "Sort by most helpful"
+  },
+  "helpfulCount": "{count} faydalı",
+  "@helpfulCount": {
+    "description": "Helpful vote count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

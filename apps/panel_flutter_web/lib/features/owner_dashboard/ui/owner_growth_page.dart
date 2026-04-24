@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/app_role_providers.dart';
 import '../../../core/security/business_rbac.dart';
-import '../../../shared/ui/components/app_section_header.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../owner_businesses/domain/owner_business_state.dart';
 import 'owner_dashboard_sections.dart';
 
@@ -42,25 +41,31 @@ class OwnerGrowthPage extends ConsumerWidget {
     }
 
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.zero,
       children: [
-        AppSectionHeader(
-          title: l10n.ownerGrowthTitle,
-          subtitle: Text(
-            l10n.ownerGrowthDescription,
-            style: const TextStyle(color: AppColors.muted),
+        PanelPageHeader(
+          eyebrow: 'Owner',
+          title: Text(l10n.ownerGrowthTitle),
+          description: l10n.ownerGrowthDescription,
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+          child: Column(
+            children: [
+              OwnerKpiOverviewCard(businessId: effectiveBusinessId),
+              const SizedBox(height: 12),
+              OwnerGrowthBarChartCard(businessId: effectiveBusinessId),
+              const SizedBox(height: 12),
+              OwnerAnalyticsPreviewCard(businessId: effectiveBusinessId),
+              const SizedBox(height: 12),
+              OwnerGrowthSignalsCard(businessId: effectiveBusinessId),
+              const SizedBox(height: 12),
+              OwnerSponsorshipCatalogCard(businessId: effectiveBusinessId),
+              const SizedBox(height: 12),
+              OwnerProLeadCard(businessId: effectiveBusinessId),
+            ],
           ),
         ),
-        const SizedBox(height: 12),
-        OwnerKpiOverviewCard(businessId: effectiveBusinessId),
-        const SizedBox(height: 12),
-        OwnerAnalyticsPreviewCard(businessId: effectiveBusinessId),
-        const SizedBox(height: 12),
-        OwnerGrowthSignalsCard(businessId: effectiveBusinessId),
-        const SizedBox(height: 12),
-        OwnerSponsorshipCatalogCard(businessId: effectiveBusinessId),
-        const SizedBox(height: 12),
-        OwnerProLeadCard(businessId: effectiveBusinessId),
       ],
     );
   }

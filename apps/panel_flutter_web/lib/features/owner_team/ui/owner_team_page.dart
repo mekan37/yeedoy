@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/business_rbac.dart';
 import '../../../core/security/business_rbac_localizations.dart';
@@ -9,6 +10,7 @@ import '../../../features/owner_businesses/domain/owner_business_providers.dart'
 import '../../../features/owner_businesses/domain/owner_business_state.dart';
 import '../../../shared/ui/components/owner_business_guard.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../data/owner_team_repository.dart';
 import '../domain/owner_team_models.dart';
 
@@ -50,25 +52,23 @@ class _OwnerTeamPageState extends ConsumerState<OwnerTeamPage> {
       builder: (context, ref) {
         final businessesAsync = ref.watch(ownerBusinessesProvider);
         final membersAsync = ref.watch(_teamMembersProvider(businessId));
-        return Scaffold(
-          body: RefreshIndicator(
-            onRefresh: () async {
-              ref.invalidate(_teamMembersProvider(businessId));
-              ref.invalidate(ownerBusinessesProvider);
-            },
-            child: ListView(
-              padding: const EdgeInsets.all(24),
-              children: [
-                Text(
-                  context.l10n.ownerTeamTitle,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  context.l10n.ownerTeamDescription,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
-                const SizedBox(height: 16),
+        return RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(_teamMembersProvider(businessId));
+            ref.invalidate(ownerBusinessesProvider);
+          },
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              PanelPageHeader(
+                eyebrow: 'Owner',
+                title: Text(context.l10n.ownerTeamTitle),
+                description: context.l10n.ownerTeamDescription,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                child: Column(
+                  children: [
                 businessesAsync.maybeWhen(
                   data: (items) {
                     String? businessName;
@@ -97,7 +97,7 @@ class _OwnerTeamPageState extends ConsumerState<OwnerTeamPage> {
                   loading: () => const OwnerPanelFeedback.loading(cardCount: 2),
                   error: (error, _) => OwnerPanelFeedback.error(
                     title: context.l10n.ownerTeamLoadErrorTitle,
-                    description: error.toString(),
+                    description: AppErrorMapper.message(error),
                     onRetry: () => ref.invalidate(_teamMembersProvider(businessId)),
                   ),
                   data: (members) {
@@ -129,8 +129,10 @@ class _OwnerTeamPageState extends ConsumerState<OwnerTeamPage> {
                     );
                   },
                 ),
-              ],
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -160,7 +162,7 @@ class _OwnerTeamPageState extends ConsumerState<OwnerTeamPage> {
       _showSnack(context.l10n.ownerTeamSaved);
     } catch (error) {
       if (!mounted) return;
-      _showSnack(error.toString());
+      _showSnack(AppErrorMapper.message(error));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -189,7 +191,7 @@ class _OwnerTeamPageState extends ConsumerState<OwnerTeamPage> {
       _showSnack(context.l10n.ownerTeamUpdated);
     } catch (error) {
       if (!mounted) return;
-      _showSnack(error.toString());
+      _showSnack(AppErrorMapper.message(error));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -209,7 +211,7 @@ class _OwnerTeamPageState extends ConsumerState<OwnerTeamPage> {
       _showSnack(context.l10n.ownerTeamRemoved);
     } catch (error) {
       if (!mounted) return;
-      _showSnack(error.toString());
+      _showSnack(AppErrorMapper.message(error));
     } finally {
       if (mounted) setState(() => _saving = false);
     }

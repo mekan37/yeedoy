@@ -144,6 +144,19 @@ class OfflineCachePrefs {
     return _loadCachedAt(_menuItemsKey(menuId));
   }
 
+  static String _offlineSavedKey(String menuId) =>
+      'offline_saved_menu_$menuId';
+
+  static Future<void> markMenuSavedForOffline(String menuId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_offlineSavedKey(menuId), true);
+  }
+
+  static Future<bool> isMenuSavedForOffline(String menuId) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_offlineSavedKey(menuId)) ?? false;
+  }
+
   static Future<void> saveDiscoveryFeed(
     String cacheId,
     List<Map<String, dynamic>> rows,

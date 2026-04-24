@@ -79,9 +79,10 @@ class _FollowingPageState extends ConsumerState<FollowingPage> {
               _EmptyState(message: t.followingPageEmpty)
             else ...[
               for (final g in st.items) ...[
-                _GourmetTile(
-                  user: g,
-                  onUnfollow: () async {
+                RepaintBoundary(
+                  child: _GourmetTile(
+                    user: g,
+                    onUnfollow: () async {
                     if (user == null) {
                       context.go('/login?redirect=/following');
                       return;
@@ -98,6 +99,7 @@ class _FollowingPageState extends ConsumerState<FollowingPage> {
                       }
                     }
                   },
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],

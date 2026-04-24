@@ -2,6 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,11 +43,20 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
   String? _languageCode;
   bool _loading = true;
   bool _saving = false;
+  String _appVersion = '';
 
   @override
   void initState() {
     super.initState();
     _load();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      if (mounted) setState(() => _appVersion = '${info.version} (${info.buildNumber})');
+    } catch (_) {}
   }
 
   @override
@@ -126,7 +136,7 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(t.saveError(e.toString()))));
+      ).showSnackBar(SnackBar(content: Text(t.saveError(AppErrorMapper.message(e)))));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -685,6 +695,15 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                           title: Text(t.logout),
                           onTap: _logout,
                         ),
+                        if (_appVersion.isNotEmpty)
+                          ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: const Icon(Icons.info_outline, color: AppColors.muted),
+                            title: Text(
+                              'Versiyon $_appVersion',
+                              style: const TextStyle(color: AppColors.muted),
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -795,6 +814,7 @@ class _SocialField extends StatelessWidget {
               labelText: label,
               helperText: helperText,
               suffixIcon: IconButton(
+                tooltip: AppLocalizations.of(context).preview,
                 onPressed: onPreview,
                 icon: const Icon(Icons.open_in_new_rounded),
               ),

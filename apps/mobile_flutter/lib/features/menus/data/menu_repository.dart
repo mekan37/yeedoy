@@ -1014,6 +1014,39 @@ class MenuRepository {
         .map((row) => MenuItem.fromMap(row.cast<String, dynamic>()))
         .toList(growable: false);
   }
+
+  Future<MenuItemPriceBenchmark?> fetchCategoryPriceBenchmark({
+    required String itemName,
+    required String city,
+    String? excludeBusinessId,
+  }) async {
+    if (itemName.trim().isEmpty || city.trim().isEmpty) return null;
+    try {
+      final res = await client.rpc(
+        'get_category_price_benchmark_v1',
+        params: {
+          'p_item_name': itemName.trim(),
+          'p_city': city.trim(),
+          'p_exclude_business_id': excludeBusinessId,
+        },
+      );
+      final rows = (res as List?) ?? const [];
+      if (rows.isEmpty) return null;
+      final row = rows.first;
+      if (row is! Map) return null;
+      final m = row.cast<String, dynamic>();
+      final avg = (m['avg_price_cents'] as num?)?.toInt() ?? 0;
+      if (avg <= 0) return null;
+      return MenuItemPriceBenchmark(
+        avgPriceCents: avg,
+        minPriceCents: (m['min_price_cents'] as num?)?.toInt() ?? avg,
+        maxPriceCents: (m['max_price_cents'] as num?)?.toInt() ?? avg,
+        sampleCount: (m['sample_count'] as num?)?.toInt() ?? 0,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
 }
 
 bool _hasDuplicatedItemIds(List<MenuItem> items) {
@@ -1025,6 +1058,20 @@ bool _hasDuplicatedItemIds(List<MenuItem> items) {
     if (!ids.add(id)) return true;
   }
   return false;
+}
+
+class MenuItemPriceBenchmark {
+  const MenuItemPriceBenchmark({
+    required this.avgPriceCents,
+    required this.minPriceCents,
+    required this.maxPriceCents,
+    required this.sampleCount,
+  });
+
+  final int avgPriceCents;
+  final int minPriceCents;
+  final int maxPriceCents;
+  final int sampleCount;
 }
 
 class PriceSuggestionSubmissionResult {

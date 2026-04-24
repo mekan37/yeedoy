@@ -29,8 +29,9 @@ import '../../business/domain/business_amenity.dart';
 import '../../business/domain/business_meal_card_providers_provider.dart';
 import '../../business/domain/meal_card_provider_option.dart';
 import '../../owner_onboarding/domain/owner_onboarding_providers.dart';
-import '../../../shared/ui/components/app_scaffold.dart';
 import '../../../shared/ui/components/deferred_page_loader.dart';
+import '../../../shared/ui/components/panel_action_button.dart';
+import '../../../shared/ui/components/panel_page_header.dart';
 import '../../../shared/ui/components/owner_panel_feedback.dart';
 
 class OwnerMenusPage extends ConsumerStatefulWidget {
@@ -54,9 +55,7 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) context.go('/isletme-giris?redirect=$redirect');
       });
-      return const AppScaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     final claimsAsync = ref.watch(myClaimsProvider);
@@ -104,20 +103,16 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
         data: (value) => value,
       );
       if (canManage == null) {
-        return const AppScaffold(
-          body: Center(child: CircularProgressIndicator()),
-        );
+        return const Center(child: CircularProgressIndicator());
       }
       if (!canManage) {
-        return AppScaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: OwnerPanelFeedback.error(
-              title: l10n.ownerNoBusinessPermissionTitle,
-              description: l10n.ownerNoBusinessPermissionDescription,
-              onRetry: () => context.go('/owner/businesses'),
-              retryLabel: l10n.ownerGoBusinessesAction,
-            ),
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: OwnerPanelFeedback.error(
+            title: l10n.ownerNoBusinessPermissionTitle,
+            description: l10n.ownerNoBusinessPermissionDescription,
+            onRetry: () => context.go('/owner/businesses'),
+            retryLabel: l10n.ownerGoBusinessesAction,
           ),
         );
       }
@@ -151,28 +146,9 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
       });
     }
 
-    return AppScaffold(
-      appBar: AppBar(
-        title: Text(l10n.ownerMenuManagementTitle),
-        actions: [
-          IconButton(
-            onPressed: selectedBusinessId.isEmpty
-                ? null
-                : () => context.go('/owner/trash?businessId=$selectedBusinessId'),
-            icon: const Icon(Icons.delete_sweep_outlined),
-            tooltip: l10n.ownerShellTrashLabel,
-          ),
-          IconButton(
-            onPressed: selectedBusinessId.isEmpty
-                ? null
-                : () => ref
-                      .read(ownerMenusProvider(selectedBusinessId).notifier)
-                      .refresh(),
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
-      ),
-      body: RefreshIndicator(
+    return Stack(
+      children: [
+        RefreshIndicator(
         onRefresh: () async {
           if (selectedBusinessId.isEmpty) return;
           await ref.read(ownerMenusProvider(selectedBusinessId).notifier).refresh();
@@ -180,6 +156,33 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
         child: CustomScrollView(
           cacheExtent: 1200,
           slivers: [
+            SliverToBoxAdapter(
+              child: PanelPageHeader(
+                eyebrow: 'Owner',
+                title: Text(l10n.ownerMenuManagementTitle),
+                description: 'Menülerinizi yönetin, yayınlayın ve QR kodlarınızı paylaşın.',
+                compactActions: [
+                  PanelActionButton(
+                    icon: Icons.delete_sweep_outlined,
+                    tooltip: l10n.ownerShellTrashLabel,
+                    variant: PanelActionButtonVariant.ghost,
+                    onPressed: selectedBusinessId.isEmpty
+                        ? null
+                        : () => context.go('/owner/trash?businessId=$selectedBusinessId'),
+                  ),
+                  PanelActionButton(
+                    icon: Icons.refresh,
+                    tooltip: 'Yenile',
+                    variant: PanelActionButtonVariant.ghost,
+                    onPressed: selectedBusinessId.isEmpty
+                        ? null
+                        : () => ref
+                              .read(ownerMenusProvider(selectedBusinessId).notifier)
+                              .refresh(),
+                  ),
+                ],
+              ),
+            ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
               sliver: SliverList(
@@ -337,15 +340,20 @@ class _OwnerMenusPageState extends ConsumerState<OwnerMenusPage> {
                 ];
               },
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 24)),
+            const SliverToBoxAdapter(child: SizedBox(height: 96)),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: selectedBusinessId.isEmpty ? null : _openCreateMenuSheet,
-        icon: const Icon(Icons.add),
-        label: Text(l10n.ownerCreateMenuAction),
-      ),
+        Positioned(
+          bottom: 24,
+          right: 24,
+          child: FloatingActionButton.extended(
+            onPressed: selectedBusinessId.isEmpty ? null : _openCreateMenuSheet,
+            icon: const Icon(Icons.add),
+            label: Text(l10n.ownerCreateMenuAction),
+          ),
+        ),
+      ],
     );
   }
 
@@ -576,26 +584,30 @@ class _DigitalMenuStudioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: AppColors.primarySoft,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: const Icon(
-                    Icons.qr_code_2_outlined,
-                    color: AppColors.textStrong,
-                  ),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: AppColors.primarySoft,
+                  borderRadius: BorderRadius.circular(16),
                 ),
+                child: const Icon(
+                  Icons.qr_code_2_outlined,
+                  color: AppColors.primary,
+                ),
+              ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -647,7 +659,6 @@ class _DigitalMenuStudioCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }
@@ -716,16 +727,20 @@ class _OwnerAmenitiesSectionState
     final allAmenitiesAsync = ref.watch(allAmenitiesProvider);
     ref.watch(businessAmenitiesProvider(widget.businessId));
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.ownerAmenitiesTitle,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-            ),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.l10n.ownerAmenitiesTitle,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          ),
             const SizedBox(height: 6),
             if (_error != null)
               Text(
@@ -778,7 +793,6 @@ class _OwnerAmenitiesSectionState
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -860,16 +874,20 @@ class _OwnerMealCardProvidersSectionState
     final allMealCardsAsync = ref.watch(allMealCardProvidersProvider);
     ref.watch(businessMealCardProvidersProvider(widget.businessId));
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Geçerli Yemek Kartları',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-            ),
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Geçerli Yemek Kartları',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          ),
             const SizedBox(height: 6),
             const Text(
               'Kullanıcıların işletmenizde kullanabileceği yemek kartlarını seçin.',
@@ -928,7 +946,6 @@ class _OwnerMealCardProvidersSectionState
             ),
           ],
         ),
-      ),
     );
   }
 
@@ -981,17 +998,20 @@ class _SkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(height: 10, color: AppColors.card),
-            const SizedBox(height: 6),
-            Container(height: 10, width: 160, color: AppColors.card),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(height: 10, color: AppColors.border),
+          const SizedBox(height: 6),
+          Container(height: 10, width: 160, color: AppColors.border),
+        ],
       ),
     );
   }
@@ -1004,10 +1024,14 @@ class _OwnerProfileScoreCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scoreAsync = ref.watch(ownerBusinessProfileScoreProvider(businessId));
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: scoreAsync.when(
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: scoreAsync.when(
           loading: () => const _OwnerProfileScoreSkeleton(),
           error: (e, _) => Text(
             AppErrorMapper.message(e),
@@ -1048,7 +1072,6 @@ class _OwnerProfileScoreCard extends ConsumerWidget {
             );
           },
         ),
-      ),
     );
   }
 }

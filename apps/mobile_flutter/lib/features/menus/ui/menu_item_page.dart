@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
+
 import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/app_events.dart';
@@ -38,6 +39,8 @@ import '../domain/menu_item_context_controller.dart';
 import '../domain/menu_providers.dart';
 import '../../price_alerts/ui/price_alert_sheet.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../../shared/ui/share/business_share_card_sheet.dart';
+import '../../discovery/data/discovery_repository.dart';
 
 part 'sections/menu_item_detail_sections.dart';
 part 'sections/menu_item_suggestion_sections.dart';
@@ -101,6 +104,21 @@ final _menuItemVariantsProvider =
       });
       return variants;
     });
+
+final _businessCityProvider = FutureProvider.family<String?, String>((
+  ref,
+  businessId,
+) async {
+  if (businessId.isEmpty) return null;
+  try {
+    final business = await ref
+        .watch(discoveryRepositoryProvider)
+        .fetchBusiness(businessId);
+    return business.city;
+  } catch (_) {
+    return null;
+  }
+});
 
 class MenuItemPage extends ConsumerWidget {
   const MenuItemPage({

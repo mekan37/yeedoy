@@ -11,12 +11,27 @@ class AppEvents {
   static const achievementUnlock = 'achievement_unlock';
   static const notificationOpen = 'notification_open';
 
+  // Onboarding
+  static const onboardingComplete = 'onboarding_complete';
+  static const onboardingNotificationAllow = 'onboarding_notification_allow';
+  static const onboardingNotificationSkip = 'onboarding_notification_skip';
+
+  // Auth
+  static const loginSuccess = 'login_success';
+  static const loginFailure = 'login_failure';
+  static const signupSuccess = 'signup_success';
+  static const signupFailure = 'signup_failure';
+
   // Growth funnel
   static const funnelOpen = 'funnel_open';
   static const funnelLocationSet = 'funnel_location_set';
   static const funnelFirstBusiness = 'funnel_first_business';
   static const funnelMenuView = 'funnel_menu_view';
   static const funnelContribution = 'funnel_contribution';
+
+  // Budget combos
+  static const budgetComboSearch = 'budget_combo_search';
+  static const budgetComboBusinessOpen = 'budget_combo_business_open';
 
   // A/B tests
   static const experimentExposure = 'experiment_exposure';

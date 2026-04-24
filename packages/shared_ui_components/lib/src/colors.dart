@@ -10,7 +10,8 @@ class AppPalette {
   static const slate900 = Color(0xFF111827);
   static const slate700 = Color(0xFF374151);
   static const slate600 = Color(0xFF4B5563);
-  static const slate500 = Color(0xFF6B7280);
+  // WCAG AA fix: #6B7280 = 4.34:1 on white (fails); #5E6574 = 5.41:1 ✅
+  static const slate500 = Color(0xFF5E6574);
 
   static const bg = Color(0xFFF9FAFB);
   static const white = Color(0xFFFFFFFF);

@@ -1,9 +1,13 @@
 part of '../business_page.dart';
 
 class _BusinessHeroTrustHeader extends StatelessWidget {
-  const _BusinessHeroTrustHeader({required this.business});
+  const _BusinessHeroTrustHeader({
+    required this.business,
+    this.isOpenNow,
+  });
 
   final Business business;
+  final bool? isOpenNow;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +55,10 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
                         type: StatusBadgeType.verified,
                         label: AppLocalizations.of(context).verified,
                       ),
+                      if (isOpenNow != null) ...[
+                        const SizedBox(width: 8),
+                        _OpenNowHeroBadge(isOpen: isOpenNow!),
+                      ],
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -84,16 +92,71 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
               business.logoUrl,
         ) ??
         '';
+    // Deterministic Hero tag: 'business-image-<id>'
+    // Matching tag must be applied on any source widget (list card, smart feed)
+    // that shows the same business image to enable the shared-element transition.
+    final heroTag = 'business-image-${business.id}';
     if (remote.isNotEmpty) {
-      return AppNetworkImage(
-        url: remote,
-        fit: BoxFit.cover,
-        variant: AppImageVariant.medium,
+      return Hero(
+        tag: heroTag,
+        child: AppNetworkImage(
+          url: remote,
+          fit: BoxFit.cover,
+          variant: AppImageVariant.medium,
+        ),
       );
     }
-    return Image.asset(
-      _heroImageForCategory(business.category),
-      fit: BoxFit.cover,
+    return Hero(
+      tag: heroTag,
+      child: Image.asset(
+        _heroImageForCategory(business.category),
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+}
+
+class _OpenNowHeroBadge extends StatelessWidget {
+  const _OpenNowHeroBadge({required this.isOpen});
+  final bool isOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: isOpen
+            ? Colors.green.withValues(alpha: 0.2)
+            : Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isOpen
+              ? Colors.green.withValues(alpha: 0.5)
+              : Colors.white.withValues(alpha: 0.25),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(
+              color: isOpen ? Colors.green : Colors.white54,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 5),
+          Text(
+            isOpen ? 'Açık' : 'Kapalı',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: isOpen ? Colors.green[200] : Colors.white60,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
