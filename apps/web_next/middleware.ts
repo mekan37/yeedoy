@@ -40,14 +40,18 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
 // ── Protected panel route guard ───────────────────────────────────────────────
 const OWNER_PREFIX = '/owner';
 const ADMIN_PREFIX = '/admin';
+// /api/admin/* routes are NOT rewritten by subdomain logic — guard them explicitly
+const ADMIN_API_PREFIX = '/api/admin';
 const LOGIN_PATH = '/login';
 
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
   const isOwnerRoute = pathname.startsWith(OWNER_PREFIX);
   const isAdminRoute = pathname.startsWith(ADMIN_PREFIX);
+  // /api/admin/* sits outside the panel prefix — guard it with the same logic
+  const isAdminApiRoute = pathname.startsWith(ADMIN_API_PREFIX);
 
-  if (!isOwnerRoute && !isAdminRoute) return null;
+  if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -78,8 +82,8 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
     return NextResponse.redirect(loginUrl);
   }
 
-  // Admin routes require admin role check
-  if (isAdminRoute) {
+  // Admin routes (panel pages + API routes) require admin role check
+  if (isAdminRoute || isAdminApiRoute) {
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('role')
@@ -94,8 +98,10 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
     }
   }
 
-  // Prevent search engine indexing of panel routes
-  response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  // Prevent search engine indexing of panel routes (not API routes)
+  if (!isAdminApiRoute) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  }
   return response;
 }
 

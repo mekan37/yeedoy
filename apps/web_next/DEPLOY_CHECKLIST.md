@@ -4,8 +4,8 @@ Tarih: 2026-03-03
 
 ## 1. Kapsam Dogrulamasi
 
-- `apps/web_next` yalnizca public menu, authenticated QR Studio, template/branding, SEO ve analytics katmanidir.
-- Owner/admin CRUD ekranlari bu release kapsaminda degildir ve panelde kalir.
+- `apps/web_next` public menu, authenticated QR Studio, template/branding, SEO, analytics ve owner/admin web yuzeyidir.
+- Owner/admin CRUD ekranlari `apps/web_next/app/owner/**` ve `apps/web_next/app/admin/**` altindadir.
 - Public route modeli `businessId` tabanlidir.
 
 ## 2. Ortam Degiskenleri
@@ -16,18 +16,12 @@ Production ortaminda asagidaki degiskenler dogru set edilmis olmali:
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `NEXT_PUBLIC_SITE_URL`
-- `NEXT_PUBLIC_PANEL_URL`
-
-Panel tarafi icin ayrica:
-
-- `apps/panel_flutter_web` icinde `BASE_URL_WEB_NEXT`
 
 Kontroller:
 
 - `SUPABASE_SERVICE_ROLE_KEY` yalnizca server-side ortamda kalmali.
 - `NEXT_PUBLIC_SITE_URL` production host ile birebir ayni olmali.
-- `NEXT_PUBLIC_PANEL_URL` owner login geri donuslerini dogru panele gostermeli.
-- `BASE_URL_WEB_NEXT` bos kalirsa panel fallback ile `localhost` kullanabilir; bu release oncesi engellenmeli.
+- Owner/admin login redirect hedefleri production host ile uyumlu olmali.
 
 ## 3. Veritabani Migration Sirasi
 
@@ -71,9 +65,9 @@ Notlar:
 
 ## 5. Post-Deploy Smoke
 
-### Panel -> QR Studio
+### Owner/Admin -> QR Studio
 
-1. Panelde owner veya yetkili admin oturumu ac.
+1. Web'de owner veya yetkili admin oturumu ac.
 2. `Dijital Menu & QR` butonuna tikla.
 3. `/qr/:businessId?lang=tr&theme=bold` acildigini dogrula.
 4. Session yoksa `/login?redirect=...` davranisinin dogru oldugunu kontrol et.

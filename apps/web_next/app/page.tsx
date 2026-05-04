@@ -115,7 +115,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-[var(--yd-color-primary-soft)] px-3 py-1">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             <span className="text-xs font-[900] uppercase tracking-wide text-primary">
-              Türkiye'nin menü platformu
+              Türkiye&apos;nin menü platformu
             </span>
           </div>
 

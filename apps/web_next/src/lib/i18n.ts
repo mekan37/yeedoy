@@ -36,6 +36,7 @@ export const copy = {
     variants: 'Secenekler',
     tags: 'Etiketler',
     photos: 'Fotograflar',
+    priceHistory: 'Fiyat gecmisi',
     close: 'Kapat',
     qrTitle: 'QR Menu Olustur',
     qrDescription:
@@ -105,6 +106,7 @@ export const copy = {
     variants: 'Variants',
     tags: 'Tags',
     photos: 'Photos',
+    priceHistory: 'Price history',
     close: 'Close',
     qrTitle: 'Generate QR Menu',
     qrDescription:

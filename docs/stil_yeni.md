@@ -365,14 +365,21 @@ TextStyle get eyebrow => const TextStyle(
     → app_theme.dart tabBarTheme
 ```
 
-### Sprint 4 — Sonraki Çeyrek
+### Sprint 4 — Kısmen Tamamlandı
 
 ```
-[8] Web dark mode: tüm sayfalar tam test + toggle butonu
-[9] Tipografi utility class'ları (.yd-heading-xl, .yd-label)
-[10] Fiyat sparkline dark mode renk token'ları
-[11] Category pill aktif state smooth animasyon
-[12] Mobile: BottomSheet 28px radius + drag handle (bazı sheet'lerde eksik)
+[8] Web dark mode: tokens + globals.css ✅ — Toggle butonu eksik
+[9] ✅ Tipografi utility class'ları: .yd-heading-xl/lg/md + .yd-eyebrow + .yd-caption + .yd-numeric (2026-05-04)
+[10] ✅ Fiyat sparkline dark mode: currentColor + text-danger/success/muted Tailwind class (2026-05-04)
+[11] ✅ Category pill smooth animasyon: opacity-based gradient overlay (2026-05-04)
+[12] Mobile: BottomSheet drag handle — bottomSheetTheme radius 28px zaten var, drag handle bazı sheet'lerde eksik
+```
+
+### Sprint 5 — Kalan
+```
+[ ] Dark mode toggle butonu — navbar/user menüde
+[ ] Mobile BottomSheet drag handle widget ekle (bazı sayfalar)
+[ ] Dark mode full test: tüm sayfa snapshot'ları
 ```
 
 ---
@@ -393,10 +400,10 @@ TextStyle get eyebrow => const TextStyle(
 - [x] AppSkeletonLine/Box/Card — tüm loading state'ler
 - [x] BusinessTile — AppCard, badge chips, quality score
 - [x] RepaintBoundary — tüm feed item render'ları
-- [ ] SuccessOverlay widget
-- [ ] Login page dekoratif arka plan
-- [ ] AppEmptyState gradient icon circle
-- [ ] Tab indicator → gradient pill
+- [x] SuccessOverlay widget — zaten mevcut (`features/shared/ui/components/success_overlay.dart`) ✅
+- [x] Login page dekoratif arka plan — zaten mevcut (RadialGradient + 2 circle) ✅
+- [x] AppEmptyState gradient icon circle — zaten mevcut (RadialGradient, alpha 0.10→0.04) ✅
+- [x] Tab indicator → gradient pill (BoxDecoration + LinearGradient bordo→kırmızı + shadow) (2026-05-04)
 
 ### Next.js Web
 - [x] tokens.css easing + shadow + gradient ✅

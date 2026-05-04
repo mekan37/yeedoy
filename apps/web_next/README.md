@@ -93,7 +93,6 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_optional
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-NEXT_PUBLIC_PANEL_URL=http://localhost:8080
 PLAYWRIGHT_SMOKE_BUSINESS_ID=your_live_business_uuid
 PLAYWRIGHT_SMOKE_BUSINESS_PATH=your_live_public_slug_or_uuid_optional
 PLAYWRIGHT_SMOKE_CATEGORY_ID=your_live_category_uuid_optional
@@ -105,7 +104,6 @@ Kurallar:
 - Public read icin yalnizca anon key yeterlidir.
 - `SUPABASE_SERVICE_ROLE_KEY` upload route'u icin gereklidir.
 - Analytics route service role varsa onu kullanir, yoksa server-side anon RPC fallback yapar.
-- `NEXT_PUBLIC_PANEL_URL` varsa login sayfasi panel girisine geri donus linki sunar.
 - `PLAYWRIGHT_SMOKE_BUSINESS_ID`, `test:e2e:live` ve `lighthouse:mobile` icin zorunludur.
 - `PLAYWRIGHT_SMOKE_BUSINESS_PATH` verilirse live smoke canonical slug route'unu ve `/m/:businessId -> /m/:publicSlugOrId` redirect zincirini de dogrular.
 

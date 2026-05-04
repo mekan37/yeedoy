@@ -88,11 +88,29 @@ ThemeData buildAppTheme() {
         ),
       ),
     ),
-    tabBarTheme: const TabBarThemeData(
-      labelColor: AppColors.textStrong,
+    tabBarTheme: TabBarThemeData(
+      labelColor: Colors.white,
       unselectedLabelColor: AppColors.muted,
-      indicatorColor: AppColors.primaryStrong,
-      labelStyle: TextStyle(fontWeight: FontWeight.w800),
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerColor: Colors.transparent,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
+      labelStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
+      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+      indicator: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF7F1D1D), Color(0xFFDC2626)],
+        ),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF7F1D1D).withValues(alpha: 0.28),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
     ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: AppColors.bg,
@@ -103,11 +121,13 @@ ThemeData buildAppTheme() {
       thickness: 0.5,
       space: 0.5,
     ),
-    bottomSheetTheme: const BottomSheetThemeData(
+    bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: AppColors.card,
       surfaceTintColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      shadowColor: Colors.black.withValues(alpha: 0.12),
+      elevation: 48,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
     ),
     filledButtonTheme: FilledButtonThemeData(
@@ -266,8 +286,10 @@ ThemeData buildDarkAppTheme() {
     bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: AppDarkColors.card,
       surfaceTintColor: Colors.transparent,
+      shadowColor: Colors.black.withValues(alpha: 0.20),
+      elevation: 48,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
     ),
     filledButtonTheme: FilledButtonThemeData(

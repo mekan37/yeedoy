@@ -199,17 +199,19 @@ export function MenuItemDetailSheet({
                 </div>
               </div>
 
-              {/* Price history sparkline */}
-              {(selectedItemDetails?.priceHistory.length ?? 0) > 1 && (
+              {selectedItemDetails?.priceHistory.some((entry) => entry.old_price_cents !== null) ||
+              (selectedItemDetails?.priceHistory.length ?? 0) > 1 ? (
                 <div className="rounded-[28px] border border-border bg-bg p-4">
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-3">Fiyat Geçmişi</p>
+                  <p className="mb-3 text-xs font-black uppercase tracking-[0.2em] text-muted">
+                    {labels.priceHistory}
+                  </p>
                   <PriceSparkline
-                    entries={selectedItemDetails!.priceHistory}
+                    entries={selectedItemDetails?.priceHistory ?? []}
                     lang={lang}
                     showCurrencySymbol={presentationView.showCurrencySymbol}
                   />
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
@@ -234,7 +236,11 @@ function PriceSparkline({ entries, lang, showCurrencySymbol }: {
   const sorted = [...entries].sort(
     (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
   );
-  const prices = sorted.map((e) => e.new_price_cents);
+  const first = sorted[0];
+  const prices = [
+    ...(first?.old_price_cents != null ? [first.old_price_cents] : []),
+    ...sorted.map((entry) => entry.new_price_cents),
+  ];
   const min = Math.min(...prices);
   const max = Math.max(...prices);
   const range = max - min || 1;
@@ -246,26 +252,27 @@ function PriceSparkline({ entries, lang, showCurrencySymbol }: {
   }));
   const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
   const latest = sorted[sorted.length - 1];
-  const oldest = sorted[0];
-  const delta = latest.new_price_cents - oldest.new_price_cents;
-  const color = delta > 0 ? '#b91c1c' : delta < 0 ? '#15803d' : '#94a3b8';
+  const oldestPrice = first.old_price_cents ?? first.new_price_cents;
+  const delta = latest.new_price_cents - oldestPrice;
+  // Use Tailwind token classes so dark mode CSS variables apply automatically
+  const sparklineClass = delta > 0 ? 'text-danger' : delta < 0 ? 'text-success' : 'text-muted';
   const currency = latest.currency || 'TRY';
 
   return (
     <div className="space-y-2">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-hidden="true">
-        <path d={d} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <svg viewBox={`0 0 ${W} ${H}`} className={`w-full ${sparklineClass}`} aria-hidden="true">
+        <path d={d} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         {pts.map((p, i) => (
-          <circle key={i} cx={p.x} cy={p.y} r="2.5" fill={color} />
+          <circle key={i} cx={p.x} cy={p.y} r="2.5" fill="currentColor" />
         ))}
       </svg>
       <div className="flex items-center justify-between text-xs text-muted">
-        <span>{new Date(oldest.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}</span>
+        <span>{new Date(first.created_at).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { day: 'numeric', month: 'short' })}</span>
         <span className={`font-[800] ${delta > 0 ? 'text-danger' : delta < 0 ? 'text-success' : 'text-muted'}`}>
           {delta !== 0 && (delta > 0 ? '+' : '')}
           {formatCurrency(delta, lang, currency, showCurrencySymbol)}
         </span>
-        <span>{new Date(latest.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}</span>
+        <span>{new Date(latest.created_at).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { day: 'numeric', month: 'short' })}</span>
       </div>
     </div>
   );
