@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
+  darkMode: 'media',
   theme: {
     extend: {
       colors: {
@@ -10,6 +11,7 @@ module.exports = {
         card: 'rgb(var(--yd-color-card-rgb) / <alpha-value>)',
         cardAlt: 'rgb(var(--yd-color-card-alt-rgb) / <alpha-value>)',
         border: 'rgb(var(--yd-color-border-rgb) / <alpha-value>)',
+        borderStrong: 'var(--yd-color-border-strong)',
         text: 'rgb(var(--yd-color-text-rgb) / <alpha-value>)',
         textStrong: 'rgb(var(--yd-color-text-strong-rgb) / <alpha-value>)',
         muted: 'rgb(var(--yd-color-muted-rgb) / <alpha-value>)',

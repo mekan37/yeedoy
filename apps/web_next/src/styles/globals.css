@@ -27,6 +27,14 @@ body {
     linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(249, 250, 251, 1));
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image:
+      radial-gradient(circle at top left, rgba(127, 29, 29, 0.10), transparent 40%),
+      linear-gradient(180deg, rgba(22, 26, 34, 1), rgba(13, 15, 19, 1));
+  }
+}
+
 * {
   box-sizing: border-box;
 }

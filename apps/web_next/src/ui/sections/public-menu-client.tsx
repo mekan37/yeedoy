@@ -520,7 +520,7 @@ export function PublicMenuClient({
       </section>
 
       <section className="sticky top-3 z-30">
-        <div className="overflow-hidden rounded-[28px] border border-border bg-card/90 p-3 shadow-yd2 backdrop-blur">
+        <div className="overflow-hidden rounded-[28px] border border-border bg-card/92 p-3 shadow-yd2 backdrop-blur-md">
           {/* Mobile-only search input inside sticky bar */}
           <div className="mb-2 md:hidden">
             <input
@@ -840,6 +840,12 @@ export function PublicMenuClient({
                   role="listitem"
                   className={`card-interactive group relative overflow-hidden rounded-[28px] border shadow-yd1 ${brand.itemCardClassName} ${!(availabilityMap[item.id] ?? item.is_available) ? 'opacity-60' : ''}`}
                 >
+                  {/* Left accent bar — slides in on hover */}
+                  <div
+                    className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-[3px] rounded-l-[28px] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                    style={{ background: 'var(--yd-gradient-primary)' }}
+                    aria-hidden="true"
+                  />
                   {!(availabilityMap[item.id] ?? item.is_available) ? (
                     <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-[28px] bg-black/30 backdrop-blur-[1px]">
                       <span className="rounded-full border border-white/30 bg-black/60 px-5 py-2 text-xs font-black uppercase tracking-[0.2em] text-white">
@@ -1250,13 +1256,18 @@ function PillButton({
       aria-selected={ariaSelected}
       tabIndex={ariaSelected === false ? -1 : 0}
       onClick={onClick}
-      className={`relative overflow-hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] transition-all duration-200 ${
+      className={`relative shrink-0 overflow-hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] transition-all duration-200 ${
         active
-          ? 'border-transparent text-white shadow-[0_2px_8px_rgba(127,29,29,0.28)]'
-          : 'border-border bg-bg text-textStrong hover:border-primary/35'
+          ? 'border-transparent text-white shadow-[0_2px_12px_rgba(127,29,29,0.35)]'
+          : 'border-border bg-bg text-textStrong hover:border-primary/35 hover:text-primary'
       }`}
-      style={active ? { background: 'linear-gradient(135deg,#7F1D1D 0%,#DC2626 100%)' } : undefined}
     >
+      {/* Gradient overlay — always present, opacity transitions */}
+      <span
+        className={`absolute inset-0 transition-opacity duration-200 ${active ? 'opacity-100' : 'opacity-0'}`}
+        style={{ background: 'linear-gradient(135deg,#7F1D1D 0%,#DC2626 100%)' }}
+        aria-hidden="true"
+      />
       <span className="relative z-10">{children}</span>
     </button>
   );
