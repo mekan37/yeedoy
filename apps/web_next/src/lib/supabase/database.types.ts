@@ -75,6 +75,7 @@ export type Database = {
       }>;
       businesses: Table<{
         id: string;
+        owner_id: string;
         name: string;
         slug: string | null;
         public_slug: string | null;
@@ -89,6 +90,7 @@ export type Database = {
         is_active: boolean;
         created_at: string;
         logo_url: string | null;
+        logo_path: string | null;
         cover_url: string | null;
         reservation_url: string | null;
         order_yemeksepeti_url: string | null;

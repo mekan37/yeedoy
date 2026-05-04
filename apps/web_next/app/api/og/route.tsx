@@ -4,7 +4,11 @@ export const runtime = 'edge';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const title = searchParams.get('title') || 'Yeedoy QR Menu';
+  const rawTitle = searchParams.get('title') ?? '';
+  const title = (rawTitle
+    .replace(/[<>"'&]/g, (c) => ({'<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','&':'&amp;'}[c] ?? c))
+    .slice(0, 120)
+    .trim()) || 'Yeedoy QR Menu';
 
   return new ImageResponse(
     (

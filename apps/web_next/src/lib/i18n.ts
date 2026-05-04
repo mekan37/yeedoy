@@ -28,6 +28,7 @@ export const copy = {
     premiumQrHint: 'QR ciktilari marka sunumu icin hazirlandi.',
     closeDetails: 'Detay panelini kapat',
     unavailable: 'Musait degil',
+    soldOut: 'Tukendi',
     noResultsTitle: 'Bu filtreyle eslesen urun bulunamadi',
     noResultsBody: 'Aramayi temizleyin ya da baska bir kategori secin.',
     category: 'Kategori',
@@ -96,6 +97,7 @@ export const copy = {
     premiumQrHint: 'QR assets are prepared for branded presentation.',
     closeDetails: 'Close detail sheet',
     unavailable: 'Unavailable',
+    soldOut: 'Sold out',
     noResultsTitle: 'No items match this filter',
     noResultsBody: 'Clear the search or choose another category.',
     category: 'Category',
@@ -144,3 +146,117 @@ export const copy = {
 } as const;
 
 export type MenuCopy = (typeof copy)[AppLang];
+
+export const landingCopy = {
+  nav: {
+    product: 'Product',
+    workflow: 'Workflow',
+    login: 'Log in',
+  },
+  hero: {
+    eyebrow: 'QR menu SaaS for restaurants',
+    title: 'Yeedoy',
+    headline: 'Publish a branded menu before the next table sits down.',
+    body: 'Create public QR menus, keep owner operations in the panel, and serve fast menu pages that match every venue.',
+    primaryCta: 'Open owner panel',
+    secondaryCta: 'Preview menu flow',
+  },
+  visual: {
+    surface: 'Public menu',
+    venue: 'Bistro Moda',
+    categories: [
+      { title: 'Featured', state: 'Live' },
+      { title: 'Dinner', state: 'View' },
+      { title: 'Dessert', state: 'View' },
+    ],
+    items: [
+      { title: 'Smoked tomato mezze', label: 'Popular table scan' },
+      { title: 'Lemon herb sea bass', label: 'Category route ready' },
+      { title: 'Pistachio milk cake', label: 'Item detail shared' },
+    ],
+  },
+  proof: [
+    { value: '1 link', label: 'for menu, category and item sharing' },
+    { value: '< 2s', label: 'target reading flow for guests on mobile' },
+    { value: '24/7', label: 'public menu access from every QR scan' },
+  ],
+  support: {
+    kicker: 'Built around the real restaurant workflow',
+    title: 'Menu changes stay operational. Guest pages stay clean.',
+    body: 'Owners manage catalog, branding and growth in the panel. Guests only see a fast public menu, readable categories and shareable item routes.',
+  },
+  workflow: [
+    {
+      step: '01',
+      title: 'Brand the venue',
+      body: 'Upload identity, set presentation rules and generate QR assets for tables, windows and campaigns.',
+    },
+    {
+      step: '02',
+      title: 'Publish the menu',
+      body: 'Keep sections, availability and item detail ready for guests without exposing owner tools.',
+    },
+    {
+      step: '03',
+      title: 'Read the signal',
+      body: 'Track scans, opens and feedback so teams can see what guests actually use.',
+    },
+  ],
+  detail: {
+    kicker: 'Public by design',
+    title: 'A menu surface that feels native to each restaurant.',
+    body: 'Yeedoy keeps the public experience focused on discovery, item detail, QR access and brand handoff. Admin CRUD stays out of the guest-facing app.',
+    points: ['Mobile-first public routes', 'Branded QR studio', 'Privacy-friendly analytics', 'Owner panel handoff'],
+  },
+  finalCta: {
+    title: 'Turn every table into a live menu touchpoint.',
+    body: 'Launch the public menu layer, then keep operations moving from the dedicated owner panel.',
+    cta: 'Start in the panel',
+  },
+} as const;
+
+export const homeCopy = {
+  nav: {
+    discover: 'Kesfet',
+    top: 'En iyiler',
+    panel: 'Panel',
+  },
+  hero: {
+    kicker: 'Yeedoy kesif',
+    title: 'Yakinindaki isletmeleri ve menuleri kesfet',
+    body: 'Mobil uygulamadaki gibi restoranlari, kafeleri ve populer mekanlari web anasayfasindan da hizlica bul.',
+    suggest: 'Isletme oner',
+  },
+  filters: {
+    search: 'Isletme adi ara',
+    city: 'Sehir',
+    category: 'Kategori',
+    submit: 'Ara',
+    clear: 'Filtreleri temizle',
+  },
+  sections: {
+    businesses: 'Isletmeler',
+    top: 'Populer isletmeler',
+  },
+  results: {
+    count: (count: number) => `${count} isletme bulundu`,
+    empty: 'Sonuc bulunamadi',
+  },
+  empty: {
+    title: 'Bu filtreyle eslesen isletme yok',
+    body: 'Aramayi temizleyin ya da farkli bir sehir ve kategori deneyin.',
+  },
+  badges: {
+    popular: 'Populer',
+  },
+  pagination: {
+    previous: 'Onceki',
+    next: 'Sonraki',
+  },
+  panel: {
+    title: 'Panel ve admin ayri kalir',
+    body: 'Isletme yonetimi, menu CRUD ve admin operasyonlari kendi linklerinden acilir; anasayfa public kesif deneyimidir.',
+    login: 'Panele gir',
+    owner: 'Isletme baslat',
+  },
+} as const;

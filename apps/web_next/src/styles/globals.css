@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Flexing';
+  src: url('/fonts/flexing-black.ttf') format('truetype');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 800;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -101,6 +109,215 @@ input:focus-visible {
   animation: success-pop 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position: 200% center; }
+}
+
+@keyframes landing-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-device-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) rotate(0deg) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-1.5deg) scale(1);
+  }
+}
+
+@keyframes landing-scan {
+  0% {
+    transform: translateY(-24px);
+    opacity: 0;
+  }
+  18%,
+  78% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(318px);
+    opacity: 0;
+  }
+}
+
+@keyframes landing-row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-float {
+  animation: float 3s var(--yd-ease-smooth) infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 280ms var(--yd-ease-spring) both;
+}
+
+.animate-fade-scale-in {
+  animation: fade-scale-in 220ms var(--yd-ease-spring) both;
+}
+
+/* Interactive card: subtle lift + gradient overlay on hover */
+.card-interactive {
+  transition:
+    transform var(--yd-duration-medium) var(--yd-ease-spring),
+    box-shadow var(--yd-duration-medium) var(--yd-ease-spring);
+}
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--yd-shadow-3);
+}
+.card-interactive:active {
+  transform: translateY(0);
+  box-shadow: var(--yd-shadow-1);
+}
+
+/* Primary gradient button */
+.btn-primary {
+  background: var(--yd-gradient-primary);
+  color: var(--yd-color-on-primary);
+  box-shadow: var(--yd-shadow-primary);
+  transition:
+    box-shadow var(--yd-duration-medium) var(--yd-ease-spring),
+    transform var(--yd-duration-medium) var(--yd-ease-spring),
+    filter var(--yd-duration-medium) ease;
+}
+.btn-primary:hover {
+  box-shadow: var(--yd-shadow-primary-lg);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--yd-shadow-primary);
+  filter: brightness(0.96);
+}
+
+/* Animated underline link */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--yd-gradient-primary);
+  transition: width var(--yd-duration-medium) var(--yd-ease-spring);
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--yd-color-border-rgb)) 25%,
+    rgb(var(--yd-color-card-alt-rgb)) 50%,
+    rgb(var(--yd-color-border-rgb)) 75%
+  );
+  background-size: 200% auto;
+  animation: shimmer 1.6s var(--yd-ease-smooth) infinite;
+  border-radius: var(--yd-radius-sm);
+}
+
+.landing-link {
+  position: relative;
+}
+
+.landing-link::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  left: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--yd-duration-slow) var(--yd-ease-spring);
+}
+
+.landing-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.landing-hero-copy {
+  animation: landing-rise 520ms var(--yd-ease-spring) both;
+}
+
+.landing-device {
+  animation: landing-device-in 720ms var(--yd-ease-spring) 120ms both;
+}
+
+.landing-product-stage:hover .landing-device {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+.landing-scan-line {
+  position: absolute;
+  right: 20px;
+  left: 20px;
+  z-index: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.7), transparent);
+  animation: landing-scan 3.6s var(--yd-ease-smooth) infinite;
+}
+
+.landing-detail-row {
+  opacity: 0;
+  animation: landing-row-in 420ms var(--yd-ease-spring) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -108,7 +325,38 @@ input:focus-visible {
 
   .animate-sheet-in,
   .animate-overlay-in,
-  .animate-success-pop {
+  .animate-success-pop,
+  .animate-float,
+  .animate-slide-up,
+  .animate-fade-scale-in,
+  .skeleton,
+  .landing-hero-copy,
+  .landing-device,
+  .landing-scan-line,
+  .landing-detail-row {
     animation: none;
   }
+
+  .card-interactive:hover,
+  .btn-primary:hover,
+  .landing-product-stage:hover .landing-device {
+    transform: none;
+  }
+}
+
+/* Display font — Playfair Display for restaurant-facing hero headings */
+.font-display {
+  font-family: var(--yd-font-display);
+}
+
+/* Skeleton pulse utility (used in loading.tsx files) */
+.skeleton {
+  background: linear-gradient(90deg, var(--yd-color-border) 25%, var(--yd-color-card-alt) 50%, var(--yd-color-border) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

@@ -30,6 +30,7 @@ export type BusinessMediaBundle = {
 
 export type MenuItemRecord = MenuItem & {
   tagList: string[];
+  allergens: string[];   // list of AllergenType codes ('gluten', 'milk', ...)
   dietary: {
     calories: number | null;
     isVegan: boolean;
@@ -40,9 +41,18 @@ export type MenuItemRecord = MenuItem & {
   };
 };
 
+export type BusinessSocialLinks = {
+  website: string | null;
+  instagram: string | null;
+  whatsapp: string | null;
+  facebook: string | null;
+  tiktok: string | null;
+};
+
 export type PublicMenuData = {
   business: Business;
   businessHours: BusinessHours | null;
+  socialLinks: BusinessSocialLinks | null;
   media: BusinessMediaBundle;
   presentation: ResolvedPresentationRecord;
   menu: Menu;
@@ -59,14 +69,25 @@ function parseTagList(value: Database['public']['Tables']['menu_items']['Row']['
     .filter(Boolean);
 }
 
-function normalizeMenuItems(baseItems: MenuItem[], dietaryRows: MenuItemDietary[]) {
+function normalizeMenuItems(
+  baseItems: MenuItem[],
+  dietaryRows: MenuItemDietary[],
+  allergenRows: Array<{ item_id: string; allergen: string }>,
+) {
   const dietaryById = new Map(dietaryRows.map((row) => [row.id, row]));
+  const allergensByItem = new Map<string, string[]>();
+  for (const row of allergenRows) {
+    const list = allergensByItem.get(row.item_id) ?? [];
+    list.push(row.allergen);
+    allergensByItem.set(row.item_id, list);
+  }
 
   return baseItems.map((item) => {
     const dietary = dietaryById.get(item.id);
     return {
       ...item,
       tagList: parseTagList(item.tags),
+      allergens: allergensByItem.get(item.id) ?? [],
       dietary: {
         calories: dietary?.calories ?? null,
         isVegan: Boolean(dietary?.is_vegan),
@@ -370,7 +391,20 @@ const getMenuItemsCached = unstable_cache(
       logger.warn('Failed to fetch dietary menu item data', { menuId, error: dietaryResponse.error });
     }
 
-    return normalizeMenuItems((itemsResponse.data ?? []) as MenuItem[], dietaryRows);
+    // Batch-fetch allergens for all items in this menu
+    const itemIds = (itemsResponse.data ?? []).map((i: MenuItem) => i.id);
+    let allergenRows: Array<{ item_id: string; allergen: string }> = [];
+    if (itemIds.length > 0) {
+      const allergenResponse = await supabase
+        .from('menu_item_allergens')
+        .select('item_id,allergen')
+        .in('item_id', itemIds);
+      if (!allergenResponse.error) {
+        allergenRows = (allergenResponse.data ?? []) as Array<{ item_id: string; allergen: string }>;
+      }
+    }
+
+    return normalizeMenuItems((itemsResponse.data ?? []) as MenuItem[], dietaryRows, allergenRows);
   },
   ['public-menu-items'],
   { revalidate: 120 },
@@ -465,12 +499,34 @@ export async function getMenuItemPhotos(menuItemId: string) {
   return (data ?? []) as MenuItemPhoto[];
 }
 
+const getBusinessSocialLinksCached = unstable_cache(
+  async (businessId: string): Promise<BusinessSocialLinks | null> => {
+    const supabase = createSupabasePublicClient();
+    try {
+      const { data, error } = await supabase
+        .from('business_social_links')
+        .select('website,instagram,whatsapp,facebook,tiktok')
+        .eq('business_id', businessId)
+        .maybeSingle();
+
+      if (error) return null;
+      if (!data) return null;
+      return data as BusinessSocialLinks;
+    } catch {
+      return null;
+    }
+  },
+  ['public-business-social-links'],
+  { revalidate: 300 },
+);
+
 export async function getPublicMenuData(businessSlugOrId: string): Promise<PublicMenuData | null> {
   const business = await getBusinessBySlugOrId(businessSlugOrId);
   if (!business) return null;
 
-  const [businessHours, media, menu, presentation] = await Promise.all([
+  const [businessHours, socialLinks, media, menu, presentation] = await Promise.all([
     getBusinessHours(business.id),
+    getBusinessSocialLinksCached(business.id),
     getBusinessMedia(business),
     getMenuForBusiness(business.id),
     getResolvedBusinessPresentationSettings(business.id),
@@ -493,6 +549,7 @@ export async function getPublicMenuData(businessSlugOrId: string): Promise<Publi
   return {
     business,
     businessHours,
+    socialLinks,
     media: {
       ...media,
       logoUrl: presentation.logoUrl ?? media.logoUrl,

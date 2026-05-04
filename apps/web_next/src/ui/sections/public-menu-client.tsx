@@ -11,6 +11,7 @@ import type { AppLang, MenuCopy } from '@/src/lib/i18n';
 import { PUBLIC_QR_LEGAL_LINKS } from '@/src/lib/legal-links';
 import { buildBusinessMenuHref, buildQrHref } from '@/src/lib/menu-links';
 import { getTranslationValue } from '@/src/lib/menu-text';
+import { createSupabaseBrowserClient } from '@/src/lib/supabase/client';
 import { appendMediaVersion, buildMenuImageUrl } from '@/src/lib/media-url';
 import { getPresentationViewModel } from '@/src/lib/presentation-view';
 import type { PublicMenuPageData } from '@/src/lib/public-menu-page';
@@ -43,6 +44,23 @@ type TrackPayload = {
   meta?: Record<string, unknown>;
 };
 
+const ALLERGEN_LIST: Array<{ code: string; labelTr: string; labelEn: string }> = [
+  { code: 'gluten',        labelTr: 'Gluten',                    labelEn: 'Gluten' },
+  { code: 'crustaceans',   labelTr: 'Kabuklu Deniz Ürünleri',   labelEn: 'Crustaceans' },
+  { code: 'egg',           labelTr: 'Yumurta',                   labelEn: 'Egg' },
+  { code: 'fish',          labelTr: 'Balık',                     labelEn: 'Fish' },
+  { code: 'peanuts',       labelTr: 'Yer Fıstığı',               labelEn: 'Peanuts' },
+  { code: 'soy',           labelTr: 'Soya',                      labelEn: 'Soy' },
+  { code: 'milk',          labelTr: 'Süt',                       labelEn: 'Milk' },
+  { code: 'treenuts',      labelTr: 'Sert Kabuklu Yemişler',     labelEn: 'Tree nuts' },
+  { code: 'celery',        labelTr: 'Kereviz',                   labelEn: 'Celery' },
+  { code: 'mustard',       labelTr: 'Hardal',                    labelEn: 'Mustard' },
+  { code: 'sesame',        labelTr: 'Susam',                     labelEn: 'Sesame' },
+  { code: 'sulfur_dioxide',labelTr: 'Kükürt Dioksit',            labelEn: 'Sulphur dioxide' },
+  { code: 'lupin',         labelTr: 'Acı Bakla',                 labelEn: 'Lupin' },
+  { code: 'molluscs',      labelTr: 'Yumuşakçalar',              labelEn: 'Molluscs' },
+];
+
 export function PublicMenuClient({
   lang,
   labels,
@@ -62,6 +80,11 @@ export function PublicMenuClient({
   const presentationView = getPresentationViewModel(data.presentation, brandTheme, themeDefinition);
   const [query, setQuery] = useState('');
   const [activeCategoryId, setActiveCategoryId] = useState(selectedCategoryId ?? 'all');
+  // Realtime availability overrides: itemId → is_available
+  const [availabilityMap, setAvailabilityMap] = useState<Record<string, boolean>>({});
+  // Allergen filter: codes to exclude (items containing any of these are hidden)
+  const [excludeAllergens, setExcludeAllergens] = useState<Set<string>>(new Set());
+  const [allergenMenuOpen, setAllergenMenuOpen] = useState(false);
   const deferredQuery = useDeferredValue(query);
   const selectedItem = data.selectedItem;
   const businessPath = data.business;
@@ -143,8 +166,46 @@ export function PublicMenuClient({
     });
   }, [brandTheme, data.business.id, data.menu.id, isPreview, selectedItem]);
 
+  // Close allergen dropdown on outside click
+  useEffect(() => {
+    if (!allergenMenuOpen) return;
+    const handler = () => setAllergenMenuOpen(false);
+    document.addEventListener('click', handler, { capture: true, once: true });
+    return () => document.removeEventListener('click', handler, { capture: true });
+  }, [allergenMenuOpen]);
+
+  // Realtime stock subscription
+  useEffect(() => {
+    if (isPreview) return;
+    const supabase = createSupabaseBrowserClient();
+    const channel = supabase
+      .channel(`menu-items-availability-${data.menu.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'menu_items',
+          filter: `menu_id=eq.${data.menu.id}`,
+        },
+        (payload: { new: Record<string, unknown> }) => {
+          const updated = payload.new;
+          if (typeof updated.id === 'string' && typeof updated.is_available === 'boolean') {
+            setAvailabilityMap((prev) => ({ ...prev, [updated.id as string]: updated.is_available as boolean }));
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [data.menu.id, isPreview]);
+
   const filteredItems = data.items.filter((item) => {
     if (activeCategoryId !== 'all' && item.category_id !== activeCategoryId) return false;
+    // Hide items containing excluded allergens
+    if (excludeAllergens.size > 0 && item.allergens.some((a) => excludeAllergens.has(a))) return false;
     if (!deferredQuery.trim()) return true;
 
     const translatedName =
@@ -420,7 +481,37 @@ export function PublicMenuClient({
                   rel="noreferrer"
                   className="rounded-2xl border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
                 >
-                  Reservation
+                  {lang === 'tr' ? 'Rezervasyon' : 'Reservation'}
+                </a>
+              ) : null}
+              {data.socialLinks?.whatsapp ? (
+                <a
+                  href={`https://wa.me/${data.socialLinks.whatsapp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  WhatsApp
+                </a>
+              ) : null}
+              {data.socialLinks?.instagram ? (
+                <a
+                  href={data.socialLinks.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  Instagram
+                </a>
+              ) : null}
+              {data.socialLinks?.website ? (
+                <a
+                  href={data.socialLinks.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl border border-white/25 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  {lang === 'tr' ? 'Website' : 'Website'}
                 </a>
               ) : null}
             </div>
@@ -461,6 +552,57 @@ export function PublicMenuClient({
                     {l.toUpperCase()}
                   </button>
                 ))}
+              </div>
+              {/* Allergen filter */}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setAllergenMenuOpen((v) => !v)}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-black transition ${excludeAllergens.size > 0 ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-bg text-muted hover:text-text'}`}
+                  aria-expanded={allergenMenuOpen}
+                >
+                  {lang === 'tr' ? 'Alerjen' : 'Allergen'}
+                  {excludeAllergens.size > 0 ? ` (${excludeAllergens.size})` : ''}
+                </button>
+                {allergenMenuOpen ? (
+                  <div className="absolute right-0 top-full z-50 mt-1 max-h-64 w-52 overflow-y-auto rounded-2xl border border-border bg-card p-2 shadow-yd2">
+                    <p className="mb-1 px-2 text-[10px] font-black uppercase tracking-widest text-muted">
+                      {lang === 'tr' ? 'Alerjen hariç tut' : 'Exclude allergens'}
+                    </p>
+                    {ALLERGEN_LIST.map(({ code, labelTr, labelEn }) => (
+                      <label
+                        key={code}
+                        className="flex cursor-pointer items-center gap-2 rounded-xl px-2 py-1.5 hover:bg-bg"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={excludeAllergens.has(code)}
+                          onChange={() => {
+                            setExcludeAllergens((prev) => {
+                              const next = new Set(prev);
+                              if (next.has(code)) next.delete(code);
+                              else next.add(code);
+                              return next;
+                            });
+                          }}
+                          className="accent-primary"
+                        />
+                        <span className="text-xs font-semibold text-text">
+                          {lang === 'tr' ? labelTr : labelEn}
+                        </span>
+                      </label>
+                    ))}
+                    {excludeAllergens.size > 0 ? (
+                      <button
+                        type="button"
+                        onClick={() => setExcludeAllergens(new Set())}
+                        className="mt-1 w-full rounded-xl px-2 py-1 text-xs font-black text-danger hover:bg-danger/10"
+                      >
+                        {lang === 'tr' ? 'Temizle' : 'Clear'}
+                      </button>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
@@ -565,19 +707,51 @@ export function PublicMenuClient({
       ) : null}
 
       <section className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
-        <div className="space-y-4">
+        <div className="space-y-4 lg:sticky lg:top-6 lg:self-start lg:max-h-[85vh] lg:overflow-y-auto">
+          {/* ── Category jump nav (desktop sticky sidebar) ─────────────── */}
           <div className="rounded-[28px] border border-border bg-card p-4 shadow-yd1 sm:p-5">
-            <p className="text-xs font-black uppercase tracking-[0.24em] text-muted">{labels.menuSections}</p>
-            <div className="mt-3 space-y-2">
-              {data.sections.map((section) => (
-                <div
-                  key={section.id}
-                  className="rounded-2xl border border-border bg-bg px-4 py-3 text-sm font-semibold text-textStrong"
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <p className="text-xs font-black uppercase tracking-[0.24em] text-muted">{labels.menuSections}</p>
+              {activeCategoryId !== 'all' ? (
+                <button
+                  type="button"
+                  onClick={() => handleCategorySelect('all')}
+                  className="text-xs font-black uppercase tracking-[0.14em] text-primary"
                 >
-                  {section.title}
-                </div>
-              ))}
+                  {labels.clearFilters}
+                </button>
+              ) : null}
             </div>
+            <nav aria-label={labels.categoryJump}>
+              <ul className="space-y-1">
+                {categoriesWithLabels.map((category) => {
+                  const count = data.items.filter((i) => i.category_id === category.id).length;
+                  const isActive = activeCategoryId === category.id;
+                  return (
+                    <li key={category.id}>
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          const nextId = isActive ? 'all' : category.id;
+                          handleCategorySelect(nextId, event.currentTarget);
+                        }}
+                        className={`flex w-full items-center justify-between rounded-2xl px-3 py-2.5 text-left text-sm transition ${
+                          isActive
+                            ? 'border-l-2 border-primary bg-primary/10 pl-[10px] font-black text-primary'
+                            : 'font-semibold text-text hover:bg-bg'
+                        }`}
+                        aria-pressed={isActive}
+                      >
+                        <span className="truncate">{category.label}</span>
+                        <span className={`ml-2 shrink-0 rounded-full px-2 py-0.5 text-[10px] font-black ${isActive ? 'bg-primary/20 text-primary' : 'bg-bg text-muted'}`}>
+                          {count}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
           </div>
 
           {presentationView.showTags ? (
@@ -618,15 +792,22 @@ export function PublicMenuClient({
         <section ref={resultsRef} aria-label={labels.allItems}>
           {filteredItems.length === 0 ? (
             <div className="rounded-[28px] border border-dashed border-border bg-card p-10 text-center shadow-yd1">
-              <h2 className="text-xl font-black text-textStrong">{labels.noResultsTitle}</h2>
-              <p className="mt-2 text-sm text-muted">{labels.noResultsBody}</p>
+              <div
+                className="mx-auto mb-5 flex size-20 items-center justify-center rounded-full text-3xl"
+                style={{ background: 'radial-gradient(circle, rgba(127,29,29,0.10), rgba(127,29,29,0.04))' }}
+                aria-hidden="true"
+              >
+                🔍
+              </div>
+              <h2 className="text-xl font-black tracking-tight text-textStrong">{labels.noResultsTitle}</h2>
+              <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-muted">{labels.noResultsBody}</p>
               <button
                 type="button"
                 onClick={() => {
                   setQuery('');
                   handleCategorySelect('all');
                 }}
-                className="mt-5 rounded-2xl bg-primary px-5 py-3 text-sm font-black text-white"
+                className="btn-primary mt-6 inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-sm font-black text-white"
               >
                 {labels.clearFilters}
               </button>
@@ -657,8 +838,15 @@ export function PublicMenuClient({
                 <li
                   key={item.id}
                   role="listitem"
-                  className={`group overflow-hidden rounded-[28px] border shadow-yd1 transition ${brand.itemCardClassName}`}
+                  className={`card-interactive group relative overflow-hidden rounded-[28px] border shadow-yd1 ${brand.itemCardClassName} ${!(availabilityMap[item.id] ?? item.is_available) ? 'opacity-60' : ''}`}
                 >
+                  {!(availabilityMap[item.id] ?? item.is_available) ? (
+                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-[28px] bg-black/30 backdrop-blur-[1px]">
+                      <span className="rounded-full border border-white/30 bg-black/60 px-5 py-2 text-xs font-black uppercase tracking-[0.2em] text-white">
+                        {labels.soldOut}
+                      </span>
+                    </div>
+                  ) : null}
                   <button
                     type="button"
                     aria-label={`${labels.openDetails}: ${itemName}`}
@@ -735,7 +923,6 @@ export function PublicMenuClient({
                       </div>
 
                       <div className="flex flex-wrap gap-2">
-                        {!item.is_available ? <Badge>{labels.unavailable}</Badge> : null}
                         {presentationView.showAllergens && item.dietary.isVegan ? <Badge>vegan</Badge> : null}
                         {presentationView.showAllergens && item.dietary.isVegetarian ? <Badge>vegetarian</Badge> : null}
                         {presentationView.showAllergens && item.dietary.isGlutenFree ? <Badge>gluten free</Badge> : null}
@@ -745,6 +932,9 @@ export function PublicMenuClient({
                           <Badge key={tag}>#{tag}</Badge>
                         ))}
                       </div>
+                      {presentationView.showAllergens && item.allergens.length > 0 ? (
+                        <AllergenIconRow allergens={item.allergens} lang={lang} />
+                      ) : null}
                     </div>
                   </button>
                 </li>
@@ -756,6 +946,82 @@ export function PublicMenuClient({
       </section>
 
       <footer className="rounded-[28px] border border-border bg-card px-5 py-5 shadow-yd1">
+        {(data.socialLinks?.website || data.socialLinks?.instagram || data.socialLinks?.facebook || data.socialLinks?.tiktok || data.socialLinks?.whatsapp || data.business.lat) ? (
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-4">
+            <p className="text-xs font-black uppercase tracking-[0.24em] text-muted">
+              {lang === 'tr' ? 'İletişim' : 'Contact'}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {data.business.lat && data.business.lng ? (
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${data.business.lat},${data.business.lng}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-border bg-bg px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-textStrong transition hover:border-primary/35 hover:text-primary"
+                >
+                  {lang === 'tr' ? 'Harita' : 'Maps'}
+                </a>
+              ) : null}
+              {data.socialLinks?.whatsapp ? (
+                <a
+                  href={`https://wa.me/${data.socialLinks.whatsapp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-border bg-bg px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-textStrong transition hover:border-primary/35 hover:text-primary"
+                >
+                  WhatsApp
+                </a>
+              ) : null}
+              {data.socialLinks?.instagram ? (
+                <a
+                  href={data.socialLinks.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-border bg-bg px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-textStrong transition hover:border-primary/35 hover:text-primary"
+                >
+                  Instagram
+                </a>
+              ) : null}
+              {data.socialLinks?.facebook ? (
+                <a
+                  href={data.socialLinks.facebook}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-border bg-bg px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-textStrong transition hover:border-primary/35 hover:text-primary"
+                >
+                  Facebook
+                </a>
+              ) : null}
+              {data.socialLinks?.tiktok ? (
+                <a
+                  href={data.socialLinks.tiktok}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-border bg-bg px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-textStrong transition hover:border-primary/35 hover:text-primary"
+                >
+                  TikTok
+                </a>
+              ) : null}
+              {data.socialLinks?.website ? (
+                <a
+                  href={data.socialLinks.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-border bg-bg px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-textStrong transition hover:border-primary/35 hover:text-primary"
+                >
+                  {lang === 'tr' ? 'Website' : 'Website'}
+                </a>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+        {data.business.lat && data.business.lng ? (
+          <StaticMapBlock
+            lat={data.business.lat}
+            lng={data.business.lng}
+            label={data.business.name}
+          />
+        ) : null}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs font-black uppercase tracking-[0.24em] text-muted">
             Legal
@@ -829,7 +1095,7 @@ function FeatureCard({
     }) ?? item.name;
 
   return (
-    <div className="overflow-hidden rounded-[24px] border border-border bg-cardAlt shadow-yd1 transition hover:-translate-y-1 hover:shadow-yd2">
+    <div className="card-interactive overflow-hidden rounded-[24px] border border-border bg-cardAlt shadow-yd1">
       <div
         className={`relative w-full ${presentationView.isPhotoHeavy ? 'h-52' : 'h-36'}`}
       >
@@ -870,6 +1136,66 @@ function Badge({ children }: { children: ReactNode }) {
     <span className="rounded-full border border-border bg-bg px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-text">
       {children}
     </span>
+  );
+}
+
+// Top-5 allergens shown as icons on item cards (M6)
+const TOP5_ALLERGENS: Array<{ code: string; emoji: string; labelTr: string; labelEn: string }> = [
+  { code: 'gluten',   emoji: '🌾', labelTr: 'Gluten',       labelEn: 'Gluten' },
+  { code: 'milk',     emoji: '🥛', labelTr: 'Süt',          labelEn: 'Milk' },
+  { code: 'egg',      emoji: '🥚', labelTr: 'Yumurta',      labelEn: 'Egg' },
+  { code: 'peanuts',  emoji: '🥜', labelTr: 'Yer Fıstığı',  labelEn: 'Peanuts' },
+  { code: 'treenuts', emoji: '🌰', labelTr: 'Kuruyemiş',    labelEn: 'Tree nuts' },
+];
+
+function AllergenIconRow({ allergens, lang }: { allergens: string[]; lang: AppLang }) {
+  const set = new Set(allergens);
+  const present = TOP5_ALLERGENS.filter((a) => set.has(a.code));
+  if (present.length === 0) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="text-[10px] font-black uppercase tracking-[0.14em] text-muted">
+        {lang === 'tr' ? 'Alerjen:' : 'Contains:'}
+      </span>
+      {present.map((a) => (
+        <span
+          key={a.code}
+          title={lang === 'tr' ? a.labelTr : a.labelEn}
+          aria-label={lang === 'tr' ? a.labelTr : a.labelEn}
+          className="cursor-default text-base leading-none"
+        >
+          {a.emoji}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+// T1: Google Maps static thumbnail — shows when NEXT_PUBLIC_GMAPS_KEY is set,
+// falls back gracefully (no img rendered, existing "Harita" text link stays).
+function StaticMapBlock({ lat, lng, label }: { lat: number; lng: number; label: string }) {
+  const apiKey = process.env.NEXT_PUBLIC_GMAPS_KEY;
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  if (!apiKey) return null;
+  const src = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=480x200&markers=color:red%7C${lat},${lng}&key=${apiKey}`;
+  return (
+    <a
+      href={mapsUrl}
+      target="_blank"
+      rel="noreferrer"
+      className="mb-4 block overflow-hidden rounded-2xl border border-border"
+      aria-label={label}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={label}
+        width={480}
+        height={200}
+        className="w-full object-cover"
+        loading="lazy"
+      />
+    </a>
   );
 }
 
@@ -924,19 +1250,14 @@ function PillButton({
       aria-selected={ariaSelected}
       tabIndex={ariaSelected === false ? -1 : 0}
       onClick={onClick}
-      className={`relative rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] transition ${
+      className={`relative overflow-hidden rounded-full border px-4 py-2 text-xs font-black uppercase tracking-[0.16em] transition-all duration-200 ${
         active
-          ? 'border-primary bg-primary/8 text-primary'
+          ? 'border-transparent text-white shadow-[0_2px_8px_rgba(127,29,29,0.28)]'
           : 'border-border bg-bg text-textStrong hover:border-primary/35'
       }`}
+      style={active ? { background: 'linear-gradient(135deg,#7F1D1D 0%,#DC2626 100%)' } : undefined}
     >
-      <span>{children}</span>
-      <span
-        aria-hidden="true"
-        className={`absolute inset-x-3 bottom-1 h-[2px] origin-center rounded-full bg-primary transition duration-300 ${
-          active ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
-        }`}
-      />
+      <span className="relative z-10">{children}</span>
     </button>
   );
 }

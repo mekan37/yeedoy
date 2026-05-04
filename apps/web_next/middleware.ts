@@ -1,9 +1,103 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
 import { resolveBrandTheme } from '@/src/lib/brand-theme';
 import { isBusinessMenuPathKey, isUuid } from '@/src/lib/business-path';
 import { resolveLang } from '@/src/lib/i18n';
+
+// ── Subdomain → panel rewrite ─────────────────────────────────────────────────
+// isletme.yeedoy.com  →  /owner/[path]
+// ops.yeedoy.com      →  /admin/[path]   (secret subdomain, no public links)
+//
+// Configured via env vars so the admin hostname never appears in source code:
+//   OWNER_HOSTNAMES = "isletme.yeedoy.com,isletme.localhost"
+//   ADMIN_HOSTNAME  = "ops.yeedoy.com,ops.localhost"   ← keep secret
+
+function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
+  const hostname = request.headers.get('host')?.split(':')[0] ?? '';
+  const { pathname } = request.nextUrl;
+
+  const ownerHostnames = (process.env.OWNER_HOSTNAMES ?? '')
+    .split(',').map((h) => h.trim()).filter(Boolean);
+  const adminHostnames = (process.env.ADMIN_HOSTNAME ?? '')
+    .split(',').map((h) => h.trim()).filter(Boolean);
+
+  const isOwnerHost = ownerHostnames.some((h) => hostname === h);
+  const isAdminHost = adminHostnames.some((h) => hostname === h);
+
+  if (!isOwnerHost && !isAdminHost) return null;
+
+  const prefix = isOwnerHost ? '/owner' : '/admin';
+  // Root → /owner or /admin, sub-paths → /owner/path
+  const suffix = pathname === '/' ? '' : pathname;
+  const url = request.nextUrl.clone();
+  url.pathname = `${prefix}${suffix}`;
+  // Use rewrite so URL bar stays as isletme.yeedoy.com/...
+  return NextResponse.rewrite(url);
+}
+
+// ── Protected panel route guard ───────────────────────────────────────────────
+const OWNER_PREFIX = '/owner';
+const ADMIN_PREFIX = '/admin';
+const LOGIN_PATH = '/login';
+
+async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
+  const { pathname } = request.nextUrl;
+  const isOwnerRoute = pathname.startsWith(OWNER_PREFIX);
+  const isAdminRoute = pathname.startsWith(ADMIN_PREFIX);
+
+  if (!isOwnerRoute && !isAdminRoute) return null;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+
+  const response = NextResponse.next({ request });
+
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
+        cookiesToSet.forEach(({ name, value, options }) => {
+          request.cookies.set(name, value);
+          response.cookies.set(name, value, options as Parameters<typeof response.cookies.set>[2]);
+        });
+      },
+    },
+  });
+
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = LOGIN_PATH;
+    loginUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Admin routes require admin role check
+  if (isAdminRoute) {
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single();
+
+    const adminRoles = ['super_admin', 'admin', 'community_mod'];
+    if (!profile || !adminRoles.includes(profile.role)) {
+      const forbiddenUrl = request.nextUrl.clone();
+      forbiddenUrl.pathname = '/forbidden';
+      return NextResponse.redirect(forbiddenUrl);
+    }
+  }
+
+  // Prevent search engine indexing of panel routes
+  response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  return response;
+}
 
 // ── Custom domain → slug cache (in-memory, per Edge runtime instance, ~5 min TTL) ──
 const _domainCache = new Map<string, { slug: string; expiresAt: number }>();
@@ -44,11 +138,23 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host')?.split(':')[0] ?? '';
 
+  // ── Panel subdomain rewrite (isletme.* / ops.*) ───────────────────────────
+  // Must run before the custom-domain slug lookup so panel subdomains are not
+  // mistakenly treated as business custom domains.
+  const subdomainRewrite = rewriteSubdomainPanel(request);
+  if (subdomainRewrite) return subdomainRewrite;
+
   // ── Custom domain rewrite ─────────────────────────────────────────────────
   // If the request comes in on a custom domain (not yeedoy.com / localhost),
   // look up the business slug and rewrite to /m/[slug] (URL stays unchanged).
   const ownHostnames = (process.env.OWN_HOSTNAMES ?? 'localhost,yeedoy.com').split(',').map((h) => h.trim());
-  const isOwnHost = ownHostnames.some((h) => hostname === h || hostname.endsWith(`.${h}`));
+  // Also exclude panel subdomains from custom-domain lookup
+  const ownerHostnames = (process.env.OWNER_HOSTNAMES ?? '').split(',').map((h) => h.trim()).filter(Boolean);
+  const adminHostnames = (process.env.ADMIN_HOSTNAME ?? '').split(',').map((h) => h.trim()).filter(Boolean);
+  const panelHostnames = [...ownerHostnames, ...adminHostnames];
+  const isOwnHost =
+    ownHostnames.some((h) => hostname === h || hostname.endsWith(`.${h}`)) ||
+    panelHostnames.some((h) => hostname === h);
 
   if (!isOwnHost && hostname && hostname !== '') {
     const slug = await resolveCustomDomainSlug(hostname);
@@ -60,6 +166,9 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(url);
     }
   }
+
+  const panelGuard = await guardPanelRoute(request);
+  if (panelGuard) return panelGuard;
 
   const routeGuard = normalizePublicRoute(request);
   if (routeGuard) {

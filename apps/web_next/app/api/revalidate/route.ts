@@ -3,9 +3,11 @@ import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { appConfig } from '@/src/lib/config';
 
+const slugPattern = /^[a-z0-9_-]{1,80}$/;
+
 const bodySchema = z.object({
   secret: z.string().min(1),
-  slug: z.string().min(1).optional(),
+  slug: z.string().min(1).regex(slugPattern).optional(),
   businessId: z.string().uuid().optional(),
 });
 

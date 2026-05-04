@@ -6,6 +6,7 @@
    * - apps/mobile_flutter/lib/app/theme/app_typography.dart
    */
   --yd-font-family: 'Sora', 'Segoe UI', sans-serif;
+  --yd-font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
 
   --yd-color-primary: #7f1d1d;
   --yd-color-primary-soft: #f9e7e7;
@@ -60,9 +61,24 @@
   --yd-radius-xl: 24px;
   --yd-radius-pill: 999px;
 
-  --yd-shadow-1: 0 1px 2px 0 rgba(15, 23, 42, 0.08);
-  --yd-shadow-2: 0 6px 20px -12px rgba(15, 23, 42, 0.18);
-  --yd-shadow-3: 0 16px 36px -20px rgba(15, 23, 42, 0.24);
+  --yd-shadow-1: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --yd-shadow-2: 0 4px 12px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.05);
+  --yd-shadow-3: 0 12px 32px rgba(15,23,42,0.12), 0 4px 16px rgba(15,23,42,0.08);
+  --yd-shadow-4: 0 24px 48px rgba(15,23,42,0.16), 0 8px 24px rgba(15,23,42,0.10);
+  --yd-shadow-primary: 0 4px 16px rgba(127,29,29,0.24), 0 2px 6px rgba(127,29,29,0.16);
+  --yd-shadow-primary-lg: 0 8px 24px rgba(127,29,29,0.32), 0 4px 12px rgba(127,29,29,0.20);
+  --yd-shadow-inset: inset 0 2px 4px rgba(15,23,42,0.06);
+
+  --yd-gradient-primary: linear-gradient(135deg, #7F1D1D 0%, #DC2626 100%);
+  --yd-gradient-primary-soft: linear-gradient(135deg, rgba(127,29,29,0.08) 0%, rgba(220,38,38,0.04) 100%);
+  --yd-gradient-hero: radial-gradient(ellipse at top left, rgba(127,29,29,0.12) 0%, transparent 60%), radial-gradient(ellipse at bottom right, rgba(220,38,38,0.06) 0%, transparent 60%);
+  --yd-gradient-card-hover: linear-gradient(135deg, rgba(127,29,29,0.03) 0%, rgba(220,38,38,0.01) 100%);
+  --yd-gradient-surface: linear-gradient(180deg, #FFFFFF 0%, #FDF8F7 100%);
+
+  --yd-ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --yd-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --yd-ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  --yd-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
   --yd-duration-fast: 150ms;
   --yd-duration-medium: 180ms;

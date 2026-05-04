@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { createSupabaseServiceClient } from '@/src/lib/supabase/service';
 import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
 import { logger } from '@/src/lib/logger';
@@ -12,13 +13,26 @@ const feedbackSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
-    userAgent: request.headers.get('user-agent'),
-  });
+  // Auth-aware rate limiting: authenticated users get 10/min, anonymous get 2/min
+  // (anonymous key is harder to forge than spoofing x-forwarded-for)
+  const supabaseServer = await createSupabaseServerClient();
+  const { data: { user } } = await supabaseServer.auth.getUser();
 
-  // 5 requests per minute per identity
-  const limit = rateLimit(`feedback:${identity}`, 5, 60_000);
+  let limitKey: string;
+  let maxRequests: number;
+
+  if (user) {
+    limitKey = `feedback:user:${user.id}`;
+    maxRequests = 10;
+  } else {
+    const ip = request.headers.get('cf-connecting-ip')
+      ?? request.headers.get('x-real-ip')
+      ?? getRequestIdentity({ ip: request.headers.get('x-forwarded-for'), userAgent: request.headers.get('user-agent') });
+    limitKey = `feedback:anon:${ip}`;
+    maxRequests = 2;
+  }
+
+  const limit = rateLimit(limitKey, maxRequests, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
