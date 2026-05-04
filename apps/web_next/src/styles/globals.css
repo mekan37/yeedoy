@@ -28,11 +28,17 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
+  html:not(.light) body {
     background-image:
       radial-gradient(circle at top left, rgba(127, 29, 29, 0.10), transparent 40%),
       linear-gradient(180deg, rgba(22, 26, 34, 1), rgba(13, 15, 19, 1));
   }
+}
+
+html.dark body {
+  background-image:
+    radial-gradient(circle at top left, rgba(127, 29, 29, 0.10), transparent 40%),
+    linear-gradient(180deg, rgba(22, 26, 34, 1), rgba(13, 15, 19, 1));
 }
 
 * {

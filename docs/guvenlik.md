@@ -462,18 +462,20 @@ if (error || !user) return new Response(JSON.stringify({ error: 'invalid_token' 
 - [x] G7 Rate limit bypass — auth-aware — 2026-04-27
 - [x] G8 Revalidate path whitelist — 2026-04-27
 - [x] G9 DevOverridesPrefs → SecureStorage — 2026-04-27
-- [ ] **G10 Audit log** — migration + API entegrasyonu
+- [x] **G10 Audit log** — `20260504000001_audit_logs.sql` + `src/lib/audit.ts` + moderation route (2026-05-04)
 - [x] G11 Edge function hata mesajı — 2026-04-27
 - [x] **G12 Server Actions auth guard** — `withAuth()` + `withAdminAuth()` helpers (2026-05-04)
 - [x] **G13 Admin API middleware** — `/api/admin/*` guard middleware'e eklendi (2026-05-04)
-- [ ] **G14 Anon grant audit** — revoke gerekli
+- [x] **G14 Anon grant revoke** — `20260504000002_revoke_anon_grants.sql` (14 get_my_* fonksiyon) (2026-05-04)
 
 ### DÜŞÜK / İZLEME
-- [ ] G14 Anon grant revoke
+- [x] G14 Anon grant revoke — migration dosyası oluşturuldu (2026-05-04)
 - [ ] G15 Info.plist CI check
 - [ ] G16 Refresh token 30 gün
 - [ ] G17 CSP nonce (uzun vadeli)
-- [ ] G18 Flutter deep link UUID validation
+- [x] G18 Flutter deep link UUID validation — `route_sanitizer.dart` + `sanitizeUuid()` zaten mevcut ✅
+- [x] E2 RLS audit CI — `web_quality.yml`'e RLS coverage check eklendi (2026-05-04)
+- [x] E4 Dependency scan CI — `npm audit --audit-level=high` web_quality.yml'e eklendi (2026-05-04)
 
 ---
 

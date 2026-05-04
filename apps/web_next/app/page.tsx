@@ -6,6 +6,7 @@ import { homeCopy } from '@/src/lib/i18n';
 import { YeedoyLogo } from '@/src/ui/brand/yeedoy-logo';
 import { BusinessTile } from '@/src/ui/components/business-tile';
 import { AppSectionHeader } from '@/src/ui/components/app-section-header';
+import { ThemeToggle } from '@/src/ui/components/theme-toggle';
 
 export const revalidate = 60;
 
@@ -96,6 +97,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               className="hidden min-h-11 items-center rounded-full px-3 text-textStrong transition-colors hover:bg-cardAlt sm:inline-flex">
               {homeCopy.nav.top}
             </Link>
+            <ThemeToggle />
             <Link href="/login"
               className="inline-flex min-h-11 items-center rounded-full border border-border bg-cardAlt px-4 text-textStrong transition-all hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
               {homeCopy.nav.panel}

@@ -54,3 +54,27 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Dependency security audit
+        run: npm audit --audit-level=high
+        continue-on-error: false
+
+      - name: RLS coverage check
+        # Fails if any public table has no RLS policies — zero rows expected
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        if: env.SUPABASE_DB_URL != ''
+        run: |
+          RESULT=$(psql "$SUPABASE_DB_URL" -tAc "
+            SELECT tablename FROM pg_tables
+            WHERE schemaname = 'public'
+              AND tablename NOT IN (
+                SELECT DISTINCT tablename FROM pg_policies
+                WHERE schemaname = 'public'
+              );
+          ")
+          if [ -n "$RESULT" ]; then
+            echo "FAIL: Tables without RLS policies: $RESULT"
+            exit 1
+          fi
+          echo "OK: All public tables have RLS policies."

@@ -30,9 +30,23 @@ export const metadata: Metadata = {
   },
 };
 
+// Inline script — runs synchronously before paint to avoid flash
+const themeScript = `(function(){
+  try {
+    var s = localStorage.getItem('yd-theme');
+    var dark = s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) document.documentElement.classList.add('dark');
+    else if (s === 'light') document.documentElement.classList.add('light');
+  } catch(e) {}
+})()`;
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="tr">
+    <html lang="tr" suppressHydrationWarning>
+      {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${sora.variable} ${playfair.variable} bg-bg text-text`}
         style={{ ['--yd-font-family' as any]: 'var(--font-sora), "Segoe UI", sans-serif' }}

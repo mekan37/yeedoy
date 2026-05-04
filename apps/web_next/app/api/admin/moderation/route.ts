@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { createSupabaseServiceClient } from '@/src/lib/supabase/service';
 import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
 import { logger } from '@/src/lib/logger';
+import { logAudit, AUDIT } from '@/src/lib/audit';
 
 export const runtime = 'nodejs';
 
@@ -120,18 +121,21 @@ export async function POST(request: Request) {
     }
   }
 
-  // Log the moderation action to a moderation_logs table if available, silently ignore errors
+  // Log to moderation_logs (legacy) + audit_logs (new)
   await (serviceClient as any)
     .from('moderation_logs')
-    .insert({
-      admin_id: user.id,
-      action,
-      target_type,
-      target_id,
-      reason: reason ?? null,
-    })
-    .then(() => null)
-    .catch(() => null);
+    .insert({ admin_id: user.id, action, target_type, target_id, reason: reason ?? null })
+    .then(() => null).catch(() => null);
+
+  logAudit({
+    supabase: serviceClient as any,
+    userId: user.id,
+    action: AUDIT.MODERATION_ACTION,
+    resourceType: target_type,
+    resourceId: target_id,
+    metadata: { moderation_action: action, reason: reason ?? null },
+    request,
+  });
 
   return NextResponse.json({ data: { action, target_type, target_id, status: statusValue } });
 }

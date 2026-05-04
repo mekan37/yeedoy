@@ -375,10 +375,11 @@ TextStyle get eyebrow => const TextStyle(
 [12] Mobile: BottomSheet drag handle — bottomSheetTheme radius 28px zaten var, drag handle bazı sheet'lerde eksik
 ```
 
-### Sprint 5 — Kalan
+### Sprint 5 — Kısmen Tamamlandı
 ```
-[ ] Dark mode toggle butonu — navbar/user menüde
-[ ] Mobile BottomSheet drag handle widget ekle (bazı sayfalar)
+[x] Dark mode toggle butonu — ana sayfa navbar'ına eklendi (ThemeToggle, localStorage, flash prevention) (2026-05-04)
+[x] darkMode: 'class' (Tailwind) — html.dark + html.light + @media fallback (2026-05-04)
+[ ] Mobile BottomSheet drag handle — bazı sheet'lerde eksik
 [ ] Dark mode full test: tüm sayfa snapshot'ları
 ```
 
