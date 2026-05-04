@@ -7,6 +7,7 @@ import { YeedoyLogo } from '@/src/ui/brand/yeedoy-logo';
 import { BusinessTile } from '@/src/ui/components/business-tile';
 import { AppSectionHeader } from '@/src/ui/components/app-section-header';
 import { ThemeToggle } from '@/src/ui/components/theme-toggle';
+import { FeaturedCard } from '@/src/ui/components/featured-card';
 
 export const revalidate = 60;
 
@@ -124,7 +125,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-2xl">
               <h1 className="font-display text-4xl font-[900] leading-[1.05] text-textStrong sm:text-5xl lg:text-6xl">
-                {homeCopy.hero.title}
+                Yakınındaki{' '}
+                <span style={{ background: 'var(--yd-gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                  restoranları
+                </span>
+                {' '}ve menüleri keşfet
               </h1>
               <p className="mt-4 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
                 {homeCopy.hero.body}
@@ -201,6 +206,33 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </div>
         </div>
       </section>
+
+      {/* ── Featured strip ─────────────────────────────────────────────────── */}
+      {!hasFilters && topBusinesses.length > 0 && (
+        <section className="border-b border-border bg-cardAlt py-7">
+          <div className="mx-auto max-w-5xl px-4">
+            <div className="mb-4 flex items-center justify-between">
+              <AppSectionHeader title="Bu Haftanın Favorileri" />
+              <Link href="/top" className="text-sm font-[700] text-primary hover:underline">
+                Tümünü gör →
+              </Link>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {topBusinesses.slice(0, 8).map((biz, i) => (
+                <FeaturedCard
+                  key={biz.id}
+                  slug={biz.slug ?? biz.id}
+                  name={biz.name}
+                  category={biz.category}
+                  city={biz.city}
+                  rank={i + 1}
+                  logoUrl={biz.logo_url}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Body ───────────────────────────────────────────────────────────── */}
       <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 py-7 lg:grid-cols-[1fr_320px]">
