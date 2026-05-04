@@ -55,27 +55,31 @@ export default function SuggestPage() {
         <p className="mb-8 text-sm text-muted">Yeedoy&apos;da görmek istediğiniz bir işletmeyi bize bildirin.</p>
 
         {submitted ? (
-          <div className="rounded-2xl bg-green-50 p-6 text-center">
-            <p className="text-lg font-[700] text-green-700">Teşekkürler!</p>
-            <p className="mt-2 text-sm text-green-600">Öneriniz alındı, inceleyeceğiz.</p>
+          <div className="rounded-[20px] border border-green-200 bg-green-50 p-8 text-center">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-green-200 bg-green-100 text-green-600">
+              <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p className="text-lg font-[900] text-green-700">Teşekkürler!</p>
+            <p className="mt-2 text-sm text-green-600">Öneriniz alındı, ekibimiz inceleyecek.</p>
+            <Link href="/discover" className="mt-5 inline-block text-sm font-[700] text-primary hover:underline">Keşfetmeye devam et →</Link>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-6">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-[20px] border border-border bg-cardAlt p-6 shadow-yd1">
             {field('name', 'İşletme Adı', true, 'text', 'Ör: Kebapçı Mehmet')}
             {field('city', 'Şehir', true, 'text', 'Ör: İstanbul')}
-            {field('category', 'Kategori', false, 'text', 'Ör: Kebap, Burger, Cafe…')}
+            {field('category', 'Kategori', false, 'text', 'Ör: Kebap, Burger, Kafe…')}
             {field('address', 'Adres', false, 'text', 'Varsa adres bilgisi')}
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-[700] text-textStrong">Notlar</label>
-              <textarea
-                value={form.notes} rows={3} placeholder="Ek bilgi veya neden önerdığinizi yazın"
+              <textarea value={form.notes} rows={3} placeholder="Ek bilgi veya neden önerdiğinizi yazın"
                 onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))}
-                className="rounded-xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
-              />
+                className="resize-none rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30" />
             </div>
             {field('email', 'E-posta (opsiyonel)', false, 'email', 'Geri bildirim almak için')}
-            {error && <p className="text-sm text-red-600">{error}</p>}
-            <button type="submit" disabled={loading} className="mt-2 rounded-xl bg-primary px-4 py-3 text-sm font-[700] text-white disabled:opacity-60 cursor-pointer">
+            {error && <div className="rounded-xl border border-danger/20 bg-danger/[0.08] px-4 py-3 text-sm font-[700] text-danger">{error}</div>}
+            <button type="submit" disabled={loading}
+              className="min-h-[52px] w-full rounded-2xl text-base font-[900] text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              style={{ background: 'var(--yd-gradient-primary)', boxShadow: 'var(--yd-shadow-primary)' }}>
               {loading ? 'Gönderiliyor…' : 'Öneriyi Gönder'}
             </button>
           </form>

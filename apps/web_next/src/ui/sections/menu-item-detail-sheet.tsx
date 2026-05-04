@@ -10,6 +10,7 @@ import { getTranslationValue } from '@/src/lib/menu-text';
 import { getPresentationViewModel } from '@/src/lib/presentation-view';
 import type { SelectedItemDetails } from '@/src/lib/public-menu-page';
 import type { PublicMenuPageData } from '@/src/lib/public-menu-page';
+import type { PriceHistoryEntry } from '@/src/lib/db/menu-read';
 
 type Props = {
   lang: AppLang;
@@ -197,6 +198,18 @@ export function MenuItemDetailSheet({
                   )}
                 </div>
               </div>
+
+              {/* Price history sparkline */}
+              {(selectedItemDetails?.priceHistory.length ?? 0) > 1 && (
+                <div className="rounded-[28px] border border-border bg-bg p-4">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-muted mb-3">Fiyat Geçmişi</p>
+                  <PriceSparkline
+                    entries={selectedItemDetails!.priceHistory}
+                    lang={lang}
+                    showCurrencySymbol={presentationView.showCurrencySymbol}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -210,5 +223,50 @@ function Badge({ children }: { children: ReactNode }) {
     <span className="rounded-full border border-border bg-bg px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-text">
       {children}
     </span>
+  );
+}
+
+function PriceSparkline({ entries, lang, showCurrencySymbol }: {
+  entries: PriceHistoryEntry[];
+  lang: AppLang;
+  showCurrencySymbol: boolean;
+}) {
+  const sorted = [...entries].sort(
+    (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+  );
+  const prices = sorted.map((e) => e.new_price_cents);
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  const range = max - min || 1;
+  const W = 200;
+  const H = 40;
+  const pts = prices.map((p, i) => ({
+    x: (i / Math.max(prices.length - 1, 1)) * W,
+    y: H - ((p - min) / range) * H * 0.8 - H * 0.1,
+  }));
+  const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+  const latest = sorted[sorted.length - 1];
+  const oldest = sorted[0];
+  const delta = latest.new_price_cents - oldest.new_price_cents;
+  const color = delta > 0 ? '#b91c1c' : delta < 0 ? '#15803d' : '#94a3b8';
+  const currency = latest.currency || 'TRY';
+
+  return (
+    <div className="space-y-2">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" aria-hidden="true">
+        <path d={d} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        {pts.map((p, i) => (
+          <circle key={i} cx={p.x} cy={p.y} r="2.5" fill={color} />
+        ))}
+      </svg>
+      <div className="flex items-center justify-between text-xs text-muted">
+        <span>{new Date(oldest.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}</span>
+        <span className={`font-[800] ${delta > 0 ? 'text-danger' : delta < 0 ? 'text-success' : 'text-muted'}`}>
+          {delta !== 0 && (delta > 0 ? '+' : '')}
+          {formatCurrency(delta, lang, currency, showCurrencySymbol)}
+        </span>
+        <span>{new Date(latest.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}</span>
+      </div>
+    </div>
   );
 }

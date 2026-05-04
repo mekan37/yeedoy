@@ -1,10 +1,11 @@
-import { getMenuItemPhotos, getMenuItemVariants, getPublicMenuData } from '@/src/lib/db/menu-read';
-import type { PublicMenuData } from '@/src/lib/db/menu-read';
+import { getMenuItemPhotos, getMenuItemVariants, getMenuItemPriceHistory, getPublicMenuData } from '@/src/lib/db/menu-read';
+import type { PublicMenuData, PriceHistoryEntry } from '@/src/lib/db/menu-read';
 export { getTranslationValue } from '@/src/lib/menu-text';
 
 export type SelectedItemDetails = {
   variants: Awaited<ReturnType<typeof getMenuItemVariants>>;
   photos: Awaited<ReturnType<typeof getMenuItemPhotos>>;
+  priceHistory: PriceHistoryEntry[];
 };
 
 export type PublicMenuPageData = PublicMenuData & {
@@ -31,9 +32,10 @@ export async function getPublicMenuPageData(input: {
     } satisfies PublicMenuPageData;
   }
 
-  const [variants, photos] = await Promise.all([
+  const [variants, photos, priceHistory] = await Promise.all([
     getMenuItemVariants(selectedItem.id),
     getMenuItemPhotos(selectedItem.id),
+    getMenuItemPriceHistory(selectedItem.id),
   ]);
 
   return {
@@ -42,6 +44,7 @@ export async function getPublicMenuPageData(input: {
     selectedItemDetails: {
       variants,
       photos,
+      priceHistory,
     },
   } satisfies PublicMenuPageData;
 }

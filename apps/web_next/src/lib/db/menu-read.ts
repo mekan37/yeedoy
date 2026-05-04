@@ -499,6 +499,28 @@ export async function getMenuItemPhotos(menuItemId: string) {
   return (data ?? []) as MenuItemPhoto[];
 }
 
+export type PriceHistoryEntry = {
+  new_price_cents: number;
+  old_price_cents: number | null;
+  currency: string;
+  source: string;
+  created_at: string;
+};
+
+export async function getMenuItemPriceHistory(menuItemId: string): Promise<PriceHistoryEntry[]> {
+  const supabase = createSupabasePublicClient();
+  try {
+    const { data, error } = await (supabase as any).rpc('get_menu_item_price_history_v1', {
+      p_menu_item_id: menuItemId,
+      p_limit: 10,
+    }) as { data: PriceHistoryEntry[] | null; error: unknown };
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
 const getBusinessSocialLinksCached = unstable_cache(
   async (businessId: string): Promise<BusinessSocialLinks | null> => {
     const supabase = createSupabasePublicClient();
