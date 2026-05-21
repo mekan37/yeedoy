@@ -9,6 +9,24 @@ import { TR_ILLER, TR_ILCELER } from '@/src/lib/tr-ilceler';
 
 type Mode = 'giris' | 'kayit';
 
+// ── Şifre güç hesaplama ───────────────────────────────────────────────────────
+
+const PASSWORD_CRITERIA = [
+  { id: 'length',   label: 'En az 8 karakter',   test: (p: string) => p.length >= 8 },
+  { id: 'upper',    label: 'Büyük harf',          test: (p: string) => /[A-ZÇĞİÖŞÜ]/.test(p) },
+  { id: 'lower',    label: 'Küçük harf',          test: (p: string) => /[a-zçğışöü]/.test(p) },
+  { id: 'digit',    label: 'Rakam',               test: (p: string) => /[0-9]/.test(p) },
+  { id: 'special',  label: 'Özel karakter',       test: (p: string) => /[^a-zA-Z0-9çğışöüÇĞİÖŞÜ]/.test(p) },
+] as const;
+
+function getPasswordStrength(password: string) {
+  const met = PASSWORD_CRITERIA.filter((c) => c.test(password)).length;
+  if (met <= 2) return { level: 0, label: 'Zayıf',  color: 'bg-red-500',    width: 'w-2/5' };
+  if (met === 3) return { level: 1, label: 'Orta',   color: 'bg-yellow-400', width: 'w-3/5' };
+  if (met === 4) return { level: 2, label: 'İyi',    color: 'bg-orange-400', width: 'w-4/5' };
+  return               { level: 3, label: 'Güçlü',  color: 'bg-green-500',  width: 'w-full' };
+}
+
 type Props = {
   redirectTo: string | null;
   panelLoginUrl?: string | null;
@@ -66,6 +84,11 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
 
     if (mode === 'kayit' && password !== confirmPassword) {
       setError('Şifreler eşleşmiyor.');
+      return;
+    }
+
+    if (mode === 'kayit' && getPasswordStrength(password).level < 3) {
+      setError('Şifre tüm güvenlik kriterlerini karşılamıyor. Lütfen daha güçlü bir şifre oluşturun.');
       return;
     }
 
@@ -288,6 +311,42 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
                 placeholder="••••••••"
                 className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
               />
+
+              {/* Şifre güç göstergesi — sadece kayıt modunda */}
+              {mode === 'kayit' && password.length > 0 && (() => {
+                const strength = getPasswordStrength(password);
+                return (
+                  <div className="mt-3 space-y-2">
+                    {/* Renkli bar */}
+                    <div className="flex items-center gap-2">
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-border">
+                        <div
+                          className={`h-full rounded-full transition-all duration-300 ${strength.color} ${strength.width}`}
+                        />
+                      </div>
+                      <span className={`text-xs font-[700] ${
+                        strength.level === 3 ? 'text-green-600' :
+                        strength.level === 2 ? 'text-orange-500' :
+                        strength.level === 1 ? 'text-yellow-600' : 'text-red-500'
+                      }`}>
+                        {strength.label}
+                      </span>
+                    </div>
+                    {/* Kriter listesi */}
+                    <ul className="space-y-1">
+                      {PASSWORD_CRITERIA.map((c) => {
+                        const ok = c.test(password);
+                        return (
+                          <li key={c.id} className={`flex items-center gap-1.5 text-xs font-[600] ${ok ? 'text-green-600' : 'text-muted'}`}>
+                            <span className="shrink-0">{ok ? '✓' : '✗'}</span>
+                            {c.label}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                );
+              })()}
             </div>
 
             {mode === 'kayit' && (
