@@ -5,6 +5,7 @@ import 'package:vibration/vibration.dart';
 import '../../../core/hata_esleyici.dart';
 import '../../../uygulama/tema/renkler.dart';
 import '../../masa_siparisleri/domain/masa_siparisi_modeli.dart';
+import '../../shared/ui/p_iskelet.dart';
 import '../domain/kds_bildiricisi.dart';
 
 class KdsSayfasi extends ConsumerStatefulWidget {
@@ -54,7 +55,7 @@ class _KdsSayfasiState extends ConsumerState<KdsSayfasi> {
         ],
       ),
       body: state.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const PersonelListIskeleti(satirSayisi: 4),
         error: (e, _) => Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

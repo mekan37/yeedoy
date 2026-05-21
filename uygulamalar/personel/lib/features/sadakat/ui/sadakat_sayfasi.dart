@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/hata_esleyici.dart';
 import '../../../uygulama/tema/renkler.dart';
+import '../../shared/ui/p_iskelet.dart';
 import '../domain/sadakat_bildiricisi.dart';
 import '../domain/sadakat_modeli.dart';
 
@@ -53,7 +54,7 @@ class SadakatSayfasi extends ConsumerWidget {
         ],
       ),
       body: state.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const PersonelListIskeleti(satirSayisi: 4),
         error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: Colors.red))),
         data: (kartlar) => kartlar.isEmpty
             ? const _BosKartMesaji()

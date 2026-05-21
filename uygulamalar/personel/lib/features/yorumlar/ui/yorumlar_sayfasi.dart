@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/hata_esleyici.dart';
 import '../../../uygulama/tema/renkler.dart';
+import '../../shared/ui/p_iskelet.dart';
 import '../domain/yorum_modeli.dart';
 import '../domain/yorumlar_bildiricisi.dart';
 
@@ -24,7 +25,7 @@ class YorumlarSayfasi extends ConsumerWidget {
         ],
       ),
       body: state.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const PersonelListIskeleti(satirSayisi: 5),
         error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: Colors.red))),
         data: (yorumlar) => yorumlar.isEmpty
             ? const Center(

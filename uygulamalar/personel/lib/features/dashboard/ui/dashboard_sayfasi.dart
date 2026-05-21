@@ -9,6 +9,7 @@ import '../../../core/riverpod_uzantilari.dart';
 import '../../../uygulama/tema/renkler.dart';
 import '../../kimlik/domain/kimlik_bildiricisi.dart';
 import '../../kimlik/domain/kimlik_durum.dart';
+import '../../shared/ui/p_iskelet.dart';
 import '../domain/dashboard_istatistik_saglayicisi.dart';
 
 class DashboardSayfasi extends ConsumerWidget {
@@ -42,7 +43,7 @@ class DashboardSayfasi extends ConsumerWidget {
         ],
       ),
       body: istatistikState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const PersonelDashboardIskeleti(),
         error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: PColors.danger))),
         data: (ist) => ist == null
             ? const Center(child: Text('Veri yok'))

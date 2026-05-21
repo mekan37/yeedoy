@@ -9,6 +9,7 @@ import '../../../core/riverpod_uzantilari.dart';
 import '../../../uygulama/tema/renkler.dart';
 import '../../kimlik/domain/kimlik_bildiricisi.dart';
 import '../../kimlik/domain/kimlik_durum.dart';
+import '../../shared/ui/p_iskelet.dart';
 import '../domain/masa_siparisi_bildiricisi.dart';
 import '../domain/masa_siparisi_modeli.dart';
 
@@ -41,7 +42,7 @@ class SiparislerSayfasi extends ConsumerWidget {
       ),
       body: siparisState.when(
         loading: () =>
-            const Center(child: CircularProgressIndicator()),
+            const PersonelListIskeleti(satirSayisi: 5),
         error: (e, _) => Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

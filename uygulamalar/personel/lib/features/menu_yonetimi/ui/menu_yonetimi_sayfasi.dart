@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/hata_esleyici.dart';
 import '../../../uygulama/tema/renkler.dart';
+import '../../shared/ui/p_iskelet.dart';
 import '../domain/menu_kalemi_modeli.dart';
 import '../domain/menu_yonetimi_bildiricisi.dart';
 
@@ -58,7 +59,7 @@ class MenuYonetimiSayfasi extends ConsumerWidget {
         ],
       ),
       body: state.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const PersonelListIskeleti(satirSayisi: 8),
         error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: Colors.red))),
         data: (kalemler) => kalemler.isEmpty
             ? const _BosMenuMesaji()
