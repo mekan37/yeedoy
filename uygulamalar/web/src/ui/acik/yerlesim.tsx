@@ -4,6 +4,7 @@ import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
 import { ThemeToggle } from '@/src/ui/bilesenler/tema-degistirici';
 import { Container, ButtonLink } from '@/src/ui/acik/ortak';
 import { Icon } from '@/src/ui/acik/simgeler';
+import { NavLinks } from '@/src/ui/acik/nav-baglantilari';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { HamburgerDugmesi } from '@/src/ui/kabuk/hamburger-dugmesi';
@@ -97,15 +98,7 @@ export async function PublicHeader({ variant = 'public' }: { variant?: 'public' 
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-0.5 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="inline-flex min-h-11 items-center rounded-2xl px-3 text-sm font-[900] text-textStrong hover:bg-cardAlt"
-            >
-              {item.label}
-            </Link>
-          ))}
+          <NavLinks items={navItems} />
         </nav>
 
         {/* Sağ araçlar */}
