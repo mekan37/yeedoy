@@ -1,6 +1,6 @@
 # Yeedoy — Eksikler & Güçlendirme Listesi
 
-> **Tarih:** 2026-05-21  
+> **Tarih:** 2026-05-21 (Personel analizi eklendi: 2026-05-21)  
 > Kapsamlı codebase analizi sonucu tespit edilen eksikler. Her madde uygulanabilir ve ölçülebilir.  
 > Öncelik: 🔴 Kritik → 🟠 Yüksek → 🟡 Orta → ⚪ Düşük
 
@@ -156,6 +156,98 @@
 8. W-5 / M-9  İskelet yükleme animasyonları
 9. W-4 / M-5  Boş durum grafikleri
 10. M-6  Biyometrik giriş
+```
+
+---
+
+## PERSONEL UYGULAMASI (`uygulamalar/personel`)
+
+### 🔴 Kritik — Kullanıcı Deneyimini Engelliyor / Güvenlik
+
+| # | Eksik | Dosya | Notlar |
+|---|---|---|---|
+| P-1 | **Çevrimdışı mod yok** | Tüm uygulama | İnternet yoksa tamamen çalışmaz |
+| P-2 | **PIN düz metin saklanıyor** | `ayarlar_sayfasi.dart:137` | SharedPreferences → `flutter_secure_storage` kullanılmalı |
+| P-3 | **Hata mesajları ham** | Tüm ekranlar | `"$e"` gösteriliyor, Türkçe + anlamlı mesajlar yok |
+| P-4 | **İskelet yükleme yok** | Tüm liste ekranları | Sadece `CircularProgressIndicator` var |
+| P-5 | **Biyometrik giriş eksik** | `giris_sayfasi.dart` | Ayarlarda toggle var ama giriş ekranında uygulanmamış |
+| P-6 | **Sipariş değiştirme** arayüzü yok | `siparisler_sayfasi.dart` | Miktar, not, bölme yapılamıyor |
+| P-7 | **KDS'de sipariş bekletme** yok | `kds_sayfasi.dart` | Malzeme beklenince sipariş durdurulamıyor |
+| P-8 | **Gerçek zamanlı zaman damgası** güncellenmiyor | `siparisler_sayfasi.dart` | "2 dk önce" statik, otomatik güncellenmeli |
+| P-9 | **Kamera izni** hata yönetimi yok | `qr_tarayici_sayfasi.dart` | İzin verilmezse uygulama çöküyor |
+| P-10 | **Menü görseli** yok | `menu_yonetimi_sayfasi.dart` | Her modern POS'ta standart |
+
+---
+
+### 🟠 Yüksek — Profesyonellik Farkı
+
+| # | Eksik | Dosya | Notlar |
+|---|---|---|---|
+| P-11 | **Şifremi unuttum** yok | `giris_sayfasi.dart` | `kimlik_bildiricisi.dart`'ta resetPassword yok |
+| P-12 | **Onay toast/snackbar** yok | Tüm ekranlar | Sipariş güncelleme, menü kaydetme sessiz geçiyor |
+| P-13 | **Aciliyet rengi** yok | `kds_sayfasi.dart` | 30+ dk bekleyen siparişler kırmızıya dönmeli |
+| P-14 | **Saatlik satış verisi** yok | `dashboard_sayfasi.dart` | Rush hour görünmüyor, yalnızca günlük toplam var |
+| P-15 | **Arama/filtre** yok | `menu_yonetimi_sayfasi.dart`, `siparisler_sayfasi.dart` | 100+ kayıtta scroll zulümü |
+| P-16 | **Personel performansı** gösterilmiyor | `dashboard_sayfasi.dart` | Kim kaç sipariş aldı, ortalama tutar |
+| P-17 | **Kampanya önizleme** yok | `kampanya_sayfasi.dart` | Müşteri telefonunda nasıl görüneceği bilinmiyor |
+| P-18 | **Kampanya geçmişi** yok | `kampanya_sayfasi.dart` | Gönderilen kampanya, açılma oranı, dönüşüm |
+| P-19 | **Yorum şablonları** yok | `yorumlar_sayfasi.dart` | Sık kullanılan yanıtları kaydetme özelliği |
+| P-20 | **QR kod yazdırma/indirme** yok | `qr_sayfasi.dart` | Masaya fiziksel yerleştirme için gerekli |
+| P-21 | **Sadakat otomatik puan** yok | `sadakat_sayfasi.dart` | Sipariş tamamlanınca otomatik puan eklenmiyor, manuel |
+| P-22 | **Tema/karanlık mod** yok | `ayarlar_sayfasi.dart` | Mobilde var, personelde yok |
+| P-23 | **Yazıcı entegrasyonu** tamamlanmamış | `kds_sayfasi.dart` | ESC/POS ayar UI var ama gerçek baskı belirsiz |
+| P-24 | **Büyük veri sayfalama** yok | Tüm liste ekranları | 100+ sipariş/menü'de lag |
+
+---
+
+### 🟡 Orta — Özellik Tamamlama
+
+| # | Eksik | Dosya | Notlar |
+|---|---|---|---|
+| P-25 | **Haftalık grafik** Y ekseni ve grid yok | `dashboard_sayfasi.dart` | Değerleri okumak zor |
+| P-26 | **Dönemsel karşılaştırma** yok | `dashboard_sayfasi.dart` | Geçen haftaya göre % değişim |
+| P-27 | **Menü öğesi sıralama** yok | `menu_yonetimi_sayfasi.dart` | En çok satanlar öne geliyor olmalı |
+| P-28 | **Kategori geçici gizleme** yok | `menu_yonetimi_sayfasi.dart` | Kahvaltı öğeleri öğleden sonra gizlenemiyor |
+| P-29 | **Allerjen/diyet etiketi** yok | `menu_yonetimi_sayfasi.dart` | Vegan, glutensiz vb. |
+| P-30 | **Müşteri özel isteği** vurgulama yok | `siparisler_sayfasi.dart` | Alerji notları göze çarpmıyor |
+| P-31 | **Yorum sıralama** yok | `yorumlar_sayfasi.dart` | Yeni, puana göre filtre yok |
+| P-32 | **Sadakat kart oluşturma** yok | `sadakat_sayfasi.dart` | Sadece UUID tarama var, yeni kart açılamıyor |
+| P-33 | **Puan sona erme tarihi** yok | `sadakat_sayfasi.dart` | Kartlarda expiry yok |
+| P-34 | **Şifre değiştirme** yok | `ayarlar_sayfasi.dart` | Web'e gitmek gerekiyor |
+| P-35 | **Bildirim ses/titreşim** tercihi yok | `ayarlar_sayfasi.dart` | `masa_siparisi_bildiricisi.dart`'ta hardcoded |
+| P-36 | **UUID maske/doğrulama** yetersiz | `sadakat_sayfasi.dart` | Format ipucu yok |
+| P-37 | **Toplu QR üretimi** yok | `qr_sayfasi.dart` | 30 masa için tek tek üretmek gerekiyor |
+| P-38 | **Senkronizasyon durumu** göstergesi yok | Tüm uygulama | Son sync ne zaman? |
+
+---
+
+### ⚪ Düşük — İnce Dokunuşlar
+
+| # | Eksik | Notlar |
+|---|---|---|
+| P-39 | Sipariş durumu değişiminde animasyon yok | Kartlar anlık geçiyor |
+| P-40 | Mutfak "Hazır" kutlama animasyonu yok | Toast POS bunu yapar |
+| P-41 | Kamera torch durum ikonu pasif/aktif göstermiyor | Dolu/boş ikon yeterli |
+| P-42 | Dışa aktarma (CSV/PDF) yok | Dashboard, siparişler, sadakat listesi |
+| P-43 | Denetim izi yok | Kim hangi siparişi güncelledi |
+| P-44 | Renk körü renk göstergeleri | Sadece kırmızı/yeşil, ikon da eklenmeli |
+| P-45 | Versiyon "güncelleme kontrol et" butonu yok | `ayarlar_sayfasi.dart` |
+
+---
+
+### 🔴 Personel — İlk 10 Kritik Adım
+
+```
+1. P-2   PIN → flutter_secure_storage
+2. P-3   Supabase hatalarını Türkçe + anlamlı mesajlara map et
+3. P-4   İskelet yükleme (shimmer) tüm liste ekranlara
+4. P-12  Onay toast sistemi (favori, kaydetme, güncelleme)
+5. P-8   Gerçek zamanlı zaman damgası (Timer.periodic 30s)
+6. P-5   Biyometrik giriş tamamla (local_auth, ayar varken giriş yok)
+7. P-10  Menü öğesi görsel yükleme (Supabase Storage)
+8. P-11  Şifremi unuttum akışı ekle
+9. P-15  Arama/filtre menü ve sipariş ekranlarına
+10. P-13  KDS aciliyet rengi (30dk+ siparişler kırmızı)
 ```
 
 ---
