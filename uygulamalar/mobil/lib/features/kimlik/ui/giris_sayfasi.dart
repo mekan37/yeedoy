@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -553,9 +555,53 @@ class _Tab extends StatelessWidget {
   }
 }
 
+// ── Şifre güç yardımcıları ────────────────────────────────────────────────────
+
+class _PassKriter {
+  const _PassKriter(this.label, this.test);
+  final String label;
+  final bool Function(String) test;
+}
+
+const _passKriterler = [
+  _PassKriter('En az 8 karakter',  _len8),
+  _PassKriter('Büyük harf',        _buyuk),
+  _PassKriter('Küçük harf',        _kucuk),
+  _PassKriter('Rakam',             _rakam),
+  _PassKriter('Özel karakter',     _ozel),
+];
+
+bool _len8(String p)  => p.length >= 8;
+bool _buyuk(String p) => RegExp(r'[A-ZÇĞİÖŞÜ]').hasMatch(p);
+bool _kucuk(String p) => RegExp(r'[a-zçğışöü]').hasMatch(p);
+bool _rakam(String p) => RegExp(r'[0-9]').hasMatch(p);
+bool _ozel(String p)  => RegExp(r'[^a-zA-Z0-9çğışöüÇĞİÖŞÜ]').hasMatch(p);
+
+int _passGucSeviye(String p) {
+  final met = _passKriterler.where((k) => k.test(p)).length;
+  if (met <= 2) return 0;
+  if (met == 3) return 1;
+  if (met == 4) return 2;
+  return 3;
+}
+
+Color _passGucRenk(int level) => switch (level) {
+  0 => const Color(0xFFEF4444),
+  1 => const Color(0xFFEAB308),
+  2 => const Color(0xFFF97316),
+  _ => const Color(0xFF22C55E),
+};
+
+String _passGucLabel(int level) => switch (level) {
+  0 => 'Zayıf',
+  1 => 'Orta',
+  2 => 'İyi',
+  _ => 'Güçlü',
+};
+
 // ── Email Formu ────────────────────────────────────────────────────────────────
 
-class _EmailForm extends StatelessWidget {
+class _EmailForm extends StatefulWidget {
   const _EmailForm({
     required this.emailCtrl,
     required this.passCtrl,
@@ -581,13 +627,40 @@ class _EmailForm extends StatelessWidget {
   final VoidCallback onForgotPassword;
 
   @override
+  State<_EmailForm> createState() => _EmailFormState();
+}
+
+class _EmailFormState extends State<_EmailForm> {
+  bool _obscurePass = true;
+  String _passText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    widget.passCtrl.addListener(_onPassChange);
+  }
+
+  void _onPassChange() {
+    if (mounted) setState(() => _passText = widget.passCtrl.text);
+  }
+
+  @override
+  void dispose() {
+    widget.passCtrl.removeListener(_onPassChange);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final t = context.l10n;
+    final strength = _passGucSeviye(_passText);
+    final showStrength = widget.signupIntent && _passText.isNotEmpty;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
-          controller: emailCtrl,
+          controller: widget.emailCtrl,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
@@ -597,15 +670,80 @@ class _EmailForm extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         TextField(
-          controller: passCtrl,
-          obscureText: true,
+          controller: widget.passCtrl,
+          obscureText: _obscurePass,
           textInputAction: TextInputAction.done,
-          onSubmitted: (_) => onSignIn(),
+          onSubmitted: (_) => widget.onSignIn(),
           decoration: InputDecoration(
             labelText: t.loginPasswordLabel,
             prefixIcon: const Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePass ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                size: 20,
+                color: AppColors.muted,
+              ),
+              onPressed: () => setState(() => _obscurePass = !_obscurePass),
+              tooltip: _obscurePass ? 'Şifreyi göster' : 'Şifreyi gizle',
+            ),
           ),
         ),
+        // Şifre güç göstergesi (sadece kayıt modunda)
+        if (showStrength) ...[
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: (strength + 1) / 5,
+                    minHeight: 5,
+                    backgroundColor: AppColors.border,
+                    valueColor: AlwaysStoppedAnimation<Color>(_passGucRenk(strength)),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                _passGucLabel(strength),
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: _passGucRenk(strength),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: _passKriterler.map((k) {
+              final ok = k.test(_passText);
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    ok ? Icons.check_circle : Icons.radio_button_unchecked,
+                    size: 13,
+                    color: ok ? const Color(0xFF22C55E) : AppColors.muted,
+                  ),
+                  const SizedBox(width: 3),
+                  Text(
+                    k.label,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: ok ? const Color(0xFF22C55E) : AppColors.muted,
+                      fontWeight: ok ? FontWeight.w600 : FontWeight.w400,
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 4),
+        ],
         const SizedBox(height: 14),
         Container(
           padding: const EdgeInsets.all(14),
@@ -627,44 +765,44 @@ class _EmailForm extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               LegalRequiredConsentCard(
-                value: acceptedPolicies,
-                disabled: loading,
+                value: widget.acceptedPolicies,
+                disabled: widget.loading,
                 helperText: 'Bu kabul yalnızca kayıt oluştururken zorunludur.',
-                onChanged: onAcceptPolicies,
-                onOpenLink: onOpenLegalUrl,
+                onChanged: widget.onAcceptPolicies,
+                onOpenLink: widget.onOpenLegalUrl,
               ),
             ],
           ),
         ),
         const SizedBox(height: 16),
-        if (signupIntent) ...[
+        if (widget.signupIntent) ...[
           FilledButton(
-            onPressed: loading ? null : onSignUp,
-            child: Text(loading ? t.loginSigningUpAction : t.loginSignupAction),
+            onPressed: widget.loading ? null : widget.onSignUp,
+            child: Text(widget.loading ? t.loginSigningUpAction : t.loginSignupAction),
           ),
           const SizedBox(height: 10),
           OutlinedButton(
-            onPressed: loading ? null : onSignIn,
+            onPressed: widget.loading ? null : widget.onSignIn,
             child: Text(
-              loading ? t.loginSigningInAction : t.loginPrimaryAction,
+              widget.loading ? t.loginSigningInAction : t.loginPrimaryAction,
             ),
           ),
         ] else ...[
           FilledButton(
-            onPressed: loading ? null : onSignIn,
+            onPressed: widget.loading ? null : widget.onSignIn,
             child: Text(
-              loading ? t.loginSigningInAction : t.loginPrimaryAction,
+              widget.loading ? t.loginSigningInAction : t.loginPrimaryAction,
             ),
           ),
           const SizedBox(height: 10),
           OutlinedButton(
-            onPressed: loading ? null : onSignUp,
-            child: Text(loading ? t.loginSigningUpAction : t.loginSignupAction),
+            onPressed: widget.loading ? null : widget.onSignUp,
+            child: Text(widget.loading ? t.loginSigningUpAction : t.loginSignupAction),
           ),
         ],
         const SizedBox(height: 4),
         TextButton(
-          onPressed: loading ? null : onForgotPassword,
+          onPressed: widget.loading ? null : widget.onForgotPassword,
           child: const Text('Şifremi unuttum'),
         ),
       ],
@@ -674,7 +812,7 @@ class _EmailForm extends StatelessWidget {
 
 // ── Telefon OTP Formu ──────────────────────────────────────────────────────────
 
-class _PhoneForm extends StatelessWidget {
+class _PhoneForm extends StatefulWidget {
   const _PhoneForm({
     required this.phoneCtrl,
     required this.otpCtrl,
@@ -694,8 +832,54 @@ class _PhoneForm extends StatelessWidget {
   final VoidCallback onBack;
 
   @override
+  State<_PhoneForm> createState() => _PhoneFormState();
+}
+
+class _PhoneFormState extends State<_PhoneForm> {
+  int _countdown = 0;
+  Timer? _timer;
+
+  @override
+  void didUpdateWidget(_PhoneForm old) {
+    super.didUpdateWidget(old);
+    // OTP gönderildi → geri sayımı başlat
+    if (widget.otpSent && !old.otpSent) {
+      _startCountdown();
+    }
+    // Farklı numara kullan → sayacı sıfırla
+    if (!widget.otpSent && old.otpSent) {
+      _stopCountdown();
+    }
+  }
+
+  void _startCountdown() {
+    _stopCountdown();
+    setState(() => _countdown = 60);
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!mounted) return;
+      if (_countdown <= 1) {
+        _stopCountdown();
+      } else {
+        setState(() => _countdown--);
+      }
+    });
+  }
+
+  void _stopCountdown() {
+    _timer?.cancel();
+    _timer = null;
+    if (mounted) setState(() => _countdown = 0);
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (!otpSent) {
+    if (!widget.otpSent) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -704,9 +888,7 @@ class _PhoneForm extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.success.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: AppColors.success.withValues(alpha: 0.3),
-              ),
+              border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
             ),
             child: const Row(
               children: [
@@ -723,13 +905,13 @@ class _PhoneForm extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           TextField(
-            controller: phoneCtrl,
+            controller: widget.phoneCtrl,
             keyboardType: TextInputType.phone,
             textInputAction: TextInputAction.done,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s\-()]')),
             ],
-            onSubmitted: (_) => onSendOtp(),
+            onSubmitted: (_) => widget.onSendOtp(),
             decoration: const InputDecoration(
               labelText: 'Telefon numarası',
               hintText: '05XX XXX XX XX',
@@ -739,24 +921,21 @@ class _PhoneForm extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           FilledButton.icon(
-            onPressed: loading ? null : onSendOtp,
-            icon: loading
+            onPressed: widget.loading ? null : widget.onSendOtp,
+            icon: widget.loading
                 ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
+                    width: 16, height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                   )
                 : const Icon(Icons.send_outlined, size: 18),
-            label: Text(loading ? 'Gönderiliyor…' : 'SMS Kodu Gönder'),
+            label: Text(widget.loading ? 'Gönderiliyor…' : 'SMS Kodu Gönder'),
           ),
         ],
       );
     }
 
     // OTP girişi
+    final canResend = _countdown == 0 && !widget.loading;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -769,19 +948,12 @@ class _PhoneForm extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(
-                Icons.check_circle_outline,
-                size: 16,
-                color: AppColors.success,
-              ),
+              const Icon(Icons.check_circle_outline, size: 16, color: AppColors.success),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  '${phoneCtrl.text} numarasına SMS gönderildi.',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.success,
-                  ),
+                  '${widget.phoneCtrl.text} numarasına SMS gönderildi.',
+                  style: const TextStyle(fontSize: 12, color: AppColors.success),
                 ),
               ),
             ],
@@ -789,18 +961,14 @@ class _PhoneForm extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         TextField(
-          controller: otpCtrl,
+          controller: widget.otpCtrl,
           keyboardType: TextInputType.number,
           textAlign: TextAlign.center,
           maxLength: 6,
           textInputAction: TextInputAction.done,
-          onSubmitted: (_) => onVerifyOtp(),
+          onSubmitted: (_) => widget.onVerifyOtp(),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 12,
-          ),
+          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700, letterSpacing: 12),
           decoration: const InputDecoration(
             labelText: 'Doğrulama kodu',
             hintText: '000000',
@@ -809,24 +977,36 @@ class _PhoneForm extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         FilledButton.icon(
-          onPressed: loading ? null : onVerifyOtp,
-          icon: loading
+          onPressed: widget.loading ? null : widget.onVerifyOtp,
+          icon: widget.loading
               ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
+                  width: 16, height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                 )
               : const Icon(Icons.verified_outlined, size: 18),
-          label: Text(loading ? 'Doğrulanıyor…' : 'Kodu Doğrula'),
+          label: Text(widget.loading ? 'Doğrulanıyor…' : 'Kodu Doğrula'),
         ),
-        const SizedBox(height: 10),
-        TextButton.icon(
-          onPressed: loading ? null : onBack,
-          icon: const Icon(Icons.arrow_back, size: 16),
-          label: const Text('Farklı numara kullan'),
+        const SizedBox(height: 8),
+        // Tekrar gönder butonu + geri sayım
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton.icon(
+              onPressed: canResend ? () { widget.onSendOtp(); _startCountdown(); } : null,
+              icon: const Icon(Icons.refresh, size: 16),
+              label: Text(
+                _countdown > 0
+                    ? 'Tekrar gönder (${_countdown}s)'
+                    : 'Tekrar gönder',
+              ),
+            ),
+            const SizedBox(width: 8),
+            TextButton.icon(
+              onPressed: widget.loading ? null : widget.onBack,
+              icon: const Icon(Icons.arrow_back, size: 16),
+              label: const Text('Farklı numara'),
+            ),
+          ],
         ),
       ],
     );
