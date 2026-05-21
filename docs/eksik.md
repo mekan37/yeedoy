@@ -160,4 +160,255 @@
 
 ---
 
+## İlk Kullanım Turu (Feature Tour / Coach Marks) — Detaylı Plan
+
+> Kullanıcıya "bu ekran ne işe yarıyor" diye anlatan sistem.  
+> Mobil onboarding slaytları **değer önerisi** anlatır; bu plan **uygulama içi UI turu** tasarlar.
+
+---
+
+### Mevcut Durum
+
+| Uygulama | Onboarding Slaytları | UI Turu | Durum |
+|---|---|---|---|
+| Mobil | ✅ 5 slayt (konum, diyet, fiyat, topluluk, bildirim) | ❌ yok | Kısmen var |
+| Personel | ❌ yok | ❌ yok | Hiç yok |
+| Web | — | — | Web'de bu gerekmiyor (hover tooltip yeterli) |
+
+---
+
+### Teknik Yaklaşım: `showcaseview` paketi
+
+```yaml
+# Her iki uygulamanın pubspec.yaml dosyasına eklenecek
+showcaseview: ^3.0.0
+```
+
+**Neden `showcaseview`:**
+- Pub.dev'de en popüler Flutter tur paketi (1000+ like)
+- Belirli widget'ları `Showcase` ile sararsın, SDK sıralı vurgu yapar
+- `GlobalKey` bazlı, herhangi bir widget'ı hedef alabilir
+- Konum bilgisi otomatik hesaplanır (overlay + ok + açıklama balonu)
+- `SharedPreferences` ile "ilk gösterim" kontrolü kolay entegre edilir
+
+---
+
+### 1. Personel Uygulaması Planı
+
+#### 1a. Onboarding Slaytları (yeni ekran)
+
+**Dosya:** `uygulamalar/personel/lib/features/onboarding/ui/personel_onboarding_sayfasi.dart`
+
+3 slayt (basit, hızlı):
+
+```
+Slayt 1 — Hoş Geldiniz
+┌─────────────────────────┐
+│  [Yeedoy Logo]          │
+│                         │
+│  Personel Paneline      │
+│  Hoş Geldiniz           │
+│                         │
+│  Masaları yönetin,      │
+│  siparişleri takip      │
+│  edin, menüyü           │
+│  güncelleyin.           │
+│                         │
+│  [Devam →]              │
+└─────────────────────────┘
+
+Slayt 2 — Sipariş Yönetimi
+┌─────────────────────────┐
+│  [🧾 ikon]              │
+│                         │
+│  Siparişler             │
+│                         │
+│  Masalardan gelen       │
+│  QR siparişleri         │
+│  gerçek zamanlı         │
+│  görürsünüz.            │
+│                         │
+│  [İleri →]              │
+└─────────────────────────┘
+
+Slayt 3 — Mutfak Ekranı
+┌─────────────────────────┐
+│  [🍳 ikon]              │
+│                         │
+│  Mutfak Ekranı (KDS)    │
+│                         │
+│  Hazırlanacak           │
+│  siparişler burada      │
+│  görünür, tamamlanınca  │
+│  işaretlersiniz.        │
+│                         │
+│  [Başla →]              │
+└─────────────────────────┘
+```
+
+**Tetikleme:** `main.dart` → `SharedPreferences` → `personel_onboarding_goruldu` key'i `false` ise onboarding'e yönlendir.
+
+#### 1b. UI Turu (showcaseview)
+
+**Dosya:** `uygulamalar/personel/lib/features/shared/ui/ana_kabuk.dart` (güncellenir)
+
+6 coach mark — bottom nav her öğesine birer tane:
+
+```dart
+// GlobalKey'ler AnaKabuk state'inde tanımlanır
+final _siparislerKey = GlobalKey();
+final _dashboardKey  = GlobalKey();
+final _menuKey       = GlobalKey();
+final _sadakatKey    = GlobalKey();
+final _kdsKey        = GlobalKey();
+final _ayarlarKey    = GlobalKey();
+
+// Showcase açıklamaları:
+// siparisler: "Masalardan gelen siparişleri buradan takip edin"
+// dashboard:  "Günlük satış özeti ve istatistikler"
+// menu:       "Menü kalemlerini ekle, fiyat güncelle"
+// sadakat:    "Müşteri sadakat puanlarını tara ve onayla"
+// kds:        "Mutfak ekranı — hazırlanacak siparişler"
+// ayarlar:    "Hesap ve uygulama tercihleri"
+```
+
+**Tetikleme:** Onboarding bittikten sonra ilk açılışta otomatik başlar.  
+`SharedPreferences` key: `personel_tur_goruldu`
+
+**Kullanıcı her zaman tekrar başlatabilir:** Ayarlar sayfasına "Turu Yeniden Göster" butonu eklenir.
+
+---
+
+### 2. Mobil Uygulama Planı
+
+#### 2a. Mevcut Onboarding'e Eklenti (6. Slayt)
+
+Mevcut `onboarding_sayfasi.dart` dosyasında `_pageCount = 5` → `6` yapılır.  
+Son slayt "Uygulamayı keşfet" olur:
+
+```
+Slayt 6 (yeni) — Uygulama Turu
+┌─────────────────────────┐
+│  [🗺 ikon]              │
+│                         │
+│  Her Şey Elinizde       │
+│                         │
+│  • Alt menüden          │
+│    istediğiniz bölüme   │
+│    geçin                │
+│  • ☰ Hamburger ile      │
+│    tüm özelliklere      │
+│    ulaşın               │
+│  • Profil → XP ve       │
+│    başarımlarınız       │
+│                         │
+│  [Keşfetmeye Başla →]   │
+└─────────────────────────┘
+```
+
+#### 2b. Ana Sayfa UI Turu (showcaseview)
+
+**Dosya:** `uygulamalar/mobil/lib/features/shared/ui/bilesenler/alt_navigasyon.dart` (güncellenir)
+
+4 coach mark — alt navigasyon öğelerine:
+
+```dart
+// GlobalKey'ler
+final _discoverKey  = GlobalKey();  // "Keşfet" sekmesi
+final _mapKey       = GlobalKey();  // "Harita" sekmesi
+final _favoritesKey = GlobalKey();  // "Favoriler" sekmesi
+final _profileKey   = GlobalKey();  // "Profil" sekmesi
+
+// + Ana sayfada merkez QR butonu için ayrı key
+final _qrKey        = GlobalKey();
+```
+
+Açıklama baloncukları:
+- **Keşfet:** "Yakınındaki restoran ve kafeleri keşfet, fiyatları karşılaştır"
+- **Harita:** "Haritada konuma göre mekanları gör"
+- **Favoriler:** "Beğendiğin yerleri kaydet, koleksiyonlar oluştur"
+- **Profil:** "XP kazan, başarım aç, katkılarını gör"
+- **QR Butonu:** "QR kodu tara → menüyü gör veya check-in yap"
+
+**Tetikleme:**  
+- Onboarding tamamlandıktan sonra ilk /discover açılışında otomatik başlar
+- `SharedPreferences` key: `mobil_ui_turu_goruldu`
+- Drawer → Ayarlar → "Turu Tekrar Göster" butonu
+
+---
+
+### 3. Ortak Altyapı
+
+#### Dosyalar
+
+```
+uygulamalar/
+├── mobil/lib/core/depolama/
+│   └── tur_tercihleri.dart          # SharedPreferences wrapper
+│       ├── setTurGoruldu(key)
+│       └── isTurGoruldu(key) → bool
+│
+└── personel/lib/core/depolama/
+    └── tur_tercihleri.dart          # Aynı pattern
+```
+
+#### pubspec.yaml değişiklikleri
+
+```yaml
+# uygulamalar/mobil/pubspec.yaml
+dependencies:
+  showcaseview: ^3.0.0
+
+# uygulamalar/personel/pubspec.yaml
+dependencies:
+  showcaseview: ^3.0.0
+```
+
+---
+
+### 4. Uygulama Sırası
+
+```
+1. pubspec'lere showcaseview ekle + flutter pub get
+2. tur_tercihleri.dart oluştur (her iki uygulama)
+3. Personel: personel_onboarding_sayfasi.dart (3 slayt)
+4. Personel: main.dart → onboarding yönlendirme
+5. Personel: ana_kabuk.dart → 6 coach mark + ShowCaseWidget wrapper
+6. Personel: ayarlar sayfasına "Turu Yeniden Göster" butonu
+7. Mobil: onboarding_sayfasi.dart → 6. slayt ekle
+8. Mobil: alt_navigasyon.dart → 5 coach mark + ShowCaseWidget wrapper
+9. Mobil: profil/ayarlar → "Turu Yeniden Göster" butonu
+```
+
+---
+
+### 5. showcaseview Kullanım Örneği
+
+```dart
+// Herhangi bir widget'ı vurgula
+Showcase(
+  key: _siparislerKey,
+  title: 'Siparişler',
+  description: 'Masalardan gelen siparişleri buradan takip edin.',
+  tooltipBackgroundColor: AppColors.primary,
+  textColor: Colors.white,
+  child: NavigationDestination(
+    icon: Icon(Icons.receipt_long_outlined),
+    label: 'Siparişler',
+  ),
+),
+
+// Turu başlat
+ShowCaseWidget.of(context).startShowCase([
+  _siparislerKey,
+  _dashboardKey,
+  _menuKey,
+  _sadakatKey,
+  _kdsKey,
+  _ayarlarKey,
+]);
+```
+
+---
+
 *Bu dosya canlı tutulmalıdır. Tamamlanan maddeler ~~üstü çizili~~ veya ✅ ile işaretlenmeli.*
