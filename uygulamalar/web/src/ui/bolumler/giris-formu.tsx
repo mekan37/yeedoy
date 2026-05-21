@@ -27,6 +27,26 @@ function getPasswordStrength(password: string) {
   return               { level: 3, label: 'Güçlü',  color: 'bg-green-500',  width: 'w-full' };
 }
 
+function hataMesaji(err: unknown): string {
+  const raw = err instanceof Error ? err.message : String(err ?? '');
+  const lower = raw.toLowerCase();
+  if (lower.includes('already registered') || lower.includes('already exists') || lower.includes('23505'))
+    return 'Bu e-posta adresi zaten kayıtlı. Giriş yapmayı deneyin.';
+  if (lower.includes('invalid login') || lower.includes('invalid credentials') || lower.includes('wrong password'))
+    return 'E-posta veya şifre hatalı.';
+  if (lower.includes('email not confirmed'))
+    return 'E-posta adresinizi doğrulamanız gerekiyor. Gelen kutunuzu kontrol edin.';
+  if (lower.includes('rate limit') || lower.includes('too many'))
+    return 'Çok fazla deneme yaptınız. Lütfen birkaç dakika bekleyin.';
+  if (lower.includes('network') || lower.includes('fetch'))
+    return 'Bağlantı hatası. İnternet bağlantınızı kontrol edin.';
+  if (lower.includes('weak password') || lower.includes('at least 6'))
+    return 'Şifre çok zayıf. Daha güçlü bir şifre seçin.';
+  if (lower.includes('signup is disabled'))
+    return 'Şu an yeni kayıtlar kapalıdır. Lütfen daha sonra tekrar deneyin.';
+  return raw || 'Bir hata oluştu. Lütfen tekrar deneyin.';
+}
+
 type Props = {
   redirectTo: string | null;
   panelLoginUrl?: string | null;
@@ -45,6 +65,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isPending, startTransition] = useTransition();
+  const [oAuthProvider, setOAuthProvider] = useState<'google' | 'apple' | null>(null);
 
   const districts = city ? (TR_ILCELER[city] ?? []) : [];
 
@@ -68,6 +89,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
   }, [redirectTo, router]);
 
   async function handleOAuth(provider: 'google' | 'apple') {
+    setOAuthProvider(provider);
     const supabase = createSupabaseBrowserClient();
     const callbackUrl = new URL('/auth/callback', window.location.origin);
     if (redirectTo) callbackUrl.searchParams.set('redirect', redirectTo);
@@ -75,6 +97,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
       provider,
       options: { redirectTo: callbackUrl.toString() },
     });
+    setOAuthProvider(null);
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -129,7 +152,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
           },
         });
         if (signUpError) {
-          setError(signUpError.message);
+          setError(hataMesaji(signUpError));
           return;
         }
         // E-posta onayı kapalıysa session anında gelir → profil oluştur ve yönlendir
@@ -229,20 +252,28 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
             <button
               type="button"
               onClick={() => void handleOAuth('google')}
-              disabled={isPending}
+              disabled={isPending || oAuthProvider !== null}
               className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card text-sm font-[700] text-textStrong shadow-sm transition-colors hover:bg-cardAlt disabled:opacity-50"
             >
-              <GoogleIcon />
+              {oAuthProvider === 'google' ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-primary" />
+              ) : (
+                <GoogleIcon />
+              )}
               Google ile {mode === 'giris' ? 'giriş yap' : 'kayıt ol'}
             </button>
 
             <button
               type="button"
               onClick={() => void handleOAuth('apple')}
-              disabled={isPending}
+              disabled={isPending || oAuthProvider !== null}
               className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl bg-[#000] text-sm font-[700] text-white shadow-sm transition-colors hover:bg-[#1a1a1a] disabled:opacity-50"
             >
-              <AppleIcon />
+              {oAuthProvider === 'apple' ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              ) : (
+                <AppleIcon />
+              )}
               Apple ile {mode === 'giris' ? 'giriş yap' : 'kayıt ol'}
             </button>
           </div>
