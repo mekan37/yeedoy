@@ -41,9 +41,34 @@ export async function GET(request: Request) {
     },
   );
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const { data: sessionData, error } = await supabase.auth.exchangeCodeForSession(code);
   if (error) {
     return NextResponse.redirect(`${origin}/giris?error=oauth_failed`);
+  }
+
+  // Profil yoksa oluştur (e-posta kayıt veya OAuth)
+  if (sessionData.user) {
+    const user = sessionData.user;
+    const { data: existing } = await (supabase as any)
+      .from('user_profiles')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .maybeSingle() as { data: { user_id: string } | null };
+
+    if (!existing) {
+      // display_name: user metadata (e-posta kaydı) veya provider name (OAuth)
+      const displayName =
+        (user.user_metadata?.display_name as string | undefined) ||
+        (user.user_metadata?.full_name as string | undefined) ||
+        (user.user_metadata?.name as string | undefined) ||
+        user.email?.split('@')[0] ||
+        'Kullanıcı';
+
+      await (supabase as any).from('user_profiles').insert({
+        user_id: user.id,
+        display_name: displayName.slice(0, 60),
+      } as Record<string, unknown>);
+    }
   }
 
   return response;

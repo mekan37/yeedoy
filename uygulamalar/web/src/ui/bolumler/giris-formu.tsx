@@ -16,6 +16,7 @@ type Props = {
 export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>('giris');
+  const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -62,6 +63,11 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
       return;
     }
 
+    if (mode === 'kayit' && !displayName.trim()) {
+      setError('Ad Soyad alanı zorunludur.');
+      return;
+    }
+
     startTransition(async () => {
       if (mode === 'giris') {
         const body: Record<string, string> = { email: email.trim(), password };
@@ -80,13 +86,31 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
         router.refresh();
       } else {
         const supabase = createSupabaseBrowserClient();
-        const { error: signUpError } = await supabase.auth.signUp({
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
           password,
-          options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ''}`,
+            data: { display_name: displayName.trim() },
+          },
         });
         if (signUpError) {
           setError(signUpError.message);
+          return;
+        }
+        // E-posta onayı kapalıysa session anında gelir → profil oluştur ve yönlendir
+        if (signUpData.session) {
+          const { error: profileError } = await (supabase as any).from('user_profiles').insert({
+            user_id: signUpData.session.user.id,
+            display_name: displayName.trim(),
+          }) as { error: { code?: string; message?: string } | null };
+          if (profileError && profileError.code !== '23505') {
+            // 23505 = unique violation (profil zaten var) → görmezden gel
+            setError('Hesap oluşturuldu ancak profil kaydedilemedi. Giriş yapabilirsiniz.');
+            return;
+          }
+          window.location.assign(redirectTo ?? '/');
+          router.refresh();
           return;
         }
         setSuccess('Doğrulama e-postası gönderildi. Gelen kutunuzu kontrol edin.');
@@ -192,6 +216,26 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* Ad Soyad — sadece kayıt modunda */}
+            {mode === 'kayit' && (
+              <div>
+                <label className="mb-1.5 block text-xs font-[800] uppercase tracking-[0.16em] text-muted">
+                  Ad Soyad
+                </label>
+                <input
+                  type="text"
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  required
+                  autoComplete="name"
+                  placeholder="Adınız Soyadınız"
+                  maxLength={60}
+                  className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                />
+              </div>
+            )}
+
             <div>
               <label className="mb-1.5 block text-xs font-[800] uppercase tracking-[0.16em] text-muted">
                 E-posta
