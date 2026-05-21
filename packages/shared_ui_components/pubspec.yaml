@@ -9,3 +9,11 @@ dependencies:
     sdk: flutter
   yeedoy_shared_models:
     path: ../shared_models
+
+flutter:
+  assets:
+    - assets/brand/yeedoy-icon.svg
+    - assets/brand/yeedoy-mark-transparent.svg
+    - assets/brand/yeedoy-wordmark.svg
+    - assets/brand/yeedoy-icon.png
+    - assets/brand/yeedoy-mark-transparent.png
