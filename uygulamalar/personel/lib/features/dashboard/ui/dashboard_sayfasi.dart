@@ -401,80 +401,150 @@ class _BarGrafik extends StatelessWidget {
   final List<GunlukVeri> veriler;
   final bool gelirModu;
   static const double _yukseklik = 120;
+  static const double _etiketGenislik = 32;
   static const List<String> _gunKisaltma = [
-    'Pzt',
-    'Sal',
-    'Çar',
-    'Per',
-    'Cum',
-    'Cmt',
-    'Paz',
+    'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz',
   ];
 
   const _BarGrafik({required this.veriler, required this.gelirModu});
+
+  static double _niceMax(double val) {
+    if (val <= 0) return 10;
+    final adim = val <= 10 ? 2.0 : val <= 50 ? 10.0 : val <= 200 ? 50.0 : 100.0;
+    return (val / adim).ceil() * adim;
+  }
+
+  static String _yEtiket(double val, bool gelir) {
+    if (gelir) {
+      return val >= 1000
+          ? '${(val / 1000).toStringAsFixed(val % 1000 == 0 ? 0 : 1)}K'
+          : val.toStringAsFixed(0);
+    }
+    return val.toStringAsFixed(0);
+  }
 
   @override
   Widget build(BuildContext context) {
     final degerler = veriler
         .map((v) => gelirModu ? v.gelir : v.siparisSayisi.toDouble())
         .toList();
-    final maksimum = degerler.fold(0.0, math.max);
+    final rawMax = degerler.fold(0.0, math.max);
+    final yMax = _niceMax(rawMax);
 
-    return SizedBox(
-      height: _yukseklik + 30,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: List.generate(veriler.length, (i) {
-          final veri = veriler[i];
-          final deger = degerler[i];
-          final oran = maksimum > 0 ? deger / maksimum : 0.0;
-          final bugun = i == veriler.length - 1;
-          final gunAdi = _gunKisaltma[veri.gun.weekday - 1];
-
-          return Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  if (bugun && deger > 0)
-                    Text(
-                      gelirModu ? '₺${deger.toStringAsFixed(0)}' : '$deger',
-                      style: const TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.w900,
-                        color: PColors.primary,
-                      ),
-                    ),
-                  const SizedBox(height: 2),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOut,
-                    height: math.max(4, oran * _yukseklik),
-                    decoration: BoxDecoration(
-                      color: bugun
-                          ? PColors.primary
-                          : PColors.primary.withValues(alpha: 0.35),
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(4),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    gunAdi,
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: bugun ? FontWeight.w900 : FontWeight.normal,
-                      color: bugun ? PColors.primary : PColors.muted,
-                    ),
-                  ),
-                ],
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Y ekseni etiketleri
+        SizedBox(
+          width: _etiketGenislik,
+          height: _yukseklik + 26,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                right: 2,
+                child: Text(
+                  _yEtiket(yMax, gelirModu),
+                  style: const TextStyle(fontSize: 9, color: PColors.muted),
+                ),
               ),
+              Positioned(
+                top: _yukseklik / 2 - 6,
+                right: 2,
+                child: Text(
+                  _yEtiket(yMax / 2, gelirModu),
+                  style: const TextStyle(fontSize: 9, color: PColors.muted),
+                ),
+              ),
+              const Positioned(
+                top: _yukseklik - 6,
+                right: 2,
+                child: Text('0', style: TextStyle(fontSize: 9, color: PColors.muted)),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 2),
+        // Grafik alanı
+        Expanded(
+          child: SizedBox(
+            height: _yukseklik + 26,
+            child: Stack(
+              children: [
+                // Grid çizgileri
+                Positioned(
+                  top: 0, left: 0, right: 0,
+                  child: Divider(height: 1, color: PColors.muted.withValues(alpha: 0.2)),
+                ),
+                Positioned(
+                  top: _yukseklik / 2, left: 0, right: 0,
+                  child: Divider(height: 1, color: PColors.muted.withValues(alpha: 0.15)),
+                ),
+                Positioned(
+                  top: _yukseklik, left: 0, right: 0,
+                  child: Divider(height: 1, color: PColors.muted.withValues(alpha: 0.2)),
+                ),
+                // Çubuklar
+                Positioned.fill(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: List.generate(veriler.length, (i) {
+                      final veri = veriler[i];
+                      final deger = degerler[i];
+                      final oran = yMax > 0 ? deger / yMax : 0.0;
+                      final bugun = i == veriler.length - 1;
+                      final gunAdi = _gunKisaltma[veri.gun.weekday - 1];
+
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 3),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              if (bugun && deger > 0)
+                                Text(
+                                  gelirModu ? '₺${deger.toStringAsFixed(0)}' : '$deger',
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w900,
+                                    color: PColors.primary,
+                                  ),
+                                ),
+                              const SizedBox(height: 2),
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeOut,
+                                height: math.max(4, oran * _yukseklik),
+                                decoration: BoxDecoration(
+                                  color: bugun
+                                      ? PColors.primary
+                                      : PColors.primary.withValues(alpha: 0.35),
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(4),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                gunAdi,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: bugun ? FontWeight.w900 : FontWeight.normal,
+                                  color: bugun ? PColors.primary : PColors.muted,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ],
             ),
-          );
-        }),
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

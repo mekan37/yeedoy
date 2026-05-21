@@ -374,25 +374,7 @@ class _SiparisKartiState extends ConsumerState<_SiparisKarti> {
             ),
             if (widget.siparis.not != null && widget.siparis.not!.isNotEmpty) ...[
               const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  color: PColors.surfaceAlt,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.notes_outlined, size: 14, color: PColors.muted),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        widget.siparis.not!,
-                        style: textTheme.bodySmall?.copyWith(color: PColors.muted),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _MusteriNotu(not: widget.siparis.not!),
             ],
             const SizedBox(height: 12),
             SizedBox(
@@ -409,6 +391,61 @@ class _SiparisKartiState extends ConsumerState<_SiparisKarti> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// P-30: Alerji/diyet anahtar kelimeleri içeren notları kırmızıyla vurgula
+class _MusteriNotu extends StatelessWidget {
+  final String not;
+  const _MusteriNotu({required this.not});
+
+  static const _alerjiler = [
+    'alerji', 'alerjik', 'gluten', 'vegan', 'vejetaryen', 'laktoz',
+    'fıstık', 'fistik', 'süt', 'sut', 'yumurta', 'balık', 'balik',
+    'karides', 'ceviz', 'badem', 'soya', 'buğday', 'bugday',
+  ];
+
+  bool get _kritik {
+    final kucuk = not.toLowerCase();
+    return _alerjiler.any((k) => kucuk.contains(k));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final kritik = _kritik;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: kritik
+            ? PColors.danger.withValues(alpha: 0.08)
+            : PColors.surfaceAlt,
+        borderRadius: BorderRadius.circular(8),
+        border: kritik
+            ? Border.all(color: PColors.danger.withValues(alpha: 0.35))
+            : null,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            kritik ? Icons.warning_amber_outlined : Icons.notes_outlined,
+            size: 14,
+            color: kritik ? PColors.danger : PColors.muted,
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              not,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: kritik ? FontWeight.w700 : FontWeight.normal,
+                color: kritik ? PColors.danger : PColors.muted,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
