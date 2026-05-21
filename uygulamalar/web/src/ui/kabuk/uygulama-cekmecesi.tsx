@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useWebKabukStore } from '@/src/lib/web-kabuk-deposu';
 import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
@@ -53,12 +54,21 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
     sessionUser?.email?.[0]?.toUpperCase() ??
     'K';
 
+  useEffect(() => {
+    if (!isDrawerOpen) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') closeDrawer();
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [isDrawerOpen, closeDrawer]);
+
   return (
     <>
       {/* Backdrop */}
       {isDrawerOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-[45] bg-black/50 backdrop-blur-sm"
           onClick={closeDrawer}
           aria-hidden="true"
         />
@@ -66,6 +76,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
 
       {/* Drawer paneli */}
       <aside
+        id="app-drawer"
         className={`fixed inset-y-0 left-0 z-50 w-80 overflow-y-auto bg-bg shadow-xl transition-transform duration-300 ease-in-out ${
           isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
