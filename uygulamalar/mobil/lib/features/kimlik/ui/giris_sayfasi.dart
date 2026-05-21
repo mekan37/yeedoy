@@ -32,7 +32,8 @@ class LoginPage extends ConsumerStatefulWidget {
   ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage>
+    with SingleTickerProviderStateMixin {
   // Email
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
@@ -49,12 +50,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   String? _errorMessage;
   _AuthAction? _lastAction;
 
+  // M-10: Hata silkeleme animasyonu
+  late final AnimationController _shakeCtrl = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 400),
+  );
+  late final Animation<double> _shakeAnim = TweenSequence<double>([
+    TweenSequenceItem(tween: Tween(begin: 0, end: -8), weight: 1),
+    TweenSequenceItem(tween: Tween(begin: -8, end: 8),  weight: 2),
+    TweenSequenceItem(tween: Tween(begin: 8, end: -6),  weight: 2),
+    TweenSequenceItem(tween: Tween(begin: -6, end: 6),  weight: 2),
+    TweenSequenceItem(tween: Tween(begin: 6, end: 0),   weight: 1),
+  ]).animate(CurvedAnimation(parent: _shakeCtrl, curve: Curves.easeInOut));
+
+  Future<void> _shakeAndVibrate() async {
+    HapticFeedback.heavyImpact(); // M-8
+    await _shakeCtrl.forward(from: 0);
+  }
+
   @override
   void dispose() {
     _emailCtrl.dispose();
     _passCtrl.dispose();
     _phoneCtrl.dispose();
     _otpCtrl.dispose();
+    _shakeCtrl.dispose();
     super.dispose();
   }
 
@@ -272,7 +292,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _setError(Object e) {
-    if (mounted) setState(() => _errorMessage = AppErrorMapper.message(e));
+    if (mounted) {
+      setState(() => _errorMessage = AppErrorMapper.message(e));
+      _shakeAndVibrate();
+    }
   }
 
   Future<void> _retryLastAction() async {
@@ -351,14 +374,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 const SizedBox(height: 10),
               ],
               if (_errorMessage != null) ...[
-                AppEmptyState(
-                  icon: Icons.wifi_off_outlined,
-                  title: t.loginActionFailedTitle,
-                  description: t.loginActionFailedDescription(
-                    _errorMessage ?? '',
+                AnimatedBuilder(
+                  animation: _shakeAnim,
+                  builder: (_, child) => Transform.translate(
+                    offset: Offset(_shakeAnim.value, 0),
+                    child: child,
                   ),
-                  ctaLabel: _lastAction == null ? null : t.retry,
-                  onCta: _lastAction == null ? null : _retryLastAction,
+                  child: AppEmptyState(
+                    icon: Icons.wifi_off_outlined,
+                    title: t.loginActionFailedTitle,
+                    description: t.loginActionFailedDescription(
+                      _errorMessage ?? '',
+                    ),
+                    ctaLabel: _lastAction == null ? null : t.retry,
+                    onCta: _lastAction == null ? null : _retryLastAction,
+                  ),
                 ),
                 const SizedBox(height: 12),
               ],
