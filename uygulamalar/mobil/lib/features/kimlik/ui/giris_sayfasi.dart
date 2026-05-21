@@ -5,12 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../uygulama/marka/marka_bilesenleri.dart';
 import '../../../core/analitik/analitik_deposu.dart';
 import '../../../core/analitik/uygulama_olaylari.dart';
 import '../../../core/hatalar/uygulama_hata_esleyicisi.dart';
 import '../../../core/ceviri/uygulama_yerellesmeleri.dart';
+import '../../../core/depolama/biyometrik_tercihleri.dart';
 import '../../../features/shared/ui/tasarim_sistemi.dart';
 import '../../yasal/yasal_baglanti.dart';
 import '../../yasal/yasal_saglayicilari.dart';
@@ -50,6 +53,88 @@ class _LoginPageState extends ConsumerState<LoginPage>
   String? _errorMessage;
   _AuthAction? _lastAction;
 
+  // M-6: Biyometrik
+  bool _biometricAvailable = false;
+  bool _biometricEnabled = false;
+  bool _hasStoredSession = false;
+  final _localAuth = LocalAuthentication();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkBiometric();
+  }
+
+  Future<void> _checkBiometric() async {
+    try {
+      final canCheck = await _localAuth.canCheckBiometrics;
+      final isSupported = await _localAuth.isDeviceSupported();
+      final enabled = await BiyometrikTercihleri.isEnabled();
+      final hasTokens = await BiyometrikTercihleri.hasStoredTokens();
+      if (mounted) {
+        setState(() {
+          _biometricAvailable = canCheck && isSupported;
+          _biometricEnabled = enabled;
+          _hasStoredSession = hasTokens;
+        });
+        // Oturum varsa otomatik biometric tetikle
+        if (_biometricAvailable && enabled && hasTokens) {
+          await Future.delayed(const Duration(milliseconds: 400));
+          await _signInWithBiometric();
+        }
+      }
+    } catch (_) {}
+  }
+
+  Future<void> _signInWithBiometric() async {
+    if (!_biometricAvailable || !_biometricEnabled) return;
+    setState(() { _loading = true; _errorMessage = null; });
+    try {
+      final didAuth = await _localAuth.authenticate(
+        localizedReason: 'Yeedoy\'a giriş yapmak için kimliğinizi doğrulayın',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
+      if (!didAuth) {
+        if (mounted) setState(() => _loading = false);
+        return;
+      }
+      // Token'ları restore et
+      final tokens = await BiyometrikTercihleri.loadTokens();
+      if (tokens.accessToken == null || tokens.refreshToken == null) {
+        await BiyometrikTercihleri.clearTokens();
+        if (mounted) setState(() { _loading = false; _hasStoredSession = false; });
+        return;
+      }
+      final response = await Supabase.instance.client.auth.setSession(
+        tokens.accessToken!,
+      );
+      if (response.session == null) {
+        // Access token süresi dolmuş, refresh ile dene
+        final refreshed = await Supabase.instance.client.auth.refreshSession();
+        if (refreshed.session == null) {
+          await BiyometrikTercihleri.clearTokens();
+          if (mounted) setState(() { _loading = false; _hasStoredSession = false; });
+          return;
+        }
+        // Yeni token'ları kaydet
+        await BiyometrikTercihleri.saveTokens(
+          accessToken:  refreshed.session!.accessToken,
+          refreshToken: refreshed.session!.refreshToken!,
+        );
+      }
+      HapticFeedback.lightImpact();
+      _navigateAfterLogin();
+    } catch (e) {
+      if (mounted) {
+        setState(() { _loading = false; _errorMessage = 'Biyometrik doğrulama başarısız.'; });
+        _shakeAndVibrate();
+      }
+    }
+  }
+
   // M-10: Hata silkeleme animasyonu
   late final AnimationController _shakeCtrl = AnimationController(
     vsync: this,
@@ -62,6 +147,18 @@ class _LoginPageState extends ConsumerState<LoginPage>
     TweenSequenceItem(tween: Tween(begin: -6, end: 6),  weight: 2),
     TweenSequenceItem(tween: Tween(begin: 6, end: 0),   weight: 1),
   ]).animate(CurvedAnimation(parent: _shakeCtrl, curve: Curves.easeInOut));
+
+  Future<void> _saveSessionIfBiometricEnabled() async {
+    try {
+      if (!await BiyometrikTercihleri.isEnabled()) return;
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session == null || session.refreshToken == null) return;
+      await BiyometrikTercihleri.saveTokens(
+        accessToken:  session.accessToken,
+        refreshToken: session.refreshToken!,
+      );
+    } catch (_) {}
+  }
 
   Future<void> _shakeAndVibrate() async {
     HapticFeedback.heavyImpact(); // M-8
@@ -104,6 +201,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
             eventName: AppEvents.loginSuccess,
             source: 'login_page_email',
           );
+      await _saveSessionIfBiometricEnabled();
       _navigateAfterLogin();
     } catch (e) {
       ref
@@ -445,6 +543,28 @@ class _LoginPageState extends ConsumerState<LoginPage>
               ],
 
               const SizedBox(height: 24),
+
+              // ── Biyometrik giriş ───────────────────────────────────────────
+              if (_biometricAvailable && _biometricEnabled && _hasStoredSession) ...[
+                const _Divider(label: 'veya'),
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: _loading ? null : _signInWithBiometric,
+                  icon: const Icon(Icons.fingerprint_rounded, size: 22),
+                  label: const Text(
+                    'Biyometrik ile giriş yap',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    side: const BorderSide(color: AppColors.border),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+              ],
 
               // ── Sosyal giriş butonları (email modunda göster) ──────────────
               if (_mode == _AuthMode.email) ...[

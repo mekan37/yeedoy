@@ -1,0 +1,96 @@
+name: yeedoy
+description: "Yeedoy mobile project (android/ios only)."
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  yeedoy_shared_models:
+    path: ../../packages/shared_models
+  yeedoy_shared_ui_components:
+    path: ../../packages/shared_ui_components
+
+  flutter_riverpod: ^3.2.0
+  go_router: ^17.0.1
+  flutter_dotenv: ^6.0.0
+  shared_preferences: ^2.5.4
+  sqflite: ^2.4.2
+  gap: ^3.0.1
+  flutter_screenutil: ^5.9.0
+  supabase_flutter: ^2.12.0
+  flutter_secure_storage: ^9.2.2
+  local_auth: ^2.3.0
+  share_plus: ^12.0.1
+  geolocator: ^14.0.2
+  geocoding: ^3.0.0
+  http: ^1.2.2
+  crypto: ^3.0.6
+  image_picker: ^1.1.2
+  google_ml_kit: ^0.20.0
+  google_mlkit_barcode_scanning: ^0.14.1
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
+  url_launcher: ^6.3.1
+  webview_flutter: ^4.9.0
+  youtube_player_iframe: ^5.2.1
+  firebase_core: ^4.4.0
+  firebase_messaging: ^16.0.2
+  firebase_analytics: ^12.1.1
+  firebase_crashlytics: ^5.0.7
+  firebase_performance: ^0.11.1+4
+  google_sign_in: ^6.2.2
+  font_awesome_flutter: ^10.8.0
+  intl: ^0.20.2
+  google_mobile_ads: ^7.0.0
+  home_widget: ^0.6.0
+  package_info_plus: ^8.3.0
+  flutter_svg: ^2.2.4
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/brand/yeedoy-icon.png"
+  adaptive_icon_background: "#F8FAF6"
+  adaptive_icon_foreground: "assets/brand/yeedoy-mark-transparent.png"
+
+
+flutter:
+  generate: true
+
+  uses-material-design: true
+  fonts:
+    - family: Sora
+      fonts:
+        - asset: assets/fonts/Sora-Regular.ttf
+        - asset: assets/fonts/Sora-SemiBold.ttf
+        - asset: assets/fonts/Sora-Bold.ttf
+    - family: Flexing
+      fonts:
+        - asset: assets/fonts/Flexing-Black.ttf
+          weight: 800
+  assets:
+    - .env
+    - assets/brand/
+    - assets/images/
+    - assets/images/categories/
+    - assets/meal_cards/
+    - assets/json/karaliste.txt
+    - assets/json/yemek.v4.json
+
+

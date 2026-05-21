@@ -2,6 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -24,6 +25,7 @@ import '../../yasal/yasal_deposu.dart';
 import '../data/profil_modeli.dart';
 import '../data/profil_deposu.dart';
 import '../../../core/veri/tr_iller.dart';
+import '../../../core/depolama/biyometrik_tercihleri.dart';
 
 class ProfileSettingsPage extends ConsumerStatefulWidget {
   const ProfileSettingsPage({super.key});
@@ -46,6 +48,8 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
   String? _languageCode;
   String? _selectedCity;
   String? _selectedDistrict;
+  bool _biometricEnabled = false;
+  bool _biometricSupported = false;
   bool _loading = true;
   bool _saving = false;
   String _appVersion = '';
@@ -55,6 +59,45 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     super.initState();
     _load();
     _loadVersion();
+    _loadBiometricState();
+  }
+
+  Future<void> _loadBiometricState() async {
+    try {
+      final la = LocalAuthentication();
+      final supported = await la.canCheckBiometrics && await la.isDeviceSupported();
+      final enabled = await BiyometrikTercihleri.isEnabled();
+      if (mounted) setState(() { _biometricSupported = supported; _biometricEnabled = enabled; });
+    } catch (_) {}
+  }
+
+  Future<void> _toggleBiometric(bool value) async {
+    if (value) {
+      // Etkinleştirmek için önce biometric doğrula
+      final la = LocalAuthentication();
+      final ok = await la.authenticate(
+        localizedReason: 'Biyometrik girişi etkinleştirmek için kimliğinizi doğrulayın',
+        options: const AuthenticationOptions(biometricOnly: true, stickyAuth: true),
+      );
+      if (!ok) return;
+      await BiyometrikTercihleri.setEnabled(true);
+      // Mevcut oturumu kaydet
+      final session = Supabase.instance.client.auth.currentSession;
+      if (session != null && session.refreshToken != null) {
+        await BiyometrikTercihleri.saveTokens(
+          accessToken:  session.accessToken,
+          refreshToken: session.refreshToken!,
+        );
+      }
+    } else {
+      await BiyometrikTercihleri.setEnabled(false);
+    }
+    if (mounted) setState(() => _biometricEnabled = value);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(value ? 'Biyometrik giriş etkinleştirildi' : 'Biyometrik giriş devre dışı')),
+      );
+    }
   }
 
   Future<void> _loadVersion() async {
@@ -757,6 +800,16 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                     title: 'Hesap Güvenliği',
                     child: Column(
                       children: [
+                        // Biyometrik giriş toggle
+                        if (_biometricSupported)
+                          SwitchListTile(
+                            contentPadding: EdgeInsets.zero,
+                            secondary: const Icon(Icons.fingerprint_rounded, color: AppColors.textStrong),
+                            title: const Text('Biyometrik Giriş'),
+                            subtitle: const Text('Face ID / Parmak izi ile hızlı giriş'),
+                            value: _biometricEnabled,
+                            onChanged: _toggleBiometric,
+                          ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: const Icon(Icons.devices_outlined, color: AppColors.textStrong),

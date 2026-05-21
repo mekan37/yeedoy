@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Yeedoy</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Yeedoy</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<!-- AdMob App ID (required by SDK). -->
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1150074560839161~8895703262</string>
+
+	<!-- ── İzin açıklamaları (App Store zorunlu) ─────────────────── -->
+	<key>NSCameraUsageDescription</key>
+	<string>Menü fotoğrafı çekmek ve barkod/QR okumak için kamera gereklidir.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Menü ve profil görseli seçmek için fotoğraf kütüphanesine erişim gereklidir.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Çekilen fotoğrafları galerinize kaydetmek için izin gereklidir.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Yakınızdaki restoranları bulmak için konumunuz kullanılır.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Yakınızdaki restoranları bulmak için konumunuz kullanılır.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Sesli arama ve video özellikleri için mikrofon gereklidir.</string>
+
+	<!-- Deep link URL scheme (Supabase auth callback) -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>yeedoy</string>
+				<string>io.supabase.yeedoy</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- Siri Shortcuts / App Intents -->
+	<key>NSSiriUsageDescription</key>
+	<string>Siri, Yeedoy'da yakınındaki ucuz yemekleri bulmanıza yardımcı olur.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.yeedoy.app.findNearbyCheap</string>
+		<string>com.yeedoy.app.openDiscover</string>
+	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Uygulamaya hızlı ve güvenli giriş için Face ID kullanmak ister misiniz?</string>
+</dict>
+</plist>
