@@ -64,10 +64,15 @@ export async function GET(request: Request) {
         user.email?.split('@')[0] ||
         'Kullanıcı';
 
-      await (supabase as any).from('user_profiles').insert({
+      const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+      const profileRow: Record<string, unknown> = {
         user_id: user.id,
         display_name: displayName.slice(0, 60),
-      } as Record<string, unknown>);
+      };
+      if (meta.city)     profileRow.city     = meta.city;
+      if (meta.district) profileRow.district = meta.district;
+      if (meta.phone)    profileRow.phone    = meta.phone;
+      await (supabase as any).from('user_profiles').insert(profileRow);
     }
   }
 

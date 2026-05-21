@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
+import { TR_ILLER, TR_ILCELER } from '@/src/lib/tr-ilceler';
 
 type Mode = 'giris' | 'kayit';
 
@@ -17,12 +18,17 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>('giris');
   const [displayName, setDisplayName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
+  const [district, setDistrict] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isPending, startTransition] = useTransition();
+
+  const districts = city ? (TR_ILCELER[city] ?? []) : [];
 
   useEffect(() => {
     let ignore = false;
@@ -91,7 +97,12 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/auth/callback${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ''}`,
-            data: { display_name: displayName.trim() },
+            data: {
+              display_name: displayName.trim(),
+              ...(city     && { city }),
+              ...(district && { district }),
+              ...(phone.trim() && { phone: phone.trim() }),
+            },
           },
         });
         if (signUpError) {
@@ -103,6 +114,9 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
           const { error: profileError } = await (supabase as any).from('user_profiles').insert({
             user_id: signUpData.session.user.id,
             display_name: displayName.trim(),
+            ...(city        && { city }),
+            ...(district    && { district }),
+            ...(phone.trim() && { phone: phone.trim() }),
           }) as { error: { code?: string; message?: string } | null };
           if (profileError && profileError.code !== '23505') {
             // 23505 = unique violation (profil zaten var) → görmezden gel
@@ -122,6 +136,9 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
     setMode(next);
     setError('');
     setSuccess('');
+    setPhone('');
+    setCity('');
+    setDistrict('');
   }
 
   return (
@@ -288,6 +305,63 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
                   className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                 />
               </div>
+            )}
+
+            {/* Telefon, il, ilçe — sadece kayıt modunda */}
+            {mode === 'kayit' && (
+              <>
+                <div>
+                  <label className="mb-1.5 block text-xs font-[800] uppercase tracking-[0.16em] text-muted">
+                    Telefon <span className="font-[500] normal-case tracking-normal text-muted/60">(opsiyonel)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    autoComplete="tel"
+                    placeholder="05XX XXX XX XX"
+                    maxLength={15}
+                    className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {/* İl */}
+                  <div>
+                    <label className="mb-1.5 block text-xs font-[800] uppercase tracking-[0.16em] text-muted">
+                      İl <span className="font-[500] normal-case tracking-normal text-muted/60">(opsiyonel)</span>
+                    </label>
+                    <select
+                      value={city}
+                      onChange={(e) => { setCity(e.target.value); setDistrict(''); }}
+                      className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 appearance-none cursor-pointer"
+                    >
+                      <option value="">İl seçin</option>
+                      {TR_ILLER.map((il) => (
+                        <option key={il} value={il}>{il}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* İlçe */}
+                  <div>
+                    <label className="mb-1.5 block text-xs font-[800] uppercase tracking-[0.16em] text-muted">
+                      İlçe <span className="font-[500] normal-case tracking-normal text-muted/60">(opsiyonel)</span>
+                    </label>
+                    <select
+                      value={district}
+                      onChange={(e) => setDistrict(e.target.value)}
+                      disabled={!city}
+                      className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <option value="">İlçe seçin</option>
+                      {districts.map((d) => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </>
             )}
 
             {error && (
