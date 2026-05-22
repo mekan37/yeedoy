@@ -187,6 +187,7 @@ export function BusinessCardSkeleton() {
 export function EmptyDiscoveryState({ href = '/kesif' }: { href?: string }) {
   return (
     <EmptyState
+      variant="search"
       title="Bu aramayla eşleşen işletme yok"
       body="Kategori, şehir veya arama terimini değiştirerek tekrar deneyin."
       actionHref={href}
