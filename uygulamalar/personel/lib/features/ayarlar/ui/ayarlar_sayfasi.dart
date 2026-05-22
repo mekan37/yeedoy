@@ -29,6 +29,10 @@ final _pinKilidiProvider = NotifierProvider<_BoolTercihBildiricisi, bool>(
 final _biyometrikProvider = NotifierProvider<_BoolTercihBildiricisi, bool>(
   () => _BoolTercihBildiricisi(false),
 );
+// P-35: Titreşim bildirimi tercihi
+final _titresimProvider = NotifierProvider<_BoolTercihBildiricisi, bool>(
+  () => _BoolTercihBildiricisi(true),
+);
 
 class _BoolTercihBildiricisi extends Notifier<bool> {
   _BoolTercihBildiricisi(this._ilkDeger);
@@ -53,6 +57,7 @@ class AyarlarSayfasi extends ConsumerWidget {
     final yorumBildirim = ref.watch(_yorumBildirimProvider);
     final pinKilidi = ref.watch(_pinKilidiProvider);
     final biyometrik = ref.watch(_biyometrikProvider);
+    final titresim = ref.watch(_titresimProvider);
     final themeMode = ref.watch(temaModeProvider).valueOrNull ?? ThemeMode.system;
 
     return Scaffold(
@@ -117,6 +122,24 @@ class AyarlarSayfasi extends ConsumerWidget {
             onChanged: (v) {
               ref.read(_yorumBildirimProvider.notifier).ayarla(v);
               _kaydetTercih('yorum_bildirim', v);
+            },
+          ),
+          // P-35: Titreşim tercihi
+          SwitchListTile(
+            secondary: const Icon(Icons.vibration_outlined, color: PColors.primary),
+            title: const Text(
+              'Titreşim Bildirimi',
+              style: TextStyle(fontWeight: FontWeight.w700, color: PColors.textStrong),
+            ),
+            subtitle: const Text(
+              'Yeni sipariş geldiğinde cihaz titreşsin',
+              style: TextStyle(fontSize: 12, color: PColors.muted),
+            ),
+            value: titresim,
+            activeThumbColor: PColors.primary,
+            onChanged: (v) {
+              ref.read(_titresimProvider.notifier).ayarla(v);
+              _kaydetTercih('titresim_bildirim', v);
             },
           ),
           SwitchListTile(
