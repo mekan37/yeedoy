@@ -136,23 +136,44 @@ export function CreateCollectionButton({ onCreated }: { onCreated?: () => void }
 export function FavoriteButton({
   label = 'Favori',
   className,
+  businessId,
+  initialActive = false,
 }: {
   label?: string;
   className?: string;
+  businessId?: string;
+  initialActive?: boolean;
 }) {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(initialActive);
+
+  async function handleToggle(event: React.MouseEvent) {
+    event.preventDefault();
+    const next = !active;
+    setActive(next); // optimistic
+    toast(next ? 'Favorilere eklendi' : 'Favorilerden çıkarıldı', next ? 'success' : 'default');
+    if (!businessId) return;
+    try {
+      const supabase = createSupabaseBrowserClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { setActive(!next); return; }
+      if (next) {
+        await (supabase as any).from('favorites').upsert({ user_id: session.user.id, business_id: businessId }, { onConflict: 'user_id,business_id' });
+      } else {
+        await (supabase as any).from('favorites').delete().eq('user_id', session.user.id).eq('business_id', businessId);
+      }
+    } catch {
+      setActive(!next); // revert on error
+      toast('Favori güncellenemedi', 'danger');
+    }
+  }
+
   return (
     <button
       type="button"
       aria-pressed={active}
-      onClick={(event) => {
-        event.preventDefault();
-        const next = !active;
-        setActive(next);
-        toast(next ? 'Favorilere eklendi' : 'Favorilerden çıkarıldı', next ? 'success' : 'default');
-      }}
+      onClick={handleToggle}
       className={clsx(
-        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-3.5 text-sm font-[900]',
+        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-3.5 text-sm font-[900] transition-colors',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
         active
           ? 'border-primary/30 bg-[var(--yd-color-primary-soft)] text-primary'

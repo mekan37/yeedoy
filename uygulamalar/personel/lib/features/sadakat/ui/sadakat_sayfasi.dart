@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -196,26 +197,29 @@ class _PuanEkleSheetState extends ConsumerState<_PuanEkleSheet> {
               ),
             ),
 
-            // Kullanıcı ID alanı
+            // P-36: Kullanıcı ID — UUID otomatik kısa çizgi ekleme
             TextFormField(
               controller: _kullaniciIdKontrol,
+              maxLength: 36,
+              inputFormatters: [_UuidGirisFormati()],
               decoration: const InputDecoration(
                 labelText: 'Kullanıcı ID (UUID)',
                 hintText: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
                 prefixIcon: Icon(Icons.person_outline),
+                counterText: '',
+                helperText: 'Yeedoy profil UUID\'si',
               ),
               validator: (v) {
                 if (v == null || v.trim().isEmpty) {
                   return 'Kullanıcı ID boş olamaz';
                 }
                 final uuid = v.trim();
-                // Basit UUID format kontrolü
                 final uuidRegex = RegExp(
                   r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
                   caseSensitive: false,
                 );
                 if (!uuidRegex.hasMatch(uuid)) {
-                  return 'Geçerli bir UUID girin';
+                  return 'Geçersiz UUID formatı (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)';
                 }
                 return null;
               },
@@ -501,6 +505,29 @@ class _StampGrid extends StatelessWidget {
               : null,
         );
       }),
+    );
+  }
+}
+
+// P-36: UUID girerken otomatik kısa çizgi ekleyen formatter
+class _UuidGirisFormati extends TextInputFormatter {
+  static const _positions = [8, 13, 18, 23];
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final raw = newValue.text.replaceAll('-', '').toLowerCase();
+    if (raw.length > 32) return oldValue;
+
+    final buf = StringBuffer();
+    for (var i = 0; i < raw.length; i++) {
+      if (_positions.contains(buf.length)) buf.write('-');
+      buf.write(raw[i]);
+    }
+    final text = buf.toString();
+    return TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
     );
   }
 }
