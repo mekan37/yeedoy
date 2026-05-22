@@ -6,6 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/riverpod_uzantilari.dart';
+import '../../../core/tema_tercihleri.dart';
 import '../../kimlik/domain/kimlik_bildiricisi.dart';
 import '../../kimlik/domain/kimlik_durum.dart';
 import '../../../uygulama/tema/renkler.dart';
@@ -51,6 +52,7 @@ class AyarlarSayfasi extends ConsumerWidget {
     final yorumBildirim = ref.watch(_yorumBildirimProvider);
     final pinKilidi = ref.watch(_pinKilidiProvider);
     final biyometrik = ref.watch(_biyometrikProvider);
+    final themeMode = ref.watch(temaModeProvider).valueOrNull ?? ThemeMode.system;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Ayarlar')),
@@ -200,6 +202,78 @@ class AyarlarSayfasi extends ConsumerWidget {
               } else {
                 ref.read(_biyometrikProvider.notifier).ayarla(false);
                 await _kaydetTercih('biyometrik_kilidi', false);
+              }
+            },
+          ),
+          const Divider(height: 1),
+
+          // Tema tercihi
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 20, 16, 8),
+            child: Text(
+              'GÖRÜNÜM',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                color: PColors.muted,
+                letterSpacing: 0.8,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(
+              themeMode == ThemeMode.dark
+                  ? Icons.dark_mode_outlined
+                  : themeMode == ThemeMode.light
+                      ? Icons.light_mode_outlined
+                      : Icons.brightness_auto_outlined,
+              color: PColors.primary,
+            ),
+            title: const Text(
+              'Tema',
+              style: TextStyle(fontWeight: FontWeight.w700, color: PColors.textStrong),
+            ),
+            subtitle: Text(
+              themeMode == ThemeMode.dark
+                  ? 'Koyu'
+                  : themeMode == ThemeMode.light
+                      ? 'Açık'
+                      : 'Sistem',
+              style: const TextStyle(fontSize: 12, color: PColors.muted),
+            ),
+            trailing: const Icon(Icons.chevron_right, color: PColors.muted),
+            onTap: () async {
+              final secim = await showDialog<ThemeMode>(
+                context: context,
+                builder: (ctx) => SimpleDialog(
+                  title: const Text('Tema Seçin'),
+                  children: [
+                    SimpleDialogOption(
+                      onPressed: () => Navigator.pop(ctx, ThemeMode.system),
+                      child: const ListTile(
+                        leading: Icon(Icons.brightness_auto_outlined),
+                        title: Text('Sistem'),
+                      ),
+                    ),
+                    SimpleDialogOption(
+                      onPressed: () => Navigator.pop(ctx, ThemeMode.light),
+                      child: const ListTile(
+                        leading: Icon(Icons.light_mode_outlined),
+                        title: Text('Açık'),
+                      ),
+                    ),
+                    SimpleDialogOption(
+                      onPressed: () => Navigator.pop(ctx, ThemeMode.dark),
+                      child: const ListTile(
+                        leading: Icon(Icons.dark_mode_outlined),
+                        title: Text('Koyu'),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+              if (secim != null) {
+                await ref.read(temaModeProvider.notifier).degistir(secim);
               }
             },
           ),
