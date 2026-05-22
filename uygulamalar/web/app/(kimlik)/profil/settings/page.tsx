@@ -26,6 +26,7 @@ export default function ProfileSettingsPage() {
   const [city, setCity] = useState('');
   const [district, setDistrict] = useState('');
   const [email, setEmail] = useState('');
+  const [isPublic, setIsPublic] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deletePhase, setDeletePhase] = useState<'idle' | 'confirm' | 'deleting' | 'done'>('idle');
@@ -41,16 +42,17 @@ export default function ProfileSettingsPage() {
       setUserId(user.id);
       (supabase as any)
         .from('user_profiles')
-        .select('display_name, bio, phone, city, district')
+        .select('display_name, bio, phone, city, district, is_public')
         .eq('id', user.id)
         .maybeSingle()
-        .then(({ data }: { data: Record<string, string | null> | null }) => {
+        .then(({ data }: { data: Record<string, unknown> | null }) => {
           if (!data) return;
-          if (data.display_name) setDisplayName(data.display_name);
-          if (data.bio) setBio(data.bio);
-          if (data.phone) setPhone(formatPhone(data.phone));
-          if (data.city) setCity(data.city);
-          if (data.district) setDistrict(data.district);
+          if (data.display_name) setDisplayName(data.display_name as string);
+          if (data.bio) setBio(data.bio as string);
+          if (data.phone) setPhone(formatPhone(data.phone as string));
+          if (data.city) setCity(data.city as string);
+          if (data.district) setDistrict(data.district as string);
+          if (typeof data.is_public === 'boolean') setIsPublic(data.is_public);
         });
     });
   }, []);
@@ -70,6 +72,7 @@ export default function ProfileSettingsPage() {
           phone: phone.replace(/\s/g, '') || null,
           city: city || null,
           district: district || null,
+          is_public: isPublic,
         })
         .eq('id', userId);
       if (err) throw err;
@@ -177,6 +180,23 @@ export default function ProfileSettingsPage() {
                 {districts.map((ilce) => <option key={ilce} value={ilce}>{ilce}</option>)}
               </select>
             </div>
+          </div>
+
+          {/* W-21: Profil gizliliği */}
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-[900] text-textStrong">Profil Görünürlüğü</p>
+              <p className="mt-0.5 text-xs text-muted">{isPublic ? 'Profiliniz herkese açık' : 'Profiliniz gizli'}</p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={isPublic}
+              onClick={() => setIsPublic((v) => !v)}
+              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full transition-colors ${isPublic ? 'bg-primary' : 'bg-border'}`}
+            >
+              <span className={`pointer-events-none absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${isPublic ? 'translate-x-5' : 'translate-x-0.5'}`} />
+            </button>
           </div>
 
           <div>

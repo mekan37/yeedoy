@@ -64,7 +64,7 @@ class SadakatSayfasi extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _puanEkleBottomSheet(context, ref),
         icon: const Icon(Icons.add_circle_outline),
-        label: const Text('Puan Ekle'),
+        label: const Text('Puan Ekle / Kart Aç'),
         backgroundColor: PColors.primary,
         foregroundColor: PColors.onPrimary,
       ),
@@ -162,13 +162,19 @@ class _PuanEkleSheetState extends ConsumerState<_PuanEkleSheet> {
               ),
             ),
             Text(
-              'Puan Ekle',
+              'Puan Ekle / Kart Aç',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w900,
                     color: PColors.textStrong,
                   ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 4),
+            // P-32: Kart oluşturma bilgisi
+            const Text(
+              'İlk puan eklemede kart otomatik oluşturulur.',
+              style: TextStyle(fontSize: 12, color: PColors.muted),
+            ),
+            const SizedBox(height: 16),
 
             // QR ile bul
             OutlinedButton.icon(
