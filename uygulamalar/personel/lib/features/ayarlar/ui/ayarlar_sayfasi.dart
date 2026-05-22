@@ -199,10 +199,12 @@ class AyarlarSayfasi extends ConsumerWidget {
                 if (dogrulandi) {
                   ref.read(_biyometrikProvider.notifier).ayarla(true);
                   await _kaydetTercih('biyometrik_kilidi', true);
+                  await _secureStorage.write(key: 'p_biometric_enabled', value: 'true');
                 }
               } else {
                 ref.read(_biyometrikProvider.notifier).ayarla(false);
                 await _kaydetTercih('biyometrik_kilidi', false);
+                await _secureStorage.write(key: 'p_biometric_enabled', value: 'false');
               }
             },
           ),

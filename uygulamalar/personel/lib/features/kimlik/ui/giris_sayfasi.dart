@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/hata_esleyici.dart';
@@ -8,6 +10,10 @@ import '../domain/kimlik_bildiricisi.dart';
 import '../domain/kimlik_durum.dart';
 import '../../shared/ui/p_logo.dart';
 import '../../../uygulama/tema/renkler.dart';
+
+const _ss = FlutterSecureStorage(
+  aOptions: AndroidOptions(encryptedSharedPreferences: true),
+);
 
 class GirisSayfasi extends ConsumerStatefulWidget {
   const GirisSayfasi({super.key});
@@ -20,6 +26,49 @@ class _GirisSayfasiState extends ConsumerState<GirisSayfasi> {
   final _emailCtrl = TextEditingController();
   final _sifreCtrl = TextEditingController();
   bool _sifreGoster = false;
+  bool _biyometrikMevcut = false;
+  final _localAuth = LocalAuthentication();
+
+  @override
+  void initState() {
+    super.initState();
+    _biyometrikKontrol();
+  }
+
+  Future<void> _biyometrikKontrol() async {
+    try {
+      final mevcut = await _localAuth.canCheckBiometrics;
+      final biyometrikAktif = await _ss.read(key: 'p_biometric_enabled') == 'true';
+      final tokenVar = await _ss.read(key: 'p_access_token') != null;
+      if (mounted && mevcut && biyometrikAktif && tokenVar) {
+        setState(() => _biyometrikMevcut = true);
+      }
+    } catch (_) {}
+  }
+
+  Future<void> _biyometrikGiris() async {
+    try {
+      final onaylandi = await _localAuth.authenticate(
+        localizedReason: 'Yeedoy İşletme\'ye giriş yapmak için kimliğinizi doğrulayın',
+        options: const AuthenticationOptions(biometricOnly: true, stickyAuth: true),
+      );
+      if (!onaylandi || !mounted) return;
+      final refreshToken = await _ss.read(key: 'p_refresh_token');
+      if (refreshToken == null) return;
+      final resp = await Supabase.instance.client.auth.refreshSession(refreshToken);
+      if (resp.session == null) return;
+      // Yeni tokenları kaydet
+      await _ss.write(key: 'p_access_token', value: resp.session!.accessToken);
+      await _ss.write(key: 'p_refresh_token', value: resp.session!.refreshToken ?? refreshToken);
+      ref.invalidate(kimlikProvider);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(HataEsleyici.mesaj(e)), backgroundColor: PColors.danger),
+        );
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -212,11 +261,18 @@ class _GirisSayfasiState extends ConsumerState<GirisSayfasi> {
                           )
                         : const Text('Giriş Yap'),
                   ),
-                  // P-11: Şifremi unuttum
                   TextButton(
                     onPressed: () => _sifremiUnuttumDialog(context),
                     child: const Text('Şifremi unuttum'),
                   ),
+                  if (_biyometrikMevcut) ...[
+                    const SizedBox(height: 8),
+                    OutlinedButton.icon(
+                      icon: const Icon(Icons.fingerprint_outlined, size: 20),
+                      label: const Text('Biyometrik ile Giriş'),
+                      onPressed: _biyometrikGiris,
+                    ),
+                  ],
                 ],
               ),
             ),

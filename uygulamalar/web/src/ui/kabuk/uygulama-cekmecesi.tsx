@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useWebKabukStore } from '@/src/lib/web-kabuk-deposu';
 import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
@@ -49,6 +50,8 @@ const ACCOUNT_ITEMS: { href: string; label: string; icon: string; showBadge: boo
 
 export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
   const { isDrawerOpen, closeDrawer } = useWebKabukStore();
+  const router = useRouter();
+  const searchRef = useRef<HTMLInputElement>(null);
   const initials =
     sessionUser?.displayName?.[0]?.toUpperCase() ??
     sessionUser?.email?.[0]?.toUpperCase() ??
@@ -130,6 +133,28 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
               Giriş Yap
             </Link>
           )}
+
+          {/* Arama kutusu — W-15 */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const q = (new FormData(e.currentTarget).get('q') as string | null)?.trim();
+              if (q) { router.push(`/arama?q=${encodeURIComponent(q)}`); closeDrawer(); }
+            }}
+            className="flex items-center gap-2 rounded-2xl border border-border bg-bg px-3 py-2"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-muted stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              ref={searchRef}
+              name="q"
+              type="search"
+              placeholder="İşletme veya yemek ara..."
+              autoComplete="off"
+              className="min-w-0 flex-1 bg-transparent text-sm text-textStrong placeholder:text-muted focus:outline-none"
+            />
+          </form>
 
           {/* Nav bölümleri */}
           {NAV_SECTIONS.map((section) => (
