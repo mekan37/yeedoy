@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -323,6 +324,52 @@ class _MenuKartKalemi extends ConsumerWidget {
     await notifier.stokGuncelle(kalem.id, yeniStok);
   }
 
+  // P-10: Görsel URL dialog
+  Future<void> _gorselDialog(
+      BuildContext context, MenuYonetimiBildiricisi notifier) async {
+    final ctrl = TextEditingController(text: kalem.gorselUrl ?? '');
+    final sonuc = await showDialog<String?>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('${kalem.ad} — Görsel'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: ctrl,
+              keyboardType: TextInputType.url,
+              decoration: const InputDecoration(
+                labelText: 'Görsel URL',
+                hintText: 'https://...',
+                prefixIcon: Icon(Icons.image_outlined),
+                helperText: 'Supabase Storage veya CDN URL girebilirsiniz',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('İptal'),
+          ),
+          if (kalem.gorselUrl != null)
+            TextButton(
+              style: TextButton.styleFrom(foregroundColor: PColors.danger),
+              onPressed: () => Navigator.pop(context, ''),
+              child: const Text('Görseli Kaldır'),
+            ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, ctrl.text.trim()),
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+    ctrl.dispose();
+    if (sonuc == null) return;
+    await notifier.gorselGuncelle(kalem.id, sonuc.isEmpty ? null : sonuc);
+  }
+
   Future<void> _fiyatDialog(
       BuildContext context, MenuYonetimiBildiricisi notifier) async {
     final ctrl = TextEditingController(
@@ -366,6 +413,22 @@ class _MenuKartKalemi extends ConsumerWidget {
 
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      // P-10: Ürün görseli
+      leading: GestureDetector(
+        onTap: () => _gorselDialog(context, notifier),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: kalem.gorselUrl != null && kalem.gorselUrl!.isNotEmpty
+              ? CachedNetworkImage(
+                  imageUrl: kalem.gorselUrl!,
+                  width: 52,
+                  height: 52,
+                  fit: BoxFit.cover,
+                  errorWidget: (ctx, url, err) => _GorselYerTutucu(onTap: () => _gorselDialog(context, notifier)),
+                )
+              : _GorselYerTutucu(onTap: () => _gorselDialog(context, notifier)),
+        ),
+      ),
       title: Row(
         children: [
           Expanded(
@@ -495,6 +558,29 @@ class _MenuKartKalemi extends ConsumerWidget {
             onChanged: (v) => notifier.mevcutToggle(kalem.id, v),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// P-10: Görsel yer tutucu (kameralı + tap ile dialog aç)
+class _GorselYerTutucu extends StatelessWidget {
+  final VoidCallback onTap;
+  const _GorselYerTutucu({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 52,
+        height: 52,
+        decoration: BoxDecoration(
+          color: PColors.surfaceAlt,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: PColors.border),
+        ),
+        child: const Icon(Icons.add_photo_alternate_outlined, size: 20, color: PColors.muted),
       ),
     );
   }

@@ -39,7 +39,7 @@ async function getSessionUser() {
     const { data: profile } = await (supabase as any)
       .from('user_profiles')
       .select('display_name, avatar_url')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .maybeSingle();
 
     return {

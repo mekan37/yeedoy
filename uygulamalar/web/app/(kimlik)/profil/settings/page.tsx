@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { TR_ILLER, TR_ILCELER } from '@/src/lib/tr-ilceler';
 import { toast } from '@/src/lib/toast-deposu';
+import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 const BIO_MAX = 280;
+const AVATAR_BUCKET = 'menu-media';
 
 function formatPhone(raw: string): string {
   const digits = raw.replace(/\D/g, '').slice(0, 11);
@@ -19,6 +21,7 @@ function formatPhone(raw: string): string {
 
 export default function ProfileSettingsPage() {
   const router = useRouter();
+  const fileRef = useRef<HTMLInputElement>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState('');
   const [bio, setBio] = useState('');
@@ -27,6 +30,9 @@ export default function ProfileSettingsPage() {
   const [district, setDistrict] = useState('');
   const [email, setEmail] = useState('');
   const [isPublic, setIsPublic] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarUploading, setAvatarUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deletePhase, setDeletePhase] = useState<'idle' | 'confirm' | 'deleting' | 'done'>('idle');
@@ -42,8 +48,8 @@ export default function ProfileSettingsPage() {
       setUserId(user.id);
       (supabase as any)
         .from('user_profiles')
-        .select('display_name, bio, phone, city, district, is_public')
-        .eq('id', user.id)
+        .select('display_name, bio, phone, city, district, is_public, avatar_url')
+        .eq('user_id', user.id)
         .maybeSingle()
         .then(({ data }: { data: Record<string, unknown> | null }) => {
           if (!data) return;
@@ -53,9 +59,44 @@ export default function ProfileSettingsPage() {
           if (data.city) setCity(data.city as string);
           if (data.district) setDistrict(data.district as string);
           if (typeof data.is_public === 'boolean') setIsPublic(data.is_public);
+          if (data.avatar_url) setAvatarUrl(data.avatar_url as string);
         });
     });
   }, []);
+
+  async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !userId) return;
+    if (file.size > 3 * 1024 * 1024) { toast('Dosya 3 MB\'dan küçük olmalı', 'danger'); return; }
+
+    // Local preview
+    const objectUrl = URL.createObjectURL(file);
+    setAvatarPreview(objectUrl);
+    setAvatarUploading(true);
+
+    try {
+      const supabase = createSupabaseBrowserClient();
+      const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
+      const path = `user-avatars/${userId}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from(AVATAR_BUCKET)
+        .upload(path, file, { upsert: true, contentType: file.type });
+      if (upErr) throw upErr;
+
+      const publicUrl = supabase.storage.from(AVATAR_BUCKET).getPublicUrl(path).data.publicUrl;
+      await (supabase as any)
+        .from('user_profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('user_id', userId);
+      setAvatarUrl(publicUrl);
+      toast('Profil fotoğrafı güncellendi', 'success');
+    } catch (err: unknown) {
+      setAvatarPreview(null);
+      toast(err instanceof Error ? err.message : 'Yükleme başarısız', 'danger');
+    } finally {
+      setAvatarUploading(false);
+    }
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -74,7 +115,7 @@ export default function ProfileSettingsPage() {
           district: district || null,
           is_public: isPublic,
         })
-        .eq('id', userId);
+        .eq('user_id', userId);
       if (err) throw err;
       toast('Profil kaydedildi', 'success');
     } catch (err: unknown) {
@@ -101,6 +142,9 @@ export default function ProfileSettingsPage() {
     }
   }
 
+  const displayAvatar = avatarPreview ?? (avatarUrl ? buildMenuImageUrl(avatarUrl, { width: 160, quality: 85 }) : null);
+  const initials = displayName.trim()[0]?.toUpperCase() ?? email[0]?.toUpperCase() ?? 'K';
+
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-lg px-4 py-12">
@@ -108,6 +152,50 @@ export default function ProfileSettingsPage() {
           ← Profilime Dön
         </Link>
         <h1 className="mb-8 text-2xl font-[900] text-textStrong">Profil Ayarları</h1>
+
+        {/* W-2: Avatar yükleme */}
+        <div className="mb-6 flex items-center gap-5">
+          <div className="relative">
+            <div className="h-20 w-20 overflow-hidden rounded-full border-2 border-border bg-cardAlt">
+              {displayAvatar ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={displayAvatar} alt="Profil" className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-2xl font-[900] text-primary">
+                  {initials}
+                </div>
+              )}
+            </div>
+            {avatarUploading && (
+              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40">
+                <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              </div>
+            )}
+          </div>
+          <div>
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              disabled={avatarUploading}
+              className="inline-flex min-h-10 items-center gap-2 rounded-2xl border border-border bg-bg px-4 text-sm font-[800] text-textStrong hover:border-primary/30 disabled:opacity-50"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              {avatarUploading ? 'Yükleniyor…' : 'Fotoğraf Değiştir'}
+            </button>
+            <p className="mt-1.5 text-xs text-muted">JPG, PNG veya WebP · Maks 3 MB</p>
+          </div>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+            onChange={handleAvatarChange}
+          />
+        </div>
 
         {/* Profil formu */}
         <form onSubmit={handleSave} className="flex flex-col gap-5 rounded-[24px] border border-border bg-card p-6 shadow-yd1">
