@@ -93,45 +93,154 @@ class _BosMenuMesaji extends StatelessWidget {
   }
 }
 
-class _MenuListesi extends ConsumerWidget {
+enum _MenuFiltre { tumu, mevcut, pasif }
+
+class _MenuListesi extends StatefulWidget {
   final List<MenuKalemi> kalemler;
   const _MenuListesi({required this.kalemler});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Kategoriye göre grupla
+  State<_MenuListesi> createState() => _MenuListesiState();
+}
+
+class _MenuListesiState extends State<_MenuListesi> {
+  final _aramaCtrl = TextEditingController();
+  _MenuFiltre _filtre = _MenuFiltre.tumu;
+  String _aramaMetni = '';
+
+  @override
+  void dispose() {
+    _aramaCtrl.dispose();
+    super.dispose();
+  }
+
+  List<MenuKalemi> get _filtrelenmis {
+    var liste = widget.kalemler;
+    if (_filtre == _MenuFiltre.mevcut) {
+      liste = liste.where((k) => k.mevcut).toList();
+    } else if (_filtre == _MenuFiltre.pasif) {
+      liste = liste.where((k) => !k.mevcut).toList();
+    }
+    if (_aramaMetni.isNotEmpty) {
+      final q = _aramaMetni.toLowerCase();
+      liste = liste
+          .where((k) =>
+              k.ad.toLowerCase().contains(q) ||
+              (k.kategori?.toLowerCase().contains(q) ?? false))
+          .toList();
+    }
+    return liste;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filtrelenmis = _filtrelenmis;
     final Map<String, List<MenuKalemi>> gruplar = {};
-    for (final k in kalemler) {
+    for (final k in filtrelenmis) {
       final kat = k.kategori ?? 'Diğer';
       gruplar.putIfAbsent(kat, () => []).add(k);
     }
-
     final kategoriler = gruplar.keys.toList()..sort();
 
-    return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 16),
-      itemCount: kategoriler.length,
-      itemBuilder: (ctx, i) {
-        final kat = kategoriler[i];
-        final liste = gruplar[kat]!;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+    return Column(
+      children: [
+        // Arama + filtre
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
+          child: Column(
+            children: [
+              TextField(
+                controller: _aramaCtrl,
+                onChanged: (v) => setState(() => _aramaMetni = v.trim()),
+                decoration: InputDecoration(
+                  hintText: 'Ürün veya kategori ara...',
+                  prefixIcon: const Icon(Icons.search_outlined, size: 20),
+                  suffixIcon: _aramaMetni.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.clear, size: 18),
+                          onPressed: () {
+                            _aramaCtrl.clear();
+                            setState(() => _aramaMetni = '');
+                          },
+                        )
+                      : null,
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: _MenuFiltre.values.map((f) {
+                    final etiket = switch (f) {
+                      _MenuFiltre.tumu   => 'Tümü',
+                      _MenuFiltre.mevcut => 'Aktif',
+                      _MenuFiltre.pasif  => 'Pasif',
+                    };
+                    final secili = _filtre == f;
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: FilterChip(
+                        label: Text(etiket),
+                        selected: secili,
+                        onSelected: (_) => setState(() => _filtre = f),
+                        selectedColor: PColors.primarySoft,
+                        checkmarkColor: PColors.primary,
+                        labelStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: secili ? PColors.primary : PColors.muted,
+                          fontSize: 12,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (filtrelenmis.isEmpty)
+          Expanded(
+            child: Center(
               child: Text(
-                kat.toUpperCase(),
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: PColors.muted,
-                      letterSpacing: 0.8,
-                      fontWeight: FontWeight.w800,
-                    ),
+                'Sonuç bulunamadı',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: PColors.muted),
               ),
             ),
-            ...liste.map((k) => _MenuKartKalemi(kalem: k)),
-          ],
-        );
-      },
+          )
+        else
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 16),
+              itemCount: kategoriler.length,
+              itemBuilder: (ctx, i) {
+                final kat = kategoriler[i];
+                final liste = gruplar[kat]!;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+                      child: Text(
+                        kat.toUpperCase(),
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: PColors.muted,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                    ),
+                    ...liste.map((k) => _MenuKartKalemi(kalem: k)),
+                  ],
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 }
