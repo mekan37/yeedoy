@@ -251,8 +251,22 @@ class _LoginPageState extends ConsumerState<LoginPage>
             source: 'login_page_email',
           );
       if (!mounted) return;
+      // M-11: Başarılı kayıt — haptic + görsel toast
+      HapticFeedback.heavyImpact();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loginSignupSuccessMessage)),
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.check_circle_outline, color: Colors.white, size: 20),
+              const SizedBox(width: 10),
+              Expanded(child: Text(context.l10n.loginSignupSuccessMessage)),
+            ],
+          ),
+          backgroundColor: AppColors.success,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          duration: const Duration(seconds: 4),
+        ),
       );
     } catch (e) {
       ref
