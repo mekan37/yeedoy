@@ -7,6 +7,8 @@ import '../../../uygulama/tema/renkler.dart';
 import '../../masa_siparisleri/domain/masa_siparisi_modeli.dart';
 import '../../shared/ui/p_iskelet.dart';
 import '../domain/kds_bildiricisi.dart';
+import 'kds_yazici_ayarlari.dart';
+import 'kds_siparis_karti.dart';
 
 class KdsSayfasi extends ConsumerStatefulWidget {
   const KdsSayfasi({super.key});
@@ -41,7 +43,7 @@ class _KdsSayfasiState extends ConsumerState<KdsSayfasi> {
       appBar: AppBar(
         title: const Text('Mutfak Ekranı'),
         actions: [
-          _SonYenilenmeGostergesi(zaman: _sonYenilenme),
+          KdsSonYenilenme(zaman: _sonYenilenme),
           IconButton(
             icon: const Icon(Icons.print_outlined),
             tooltip: 'Yazıcı Ayarları',
@@ -133,7 +135,7 @@ class _KdsSayfasiState extends ConsumerState<KdsSayfasi> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          _SayiBadge(bekleyen.length, PColors.orderPending),
+                          KdsSayiBadge(bekleyen.length, PColors.orderPending),
                           const SizedBox(width: 6),
                           const Text('Yeni'),
                         ],
@@ -143,7 +145,7 @@ class _KdsSayfasiState extends ConsumerState<KdsSayfasi> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          _SayiBadge(hazirlaniyor.length, PColors.orderSeen),
+                          KdsSayiBadge(hazirlaniyor.length, PColors.orderSeen),
                           const SizedBox(width: 6),
                           const Text('Hazırlanıyor'),
                         ],
@@ -188,7 +190,7 @@ class _KdsSayfasiState extends ConsumerState<KdsSayfasi> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (ctx) => const _YaziciAyarlariSheet(),
+      builder: (ctx) => const YaziciAyarlariSheet(),
     );
   }
 }
@@ -277,170 +279,6 @@ class _StatChip extends StatelessWidget {
 }
 
 // Yazıcı Ayarları Bottom Sheet
-class _YaziciAyarlariSheet extends StatefulWidget {
-  const _YaziciAyarlariSheet();
-
-  @override
-  State<_YaziciAyarlariSheet> createState() => _YaziciAyarlariSheetState();
-}
-
-class _YaziciAyarlariSheetState extends State<_YaziciAyarlariSheet> {
-  final _ipCtrl = TextEditingController(text: '192.168.1.100');
-  final _portCtrl = TextEditingController(text: '9100');
-  String _kagiTipi = '80mm';
-  bool _otoBaskiEtkin = false;
-
-  @override
-  void dispose() {
-    _ipCtrl.dispose();
-    _portCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        20,
-        20,
-        20,
-        20 + MediaQuery.viewInsetsOf(context).bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Handle bar
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              margin: const EdgeInsets.only(bottom: 16),
-              decoration: BoxDecoration(
-                color: PColors.border,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-
-          const Text(
-            'Yazıcı Ayarları (ESC/POS)',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w900,
-              color: PColors.textStrong,
-            ),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Ağ yazıcısı bağlantı bilgilerini girin',
-            style: TextStyle(color: PColors.muted, fontSize: 13),
-          ),
-          const SizedBox(height: 20),
-
-          // IP address
-          TextFormField(
-            controller: _ipCtrl,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'Yazıcı IP Adresi',
-              hintText: '192.168.1.100',
-              prefixIcon: Icon(Icons.wifi_outlined),
-            ),
-          ),
-          const SizedBox(height: 12),
-
-          // Port
-          TextFormField(
-            controller: _portCtrl,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'Port',
-              hintText: '9100',
-              prefixIcon: Icon(Icons.power_input_outlined),
-            ),
-          ),
-          const SizedBox(height: 12),
-
-          // Paper type
-          Row(
-            children: [
-              const Text(
-                'Kağıt genişliği:',
-                style: TextStyle(color: PColors.muted, fontSize: 13),
-              ),
-              const SizedBox(width: 12),
-              ...['58mm', '80mm'].map(
-                (w) => Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ChoiceChip(
-                    label: Text(w),
-                    selected: _kagiTipi == w,
-                    onSelected: (_) => setState(() => _kagiTipi = w),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-
-          // Auto print
-          SwitchListTile.adaptive(
-            contentPadding: EdgeInsets.zero,
-            title: const Text(
-              'Yeni sipariş otomatik baskısı',
-              style: TextStyle(fontSize: 14),
-            ),
-            subtitle: const Text(
-              'Sipariş gelince otomatik yazdır',
-              style: TextStyle(fontSize: 12, color: PColors.muted),
-            ),
-            value: _otoBaskiEtkin,
-            onChanged: (v) => setState(() => _otoBaskiEtkin = v),
-          ),
-          const SizedBox(height: 20),
-
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  icon: const Icon(Icons.wifi_find_outlined, size: 18),
-                  label: const Text('Test Bağlantısı'),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${_ipCtrl.text}:${_portCtrl.text} — bağlantı testi gönderildi',
-                        ),
-                        backgroundColor: PColors.primary,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: FilledButton.icon(
-                  icon: const Icon(Icons.save_outlined, size: 18),
-                  label: const Text('Kaydet'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Yazıcı ayarları kaydedildi'),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _MutfakTemizMesaji extends StatelessWidget {
   const _MutfakTemizMesaji();
 
@@ -521,7 +359,7 @@ class _KdsSutun extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             itemCount: siparisler.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),
-            itemBuilder: (ctx, i) => _KdsSiparisKarti(
+            itemBuilder: (ctx, i) => KdsSiparisKarti(
               siparis: siparisler[i],
               durumRengi: renk,
               aksiyonEtiketi: aksiyonEtiketi,
@@ -530,267 +368,6 @@ class _KdsSutun extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _KdsSiparisKarti extends StatelessWidget {
-  final MasaSiparisi siparis;
-  final Color durumRengi;
-  final String aksiyonEtiketi;
-  final VoidCallback onAksiyon;
-
-  const _KdsSiparisKarti({
-    required this.siparis,
-    required this.durumRengi,
-    required this.aksiyonEtiketi,
-    required this.onAksiyon,
-  });
-
-  void _yaziciGonder(BuildContext context, MasaSiparisi siparis) {
-    showModalBottomSheet(
-      context: context,
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Yazıcıya Gönder',
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 16,
-                color: PColors.textStrong,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Masa ${siparis.masaNo} — ${siparis.kalemler.length} kalem',
-              style: const TextStyle(color: PColors.muted),
-            ),
-            const SizedBox(height: 16),
-            FilledButton.icon(
-              onPressed: () {
-                Navigator.pop(ctx);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Masa ${siparis.masaNo} fişi yazıcıya gönderildi',
-                    ),
-                    backgroundColor: PColors.success,
-                  ),
-                );
-              },
-              icon: const Icon(Icons.print_outlined),
-              label: const Text('Mutfak Fişi Yazdır'),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '* ESC/POS yazıcı bağlantısı için Yeedoy Partner uygulamasını kullanın.',
-              style: TextStyle(fontSize: 11, color: PColors.muted),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final gecen = DateTime.now().difference(siparis.olusturuldu);
-    final dakika = gecen.inMinutes;
-    final uzun = dakika >= 10; // 10+ dakika: kırmızı uyarı
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: durumRengi.withValues(alpha: 0.18),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    'Masa ${siparis.masaNo}',
-                    style: TextStyle(
-                      color: durumRengi,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  dakika == 0 ? 'Az önce' : '$dakika dk önce',
-                  style: textTheme.bodySmall?.copyWith(
-                    color: uzun ? PColors.danger : PColors.muted,
-                    fontWeight: uzun ? FontWeight.w700 : FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            ...siparis.kalemler.map(
-              (k) => Padding(
-                padding: const EdgeInsets.only(bottom: 4),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${k.adet}×',
-                      style: textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: PColors.textStrong,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(k.urunAdi, style: textTheme.bodyMedium),
-                          if (k.not != null && k.not!.isNotEmpty)
-                            Text(
-                              k.not!,
-                              style: textTheme.bodySmall?.copyWith(
-                                color: PColors.muted,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            if (siparis.not != null && siparis.not!.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: PColors.surfaceAlt,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.notes_outlined,
-                      size: 14,
-                      color: PColors.muted,
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        siparis.not!,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: PColors.muted,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: FilledButton(
-                    onPressed: onAksiyon,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: durumRengi,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: Text(aksiyonEtiketi),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () => _yaziciGonder(context, siparis),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: PColors.muted,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    minimumSize: const Size(40, 40),
-                  ),
-                  child: const Icon(Icons.print_outlined, size: 18),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SayiBadge extends StatelessWidget {
-  final int sayi;
-  final Color renk;
-  const _SayiBadge(this.sayi, this.renk);
-
-  @override
-  Widget build(BuildContext context) {
-    if (sayi == 0) return const SizedBox.shrink();
-    return Container(
-      width: 20,
-      height: 20,
-      decoration: BoxDecoration(color: renk, shape: BoxShape.circle),
-      child: Center(
-        child: Text(
-          '$sayi',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 11,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SonYenilenmeGostergesi extends StatelessWidget {
-  final DateTime zaman;
-  const _SonYenilenmeGostergesi({required this.zaman});
-
-  @override
-  Widget build(BuildContext context) {
-    final gecen = DateTime.now().difference(zaman);
-    final etiket = gecen.inSeconds < 60 ? 'Az önce' : '${gecen.inMinutes} dk';
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 7,
-            height: 7,
-            decoration: const BoxDecoration(
-              color: PColors.success,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 5),
-          Text(
-            etiket,
-            style: const TextStyle(fontSize: 11, color: PColors.muted),
-          ),
-        ],
-      ),
     );
   }
 }
