@@ -363,6 +363,20 @@ class _MenuKartKalemi extends ConsumerWidget {
                 ),
               ),
             ),
+          // P-29: Allerjen/diyet etiketleri
+          ..._dietEtiketleri(kalem.ad).map((etiket) => Container(
+            margin: const EdgeInsets.only(left: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            decoration: BoxDecoration(
+              color: PColors.success.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: PColors.success.withValues(alpha: 0.3)),
+            ),
+            child: Text(
+              etiket,
+              style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: PColors.success),
+            ),
+          )),
         ],
       ),
       subtitle: Column(
@@ -448,4 +462,17 @@ class _MenuKartKalemi extends ConsumerWidget {
       ),
     );
   }
+}
+
+// P-29: Ürün adından diyet/allerjen etiketleri çıkar
+List<String> _dietEtiketleri(String ad) {
+  final kucuk = ad.toLowerCase();
+  final etiketler = <String>[];
+  if (kucuk.contains('vegan') || kucuk.contains('bitkisel')) etiketler.add('🌱 Vegan');
+  if (kucuk.contains('vejetaryen') || kucuk.contains('vejeteryan')) etiketler.add('🥗 Vejetaryen');
+  if (kucuk.contains('glutensiz') || kucuk.contains('gluten free')) etiketler.add('🌾 Glutensiz');
+  if (kucuk.contains('laktozsuz') || kucuk.contains('laktoz free')) etiketler.add('🥛 Laktozsuz');
+  if (kucuk.contains('organik')) etiketler.add('✅ Organik');
+  if (kucuk.contains('acili') || kucuk.contains('acı')) etiketler.add('🌶️ Acılı');
+  return etiketler;
 }
