@@ -9,6 +9,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { HamburgerDugmesi } from '@/src/ui/kabuk/hamburger-dugmesi';
 import { AppDrawer, type DrawerSessionUser } from '@/src/ui/kabuk/uygulama-cekmecesi';
+import { HeaderSarmalayici } from '@/src/ui/bilesenler/header-sarmalayici';
 
 // ── Navigasyon öğeleri ────────────────────────────────────────────────────────
 
@@ -80,7 +81,7 @@ export async function PublicHeader({ variant = 'public' }: { variant?: 'public' 
   const isOwner  = variant === 'owner';
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-card/90 backdrop-blur">
+    <HeaderSarmalayici>
       <Container className="flex min-h-16 items-center justify-between gap-3">
         {/* Logo */}
         <Link
@@ -159,7 +160,7 @@ export async function PublicHeader({ variant = 'public' }: { variant?: 'public' 
           )}
         </div>
       </Container>
-    </header>
+    </HeaderSarmalayici>
   );
 }
 

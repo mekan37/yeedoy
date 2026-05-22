@@ -287,7 +287,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={error ? 'form-error' : undefined}>
 
             {/* Ad Soyad — sadece kayıt modunda */}
             {mode === 'kayit' && (
@@ -477,13 +477,23 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
             )}
 
             {error && (
-              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400">
+              <div
+                id="form-error"
+                role="alert"
+                aria-live="polite"
+                className="rounded-2xl border border-danger/25 bg-danger/[0.08] px-4 py-3 text-sm font-[700] text-danger"
+              >
                 {error}
               </div>
             )}
 
             {success && (
-              <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 dark:border-green-900/40 dark:bg-green-950/30 dark:text-green-400">
+              <div
+                id="form-success"
+                role="status"
+                aria-live="polite"
+                className="rounded-2xl border border-success/25 bg-success/[0.10] px-4 py-3 text-sm font-[700] text-success"
+              >
                 {success}
               </div>
             )}

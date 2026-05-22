@@ -345,7 +345,15 @@ class _SahipYanitiBlok extends StatelessWidget {
   }
 }
 
-class _YanitForm extends StatelessWidget {
+// P-19: Hızlı yanıt şablonları
+const _yanitSablonlari = [
+  'Teşekkürler! Tekrar görmeyi umuyoruz.',
+  'Geri bildiriminiz için teşekkürler. Eksikliklerimizi gidermek için çalışıyoruz.',
+  'Değerli yorumunuz için teşekkür ederiz. Sizi memnun edebildiğimize sevindik!',
+  'Yaşadığınız olumsuz deneyim için özür dileriz. Sizi memnun etmek için elimizden geleni yapacağız.',
+];
+
+class _YanitForm extends StatefulWidget {
   final TextEditingController ctrl;
   final bool gonderiyor;
   final VoidCallback onGonder;
@@ -359,12 +367,67 @@ class _YanitForm extends StatelessWidget {
   });
 
   @override
+  State<_YanitForm> createState() => _YanitFormState();
+}
+
+class _YanitFormState extends State<_YanitForm> {
+  bool _sablonlarAcik = false;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Şablon toggle
+        GestureDetector(
+          onTap: () => setState(() => _sablonlarAcik = !_sablonlarAcik),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              children: [
+                const Icon(Icons.auto_awesome_outlined, size: 14, color: PColors.muted),
+                const SizedBox(width: 4),
+                const Text(
+                  'Hızlı Şablonlar',
+                  style: TextStyle(fontSize: 11, color: PColors.muted, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(width: 4),
+                Icon(
+                  _sablonlarAcik ? Icons.expand_less : Icons.expand_more,
+                  size: 14,
+                  color: PColors.muted,
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (_sablonlarAcik)
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: _yanitSablonlari.map((s) => GestureDetector(
+              onTap: () {
+                widget.ctrl.text = s;
+                widget.ctrl.selection = TextSelection.collapsed(offset: s.length);
+                setState(() => _sablonlarAcik = false);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: PColors.primarySoft,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: PColors.primary.withValues(alpha: 0.2)),
+                ),
+                child: Text(
+                  s.length > 40 ? '${s.substring(0, 40)}…' : s,
+                  style: const TextStyle(fontSize: 11, color: PColors.primary),
+                ),
+              ),
+            )).toList(),
+          ),
+        if (_sablonlarAcik) const SizedBox(height: 8),
         TextField(
-          controller: ctrl,
+          controller: widget.ctrl,
           maxLines: 3,
           maxLength: 2000,
           decoration: const InputDecoration(
@@ -375,11 +438,11 @@ class _YanitForm extends StatelessWidget {
         const SizedBox(height: 8),
         Row(
           children: [
-            TextButton(onPressed: onIptal, child: const Text('İptal')),
+            TextButton(onPressed: widget.onIptal, child: const Text('İptal')),
             const Spacer(),
             FilledButton(
-              onPressed: gonderiyor ? null : onGonder,
-              child: gonderiyor
+              onPressed: widget.gonderiyor ? null : widget.onGonder,
+              child: widget.gonderiyor
                   ? const SizedBox(
                       width: 18,
                       height: 18,
