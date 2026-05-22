@@ -5,6 +5,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/ag/supabase_saglayicisi.dart';
 import '../../../core/riverpod_uzantilari.dart';
 import '../../../core/tema_tercihleri.dart';
 import '../../kimlik/domain/kimlik_bildiricisi.dart';
@@ -311,7 +312,7 @@ class AyarlarSayfasi extends ConsumerWidget {
           ),
           const Divider(height: 1),
 
-          // Çıkış
+          // Hesap işlemleri
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 20, 16, 8),
             child: Text(
@@ -324,6 +325,53 @@ class AyarlarSayfasi extends ConsumerWidget {
               ),
             ),
           ),
+          // P-34: Şifre değiştir (e-posta ile sıfırlama)
+          ListTile(
+            leading: const Icon(Icons.lock_reset_outlined, color: PColors.muted),
+            title: const Text(
+              'Şifre Değiştir',
+              style: TextStyle(fontWeight: FontWeight.w700, color: PColors.textStrong),
+            ),
+            subtitle: const Text(
+              'E-posta ile şifre sıfırlama bağlantısı gönderilir',
+              style: TextStyle(fontSize: 12, color: PColors.muted),
+            ),
+            trailing: const Icon(Icons.chevron_right, color: PColors.muted),
+            onTap: () async {
+              final kimlik = ref.read(kimlikProvider).valueOrNull;
+              final email = kimlik is KimlikGirilmis ? kimlik.user.email ?? '' : '';
+              if (email.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('E-posta adresi bulunamadı')),
+                );
+                return;
+              }
+              try {
+                final supabase = ref.read(supabaseProvider);
+                await supabase.auth.resetPasswordForEmail(email);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Şifre sıfırlama bağlantısı $email adresine gönderildi'),
+                      backgroundColor: PColors.success,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                  );
+                }
+              } catch (_) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('E-posta gönderilemedi'),
+                      backgroundColor: PColors.danger,
+                    ),
+                  );
+                }
+              }
+            },
+          ),
+          const Divider(height: 1),
           ListTile(
             leading: const Icon(Icons.logout_outlined, color: PColors.danger),
             title: const Text(

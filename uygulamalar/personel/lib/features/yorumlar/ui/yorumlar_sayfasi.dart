@@ -7,17 +7,54 @@ import '../../shared/ui/p_iskelet.dart';
 import '../domain/yorum_modeli.dart';
 import '../domain/yorumlar_bildiricisi.dart';
 
-class YorumlarSayfasi extends ConsumerWidget {
+enum _YorumSiralama { yeni, puanYuksek, puanDusuk, yanitSiz }
+
+class YorumlarSayfasi extends ConsumerStatefulWidget {
   const YorumlarSayfasi({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<YorumlarSayfasi> createState() => _YorumlarSayfasiState();
+}
+
+class _YorumlarSayfasiState extends ConsumerState<YorumlarSayfasi> {
+  _YorumSiralama _siralama = _YorumSiralama.yeni;
+
+  List<IsletmeYorum> _sirala(List<IsletmeYorum> liste) {
+    final kopya = [...liste];
+    switch (_siralama) {
+      case _YorumSiralama.yeni:
+        kopya.sort((a, b) => b.olusturuldu.compareTo(a.olusturuldu));
+      case _YorumSiralama.puanYuksek:
+        kopya.sort((a, b) => b.puan.compareTo(a.puan));
+      case _YorumSiralama.puanDusuk:
+        kopya.sort((a, b) => a.puan.compareTo(b.puan));
+      case _YorumSiralama.yanitSiz:
+        kopya.removeWhere((y) => y.sahipYaniti != null);
+        kopya.sort((a, b) => b.olusturuldu.compareTo(a.olusturuldu));
+    }
+    return kopya;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(yorumlarProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Yorumlar'),
         actions: [
+          PopupMenuButton<_YorumSiralama>(
+            icon: const Icon(Icons.sort_outlined),
+            tooltip: 'Sırala',
+            initialValue: _siralama,
+            onSelected: (v) => setState(() => _siralama = v),
+            itemBuilder: (_) => const [
+              PopupMenuItem(value: _YorumSiralama.yeni,         child: Text('En Yeni')),
+              PopupMenuItem(value: _YorumSiralama.puanYuksek,  child: Text('En Yüksek Puan')),
+              PopupMenuItem(value: _YorumSiralama.puanDusuk,   child: Text('En Düşük Puan')),
+              PopupMenuItem(value: _YorumSiralama.yanitSiz,     child: Text('Yanıtsız')),
+            ],
+          ),
           IconButton(
             icon: const Icon(Icons.refresh_outlined),
             onPressed: () => ref.read(yorumlarProvider.notifier).yenile(),
@@ -27,30 +64,27 @@ class YorumlarSayfasi extends ConsumerWidget {
       body: state.when(
         loading: () => const PersonelListIskeleti(satirSayisi: 5),
         error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: Colors.red))),
-        data: (yorumlar) => yorumlar.isEmpty
-            ? const Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.reviews_outlined,
-                      size: 56,
-                      color: PColors.muted,
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      'Henüz onaylı yorum yok',
-                      style: TextStyle(color: PColors.muted),
-                    ),
-                  ],
-                ),
-              )
-            : ListView.separated(
-                padding: const EdgeInsets.all(12),
-                itemCount: yorumlar.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 10),
-                itemBuilder: (_, i) => _YorumKarti(yorum: yorumlar[i]),
+        data: (yorumlar) {
+          final sirali = _sirala(yorumlar);
+          if (sirali.isEmpty) {
+            return const Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.reviews_outlined, size: 56, color: PColors.muted),
+                  SizedBox(height: 12),
+                  Text('Henüz onaylı yorum yok', style: TextStyle(color: PColors.muted)),
+                ],
               ),
+            );
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.all(12),
+            itemCount: sirali.length,
+            separatorBuilder: (_, _) => const SizedBox(height: 10),
+            itemBuilder: (_, i) => _YorumKarti(yorum: sirali[i]),
+          );
+        },
       ),
     );
   }
