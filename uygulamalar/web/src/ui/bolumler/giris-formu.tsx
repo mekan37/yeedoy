@@ -67,6 +67,8 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
   const [isPending, startTransition] = useTransition();
   const [oAuthProvider, setOAuthProvider] = useState<'google' | 'apple' | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
 
   const districts = city ? (TR_ILCELER[city] ?? []) : [];
 
@@ -118,6 +120,11 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
 
     if (mode === 'kayit' && !displayName.trim()) {
       setError('Ad Soyad alanı zorunludur.');
+      return;
+    }
+
+    if (mode === 'kayit' && (!acceptedTerms || !acceptedPrivacy)) {
+      setError('Devam etmek için Kullanım Şartları ve Gizlilik Politikasını kabul etmelisiniz.');
       return;
     }
 
@@ -186,6 +193,8 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
     setPhone('');
     setCity('');
     setDistrict('');
+    setAcceptedTerms(false);
+    setAcceptedPrivacy(false);
   }
 
   return (
@@ -476,6 +485,48 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
               </>
             )}
 
+            {/* Kullanıcı sözleşmesi onay kutuları — sadece kayıt modunda */}
+            {mode === 'kayit' && (
+              <div className="space-y-3 rounded-2xl border border-border bg-cardAlt px-4 py-4">
+                <label className="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-primary"
+                    required
+                  />
+                  <span className="text-sm text-textStrong">
+                    <a href="/yasal/terms" target="_blank" rel="noopener noreferrer" className="font-[800] text-primary underline-offset-2 hover:underline">
+                      Kullanım Şartları
+                    </a>
+                    'nı okudum ve kabul ediyorum.{' '}
+                    <span className="text-danger">*</span>
+                  </span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked={acceptedPrivacy}
+                    onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-primary"
+                    required
+                  />
+                  <span className="text-sm text-textStrong">
+                    <a href="/yasal/privacy" target="_blank" rel="noopener noreferrer" className="font-[800] text-primary underline-offset-2 hover:underline">
+                      Gizlilik Politikası
+                    </a>
+                    'nı ve{' '}
+                    <a href="/yasal/yorum-politikasi" target="_blank" rel="noopener noreferrer" className="font-[800] text-primary underline-offset-2 hover:underline">
+                      Yorum Politikası
+                    </a>
+                    'nı okudum, kabul ediyorum.{' '}
+                    <span className="text-danger">*</span>
+                  </span>
+                </label>
+              </div>
+            )}
+
             {error && (
               <div
                 id="form-error"
@@ -500,7 +551,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
 
             <button
               type="submit"
-              disabled={isPending}
+              disabled={isPending || (mode === 'kayit' && (!acceptedTerms || !acceptedPrivacy))}
               className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary text-sm font-[900] text-white shadow-sm transition-colors hover:opacity-90 disabled:opacity-60"
             >
               {isPending

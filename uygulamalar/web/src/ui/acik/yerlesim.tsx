@@ -217,6 +217,10 @@ export function PublicFooter() {
           <div className="mt-3 grid gap-2 text-sm text-muted">
             <Link href="/isletme" className="hover:text-primary">Yeedoy for Business</Link>
             <Link href="/yasal" className="hover:text-primary">Yasal</Link>
+            <Link href="/yasal/yorum-politikasi" className="hover:text-primary">Yorum Politikası</Link>
+            <Link href="/yasal/terms" className="hover:text-primary">Kullanım Şartları</Link>
+            <Link href="/yasal/privacy" className="hover:text-primary">Gizlilik</Link>
+            <Link href="/yardim" className="hover:text-primary">Yardım</Link>
           </div>
         </div>
       </Container>
