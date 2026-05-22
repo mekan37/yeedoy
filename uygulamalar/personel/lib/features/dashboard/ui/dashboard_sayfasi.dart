@@ -76,6 +76,10 @@ class _DashboardIcerik extends StatelessWidget {
           const SizedBox(height: 12),
           _OzetKarti(ist: ist),
           const SizedBox(height: 24),
+          _baslik(context, 'Bugün Saatlik'),
+          const SizedBox(height: 12),
+          const _SaatlikGrafik(),
+          const SizedBox(height: 24),
           _baslik(context, 'Son 7 Gün'),
           const SizedBox(height: 12),
           const _HaftalikGrafik(),
@@ -350,6 +354,77 @@ class _StatKarti extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Saatlik Grafik (P-14) ────────────────────────────────────────────────────
+
+class _SaatlikGrafik extends ConsumerWidget {
+  const _SaatlikGrafik();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(saatlikVeriProvider);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Saatlik Sipariş Yoğunluğu',
+              style: TextStyle(fontWeight: FontWeight.w800, color: PColors.textStrong, fontSize: 13),
+            ),
+            const SizedBox(height: 12),
+            state.when(
+              loading: () => const SizedBox(height: 60, child: Center(child: CircularProgressIndicator(strokeWidth: 2))),
+              error: (e, _) => const SizedBox(height: 60, child: Center(child: Text('Yüklenemedi', style: TextStyle(color: PColors.muted)))),
+              data: (veriler) {
+                if (veriler.isEmpty) {
+                  return const SizedBox(height: 60, child: Center(child: Text('Henüz sipariş yok', style: TextStyle(color: PColors.muted))));
+                }
+                final maksimum = veriler.fold(0, (m, v) => v.siparisSayisi > m ? v.siparisSayisi : m);
+                final simdi = DateTime.now().hour;
+                return SizedBox(
+                  height: 70,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: veriler.map((v) {
+                      final oran = maksimum > 0 ? v.siparisSayisi / maksimum : 0.0;
+                      final simdiki = v.saat == simdi;
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 1.5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              if (simdiki && v.siparisSayisi > 0)
+                                Text('${v.siparisSayisi}', style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: PColors.primary)),
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeOut,
+                                height: math.max(4, oran * 52),
+                                decoration: BoxDecoration(
+                                  color: simdiki ? PColors.primary : PColors.primary.withValues(alpha: 0.4),
+                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(3)),
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              if (v.saat % 3 == 0)
+                                Text('${v.saat}', style: const TextStyle(fontSize: 8, color: PColors.muted)),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -96,6 +96,57 @@ class HaftalikVeriBildiricisi extends AsyncNotifier<List<GunlukVeri>> {
   }
 }
 
+// P-14: Saatlik sipariş verisi
+class SaatlikVeri {
+  final int saat;
+  final int siparisSayisi;
+  const SaatlikVeri({required this.saat, required this.siparisSayisi});
+}
+
+final saatlikVeriProvider =
+    AsyncNotifierProvider<SaatlikVeriBildiricisi, List<SaatlikVeri>>(
+  SaatlikVeriBildiricisi.new,
+);
+
+class SaatlikVeriBildiricisi extends AsyncNotifier<List<SaatlikVeri>> {
+  @override
+  Future<List<SaatlikVeri>> build() async {
+    final kimlik = ref.watch(kimlikProvider).valueOrNull;
+    if (kimlik is! KimlikGirilmis) return [];
+    return _yukle(ref.read(supabaseProvider), kimlik.isletmeId);
+  }
+
+  Future<List<SaatlikVeri>> _yukle(
+      SupabaseClient supabase, String isletmeId) async {
+    try {
+      final bugun = DateTime.now();
+      final bugunBaslangic =
+          DateTime(bugun.year, bugun.month, bugun.day).toUtc().toIso8601String();
+      final siparisler = await supabase
+          .from('table_orders')
+          .select('created_at')
+          .eq('business_id', isletmeId)
+          .gte('created_at', bugunBaslangic) as List<dynamic>;
+
+      final Map<int, int> saatlikSayac = {};
+      for (final s in siparisler) {
+        final tarih = DateTime.tryParse(s['created_at'] as String? ?? '');
+        if (tarih == null) continue;
+        final saat = tarih.toLocal().hour;
+        saatlikSayac[saat] = (saatlikSayac[saat] ?? 0) + 1;
+      }
+
+      final simdi = DateTime.now().hour;
+      return List.generate(simdi + 1, (i) => SaatlikVeri(
+        saat: i,
+        siparisSayisi: saatlikSayac[i] ?? 0,
+      ));
+    } catch (_) {
+      return [];
+    }
+  }
+}
+
 class DashboardIstatistik {
   final int bugunBekleyen;
   final int bugunHazirlaniyor;
