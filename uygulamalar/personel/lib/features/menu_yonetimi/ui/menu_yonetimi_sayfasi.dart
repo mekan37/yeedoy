@@ -94,6 +94,7 @@ class _BosMenuMesaji extends StatelessWidget {
 }
 
 enum _MenuFiltre { tumu, mevcut, pasif }
+enum _MenuSiralama { varsayilan, adA, fiyatDusuk, fiyatYuksek, spesiyel }
 
 class _MenuListesi extends StatefulWidget {
   final List<MenuKalemi> kalemler;
@@ -106,6 +107,7 @@ class _MenuListesi extends StatefulWidget {
 class _MenuListesiState extends State<_MenuListesi> {
   final _aramaCtrl = TextEditingController();
   _MenuFiltre _filtre = _MenuFiltre.tumu;
+  _MenuSiralama _siralama = _MenuSiralama.varsayilan;
   String _aramaMetni = '';
 
   @override
@@ -120,6 +122,18 @@ class _MenuListesiState extends State<_MenuListesi> {
       liste = liste.where((k) => k.mevcut).toList();
     } else if (_filtre == _MenuFiltre.pasif) {
       liste = liste.where((k) => !k.mevcut).toList();
+    }
+    switch (_siralama) {
+      case _MenuSiralama.varsayilan:
+        break;
+      case _MenuSiralama.adA:
+        liste = [...liste]..sort((a, b) => a.ad.compareTo(b.ad));
+      case _MenuSiralama.fiyatDusuk:
+        liste = [...liste]..sort((a, b) => (a.fiyat ?? 0).compareTo(b.fiyat ?? 0));
+      case _MenuSiralama.fiyatYuksek:
+        liste = [...liste]..sort((a, b) => (b.fiyat ?? 0).compareTo(a.fiyat ?? 0));
+      case _MenuSiralama.spesiyel:
+        liste = [...liste]..sort((a, b) => b.bugunSpesiyel ? 1 : (a.bugunSpesiyel ? -1 : 0));
     }
     if (_aramaMetni.isNotEmpty) {
       final q = _aramaMetni.toLowerCase();
@@ -196,6 +210,28 @@ class _MenuListesiState extends State<_MenuListesi> {
                     );
                   }).toList(),
                 ),
+              ),
+              // P-27: Sıralama
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  const Icon(Icons.sort_outlined, size: 14, color: PColors.muted),
+                  const SizedBox(width: 4),
+                  DropdownButton<_MenuSiralama>(
+                    value: _siralama,
+                    underline: const SizedBox.shrink(),
+                    isDense: true,
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: PColors.muted),
+                    items: const [
+                      DropdownMenuItem(value: _MenuSiralama.varsayilan, child: Text('Varsayılan Sıra')),
+                      DropdownMenuItem(value: _MenuSiralama.adA,         child: Text('Ada Göre A→Z')),
+                      DropdownMenuItem(value: _MenuSiralama.fiyatDusuk,  child: Text('Fiyat ↑')),
+                      DropdownMenuItem(value: _MenuSiralama.fiyatYuksek, child: Text('Fiyat ↓')),
+                      DropdownMenuItem(value: _MenuSiralama.spesiyel,    child: Text('Spesiyellar Önce')),
+                    ],
+                    onChanged: (v) { if (v != null) setState(() => _siralama = v); },
+                  ),
+                ],
               ),
             ],
           ),
