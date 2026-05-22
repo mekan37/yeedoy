@@ -147,6 +147,38 @@ class SaatlikVeriBildiricisi extends AsyncNotifier<List<SaatlikVeri>> {
   }
 }
 
+// P-16: Personel performans verisi
+class PersonelPerformans {
+  final String staffId;
+  final int siparisSayisi;
+  final int tamamlanan;
+  const PersonelPerformans({required this.staffId, required this.siparisSayisi, required this.tamamlanan});
+}
+
+final personelPerformansProvider =
+    AsyncNotifierProvider<PersonelPerformansiBildiricisi, List<PersonelPerformans>>(
+  PersonelPerformansiBildiricisi.new,
+);
+
+class PersonelPerformansiBildiricisi extends AsyncNotifier<List<PersonelPerformans>> {
+  @override
+  Future<List<PersonelPerformans>> build() async {
+    final kimlik = ref.watch(kimlikProvider).valueOrNull;
+    if (kimlik is! KimlikGirilmis) return [];
+    try {
+      final rows = await ref.read(supabaseProvider).rpc(
+        'get_staff_performance_today_v1',
+        params: {'p_business_id': kimlik.isletmeId},
+      ) as List<dynamic>;
+      return rows.map((r) => PersonelPerformans(
+        staffId: r['staff_id'] as String? ?? '?',
+        siparisSayisi: (r['siparis_sayisi'] as num?)?.toInt() ?? 0,
+        tamamlanan: (r['tamamlanan'] as num?)?.toInt() ?? 0,
+      )).toList();
+    } catch (_) { return []; }
+  }
+}
+
 class DashboardIstatistik {
   final int bugunBekleyen;
   final int bugunHazirlaniyor;

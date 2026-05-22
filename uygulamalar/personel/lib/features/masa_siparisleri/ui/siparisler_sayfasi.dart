@@ -72,8 +72,9 @@ class _SiparisListesi extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bekleyen =
         siparisler.where((s) => s.durum == 'pending').toList();
+    // P-7: 'waiting' (bekletilmiş) siparişler de "Hazırlanıyor" sütununda gösterilir
     final hazirlaniyor =
-        siparisler.where((s) => s.durum == 'seen').toList();
+        siparisler.where((s) => s.durum == 'seen' || s.durum == 'waiting').toList();
 
     if (siparisler.isEmpty) {
       return Center(
@@ -252,6 +253,38 @@ class _SiparisKartiState extends ConsumerState<_SiparisKarti> {
     super.dispose();
   }
 
+  // P-6: Personel notu dialog
+  Future<void> _personelNotuDialog() async {
+    final ctrl = TextEditingController(text: widget.siparis.personelNotu ?? '');
+    await showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Masa ${widget.siparis.masaNo} — Personel Notu'),
+        content: TextField(
+          controller: ctrl,
+          maxLines: 3,
+          maxLength: 200,
+          decoration: const InputDecoration(
+            hintText: 'İç not (müşteri görmez)...',
+            prefixIcon: Icon(Icons.edit_note_outlined),
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('İptal')),
+          FilledButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              await ref.read(masaSiparisleriProvider.notifier)
+                  .personelNotuGuncelle(widget.siparis.id, ctrl.text.trim().isEmpty ? null : ctrl.text.trim());
+            },
+            child: const Text('Kaydet'),
+          ),
+        ],
+      ),
+    );
+    ctrl.dispose();
+  }
+
   Future<void> _aksiyonTap() async {
     if (_isUpdating) return;
     setState(() => _isUpdating = true);
@@ -336,6 +369,28 @@ class _SiparisKartiState extends ConsumerState<_SiparisKarti> {
                         fontWeight: dakika >= 15 ? FontWeight.w700 : null,
                       ),
                     ),
+                    const SizedBox(width: 4),
+                    // P-6 + P-7: Not ekle / Beklet popup
+                    PopupMenuButton<String>(
+                      icon: const Icon(Icons.more_vert_outlined, size: 16, color: PColors.muted),
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (_) => [
+                        const PopupMenuItem(value: 'not', child: Row(children: [Icon(Icons.edit_note_outlined, size: 16), SizedBox(width: 8), Text('Personel Notu')])),
+                        if (!widget.siparis.bekliyor)
+                          const PopupMenuItem(value: 'beklet', child: Row(children: [Icon(Icons.pause_circle_outline, size: 16), SizedBox(width: 8), Text('Beklet')])),
+                        if (widget.siparis.bekliyor)
+                          const PopupMenuItem(value: 'devam', child: Row(children: [Icon(Icons.play_circle_outline, size: 16), SizedBox(width: 8), Text('Devam Et')])),
+                      ],
+                      onSelected: (v) async {
+                        if (v == 'not') {
+                          _personelNotuDialog();
+                        } else if (v == 'beklet') {
+                          await ref.read(masaSiparisleriProvider.notifier).durumGuncelle(widget.siparis.id, 'waiting');
+                        } else if (v == 'devam') {
+                          await ref.read(masaSiparisleriProvider.notifier).durumGuncelle(widget.siparis.id, 'seen');
+                        }
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -377,6 +432,42 @@ class _SiparisKartiState extends ConsumerState<_SiparisKarti> {
               _MusteriNotu(not: widget.siparis.not!),
             ],
             const SizedBox(height: 12),
+            // P-7: Bekletme göstergesi
+            if (widget.siparis.bekliyor)
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: PColors.warning.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: PColors.warning.withValues(alpha: 0.35)),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.pause_circle_outline, size: 14, color: PColors.warning),
+                    SizedBox(width: 6),
+                    Text('Bekletildi', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: PColors.warning)),
+                  ],
+                ),
+              ),
+            // P-6: Personel notu
+            if (widget.siparis.personelNotu != null && widget.siparis.personelNotu!.isNotEmpty)
+              Container(
+                margin: const EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: PColors.info.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: PColors.info.withValues(alpha: 0.25)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.sticky_note_2_outlined, size: 14, color: PColors.info),
+                    const SizedBox(width: 6),
+                    Expanded(child: Text(widget.siparis.personelNotu!, style: const TextStyle(fontSize: 12, color: PColors.info))),
+                  ],
+                ),
+              ),
             SizedBox(
               width: double.infinity,
               child: FilledButton(

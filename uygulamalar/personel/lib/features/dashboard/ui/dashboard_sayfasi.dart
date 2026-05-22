@@ -76,6 +76,10 @@ class _DashboardIcerik extends StatelessWidget {
           const SizedBox(height: 12),
           _OzetKarti(ist: ist),
           const SizedBox(height: 24),
+          _baslik(context, 'Personel Performansı'),
+          const SizedBox(height: 12),
+          const _PersonelPerformansKarti(),
+          const SizedBox(height: 24),
           _baslik(context, 'Bugün Saatlik'),
           const SizedBox(height: 12),
           const _SaatlikGrafik(),
@@ -354,6 +358,65 @@ class _StatKarti extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Personel Performansı (P-16) ──────────────────────────────────────────────
+
+class _PersonelPerformansKarti extends ConsumerWidget {
+  const _PersonelPerformansKarti();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(personelPerformansProvider);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Bugün işlenen siparişler', style: TextStyle(fontWeight: FontWeight.w800, color: PColors.textStrong, fontSize: 13)),
+            const SizedBox(height: 10),
+            state.when(
+              loading: () => const SizedBox(height: 40, child: Center(child: CircularProgressIndicator(strokeWidth: 2))),
+              error: (e, _) => const Text('Yüklenemedi', style: TextStyle(color: PColors.muted, fontSize: 12)),
+              data: (liste) {
+                if (liste.isEmpty) {
+                  return const Text('Henüz veri yok', style: TextStyle(color: PColors.muted, fontSize: 13));
+                }
+                return Column(
+                  children: liste.asMap().entries.map((entry) {
+                    final idx = entry.key;
+                    final p = entry.value;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 24, height: 24,
+                            decoration: const BoxDecoration(color: PColors.primarySoft, shape: BoxShape.circle),
+                            child: Center(child: Text('${idx + 1}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: PColors.primary))),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text('Personel ${idx + 1}', style: const TextStyle(fontWeight: FontWeight.w700, color: PColors.textStrong, fontSize: 13))),
+                          Text('${p.siparisSayisi} sipariş', style: const TextStyle(fontSize: 12, color: PColors.muted)),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(color: PColors.success.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(6)),
+                            child: Text('${p.tamamlanan} ✓', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: PColors.success)),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
