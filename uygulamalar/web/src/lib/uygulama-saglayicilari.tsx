@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, type ReactNode } from 'react';
 import { GlobalToastContainer } from '@/src/ui/bilesenler/bildirim-toast';
+import { OturumSuresiUyarisi } from '@/src/ui/bilesenler/oturum-suresi-uyarisi';
 
 export function AppProviders({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
@@ -20,6 +21,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
     <QueryClientProvider client={queryClient}>
       {children}
       <GlobalToastContainer />
+      <OturumSuresiUyarisi />
     </QueryClientProvider>
   );
 }
