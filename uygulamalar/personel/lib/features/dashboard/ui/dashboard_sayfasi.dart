@@ -172,12 +172,12 @@ class _MenuKartlari extends StatelessWidget {
   }
 }
 
-class _OzetKarti extends StatelessWidget {
+class _OzetKarti extends ConsumerWidget {
   final DashboardIstatistik ist;
   const _OzetKarti({required this.ist});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final tamamlanmaOrani = ist.toplamBugun > 0
         ? (ist.bugunTamamlanan / ist.toplamBugun * 100).round()
         : 0;
@@ -185,6 +185,31 @@ class _OzetKarti extends StatelessWidget {
     final gelirStr = ist.bugunGelir > 0
         ? '₺${ist.bugunGelir.toStringAsFixed(2)}'
         : '—';
+
+    // P-26: Haftalık veriden ortalama sipariş hesapla (bugün hariç 6 gün)
+    final haftalikState = ref.watch(haftalikVeriProvider);
+    final kiyasStr = haftalikState.maybeWhen(
+      data: (veriler) {
+        if (veriler.length < 7) return null;
+        // Son 7 günün ilk 6 günü (bugün hariç)
+        final gecmisToplam = veriler
+            .take(6)
+            .fold(0, (sum, v) => sum + v.siparisSayisi);
+        if (gecmisToplam == 0) return null;
+        final gunlukOrtalama = gecmisToplam / 6;
+        if (gunlukOrtalama == 0) return null;
+        final fark = ist.toplamBugun - gunlukOrtalama;
+        final yuzde = ((fark / gunlukOrtalama) * 100).round();
+        return yuzde >= 0 ? '+$yuzde%' : '$yuzde%';
+      },
+      orElse: () => null,
+    );
+
+    final kiyasRenk = kiyasStr == null
+        ? null
+        : kiyasStr.startsWith('+')
+            ? PColors.success
+            : PColors.danger;
 
     return Card(
       child: Padding(
@@ -195,6 +220,8 @@ class _OzetKarti extends StatelessWidget {
               ikon: Icons.receipt_long_outlined,
               etiket: 'Toplam sipariş (bugün)',
               deger: '${ist.toplamBugun}',
+              badge: kiyasStr,
+              badgeRengi: kiyasRenk,
             ),
             const Divider(height: 20),
             _OzetSatir(
@@ -226,12 +253,16 @@ class _OzetSatir extends StatelessWidget {
   final String etiket;
   final String deger;
   final Color? degerRengi;
+  final String? badge;
+  final Color? badgeRengi;
 
   const _OzetSatir({
     required this.ikon,
     required this.etiket,
     required this.deger,
     this.degerRengi,
+    this.badge,
+    this.badgeRengi,
   });
 
   @override
@@ -243,6 +274,24 @@ class _OzetSatir extends StatelessWidget {
         Expanded(
           child: Text(etiket, style: const TextStyle(color: PColors.text)),
         ),
+        if (badge != null) ...[
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            decoration: BoxDecoration(
+              color: (badgeRengi ?? PColors.muted).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              badge!,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w800,
+                color: badgeRengi ?? PColors.muted,
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+        ],
         Text(
           deger,
           style: TextStyle(
