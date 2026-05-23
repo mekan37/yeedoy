@@ -1,330 +1,468 @@
 # Yeedoy Monorepo
 
-Bu depo, aynı Supabase veri modeli üzerinde çalışan çoklu istemci mimarisini içerir:
+**Yeedoy** — Restoran ve yemek keşif platformu. Kullanıcılar yemek keşfeder, menüleri inceler ve yorum bırakır; işletme sahipleri menü ve operasyonlarını yönetir; personel siparişleri ve müşteri hizmetlerini takip eder.
 
-- `apps/mobile_flutter` — Son kullanıcı mobil uygulaması (iOS/Android)
-- `apps/panel_flutter_web` — Admin/Owner paneli (Flutter Web)
-- `apps/web_next` — İşletme dashboard + QR/public menu web yüzeyi (Next.js)
-- `supabase/` — Veritabanı migration'ları, Edge Functions
+*A food and restaurant discovery platform. Consumers discover and review venues; business owners manage menus and operations; staff track orders and loyalty.*
 
 ---
 
-## Gereksinimler
+## Architecture
 
-| Araç | Versiyon |
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        YEEDOY MONOREPO                          │
+│                                                                 │
+│  uygulamalar/mobil          uygulamalar/web                     │
+│  Flutter (iOS / Android)    Next.js 15 App Router               │
+│  Consumer discovery,        Public menus, QR Studio,            │
+│  reviews, favorites,        owner/admin operations,             │
+│  offline queue, AI OCR      branding, analytics                 │
+│                                                                 │
+│  uygulamalar/personel                                           │
+│  Flutter (web/Android)      Staff tablet / KDS, orders,         │
+│                             reviews, loyalty, menu mgmt         │
+│                                                                 │
+│  packages/                                                      │
+│  shared_ui_components       Shared Flutter design primitives    │
+│  shared_models              Shared pure-Dart models             │
+│  l10n_assets                Common ARB translation files        │
+│  ui_tokens                  Tailwind/CSS token preset           │
+│                                                                 │
+│                     Supabase                                    │
+│              Auth · PostgreSQL · RLS · Storage                  │
+│              Edge Functions (Deno) · Realtime                   │
+│                                                                 │
+│              supabase/migrations/   — SQL migrations            │
+│              supabase/functions/    — Edge Functions            │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Tech Stack
+
+| App | Language / Framework | State | Router | Key Libraries |
+|---|---|---|---|---|
+| `uygulamalar/mobil` | Dart / Flutter (iOS + Android) | Riverpod 3.x | GoRouter 17.x | Supabase Flutter 2.x, Firebase, Google ML Kit, google_mobile_ads |
+| `uygulamalar/web` | TypeScript / Next.js 15 | Zustand 5, TanStack Query 5 | Next.js App Router | Supabase SSR, Radix UI, Tailwind CSS 3, Zod 4, Playwright |
+| `uygulamalar/personel` | Dart / Flutter (web + Android) | Riverpod 3.x | GoRouter 17.x | Supabase Flutter 2.x, Firebase, mobile_scanner, local_auth |
+| `supabase/functions` | TypeScript / Deno | — | — | Supabase client, OpenRouter, Resend, FCM |
+
+---
+
+## Repository Structure
+
+```
+yeedoy/
+├── uygulamalar/
+│   ├── mobil/              Flutter iOS/Android consumer app
+│   │   ├── lib/
+│   │   │   ├── uygulama/   App bootstrap, routes, theme
+│   │   │   ├── core/       Cross-cutting: analytics, cache, security, net
+│   │   │   └── features/   Feature modules (data / domain / ui)
+│   │   └── pubspec.yaml    Dart SDK ^3.10.7
+│   ├── web/                Next.js 15 public + owner/admin surfaces
+│   │   ├── app/            Route segments (App Router)
+│   │   │   ├── (genel)/    Public-facing pages (discovery, menus, QR)
+│   │   │   ├── (kimlik)/   Authenticated consumer pages
+│   │   │   ├── sahip/      Owner panel pages
+│   │   │   ├── yonetici/   Admin panel pages
+│   │   │   └── sunucu/     Route handlers (API endpoints)
+│   │   └── src/
+│   │       ├── lib/        Server helpers, data fetchers, i18n
+│   │       └── ui/         Client components and sections
+│   └── personel/           Flutter staff tablet app (KDS, orders, loyalty)
+│       └── lib/features/   kds, masa_siparisleri, menu_yonetimi, yorumlar…
+├── packages/
+│   ├── shared_ui_components/   AppTokens, AppColors, AppDarkColors, brand assets
+│   ├── shared_models/          Pure-Dart models shared across Flutter apps
+│   ├── l10n_assets/            common_tr.arb + common_en.arb (synced ARB)
+│   └── ui_tokens/              tailwind.preset.cjs + tokens.css (web mirror)
+├── supabase/
+│   ├── functions/          Edge Functions (Deno) — see list below
+│   └── migrations/         Ordered SQL migration files
+├── scripts/
+│   ├── local-db-setup.sh   Start Supabase + push all migrations
+│   └── release-smoke.sh    Run web E2E smoke (local or live)
+├── tools/                  Node.js scripts: l10n audit, OSM/FSQ import, hooks
+├── .github/workflows/      CI pipelines (see CI/CD section)
+├── package.json            Monorepo root (npm workspaces)
+├── AGENTS.md               Architectural rules for AI agents
+├── CLAUDE.md               Claude/AI workflow notes
+└── STYLE.md                Code and architecture style guide
+```
+
+---
+
+## Edge Functions
+
+Located in `supabase/functions/`. Each subdirectory contains an `index.ts` entry point served by Supabase CLI.
+
+| Function | Purpose |
 |---|---|
-| Flutter | 3.x |
-| Node.js | 18+ |
-| Docker Desktop | (çalışıyor olmalı) |
-| Supabase CLI | 2.x |
+| `ai-allergen-detect` | Extract allergen candidates from menu/product text |
+| `ai-ingredient-detect` | Extract ingredient candidates from menu/product text |
+| `ai-menu-analyze` | Batch AI menu analysis from image or raw text (OpenRouter) |
+| `ai-menu-image-gen` | Generate food photography via Gemma + Pollinations.ai |
+| `ai-nutrition-estimate` | Approximate nutrition values from menu text |
+| `admin-api` | Allowlisted admin RPC and write flows through a single edge entry |
+| `anti-spam-guard` | Anti-spam and rate-limit enforcement on review/report/verify writes |
+| `get-exchange-rates` | Fetch exchange rate data for multi-currency panel flows |
+| `import_places_json` | Bulk place import from JSON source |
+| `media-upload` | Panel/admin media upload endpoint (WordPress media API compat layer) |
+| `media-upload-user` | Mobile/user-scoped upload endpoint — writes to Supabase Storage |
+| `purge-temp-uploads` | Periodic cleanup of temporary uploads |
+| `push-dispatch` | Dispatch queued push notifications to providers |
+| `send-push-campaign` | Owner-triggered push campaigns via FCM batch |
+| `send-email-campaign` | Owner-triggered email campaigns via Resend batch API |
+| `verify-domain` | Domain verification flow for owner branding |
+| `write-gatekeeper` | Central guard layer for sensitive write operations |
 
 ---
 
-## 1. Local Supabase Başlat
+## Prerequisites
 
-Tüm uygulamalar local Supabase'e bağlanır. Docker Desktop açık olmalı.
+| Tool | Version | Notes |
+|---|---|---|
+| Flutter | stable channel, SDK `^3.10.7` | `flutter upgrade` to get stable |
+| Dart | included with Flutter | `^3.10.7` |
+| Node.js | 20 | Web CI uses Node 20; 18+ works locally |
+| npm | included with Node | Workspaces used at root |
+| Java | 17 (Zulu) | Android builds only |
+| Supabase CLI | `^2.x` | `npm install -g supabase` |
+| Docker Desktop | running | Required for `supabase start` |
+
+---
+
+## Getting Started
+
+### 1. Start Local Supabase
+
+Docker Desktop must be running before this step.
 
 ```bash
-# İlk kurulum veya sıfırlama
-supabase start
+# First time or after a full reset — starts stack and applies all migrations
+bash scripts/local-db-setup.sh
 
-# Durumu kontrol et
+# Check endpoints and keys
 supabase status
 
-# Durdurmak için
+# Stop the stack
 supabase stop
 ```
 
-**Local bağlantı bilgileri:**
+Local endpoints after `supabase start`:
+
 | | |
 |---|---|
 | API URL | `http://127.0.0.1:54321` |
 | Studio | `http://127.0.0.1:54323` |
-| DB | `postgresql://postgres:postgres@127.0.0.1:54322/postgres` |
-| Anon Key | `supabase status --output env` çıktısından al |
+| Database | `postgresql://postgres:postgres@127.0.0.1:54322/postgres` |
+| Anon Key | printed by `supabase status` |
 
----
-
-## 2. Mobile Flutter (iOS/Android)
+### 2. Mobile Flutter App
 
 ```bash
-cd apps/mobile_flutter
+cd uygulamalar/mobil
 
-# Bağımlılıkları yükle
 flutter pub get
 
-# Android emulator veya bağlı cihazda çalıştır
+# Run on connected Android device or emulator
 flutter run
 
-# iOS simülatörde çalıştır
+# Run on iOS simulator
 flutter run -d ios
 
-# Belirli bir cihaz seç
+# List available devices
 flutter devices
-flutter run -d <device-id>
 ```
 
-**`.env` dosyası** (`apps/mobile_flutter/.env`):
-```
-SUPABASE_URL=http://127.0.0.1:54321
-SUPABASE_ANON_KEY=<supabase status --output env ile al>
-```
-
----
-
-## 3. Panel Flutter Web (Admin/Owner)
-
-```bash
-cd apps/panel_flutter_web
-
-# Bağımlılıkları yükle
-flutter pub get
-
-# Web'de çalıştır (Chrome)
-flutter run -d chrome
-
-# Belirli port ile çalıştır
-flutter run -d chrome --web-port 50809
-
-# Production build
-flutter build web
-```
-
-**`.env` dosyası** (`apps/panel_flutter_web/.env`):
+Create `uygulamalar/mobil/.env`:
 ```
 SUPABASE_URL=http://127.0.0.1:54321
-SUPABASE_ANON_KEY=<supabase status --output env ile al>
+SUPABASE_ANON_KEY=<from supabase status>
 ```
 
-**Giriş bilgileri (local):**
-| Email | Şifre | Rol |
-|---|---|---|
-| `admin@yeedoy.com` | `Tunahan_120819` | Admin |
-| `admin@menubak.tr` | `Tunahan_120819` | Admin |
-| `a@a.com` | `Tunahan_120819` | User |
-
----
-
-## 4. Web Next.js
+### 3. Next.js Web App
 
 ```bash
-cd apps/web_next
+cd uygulamalar/web
 
-# Bağımlılıkları yükle
 npm install
 
-# Development sunucusu başlat
+# Development server → http://localhost:3000
 npm run dev
-# → http://localhost:3000
 
-# Tip kontrolü
+# Type-check
 npm run typecheck
 
 # Lint
 npm run lint
+
+# Run unit tests
+npm run test:unit
 
 # Production build
 npm run build
 npm run start
 ```
 
-**`.env.local` dosyası** (`apps/web_next/.env.local`):
+Create `uygulamalar/web/.env.local`:
 ```
 NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<supabase status --output env ile al>
-SUPABASE_SERVICE_ROLE_KEY=<supabase status --output env ile al>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<from supabase status>
+SUPABASE_SERVICE_ROLE_KEY=<from supabase status>
 ```
 
----
+Public routes are under `app/(genel)/`. Owner routes are under `app/sahip/`. Admin routes are under `app/yonetici/`.
 
-## 5. Tüm Sistemi Birden Başlat
-
-Farklı terminallerde çalıştır:
+### 4. Personel (Staff) App
 
 ```bash
-# Terminal 1 — Supabase
-supabase start
+cd uygulamalar/personel
 
-# Terminal 2 — Next.js web
-cd apps/web_next && npm run dev
+flutter pub get
 
-# Terminal 3 — Panel (Flutter Web)
-cd apps/panel_flutter_web && flutter run -d chrome --web-port 50809 --target lib/main_web.dart
+# Run as Flutter web app
+flutter run -d chrome
 
-# Terminal 4 — Mobile
-cd apps/mobile_flutter && flutter run
+# Run on Android
+flutter run -d <device-id>
 ```
 
----
+Create `uygulamalar/personel/.env` with the same `SUPABASE_URL` and `SUPABASE_ANON_KEY` values.
 
-## 6. OCR ve AI Menü Analizi
-
-Sistem iki katmanlı OCR mimarisi kullanır:
-
-### 6a. Mobil OCR (Google ML Kit) — otomatik
-
-Mobil uygulamada fotoğraf çekince **on-device** OCR devreye girer. Ek kurulum gerekmez; Google ML Kit bağımlılığı `pubspec.yaml` içinde mevcut.
-
-```
-apps/mobile_flutter/lib/features/menus/data/ocr_price_extractor.dart
-apps/mobile_flutter/lib/features/menus/ui/menu_ocr_flow.dart
-```
-
-### 6b. Edge Function — AI Menü Analizi
-
-`supabase/functions/ai-menu-analyze` fonksiyonu:
-1. (Opsiyonel) PaddleOCR servisine görüntü gönderir → ham metin alır
-2. Ham metni OpenRouter (Llama 3.1 8B free) ile analiz eder
-3. Sonuçları `menu_item_ai_analysis` tablosuna yazar
-
-**Lokal deploy:**
+### 5. Edge Functions (Local)
 
 ```bash
-# Supabase çalışıyor olmalı
+# Serve a single function
 supabase functions serve ai-menu-analyze --env-file supabase/.env.local
-```
 
-**`supabase/.env.local` dosyası oluştur:**
-
-```
-OPENROUTER_API_KEY=<openrouter.ai üzerinden al — ücretsiz plan yeterli>
-
-# Opsiyonel: PaddleOCR self-hosted servis (aşağıya bak)
-# PADDLE_OCR_URL=http://localhost:8765
-# PADDLE_OCR_SECRET=<rastgele güçlü string>
-```
-
-**Fonksiyonu test et (curl):**
-
-```bash
-# Önce bir kullanıcı JWT token al (Supabase Studio → Authentication → Users → Copy JWT)
-curl -X POST http://127.0.0.1:54321/functions/v1/ai-menu-analyze \
-  -H "Authorization: Bearer <USER_JWT>" \
-  -H "Content-Type: application/json" \
-  -d '{"job_id": "<menu_ocr_jobs tablosundan bir id>"}'
-```
-
-### 6c. PaddleOCR Servisi — opsiyonel (Docker)
-
-PaddleOCR, sunucu taraflı yüksek doğruluklu OCR sağlar. Kurmak için:
-
-```bash
-# Docker ile PaddleOCR REST servisi başlat
-docker run -d --name paddleocr-service -p 8765:8765 -e "SERVICE_SECRET=Tunahan_120819" paddlepaddle/paddle:latest python -m paddleocr.server --port 8765
-
-```
-
-> Not: PaddleOCR Docker image ilk çalıştırmada ~2GB indirir. Hazır olana kadar Edge Function ham metinle çalışmaya devam eder.
-
-**Flow özeti:**
-
-```
-Mobil fotoğraf
-    └─► Google ML Kit (on-device, hızlı) → fiyat çıkarımı
-    └─► Supabase Storage (file_url)
-            └─► Edge Function: ai-menu-analyze
-                    ├─► PaddleOCR (kuruluysa) → raw_text
-                    └─► OpenRouter Llama 3.1 8B → items JSON
-                                └─► menu_item_ai_analysis tablosu
-```
-
-### 6d. AI Menü Görseli Oluşturma (owner panel)
-
-`supabase/functions/ai-menu-image-gen` fonksiyonu:
-1. Owner panelde menü item eklerken "AI Oluştur" sekmesine tıklanır
-2. Edge Function ürün adını **Google Gemma** (`google/gemma-4-26b-a4b-it:free`) via OpenRouter'a gönderir
-3. Gemma, ürün adından profesyonel yemek fotoğrafı promptu üretir
-4. Prompt **Pollinations.ai** ücretsiz image gen API'sine gönderilir → görsel URL döner
-5. Kullanıcı önizler, beğenirse "Kaydet" ile menu item fotoğraflarına eklenir
-
-**Lokal çalıştırma:**
-
-```bash
-# Tüm Edge Function'ları birden çalıştır (önerilen)
+# Serve all functions
 supabase functions serve --env-file supabase/.env.local
-
-# Sadece image gen fonksiyonu
-supabase functions serve ai-menu-image-gen --env-file supabase/.env.local
 ```
 
-**`supabase/.env.local` içine ekle** (yoksa oluştur):
-
+Create `supabase/.env.local`:
 ```
-OPENROUTER_API_KEY=<openrouter.ai → Keys → Create Key — ücretsiz plan yeterli>
+OPENROUTER_API_KEY=<from openrouter.ai — free plan sufficient>
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_ANON_KEY=<from supabase status>
+SUPABASE_SERVICE_ROLE_KEY=<from supabase status>
+EDGE_RATE_LIMIT_SALT=<random strong string>
+# For send-email-campaign only:
+RESEND_API_KEY=<from resend.com>
 ```
 
-> Pollinations.ai görsel üretimi için API key gerekmez — tamamen ücretsiz ve anonim.
-
-**Fonksiyonu test et (curl):**
-
+Test a function locally:
 ```bash
-curl -X POST http://127.0.0.1:54321/functions/v1/ai-menu-image-gen \
-  -H "Authorization: Bearer <USER_JWT>" \
+curl -X POST http://127.0.0.1:54321/functions/v1/ai-menu-analyze \
+  -H "Authorization: Bearer <user-jwt>" \
+  -H "apikey: <anon-key>" \
   -H "Content-Type: application/json" \
-  -d '{"item_name": "Mercimek Çorbası"}'
-
-# Beklenen yanıt:
-# { "ok": true, "image_url": "https://image.pollinations.ai/prompt/...", "prompt": "..." }
+  -d '{"imageUrl": "https://...", "locale": "tr"}'
 ```
 
-**Remote deploy (production):**
-
+Deploy to production:
 ```bash
-supabase functions deploy ai-menu-image-gen
-# Env değişkenini production'a ekle:
+supabase functions deploy ai-menu-analyze --project-ref <project-ref>
 supabase secrets set OPENROUTER_API_KEY=<key>
 ```
 
-**Flow özeti:**
+### 6. Run Everything Together
 
-```
-Owner panel → Menü item fotoğraf ekle → "AI Oluştur" sekmesi
-    └─► Edge Function: ai-menu-image-gen
-            ├─► OpenRouter Gemma 4 26B → food photography prompt
-            └─► Pollinations.ai (flux-realism) → 512×512 görsel URL
-                        └─► menu_item_photos tablosuna kaydedilir
+```bash
+# Terminal 1
+supabase start
+
+# Terminal 2
+cd uygulamalar/web && npm run dev
+
+# Terminal 3
+cd uygulamalar/mobil && flutter run
+
+# Terminal 4 (if working on staff app)
+cd uygulamalar/personel && flutter run -d chrome
 ```
 
 ---
 
-## 8. Veritabanı
+## Database
 
 ```bash
-# Migration uygula (local)
+# Apply migrations to local DB
 supabase db push --local
 
-# Remote Supabase'den schema çek (proje aktifken)
-SUPABASE_DB_PASSWORD=<şifre> supabase db pull --schema public,auth,storage
+# Pull remote schema (requires active project)
+SUPABASE_DB_PASSWORD=<password> supabase db pull --schema public,auth,storage
 
-# DB sıfırla (tüm migration'ları baştan uygular)
+# Reset local DB — replays all migrations from scratch
 supabase db reset
 ```
 
+Migration files live in `supabase/migrations/`. Archived migrations are in `supabase/migrations/_archive/` and are not replayed.
+
 ---
 
-## 9. Doğrulama Komutları
+## CI/CD
+
+All workflows are in `.github/workflows/`.
+
+| Workflow | File | Trigger | What it does |
+|---|---|---|---|
+| Mobile Quality | `mobile_quality.yml` | PR or push to `main` touching `uygulamalar/mobil/**` | `flutter pub get` → `flutter analyze` → `flutter test` → offline write guard check → hardcoded color check → release gate dry run |
+| Mobile Readiness | `mobile_readiness.yml` | Manual (`workflow_dispatch`) | iOS readiness audit, release gate audit; optional signed IPA or APK dry-run with CI secrets |
+| Web Quality | `web_quality.yml` | PR or push to `main` touching `uygulamalar/web/**` or `packages/ui_tokens/**` | `npm ci` → typecheck → lint → unit tests → Playwright E2E → `npm run build` → `npm audit` → RLS coverage check |
+| Web Release Smoke | `web_release_smoke.yml` | Manual (`workflow_dispatch`) | Playwright smoke against production Supabase with configurable business UUID and language |
+
+The `panel_quality.yml` workflow is archived and never runs; it references a Flutter web panel that was replaced by `uygulamalar/web`.
+
+---
+
+## Root Scripts
+
+From the repo root:
 
 ```bash
-# Flutter analiz
-flutter analyze                        # mobile veya panel dizininde
+# L10n key audit — fails if keys are missing or mismatched across ARB files
+npm run l10n:audit
 
-# Next.js
-cd apps/web_next
-npm run typecheck
-npm run lint
+# Run web lint + mobile lint
+npm run verify:matrix:lint
 
-# L10n denetimi
-node tools/l10n_audit.mjs
+# Full pre-merge check: l10n audit + lint + web smoke
+npm run verify:matrix
+
+# Install git hooks
+npm run hooks:install
+
+# Clean workspace outputs
+npm run clean
 ```
 
 ---
 
-## Kaynak Dökümanlar
+## Key Conventions
 
-- `docs/SYSTEM_OVERVIEW.md` — Mimari genel bakış
-- `docs/ARCHITECTURE_AUDIT.md` — Güçlü yönler ve riskler
-- `docs/DATABASE_REVIEW.md` — Tablo grupları, RPC listesi
-- `docs/ADMIN_OWNER_GAP_ANALYSIS.md` — Özellik durum matrisi
-- `docs/SCALING_ROADMAP.md` — 3 aşamalı büyüme planı
-- `CLAUDE.md` — Claude/AI çalışma notları
-- `AGENTS.md` — Ajan mimarisi kuralları
+### File and Directory Naming
+
+- Dart files: `snake_case.dart`
+- TypeScript/TSX files: `kebab-case.ts`, `kebab-case.tsx`
+- Dart classes and widgets: `PascalCase`
+- Feature directory structure is a fixed three-layer split:
+  - `data/` — repository, remote/local data source, cache, IO
+  - `domain/` — Riverpod provider, controller, state, model
+  - `ui/` — page, section, widget, sheet
+
+### File Suffix Rules (Flutter)
+
+| Suffix | Meaning |
+|---|---|
+| `*_page.dart` | Routable page widget |
+| `*_sheet.dart` | Bottom sheet |
+| `*_card.dart` | Card widget |
+| `*_provider.dart` | Riverpod provider |
+| `*_controller.dart` | Riverpod notifier/controller |
+| `*_deposu.dart` | Repository class |
+
+### Naming Conventions
+
+- Riverpod providers: `*Provider`
+- Notifier/controller classes: `*Controller` or `*Bildiricisi`
+- Repository classes: `*Repository` or `*Deposu`
+- Page widgets: `*Page` or `*Sayfasi`
+- Supabase RPC names follow versioned contract: `*_v1`, `*_v2`
+
+### Design System
+
+Flutter apps consume the shared design system through `packages/shared_ui_components`:
+
+- Colors: `AppColors` (primary deep red `#7F1D1D`), `AppDarkColors` for dark mode
+- Spacing and radii: `AppTokens.of(context)` → `space4`, `space8`, `space12`, `space16`, `space20`, `space24`, `radius12`, `radius16`, `radius20`, `radius24`
+- Typography: `AppTypography`
+- Theme builder: `buildAppTheme()` — do not set colors or spacing inline
+- Dark mode: `themeModeProvider` and `buildDarkAppTheme()` wired in the mobile app
+
+Web design tokens are mirrored in `packages/ui_tokens/tailwind.preset.cjs` and `tokens.css`. Web components use semantic Tailwind classes (`bg-card`, `text-textStrong`, `border-border`) rather than raw hex values or arbitrary Tailwind numbers.
+
+### Internationalization
+
+- Flutter consumer app: all user-visible strings go into `lib/l10n/app_tr.arb` and `lib/l10n/app_en.arb` (template: `app_tr.arb`, output class: `AppLocalizations`)
+- Shared strings used across multiple Flutter apps: `packages/l10n_assets/common_tr.arb` and `common_en.arb`; sync with `node packages/l10n_assets/scripts/sync-l10n.mjs`
+- Web public UI copy: `uygulamalar/web/src/lib/` central files; no hardcoded strings inside components
+- Supported locales: Turkish (`tr`) and English (`en`)
+
+### Architecture Boundaries
+
+These cross-app rules are enforced by CI tools and code review:
+
+- Mobile app (`uygulamalar/mobil`) handles: discovery, menus, reviews, favorites, profile, contributions, offline queue, push notifications
+- Web app (`uygulamalar/web`) handles: public SEO menu rendering, QR Studio, branding, owner/admin operations, onboarding, analytics
+- Staff app (`uygulamalar/personel`) handles: KDS, table orders, menu management, reviews, loyalty, QR scanning
+- Do not add owner/admin CRUD surfaces to the mobile app
+- Do not move public SEO menu rendering out of Next.js
+- New Supabase writes must go through a repository layer, not directly from UI code
+- All new Next.js route handlers must include `zod.safeParse` validation, auth checking, and rate limiting
+
+---
+
+## Contributing
+
+### Branch Strategy
+
+Work on feature branches. Open pull requests against `main`. CI runs automatically on PRs that touch the relevant app path.
+
+### Minimum Validation Before Pushing
+
+Run only the surface you modified:
+
+**Flutter mobile or personel:**
+```bash
+# From the app directory
+flutter analyze
+flutter test test
+```
+
+**Next.js web:**
+```bash
+cd uygulamalar/web
+npm run typecheck
+npm run lint
+npm run test:unit
+```
+
+**L10n changes:**
+```bash
+npm run l10n:audit
+```
+
+**Full pre-merge check (all surfaces):**
+```bash
+npm run verify:matrix
+```
+
+Documentation-only changes do not require running tests, but state explicitly which commands were skipped.
+
+### Hardcoded Values
+
+Do not commit:
+- Inline colors, spacing, or raw hex values in Flutter code
+- Raw Tailwind hex or arbitrary spacing numbers in web code
+- Hardcoded secrets, API keys, or connection strings in any file
+- User-facing strings outside the ARB / i18n system
+
+---
+
+## Reference Docs
+
+| File | Contents |
+|---|---|
+| `AGENTS.md` | Architectural rules and boundaries for AI agents |
+| `CLAUDE.md` | Claude/AI workflow notes and operation rules |
+| `STYLE.md` | Code and architecture style guide (v1.0, 2026-04-08) |
+| `PLAN.md` | Active doc pointers (backlog, setup, deploy, operations) |
+| `docs/SYSTEM_OVERVIEW.md` | Three-app architecture and flow overview |
+| `docs/ARCHITECTURE_AUDIT.md` | Strengths, risks, recommended actions |
+| `docs/DATABASE_REVIEW.md` | Table groups, RPC inventory, RLS status |
+| `docs/ADMIN_OWNER_GAP_ANALYSIS.md` | Feature status matrix (owner / admin) |
+| `docs/SCALING_ROADMAP.md` | Three-phase scaling plan |
+| `supabase/functions/README.md` | Edge function local run and deploy guide |
