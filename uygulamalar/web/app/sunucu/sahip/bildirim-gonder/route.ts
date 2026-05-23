@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     .from('notifications')
     .insert(rows);
 
-  if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 });
+  if (insertError) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
 
   return NextResponse.json({ ok: true, sent: rows.length });
 }

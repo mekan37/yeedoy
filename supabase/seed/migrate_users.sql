@@ -1,5 +1,5 @@
 -- ─── Migrate users from remote Supabase to local ────────────────────────────
--- Generated from remote project: magzmlktbeolsbkssqxo
+-- Generated from remote project: dktdnbeougrmhkzplbap
 
 -- 1) auth.users
 INSERT INTO auth.users (
@@ -121,7 +121,7 @@ INSERT INTO auth.identities (
 )
 ON CONFLICT (id) DO NOTHING;
 
--- 3) public.admin_users (admin@menubak.tr ve admin@yeedoy.com)
+-- 3) public.admin_users (admin@menubak.tr = eski marka test hesabı, admin@yeedoy.com = aktif)
 INSERT INTO public.admin_users (user_id, created_at) VALUES
   ('edc2b1b1-2905-4bf4-95c8-e7956ab85d73', '2026-01-21 06:41:35.222678+00'),
   ('95d14dba-7d57-413c-9939-8bddf80d494f', '2026-02-19 09:39:03.274751+00')

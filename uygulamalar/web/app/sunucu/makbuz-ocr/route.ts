@@ -250,7 +250,6 @@ export async function POST(request: Request) {
         return NextResponse.json({ ...fallback, mesaj: 'Yedek OCR motoru kullanıldı.' });
       } catch (_) { /* ignore */ }
     }
-    const message = err instanceof Error ? err.message : 'OCR işlemi başarısız';
-    return NextResponse.json({ error: message }, { status: 502 });
+    return NextResponse.json({ error: 'ocr_failed' }, { status: 502 });
   }
 }

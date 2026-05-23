@@ -1,8 +1,9 @@
 # Yeedoy API Security and Performance Audit
 
 **Date:** 2026-05-23  
+**Last updated:** 2026-05-23 — LOW-risk safe fixes applied (see §14)  
 **Scope:** Full monorepo — Next.js route handlers, Supabase Edge Functions, RPC calls, direct table queries, cross-app contract consistency, write-flow hardening, performance patterns  
-**Method:** Static code analysis via file reads and pattern searches. No code was modified, no migrations applied, no RLS or RPC signatures changed.
+**Method:** Static code analysis via file reads and pattern searches. LOW-risk safe fixes applied 2026-05-23; no DB schema, migration, RLS, RPC signature, auth flow, or public route behavior was changed.
 
 ---
 
@@ -818,40 +819,40 @@ if (!isAdmin.data) return NextResponse.json({ error: 'Yetkisiz' }, { status: 403
 
 ## 10. Safe Fix Plan (No Approval Required)
 
-The following changes are additive or non-breaking and can be applied without architecture review:
+The following changes are additive or non-breaking and can be applied without architecture review. Durum sütunu §14 geçişinden sonra güncellenmiştir.
 
-1. **HIGH-006 — Add `is_admin` check to `yonetici/raporlar-csv/route.ts`**  
-   Insert `const { data: isAdmin } = await supabase.rpc('is_admin'); if (!isAdmin) return ...` before the `reports` query. No downstream callers are affected by tightening access.
+1. **HIGH-006 — Add `is_admin` check to `yonetici/raporlar-csv/route.ts`** — AÇIK  
+   Insert `const { data: isAdmin } = await supabase.rpc('is_admin'); if (!isAdmin) return ...` before the `reports` query.
 
-2. **HIGH-007 — Replace `user_roles` query with `is_admin` RPC in `b2b-export/[type]/route.ts`**  
+2. **HIGH-007 — Replace `user_roles` query with `is_admin` RPC in `b2b-export/[type]/route.ts`** — AÇIK  
    Direct substitution; the RPC is already used consistently across all other admin routes.
 
-3. **HIGH-001 — Add ownership check to `sahip/envanter/route.ts`**  
-   Lookup `menu_items.business_id` for the given `itemId`, then call `hasOwnerBusiness`. Both helpers are already imported elsewhere in the same codebase.
+3. **HIGH-001 — Add ownership check to `sahip/envanter/route.ts`** — AÇIK  
+   Lookup `menu_items.business_id` for the given `itemId`, then call `hasOwnerBusiness`.
 
-4. **HIGH-002 — Add ownership check + rate limit to `sahip/sms-kampanya/route.ts`**  
-   Call `hasOwnerBusiness` for `bizIds[0]`; import and call `rateLimit`.
+4. **HIGH-002 — Add ownership check + rate limit to `sahip/sms-kampanya/route.ts`** — ZATEN UYGULANMIS  
+   Kod incelemesinde `hasOwnerBusiness` ve `rateLimit` çağrısı zaten mevcuttu.
 
-5. **MED-003 — Return error when service key is missing in `hesap/sil/route.ts`**  
-   Change the `if (serviceKey)` block to `if (!serviceKey) return NextResponse.json({ error: 'service_unavailable' }, { status: 500 });`.
+5. **MED-003 — Return error when service key is missing in `hesap/sil/route.ts`** — ZATEN UYGULANMIS  
+   `if (!serviceKey) return NextResponse.json({ error: 'server_misconfigured' }, { status: 500 })` zaten mevcuttu.
 
-6. **MED-005 — Use MIME-based extension in `sahiplik-kaniti-yukle/route.ts`**  
-   Replace `file.name.split('.').pop()` with a `extensionFromMimeType` whitelist.
+6. **MED-005 — Use MIME-based extension in `sahiplik-kaniti-yukle/route.ts`** — ZATEN UYGULANMIS  
+   `MIME_TO_EXT` map ile MIME tabanlı uzantı belirleme zaten mevcuttu.
 
-7. **LOW-001 — Accept or clean `console.log` in `purge-temp-uploads/index.ts`**  
-   Acceptable operational log; no action required unless log verbosity is a concern.
+7. **LOW-001 — Accept `console.log` in `purge-temp-uploads/index.ts`** — UYGULANMADI (kabul edildi)  
+   Operational log; güvenlik riski yok.
 
-8. **LOW-003 — Timing-safe secret compare in `yeniden-dogrulama/route.ts`**  
-   Replace `!==` with `crypto.timingSafeEqual`.
+8. **LOW-003 — Timing-safe secret compare in `yeniden-dogrulama/route.ts`** — ZATEN UYGULANMIS  
+   `crypto.timingSafeEqual` zaten kullanılıyordu.
 
-9. **LOW-004 — Remove `menubak` reference from `supabase/seed/migrate_users.sql`**  
-   Cosmetic cleanup.
+9. **LOW-004 — Clean `menubak` reference from `supabase/seed/migrate_users.sql`** — KISMI YAPILDI  
+   Yorum satırı güncellendi. INSERT satırları değiştirilmedi (DB davranışı).
 
-10. **MED-002 — Sanitize error messages in all 500 responses**  
-    Replace raw `error.message` returns with `'internal_error'` and log to server logger.
+10. **MED-002 — Sanitize error messages in 500 responses** — KISMI YAPILDI  
+    `bildirim-gonder`, `sahiplik-kaniti-yukle`, `makbuz-ocr`, `eposta-kampanya` dosyalarında `error.message` sızıntısı giderildi. Kalan dosyalarda logger.warn'a giden kullanımlar zaten sunucu tarafındaydı (client'a sızmıyordu).
 
-11. **MED-008 — Add truncation warning in email campaign follower fetch**  
-    Add a `truncated` flag check after the `.limit(1000)` query.
+11. **MED-008 — Add truncation warning in email campaign follower fetch** — AÇIK  
+    Add a `truncated` flag check after the `.limit(1000)` query. Owner operation davranışını etkiler; ayrı PR önerilir.
 
 ---
 
@@ -979,3 +980,79 @@ npm run l10n:audit  # from repo root
 - `flutter test` was not run
 
 No code was modified during this audit. All findings are based on static file reads performed on 2026-05-23.
+
+---
+
+## 14. LOW-Risk Safe Fix Pass — 2026-05-23
+
+Bu bölüm, audit sonrası uygulanan LOW-risk güvenli düzeltmeleri belgeler.
+
+### Değiştirilen Dosyalar
+
+| Dosya | Değişiklik | Kapsam |
+|---|---|---|
+| `uygulamalar/web/app/sunucu/sahip/bildirim-gonder/route.ts` | `insertError.message` → `'internal_error'` | MED-002 kısmi |
+| `uygulamalar/web/app/sunucu/sahiplik-kaniti-yukle/route.ts` | `error.message` → `'upload_failed'` | MED-002 kısmi |
+| `uygulamalar/web/app/sunucu/makbuz-ocr/route.ts` | `err.message` → `'ocr_failed'` | MED-002 kısmi |
+| `uygulamalar/web/app/sunucu/sahip/eposta-kampanya/route.ts` | `kampanyaError.message` → `'internal_error'` | MED-002 kısmi |
+| `supabase/seed/migrate_users.sql` | Yorum satırı güncellendi (eski marka açıklaması) | LOW-004 kısmi |
+
+### Doğrulama Dışında Bırakılan (Audit Öncesi Zaten Mevcut)
+
+Bu bulgular raporda listelenmiş ancak incelemede zaten düzeltilmiş olduğu görülmüştür:
+
+- **LOW-003** — `yeniden-dogrulama/route.ts`: `crypto.timingSafeEqual` zaten kullanılıyordu.
+- **MED-003** — `hesap/sil/route.ts`: `serviceKey` yoksa 500 döndürüyordu zaten.
+- **MED-005** — `sahiplik-kaniti-yukle/route.ts`: MIME tabanlı uzantı (`MIME_TO_EXT` map) zaten mevcuttu.
+- **HIGH-002** — `sms-kampanya/route.ts`: `hasOwnerBusiness` ve `rateLimit` zaten çağrılıyordu.
+
+### Çalıştırılan Komutlar
+
+```bash
+cd uygulamalar/web
+npm run typecheck    # TEMIZ — hata yok
+npm run lint         # Mevcut uyarılar (img vs Image, no-require-imports) bizim değişikliklerimizden önce de mevcuttu
+```
+
+### Atlanılan Komutlar ve Nedenler
+
+- `npm run test:unit` — Değişiklikler string literal değiştirmeden ibaret; behavior değişikliği yok. Test çalıştırılmadı.
+- `npm run build` — Sadece 4 string değişikliği; `typecheck` temiz geçti, production build gerekli değil.
+- `flutter analyze` — Flutter dosyası değiştirilmedi.
+- `supabase db push` — Hiçbir migration veya schema değişikliği yapılmadı.
+
+### Kapsam Dışı Bırakılan LOW/MED Öğeler ve Gerekçeler
+
+| Bulgu | Neden Uygulanmadı |
+|---|---|
+| LOW-001 (`console.log`) | Kabul edilebilir operational log; güvenlik riski yok |
+| LOW-002 (EDGE_RATE_LIMIT_SALT fallback) | Edge Function sözleşmesi değişikliği; onay ve test gerektirir |
+| LOW-005 (duplikat modüller) | `src/lib/db/` aktif caller'lara sahip (`public-menu-page.ts`, `app/page.tsx`); silmek public SEO davranışını bozar |
+| MED-001 (in-memory rate limiter) | Altyapı değişikliği (Redis/Upstash); onay gerektirir |
+| MED-004 (voter_ip hashing) | DB kolon tipi değişikliği ve veri backfill gerektirir |
+| MED-007 (send-push-campaign table) | Hangi tablonun yetkili olduğu belirsiz; owner davranışını etkiler |
+| MED-008 (email truncation warning) | Owner operation davranışını değiştirir |
+| MED-009 (`as any` removal) | Schema sync ve ~20 dosya değişikliği gerektirir |
+
+### Kalan Açık Riskler
+
+Aşağıdaki CRITICAL/HIGH/MEDIUM bulgular hâlâ açık ve onay bekliyor:
+
+**CRITICAL:**
+- CRIT-001: `import_places_json` Edge Function kimlik doğrulaması yok
+
+**HIGH:**
+- HIGH-001: `sahip/envanter/route.ts` — ownership check eksik
+- HIGH-003: `sahip/eposta-kampanya` email body HTML sanitization yok
+- HIGH-004: `purge-temp-uploads` kimlik doğrulaması yok
+- HIGH-005: `sahip/ceviriler-otomatik/route.ts` — ownership check ve rate limit yok
+- HIGH-006: `yonetici/raporlar-csv/route.ts` — is_admin check yok (YÜKSEK ÖNCELİK)
+- HIGH-007: `b2b-export/[type]/route.ts` — tutarsız admin role check
+
+**MEDIUM:**
+- MED-001: In-memory rate limiter (üretim için çok-instance güvenli değil)
+- MED-004: `voter_ip` PII düz metin saklanıyor
+- MED-006: `get-exchange-rates` kimlik doğrulaması yok
+- MED-007: `send-push-campaign` yanlış sahiplik tablosu (`business_claims` vs `owner_claims`)
+- MED-008: Email kampanyasında 1.000 takipçi limiti sessizce kesiyor
+- MED-009: `supabase as any` yaygın kullanımı — tip güvenliği yok

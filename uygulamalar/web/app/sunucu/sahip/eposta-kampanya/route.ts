@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     .single();
 
   if (kampanyaError) {
-    return NextResponse.json({ ok: false, error: kampanyaError.message }, { status: 500 });
+    return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   }
 
   // Takipçilerin e-posta adreslerini al
