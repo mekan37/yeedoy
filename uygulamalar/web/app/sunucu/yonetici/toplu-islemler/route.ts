@@ -39,14 +39,14 @@ export async function PATCH(req: Request) {
       .from('businesses')
       .update({ is_active: isActive })
       .in('id', data.ids);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   } else if (data.type === 'reviews') {
     const newStatus = data.action === 'approve' ? 'approved' : 'rejected';
     const { error } = await (supabase as any)
       .from('reviews')
       .update({ status: newStatus })
       .in('id', data.ids);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   } else {
     const update =
       data.action === 'ban'
@@ -60,7 +60,7 @@ export async function PATCH(req: Request) {
         .from('user_profiles')
         .update(update)
         .in('user_id', data.ids);
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
     }
   }
 

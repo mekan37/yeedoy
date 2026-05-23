@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     .rpc('delete_user_account_v1');
 
   if (rpcError) {
-    return NextResponse.json({ error: rpcError.message }, { status: 500 });
+    return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   }
   if (!rpcData?.ok) {
     return NextResponse.json({ error: rpcData?.error ?? 'unknown' }, { status: 500 });
@@ -32,15 +32,16 @@ export async function POST(request: Request) {
 
   // 2. Auth kaydını sil (service role gerektirir)
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (serviceKey) {
-    const { createClient } = await import('@supabase/supabase-js');
-    const admin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      serviceKey,
-      { auth: { persistSession: false } },
-    );
-    await admin.auth.admin.deleteUser(user.id);
+  if (!serviceKey) {
+    return NextResponse.json({ error: 'server_misconfigured' }, { status: 500 });
   }
+  const { createClient } = await import('@supabase/supabase-js');
+  const admin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    serviceKey,
+    { auth: { persistSession: false } },
+  );
+  await admin.auth.admin.deleteUser(user.id);
 
   // 3. Oturumu kapat
   await supabase.auth.signOut();

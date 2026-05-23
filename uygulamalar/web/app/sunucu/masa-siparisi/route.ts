@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     p_note: parsed.data.note ?? null,
   });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   if (!data?.ok) return NextResponse.json({ error: data?.error ?? 'failed' }, { status: 400 });
 
   return NextResponse.json({ ok: true, orderId: data.order_id });

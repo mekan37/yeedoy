@@ -46,6 +46,6 @@ export async function PATCH(req: Request) {
     },
   });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

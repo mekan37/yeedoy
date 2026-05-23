@@ -32,7 +32,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Sadece PDF, JPG ve PNG dosyaları kabul edilir.' }, { status: 400 });
   }
 
-  const ext  = file.name.split('.').pop()?.toLowerCase() ?? 'bin';
+  const MIME_TO_EXT: Record<string, string> = {
+    'image/jpeg': 'jpg',
+    'image/jpg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'application/pdf': 'pdf',
+  };
+  const ext  = MIME_TO_EXT[file.type] ?? 'bin';
   const path = `${user.id}/${Date.now()}-kanit.${ext}`;
 
   const bytes = await file.arrayBuffer();

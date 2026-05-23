@@ -26,14 +26,8 @@ export async function GET(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
 
-  const isAdmin = await (supabase as any)
-    .from('user_roles')
-    .select('role')
-    .eq('user_id', user.id)
-    .in('role', ['admin', 'superadmin'])
-    .maybeSingle();
-
-  if (!isAdmin.data) return NextResponse.json({ error: 'Yetkisiz' }, { status: 403 });
+  const { data: isAdmin } = await supabase.rpc('is_admin' as any);
+  if (!isAdmin) return NextResponse.json({ error: 'Yetkisiz' }, { status: 403 });
 
   let rows: Record<string, unknown>[] = [];
   let filename = 'export.csv';

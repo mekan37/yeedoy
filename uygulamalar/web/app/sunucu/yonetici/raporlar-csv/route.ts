@@ -9,6 +9,9 @@ export async function GET(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return new Response('Unauthorized', { status: 401 });
 
+  const { data: isAdmin } = await supabase.rpc('is_admin' as any);
+  if (!isAdmin) return new Response('Forbidden', { status: 403 });
+
   let query = (supabase as any)
     .from('reports')
     .select('id, target_type, reason, details, status, created_at')

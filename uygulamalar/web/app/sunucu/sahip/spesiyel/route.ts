@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     p_note: parsed.data.note ?? null,
   });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   if (!data?.ok) {
     const status = data?.error === 'forbidden' ? 403 : 404;
     return NextResponse.json({ error: data?.error }, { status });

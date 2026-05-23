@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -18,6 +19,19 @@ export async function PATCH(req: Request) {
 
   const { itemId, stockCount, isAvailable } = parsed.data;
 
+  // Verify caller owns the business this menu item belongs to
+  const { data: item } = await (supabase as any)
+    .from('menu_items')
+    .select('menu:menu_id(business_id)')
+    .eq('id', itemId)
+    .maybeSingle();
+
+  const businessId = item?.menu?.business_id;
+  if (!businessId) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+
+  const owned = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  if (!owned) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
   const update: Record<string, unknown> = {};
   if (stockCount !== undefined) update.stock_count = stockCount;
   if (isAvailable !== undefined) update.is_available = isAvailable;
@@ -29,6 +43,6 @@ export async function PATCH(req: Request) {
     .update(update)
     .eq('id', itemId);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

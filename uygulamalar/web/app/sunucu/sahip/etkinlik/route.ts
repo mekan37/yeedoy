@@ -43,7 +43,7 @@ export async function POST(req: Request) {
       status: 'active',
     });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
 
@@ -74,6 +74,6 @@ export async function PATCH(req: Request) {
     .update({ status, updated_at: new Date().toISOString() })
     .eq('id', id);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     .eq('id', parsed.data.reviewId);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true, repliedAt });
@@ -89,7 +89,7 @@ export async function DELETE(request: Request) {
     .eq('id', parsed.data.reviewId);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true });

@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     p_status: parsed.data.status,
   });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   if (!data?.ok) return NextResponse.json({ error: data?.error }, { status: 403 });
 
   return NextResponse.json({ ok: true });

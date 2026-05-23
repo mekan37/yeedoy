@@ -37,7 +37,7 @@ export async function GET(req: Request) {
     .eq('ticket_id', ticketId)
     .order('created_at', { ascending: true });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ messages: messages ?? [] });
 }
 
@@ -55,7 +55,7 @@ export async function PATCH(req: Request) {
     .update({ status, updated_at: new Date().toISOString(), assigned_to: user?.id })
     .eq('id', ticketId);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
 
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
       created_by: user?.id,
     });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   await (supabase as any)
     .from('support_tickets')
     .update({ status: 'in_progress', updated_at: new Date().toISOString(), assigned_to: user?.id })

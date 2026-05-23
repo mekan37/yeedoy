@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       created_by: user.id,
     });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
 
   // TODO: integrate with FCM/OneSignal for actual delivery
   return NextResponse.json({ ok: true, sentCount: estimate ?? 0 });

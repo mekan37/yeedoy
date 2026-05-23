@@ -16,7 +16,7 @@ export async function PATCH(request: Request) {
     .update({ enabled: body.enabled, updated_at: new Date().toISOString() })
     .eq('key', body.id);
 
-  if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
 
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     if (error.code === '23505') {
       return NextResponse.json({ ok: false, error: 'Bu anahtar zaten mevcut' }, { status: 409 });
     }
-    return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+    return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   }
   return NextResponse.json({ ok: true });
 }

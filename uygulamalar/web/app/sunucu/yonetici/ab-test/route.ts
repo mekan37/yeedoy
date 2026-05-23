@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       updated_by: user.id,
     });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
 
@@ -68,7 +68,7 @@ export async function PATCH(req: Request) {
     .update({ enabled, updated_at: new Date().toISOString() })
     .eq('key', id);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
 
@@ -99,6 +99,6 @@ export async function PUT(req: Request) {
     })
     .eq('key', id);
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

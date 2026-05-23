@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     updated_at: new Date().toISOString(),
   });
 
-  if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
 
   return NextResponse.json({ ok: true, key: rawKey });
 }
@@ -64,6 +64,6 @@ export async function DELETE(request: Request) {
     .update({ is_active: false, updated_at: new Date().toISOString() })
     .eq('id', body.id);
 
-  if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

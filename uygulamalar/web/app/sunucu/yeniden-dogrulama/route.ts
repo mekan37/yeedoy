@@ -45,7 +45,13 @@ export async function POST(request: Request) {
     );
   }
 
-  if (parsed.data.secret !== expectedSecret) {
+  const secretBytes    = Buffer.from(parsed.data.secret);
+  const expectedBytes  = Buffer.from(expectedSecret);
+  const secretsMatch   =
+    secretBytes.length === expectedBytes.length &&
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('crypto').timingSafeEqual(secretBytes, expectedBytes);
+  if (!secretsMatch) {
     return NextResponse.json({ error: 'invalid_secret' }, { status: 401 });
   }
 
