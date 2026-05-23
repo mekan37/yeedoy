@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1262",
+    "ilce_adi": "ÇUMRA",
+    "bbox_used": {
+      "south": 37.5670111,
+      "west": 32.7795981,
+      "north": 37.5770111,
+      "east": 32.7895981
+    },
+    "bbox_original": {
+      "south": 37.5670111,
+      "west": 32.7795981,
+      "north": 37.5770111,
+      "east": 32.7895981
+    },
+    "fetchedAt": "2026-01-21T09:45:00.945Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:43:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "way",
+        "id": 256565173,
+        "center": {
+          "lat": 37.5701987,
+          "lon": 32.7817754
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "internet_access": "no",
+          "name": "Çay Bahçesi",
+          "outdoor_seating": "yes"
+        }
+      }
+    ]
+  }
+}

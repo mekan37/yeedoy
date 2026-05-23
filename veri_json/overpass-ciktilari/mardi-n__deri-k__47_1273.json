@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "47",
+    "sehir_adi": "MARDİN",
+    "ilce_id": "1273",
+    "ilce_adi": "DERİK",
+    "bbox_used": {
+      "south": 37.18523991486486,
+      "north": 37.45551018513513,
+      "west": 39.98820939873461,
+      "east": 40.3270848012654
+    },
+    "bbox_original": {
+      "south": 37.0783087,
+      "west": 39.8841047,
+      "north": 37.5624414,
+      "east": 40.4311895
+    },
+    "fetchedAt": "2026-01-21T10:03:57.038Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:02:47Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4924308574,
+        "lat": 37.2116808,
+        "lon": 40.099759,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

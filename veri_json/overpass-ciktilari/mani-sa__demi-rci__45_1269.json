@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "45",
+    "sehir_adi": "MANİSA",
+    "ilce_id": "1269",
+    "ilce_adi": "DEMİRCİ",
+    "bbox_used": {
+      "south": 38.81636591486487,
+      "north": 39.08663618513514,
+      "west": 28.5144015305946,
+      "east": 28.860937269405394
+    },
+    "bbox_original": {
+      "south": 38.7354117,
+      "west": 28.41482,
+      "north": 39.1675904,
+      "east": 28.9605188
+    },
+    "fetchedAt": "2026-01-21T09:56:30.263Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:54:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "sehir_id": "26",
+    "sehir_adi": "ESKİŞEHİR",
+    "ilce_id": "1618",
+    "ilce_adi": "SEYİTGAZİ",
+    "bbox_used": {
+      "south": 39.20955941486486,
+      "north": 39.47982968513514,
+      "west": 30.424478488500085,
+      "east": 30.772955611499917
+    },
+    "bbox_original": {
+      "south": 39.0643388,
+      "west": 30.3350058,
+      "north": 39.6250503,
+      "east": 30.8624283
+    },
+    "fetchedAt": "2026-01-21T09:03:15.341Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:01:35Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4657156495,
+        "lat": 39.2756575,
+        "lon": 30.6759159,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8808574273,
+        "lat": 39.2818475,
+        "lon": 30.5284918,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gökgöz Pide Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9772835924,
+        "lat": 39.4779581,
+        "lon": 30.6234178,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9772835925,
+        "lat": 39.4779063,
+        "lon": 30.6235276,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "way",
+        "id": 695792307,
+        "center": {
+          "lat": 39.2300232,
+          "lon": 30.7015293
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Midas Han Restoran"
+        }
+      }
+    ]
+  }
+}

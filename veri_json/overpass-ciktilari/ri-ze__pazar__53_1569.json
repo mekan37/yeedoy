@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "sehir_id": "53",
+    "sehir_adi": "RİZE",
+    "ilce_id": "1569",
+    "ilce_adi": "PAZAR",
+    "bbox_used": {
+      "south": 41.0562086,
+      "west": 40.7744234,
+      "north": 41.1881174,
+      "east": 41.0143097
+    },
+    "bbox_original": {
+      "south": 41.0562086,
+      "west": 40.7744234,
+      "north": 41.1881174,
+      "east": 41.0143097
+    },
+    "fetchedAt": "2026-01-21T10:15:22.076Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:13:53Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5060300907,
+        "lat": 41.1668101,
+        "lon": 40.8218287,
+        "tags": {
+          "addr:city": "Rize",
+          "addr:district": "Hisarlı Köyü",
+          "addr:postcode": "53330",
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Kvacoli Balık Lokantası",
+          "outdoor_seating": "yes",
+          "phone": "+90 464 6257182",
+          "website": "www.kvacoli.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6640473285,
+        "lat": 41.1768341,
+        "lon": 40.9689352,
+        "tags": {
+          "addr:city": "Rize",
+          "addr:district": "Ardeşen",
+          "addr:street": "Eski Rize Hopa Yolu",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Fırtına, Peruma Rafting Cafe&Restaurant, Ayder yolu",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7128562508,
+        "lat": 41.1763306,
+        "lon": 40.9148055,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Jinn"
+        }
+      },
+      {
+        "type": "way",
+        "id": 968182174,
+        "center": {
+          "lat": 41.1805047,
+          "lon": 40.8876375
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "burger",
+          "name": "Katik Doner"
+        }
+      }
+    ]
+  }
+}

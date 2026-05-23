@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "37",
+    "sehir_adi": "KASTAMONU",
+    "ilce_id": "1984",
+    "ilce_adi": "SEYDİLER",
+    "bbox_used": {
+      "south": 41.5518523,
+      "west": 33.5960828,
+      "north": 41.7494154,
+      "east": 33.7995952
+    },
+    "bbox_original": {
+      "south": 41.5518523,
+      "west": 33.5960828,
+      "north": 41.7494154,
+      "east": 33.7995952
+    },
+    "fetchedAt": "2026-01-21T09:34:58.878Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

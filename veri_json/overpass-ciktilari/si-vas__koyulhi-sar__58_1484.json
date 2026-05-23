@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "58",
+    "sehir_adi": "SİVAS",
+    "ilce_id": "1484",
+    "ilce_adi": "KOYULHİSAR",
+    "bbox_used": {
+      "south": 40.18427196486486,
+      "north": 40.454542235135136,
+      "west": 37.69155337491638,
+      "east": 38.04501082508362
+    },
+    "bbox_original": {
+      "south": 40.1118857,
+      "west": 37.5389097,
+      "north": 40.5269285,
+      "east": 38.1976545
+    },
+    "fetchedAt": "2026-01-21T10:27:39.741Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:26:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

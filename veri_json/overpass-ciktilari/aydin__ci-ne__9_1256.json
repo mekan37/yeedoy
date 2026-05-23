@@ -1,0 +1,190 @@
+{
+  "meta": {
+    "sehir_id": "9",
+    "sehir_adi": "AYDIN",
+    "ilce_id": "1256",
+    "ilce_adi": "ÇİNE",
+    "bbox_used": {
+      "south": 37.4502281,
+      "west": 27.8214642,
+      "north": 37.7745145,
+      "east": 28.2527238
+    },
+    "bbox_original": {
+      "south": 37.4502281,
+      "west": 27.8214642,
+      "north": 37.7745145,
+      "east": 28.2527238
+    },
+    "fetchedAt": "2026-01-21T08:29:40.276Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:27:58Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4204460610,
+        "lat": 37.6193021,
+        "lon": 28.0488518,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gönül Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5444816625,
+        "lat": 37.6046412,
+        "lon": 28.0592045,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Tahsin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7165577285,
+        "lat": 37.6128861,
+        "lon": 28.060845,
+        "tags": {
+          "amenity": "restaurant",
+          "name:zh": "早餐稀飯"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8060796885,
+        "lat": 37.4776601,
+        "lon": 28.1316517,
+        "tags": {
+          "addr:street": "50.km",
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "name": "Yayla Piknik",
+          "phone": "05050037976"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10224601503,
+        "lat": 37.6652767,
+        "lon": 28.0178875,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11609509900,
+        "lat": 37.6095895,
+        "lon": 28.0597845,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Çine",
+          "addr:housenumber": "121 B",
+          "addr:neighbourhood": "Adnan Menderes Blv.",
+          "amenity": "cafe",
+          "cuisine": "börek;açma;simit;poğaça;unlu_mamü_çeşitleri",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "ELİT FIRIN KAFE",
+          "opening_hours": "7/24",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11889797958,
+        "lat": 37.5567081,
+        "lon": 27.8327836,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13008654334,
+        "lat": 37.6090643,
+        "lon": 28.0597559,
+        "tags": {
+          "addr:housenumber": "127B",
+          "addr:street": "Adnan Menderes Blv.",
+          "amenity": "cafe",
+          "name": "Akasya Patanesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 364882710,
+        "center": {
+          "lat": 37.7238873,
+          "lon": 27.9034356
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Edis"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1413588777,
+        "center": {
+          "lat": 37.5646336,
+          "lon": 28.0963402
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "retail",
+          "cuisine": "tea;coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Hasan'ın Yeri",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1413588794,
+        "center": {
+          "lat": 37.5647156,
+          "lon": 28.0967097
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "tea;coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1413837931,
+        "center": {
+          "lat": 37.5649358,
+          "lon": 28.0941236
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "tea;coffee_shop",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      }
+    ]
+  }
+}

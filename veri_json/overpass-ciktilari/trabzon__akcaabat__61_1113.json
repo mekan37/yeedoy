@@ -1,0 +1,841 @@
+{
+  "meta": {
+    "sehir_id": "61",
+    "sehir_adi": "TRABZON",
+    "ilce_id": "1113",
+    "ilce_adi": "AKÇAABAT",
+    "bbox_used": {
+      "south": 40.8156371,
+      "west": 39.3935092,
+      "north": 41.1017358,
+      "east": 39.6436531
+    },
+    "bbox_original": {
+      "south": 40.8156371,
+      "west": 39.3935092,
+      "north": 41.1017358,
+      "east": 39.6436531
+    },
+    "fetchedAt": "2026-01-21T10:34:49.253Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 64
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:33:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3808872343,
+        "lat": 41.0240081,
+        "lon": 39.5679652,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Saray Restaurant & Düğün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4307439689,
+        "lat": 41.0109769,
+        "lon": 39.615158,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nejla Hanım'ın Meşhur Laz Böreği",
+          "name:ar": "مقهى نجلاء هانم (فرع أكشبات)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4670937010,
+        "lat": 40.9880324,
+        "lon": 39.6185627,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sera Gölü Gül Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4671090956,
+        "lat": 40.9883945,
+        "lon": 39.6181507,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kardelen Sera Gölü Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4671090957,
+        "lat": 40.9873788,
+        "lon": 39.6161423,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pirali Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4808132095,
+        "lat": 41.0013526,
+        "lon": 39.6355512,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şehriyar Café & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4864407421,
+        "lat": 40.9903733,
+        "lon": 39.6087422,
+        "tags": {
+          "amenity": "restaurant",
+          "name:ar": "مطعم ومطل أكبينار"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5420159621,
+        "lat": 41.0121621,
+        "lon": 39.6121883,
+        "tags": {
+          "amenity": "bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5853511785,
+        "lat": 41.012153,
+        "lon": 39.6123217,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5894719485,
+        "lat": 41.0673173,
+        "lon": 39.5172712,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fevzi Hoca Balık Köfte",
+          "phone": "0462 259 24 00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6276693926,
+        "lat": 40.9441202,
+        "lon": 39.4154857,
+        "tags": {
+          "addr:neighbourhood": "Balikli Yaylasi Duz Mevkii",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Liva"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6319381506,
+        "lat": 40.9414772,
+        "lon": 39.4558435,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dere Ici Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6319382637,
+        "lat": 40.9324602,
+        "lon": 39.4126259,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cami Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6691123686,
+        "lat": 40.8190274,
+        "lon": 39.6116024,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "name:en": "Kayadibi Saklibaçe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6852211889,
+        "lat": 41.0195409,
+        "lon": 39.5624428,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çınaraltı Cafe Balkon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6852211894,
+        "lat": 41.0236687,
+        "lon": 39.5703896,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Horon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7082958770,
+        "lat": 41.0196877,
+        "lon": 39.5619795,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fi",
+          "phone": "+90 532 462 72 63"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8060522537,
+        "lat": 40.9441114,
+        "lon": 39.4375558,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "mahura garden",
+          "phone": "+905433690543"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9878616732,
+        "lat": 40.8563975,
+        "lon": 39.4718348,
+        "tags": {
+          "addr:city": "trabzon",
+          "addr:district": "akçaabat",
+          "addr:housenumber": "22",
+          "addr:neighbourhood": "Işıklar mahallesi",
+          "addr:postcode": "61300",
+          "addr:street": "Enginoba mevkii",
+          "amenity": "restaurant",
+          "cuisine": "kebab;pide;regional",
+          "name": "Serin Bahçe Pide & Et Restoran",
+          "phone": "+90 5445974988",
+          "website": "www.instagram.com/serinbahcetrabzon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160800,
+        "lat": 40.8369873,
+        "lon": 39.6350814,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Karayemis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10141160810,
+        "lat": 40.841017,
+        "lon": 39.6406834,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ahm-et Kasap & Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10972088605,
+        "lat": 41.0220778,
+        "lon": 39.5693675,
+        "tags": {
+          "addr:housenumber": "99",
+          "addr:postcode": "61300",
+          "addr:street": "İnönü Caddesi",
+          "amenity": "restaurant",
+          "contact:instagram": "siniyemek",
+          "contact:twitter": "siniyemek",
+          "cuisine": "turkish",
+          "email": "sinievyemek@gmail.com",
+          "name": "Sini Ev Yemekleri",
+          "opening_hours": "Mo-Fr 07:00-18:00; Sa 08:00-12:00",
+          "operator": "Nurcan Köse",
+          "phone": "04622286565"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11025665986,
+        "lat": 40.9392381,
+        "lon": 39.459881,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Ahmet Ziya"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12020285532,
+        "lat": 41.0027858,
+        "lon": 39.6287824,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish;fish",
+          "name": "Kaan Olta Balık",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "phone": "+904622488878",
+          "website": "https://www.kaanoltabalik.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12536400929,
+        "lat": 41.0125143,
+        "lon": 39.6131963,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Tirvana Restaurant",
+          "reservation": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12546184847,
+        "lat": 41.0250889,
+        "lon": 39.5652461,
+        "tags": {
+          "addr:city": "Trabzon",
+          "addr:district": "Akçaabat",
+          "addr:postcode": "61300",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Damla Lunch Chef",
+          "opening_hours": "Mo-Su 07:00-23:00",
+          "phone": "+90 462 333 09 99"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12546224361,
+        "lat": 41.025278,
+        "lon": 39.5650374,
+        "tags": {
+          "addr:city": "Trabzon",
+          "addr:district": "Akçaabat",
+          "addr:postcode": "61300",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Saray Haşlama Akçaabat",
+          "phone": "+90 462 260 63 63"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12546224559,
+        "lat": 41.0242863,
+        "lon": 39.5650962,
+        "tags": {
+          "addr:city": "Trabzon",
+          "addr:district": "Akçaabat",
+          "addr:housenumber": "66",
+          "addr:neighbourhood": "Nefsipulathane",
+          "addr:postcode": "61300",
+          "addr:street": "Eğitim Sokak",
+          "amenity": "restaurant",
+          "name": "Çolak Köfte",
+          "phone": "+90 462 227 00 97"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12546236519,
+        "lat": 41.0249261,
+        "lon": 39.5654822,
+        "tags": {
+          "addr:city": "Trabzon",
+          "addr:district": "Akçaabat",
+          "addr:housenumber": "75",
+          "addr:neighbourhood": "Nefsipulathane",
+          "addr:postcode": "61300",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "name": "Damla Pastanesi",
+          "outdoor_seating": "no",
+          "phone": "+90 462 333 09 99"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12546271383,
+        "lat": 41.0242939,
+        "lon": 39.5652571,
+        "tags": {
+          "addr:city": "Trabzon",
+          "addr:district": "Akçaabat",
+          "addr:housenumber": "2E",
+          "addr:neighbourhood": "Nefsipulathane",
+          "addr:postcode": "61300",
+          "addr:street": "Eğitim Sokak",
+          "amenity": "restaurant",
+          "name": "İskander Şef",
+          "phone": "+90 462 228 00 48"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12605196532,
+        "lat": 41.0107438,
+        "lon": 39.5902299,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akpınar Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12605196623,
+        "lat": 41.011213,
+        "lon": 39.5905471,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vefa Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12609650261,
+        "lat": 41.0923329,
+        "lon": 39.4761862,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12609650262,
+        "lat": 41.0929314,
+        "lon": 39.475671,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mersin Balık Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12609650264,
+        "lat": 41.0929962,
+        "lon": 39.4755178,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13070876502,
+        "lat": 41.0176063,
+        "lon": 39.5953094,
+        "tags": {
+          "addr:housenumber": "6",
+          "addr:postcode": "61300",
+          "addr:street": "Adnan Menderes Bulvarı",
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Tadım Lokantası",
+          "opening_hours": "Mo-Sa 15:00-20:00",
+          "phone": "+90 462 2275 371"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13070885003,
+        "lat": 41.0170413,
+        "lon": 39.5922642,
+        "tags": {
+          "addr:postcode": "61300",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13070890701,
+        "lat": 41.0164823,
+        "lon": 39.5925516,
+        "tags": {
+          "addr:postcode": "61300",
+          "amenity": "cafe",
+          "name": "Cadde Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13070890901,
+        "lat": 41.024181,
+        "lon": 39.5652287,
+        "tags": {
+          "addr:housenumber": "64",
+          "addr:postcode": "61300",
+          "addr:street": "İnönü Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Nados Döner Hatay Soslu",
+          "phone": "04622272727",
+          "website": "http://yemeksepeti.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13070891101,
+        "lat": 41.0140455,
+        "lon": 39.6012729,
+        "tags": {
+          "addr:postcode": "61300",
+          "addr:street": "Söğütlü Mersinlik Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ali Baba Lahmacun Döner",
+          "opening_hours": "Mo-Sa 09:00-20:00",
+          "phone": "0553 787 26 32"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13070891201,
+        "lat": 41.0141414,
+        "lon": 39.6009248,
+        "tags": {
+          "addr:postcode": "61000",
+          "addr:street": "Adnan Kahveci Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Körfez Metin",
+          "opening_hours": "Mo-Su 08:00-23:00",
+          "phone": "0462 227 10 37"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13070891701,
+        "lat": 41.0129617,
+        "lon": 39.6007797,
+        "tags": {
+          "addr:housenumber": "8/A",
+          "addr:postcode": "61300",
+          "addr:street": "Bilge Caddesi",
+          "amenity": "cafe",
+          "name": "Dudu Cafe",
+          "opening_hours": "Mo-Su 07:00-23:00",
+          "phone": "+90 462 333 38 38"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13071602701,
+        "lat": 41.0123981,
+        "lon": 39.6006232,
+        "tags": {
+          "addr:street": "Bilge Caddesi",
+          "amenity": "restaurant",
+          "name": "Zurnacıların Pidesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13071602702,
+        "lat": 41.0122209,
+        "lon": 39.6005743,
+        "tags": {
+          "addr:street": "Bilge Caddesi",
+          "amenity": "restaurant",
+          "name": "Ashab pide kebap ve kofte",
+          "opening_hours": "Mo-Su 09:00-21:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13285041906,
+        "lat": 41.0246561,
+        "lon": 39.5655335,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Adana Kasap ve Dürüm Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13285041909,
+        "lat": 41.0248621,
+        "lon": 39.5655112,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Balıkçım Balık Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13285041910,
+        "lat": 41.0250251,
+        "lon": 39.5653773,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Caffè Del Marnero Pizza & Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13287893682,
+        "lat": 41.0140472,
+        "lon": 39.5994865,
+        "tags": {
+          "addr:city": "Trabzon",
+          "addr:district": "Akçaabat",
+          "addr:postcode": "61300",
+          "addr:street": "Modern Sokak",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Üçüzler Cafe",
+          "phone": "04622485007"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13287893691,
+        "lat": 41.0135769,
+        "lon": 39.6036772,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Katık Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13287893692,
+        "lat": 41.0135852,
+        "lon": 39.603729,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Bana Bi Burger"
+        }
+      },
+      {
+        "type": "way",
+        "id": 313211226,
+        "center": {
+          "lat": 41.023089,
+          "lon": 39.5722619
+        },
+        "tags": {
+          "addr:city": "Akçaabat / Trabzon",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Cemil Usta Kofte & Balik",
+          "phone": "+90 462 228 9104 ‎"
+        }
+      },
+      {
+        "type": "way",
+        "id": 467934935,
+        "center": {
+          "lat": 41.0217801,
+          "lon": 39.5758955
+        },
+        "tags": {
+          "addr:city": "Trabzon",
+          "addr:district": "Akçaabat",
+          "addr:housenumber": "110",
+          "addr:neighbourhood": "Dürbinar Mahallesi",
+          "addr:postcode": "61300",
+          "addr:street": "Adnan Menderes Bulvarı",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "barbecue",
+          "internet_access": "wlan",
+          "name": "Nihat Usta",
+          "name:ar": "مطعم نهات اسطا"
+        }
+      },
+      {
+        "type": "way",
+        "id": 481040632,
+        "center": {
+          "lat": 40.9903685,
+          "lon": 39.6087228
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Akpınar Yıldızlı Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 670240575,
+        "center": {
+          "lat": 40.9308922,
+          "lon": 39.4188098
+        },
+        "tags": {
+          "addr:neighbourhood": "Balikli Yaylasi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Balıklı Göl Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 674747227,
+        "center": {
+          "lat": 40.9413581,
+          "lon": 39.4558785
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "seafood",
+          "name": "Yanikoglu Balik Tesisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 676407458,
+        "center": {
+          "lat": 40.9409644,
+          "lon": 39.4399721
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Harmancik Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 676407459,
+        "center": {
+          "lat": 40.9420391,
+          "lon": 39.438907
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Albayrak Gözleme"
+        }
+      },
+      {
+        "type": "way",
+        "id": 864813721,
+        "center": {
+          "lat": 40.9441267,
+          "lon": 39.4375394
+        },
+        "tags": {
+          "addr:city": "trabzon",
+          "addr:district": "akçaabat",
+          "addr:housenumber": "66A",
+          "addr:neighbourhood": "kuruçam mahallesi",
+          "addr:street": "soriya küme evleri",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "mahura garden",
+          "phone": "+905433690543"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1023273205,
+        "center": {
+          "lat": 41.002211,
+          "lon": 39.5654653
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Seyrantepe Tesisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1023273206,
+        "center": {
+          "lat": 41.0020564,
+          "lon": 39.5652064
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Seyrantepe Bahçe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1023273212,
+        "center": {
+          "lat": 40.9908616,
+          "lon": 39.5375552
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Akçatepe Restaurant-Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1361539919,
+        "center": {
+          "lat": 41.010238,
+          "lon": 39.5892248
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Camii Çay Ocağı"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1362016946,
+        "center": {
+          "lat": 40.9751222,
+          "lon": 39.5860309
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Ayene Lokanta"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1362016947,
+        "center": {
+          "lat": 40.9757065,
+          "lon": 39.5871837
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Ayene Lokanta"
+        }
+      }
+    ]
+  }
+}

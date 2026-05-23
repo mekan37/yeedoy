@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1735",
+    "ilce_adi": "YUNAK",
+    "bbox_used": {
+      "south": 38.62826361486486,
+      "north": 38.89853388513514,
+      "west": 31.821845973992232,
+      "east": 32.16746632600776
+    },
+    "bbox_original": {
+      "south": 38.4953026,
+      "west": 31.5405787,
+      "north": 39.0314949,
+      "east": 32.4487336
+    },
+    "fetchedAt": "2026-01-21T09:47:14.727Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:45:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

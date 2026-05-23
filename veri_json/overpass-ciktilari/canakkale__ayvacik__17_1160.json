@@ -1,0 +1,598 @@
+{
+  "meta": {
+    "sehir_id": "17",
+    "sehir_adi": "ÇANAKKALE",
+    "ilce_id": "1160",
+    "ilce_adi": "AYVACIK",
+    "bbox_used": {
+      "south": 39.453282,
+      "west": 26.0633718,
+      "north": 39.6876057,
+      "east": 26.6630236
+    },
+    "bbox_original": {
+      "south": 39.453282,
+      "west": 26.0633718,
+      "north": 39.6876057,
+      "east": 26.6630236
+    },
+    "fetchedAt": "2026-01-21T08:44:26.919Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 49
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:43:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2372325393,
+        "lat": 39.474069,
+        "lon": 26.2316782,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Saliç Hotel",
+          "source:amenity": "survey",
+          "source:phone": "survey",
+          "source:website": "survey",
+          "tourism": "hotel"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2885067600,
+        "lat": 39.5016238,
+        "lon": 26.4023615,
+        "tags": {
+          "amenity": "pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2885068401,
+        "lat": 39.5016407,
+        "lon": 26.4021249,
+        "tags": {
+          "amenity": "bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3114331091,
+        "lat": 39.4905482,
+        "lon": 26.3693319,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Assos Albena Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3114350213,
+        "lat": 39.4908717,
+        "lon": 26.3701228,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yıldızsaray Balık Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3114350840,
+        "lat": 39.4925773,
+        "lon": 26.3713541,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Assos Club Beyaz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3655931722,
+        "lat": 39.5463534,
+        "lon": 26.6014854,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3672373940,
+        "lat": 39.603185,
+        "lon": 26.4024193,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5778323664,
+        "lat": 39.4926712,
+        "lon": 26.335298,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kelfarash",
+          "opening_hours": "Mo-Su 08:00-14:00, 19:00-23:30"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5778323665,
+        "lat": 39.4927113,
+        "lon": 26.3355194,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Assos panorama cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5778324174,
+        "lat": 39.4932104,
+        "lon": 26.3354974,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Assos koyum restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6003232555,
+        "lat": 39.5488061,
+        "lon": 26.6167199,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Küp Tepe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6018491425,
+        "lat": 39.5671546,
+        "lon": 26.6148747,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tanyeri Kahvaltı Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6018491445,
+        "lat": 39.558167,
+        "lon": 26.6157223,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Umut Teras Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6532260686,
+        "lat": 39.5240922,
+        "lon": 26.4703119,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "name": "Kaynana'nın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6797292089,
+        "lat": 39.513696,
+        "lon": 26.2596905,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "BUTA TANDIR",
+          "name:de": "Buta Tandir",
+          "name:en": "Buta Tandir"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8754506310,
+        "lat": 39.5591363,
+        "lon": 26.5551185,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamtepe Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8754506316,
+        "lat": 39.5586571,
+        "lon": 26.5551782,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Malatyalı Enişte'nin Kır Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9133810372,
+        "lat": 39.5692471,
+        "lon": 26.6189249,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dutdibi Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9133810387,
+        "lat": 39.555156,
+        "lon": 26.5768826,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dogus Kahvalti Ve Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9133810388,
+        "lat": 39.5587119,
+        "lon": 26.5698136,
+        "tags": {
+          "addr:country": "TR",
+          "addr:district": "Ayvacık",
+          "addr:province": "Çanakkale",
+          "addr:subdistrict": "Yeşilyurt",
+          "amenity": "restaurant",
+          "mobile": "+905468522887",
+          "name": "Sevgi Kahvaltı Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9133810405,
+        "lat": 39.556555,
+        "lon": 26.5732267,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çınaraltı Şelale Restaurant",
+          "opening_hours": "07:00-24:00",
+          "phone": "+902867525555",
+          "website": "http://www.cinaraltiselale.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9955395517,
+        "lat": 39.4925861,
+        "lon": 26.3334595,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cengiz Lokantasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11046736861,
+        "lat": 39.667041,
+        "lon": 26.1631891,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Tekçam Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11055031843,
+        "lat": 39.5325147,
+        "lon": 26.5184849,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sude'nin Mutfağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11055043872,
+        "lat": 39.5390151,
+        "lon": 26.5734172,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Limantaşı Beach Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11055044331,
+        "lat": 39.5404557,
+        "lon": 26.5807031,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gulet Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11279859169,
+        "lat": 39.4963221,
+        "lon": 26.1698919,
+        "tags": {
+          "addr:housenumber": "72",
+          "addr:postcode": "17100",
+          "addr:street": "kume evler",
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "internet_access": "wlan",
+          "name": "Pasa Konagi",
+          "phone": "+905309290017"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11449698990,
+        "lat": 39.5405328,
+        "lon": 26.5259093,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Saklı Vadi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11629906223,
+        "lat": 39.5460943,
+        "lon": 26.6042622,
+        "tags": {
+          "addr:city": "Çanakkale",
+          "addr:district": "Ayvacık/Küçükkuyu",
+          "addr:housenumber": "13/C",
+          "addr:neighbourhood": "Sahil Mahallesi / Küçükkuyu",
+          "addr:postcode": "17980",
+          "addr:street": "Süleyman Sakallı Caddesi",
+          "amenity": "cafe",
+          "cuisine": "pizza",
+          "name": "Bene Pizzeria",
+          "outdoor_seating": "yes",
+          "phone": "+90 286 752 25 26"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12033083069,
+        "lat": 39.6867321,
+        "lon": 26.1650492,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "internet_access": "wlan",
+          "name": "Ali Kaptann",
+          "phone": "05464101610"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12033456869,
+        "lat": 39.5327068,
+        "lon": 26.119081,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "chicken;grill;turkish",
+          "internet_access": "wlan",
+          "name": "Manzara",
+          "opening_hours": "Mo-Su 08:00-00:00",
+          "phone": "+90 542 288 94 87"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12088554442,
+        "lat": 39.5575268,
+        "lon": 26.5701613,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-08-02",
+          "name": "Dulda"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12088572569,
+        "lat": 39.5575057,
+        "lon": 26.5702849,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-08-02",
+          "name": "Çakır Kahvaltı Evi",
+          "name:en": "Çakır Breakfast House",
+          "name:tr": "Çakır Kahvaltı Evi",
+          "wheelchair": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12088572571,
+        "lat": 39.5573644,
+        "lon": 26.5702306,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-08-02",
+          "name": "Yeşilyurt Köy Konağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12088708393,
+        "lat": 39.5571764,
+        "lon": 26.569788,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-08-02",
+          "name": "Radika Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12093424678,
+        "lat": 39.4928615,
+        "lon": 26.335933,
+        "tags": {
+          "addr:housenumber": "No: 66",
+          "addr:postcode": "17860",
+          "addr:street": "Behramkale Köyü, Köyiçi mevkii",
+          "amenity": "restaurant",
+          "contact:instagram": "assosbohemian_caferestaurant",
+          "cuisine": "italian_pizza;turkish",
+          "name": "Assos Bohemian Cafe Restaurant",
+          "opening_hours": "Fr-Su 13:30-21:00",
+          "phone": "05309121653"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12095047785,
+        "lat": 39.4932629,
+        "lon": 26.3352882,
+        "tags": {
+          "amenity": "cafe",
+          "indoor_seating": "yes",
+          "name": "Assos Agora Cafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12097019067,
+        "lat": 39.4789416,
+        "lon": 26.065688,
+        "tags": {
+          "amenity": "cafe",
+          "indoor_seating": "yes",
+          "name": "Babakale Kaleder",
+          "outdoor_seating": "yes",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12767888787,
+        "lat": 39.5468868,
+        "lon": 26.5980568,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kekik Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12770132462,
+        "lat": 39.5478796,
+        "lon": 26.6091699,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hanımeli Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12770277878,
+        "lat": 39.6291329,
+        "lon": 26.4027858,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öğretmenin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12844768325,
+        "lat": 39.5454036,
+        "lon": 26.606551,
+        "tags": {
+          "amenity": "bar",
+          "name": "Medusa Bistro/Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12905531260,
+        "lat": 39.6733959,
+        "lon": 26.1629407,
+        "tags": {
+          "addr:neighbourhood": "Tavaklı İskelesi, No:102 Ezine, Çanakkale,",
+          "amenity": "restaurant",
+          "cuisine": "turkish;pizza;pasta;breakfast;tapas;salad",
+          "diet:healthy": "yes",
+          "name": "Agora Restaurant",
+          "opening_hours": "24/7",
+          "phone": "05301391700",
+          "website": "https://sanatagora.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13043747068,
+        "lat": 39.5675718,
+        "lon": 26.6159689,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hanya Adatepe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13043802444,
+        "lat": 39.5700202,
+        "lon": 26.618625,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hurmalı Kahve"
+        }
+      },
+      {
+        "type": "way",
+        "id": 942470895,
+        "center": {
+          "lat": 39.4698975,
+          "lon": 26.2361291
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Sivrice Faros Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1154778120,
+        "center": {
+          "lat": 39.4905363,
+          "lon": 26.3693248
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1306147251,
+        "center": {
+          "lat": 39.4780412,
+          "lon": 26.0648211
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "internet_access": "yes",
+          "name": "Babakale Liman Balık Evi",
+          "outdoor_seating": "yes",
+          "toilets": "yes"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "sehir_id": "49",
+    "sehir_adi": "MUŞ",
+    "ilce_id": "1534",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 38.64105321486486,
+      "north": 38.911323485135135,
+      "west": 41.32055153975129,
+      "east": 41.66623386024871
+    },
+    "bbox_original": {
+      "south": 38.4829853,
+      "west": 41.1044966,
+      "north": 39.0693914,
+      "east": 41.8822888
+    },
+    "fetchedAt": "2026-01-21T10:09:10.803Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 16
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-06T16:09:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1492401022,
+        "lat": 38.893433,
+        "lon": 41.518547,
+        "tags": {
+          "alt_name:ku": "Kuravî;Kûravî",
+          "amenity": "restaurant",
+          "cuisine": "greek",
+          "name": "Şenoba",
+          "name:hy": "Կարավի",
+          "name:ku": "Kiravî",
+          "wikidata": "Q3676657",
+          "wikipedia": "tr:Şenoba, Muş"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1793322248,
+        "lat": 38.7587025,
+        "lon": 41.5087982,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Hakimin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1799416679,
+        "lat": 38.7327468,
+        "lon": 41.4897704,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Park Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1799416729,
+        "lat": 38.7354,
+        "lon": 41.4923188,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Eywan Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2590660799,
+        "lat": 38.7433147,
+        "lon": 41.4987664,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çınar Pide Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6776149849,
+        "lat": 38.7392304,
+        "lon": 41.4952602,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Simit Sarayı",
+          "brand:wikidata": "Q28042608",
+          "name": "Simit Sarayı",
+          "shop": "bakery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6776167165,
+        "lat": 38.7390372,
+        "lon": 41.4951279,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hancı Cafe & Bistro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6776245257,
+        "lat": 38.741473,
+        "lon": 41.4971861,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Saray Simit Konağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6776248777,
+        "lat": 38.7411731,
+        "lon": 41.4969521,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ofis Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6776259000,
+        "lat": 38.7407582,
+        "lon": 41.4966073,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Efendy Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6778014253,
+        "lat": 38.7388945,
+        "lon": 41.4942546,
+        "tags": {
+          "addr:city": "Muş",
+          "addr:district": "Merkez",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "name": "Kahve Durağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6778034060,
+        "lat": 38.737427,
+        "lon": 41.4936217,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bayramefendi Osmanlı Kahvecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7008601201,
+        "lat": 38.7434684,
+        "lon": 41.4987415,
+        "tags": {
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Elit Cafe & Restaurant",
+          "phone": "+90 436 212 0708;+90 436 212 0709"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7605271699,
+        "lat": 38.7469033,
+        "lon": 41.501925,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Diyar Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8118119766,
+        "lat": 38.7440097,
+        "lon": 41.4993905,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Çınar Lokantası",
+          "self_service": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9095256143,
+        "lat": 38.7434938,
+        "lon": 41.4983372,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Divan Restaurant"
+        }
+      }
+    ]
+  }
+}

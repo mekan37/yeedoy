@@ -1,0 +1,200 @@
+{
+  "meta": {
+    "sehir_id": "7",
+    "sehir_adi": "ANTALYA",
+    "ilce_id": "1616",
+    "ilce_adi": "SERİK",
+    "bbox_used": {
+      "south": 36.95401166486486,
+      "north": 37.22428193513513,
+      "west": 30.849471076487195,
+      "east": 31.187309823512802
+    },
+    "bbox_original": {
+      "south": 36.8284945,
+      "west": 30.8173427,
+      "north": 37.3497991,
+      "east": 31.2194382
+    },
+    "fetchedAt": "2026-01-21T08:27:55.305Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:26:55Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 273462306,
+        "lat": 37.1790022,
+        "lon": 31.1850597,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 300295659,
+        "lat": 36.9640443,
+        "lon": 31.1803944,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aspendos",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 311043251,
+        "lat": 37.1896762,
+        "lon": 31.1833272,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çağlayan Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5918571387,
+        "lat": 36.9609411,
+        "lon": 31.178304,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gözleme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9061001068,
+        "lat": 37.1845397,
+        "lon": 31.1839742,
+        "tags": {
+          "air_conditioning": "no",
+          "amenity": "cafe",
+          "bar": "no",
+          "cuisine": "turkish",
+          "name": "Gözleme, Çay, Köy Kahvaltısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9856139818,
+        "lat": 37.1417113,
+        "lon": 31.0568226,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "small restaurant",
+          "name:fr": "petit restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10315264130,
+        "lat": 37.1592264,
+        "lon": 31.1851792,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11276659739,
+        "lat": 37.2178106,
+        "lon": 30.9246796,
+        "tags": {
+          "amenity": "restaurant",
+          "capacity": "20",
+          "name": "Pednelissos",
+          "outdoor_seating": "yes",
+          "phone": "0242-736-10-15"
+        }
+      },
+      {
+        "type": "way",
+        "id": 169902343,
+        "center": {
+          "lat": 36.9882145,
+          "lon": 30.9824629
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "internet_access": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 189044906,
+        "center": {
+          "lat": 37.0469825,
+          "lon": 31.110284
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 700216256,
+        "center": {
+          "lat": 37.1750136,
+          "lon": 31.1863461
+        },
+        "tags": {
+          "air_conditioning": "no",
+          "amenity": "cafe",
+          "bar": "no",
+          "building": "yes",
+          "capacity": "150",
+          "cuisine": "regional",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "internet_access:ssid": "Perge Doga Evleri",
+          "name": "Perge Doğal Evleri",
+          "outdoor_seating": "yes",
+          "payment:cash": "yes",
+          "payment:coins": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "phone": "+905334758108"
+        }
+      },
+      {
+        "type": "way",
+        "id": 979402607,
+        "center": {
+          "lat": 37.174836,
+          "lon": 31.1865127
+        },
+        "tags": {
+          "air_conditioning": "no",
+          "amenity": "cafe",
+          "bar": "no",
+          "building": "yes",
+          "capacity": "150",
+          "cuisine": "regional",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "internet_access:ssid": "Perge Doga Evleri",
+          "name": "Perge Doğal Evleri",
+          "outdoor_seating": "yes",
+          "payment:cash": "yes",
+          "payment:coins": "yes",
+          "payment:credit_cards": "yes",
+          "payment:debit_cards": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "phone": "+905334758108"
+        }
+      }
+    ]
+  }
+}

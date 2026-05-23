@@ -1,0 +1,593 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "1611",
+    "ilce_adi": "SEFERİHİSAR",
+    "bbox_used": {
+      "south": 38.0301539,
+      "west": 26.7508399,
+      "north": 38.3091842,
+      "east": 26.9923427
+    },
+    "bbox_original": {
+      "south": 38.0301539,
+      "west": 26.7508399,
+      "north": 38.3091842,
+      "east": 26.9923427
+    },
+    "fetchedAt": "2026-01-21T09:27:43.083Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 45
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:26:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1412521993,
+        "lat": 38.1903709,
+        "lon": 26.7745721,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Yakamoz",
+          "website": "www.yakamozbar.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1795619691,
+        "lat": 38.1915763,
+        "lon": 26.7838438,
+        "tags": {
+          "amenity": "pub",
+          "name": "NBEER"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1795619692,
+        "lat": 38.1917787,
+        "lon": 26.7836292,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "RİPARO"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1795619695,
+        "lat": 38.1918293,
+        "lon": 26.7840048,
+        "tags": {
+          "amenity": "bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1795619700,
+        "lat": 38.1913571,
+        "lon": 26.783758,
+        "tags": {
+          "amenity": "cafe",
+          "name": "MARİNA"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2165536412,
+        "lat": 38.1955192,
+        "lon": 26.8386663,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Seferihisar Merkez Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2440684947,
+        "lat": 38.1714142,
+        "lon": 26.7890833,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2838257735,
+        "lat": 38.1931084,
+        "lon": 26.7846634,
+        "tags": {
+          "addr:housename": "milos balık",
+          "addr:housenumber": "9/11",
+          "addr:postcode": "35460",
+          "addr:street": "sığacık cad sığacık mah kale içi şadırvan meydanı",
+          "amenity": "restaurant",
+          "cuisine": "greek",
+          "name": "Milos Balık",
+          "website": "milos.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3228751800,
+        "lat": 38.076386,
+        "lon": 26.9557967,
+        "tags": {
+          "addr:city": "izmir",
+          "addr:housenumber": "Bengiler Mh.,",
+          "addr:postcode": "35467",
+          "addr:street": "6250. Sk No:7, 35467 Ürkmez Seferihisar İzmir",
+          "amenity": "bar",
+          "name": "AYIŞIĞI BEACH BAR",
+          "opening_hours": "24/7",
+          "smoking": "separated",
+          "source": "https://www.facebook.com/pages/Ay%C4%B1%C5%9F%C4%B1%C4%9F%C4%B1-beach-bar/145941095440352?ref=hl"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3830427788,
+        "lat": 38.2742545,
+        "lon": 26.8293581,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3830427789,
+        "lat": 38.2741914,
+        "lon": 26.82935,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3830427793,
+        "lat": 38.2741956,
+        "lon": 26.8291784,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4181862992,
+        "lat": 38.0782573,
+        "lon": 26.955578,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "ürkmez pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4181862993,
+        "lat": 38.0795513,
+        "lon": 26.9570024,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "yusuf cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4181894992,
+        "lat": 38.0794298,
+        "lon": 26.9575761,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "demirkanat şarküteri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4181895789,
+        "lat": 38.0796566,
+        "lon": 26.9564158,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "ürkmez pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5058290149,
+        "lat": 38.1909398,
+        "lon": 26.7842762,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5058327953,
+        "lat": 38.070976,
+        "lon": 26.9268488,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5093834629,
+        "lat": 38.1914249,
+        "lon": 26.7851474,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Diyarı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5852265085,
+        "lat": 38.1931902,
+        "lon": 26.7845245,
+        "tags": {
+          "amenity": "bar",
+          "name": "Jolly Boys"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5852289786,
+        "lat": 38.1926616,
+        "lon": 26.7864241,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Acıktım Kebap & Çorba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9690068545,
+        "lat": 38.1595569,
+        "lon": 26.8235648,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:postcode": "35460",
+          "amenity": "restaurant",
+          "name": "Eddy Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9704943212,
+        "lat": 38.1599669,
+        "lon": 26.8236068,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Seferihisar",
+          "addr:housenumber": "51",
+          "addr:neighbourhood": "Tepecik Mahallesi",
+          "addr:postcode": "35460",
+          "addr:street": "Akarca Caddesi",
+          "amenity": "restaurant",
+          "contact:mobile": "+90 535 557 78 82",
+          "name": "Çınar Altı Dürümcü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10216559984,
+        "lat": 38.1992263,
+        "lon": 26.9700438,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Seferihisar",
+          "addr:housenumber": "14",
+          "addr:neighbourhood": "Orhanlı",
+          "addr:postcode": "35460",
+          "addr:street": "7107 Sk",
+          "amenity": "cafe",
+          "description": "sadece misafirlere açık panoramik manzaralı, şömineli, mutfak ve cafe, karmaşadan uzak, kuş sesleri eşliğinde doğaya bir kaçamak, şömine ateşinde doyumsuz sohbetler, mangal partileri yapabilirsiniz.",
+          "name": "Orhanlı Büyülü Vadi Butik Otel-Cafe",
+          "outdoor_seating": "yes",
+          "phone": "+905378985381",
+          "website": "https://www.orhanlibuyuluvadi.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10741664134,
+        "lat": 38.1951015,
+        "lon": 26.7862172,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2023-03-17",
+          "name": "Yuputka"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11014713261,
+        "lat": 38.0699655,
+        "lon": 26.9237736,
+        "tags": {
+          "addr:city": "izmir",
+          "addr:district": "Seferihisar",
+          "addr:housenumber": "11A",
+          "addr:neighbourhood": "Cumhuriyet",
+          "addr:street": "5155. Sokak",
+          "amenity": "bar",
+          "name": "Reach Beach Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11162001340,
+        "lat": 38.0853728,
+        "lon": 26.8626827,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "Mavi Değirmen",
+          "opening_hours": "Mo-Su 09:30-23:00",
+          "outdoor_seating": "yes",
+          "phone": "0505 395 9305",
+          "website": "https://mavidegirmen.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11162016820,
+        "lat": 38.2101563,
+        "lon": 26.8305222,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-09-01",
+          "cuisine": "coffee_shop",
+          "name": "Pablo Artisan Coffee",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11162017798,
+        "lat": 38.1951662,
+        "lon": 26.8352367,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11162017799,
+        "lat": 38.1958403,
+        "lon": 26.8383928,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11162037306,
+        "lat": 38.1939456,
+        "lon": 26.8374782,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12174858901,
+        "lat": 38.1954625,
+        "lon": 26.8363394,
+        "tags": {
+          "addr:housenumber": "3",
+          "addr:postcode": "35460",
+          "addr:street": "48/1",
+          "amenity": "cafe",
+          "contact:instagram": "tripseferihisar",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "Trip Coffee & Cocktail",
+          "opening_hours": "Mo-Su 09:00-01:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 542 136 53 24"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12266000154,
+        "lat": 38.195133,
+        "lon": 26.8434427,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-10-19",
+          "cuisine": "coffee_shop",
+          "name": "Pablo"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13049763702,
+        "lat": 38.1603341,
+        "lon": 26.8224946,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akarca Restaurant",
+          "website": "https://www.ixirmenu.com/NbBKerEsf1022YPojsQ/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13049847302,
+        "lat": 38.1612537,
+        "lon": 26.8205434,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Rainbow"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13050125370,
+        "lat": 38.194836,
+        "lon": 26.8346052,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Seferihisar",
+          "addr:housenumber": "54",
+          "addr:neighbourhood": "Camikebir Mahallesi",
+          "addr:postcode": "35460",
+          "addr:street": "İzmir Seferihisar Yolu",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13180299550,
+        "lat": 38.2709148,
+        "lon": 26.7521315,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Çakır Restorant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 116240832,
+        "center": {
+          "lat": 38.1851429,
+          "lon": 26.7788044
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Teos Park"
+        }
+      },
+      {
+        "type": "way",
+        "id": 870704204,
+        "center": {
+          "lat": 38.0772128,
+          "lon": 26.8459145
+        },
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Seferihisar",
+          "addr:neighbourhood": "Atatürk Mahallesi",
+          "addr:postcode": "35465",
+          "addr:street": "Banksis Sitesi",
+          "amenity": "cafe",
+          "building": "cafe",
+          "internet_access": "no",
+          "name": "Sahil Cafe",
+          "opening_hours": "Mo-Su 09:00-00:00",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 870704205,
+        "center": {
+          "lat": 38.077112,
+          "lon": 26.8466897
+        },
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Seferihisar",
+          "addr:neighbourhood": "Atatürk Mahallesi",
+          "addr:postcode": "35465",
+          "addr:street": "Banksis Sitesi",
+          "amenity": "cafe",
+          "building": "cafe",
+          "internet_access": "no",
+          "name": "Ahtapot Kafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1329755830,
+        "center": {
+          "lat": 38.2389282,
+          "lon": 26.7847282
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "bar": "no",
+          "diet:local": "yes",
+          "diet:mediterranean": "yes",
+          "diet:non-vegetarian": "yes",
+          "diet:seasonal": "yes",
+          "diet:vegetarian": "yes",
+          "name": "Artemis Restaurant",
+          "note": "Not pet friendly",
+          "outdoor_seating": "yes",
+          "payment:mastercard": "yes",
+          "payment:visa": "yes",
+          "reservation": "no",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1412464691,
+        "center": {
+          "lat": 38.1724203,
+          "lon": 26.8022552
+        },
+        "tags": {
+          "amenity": "bar",
+          "name": "Albatros Beach"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1412829777,
+        "center": {
+          "lat": 38.171164,
+          "lon": 26.8041923
+        },
+        "tags": {
+          "amenity": "bar",
+          "name": "Mali Beach"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1412829778,
+        "center": {
+          "lat": 38.1715576,
+          "lon": 26.8034947
+        },
+        "tags": {
+          "amenity": "bar",
+          "name": "Bongo Beach"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1412831044,
+        "center": {
+          "lat": 38.1696083,
+          "lon": 26.8061326
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sahil Cafe"
+        }
+      }
+    ]
+  }
+}

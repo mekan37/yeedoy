@@ -1,0 +1,284 @@
+{
+  "meta": {
+    "sehir_id": "55",
+    "sehir_adi": "SAMSUN",
+    "ilce_id": "1676",
+    "ilce_adi": "TERME",
+    "bbox_used": {
+      "south": 40.9339589,
+      "west": 36.7882064,
+      "north": 41.3540862,
+      "east": 37.1695104
+    },
+    "bbox_original": {
+      "south": 40.9339589,
+      "west": 36.7882064,
+      "north": 41.3540862,
+      "east": 37.1695104
+    },
+    "fetchedAt": "2026-01-21T10:21:19.961Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 21
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4195496246,
+        "lat": 41.2067841,
+        "lon": 36.9740573,
+        "tags": {
+          "addr:city": "Terme",
+          "addr:housenumber": "10/D",
+          "addr:postcode": "55600",
+          "addr:street": "Ünye Caddesi",
+          "amenity": "cafe",
+          "cuisine": "ice_cream;tea",
+          "name": "Halil İbrahim Dondurma (HİDOLİM)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4197007215,
+        "lat": 41.2069925,
+        "lon": 36.9731567,
+        "tags": {
+          "addr:city": "Terme/Samsun",
+          "addr:district": "Terme",
+          "addr:housenumber": "4",
+          "addr:postcode": "55600",
+          "addr:street": "Kocaman Caddesi",
+          "amenity": "cafe",
+          "cuisine": "ice_cream;tea",
+          "name": "Hilal Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4200642406,
+        "lat": 41.209256,
+        "lon": 36.9722805,
+        "tags": {
+          "addr:city": "Terme/Samsun",
+          "addr:district": "Terme",
+          "addr:housenumber": "1",
+          "addr:postcode": "55600",
+          "addr:street": "Lise Sokak",
+          "amenity": "cafe",
+          "cuisine": "turkish;cake;tea;coffee_shop",
+          "name": "Martı Kafe",
+          "opening_hours": "Mo-Su 09:00-23:30"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4205221789,
+        "lat": 41.2102817,
+        "lon": 36.9723048,
+        "tags": {
+          "addr:street": "Atatürk Caddesi ",
+          "amenity": "restaurant",
+          "name": "Mekselina"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4206609092,
+        "lat": 41.2086073,
+        "lon": 36.9723546,
+        "tags": {
+          "addr:postcode": "55600",
+          "addr:street": "Ünye Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish;kebab",
+          "name": "Bizler Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4220258089,
+        "lat": 41.2069113,
+        "lon": 36.9733742,
+        "tags": {
+          "addr:postcode": "55600",
+          "addr:street": "Kocaman Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Karadeniz Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4330753395,
+        "lat": 41.2086434,
+        "lon": 36.9723437,
+        "tags": {
+          "addr:postcode": "55600",
+          "addr:street": "Beyoğlu Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Çiğköfteci"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4343209736,
+        "lat": 41.2089582,
+        "lon": 36.971642,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4893226822,
+        "lat": 41.2079827,
+        "lon": 36.9727296,
+        "tags": {
+          "addr:postcode": "55600",
+          "addr:street": "Çağlayan Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Köprübaşı Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4897498656,
+        "lat": 41.2086767,
+        "lon": 36.9717543,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5333358874,
+        "lat": 41.1877315,
+        "lon": 37.0295794,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yakamoz Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5359626876,
+        "lat": 41.1491824,
+        "lon": 37.1231287,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akçaabat Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7021902380,
+        "lat": 41.143227,
+        "lon": 37.1480523,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8580005939,
+        "lat": 41.1809422,
+        "lon": 37.0417718,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11680865869,
+        "lat": 41.2086879,
+        "lon": 36.972999,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Fantasia Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11680865876,
+        "lat": 41.2100954,
+        "lon": 36.9705333,
+        "tags": {
+          "addr:city": "Terme/Samsun",
+          "addr:postcode": "55600",
+          "addr:street": "Çarşamba Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Deniz Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11680874902,
+        "lat": 41.2099104,
+        "lon": 36.9730074,
+        "tags": {
+          "addr:city": "Terme/Samsun",
+          "addr:postcode": "55600",
+          "addr:street": "Ovalı Sokak",
+          "amenity": "restaurant",
+          "name": "Özler Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11680874903,
+        "lat": 41.209945,
+        "lon": 36.9728602,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özler Pide Dışarı Yemek Alanı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12016449223,
+        "lat": 41.1700828,
+        "lon": 37.0566023,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-28",
+          "name": "Amazon"
+        }
+      },
+      {
+        "type": "way",
+        "id": 424569945,
+        "center": {
+          "lat": 41.1140743,
+          "lon": 37.0089122
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Yüksekyayla Alabalık Tesisleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1376558282,
+        "center": {
+          "lat": 41.0752722,
+          "lon": 36.8260966
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      }
+    ]
+  }
+}

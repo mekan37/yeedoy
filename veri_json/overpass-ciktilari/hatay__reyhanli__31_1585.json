@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "sehir_id": "31",
+    "sehir_adi": "HATAY",
+    "ilce_id": "1585",
+    "ilce_adi": "REYHANLI",
+    "bbox_used": {
+      "south": 36.1966493,
+      "west": 36.3128836,
+      "north": 36.3631363,
+      "east": 36.7048834
+    },
+    "bbox_original": {
+      "south": 36.1966493,
+      "west": 36.3128836,
+      "north": 36.3631363,
+      "east": 36.7048834
+    },
+    "fetchedAt": "2026-01-21T09:11:42.411Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:09:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4465852792,
+        "lat": 36.3066516,
+        "lon": 36.6894612,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "بيت البيتزا",
+          "name:ar": "بيت البيتزا"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4465852793,
+        "lat": 36.3067468,
+        "lon": 36.6894073,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "chicken;burger;breakfast;arab",
+          "internet_access": "wlan",
+          "name": "فروج السلطان - وجبات سريعة",
+          "name:ar": "فروج السلطان - وجبات سريعة",
+          "name:en": "Sultan Chicken Shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4465861994,
+        "lat": 36.3099387,
+        "lon": 36.6870795,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "ملحمة عباد الرحمن",
+          "name:ar": "ملحمة عباد الرحمن"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4465864692,
+        "lat": 36.3100652,
+        "lon": 36.6865854,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "نضال للفروج",
+          "name:ar": "نضال للفروج",
+          "name:en": "Nezal chickens"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6325209397,
+        "lat": 36.2535641,
+        "lon": 36.5699523,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8894483181,
+        "lat": 36.248393,
+        "lon": 36.5699068,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şölen Restoran"
+        }
+      }
+    ]
+  }
+}

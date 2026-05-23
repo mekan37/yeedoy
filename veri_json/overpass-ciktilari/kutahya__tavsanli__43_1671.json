@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "43",
+    "sehir_adi": "KÜTAHYA",
+    "ilce_id": "1671",
+    "ilce_adi": "TAVŞANLI",
+    "bbox_used": {
+      "south": 39.5452983,
+      "west": 29.4918042,
+      "north": 39.5455323,
+      "east": 29.4920661
+    },
+    "bbox_original": {
+      "south": 39.5452983,
+      "west": 29.4918042,
+      "north": 39.5455323,
+      "east": 29.4920661
+    },
+    "fetchedAt": "2026-01-21T09:52:53.862Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:51:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

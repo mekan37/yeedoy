@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "57",
+    "sehir_adi": "SİNOP",
+    "ilce_id": "1981",
+    "ilce_adi": "SARAYDÜZÜ",
+    "bbox_used": {
+      "south": 41.2108053,
+      "west": 34.5940589,
+      "north": 41.3970257,
+      "east": 34.9733275
+    },
+    "bbox_original": {
+      "south": 41.2108053,
+      "west": 34.5940589,
+      "north": 41.3970257,
+      "east": 34.9733275
+    },
+    "fetchedAt": "2026-01-21T10:26:45.976Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:25:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

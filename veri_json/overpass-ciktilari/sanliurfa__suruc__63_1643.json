@@ -1,0 +1,352 @@
+{
+  "meta": {
+    "sehir_id": "63",
+    "sehir_adi": "ŞANLIURFA",
+    "ilce_id": "1643",
+    "ilce_adi": "SURUÇ",
+    "bbox_used": {
+      "south": 36.8240596,
+      "west": 38.1604201,
+      "north": 37.1465766,
+      "east": 38.6126427
+    },
+    "bbox_original": {
+      "south": 36.8240596,
+      "west": 38.1604201,
+      "north": 37.1465766,
+      "east": 38.6126427
+    },
+    "fetchedAt": "2026-01-21T10:43:38.813Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 27
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:42:39Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4772627676,
+        "lat": 37.065378,
+        "lon": 38.4984006,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4875372522,
+        "lat": 36.8971335,
+        "lon": 38.3503052,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "arab",
+          "name:en": "Abo Bashar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4876550719,
+        "lat": 36.8963167,
+        "lon": 38.3488981,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name:en": "Don Caffe",
+          "smoking": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5178877323,
+        "lat": 36.890482,
+        "lon": 38.3467352,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "chicken;steak_house;kebab;grill;barbecue",
+          "name": "مطعم روناهي",
+          "name:ar": "مطعم روناهي",
+          "name:en": "Restaurant Ronahi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5210640640,
+        "lat": 36.8955094,
+        "lon": 38.3502402,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Kendy"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5236021285,
+        "lat": 36.8949429,
+        "lon": 38.3375819,
+        "tags": {
+          "addr:city": "عين العرب",
+          "amenity": "cafe",
+          "name": "مقهى",
+          "name:ar": "مقهى",
+          "name:en": "Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5464923024,
+        "lat": 37.05034,
+        "lon": 38.2113497,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bülbül Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5602528717,
+        "lat": 36.8470802,
+        "lon": 38.3283803,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5760718998,
+        "lat": 36.8959346,
+        "lon": 38.348473,
+        "tags": {
+          "addr:city": "عين العرب",
+          "addr:street": "Jarablus Road",
+          "amenity": "cafe",
+          "cuisine": "local",
+          "internet_access": "wlan",
+          "name": "Hi Caffe",
+          "opening_hours": "Mo-Su 17:00-01:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5876491088,
+        "lat": 36.8964344,
+        "lon": 38.344739,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Caffe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6464450885,
+        "lat": 36.8937355,
+        "lon": 38.3514354,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Classic Caffe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6609937286,
+        "lat": 36.888405,
+        "lon": 38.3467243,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11378044569,
+        "lat": 37.1247103,
+        "lon": 38.386881,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mirkelam"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11378044669,
+        "lat": 37.1262421,
+        "lon": 38.3868796,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mirkelam"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12839650391,
+        "lat": 36.9748705,
+        "lon": 38.4264608,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sümer kebap salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 217134347,
+        "center": {
+          "lat": 37.0981762,
+          "lon": 38.18868
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Mirkelam",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 217134348,
+        "center": {
+          "lat": 37.1006698,
+          "lon": 38.1881496
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Mirkelam",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 270376274,
+        "center": {
+          "lat": 37.0410124,
+          "lon": 38.3931518
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 307838237,
+        "center": {
+          "lat": 36.8908165,
+          "lon": 38.3477716
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 495944375,
+        "center": {
+          "lat": 36.8964464,
+          "lon": 38.3476589
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "building:levels": "1",
+          "internet_access": "wlan",
+          "name": "مشوار",
+          "name:en": "Meshwar"
+        }
+      },
+      {
+        "type": "way",
+        "id": 541482181,
+        "center": {
+          "lat": 36.8944409,
+          "lon": 38.3382083
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name:en": "Yergene"
+        }
+      },
+      {
+        "type": "way",
+        "id": 563947512,
+        "center": {
+          "lat": 36.8941731,
+          "lon": 38.3493845
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "دون كافيه",
+          "name:en": "Don Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 587810138,
+        "center": {
+          "lat": 36.8895068,
+          "lon": 38.3303925
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "area": "yes",
+          "barrier": "wall"
+        }
+      },
+      {
+        "type": "way",
+        "id": 587810140,
+        "center": {
+          "lat": 36.8896004,
+          "lon": 38.3306355
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 607969559,
+        "center": {
+          "lat": 36.8843242,
+          "lon": 38.3407985
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name:en": "Furat"
+        }
+      },
+      {
+        "type": "way",
+        "id": 607970727,
+        "center": {
+          "lat": 36.8957742,
+          "lon": 38.3400322
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 712602812,
+        "center": {
+          "lat": 36.8903281,
+          "lon": 38.359156
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

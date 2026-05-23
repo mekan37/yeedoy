@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "sehir_id": "47",
+    "sehir_adi": "MARDİN",
+    "ilce_id": "1547",
+    "ilce_adi": "NUSAYBİN",
+    "bbox_used": {
+      "south": 37.0619806,
+      "west": 40.973434,
+      "north": 37.340808,
+      "east": 41.6797084
+    },
+    "bbox_original": {
+      "south": 37.0619806,
+      "west": 40.973434,
+      "north": 37.340808,
+      "east": 41.6797084
+    },
+    "fetchedAt": "2026-01-21T10:04:11.066Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 20
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:02:47Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2407876214,
+        "lat": 37.0697671,
+        "lon": 41.2146445,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2974123928,
+        "lat": 37.2262345,
+        "lon": 41.3334241,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2974123929,
+        "lat": 37.2268911,
+        "lon": 41.3339539,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3141277956,
+        "lat": 37.2242294,
+        "lon": 41.3303309,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3141277957,
+        "lat": 37.2237384,
+        "lon": 41.3294659,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3259537447,
+        "lat": 37.075999,
+        "lon": 41.2080152,
+        "tags": {
+          "addr:city": "Nusaybin",
+          "amenity": "cafe",
+          "name": "Sadık Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3493930457,
+        "lat": 37.0673641,
+        "lon": 41.2164024,
+        "tags": {
+          "addr:city": "Nusaybin/Mardin",
+          "amenity": "cafe",
+          "name": "My Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4463383289,
+        "lat": 37.0780357,
+        "lon": 41.2149514,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dostlar Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4465346691,
+        "lat": 37.0781927,
+        "lon": 41.2078039,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mehmet Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4465409490,
+        "lat": 37.0761472,
+        "lon": 41.2074448,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Paşa Ciğer"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4465417890,
+        "lat": 37.0693833,
+        "lon": 41.2147259,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İsot Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4466319999,
+        "lat": 37.0674671,
+        "lon": 41.2163909,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Nu Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4609429636,
+        "lat": 37.2246484,
+        "lon": 41.3316569,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Murat Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5110752725,
+        "lat": 37.089621,
+        "lon": 41.1998458,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mangalcı Bilal Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5930237985,
+        "lat": 37.073311,
+        "lon": 41.2377448,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "مطعم نصيبين"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6914870086,
+        "lat": 37.0909931,
+        "lon": 41.2104523,
+        "tags": {
+          "addr:city": "Mardin",
+          "addr:district": "Nusaybin",
+          "addr:postcode": "47300",
+          "addr:street": "Mardin-Şırnak yolu",
+          "amenity": "restaurant",
+          "name": "Şükrü Kartal (İpekyolu) Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10180922117,
+        "lat": 37.3231984,
+        "lon": 41.3484099,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;pizza",
+          "name": "Enhil Pizza ve Grıllhouse"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12006083995,
+        "lat": 37.2871997,
+        "lon": 41.357415,
+        "tags": {
+          "addr:city": "Mardin",
+          "addr:district": "Midyat",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Dallinos Pizza",
+          "phone": "+90 505 031 2747"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12301227175,
+        "lat": 37.2646708,
+        "lon": 41.4251847,
+        "tags": {
+          "addr:city": "Mardin",
+          "addr:district": "Nusaybin",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "İzla Pizzeria Midyat",
+          "phone": "+90 536 478 6247"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13296347202,
+        "lat": 37.135387,
+        "lon": 41.4565848,
+        "tags": {
+          "addr:city": "Mardin",
+          "addr:district": "Nusaybin",
+          "addr:housenumber": "63",
+          "addr:neighbourhood": "Günyurdu",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Marbobo Pizza"
+        }
+      }
+    ]
+  }
+}

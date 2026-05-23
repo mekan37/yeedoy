@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "sehir_id": "44",
+    "sehir_adi": "MALATYA",
+    "ilce_id": "1143",
+    "ilce_adi": "ARAPGİR",
+    "bbox_used": {
+      "south": 38.7442356,
+      "west": 38.1955574,
+      "north": 39.1429424,
+      "east": 38.6780242
+    },
+    "bbox_original": {
+      "south": 38.7442356,
+      "west": 38.1955574,
+      "north": 39.1429424,
+      "east": 38.6780242
+    },
+    "fetchedAt": "2026-01-21T09:54:09.054Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:52:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4406669089,
+        "lat": 39.0415891,
+        "lon": 38.4931728,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Arapgir Belediyesi - Restoranı",
+          "name:tr": "Arapgir Belediyesi - Restoranı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12012973954,
+        "lat": 39.1391828,
+        "lon": 38.6098632,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

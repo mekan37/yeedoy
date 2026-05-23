@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "sehir_id": "10",
+    "sehir_adi": "BALIKESİR",
+    "ilce_id": "1384",
+    "ilce_adi": "HAVRAN",
+    "bbox_used": {
+      "south": 39.4635185,
+      "west": 27.0554198,
+      "north": 39.703914,
+      "east": 27.3829949
+    },
+    "bbox_original": {
+      "south": 39.4635185,
+      "west": 27.0554198,
+      "north": 39.703914,
+      "east": 27.3829949
+    },
+    "fetchedAt": "2026-01-21T08:33:14.252Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:32:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5541804423,
+        "lat": 39.6844755,
+        "lon": 27.144041,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "breakfast;turkish",
+          "name": "Gülsüm Ananın Yeri",
+          "outdoor_seating": "yes",
+          "phone": "+90 541 304 98 01"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10578367006,
+        "lat": 39.5558284,
+        "lon": 27.1133044,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nermin Hanım Zeytinliği"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12036258709,
+        "lat": 39.5502268,
+        "lon": 27.0885079,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Bahçe Kebap",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12887447680,
+        "lat": 39.4702446,
+        "lon": 27.3645837,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Beyzam Kafe",
+          "phone": "+90 0543 375 53 04"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1331565938,
+        "center": {
+          "lat": 39.5537659,
+          "lon": 27.0926724
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Havran",
+          "addr:housenumber": "No:128",
+          "addr:neighbourhood": "Tekke Mahallesi",
+          "addr:postcode": "10560",
+          "addr:street": "Katırcıoğlu Caddesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "internet_access": "no",
+          "name": "On On Kafe",
+          "opening_hours": "10:00-01:00",
+          "website": "https://www.ononkafe.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1419585367,
+        "center": {
+          "lat": 39.558809,
+          "lon": 27.2084099
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Şimşek Usta'nın Yeri"
+        }
+      }
+    ]
+  }
+}

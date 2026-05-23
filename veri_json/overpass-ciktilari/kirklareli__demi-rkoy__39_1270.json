@@ -1,0 +1,454 @@
+{
+  "meta": {
+    "sehir_id": "39",
+    "sehir_adi": "KIRKLARELİ",
+    "ilce_id": "1270",
+    "ilce_adi": "DEMİRKÖY",
+    "bbox_used": {
+      "south": 41.7367111,
+      "west": 27.481699,
+      "north": 42.0065643,
+      "east": 28.0573091
+    },
+    "bbox_original": {
+      "south": 41.7367111,
+      "west": 27.481699,
+      "north": 42.0065643,
+      "east": 28.0573091
+    },
+    "fetchedAt": "2026-01-21T09:38:51.659Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 33
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:37:19Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4936988629,
+        "lat": 41.7389702,
+        "lon": 27.6421664,
+        "tags": {
+          "addr:housenumber": "29",
+          "addr:street": "Atatürk",
+          "amenity": "restaurant",
+          "cuisine": "steak_house;turkish;local",
+          "email": "iletisim@yenice.com.tr",
+          "internet_access": "wlan",
+          "name": "Yenice Köylü Kır Lokantası - Çamlık",
+          "name:tr": "Yenice Köylü Kır Lokantası - Çamlık",
+          "opening_hours": "Mo-Su 08:00-00:00",
+          "phone": "+902886855373",
+          "website": "http://www.yenice.com.tr"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5017517727,
+        "lat": 41.9629342,
+        "lon": 28.0224503,
+        "tags": {
+          "amenity": "cafe",
+          "name": "ayaztefanos",
+          "name:tr": "ayaztefanos"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5036395366,
+        "lat": 41.8784561,
+        "lon": 27.9887126,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "amenity": "bar",
+          "name": "Sude Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649748,
+        "lat": 41.8249769,
+        "lon": 27.7681401,
+        "tags": {
+          "addr:city": "Demirköy",
+          "addr:district": "Demirköy",
+          "amenity": "pub",
+          "name": "Egzotik"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649749,
+        "lat": 41.8249459,
+        "lon": 27.7682541,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Integral Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649762,
+        "lat": 41.8250134,
+        "lon": 27.7674387,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649763,
+        "lat": 41.8249984,
+        "lon": 27.7673636,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Efsane Izgara ve Çorba Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649771,
+        "lat": 41.8249085,
+        "lon": 27.766858,
+        "tags": {
+          "addr:city": "Demirköy",
+          "addr:district": "Demirköy",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649788,
+        "lat": 41.8247778,
+        "lon": 27.7663159,
+        "tags": {
+          "addr:city": "Demirköy",
+          "addr:district": "Demirköy",
+          "amenity": "restaurant",
+          "name": "İkizler Restaurant Sulu Yemek ve Izgara Çeşitleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649795,
+        "lat": 41.8249944,
+        "lon": 27.7653667,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Musti'nin Yeri Pide ve Lahmacun Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649796,
+        "lat": 41.8246246,
+        "lon": 27.7650771,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şölen Restoran Bira Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649803,
+        "lat": 41.8213826,
+        "lon": 27.7571511,
+        "tags": {
+          "addr:city": "Demirköy",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Orhaniye Mahallesi",
+          "addr:street": "Kırklareli Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish;steak_house",
+          "name": "Samakof Kır Restorant",
+          "phone": "0535 336 73 58"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5485649804,
+        "lat": 41.8220622,
+        "lon": 27.7510879,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bonanza Kır Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6653336598,
+        "lat": 41.8405174,
+        "lon": 27.5570959,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Döngel Kasap Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7859526640,
+        "lat": 41.875093,
+        "lon": 27.9132945,
+        "tags": {
+          "addr:city": "kırklareli",
+          "addr:district": "demirköy",
+          "addr:neighbourhood": "D565, 39500/Demirköy Kırklareli TR,",
+          "addr:postcode": "39400",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Saklıkent Beylerbeyi Çiftliği",
+          "website": "http://www.saklıkentbeylerbeyiciftligi.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8149517621,
+        "lat": 41.8152819,
+        "lon": 27.7446822,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yol Bitti Komutanım"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9684892203,
+        "lat": 41.8972865,
+        "lon": 27.5455973,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Paspala Market & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10158082421,
+        "lat": 41.9508127,
+        "lon": 27.9045901,
+        "tags": {
+          "amenity": "pub",
+          "name": "ghaba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10970148847,
+        "lat": 41.7367427,
+        "lon": 27.6384538,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Halim Restoran Et ve Et Ürünleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11601268473,
+        "lat": 41.823936,
+        "lon": 27.772048,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11601268474,
+        "lat": 41.8775816,
+        "lon": 27.9873912,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11601268571,
+        "lat": 41.8772151,
+        "lon": 27.9871392,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11601268870,
+        "lat": 41.8774319,
+        "lon": 27.9870874,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11993035681,
+        "lat": 41.8701518,
+        "lon": 27.9809603,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "amenity": "cafe",
+          "name": "Pablo Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12030194704,
+        "lat": 41.8409116,
+        "lon": 27.8039364,
+        "tags": {
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Yeni Mahalle",
+          "amenity": "restaurant",
+          "name": "Efkan Taş Mekan Kır Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404326731,
+        "lat": 41.8833858,
+        "lon": 27.9926957,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "addr:street": "Liman 1. Cadde",
+          "amenity": "restaurant",
+          "name": "Rota Balık Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404326732,
+        "lat": 41.8848732,
+        "lon": 27.9942944,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "addr:street": "Liman 1. Caddesi",
+          "amenity": "restaurant",
+          "name": "Çatkapı Et & Balık Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404326733,
+        "lat": 41.887801,
+        "lon": 27.9975064,
+        "tags": {
+          "addr:city": "İğneada",
+          "addr:district": "Demirköy",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "addr:street": "Liman 1. Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Kumsal Et Balık Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404326734,
+        "lat": 41.8909229,
+        "lon": 28.0286303,
+        "tags": {
+          "addr:city": "Limanköy",
+          "addr:district": "Demirköy",
+          "amenity": "restaurant",
+          "name": "Şahin Tepesi Izgara ve Balık Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404326735,
+        "lat": 41.8896375,
+        "lon": 28.0296316,
+        "tags": {
+          "addr:city": "Limanköy",
+          "addr:district": "Demirköy",
+          "addr:street": "Dolunay Caddesi",
+          "amenity": "restaurant",
+          "name": "Liman Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12802697462,
+        "lat": 41.8775503,
+        "lon": 27.987198,
+        "tags": {
+          "addr:district": "Demirköy",
+          "addr:housenumber": "5/B",
+          "addr:neighbourhood": "Deniz Mahallesi",
+          "addr:postcode": "39650",
+          "addr:street": "Cumhuriyet Meydanı",
+          "amenity": "restaurant",
+          "bar": "yes",
+          "contact:facebook": "lebideryaigneada",
+          "cuisine": "turkish",
+          "internet_access": "yes",
+          "microbrewery": "no",
+          "name": "Leb-i Derya İğneada",
+          "opening_hours": "Mo-Su 09:00-01:00",
+          "outdoor_seating": "yes",
+          "phone": "+905558197236",
+          "reservation": "yes",
+          "toilets": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 353224760,
+        "center": {
+          "lat": 41.9840224,
+          "lon": 28.0308425
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "building:levels": "7",
+          "capacity": "50",
+          "cuisine": "regional;seafood",
+          "drink:wine": "low_alcohol;served;rose",
+          "name": "Панорама",
+          "name:en": "Panorama",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 968069288,
+        "center": {
+          "lat": 41.9847293,
+          "lon": 28.0298898
+        },
+        "tags": {
+          "addr:postcode": "8281",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "grill;local;regional;seafood",
+          "name": "Морска градина",
+          "name:bg": "Морска градина",
+          "name:en": "Morska Gradina",
+          "phone": "+359 88 249 2264"
+        }
+      }
+    ]
+  }
+}

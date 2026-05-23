@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "sehir_id": "33",
+    "sehir_adi": "MERSİN",
+    "ilce_id": "1536",
+    "ilce_adi": "MUT",
+    "bbox_used": {
+      "south": 36.579187464864866,
+      "north": 36.84945773513514,
+      "west": 33.189948648653015,
+      "east": 33.52613195134698
+    },
+    "bbox_original": {
+      "south": 36.4591162,
+      "west": 32.9243945,
+      "north": 36.969529,
+      "east": 33.7916861
+    },
+    "fetchedAt": "2026-01-21T09:15:25.374Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:13:42Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4407153706,
+        "lat": 36.7841162,
+        "lon": 33.3463045,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9262512076,
+        "lat": 36.6492812,
+        "lon": 33.429185,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name": "Uçurum Park",
+          "outdoor_seating": "yes"
+        }
+      }
+    ]
+  }
+}

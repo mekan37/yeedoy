@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "sehir_id": "65",
+    "sehir_adi": "VAN",
+    "ilce_id": "1786",
+    "ilce_adi": "ÇALDIRAN",
+    "bbox_used": {
+      "south": 38.99250786486487,
+      "north": 39.26277813513514,
+      "west": 43.80657778403764,
+      "east": 44.153978515962365
+    },
+    "bbox_original": {
+      "south": 38.8843176,
+      "west": 43.7345317,
+      "north": 39.3709684,
+      "east": 44.2260246
+    },
+    "fetchedAt": "2026-01-21T10:48:16.029Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:46:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4393265390,
+        "lat": 39.1406009,
+        "lon": 43.9039577,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mîran Döner Salonu",
+          "name:tr": "Mîran Döner Salonu",
+          "opening_hours": "Mo-Sa 07:30-18:30"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5409105822,
+        "lat": 39.1344817,
+        "lon": 43.9017609,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "name": "yörem café & kahvalti salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9726777385,
+        "lat": 39.1353099,
+        "lon": 43.9030419,
+        "tags": {
+          "air_conditioning": "yes",
+          "amenity": "restaurant",
+          "bar": "no",
+          "cuisine": "turkish",
+          "delivery": "yes",
+          "diet:halal": "yes",
+          "diet:pescetarian": "no",
+          "diet:vegan": "no",
+          "diet:vegetarian": "no",
+          "microbrewery": "no",
+          "name": "Ali Baba",
+          "outdoor_seating": "yes",
+          "phone": "0543 381 00 69",
+          "reservation": "no",
+          "smoking": "yes",
+          "takeaway": "yes",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9726785005,
+        "lat": 39.1341521,
+        "lon": 43.9013784,
+        "tags": {
+          "amenity": "cafe",
+          "name": "People's Cafe"
+        }
+      }
+    ]
+  }
+}

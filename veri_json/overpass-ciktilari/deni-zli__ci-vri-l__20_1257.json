@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "20",
+    "sehir_adi": "DENİZLİ",
+    "ilce_id": "1257",
+    "ilce_adi": "ÇİVRİL",
+    "bbox_used": {
+      "south": 38.09158381486487,
+      "north": 38.36185408513514,
+      "west": 29.625106037270616,
+      "east": 29.968161262729385
+    },
+    "bbox_original": {
+      "south": 37.9793522,
+      "west": 29.5100821,
+      "north": 38.4740857,
+      "east": 30.0831852
+    },
+    "fetchedAt": "2026-01-21T08:50:28.926Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:49:21Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

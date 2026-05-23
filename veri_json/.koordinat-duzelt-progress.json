@@ -1,0 +1,759 @@
+{
+  "completedCities": [
+    "ADANA",
+    "ADIYAMAN",
+    "AFYONKARAHİSAR"
+  ],
+  "cityResults": {
+    "ADANA": {
+      "1104": {
+        "bbox": {
+          "south": 36.7908298,
+          "west": 35.0881251,
+          "north": 37.0400661,
+          "east": 35.3383448
+        },
+        "center": {
+          "lat": 36.91544795,
+          "lon": 35.21323495
+        },
+        "nominatim": {
+          "display_name": "Seyhan",
+          "osm_type": "relation",
+          "osm_id": 1249257,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1219": {
+        "bbox": {
+          "south": 36.8409602,
+          "west": 35.5719652,
+          "north": 37.2764454,
+          "east": 36.099166
+        },
+        "center": {
+          "lat": 37.0587028,
+          "lon": 35.835565599999995
+        },
+        "nominatim": {
+          "display_name": "Ceyhan",
+          "osm_type": "relation",
+          "osm_id": 1249250,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1329": {
+        "bbox": {
+          "south": 37.691969,
+          "west": 35.5756911,
+          "north": 38.1098517,
+          "east": 36.0840127
+        },
+        "center": {
+          "lat": 37.900910350000004,
+          "lon": 35.8298519
+        },
+        "nominatim": {
+          "display_name": "Feke",
+          "osm_type": "relation",
+          "osm_id": 1249248,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1437": {
+        "bbox": {
+          "south": 37.0769864,
+          "west": 34.9308191,
+          "north": 37.4938058,
+          "east": 35.4557428
+        },
+        "center": {
+          "lat": 37.2853961,
+          "lon": 35.19328095
+        },
+        "nominatim": {
+          "display_name": "Karaisalı",
+          "osm_type": "relation",
+          "osm_id": 1249251,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1443": {
+        "bbox": {
+          "south": 36.5388127,
+          "west": 34.9114609,
+          "north": 36.7989245,
+          "east": 35.5929675
+        },
+        "center": {
+          "lat": 36.668868599999996,
+          "lon": 35.2522142
+        },
+        "nominatim": {
+          "display_name": "Karataş",
+          "osm_type": "relation",
+          "osm_id": 1249254,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1486": {
+        "bbox": {
+          "south": 37.2333592,
+          "west": 35.4611035,
+          "north": 37.8072387,
+          "east": 36.2065599
+        },
+        "center": {
+          "lat": 37.52029895,
+          "lon": 35.833831700000005
+        },
+        "nominatim": {
+          "display_name": "Kozan",
+          "osm_type": "relation",
+          "osm_id": 1249252,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1580": {
+        "bbox": {
+          "south": 37.2918434,
+          "west": 34.7697383,
+          "north": 37.6948434,
+          "east": 35.1120435
+        },
+        "center": {
+          "lat": 37.4933434,
+          "lon": 34.9408909
+        },
+        "nominatim": {
+          "display_name": "Pozantı",
+          "osm_type": "relation",
+          "osm_id": 1249256,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1588": {
+        "bbox": {
+          "south": 37.741504,
+          "west": 35.8992219,
+          "north": 38.1560553,
+          "east": 36.2928034
+        },
+        "center": {
+          "lat": 37.94877965,
+          "lon": 36.09601265
+        },
+        "nominatim": {
+          "display_name": "Saimbeyli",
+          "osm_type": "relation",
+          "osm_id": 1249249,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1687": {
+        "bbox": {
+          "south": 38.0535027,
+          "west": 35.9903569,
+          "north": 38.4046019,
+          "east": 36.4095784
+        },
+        "center": {
+          "lat": 38.229052300000006,
+          "lon": 36.199967650000005
+        },
+        "nominatim": {
+          "display_name": "Tufanbeyli",
+          "osm_type": "relation",
+          "osm_id": 1249258,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1734": {
+        "bbox": {
+          "south": 36.5669668,
+          "west": 35.4658522,
+          "north": 36.8992624,
+          "east": 35.92214
+        },
+        "center": {
+          "lat": 36.7331146,
+          "lon": 35.6939961
+        },
+        "nominatim": {
+          "display_name": "Yumurtalık",
+          "osm_type": "relation",
+          "osm_id": 1249259,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1748": {
+        "bbox": {
+          "south": 36.6995029,
+          "west": 35.1358871,
+          "north": 37.0410733,
+          "east": 35.7035125
+        },
+        "center": {
+          "lat": 36.870288099999996,
+          "lon": 35.419699800000004
+        },
+        "nominatim": {
+          "display_name": "Yüreğir",
+          "osm_type": "relation",
+          "osm_id": 1249255,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1757": {
+        "bbox": {
+          "south": 37.3083499,
+          "west": 35.0342587,
+          "north": 37.7241721,
+          "east": 35.5856266
+        },
+        "center": {
+          "lat": 37.516261,
+          "lon": 35.309942649999996
+        },
+        "nominatim": {
+          "display_name": "Aladağ",
+          "osm_type": "relation",
+          "osm_id": 1249246,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1806": {
+        "bbox": {
+          "south": 37.1868356,
+          "west": 35.3958339,
+          "north": 37.4275382,
+          "east": 35.8014203
+        },
+        "center": {
+          "lat": 37.307186900000005,
+          "lon": 35.5986271
+        },
+        "nominatim": {
+          "display_name": "İmamoğlu",
+          "osm_type": "relation",
+          "osm_id": 1249260,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "2032": {
+        "bbox": {
+          "south": 36.9651042,
+          "west": 35.2706276,
+          "north": 37.2593172,
+          "east": 35.6800952
+        },
+        "center": {
+          "lat": 37.1122107,
+          "lon": 35.4753614
+        },
+        "nominatim": {
+          "display_name": "Sarıçam",
+          "osm_type": "relation",
+          "osm_id": 1249247,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "2033": {
+        "bbox": {
+          "south": 37.0242572,
+          "west": 35.0065807,
+          "north": 37.1700955,
+          "east": 35.3344653
+        },
+        "center": {
+          "lat": 37.09717635,
+          "lon": 35.170523
+        },
+        "nominatim": {
+          "display_name": "Çukurova",
+          "osm_type": "relation",
+          "osm_id": 1249253,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      }
+    },
+    "ADIYAMAN": {
+      "1105": null,
+      "1182": {
+        "bbox": {
+          "south": 37.4221932,
+          "west": 37.5783759,
+          "north": 37.7914363,
+          "east": 38.1741352
+        },
+        "center": {
+          "lat": 37.60681475,
+          "lon": 37.876255549999996
+        },
+        "nominatim": {
+          "display_name": "Besni",
+          "osm_type": "relation",
+          "osm_id": 1825239,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1246": {
+        "bbox": {
+          "south": 37.9502997,
+          "west": 38.0870207,
+          "north": 38.2100626,
+          "east": 38.4435022
+        },
+        "center": {
+          "lat": 38.08018115,
+          "lon": 38.26526145
+        },
+        "nominatim": {
+          "display_name": "Çelikhan",
+          "osm_type": "relation",
+          "osm_id": 1825796,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1347": {
+        "bbox": {
+          "south": 37.8222204,
+          "west": 38.7684002,
+          "north": 38.2077979,
+          "east": 39.2632665
+        },
+        "center": {
+          "lat": 38.01500915,
+          "lon": 39.01583335
+        },
+        "nominatim": {
+          "display_name": "Gerger",
+          "osm_type": "relation",
+          "osm_id": 1807479,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1354": {
+        "bbox": {
+          "south": 37.560923,
+          "west": 37.4330263,
+          "north": 37.957595,
+          "east": 37.8883211
+        },
+        "center": {
+          "lat": 37.759259,
+          "lon": 37.660673700000004
+        },
+        "nominatim": {
+          "display_name": "Gölbaşı",
+          "osm_type": "relation",
+          "osm_id": 1389197,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1425": null,
+      "1592": {
+        "bbox": {
+          "south": 37.4811094,
+          "west": 38.3411026,
+          "north": 37.6597322,
+          "east": 38.6260986
+        },
+        "center": {
+          "lat": 37.5704208,
+          "lon": 38.4836006
+        },
+        "nominatim": {
+          "display_name": "Samsat",
+          "osm_type": "relation",
+          "osm_id": 1825794,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1985": {
+        "bbox": {
+          "south": 37.9187968,
+          "west": 38.4130237,
+          "north": 38.1902752,
+          "east": 38.7532424
+        },
+        "center": {
+          "lat": 38.054536,
+          "lon": 38.58313305
+        },
+        "nominatim": {
+          "display_name": "Sincik",
+          "osm_type": "relation",
+          "osm_id": 1825795,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1989": {
+        "bbox": {
+          "south": 37.7172527,
+          "west": 37.8287846,
+          "north": 37.8988884,
+          "east": 38.0741192
+        },
+        "center": {
+          "lat": 37.80807055,
+          "lon": 37.951451899999995
+        },
+        "nominatim": {
+          "display_name": "Tut",
+          "osm_type": "relation",
+          "osm_id": 1825241,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      }
+    },
+    "AFYONKARAHİSAR": {
+      "1108": null,
+      "1200": {
+        "bbox": {
+          "south": 38.6398779,
+          "west": 30.8693933,
+          "north": 38.93364,
+          "east": 31.3977923
+        },
+        "center": {
+          "lat": 38.78675895,
+          "lon": 31.1335928
+        },
+        "nominatim": {
+          "display_name": "Bolvadin",
+          "osm_type": "relation",
+          "osm_id": 1263749,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1239": {
+        "bbox": {
+          "south": 38.3370066,
+          "west": 30.6912528,
+          "north": 38.6712293,
+          "east": 31.2231444
+        },
+        "center": {
+          "lat": 38.50411795,
+          "lon": 30.957198599999998
+        },
+        "nominatim": {
+          "display_name": "Çay",
+          "osm_type": "relation",
+          "osm_id": 1263743,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1267": {
+        "bbox": {
+          "south": 37.8125987,
+          "west": 29.6588901,
+          "north": 38.0360475,
+          "east": 29.9755145
+        },
+        "center": {
+          "lat": 37.9243231,
+          "lon": 29.817202299999998
+        },
+        "nominatim": {
+          "display_name": "Dazkırı",
+          "osm_type": "relation",
+          "osm_id": 1263751,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1281": {
+        "bbox": {
+          "south": 37.9221207,
+          "west": 29.9686483,
+          "north": 38.3860006,
+          "east": 30.6070894
+        },
+        "center": {
+          "lat": 38.154060650000005,
+          "lon": 30.287868850000002
+        },
+        "nominatim": {
+          "display_name": "Dinar",
+          "osm_type": "relation",
+          "osm_id": 1263741,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1306": {
+        "bbox": {
+          "south": 38.7689244,
+          "west": 30.9416587,
+          "north": 39.2708544,
+          "east": 31.7319863
+        },
+        "center": {
+          "lat": 39.0198894,
+          "lon": 31.3368225
+        },
+        "nominatim": {
+          "display_name": "Emirdağ",
+          "osm_type": "relation",
+          "osm_id": 1263757,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1404": {
+        "bbox": {
+          "south": 38.8926623,
+          "west": 30.2422698,
+          "north": 39.2210832,
+          "east": 30.7186679
+        },
+        "center": {
+          "lat": 39.05687275,
+          "lon": 30.48046885
+        },
+        "nominatim": {
+          "display_name": "İhsaniye",
+          "osm_type": "relation",
+          "osm_id": 1263742,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1594": {
+        "bbox": {
+          "south": 38.2678369,
+          "west": 29.9122291,
+          "north": 38.6899543,
+          "east": 30.4140006
+        },
+        "center": {
+          "lat": 38.4788956,
+          "lon": 30.16311485
+        },
+        "nominatim": {
+          "display_name": "Sandıklı",
+          "osm_type": "relation",
+          "osm_id": 1263755,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1626": {
+        "bbox": {
+          "south": 38.5120422,
+          "west": 29.9876048,
+          "north": 38.9124408,
+          "east": 30.4538948
+        },
+        "center": {
+          "lat": 38.712241500000005,
+          "lon": 30.2207498
+        },
+        "nominatim": {
+          "display_name": "Sinanpaşa",
+          "osm_type": "relation",
+          "osm_id": 1263756,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1639": {
+        "bbox": {
+          "south": 38.3832482,
+          "west": 31.1555359,
+          "north": 38.8019922,
+          "east": 31.6076763
+        },
+        "center": {
+          "lat": 38.5926202,
+          "lon": 31.3816061
+        },
+        "nominatim": {
+          "display_name": "Sultandağı",
+          "osm_type": "relation",
+          "osm_id": 1263750,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1664": {
+        "bbox": {
+          "south": 38.2202332,
+          "west": 30.3724662,
+          "north": 38.6349626,
+          "east": 30.7981917
+        },
+        "center": {
+          "lat": 38.4275979,
+          "lon": 30.58532895
+        },
+        "nominatim": {
+          "display_name": "Şuhut",
+          "osm_type": "relation",
+          "osm_id": 1263754,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1771": {
+        "bbox": {
+          "south": 37.7774879,
+          "west": 29.8868858,
+          "north": 37.9964781,
+          "east": 30.1588123
+        },
+        "center": {
+          "lat": 37.886983,
+          "lon": 30.02284905
+        },
+        "nominatim": {
+          "display_name": "Başmakçı",
+          "osm_type": "relation",
+          "osm_id": 1263748,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1773": {
+        "bbox": {
+          "south": 38.8151681,
+          "west": 30.7853146,
+          "north": 39.2028614,
+          "east": 31.0219522
+        },
+        "center": {
+          "lat": 39.009014750000006,
+          "lon": 30.9036334
+        },
+        "nominatim": {
+          "display_name": "Bayat",
+          "osm_type": "relation",
+          "osm_id": 1263745,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1809": {
+        "bbox": {
+          "south": 38.7938569,
+          "west": 30.6146049,
+          "north": 39.052096,
+          "east": 30.9076929
+        },
+        "center": {
+          "lat": 38.92297645,
+          "lon": 30.761148900000002
+        },
+        "nominatim": {
+          "display_name": "İscehisar",
+          "osm_type": "relation",
+          "osm_id": 1263752,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1906": {
+        "bbox": {
+          "south": 38.6413926,
+          "west": 30.7373427,
+          "north": 38.8407773,
+          "east": 30.957756
+        },
+        "center": {
+          "lat": 38.74108495,
+          "lon": 30.84754935
+        },
+        "nominatim": {
+          "display_name": "Çobanlar",
+          "osm_type": "relation",
+          "osm_id": 1263747,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1923": {
+        "bbox": {
+          "south": 37.9772943,
+          "west": 29.7785566,
+          "north": 38.170212,
+          "east": 30.0441834
+        },
+        "center": {
+          "lat": 38.07375315,
+          "lon": 29.91137
+        },
+        "nominatim": {
+          "display_name": "Evciler",
+          "osm_type": "relation",
+          "osm_id": 1263746,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1944": {
+        "bbox": {
+          "south": 38.4319935,
+          "west": 29.8118339,
+          "north": 38.742576,
+          "east": 30.095142
+        },
+        "center": {
+          "lat": 38.587284749999995,
+          "lon": 29.95348795
+        },
+        "nominatim": {
+          "display_name": "Hocalar",
+          "osm_type": "relation",
+          "osm_id": 1263744,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      },
+      "1961": {
+        "bbox": {
+          "south": 38.2106787,
+          "west": 30.0780438,
+          "north": 38.3334638,
+          "east": 30.2679519
+        },
+        "center": {
+          "lat": 38.272071249999996,
+          "lon": 30.17299785
+        },
+        "nominatim": {
+          "display_name": "Kızılören",
+          "osm_type": "relation",
+          "osm_id": 1824754,
+          "class": "boundary",
+          "type": "administrative"
+        }
+      }
+    }
+  }
+}

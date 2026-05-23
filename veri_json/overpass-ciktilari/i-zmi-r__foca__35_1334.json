@@ -1,0 +1,271 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "1334",
+    "ilce_adi": "FOÇA",
+    "bbox_used": {
+      "south": 38.5780503,
+      "west": 26.7227025,
+      "north": 38.7621758,
+      "east": 26.9675187
+    },
+    "bbox_original": {
+      "south": 38.5780503,
+      "west": 26.7227025,
+      "north": 38.7621758,
+      "east": 26.9675187
+    },
+    "fetchedAt": "2026-01-21T09:24:30.962Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 19
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:22:59Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1800200925,
+        "lat": 38.7416531,
+        "lon": 26.8380558,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3767472442,
+        "lat": 38.671327,
+        "lon": 26.7703749,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9087966017,
+        "lat": 38.6675519,
+        "lon": 26.7524045,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Unpretentious venue where locals socialise"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9605911417,
+        "lat": 38.6682542,
+        "lon": 26.7514942,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fokai Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10724148555,
+        "lat": 38.6692577,
+        "lon": 26.7550403,
+        "tags": {
+          "amenity": "bar",
+          "check_date": "2024-06-23",
+          "name": "Todo"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11096936574,
+        "lat": 38.6679607,
+        "lon": 26.7514492,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2023-08-07",
+          "name": "Lemnos Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11096936577,
+        "lat": 38.6678667,
+        "lon": 26.7530713,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2023-08-07",
+          "name": "Zeynep'in Elinden"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11536436870,
+        "lat": 38.6693628,
+        "lon": 26.7550333,
+        "tags": {
+          "addr:city": "Foça",
+          "addr:housenumber": "48",
+          "addr:neighbourhood": "Fevzipaşa Mah.",
+          "addr:street": "Reha Midilli Cd.",
+          "amenity": "restaurant",
+          "check_date": "2024-06-23",
+          "cuisine": "seafood",
+          "name": "Celep",
+          "phone": "+90 232 812 14 95",
+          "website": "https://celeprestaurant.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11807198370,
+        "lat": 38.6686851,
+        "lon": 26.7546653,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Foça Balık Ekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12003396926,
+        "lat": 38.6692012,
+        "lon": 26.7550489,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-23",
+          "name": "Neco"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12003420101,
+        "lat": 38.6690587,
+        "lon": 26.7543295,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2024-06-23",
+          "name": "Limni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12301279759,
+        "lat": 38.6718675,
+        "lon": 26.7551365,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Diyarı",
+          "website": "https://www.kahvediyari.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12302154186,
+        "lat": 38.6685396,
+        "lon": 26.754443,
+        "tags": {
+          "addr:housenumber": "4/1",
+          "addr:street": "194 sokak",
+          "amenity": "restaurant",
+          "description": "Restaurant gourmet, carta de whiskies y cocktails.",
+          "name": "Adara Phokaia"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12302155552,
+        "lat": 38.6741253,
+        "lon": 26.753202,
+        "tags": {
+          "amenity": "cafe",
+          "description": "Coffee, wine, bistro",
+          "name": "Kavala  cafe",
+          "website": "https://www.kavalawinebistrobar.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 307902909,
+        "center": {
+          "lat": 38.5829428,
+          "lon": 26.9650324
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1016576280,
+        "center": {
+          "lat": 38.697878,
+          "lon": 26.7317235
+        },
+        "tags": {
+          "addr:city": "izmir",
+          "addr:district": "foça",
+          "addr:housenumber": "No :1",
+          "addr:neighbourhood": "İsmetpaşa Mahallesi",
+          "addr:street": "330. Sokak",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Hanedan Kafeterya"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1016576358,
+        "center": {
+          "lat": 38.6986761,
+          "lon": 26.7318518
+        },
+        "tags": {
+          "addr:city": "izmir",
+          "addr:district": "foça",
+          "addr:neighbourhood": "İsmetpaşa Mahallesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Hanedan Beach Otel Lokanta"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1108933144,
+        "center": {
+          "lat": 38.5818895,
+          "lon": 26.9673329
+        },
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Menemen",
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:postcode": "35665",
+          "addr:street": "Kaynaklar Caddesi",
+          "amenity": "cafe",
+          "building": "apartments",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "mardian kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1108936866,
+        "center": {
+          "lat": 38.5811026,
+          "lon": 26.9630466
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Uçak Cafe"
+        }
+      }
+    ]
+  }
+}

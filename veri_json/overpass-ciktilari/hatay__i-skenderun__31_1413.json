@@ -1,0 +1,472 @@
+{
+  "meta": {
+    "sehir_id": "31",
+    "sehir_adi": "HATAY",
+    "ilce_id": "1413",
+    "ilce_adi": "İSKENDERUN",
+    "bbox_used": {
+      "south": 36.5097396,
+      "west": 36.0345508,
+      "north": 36.7274283,
+      "east": 36.3834571
+    },
+    "bbox_original": {
+      "south": 36.5097396,
+      "west": 36.0345508,
+      "north": 36.7274283,
+      "east": 36.3834571
+    },
+    "fetchedAt": "2026-01-21T09:11:15.793Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 28
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:09:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1283933451,
+        "lat": 36.5930677,
+        "lon": 36.1683551,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "italian",
+          "internet_access": "wlan",
+          "name": "Mapido Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1283933466,
+        "lat": 36.5906062,
+        "lon": 36.1703198,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "international",
+          "name": "Emir Pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3050736713,
+        "lat": 36.5898483,
+        "lon": 36.1692162,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sirdan & Kokorec"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3111812374,
+        "lat": 36.5749256,
+        "lon": 36.1615289,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3174766289,
+        "lat": 36.5899409,
+        "lon": 36.1692723,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Belgin Abla Mutfağı",
+          "source": "survey"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7928443569,
+        "lat": 36.5906792,
+        "lon": 36.1651993,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mısırlı Lahmacun Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7928453806,
+        "lat": 36.5902772,
+        "lon": 36.1740219,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9873138575,
+        "lat": 36.5609349,
+        "lon": 36.1088443,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:housenumber": "15",
+          "addr:neighbourhood": "Karaağaç Şarkonak Mahallesi",
+          "addr:street": "537 Sokak",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Ed Coffee Station",
+          "opening_hours": "11:00-01:00",
+          "outdoor_seating": "yes",
+          "phone": "05373590681",
+          "website": "www.instagtam.com/edcoffeestation"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10294883966,
+        "lat": 36.5904802,
+        "lon": 36.1831039,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "İskenderun",
+          "addr:street": "5 Temmuz Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "name": "Liman Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10314699977,
+        "lat": 36.5932158,
+        "lon": 36.1595462,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "İskenderun",
+          "addr:neighbourhood": "Süleymaniye",
+          "addr:postcode": "31200",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "outdoor_seating": "yes",
+          "phone": "+90 326 502 2818",
+          "takeaway": "yes",
+          "toilets": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10314699978,
+        "lat": 36.5931382,
+        "lon": 36.1593987,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "İskenderun",
+          "addr:housenumber": "97",
+          "addr:neighbourhood": "Süleymaniye",
+          "addr:postcode": "31200",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "name": "326 Plus",
+          "outdoor_seating": "yes",
+          "phone": "+90 326 613 2690",
+          "website": "https://www.326pluscafe.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10314699980,
+        "lat": 36.5934117,
+        "lon": 36.1599217,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "İskenderun",
+          "addr:neighbourhood": "Süleymaniye",
+          "addr:postcode": "31200",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "BigChefs",
+          "phone": "+90 326 502 2838",
+          "website": "https://www.bigchefs.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11137646357,
+        "lat": 36.5656169,
+        "lon": 36.1117559,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:neighbourhood": "Karaağaç",
+          "addr:postcode": "31290",
+          "addr:street": "Köyü Yolu",
+          "amenity": "cafe",
+          "name": "Navi Alem Cafe Bar Butik Restaurant",
+          "source": "microsoft/BuildingFootprints"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12059874274,
+        "lat": 36.5652243,
+        "lon": 36.1079316,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:housenumber": "113",
+          "addr:neighbourhood": "Karaağaç",
+          "addr:street": "Akdeniz Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "fish;kebab",
+          "name": "Şirinyer Restaurant",
+          "name:tr": "Şirinyer Balık Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13116450857,
+        "lat": 36.5651872,
+        "lon": 36.1179923,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:housenumber": "250/3",
+          "addr:neighbourhood": "Şarkonak",
+          "addr:postcode": "31290",
+          "addr:street": "Uğur Mumcu Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Tarihi Han Ciğercisi",
+          "opening_hours": "24/7",
+          "phone": "+90 532 060 96 91"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13204779788,
+        "lat": 36.5828894,
+        "lon": 36.1416881,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:housenumber": "23/a",
+          "addr:neighbourhood": "Karaağaç Konarlı",
+          "addr:postcode": "31290",
+          "addr:street": "10153. Sk.",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Pela Coffee & Ceramic",
+          "outdoor_seating": "yes",
+          "phone": "05355765957",
+          "website": "https://pelasanat.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13344697999,
+        "lat": 36.5754544,
+        "lon": 36.1451876,
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:housenumber": "52/A",
+          "addr:neighbourhood": "Karaağaç Konarlı",
+          "addr:postcode": "31200",
+          "addr:street": "Ortayol Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Pizza Piri Karağaç Konarlı"
+        }
+      },
+      {
+        "type": "way",
+        "id": 306099978,
+        "center": {
+          "lat": 36.5638877,
+          "lon": 36.2123909
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "capacity": "100",
+          "cuisine": "çay_ve_Küneffe",
+          "name": "Calayan Alabalik Lokanta",
+          "smoking": "outside",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "way",
+        "id": 306110198,
+        "center": {
+          "lat": 36.5931681,
+          "lon": 36.1705359
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1070634062,
+        "center": {
+          "lat": 36.5468945,
+          "lon": 36.156473
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Mavi Köşe Pastanesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1089693741,
+        "center": {
+          "lat": 36.5930735,
+          "lon": 36.1683615
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1089693774,
+        "center": {
+          "lat": 36.5745708,
+          "lon": 36.125612
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Kumsal Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1107924790,
+        "center": {
+          "lat": 36.5888474,
+          "lon": 36.1647095
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "1"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1121705914,
+        "center": {
+          "lat": 36.5953637,
+          "lon": 36.1636519
+        },
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "İskenderun",
+          "addr:postcode": "31200",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Petek Cafe",
+          "outdoor_seating": "yes",
+          "website": "https://www.peteksiparis.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1142350361,
+        "center": {
+          "lat": 36.5904198,
+          "lon": 36.183115
+        },
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "İskenderun",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Liman Kebap",
+          "source": "microsoft/BuildingFootprints"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1143132938,
+        "center": {
+          "lat": 36.5797726,
+          "lon": 36.1387395
+        },
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:housenumber": "38",
+          "addr:neighbourhood": "Karaağaç Konarlı",
+          "addr:postcode": "31290",
+          "addr:street": "10 Nisan",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "name": "Artukbey Kahve Karaağaç",
+          "outdoor_seating": "yes",
+          "phone": "+90 534 558 99 49"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1421378508,
+        "center": {
+          "lat": 36.5245845,
+          "lon": 36.0365417
+        },
+        "tags": {
+          "addr:housenumber": "2",
+          "addr:neighbourhood": "Büyükdere",
+          "addr:street": "Topallar Sokak",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "fish;kebab",
+          "name": "Sandal Restaurant Et Balık & Kahvaltı",
+          "phone": "+90 501 193 31 31",
+          "website": "https://www.sanaltur360.com/dijital-ikiz/sandal-restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1465268656,
+        "center": {
+          "lat": 36.5652744,
+          "lon": 36.1077547
+        },
+        "tags": {
+          "addr:city": "Hatay",
+          "addr:district": "Arsuz",
+          "addr:housenumber": "113",
+          "addr:neighbourhood": "Karaağaç",
+          "addr:street": "Akdeniz Caddesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish;fish;kebab;chicken",
+          "name": "Şirinyer Restaurant"
+        }
+      }
+    ]
+  }
+}

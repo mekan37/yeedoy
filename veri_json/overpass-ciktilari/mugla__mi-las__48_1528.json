@@ -1,0 +1,553 @@
+{
+  "meta": {
+    "sehir_id": "48",
+    "sehir_adi": "MUĞLA",
+    "ilce_id": "1528",
+    "ilce_adi": "MİLAS",
+    "bbox_used": {
+      "south": 37.13904721486487,
+      "north": 37.40931748513514,
+      "west": 27.568301370272874,
+      "east": 27.90696872972713
+    },
+    "bbox_original": {
+      "south": 36.9917,
+      "west": 27.382677,
+      "north": 37.5566647,
+      "east": 28.0925931
+    },
+    "fetchedAt": "2026-01-21T10:06:09.837Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 43
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:04:54Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2125059354,
+        "lat": 37.313304,
+        "lon": 27.7839734,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Ahmet Çavuş Hayıtlı Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "İnönü Cad.",
+          "amenity": "cafe",
+          "name": "Aplangeç Çayevi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2125060805,
+        "lat": 37.3157956,
+        "lon": 27.7781718,
+        "tags": {
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4899552639,
+        "lat": 37.2284549,
+        "lon": 27.6805606,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamlık Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5688794364,
+        "lat": 37.2848011,
+        "lon": 27.7802564,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Beçin Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "Üniversite Cad.",
+          "amenity": "cafe",
+          "name": "Societe Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5688794365,
+        "lat": 37.2849237,
+        "lon": 27.7802795,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:housenumber": "29",
+          "addr:neighbourhood": "Beçin Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "Üniversite Cad.",
+          "amenity": "cafe",
+          "level": "0",
+          "name": "Cafe Yağmur"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5688795138,
+        "lat": 37.2929849,
+        "lon": 27.7809392,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Emek Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "Hamdi Mergen Cad.",
+          "amenity": "cafe",
+          "name": "Kampüs Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5708847379,
+        "lat": 37.3164889,
+        "lon": 27.7889315,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Hacıabti Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "Esen Sk.",
+          "amenity": "restaurant",
+          "name": "Esentepe Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5716023871,
+        "lat": 37.3189333,
+        "lon": 27.7896271,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Hacıabti Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "30 Ağustos Cad.",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Kofteci",
+          "outdoor_seating": "yes",
+          "takeaway": "only"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5754272598,
+        "lat": 37.2861332,
+        "lon": 27.7806318,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Beçin Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "Üniversite Cad.",
+          "amenity": "nightclub",
+          "name": "Kumbara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5831935938,
+        "lat": 37.2907272,
+        "lon": 27.7798936,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Oreas Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6031716687,
+        "lat": 37.2847448,
+        "lon": 27.6855066,
+        "tags": {
+          "amenity": "cafe",
+          "name": "çay",
+          "name:en": "tea"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6432831182,
+        "lat": 37.2418104,
+        "lon": 27.600087,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mimoza Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6432970257,
+        "lat": 37.2372672,
+        "lon": 27.5983461,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ziyafet Pide",
+          "phone": "+90 252 522 40 75"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6433865349,
+        "lat": 37.1652367,
+        "lon": 27.590312,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ziyafet Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6434116036,
+        "lat": 37.2387496,
+        "lon": 27.5980098,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Mandalya Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6435855271,
+        "lat": 37.2456543,
+        "lon": 27.5999507,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ömer'in Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6436465379,
+        "lat": 37.2372473,
+        "lon": 27.5978885,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Alinin Yeri Kelle-Paça Mercimek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8987451904,
+        "lat": 37.289318,
+        "lon": 27.7811143,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Emek Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "Halil Bey Blv.",
+          "amenity": "restaurant",
+          "name": "Ege Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9003325973,
+        "lat": 37.2778733,
+        "lon": 27.7892112,
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Beçin Mah.",
+          "addr:postcode": "48200",
+          "amenity": "cafe",
+          "name": "Flora Cadde Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9396448713,
+        "lat": 37.2604236,
+        "lon": 27.7197071,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İnciraltı çiftliği"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9398494828,
+        "lat": 37.3979279,
+        "lon": 27.6553929,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Onur cheff"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9868814833,
+        "lat": 37.2854689,
+        "lon": 27.8152841,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9937841676,
+        "lat": 37.2147876,
+        "lon": 27.8248093,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10751422059,
+        "lat": 37.3884895,
+        "lon": 27.6622493,
+        "tags": {
+          "amenity": "restaurant",
+          "description": "https://www.facebook.com/agoragurme\nemail: agoragurme@gmail.com\nhours: Monday - Sunday 08.00 to 23.00\ncategory: Restaurants\naddress: 37.387592, 27.662752",
+          "name": "Agora Gurme Restoran ve Yöresel Ürünler",
+          "phone": "0532 416 39 96",
+          "website": "https://www.agoragurme.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11225569382,
+        "lat": 37.243978,
+        "lon": 27.6733827,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Flavour Market"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11840570642,
+        "lat": 37.3006933,
+        "lon": 27.7799205,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hooters Pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11991745454,
+        "lat": 37.2390603,
+        "lon": 27.597895,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Caffe Triano"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11991745455,
+        "lat": 37.2392292,
+        "lon": 27.5976504,
+        "tags": {
+          "amenity": "cafe",
+          "name": "SADE CAFE BISTRO"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11991745456,
+        "lat": 37.2393389,
+        "lon": 27.5974222,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Küçük Ev Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12000607283,
+        "lat": 37.2383137,
+        "lon": 27.598066,
+        "tags": {
+          "amenity": "bar",
+          "name": "The Broken Barrel"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12000607284,
+        "lat": 37.2384365,
+        "lon": 27.5980714,
+        "tags": {
+          "amenity": "bar",
+          "name": "Mayday Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12098763041,
+        "lat": 37.1721641,
+        "lon": 27.6005519,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12299618014,
+        "lat": 37.2379886,
+        "lon": 27.5979534,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13077735101,
+        "lat": 37.2080451,
+        "lon": 27.6497247,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Kaptan Kiliç",
+          "opening_hours": "Mo-Su 10:00-20:00",
+          "outdoor_seating": "yes",
+          "self_service": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13094614703,
+        "lat": 37.2375715,
+        "lon": 27.5984574,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "diet:meat": "yes",
+          "name": "Mehmet Usta Köfteci"
+        }
+      },
+      {
+        "type": "way",
+        "id": 298115968,
+        "center": {
+          "lat": 37.2382564,
+          "lon": 27.5977743
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Güllük Belediye Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 498578319,
+        "center": {
+          "lat": 37.2278303,
+          "lon": 27.6916187
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Güler Ocakbaşı"
+        }
+      },
+      {
+        "type": "way",
+        "id": 606342313,
+        "center": {
+          "lat": 37.287858,
+          "lon": 27.8059949
+        },
+        "tags": {
+          "addr:city": "Milas",
+          "addr:district": "Muğla",
+          "addr:neighbourhood": "Menteş Mah.",
+          "addr:postcode": "48200",
+          "addr:street": "Milas - Muğla Yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Mylasa 48"
+        }
+      },
+      {
+        "type": "way",
+        "id": 681461383,
+        "center": {
+          "lat": 37.2415472,
+          "lon": 27.5997268
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Karaf Restaurant and Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 681461384,
+        "center": {
+          "lat": 37.2404478,
+          "lon": 27.6001244
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 681464164,
+        "center": {
+          "lat": 37.2413625,
+          "lon": 27.5996836
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1177923899,
+        "center": {
+          "lat": 37.2397239,
+          "lon": 27.5971182
+        },
+        "tags": {
+          "amenity": "bar",
+          "building": "yes",
+          "name": "Dawi Coffee"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1330880560,
+        "center": {
+          "lat": 37.2408443,
+          "lon": 27.5994926
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Polat Global Restaurant"
+        }
+      }
+    ]
+  }
+}

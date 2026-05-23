@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "sehir_id": "62",
+    "sehir_adi": "TUNCELİ",
+    "ilce_id": "1562",
+    "ilce_adi": "OVACIK",
+    "bbox_used": {
+      "south": 39.226728064864865,
+      "north": 39.49699833513514,
+      "west": 39.07016876830872,
+      "east": 39.41873153169128
+    },
+    "bbox_original": {
+      "south": 39.2004805,
+      "west": 38.7947093,
+      "north": 39.5232459,
+      "east": 39.694191
+    },
+    "fetchedAt": "2026-01-21T10:40:02.330Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:38:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9722317534,
+        "lat": 39.3573586,
+        "lon": 39.2148129,
+        "tags": {
+          "amenity": "restaurant",
+          "diet:halal": "yes",
+          "name": "Turistik Lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9722317544,
+        "lat": 39.3572007,
+        "lon": 39.2159411,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cuba Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9722317548,
+        "lat": 39.3573334,
+        "lon": 39.2148647,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kibele Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9722317549,
+        "lat": 39.3573332,
+        "lon": 39.2149096,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çarşı Kafe"
+        }
+      }
+    ]
+  }
+}

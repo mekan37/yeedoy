@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "sehir_id": "63",
+    "sehir_adi": "ŞANLIURFA",
+    "ilce_id": "1630",
+    "ilce_adi": "SİVEREK",
+    "bbox_used": {
+      "south": 37.48573871486486,
+      "north": 37.75600898513513,
+      "west": 39.19363731460917,
+      "east": 39.533877785390835
+    },
+    "bbox_original": {
+      "south": 37.2212308,
+      "west": 38.8716212,
+      "north": 38.0205169,
+      "east": 39.8558939
+    },
+    "fetchedAt": "2026-01-21T10:43:23.015Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 7
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:41:32Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4523482296,
+        "lat": 37.7532889,
+        "lon": 39.3194286,
+        "tags": {
+          "addr:city": "Şanlıurfa",
+          "addr:district": "Siverek",
+          "amenity": "restaurant",
+          "name": "Siverek Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5003735232,
+        "lat": 37.7412333,
+        "lon": 39.3057942,
+        "tags": {
+          "addr:city": "Şanlıurfa",
+          "addr:district": "Siverek",
+          "amenity": "restaurant",
+          "name": "Emmoş Bucak Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5582148821,
+        "lat": 37.7130755,
+        "lon": 39.280246,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gül-Pet Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12289888514,
+        "lat": 37.750068,
+        "lon": 39.3430339,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12290038501,
+        "lat": 37.7542504,
+        "lon": 39.3188422,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bali Kırathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12290042301,
+        "lat": 37.7540606,
+        "lon": 39.3208569,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Han 1943"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13028966501,
+        "lat": 37.7513014,
+        "lon": 39.3279479,
+        "tags": {
+          "addr:housenumber": "3",
+          "addr:street": "Ofis 6. Sokak",
+          "amenity": "cafe",
+          "name": "Mekan 101 Kafe"
+        }
+      }
+    ]
+  }
+}

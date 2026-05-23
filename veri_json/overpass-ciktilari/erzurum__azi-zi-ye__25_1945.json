@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "sehir_id": "25",
+    "sehir_adi": "ERZURUM",
+    "ilce_id": "1945",
+    "ilce_adi": "AZİZİYE",
+    "bbox_used": {
+      "south": 39.94162931486486,
+      "north": 40.211899585135136,
+      "west": 40.75850967649581,
+      "east": 41.110704523504175
+    },
+    "bbox_original": {
+      "south": 39.8145383,
+      "west": 40.621998,
+      "north": 40.3389906,
+      "east": 41.2472162
+    },
+    "fetchedAt": "2026-01-21T09:02:06.624Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:00:36Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5869005885,
+        "lat": 39.9828494,
+        "lon": 40.9880449,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "very good"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6121324887,
+        "lat": 39.9730366,
+        "lon": 41.0350328,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "name:ru": "Турецкая кухня"
+        }
+      }
+    ]
+  }
+}

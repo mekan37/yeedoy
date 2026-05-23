@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "sehir_id": "28",
+    "sehir_adi": "GİRESUN",
+    "ilce_id": "1212",
+    "ilce_adi": "BULANCAK",
+    "bbox_used": {
+      "south": 40.5225556,
+      "west": 37.9596658,
+      "north": 40.946529,
+      "east": 38.3094246
+    },
+    "bbox_original": {
+      "south": 40.5225556,
+      "west": 37.9596658,
+      "north": 40.946529,
+      "east": 38.3094246
+    },
+    "fetchedAt": "2026-01-21T09:06:09.819Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 10
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:04:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4164474099,
+        "lat": 40.9349941,
+        "lon": 38.3042611,
+        "tags": {
+          "addr:street": "Ordu-Giresun yolu",
+          "amenity": "cafe",
+          "cuisine": "ice_cream;steak_house;pancake;burger;coffee_shop;breakfast;friture;pasta;cake;sandwich;bagel;hot_dog;sausage;chicken;turkish",
+          "internet_access": "wlan",
+          "name": "Metro Dinlenme Tesisi Kebir",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5353842522,
+        "lat": 40.9374341,
+        "lon": 38.2233122,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "lahmacum pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6535456985,
+        "lat": 40.9384895,
+        "lon": 38.232444,
+        "tags": {
+          "addr:street": "Terazi Sokak",
+          "amenity": "cafe",
+          "name": "Romiko"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10057163899,
+        "lat": 40.9333727,
+        "lon": 38.3058003,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Fat Büfe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12293638204,
+        "lat": 40.9194778,
+        "lon": 37.9613785,
+        "tags": {
+          "addr:neighbourhood": "Topluca",
+          "addr:street": "Sarıahmet Sokak",
+          "amenity": "cafe",
+          "internet_access": "no",
+          "name": "Sarıahmet Kıraathanesi",
+          "outdoor_seating": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441888410,
+        "lat": 40.6267555,
+        "lon": 37.9630936,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Kabadüz",
+          "addr:housenumber": "2/A",
+          "addr:neighbourhood": "Musakırık",
+          "addr:street": "Hasan Tahsin Tıflı Caddesi",
+          "amenity": "restaurant",
+          "name": "Alper Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441888413,
+        "lat": 40.6263989,
+        "lon": 37.9635675,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Kabadüz",
+          "addr:housenumber": "7/A",
+          "addr:neighbourhood": "Musakırık",
+          "addr:street": "Hasan Tahsin Tıflı Caddesi",
+          "amenity": "restaurant",
+          "name": "Kalyoncuoğlu Şen Kasap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441888414,
+        "lat": 40.6264682,
+        "lon": 37.9634712,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Kabadüz",
+          "addr:neighbourhood": "Musakırık",
+          "amenity": "cafe",
+          "name": "Tatar Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441888415,
+        "lat": 40.6265347,
+        "lon": 37.9633902,
+        "tags": {
+          "addr:city": "Ordu",
+          "addr:district": "Kabadüz",
+          "addr:neighbourhood": "Musakırık",
+          "addr:street": "Hasan Tahsin Tıflı Caddesi",
+          "amenity": "restaurant",
+          "name": "Volkan Ocakbaşı"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1328770482,
+        "center": {
+          "lat": 40.9194826,
+          "lon": 37.9613635
+        },
+        "tags": {
+          "addr:neighbourhood": "Topluca",
+          "addr:street": "Sarıahmet Sokak",
+          "amenity": "cafe",
+          "building": "yes",
+          "internet_access": "no",
+          "name": "Sarıhamet Kıraathanesi",
+          "outdoor_seating": "no"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "sehir_id": "19",
+    "sehir_adi": "ÇORUM",
+    "ilce_id": "1642",
+    "ilce_adi": "SUNGURLU",
+    "bbox_used": {
+      "south": 40.07613741486487,
+      "north": 40.34640768513514,
+      "west": 34.14895901584334,
+      "east": 34.50185188415666
+    },
+    "bbox_original": {
+      "south": 39.9394362,
+      "west": 33.9589119,
+      "north": 40.4831089,
+      "east": 34.691899
+    },
+    "fetchedAt": "2026-01-21T08:49:11.502Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:47:10Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3421146612,
+        "lat": 40.1560338,
+        "lon": 34.3385351,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tuncaylar Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12141680730,
+        "lat": 40.1540725,
+        "lon": 34.3247063,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12141680737,
+        "lat": 40.1547905,
+        "lon": 34.337685,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ali Osman Ulusoy Dinlenme Tesisleri"
+        }
+      }
+    ]
+  }
+}

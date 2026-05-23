@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "sehir_id": "3",
+    "sehir_adi": "AFYONKARAHİSAR",
+    "ilce_id": "1306",
+    "ilce_adi": "EMİRDAĞ",
+    "bbox_used": {
+      "south": 38.88475426486486,
+      "north": 39.155024535135134,
+      "west": 31.16338716141008,
+      "east": 31.510257838589922
+    },
+    "bbox_original": {
+      "south": 38.7689244,
+      "west": 30.9416587,
+      "north": 39.2708544,
+      "east": 31.7319863
+    },
+    "fetchedAt": "2026-01-21T08:19:26.042Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:17:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10936912206,
+        "lat": 38.9809627,
+        "lon": 31.2444137,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12113160567,
+        "lat": 38.9806925,
+        "lon": 31.2451138,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Las Vegas Kahvehanesi"
+        }
+      }
+    ]
+  }
+}

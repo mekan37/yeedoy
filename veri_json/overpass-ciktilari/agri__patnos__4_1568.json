@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "4",
+    "sehir_adi": "AĞRI",
+    "ilce_id": "1568",
+    "ilce_adi": "PATNOS",
+    "bbox_used": {
+      "south": 39.04007486486486,
+      "north": 39.31034513513514,
+      "west": 42.73265188608211,
+      "east": 43.080287513917895
+    },
+    "bbox_original": {
+      "south": 38.9299742,
+      "west": 42.5967051,
+      "north": 39.4204458,
+      "east": 43.2162343
+    },
+    "fetchedAt": "2026-01-21T08:21:13.616Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:19:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

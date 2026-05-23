@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1760",
+    "ilce_adi": "ALTINEKİN",
+    "bbox_used": {
+      "south": 38.167689564864865,
+      "north": 38.43795983513514,
+      "west": 32.74524483366585,
+      "east": 33.08865966633415
+    },
+    "bbox_original": {
+      "south": 38.1130656,
+      "west": 32.5740643,
+      "north": 38.4925838,
+      "east": 33.2598402
+    },
+    "fetchedAt": "2026-01-21T09:47:30.421Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:46:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2723479312,
+        "lat": 38.2758078,
+        "lon": 32.7654962,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9284935065,
+        "lat": 38.3403344,
+        "lon": 32.7799749,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

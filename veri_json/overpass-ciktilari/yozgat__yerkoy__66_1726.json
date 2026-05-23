@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "66",
+    "sehir_adi": "YOZGAT",
+    "ilce_id": "1726",
+    "ilce_adi": "YERKÖY",
+    "bbox_used": {
+      "south": 39.6821011,
+      "west": 34.4607364,
+      "north": 39.6921011,
+      "east": 34.4707364
+    },
+    "bbox_original": {
+      "south": 39.6821011,
+      "west": 34.4607364,
+      "north": 39.6921011,
+      "east": 34.4707364
+    },
+    "fetchedAt": "2026-01-21T10:50:33.547Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:49:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "80",
+    "sehir_adi": "OSMANİYE",
+    "ilce_id": "2028",
+    "ilce_adi": "SUMBAS",
+    "bbox_used": {
+      "south": 37.3885486,
+      "west": 35.9193006,
+      "north": 37.7499239,
+      "east": 36.2065599
+    },
+    "bbox_original": {
+      "south": 37.3885486,
+      "west": 35.9193006,
+      "north": 37.7499239,
+      "east": 36.2065599
+    },
+    "fetchedAt": "2026-01-21T11:09:17.428Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:08:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "21",
+    "sehir_adi": "DİYARBAKIR",
+    "ilce_id": "1315",
+    "ilce_adi": "ERGANİ",
+    "bbox_used": {
+      "south": 38.2279371,
+      "west": 39.750019,
+      "north": 38.2379371,
+      "east": 39.760019
+    },
+    "bbox_original": {
+      "south": 38.2279371,
+      "west": 39.750019,
+      "north": 38.2379371,
+      "east": 39.760019
+    },
+    "fetchedAt": "2026-01-21T08:53:04.129Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:51:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

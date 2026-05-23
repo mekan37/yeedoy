@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "9",
+    "sehir_adi": "AYDIN",
+    "ilce_id": "1542",
+    "ilce_adi": "NAZİLLİ",
+    "bbox_used": {
+      "south": 37.9090609,
+      "west": 28.3220857,
+      "north": 37.9190609,
+      "east": 28.3320857
+    },
+    "bbox_original": {
+      "south": 37.9090609,
+      "west": 28.3220857,
+      "north": 37.9190609,
+      "east": 28.3320857
+    },
+    "fetchedAt": "2026-01-21T08:30:37.471Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:29:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10029740764,
+        "lat": 37.9101573,
+        "lon": 28.3250255,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-09-16"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "sehir_id": "1",
+    "sehir_adi": "ADANA",
+    "ilce_id": "1443",
+    "ilce_adi": "KARATAŞ",
+    "bbox_used": {
+      "south": 36.5388127,
+      "west": 34.9114609,
+      "north": 36.7989245,
+      "east": 35.5929675
+    },
+    "bbox_original": {
+      "south": 36.5388127,
+      "west": 34.9114609,
+      "north": 36.7989245,
+      "east": 35.5929675
+    },
+    "fetchedAt": "2026-01-21T08:16:19.612Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:14:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10229261018,
+        "lat": 36.5587521,
+        "lon": 35.3793725,
+        "tags": {
+          "amenity": "cafe",
+          "name:ru": "Рыбный ресторан с видом на море"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10811973642,
+        "lat": 36.565581,
+        "lon": 35.3891811,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balıkçı Fevzi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10812066954,
+        "lat": 36.5647986,
+        "lon": 35.3843956,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dünyam"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10815706212,
+        "lat": 36.5677542,
+        "lon": 35.3850252,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10816371426,
+        "lat": 36.5682344,
+        "lon": 35.3838386,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Burgers"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10816389312,
+        "lat": 36.5683054,
+        "lon": 35.3836313,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hasan Masat"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,1480 @@
+{
+  "meta": {
+    "sehir_id": "10",
+    "sehir_adi": "BALIKESİR",
+    "ilce_id": "1216",
+    "ilce_adi": "BURHANİYE",
+    "bbox_used": {
+      "south": 39.3158317,
+      "west": 26.852631,
+      "north": 39.5611655,
+      "east": 27.2191063
+    },
+    "bbox_original": {
+      "south": 39.3158317,
+      "west": 26.852631,
+      "north": 39.5611655,
+      "east": 27.2191063
+    },
+    "fetchedAt": "2026-01-21T08:32:51.121Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 114
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:32:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1104136126,
+        "lat": 39.4971067,
+        "lon": 26.9675479,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:housenumber": "11",
+          "addr:neighbourhood": "Hürriyet Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "İzmir Çanakkale Yolu",
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf",
+          "website": "https://www.kofteciyusuf.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3655931677,
+        "lat": 39.4836087,
+        "lon": 26.9279125,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4787814746,
+        "lat": 39.4833896,
+        "lon": 26.9284319,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "İskele Mahallesi",
+          "addr:postcode": "10700",
+          "amenity": "restaurant",
+          "cuisine": "soup",
+          "name": "Velinin Yeri",
+          "opening_hours": "24 Saat",
+          "outdoor_seating": "yes",
+          "smoking": "outside",
+          "takeaway": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4914338184,
+        "lat": 39.4876636,
+        "lon": 26.9341975,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Deniz Dondurma Sarayı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4937550121,
+        "lat": 39.4989971,
+        "lon": 26.9333337,
+        "tags": {
+          "amenity": "bar",
+          "name": "Ringo Bar",
+          "name:tr": "Ringo Bar",
+          "outdoor_seating": "yes",
+          "phone": "+90 266 416 42 46",
+          "smoking": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4941014323,
+        "lat": 39.4821506,
+        "lon": 26.9209664,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Güverte Restaurant",
+          "name:tr": "Güverte Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4948345730,
+        "lat": 39.4891234,
+        "lon": 26.9334292,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:housenumber": "6",
+          "addr:neighbourhood": "Öğretmenler Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "Beyazıt Blv",
+          "amenity": "restaurant",
+          "cuisine": "soup",
+          "name": "Çorbacımm",
+          "opening_hours": "24/7",
+          "outdoor_seating": "yes",
+          "smoking": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4952204162,
+        "lat": 39.500165,
+        "lon": 26.9350693,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Ören Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "2067 Cd.",
+          "amenity": "bar",
+          "name": "Paprika Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4952204166,
+        "lat": 39.5001698,
+        "lon": 26.9339488,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Ören Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "2067 Cd.",
+          "amenity": "bar",
+          "name": "Köşem Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4952204167,
+        "lat": 39.5003377,
+        "lon": 26.9339134,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Ören Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "2067 Cd.",
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Umut Balık Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4952204171,
+        "lat": 39.5002072,
+        "lon": 26.9326121,
+        "tags": {
+          "amenity": "bar",
+          "brewery": "yes",
+          "name": "Kafemm Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4952204172,
+        "lat": 39.5000644,
+        "lon": 26.9326496,
+        "tags": {
+          "amenity": "nightclub",
+          "name": "Pasha Club"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4977336086,
+        "lat": 39.4659759,
+        "lon": 26.9337874,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "meat",
+          "name": "Beydağ Restaurant",
+          "opening_hours": "Mo-Sa 08:00-00:00",
+          "phone": "+90 266 416 41 18"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5081320976,
+        "lat": 39.4833619,
+        "lon": 26.9267347,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:housenumber": "19",
+          "addr:neighbourhood": "İskele Mahallesi",
+          "addr:street": "Kordon Boyu Cd.",
+          "amenity": "pub",
+          "name": "Deli Mavi Cafe Bar",
+          "outdoor_seating": "yes",
+          "phone": "+90 266 416 53 71",
+          "smoking": "yes",
+          "website": "http://www.delimavicafebar.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5184239281,
+        "lat": 39.5072452,
+        "lon": 26.9673826,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kahvaltı",
+          "name": "Pizza Laz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5221300366,
+        "lat": 39.5038047,
+        "lon": 26.9812992,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hadigari Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5221300367,
+        "lat": 39.5018773,
+        "lon": 26.9773721,
+        "tags": {
+          "addr:street": "Hürriyet Caddesi",
+          "amenity": "restaurant",
+          "name": "Burhaniye Sofrası",
+          "opening_hours": "Mo-Sa 08:00-23:30",
+          "outdoor_seating": "yes",
+          "phone": "+90 266 412 68 67"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5234299629,
+        "lat": 39.4881407,
+        "lon": 26.93405,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "44 Pidem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5234299637,
+        "lat": 39.4873705,
+        "lon": 26.9340085,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Palmiye Et"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5409432460,
+        "lat": 39.5008642,
+        "lon": 26.9339355,
+        "tags": {
+          "amenity": "ice_cream"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5409432462,
+        "lat": 39.4975356,
+        "lon": 26.9344918,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sahil Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5477985237,
+        "lat": 39.4983031,
+        "lon": 26.9342742,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Manolya Nargile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5533399372,
+        "lat": 39.4972029,
+        "lon": 26.9343543,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İda Bahçe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5556577572,
+        "lat": 39.4997668,
+        "lon": 26.9328517,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Ören Mahallesi",
+          "addr:postcode": "10700",
+          "amenity": "cafe",
+          "cuisine": "waffle;tea;coffee",
+          "name": "Çapari Çay Bahçesi",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5593785524,
+        "lat": 39.5005105,
+        "lon": 26.9340586,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "name": "100. Yıl Pide Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5609450415,
+        "lat": 39.4851847,
+        "lon": 26.9305825,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "tea",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Yelken Kafe",
+          "name:en": "Yelken Cafe",
+          "opening_hours": "Mo-Sa 08:00-23:00+",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5725075480,
+        "lat": 39.4904657,
+        "lon": 26.9337983,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "breakfast"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5835895977,
+        "lat": 39.483498,
+        "lon": 26.9281316,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ottoman Nargile"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5877766790,
+        "lat": 39.4834005,
+        "lon": 26.926909,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "a",
+          "name": "By Refik Meyhane",
+          "phone": "+90 530 382 76 33"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5880755110,
+        "lat": 39.5428108,
+        "lon": 26.9452932,
+        "tags": {
+          "amenity": "pub",
+          "name": "Rakı Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5883854857,
+        "lat": 39.5483943,
+        "lon": 27.0117425,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6014584585,
+        "lat": 39.5392479,
+        "lon": 27.0124759,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Kızıklı Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "Büyük Kara Ağaç Sokak",
+          "amenity": "restaurant",
+          "email": "mail@korfezucakrestaurant.com",
+          "name": "Edremit-Burhaniye Airbus Uçak Restaurant",
+          "name:en": "Airplain restaurant",
+          "name:ru": "Ресторан из самолета",
+          "opening_hours": "Mo-Sa 08:00-22:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 266 412 82 25",
+          "website": "http://www.korfezucakrestaurant.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6183905094,
+        "lat": 39.5028949,
+        "lon": 26.9809043,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sini 2 Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6183926368,
+        "lat": 39.501449,
+        "lon": 26.9799124,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kafe Balkon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6411967286,
+        "lat": 39.5097506,
+        "lon": 26.9704972,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Burhaniye Karadenizliler Derneği Kafesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6437823230,
+        "lat": 39.4756407,
+        "lon": 26.8691543,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:neighbourhood": "Pelitköy Mahallesi",
+          "amenity": "cafe",
+          "name": "Deniz Büfe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6437859096,
+        "lat": 39.4734491,
+        "lon": 26.8585133,
+        "tags": {
+          "amenity": "bar",
+          "name": "Otantik Beach Club"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6487521887,
+        "lat": 39.4795946,
+        "lon": 26.9145752,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tekço Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6487521956,
+        "lat": 39.4796693,
+        "lon": 26.9143055,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Latife Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6565112685,
+        "lat": 39.4979305,
+        "lon": 26.9346719,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kekeme Lounge & Bistro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6642823786,
+        "lat": 39.4835099,
+        "lon": 26.9274573,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "tea",
+          "name": "Cafe Liman"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6750112554,
+        "lat": 39.4849247,
+        "lon": 26.9318447,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6752822905,
+        "lat": 39.4789005,
+        "lon": 26.9105802,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "İskele Mahallesi",
+          "amenity": "cafe",
+          "cuisine": "tea;coffee;cake",
+          "name": "İskele Nar Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6821767240,
+        "lat": 39.4666863,
+        "lon": 26.9283347,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Tayleli Mahallesi",
+          "amenity": "cafe",
+          "cuisine": "breakfast;tea;turkish",
+          "name": "Dem Bahçe",
+          "opening_hours": "Mo-Su 08:00-14:00",
+          "outdoor_seating": "yes",
+          "payment:bank_card": "yes",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "phone": "+90 533 738 75 75",
+          "website": "https://dembahce.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6822826292,
+        "lat": 39.4826286,
+        "lon": 26.9230091,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "tea",
+          "name": "İnciraltı Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6822836433,
+        "lat": 39.4772855,
+        "lon": 26.8605246,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Badem Kafe Beach"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6881453438,
+        "lat": 39.5028155,
+        "lon": 26.9785532,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Piraye Kitap Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6885309951,
+        "lat": 39.5016948,
+        "lon": 26.9493191,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bubyo Kantin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6885309958,
+        "lat": 39.5010727,
+        "lon": 26.9518051,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vega Cafe Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6938691285,
+        "lat": 39.5480616,
+        "lon": 27.0112069,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ege Fly Cafe",
+          "name:en": "Aegean Fly Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7068850231,
+        "lat": 39.4817754,
+        "lon": 26.9296836,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Laleli Kahvaltı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7087674513,
+        "lat": 39.4744728,
+        "lon": 26.8787743,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pelitya Marin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8083701857,
+        "lat": 39.4833687,
+        "lon": 26.9257784,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İskele Port Marina"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8759824099,
+        "lat": 39.4554505,
+        "lon": 26.8555978,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İçmeler Deniz Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8759824104,
+        "lat": 39.4557731,
+        "lon": 26.855227,
+        "tags": {
+          "amenity": "pub",
+          "name": "Hook Lounge Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8953820846,
+        "lat": 39.4838621,
+        "lon": 26.928358,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Şirin Roma Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8953820847,
+        "lat": 39.4838747,
+        "lon": 26.9283942,
+        "tags": {
+          "amenity": "ice_cream"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8953820848,
+        "lat": 39.4838846,
+        "lon": 26.9284412,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Roma Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8953820853,
+        "lat": 39.4833222,
+        "lon": 26.9264712,
+        "tags": {
+          "amenity": "pub",
+          "name": "Paco",
+          "theme": "irish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8953820854,
+        "lat": 39.4833332,
+        "lon": 26.9265419,
+        "tags": {
+          "amenity": "pub",
+          "name": "Sis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8992030748,
+        "lat": 39.4836113,
+        "lon": 26.9288401,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İskele Mezecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9000522274,
+        "lat": 39.4882649,
+        "lon": 26.9320086,
+        "tags": {
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Öğretmenler Mahallesi",
+          "addr:postcode": "10700",
+          "amenity": "restaurant",
+          "cuisine": "seafood;greek;turkish",
+          "name": "Mavi Yengeç Restoran",
+          "outdoor_seating": "yes",
+          "start_date": "2021.08.10"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9244988289,
+        "lat": 39.5018337,
+        "lon": 26.979398,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Diyarı Burhaniye"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9244988293,
+        "lat": 39.5031204,
+        "lon": 26.9799195,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "soup;kebab;turkish;1",
+          "name": "By Doğan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9903316455,
+        "lat": 39.4836608,
+        "lon": 26.9293297,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aydınlar Et & Restaurant",
+          "phone": "+90 266 416 55 66",
+          "website": "https://aydinlaret.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9903316456,
+        "lat": 39.488414,
+        "lon": 26.9320513,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Öğretmenler Mahallesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Has-Et Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9903316457,
+        "lat": 39.4886919,
+        "lon": 26.9320725,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Russet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9903316458,
+        "lat": 39.4884734,
+        "lon": 26.9322388,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Taş Ocak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10248903702,
+        "lat": 39.4920054,
+        "lon": 26.9317584,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Özgürlük Cafe & Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10248903709,
+        "lat": 39.4837087,
+        "lon": 26.9294499,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10248903710,
+        "lat": 39.4833053,
+        "lon": 26.9264185,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10294543433,
+        "lat": 39.4761576,
+        "lon": 26.8583297,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mayko Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10578367006,
+        "lat": 39.5558284,
+        "lon": 27.1133044,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nermin Hanım Zeytinliği"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10734144374,
+        "lat": 39.4222933,
+        "lon": 26.8599969,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house;breakfast",
+          "name": "Madradan Park Kahvaltı ve Et"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12036258709,
+        "lat": 39.5502268,
+        "lon": 27.0885079,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Bahçe Kebap",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12423595678,
+        "lat": 39.4749721,
+        "lon": 26.8583658,
+        "tags": {
+          "amenity": "bar",
+          "name": "Taraça Cafe&Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12423607550,
+        "lat": 39.4739169,
+        "lon": 26.8728221,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yalı Kafe&Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12438341970,
+        "lat": 39.5032465,
+        "lon": 26.9817083,
+        "tags": {
+          "addr:city": "Burhaniye",
+          "addr:district": "Burhaniye",
+          "addr:housenumber": "2",
+          "addr:neighbourhood": "Kocacami Mahallesi",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "diet:fish": "yes",
+          "name": "Balıkçı Ahmet",
+          "phone": "+90266 412 55 50",
+          "website": "https://www.instagram.com/balikciahmetburhaniye/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12458431861,
+        "lat": 39.5004428,
+        "lon": 26.9781615,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:housenumber": "10",
+          "addr:postcode": "10700",
+          "addr:street": "Ali Çetinkaya Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "fish;sandwich;breakfast",
+          "name": "Defnem Cafe Restaurant",
+          "phone": "+90 266 412 77 70",
+          "website": "https://www.instagram.com/defnemcaferestaurant/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12487894803,
+        "lat": 39.497384,
+        "lon": 26.937369,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Ören Mahallesi",
+          "addr:street": "Enver Güreli Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Motto Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12686862336,
+        "lat": 39.505875,
+        "lon": 26.9705153,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:housenumber": "222/3A",
+          "addr:neighbourhood": "Bahçelievler Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "Ali Kemal Deveciler Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "delivery": "yes",
+          "diet:vegetarian": "yes",
+          "name": "Pidemm",
+          "official_name": "HD Holding",
+          "opening_hours": "Mo-Su 11:00-21:30",
+          "outdoor_seating": "yes",
+          "phone": "+90 266 422 39 90",
+          "website": "https://www.pidem.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12698291152,
+        "lat": 39.4836976,
+        "lon": 26.9366207,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Mora İda Tesisleri Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12951178029,
+        "lat": 39.483327,
+        "lon": 26.9281522,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Roz Balıkçılık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12951178031,
+        "lat": 39.4835744,
+        "lon": 26.9284156,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Eniştenin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12997872175,
+        "lat": 39.5294748,
+        "lon": 26.951225,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-08-11",
+          "cuisine": "italian"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13022330922,
+        "lat": 39.5026604,
+        "lon": 26.932338,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "beer;toast;coffee;tea"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13063600501,
+        "lat": 39.5023752,
+        "lon": 26.9775086,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2025-08-11",
+          "cuisine": "tea;coffee_shop",
+          "name": "Burhaniye Belediyesi Şehit Turhan Bayraktar Parkı Çay Bahçesi",
+          "outdoor_seating": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13074712581,
+        "lat": 39.479139,
+        "lon": 26.9109869,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2025-08-16",
+          "name": "Nifi Food and Drink"
+        }
+      },
+      {
+        "type": "way",
+        "id": 492338409,
+        "center": {
+          "lat": 39.4990777,
+          "lon": 26.9328175
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Bozyel"
+        }
+      },
+      {
+        "type": "way",
+        "id": 492338410,
+        "center": {
+          "lat": 39.4978825,
+          "lon": 26.9331323
+        },
+        "tags": {
+          "addr:neighbourhood": "Ören Mahallesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "beer;fast_food",
+          "name": "Blue Side"
+        }
+      },
+      {
+        "type": "way",
+        "id": 500667045,
+        "center": {
+          "lat": 39.4800393,
+          "lon": 26.9170584
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "İskele Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "Çolak Caddesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "fish",
+          "name": "Küçük Ev Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 500667046,
+        "center": {
+          "lat": 39.4890594,
+          "lon": 26.9340252
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Öğretmenler Mahallesi",
+          "addr:postcode": "10700",
+          "addr:street": "Muammer Aksoy Caddesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish;kebab;fish;beer;rakı;wine",
+          "name": "Ümit Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 509258792,
+        "center": {
+          "lat": 39.4780293,
+          "lon": 26.9098994
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "İskele Mahallesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Cafe De Simare"
+        }
+      },
+      {
+        "type": "way",
+        "id": 510449332,
+        "center": {
+          "lat": 39.4978629,
+          "lon": 26.9345204
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Ören Mahallesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "1",
+          "cuisine": "coffee_shop",
+          "name": "Jacko"
+        }
+      },
+      {
+        "type": "way",
+        "id": 521513593,
+        "center": {
+          "lat": 39.4786969,
+          "lon": 26.9100577
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "alcohol;fish",
+          "name": "Ali Baba'nın Yeri",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 521724894,
+        "center": {
+          "lat": 39.5438174,
+          "lon": 26.9474942
+        },
+        "tags": {
+          "addr:neighbourhood": "Bahçelievler Mahallesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "tea",
+          "name": "Orjan Yeni 414 Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 521724901,
+        "center": {
+          "lat": 39.5071606,
+          "lon": 26.9347849
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Ayaz Beach"
+        }
+      },
+      {
+        "type": "way",
+        "id": 542195699,
+        "center": {
+          "lat": 39.5303282,
+          "lon": 26.9419735
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Denetko Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 542222351,
+        "center": {
+          "lat": 39.5002051,
+          "lon": 26.9348389
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Ören Mahallesi",
+          "addr:street": "2067. Cadde",
+          "amenity": "pub",
+          "brewery": "yes",
+          "building": "yes",
+          "name": "Martin Pub",
+          "outdoor_seating": "yes",
+          "smoking": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 543824099,
+        "center": {
+          "lat": 39.5315375,
+          "lon": 26.9418236
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Ada Restaurant Café"
+        }
+      },
+      {
+        "type": "way",
+        "id": 543829074,
+        "center": {
+          "lat": 39.5002155,
+          "lon": 26.9347225
+        },
+        "tags": {
+          "amenity": "pub",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 543829075,
+        "center": {
+          "lat": 39.5001687,
+          "lon": 26.9350692
+        },
+        "tags": {
+          "amenity": "pub",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 585085229,
+        "center": {
+          "lat": 39.4954232,
+          "lon": 26.9328558
+        },
+        "tags": {
+          "amenity": "pub",
+          "brewery": "yes;various",
+          "building": "yes",
+          "name": "Paprika",
+          "outdoor_seating": "yes",
+          "smoking": "isolated"
+        }
+      },
+      {
+        "type": "way",
+        "id": 588865727,
+        "center": {
+          "lat": 39.4977983,
+          "lon": 26.9761666
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Hıdırellez Kafeteryası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 629381735,
+        "center": {
+          "lat": 39.5387587,
+          "lon": 26.9494604
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Bahçelievler Mahallesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Kır Kahvesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 632085112,
+        "center": {
+          "lat": 39.5397595,
+          "lon": 26.9426171
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Burhaniye",
+          "addr:neighbourhood": "Bahçelievler Mahallesi",
+          "addr:postcode": "10700",
+          "amenity": "nightclub",
+          "name": "Club Havana"
+        }
+      },
+      {
+        "type": "way",
+        "id": 686795320,
+        "center": {
+          "lat": 39.47567,
+          "lon": 26.8691086
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 701861445,
+        "center": {
+          "lat": 39.4839199,
+          "lon": 26.9285345
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Balık Malik"
+        }
+      },
+      {
+        "type": "way",
+        "id": 709861076,
+        "center": {
+          "lat": 39.3350861,
+          "lon": 26.9439419
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "pizza",
+          "name": "Maadra Vineyards"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1331565938,
+        "center": {
+          "lat": 39.5537659,
+          "lon": 27.0926724
+        },
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Havran",
+          "addr:housenumber": "No:128",
+          "addr:neighbourhood": "Tekke Mahallesi",
+          "addr:postcode": "10560",
+          "addr:street": "Katırcıoğlu Caddesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "internet_access": "no",
+          "name": "On On Kafe",
+          "opening_hours": "10:00-01:00",
+          "website": "https://www.ononkafe.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1342772751,
+        "center": {
+          "lat": 39.4749596,
+          "lon": 26.8584224
+        },
+        "tags": {
+          "amenity": "bar",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1342773973,
+        "center": {
+          "lat": 39.4739106,
+          "lon": 26.8728174
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1414485911,
+        "center": {
+          "lat": 39.5287091,
+          "lon": 26.9481318
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "check_date": "2025-08-11",
+          "cuisine": "turkish",
+          "name": "Denetko Vay Vay Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1419585367,
+        "center": {
+          "lat": 39.558809,
+          "lon": 27.2084099
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Şimşek Usta'nın Yeri"
+        }
+      }
+    ]
+  }
+}

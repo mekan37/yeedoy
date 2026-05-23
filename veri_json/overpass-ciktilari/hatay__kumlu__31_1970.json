@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "31",
+    "sehir_adi": "HATAY",
+    "ilce_id": "1970",
+    "ilce_adi": "KUMLU",
+    "bbox_used": {
+      "south": 36.2963118,
+      "west": 36.2849796,
+      "north": 36.4687633,
+      "east": 36.6184469
+    },
+    "bbox_original": {
+      "south": 36.2963118,
+      "west": 36.2849796,
+      "north": 36.4687633,
+      "east": 36.6184469
+    },
+    "fetchedAt": "2026-01-21T09:12:12.395Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:10:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

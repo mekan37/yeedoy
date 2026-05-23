@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "sehir_id": "40",
+    "sehir_adi": "KIRŞEHİR",
+    "ilce_id": "1472",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 39.03454761486486,
+      "north": 39.30481788513514,
+      "west": 33.82536464775413,
+      "east": 34.17297295224587
+    },
+    "bbox_original": {
+      "south": 38.8199336,
+      "west": 33.6816376,
+      "north": 39.5194319,
+      "east": 34.3167
+    },
+    "fetchedAt": "2026-01-21T09:40:01.752Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:38:19Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4457200673,
+        "lat": 39.1457221,
+        "lon": 34.1625317,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yemen Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6780734787,
+        "lat": 39.1961545,
+        "lon": 34.1481895,
+        "tags": {
+          "addr:housenumber": "210",
+          "addr:street": "Kayseri-Kırıkkale yolu",
+          "amenity": "restaurant",
+          "cuisine": "turkish;local",
+          "internet_access": "wlan",
+          "name": "Köfteci Ramiz",
+          "opening_hours": "Mo-Su 08:00-22:30",
+          "phone": "03862620386"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8911097792,
+        "lat": 39.1488778,
+        "lon": 34.1599907,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adıyaman Çiğ Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12300445111,
+        "lat": 39.1592857,
+        "lon": 34.159911,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Bülent Börek"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,747 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "1521",
+    "ilce_adi": "MENEMEN",
+    "bbox_used": {
+      "south": 38.5063051,
+      "west": 26.8155119,
+      "north": 38.7449944,
+      "east": 27.249831
+    },
+    "bbox_original": {
+      "south": 38.5063051,
+      "west": 26.8155119,
+      "north": 38.7449944,
+      "east": 27.249831
+    },
+    "fetchedAt": "2026-01-21T09:27:38.555Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 55
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:26:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1800200925,
+        "lat": 38.7416531,
+        "lon": 26.8380558,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2987426533,
+        "lat": 38.517844,
+        "lon": 27.056393,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:housenumber": "141 / S",
+          "addr:street": "8809. Sokak",
+          "amenity": "cafe",
+          "drive_through": "no",
+          "internet_access": "yes",
+          "name": "Taşkent Fırın Cafe",
+          "outdoor_seating": "yes",
+          "phone": "+902323840444",
+          "smoking": "outside",
+          "website": "https://www.taskentekmek.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3885074834,
+        "lat": 38.5178006,
+        "lon": 27.0560759,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İnternet Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4174658589,
+        "lat": 38.5188024,
+        "lon": 27.0395189,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Doyuran Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4585635913,
+        "lat": 38.621168,
+        "lon": 27.0603102,
+        "tags": {
+          "addr:street": "İzmir Çanakkale Yolu",
+          "amenity": "restaurant",
+          "cuisine": "kebab;breakfast",
+          "internet_access": "wlan",
+          "name": "Çolakoğlu et dünyası",
+          "name:tr": "Çolakoğlu et dünyası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9977301438,
+        "lat": 38.5332411,
+        "lon": 26.8982356,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10146689502,
+        "lat": 38.5820324,
+        "lon": 26.9693373,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yavuz Kahvaltı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11407354737,
+        "lat": 38.6035362,
+        "lon": 27.0748344,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pidematik"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11431645616,
+        "lat": 38.5815037,
+        "lon": 26.9700691,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Menemen",
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:place": "Gazi Mustafa Kemal Mah.",
+          "addr:postcode": "35665",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Nope coffee company",
+          "opening_hours": "MoSu 08:00-02:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11431665925,
+        "lat": 38.5798076,
+        "lon": 26.9696185,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Menemen",
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:postcode": "35000",
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "manevi lokanta",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11431675431,
+        "lat": 38.5816504,
+        "lon": 26.9705049,
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Menemen",
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:postcode": "35000",
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "eyvallah kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11572070915,
+        "lat": 38.6648439,
+        "lon": 27.0728872,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11572070916,
+        "lat": 38.6600923,
+        "lon": 27.0767943,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12137323204,
+        "lat": 38.6033327,
+        "lon": 27.0746726,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Elif Cafe & Patisserie"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353547898,
+        "lat": 38.5111903,
+        "lon": 27.036863,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Alaçatı Fırın Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353582786,
+        "lat": 38.5104828,
+        "lon": 27.0373751,
+        "tags": {
+          "addr:housenumber": "16A",
+          "amenity": "cafe",
+          "name": "Teddy Hookah"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353625187,
+        "lat": 38.5112018,
+        "lon": 27.0387318,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mono Coffee Lab"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353640763,
+        "lat": 38.5114825,
+        "lon": 27.0382829,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Başak Unlu Mamulleri & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353646257,
+        "lat": 38.5100682,
+        "lon": 27.0373664,
+        "tags": {
+          "amenity": "cafe",
+          "name": "101 Single Cafe & Hookah"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353648170,
+        "lat": 38.5112454,
+        "lon": 27.0382856,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Line Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353648523,
+        "lat": 38.5114724,
+        "lon": 27.0385805,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Contra Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353649729,
+        "lat": 38.510813,
+        "lon": 27.0424945,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Adel Cafe & Lunch"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353660557,
+        "lat": 38.5114235,
+        "lon": 27.0401092,
+        "tags": {
+          "amenity": "cafe",
+          "branch": "Katip Çelebi",
+          "name": "Pablo Artisan Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12353664045,
+        "lat": 38.5105793,
+        "lon": 27.0373746,
+        "tags": {
+          "addr:housenumber": "16B",
+          "amenity": "cafe",
+          "name": "Living Room Cafe & Hookah"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12459062740,
+        "lat": 38.5137344,
+        "lon": 27.031618,
+        "tags": {
+          "amenity": "cafe",
+          "opening_hours": "Mo-Fr 08:00-17:00",
+          "operator": "İzmir Katip Çelebi Üniversitesi Sosyal Tesisler İktisadi İşletmesi",
+          "outdoor_seating": "yes",
+          "payment:cash": "no",
+          "payment:credit_cards": "yes",
+          "payment:cryptocurrencies": "no",
+          "payment:debit_cards": "yes",
+          "toilets": "no",
+          "wheelchair": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12652353136,
+        "lat": 38.5095643,
+        "lon": 27.0373907,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Patron Cafe & Hookah"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12652353138,
+        "lat": 38.5101527,
+        "lon": 27.0381803,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kafein/k Coffee Tattoo"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12652489716,
+        "lat": 38.5103442,
+        "lon": 27.0386276,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "chicken",
+          "name": "Ateşli Piliçler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12652489721,
+        "lat": 38.5088855,
+        "lon": 27.0375144,
+        "tags": {
+          "addr:housenumber": "8B",
+          "addr:neighbourhood": "Balatçık Mahallesi",
+          "addr:street": "8914/8. Sokak",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "delivery": "no",
+          "diet:halal": "only",
+          "microbrewery": "no",
+          "name": "Kent Lokantası",
+          "operator": "Çiğli Belediyesi",
+          "operator:type": "public",
+          "outdoor_seating": "no",
+          "toilets": "yes",
+          "toilets:access": "yes",
+          "toilets:unisex": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12657302939,
+        "lat": 38.5109696,
+        "lon": 27.0411703,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Zeytin",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12687228861,
+        "lat": 38.5124283,
+        "lon": 27.038961,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12687236612,
+        "lat": 38.512777,
+        "lon": 27.031317,
+        "tags": {
+          "amenity": "cafe",
+          "opening_hours": "Mo-Fr 08:00-17:00",
+          "operator": "İzmir Katip Çelebi Üniversitesi Sosyal Tesisler İktisadi İşletmesi",
+          "outdoor_seating": "no",
+          "payment:cash": "no",
+          "payment:credit_cards": "yes",
+          "payment:cryptocurrencies": "no",
+          "payment:debit_cards": "yes",
+          "toilets": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12687236613,
+        "lat": 38.5121181,
+        "lon": 27.0324181,
+        "tags": {
+          "amenity": "cafe",
+          "opening_hours": "Mo-Fr 08:00-17:00",
+          "operator": "İzmir Katip Çelebi Üniversitesi Sosyal Tesisler İktisadi İşletmesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12784226840,
+        "lat": 38.5118617,
+        "lon": 27.0402672,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Nope Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13115912601,
+        "lat": 38.6109965,
+        "lon": 27.0718843,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Deryası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13136481178,
+        "lat": 38.5094526,
+        "lon": 27.0402212,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13175011905,
+        "lat": 38.511657,
+        "lon": 27.0297758,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13207378539,
+        "lat": 38.5156005,
+        "lon": 27.0291293,
+        "tags": {
+          "amenity": "cafe",
+          "name": "KC Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 307902909,
+        "center": {
+          "lat": 38.5829428,
+          "lon": 26.9650324
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 376164410,
+        "center": {
+          "lat": 38.5116974,
+          "lon": 27.0647443
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "terrace",
+          "name": "Cafeteria Kafe",
+          "smoking": "separated"
+        }
+      },
+      {
+        "type": "way",
+        "id": 387612203,
+        "center": {
+          "lat": 38.5081885,
+          "lon": 27.065229
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Diyar Çay Bahçesi",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 768439779,
+        "center": {
+          "lat": 38.6562317,
+          "lon": 27.0805922
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 768442747,
+        "center": {
+          "lat": 38.6527516,
+          "lon": 27.0809469
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1005862242,
+        "center": {
+          "lat": 38.5122739,
+          "lon": 27.0331088
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "cafe",
+          "cuisine": "fast_food",
+          "delivery": "no",
+          "internet_access": "no",
+          "name": "Sarı Cafe",
+          "opening_hours": "Mo-Fr 08:00-17:00",
+          "operator": "İzmir Katip Çelebi Üniversitesi Sosyal Tesisler İktisadi İşletmesi",
+          "outdoor_seating": "yes",
+          "payment:cash": "no",
+          "payment:contactless": "yes",
+          "payment:credit_cards": "yes",
+          "payment:cryptocurrencies": "no",
+          "payment:debit_cards": "yes",
+          "payment:visa": "no",
+          "smoking": "outside",
+          "takeaway": "yes",
+          "toilets": "yes",
+          "toilets:access": "yes",
+          "toilets:unisex": "no",
+          "toilets:wheelchair": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1064642242,
+        "center": {
+          "lat": 38.6546961,
+          "lon": 27.0816769
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1066293065,
+        "center": {
+          "lat": 38.6425302,
+          "lon": 27.0489325
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1066458918,
+        "center": {
+          "lat": 38.6550796,
+          "lon": 27.0810065
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1108933144,
+        "center": {
+          "lat": 38.5818895,
+          "lon": 26.9673329
+        },
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Menemen",
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:postcode": "35665",
+          "addr:street": "Kaynaklar Caddesi",
+          "amenity": "cafe",
+          "building": "apartments",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "mardian kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1108933149,
+        "center": {
+          "lat": 38.5812887,
+          "lon": 26.9699778
+        },
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Menemen",
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:postcode": "35000",
+          "addr:street": "Kaynaklar Caddesi",
+          "amenity": "cafe",
+          "building": "apartments",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "valens cafe",
+          "opening_hours": "8-02",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1108936866,
+        "center": {
+          "lat": 38.5811026,
+          "lon": 26.9630466
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Uçak Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1249644230,
+        "center": {
+          "lat": 38.6096722,
+          "lon": 27.0704713
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1249644237,
+        "center": {
+          "lat": 38.6090033,
+          "lon": 27.0695649
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1304888741,
+        "center": {
+          "lat": 38.5127716,
+          "lon": 27.0300898
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Atlas Kafe",
+          "opening_hours": "Mo-Th 08:00-20:00; Fr 08:00-19:00",
+          "outdoor_seating": "yes",
+          "smoking": "outside"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1369679961,
+        "center": {
+          "lat": 38.5811269,
+          "lon": 26.9699138
+        },
+        "tags": {
+          "addr:city": "İzmir",
+          "addr:district": "Menemen",
+          "addr:housenumber": "13/D",
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:postcode": "25660",
+          "addr:street": "4125. Sokak",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "burger;sandwich;chicken",
+          "name": "911 Medusa",
+          "opening_hours": "24/7",
+          "phone": "+905059110535",
+          "website": "https://911medusa35.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1369680638,
+        "center": {
+          "lat": 38.5818467,
+          "lon": 26.9678096
+        },
+        "tags": {
+          "addr:neighbourhood": "Gazi Mustafa Kemal Mahallesi",
+          "addr:street": "Kaynaklar Caddesi",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "pizza;coffee_shop;burger",
+          "layer": "-1",
+          "name": "Cafe Di Smirne",
+          "opening_hours": "Mo-Su 10:00-02:00"
+        }
+      }
+    ]
+  }
+}

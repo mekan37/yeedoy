@@ -1,0 +1,174 @@
+{
+  "meta": {
+    "sehir_id": "14",
+    "sehir_adi": "BOLU",
+    "ilce_id": "1997",
+    "ilce_adi": "YENİÇAĞA",
+    "bbox_used": {
+      "south": 40.739219,
+      "west": 31.907129,
+      "north": 40.862827,
+      "east": 32.143083
+    },
+    "bbox_original": {
+      "south": 40.739219,
+      "west": 31.907129,
+      "north": 40.862827,
+      "east": 32.143083
+    },
+    "fetchedAt": "2026-01-21T08:40:02.699Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 12
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:38:03Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 6584913494,
+        "lat": 40.7480709,
+        "lon": 32.0853212,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "metro mola"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9980031420,
+        "lat": 40.7492007,
+        "lon": 32.0821645,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10075243030,
+        "lat": 40.7761475,
+        "lon": 32.0374116,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11016698206,
+        "lat": 40.7736023,
+        "lon": 32.0312386,
+        "tags": {
+          "addr:postcode": "14650",
+          "addr:street": "39. Sokak",
+          "amenity": "cafe",
+          "cuisine": "breakfast",
+          "name": "Kıyı Cafe",
+          "name:en": "Kıyı Café",
+          "phone": "0541 862 00 14"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11016771905,
+        "lat": 40.7713886,
+        "lon": 32.0314272,
+        "tags": {
+          "addr:street": "Eskiçağa Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Saray Lokantası",
+          "opening_hours": "Mo-Sa 07:00-00:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11017330905,
+        "lat": 40.7720656,
+        "lon": 32.0315622,
+        "tags": {
+          "addr:street": "Yaşar Çelik Caddesi",
+          "amenity": "cafe",
+          "cuisine": "tea",
+          "name": "Hasan'ın Yeri Çay Salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 133624464,
+        "center": {
+          "lat": 40.7994745,
+          "lon": 32.0482799
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084482,
+        "center": {
+          "lat": 40.7511929,
+          "lon": 32.082137
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084483,
+        "center": {
+          "lat": 40.7510267,
+          "lon": 32.0833372
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084486,
+        "center": {
+          "lat": 40.7534995,
+          "lon": 32.076837
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084494,
+        "center": {
+          "lat": 40.7479321,
+          "lon": 32.0851849
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1370084499,
+        "center": {
+          "lat": 40.7492123,
+          "lon": 32.0818994
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

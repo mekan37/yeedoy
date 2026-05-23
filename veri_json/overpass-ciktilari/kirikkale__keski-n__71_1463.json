@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "71",
+    "sehir_adi": "KIRIKKALE",
+    "ilce_id": "1463",
+    "ilce_adi": "KESKİN",
+    "bbox_used": {
+      "south": 39.4658653,
+      "west": 33.4240422,
+      "north": 39.8187079,
+      "east": 33.9769425
+    },
+    "bbox_original": {
+      "south": 39.4658653,
+      "west": 33.4240422,
+      "north": 39.8187079,
+      "east": 33.9769425
+    },
+    "fetchedAt": "2026-01-21T10:55:16.569Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:53:56Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13048810000,
+        "lat": 39.5712235,
+        "lon": 33.6414181,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

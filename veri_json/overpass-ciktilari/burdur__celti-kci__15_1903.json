@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "sehir_id": "15",
+    "sehir_adi": "BURDUR",
+    "ilce_id": "1903",
+    "ilce_adi": "ÇELTİKÇİ",
+    "bbox_used": {
+      "south": 37.4687473,
+      "west": 30.3485019,
+      "north": 37.6008829,
+      "east": 30.5552273
+    },
+    "bbox_original": {
+      "south": 37.4687473,
+      "west": 30.3485019,
+      "north": 37.6008829,
+      "east": 30.5552273
+    },
+    "fetchedAt": "2026-01-21T08:41:34.487Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:40:11Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "way",
+        "id": 1200236453,
+        "center": {
+          "lat": 37.53384,
+          "lon": 30.4809446
+        },
+        "tags": {
+          "addr:city": "Burdur",
+          "addr:district": "çeltikçi",
+          "addr:street": "Antalya - Burdur Yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Çeltikçi Belediyesi Şehit Mesut Yön Dinlenme Tesisi",
+          "opening_hours": "24/7"
+        }
+      }
+    ]
+  }
+}

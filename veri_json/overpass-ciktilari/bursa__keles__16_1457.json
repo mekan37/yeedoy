@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "16",
+    "sehir_adi": "BURSA",
+    "ilce_id": "1457",
+    "ilce_adi": "KELES",
+    "bbox_used": {
+      "south": 39.7343619,
+      "west": 29.0750154,
+      "north": 40.0475956,
+      "east": 29.4533519
+    },
+    "bbox_original": {
+      "south": 39.7343619,
+      "west": 29.0750154,
+      "north": 40.0475956,
+      "east": 29.4533519
+    },
+    "fetchedAt": "2026-01-21T08:42:25.364Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:41:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

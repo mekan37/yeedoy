@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "sehir_id": "50",
+    "sehir_adi": "NEVŞEHİR",
+    "ilce_id": "1274",
+    "ilce_adi": "DERİNKUYU",
+    "bbox_used": {
+      "south": 38.2902503,
+      "west": 34.4944352,
+      "north": 38.5133099,
+      "east": 34.8833861
+    },
+    "bbox_original": {
+      "south": 38.2902503,
+      "west": 34.4944352,
+      "north": 38.5133099,
+      "east": 34.8833861
+    },
+    "fetchedAt": "2026-01-21T10:09:36.909Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 11
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:08:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 939101254,
+        "lat": 38.4614982,
+        "lon": 34.7509402,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Park Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5168691121,
+        "lat": 38.3725669,
+        "lon": 34.7343415,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Little Old Lady's Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9272017145,
+        "lat": 38.3732798,
+        "lon": 34.7341849,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Derviş Bey Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9379262918,
+        "lat": 38.3758774,
+        "lon": 34.7335944,
+        "tags": {
+          "addr:housenumber": "NO 28",
+          "addr:street": "Baş",
+          "amenity": "restaurant",
+          "name": "Hüseyin Gemici",
+          "name:en": "Hüsein Gemici",
+          "phone": "05373802851"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9557342717,
+        "lat": 38.3763172,
+        "lon": 34.7335031,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "derinkuyu doyum"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9798202174,
+        "lat": 38.4616005,
+        "lon": 34.7505134,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9798206208,
+        "lat": 38.4598622,
+        "lon": 34.7501986,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay 2 TL (2022)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10732775987,
+        "lat": 38.4941647,
+        "lon": 34.6315272,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10753265100,
+        "lat": 38.3750207,
+        "lon": 34.7330772,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11146010705,
+        "lat": 38.374334,
+        "lon": 34.7340377,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "local;regional;turkish",
+          "diet:vegetarian": "yes",
+          "name": "Keskin restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11225312137,
+        "lat": 38.3760076,
+        "lon": 34.7353185,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Doyum Restaurant"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "sehir_id": "19",
+    "sehir_adi": "ÇORUM",
+    "ilce_id": "1778",
+    "ilce_adi": "BOĞAZKALE",
+    "bbox_used": {
+      "south": 39.943551,
+      "west": 34.4367351,
+      "north": 40.1251661,
+      "east": 34.6697616
+    },
+    "bbox_original": {
+      "south": 39.943551,
+      "west": 34.4367351,
+      "north": 40.1251661,
+      "east": 34.6697616
+    },
+    "fetchedAt": "2026-01-21T08:49:14.087Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:47:10Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13175245503,
+        "lat": 40.0264655,
+        "lon": 34.627766,
+        "tags": {
+          "addr:city": "Boğazkale/Çorum",
+          "addr:country": "TR",
+          "addr:housenumber": "80",
+          "addr:postcode": "19310",
+          "addr:street": "Yazılıkaya Caddesi",
+          "amenity": "restaurant",
+          "name": "Hitit Naturapark Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1220307616,
+        "center": {
+          "lat": 40.0254324,
+          "lon": 34.631632
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Hattusa Cafe"
+        }
+      }
+    ]
+  }
+}

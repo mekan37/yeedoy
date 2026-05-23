@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "sehir_id": "25",
+    "sehir_adi": "ERZURUM",
+    "ilce_id": "1683",
+    "ilce_adi": "TORTUM",
+    "bbox_used": {
+      "south": 40.23668881486486,
+      "north": 40.506959085135136,
+      "west": 41.265471085741886,
+      "east": 41.61920331425811
+    },
+    "bbox_original": {
+      "south": 40.1571192,
+      "west": 41.1349078,
+      "north": 40.5865287,
+      "east": 41.7497666
+    },
+    "fetchedAt": "2026-01-21T09:01:35.744Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:00:36Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10147961506,
+        "lat": 40.5014245,
+        "lon": 41.5176222,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şahin Tepesi Cağ Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10147961982,
+        "lat": 40.4119754,
+        "lon": 41.4898197,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10219921417,
+        "lat": 40.3177509,
+        "lon": 41.5238192,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985496902,
+        "lat": 40.4554375,
+        "lon": 41.5032129,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985503801,
+        "lat": 40.4553502,
+        "lon": 41.5032861,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Asmalı Konak Çağ Kebabı"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1197032590,
+        "center": {
+          "lat": 40.3566532,
+          "lon": 41.5114791
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Cağ Kebap"
+        }
+      }
+    ]
+  }
+}

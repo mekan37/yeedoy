@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "sehir_id": "9",
+    "sehir_adi": "AYDIN",
+    "ilce_id": "1206",
+    "ilce_adi": "BOZDOĞAN",
+    "bbox_used": {
+      "south": 37.4687827,
+      "west": 28.1678652,
+      "north": 37.8426104,
+      "east": 28.6142077
+    },
+    "bbox_original": {
+      "south": 37.4687827,
+      "west": 28.1678652,
+      "north": 37.8426104,
+      "east": 28.6142077
+    },
+    "fetchedAt": "2026-01-21T08:29:38.301Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 8
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:27:58Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 6944111508,
+        "lat": 37.6707157,
+        "lon": 28.3179697,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Bozdoğan",
+          "addr:neighbourhood": "Yeni Mahalle",
+          "addr:postcode": "09760",
+          "addr:street": "25. Sokak",
+          "amenity": "cafe",
+          "name": "Şelalezar Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6955977724,
+        "lat": 37.6723382,
+        "lon": 28.3118105,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Bozdoğan",
+          "addr:housenumber": "7",
+          "addr:neighbourhood": "Çarşı",
+          "addr:postcode": "09760",
+          "addr:street": "Hükümet Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish;pide",
+          "name": "Mikado Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7899250226,
+        "lat": 37.6736109,
+        "lon": 28.3125115,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Bozdoğan",
+          "addr:housenumber": "53/B",
+          "addr:neighbourhood": "Çarşı",
+          "addr:postcode": "09760",
+          "addr:street": "Okullar Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish;pide",
+          "name": "Burcu Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9299594580,
+        "lat": 37.7098936,
+        "lon": 28.332691,
+        "tags": {
+          "alcohol": "raki, beer",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Zeytin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11509669095,
+        "lat": 37.672168,
+        "lon": 28.3110985,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Duru Pide Pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11509679292,
+        "lat": 37.6729978,
+        "lon": 28.3096013,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Bozdoğan",
+          "addr:neighbourhood": "Çarşı",
+          "addr:postcode": "09760",
+          "addr:street": "Okullar Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish;pide",
+          "name": "Gül Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11509679293,
+        "lat": 37.6731157,
+        "lon": 28.3132894,
+        "tags": {
+          "addr:city": "Aydın",
+          "addr:district": "Bozdoğan",
+          "addr:housenumber": "4/B",
+          "addr:neighbourhood": "Çarşı",
+          "addr:postcode": "09760",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish;pide;pizza;lahmacun",
+          "name": "Sevim Lahmacun Pizza Pide Dünyası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 741784881,
+        "center": {
+          "lat": 37.6706987,
+          "lon": 28.3179648
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

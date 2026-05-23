@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "sehir_id": "74",
+    "sehir_adi": "BARTIN",
+    "ilce_id": "1701",
+    "ilce_adi": "ULUS",
+    "bbox_used": {
+      "south": 41.402090914864864,
+      "north": 41.67236118513514,
+      "west": 32.48211989434635,
+      "east": 32.84215240565364
+    },
+    "bbox_original": {
+      "south": 41.3264386,
+      "west": 32.3852912,
+      "north": 41.7480135,
+      "east": 32.9389811
+    },
+    "fetchedAt": "2026-01-21T10:59:37.535Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:57:59Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9757737135,
+        "lat": 41.4475485,
+        "lon": 32.7530371,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1181406491,
+        "center": {
+          "lat": 41.6430056,
+          "lon": 32.571324
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

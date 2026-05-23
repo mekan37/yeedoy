@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "1",
+    "sehir_adi": "ADANA",
+    "ilce_id": "1437",
+    "ilce_adi": "KARAİSALI",
+    "bbox_used": {
+      "south": 37.15026096486486,
+      "north": 37.42053123513514,
+      "west": 35.02392203983942,
+      "east": 35.362639860160584
+    },
+    "bbox_original": {
+      "south": 37.0769864,
+      "west": 34.9308191,
+      "north": 37.4938058,
+      "east": 35.4557428
+    },
+    "fetchedAt": "2026-01-21T08:16:06.055Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:14:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

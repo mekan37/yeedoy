@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "sehir_id": "61",
+    "sehir_adi": "TRABZON",
+    "ilce_id": "1150",
+    "ilce_adi": "ARSİN",
+    "bbox_used": {
+      "south": 40.7260513,
+      "west": 39.8421528,
+      "north": 40.9648394,
+      "east": 40.0118372
+    },
+    "bbox_original": {
+      "south": 40.7260513,
+      "west": 39.8421528,
+      "north": 40.9648394,
+      "east": 40.0118372
+    },
+    "fetchedAt": "2026-01-21T10:34:58.591Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 10
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:33:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4928959465,
+        "lat": 40.9571338,
+        "lon": 39.859737,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional;kebab;turkish",
+          "name": "Kebapçım"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5474597091,
+        "lat": 40.9570598,
+        "lon": 39.8647807,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5474597092,
+        "lat": 40.957388,
+        "lon": 39.8627314,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5939139586,
+        "lat": 40.7886499,
+        "lon": 39.8749045,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balik",
+          "name:en": "Fish restaurant cheap delicious"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9132558885,
+        "lat": 40.9557724,
+        "lon": 39.8590596,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yomura Pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10034225160,
+        "lat": 40.9597518,
+        "lon": 39.8523109,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ali Dayı 61 Gezi Teknesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11051546201,
+        "lat": 40.9600838,
+        "lon": 39.8475285,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish;regional;burger;pizza;chicken;seafood;kebab;steak_house;dessert;salad;pasta",
+          "name": "Merhan Cafe Restaurant",
+          "website": "https://www.merhanrestaurant.com/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 465524673,
+        "center": {
+          "lat": 40.9588006,
+          "lon": 39.8558871
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "regional",
+          "name": "Ahmet's Restaurant & Cafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 468038743,
+        "center": {
+          "lat": 40.9626354,
+          "lon": 39.8451388
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Dyla Cafe & Restaurant",
+          "opening_hours": "Mo-Sa 09:00-23:00",
+          "phone": "+90 533 614 20 61"
+        }
+      },
+      {
+        "type": "way",
+        "id": 637938728,
+        "center": {
+          "lat": 40.9594318,
+          "lon": 39.8527693
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Yomra Liman Kafe"
+        }
+      }
+    ]
+  }
+}

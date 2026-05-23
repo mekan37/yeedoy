@@ -1,0 +1,264 @@
+{
+  "meta": {
+    "sehir_id": "81",
+    "sehir_adi": "DÜZCE",
+    "ilce_id": "2017",
+    "ilce_adi": "GÜMÜŞOVA",
+    "bbox_used": {
+      "south": 40.7569878,
+      "west": 30.7781768,
+      "north": 40.9116537,
+      "east": 31.0307521
+    },
+    "bbox_original": {
+      "south": 40.7569878,
+      "west": 30.7781768,
+      "north": 40.9116537,
+      "east": 31.0307521
+    },
+    "fetchedAt": "2026-01-21T11:11:19.801Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 20
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 29268464,
+        "lat": 40.8007772,
+        "lon": 30.8498066,
+        "tags": {
+          "amenity": "restaurant",
+          "highway": "services",
+          "name": "Berceste"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796072640,
+        "lat": 40.8735395,
+        "lon": 30.951151,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Merkez Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796074740,
+        "lat": 40.8739309,
+        "lon": 30.9516378,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796088103,
+        "lat": 40.8766147,
+        "lon": 30.9502575,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796091515,
+        "lat": 40.8767684,
+        "lon": 30.9508491,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "internet_access": "no",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796111088,
+        "lat": 40.8729477,
+        "lon": 30.9497522,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796112629,
+        "lat": 40.8731387,
+        "lon": 30.9494318,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Metin Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2796127872,
+        "lat": 40.8550386,
+        "lon": 30.9631425,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "regional",
+          "name": "Selamlar Atatürk Kahvehanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804133202,
+        "lat": 40.9081116,
+        "lon": 30.9495737,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Rafting Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804156704,
+        "lat": 40.9085048,
+        "lon": 30.9507968,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804159116,
+        "lat": 40.9081927,
+        "lon": 30.9499867,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2804159119,
+        "lat": 40.9084846,
+        "lon": 30.9505339,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4348757490,
+        "lat": 40.8066544,
+        "lon": 30.8577605,
+        "tags": {
+          "addr:street": "Anadolu Otoyolu",
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "internet_access": "wlan",
+          "name": "Berceste"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4357416492,
+        "lat": 40.9047018,
+        "lon": 30.9512567,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "Melencirafting"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4480870483,
+        "lat": 40.8741065,
+        "lon": 30.9510439,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Neyzen Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8871405787,
+        "lat": 40.852055,
+        "lon": 31.0218261,
+        "tags": {
+          "amenity": "cafe",
+          "name": "KANAL KAFE"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12743805777,
+        "lat": 40.856495,
+        "lon": 31.0220344,
+        "tags": {
+          "addr:city": "Düzce",
+          "addr:district": "Gümüşova",
+          "addr:neighbourhood": "Hacı Kadirler Yolu",
+          "amenity": "cafe",
+          "cuisine": "tea;coffee_shop;toast",
+          "internet_access": "yes",
+          "internet_access:fee": "customers",
+          "name": "Hollandalı'nın Yeri",
+          "opening_hours": "Mo-Su 10:00-24:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 404699127,
+        "center": {
+          "lat": 40.8212207,
+          "lon": 30.9968473
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "name": "Kahvehane",
+          "smoking": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 814241780,
+        "center": {
+          "lat": 40.8070109,
+          "lon": 30.8573595
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Berceste"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1356000043,
+        "center": {
+          "lat": 40.8009007,
+          "lon": 30.849842
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Berceste"
+        }
+      }
+    ]
+  }
+}

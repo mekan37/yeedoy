@@ -1,0 +1,204 @@
+{
+  "meta": {
+    "sehir_id": "38",
+    "sehir_adi": "KAYSERİ",
+    "ilce_id": "1846",
+    "ilce_adi": "TALAS",
+    "bbox_used": {
+      "south": 38.5027878,
+      "west": 35.5310147,
+      "north": 38.7203761,
+      "east": 35.8863358
+    },
+    "bbox_original": {
+      "south": 38.5027878,
+      "west": 35.5310147,
+      "north": 38.7203761,
+      "east": 35.8863358
+    },
+    "fetchedAt": "2026-01-21T09:38:04.865Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 11
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:36:16Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8525084841,
+        "lat": 38.7116103,
+        "lon": 35.5655887,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9277715643,
+        "lat": 38.6864292,
+        "lon": 35.5650253,
+        "tags": {
+          "addr:city": "Kayseri",
+          "addr:district": "Talas",
+          "addr:housenumber": "10/2",
+          "addr:neighbourhood": "Tablakaya Mahallesi",
+          "addr:postcode": "38280",
+          "addr:street": "Demirkalaç Sokak",
+          "amenity": "restaurant",
+          "cuisine": "regional;pizza;burger;chicken;kebab;ice_cream;coffee_shop",
+          "name": "Erguvan Restoran | Kaytur",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "yes",
+          "phone": "0 (352) 438 17 01",
+          "smoking": "outside",
+          "website": "http://www.kaytur.com.tr/",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9503011117,
+        "lat": 38.6952746,
+        "lon": 35.5419177,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "So Fire House burger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9718104665,
+        "lat": 38.6864419,
+        "lon": 35.5650189,
+        "tags": {
+          "addr:city": "Kayseri",
+          "addr:district": "Talas",
+          "addr:neighbourhood": "Tablakaya Mahallesi",
+          "addr:postcode": "38280",
+          "addr:street": "Demirkalaç Sokak",
+          "amenity": "cafe",
+          "cuisine": "pizza;regional;burger;chicken;kebab;ice_cream;coffee_shop",
+          "name": "Erguvan Restoran | Kaytur",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "yes",
+          "phone": "0 (352) 438 17 01",
+          "smoking": "outside",
+          "website": "http://www.kaytur.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11020616706,
+        "lat": 38.6754746,
+        "lon": 35.5614359,
+        "tags": {
+          "addr:street": "Şehit Komandolar Caddesi",
+          "amenity": "restaurant",
+          "name": "Sinan Şef",
+          "name:en": "Sinan chef"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12063432103,
+        "lat": 38.6875262,
+        "lon": 35.5438106,
+        "tags": {
+          "addr:city": "Kayseri",
+          "addr:district": "Talas",
+          "addr:housenumber": "3",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:postcode": "38280",
+          "addr:street": "Uğur Sok.",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;pasta",
+          "internet_access": "yes",
+          "name": "Red Line Coffee House",
+          "opening_hours": "Mo-Su 09:00-00:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 535 042 65 24",
+          "website": "www.redlinecoffeehouse.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12335444548,
+        "lat": 38.6965689,
+        "lon": 35.5344249,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "level": "0",
+          "name": "Kasapa Restoran ve Mangal",
+          "toilets": "yes",
+          "toilets:access": "customers"
+        }
+      },
+      {
+        "type": "way",
+        "id": 396097783,
+        "center": {
+          "lat": 38.7056908,
+          "lon": 35.5646512
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "internet_access": "yes",
+          "name": "Selçuklu Çay Evi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 496583115,
+        "center": {
+          "lat": 38.7058947,
+          "lon": 35.5538146
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Mevlana Sosyal Tesisi",
+          "source": "Maxar Premium-Luftbilder (Beta)"
+        }
+      },
+      {
+        "type": "way",
+        "id": 881662218,
+        "center": {
+          "lat": 38.6863748,
+          "lon": 35.5372172
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Airbus",
+          "tourism": "attraction"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1087091659,
+        "center": {
+          "lat": 38.7009497,
+          "lon": 35.5530715
+        },
+        "tags": {
+          "addr:city": "Kayseri",
+          "addr:street": "Mehmet Akif Ersoy Caddesi",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "adyghe",
+          "name": "GUBATE RESTAURANT",
+          "opening_hours": "Thursday        9a.m.-8:30p.m.    Friday        9a.m.-8:30p.m.    Saturday        9a.m.-5p.m.    Sunday        9a.m.-5p.m.    Monday        9a.m.-8:30p.m.    Tuesday        9a.m.-8:30p.m.    Wednesday        9a.m.-8:30p.m.",
+          "phone": "+903522909349",
+          "website": "https://www.gubate.com.tr/"
+        }
+      }
+    ]
+  }
+}

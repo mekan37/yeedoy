@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "14",
+    "sehir_adi": "BOLU",
+    "ilce_id": "1466",
+    "ilce_adi": "KIBRISCIK",
+    "bbox_used": {
+      "south": 40.3035936,
+      "west": 31.6957497,
+      "north": 40.580715,
+      "east": 32.116041
+    },
+    "bbox_original": {
+      "south": 40.3035936,
+      "west": 31.6957497,
+      "north": 40.580715,
+      "east": 32.116041
+    },
+    "fetchedAt": "2026-01-21T08:39:12.633Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:38:03Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

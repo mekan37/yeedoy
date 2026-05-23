@@ -1,0 +1,308 @@
+{
+  "meta": {
+    "sehir_id": "59",
+    "sehir_adi": "TEKİRDAĞ",
+    "ilce_id": "1388",
+    "ilce_adi": "HAYRABOLU",
+    "bbox_used": {
+      "south": 40.9739904,
+      "west": 26.8602312,
+      "north": 41.3644818,
+      "east": 27.36648
+    },
+    "bbox_original": {
+      "south": 40.9739904,
+      "west": 26.8602312,
+      "north": 41.3644818,
+      "east": 27.36648
+    },
+    "fetchedAt": "2026-01-21T10:29:16.782Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 27
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:28:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4947089324,
+        "lat": 41.2031797,
+        "lon": 27.3659083,
+        "tags": {
+          "addr:city": "Hanoğlu",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Hanoğlu Mahallesi",
+          "amenity": "cafe",
+          "name": "Hanoğlu Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5003381214,
+        "lat": 41.0673276,
+        "lon": 27.3310634,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5055069599,
+        "lat": 41.2784107,
+        "lon": 27.3172494,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5509608025,
+        "lat": 41.3476585,
+        "lon": 26.9170645,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mavi Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5852443202,
+        "lat": 41.2153398,
+        "lon": 27.1072418,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şadırvan Park Özlem Cafe & Pastane",
+          "shop": "pastry"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720534,
+        "lat": 41.2145658,
+        "lon": 27.1035303,
+        "tags": {
+          "amenity": "pub",
+          "name": "Barış Birahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720539,
+        "lat": 41.2146674,
+        "lon": 27.1038321,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konyalı Şenol Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720584,
+        "lat": 41.2123208,
+        "lon": 27.1074812,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720597,
+        "lat": 41.2117462,
+        "lon": 27.1082973,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Başak Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720634,
+        "lat": 41.2102092,
+        "lon": 27.1095626,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720675,
+        "lat": 41.2095589,
+        "lon": 27.111644,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Club Different Night"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720768,
+        "lat": 41.2101572,
+        "lon": 27.1158933,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çınar Masal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844721205,
+        "lat": 41.2245654,
+        "lon": 27.2483549,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çakarlar Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844721281,
+        "lat": 41.1992989,
+        "lon": 27.3037304,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tufan Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844721287,
+        "lat": 41.2005704,
+        "lon": 27.3056307,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9163921358,
+        "lat": 41.2661615,
+        "lon": 27.2359939,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9163921401,
+        "lat": 41.2613238,
+        "lon": 27.2377507,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9163921705,
+        "lat": 41.3327977,
+        "lon": 27.2782481,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9694153239,
+        "lat": 41.2201674,
+        "lon": 27.0749594,
+        "tags": {
+          "name": "Oyal Çikolata Fabrika Satış Mağazası",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9894452342,
+        "lat": 41.0998662,
+        "lon": 27.0649072,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11306131093,
+        "lat": 41.0642997,
+        "lon": 27.3276772,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Berkay Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11314497606,
+        "lat": 41.3489053,
+        "lon": 27.0943419,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Boncuk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12174828949,
+        "lat": 41.3469769,
+        "lon": 26.9111068,
+        "tags": {
+          "addr:city": "Pehlivanköy",
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Pavli Kasap Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13036497196,
+        "lat": 41.219612,
+        "lon": 27.1095484,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hay Bel Cafe Canburger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13077779011,
+        "lat": 41.3049396,
+        "lon": 27.2321945,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13413451380,
+        "lat": 41.0589217,
+        "lon": 27.0030199,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Remzi Usta'nın Yeri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1386913808,
+        "center": {
+          "lat": 41.2441283,
+          "lon": 27.1776223
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "coffee_shop"
+        }
+      }
+    ]
+  }
+}

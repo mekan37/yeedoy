@@ -1,0 +1,429 @@
+{
+  "meta": {
+    "sehir_id": "32",
+    "sehir_adi": "ISPARTA",
+    "ilce_id": "1297",
+    "ilce_adi": "EĞİRDİR",
+    "bbox_used": {
+      "south": 37.683211164864865,
+      "north": 37.95348143513514,
+      "west": 30.77118787332781,
+      "east": 31.112336526672188
+    },
+    "bbox_original": {
+      "south": 37.5165035,
+      "west": 30.6926359,
+      "north": 38.1201891,
+      "east": 31.1908885
+    },
+    "fetchedAt": "2026-01-21T09:12:49.831Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 38
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:11:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2428792434,
+        "lat": 37.873168,
+        "lon": 30.8468146,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Baba Keyf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2881780305,
+        "lat": 37.8776502,
+        "lon": 30.8241968,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2882864163,
+        "lat": 37.881685,
+        "lon": 30.8658053,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Big fish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2882864164,
+        "lat": 37.8817575,
+        "lon": 30.8658114,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "The big apple"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3753197191,
+        "lat": 37.8747413,
+        "lon": 30.8502414,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kebap 49"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3753197223,
+        "lat": 37.874834,
+        "lon": 30.8501416,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kebapçi Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3754019247,
+        "lat": 37.8821505,
+        "lon": 30.8693886,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Melodi Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3754098312,
+        "lat": 37.8816479,
+        "lon": 30.8666579,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kroisos",
+          "tourism": "hotel"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6549455685,
+        "lat": 37.8755993,
+        "lon": 30.8504854,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Demlizade Cafe - Bistro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6554203485,
+        "lat": 37.8446514,
+        "lon": 30.8486697,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akpınar Yörük çadırı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8715137487,
+        "lat": 37.8749812,
+        "lon": 30.8499775,
+        "tags": {
+          "name": "Bereket büfe",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9739717714,
+        "lat": 37.8793584,
+        "lon": 30.8226726,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9762746709,
+        "lat": 37.8798445,
+        "lon": 30.8585247,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Doğa Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9763992382,
+        "lat": 37.8817811,
+        "lon": 30.867837,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Halikarnas Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9764028263,
+        "lat": 37.8828562,
+        "lon": 30.8692304,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fahri Bey Konağı Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9764028264,
+        "lat": 37.8833419,
+        "lon": 30.8692981,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Merve Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9764028266,
+        "lat": 37.8834152,
+        "lon": 30.8693479,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sunrise Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9764028267,
+        "lat": 37.8835018,
+        "lon": 30.869397,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ayka"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9764028268,
+        "lat": 37.883234,
+        "lon": 30.8681335,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeşilada Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766455926,
+        "lat": 37.8775503,
+        "lon": 30.8556539,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Outdoor Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766456010,
+        "lat": 37.8761732,
+        "lon": 30.8540975,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Arzava"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766537346,
+        "lat": 37.8766822,
+        "lon": 30.8528352,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Eski Eğirdir Evi Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766537363,
+        "lat": 37.8756725,
+        "lon": 30.8515935,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Keyf-i Alâ Cafe Bistro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766537364,
+        "lat": 37.8756099,
+        "lon": 30.8514817,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hacı Alaaddin Pide & Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766537382,
+        "lat": 37.8749344,
+        "lon": 30.852124,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lezzet Değirmeni Çiğ Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766537403,
+        "lat": 37.8750769,
+        "lon": 30.8531685,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tahirin Yeri Et Balık Mangal Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766537416,
+        "lat": 37.8744724,
+        "lon": 30.8520711,
+        "tags": {
+          "amenity": "bar",
+          "name": "Kervansaray Türkü Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766548226,
+        "lat": 37.8741775,
+        "lon": 30.8514967,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "OLtogar Fast Food"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766548271,
+        "lat": 37.8749653,
+        "lon": 30.8509618,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Uludağ Döner & Çorbacı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766610341,
+        "lat": 37.8752186,
+        "lon": 30.851012,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nur Ev Yemekleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766610344,
+        "lat": 37.8753365,
+        "lon": 30.8513575,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bayraklı Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9766610388,
+        "lat": 37.8756822,
+        "lon": 30.84926,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Eğirdir Elma Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9998426366,
+        "lat": 37.7994531,
+        "lon": 31.0664989,
+        "tags": {
+          "air_conditioning": "no",
+          "amenity": "cafe",
+          "bar": "no",
+          "cuisine": "turkish;ice_cream",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10777544076,
+        "lat": 37.8004929,
+        "lon": 31.0722916,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aksu Pide"
+        }
+      },
+      {
+        "type": "way",
+        "id": 401097099,
+        "center": {
+          "lat": 37.882334,
+          "lon": 30.8181796
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Hayalkent"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1054350599,
+        "center": {
+          "lat": 37.8732288,
+          "lon": 30.846897
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1057654612,
+        "center": {
+          "lat": 37.8757227,
+          "lon": 30.8485286
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Sahil Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1062874706,
+        "center": {
+          "lat": 37.8842475,
+          "lon": 30.8697358
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Felekabad Restoran"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1839",
+    "ilce_adi": "SELÇUKLU",
+    "bbox_used": {
+      "south": 37.954630564864864,
+      "north": 38.22490083513514,
+      "west": 32.36054013971684,
+      "east": 32.70295166028317
+    },
+    "bbox_original": {
+      "south": 37.8702776,
+      "west": 32.0702542,
+      "north": 38.3092538,
+      "east": 32.9932376
+    },
+    "fetchedAt": "2026-01-21T09:48:41.113Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 24
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:47:34Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3055507605,
+        "lat": 37.9839728,
+        "lon": 32.4887492,
+        "tags": {
+          "amenity": "restaurant",
+          "capacity": "48",
+          "cuisine": "etli_ekmek",
+          "name": "Sevim Etli Ekmek",
+          "smoking": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3056141027,
+        "lat": 37.984958,
+        "lon": 32.4921536,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3158027671,
+        "lat": 37.9831473,
+        "lon": 32.4922791,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3166379023,
+        "lat": 38.009779,
+        "lon": 32.5263268,
+        "tags": {
+          "addr:city": "Bosna Mah. Selçuklu / Konya",
+          "addr:street": "Osmanlı Cd",
+          "amenity": "cafe",
+          "name": "Kocatepe Kahve Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3658927126,
+        "lat": 38.0106152,
+        "lon": 32.5262439,
+        "tags": {
+          "addr:city": "Selçuklu/Konya",
+          "amenity": "cafe",
+          "name": "Coffy"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3659836951,
+        "lat": 37.9832646,
+        "lon": 32.4920833,
+        "tags": {
+          "addr:city": "Selçuklu/Konya",
+          "amenity": "restaurant",
+          "name": "Mutfak Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5122247287,
+        "lat": 37.9852868,
+        "lon": 32.5764504,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "burger",
+          "internet_access": "yes",
+          "name": "Alkan Pehlivan Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6632047486,
+        "lat": 37.9848801,
+        "lon": 32.5763248,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şahin Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7271596130,
+        "lat": 37.954722,
+        "lon": 32.3619521,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10025614717,
+        "lat": 38.2063266,
+        "lon": 32.3899053,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Lokanta etlıekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11932770969,
+        "lat": 37.9881085,
+        "lon": 32.5120283,
+        "tags": {
+          "addr:housenumber": "77/В",
+          "addr:postcode": "42060",
+          "addr:street": "Şafak Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "japanese",
+          "name": "Rolik sushi Konya",
+          "opening_hours": "Su-Sa 12:00-21:45",
+          "phone": "+90 536 952 18 85",
+          "website": "https://roliksushi.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12291725775,
+        "lat": 37.9939812,
+        "lon": 32.5161482,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "simit;i̇çecek;cips",
+          "internet_access": "no",
+          "name": "Simit Durağı 3",
+          "opening_hours": "Mo-Su 07:00-22:00",
+          "phone": "05546806265",
+          "website": "http://slcklusimitduragi.wixsite.com/slcklusimitduragi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13200879424,
+        "lat": 38.010377,
+        "lon": 32.5220607,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13200879425,
+        "lat": 38.0103793,
+        "lon": 32.5219454,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13200879427,
+        "lat": 38.0105617,
+        "lon": 32.521928,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Yemen Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13200879428,
+        "lat": 38.0101346,
+        "lon": 32.5208587,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "LUPEN"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13200879438,
+        "lat": 38.0092877,
+        "lon": 32.5215907,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Mackbear Coffee"
+        }
+      },
+      {
+        "type": "way",
+        "id": 176134464,
+        "center": {
+          "lat": 38.2078592,
+          "lon": 32.3730259
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 176134466,
+        "center": {
+          "lat": 38.2081384,
+          "lon": 32.3703218
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 526435928,
+        "center": {
+          "lat": 38.0234858,
+          "lon": 32.5118945
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "2",
+          "height": "8",
+          "name": "EspressoLab",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 526513488,
+        "center": {
+          "lat": 38.025479,
+          "lon": 32.5050436
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "1",
+          "height": "6",
+          "name": "Selçuk Üniversitesi Fen Edebiyat Fakültesi Kantini",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 526522604,
+        "center": {
+          "lat": 38.0266688,
+          "lon": 32.5098512
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "building:levels": "1",
+          "height": "8",
+          "name": "Ayışığı",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1279996907,
+        "center": {
+          "lat": 37.978445,
+          "lon": 32.5198101
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "japanese"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1279996908,
+        "center": {
+          "lat": 37.9782485,
+          "lon": 32.5198418
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "japanese"
+        }
+      }
+    ]
+  }
+}

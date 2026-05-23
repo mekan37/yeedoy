@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "sehir_id": "9",
+    "sehir_adi": "AYDIN",
+    "ilce_id": "1957",
+    "ilce_adi": "KARPUZLU",
+    "bbox_used": {
+      "south": 37.4466826,
+      "west": 27.6927541,
+      "north": 37.6564391,
+      "east": 27.9395586
+    },
+    "bbox_original": {
+      "south": 37.4466826,
+      "west": 27.6927541,
+      "north": 37.6564391,
+      "east": 27.9395586
+    },
+    "fetchedAt": "2026-01-21T08:31:21.817Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:30:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11889797958,
+        "lat": 37.5567081,
+        "lon": 27.8327836,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12155251264,
+        "lat": 37.5392485,
+        "lon": 27.7856445,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahvehane",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12155883031,
+        "lat": 37.534205,
+        "lon": 27.7016279,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahvehane"
+        }
+      }
+    ]
+  }
+}

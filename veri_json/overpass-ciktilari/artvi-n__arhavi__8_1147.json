@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "sehir_id": "8",
+    "sehir_adi": "ARTVİN",
+    "ilce_id": "1147",
+    "ilce_adi": "ARHAVİ",
+    "bbox_used": {
+      "south": 41.0987582,
+      "west": 41.2482648,
+      "north": 41.3699133,
+      "east": 41.5255036
+    },
+    "bbox_original": {
+      "south": 41.0987582,
+      "west": 41.2482648,
+      "north": 41.3699133,
+      "east": 41.5255036
+    },
+    "fetchedAt": "2026-01-21T08:28:40.880Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 15
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:26:55Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1844506613,
+        "lat": 41.3522839,
+        "lon": 41.3072783,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1844506614,
+        "lat": 41.3524591,
+        "lon": 41.3094535,
+        "tags": {
+          "amenity": "bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1844506615,
+        "lat": 41.3517737,
+        "lon": 41.3076933,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Jin Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1844506616,
+        "lat": 41.3524651,
+        "lon": 41.3081205,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Seyir Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3144563183,
+        "lat": 41.2519126,
+        "lon": 41.3552644,
+        "tags": {
+          "amenity": "restaurant",
+          "capacity": "300",
+          "name": "Mençuna Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5853383586,
+        "lat": 41.354334,
+        "lon": 41.3067688,
+        "tags": {
+          "amenity": "cafe",
+          "name:ru": "Марина"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5872970074,
+        "lat": 41.3591487,
+        "lon": 41.316862,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Rakani"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6536626247,
+        "lat": 41.27632,
+        "lon": 41.3760727,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çifteköprü Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7807180486,
+        "lat": 41.3496588,
+        "lon": 41.3074031,
+        "tags": {
+          "amenity": "cafe",
+          "name": "ArLokma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10074610946,
+        "lat": 41.3594473,
+        "lon": 41.317542,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Falez Cafe&Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10881599174,
+        "lat": 41.3538501,
+        "lon": 41.3099188,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2023-05-09",
+          "name": "Loca"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10881599179,
+        "lat": 41.3519767,
+        "lon": 41.3085301,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-05-09"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11210215849,
+        "lat": 41.316346,
+        "lon": 41.3071683,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Real Bungolov"
+        }
+      },
+      {
+        "type": "way",
+        "id": 668300225,
+        "center": {
+          "lat": 41.3326778,
+          "lon": 41.2550297
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1100797926,
+        "center": {
+          "lat": 41.3594612,
+          "lon": 41.3175156
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "sehir_id": "17",
+    "sehir_adi": "ÇANAKKALE",
+    "ilce_id": "1722",
+    "ilce_adi": "YENİCE",
+    "bbox_used": {
+      "south": 39.77330921486486,
+      "north": 40.04357948513513,
+      "west": 27.07287326903719,
+      "east": 27.424201230962808
+    },
+    "bbox_original": {
+      "south": 39.678152,
+      "west": 26.948378,
+      "north": 40.1387367,
+      "east": 27.5486965
+    },
+    "fetchedAt": "2026-01-21T08:46:09.918Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:45:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11217615537,
+        "lat": 39.8131286,
+        "lon": 27.2139014,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dombili Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11217615538,
+        "lat": 39.8120133,
+        "lon": 27.2137721,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çorbacı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11217615548,
+        "lat": 39.8123282,
+        "lon": 27.2126714,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ali Şen'in Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11217615550,
+        "lat": 39.8119811,
+        "lon": 27.212796,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 585479801,
+        "center": {
+          "lat": 39.813069,
+          "lon": 27.2142671
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Agonya Sofrası"
+        }
+      }
+    ]
+  }
+}

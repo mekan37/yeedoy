@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "sehir_id": "16",
+    "sehir_adi": "BURSA",
+    "ilce_id": "1535",
+    "ilce_adi": "MUSTAFAKEMALPAŞA",
+    "bbox_used": {
+      "south": 39.83508006486486,
+      "north": 40.105350335135135,
+      "west": 28.317159926666424,
+      "east": 28.668805173333578
+    },
+    "bbox_original": {
+      "south": 39.750213,
+      "west": 28.1886066,
+      "north": 40.1902174,
+      "east": 28.7973585
+    },
+    "fetchedAt": "2026-01-21T08:42:30.584Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:41:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13468117630,
+        "lat": 40.0403319,
+        "lon": 28.4063891,
+        "tags": {
+          "addr:city": "Bursa",
+          "addr:district": "Mustafakemalpaşa",
+          "addr:housenumber": "12/2",
+          "addr:neighbourhood": "Hamzabey",
+          "addr:postcode": "16500",
+          "addr:street": "Değirmen Sokak",
+          "amenity": "restaurant",
+          "cuisine": "turkish;barbecue",
+          "name": "Löpür Löpür Et Kasap Izgara",
+          "opening_hours": "Mo-Su 09:00-21:00",
+          "phone": "+90 547 420 5050"
+        }
+      }
+    ]
+  }
+}

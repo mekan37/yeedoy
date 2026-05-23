@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "4",
+    "sehir_adi": "AĞRI",
+    "ilce_id": "1283",
+    "ilce_adi": "DİYADİN",
+    "bbox_used": {
+      "south": 39.30625231486486,
+      "north": 39.57652258513513,
+      "west": 43.46571634816795,
+      "east": 43.814676751832046
+    },
+    "bbox_original": {
+      "south": 39.1977839,
+      "west": 43.399786,
+      "north": 39.684991,
+      "east": 43.8806071
+    },
+    "fetchedAt": "2026-01-21T08:20:48.342Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:19:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

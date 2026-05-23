@@ -1,0 +1,361 @@
+{
+  "meta": {
+    "sehir_id": "76",
+    "sehir_adi": "IĞDIR",
+    "ilce_id": "1398",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 36.360244,
+      "west": 30.2776043,
+      "north": 36.380244,
+      "east": 30.2976043
+    },
+    "bbox_original": {
+      "south": 36.360244,
+      "west": 30.2776043,
+      "north": 36.380244,
+      "east": 30.2976043
+    },
+    "fetchedAt": "2026-01-21T11:02:41.956Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 30
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:01:06Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9614834498,
+        "lat": 36.3635719,
+        "lon": 30.2858769,
+        "tags": {
+          "name": "Özkaymaklım Künefe ve Katmer Salonu",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11862150674,
+        "lat": 36.3656181,
+        "lon": 30.292398,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Hatır Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11863297988,
+        "lat": 36.3686658,
+        "lon": 30.2852497,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Leziz Kokoreç"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11866700072,
+        "lat": 36.367762,
+        "lon": 30.2843301,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nar Çiçeği Ev Yemekleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12703074200,
+        "lat": 36.3673157,
+        "lon": 30.2815222,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mavi Karadeniz",
+          "shop": "bakery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12703110806,
+        "lat": 36.3673263,
+        "lon": 30.2817391,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çarşı Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12705552397,
+        "lat": 36.3674306,
+        "lon": 30.287472,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nur Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12705558602,
+        "lat": 36.3660679,
+        "lon": 30.2864663,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kebapçı Erhan Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12705569080,
+        "lat": 36.3677191,
+        "lon": 30.287695,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Böreksan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723295164,
+        "lat": 36.3665733,
+        "lon": 30.2852882,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şişçi Tevfik"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723299977,
+        "lat": 36.360315,
+        "lon": 30.2838499,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Böreksan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723302199,
+        "lat": 36.3613709,
+        "lon": 30.2846317,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konyalılar Etli Ekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723305096,
+        "lat": 36.366963,
+        "lon": 30.2847727,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "chicken",
+          "name": "Emin Tavukçuluk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723306958,
+        "lat": 36.3645654,
+        "lon": 30.285062,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "soup",
+          "name": "Kumluca Çorbacısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723307619,
+        "lat": 36.3642303,
+        "lon": 30.2853502,
+        "tags": {
+          "amenity": "pub",
+          "name": "Simge Birahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723317636,
+        "lat": 36.3667609,
+        "lon": 30.284976,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şişçi Veysi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12723318287,
+        "lat": 36.3615013,
+        "lon": 30.284192,
+        "tags": {
+          "amenity": "pub",
+          "name": "Tek Tek Birahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12725137690,
+        "lat": 36.3664468,
+        "lon": 30.284047,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12750332092,
+        "lat": 36.3624351,
+        "lon": 30.2869363,
+        "tags": {
+          "amenity": "cafe",
+          "name": "White Angel"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12750375239,
+        "lat": 36.3677647,
+        "lon": 30.2894089,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12750375240,
+        "lat": 36.3699423,
+        "lon": 30.2895049,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Antalyaspor Taraftar Cafe & Oyun Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12750443369,
+        "lat": 36.3688779,
+        "lon": 30.2883255,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çarşı Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12778130713,
+        "lat": 36.3671848,
+        "lon": 30.2915242,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 550669378,
+        "center": {
+          "lat": 36.3632814,
+          "lon": 30.2961289
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Kalekule Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1272148335,
+        "center": {
+          "lat": 36.3704369,
+          "lon": 30.285864
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Hüseyin Gürkan Park Kafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1276073940,
+        "center": {
+          "lat": 36.3680078,
+          "lon": 30.2865597
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Hasırlı Kahve"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1278285323,
+        "center": {
+          "lat": 36.3666546,
+          "lon": 30.2860092
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "internet_access": "wlan",
+          "name": "Cafe Meydan",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1371999335,
+        "center": {
+          "lat": 36.3661447,
+          "lon": 30.288567
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "building:levels": "2",
+          "name": "Bizim Çorbacı"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1372014810,
+        "center": {
+          "lat": 36.3651638,
+          "lon": 30.2857636
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1445191533,
+        "center": {
+          "lat": 36.3746361,
+          "lon": 30.28752
+        },
+        "tags": {
+          "alcohol": "yes",
+          "amenity": "cafe",
+          "building": "yes",
+          "cuisine": "bistro",
+          "live_music": "yes",
+          "name": "Pablox Cafe & Bistro"
+        }
+      }
+    ]
+  }
+}

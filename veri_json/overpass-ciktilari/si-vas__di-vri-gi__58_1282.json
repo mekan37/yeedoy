@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "58",
+    "sehir_adi": "SİVAS",
+    "ilce_id": "1282",
+    "ilce_adi": "DİVRİĞİ",
+    "bbox_used": {
+      "south": 39.3078207,
+      "west": 38.0344099,
+      "north": 39.4767051,
+      "east": 38.1745719
+    },
+    "bbox_original": {
+      "south": 39.3078207,
+      "west": 38.0344099,
+      "north": 39.4767051,
+      "east": 38.1745719
+    },
+    "fetchedAt": "2026-01-21T10:26:57.044Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:25:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

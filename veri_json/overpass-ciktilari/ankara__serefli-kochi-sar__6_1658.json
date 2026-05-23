@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "sehir_id": "6",
+    "sehir_adi": "ANKARA",
+    "ilce_id": "1658",
+    "ilce_adi": "ŞEREFLİKOÇHİSAR",
+    "bbox_used": {
+      "south": 38.84078196486487,
+      "north": 39.11105223513514,
+      "west": 33.28820345611977,
+      "east": 33.63485864388023
+    },
+    "bbox_original": {
+      "south": 38.6728587,
+      "west": 33.1200188,
+      "north": 39.2789755,
+      "east": 33.8030433
+    },
+    "fetchedAt": "2026-01-21T08:25:19.542Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:23:51Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 708462388,
+        "lat": 39.0737503,
+        "lon": 33.4126485,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 708466294,
+        "lat": 39.0749809,
+        "lon": 33.4113037,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2523070557,
+        "lat": 39.0758859,
+        "lon": 33.4136313,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Başkent Mola Park Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11008622105,
+        "lat": 38.9380756,
+        "lon": 33.5382959,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tahinli pide"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1082471849,
+        "center": {
+          "lat": 39.075566,
+          "lon": 33.4110816
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "retail",
+          "name": "Tuz Gölü Yöresel Ürünler",
+          "outdoor_seating": "yes"
+        }
+      }
+    ]
+  }
+}

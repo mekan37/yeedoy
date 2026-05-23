@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "24",
+    "sehir_adi": "ERZİNCAN",
+    "ilce_id": "1583",
+    "ilce_adi": "REFAHİYE",
+    "bbox_used": {
+      "south": 39.74912726486486,
+      "north": 40.019397535135134,
+      "west": 38.573083690582166,
+      "east": 38.924287709417825
+    },
+    "bbox_original": {
+      "south": 39.6985318,
+      "west": 38.3542686,
+      "north": 40.069993,
+      "east": 39.1431028
+    },
+    "fetchedAt": "2026-01-21T08:58:36.331Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:57:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8431798217,
+        "lat": 39.9024763,
+        "lon": 38.8963987,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dadaş Dinlenme Tesisleri"
+        }
+      }
+    ]
+  }
+}

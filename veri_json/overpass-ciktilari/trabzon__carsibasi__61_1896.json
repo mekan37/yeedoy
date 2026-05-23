@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "61",
+    "sehir_adi": "TRABZON",
+    "ilce_id": "1896",
+    "ilce_adi": "ÇARŞIBAŞI",
+    "bbox_used": {
+      "south": 40.9500041,
+      "west": 39.3447804,
+      "north": 41.1076502,
+      "east": 39.4541779
+    },
+    "bbox_original": {
+      "south": 40.9500041,
+      "west": 39.3447804,
+      "north": 41.1076502,
+      "east": 39.4541779
+    },
+    "fetchedAt": "2026-01-21T10:38:32.206Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:36:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8923636971,
+        "lat": 41.0695307,
+        "lon": 39.3458006,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kale Restoran"
+        }
+      }
+    ]
+  }
+}

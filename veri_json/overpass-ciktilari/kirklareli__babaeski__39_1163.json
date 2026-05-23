@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "sehir_id": "39",
+    "sehir_adi": "KIRKLARELİ",
+    "ilce_id": "1163",
+    "ilce_adi": "BABAESKİ",
+    "bbox_used": {
+      "south": 41.2593853,
+      "west": 26.913178,
+      "north": 41.6286598,
+      "east": 27.2608995
+    },
+    "bbox_original": {
+      "south": 41.2593853,
+      "west": 26.913178,
+      "north": 41.6286598,
+      "east": 27.2608995
+    },
+    "fetchedAt": "2026-01-21T09:38:46.607Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 22
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:37:19Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2847593351,
+        "lat": 41.4274499,
+        "lon": 27.0996932,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2847593369,
+        "lat": 41.4269129,
+        "lon": 27.0997978,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çamlık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2850096041,
+        "lat": 41.4400092,
+        "lon": 27.0890084,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5509608025,
+        "lat": 41.3476585,
+        "lon": 26.9170645,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mavi Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6754059697,
+        "lat": 41.428745,
+        "lon": 27.0933782,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Eski Baba Kanatçı Aile Restaurantı",
+          "phone": "+902885128525"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6754059698,
+        "lat": 41.4286203,
+        "lon": 27.0933808,
+        "tags": {
+          "amenity": "pub",
+          "name": "Gel-Gel Birahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720198,
+        "lat": 41.3698635,
+        "lon": 27.1425632,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844720205,
+        "lat": 41.3664782,
+        "lon": 27.1424706,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gar Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9026278995,
+        "lat": 41.3666599,
+        "lon": 27.1477532,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Alakart Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9026527760,
+        "lat": 41.3686245,
+        "lon": 27.1421917,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Hakiki Doğal Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9026527762,
+        "lat": 41.3687473,
+        "lon": 27.1422178,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Taşkın Çay Ocağı",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9026527771,
+        "lat": 41.3691695,
+        "lon": 27.1423352,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Asmalı Konak Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9163921358,
+        "lat": 41.2661615,
+        "lon": 27.2359939,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9163921401,
+        "lat": 41.2613238,
+        "lon": 27.2377507,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11314497606,
+        "lat": 41.3489053,
+        "lon": 27.0943419,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Boncuk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12364809872,
+        "lat": 41.4279906,
+        "lon": 27.1028561,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pecka"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13077779011,
+        "lat": 41.3049396,
+        "lon": 27.2321945,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13110390901,
+        "lat": 41.5169204,
+        "lon": 26.9476586,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13110391001,
+        "lat": 41.5169145,
+        "lon": 26.9472108,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 769673983,
+        "center": {
+          "lat": 41.4287981,
+          "lon": 27.0938793
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Alp&Can Unlu Mamülleri"
+        }
+      },
+      {
+        "type": "way",
+        "id": 769889740,
+        "center": {
+          "lat": 41.4292961,
+          "lon": 27.094819
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Kavera",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1144666670,
+        "center": {
+          "lat": 41.4105153,
+          "lon": 26.9339216
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "kıraathane"
+        }
+      }
+    ]
+  }
+}

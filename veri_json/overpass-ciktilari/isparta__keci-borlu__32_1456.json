@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "32",
+    "sehir_adi": "ISPARTA",
+    "ilce_id": "1456",
+    "ilce_adi": "KEÇİBORLU",
+    "bbox_used": {
+      "south": 37.9427345,
+      "west": 30.3020421,
+      "north": 37.9527345,
+      "east": 30.3120421
+    },
+    "bbox_original": {
+      "south": 37.9427345,
+      "west": 30.3020421,
+      "north": 37.9527345,
+      "east": 30.3120421
+    },
+    "fetchedAt": "2026-01-21T09:13:47.592Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:11:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

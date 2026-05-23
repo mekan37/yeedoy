@@ -1,0 +1,313 @@
+{
+  "meta": {
+    "sehir_id": "50",
+    "sehir_adi": "NEVŞEHİR",
+    "ilce_id": "1707",
+    "ilce_adi": "ÜRGÜP",
+    "bbox_used": {
+      "south": 38.6028635,
+      "west": 34.8811132,
+      "north": 38.7094644,
+      "east": 35.0921903
+    },
+    "bbox_original": {
+      "south": 38.6028635,
+      "west": 34.8811132,
+      "north": 38.7094644,
+      "east": 35.0921903
+    },
+    "fetchedAt": "2026-01-21T10:10:36.008Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 26
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:08:58Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 344947292,
+        "lat": 38.6304025,
+        "lon": 34.9104112,
+        "tags": {
+          "amenity": "cafe",
+          "phone": "+90 242 341 60 90"
+        }
+      },
+      {
+        "type": "node",
+        "id": 344947295,
+        "lat": 38.6315707,
+        "lon": 34.9126487,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 344947299,
+        "lat": 38.6312961,
+        "lon": 34.9134897,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 344947302,
+        "lat": 38.6298268,
+        "lon": 34.9103321,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 365655766,
+        "lat": 38.6307887,
+        "lon": 34.9112362,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 375977871,
+        "lat": 38.6362439,
+        "lon": 34.9020123,
+        "tags": {
+          "amenity": "bar",
+          "name": "Asım'ın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 375982930,
+        "lat": 38.6331572,
+        "lon": 34.9048005,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dimrit",
+          "name:en": "Prokopi",
+          "name:ru": "Prokopi",
+          "name:tr": "Prokopi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 391216547,
+        "lat": 38.6337716,
+        "lon": 34.9057277,
+        "tags": {
+          "amenity": "bar",
+          "name": "Kedi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 428239216,
+        "lat": 38.6311143,
+        "lon": 34.9119303,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sofra"
+        }
+      },
+      {
+        "type": "node",
+        "id": 428239218,
+        "lat": 38.6303539,
+        "lon": 34.9111624,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Micro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 428239220,
+        "lat": 38.6306316,
+        "lon": 34.911689,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 428239222,
+        "lat": 38.630563,
+        "lon": 34.911412,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 428239224,
+        "lat": 38.629539,
+        "lon": 34.912932,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Develili Deringöller Kiymali ve Kebab",
+          "name:tr": "Develili Deringöller Kiymali ve Kebab"
+        }
+      },
+      {
+        "type": "node",
+        "id": 444989254,
+        "lat": 38.6304609,
+        "lon": 34.9099978,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Han Çırağan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 986569881,
+        "lat": 38.6300827,
+        "lon": 34.912045,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ürgüp pide salonu",
+          "name:tr": "Ürgüp pide salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2922321408,
+        "lat": 38.6150575,
+        "lon": 34.9065957,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Karakuş"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4437377700,
+        "lat": 38.6311384,
+        "lon": 34.9119847,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeytin Cafe",
+          "name:tr": "Zeytin Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5395462007,
+        "lat": 38.6288538,
+        "lon": 34.9034029,
+        "tags": {
+          "amenity": "bar",
+          "name": "Adonis Bar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5762422414,
+        "lat": 38.6305813,
+        "lon": 34.9102932,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "name": "teras kafe restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6238023988,
+        "lat": 38.630318,
+        "lon": 34.9148838,
+        "tags": {
+          "addr:street": "Eski Sanayii Sokak",
+          "amenity": "cafe",
+          "cuisine": "regional;turkish",
+          "internet_access": "wlan",
+          "name": "TANDIRBAŞI"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6799905886,
+        "lat": 38.631458,
+        "lon": 34.9120223,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Yeni lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6799924285,
+        "lat": 38.6304363,
+        "lon": 34.9117429,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şüküroğulları pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7203135995,
+        "lat": 38.6317905,
+        "lon": 34.9072487,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "LAGARTO"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9392852932,
+        "lat": 38.6289414,
+        "lon": 34.9166708,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Pide firini (good pide)"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10212219917,
+        "lat": 38.6307291,
+        "lon": 34.9108067,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şüküroğulları"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1198732701,
+        "center": {
+          "lat": 38.6276864,
+          "lon": 34.9080759
+        },
+        "tags": {
+          "addr:city": "Nevşehir",
+          "addr:district": "ürgüp",
+          "addr:housenumber": "10",
+          "addr:neighbourhood": "Duayeri Mahallesi",
+          "addr:postcode": "50400",
+          "addr:street": "Dedeli Başı Sokak",
+          "amenity": "cafe",
+          "contact:instagram": "deringoller",
+          "name": "Deringöller Breakfast&Cafe",
+          "opening_hours": "Mo-Sa 07:00-21:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 552 179 38 50"
+        }
+      }
+    ]
+  }
+}

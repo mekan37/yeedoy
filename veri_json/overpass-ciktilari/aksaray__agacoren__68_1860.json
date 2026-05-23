@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "sehir_id": "68",
+    "sehir_adi": "AKSARAY",
+    "ilce_id": "1860",
+    "ilce_adi": "AĞAÇÖREN",
+    "bbox_used": {
+      "south": 38.6374952,
+      "west": 33.6436035,
+      "north": 38.9484454,
+      "east": 34.0222791
+    },
+    "bbox_original": {
+      "south": 38.6374952,
+      "west": 33.6436035,
+      "north": 38.9484454,
+      "east": 34.0222791
+    },
+    "fetchedAt": "2026-01-21T10:52:59.314Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:51:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8865445451,
+        "lat": 38.8699445,
+        "lon": 33.9149118,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Merkez Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8922757095,
+        "lat": 38.8724471,
+        "lon": 33.9114348,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cafe Sevgi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9017653655,
+        "lat": 38.8702804,
+        "lon": 33.9150297,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Barış Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9163922195,
+        "lat": 38.8700766,
+        "lon": 33.9153902,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Orhan ustanın yeri, işkembe paça tantuni"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "sehir_id": "4",
+    "sehir_adi": "AĞRI",
+    "ilce_id": "1691",
+    "ilce_adi": "TUTAK",
+    "bbox_used": {
+      "south": 39.36164016486486,
+      "north": 39.63191043513513,
+      "west": 42.512636704781976,
+      "east": 42.861874995218024
+    },
+    "bbox_original": {
+      "south": 39.3030451,
+      "west": 42.4195897,
+      "north": 39.6905055,
+      "east": 42.954922
+    },
+    "fetchedAt": "2026-01-21T08:21:46.329Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:20:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 10233385601,
+        "lat": 39.5140339,
+        "lon": 42.7408975,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gölbaşı Umut Halk bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10233385716,
+        "lat": 39.5408412,
+        "lon": 42.7698069,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tutak Sosyete Çiğköftecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10233385717,
+        "lat": 39.5363704,
+        "lon": 42.7735798,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Saray Lokantası"
+        }
+      }
+    ]
+  }
+}

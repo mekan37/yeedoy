@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "64",
+    "sehir_adi": "UŞAK",
+    "ilce_id": "1170",
+    "ilce_adi": "BANAZ",
+    "bbox_used": {
+      "south": 38.61733576486486,
+      "north": 38.887606035135136,
+      "west": 29.578033982315826,
+      "east": 29.92360141768417
+    },
+    "bbox_original": {
+      "south": 38.5564773,
+      "west": 29.4778031,
+      "north": 38.9484645,
+      "east": 30.0238323
+    },
+    "fetchedAt": "2026-01-21T10:45:17.224Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11133964020,
+        "lat": 38.73372,
+        "lon": 29.7442636,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Banaz Et Mangal"
+        }
+      }
+    ]
+  }
+}

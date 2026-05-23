@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "65",
+    "sehir_adi": "VAN",
+    "ilce_id": "1309",
+    "ilce_adi": "ERCİŞ",
+    "bbox_used": {
+      "south": 38.995082564864866,
+      "north": 39.26535283513514,
+      "west": 43.14694928395833,
+      "east": 43.49436271604167
+    },
+    "bbox_original": {
+      "south": 38.89387,
+      "west": 42.9876483,
+      "north": 39.3665654,
+      "east": 43.6536637
+    },
+    "fetchedAt": "2026-01-21T10:46:38.539Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:44:40Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "67",
+    "sehir_adi": "ZONGULDAK",
+    "ilce_id": "2100",
+    "ilce_adi": "KİLİMLİ",
+    "bbox_used": {
+      "south": 41.4276515,
+      "west": 31.8222995,
+      "north": 41.548994,
+      "east": 32.0306899
+    },
+    "bbox_original": {
+      "south": 41.4276515,
+      "west": 31.8222995,
+      "north": 41.548994,
+      "east": 32.0306899
+    },
+    "fetchedAt": "2026-01-21T10:52:09.532Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:50:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5880964551,
+        "lat": 41.4288072,
+        "lon": 31.8705475,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,5721 @@
+{
+  "meta": {
+    "sehir_id": "72",
+    "sehir_adi": "BATMAN",
+    "ilce_id": "1174",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 37.7133281,
+      "west": 40.9864447,
+      "north": 38.0824247,
+      "east": 41.4804861
+    },
+    "bbox_original": {
+      "south": 37.7133281,
+      "west": 40.9864447,
+      "north": 38.0824247,
+      "east": 41.4804861
+    },
+    "fetchedAt": "2026-01-21T10:56:40.000Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 484
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:55:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2334281601,
+        "lat": 37.9010631,
+        "lon": 41.1316018,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Bereket Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2334281799,
+        "lat": 37.8962814,
+        "lon": 41.1296063,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445622348,
+        "lat": 37.8988992,
+        "lon": 41.1420052,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe",
+          "name": "Cemiyet Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445785721,
+        "lat": 37.8983452,
+        "lon": 41.1449651,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445785722,
+        "lat": 37.8963012,
+        "lon": 41.145675,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445785723,
+        "lat": 37.895568,
+        "lon": 41.1460209,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445790863,
+        "lat": 37.8721329,
+        "lon": 41.1329595,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Site Mah.",
+          "amenity": "cafe",
+          "name": "Petrol Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445816172,
+        "lat": 37.8967415,
+        "lon": 41.1411412,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "60",
+          "addr:neighbourhood": "Fatih Mah.",
+          "addr:street": "İnsan Hakları Bulvarı",
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445854551,
+        "lat": 37.9041218,
+        "lon": 41.1311816,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2445854850,
+        "lat": 37.9040222,
+        "lon": 41.1311452,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Life Point",
+          "name:tr": "Life Point"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2447870516,
+        "lat": 37.9204121,
+        "lon": 41.1436974,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2454118938,
+        "lat": 37.8988804,
+        "lon": 41.1303991,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:housenumber": "23",
+          "addr:street": "Turgut Ozal Blv",
+          "amenity": "cafe",
+          "name": "Yavuzlar Pastanesi",
+          "phone": "+90 488 213 6941"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2455275034,
+        "lat": 37.9025877,
+        "lon": 41.1318562,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Nacaroğlu Baklava",
+          "wheelchair": "no"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2455275058,
+        "lat": 37.9024552,
+        "lon": 41.1321796,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "2515. Sokak",
+          "amenity": "restaurant",
+          "name": "Mara Balık Evi & Izgara",
+          "phone": "+90 488 221 2004"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2460134899,
+        "lat": 37.9039339,
+        "lon": 41.1375582,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "restaurant",
+          "name": "Buket Lahmacun",
+          "phone": "+90 488 221 12 97"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2460171435,
+        "lat": 37.8949961,
+        "lon": 41.1336012,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2478656800,
+        "lat": 37.895608,
+        "lon": 41.1341432,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "2",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "1623. Sokak",
+          "amenity": "cafe",
+          "name": "Cafe Ste"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2490619563,
+        "lat": 37.8949265,
+        "lon": 41.1311613,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Enfess Cafe",
+          "name:tr": "Enfess Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2491947788,
+        "lat": 37.9037678,
+        "lon": 41.1358825,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housename": "Geçit Büryan",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "restaurant",
+          "name": "Geçit Büryan",
+          "phone": "+90 488 215 6060"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2491947791,
+        "lat": 37.9044389,
+        "lon": 41.1334779,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housename": "Hanedan Lokantası",
+          "addr:housenumber": "1/A",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "2517/A. Sokak",
+          "amenity": "restaurant",
+          "name": "Hanedan Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2504846535,
+        "lat": 37.9041895,
+        "lon": 41.1365673,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "188/A",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "cafe",
+          "name": "Sadık Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2508152513,
+        "lat": 37.9044696,
+        "lon": 41.133538,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "1",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:postcode": "72070",
+          "addr:street": "2517/A. Sokak",
+          "amenity": "cafe",
+          "name": "İnci Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2511166855,
+        "lat": 37.8965284,
+        "lon": 41.1284143,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Mahatma Gandhi Blv",
+          "amenity": "restaurant",
+          "name": "Keyf-i Ciğer"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2513585280,
+        "lat": 37.9046487,
+        "lon": 41.1352569,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "restaurant",
+          "name": "Beyzade Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2513585283,
+        "lat": 37.9001165,
+        "lon": 41.1329533,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "cafe",
+          "name": "Luuq Coffee Roastery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2527573523,
+        "lat": 37.8965348,
+        "lon": 41.1289823,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "7",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "addr:street": "Mahatma Gandhi Bulvarı",
+          "amenity": "restaurant",
+          "name": "Çağdaş Kavurma",
+          "phone": "+90 488 213 1371"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2550198528,
+        "lat": 37.9103831,
+        "lon": 41.1373092,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "restaurant",
+          "name": "İsot Ali 2 Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2550801579,
+        "lat": 37.9008468,
+        "lon": 41.1280655,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Av. Zekeriya Aydın Caddesi",
+          "amenity": "cafe",
+          "name": "Mudo Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2550801609,
+        "lat": 37.9010673,
+        "lon": 41.1277625,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Av. Zekeriya Aydın Caddesi",
+          "amenity": "restaurant",
+          "name": "Nivan Lokantası",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2560897090,
+        "lat": 37.9039341,
+        "lon": 41.1326376,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Kekik Sokak",
+          "amenity": "restaurant",
+          "name": "Balık Evi",
+          "phone": "+90 488 212 7206"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2562612183,
+        "lat": 37.9131829,
+        "lon": 41.1404522,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2567740600,
+        "lat": 37.9015944,
+        "lon": 41.1426359,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2567740606,
+        "lat": 37.901959,
+        "lon": 41.1417601,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2573037399,
+        "lat": 37.8888595,
+        "lon": 41.1291861,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "98/A",
+          "addr:neighbourhood": "Cumhuriyet Mah.",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Çömçe Lokantası",
+          "phone": "+90 488 213 1776"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2681692802,
+        "lat": 37.8892561,
+        "lon": 41.1545272,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "97",
+          "addr:neighbourhood": "Cudi Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "restaurant",
+          "name": "Şirin Ocakbaşı",
+          "phone": "+90 488 213 14 14"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2710501501,
+        "lat": 37.9018048,
+        "lon": 41.1437898,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "cafe",
+          "name": "Mudo Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2710501502,
+        "lat": 37.901727,
+        "lon": 41.1439599,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "restaurant",
+          "name": "Sahra Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2723256779,
+        "lat": 37.8979442,
+        "lon": 41.1296498,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "2605. Sokak",
+          "amenity": "restaurant",
+          "name": "Esnaflar Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2725290080,
+        "lat": 37.8930189,
+        "lon": 41.1301033,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe",
+          "name": "Damak Künefe",
+          "phone": "+90 533 423 63 72"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2728301680,
+        "lat": 37.880348,
+        "lon": 41.1278439,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "restaurant",
+          "name": "Geçit Büryan",
+          "phone": "+90 488 213 6142"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2774612511,
+        "lat": 37.8902567,
+        "lon": 41.1287999,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Turgut Ozal Blv",
+          "amenity": "restaurant",
+          "name": "Diyar Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2782714047,
+        "lat": 37.8843919,
+        "lon": 41.1609905,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "restaurant",
+          "name": "Paradis Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2795800517,
+        "lat": 37.879669,
+        "lon": 41.1234946,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Nacaroğlu Baklava"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2797999732,
+        "lat": 37.8960173,
+        "lon": 41.1333715,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "İnsan Hakları Bulvarı",
+          "amenity": "cafe",
+          "name": "Cafe 657"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2822143877,
+        "lat": 37.8875343,
+        "lon": 41.1264769,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Sanat Sok.",
+          "amenity": "cafe",
+          "name": "Balkon Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2822143878,
+        "lat": 37.8873928,
+        "lon": 41.1267444,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Sanat Sok.",
+          "amenity": "cafe",
+          "name": "İstanbul Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2822143884,
+        "lat": 37.8893309,
+        "lon": 41.1241856,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "139/A",
+          "addr:neighbourhood": "Sağlık Mah.",
+          "addr:street": "Yunus Emre Caddesi",
+          "amenity": "cafe",
+          "name": "Edam Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2838890636,
+        "lat": 37.8938636,
+        "lon": 41.1303187,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Hünkar Restoran Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2843454055,
+        "lat": 37.8949764,
+        "lon": 41.1297549,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Turgut Ozal Blv",
+          "amenity": "cafe",
+          "name": "Diyarbakır Kadayıfçı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2843454056,
+        "lat": 37.8975446,
+        "lon": 41.1310105,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe",
+          "name": "Cafe Asiwa"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2854414641,
+        "lat": 37.9023729,
+        "lon": 41.1421749,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "restaurant",
+          "name": "Balta Burger"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2881276724,
+        "lat": 37.8996452,
+        "lon": 41.1313396,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Turgut Ozal Blv",
+          "amenity": "cafe",
+          "name": "Monks The Coffee",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2881276725,
+        "lat": 37.9018388,
+        "lon": 41.1310721,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Saray Gülü Pastanesi",
+          "outdoor_seating": "yes",
+          "phone": "+90 488 213 6633"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2900342996,
+        "lat": 37.8837668,
+        "lon": 41.1266794,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2900342997,
+        "lat": 37.8838053,
+        "lon": 41.1267348,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2930825222,
+        "lat": 37.8828493,
+        "lon": 41.1276701,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "name": "İnaloğlu Pastane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2932307958,
+        "lat": 37.8872726,
+        "lon": 41.1282388,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Ahmet Usta Fırınlı Et Lokantası",
+          "phone": "+90 488 212 6162"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2940042677,
+        "lat": 37.8898562,
+        "lon": 41.124495,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "157",
+          "addr:neighbourhood": "Sağlık Mah.",
+          "addr:street": "Yunus Emre Caddesi",
+          "amenity": "cafe",
+          "name": "Zirve Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2945416328,
+        "lat": 37.8853715,
+        "lon": 41.1278904,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Saray Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2958274082,
+        "lat": 37.8970885,
+        "lon": 41.130086,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Batman Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2958274083,
+        "lat": 37.8969236,
+        "lon": 41.1300642,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe",
+          "name": "Akademi Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2976959277,
+        "lat": 37.8959186,
+        "lon": 41.1295611,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kafe Terrace"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2978705590,
+        "lat": 37.8957862,
+        "lon": 41.1295655,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Turgut Ozal Blv",
+          "amenity": "restaurant",
+          "name": "Adanalı Resturant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3009836362,
+        "lat": 37.9109443,
+        "lon": 41.1327561,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Demokrasi Blv",
+          "amenity": "restaurant",
+          "name": "Van Kahvaltı Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3042710230,
+        "lat": 37.9001451,
+        "lon": 41.1314465,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:postcode": "72070",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Waffle Kumpir"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3047107650,
+        "lat": 37.8806419,
+        "lon": 41.1265539,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Selehaddini Eyyübi Caddesi",
+          "amenity": "restaurant",
+          "name": "Şişko Fırınlı Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3066210362,
+        "lat": 37.879228,
+        "lon": 41.1231424,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "restaurant",
+          "name": "Urfalı Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3090184581,
+        "lat": 37.8893835,
+        "lon": 41.1235232,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Sağlık Mah.",
+          "addr:street": "Garzan Caddesi",
+          "amenity": "restaurant",
+          "name": "Bereket Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3090184582,
+        "lat": 37.8895693,
+        "lon": 41.1243367,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Yunus Emre Caddesi",
+          "amenity": "restaurant",
+          "name": "Lale Lahmacun Pide",
+          "phone": "+90 530 126 4868"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3090184595,
+        "lat": 37.8989193,
+        "lon": 41.1301194,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2607. Sk",
+          "amenity": "restaurant",
+          "name": "Aşiyan Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3090184596,
+        "lat": 37.8963116,
+        "lon": 41.1320604,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "İnsan Hakları Bulvarı",
+          "amenity": "restaurant",
+          "name": "Keke Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3093535308,
+        "lat": 37.8988323,
+        "lon": 41.1314573,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Cadde Künefe",
+          "outdoor_seating": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3093535309,
+        "lat": 37.8997845,
+        "lon": 41.1313806,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Artukbey Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3103270076,
+        "lat": 37.8872037,
+        "lon": 41.128847,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "name": "Öner Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3103270082,
+        "lat": 37.8884759,
+        "lon": 41.1291354,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Ciğerci Pala'nın Yeri",
+          "phone": "+90 488 214 5007"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3114763118,
+        "lat": 37.888603,
+        "lon": 41.1284546,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "cafe",
+          "name": "Ünal Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3114763122,
+        "lat": 37.8887551,
+        "lon": 41.1314145,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "Ahmet Arif Bulvarı",
+          "amenity": "restaurant",
+          "name": "Pilav Üstü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3122232572,
+        "lat": 37.9033219,
+        "lon": 41.1308069,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2606. Sk",
+          "amenity": "cafe",
+          "name": "Park Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3127557744,
+        "lat": 37.8901097,
+        "lon": 41.1239984,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "11/B",
+          "addr:neighbourhood": "Sağlık Mah.",
+          "addr:street": "1906. Sokak",
+          "amenity": "restaurant",
+          "name": "Kebapçı Hoca'nın Yeri",
+          "phone": "+90 488 213 8998"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3127557785,
+        "lat": 37.8898508,
+        "lon": 41.128517,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Ziya Gökalp Mah.",
+          "addr:street": "80. Yıl Caddesi",
+          "amenity": "cafe",
+          "name": "Palmiye Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3127693444,
+        "lat": 37.9032869,
+        "lon": 41.1309465,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2606. Sk",
+          "amenity": "restaurant",
+          "name": "Batman Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3128761917,
+        "lat": 37.8898014,
+        "lon": 41.1285885,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Ziya Gökalp Mah.",
+          "addr:street": "80. Yıl Caddesi",
+          "amenity": "restaurant",
+          "name": "Acetler Döner Lahmacun",
+          "phone": "+90 542 413 9972"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3128762083,
+        "lat": 37.8754803,
+        "lon": 41.1163602,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Felek Caddesi",
+          "amenity": "restaurant",
+          "name": "Sevim Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3132586864,
+        "lat": 37.9013442,
+        "lon": 41.1316901,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Cengiz Usta Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3139491850,
+        "lat": 37.8906188,
+        "lon": 41.1428262,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Barış Bulvarı",
+          "amenity": "restaurant",
+          "name": "İnan Lahmacun Pide",
+          "phone": "+90 488 214 2920"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3157810859,
+        "lat": 37.8936313,
+        "lon": 41.1307362,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Öğretmen Evi Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3178464744,
+        "lat": 37.8966331,
+        "lon": 41.1275307,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "13/A",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "addr:street": "Mahatma Gandi Bulvarı",
+          "amenity": "restaurant",
+          "name": "Neden Urfa Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3178464746,
+        "lat": 37.8968184,
+        "lon": 41.1288166,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Mahatma Gandhi Bulvarı",
+          "amenity": "restaurant",
+          "name": "Sofram Self Servis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3186071655,
+        "lat": 37.9032027,
+        "lon": 41.1236767,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mitra Cafe & Nargile"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3204130753,
+        "lat": 37.8792947,
+        "lon": 41.1263059,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Park Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3213653744,
+        "lat": 37.9013913,
+        "lon": 41.1320604,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2511. Sokak",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Cümbüş Kafe Nargile"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3218465971,
+        "lat": 37.8945925,
+        "lon": 41.1296797,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Türkü Evi Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3218465973,
+        "lat": 37.8957428,
+        "lon": 41.1296785,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şehri Saray Kafe Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3229516848,
+        "lat": 37.89518,
+        "lon": 41.1296585,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Tabu Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3235719650,
+        "lat": 37.8808527,
+        "lon": 41.1216262,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:housenumber": "15",
+          "addr:street": "1008. Sk",
+          "amenity": "restaurant",
+          "name": "Xalo Hayran Ciğer Salonu",
+          "opening_hours": "Mo-Su 08:00-21:00",
+          "phone": "+90 542 631 3325"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3247419589,
+        "lat": 37.911885,
+        "lon": 41.1401945,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "Eflatun Caddesi",
+          "amenity": "restaurant",
+          "name": "Petrol Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3255364458,
+        "lat": 37.8923052,
+        "lon": 41.1291379,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2203. Sk",
+          "amenity": "restaurant",
+          "name": "Dörtyol Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3255364459,
+        "lat": 37.8923802,
+        "lon": 41.1291538,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2203. Sk",
+          "amenity": "restaurant",
+          "name": "Mersin Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3283478325,
+        "lat": 37.8949894,
+        "lon": 41.1293176,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2211. Sokak",
+          "amenity": "restaurant",
+          "name": "Ciğerci Kutbettin Usta",
+          "phone": "+90 535 722 4582"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3283478329,
+        "lat": 37.8944887,
+        "lon": 41.1332941,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "1612. Sokak",
+          "amenity": "restaurant",
+          "name": "Park Ocakbaşı",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3294416895,
+        "lat": 37.9040342,
+        "lon": 41.1350938,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mahallesi",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "cafe",
+          "name": "Sümer Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3294416896,
+        "lat": 37.9041406,
+        "lon": 41.1347451,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "205/A",
+          "addr:neighbourhood": "Gap Mahallesi",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Altındilim Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3310326884,
+        "lat": 37.8821924,
+        "lon": 41.1267753,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "Hasankeyf Sokağı",
+          "amenity": "restaurant",
+          "name": "İsot Ali",
+          "phone": "+90 488 213 57 69"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3370528739,
+        "lat": 37.8875697,
+        "lon": 41.1404034,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Barış Bulvarı",
+          "amenity": "restaurant",
+          "name": "Tutku Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3374834191,
+        "lat": 37.8926385,
+        "lon": 41.1305044,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "1609. Sk",
+          "amenity": "restaurant",
+          "name": "Kardelen Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3379204479,
+        "lat": 37.8969291,
+        "lon": 41.1290881,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "1/B",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:postcode": "72060",
+          "addr:street": "2602. Sokak",
+          "amenity": "restaurant",
+          "name": "İsot Ali",
+          "opening_hours": "Mo-Su 08:00-23:00",
+          "phone": "+90 545 212 5767"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3390624375,
+        "lat": 37.9030734,
+        "lon": 41.1429035,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "1/B",
+          "addr:neighbourhood": "Çamlıtepe Mah.",
+          "addr:street": "4006. Sokak",
+          "amenity": "restaurant",
+          "name": "Sedir Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3401326913,
+        "lat": 37.8688836,
+        "lon": 41.1372583,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3401326914,
+        "lat": 37.8692781,
+        "lon": 41.1364784,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3407023779,
+        "lat": 37.8699272,
+        "lon": 41.138242,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe",
+          "name": "Çetin Kafeterya"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3407023781,
+        "lat": 37.8951747,
+        "lon": 41.1289085,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "addr:street": "2204. Sokak",
+          "amenity": "restaurant",
+          "name": "Çorbacı Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3431400228,
+        "lat": 37.8867523,
+        "lon": 41.1287526,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Hüner Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3439123512,
+        "lat": 37.9034105,
+        "lon": 41.1324535,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "2519. Sokak",
+          "amenity": "restaurant",
+          "name": "Sansani Döner Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3439123513,
+        "lat": 37.9035293,
+        "lon": 41.1327354,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Susam Sokak",
+          "amenity": "restaurant",
+          "name": "Baran Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3440853613,
+        "lat": 37.9011309,
+        "lon": 41.1450233,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "soran",
+          "name:ar": "سوران"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3444869966,
+        "lat": 37.9006137,
+        "lon": 41.1326487,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "2504. Sk",
+          "amenity": "restaurant",
+          "name": "Doyum Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3450308072,
+        "lat": 37.8983046,
+        "lon": 41.1266477,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Elma Sokak Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3451700894,
+        "lat": 37.8925439,
+        "lon": 41.129211,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Turgut Ozal Blv",
+          "amenity": "restaurant",
+          "name": "Elit Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3451714582,
+        "lat": 37.9144118,
+        "lon": 41.1401837,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "amenity": "cafe",
+          "name": "Cüneyt Usta Kadayıf - Künefe Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3456840660,
+        "lat": 37.9102189,
+        "lon": 41.1391628,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "Fırat Caddesi",
+          "amenity": "cafe",
+          "name": "Bölge Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3486489113,
+        "lat": 37.8897126,
+        "lon": 41.1541223,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:housenumber": "99/E",
+          "addr:neighbourhood": "Cudi Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "restaurant",
+          "name": "Çorbacı Fesih Usta",
+          "phone": "+90 544 497 34 05"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3506852722,
+        "lat": 37.9028712,
+        "lon": 41.118536,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Kıbrıs Şehitleri Bulvarı",
+          "amenity": "restaurant",
+          "name": "Mıstık Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3506910401,
+        "lat": 37.8974074,
+        "lon": 41.1215186,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "Kıbrıs Şehitleri Bulvarı",
+          "amenity": "cafe",
+          "name": "Şahin Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3516714988,
+        "lat": 37.8866695,
+        "lon": 41.1280949,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "name": "Diyarbakır Ciğercisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3529748305,
+        "lat": 37.894732,
+        "lon": 41.1322664,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe",
+          "name": "The Black Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3529748308,
+        "lat": 37.8940111,
+        "lon": 41.1303894,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3529748321,
+        "lat": 37.8942674,
+        "lon": 41.1309422,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çadır Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3561116218,
+        "lat": 37.8922538,
+        "lon": 41.1235073,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "29/A",
+          "addr:neighbourhood": "Sağlık Mah.",
+          "addr:street": "Kıbrıs Şehitleri Bulvarı",
+          "amenity": "restaurant",
+          "name": "Şahin Çiğköfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3602268334,
+        "lat": 37.9007007,
+        "lon": 41.1263679,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Av. Zekeriya Aydın Caddesi",
+          "amenity": "cafe",
+          "name": "Failia Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3604396376,
+        "lat": 37.9159931,
+        "lon": 41.1330974,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "31/AC",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "addr:street": "Eflatun Caddesi",
+          "amenity": "restaurant",
+          "name": "Divan Mangalbaşı",
+          "phone": "+90 553 301 89 40"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3690780091,
+        "lat": 37.9572254,
+        "lon": 41.3246623,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3702279316,
+        "lat": 37.8978886,
+        "lon": 41.1312379,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name": "Yeşil Vadi Cafe",
+          "phone": "+90 488 215 1594"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3747793826,
+        "lat": 37.9196731,
+        "lon": 41.0739287,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "restaurant",
+          "name": "Bardakçılar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3751283411,
+        "lat": 37.8962914,
+        "lon": 41.1216614,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Kıbrıs Şehitleri Bulvarı",
+          "amenity": "restaurant",
+          "name": "Hacıoğu Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3822855776,
+        "lat": 37.8991444,
+        "lon": 41.1406291,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kültür Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3832426323,
+        "lat": 37.8945776,
+        "lon": 41.1401123,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "36/A",
+          "addr:neighbourhood": "Fatih Mah.",
+          "addr:street": "Ömer Muhar Bulvarı",
+          "amenity": "restaurant",
+          "name": "Namlı Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3890241989,
+        "lat": 37.9015726,
+        "lon": 41.1318161,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "2511. Sokak",
+          "amenity": "cafe",
+          "name": "Jijo Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3890832885,
+        "lat": 37.8933343,
+        "lon": 41.130762,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "1611. Sokak",
+          "amenity": "cafe",
+          "name": "Danûk Cafe",
+          "name:tr": "Danûk Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3890832886,
+        "lat": 37.8931904,
+        "lon": 41.1311,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "1611. Sokak",
+          "amenity": "cafe",
+          "name": "Çamlıca Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3907657417,
+        "lat": 37.9051526,
+        "lon": 41.1333107,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "206/A",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "restaurant",
+          "name": "Beyzade",
+          "phone": "+90 488 221 2270"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3908882413,
+        "lat": 37.9109225,
+        "lon": 41.1397094,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Fırat Caddesi",
+          "amenity": "restaurant",
+          "name": "Şefim Lahmacun",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3916757053,
+        "lat": 37.8942548,
+        "lon": 41.1229751,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Kıbrıs Şehitleri Bulvarı",
+          "amenity": "restaurant",
+          "name": "Ada Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3938263816,
+        "lat": 37.8924511,
+        "lon": 41.1282122,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:housenumber": "6/A",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "addr:street": "2203. Sokak",
+          "amenity": "cafe",
+          "name": "Amed Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3952012250,
+        "lat": 37.8846733,
+        "lon": 41.132965,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Şirinevler Mah.",
+          "amenity": "restaurant",
+          "name": "Kebapçı Cuma Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3962157313,
+        "lat": 37.7900424,
+        "lon": 41.0652082,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Merkezi Yemekhane",
+          "name:ku": "Xwaringeha Navendî"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3983975036,
+        "lat": 37.9236483,
+        "lon": 41.1352568,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Saniya Sitesi",
+          "amenity": "restaurant",
+          "name": "Huzur Fırınlı Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4027489841,
+        "lat": 37.8872032,
+        "lon": 41.1443165,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Korik Caddesi",
+          "amenity": "restaurant",
+          "name": "Zirve Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4030365993,
+        "lat": 37.8801679,
+        "lon": 41.1662302,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "restaurant",
+          "name": "Çorbacı Eyüp Efendi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4041423959,
+        "lat": 37.8811682,
+        "lon": 41.120345,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Balpınar Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4103130189,
+        "lat": 37.9109807,
+        "lon": 41.1389436,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çorbacı Cuma Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4105753689,
+        "lat": 37.8896949,
+        "lon": 41.1287484,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dörtyol Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4111172989,
+        "lat": 37.8921006,
+        "lon": 41.1300255,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Kafe Petrol Fırın",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4111229195,
+        "lat": 37.9030704,
+        "lon": 41.1323747,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "3/A",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:postcode": "72070",
+          "addr:street": "Lavanta Sokağı",
+          "amenity": "restaurant",
+          "name": "Halktan Et Döner",
+          "phone": "+90 488 212 71 71"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4114522504,
+        "lat": 37.9005847,
+        "lon": 41.1283421,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "33 Mersin Tantuni",
+          "phone": "+90 507 964 4546"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4119392034,
+        "lat": 37.9021786,
+        "lon": 41.1407205,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Grand Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4171724789,
+        "lat": 37.8995504,
+        "lon": 41.1318929,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vip Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4171724790,
+        "lat": 37.8999928,
+        "lon": 41.1319307,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Melankolia Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4171724889,
+        "lat": 37.9002311,
+        "lon": 41.1317794,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:postcode": "72070",
+          "amenity": "cafe",
+          "name": "Coffee Kangoo"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4209183892,
+        "lat": 37.8800293,
+        "lon": 41.1227547,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öz Sofra"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4219410089,
+        "lat": 37.9017424,
+        "lon": 41.1339674,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Marina Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4223893471,
+        "lat": 37.8961945,
+        "lon": 41.1282161,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Elite Pastanesi",
+          "shop": "pastry"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4229019833,
+        "lat": 37.9039803,
+        "lon": 41.1323516,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "email": "semaverdeyiz@gmail.com",
+          "name": "semaver",
+          "opening_hours": "24/7",
+          "operator": "Yusuf",
+          "phone": "+90 534 919 3042",
+          "website": "https://facebook.com/semaverdeyiz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4290993292,
+        "lat": 37.8962962,
+        "lon": 41.1332627,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerhân"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4304042192,
+        "lat": 37.7846498,
+        "lon": 41.0633561,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kantin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4304063229,
+        "lat": 37.7888841,
+        "lon": 41.0648992,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vadi Park Kantini"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4312238298,
+        "lat": 37.9047611,
+        "lon": 41.134819,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "198/B",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "restaurant",
+          "name": "Mardin Ciğercisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4318020499,
+        "lat": 37.9069163,
+        "lon": 41.1108732,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeytin Dalı Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4358940493,
+        "lat": 37.9528116,
+        "lon": 41.3242987,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Astan Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4358971993,
+        "lat": 37.9042314,
+        "lon": 41.1296007,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Kampüs Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4358971994,
+        "lat": 37.9133957,
+        "lon": 41.276761,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Furkan Lokantası",
+          "name:tr": "Furkan Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4396532689,
+        "lat": 37.9042615,
+        "lon": 41.1363189,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "cafe",
+          "name": "Ekici Reis Coffeé"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4408333493,
+        "lat": 37.8985267,
+        "lon": 41.1294317,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "2602. Sokak",
+          "amenity": "cafe",
+          "delivery": "yes",
+          "name": "By Hookah Lounge Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4416405297,
+        "lat": 37.9146702,
+        "lon": 41.1366462,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bahçem Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4417343291,
+        "lat": 37.9061811,
+        "lon": 41.1200404,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "243/A",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "TPAO Bulvarı",
+          "amenity": "restaurant",
+          "name": "Oskar Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4439598489,
+        "lat": 37.9187658,
+        "lon": 41.1434675,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "13/1",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "addr:street": "5351. Sokak",
+          "amenity": "cafe",
+          "name": "Hasbihal Cafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4440732089,
+        "lat": 37.8856646,
+        "lon": 41.1364812,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Geçit Adana Ocakbaşı",
+          "name:tr": "Geçit Adana Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4459566889,
+        "lat": 37.8970396,
+        "lon": 41.1300615,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Munzur Türkü Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4460611097,
+        "lat": 37.8967922,
+        "lon": 41.130057,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hacı Şeyhmus"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4460613693,
+        "lat": 37.8948807,
+        "lon": 41.1313698,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Telwe Cafe",
+          "name:tr": "Telwe Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461289592,
+        "lat": 37.894384,
+        "lon": 41.1332319,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe J'Adore",
+          "name:tr": "Cafe J'Adore"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4462283489,
+        "lat": 37.8973634,
+        "lon": 41.1301631,
+        "tags": {
+          "addr:street": "Turgut Ozal Blv",
+          "amenity": "cafe",
+          "name": "Köşk Cafe",
+          "phone": "+90 542 440 3952"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4463149408,
+        "lat": 37.9035147,
+        "lon": 41.1331433,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dramafon Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4472367499,
+        "lat": 37.8831122,
+        "lon": 41.1269852,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kasaba Döner",
+          "name:tr": "Kasaba Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4484040910,
+        "lat": 37.8981897,
+        "lon": 41.1319911,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Fokurtu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4494845690,
+        "lat": 37.9032965,
+        "lon": 41.1333389,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Susam Sokak",
+          "amenity": "restaurant",
+          "name": "Ali Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4494853601,
+        "lat": 37.9040442,
+        "lon": 41.1330842,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Papatya Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4494866590,
+        "lat": 37.9033956,
+        "lon": 41.1339356,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Fısıltı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4504626389,
+        "lat": 37.8983181,
+        "lon": 41.1316727,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "restaurant",
+          "name": "MC Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4514699392,
+        "lat": 37.8955542,
+        "lon": 41.1280781,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "addr:street": "Hamidiler Caddesi",
+          "amenity": "restaurant",
+          "name": "Dürümhan",
+          "name:tr": "Dürümhan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4526343991,
+        "lat": 37.8750369,
+        "lon": 41.1179341,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "restaurant",
+          "name": "Zozan Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4535633194,
+        "lat": 37.9045158,
+        "lon": 41.1313046,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Teras Cafe",
+          "name:tr": "Teras Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4558269294,
+        "lat": 37.9001634,
+        "lon": 41.132574,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Rengo Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4581776390,
+        "lat": 37.9030428,
+        "lon": 41.1327344,
+        "tags": {
+          "addr:postcode": "72070",
+          "amenity": "cafe",
+          "name": "Marrakech Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4581801190,
+        "lat": 37.8969199,
+        "lon": 41.127909,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "14/A",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Mahatma Gandi Bulvarı",
+          "amenity": "restaurant",
+          "name": "Asos Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4612116399,
+        "lat": 37.8802455,
+        "lon": 41.1237457,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Altın Sofra",
+          "name:tr": "Altın Sofra",
+          "phone": "+90 507 249 60 63"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4623914689,
+        "lat": 37.8952106,
+        "lon": 41.1290825,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "amenity": "restaurant",
+          "name": "Tadım Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4681820318,
+        "lat": 37.8965563,
+        "lon": 41.1316357,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerci Siraç"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4681824620,
+        "lat": 37.8998222,
+        "lon": 41.133116,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ali Baba Nargile"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4682803927,
+        "lat": 37.9020297,
+        "lon": 41.1325784,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Kent Kafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4693387198,
+        "lat": 37.9164699,
+        "lon": 41.1457544,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Petrol Fırın",
+          "name:tr": "Cafe Petrol Fırın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4694770532,
+        "lat": 37.9020814,
+        "lon": 41.1340717,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "67/A",
+          "addr:street": "2510. Sokak",
+          "amenity": "cafe",
+          "name": "Map Lounge Cafe",
+          "phone": "+90 553 182 0033"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4718190891,
+        "lat": 37.9167944,
+        "lon": 41.132491,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "32/D",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "addr:street": "Eflatun Caddesi",
+          "amenity": "cafe",
+          "name": "Cafe Petrol Fırın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4730763272,
+        "lat": 37.9333655,
+        "lon": 41.1418449,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4762490027,
+        "lat": 37.8873023,
+        "lon": 41.1271516,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ali Haydar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4768015121,
+        "lat": 37.9026587,
+        "lon": 41.1438408,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Batman Cafe & Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4769391384,
+        "lat": 37.8809224,
+        "lon": 41.1243867,
+        "tags": {
+          "addr:housenumber": "8",
+          "addr:street": "1110. Sokak",
+          "amenity": "restaurant",
+          "name": "Fadıl Usta Et Lokantası",
+          "name:tr": "Fadıl Usta Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4771119624,
+        "lat": 37.8997386,
+        "lon": 41.1358884,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:postcode": "72070",
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "cafe",
+          "name": "Yedi İki Cafe & Lounge",
+          "opening_hours": "Mo-Su 07:00-00:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4839922123,
+        "lat": 37.898831,
+        "lon": 41.1292711,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "2607. Sokak",
+          "amenity": "restaurant",
+          "name": "Köftecim"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4880357621,
+        "lat": 37.8948238,
+        "lon": 41.131635,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dünya Döner",
+          "name:tr": "Dünya Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4880357821,
+        "lat": 37.8949694,
+        "lon": 41.1382512,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Karizma Cafe & Restaurant",
+          "name:tr": "Karizma Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4882069521,
+        "lat": 37.89759,
+        "lon": 41.1312009,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Göçmen Kebap",
+          "name:tr": "Tuna Döner",
+          "phone": "+90 542 719 32 27"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4908656122,
+        "lat": 37.9158476,
+        "lon": 41.1362097,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "16",
+          "addr:neighbourhood": "Gültepe Mahallesi",
+          "addr:street": "Yeniçağ Caddesi",
+          "amenity": "restaurant",
+          "name": "Dedeman Izgara ve Saç Tava Salonu",
+          "opening_hours": "Mo-Su 09:30-23:00",
+          "outdoor_seating": "yes",
+          "phone": "+90 488 212 11 44"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4912197205,
+        "lat": 37.8982869,
+        "lon": 41.131995,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "amenity": "cafe",
+          "name": "Big Love Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4927266024,
+        "lat": 37.9003167,
+        "lon": 41.1340103,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "cafe",
+          "name": "Corner Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4927266622,
+        "lat": 37.9024688,
+        "lon": 41.1340865,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yellof Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4936060024,
+        "lat": 37.8994807,
+        "lon": 41.1231538,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Şahane",
+          "name:tr": "Cafe Şahane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4938908224,
+        "lat": 37.9103383,
+        "lon": 41.1327431,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Arman Cafe",
+          "name:tr": "Arman Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4938908321,
+        "lat": 37.9135092,
+        "lon": 41.1370169,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "addr:street": "5303. Sokak",
+          "amenity": "cafe",
+          "name": "Antik Kahve Diyarı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4947088532,
+        "lat": 37.8985682,
+        "lon": 41.1337132,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "22/C",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "2510. Sokak",
+          "amenity": "cafe",
+          "name": "Ahmet Çelik Sanat Galerisi",
+          "operator": "Ahmet ÇELİK"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4947222622,
+        "lat": 37.8914946,
+        "lon": 41.1304119,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hayal Et & Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4958576121,
+        "lat": 37.9184631,
+        "lon": 41.1408165,
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "cafe",
+          "name": "Gültepe Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5030916836,
+        "lat": 37.9060637,
+        "lon": 41.1326167,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Breeze Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5054460021,
+        "lat": 37.9023161,
+        "lon": 41.1423405,
+        "tags": {
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "cafe",
+          "name": "Aslı Börek Cafe Fırın",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5061832523,
+        "lat": 37.8984291,
+        "lon": 41.1325567,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akça Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5061832524,
+        "lat": 37.8981226,
+        "lon": 41.132756,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Minewa Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5064434822,
+        "lat": 37.8997611,
+        "lon": 41.1456326,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gözde Lahmacun & Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5070995323,
+        "lat": 37.9235025,
+        "lon": 41.1322367,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fırınlı Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5073986322,
+        "lat": 37.8996348,
+        "lon": 41.1242864,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kanatçı Ali Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5087680921,
+        "lat": 37.9113023,
+        "lon": 41.140159,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "2/1",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "Eflatun Caddesi",
+          "amenity": "cafe",
+          "name": "Has Simit Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5108840621,
+        "lat": 37.9152564,
+        "lon": 41.1361866,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5147999422,
+        "lat": 37.8792785,
+        "lon": 41.1232492,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Botan Büryan Salonu",
+          "phone": "+90 488 213 96 25"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5153367322,
+        "lat": 37.8854851,
+        "lon": 41.1313913,
+        "tags": {
+          "addr:street": "Aydınlar Caddesi",
+          "amenity": "restaurant",
+          "name": "Kardeşler Lahmacun Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5153375022,
+        "lat": 37.8849589,
+        "lon": 41.133124,
+        "tags": {
+          "addr:street": "Toptancılar Caddesi",
+          "amenity": "restaurant",
+          "name": "Sofuoğlu Ciğercisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5179982821,
+        "lat": 37.9038579,
+        "lon": 41.1308641,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Abide Kebap Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5181344823,
+        "lat": 37.9032993,
+        "lon": 41.1320269,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "98/1",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Coffee Shop",
+          "opening_hours": "Mo-Su 08:00-00:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5181350625,
+        "lat": 37.89994,
+        "lon": 41.1313907,
+        "tags": {
+          "addr:housenumber": "74/A",
+          "addr:postcode": "72070",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ciğerci Sinan",
+          "opening_hours": "Mo-Su 09:00-03:00",
+          "phone": "+90 544 727 8852"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5203523324,
+        "lat": 37.9140296,
+        "lon": 41.1382839,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Day'nın Yeri",
+          "phone": "+90 488 221 29 64"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5210555826,
+        "lat": 37.8807673,
+        "lon": 41.1202271,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Zemzem Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5212932021,
+        "lat": 37.8901528,
+        "lon": 41.1275492,
+        "tags": {
+          "addr:street": "50. Yıl Caddesi (1715. Sk)",
+          "amenity": "restaurant",
+          "name": "Can Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5214874223,
+        "lat": 37.9011373,
+        "lon": 41.1265068,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "19/B",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Av. Zekeriya Aydın Caddesi",
+          "amenity": "restaurant",
+          "name": "Kanatçı Necdet Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5223160023,
+        "lat": 37.8885741,
+        "lon": 41.1334391,
+        "tags": {
+          "addr:street": "1620. Sokak",
+          "amenity": "restaurant",
+          "name": "Rıdvan Ustanın Yeri",
+          "phone": "+90 543 749 3452"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5300765321,
+        "lat": 37.9115282,
+        "lon": 41.154621,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Medenioğlu Baklava"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5305952923,
+        "lat": 37.8980764,
+        "lon": 41.1313119,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kervan Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5311937434,
+        "lat": 37.8969948,
+        "lon": 41.1262035,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Son Durak Köftecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5325070821,
+        "lat": 37.9126462,
+        "lon": 41.1347978,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5338624221,
+        "lat": 37.9106418,
+        "lon": 41.1327833,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Litai Restaurant - Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5352519823,
+        "lat": 37.8997801,
+        "lon": 41.1353206,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "female": "yes",
+          "name": "Siya Et Kebap Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5405132038,
+        "lat": 37.9038768,
+        "lon": 41.1321972,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Kalbi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5405383724,
+        "lat": 37.9001359,
+        "lon": 41.1385663,
+        "tags": {
+          "addr:street": "Ömer Muhar Bulvarı",
+          "amenity": "cafe",
+          "name": "Boss Lounge Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5416462050,
+        "lat": 37.9137381,
+        "lon": 41.1374491,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "addr:street": "5303. Sokak",
+          "amenity": "restaurant",
+          "name": "Recep Usta Pide Lahmacun Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5484448962,
+        "lat": 37.8988219,
+        "lon": 41.1334424,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Saray Cafe Nargile"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5486693122,
+        "lat": 37.9122682,
+        "lon": 41.1525735,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Big Mamma's Cafe  & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5552422764,
+        "lat": 37.8965407,
+        "lon": 41.1310507,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "İnsan Hakları Bulvarı",
+          "amenity": "cafe",
+          "brand": "Lavazza",
+          "brand:wikidata": "Q543750",
+          "cuisine": "coffee_shop",
+          "name": "QuuBa express",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5656054091,
+        "lat": 37.9161013,
+        "lon": 41.1364266,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Loboo Lounge Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5731655822,
+        "lat": 37.9183651,
+        "lon": 41.1313072,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Ste"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5778360353,
+        "lat": 37.8823584,
+        "lon": 41.1275841,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Petrol Fırın Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5839634586,
+        "lat": 37.9016688,
+        "lon": 41.1329878,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çikolata & Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5839634587,
+        "lat": 37.9028673,
+        "lon": 41.1337091,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Arden Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5839634685,
+        "lat": 37.8961655,
+        "lon": 41.1284415,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "amenity": "restaurant",
+          "name": "Moon Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5863617085,
+        "lat": 37.8982239,
+        "lon": 41.127457,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "18/1",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "2605. Sokak",
+          "amenity": "cafe",
+          "name": "Kahvealtı Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5908172186,
+        "lat": 37.9162194,
+        "lon": 41.1372203,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Bahane Elit"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5908183587,
+        "lat": 37.91662,
+        "lon": 41.137379,
+        "tags": {
+          "addr:street": "Aşık Veysal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Geçit Büryan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5908183685,
+        "lat": 37.9185307,
+        "lon": 41.1421128,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "amenity": "restaurant",
+          "name": "QuuBa Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5962095385,
+        "lat": 37.9017673,
+        "lon": 41.1324509,
+        "tags": {
+          "addr:street": "2513. Sokak",
+          "amenity": "cafe",
+          "name": "Fırın Gurme Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5983038296,
+        "lat": 37.8894582,
+        "lon": 41.1286484,
+        "tags": {
+          "addr:street": "Turgut Ozal Bulvarı",
+          "amenity": "cafe",
+          "name": "Simit Cafe Fırın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5983038298,
+        "lat": 37.8895715,
+        "lon": 41.1286846,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Deryası",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5999803285,
+        "lat": 37.9010051,
+        "lon": 41.1320735,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yusuf Ciğer Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5999810585,
+        "lat": 37.900706,
+        "lon": 41.1332085,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yağmur Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6017841287,
+        "lat": 37.8941072,
+        "lon": 41.131743,
+        "tags": {
+          "addr:street": "A. Rezzak Ceylan Caddesi",
+          "amenity": "cafe",
+          "name": "Bayramefendi Osmanlı Kahvecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6026590786,
+        "lat": 37.8995683,
+        "lon": 41.1280978,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "2608. Sokak",
+          "amenity": "cafe",
+          "name": "Copy Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6092775587,
+        "lat": 37.9061163,
+        "lon": 41.1261098,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "cafe",
+          "name": "Zeugma Künefe",
+          "phone": "+90 488 221 09 21"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6126168685,
+        "lat": 37.9031081,
+        "lon": 41.1342124,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Mahat Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6126632385,
+        "lat": 37.8997717,
+        "lon": 41.132226,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerci Mico"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6126632386,
+        "lat": 37.9164732,
+        "lon": 41.1451636,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Linn"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6126632587,
+        "lat": 37.9134457,
+        "lon": 41.1534982,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adana Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6126946911,
+        "lat": 37.910157,
+        "lon": 41.1556548,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamlıtepe Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6366740885,
+        "lat": 37.9044288,
+        "lon": 41.1153437,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yolcu Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6402071085,
+        "lat": 37.9014107,
+        "lon": 41.1329018,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Damak Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6433863887,
+        "lat": 37.9002539,
+        "lon": 41.1316716,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:postcode": "72070",
+          "amenity": "restaurant",
+          "cuisine": "seafood",
+          "name": "Midyeci Yasin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6435662985,
+        "lat": 37.9001631,
+        "lon": 41.1323243,
+        "tags": {
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "restaurant",
+          "name": "Etiler Marmaris"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6476262487,
+        "lat": 37.8992775,
+        "lon": 41.1338021,
+        "tags": {
+          "addr:postcode": "72070",
+          "amenity": "cafe",
+          "name": "Livaa Cafe",
+          "opening_hours": "Mo-Su 08:30-00:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6476290285,
+        "lat": 37.8982434,
+        "lon": 41.1336922,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bi Mola Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6476290386,
+        "lat": 37.8993745,
+        "lon": 41.1335285,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Patroon Lounge Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6484264185,
+        "lat": 37.9153273,
+        "lon": 41.1360152,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "26/E",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "addr:street": "Eflatun Caddesi",
+          "amenity": "restaurant",
+          "name": "Aşbaz Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6513131289,
+        "lat": 37.890992,
+        "lon": 41.1270011,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "10/B",
+          "addr:neighbourhood": "Ziya Gökalp Mah.",
+          "addr:street": "1711. Sokak",
+          "amenity": "cafe",
+          "name": "Kehribar Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6516068985,
+        "lat": 37.9045618,
+        "lon": 41.116167,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Meşhur Hal Ciğercisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6535192885,
+        "lat": 37.9189226,
+        "lon": 41.1344435,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "addr:street": "Demokrasi Bulvarı",
+          "amenity": "cafe",
+          "name": "Ottoman Cafe & Nargile Atlyesi",
+          "phone": "+90 533 038 3881"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6550936485,
+        "lat": 37.900199,
+        "lon": 41.1319601,
+        "tags": {
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "restaurant",
+          "name": "City Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6550936486,
+        "lat": 37.9000462,
+        "lon": 41.1323078,
+        "tags": {
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "cafe",
+          "name": "Artukbey Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6636986808,
+        "lat": 37.9002769,
+        "lon": 41.1451625,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çorbacı Mehmet Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6647840382,
+        "lat": 37.8985527,
+        "lon": 41.1329957,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tov Sanat Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6682961285,
+        "lat": 37.8976682,
+        "lon": 41.1252996,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köşk Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6702760585,
+        "lat": 37.9039117,
+        "lon": 41.1178906,
+        "tags": {
+          "addr:street": "Mezopotamya Caddesi",
+          "amenity": "restaurant",
+          "name": "Asos Izgara Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6761541085,
+        "lat": 37.8935926,
+        "lon": 41.1335353,
+        "tags": {
+          "addr:street": "Divan Caddesi",
+          "amenity": "cafe",
+          "name": "Huzur Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6836244587,
+        "lat": 37.8991754,
+        "lon": 41.1329562,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Duman 6 Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6939029185,
+        "lat": 37.9001937,
+        "lon": 41.1320129,
+        "tags": {
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "cafe",
+          "name": "Dospresso",
+          "name:tr": "Dospresso Coffee & Dount"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6939029286,
+        "lat": 37.9017009,
+        "lon": 41.1342734,
+        "tags": {
+          "addr:postcode": "72070",
+          "addr:street": "2510. Sokak",
+          "amenity": "cafe",
+          "name": "Karahan Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6958398230,
+        "lat": 37.9016284,
+        "lon": 41.1317694,
+        "tags": {
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Adak Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7003983787,
+        "lat": 37.8877695,
+        "lon": 41.1460214,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dağ Kebap Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7169180010,
+        "lat": 37.7615916,
+        "lon": 41.1328563,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Salkımlı Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7178591885,
+        "lat": 37.8996783,
+        "lon": 41.1338064,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Jolly Star"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7181926788,
+        "lat": 37.8947562,
+        "lon": 41.129704,
+        "tags": {
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Heydöner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7222091764,
+        "lat": 37.7300524,
+        "lon": 41.4235084,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7236703088,
+        "lat": 37.7286591,
+        "lon": 41.4244769,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7236707785,
+        "lat": 37.7294051,
+        "lon": 41.4251494,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konak Cafe Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7474294161,
+        "lat": 37.9471179,
+        "lon": 41.1409572,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kavurmacı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7537986785,
+        "lat": 37.9016515,
+        "lon": 41.1352604,
+        "tags": {
+          "addr:postcode": "72070",
+          "amenity": "cafe",
+          "name": "Munzur Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7609721085,
+        "lat": 37.8966109,
+        "lon": 41.1319105,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Baran 2 Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7624669807,
+        "lat": 37.8803538,
+        "lon": 41.1241016,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7624669808,
+        "lat": 37.8803391,
+        "lon": 41.1236907,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7631302822,
+        "lat": 37.890785,
+        "lon": 41.1301455,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Blueport Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7709269485,
+        "lat": 37.8782238,
+        "lon": 41.1234091,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "restaurant",
+          "name": "İstasyon Ciğercisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7726888186,
+        "lat": 37.7300726,
+        "lon": 41.4156453,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7825174289,
+        "lat": 37.9022594,
+        "lon": 41.1407518,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "Türkiye Petrolleri A.O. Bulvarı",
+          "amenity": "restaurant",
+          "name": "Can Kavurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7859080186,
+        "lat": 37.901899,
+        "lon": 41.1333141,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Haşlamacı Mehmet Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7859132985,
+        "lat": 37.9052731,
+        "lon": 41.1389368,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7887874622,
+        "lat": 37.8965297,
+        "lon": 41.1286419,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cemre Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7891006386,
+        "lat": 37.9011154,
+        "lon": 41.1316458,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Essa Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7902833461,
+        "lat": 37.9028133,
+        "lon": 41.1238164,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "27/A",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Mezopotamya Caddesi",
+          "amenity": "cafe",
+          "name": "Sırdaş Cafe & Oyun Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7902835598,
+        "lat": 37.9014386,
+        "lon": 41.1244965,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "19/A",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "Mezopotamya Caddesi",
+          "amenity": "cafe",
+          "name": "Martı Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7966794820,
+        "lat": 37.8967615,
+        "lon": 41.1386161,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fikret Usta Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7966816054,
+        "lat": 37.897045,
+        "lon": 41.1380029,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Leman Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7966835229,
+        "lat": 37.8970739,
+        "lon": 41.140259,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Zeryam Net Cafe 2"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8261448235,
+        "lat": 37.8938775,
+        "lon": 41.124107,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Maruf Usta Lahmacun Pide Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8420250117,
+        "lat": 37.9013171,
+        "lon": 41.1349814,
+        "tags": {
+          "addr:postcode": "72070",
+          "amenity": "restaurant",
+          "name": "Xalo Heyran",
+          "phone": "+90 538 446 87 72"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8480120417,
+        "lat": 37.9019437,
+        "lon": 41.1330197,
+        "tags": {
+          "amenity": "cafe",
+          "name": "La Vita"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8562604718,
+        "lat": 37.8942296,
+        "lon": 41.1284228,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Başaran Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8582932118,
+        "lat": 37.9172097,
+        "lon": 41.1340191,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dilan Polat"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8582967917,
+        "lat": 37.9183361,
+        "lon": 41.1342994,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sadık Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8582976517,
+        "lat": 37.9183954,
+        "lon": 41.1335402,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gültepe Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8582976617,
+        "lat": 37.9179457,
+        "lon": 41.1333065,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pasha Gurme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8582976618,
+        "lat": 37.9185889,
+        "lon": 41.133452,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Crunchies"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8617280432,
+        "lat": 37.8826526,
+        "lon": 41.1261349,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çağdaş Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8628015917,
+        "lat": 37.8657399,
+        "lon": 41.1547119,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çorba Durağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8722582217,
+        "lat": 37.9001302,
+        "lon": 41.1345976,
+        "tags": {
+          "addr:street": "Avukat Sedat Özevin Caddesi",
+          "amenity": "restaurant",
+          "name": "Bağdat Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8724237617,
+        "lat": 37.8991207,
+        "lon": 41.1323765,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mualla Tatlı Kralığı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8775805425,
+        "lat": 37.9047819,
+        "lon": 41.1157711,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Galeri Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8984048117,
+        "lat": 37.8873839,
+        "lon": 41.1274171,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerci Hasan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8984048217,
+        "lat": 37.887741,
+        "lon": 41.1265031,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sanat Ciğercisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8988282717,
+        "lat": 37.8994022,
+        "lon": 41.1448454,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Park Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9139398701,
+        "lat": 37.7334072,
+        "lon": 41.3061474,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Asmalı Konak Cafe & Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9158363718,
+        "lat": 37.9045191,
+        "lon": 41.1499129,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Balkon Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9158363719,
+        "lat": 37.9045799,
+        "lon": 41.1523749,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hacı Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9197143272,
+        "lat": 37.912794,
+        "lon": 41.1362134,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akgül Börek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9207298817,
+        "lat": 37.7285358,
+        "lon": 41.4244279,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Has-Keyf Fırınlı Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9208012419,
+        "lat": 37.7287777,
+        "lon": 41.4246119,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9213634017,
+        "lat": 37.9188003,
+        "lon": 41.1354589,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Diyarbakır Kadayıfçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9213634018,
+        "lat": 37.9199272,
+        "lon": 41.1356554,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "name": "Hacı Levent"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9213663820,
+        "lat": 37.9204522,
+        "lon": 41.1368758,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "brand": "Mado",
+          "brand:wikidata": "Q17116336",
+          "brand:wikipedia": "en:Mado (food company)",
+          "cuisine": "coffee_shop",
+          "name": "Mado",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9214441146,
+        "lat": 37.9205357,
+        "lon": 41.1357661,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "name:tr": "Starbucks Petrol City",
+          "official_name": "Starbucks Coffee",
+          "opening_hours": "Mo-Su 09:30-23:00",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9248305717,
+        "lat": 37.9001156,
+        "lon": 41.1347627,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Eti-Bol Pide Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9266105717,
+        "lat": 37.8995388,
+        "lon": 41.1331731,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Papel Lounge"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9288289620,
+        "lat": 37.9184676,
+        "lon": 41.2913408,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9383477717,
+        "lat": 37.9010269,
+        "lon": 41.1283938,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2022-07-29",
+          "name": "Petrol Fırın Cafe",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9383477718,
+        "lat": 37.8979416,
+        "lon": 41.129323,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Asma Altı Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9459814117,
+        "lat": 37.8805135,
+        "lon": 41.1237382,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hal Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9463842828,
+        "lat": 37.9136172,
+        "lon": 41.1402461,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Han Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9544564534,
+        "lat": 37.8771925,
+        "lon": 41.1768968,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9603090317,
+        "lat": 37.9073949,
+        "lon": 41.117133,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kıvanç Adana Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9608143117,
+        "lat": 37.9127269,
+        "lon": 41.1391605,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hastana Kantini"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9610377138,
+        "lat": 37.894357,
+        "lon": 41.1303713,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vaha Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9684422817,
+        "lat": 37.8352368,
+        "lon": 41.0847947,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tutku Cafe & Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9741766517,
+        "lat": 37.920593,
+        "lon": 41.1358097,
+        "tags": {
+          "amenity": "restaurant",
+          "level": "2",
+          "name": "Buket Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9741766717,
+        "lat": 37.9206612,
+        "lon": 41.1358196,
+        "tags": {
+          "amenity": "restaurant",
+          "level": "2",
+          "name": "Bereket Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9741766718,
+        "lat": 37.9207235,
+        "lon": 41.1358601,
+        "tags": {
+          "amenity": "cafe",
+          "level": "5",
+          "name": "Saray Gülü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9761972617,
+        "lat": 37.9195391,
+        "lon": 41.1345367,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kadim Cafe",
+          "opening_hours": "Mo-Su 09:00-00:00",
+          "phone": "+90 532 572 48 66"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9784876406,
+        "lat": 37.9028169,
+        "lon": 41.1044975,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "restaurant",
+          "name": "Ciğerci Çavuş",
+          "phone": "+90 488 213 88 31"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9844921019,
+        "lat": 37.9098925,
+        "lon": 41.1385475,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Quuba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9869702417,
+        "lat": 37.9163715,
+        "lon": 41.1446689,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Nejdet Usta",
+          "name:tr": "Nejdet Usta Yemek Fabrikası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9869721619,
+        "lat": 37.9024265,
+        "lon": 41.1474829,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dünya Yemek Fabrikası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9871684617,
+        "lat": 37.8913642,
+        "lon": 41.1318914,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sahra Yemek Fabrikası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9886776918,
+        "lat": 37.9156246,
+        "lon": 41.1355511,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Şeyhmus Alto"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9911161817,
+        "lat": 37.8909629,
+        "lon": 41.1296467,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "1983 Beyoğlu Çikolata & Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9937791320,
+        "lat": 37.9155078,
+        "lon": 41.1353539,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bolçi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9937791322,
+        "lat": 37.916166,
+        "lon": 41.1358261,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çorbacı Said Efendi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9937791324,
+        "lat": 37.9202396,
+        "lon": 41.1368213,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Arabica"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9937803620,
+        "lat": 37.9202443,
+        "lon": 41.1367474,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Petrol Fırın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9937803718,
+        "lat": 37.9171656,
+        "lon": 41.1361459,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Keke Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9966612218,
+        "lat": 37.9027596,
+        "lon": 41.1329048,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Neper Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9966612317,
+        "lat": 37.9027943,
+        "lon": 41.1341225,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hastat Self Servis"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9987655217,
+        "lat": 37.8980393,
+        "lon": 41.1315831,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "2502. Sokak",
+          "amenity": "cafe",
+          "name": "Minerva Kitap Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9987655417,
+        "lat": 37.897075,
+        "lon": 41.1313895,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mehmet Usta Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9997827017,
+        "lat": 37.9017877,
+        "lon": 41.1292679,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gardenia Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10083527630,
+        "lat": 37.90278,
+        "lon": 41.1327542,
+        "tags": {
+          "addr:postcode": "72070",
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Hazal Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100977517,
+        "lat": 37.9157006,
+        "lon": 41.1349134,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şırdancı Mehmet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10113864717,
+        "lat": 37.7287434,
+        "lon": 41.4248714,
+        "tags": {
+          "amenity": "cafe",
+          "name:ru": "Кафе с коврами"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10174958234,
+        "lat": 37.903313,
+        "lon": 41.1308385,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "addr:street": "2606. Sokak",
+          "amenity": "restaurant",
+          "name": "Bi'Kova Pilav"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10252900412,
+        "lat": 37.9152163,
+        "lon": 41.1374003,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve Bahane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10567075888,
+        "lat": 37.8780535,
+        "lon": 41.1682448,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "135",
+          "addr:neighbourhood": "Bayındır Mah.",
+          "addr:street": "İsmail Zemin Caddesi",
+          "amenity": "restaurant",
+          "name": "Abdullah Usta - Adana Kebap Bahçesi",
+          "phone": "+90 507 207 7201"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10568039789,
+        "lat": 37.9156943,
+        "lon": 41.1467587,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "8/B",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:postcode": "72050",
+          "addr:street": "Sosin Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "pide;lahmacun;pizza;etli_ekmek;karışık_pide;kaşarlı_pide;kıymalı_pide;et_döner;bıçak_arası",
+          "name": "Fırın 72",
+          "opening_hours": "Mo-Su 10:00-21:00",
+          "phone": "04885028264"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10600549616,
+        "lat": 37.8948447,
+        "lon": 41.1292549,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Pınarbaşı Mah.",
+          "addr:street": "2211. Sokak",
+          "amenity": "restaurant",
+          "name": "Merdo Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10686452405,
+        "lat": 37.9167135,
+        "lon": 41.144044,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kristal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10690941210,
+        "lat": 37.9030292,
+        "lon": 41.1378684,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Quality Gusto"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10768312305,
+        "lat": 37.9008119,
+        "lon": 41.1444306,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Nacaroğlu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10773898206,
+        "lat": 37.9013716,
+        "lon": 41.1321992,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şahin Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10777903306,
+        "lat": 37.840404,
+        "lon": 41.0913425,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ziyafet Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10797405205,
+        "lat": 37.902082,
+        "lon": 41.1236383,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mancu Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10976114759,
+        "lat": 37.9089003,
+        "lon": 41.1276927,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11035398305,
+        "lat": 37.945955,
+        "lon": 41.1199044,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Limantur Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11041778005,
+        "lat": 37.9005654,
+        "lon": 41.2367429,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Beşiri",
+          "amenity": "restaurant",
+          "name": "Ali Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11049551306,
+        "lat": 37.8828661,
+        "lon": 41.1272126,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lo Ciğer Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11056154405,
+        "lat": 37.8865309,
+        "lon": 41.0970515,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11097420307,
+        "lat": 37.9176643,
+        "lon": 41.1378151,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İglos Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11097492806,
+        "lat": 37.9204571,
+        "lon": 41.1392436,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Anteplioğlu Baklavaları"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11139740905,
+        "lat": 37.9029097,
+        "lon": 41.1321952,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Lavanta Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11146282912,
+        "lat": 37.8808614,
+        "lon": 41.1255637,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tepsi Ciğer Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11146302607,
+        "lat": 37.8808199,
+        "lon": 41.1254766,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hostam Lahmacun",
+          "phone": "+90 488 212 8182"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11158398398,
+        "lat": 37.7879079,
+        "lon": 41.0625153,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kantin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11158398399,
+        "lat": 37.789066,
+        "lon": 41.0624909,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kantin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11409759671,
+        "lat": 37.9087572,
+        "lon": 41.1541954,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şöhret Kebap"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11417533069,
+        "lat": 37.8985802,
+        "lon": 41.1334583,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hix"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11422420272,
+        "lat": 37.9068966,
+        "lon": 41.140311,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pastado"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11463131569,
+        "lat": 37.9115449,
+        "lon": 41.1392118,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İn Craft"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11506663969,
+        "lat": 37.8975074,
+        "lon": 41.1326828,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerci Reşat Usta",
+          "phone": "+90 552 169 3521"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11518283067,
+        "lat": 37.9170069,
+        "lon": 41.0946308,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bagro's Bohem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11518283068,
+        "lat": 37.9170898,
+        "lon": 41.0944427,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ello's Teras"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11573823471,
+        "lat": 37.9008747,
+        "lon": 41.134065,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yes Chef"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11617889549,
+        "lat": 37.8543946,
+        "lon": 41.1342666,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11795301269,
+        "lat": 37.9180386,
+        "lon": 41.0949086,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hasan Cheff"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11834470069,
+        "lat": 37.9113851,
+        "lon": 41.1540851,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ocaktan Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11841117469,
+        "lat": 37.9161618,
+        "lon": 41.0944626,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Allthat Coffe Co"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11950166669,
+        "lat": 37.9014797,
+        "lon": 41.134182,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ziyafet Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11968923071,
+        "lat": 37.913858,
+        "lon": 41.1410432,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "restaurant",
+          "name": "Halk Lokantası",
+          "name:ku": "Xwaringeha Gel",
+          "operator": "Batman Belediyesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11976188670,
+        "lat": 37.8982197,
+        "lon": 41.1316344,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "6",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "2505. Sokak",
+          "amenity": "restaurant",
+          "name": "Şaban Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11987217165,
+        "lat": 37.885776,
+        "lon": 41.1274237,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "amenity": "restaurant",
+          "name": "Halk Lokantası",
+          "name:ku": "Xwaringeha Gel",
+          "operator": "Batman Belediyesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12026552969,
+        "lat": 37.9082096,
+        "lon": 41.1288164,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12047159369,
+        "lat": 37.9136587,
+        "lon": 41.1401201,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bölge Ciğer"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12047159469,
+        "lat": 37.9136394,
+        "lon": 41.1401908,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İcon Dönerium"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12049683869,
+        "lat": 37.9074109,
+        "lon": 41.1499067,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Glütensiz Cafe & Fırrın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12053409169,
+        "lat": 37.9041165,
+        "lon": 41.1349784,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çevrem Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12053409369,
+        "lat": 37.9032418,
+        "lon": 41.1362898,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Amor Lounge"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12105853001,
+        "lat": 37.8881306,
+        "lon": 41.1278874,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Artukbey Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12136198701,
+        "lat": 37.9200089,
+        "lon": 41.1390791,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Harabe Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12136224001,
+        "lat": 37.9186345,
+        "lon": 41.1378776,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Adnan Simit & Kahvaltı Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12136224101,
+        "lat": 37.9186844,
+        "lon": 41.1376963,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Petrol Künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12163204450,
+        "lat": 37.7296259,
+        "lon": 41.4171944,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Hasankeyf",
+          "amenity": "restaurant",
+          "name": "Tandoora Restaurant & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12176895701,
+        "lat": 37.9032739,
+        "lon": 41.1306265,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Campus Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12190405801,
+        "lat": 37.9059856,
+        "lon": 41.2662336,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Saray Gülü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12231240993,
+        "lat": 37.9020544,
+        "lon": 41.1317875,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gap Mah.",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Mocha Art Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12289504702,
+        "lat": 37.9082733,
+        "lon": 41.1105784,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bahçe Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12334505140,
+        "lat": 37.8978607,
+        "lon": 41.1283323,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vegas"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12386714301,
+        "lat": 37.9116186,
+        "lon": 41.1401584,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Süleyman Usta Fırınlı Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12422262701,
+        "lat": 37.8939727,
+        "lon": 41.1284089,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Can Kristal Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12471661002,
+        "lat": 37.8911979,
+        "lon": 41.1266057,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "6/B",
+          "addr:neighbourhood": "Ziyagökalp Mah.",
+          "addr:street": "1711. Sokak",
+          "amenity": "cafe",
+          "name": "Ebruli Kitap & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12511897401,
+        "lat": 37.8344415,
+        "lon": 41.0840284,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özkan Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12855232740,
+        "lat": 37.8911705,
+        "lon": 41.1320906,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Bahçelievler Mah.",
+          "addr:street": "Divan Caddesi",
+          "amenity": "ice_cream",
+          "name": "Erhan Usta Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12896396901,
+        "lat": 37.8927807,
+        "lon": 41.1300278,
+        "tags": {
+          "addr:housenumber": "22/C",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "restaurant",
+          "name": "Çorbacı Buhara",
+          "opening_hours": "24/7",
+          "phone": "+90 488 215 0779"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12907630301,
+        "lat": 37.8980542,
+        "lon": 41.1321703,
+        "tags": {
+          "addr:housenumber": "14",
+          "addr:street": "Şehit Fethi Sekin Sokak",
+          "amenity": "cafe",
+          "name": "Hookah"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12907635201,
+        "lat": 37.8983789,
+        "lon": 41.1327384,
+        "tags": {
+          "addr:housenumber": "20",
+          "addr:street": "Kuçeya 2504an",
+          "amenity": "restaurant",
+          "name": "Löp Et"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12915022401,
+        "lat": 37.894279,
+        "lon": 41.1255993,
+        "tags": {
+          "addr:housenumber": "12",
+          "addr:street": "Kuçeya 2218an",
+          "amenity": "restaurant",
+          "name": "Kanatçı Suat Usta",
+          "phone": "+90 488 212 7271"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12959341601,
+        "lat": 37.8966155,
+        "lon": 41.1416918,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "86",
+          "addr:neighbourhood": "Fatih Mah.",
+          "addr:street": "Bulvara Aştiyê",
+          "amenity": "restaurant",
+          "name": "Yaprak Lahmacun",
+          "phone": "+90 538 470 2938"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13026862801,
+        "lat": 37.899859,
+        "lon": 41.1254289,
+        "tags": {
+          "addr:housenumber": "20",
+          "addr:street": "Kolana Mezopotamyayê",
+          "amenity": "restaurant",
+          "name": "Batman Izgara",
+          "phone": "+90 552 638 5172"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13064787801,
+        "lat": 37.9250731,
+        "lon": 41.1286806,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hacıoğlu Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13068189201,
+        "lat": 37.9249878,
+        "lon": 41.1286451,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kebapçı Rahmi Usta",
+          "phone": "+90 536 788 2151"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13068189301,
+        "lat": 37.9257069,
+        "lon": 41.1290316,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Doğan Kahvaltı Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13081942001,
+        "lat": 37.9018142,
+        "lon": 41.1350724,
+        "tags": {
+          "addr:housenumber": "41",
+          "addr:postcode": "72070",
+          "addr:street": "2506. Sokak",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;tea",
+          "name": "Cafe Bean"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13131257005,
+        "lat": 37.9039769,
+        "lon": 41.1185824,
+        "tags": {
+          "addr:housenumber": "59",
+          "addr:street": "Kolana Mezopotamyayê",
+          "amenity": "restaurant",
+          "name": "Ciğerci Apê Osman"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13158538201,
+        "lat": 37.9004609,
+        "lon": 41.1319706,
+        "tags": {
+          "addr:housenumber": "3",
+          "addr:street": "Kolana Avukat Sedat Özevin'ê",
+          "amenity": "cafe",
+          "name": "Yeva Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13195818101,
+        "lat": 37.8977815,
+        "lon": 41.129638,
+        "tags": {
+          "addr:housenumber": "10",
+          "addr:street": "Kuçeya 2602an",
+          "amenity": "cafe",
+          "name": "La Paloop Coffee Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13198262802,
+        "lat": 37.8996914,
+        "lon": 41.1322139,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dem Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13200955201,
+        "lat": 37.9027698,
+        "lon": 41.1052676,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerci Yusuf Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13261370731,
+        "lat": 37.716603,
+        "lon": 41.4396997,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Hasankeyf",
+          "amenity": "cafe",
+          "name": "Keyfhan Cafe ve Mesire Alanı",
+          "phone": "+90 546 244 8844"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13264817302,
+        "lat": 37.8957464,
+        "lon": 41.148,
+        "tags": {
+          "addr:housenumber": "8",
+          "addr:street": "Kuçeya 3357an",
+          "amenity": "restaurant",
+          "name": "Çorba Diyarı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13264826601,
+        "lat": 37.900667,
+        "lon": 41.1455472,
+        "tags": {
+          "addr:housenumber": "1",
+          "addr:street": "Kuçeya 4018an",
+          "amenity": "restaurant",
+          "name": "Ciğerci Murad"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13322279634,
+        "lat": 37.858259,
+        "lon": 41.1656077,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:housenumber": "30/A",
+          "addr:neighbourhood": "Bayındır Mah.",
+          "addr:street": "Receban Caddesi",
+          "amenity": "cafe",
+          "name": "Zen Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13324675301,
+        "lat": 37.9008537,
+        "lon": 41.1320316,
+        "tags": {
+          "addr:housenumber": "4",
+          "addr:street": "2509. Sokak",
+          "amenity": "cafe",
+          "name": "Marpuç Lounge"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13340931601,
+        "lat": 37.9017449,
+        "lon": 41.1382526,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Petrol Fırrın"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13347276602,
+        "lat": 37.8341945,
+        "lon": 41.0837906,
+        "tags": {
+          "addr:housenumber": "126/C",
+          "addr:street": "Köy Sokağı",
+          "amenity": "cafe",
+          "name": "Stella Cafe & Pastane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13374350702,
+        "lat": 37.9035898,
+        "lon": 41.1337358,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vista Nargile & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13374354502,
+        "lat": 37.9033311,
+        "lon": 41.1330008,
+        "tags": {
+          "addr:housenumber": "8",
+          "addr:street": "Susam Sokak",
+          "amenity": "restaurant",
+          "name": "Boss Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13374354901,
+        "lat": 37.9039751,
+        "lon": 41.134006,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Zehram Lounge"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13401720102,
+        "lat": 37.8871463,
+        "lon": 41.1281658,
+        "tags": {
+          "addr:housenumber": "7",
+          "addr:street": "Lise Caddesi",
+          "amenity": "restaurant",
+          "name": "Donas Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13403921101,
+        "lat": 37.9244383,
+        "lon": 41.1283511,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sanayi Izgara Salonu",
+          "phone": "+90 536 392 3462"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13433097482,
+        "lat": 37.9181851,
+        "lon": 41.1425717,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "amenity": "cafe",
+          "name": "Chocolabs"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13452265201,
+        "lat": 37.90342,
+        "lon": 41.1311296,
+        "tags": {
+          "addr:housenumber": "91",
+          "addr:street": "Turgut Özal Bulvarı",
+          "amenity": "cafe",
+          "name": "Kaleiçi Muhallebicisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13471289402,
+        "lat": 37.9201939,
+        "lon": 41.1368246,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "amenity": "restaurant",
+          "level": "2",
+          "name": "Köfteci Ramiz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13471663121,
+        "lat": 37.9205331,
+        "lon": 41.1358086,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bursa Kebap Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13471663122,
+        "lat": 37.920025,
+        "lon": 41.1357176,
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Gültepe Mah.",
+          "amenity": "cafe",
+          "level": "2",
+          "name": "David People"
+        }
+      },
+      {
+        "type": "way",
+        "id": 237635798,
+        "center": {
+          "lat": 37.9081283,
+          "lon": 41.2554035
+        },
+        "tags": {
+          "addr:city": "Beşiri / Batman",
+          "addr:street": "Batman-Siirt yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Dört Mevsim Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 237765512,
+        "center": {
+          "lat": 37.9089711,
+          "lon": 41.1369464
+        },
+        "tags": {
+          "addr:city": "Batman",
+          "addr:housenumber": "1",
+          "addr:neighbourhood": "Belde Mah.",
+          "addr:street": "3233. Sokak",
+          "amenity": "restaurant",
+          "building": "yes",
+          "building:levels": "3",
+          "name": "Ziyade Et Lokantası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 249681697,
+        "center": {
+          "lat": 37.9127652,
+          "lon": 41.1403287
+        },
+        "tags": {
+          "addr:city": "Batman",
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 364852990,
+        "center": {
+          "lat": 37.9144419,
+          "lon": 41.2693226
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Yeşil Bahçe Cafe & Restorant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 451997405,
+        "center": {
+          "lat": 37.8698018,
+          "lon": 41.1156896
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1035312072,
+        "center": {
+          "lat": 37.9034252,
+          "lon": 41.1312528
+        },
+        "tags": {
+          "addr:city": "Batman",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Kültür Mah.",
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "indoor": "room",
+          "level": "0",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "outdoor_seating": "yes",
+          "takeaway": "yes"
+        }
+      }
+    ]
+  }
+}

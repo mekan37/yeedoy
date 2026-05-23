@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "sehir_id": "13",
+    "sehir_adi": "BİTLİS",
+    "ilce_id": "1196",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 38.19520716486486,
+      "north": 38.465477435135135,
+      "west": 41.937708004502205,
+      "east": 42.28125319549779
+    },
+    "bbox_original": {
+      "south": 38.1577338,
+      "west": 41.79767,
+      "north": 38.5029508,
+      "east": 42.4212912
+    },
+    "fetchedAt": "2026-01-21T08:37:40.179Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 15
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:36:01Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3514826869,
+        "lat": 38.3681767,
+        "lon": 42.0943615,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3804573982,
+        "lat": 38.4429791,
+        "lon": 42.1422712,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adana Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461677600,
+        "lat": 38.4002563,
+        "lon": 42.1074222,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Büryan Azmi Ustanın Yeri",
+          "name:tr": "Büryan Azmi Ustanın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4904695823,
+        "lat": 38.2980837,
+        "lon": 42.0012325,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Buzlu Pınar Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6166749186,
+        "lat": 38.2946168,
+        "lon": 41.9953654,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akpınar Dinlenme Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6765601252,
+        "lat": 38.2927235,
+        "lon": 41.9964002,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7626731601,
+        "lat": 38.4013912,
+        "lon": 42.1093337,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Best Börek Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7626731604,
+        "lat": 38.4017706,
+        "lon": 42.108938,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tadım Dürüm"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7626731605,
+        "lat": 38.4018077,
+        "lon": 42.1088906,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeni Mavi Köşk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7626731609,
+        "lat": 38.4019614,
+        "lon": 42.1085742,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köşem Lahmacun Pide ve Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7626731615,
+        "lat": 38.4022489,
+        "lon": 42.1082546,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeni Durak Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9724323812,
+        "lat": 38.443136,
+        "lon": 42.1422346,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Otantik Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12609191243,
+        "lat": 38.2823575,
+        "lon": 41.9731733,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Fidan dinlenme tesisleri",
+          "phone": "+905332336916"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12860326702,
+        "lat": 38.4027016,
+        "lon": 42.1073251,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1228661581,
+        "center": {
+          "lat": 38.4012994,
+          "lon": 42.1084318
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Bitlis Büryan Salonu"
+        }
+      }
+    ]
+  }
+}

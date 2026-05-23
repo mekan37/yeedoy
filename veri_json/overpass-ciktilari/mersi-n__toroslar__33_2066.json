@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "sehir_id": "33",
+    "sehir_adi": "MERSİN",
+    "ilce_id": "2066",
+    "ilce_adi": "TOROSLAR",
+    "bbox_used": {
+      "south": 36.86384701486487,
+      "north": 37.13411728513514,
+      "west": 34.264683440423696,
+      "east": 34.6021211595763
+    },
+    "bbox_original": {
+      "south": 36.7911882,
+      "west": 34.1905455,
+      "north": 37.2067761,
+      "east": 34.6762591
+    },
+    "fetchedAt": "2026-01-21T09:16:46.503Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 9
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:14:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4972610622,
+        "lat": 36.9609741,
+        "lon": 34.5758517,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Toroslar",
+          "amenity": "restaurant",
+          "name": "Sarnıç Restorant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4972610721,
+        "lat": 36.9579741,
+        "lon": 34.5747508,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6405000427,
+        "lat": 36.9656179,
+        "lon": 34.5725661,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6717464887,
+        "lat": 36.9552486,
+        "lon": 34.5779908,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13011643001,
+        "lat": 36.8653479,
+        "lon": 34.5708639,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gönül Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13097142172,
+        "lat": 36.930688,
+        "lon": 34.5016683,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:country": "TR",
+          "addr:district": "Toroslar",
+          "addr:housenumber": "40/5",
+          "addr:neighbourhood": "Aladağ",
+          "addr:postcode": "33250",
+          "addr:street": "Nurkak",
+          "amenity": "restaurant",
+          "brand": "Nergizli Tesisleri",
+          "contact:facebook": "https://www.facebook.com/people/Nergizli-Tesisleri-Pirzolac%C4%B1-Ferhat/61579381121450/",
+          "cuisine": "steak_house;chicken;salad;breakfast;barbecue;regional",
+          "diet:halal": "yes",
+          "diet:meat": "yes",
+          "email": "nergizlitesisleri@gmail.com",
+          "name": "Nergizli Tesisleri Pirzolacı Ferhat",
+          "opening_hours": "08:30-23:30",
+          "payment:cash": "yes",
+          "payment:credit_cards": "yes",
+          "phone": "+90 538 792 30 30",
+          "website": "https://nergizlitesisleri.com",
+          "website:menu": "https://www.nergizlitesisleri.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13160078499,
+        "lat": 36.9486322,
+        "lon": 34.4845586,
+        "tags": {
+          "addr:city": "Mersin",
+          "addr:district": "Toroslar",
+          "amenity": "restaurant",
+          "name": "Kızılgeçit Restaurant Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13359444901,
+        "lat": 36.960227,
+        "lon": 34.5758729,
+        "tags": {
+          "addr:street": "Gözne yolu",
+          "amenity": "cafe",
+          "name": "Sarnıç Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13359445001,
+        "lat": 36.9602226,
+        "lon": 34.5757226,
+        "tags": {
+          "addr:street": "Gözne yolu",
+          "name": "Sarnıç Tatlı Dondurma",
+          "shop": "confectionery"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "sehir_id": "61",
+    "sehir_adi": "TRABZON",
+    "ilce_id": "1681",
+    "ilce_adi": "TONYA",
+    "bbox_used": {
+      "south": 40.7250289,
+      "west": 39.2082749,
+      "north": 40.9651685,
+      "east": 39.3774503
+    },
+    "bbox_original": {
+      "south": 40.7250289,
+      "west": 39.2082749,
+      "north": 40.9651685,
+      "east": 39.3774503
+    },
+    "fetchedAt": "2026-01-21T10:35:56.562Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:34:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5060450103,
+        "lat": 40.8917125,
+        "lon": 39.3259061,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5060452830,
+        "lat": 40.893036,
+        "lon": 39.3237858,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6436818331,
+        "lat": 40.8665251,
+        "lon": 39.3191989,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7080351144,
+        "lat": 40.9639825,
+        "lon": 39.293372,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 766878044,
+        "center": {
+          "lat": 40.8627015,
+          "lon": 39.3763469
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "İMERA DAĞ CAFE"
+        }
+      }
+    ]
+  }
+}

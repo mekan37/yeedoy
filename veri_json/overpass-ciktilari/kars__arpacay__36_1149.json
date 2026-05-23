@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "sehir_id": "36",
+    "sehir_adi": "KARS",
+    "ilce_id": "1149",
+    "ilce_adi": "ARPAÇAY",
+    "bbox_used": {
+      "south": 40.75369621486487,
+      "north": 41.02396648513514,
+      "west": 43.15056709578584,
+      "east": 43.507048704214164
+    },
+    "bbox_original": {
+      "south": 40.6811826,
+      "west": 43.03662,
+      "north": 41.0964801,
+      "east": 43.6209958
+    },
+    "fetchedAt": "2026-01-21T09:30:16.874Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:29:02Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2137076244,
+        "lat": 40.8466935,
+        "lon": 43.3290716,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "lokanta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9863814164,
+        "lat": 41.0004598,
+        "lon": 43.2991325,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish;fish",
+          "name": "Günay'ın Yeri Restaurant ve Kamp Alanı"
+        }
+      }
+    ]
+  }
+}

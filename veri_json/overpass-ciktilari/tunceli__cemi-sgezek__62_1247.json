@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "62",
+    "sehir_adi": "TUNCELİ",
+    "ilce_id": "1247",
+    "ilce_adi": "ÇEMİŞGEZEK",
+    "bbox_used": {
+      "south": 38.8623004,
+      "west": 38.7319234,
+      "north": 39.2259285,
+      "east": 39.1249751
+    },
+    "bbox_original": {
+      "south": 38.8623004,
+      "west": 38.7319234,
+      "north": 39.2259285,
+      "east": 39.1249751
+    },
+    "fetchedAt": "2026-01-21T10:39:39.677Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:38:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

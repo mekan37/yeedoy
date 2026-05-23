@@ -1,0 +1,346 @@
+{
+  "meta": {
+    "sehir_id": "32",
+    "sehir_adi": "ISPARTA",
+    "ilce_id": "1929",
+    "ilce_adi": "GÖNEN",
+    "bbox_used": {
+      "south": 37.81859,
+      "west": 30.32233,
+      "north": 38.0400695,
+      "east": 30.5940533
+    },
+    "bbox_original": {
+      "south": 37.81859,
+      "west": 30.32233,
+      "north": 38.0400695,
+      "east": 30.5940533
+    },
+    "fetchedAt": "2026-01-21T09:14:41.494Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 30
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:13:42Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 12300182441,
+        "lat": 37.8249478,
+        "lon": 30.5441607,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Greet Food"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12300182444,
+        "lat": 37.8247894,
+        "lon": 30.5442644,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hanım Ellerinden Lezzetler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12300182453,
+        "lat": 37.8256165,
+        "lon": 30.5442797,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yeşil Kahv6"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12362587960,
+        "lat": 37.8190737,
+        "lon": 30.5447212,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Work Lab Coffee Shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12385237830,
+        "lat": 37.818593,
+        "lon": 30.5419947,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Maraş Dondurma ve Tatlı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12385237831,
+        "lat": 37.8186114,
+        "lon": 30.5420496,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adıyaman Çiğköfte Noktası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12385237929,
+        "lat": 37.8195619,
+        "lon": 30.5406896,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aslanbey Mangal Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12386118419,
+        "lat": 37.8200262,
+        "lon": 30.5459114,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Payidar Pide & Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12398102907,
+        "lat": 37.8250868,
+        "lon": 30.5427347,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeki Usta Köfte-Kokoreç"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12398166772,
+        "lat": 37.8246449,
+        "lon": 30.5416895,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bahçe Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12400373874,
+        "lat": 37.8189738,
+        "lon": 30.5342253,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adıyaman Çiğköftecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12400373876,
+        "lat": 37.8190021,
+        "lon": 30.5343938,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Osmanlı Pide & Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404657226,
+        "lat": 37.8186038,
+        "lon": 30.5324916,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yol Üstü Köfte Kuzu Kokoreç Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404657227,
+        "lat": 37.8187978,
+        "lon": 30.5326381,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Oba Pide & Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404861342,
+        "lat": 37.82424,
+        "lon": 30.5390608,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Keyfi Et Mangal Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12404861543,
+        "lat": 37.8234913,
+        "lon": 30.5411408,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gül Bereket"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12407306050,
+        "lat": 37.8198949,
+        "lon": 30.5406131,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çalakafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441852451,
+        "lat": 37.829733,
+        "lon": 30.5349015,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "cuisine": "coffee_shop",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441852455,
+        "lat": 37.8302098,
+        "lon": 30.5347719,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "World Of Lokma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441852456,
+        "lat": 37.830255,
+        "lon": 30.5347229,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pidem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441852457,
+        "lat": 37.8302614,
+        "lon": 30.53464,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aliya Mutfak"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441852466,
+        "lat": 37.8299958,
+        "lon": 30.5343037,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mack Bear Coffee Co."
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441852482,
+        "lat": 37.8291884,
+        "lon": 30.535131,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sarıyer Börekçisi Ortaköy Kumpircisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12441852483,
+        "lat": 37.8295619,
+        "lon": 30.5346026,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Coffe Ground"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12469328627,
+        "lat": 37.8195951,
+        "lon": 30.5297019,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeşil Elma Lokanta & Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12469328723,
+        "lat": 37.8186611,
+        "lon": 30.5303974,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ayışığı Cafe & Bistro"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12526633782,
+        "lat": 37.8210279,
+        "lon": 30.5794474,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "KB Gurme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12526633784,
+        "lat": 37.8211727,
+        "lon": 30.5790839,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ezgi Pide Izgara ve Döner Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12596458254,
+        "lat": 37.8294139,
+        "lon": 30.5289588,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Taş Kafe Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1365706889,
+        "center": {
+          "lat": 37.8313604,
+          "lon": 30.5263205
+        },
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "building": "yes",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      }
+    ]
+  }
+}

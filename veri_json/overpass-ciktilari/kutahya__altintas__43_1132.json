@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "43",
+    "sehir_adi": "KÜTAHYA",
+    "ilce_id": "1132",
+    "ilce_adi": "ALTINTAŞ",
+    "bbox_used": {
+      "south": 38.8968669,
+      "west": 29.7408907,
+      "north": 39.20439,
+      "east": 30.2729309
+    },
+    "bbox_original": {
+      "south": 38.8968669,
+      "west": 29.7408907,
+      "north": 39.20439,
+      "east": 30.2729309
+    },
+    "fetchedAt": "2026-01-21T09:52:02.769Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:50:40Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11430485318,
+        "lat": 39.0718886,
+        "lon": 30.1182274,
+        "tags": {
+          "amenity": "restaurant",
+          "source": "bing"
+        }
+      }
+    ]
+  }
+}

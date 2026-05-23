@@ -1,0 +1,411 @@
+{
+  "meta": {
+    "sehir_id": "16",
+    "sehir_adi": "BURSA",
+    "ilce_id": "1434",
+    "ilce_adi": "KARACABEY",
+    "bbox_used": {
+      "south": 40.0739761,
+      "west": 28.0876836,
+      "north": 40.4018398,
+      "east": 28.6858077
+    },
+    "bbox_original": {
+      "south": 40.0739761,
+      "west": 28.0876836,
+      "north": 40.4018398,
+      "east": 28.6858077
+    },
+    "fetchedAt": "2026-01-21T08:42:22.491Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 31
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:41:12Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2027430477,
+        "lat": 40.2172541,
+        "lon": 28.3570627,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Teachers house"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3826438939,
+        "lat": 40.2162363,
+        "lon": 28.3586779,
+        "tags": {
+          "addr:city": "Karacabey/Bursa",
+          "amenity": "restaurant",
+          "name": "Meydan Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3826496143,
+        "lat": 40.2154364,
+        "lon": 28.358921,
+        "tags": {
+          "addr:city": "Karacabey/Bursa",
+          "addr:street": "Bursa Cad.",
+          "amenity": "restaurant",
+          "name": "Lalezar Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3826496568,
+        "lat": 40.2150012,
+        "lon": 28.3587266,
+        "tags": {
+          "addr:city": "Karacabey/Bursa",
+          "addr:street": "Bursa Cad.",
+          "amenity": "restaurant",
+          "name": "Kılıç Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4576708690,
+        "lat": 40.1674316,
+        "lon": 28.6819167,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "sevgi pıtırcıkları et balık lokantası",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "operator": "Fatma Bakar",
+          "phone": "+905388802889"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5544451021,
+        "lat": 40.1644836,
+        "lon": 28.6783972,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gölyazı Faik Bey Konağı",
+          "phone": "+905344382966",
+          "website:menu": "https://bimekan.com.tr/menu/faik-bey-konagi-kahvalti-2"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6725971577,
+        "lat": 40.2737899,
+        "lon": 28.6003326,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Aytemiz",
+          "name": "O122 - Oksijen Muratlı - Karacabey",
+          "operator": "Aytemiz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6935222090,
+        "lat": 40.2087343,
+        "lon": 28.5917235,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Kenan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6939607767,
+        "lat": 40.1744672,
+        "lon": 28.3544536,
+        "tags": {
+          "name": "Nilüfer Kestane Şekeri",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8315057723,
+        "lat": 40.2722061,
+        "lon": 28.6009824,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Aytemiz",
+          "name": "O122 - Oksijen Muratlı - Karacabey",
+          "operator": "Aytemiz"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8315057727,
+        "lat": 40.2524825,
+        "lon": 28.4523008,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Aytemiz - Karacabey",
+          "name": "0135 Oksijen Karacabey"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11451871053,
+        "lat": 40.250941,
+        "lon": 28.4524935,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-27",
+          "name": "Kahve Dünyası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014469898,
+        "lat": 40.2508084,
+        "lon": 28.4522213,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "check_date": "2024-06-27",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014469899,
+        "lat": 40.250866,
+        "lon": 28.4523675,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-27",
+          "name": "Bursa Kebap Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014506103,
+        "lat": 40.2525087,
+        "lon": 28.4530704,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "check_date": "2024-06-27",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014506104,
+        "lat": 40.2524312,
+        "lon": 28.4527705,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Kahve Dünyası",
+          "brand:wikidata": "Q28008050",
+          "check_date": "2024-06-27",
+          "cuisine": "coffee_shop",
+          "name": "Kahve Dünyası",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014506105,
+        "lat": 40.2524696,
+        "lon": 28.4529167,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-27",
+          "name": "Bursa Kebap Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014513898,
+        "lat": 40.2720839,
+        "lon": 28.6009465,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-27",
+          "name": "İskender"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12014513900,
+        "lat": 40.2737071,
+        "lon": 28.600218,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-06-27",
+          "name": "İskender"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12269167636,
+        "lat": 40.2477988,
+        "lon": 28.1931185,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamlı Bahçe Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12269167693,
+        "lat": 40.2319008,
+        "lon": 28.2453062,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Karadenizli Mevlüt Kaptan'ın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12582503632,
+        "lat": 40.2176977,
+        "lon": 28.3569277,
+        "tags": {
+          "addr:city": "Karacabey/Bursa",
+          "addr:district": "Karacabey",
+          "addr:housenumber": "22",
+          "addr:neighbourhood": "Garipçe Mah.",
+          "addr:postcode": "16700",
+          "addr:street": "Park Caddesi",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Parkside Cafe",
+          "outdoor_seating": "yes",
+          "website": "https://www.instagram.com/parksidecafe16/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12888329227,
+        "lat": 40.3873603,
+        "lon": 28.114129,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12888334168,
+        "lat": 40.3874621,
+        "lon": 28.1141719,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985311396,
+        "lat": 40.1985954,
+        "lon": 28.4223798,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "way",
+        "id": 192025818,
+        "center": {
+          "lat": 40.2078737,
+          "lon": 28.3514997
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 326350794,
+        "center": {
+          "lat": 40.204409,
+          "lon": 28.3479168
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 380718633,
+        "center": {
+          "lat": 40.1898468,
+          "lon": 28.6857814
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "fish_and_chips",
+          "delivery": "no",
+          "name": "Gölyazı Balık Restaruant",
+          "smoking": "outside",
+          "takeaway": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 380760112,
+        "center": {
+          "lat": 40.1666652,
+          "lon": 28.6795575
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 380760113,
+        "center": {
+          "lat": 40.1664995,
+          "lon": 28.6796901
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1217806621,
+        "center": {
+          "lat": 40.2586723,
+          "lon": 28.1933026
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Dağkadı Et Mangal",
+          "source": "microsoft/BuildingFootprints"
+        }
+      }
+    ]
+  }
+}

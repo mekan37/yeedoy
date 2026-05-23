@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "sehir_id": "68",
+    "sehir_adi": "AKSARAY",
+    "ilce_id": "1557",
+    "ilce_adi": "ORTAKÖY",
+    "bbox_used": {
+      "south": 38.6194496,
+      "west": 33.8907642,
+      "north": 38.9744824,
+      "east": 34.2946263
+    },
+    "bbox_original": {
+      "south": 38.6194496,
+      "west": 33.8907642,
+      "north": 38.9744824,
+      "east": 34.2946263
+    },
+    "fetchedAt": "2026-01-21T10:52:56.948Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 14
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8367892095,
+        "lat": 38.7370031,
+        "lon": 34.0388508,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Simit Teknesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8740988866,
+        "lat": 38.7353398,
+        "lon": 34.0381278,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kadıoğlu Etli Ekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8771802062,
+        "lat": 38.7382792,
+        "lon": 34.0386901,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "SOS Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8827023604,
+        "lat": 38.7359352,
+        "lon": 34.03936,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pınar Kebap & Lahmacun"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8827045638,
+        "lat": 38.7358133,
+        "lon": 34.0395997,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Altınoluk Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8827048985,
+        "lat": 38.7365366,
+        "lon": 34.0395291,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kardeşler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8827051929,
+        "lat": 38.7357448,
+        "lon": 34.0397721,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Konya Etli Ekmek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8827051930,
+        "lat": 38.7361174,
+        "lon": 34.0398975,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öz Papatya Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8857442090,
+        "lat": 38.7369157,
+        "lon": 34.0388763,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Osmanlı Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8865445451,
+        "lat": 38.8699445,
+        "lon": 33.9149118,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Merkez Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8922757095,
+        "lat": 38.8724471,
+        "lon": 33.9114348,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cafe Sevgi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9017653655,
+        "lat": 38.8702804,
+        "lon": 33.9150297,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Barış Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9163922195,
+        "lat": 38.8700766,
+        "lon": 33.9153902,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Orhan ustanın yeri, işkembe paça tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10732837878,
+        "lat": 38.7347011,
+        "lon": 34.0371078,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "pizza"
+        }
+      }
+    ]
+  }
+}

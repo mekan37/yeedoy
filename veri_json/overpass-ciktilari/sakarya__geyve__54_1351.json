@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "sehir_id": "54",
+    "sehir_adi": "SAKARYA",
+    "ilce_id": "1351",
+    "ilce_adi": "GEYVE",
+    "bbox_used": {
+      "south": 40.3355641,
+      "west": 30.0709492,
+      "north": 40.6614858,
+      "east": 30.5578202
+    },
+    "bbox_original": {
+      "south": 40.3355641,
+      "west": 30.0709492,
+      "north": 40.6614858,
+      "east": 30.5578202
+    },
+    "fetchedAt": "2026-01-21T10:16:32.802Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 13
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:15:02Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3287231047,
+        "lat": 40.6498069,
+        "lon": 30.3470055,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çakar kardeşler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4804314521,
+        "lat": 40.5141663,
+        "lon": 30.2359383,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tuna Tan",
+          "name:tr": "Tuna Tan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5420235849,
+        "lat": 40.497899,
+        "lon": 30.0960275,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Özdemir Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5856176085,
+        "lat": 40.4517596,
+        "lon": 30.3614627,
+        "tags": {
+          "addr:postcode": "54701",
+          "addr:street": "Ilıca Mahallesi",
+          "amenity": "restaurant",
+          "name": "Ilıca Mahallesi, Doğan Alabalık",
+          "name:tr": "Doğan Alabalık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9054754760,
+        "lat": 40.5083516,
+        "lon": 30.1745581,
+        "tags": {
+          "addr:city": "sakarya",
+          "addr:district": "pamukova",
+          "addr:housenumber": "58",
+          "addr:neighbourhood": "elperek mahallesi",
+          "addr:postcode": "54900",
+          "addr:street": "ankara caddesi",
+          "amenity": "restaurant",
+          "cuisine": "baklava;dondurma;mantı",
+          "name": "Enes Baklava",
+          "opening_hours": "08:00-01:00",
+          "website": "https://www.instagram.com/enes_baklava/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10858813625,
+        "lat": 40.5689199,
+        "lon": 30.3273747,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Emir"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11017570006,
+        "lat": 40.3963919,
+        "lon": 30.4926694,
+        "tags": {
+          "addr:street": "Orhangazi Çarşısı",
+          "amenity": "restaurant",
+          "cuisine": "local",
+          "name": "Yörem  Sofra Yöresel Ürünler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12619126340,
+        "lat": 40.5062719,
+        "lon": 30.1706476,
+        "tags": {
+          "addr:city": "Pamukova",
+          "addr:district": "Pamukova",
+          "addr:housenumber": "2",
+          "addr:neighbourhood": "Yenice, Abdullah Ateş Sk. No:2",
+          "addr:place": "Yenice",
+          "addr:postcode": "54900",
+          "amenity": "cafe",
+          "cuisine": "pizza;coffee_shop;regional;sandwich;ice_cream;seafood;turkish;pasta",
+          "internet_access": "yes",
+          "internet_access:fee": "no",
+          "name": "Künefeci Ahmet Kahvaltı",
+          "outdoor_seating": "yes",
+          "phone": "05425104654"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12691456146,
+        "lat": 40.4900551,
+        "lon": 30.0720547,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pamukova Özdemir Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12691456163,
+        "lat": 40.4999569,
+        "lon": 30.1301377,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12691459526,
+        "lat": 40.5211867,
+        "lon": 30.2756736,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İlhan Tan Dinlenme Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12708457124,
+        "lat": 40.5090492,
+        "lon": 30.199303,
+        "tags": {
+          "addr:city": "Sakarya",
+          "addr:district": "Pamukova",
+          "addr:neighbourhood": "Turgutlu Mahallesi",
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "way",
+        "id": 322226777,
+        "center": {
+          "lat": 40.6405874,
+          "lon": 30.3363128
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

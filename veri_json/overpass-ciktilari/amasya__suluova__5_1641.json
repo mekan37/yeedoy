@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "sehir_id": "5",
+    "sehir_adi": "AMASYA",
+    "ilce_id": "1641",
+    "ilce_adi": "SULUOVA",
+    "bbox_used": {
+      "south": 40.6665807,
+      "west": 35.5357306,
+      "north": 40.8996212,
+      "east": 35.9379529
+    },
+    "bbox_original": {
+      "south": 40.6665807,
+      "west": 35.5357306,
+      "north": 40.8996212,
+      "east": 35.9379529
+    },
+    "fetchedAt": "2026-01-21T08:22:38.657Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 17
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:20:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5063372721,
+        "lat": 40.8208401,
+        "lon": 35.657361,
+        "tags": {
+          "addr:housenumber": "12",
+          "addr:postcode": "05500",
+          "addr:street": "Atatürk Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "cake;bagel;breakfast;coffee_shop;tea",
+          "name": "Tutku Pastanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5278023790,
+        "lat": 40.8139412,
+        "lon": 35.6603553,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bir Eylül Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5325872820,
+        "lat": 40.8260223,
+        "lon": 35.639549,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Magosa Park Büfe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5356947723,
+        "lat": 40.8399884,
+        "lon": 35.6318231,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akçaabat Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5873481585,
+        "lat": 40.6712833,
+        "lon": 35.8324376,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "good"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6373588285,
+        "lat": 40.8283481,
+        "lon": 35.6616617,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeşil Elma Düğün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6571258316,
+        "lat": 40.8324728,
+        "lon": 35.6614769,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Royal Düğün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10098056074,
+        "lat": 40.8730501,
+        "lon": 35.5437909,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10098056083,
+        "lat": 40.8746929,
+        "lon": 35.5454967,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köfteci Bülent Merzifon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10098056092,
+        "lat": 40.8757576,
+        "lon": 35.5602394,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10098496880,
+        "lat": 40.8457817,
+        "lon": 35.6300488,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gaziantep Sofrası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10098496941,
+        "lat": 40.8393322,
+        "lon": 35.6349232,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çorbacım"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10102255593,
+        "lat": 40.6683274,
+        "lon": 35.845981,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Elit Otelhan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10102255651,
+        "lat": 40.6676948,
+        "lon": 35.8435872,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sarı Köşk"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10102255665,
+        "lat": 40.6670868,
+        "lon": 35.848887,
+        "tags": {
+          "amenity": "cafe",
+          "name": "1 inci et döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10106403987,
+        "lat": 40.8243707,
+        "lon": 35.6366573,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Terminal Ocakbaşı Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10106404000,
+        "lat": 40.8058201,
+        "lon": 35.6596059,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Koç Aspava"
+        }
+      }
+    ]
+  }
+}

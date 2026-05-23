@@ -1,0 +1,160 @@
+{
+  "meta": {
+    "sehir_id": "7",
+    "sehir_adi": "ANTALYA",
+    "ilce_id": "1451",
+    "ilce_adi": "KAŞ",
+    "bbox_used": {
+      "south": 36.25238556486486,
+      "north": 36.52265583513513,
+      "west": 29.423510312667812,
+      "east": 29.758275087332184
+    },
+    "bbox_original": {
+      "south": 36.1223896,
+      "west": 29.2622775,
+      "north": 36.6526518,
+      "east": 29.9195079
+    },
+    "fetchedAt": "2026-01-21T08:27:27.060Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 10
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:25:52Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 9655369217,
+        "lat": 36.2592775,
+        "lon": 29.4684249,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10789787937,
+        "lat": 36.2756712,
+        "lon": 29.4609509,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şahika Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11169425244,
+        "lat": 36.3120562,
+        "lon": 29.4237038,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeytin Dalı",
+          "opening_hours": "Mo-Su 08:30-24:00",
+          "phone": "+905363392302",
+          "website": "http://zeytindalirestaurant.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11169425246,
+        "lat": 36.3123616,
+        "lon": 29.4243352,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hüseyinin Yeri",
+          "opening_hours": "Mo-Su 09:00-23:00",
+          "phone": "+905418574695",
+          "website": "http://www.ucuzvillam.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11252865137,
+        "lat": 36.2762863,
+        "lon": 29.4626528,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "breakfast;kebab;turkish",
+          "internet_access": "wlan",
+          "name": "Pirha",
+          "name:en": "Pirha",
+          "name:ru": "Pirha закрыто с ноября по апрель",
+          "phone": "+90 532 385 01 63"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11452151069,
+        "lat": 36.2758026,
+        "lon": 29.4574731,
+        "tags": {
+          "amenity": "cafe",
+          "name": "iva"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11942239070,
+        "lat": 36.260733,
+        "lon": 29.4709369,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "breakfast;turkish",
+          "name": "Kekikli Bahçe Sarıbelen",
+          "phone": "+90 532 736 47 95"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12330300401,
+        "lat": 36.2552338,
+        "lon": 29.434915,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 726907558,
+        "center": {
+          "lat": 36.3127841,
+          "lon": 29.4253041
+        },
+        "tags": {
+          "addr:city": "Kaş",
+          "addr:district": "Kalkan",
+          "addr:neighbourhood": "İslamlar",
+          "addr:postcode": "07960",
+          "addr:street": "İslamlar Sokak",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "Turkish;Fish",
+          "name": "Değirmen Restoran",
+          "phone": "+90 242 838 62 95"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1105375440,
+        "center": {
+          "lat": 36.2564972,
+          "lon": 29.4341113
+        },
+        "tags": {
+          "addr:street": "Likya Yolu 5.01",
+          "amenity": "cafe",
+          "building": "yes",
+          "description": "Turkish cafe, tea, ayran, pide, water",
+          "source": "microsoft/BuildingFootprints"
+        }
+      }
+    ]
+  }
+}

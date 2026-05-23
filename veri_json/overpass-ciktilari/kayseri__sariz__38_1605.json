@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "sehir_id": "38",
+    "sehir_adi": "KAYSERİ",
+    "ilce_id": "1605",
+    "ilce_adi": "SARIZ",
+    "bbox_used": {
+      "south": 38.34316141486486,
+      "north": 38.61343168513513,
+      "west": 36.30665887316517,
+      "east": 36.650908026834834
+    },
+    "bbox_original": {
+      "south": 38.2423903,
+      "west": 36.1607369,
+      "north": 38.7142028,
+      "east": 36.79683
+    },
+    "fetchedAt": "2026-01-21T09:37:16.276Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:35:13Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5253751822,
+        "lat": 38.5565932,
+        "lon": 36.4586656,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kiskaçli et locantasi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10195992452,
+        "lat": 38.5571992,
+        "lon": 36.4592047,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10195992487,
+        "lat": 38.4684204,
+        "lon": 36.4741587,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

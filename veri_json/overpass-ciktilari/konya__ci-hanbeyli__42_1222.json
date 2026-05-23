@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1222",
+    "ilce_adi": "CİHANBEYLİ",
+    "bbox_used": {
+      "south": 38.564010464864865,
+      "north": 38.83428073513514,
+      "west": 32.66915913642666,
+      "east": 33.01446876357335
+    },
+    "bbox_original": {
+      "south": 38.3519845,
+      "west": 32.3242866,
+      "north": 39.0463067,
+      "east": 33.3593413
+    },
+    "fetchedAt": "2026-01-21T09:44:58.164Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-06T16:09:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 7267178145,
+        "lat": 38.65436,
+        "lon": 32.9288219,
+        "tags": {
+          "addr:city": "konya",
+          "addr:district": "cihanbeyli",
+          "addr:housenumber": "77/b",
+          "addr:neighbourhood": "köprübaşı mahallesi",
+          "addr:postcode": "42850",
+          "addr:street": "inönü caddesi",
+          "amenity": "cafe",
+          "cuisine": "cafe",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "internet_access:ssid": "Mars Cafe",
+          "name": "Mars Playstation Cafe",
+          "opening_hours": "09:00-24:00",
+          "outdoor_seating": "yes"
+        }
+      }
+    ]
+  }
+}

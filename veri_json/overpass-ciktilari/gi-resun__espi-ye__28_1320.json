@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "sehir_id": "28",
+    "sehir_adi": "GİRESUN",
+    "ilce_id": "1320",
+    "ilce_adi": "ESPİYE",
+    "bbox_used": {
+      "south": 40.5419238,
+      "west": 38.6204544,
+      "north": 40.9742787,
+      "east": 38.8449096
+    },
+    "bbox_original": {
+      "south": 40.5419238,
+      "west": 38.6204544,
+      "north": 40.9742787,
+      "east": 38.8449096
+    },
+    "fetchedAt": "2026-01-21T09:06:17.100Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 8
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:04:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4344121491,
+        "lat": 40.9499037,
+        "lon": 38.7064191,
+        "tags": {
+          "amenity": "cafe",
+          "name": "medcezir"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4938579621,
+        "lat": 40.9483488,
+        "lon": 38.6787739,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "çağla pide",
+          "name:tr": "çağla pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6436749314,
+        "lat": 40.9629192,
+        "lon": 38.6526281,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yalçın Usta nın Yeri",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744026,
+        "lat": 40.9596566,
+        "lon": 38.6576021,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gülburnu Kamyoncular Dinlenme Tesisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744083,
+        "lat": 40.9688549,
+        "lon": 38.6488002,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Murat Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744088,
+        "lat": 40.9710691,
+        "lon": 38.6433448,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çamburnu Restoran",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744099,
+        "lat": 40.9709062,
+        "lon": 38.6429798,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gümüş Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10068744259,
+        "lat": 40.9724434,
+        "lon": 38.624141,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

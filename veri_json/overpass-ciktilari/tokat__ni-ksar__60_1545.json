@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "sehir_id": "60",
+    "sehir_adi": "TOKAT",
+    "ilce_id": "1545",
+    "ilce_adi": "NİKSAR",
+    "bbox_used": {
+      "south": 40.431714164864864,
+      "north": 40.70198443513514,
+      "west": 36.78259311914284,
+      "east": 37.13735408085716
+    },
+    "bbox_original": {
+      "south": 40.3894429,
+      "west": 36.6720572,
+      "north": 40.7442557,
+      "east": 37.24789
+    },
+    "fetchedAt": "2026-01-21T10:31:35.109Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 16
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:30:21Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3129659853,
+        "lat": 40.5891605,
+        "lon": 36.9548385,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6296695651,
+        "lat": 40.5784292,
+        "lon": 36.9538723,
+        "tags": {
+          "addr:city": "Tokat",
+          "addr:district": "Niksar",
+          "addr:housenumber": "20",
+          "addr:neighbourhood": "Ayvaz",
+          "addr:street": "Ayvaz Sokak",
+          "amenity": "restaurant",
+          "cuisine": "pizza",
+          "name": "Mina Pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6296695652,
+        "lat": 40.5810081,
+        "lon": 36.9537125,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ayvaz Mola Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103763956,
+        "lat": 40.5304963,
+        "lon": 36.903107,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103763972,
+        "lat": 40.5337084,
+        "lon": 36.8712488,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103763980,
+        "lat": 40.5337579,
+        "lon": 36.8657922,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ulus Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103775115,
+        "lat": 40.580563,
+        "lon": 36.9251266,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103775225,
+        "lat": 40.5875303,
+        "lon": 36.9450469,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Alparslan Turkes Parki"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103775351,
+        "lat": 40.5725287,
+        "lon": 36.9608057,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bade"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103775353,
+        "lat": 40.5700017,
+        "lon": 36.95851,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "italian",
+          "name": "Badal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10103775354,
+        "lat": 40.5692292,
+        "lon": 36.9579309,
+        "tags": {
+          "amenity": "cafe",
+          "name": "NatoPark"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10104224283,
+        "lat": 40.6048542,
+        "lon": 36.8083443,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 760720763,
+        "center": {
+          "lat": 40.5908682,
+          "lon": 36.9398152
+        },
+        "tags": {
+          "addr:city": "tokat",
+          "addr:district": "niksar",
+          "addr:neighbourhood": "Bağlar mah.",
+          "addr:postcode": "60600",
+          "addr:street": "Serhat Sokak",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "kentpark restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 760720764,
+        "center": {
+          "lat": 40.590862,
+          "lon": 36.940142
+        },
+        "tags": {
+          "addr:city": "tokat",
+          "addr:district": "niksar",
+          "addr:neighbourhood": "Bağlar mah.",
+          "addr:postcode": "60600",
+          "addr:street": "Serhat Sokak",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Kentpark restarurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1411100452,
+        "center": {
+          "lat": 40.6371644,
+          "lon": 36.975706
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1411100453,
+        "center": {
+          "lat": 40.6372305,
+          "lon": 36.9757785
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

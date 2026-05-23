@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "56",
+    "sehir_adi": "SİİRT",
+    "ilce_id": "1317",
+    "ilce_adi": "ERUH",
+    "bbox_used": {
+      "south": 37.60476546486486,
+      "north": 37.875035735135135,
+      "west": 42.00149329283942,
+      "east": 42.34228010716058
+    },
+    "bbox_original": {
+      "south": 37.5892507,
+      "west": 41.8144736,
+      "north": 37.8905505,
+      "east": 42.5292998
+    },
+    "fetchedAt": "2026-01-21T10:23:57.177Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:22:05Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

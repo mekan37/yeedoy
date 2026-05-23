@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "sehir_id": "23",
+    "sehir_adi": "ELAZIĞ",
+    "ilce_id": "1873",
+    "ilce_adi": "ALACAKAYA",
+    "bbox_used": {
+      "south": 38.3564646,
+      "west": 39.717265,
+      "north": 38.609162,
+      "east": 39.999392
+    },
+    "bbox_original": {
+      "south": 38.3564646,
+      "west": 39.717265,
+      "north": 38.609162,
+      "east": 39.999392
+    },
+    "fetchedAt": "2026-01-21T08:58:16.728Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:56:31Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 11265018658,
+        "lat": 38.4618252,
+        "lon": 39.8614389,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

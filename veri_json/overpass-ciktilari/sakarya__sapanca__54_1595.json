@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "sehir_id": "54",
+    "sehir_adi": "SAKARYA",
+    "ilce_id": "1595",
+    "ilce_adi": "SAPANCA",
+    "bbox_used": {
+      "south": 40.6880538,
+      "west": 30.26844,
+      "north": 40.6980538,
+      "east": 30.27844
+    },
+    "bbox_original": {
+      "south": 40.6880538,
+      "west": 30.26844,
+      "north": 40.6980538,
+      "east": 30.27844
+    },
+    "fetchedAt": "2026-01-21T10:17:57.375Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:16:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13174873845,
+        "lat": 40.691876,
+        "lon": 30.2694598,
+        "tags": {
+          "addr:housenumber": "3",
+          "addr:street": "Mimar Sinan Caddesi",
+          "air_conditioning": "yes",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "highchair": "yes",
+          "level": "0",
+          "name": "Çarşı Lokantası",
+          "opening_hours": "Mo-Sa 05:30-21:00; PH closed",
+          "outdoor_seating": "yes",
+          "payment:mastercard": "yes",
+          "payment:notes": "yes",
+          "payment:visa": "yes",
+          "phone": "+90 530 605 24 10",
+          "smoking": "outside",
+          "toilets": "yes",
+          "toilets:access": "customers",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "way",
+        "id": 494925540,
+        "center": {
+          "lat": 40.6937171,
+          "lon": 30.2735001
+        },
+        "tags": {
+          "amenity": "cafe",
+          "delivery": "no",
+          "level": "0",
+          "name": "Göl CE Kafe",
+          "outdoor_seating": "yes",
+          "shop": "coffee",
+          "smoking": "outside",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1011489691,
+        "center": {
+          "lat": 40.6931849,
+          "lon": 30.2785207
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

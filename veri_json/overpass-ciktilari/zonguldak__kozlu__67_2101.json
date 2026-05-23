@@ -1,0 +1,181 @@
+{
+  "meta": {
+    "sehir_id": "67",
+    "sehir_adi": "ZONGULDAK",
+    "ilce_id": "2101",
+    "ilce_adi": "KOZLU",
+    "bbox_used": {
+      "south": 41.2599592,
+      "west": 31.6472768,
+      "north": 41.4545649,
+      "east": 31.8322694
+    },
+    "bbox_original": {
+      "south": 41.2599592,
+      "west": 31.6472768,
+      "north": 41.4545649,
+      "east": 31.8322694
+    },
+    "fetchedAt": "2026-01-21T10:52:11.410Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 13
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:50:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3675311468,
+        "lat": 41.412211,
+        "lon": 31.704978,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Quick Pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4786433302,
+        "lat": 41.427042,
+        "lon": 31.7586349,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kılıç Kulübü"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4786709753,
+        "lat": 41.433311,
+        "lon": 31.7483159,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4786729943,
+        "lat": 41.4347774,
+        "lon": 31.7456161,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zeko Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6611945985,
+        "lat": 41.4507167,
+        "lon": 31.7908966,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bizim Corbaci"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8694235057,
+        "lat": 41.4540545,
+        "lon": 31.7726793,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ballim Cafe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12065931197,
+        "lat": 41.4147557,
+        "lon": 31.7021403,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12067710662,
+        "lat": 41.4474851,
+        "lon": 31.7611141,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Lion Cafe Nargile"
+        }
+      },
+      {
+        "type": "way",
+        "id": 363360333,
+        "center": {
+          "lat": 41.4125802,
+          "lon": 31.7048639
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "İstatbul"
+        }
+      },
+      {
+        "type": "way",
+        "id": 661601118,
+        "center": {
+          "lat": 41.4342717,
+          "lon": 31.7341713
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "NAZAR ÂLÂ IZGARA"
+        }
+      },
+      {
+        "type": "way",
+        "id": 661602803,
+        "center": {
+          "lat": 41.431359,
+          "lon": 31.7274495
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Neslişah Büfe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1303037984,
+        "center": {
+          "lat": 41.4387564,
+          "lon": 31.7495109
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ora Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1303676319,
+        "center": {
+          "lat": 41.4545855,
+          "lon": 31.7688142
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

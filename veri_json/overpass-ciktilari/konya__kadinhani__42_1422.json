@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "42",
+    "sehir_adi": "KONYA",
+    "ilce_id": "1422",
+    "ilce_adi": "KADINHANI",
+    "bbox_used": {
+      "south": 38.34130481486486,
+      "north": 38.61157508513514,
+      "west": 32.016464306046,
+      "east": 32.360704593954004
+    },
+    "bbox_original": {
+      "south": 38.1017504,
+      "west": 32.0223232,
+      "north": 38.8511295,
+      "east": 32.3548457
+    },
+    "fetchedAt": "2026-01-21T09:46:41.075Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:45:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "3",
+    "sehir_adi": "AFYONKARAHİSAR",
+    "ilce_id": "1944",
+    "ilce_adi": "HOCALAR",
+    "bbox_used": {
+      "south": 38.4319935,
+      "west": 29.8118339,
+      "north": 38.742576,
+      "east": 30.095142
+    },
+    "bbox_original": {
+      "south": 38.4319935,
+      "west": 29.8118339,
+      "north": 38.742576,
+      "east": 30.095142
+    },
+    "fetchedAt": "2026-01-21T08:20:40.224Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:19:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

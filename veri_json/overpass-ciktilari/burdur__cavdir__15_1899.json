@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "sehir_id": "15",
+    "sehir_adi": "BURDUR",
+    "ilce_id": "1899",
+    "ilce_adi": "ÇAVDIR",
+    "bbox_used": {
+      "south": 36.9633571,
+      "west": 29.5896511,
+      "north": 37.2704351,
+      "east": 29.8615263
+    },
+    "bbox_original": {
+      "south": 36.9633571,
+      "west": 29.5896511,
+      "north": 37.2704351,
+      "east": 29.8615263
+    },
+    "fetchedAt": "2026-01-21T08:41:27.208Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 11
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:40:11Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 300876653,
+        "lat": 37.2434578,
+        "lon": 29.5999883,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mohan"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1444181721,
+        "lat": 37.1512534,
+        "lon": 29.6874692,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4385269994,
+        "lat": 37.0330978,
+        "lon": 29.8166271,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "pide",
+          "name": "Egen Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4385269995,
+        "lat": 37.0473819,
+        "lon": 29.8422144,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4385270805,
+        "lat": 37.0451765,
+        "lon": 29.840994,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4964386908,
+        "lat": 37.1094975,
+        "lon": 29.7418026,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5633596424,
+        "lat": 37.1517875,
+        "lon": 29.6868157,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Özlen lokantasi",
+          "name:tr": "Özlen lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10208009686,
+        "lat": 37.1546431,
+        "lon": 29.6876338,
+        "tags": {
+          "amenity": "restaurant",
+          "check_date": "2022-11-21",
+          "cuisine": "regional",
+          "name": "Cevizli Restaurant",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10706315892,
+        "lat": 37.1564913,
+        "lon": 29.6828253,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-03-03",
+          "name": "Kocayusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11872117210,
+        "lat": 37.2402439,
+        "lon": 29.6927711,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Café"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13127926701,
+        "lat": 37.1166799,
+        "lon": 29.7046506,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Oba Gözlemevi"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "sehir_id": "60",
+    "sehir_adi": "TOKAT",
+    "ilce_id": "1308",
+    "ilce_adi": "ERBAA",
+    "bbox_used": {
+      "south": 40.56677061486486,
+      "north": 40.83704088513513,
+      "west": 36.431327100132215,
+      "east": 36.78680639986778
+    },
+    "bbox_original": {
+      "south": 40.4935025,
+      "west": 36.3453912,
+      "north": 40.910309,
+      "east": 36.8727423
+    },
+    "fetchedAt": "2026-01-21T10:31:31.266Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 13
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 8305057942,
+        "lat": 40.680899,
+        "lon": 36.5541188,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Fetih Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10104224326,
+        "lat": 40.6248091,
+        "lon": 36.7556956,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10104224431,
+        "lat": 40.6710801,
+        "lon": 36.6090961,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10104224444,
+        "lat": 40.6769714,
+        "lon": 36.5905971,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10104224445,
+        "lat": 40.6802876,
+        "lon": 36.58696,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yolcu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11367237713,
+        "lat": 40.6691262,
+        "lon": 36.5683113,
+        "tags": {
+          "addr:city": "TOKAT",
+          "addr:district": "ERBAA",
+          "addr:housenumber": "61",
+          "addr:neighbourhood": "Cumhuriyet Mahallesi",
+          "addr:postcode": "60500",
+          "addr:street": "Sermet Durmuşoğlu Caddesi",
+          "amenity": "cafe",
+          "contact:facebook": "https://www.facebook.com/profile.php?id=61553247254440&mibextid=2JQ9oc",
+          "cuisine": "coffee_shop;pasta",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "L'AROME Coffee & Waffle",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12140937035,
+        "lat": 40.6806588,
+        "lon": 36.5462843,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Fetih Et Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12140937054,
+        "lat": 40.680846,
+        "lon": 36.5477832,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Recep Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12140954220,
+        "lat": 40.6807444,
+        "lon": 36.5500263,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Köroğlu Park 61"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1303331674,
+        "center": {
+          "lat": 40.6803689,
+          "lon": 36.5870441
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1311370346,
+        "center": {
+          "lat": 40.6806255,
+          "lon": 36.5499804
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1311370348,
+        "center": {
+          "lat": 40.6807491,
+          "lon": 36.547834
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "steak_house"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1311370353,
+        "center": {
+          "lat": 40.6805294,
+          "lon": 36.5463299
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "steak_house"
+        }
+      }
+    ]
+  }
+}

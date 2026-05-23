@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "sehir_id": "64",
+    "sehir_adi": "UŞAK",
+    "ilce_id": "1323",
+    "ilce_adi": "EŞME",
+    "bbox_used": {
+      "south": 38.2192873,
+      "west": 28.7446311,
+      "north": 38.658874,
+      "east": 29.1898735
+    },
+    "bbox_original": {
+      "south": 38.2192873,
+      "west": 28.7446311,
+      "north": 38.658874,
+      "east": 29.1898735
+    },
+    "fetchedAt": "2026-01-21T10:45:26.761Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:43:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2612266073,
+        "lat": 38.5769668,
+        "lon": 28.7534156,
+        "tags": {
+          "amenity": "restaurant",
+          "source": "bing"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8930812917,
+        "lat": 38.6535918,
+        "lon": 29.1456599,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Köfteci Sami"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11898579566,
+        "lat": 38.5765874,
+        "lon": 28.7525166,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "STR"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1221962395,
+        "center": {
+          "lat": 38.6266866,
+          "lon": 28.9513677
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

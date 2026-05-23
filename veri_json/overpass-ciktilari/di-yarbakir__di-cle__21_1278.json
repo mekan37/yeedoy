@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "sehir_id": "21",
+    "sehir_adi": "DİYARBAKIR",
+    "ilce_id": "1278",
+    "ilce_adi": "DİCLE",
+    "bbox_used": {
+      "south": 38.2329874,
+      "west": 39.8728358,
+      "north": 38.4666184,
+      "east": 40.37707
+    },
+    "bbox_original": {
+      "south": 38.2329874,
+      "west": 39.8728358,
+      "north": 38.4666184,
+      "east": 40.37707
+    },
+    "fetchedAt": "2026-01-21T08:53:02.261Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:51:28Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4524349998,
+        "lat": 38.259028,
+        "lon": 40.0897551,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4524349999,
+        "lat": 38.2608844,
+        "lon": 40.0883961,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

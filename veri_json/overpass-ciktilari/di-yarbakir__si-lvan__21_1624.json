@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "sehir_id": "21",
+    "sehir_adi": "DİYARBAKIR",
+    "ilce_id": "1624",
+    "ilce_adi": "SİLVAN",
+    "bbox_used": {
+      "south": 38.00661301486486,
+      "north": 38.276883285135135,
+      "west": 40.75994403385169,
+      "east": 41.102599366148304
+    },
+    "bbox_original": {
+      "south": 37.9375173,
+      "west": 40.636399,
+      "north": 38.345979,
+      "east": 41.2261444
+    },
+    "fetchedAt": "2026-01-21T08:53:50.428Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:52:30Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5232648523,
+        "lat": 38.1466653,
+        "lon": 41.0082641,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9046103724,
+        "lat": 38.1310602,
+        "lon": 41.0888464,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

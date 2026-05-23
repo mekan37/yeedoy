@@ -1,0 +1,922 @@
+{
+  "meta": {
+    "sehir_id": "39",
+    "sehir_adi": "KIRKLARELİ",
+    "ilce_id": "1714",
+    "ilce_adi": "VİZE",
+    "bbox_used": {
+      "south": 41.47224641486486,
+      "north": 41.742516685135136,
+      "west": 27.68715583060227,
+      "east": 28.047579569397737
+    },
+    "bbox_original": {
+      "south": 41.4267725,
+      "west": 27.5879359,
+      "north": 41.7879906,
+      "east": 28.1467995
+    },
+    "fetchedAt": "2026-01-21T09:39:29.704Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 79
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:38:19Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1775161650,
+        "lat": 41.4851715,
+        "lon": 27.9017421,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "village cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4846817113,
+        "lat": 41.5662293,
+        "lon": 27.7779087,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5104429537,
+        "lat": 41.4880513,
+        "lon": 27.7533638,
+        "tags": {
+          "addr:city": "Müsellim",
+          "addr:district": "Vize",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5104429702,
+        "lat": 41.5125552,
+        "lon": 27.873158,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5222641338,
+        "lat": 41.5737152,
+        "lon": 27.7648853,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Öğretmen Lokali"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5222641446,
+        "lat": 41.5728313,
+        "lon": 27.7672034,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5222641447,
+        "lat": 41.572883,
+        "lon": 27.7672496,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5541629259,
+        "lat": 41.4789357,
+        "lon": 27.9695204,
+        "tags": {
+          "addr:country": "TR",
+          "addr:district": "Saray",
+          "addr:postcode": "59600",
+          "addr:province": "Tekirdağ",
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "internet_access:fee": "no",
+          "name": "Kanyon Kahvaltı",
+          "outdoor_seating": "yes",
+          "phone": "+90 533 270 36 18",
+          "website": "http://www.kanyonkahvalti.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585462846,
+        "lat": 41.5839208,
+        "lon": 27.7490723,
+        "tags": {
+          "addr:city": "Vize",
+          "addr:country": "TR",
+          "addr:district": "Vize",
+          "addr:postcode": "39400",
+          "addr:province": "Kırklareli",
+          "addr:subdistrict": "Gazi Mahallesi",
+          "amenity": "restaurant",
+          "name": "Flora Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585462907,
+        "lat": 41.5117227,
+        "lon": 27.8744965,
+        "tags": {
+          "addr:country": "TR",
+          "addr:district": "Vize",
+          "addr:province": "Kırklareli",
+          "addr:street": "D20",
+          "addr:subdistrict": "Çakıllı",
+          "amenity": "restaurant",
+          "name": "Birikim Unlu Mamülleri 2 - Odun Fırınında Köy Ekmeği & Alaşehir Ekmeği",
+          "shop": "bakery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585462910,
+        "lat": 41.5120882,
+        "lon": 27.8735536,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Dudum Sulu Yemek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585462911,
+        "lat": 41.5125622,
+        "lon": 27.8734155,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Küçük Hasan'ın Yeri - Oğlak Eti"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585462912,
+        "lat": 41.5127068,
+        "lon": 27.8727423,
+        "tags": {
+          "amenity": "nightclub",
+          "name": "Çakıllı Belediyesi Düğün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5717894524,
+        "lat": 41.4953402,
+        "lon": 27.984887,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Er Kasap Aile Köfte Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6563551517,
+        "lat": 41.5400494,
+        "lon": 28.0138194,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Laladere Kir Lokantası Cafe & Restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6646671647,
+        "lat": 41.6059377,
+        "lon": 27.6998307,
+        "tags": {
+          "addr:city": "Pazarlı",
+          "addr:district": "Vize",
+          "amenity": "restaurant",
+          "name": "Doğa Restaurant",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "phone": "+90 288 318 30 82"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7539647337,
+        "lat": 41.5727569,
+        "lon": 27.7677242,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Paşa Dürüm"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017141743,
+        "lat": 41.5725705,
+        "lon": 27.7659297,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tüfekçioğlu Hazar Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017141744,
+        "lat": 41.5713168,
+        "lon": 27.7694089,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kokoreç Köfte Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017181744,
+        "lat": 41.5721857,
+        "lon": 27.763974,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ezgi Pasta & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017181746,
+        "lat": 41.5697612,
+        "lon": 27.7718915,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017182330,
+        "lat": 41.5723332,
+        "lon": 27.7681229,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "CP Şef Market"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017184763,
+        "lat": 41.5725928,
+        "lon": 27.7680811,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Burç Pastaneleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017206919,
+        "lat": 41.5716334,
+        "lon": 27.769028,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Pilav Dünyası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017212808,
+        "lat": 41.5707184,
+        "lon": 27.7716684,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Garaj Börek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017213972,
+        "lat": 41.5711573,
+        "lon": 27.7633707,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017213974,
+        "lat": 41.5700765,
+        "lon": 27.7708324,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Macur Hasanoğulları Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017214045,
+        "lat": 41.5707997,
+        "lon": 27.7627814,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Emsido Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017219056,
+        "lat": 41.5716768,
+        "lon": 27.7692327,
+        "tags": {
+          "amenity": "cafe",
+          "name": "75. Yıl Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017227414,
+        "lat": 41.5779439,
+        "lon": 27.7763523,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Seyir Kahvaltı Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017237107,
+        "lat": 41.570439,
+        "lon": 27.770511,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017237108,
+        "lat": 41.5705167,
+        "lon": 27.7714209,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Burç Pastahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017237325,
+        "lat": 41.5723616,
+        "lon": 27.7666285,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve İddaa Bayii"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017240995,
+        "lat": 41.5719118,
+        "lon": 27.7681714,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dörtyol Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017241177,
+        "lat": 41.5784016,
+        "lon": 27.7703355,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017241182,
+        "lat": 41.5709462,
+        "lon": 27.7698278,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Evin Lokantası Ev Yrmekleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017242121,
+        "lat": 41.5690673,
+        "lon": 27.7615171,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mengeretli Steakhouse"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017242123,
+        "lat": 41.5724785,
+        "lon": 27.7661225,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mesken Cafe Oyun Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017242550,
+        "lat": 41.5785191,
+        "lon": 27.7709808,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017242554,
+        "lat": 41.5731921,
+        "lon": 27.7634563,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Candan Pizza"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017242556,
+        "lat": 41.5696372,
+        "lon": 27.762061,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Ocağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017243387,
+        "lat": 41.5735197,
+        "lon": 27.7676711,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Fikri Çavuşun Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017243722,
+        "lat": 41.5731702,
+        "lon": 27.7634368,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Candan Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8017243724,
+        "lat": 41.5716701,
+        "lon": 27.7633315,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahveland"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8383348098,
+        "lat": 41.5334396,
+        "lon": 27.8349253,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çiftçiler Mandıra Mola"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8590432900,
+        "lat": 41.6320579,
+        "lon": 27.8810712,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8590432903,
+        "lat": 41.6319927,
+        "lon": 27.8814306,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8590433118,
+        "lat": 41.6133077,
+        "lon": 28.0261264,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8590433348,
+        "lat": 41.613057,
+        "lon": 27.9598758,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8590433884,
+        "lat": 41.5465958,
+        "lon": 27.8197257,
+        "tags": {
+          "addr:city": "Okçular Mahallesi",
+          "addr:country": "TR",
+          "addr:district": "Vize",
+          "addr:neighbourhood": "Okçular Mahallesi",
+          "addr:province": "Kırklareli",
+          "addr:street": "Atatürk Caddesi",
+          "amenity": "restaurant",
+          "name": "Flora Kahvaltı Bahçesi Mantı Köfte",
+          "opening_hours": "Mo-Su 10:00-19:00",
+          "phone": "05422953362"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8590434181,
+        "lat": 41.5121445,
+        "lon": 27.8739003,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9717366978,
+        "lat": 41.5789591,
+        "lon": 27.712892,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10043906858,
+        "lat": 41.4937743,
+        "lon": 27.9804739,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bizim Ev Izgara Gözleme"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10043906872,
+        "lat": 41.4948999,
+        "lon": 27.9844932,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Melih Kasap Aile Köfte Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10043906881,
+        "lat": 41.4949335,
+        "lon": 27.9846695,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10929744073,
+        "lat": 41.5691619,
+        "lon": 27.7738645,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Arcadia"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923367667,
+        "lat": 41.5687947,
+        "lon": 27.7696465,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Tadım Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923374866,
+        "lat": 41.5672828,
+        "lon": 27.774095,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Balkon"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923387940,
+        "lat": 41.5675596,
+        "lon": 27.774123,
+        "tags": {
+          "amenity": "cafe",
+          "name": "TripAdvisor Cafe & Pub"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923391085,
+        "lat": 41.5708617,
+        "lon": 27.7628662,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çiftçiler Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923393867,
+        "lat": 41.5702706,
+        "lon": 27.7646759,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Camlı Kahve Ahmet Abinin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923400717,
+        "lat": 41.5675167,
+        "lon": 27.7739689,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923403887,
+        "lat": 41.5698469,
+        "lon": 27.7662385,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Mar Aşkdo Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11923411886,
+        "lat": 41.5684699,
+        "lon": 27.7715678,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Özen Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12015976537,
+        "lat": 41.5735027,
+        "lon": 27.7589628,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Derin Park Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12369596348,
+        "lat": 41.6294687,
+        "lon": 27.9535586,
+        "tags": {
+          "amenity": "restaurant",
+          "mobile": "+90 530 668 20 80",
+          "name": "Grid Restoran",
+          "opening_hours": "Mo-Su 08:00-23:30",
+          "website": "https://www.balkayaciftligi.com/pırlaga-restoran"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12952138576,
+        "lat": 41.5735765,
+        "lon": 27.7611506,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe 39"
+        }
+      },
+      {
+        "type": "way",
+        "id": 255370965,
+        "center": {
+          "lat": 41.5113106,
+          "lon": 27.8752963
+        },
+        "tags": {
+          "addr:country": "TR",
+          "addr:district": "vize",
+          "addr:housenumber": "13",
+          "addr:province": "Kırklareli",
+          "addr:street": "İstanbul Caddesi",
+          "addr:subdistrict": "Çakıllı",
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Çınaraltı Çay Bahçesi",
+          "phone": "+905383580931"
+        }
+      },
+      {
+        "type": "way",
+        "id": 255711203,
+        "center": {
+          "lat": 41.5360587,
+          "lon": 27.8557003
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Cafeteria"
+        }
+      },
+      {
+        "type": "way",
+        "id": 319796108,
+        "center": {
+          "lat": 41.5690583,
+          "lon": 27.7229792
+        },
+        "tags": {
+          "addr:city": "Develi",
+          "addr:district": "Vize",
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 698327267,
+        "center": {
+          "lat": 41.5094816,
+          "lon": 27.8781507
+        },
+        "tags": {
+          "addr:country": "TR",
+          "addr:district": "vize",
+          "addr:province": "Kırklareli",
+          "addr:subdistrict": "Çakıllı",
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 707264729,
+        "center": {
+          "lat": 41.6061043,
+          "lon": 27.6999252
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Doğa Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 712161388,
+        "center": {
+          "lat": 41.6160579,
+          "lon": 27.9827801
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish_and_chips",
+          "name": "Balkaya Alabalık Çiftliği ve Alabalık Restaurantı"
+        }
+      },
+      {
+        "type": "way",
+        "id": 807668335,
+        "center": {
+          "lat": 41.6149552,
+          "lon": 27.983256
+        },
+        "tags": {
+          "addr:city": "Kırklareli",
+          "addr:district": "Vize",
+          "addr:neighbourhood": "Balkaya Köyü",
+          "addr:postcode": "39402",
+          "addr:street": "Aksicim - Balkaya Yolu",
+          "amenity": "restaurant",
+          "building": "yes",
+          "contact:instagram": "https://www.instagram.com/etnokoy/",
+          "contact:phone": "+90 288 335 52 25",
+          "cuisine": "turkish;fish;breakfast;beef_bowl;salad",
+          "diet:vegetarian": "yes",
+          "name": "Etno Köy Restaurant",
+          "opening_hours": "Mo-Su 08:00-22:00",
+          "opening_hours:covid19": "closed"
+        }
+      },
+      {
+        "type": "way",
+        "id": 810882448,
+        "center": {
+          "lat": 41.5217988,
+          "lon": 27.9196061
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "commercial",
+          "cuisine": "turkish",
+          "delivery": "no",
+          "name": "Küçük Hasan'ın Yeri",
+          "outdoor_seating": "yes",
+          "reservation": "yes",
+          "takeaway": "no"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1176358870,
+        "center": {
+          "lat": 41.6960475,
+          "lon": 27.9423237
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Aydin Köfte"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1176358871,
+        "center": {
+          "lat": 41.6962963,
+          "lon": 27.9420961
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1176358872,
+        "center": {
+          "lat": 41.696128,
+          "lon": 27.9416693
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1219433304,
+        "center": {
+          "lat": 41.6498587,
+          "lon": 27.710622
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "steak_house",
+          "name": "Öz Yayla Kasabı",
+          "phone": "+90 288 348 46 60",
+          "source": "microsoft/BuildingFootprints"
+        }
+      }
+    ]
+  }
+}

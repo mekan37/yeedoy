@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "sehir_id": "16",
+    "sehir_adi": "BURSA",
+    "ilce_id": "1960",
+    "ilce_adi": "KESTEL",
+    "bbox_used": {
+      "south": 40.0559933,
+      "west": 29.1922744,
+      "north": 40.3178877,
+      "east": 29.4549559
+    },
+    "bbox_original": {
+      "south": 40.0559933,
+      "west": 29.1922744,
+      "north": 40.3178877,
+      "east": 29.4549559
+    },
+    "fetchedAt": "2026-01-21T08:44:18.926Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 11
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:42:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5214722329,
+        "lat": 40.1475697,
+        "lon": 29.2265829,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Saitabat Köyü Kadınları Dayanışma Derneği"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5443873422,
+        "lat": 40.1895126,
+        "lon": 29.2127408,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Klass"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5599027321,
+        "lat": 40.1894176,
+        "lon": 29.2135762,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Balgöç Lokali"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5902143388,
+        "lat": 40.1532064,
+        "lon": 29.3505016,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kazancı Muhtarın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11662917274,
+        "lat": 40.206989,
+        "lon": 29.2121811,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12145205398,
+        "lat": 40.1273249,
+        "lon": 29.4314745,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Celal Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12996007816,
+        "lat": 40.1882938,
+        "lon": 29.2133008,
+        "tags": {
+          "addr:neighbourhood": "Yeni Mahalle",
+          "addr:street": "Ertuğrulgazi Caddesi",
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "way",
+        "id": 323607768,
+        "center": {
+          "lat": 40.2010101,
+          "lon": 29.2129076
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Meydan Kahvesi",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "way",
+        "id": 413118717,
+        "center": {
+          "lat": 40.1666147,
+          "lon": 29.2064403
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "fish_and_chips",
+          "name": "Aral Alabalık Restoran"
+        }
+      },
+      {
+        "type": "way",
+        "id": 732382719,
+        "center": {
+          "lat": 40.2001946,
+          "lon": 29.2226442
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 732382720,
+        "center": {
+          "lat": 40.2000543,
+          "lon": 29.2229849
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

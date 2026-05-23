@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "sehir_id": "2",
+    "sehir_adi": "ADIYAMAN",
+    "ilce_id": "1985",
+    "ilce_adi": "SİNCİK",
+    "bbox_used": {
+      "south": 37.9187968,
+      "west": 38.4130237,
+      "north": 38.1902752,
+      "east": 38.7532424
+    },
+    "bbox_original": {
+      "south": 37.9187968,
+      "west": 38.4130237,
+      "north": 38.1902752,
+      "east": 38.7532424
+    },
+    "fetchedAt": "2026-01-21T08:18:26.246Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:16:42Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4862049027,
+        "lat": 37.933719,
+        "lon": 38.6080193,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name:en": "Cendere Cafeteria & Restrauant",
+          "operator": "Omer Kuşci",
+          "phone": "+905317111773"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9798215109,
+        "lat": 37.9430699,
+        "lon": 38.6580005,
+        "tags": {
+          "amenity": "cafe"
+        }
+      }
+    ]
+  }
+}

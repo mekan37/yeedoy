@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "25",
+    "sehir_adi": "ERZURUM",
+    "ilce_id": "1444",
+    "ilce_adi": "KARAYAZI",
+    "bbox_used": {
+      "south": 39.510029914864866,
+      "north": 39.78030018513514,
+      "west": 41.95564391092275,
+      "east": 42.30563048907724
+    },
+    "bbox_original": {
+      "south": 39.4298428,
+      "west": 41.7409788,
+      "north": 39.8604873,
+      "east": 42.5202956
+    },
+    "fetchedAt": "2026-01-21T09:00:11.952Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:58:32Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

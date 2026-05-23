@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "sehir_id": "8",
+    "sehir_adi": "ARTVİN",
+    "ilce_id": "1145",
+    "ilce_adi": "ARDANUÇ",
+    "bbox_used": {
+      "south": 40.9228176,
+      "west": 41.918537,
+      "north": 41.2589252,
+      "east": 42.3763413
+    },
+    "bbox_original": {
+      "south": 40.9228176,
+      "west": 41.918537,
+      "north": 41.2589252,
+      "east": 42.3763413
+    },
+    "fetchedAt": "2026-01-21T08:28:37.898Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:26:55Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3175569735,
+        "lat": 41.119516,
+        "lon": 42.0670114,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yildiz restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7403961792,
+        "lat": 41.1216486,
+        "lon": 42.0669725,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "EMELİN MUTFAĞI"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7893082285,
+        "lat": 41.2549324,
+        "lon": 42.1376791,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "Caj, Meysir (Corn)"
+        }
+      }
+    ]
+  }
+}

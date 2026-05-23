@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "sehir_id": "35",
+    "sehir_adi": "İZMİR",
+    "ilce_id": "1178",
+    "ilce_adi": "BAYINDIR",
+    "bbox_used": {
+      "south": 38.1208323,
+      "west": 27.4301778,
+      "north": 38.3654152,
+      "east": 27.8335297
+    },
+    "bbox_original": {
+      "south": 38.1208323,
+      "west": 27.4301778,
+      "north": 38.3654152,
+      "east": 27.8335297
+    },
+    "fetchedAt": "2026-01-21T09:24:01.645Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 13
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:22:59Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4934441348,
+        "lat": 38.2173606,
+        "lon": 27.6486268,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ilıcalı Rıdvan'ın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4937046654,
+        "lat": 38.2173684,
+        "lon": 27.6487531,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çat Kapı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538131683,
+        "lat": 38.2865597,
+        "lon": 27.5167501,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cevizalti Kahvalti",
+          "website": "https://www.facebook.com/Cevizalti-Kahvalti-365607066822529/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538131685,
+        "lat": 38.2910608,
+        "lon": 27.519325,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9279602067,
+        "lat": 38.3541544,
+        "lon": 27.4419339,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12566204773,
+        "lat": 38.3384257,
+        "lon": 27.4554361,
+        "tags": {
+          "amenity": "cafe",
+          "name:tr": "Kahvehane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12566204774,
+        "lat": 38.3382241,
+        "lon": 27.4555662,
+        "tags": {
+          "amenity": "cafe",
+          "name:tr": "Kahvehane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13401854662,
+        "lat": 38.3395373,
+        "lon": 27.6091239,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yenikurudere Köy Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13404439802,
+        "lat": 38.2837817,
+        "lon": 27.7126412,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çakırcan Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13406269364,
+        "lat": 38.2964443,
+        "lon": 27.8289564,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Hayrettin’in Kahvesi"
+        }
+      },
+      {
+        "type": "way",
+        "id": 501080919,
+        "center": {
+          "lat": 38.2129779,
+          "lon": 27.6492791
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Han-Gar Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 501080922,
+        "center": {
+          "lat": 38.2125754,
+          "lon": 27.6488636
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Han-Gar Düğün Salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 501248252,
+        "center": {
+          "lat": 38.2176159,
+          "lon": 27.646147
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

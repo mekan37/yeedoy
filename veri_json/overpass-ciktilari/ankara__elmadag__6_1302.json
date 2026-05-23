@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "sehir_id": "6",
+    "sehir_adi": "ANKARA",
+    "ilce_id": "1302",
+    "ilce_adi": "ELMADAĞ",
+    "bbox_used": {
+      "south": 39.6892239,
+      "west": 33.0175208,
+      "north": 40.0731457,
+      "east": 33.3896827
+    },
+    "bbox_original": {
+      "south": 39.6892239,
+      "west": 33.0175208,
+      "north": 40.0731457,
+      "east": 33.3896827
+    },
+    "fetchedAt": "2026-01-21T08:24:00.062Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:22:44Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 7784051035,
+        "lat": 39.9391089,
+        "lon": 33.3261115,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157397,
+        "lat": 39.9443711,
+        "lon": 33.295724,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157721,
+        "lat": 39.9323751,
+        "lon": 33.3346109,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157753,
+        "lat": 39.9302614,
+        "lon": 33.3377985,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kayadibi Cennet Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10119157760,
+        "lat": 39.9300492,
+        "lon": 33.3400337,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1371172513,
+        "center": {
+          "lat": 39.9322548,
+          "lon": 33.3346085
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish"
+        }
+      }
+    ]
+  }
+}

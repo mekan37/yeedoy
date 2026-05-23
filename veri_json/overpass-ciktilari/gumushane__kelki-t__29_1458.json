@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "sehir_id": "29",
+    "sehir_adi": "GÜMÜŞHANE",
+    "ilce_id": "1458",
+    "ilce_adi": "KELKİT",
+    "bbox_used": {
+      "south": 39.92996351486486,
+      "north": 40.20023378513513,
+      "west": 39.28100713521489,
+      "east": 39.6331416647851
+    },
+    "bbox_original": {
+      "south": 39.8361941,
+      "west": 39.0974312,
+      "north": 40.2940032,
+      "east": 39.8167176
+    },
+    "fetchedAt": "2026-01-21T09:09:13.260Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:07:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "way",
+        "id": 1344766455,
+        "center": {
+          "lat": 40.1171086,
+          "lon": 39.4503446
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

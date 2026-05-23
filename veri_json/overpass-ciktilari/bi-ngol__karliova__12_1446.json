@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "sehir_id": "12",
+    "sehir_adi": "BİNGÖL",
+    "ilce_id": "1446",
+    "ilce_adi": "KARLIOVA",
+    "bbox_used": {
+      "south": 39.11954421486487,
+      "north": 39.38981448513514,
+      "west": 40.79857484528721,
+      "east": 41.14660415471278
+    },
+    "bbox_original": {
+      "south": 39.0352805,
+      "west": 40.6791917,
+      "north": 39.4740782,
+      "east": 41.2659873
+    },
+    "fetchedAt": "2026-01-21T08:37:00.218Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 3
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 12961396373,
+        "lat": 39.3491777,
+        "lon": 41.0344768,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12961396385,
+        "lat": 39.3704593,
+        "lon": 40.9878738,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13062969884,
+        "lat": 39.372897,
+        "lon": 40.9868719,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

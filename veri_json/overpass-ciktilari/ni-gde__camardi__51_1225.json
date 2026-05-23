@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "sehir_id": "51",
+    "sehir_adi": "NİĞDE",
+    "ilce_id": "1225",
+    "ilce_adi": "ÇAMARDI",
+    "bbox_used": {
+      "south": 37.6495881,
+      "west": 34.8516934,
+      "north": 38.0673357,
+      "east": 35.3111078
+    },
+    "bbox_original": {
+      "south": 37.6495881,
+      "west": 34.8516934,
+      "north": 38.0673357,
+      "east": 35.3111078
+    },
+    "fetchedAt": "2026-01-21T10:11:02.975Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 4
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:08:58Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 6603199287,
+        "lat": 37.8793656,
+        "lon": 35.1080383,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ecemiş Alabalık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9883282761,
+        "lat": 37.6924553,
+        "lon": 35.0196419,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "ALADAĜ DOĜAL"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9883282762,
+        "lat": 37.8154346,
+        "lon": 35.0366655,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "name": "Akpınar Alabalık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13246105401,
+        "lat": 37.8380015,
+        "lon": 35.0521066,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Sakli Bahçem restaurant"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "sehir_id": "44",
+    "sehir_adi": "MALATYA",
+    "ilce_id": "1995",
+    "ilce_adi": "YAZIHAN",
+    "bbox_used": {
+      "south": 38.4842323,
+      "west": 37.9015445,
+      "north": 38.7201563,
+      "east": 38.4243044
+    },
+    "bbox_original": {
+      "south": 38.4842323,
+      "west": 37.9015445,
+      "north": 38.7201563,
+      "east": 38.4243044
+    },
+    "fetchedAt": "2026-01-21T09:56:11.555Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 2
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2559801892,
+        "lat": 38.4899071,
+        "lon": 38.351569,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Beyaz Saray"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1225567094,
+        "center": {
+          "lat": 38.594843,
+          "lon": 38.1804346
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

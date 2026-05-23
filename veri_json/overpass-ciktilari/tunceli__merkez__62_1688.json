@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "sehir_id": "62",
+    "sehir_adi": "TUNCELİ",
+    "ilce_id": "1688",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 39.00086321486486,
+      "north": 39.27113348513513,
+      "west": 39.37463097395454,
+      "east": 39.722072926045456
+    },
+    "bbox_original": {
+      "south": 38.9003022,
+      "west": 39.3096478,
+      "north": 39.3716945,
+      "east": 39.7870561
+    },
+    "fetchedAt": "2026-01-21T10:40:23.375Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 13
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:39:29Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2451009842,
+        "lat": 39.1060052,
+        "lon": 39.5481335,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "regional",
+          "name": "Lale"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4471732457,
+        "lat": 39.1048121,
+        "lon": 39.5456395,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Celal Doğan Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9550282017,
+        "lat": 39.1050584,
+        "lon": 39.5477763,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mojen"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9721217475,
+        "lat": 39.1042526,
+        "lon": 39.5468904,
+        "tags": {
+          "amenity": "cafe",
+          "name": "OT"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9721238520,
+        "lat": 39.1064053,
+        "lon": 39.5480433,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Loqma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10672232359,
+        "lat": 39.116299,
+        "lon": 39.6223858,
+        "tags": {
+          "addr:city": "Tunceli",
+          "addr:district": "Merkez",
+          "addr:neighbourhood": "Güleç Köyü",
+          "addr:postcode": "62000",
+          "addr:street": "Sinan Mezrası",
+          "amenity": "restaurant",
+          "cuisine": "regional;kebab",
+          "name": "Sinan Play Köy Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11202415766,
+        "lat": 39.1103287,
+        "lon": 39.5380584,
+        "tags": {
+          "addr:city": "Tunceli",
+          "addr:district": "Merkez",
+          "addr:housenumber": "17",
+          "addr:postcode": "62000",
+          "air_conditioning": "yes",
+          "amenity": "restaurant",
+          "bar": "yes",
+          "cuisine": "regional",
+          "delivery": "no",
+          "diet:gluten_free": "no",
+          "diet:halal": "yes",
+          "diet:lactose_free": "no",
+          "diet:pescetarian": "no",
+          "diet:vegan": "no",
+          "diet:vegetarian": "no",
+          "internet_access": "no",
+          "microbrewery": "no",
+          "name": "Dikilitaş Restaurant",
+          "opening_hours": "Mo-Su 08:00-01:00",
+          "phone": "0428 212 11 33",
+          "smoking": "outside",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11202444937,
+        "lat": 39.1922834,
+        "lon": 39.6917434,
+        "tags": {
+          "addr:city": "tunceli",
+          "addr:neighbourhood": "Gökçek",
+          "addr:street": "Kutudere",
+          "amenity": "restaurant",
+          "cuisine": "burger;regional;chicken;sandwich;alchol",
+          "name": "Kutudere Dinlenme Tesisleri",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11265023194,
+        "lat": 39.1066607,
+        "lon": 39.5463816,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zembul Kadin Kooperatifi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11668866038,
+        "lat": 39.0775887,
+        "lon": 39.5347839,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Helvacı Ali"
+        }
+      },
+      {
+        "type": "way",
+        "id": 450242973,
+        "center": {
+          "lat": 39.104346,
+          "lon": 39.544864
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "house",
+          "name": "Munzur Baba Restaurant",
+          "roof:colour": "#a36266",
+          "roof:shape": "gabled"
+        }
+      },
+      {
+        "type": "way",
+        "id": 671523353,
+        "center": {
+          "lat": 39.1815861,
+          "lon": 39.6873669
+        },
+        "tags": {
+          "addr:city": "dersim",
+          "addr:district": "pülümür",
+          "addr:neighbourhood": "Pülümür",
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "balık;fish;tavuk;chicken;hamburger",
+          "name": "Kara Haydarın Yeri",
+          "opening_hours": "Mo-Su 10:00-22:00",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1268332185,
+        "center": {
+          "lat": 39.0776697,
+          "lon": 39.5342967
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Macbear"
+        }
+      }
+    ]
+  }
+}

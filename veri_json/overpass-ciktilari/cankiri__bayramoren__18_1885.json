@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "sehir_id": "18",
+    "sehir_adi": "ÇANKIRI",
+    "ilce_id": "1885",
+    "ilce_adi": "BAYRAMÖREN",
+    "bbox_used": {
+      "south": 40.9089072,
+      "west": 33.0361065,
+      "north": 41.0744568,
+      "east": 33.3343219
+    },
+    "bbox_original": {
+      "south": 40.9089072,
+      "west": 33.0361065,
+      "north": 41.0744568,
+      "east": 33.3343219
+    },
+    "fetchedAt": "2026-01-21T08:47:41.351Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 1
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:46:14Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 13042834454,
+        "lat": 40.9483421,
+        "lon": 33.2350362,
+        "tags": {
+          "amenity": "bar",
+          "name": "Dalkoz Köy Lokali"
+        }
+      }
+    ]
+  }
+}

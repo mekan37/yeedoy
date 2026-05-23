@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "sehir_id": "80",
+    "sehir_adi": "OSMANİYE",
+    "ilce_id": "1165",
+    "ilce_adi": "BAHÇE",
+    "bbox_used": {
+      "south": 37.1820924,
+      "west": 36.5538938,
+      "north": 37.1920924,
+      "east": 36.5638938
+    },
+    "bbox_original": {
+      "south": 37.1820924,
+      "west": 36.5538938,
+      "north": 37.1920924,
+      "east": 36.5638938
+    },
+    "fetchedAt": "2026-01-21T11:08:17.051Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 0
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T11:07:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": []
+  }
+}

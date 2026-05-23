@@ -1,0 +1,376 @@
+{
+  "meta": {
+    "sehir_id": "76",
+    "sehir_adi": "IĞDIR",
+    "ilce_id": "1142",
+    "ilce_adi": "ARALIK",
+    "bbox_used": {
+      "south": 39.627336,
+      "west": 44.284426,
+      "north": 39.9918571,
+      "east": 44.8176638
+    },
+    "bbox_original": {
+      "south": 39.627336,
+      "west": 44.284426,
+      "north": 39.9918571,
+      "east": 44.8176638
+    },
+    "fetchedAt": "2026-01-21T11:02:34.734Z",
+    "endpoint": "https://overpass.kumi.systems/api/interpreter",
+    "elementsCount": 28
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.61.8 b1080abd",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-15T18:15:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1626574289,
+        "lat": 39.9136846,
+        "lon": 44.7240748,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626574291,
+        "lat": 39.9135818,
+        "lon": 44.7244074,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626574295,
+        "lat": 39.9133184,
+        "lon": 44.7249331,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626574296,
+        "lat": 39.9148655,
+        "lon": 44.7218245,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626574305,
+        "lat": 39.9136949,
+        "lon": 44.723525,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626574604,
+        "lat": 39.9142377,
+        "lon": 44.7252169,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626574606,
+        "lat": 39.9138719,
+        "lon": 44.7239874,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626574609,
+        "lat": 39.9136168,
+        "lon": 44.7237943,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 1626577233,
+        "lat": 39.914127,
+        "lon": 44.7237835,
+        "tags": {
+          "amenity": "cafe",
+          "name": "բիլիարդ-սրճարան"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2279218437,
+        "lat": 39.9671013,
+        "lon": 44.5090889,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2858918779,
+        "lat": 39.7610774,
+        "lon": 44.8072959,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "armenian"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4296881591,
+        "lat": 39.956913,
+        "lon": 44.5482101,
+        "tags": {
+          "addr:city": "Արտաշատ",
+          "addr:country": "AM",
+          "addr:housenumber": "19",
+          "addr:street": "Մարքսի փողոց",
+          "amenity": "restaurant",
+          "name": "Նոր Արտաշատ",
+          "name:en": "\"Nor Artashat\"",
+          "name:ru": "\"Нор Арташат\"",
+          "phone": "+374 93 10 08 88"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4297879805,
+        "lat": 39.9618323,
+        "lon": 44.5310277,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Մոլորակ",
+          "name:en": "\"Molorak\"",
+          "name:ru": "\"Молорак\""
+        }
+      },
+      {
+        "type": "node",
+        "id": 4325328932,
+        "lat": 39.8519664,
+        "lon": 44.6954677,
+        "tags": {
+          "addr:street": "Չարենցի փողոց",
+          "amenity": "cafe",
+          "name": "Սուրճի Թեյի տնակ",
+          "phone": "+37494831323"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4416480764,
+        "lat": 39.9203307,
+        "lon": 44.7526687,
+        "tags": {
+          "addr:housenumber": "20",
+          "addr:street": "ankaxutyan",
+          "amenity": "restaurant",
+          "name": "Oazis",
+          "opening_hours": "09:00-02:00",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5056437822,
+        "lat": 39.856936,
+        "lon": 44.693596,
+        "tags": {
+          "addr:city": "Արարատ",
+          "addr:country": "AM",
+          "addr:housenumber": "63",
+          "addr:postcode": "0602",
+          "addr:street": "Շահումյան Փողոց",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Սուրճի Թեյի Տնակ",
+          "phone": "+37494831323"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5679451321,
+        "lat": 39.8954396,
+        "lon": 44.5968927,
+        "tags": {
+          "amenity": "restaurant",
+          "internet_access": "wlan",
+          "name": "Նռանե հացատուն",
+          "name:en": "Nrane cafeteria",
+          "opening_hours": "Mo-Su 09:00-00:00",
+          "phone": "+37441515051"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10007027218,
+        "lat": 39.9520146,
+        "lon": 44.5393228,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "\"Արմենիա\"",
+          "name:en": "\"Armenia\"",
+          "name:hy": "\"Արմենիա\"",
+          "name:ru": "\"Армения\""
+        }
+      },
+      {
+        "type": "node",
+        "id": 10747750596,
+        "lat": 39.879232,
+        "lon": 44.5776942,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11539353279,
+        "lat": 39.9139528,
+        "lon": 44.723416,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Food Court"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11665073150,
+        "lat": 39.9133942,
+        "lon": 44.7223464,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12578276150,
+        "lat": 39.7956042,
+        "lon": 44.7716589,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2023-02-18",
+          "cuisine": "coffee_shop"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13280016372,
+        "lat": 39.9553792,
+        "lon": 44.547472,
+        "tags": {
+          "addr:city": "Արտաշատ",
+          "addr:housenumber": "107",
+          "addr:street": "Օգոստոսի 23 փողոց",
+          "amenity": "restaurant",
+          "brand": "Տաշիր պիցցա",
+          "brand:en": "Tashir Pizza",
+          "brand:hy": "Տաշիր պիցցա",
+          "brand:ru": "Ташир Пицца",
+          "brand:wikidata": "Q118347431",
+          "cuisine": "pizza",
+          "name": "Տաշիր պիցցա",
+          "name:en": "Tashir Pizza",
+          "name:hy": "Տաշիր պիցցա",
+          "name:ru": "Ташир Пицца",
+          "opening_hours": "Mo-Su 10:00-23:00"
+        }
+      },
+      {
+        "type": "way",
+        "id": 242930598,
+        "center": {
+          "lat": 39.9570451,
+          "lon": 44.548459
+        },
+        "tags": {
+          "addr:city": "Արտաշատ",
+          "addr:country": "AM",
+          "addr:housenumber": "19",
+          "addr:street": "Մարքսի փողոց",
+          "amenity": "restaurant",
+          "attribution": "Տիգրան Սարգսյան +37455600990",
+          "building": "yes",
+          "name": "Հեքիաթ Մոլորակ",
+          "name:en": "\"Heqiat Molorak\"",
+          "name:hy": "Հեքիաթ Մոլորակ",
+          "name:ru": "\"Экиат Молорак\""
+        }
+      },
+      {
+        "type": "way",
+        "id": 255840866,
+        "center": {
+          "lat": 39.9568242,
+          "lon": 44.5333486
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "building:levels": "2",
+          "check_date": "2023-05-09",
+          "name": "Արարատ",
+          "name:en": "Ararat",
+          "name:hy": "Արարատ",
+          "name:ru": "Арарат"
+        }
+      },
+      {
+        "type": "way",
+        "id": 667465347,
+        "center": {
+          "lat": 39.9630913,
+          "lon": 44.530738
+        },
+        "tags": {
+          "addr:city": "Արտաշատ",
+          "addr:housenumber": "2",
+          "addr:street": "Խանջյան փողոց",
+          "amenity": "restaurant",
+          "name": "Մոլորակ"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1076367067,
+        "center": {
+          "lat": 39.8797691,
+          "lon": 44.5782423
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1287293756,
+        "center": {
+          "lat": 39.990133,
+          "lon": 44.5790888
+        },
+        "tags": {
+          "addr:city": "Վերին Արտաշատ",
+          "addr:street": "Երևանյան փողոց",
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "«ՈՍԿԵ ԾԻՐԱՆ» ՌԵՍՏՈՐԱՆԱՅԻՆ ՀԱՄԱԼԻՐ"
+        }
+      }
+    ]
+  }
+}

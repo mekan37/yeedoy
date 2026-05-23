@@ -1,0 +1,1217 @@
+{
+  "meta": {
+    "sehir_id": "55",
+    "sehir_adi": "SAMSUN",
+    "ilce_id": "2072",
+    "ilce_adi": "ATAKUM",
+    "bbox_used": {
+      "south": 41.2256964,
+      "west": 35.9197485,
+      "north": 41.4452125,
+      "east": 36.3204293
+    },
+    "bbox_original": {
+      "south": 41.2256964,
+      "west": 35.9197485,
+      "north": 41.4452125,
+      "east": 36.3204293
+    },
+    "fetchedAt": "2026-01-21T10:22:09.144Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 108
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:21:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 2549023242,
+        "lat": 41.2901344,
+        "lon": 36.3175322,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Salon Demircan",
+          "note": "view"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3168868846,
+        "lat": 41.394842,
+        "lon": 36.2017589,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mert Büfe",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3183273062,
+        "lat": 41.2720129,
+        "lon": 36.2969468,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3848588538,
+        "lat": 41.3967343,
+        "lon": 36.1934702,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3883806584,
+        "lat": 41.4201919,
+        "lon": 36.1764052,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3883834343,
+        "lat": 41.4324216,
+        "lon": 36.1642275,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Köpük",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 3883845004,
+        "lat": 41.4400865,
+        "lon": 36.1544728,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4111381090,
+        "lat": 41.3145748,
+        "lon": 36.2506905,
+        "tags": {
+          "addr:housenumber": "Baklalık mevki",
+          "addr:street": "Çobanözü mah .",
+          "amenity": "restaurant",
+          "email": "info@samsunadventurepark.com",
+          "internet_access": "wlan",
+          "name": "Adventure Park",
+          "opening_hours": "Mo-Su 10:00-01:00",
+          "phone": "+905327401643",
+          "website": "http://www.samsunadventurepark.com"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4157036252,
+        "lat": 41.3815648,
+        "lon": 36.2110661,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Başbaşa Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4159607157,
+        "lat": 41.3535267,
+        "lon": 35.9607996,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4230757945,
+        "lat": 41.3525536,
+        "lon": 36.242682,
+        "tags": {
+          "addr:street": "Ali Gaffer Okan Caddesi",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "name": "Nefes",
+          "opening_hours": "Mo-Su 10:00-01:00"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4598203593,
+        "lat": 41.335593,
+        "lon": 36.272311,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çalıkuşu",
+          "name:tr": "Çalıkuşu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4603809091,
+        "lat": 41.333885,
+        "lon": 36.2800502,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Sümit park",
+          "name:tr": "Sümit park",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4605724090,
+        "lat": 41.3308757,
+        "lon": 36.2780615,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Aşiyan künefe",
+          "name:tr": "Aşyan künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4830934384,
+        "lat": 41.34537,
+        "lon": 36.2492959,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çalıkuşu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4844410142,
+        "lat": 41.3325781,
+        "lon": 36.2710113,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bursa iskender"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4856014249,
+        "lat": 41.3344842,
+        "lon": 36.2720552,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Hatır kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4900386568,
+        "lat": 41.3449981,
+        "lon": 36.2478489,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lavaş Center"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4919131680,
+        "lat": 41.3370466,
+        "lon": 36.2666514,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Banda Aceh Parkı Büfesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4959937685,
+        "lat": 41.3271746,
+        "lon": 36.3001945,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Chicksos"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4964589193,
+        "lat": 41.3345869,
+        "lon": 36.2567358,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tutkun kardeşler",
+          "name:en": "Tutkun Kardeşler",
+          "name:tr": "Tutkun Kardeşler"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5003639121,
+        "lat": 41.3404209,
+        "lon": 36.2615992,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Damak tası dürüm evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5007904889,
+        "lat": 41.3426153,
+        "lon": 36.2595999,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Diyarbakır Ocakbaşı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5016848553,
+        "lat": 41.340358,
+        "lon": 36.2649638,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "balıbaba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5034570552,
+        "lat": 41.3342003,
+        "lon": 36.271845,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lavaş Center",
+          "phone": "05536735100"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5107985846,
+        "lat": 41.3389634,
+        "lon": 36.2641213,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Bakkucafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5156821371,
+        "lat": 41.3119511,
+        "lon": 36.3142708,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Duruşehir Pide"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5273207058,
+        "lat": 41.3392714,
+        "lon": 36.258359,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Bafra pidecisi",
+          "phone": "05355022849"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5289334133,
+        "lat": 41.3415489,
+        "lon": 36.262653,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "brand:wikipedia": "en:Starbucks",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes",
+          "website": "https://www.starbucks.co.uk/store-locator/19398-201886/atakum-adnan-menderes-blv"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5372547970,
+        "lat": 41.3340737,
+        "lon": 36.2717154,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öncü "
+        }
+      },
+      {
+        "type": "node",
+        "id": 5469686447,
+        "lat": 41.307169,
+        "lon": 36.3119115,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5470739847,
+        "lat": 41.3447668,
+        "lon": 36.2407749,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Diyarbakır kebabçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5470762583,
+        "lat": 41.3474719,
+        "lon": 36.2382019,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tavuk market"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5514380027,
+        "lat": 41.3422334,
+        "lon": 36.2426464,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cihangir"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6013802985,
+        "lat": 41.3286245,
+        "lon": 36.2989738,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Liverpool"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6159316202,
+        "lat": 41.3860468,
+        "lon": 36.2120417,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Incesu Kafe",
+          "opening_hours": "only open in summer",
+          "outdoor_seating": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6163479085,
+        "lat": 41.3370363,
+        "lon": 36.2737474,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "kafe restorani sanapiroze"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6163482186,
+        "lat": 41.3371319,
+        "lon": 36.2736859,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "sasa tasocak  exclusive"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6271847645,
+        "lat": 41.3690713,
+        "lon": 36.2296226,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kervansaray Kahvecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6286565928,
+        "lat": 41.3713429,
+        "lon": 36.2294678,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6331204068,
+        "lat": 41.4247477,
+        "lon": 36.1720694,
+        "tags": {
+          "amenity": "cafe",
+          "name": "BO&T Cafe",
+          "opening_hours": "summer only"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6331205828,
+        "lat": 41.4235028,
+        "lon": 36.1731101,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Melafi Cafe and Restaurant",
+          "opening_hours": "summer only"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6331246437,
+        "lat": 41.4198503,
+        "lon": 36.176597,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gül Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6331255088,
+        "lat": 41.4137034,
+        "lon": 36.18253,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Fatih Abi Büfe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6331286330,
+        "lat": 41.4110272,
+        "lon": 36.1855121,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çakırlar Yalı Kafe",
+          "opening_hours": "summer",
+          "toilets": "outside"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6331298713,
+        "lat": 41.4015679,
+        "lon": 36.1949106,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çakılar Kafe",
+          "opening_hours": "summer"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6438917186,
+        "lat": 41.3472463,
+        "lon": 36.2513662,
+        "tags": {
+          "amenity": "cafe",
+          "name:en": "kafe restoran ORGIN"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6533326441,
+        "lat": 41.4162054,
+        "lon": 36.171115,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Necati Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6650973985,
+        "lat": 41.3399455,
+        "lon": 36.2664239,
+        "tags": {
+          "addr:street": "Adnan Menderes Bulvarı 1. Kısım",
+          "amenity": "cafe",
+          "cuisine": "turkish",
+          "internet_access": "wlan",
+          "name": "Yemen Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6913642785,
+        "lat": 41.334125,
+        "lon": 36.2822955,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "MARIN"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7120522685,
+        "lat": 41.3287,
+        "lon": 36.2985537,
+        "tags": {
+          "amenity": "restaurant",
+          "name:en": "Jet LAG kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7253654015,
+        "lat": 41.333506,
+        "lon": 36.2716195,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe VM"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7772647788,
+        "lat": 41.3364396,
+        "lon": 36.2699524,
+        "tags": {
+          "amenity": "bar",
+          "name:en": "اراكيل"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7772647886,
+        "lat": 41.3418266,
+        "lon": 36.2612564,
+        "tags": {
+          "amenity": "bar",
+          "name:ar": "كوفي شوب"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8605541974,
+        "lat": 41.3441367,
+        "lon": 36.2469354,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Burger Center"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8605541975,
+        "lat": 41.3444891,
+        "lon": 36.2468791,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ahmet Uslu Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8605541978,
+        "lat": 41.3443753,
+        "lon": 36.2472814,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adem Usta Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8605541985,
+        "lat": 41.3448646,
+        "lon": 36.2476824,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adıyörem Çiğ Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8605541987,
+        "lat": 41.3447307,
+        "lon": 36.2479413,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Öztat Döner"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8605541990,
+        "lat": 41.3448073,
+        "lon": 36.2480915,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "delivery": "yes",
+          "name": "Atakent Dönercisi",
+          "outdoor_seating": "yes",
+          "reservation": "no",
+          "smoking": "outside",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8730696770,
+        "lat": 41.3462963,
+        "lon": 36.2617077,
+        "tags": {
+          "amenity": "cafe",
+          "name": "İskele Kafe",
+          "operator": "Samsun Büyükşehir Belediyesi",
+          "outdoor_seating": "yes",
+          "smoking": "yes",
+          "takeaway": "yes",
+          "wheelchair": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9155372617,
+        "lat": 41.3586542,
+        "lon": 36.2367294,
+        "tags": {
+          "addr:street": "Adnan Menderes Bulvarı 3. Kısım",
+          "amenity": "restaurant",
+          "name": "Jampo künefe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9256215716,
+        "lat": 41.3265265,
+        "lon": 36.1053792,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9256264820,
+        "lat": 41.3116017,
+        "lon": 36.3058425,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9350895417,
+        "lat": 41.3432978,
+        "lon": 36.2450825,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "wlan",
+          "name": "Osmanlı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9404104817,
+        "lat": 41.3626309,
+        "lon": 36.2325196,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Peçko"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9418171817,
+        "lat": 41.3630529,
+        "lon": 36.2312161,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çorbacı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9460355517,
+        "lat": 41.3533751,
+        "lon": 36.2410861,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Saray Köfte Balık Atakum"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9542776017,
+        "lat": 41.346863,
+        "lon": 36.2519047,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ciğerci Baba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9796804417,
+        "lat": 41.3362844,
+        "lon": 36.2757686,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Coffe home"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9828896017,
+        "lat": 41.4018933,
+        "lon": 36.1941802,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yakamoz Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9861449096,
+        "lat": 41.3397789,
+        "lon": 36.2600407,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Down Kafe",
+          "operator": "Atakum Belediyesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9861449357,
+        "lat": 41.3432597,
+        "lon": 36.2598462,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Deniz Kızı Kafe",
+          "operator": "Samsun Büyükşehir Belediyesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9881522179,
+        "lat": 41.3414121,
+        "lon": 36.2636241,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Palmiye Kafe",
+          "operator": "Samsun Büyükşehir Belediyesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10036397527,
+        "lat": 41.290003,
+        "lon": 36.2891786,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeşilkent Düğün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10036519544,
+        "lat": 41.29312,
+        "lon": 36.2474593,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kuzu Evi Et Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10036519545,
+        "lat": 41.2919291,
+        "lon": 36.2474037,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Evi Et Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10086954695,
+        "lat": 41.310304,
+        "lon": 36.3147953,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kalkanca Ateşi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10086954698,
+        "lat": 41.3111576,
+        "lon": 36.3146108,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "fish",
+          "diet:fish": "yes",
+          "diet:seafood": "yes",
+          "name": "Öz Dereköy Balıkçılık"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10087100853,
+        "lat": 41.3103578,
+        "lon": 36.3147539,
+        "tags": {
+          "addr:city": "Samsun",
+          "addr:district": "İlkadım",
+          "addr:housenumber": "11/A",
+          "addr:neighbourhood": "Karasamsun Mahallesi",
+          "addr:street": "1774 Sk.",
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "diet:halal": "yes",
+          "diet:meat": "yes",
+          "diet:non-vegetarian": "yes",
+          "mobile": "+905374157036",
+          "name": "Cenikli Tavukçuluk",
+          "phone": "+90 362 503 8555"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10087100908,
+        "lat": 41.3107413,
+        "lon": 36.3148805,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Adıyörem Plus"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100837099,
+        "lat": 41.2914008,
+        "lon": 36.2248503,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Ruşenin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100853809,
+        "lat": 41.2830662,
+        "lon": 36.1914497,
+        "tags": {
+          "amenity": "bar",
+          "name": "Kalyon 3 Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100853816,
+        "lat": 41.2827504,
+        "lon": 36.1909258,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şelale"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100853851,
+        "lat": 41.2771408,
+        "lon": 36.1850168,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Et Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100853860,
+        "lat": 41.2755338,
+        "lon": 36.183131,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kalelinin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100853964,
+        "lat": 41.2425936,
+        "lon": 36.1706116,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çadır"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10100854039,
+        "lat": 41.232029,
+        "lon": 36.1526415,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Özkara Et Mangal"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10561701558,
+        "lat": 41.3242935,
+        "lon": 36.3199718,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sirin Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10606643206,
+        "lat": 41.322328,
+        "lon": 36.2942388,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pide Hanem"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10607597605,
+        "lat": 41.3243149,
+        "lon": 36.2949845,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Komagene"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10705219030,
+        "lat": 41.3078855,
+        "lon": 36.2776623,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "steak_house",
+          "name": "Toros Gurme Steakhouse"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11332806107,
+        "lat": 41.3554555,
+        "lon": 36.2386672,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Özsüt"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11393931173,
+        "lat": 41.3292481,
+        "lon": 36.281413,
+        "tags": {
+          "addr:city": "Samsun",
+          "addr:district": "Atakum",
+          "addr:housenumber": "121/A",
+          "addr:neighbourhood": "Mimarsinan Mah.",
+          "addr:street": "Mustafa Kemal Bulvarı",
+          "amenity": "restaurant",
+          "cuisine": "fish;turkish;regional;seafood;fish_and_chips",
+          "name": "Atakum Balık Restorant & Manav",
+          "phone": "+90 530 410 5593",
+          "residential": "landed"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11394042061,
+        "lat": 41.3299139,
+        "lon": 36.2816796,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Usluoğlu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11805129969,
+        "lat": 41.3516074,
+        "lon": 36.2439342,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yeni nesil millet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13142231867,
+        "lat": 41.3098802,
+        "lon": 36.3139157,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab;turkish",
+          "diet:halal": "yes",
+          "name": "Karatay Izgara Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13146687948,
+        "lat": 41.3117516,
+        "lon": 36.3150518,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "breakfast",
+          "name": "Samsu Börek",
+          "opening_hours": "Mo-Su 06:00-23:00",
+          "phone": "+90 444 2 884",
+          "website": "https://samsuborek.com.tr/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13146687949,
+        "lat": 41.3108926,
+        "lon": 36.3147617,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Sar Tantuni"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13146917564,
+        "lat": 41.3344777,
+        "lon": 36.2711214,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish;regional",
+          "name": "Pideelli5"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13147939147,
+        "lat": 41.3105501,
+        "lon": 36.3146278,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Cheff Sedat"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13284826850,
+        "lat": 41.3362008,
+        "lon": 36.2697316,
+        "tags": {
+          "addr:city": "Samsun",
+          "addr:district": "Atakum",
+          "addr:housenumber": "12/B",
+          "addr:neighbourhood": "Cumhuriyet Mahallesi",
+          "addr:postcode": "55200",
+          "addr:street": "26. Sokak",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop;tea",
+          "name": "Gün Evi",
+          "opening_hours": "Mo-Sa 10:00-19:00",
+          "outdoor_seating": "yes",
+          "phone": "+905334160423",
+          "website": "https://www.instagram.com/gunevi.atolye/"
+        }
+      },
+      {
+        "type": "way",
+        "id": 181491950,
+        "center": {
+          "lat": 41.3717312,
+          "lon": 36.2256797
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "bus": "yes",
+          "name": "153 Restoran",
+          "public_transport": "station"
+        }
+      },
+      {
+        "type": "way",
+        "id": 331984559,
+        "center": {
+          "lat": 41.3609661,
+          "lon": 36.2344225
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "Renne Bahçe Cafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 333773085,
+        "center": {
+          "lat": 41.3234276,
+          "lon": 36.3165885
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "İlkadım Spor Tesisleri Kafeterya"
+        }
+      },
+      {
+        "type": "way",
+        "id": 668484316,
+        "center": {
+          "lat": 41.3655265,
+          "lon": 36.2305012
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Cafe Mares"
+        }
+      },
+      {
+        "type": "way",
+        "id": 942621050,
+        "center": {
+          "lat": 41.3552349,
+          "lon": 36.2390709
+        },
+        "tags": {
+          "amenity": "bar"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1125341815,
+        "center": {
+          "lat": 41.3363654,
+          "lon": 36.2754144
+        },
+        "tags": {
+          "amenity": "cafe",
+          "name": "Münir'in Yeri Balık Lokantası"
+        }
+      }
+    ]
+  }
+}

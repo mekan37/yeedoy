@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "sehir_id": "32",
+    "sehir_adi": "ISPARTA",
+    "ilce_id": "1717",
+    "ilce_adi": "YALVAÇ",
+    "bbox_used": {
+      "south": 38.17785161486486,
+      "north": 38.44812188513514,
+      "west": 30.897755273847988,
+      "east": 31.24121822615201
+    },
+    "bbox_original": {
+      "south": 38.1206755,
+      "west": 30.7341034,
+      "north": 38.505298,
+      "east": 31.4048701
+    },
+    "fetchedAt": "2026-01-21T09:14:26.658Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 6
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:12:45Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 1733890638,
+        "lat": 38.3035533,
+        "lon": 31.1856505,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Selim Pide ve Kebap",
+          "source": "GPS"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2420161675,
+        "lat": 38.2969606,
+        "lon": 31.1787403,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2422242743,
+        "lat": 38.2986493,
+        "lon": 31.1776374,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2422242754,
+        "lat": 38.3021644,
+        "lon": 31.193606,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 2423436501,
+        "lat": 38.2700291,
+        "lon": 31.0850768,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8659749317,
+        "lat": 38.29259,
+        "lon": 31.0546618,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      }
+    ]
+  }
+}

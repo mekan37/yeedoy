@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "sehir_id": "10",
+    "sehir_adi": "BALIKESİR",
+    "ilce_id": "1191",
+    "ilce_adi": "BİGADİÇ",
+    "bbox_used": {
+      "south": 39.3225658,
+      "west": 27.9547583,
+      "north": 39.5716221,
+      "east": 28.6442283
+    },
+    "bbox_original": {
+      "south": 39.3225658,
+      "west": 27.9547583,
+      "north": 39.5716221,
+      "east": 28.6442283
+    },
+    "fetchedAt": "2026-01-21T08:32:48.891Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 5
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T08:32:00Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 5377245470,
+        "lat": 39.5365399,
+        "lon": 28.0079758,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5379892004,
+        "lat": 39.5369994,
+        "lon": 28.0122588,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11029726832,
+        "lat": 39.3778561,
+        "lon": 27.9567687,
+        "tags": {
+          "amenity": "restaurant",
+          "brand": "Köfteci Yusuf",
+          "brand:wikidata": "Q126125081",
+          "cuisine": "turkish",
+          "name": "Köfteci Yusuf"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985125809,
+        "lat": 39.5381415,
+        "lon": 28.0105571,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Bigadiç",
+          "addr:housenumber": "2/2",
+          "addr:neighbourhood": "Çağış Mahallesi",
+          "addr:postcode": "10440",
+          "addr:street": "20 Sokak",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "no",
+          "name": "On On Kafe",
+          "opening_hours": "09:00-23:00",
+          "website": "https://www.ononkafe.com/"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12985134459,
+        "lat": 39.3891262,
+        "lon": 28.1311804,
+        "tags": {
+          "addr:city": "Balıkesir",
+          "addr:district": "Bigadiç",
+          "addr:housenumber": "No:4",
+          "addr:neighbourhood": "Fetihbey Mahallesi",
+          "addr:postcode": "10440",
+          "addr:street": "Atatürk Caddesi Adalet Sokak",
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "internet_access": "no",
+          "name": "On On Kafe",
+          "opening_hours": "10:00-01:00",
+          "website": "https://www.ononkafe.com/"
+        }
+      }
+    ]
+  }
+}

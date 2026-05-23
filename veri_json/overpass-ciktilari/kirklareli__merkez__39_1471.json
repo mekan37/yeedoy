@@ -1,0 +1,491 @@
+{
+  "meta": {
+    "sehir_id": "39",
+    "sehir_adi": "KIRKLARELİ",
+    "ilce_id": "1471",
+    "ilce_adi": "MERKEZ",
+    "bbox_used": {
+      "south": 41.67301751486486,
+      "north": 41.943287785135134,
+      "west": 27.06060291509872,
+      "east": 27.42215398490128
+    },
+    "bbox_original": {
+      "south": 41.5445613,
+      "west": 26.8999708,
+      "north": 42.071744,
+      "east": 27.5827861
+    },
+    "fetchedAt": "2026-01-21T09:38:58.503Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 41
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T09:37:19Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 3870459732,
+        "lat": 41.6872681,
+        "lon": 27.36453,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4553964463,
+        "lat": 41.7313456,
+        "lon": 27.2142714,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Dostluk Evi",
+          "wheelchair": "limited"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4554626294,
+        "lat": 41.7314704,
+        "lon": 27.2150003,
+        "tags": {
+          "amenity": "cafe",
+          "name": "The Trafik Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4554626297,
+        "lat": 41.733269,
+        "lon": 27.218851,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Scala Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4554626298,
+        "lat": 41.7333403,
+        "lon": 27.2184369,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Vilayet"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585066599,
+        "lat": 41.7363999,
+        "lon": 27.2205363,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "thai",
+          "name": "Mostar Boşnak Börekçisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585069861,
+        "lat": 41.7392305,
+        "lon": 27.2222194,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Atıştırmalıklar"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5585069872,
+        "lat": 41.7395847,
+        "lon": 27.2225513,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yayla Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5999983506,
+        "lat": 41.7368007,
+        "lon": 27.4010041,
+        "tags": {
+          "amenity": "restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6955860422,
+        "lat": 41.7393092,
+        "lon": 27.1994475,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ceyness Et Ve Balık Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8997560666,
+        "lat": 41.7369498,
+        "lon": 27.2194889,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Agam 3 Börek Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8997560716,
+        "lat": 41.7344554,
+        "lon": 27.2195694,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Atatürk Parkı Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8997560771,
+        "lat": 41.735867,
+        "lon": 27.2247608,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İkizler Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10023855824,
+        "lat": 41.7375702,
+        "lon": 27.2231093,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Papazın Evi Bistro&Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10023855825,
+        "lat": 41.7382781,
+        "lon": 27.2227589,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Gusto Celepoğlu Konağı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10023855827,
+        "lat": 41.7369368,
+        "lon": 27.2218199,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafer Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10162065286,
+        "lat": 41.7537164,
+        "lon": 27.2275066,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahvehane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11049223105,
+        "lat": 41.7335901,
+        "lon": 27.2251663,
+        "tags": {
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11335215220,
+        "lat": 41.7309878,
+        "lon": 27.2233066,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Karadeniz Pide Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11335215227,
+        "lat": 41.7347144,
+        "lon": 27.2230894,
+        "tags": {
+          "amenity": "cafe",
+          "cuisine": "coffee_shop",
+          "name": "Nordwind Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11335215231,
+        "lat": 41.7364069,
+        "lon": 27.220461,
+        "tags": {
+          "amenity": "restaurant",
+          "diet:halal": "yes",
+          "diet:meat": "yes",
+          "name": "Atakan Köftecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11335288697,
+        "lat": 41.7358428,
+        "lon": 27.2242019,
+        "tags": {
+          "amenity": "restaurant",
+          "diet:halal": "yes",
+          "diet:meat": "yes",
+          "name": "Ayan Kardeşler Köftecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11335288698,
+        "lat": 41.7350369,
+        "lon": 27.2237743,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "diet:halal": "yes",
+          "name": "Kanar Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11335288718,
+        "lat": 41.7335867,
+        "lon": 27.2201897,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Green Chef"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11335288723,
+        "lat": 41.7348015,
+        "lon": 27.2240582,
+        "tags": {
+          "amenity": "pub",
+          "brewery": "yes",
+          "name": "Mori",
+          "smoking": "isolated"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11337051851,
+        "lat": 41.7335322,
+        "lon": 27.2228242,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Zafer Köftecisi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11337114578,
+        "lat": 41.7228258,
+        "lon": 27.2166381,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Starbucks",
+          "brand:wikidata": "Q37158",
+          "cuisine": "coffee_shop",
+          "name": "Starbucks",
+          "official_name": "Starbucks Coffee",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11337114580,
+        "lat": 41.7230284,
+        "lon": 27.2165198,
+        "tags": {
+          "amenity": "cafe",
+          "brand": "Gloria Jean's",
+          "brand:wikidata": "Q2666365",
+          "cuisine": "coffee_shop",
+          "name": "Gloria Jean's",
+          "official_name": "Gloria Jean's Coffees",
+          "takeaway": "yes"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11601267976,
+        "lat": 41.7350261,
+        "lon": 27.223898,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "mercan balik"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13081401302,
+        "lat": 41.7440254,
+        "lon": 27.223916,
+        "tags": {
+          "addr:street": "Kırklareli Eğitim ve Araştırma Hastanesi",
+          "amenity": "cafe",
+          "name": "Kantin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13373574566,
+        "lat": 41.7281849,
+        "lon": 27.2187627,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Kırklareli Değirmen Çorba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13373619710,
+        "lat": 41.7306632,
+        "lon": 27.2174704,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "288 Restoran & Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13460452801,
+        "lat": 41.676718,
+        "lon": 27.0703996,
+        "tags": {
+          "addr:street": "Eski Edirne Kırklareli Yolu",
+          "amenity": "cafe",
+          "name": "Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 319641236,
+        "center": {
+          "lat": 41.6945063,
+          "lon": 27.3117684
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes"
+        }
+      },
+      {
+        "type": "way",
+        "id": 972255423,
+        "center": {
+          "lat": 41.7347776,
+          "lon": 27.2198062
+        },
+        "tags": {
+          "amenity": "bar",
+          "building": "yes",
+          "name": "Kırklareli Hareket Lokali"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1262899027,
+        "center": {
+          "lat": 41.7319905,
+          "lon": 27.2170006
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "La Luna"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1262899034,
+        "center": {
+          "lat": 41.7282757,
+          "lon": 27.2162918
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Paşa Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1262899050,
+        "center": {
+          "lat": 41.7349434,
+          "lon": 27.2182276
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes",
+          "name": "Bolton & Watt Kafe"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1262899051,
+        "center": {
+          "lat": 41.7346764,
+          "lon": 27.2177845
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "cuisine": "turkish",
+          "name": "Halil İbrahim Sofrası"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1428258344,
+        "center": {
+          "lat": 41.7359638,
+          "lon": 27.2248748
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "building": "yes",
+          "name": "Durak Lokantası",
+          "wikidata": "Q134701036",
+          "wikimedia_commons": "Category:Dükkan - Karakaş, Tırnova Caddesi, 2"
+        }
+      },
+      {
+        "type": "way",
+        "id": 1457135727,
+        "center": {
+          "lat": 41.7556203,
+          "lon": 27.2243601
+        },
+        "tags": {
+          "amenity": "cafe",
+          "building": "yes"
+        }
+      }
+    ]
+  }
+}

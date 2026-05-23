@@ -1,0 +1,1449 @@
+{
+  "meta": {
+    "sehir_id": "59",
+    "sehir_adi": "TEKİRDAĞ",
+    "ilce_id": "1538",
+    "ilce_adi": "MURATLI",
+    "bbox_used": {
+      "south": 41.0619165,
+      "west": 27.2728944,
+      "north": 41.2620819,
+      "east": 27.6608077
+    },
+    "bbox_original": {
+      "south": 41.0619165,
+      "west": 27.2728944,
+      "north": 41.2620819,
+      "east": 27.6608077
+    },
+    "fetchedAt": "2026-01-21T10:29:35.460Z",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "elementsCount": 134
+  },
+  "overpass": {
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+      "timestamp_osm_base": "2026-01-21T10:28:15Z",
+      "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+      {
+        "type": "node",
+        "id": 4334598926,
+        "lat": 41.169659,
+        "lon": 27.4984399,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Özen Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4334599251,
+        "lat": 41.1717138,
+        "lon": 27.4952537,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Karabakı Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4334599267,
+        "lat": 41.172284,
+        "lon": 27.4963675,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mis Köfte Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4334599410,
+        "lat": 41.1722185,
+        "lon": 27.4957878,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Mix Simit Sarayı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4334599458,
+        "lat": 41.1682553,
+        "lon": 27.4976115,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Akçalar Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4351561420,
+        "lat": 41.1715825,
+        "lon": 27.4967585,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Gazioğlu Yemek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4359527644,
+        "lat": 41.1774004,
+        "lon": 27.5026479,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yılmaz Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4359527692,
+        "lat": 41.175886,
+        "lon": 27.5014049,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262502,
+        "lat": 41.1756248,
+        "lon": 27.5011269,
+        "tags": {
+          "amenity": "pub",
+          "name": "Yargı 1 Bira Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262503,
+        "lat": 41.1755226,
+        "lon": 27.5010581,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Sendegel Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262515,
+        "lat": 41.1756744,
+        "lon": 27.5009165,
+        "tags": {
+          "amenity": "bar",
+          "name": "Yargı 2 Bira Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262522,
+        "lat": 41.1752037,
+        "lon": 27.500795,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kutlu Kahvehanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262529,
+        "lat": 41.1753532,
+        "lon": 27.5006488,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kaplan Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262537,
+        "lat": 41.174995,
+        "lon": 27.5005208,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Çay Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262563,
+        "lat": 41.1745732,
+        "lon": 27.4996978,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Semih Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262564,
+        "lat": 41.1745398,
+        "lon": 27.4996389,
+        "tags": {
+          "name": "En Baklava",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262574,
+        "lat": 41.1741586,
+        "lon": 27.4990543,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "name": "İskender Kebapçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262585,
+        "lat": 41.1739233,
+        "lon": 27.4985223,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çınar Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262588,
+        "lat": 41.173785,
+        "lon": 27.4982354,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Mert Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262894,
+        "lat": 41.1733674,
+        "lon": 27.4978428,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Naz Köfte Çorba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262909,
+        "lat": 41.1728263,
+        "lon": 27.4968273,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gakgo Emminin Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4362262921,
+        "lat": 41.1723644,
+        "lon": 27.4959014,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010278,
+        "lat": 41.1713236,
+        "lon": 27.4949268,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Işık Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010279,
+        "lat": 41.1712799,
+        "lon": 27.4948627,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "kebab",
+          "name": "Ali Baba Kebapçısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010291,
+        "lat": 41.1705758,
+        "lon": 27.4941741,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010292,
+        "lat": 41.1707411,
+        "lon": 27.4939544,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010293,
+        "lat": 41.1708089,
+        "lon": 27.4938668,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name": "Taylan Internet Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010294,
+        "lat": 41.170991,
+        "lon": 27.4936681,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010302,
+        "lat": 41.170073,
+        "lon": 27.4937052,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010380,
+        "lat": 41.1701293,
+        "lon": 27.4962373,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Waffle Coffer"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010394,
+        "lat": 41.170363,
+        "lon": 27.4964857,
+        "tags": {
+          "addr:street": "Donatım Sokak",
+          "amenity": "cafe",
+          "name": "Little House"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010396,
+        "lat": 41.1705479,
+        "lon": 27.4971461,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tanaş Yemek"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010403,
+        "lat": 41.1702773,
+        "lon": 27.4975234,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Geçko"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010415,
+        "lat": 41.1696125,
+        "lon": 27.4981413,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe Magazin"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010416,
+        "lat": 41.1695665,
+        "lon": 27.4980737,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Arkadaş Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010418,
+        "lat": 41.1697435,
+        "lon": 27.4983478,
+        "tags": {
+          "amenity": "cafe",
+          "internet_access": "yes",
+          "name": "Milenyum Playstation Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375010455,
+        "lat": 41.1693935,
+        "lon": 27.4989653,
+        "tags": {
+          "amenity": "bar",
+          "name": "Mavilim Bira Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898085,
+        "lat": 41.1693319,
+        "lon": 27.4997566,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Şar Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898490,
+        "lat": 41.1692119,
+        "lon": 27.4995855,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Meydan Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898491,
+        "lat": 41.1691965,
+        "lon": 27.4995561,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Muratlı Kara Avcıları Lokali"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898492,
+        "lat": 41.1691737,
+        "lon": 27.499516,
+        "tags": {
+          "amenity": "pub",
+          "name": "Atlantik Birahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898493,
+        "lat": 41.1691636,
+        "lon": 27.4994982,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898496,
+        "lat": 41.1694569,
+        "lon": 27.4995715,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Mavi Köşe Köfte Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898497,
+        "lat": 41.1693869,
+        "lon": 27.4995045,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "İstanbul Dürüm Evi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898499,
+        "lat": 41.1693319,
+        "lon": 27.4994252,
+        "tags": {
+          "name": "Kuruyemiş",
+          "shop": "confectionery"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898522,
+        "lat": 41.1685024,
+        "lon": 27.4980823,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Karabulut Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4375898523,
+        "lat": 41.1683241,
+        "lon": 27.498158,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "delivery": "yes",
+          "name": "Muratlı Simit Dünyası",
+          "phone": "+905531843552"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461049886,
+        "lat": 41.1719944,
+        "lon": 27.4966143,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Acıktım Pilavüstü Döner",
+          "phone": "+905413614030"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461049887,
+        "lat": 41.1695648,
+        "lon": 27.499487,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Akpınar Çorba ve Yemek Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050096,
+        "lat": 41.1707682,
+        "lon": 27.4979129,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Eşrefoğlu Dondurma & Pasta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050097,
+        "lat": 41.1708037,
+        "lon": 27.4978673,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Gizem Kebap Lahmacun Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050100,
+        "lat": 41.1720575,
+        "lon": 27.4965319,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Günerler Tekirdağ Köftecisi",
+          "phone": "+902823617781",
+          "phone_1": "+905367192996"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050103,
+        "lat": 41.1697495,
+        "lon": 27.4992543,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Güven Tekirdağ Köftecisi",
+          "phone": "+902823612659",
+          "phone_1": "+902823617406"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050112,
+        "lat": 41.1700463,
+        "lon": 27.498856,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Serbest Muhasebeci Ethem Gümüş;Burak Usta Sulu Yemek Izgara",
+          "office": "accountant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050121,
+        "lat": 41.1703734,
+        "lon": 27.4984335,
+        "tags": {
+          "amenity": "restaurant",
+          "cuisine": "turkish",
+          "name": "Ziyafet Çiğköfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050142,
+        "lat": 41.1694972,
+        "lon": 27.5049323,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-07-16",
+          "internet_access": "no",
+          "name": "Muhtarın Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050188,
+        "lat": 41.1705273,
+        "lon": 27.5067111,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050190,
+        "lat": 41.1705662,
+        "lon": 27.5067634,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050193,
+        "lat": 41.170597,
+        "lon": 27.5065529,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050197,
+        "lat": 41.1706384,
+        "lon": 27.5068452,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4461050199,
+        "lat": 41.1706989,
+        "lon": 27.5066843,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4724941482,
+        "lat": 41.1703075,
+        "lon": 27.4939247,
+        "tags": {
+          "addr:street": "Mustafa Kemal Atatürk Caddesi",
+          "amenity": "cafe",
+          "name": "Asfalt Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4823996260,
+        "lat": 41.2307644,
+        "lon": 27.5810977,
+        "tags": {
+          "addr:city": "Yukarı Sevindikli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Yukarı Sevindikli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4829703607,
+        "lat": 41.1706323,
+        "lon": 27.5866693,
+        "tags": {
+          "addr:city": "Kırkkepenekli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Kırkkepenekli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4829703608,
+        "lat": 41.1707848,
+        "lon": 27.5865459,
+        "tags": {
+          "addr:city": "Kırkkepenekli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Kırkkepenekli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4947089324,
+        "lat": 41.2031797,
+        "lon": 27.3659083,
+        "tags": {
+          "addr:city": "Hanoğlu",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Hanoğlu Mahallesi",
+          "amenity": "cafe",
+          "name": "Hanoğlu Kahvesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4956069565,
+        "lat": 41.2019422,
+        "lon": 27.4717204,
+        "tags": {
+          "addr:city": "İnanlı",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "İnanlı Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 4957752672,
+        "lat": 41.1823457,
+        "lon": 27.4778031,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Karakuş Aile Çay Bahçesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5003381214,
+        "lat": 41.0673276,
+        "lon": 27.3310634,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5265154994,
+        "lat": 41.2238331,
+        "lon": 27.6464966,
+        "tags": {
+          "addr:city": "Esenler",
+          "addr:district": "Ergene",
+          "addr:neighbourhood": "Esenler Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5381914436,
+        "lat": 41.1814721,
+        "lon": 27.5096731,
+        "tags": {
+          "amenity": "nightclub",
+          "name": "Muratlı Sanayi Yazlık Dügün Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5523593616,
+        "lat": 41.1694325,
+        "lon": 27.4999113,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gizem Pasta & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5523594421,
+        "lat": 41.1694684,
+        "lon": 27.4999428,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Kosovalı Dondurma"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538759020,
+        "lat": 41.1705696,
+        "lon": 27.4981864,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Tekirdağ Köftecisi Recep Kısacık",
+          "phone": "+902823616999"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538759287,
+        "lat": 41.1756614,
+        "lon": 27.4920158,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Emre Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538759289,
+        "lat": 41.1752028,
+        "lon": 27.4926422,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Burası Merkez"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538759300,
+        "lat": 41.1728049,
+        "lon": 27.4959209,
+        "tags": {
+          "addr:street": "Hasan Çelikkol Caddesi",
+          "amenity": "restaurant",
+          "name": "Muratlı Yemek Sarayı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538759366,
+        "lat": 41.1751672,
+        "lon": 27.492702,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Merkez Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538759401,
+        "lat": 41.1693821,
+        "lon": 27.5001672,
+        "tags": {
+          "amenity": "pub",
+          "name": "Bordo Köşe Bira Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538760081,
+        "lat": 41.1693468,
+        "lon": 27.5004039,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538760082,
+        "lat": 41.1691261,
+        "lon": 27.5007085,
+        "tags": {
+          "amenity": "pub",
+          "name": "Muratlı Şehir Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538760083,
+        "lat": 41.168912,
+        "lon": 27.5010141,
+        "tags": {
+          "amenity": "pub",
+          "name": "Behçet'in Yeri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538760195,
+        "lat": 41.1687696,
+        "lon": 27.501218,
+        "tags": {
+          "amenity": "pub",
+          "name": "Yamak Birahanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5538760200,
+        "lat": 41.1721167,
+        "lon": 27.5062966,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5646117020,
+        "lat": 41.1721416,
+        "lon": 27.4964344,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Pey Tat Hayrabol Tatlısı"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5646117203,
+        "lat": 41.172098,
+        "lon": 27.4956827,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Ziyafet Çiğ Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5646118021,
+        "lat": 41.1721102,
+        "lon": 27.4964656,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Lezzet Döner Çorba"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5646118022,
+        "lat": 41.1720765,
+        "lon": 27.4965003,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Muratlı Pide Bank"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5646118023,
+        "lat": 41.1721276,
+        "lon": 27.4956994,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Döner Dünyası",
+          "phone": "+905344946737"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5646118121,
+        "lat": 41.1720644,
+        "lon": 27.4956474,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Gizem Pastaneleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5695163022,
+        "lat": 41.1240648,
+        "lon": 27.4848611,
+        "tags": {
+          "addr:city": "Yeşilsırt Mahallesi",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Yeşilsırt Mahallesi",
+          "addr:street": "Başkan Nebi Tepe Caddesi",
+          "amenity": "restaurant",
+          "name": "Ünal et lokantası",
+          "name:en": "Unal restaurant",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5720684945,
+        "lat": 41.1243583,
+        "lon": 27.4850799,
+        "tags": {
+          "addr:city": "Yeşilsırt Mahallesi",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Yeşilsırt Mahallesi",
+          "addr:street": "Başkan Nebi Tepe Caddesi",
+          "amenity": "restaurant",
+          "name": "Yaşar Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5818686286,
+        "lat": 41.2191522,
+        "lon": 27.5440746,
+        "tags": {
+          "addr:city": "Aşağısevindikli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Aşağısevindikli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5840042660,
+        "lat": 41.175366,
+        "lon": 27.500664,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Açar Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 5844884230,
+        "lat": 41.1673579,
+        "lon": 27.4917667,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Rengahenk Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6236341898,
+        "lat": 41.1850788,
+        "lon": 27.4783864,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "EdrinEt İnanlı Kasap Sucuk Restaurant",
+          "phone": "+902823615656"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6245819063,
+        "lat": 41.1739519,
+        "lon": 27.4979367,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Karaca Kafe & Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6245819064,
+        "lat": 41.1848017,
+        "lon": 27.4796315,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Çeşme Restaurant Bizim Ev"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6343771980,
+        "lat": 41.1165791,
+        "lon": 27.4726286,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6389683808,
+        "lat": 41.2321171,
+        "lon": 27.5828733,
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6430266130,
+        "lat": 41.2244817,
+        "lon": 27.6472449,
+        "tags": {
+          "addr:city": "Esenler",
+          "addr:district": "Ergene",
+          "addr:neighbourhood": "Esenler Mahallesi",
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6430266132,
+        "lat": 41.2237635,
+        "lon": 27.6464336,
+        "tags": {
+          "addr:city": "Esenler",
+          "addr:district": "Ergene",
+          "addr:neighbourhood": "Esenler Mahallesi",
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6430266134,
+        "lat": 41.2236939,
+        "lon": 27.646333,
+        "tags": {
+          "addr:city": "Esenler",
+          "addr:district": "Ergene",
+          "addr:neighbourhood": "Esenler Mahallesi",
+          "amenity": "cafe",
+          "name": "Kıraathane"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6430266137,
+        "lat": 41.2227245,
+        "lon": 27.6463129,
+        "tags": {
+          "addr:city": "Esenler",
+          "addr:district": "Ergene",
+          "addr:neighbourhood": "Esenler Mahallesi",
+          "amenity": "pub",
+          "name": "Yunus Mete Bira Salonu"
+        }
+      },
+      {
+        "type": "node",
+        "id": 6668174306,
+        "lat": 41.2174117,
+        "lon": 27.5463392,
+        "tags": {
+          "addr:city": "Aşağısevindikli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Aşağısevindikli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7011362167,
+        "lat": 41.2188521,
+        "lon": 27.5434952,
+        "tags": {
+          "addr:city": "Aşağısevindikli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Aşağısevindikli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7011362177,
+        "lat": 41.220629,
+        "lon": 27.5455326,
+        "tags": {
+          "addr:city": "Aşağısevindikli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Aşağısevindikli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7011367818,
+        "lat": 41.2319689,
+        "lon": 27.5823562,
+        "tags": {
+          "addr:city": "Yukarı Sevindikli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Yukarı Sevindikli Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7011418242,
+        "lat": 41.2595697,
+        "lon": 27.6392071,
+        "tags": {
+          "addr:district": "Ergene",
+          "addr:neighbourhood": "Vakıflar Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844721281,
+        "lat": 41.1992989,
+        "lon": 27.3037304,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Tufan Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 7844721287,
+        "lat": 41.2005704,
+        "lon": 27.3056307,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8110206858,
+        "lat": 41.1748067,
+        "lon": 27.5003236,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Güngör Döner Köfte"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8399955968,
+        "lat": 41.1673911,
+        "lon": 27.4964219,
+        "tags": {
+          "addr:street": "Nazım Sav Caddesi",
+          "amenity": "pub",
+          "name": "Kafa Bar Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8474154613,
+        "lat": 41.2241625,
+        "lon": 27.5526771,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Danışman T Sosyal Tesisleri"
+        }
+      },
+      {
+        "type": "node",
+        "id": 8474204428,
+        "lat": 41.2309252,
+        "lon": 27.5813941,
+        "tags": {
+          "addr:city": "Yukarı Sevindikli",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Yukarı Sevindikli Mahallesi",
+          "amenity": "cafe",
+          "name": "IŞIK Kıraathanesi"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9711484807,
+        "lat": 41.1707271,
+        "lon": 27.4969036,
+        "tags": {
+          "addr:street": "Erol Okyay Caddesi",
+          "amenity": "cafe",
+          "name": "Kahve"
+        }
+      },
+      {
+        "type": "node",
+        "id": 9991793049,
+        "lat": 41.1724115,
+        "lon": 27.4964704,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Yavuz Izgara"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10728167155,
+        "lat": 41.1721799,
+        "lon": 27.4951632,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Kahverengi Cafe & Restaurant"
+        }
+      },
+      {
+        "type": "node",
+        "id": 10728192466,
+        "lat": 41.1690296,
+        "lon": 27.4992591,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Durmaz Dürüm"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11306131093,
+        "lat": 41.0642997,
+        "lon": 27.3276772,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Berkay Et Lokantası"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11570612421,
+        "lat": 41.2146639,
+        "lon": 27.5059522,
+        "tags": {
+          "addr:city": "Ballıhoca",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Ballıhoca Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11570612423,
+        "lat": 41.2148838,
+        "lon": 27.5061366,
+        "tags": {
+          "addr:city": "Ballıhoca",
+          "addr:district": "Muratlı",
+          "addr:neighbourhood": "Ballıhoca Mahallesi",
+          "amenity": "cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 11986370341,
+        "lat": 41.1698705,
+        "lon": 27.4983548,
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Kanatçı Sadık Usta"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12058193793,
+        "lat": 41.1764225,
+        "lon": 27.5018524,
+        "tags": {
+          "amenity": "ice_cream",
+          "name": "Melek Dondurma Tatlı & Cafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12068204397,
+        "lat": 41.1710564,
+        "lon": 27.4969444,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-07-21",
+          "name": "Kafe"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12091025732,
+        "lat": 41.1719152,
+        "lon": 27.4960349,
+        "tags": {
+          "amenity": "cafe",
+          "check_date": "2024-08-04",
+          "name": "Coffee Break"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12848155023,
+        "lat": 41.1744664,
+        "lon": 27.4918081,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Cafe bi mola"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12896420341,
+        "lat": 41.177158,
+        "lon": 27.5020003,
+        "tags": {
+          "amenity": "cafe",
+          "name": "D'Free Coffee"
+        }
+      },
+      {
+        "type": "node",
+        "id": 12896447227,
+        "lat": 41.1713524,
+        "lon": 27.496286,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Coffee The Muse"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13307997287,
+        "lat": 41.1776166,
+        "lon": 27.502893,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yılmaz'ın Yeri",
+          "phone": "+905464542930"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13308002174,
+        "lat": 41.1719109,
+        "lon": 27.4961154,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Daily Dose"
+        }
+      },
+      {
+        "type": "node",
+        "id": 13308012611,
+        "lat": 41.1717183,
+        "lon": 27.4958488,
+        "tags": {
+          "amenity": "cafe",
+          "name": "Yaşaroğlu Cafe Börek"
+        }
+      },
+      {
+        "type": "way",
+        "id": 496394630,
+        "center": {
+          "lat": 41.1172504,
+          "lon": 27.4739253
+        },
+        "tags": {
+          "amenity": "nightclub",
+          "name": "Yeşilsırt Açık Düğün Salonu"
+        }
+      },
+      {
+        "type": "way",
+        "id": 749791638,
+        "center": {
+          "lat": 41.2148093,
+          "lon": 27.5402786
+        },
+        "tags": {
+          "amenity": "restaurant",
+          "name": "Göksel Et Lokantası"
+        }
+      }
+    ]
+  }
+}
