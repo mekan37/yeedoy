@@ -24,13 +24,14 @@ create index if not exists idx_businesses_active_city_category
 create index if not exists idx_business_follows_user_id
   on public.business_follows (user_id, created_at desc);
 
--- ── visits: date-cast friendly index ─────────────────────────────────────────
+-- ── visits: checked_in_at range index ────────────────────────────────────────
 -- submit_checkin_v1 queries: WHERE user_id = X AND business_id = Y AND
--- checked_in_at::DATE = CURRENT_DATE. The cast prevents index use on the
--- existing idx_visits_user_business_date. An expression index on the date
--- cast allows the planner to use an index scan.
-create index if not exists idx_visits_user_business_date_cast
-  on public.visits (user_id, business_id, (checked_in_at::date));
+-- checked_in_at::DATE = CURRENT_DATE. timestamptz::date is STABLE not IMMUTABLE
+-- so expression indexes are disallowed. Instead index the raw column; queries
+-- should use a range rewrite:
+--   checked_in_at >= date_trunc('day', now()) AND checked_in_at < date_trunc('day', now()) + '1 day'
+create index if not exists idx_visits_user_business_checked_in
+  on public.visits (user_id, business_id, checked_in_at desc);
 
 -- ── favorites.created_at for revisit reminder ──────────────────────────────────
 -- notify_favorite_revisit_reminders_v1 queries:

@@ -64,7 +64,8 @@ AS $$
         FROM public.visits v
         WHERE v.user_id     = r.user_id
           AND v.business_id = r.business_id
-          AND (v.checked_in_at::date) = r.created_at::date
+          AND v.checked_in_at >= date_trunc('day', r.created_at)
+          AND v.checked_in_at <  date_trunc('day', r.created_at) + interval '1 day'
       )                                              AS verified_visit,
       rr.r_taste,
       rr.r_service,
