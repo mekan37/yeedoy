@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="shortcut_nearby_cheap">Ucuz Yemek Bul</string>
-    <string name="shortcut_nearby_cheap_long">Yeedoy\'da Yakınımdaki Ucuz Yemekleri Bul</string>
-    <string name="shortcut_discover">Keşfet</string>
-    <string name="shortcut_discover_long">Yeedoy\'da Restoran Keşfet</string>
-    <string name="shortcut_disabled">Bu kısayol artık kullanılamıyor</string>
-</resources>

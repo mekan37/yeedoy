@@ -83,3 +83,6 @@ app.*.map.json
 deploy/next/.next/
 supabase/.branches/
 supabase/.temp/
+
+# Legacy English-named app dirs (migrated to uygulamalar/)
+apps/
