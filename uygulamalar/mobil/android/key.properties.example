@@ -1,0 +1,10 @@
+# Local signing fallback file.
+# CI tarafinda key.properties yerine su env'ler kullanilabilir:
+# ANDROID_RELEASE_STORE_FILE
+# ANDROID_RELEASE_STORE_PASSWORD
+# ANDROID_RELEASE_KEY_ALIAS
+# ANDROID_RELEASE_KEY_PASSWORD
+storeFile=../keystores/release.keystore
+storePassword=CHANGE_ME
+keyAlias=release
+keyPassword=CHANGE_ME

@@ -1,0 +1,26 @@
+{
+  "slug": "qr-auth",
+  "label": "/qr/:businessId?theme=bold (authenticated)",
+  "requestedUrl": "http://127.0.0.1:3400/qr/d40c3d0b-c5b6-437c-8e0e-e60acc80b859?lang=tr&theme=bold",
+  "finalUrl": "http://127.0.0.1:3400/qr/d40c3d0b-c5b6-437c-8e0e-e60acc80b859?lang=tr&theme=bold",
+  "mainDocumentUrl": "http://127.0.0.1:3400/qr/d40c3d0b-c5b6-437c-8e0e-e60acc80b859?lang=tr&theme=bold",
+  "htmlPath": "C:\\yeedoy\\apps\\web_next\\reports\\lighthouse\\2026-03-03T06-33-25-148Z\\qr-auth.report.html",
+  "jsonPath": "C:\\yeedoy\\apps\\web_next\\reports\\lighthouse\\2026-03-03T06-33-25-148Z\\qr-auth.report.json",
+  "scores": {
+    "performance": 97,
+    "accessibility": 98,
+    "bestPractices": 100,
+    "seo": 100
+  },
+  "metrics": {
+    "fcp": "0.7 s",
+    "lcp": "0.9 s",
+    "tbt": "190 ms",
+    "cls": "0",
+    "si": "1.1 s"
+  },
+  "targetSize": {
+    "score": 1,
+    "items": []
+  }
+}

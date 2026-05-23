@@ -19,7 +19,7 @@ end $$;
 -- drop view if exists public.admin_reports_queue_v1;
 -- drop view if exists public.admin_suggestions_v1;
 
--- Tables (high risk: data loss, only after archive/export)
+-- Tables (high risk: data loss, only after arsiv/export)
 -- drop table if exists public.user_favorites_legacy;
 -- drop table if exists public.import_places_stage;
 

@@ -229,7 +229,7 @@ export function PublicFooter() {
       <div className="border-t border-border">
         <Container className="flex flex-wrap items-center justify-between gap-3 py-4 text-xs text-muted">
           <span>© {new Date().getFullYear()} Yeedoy. Tüm hakları saklıdır.</span>
-          <span>Türkiye'nin menü ve fiyat keşif platformu</span>
+          <span>Türkiye&apos;nin menü ve fiyat keşif platformu</span>
         </Container>
       </div>
     </footer>

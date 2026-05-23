@@ -1,0 +1,203 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../core/ag/supabase_saglayicisi.dart';
+import '../../../core/depolama/cevrimdisi_onbellek_tercihleri.dart';
+import '../../../core/depolama/offline_mutation_idempotency.dart';
+import '../../kesif/domain/isletme_karti.dart';
+
+final favoritesRepositoryProvider = Provider<FavoritesRepository>((ref) {
+  final client = ref.watch(supabaseProvider);
+  return FavoritesRepository(client);
+});
+
+class PaginatedFavorites {
+  const PaginatedFavorites({required this.ids, required this.items});
+
+  final List<String> ids;
+  final List<BusinessCardModel> items;
+}
+
+class FavoritesRepository {
+  FavoritesRepository(this.client);
+  final SupabaseClient client;
+
+  static const String _businessSelect =
+      'id,name,category,address,city,district,lat,lng,recent_price_verified_count';
+
+  Future<bool> toggleFavorite(String businessId) async {
+    final current = await isFavorited(businessId);
+    return setFavorite(businessId, isFavorited: !current);
+  }
+
+  Future<bool> setFavorite(
+    String businessId, {
+    required bool isFavorited,
+  }) async {
+    final token = await createOfflineMutationIdempotencyToken(
+      action: 'set_favorite',
+      payload: {'business_id': businessId, 'is_favorited': isFavorited},
+    );
+    dynamic res;
+    try {
+      res = await client.rpc(
+        'set_favorite_v2',
+        params: {
+          'p_business_id': businessId,
+          'p_is_favorited': isFavorited,
+          'p_idempotency_key': token.idempotencyKey,
+        },
+      );
+    } catch (e) {
+      if (!_isMissingRpcError(e, 'set_favorite_v2')) rethrow;
+      final current = await this.isFavorited(businessId);
+      if (current == isFavorited) {
+        return isFavorited;
+      }
+      res = await client.rpc(
+        'toggle_favorite_v1',
+        params: {'p_business_id': businessId},
+      );
+    }
+    return _parseFavoriteStateResponse(
+      res,
+      fallbackError: 'Favori islemi basarisiz.',
+    );
+  }
+
+  Future<bool> isFavorited(String businessId) async {
+    final res = await client
+        .from('favorites')
+        .select('business_id')
+        .eq('business_id', businessId)
+        .maybeSingle();
+    return res != null;
+  }
+
+  Future<BusinessCardModel?> fetchBusinessById(String businessId) async {
+    final res = await client
+        .from('businesses_with_stats')
+        .select(_businessSelect)
+        .eq('id', businessId)
+        .maybeSingle();
+    if (res == null) return null;
+    return BusinessCardModel.fromMap(res);
+  }
+
+  Future<List<BusinessCardModel>> fetchBusinessesByIds(List<String> ids) async {
+    if (ids.isEmpty) return const [];
+    final businesses = await client
+        .from('businesses_with_stats')
+        .select(_businessSelect)
+        .inFilter('id', ids);
+    final byId = <String, BusinessCardModel>{};
+    for (final row in (businesses as List)) {
+      final model = BusinessCardModel.fromMap(row as Map<String, dynamic>);
+      byId[model.id] = model;
+    }
+    final ordered = <BusinessCardModel>[];
+    for (final id in ids) {
+      final item = byId[id];
+      if (item != null) ordered.add(item);
+    }
+    return ordered;
+  }
+
+  Future<List<String>> fetchMyFavoriteBusinessIds({
+    int limit = 50,
+    int offset = 0,
+  }) async {
+    final res = await client.rpc(
+      'get_my_favorites_v1',
+      params: {'p_limit': limit, 'p_offset': offset},
+    );
+    return (res as List)
+        .map((e) => (e as Map<String, dynamic>)['business_id'] as String)
+        .toList();
+  }
+
+  Future<PaginatedFavorites> fetchMyFavoritesWithBusinesses({
+    int limit = 50,
+    int offset = 0,
+  }) async {
+    final res = await client.rpc(
+      'get_my_favorites_v1',
+      params: {'p_limit': limit, 'p_offset': offset},
+    );
+    final rows = (res as List).cast<Map<String, dynamic>>();
+    final ids = rows.map((e) => e['business_id'] as String).toList();
+
+    if (ids.isEmpty) {
+      return const PaginatedFavorites(ids: [], items: []);
+    }
+
+    final businesses = await client
+        .from('businesses_with_stats')
+        .select(_businessSelect)
+        .inFilter('id', ids);
+
+    final byId = <String, BusinessCardModel>{};
+    for (final row in (businesses as List)) {
+      final model = BusinessCardModel.fromMap(row as Map<String, dynamic>);
+      byId[model.id] = model;
+    }
+
+    final ordered = <BusinessCardModel>[];
+    for (final id in ids) {
+      final item = byId[id];
+      if (item != null) ordered.add(item);
+    }
+
+    final page = PaginatedFavorites(ids: ids, items: ordered);
+    if (offset == 0) {
+      await OfflineCachePrefs.saveFavoriteIds(ids);
+      await OfflineCachePrefs.saveFavoriteBusinesses(
+        ordered.map((e) => e.toMap()).toList(),
+      );
+    }
+    return page;
+  }
+
+  Future<PaginatedFavorites?> getCachedFavorites() async {
+    final ids = await OfflineCachePrefs.loadFavoriteIds();
+    final rows = await OfflineCachePrefs.loadFavoriteBusinesses();
+    if (ids.isEmpty || rows == null || rows.isEmpty) return null;
+    final items = rows.map(BusinessCardModel.fromMap).toList();
+    return PaginatedFavorites(ids: ids, items: items);
+  }
+}
+
+bool _isMissingRpcError(Object error, String rpcName) {
+  final text = error.toString().toLowerCase();
+  final normalized = rpcName.toLowerCase();
+  return text.contains(normalized) &&
+      (text.contains('could not find') ||
+          text.contains('does not exist') ||
+          text.contains('not found') ||
+          text.contains('undefined function') ||
+          text.contains('pgrst202'));
+}
+
+bool _parseFavoriteStateResponse(dynamic res, {required String fallbackError}) {
+  if (res is Map) {
+    final data = res.cast<String, dynamic>();
+    final error = (data['error'] ?? '').toString().trim();
+    if (error.isNotEmpty) {
+      throw Exception(error);
+    }
+    if (data['is_favorited'] is bool) {
+      return data['is_favorited'] as bool;
+    }
+  }
+  if (res is List && res.isNotEmpty) {
+    final first = res.first;
+    if (first is Map) {
+      return _parseFavoriteStateResponse(
+        first.cast<String, dynamic>(),
+        fallbackError: fallbackError,
+      );
+    }
+  }
+  if (res is bool) return res;
+  throw Exception(fallbackError);
+}

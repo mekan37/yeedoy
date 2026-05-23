@@ -20,7 +20,7 @@
 
 - Flutter mobile: `packages/shared_ui_components/lib/src/dark_colors.dart` → `AppDarkColors`
 - Flutter panel: aynı `dark_colors.dart` import edilir (shared_ui_components)
-- Web: `apps/web_next/src/styles/tokens.css` içine `[data-theme='dark']` scope eklenir
+- Web: `uygulamalar/web/src/styles/tokens.css` içine `[data-theme='dark']` scope eklenir
 
 ## Gerekçe
 

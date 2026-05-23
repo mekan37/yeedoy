@@ -44,6 +44,56 @@ class AppTokens extends ThemeExtension<AppTokens> {
   final Duration medium;
   final Duration slow;
 
+  // ── Animation curves ──────────────────────────────────────────────────────
+  static const Curve spring = Cubic(0.22, 1.0, 0.36, 1.0);
+  static const Curve elasticPop = Cubic(0.34, 1.56, 0.64, 1.0);
+  static const Curve smoothOut = Cubic(0.4, 0.0, 0.2, 1.0);
+
+  // ── Breakpoints ────────────────────────────────────────────────────────────
+  static const double bp720 = 720;
+  static const double bp860 = 860;
+  static const double bp980 = 980;
+  static const double bp1180 = 1180;
+  static const double bp1280 = 1280;
+
+  // ── Shadow tokens ──────────────────────────────────────────────────────────
+  static List<BoxShadow> get shadow1 => const [
+        BoxShadow(color: Color(0x0F0F172A), blurRadius: 3, offset: Offset(0, 1)),
+        BoxShadow(color: Color(0x0A0F172A), blurRadius: 2, offset: Offset(0, 1)),
+      ];
+  static List<BoxShadow> get shadow2 => const [
+        BoxShadow(color: Color(0x140F172A), blurRadius: 12, offset: Offset(0, 4)),
+        BoxShadow(color: Color(0x0D0F172A), blurRadius: 6, offset: Offset(0, 2)),
+      ];
+  static List<BoxShadow> get shadow3 => const [
+        BoxShadow(color: Color(0x1E0F172A), blurRadius: 32, offset: Offset(0, 12)),
+        BoxShadow(color: Color(0x140F172A), blurRadius: 16, offset: Offset(0, 4)),
+      ];
+  static List<BoxShadow> get shadowPrimary => [
+        BoxShadow(
+          color: const Color(0xFF7F1D1D).withValues(alpha: 0.24),
+          blurRadius: 16,
+          offset: const Offset(0, 4),
+        ),
+        BoxShadow(
+          color: const Color(0xFF7F1D1D).withValues(alpha: 0.16),
+          blurRadius: 6,
+          offset: const Offset(0, 2),
+        ),
+      ];
+  static List<BoxShadow> get shadowPrimaryLg => [
+        BoxShadow(
+          color: const Color(0xFF7F1D1D).withValues(alpha: 0.32),
+          blurRadius: 24,
+          offset: const Offset(0, 8),
+        ),
+        BoxShadow(
+          color: const Color(0xFF7F1D1D).withValues(alpha: 0.20),
+          blurRadius: 12,
+          offset: const Offset(0, 4),
+        ),
+      ];
+
   EdgeInsets get pagePadding =>
       EdgeInsets.symmetric(horizontal: space16, vertical: space24);
   EdgeInsets get sectionPadding =>

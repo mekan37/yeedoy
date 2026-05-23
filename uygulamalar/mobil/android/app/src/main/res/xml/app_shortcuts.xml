@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Google Assistant App Actions + Static Shortcuts
+  Allows users to say: "Hey Google, find cheap food on Yeedoy"
+  or "Hey Google, open Yeedoy and show restaurants near me"
+-->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <!-- Static shortcut: nearby cheap food -->
+  <shortcut
+      android:shortcutId="find_nearby_cheap"
+      android:enabled="true"
+      android:icon="@mipmap/ic_launcher"
+      android:shortcutShortLabel="@string/shortcut_nearby_cheap"
+      android:shortcutLongLabel="@string/shortcut_nearby_cheap_long"
+      android:shortcutDisabledMessage="@string/shortcut_disabled">
+    <intent
+        android:action="android.intent.action.VIEW"
+        android:data="yeedoy://discover?sort=price_asc"/>
+    <intent
+        android:action="android.intent.action.MAIN"/>
+    <categories android:name="android.shortcut.conversation"/>
+  </shortcut>
+
+  <!-- Static shortcut: open discover -->
+  <shortcut
+      android:shortcutId="open_discover"
+      android:enabled="true"
+      android:icon="@mipmap/ic_launcher"
+      android:shortcutShortLabel="@string/shortcut_discover"
+      android:shortcutLongLabel="@string/shortcut_discover_long"
+      android:shortcutDisabledMessage="@string/shortcut_disabled">
+    <intent
+        android:action="android.intent.action.VIEW"
+        android:data="yeedoy://discover"/>
+    <intent
+        android:action="android.intent.action.MAIN"/>
+    <categories android:name="android.shortcut.conversation"/>
+  </shortcut>
+
+</shortcuts>

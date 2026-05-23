@@ -1,0 +1,14 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../data/isletme_ozellikleri_deposu.dart';
+import 'isletme_ozelligi.dart';
+
+final allAmenitiesProvider = FutureProvider<List<BusinessAmenity>>((ref) async {
+  return ref.watch(businessAmenitiesRepositoryProvider).listAllAmenities();
+});
+
+final businessAmenitiesProvider =
+    FutureProvider.family<List<BusinessAmenity>, String>((ref, businessId) async {
+  return ref.watch(businessAmenitiesRepositoryProvider).listBusinessAmenities(businessId);
+});
+

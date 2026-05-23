@@ -41,9 +41,11 @@ create table if not exists public.menu_item_diet_tags (
 alter table public.menu_item_ingredients enable row level security;
 alter table public.menu_item_diet_tags   enable row level security;
 
+drop policy if exists "public_read_ingredients" on public.menu_item_ingredients;
 create policy "public_read_ingredients"
   on public.menu_item_ingredients for select using (true);
 
+drop policy if exists "public_read_diet_tags" on public.menu_item_diet_tags;
 create policy "public_read_diet_tags"
   on public.menu_item_diet_tags for select using (true);
 

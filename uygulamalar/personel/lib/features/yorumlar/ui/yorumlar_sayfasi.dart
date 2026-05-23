@@ -57,34 +57,55 @@ class _YorumlarSayfasiState extends ConsumerState<YorumlarSayfasi> {
           ),
           IconButton(
             icon: const Icon(Icons.refresh_outlined),
+            tooltip: 'Yenile',
             onPressed: () => ref.read(yorumlarProvider.notifier).yenile(),
           ),
         ],
       ),
-      body: state.when(
-        loading: () => const PersonelListIskeleti(satirSayisi: 5),
-        error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: Colors.red))),
-        data: (yorumlar) {
-          final sirali = _sirala(yorumlar);
-          if (sirali.isEmpty) {
-            return const Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.reviews_outlined, size: 56, color: PColors.muted),
-                  SizedBox(height: 12),
-                  Text('Henüz onaylı yorum yok', style: TextStyle(color: PColors.muted)),
-                ],
+      body: RefreshIndicator(
+        onRefresh: () async => ref.read(yorumlarProvider.notifier).yenile(),
+        child: state.when(
+          loading: () => const PersonelListIskeleti(satirSayisi: 5),
+          error: (e, _) => ListView(
+            children: [
+              const SizedBox(height: 80),
+              Center(
+                child: Text(
+                  HataEsleyici.mesaj(e),
+                  style: const TextStyle(color: PColors.danger),
+                ),
               ),
+            ],
+          ),
+          data: (yorumlar) {
+            final sirali = _sirala(yorumlar);
+            if (sirali.isEmpty) {
+              return ListView(
+                children: const [
+                  SizedBox(height: 80),
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.reviews_outlined,
+                            size: 56, color: PColors.muted),
+                        SizedBox(height: 12),
+                        Text('Henüz onaylı yorum yok',
+                            style: TextStyle(color: PColors.muted)),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+            return ListView.separated(
+              padding: const EdgeInsets.all(12),
+              itemCount: sirali.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 10),
+              itemBuilder: (_, i) => _YorumKarti(yorum: sirali[i]),
             );
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(12),
-            itemCount: sirali.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 10),
-            itemBuilder: (_, i) => _YorumKarti(yorum: sirali[i]),
-          );
-        },
+          },
+        ),
       ),
     );
   }

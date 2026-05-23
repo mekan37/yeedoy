@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "123993913288",
+    "project_id": "yeedoy-f81c8",
+    "storage_bucket": "yeedoy-f81c8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123993913288:android:b03c1592adb179a834f2fd",
+        "android_client_info": {
+          "package_name": "com.yeedoy.personel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8GiWZoq5G14G6njwWKrfVZkOnPnErywE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123993913288:android:1d474cd3807c080e34f2fd",
+        "android_client_info": {
+          "package_name": "com.yeedoy.yeedoy_personel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8GiWZoq5G14G6njwWKrfVZkOnPnErywE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -93,7 +93,7 @@ BEGIN
     PERFORM cron.schedule(
       'favorite_revisit_reminder_daily',
       '0 10 * * *',
-      $$SELECT public.notify_favorite_revisit_reminders_v1(200)$$
+      $cron$SELECT public.notify_favorite_revisit_reminders_v1(200)$cron$
     );
   END IF;
 END;

@@ -23,12 +23,14 @@ create index if not exists idx_menu_item_allergens_item
 alter table public.menu_item_allergens enable row level security;
 
 -- Public read (customers can see allergen info on shared menus)
+drop policy if exists "public_read_allergens" on public.menu_item_allergens;
 create policy "public_read_allergens"
   on public.menu_item_allergens
   for select
   using (true);
 
 -- Owner read: must own the business that owns the menu item
+drop policy if exists "owner_read_allergens" on public.menu_item_allergens;
 create policy "owner_read_allergens"
   on public.menu_item_allergens
   for select

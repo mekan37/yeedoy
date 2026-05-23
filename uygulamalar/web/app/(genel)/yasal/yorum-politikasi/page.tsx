@@ -60,7 +60,7 @@ export default function YorumPolitikasiPage() {
           <section>
             <h2 className="mb-3 text-lg font-[900] text-textStrong">4. İçerik Sahipliği</h2>
             <p>
-              Platforma yüklediğiniz yorumlar, fotoğraflar ve katkılar için Yeedoy'a geniş kapsamlı,
+              Platforma yüklediğiniz yorumlar, fotoğraflar ve katkılar için Yeedoy&apos;a geniş kapsamlı,
               telif ücretsiz, alt lisans verilebilir bir lisans vermiş olursunuz. Özgün içeriğinizin
               sahibi olmaya devam edersiniz; ancak Yeedoy bu içerikleri platform amaçlarıyla kullanabilir.
             </p>
@@ -99,7 +99,7 @@ export default function YorumPolitikasiPage() {
           <section>
             <h2 className="mb-3 text-lg font-[900] text-textStrong">8. Şikayet ve Bildirme</h2>
             <p>
-              Kurallara aykırı bir içerik gördüğünüzde "Şikayet Et" özelliğini kullanabilir veya{' '}
+              Kurallara aykırı bir içerik gördüğünüzde &quot;Şikayet Et&quot; özelliğini kullanabilir veya{' '}
               <a href="mailto:destek@yeedoy.com" className="text-primary hover:underline">
                 destek@yeedoy.com
               </a>{' '}

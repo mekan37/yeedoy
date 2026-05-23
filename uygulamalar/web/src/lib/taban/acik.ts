@@ -1,0 +1,12 @@
+import { createClient } from '@supabase/supabase-js';
+import { appConfig } from '@/src/lib/ayarlar';
+import type { Database } from '@/src/lib/taban/veri-tanimlari';
+
+export function createSupabasePublicClient() {
+  return createClient<Database>(appConfig.supabaseUrl(), appConfig.supabaseAnonKey(), {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+}

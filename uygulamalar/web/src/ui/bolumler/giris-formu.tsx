@@ -467,7 +467,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
                     <a href="/yasal/terms" target="_blank" rel="noopener noreferrer" className="font-[800] text-primary underline-offset-2 hover:underline">
                       Kullanım Şartları
                     </a>
-                    'nı okudum ve kabul ediyorum.{' '}
+                    &apos;nı okudum ve kabul ediyorum.{' '}
                     <span className="text-danger">*</span>
                   </span>
                 </label>
@@ -483,11 +483,11 @@ export function GirisFormu({ redirectTo, panelLoginUrl }: Props) {
                     <a href="/yasal/privacy" target="_blank" rel="noopener noreferrer" className="font-[800] text-primary underline-offset-2 hover:underline">
                       Gizlilik Politikası
                     </a>
-                    'nı ve{' '}
+                    &apos;nı ve{' '}
                     <a href="/yasal/yorum-politikasi" target="_blank" rel="noopener noreferrer" className="font-[800] text-primary underline-offset-2 hover:underline">
                       Yorum Politikası
                     </a>
-                    'nı okudum, kabul ediyorum.{' '}
+                    &apos;nı okudum, kabul ediyorum.{' '}
                     <span className="text-danger">*</span>
                   </span>
                 </label>

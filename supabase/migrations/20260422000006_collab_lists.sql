@@ -20,15 +20,7 @@ create policy "owner full access on collab_lists"
   using (owner_id = auth.uid())
   with check (owner_id = auth.uid());
 
-create policy "members can read collab_lists"
-  on public.collab_lists
-  for select
-  using (
-    exists (
-      select 1 from public.collab_list_members m
-      where m.list_id = id and m.user_id = auth.uid()
-    )
-  );
+-- NOTE: "members can read collab_lists" policy is created after collab_list_members table
 
 -- ── collab_list_members ──────────────────────────────────────────────────────
 create table if not exists public.collab_list_members (
@@ -60,6 +52,17 @@ create policy "authenticated users can join via invite (insert own row)"
   on public.collab_list_members
   for insert
   with check (user_id = auth.uid());
+
+-- Now safe to create cross-reference policy (collab_list_members exists)
+create policy "members can read collab_lists"
+  on public.collab_lists
+  for select
+  using (
+    exists (
+      select 1 from public.collab_list_members m
+      where m.list_id = id and m.user_id = auth.uid()
+    )
+  );
 
 create policy "owner can remove members, members can leave"
   on public.collab_list_members

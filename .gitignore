@@ -86,3 +86,16 @@ supabase/.temp/
 
 # Legacy English-named app dirs (migrated to uygulamalar/)
 apps/
+
+# Large raw OSM/geo data files (import done, not repo material)
+*.osm.pbf
+*.geojsonl
+*.pbf
+turkey-*.osm
+turkey-*.geojson
+
+# Agent / tool state
+agentdb.db
+agentdb.rvf
+agentdb.rvf.lock
+.osm-*-state.json

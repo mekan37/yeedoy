@@ -59,12 +59,26 @@ class MenuYonetimiSayfasi extends ConsumerWidget {
           ),
         ],
       ),
-      body: state.when(
-        loading: () => const PersonelListIskeleti(satirSayisi: 8),
-        error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: Colors.red))),
-        data: (kalemler) => kalemler.isEmpty
-            ? const _BosMenuMesaji()
-            : _MenuListesi(kalemler: kalemler),
+      body: RefreshIndicator(
+        onRefresh: () async =>
+            ref.read(menuYonetimiProvider.notifier).yenile(),
+        child: state.when(
+          loading: () => const PersonelListIskeleti(satirSayisi: 8),
+          error: (e, _) => ListView(
+            children: [
+              const SizedBox(height: 80),
+              Center(
+                child: Text(
+                  HataEsleyici.mesaj(e),
+                  style: const TextStyle(color: PColors.danger),
+                ),
+              ),
+            ],
+          ),
+          data: (kalemler) => kalemler.isEmpty
+              ? const _BosMenuMesaji()
+              : _MenuListesi(kalemler: kalemler),
+        ),
       ),
     );
   }

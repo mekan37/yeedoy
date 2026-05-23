@@ -192,7 +192,7 @@ as $$
     r.title,
     r.content,
     coalesce(r.helpful_count, 0) as helpful_count,
-    coalesce(r.quality_score, 0) as quality_score,
+    coalesce(r.helpful_count, 0)::numeric as quality_score,
     r.created_at,
     r.status,
     rr.id           as reply_id,

@@ -6,6 +6,7 @@
 -- The verified_visit flag is computed by _review_verified_visit() SECURITY DEFINER
 -- helper added in migration 20260422000001.
 
+DROP FUNCTION IF EXISTS public.get_business_reviews_v3(uuid, text, integer, integer);
 CREATE OR REPLACE FUNCTION public.get_business_reviews_v3(
   p_business_id  uuid,
   p_sort         text    DEFAULT 'newest',
@@ -47,7 +48,7 @@ AS $$
       COALESCE(r.helpful_count, 0)::integer          AS helpful_count,
       r.created_at,
       COALESCE(r.status, 'published')                AS status,
-      COALESCE(r.quality_score, 0)::numeric          AS quality_score,
+      COALESCE(r.helpful_count, 0)::numeric          AS quality_score,
       COALESCE(_review_verified_visit(
         r.user_id,
         r.business_id::uuid,

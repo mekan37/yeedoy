@@ -1,0 +1,26 @@
+{
+  "slug": "menu-photo-heavy",
+  "label": "/m/:businessId?theme=photo-heavy",
+  "requestedUrl": "http://127.0.0.1:3400/m/6f3f0372-65a4-40ef-b915-da05908d98c7?lang=tr&theme=photo-heavy",
+  "finalUrl": "http://127.0.0.1:3400/m/6f3f0372-65a4-40ef-b915-da05908d98c7?lang=tr&theme=photo-heavy",
+  "mainDocumentUrl": "http://127.0.0.1:3400/m/6f3f0372-65a4-40ef-b915-da05908d98c7?lang=tr&theme=photo-heavy",
+  "htmlPath": "C:\\yeedoy\\apps\\web_next\\reports\\lighthouse\\2026-03-03T06-27-35-526Z\\menu-photo-heavy.report.html",
+  "jsonPath": "C:\\yeedoy\\apps\\web_next\\reports\\lighthouse\\2026-03-03T06-27-35-526Z\\menu-photo-heavy.report.json",
+  "scores": {
+    "performance": 94,
+    "accessibility": 100,
+    "bestPractices": 96,
+    "seo": 90
+  },
+  "metrics": {
+    "fcp": "1.2 s",
+    "lcp": "2.5 s",
+    "tbt": "220 ms",
+    "cls": "0.006",
+    "si": "1.4 s"
+  },
+  "targetSize": {
+    "score": 1,
+    "items": []
+  }
+}

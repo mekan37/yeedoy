@@ -14,6 +14,7 @@ create table if not exists public.exchange_rates (
 -- Public read — exchange rates are not sensitive
 alter table public.exchange_rates enable row level security;
 
+drop policy if exists "public_read_exchange_rates" on public.exchange_rates;
 create policy "public_read_exchange_rates"
   on public.exchange_rates
   for select

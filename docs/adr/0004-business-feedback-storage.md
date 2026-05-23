@@ -16,7 +16,7 @@ Müşterilerin dijital menü hakkında geri bildirim vermesi isteniyor (rating, 
 
 ## Karar
 
-**Seçenek 1**: Supabase `menu_feedback` tablosu. Next.js route handler (`/api/feedback`) IP bazlı rate-limit (5 istek / dakika) ve zod doğrulama ile veriyi insert eder.
+**Seçenek 1**: Supabase `menu_feedback` tablosu. Next.js route handler (`/sunucu/geri-bildirim`) IP bazlı rate-limit (5 istek / dakika) ve zod doğrulama ile veriyi insert eder.
 
 ## Tablo Yapısı
 
@@ -48,3 +48,4 @@ CREATE POLICY "anon_insert" ON menu_feedback FOR INSERT TO anon WITH CHECK (true
 ## Kısıtlama
 
 Next.js içine owner/admin CRUD taşınmaz (CLAUDE.md kuralı). Admin görünümü sadece Supabase Studio veya panel Flutter Web üzerinden yapılır.
+

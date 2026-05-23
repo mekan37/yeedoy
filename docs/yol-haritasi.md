@@ -1,0 +1,64 @@
+# Yol Haritasi (Onceliklendirilmis)
+
+Bu liste koddan gorulen aktif aciklara dayanir.
+
+## Tamamlananlar
+
+Tamamlanan turlerin ayrintili tarihsel kaydi bu dosyada tutulmaz. Release ve kapanis snapshot'lari icin:
+
+- `docs/arsiv/gecmis/surum-indeksi.md`
+
+Bu dosya yalnizca acik ve siradaki islere odaklanir.
+
+## P1 (Kisa Vade)
+
+1. Eski devir/env izlerini temizle: `uygulamalar/web/uygulama/kimlik/panel-devir/route.ts`, `uygulamalar/web/src/lib/ayarlar.ts`, `uygulamalar/web/uygulama/giris/page.tsx`, `uygulamalar/web/scripts/panel-adresi-denetimi.mjs` ve `.github/workflows/web_release_smoke.yml` icinde eski panel URL akisi hala duruyor.
+2. Eski panel devir rotasini kullanan Lighthouse/live-smoke helper'larini yeni sahip/yonetici giris akisiyla uyumlu hale getir.
+
+## P2 (Orta Vade)
+
+1. ~~Canonical slug smoke ve legacy UUID redirect health-check'ini release pipeline'a zorunlu hale getir~~ — Tamamlandi. `m/[slug]/page.tsx` icindeki `hasLegacyBusinessPath` UUID → canonical slug redirect'ini uygular; `public-menu-live.spec.ts` bunu canli veriyle test eder; `web_release_smoke.yml` per-release otomatik olarak calistirir.
+2. Owner/admin analytics raporlarinda filtre state'ini URL'e yazma standardini tamamla.
+3. ~~Public menu icin cache invalidation stratejisini deployment pipeline ile standardize et~~ — Tamamlandi. `POST /sunucu/yeniden-dogrulama` route'u mevcut; `appConfig.revalidateSecret()` eksik metodundan kaynaklanan TypeScript hatasi duzeltildi, `REVALIDATE_SECRET` `.env.example`'a eklendi, `dagitim.md` icine ornek curl komutu ve deployment pipeline entegrasyon talimati yazildi.
+
+## Guncel Aciklar
+
+1. Web Next e2e kapsami owner/admin write smoke'lari icin genisletilmeli.
+2. Queue ve batch moderation UI derinligi dusuk etkili borc olarak duruyor.
+3. Admin/owner analytics permalink standardi tum rapor ekranlarinda ayni degil.
+
+## Kalan Acik Isler
+
+### iOS / Android Release Hazirlik (mobil-ci-ios-hazirlik.md)
+
+1. `GoogleService-Info.plist` yonetimi netlesmeli — repo disi CI secret/artifact mi yoksa FlutterFire options-only mod mu?
+2. GitHub iOS secretlari girilmeli: `IOS_APPLE_TEAM_ID`, `IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64`, `IOS_DISTRIBUTION_CERTIFICATE_PASSWORD`, `IOS_PROVISIONING_PROFILE_BASE64`
+3. `ios_release_dry_run` job'u gercek Apple signing assetleri ile calistirilmali — IPA artifact kaniti alinmali
+4. Gercek iOS cihazda deep-link ve push-tap smoke yapilmali
+5. GitHub Android secretlari girilmeli: `ANDROID_RELEASE_KEYSTORE_BASE64`, `ANDROID_RELEASE_STORE_PASSWORD`, `ANDROID_RELEASE_KEY_ALIAS`, `ANDROID_RELEASE_KEY_PASSWORD`
+6. TestFlight upload / dagitim adimi ayri workflow veya operator runbook'u ile tanimlanmali
+
+### Urun Hazirlik Notlari
+
+7. `assets/brand` klasorune production logo, lockup ve export varyantlari eklenmeli
+8. `lib/core/privacy` klasorune KVKK/GDPR policy helper'lari, consent state ve data deletion workflow'lari yazilmali
+
+### Dusuk Oncelik
+
+9. `packages/ui_tokens` paketi: web Next tarafinda artik birincil kaynak degil — amac netlesmeli veya arsivlenmeli
+10. Batch moderation UI: RPC izi var (`admin_bulk_decide_v1` veya benzeri), tam UI yok
+11. Analytics event metadata kalitesi: write aninda zorunlu metadata setini sertlestir
+12. Analytics permalink: filtre durumunu paylasilabilir URL'e baglayan ozellik
+
+## Son Notlar
+
+- `uygulamalar/web` public menu `?theme=minimal|bold|elegant` destekler.
+- `/kod/[code]` edge route handler olarak calisir ve redirect hazirlama suresini loglar.
+- Semantik public route `/m/[publicSlugOrId]` olup canonical hedef `public_slug` tercih eder; mevcut App Router klasor yolu `uygulamalar/web/uygulama/(public)/m/[slug]/...` seklindedir.
+- Public menu item kartlari, sticky category bar ve detail sheet motion/refinement turu tamamlanmistir.
+
+## Referans
+
+- tarihsel release kayitlari: `docs/arsiv/gecmis/surum-indeksi.md`
+
+

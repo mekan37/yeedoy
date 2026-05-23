@@ -6775,6 +6775,7 @@ CREATE TRIGGER trg_visits_edge_guard_delete_v1 BEFORE DELETE ON public.visits FO
 
 CREATE TRIGGER trg_visits_edge_guard_insert_v1 BEFORE INSERT ON public.visits FOR EACH ROW EXECUTE FUNCTION public.enforce_visits_edge_guard_v1();
 
+DROP TRIGGER IF EXISTS trg_auth_users_anonymize_v1 ON auth.users;
 CREATE TRIGGER trg_auth_users_anonymize_v1 BEFORE DELETE ON auth.users FOR EACH ROW EXECUTE FUNCTION public.trg_auth_users_anonymize_v1();
 
 

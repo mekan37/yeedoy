@@ -1,0 +1,189 @@
+:root {
+  /*
+   * Web token surface derived from the mobile theme source of truth:
+   * - apps/mobile_flutter/lib/app/theme/colors.dart
+   * - apps/mobile_flutter/lib/app/theme/app_tokens.dart
+   * - apps/mobile_flutter/lib/app/theme/app_typography.dart
+   */
+  --yd-font-family: 'Sora', 'Segoe UI', sans-serif;
+  --yd-font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
+
+  --yd-color-primary: #7f1d1d;
+  --yd-color-primary-soft: #f9e7e7;
+  --yd-color-primary-strong: #dc2626;
+  --yd-color-primary-deep: #5c1515;
+  --yd-color-on-primary: #ffffff;
+
+  --yd-color-text: #434d57;
+  --yd-color-text-strong: #111827;
+  --yd-color-muted: #6b7280;
+
+  --yd-color-bg: #f9fafb;
+  --yd-color-card: #ffffff;
+  --yd-color-card-alt: #fdf8f7;
+  --yd-color-border: #e5e7eb;
+  --yd-color-border-strong: #d1d5db;
+  --yd-color-shadow: rgba(15, 23, 42, 0.1);
+
+  --yd-color-success: #15803d;
+  --yd-color-warning: #f59e0b;
+  --yd-color-danger: #b91c1c;
+  --yd-color-info: #1d4ed8;
+  --yd-color-star: #fbbf24;
+  --yd-color-star-off: #d1d5db;
+
+  --yd-color-primary-rgb: 127 29 29;
+  --yd-color-primary-strong-rgb: 220 38 38;
+  --yd-color-text-rgb: 67 77 87;
+  --yd-color-text-strong-rgb: 17 24 39;
+  --yd-color-muted-rgb: 107 114 128;
+  --yd-color-bg-rgb: 249 250 251;
+  --yd-color-card-rgb: 255 255 255;
+  --yd-color-card-alt-rgb: 253 248 247;
+  --yd-color-border-rgb: 229 231 235;
+  --yd-color-success-rgb: 21 128 61;
+  --yd-color-warning-rgb: 245 158 11;
+  --yd-color-danger-rgb: 185 28 28;
+  --yd-color-info-rgb: 29 78 216;
+  --yd-color-star-rgb: 251 191 36;
+  --yd-color-star-off-rgb: 209 213 219;
+
+  --yd-space-1: 4px;
+  --yd-space-2: 8px;
+  --yd-space-3: 12px;
+  --yd-space-4: 16px;
+  --yd-space-5: 20px;
+  --yd-space-6: 24px;
+
+  --yd-radius-sm: 12px;
+  --yd-radius-md: 16px;
+  --yd-radius-lg: 20px;
+  --yd-radius-xl: 24px;
+  --yd-radius-pill: 999px;
+
+  --yd-shadow-1: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --yd-shadow-2: 0 4px 12px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.05);
+  --yd-shadow-3: 0 12px 32px rgba(15,23,42,0.12), 0 4px 16px rgba(15,23,42,0.08);
+  --yd-shadow-4: 0 24px 48px rgba(15,23,42,0.16), 0 8px 24px rgba(15,23,42,0.10);
+  --yd-shadow-primary: 0 4px 16px rgba(127,29,29,0.24), 0 2px 6px rgba(127,29,29,0.16);
+  --yd-shadow-primary-lg: 0 8px 24px rgba(127,29,29,0.32), 0 4px 12px rgba(127,29,29,0.20);
+  --yd-shadow-inset: inset 0 2px 4px rgba(15,23,42,0.06);
+
+  --yd-gradient-primary: linear-gradient(135deg, #7F1D1D 0%, #DC2626 100%);
+  --yd-gradient-primary-soft: linear-gradient(135deg, rgba(127,29,29,0.08) 0%, rgba(220,38,38,0.04) 100%);
+  --yd-gradient-hero: radial-gradient(ellipse at top left, rgba(127,29,29,0.12) 0%, transparent 60%), radial-gradient(ellipse at bottom right, rgba(220,38,38,0.06) 0%, transparent 60%);
+  --yd-gradient-card-hover: linear-gradient(135deg, rgba(127,29,29,0.03) 0%, rgba(220,38,38,0.01) 100%);
+  --yd-gradient-surface: linear-gradient(180deg, #FFFFFF 0%, #FDF8F7 100%);
+
+  --yd-ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --yd-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --yd-ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  --yd-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --yd-duration-fast: 150ms;
+  --yd-duration-medium: 180ms;
+  --yd-duration-slow: 220ms;
+
+  --yd-font-size-11: 0.6875rem;
+  --yd-font-size-12: 0.75rem;
+  --yd-font-size-14: 0.875rem;
+  --yd-font-size-15: 0.9375rem;
+  --yd-font-size-16: 1rem;
+  --yd-font-size-18: 1.125rem;
+  --yd-font-size-22: 1.375rem;
+  --yd-line-tight: 1.2;
+  --yd-line-snug: 1.25;
+  --yd-line-body: 1.4;
+
+  /* Legacy aliases kept for existing Tailwind mappings. */
+  --primary: var(--yd-color-primary-rgb);
+  --slate: var(--yd-color-text-rgb);
+  --bg: var(--yd-color-bg-rgb);
+  --card: var(--yd-color-card-rgb);
+  --border: var(--yd-color-border-rgb);
+  --text: var(--yd-color-text-rgb);
+  --muted: var(--yd-color-muted-rgb);
+  --success: var(--yd-color-success-rgb);
+  --warning: var(--yd-color-warning-rgb);
+  --danger: var(--yd-color-danger-rgb);
+  --info: var(--yd-color-info-rgb);
+  --star: var(--yd-color-star-rgb);
+  --starOff: var(--yd-color-star-off-rgb);
+}
+
+/* ── Dark Mode ────────────────────────────────────────────────────────────── */
+/* Applies when <html class="dark"> OR OS prefers dark and no override is set. */
+/* Synced with AppDarkColors in packages/shared_ui_components                  */
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    /* Surfaces */
+    --yd-color-bg: #0d0f13;
+    --yd-color-bg-rgb: 13 15 19;
+    --yd-color-card: #161a22;
+    --yd-color-card-rgb: 22 26 34;
+    --yd-color-card-alt: #1c2030;
+    --yd-color-card-alt-rgb: 28 32 48;
+
+    /* Borders */
+    --yd-color-border: #2a3040;
+    --yd-color-border-rgb: 42 48 64;
+    --yd-color-border-strong: #3a4555;
+
+    /* Text */
+    --yd-color-text: #c8d0e0;
+    --yd-color-text-rgb: 200 208 224;
+    --yd-color-text-strong: #f0f4fc;
+    --yd-color-text-strong-rgb: 240 244 252;
+    --yd-color-muted: #6b7a96;
+    --yd-color-muted-rgb: 107 122 150;
+
+    /* Primary soft overlay — darker surface in dark mode */
+    --yd-color-primary-soft: rgba(127, 29, 29, 0.18);
+
+    /* Shadows — stronger contrast on dark */
+    --yd-shadow-1: 0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
+    --yd-shadow-2: 0 4px 12px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.30);
+    --yd-shadow-3: 0 12px 32px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.40);
+    --yd-shadow-4: 0 24px 48px rgba(0,0,0,0.65), 0 8px 24px rgba(0,0,0,0.50);
+    --yd-shadow-primary: 0 4px 16px rgba(127,29,29,0.40), 0 2px 6px rgba(127,29,29,0.28);
+    --yd-shadow-primary-lg: 0 8px 24px rgba(127,29,29,0.50), 0 4px 12px rgba(127,29,29,0.36);
+
+    /* Legacy aliases */
+    --bg: var(--yd-color-bg-rgb);
+    --card: var(--yd-color-card-rgb);
+    --border: var(--yd-color-border-rgb);
+    --text: var(--yd-color-text-rgb);
+    --muted: var(--yd-color-muted-rgb);
+  }
+}
+
+/* Explicit .dark class — user override or JS-set (takes precedence over media) */
+html.dark {
+  --yd-color-bg: #0d0f13;
+  --yd-color-bg-rgb: 13 15 19;
+  --yd-color-card: #161a22;
+  --yd-color-card-rgb: 22 26 34;
+  --yd-color-card-alt: #1c2030;
+  --yd-color-card-alt-rgb: 28 32 48;
+  --yd-color-border: #2a3040;
+  --yd-color-border-rgb: 42 48 64;
+  --yd-color-border-strong: #3a4555;
+  --yd-color-text: #c8d0e0;
+  --yd-color-text-rgb: 200 208 224;
+  --yd-color-text-strong: #f0f4fc;
+  --yd-color-text-strong-rgb: 240 244 252;
+  --yd-color-muted: #6b7a96;
+  --yd-color-muted-rgb: 107 122 150;
+  --yd-color-primary-soft: rgba(127, 29, 29, 0.18);
+  --yd-shadow-1: 0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
+  --yd-shadow-2: 0 4px 12px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.30);
+  --yd-shadow-3: 0 12px 32px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.40);
+  --yd-shadow-4: 0 24px 48px rgba(0,0,0,0.65), 0 8px 24px rgba(0,0,0,0.50);
+  --yd-shadow-primary: 0 4px 16px rgba(127,29,29,0.40), 0 2px 6px rgba(127,29,29,0.28);
+  --yd-shadow-primary-lg: 0 8px 24px rgba(127,29,29,0.50), 0 4px 12px rgba(127,29,29,0.36);
+  --bg: var(--yd-color-bg-rgb);
+  --card: var(--yd-color-card-rgb);
+  --border: var(--yd-color-border-rgb);
+  --text: var(--yd-color-text-rgb);
+  --muted: var(--yd-color-muted-rgb);
+}

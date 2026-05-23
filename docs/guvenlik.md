@@ -2,8 +2,8 @@
 
 > **Son Güncelleme:** 2026-05-04  
 > **Önceki Audit:** 2026-04-25  
-> **Kapsam:** `apps/mobile_flutter` · `apps/web_next` · Supabase Backend · Edge Functions  
-> ~~`apps/panel_flutter_web`~~ → **Silindi** (2026-05-04) — attack surface azaldı  
+> **Kapsam:** `uygulamalar/mobil` · `uygulamalar/web` · Supabase Backend · Edge Functions  
+> ~~Panel Flutter Web~~ → **Silindi** (2026-05-04) — attack surface azaldı  
 > **Yöntem:** Kaynak kod statik analiz + runtime pattern review
 
 ---
@@ -25,7 +25,7 @@
 
 ### G1 — OG Route XSS ✅ KAPATILDI
 - **Tarih:** 2026-04-27
-- `app/api/og/route.tsx`: HTML-escape + 120 karakter trim uygulandı.
+- `uygulama/sunucu/acik-grafik/route.tsx`: HTML-escape + 120 karakter trim uygulandı.
 
 ---
 
@@ -61,14 +61,14 @@
 
 ### G5 — Media Upload Yetkilendirme ✅ KAPATILDI
 - **Tarih:** 2026-04-27
-- `app/api/media/upload/route.ts`: `getUser()` + `canManageBusiness()` zinciri mevcut.
+- `uygulama/sunucu/medya/yukleme/route.ts`: `getUser()` + `canManageBusiness()` zinciri mevcut.
 
 ---
 
 ### G6 — Android App Link autoVerify ❌ AÇIK
 - **Seviye:** YÜKSEK
 - **Kategori:** Deep Link Güvenliği
-- **Dosya:** `apps/mobile_flutter/android/app/src/main/AndroidManifest.xml`
+- **Dosya:** `uygulamalar/mobil/android/uygulama/src/main/AndroidManifest.xml`
 - **Blocker:** Release APK'nın `sha256_cert_fingerprints` değeri gerekli.
 
 **Durum:** 2026-04-25'ten beri bekliyor. Play Store'a yükleme öncesi **zorunlu**.
@@ -120,11 +120,11 @@
 - **Kategori:** Denetim İzi / Uyumluluk
 
 **Etkilenen işlemler:**
-- `app/api/media/upload/route.ts` — yüklenen dosya bilgisi loglanmıyor
-- `app/api/presentation-settings/route.ts` — sunum ayarı değişikliği loglanmıyor
-- `app/owner/menus/[menuId]/edit/actions.ts` — menü CRUD loglanmıyor
-- `app/owner/businesses/[id]/actions.ts` — işletme güncelleme loglanmıyor
-- `app/api/admin/moderation/route.ts` — moderasyon aksiyonu loglanmıyor ⚠️ Kritik
+- `uygulama/sunucu/medya/yukleme/route.ts` — yüklenen dosya bilgisi loglanmıyor
+- `uygulama/sunucu/sunum-ayarlari/route.ts` — sunum ayarı değişikliği loglanmıyor
+- `uygulama/owner/menus/[menuId]/edit/actions.ts` — menü CRUD loglanmıyor
+- `uygulama/owner/businesses/[id]/actions.ts` — işletme güncelleme loglanmıyor
+- `uygulama/sunucu/yonetici/moderasyon/route.ts` — moderasyon aksiyonu loglanmıyor ⚠️ Kritik
 
 **Migration örneği:**
 
@@ -150,7 +150,7 @@ create policy "admin_only" on public.audit_logs for select to authenticated
 **Helper:**
 
 ```typescript
-// apps/web_next/src/lib/audit.ts
+// uygulamalar/web/src/lib/audit.ts
 export async function logAudit(supabase, userId, action, resourceType?, resourceId?, request?) {
   // fire-and-forget — başarısızlık işlemi engellemez
   supabase.from('audit_logs').insert({
@@ -174,8 +174,8 @@ export async function logAudit(supabase, userId, action, resourceType?, resource
 - **Seviye:** ORTA
 - **Kategori:** Yetkilendirme
 - **Dosyalar:**
-  - `app/owner/trash/actions.ts` — auth guard yok, sadece RPC RLS'e güveniyor
-  - `app/owner/settings/hours/actions.ts` — aynı durum
+  - `uygulama/owner/trash/actions.ts` — auth guard yok, sadece RPC RLS'e güveniyor
+  - `uygulama/owner/settings/hours/actions.ts` — aynı durum
 
 **Sorun:**  
 Next.js Server Actions (`'use server'`) koruması yoktur — doğrudan URL üzerinden veya crafted POST ile çağrılabilirler. `createSupabaseServerClient()` cookie session kullanıyor bu doğru, ancak `getUser()` açıkça çağrılmıyor. RPC'lerin RLS'i yakalasa da best practice değil.
@@ -215,18 +215,18 @@ export async function restoreMenu(menuId: string) {
 - **Seviye:** ORTA
 - **Kategori:** Yetkilendirme / Defense in Depth
 - **Dosyalar:**
-  - `app/api/admin/claims/route.ts`
-  - `app/api/admin/moderation/route.ts`
+  - `uygulama/sunucu/yonetici/itirazlar/route.ts`
+  - `uygulama/sunucu/yonetici/moderasyon/route.ts`
 
-**Mevcut durum:** Bu route'lar `user_profiles.role` kontrolü yapıyor — bu doğru. Ancak middleware'deki `guardPanelRoute()` fonksiyonu `/admin/*` için sadece `super_admin, admin, community_mod` rollerini kabul ediyor. API routes `/admin/*` prefix'li değil (`/api/admin/*`) → **middleware guard kapsamı dışında.**
+**Mevcut durum:** Bu route'lar `user_profiles.role` kontrolü yapıyor — bu doğru. Ancak middleware'deki `guardPanelRoute()` fonksiyonu `/admin/*` için sadece `super_admin, admin, community_mod` rollerini kabul ediyor. API routes `/admin/*` prefix'li değil (`/sunucu/yonetici/*`) → **middleware guard kapsamı dışında.**
 
-**Risk:** `ops.yeedoy.com` subdomaini üzerinden değil, doğrudan `yeedoy.com/api/admin/*` üzerinden erişim middleware'i atlatır. Route içindeki rol kontrolü koruyor ama layered defense eksik.
+**Risk:** `ops.yeedoy.com` subdomaini üzerinden değil, doğrudan `yeedoy.com/sunucu/yonetici/*` üzerinden erişim middleware'i atlatır. Route içindeki rol kontrolü koruyor ama layered defense eksik.
 
 **Düzeltme:**
 
 ```typescript
 // middleware.ts — ADMIN_API_PREFIX ekle:
-const ADMIN_API_PREFIX = '/api/admin';
+const ADMIN_API_PREFIX = '/sunucu/yonetici';
 
 async function guardAdminApiRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
@@ -261,7 +261,7 @@ grant execute on function public.estimate_email_segment_v1 to authenticated;
 
 ```bash
 # CI check (GitHub Actions):
-grep -E "(API_KEY|SECRET|SUPABASE_URL|token)" apps/mobile_flutter/ios/Runner/Info.plist \
+grep -E "(API_KEY|SECRET|SUPABASE_URL|token)" uygulamalar/mobil/ios/Runner/Info.plist \
   && echo "FAIL: sensitive data in Info.plist" && exit 1 || echo "OK"
 ```
 
@@ -274,7 +274,7 @@ grep -E "(API_KEY|SECRET|SUPABASE_URL|token)" apps/mobile_flutter/ios/Runner/Inf
 ---
 
 ### G17 (YENİ) — CSP unsafe-inline Daraltma ℹ️ İZLENMELİ
-- **Dosya:** `apps/web_next/next.config.mjs`
+- **Dosya:** `uygulamalar/web/next.config.mjs`
 - Mevcut CSP'de `script-src 'unsafe-inline'` var — Next.js nonce sistemi gerekiyor.
 
 ```javascript
@@ -289,7 +289,7 @@ grep -E "(API_KEY|SECRET|SUPABASE_URL|token)" apps/mobile_flutter/ios/Runner/Inf
 ---
 
 ### G18 (YENİ) — Flutter Deep Link Parametresi Doğrulama ℹ️ EKSİK
-- **Dosya:** `apps/mobile_flutter/lib/app/router.dart`
+- **Dosya:** `uygulamalar/mobil/lib/uygulama/yonlendirici.dart`
 - `GoRoute` path parametrelerinde UUID validasyon yok (G6 planında önerilmişti, uygulanmadı).
 
 ```dart
@@ -324,14 +324,14 @@ Codebase'de hiçbir hardcoded API key/secret bulunamadı. Tüm hassas değerler 
 ### ✅ Auth Akışları Güvenli
 Supabase Auth (email/password, Google Sign-In, OTP) — standart ve güvenli flow.
 
-### ✅ panel_flutter_web Silindi
-`apps/panel_flutter_web` attack surface tamamen kaldırıldı (2026-05-04). Flutter web'in saldırı yüzeyi (WordPress çağrıları, wp-json API'leri, custom domain logic) artık yok.
+### ✅ panel Flutter Web Silindi
+Eski panel Flutter Web attack surface tamamen kaldırıldı (2026-05-04). Flutter web'in saldırı yüzeyi (WordPress çağrıları, wp-json API'leri, custom domain logic) artık yok.
 
 ### ✅ Admin API Route'ları Rate Limit + Rol Kontrolü
-`app/api/admin/` route'larında: IP-based rate limit + `ADMIN_ROLES` list kontrolü + `createSupabaseServiceClient` sadece doğrulama sonrası.
+`uygulama/sunucu/yonetici/` route'larında: IP-based rate limit + `ADMIN_ROLES` list kontrolü + `createSupabaseServiceClient` sadece doğrulama sonrası.
 
 ### ✅ Next.js Middleware Auth Guard
-`/owner/*` ve `/admin/*` prefix'li tüm sayfalar `guardPanelRoute()` tarafından korunuyor. Unauthenticated kullanıcı `/login?redirect=...`'e yönlendiriliyor.
+`/owner/*` ve `/admin/*` prefix'li tüm sayfalar `guardPanelRoute()` tarafından korunuyor. Unauthenticated kullanıcı `/giris?redirect=...`'e yönlendiriliyor.
 
 ---
 
@@ -420,8 +420,8 @@ if (error || !user) return new Response(JSON.stringify({ error: 'invalid_token' 
       Diğer actions zaten getUser() çağırıyordu — tümü güvenli.
 
 [G13] ✅ Admin API middleware guard — middleware.ts güncellendi:
-      ADMIN_API_PREFIX = '/api/admin' eklendi.
-      guardPanelRoute() /api/admin/* için de çalışıyor.
+      ADMIN_API_PREFIX = '/sunucu/yonetici' eklendi.
+      guardPanelRoute() /sunucu/yonetici/* için de çalışıyor.
       2026-05-04
 ```
 
@@ -465,7 +465,7 @@ if (error || !user) return new Response(JSON.stringify({ error: 'invalid_token' 
 - [x] **G10 Audit log** — `20260504000001_audit_logs.sql` + `src/lib/audit.ts` + moderation route (2026-05-04)
 - [x] G11 Edge function hata mesajı — 2026-04-27
 - [x] **G12 Server Actions auth guard** — `withAuth()` + `withAdminAuth()` helpers (2026-05-04)
-- [x] **G13 Admin API middleware** — `/api/admin/*` guard middleware'e eklendi (2026-05-04)
+- [x] **G13 Admin API middleware** — `/sunucu/yonetici/*` guard middleware'e eklendi (2026-05-04)
 - [x] **G14 Anon grant revoke** — `20260504000002_revoke_anon_grants.sql` (14 get_my_* fonksiyon) (2026-05-04)
 
 ### DÜŞÜK / İZLEME
@@ -489,4 +489,6 @@ if (error || !user) return new Response(JSON.stringify({ error: 'invalid_token' 
 
 ---
 
-*Güncelleme: `panel_flutter_web` attack surface kaldırıldı. Server Actions auth eksikliği (G12) ve Admin API middleware gap (G13) yeni bulgular olarak eklendi. G6 hâlâ bekliyor.*
+*Güncelleme: eski panel Flutter Web attack surface kaldırıldı. Server Actions auth eksikliği (G12) ve Admin API middleware gap (G13) yeni bulgular olarak eklendi. G6 hâlâ bekliyor.*
+
+

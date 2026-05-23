@@ -21,7 +21,7 @@ class _AppShimmerState extends State<AppShimmer>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1300),
+      duration: const Duration(milliseconds: 1600),
     )..repeat();
   }
 
@@ -43,9 +43,9 @@ class _AppShimmerState extends State<AppShimmer>
             begin: Alignment(-2 + 4 * pos, 0),
             end: Alignment(-1 + 4 * pos, 0),
             colors: const [
-              Color(0xFFD5D5D5),
-              Color(0xFFEEEEEE),
-              Color(0xFFD5D5D5),
+              Color(0xFFE8E4E3), // warm grey matching cardAlt
+              Color(0xFFF5F0EF), // lighter warm highlight
+              Color(0xFFE8E4E3),
             ],
           ).createShader(bounds),
           child: child,

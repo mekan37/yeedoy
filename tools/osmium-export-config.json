@@ -1,0 +1,12 @@
+{
+  "attributes": {
+    "id": true,
+    "type": true,
+    "version": false,
+    "changeset": false,
+    "timestamp": false,
+    "uid": false,
+    "user": false,
+    "way_nodes": false
+  }
+}

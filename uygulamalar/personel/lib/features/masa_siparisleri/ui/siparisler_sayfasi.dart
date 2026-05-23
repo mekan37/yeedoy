@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,25 +41,33 @@ class SiparislerSayfasi extends ConsumerWidget {
           ),
         ],
       ),
-      body: siparisState.when(
-        loading: () =>
-            const PersonelListIskeleti(satirSayisi: 5),
-        error: (e, _) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+      body: RefreshIndicator(
+        onRefresh: () async =>
+            ref.read(masaSiparisleriProvider.notifier).yenile(),
+        child: siparisState.when(
+          loading: () => const PersonelListIskeleti(satirSayisi: 5),
+          error: (e, _) => ListView(
             children: [
-              Text(HataEsleyici.mesaj(e),
-                  style: const TextStyle(color: PColors.danger)),
-              const SizedBox(height: 16),
-              FilledButton(
-                onPressed: () =>
-                    ref.read(masaSiparisleriProvider.notifier).yenile(),
-                child: const Text('Tekrar Dene'),
+              const SizedBox(height: 80),
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(HataEsleyici.mesaj(e),
+                        style: const TextStyle(color: PColors.danger)),
+                    const SizedBox(height: 16),
+                    FilledButton(
+                      onPressed: () =>
+                          ref.read(masaSiparisleriProvider.notifier).yenile(),
+                      child: const Text('Tekrar Dene'),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
+          data: (siparisler) => _SiparisListesi(siparisler: siparisler),
         ),
-        data: (siparisler) => _SiparisListesi(siparisler: siparisler),
       ),
     );
   }
@@ -287,6 +296,7 @@ class _SiparisKartiState extends ConsumerState<_SiparisKarti> {
 
   Future<void> _aksiyonTap() async {
     if (_isUpdating) return;
+    HapticFeedback.mediumImpact();
     setState(() => _isUpdating = true);
     try {
       await ref.read(masaSiparisleriProvider.notifier)

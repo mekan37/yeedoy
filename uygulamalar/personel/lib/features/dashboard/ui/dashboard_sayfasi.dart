@@ -36,6 +36,7 @@ class DashboardSayfasi extends ConsumerWidget {
           ),
           IconButton(
             icon: const Icon(Icons.refresh_outlined),
+            tooltip: 'Yenile',
             onPressed: () =>
                 ref.read(dashboardIstatistikProvider.notifier).yenile(),
           ),

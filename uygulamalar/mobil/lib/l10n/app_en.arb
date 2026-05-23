@@ -1,0 +1,5069 @@
+{
+  "@@locale": "en",
+  "appName": "Yeedoy",
+  "@appName": {
+    "description": "Auto metadata for appName"
+  },
+  "appTagline": "Live menus, verified prices",
+  "@appTagline": {
+    "description": "Auto metadata for appTagline"
+  },
+  "appTaglineLine1": "Live menus",
+  "@appTaglineLine1": {
+    "description": "Auto metadata for appTaglineLine1"
+  },
+  "appTaglineLine2": "Verified prices",
+  "@appTaglineLine2": {
+    "description": "Auto metadata for appTaglineLine2"
+  },
+  "emptyTitle": "Nothing here yet",
+  "@emptyTitle": {
+    "description": "Auto metadata for emptyTitle"
+  },
+  "emptyRegionDescription": "No data in this area yet on Yeedoy. You can add the first contribution.",
+  "@emptyRegionDescription": {
+    "description": "Auto metadata for emptyRegionDescription"
+  },
+  "webDescription": "Yeedoy - Live menus, verified prices and smart discovery.",
+  "@webDescription": {
+    "description": "Auto metadata for webDescription"
+  },
+  "discover": "Discover",
+  "@discover": {
+    "description": "Auto metadata for discover"
+  },
+  "home": "Home",
+  "@home": {
+    "description": "Auto metadata for home"
+  },
+  "map": "Map",
+  "@map": {
+    "description": "Auto metadata for map"
+  },
+  "list": "List",
+  "@list": {
+    "description": "Auto metadata for list"
+  },
+  "favorites": "Favorites",
+  "@favorites": {
+    "description": "Auto metadata for favorites"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Auto metadata for profile"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Auto metadata for settings"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Auto metadata for save"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Auto metadata for cancel"
+  },
+  "privacy": "Privacy",
+  "@privacy": {
+    "description": "Auto metadata for privacy"
+  },
+  "socialLinks": "Social Links",
+  "@socialLinks": {
+    "description": "Auto metadata for socialLinks"
+  },
+  "logout": "Log Out",
+  "@logout": {
+    "description": "Auto metadata for logout"
+  },
+  "contribute": "Contribute",
+  "@contribute": {
+    "description": "Auto metadata for contribute"
+  },
+  "uploadPhoto": "Upload Photo",
+  "@uploadPhoto": {
+    "description": "Auto metadata for uploadPhoto"
+  },
+  "scanQr": "Scan QR",
+  "@scanQr": {
+    "description": "Auto metadata for scanQr"
+  },
+  "verifyPrice": "Verify Price",
+  "@verifyPrice": {
+    "description": "Auto metadata for verifyPrice"
+  },
+  "openInBrowser": "Open in Browser",
+  "@openInBrowser": {
+    "description": "Auto metadata for openInBrowser"
+  },
+  "linkPreview": "Link Preview",
+  "@linkPreview": {
+    "description": "Auto metadata for linkPreview"
+  },
+  "profileSettings": "Profile Settings",
+  "@profileSettings": {
+    "description": "Auto metadata for profileSettings"
+  },
+  "saving": "Saving...",
+  "@saving": {
+    "description": "Auto metadata for saving"
+  },
+  "loginRequired": "Please sign in first.",
+  "@loginRequired": {
+    "description": "Auto metadata for loginRequired"
+  },
+  "profileSaved": "Profile settings saved.",
+  "@profileSaved": {
+    "description": "Auto metadata for profileSaved"
+  },
+  "saveError": "Save error: {error}",
+  "@saveError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for saveError"
+  },
+  "namePrivacy": "Name Privacy",
+  "@namePrivacy": {
+    "description": "Auto metadata for namePrivacy"
+  },
+  "firstName": "First Name",
+  "@firstName": {
+    "description": "Auto metadata for firstName"
+  },
+  "lastName": "Last Name",
+  "@lastName": {
+    "description": "Auto metadata for lastName"
+  },
+  "showFullName": "Show full name",
+  "@showFullName": {
+    "description": "Auto metadata for showFullName"
+  },
+  "hideLastName": "Hide last name only",
+  "@hideLastName": {
+    "description": "Auto metadata for hideLastName"
+  },
+  "hideBothNames": "Hide first and last name",
+  "@hideBothNames": {
+    "description": "Auto metadata for hideBothNames"
+  },
+  "preview": "Preview",
+  "@preview": {
+    "description": "Auto metadata for preview"
+  },
+  "socialMedia": "Social Media",
+  "@socialMedia": {
+    "description": "Auto metadata for socialMedia"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Auto metadata for language"
+  },
+  "systemDefault": "System (Default)",
+  "@systemDefault": {
+    "description": "Auto metadata for systemDefault"
+  },
+  "turkish": "Turkish",
+  "@turkish": {
+    "description": "Auto metadata for turkish"
+  },
+  "english": "English",
+  "@english": {
+    "description": "Auto metadata for english"
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Auto metadata for account"
+  },
+  "invalidLink": "Enter a valid link.",
+  "@invalidLink": {
+    "description": "Auto metadata for invalidLink"
+  },
+  "socialPreview": "Social Preview",
+  "@socialPreview": {
+    "description": "Auto metadata for socialPreview"
+  },
+  "pasteLinkHelper": "Paste link (https://...)",
+  "@pasteLinkHelper": {
+    "description": "Auto metadata for pasteLinkHelper"
+  },
+  "privacySocialSubtitle": "Name privacy and social media links",
+  "@privacySocialSubtitle": {
+    "description": "Auto metadata for privacySocialSubtitle"
+  },
+  "updateBusinessTitle": "Update {businessName}",
+  "@updateBusinessTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for updateBusinessTitle"
+  },
+  "contributeSheetSubtitle": "Help the community keep menu prices verified.",
+  "@contributeSheetSubtitle": {
+    "description": "Auto metadata for contributeSheetSubtitle"
+  },
+  "scanMenuQr": "Scan Menu QR",
+  "@scanMenuQr": {
+    "description": "Auto metadata for scanMenuQr"
+  },
+  "scanMenuQrSubtitle": "Instant verification via QR",
+  "@scanMenuQrSubtitle": {
+    "description": "Auto metadata for scanMenuQrSubtitle"
+  },
+  "uploadPhotoSubtitle": "Take a picture of the menu",
+  "@uploadPhotoSubtitle": {
+    "description": "Auto metadata for uploadPhotoSubtitle"
+  },
+  "confirmPriceChange": "Confirm Price Change",
+  "@confirmPriceChange": {
+    "description": "Auto metadata for confirmPriceChange"
+  },
+  "confirmPriceChangeSubtitle": "Report an outdated price",
+  "@confirmPriceChangeSubtitle": {
+    "description": "Auto metadata for confirmPriceChangeSubtitle"
+  },
+  "qrAction": "QR Action",
+  "@qrAction": {
+    "description": "Auto metadata for qrAction"
+  },
+  "embed": "Embed",
+  "@embed": {
+    "description": "Auto metadata for embed"
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Auto metadata for share"
+  },
+  "shareAsImage": "Share as Image",
+  "@shareAsImage": {
+    "description": "Share as image card button"
+  },
+  "shareLink": "Share Link",
+  "@shareLink": {
+    "description": "Share as plain link button"
+  },
+  "invalidLinkMessage": "Invalid link",
+  "@invalidLinkMessage": {
+    "description": "Auto metadata for invalidLinkMessage"
+  },
+  "browserOpened": "Opened in browser",
+  "@browserOpened": {
+    "description": "Auto metadata for browserOpened"
+  },
+  "embedFailed": "Embed could not be displayed, redirected to browser.",
+  "@embedFailed": {
+    "description": "Auto metadata for embedFailed"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Auto metadata for back"
+  },
+  "updatedDaysAgo": "Updated {days} days ago",
+  "@updatedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for updatedDaysAgo"
+  },
+  "verifiedDaysAgo": "Verified {days} days ago",
+  "@verifiedDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for verifiedDaysAgo"
+  },
+  "distanceKm": "{km} km",
+  "@distanceKm": {
+    "placeholders": {
+      "km": {
+        "type": "num"
+      }
+    },
+    "description": "Auto metadata for distanceKm"
+  },
+  "avgSpendPerPerson": "{amount} / person",
+  "@avgSpendPerPerson": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for avgSpendPerPerson"
+  },
+  "reviewsCount": "Reviews ({count})",
+  "@reviewsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for reviewsCount"
+  },
+  "openNow": "Open now",
+  "@openNow": {
+    "description": "Auto metadata for openNow"
+  },
+  "closedNow": "Closed now",
+  "@closedNow": {
+    "description": "Auto metadata for closedNow"
+  },
+  "livePrices": "Live Prices",
+  "@livePrices": {
+    "description": "Auto metadata for livePrices"
+  },
+  "trustScore": "Trust Score",
+  "@trustScore": {
+    "description": "Auto metadata for trustScore"
+  },
+  "lastUpdated": "Last Updated",
+  "@lastUpdated": {
+    "description": "Auto metadata for lastUpdated"
+  },
+  "lastAudit": "Last Audit",
+  "@lastAudit": {
+    "description": "Auto metadata for lastAudit"
+  },
+  "avgCost": "Avg Cost",
+  "@avgCost": {
+    "description": "Auto metadata for avgCost"
+  },
+  "avgSpend": "AVG. SPEND",
+  "@avgSpend": {
+    "description": "Auto metadata for avgSpend"
+  },
+  "verified": "Verified",
+  "@verified": {
+    "description": "Auto metadata for verified"
+  },
+  "priceVerified": "Price Verified",
+  "@priceVerified": {
+    "description": "Auto metadata for priceVerified"
+  },
+  "communityVerified": "Community Verified",
+  "@communityVerified": {
+    "description": "Auto metadata for communityVerified"
+  },
+  "confirmedByUsersToday": "Confirmed by {users} users today",
+  "@confirmedByUsersToday": {
+    "placeholders": {
+      "users": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for confirmedByUsersToday"
+  },
+  "priceHistory": "Price History",
+  "@priceHistory": {
+    "description": "Auto metadata for priceHistory"
+  },
+  "contributeMenuPhoto": "Contribute Menu Photo",
+  "@contributeMenuPhoto": {
+    "description": "Auto metadata for contributeMenuPhoto"
+  },
+  "verify": "VERIFY",
+  "@verify": {
+    "description": "Auto metadata for verify"
+  },
+  "signatureSteaks": "Signature Steaks",
+  "@signatureSteaks": {
+    "description": "Auto metadata for signatureSteaks"
+  },
+  "signatureSection": "Signature {section}",
+  "@signatureSection": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for signatureSection"
+  },
+  "spottedPriceChange": "Spotted a price change?",
+  "@spottedPriceChange": {
+    "description": "Auto metadata for spottedPriceChange"
+  },
+  "spottedPriceChangeSubtitle": "Help the community by updating this menu.",
+  "@spottedPriceChangeSubtitle": {
+    "description": "Auto metadata for spottedPriceChangeSubtitle"
+  },
+  "updateDateUnavailable": "Update date unavailable",
+  "@updateDateUnavailable": {
+    "description": "Auto metadata for updateDateUnavailable"
+  },
+  "currentLocation": "CURRENT LOCATION",
+  "@currentLocation": {
+    "description": "Auto metadata for currentLocation"
+  },
+  "changeLocation": "Change location",
+  "@changeLocation": {
+    "description": "Auto metadata for changeLocation"
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "Auto metadata for filters"
+  },
+  "searchKebabsHint": "Search for kebabs, burgers...",
+  "@searchKebabsHint": {
+    "description": "Auto metadata for searchKebabsHint"
+  },
+  "budget": "Budget",
+  "@budget": {
+    "description": "Auto metadata for budget"
+  },
+  "freshMenuUpdates": "Fresh Menu Updates",
+  "@freshMenuUpdates": {
+    "description": "Auto metadata for freshMenuUpdates"
+  },
+  "seeAll": "See All",
+  "@seeAll": {
+    "description": "Auto metadata for seeAll"
+  },
+  "freshLinks": "Fresh Links",
+  "@freshLinks": {
+    "description": "Auto metadata for freshLinks"
+  },
+  "discoveryNearbyTitle": "Nearby mode",
+  "@discoveryNearbyTitle": {
+    "description": "Auto metadata for discoveryNearbyTitle"
+  },
+  "discoveryNearbySubtitle": "Best results by your location",
+  "@discoveryNearbySubtitle": {
+    "description": "Auto metadata for discoveryNearbySubtitle"
+  },
+  "discoveryLocationSubtitle": "Discover by city/district",
+  "@discoveryLocationSubtitle": {
+    "description": "Auto metadata for discoveryLocationSubtitle"
+  },
+  "nearbyVerifiedSpots": "Nearby Verified Spots",
+  "@nearbyVerifiedSpots": {
+    "description": "Auto metadata for nearbyVerifiedSpots"
+  },
+  "noNearbyVerifiedSpots": "No nearby verified spots found",
+  "@noNearbyVerifiedSpots": {
+    "description": "Auto metadata for noNearbyVerifiedSpots"
+  },
+  "changeFiltersTryAgain": "Try changing location or filters.",
+  "@changeFiltersTryAgain": {
+    "description": "Auto metadata for changeFiltersTryAgain"
+  },
+  "noFreshData": "No fresh data",
+  "@noFreshData": {
+    "description": "Auto metadata for noFreshData"
+  },
+  "freshDataWillAppear": "Nearby menu updates will appear here.",
+  "@freshDataWillAppear": {
+    "description": "Auto metadata for freshDataWillAppear"
+  },
+  "businessLabel": "Business",
+  "@businessLabel": {
+    "description": "Auto metadata for businessLabel"
+  },
+  "report": "Report",
+  "@report": {
+    "description": "Auto metadata for report"
+  },
+  "favoriteAdded": "Favorited",
+  "@favoriteAdded": {
+    "description": "Auto metadata for favoriteAdded"
+  },
+  "addToFavorites": "Add to favorites",
+  "@addToFavorites": {
+    "description": "Auto metadata for addToFavorites"
+  },
+  "writeReview": "Write review",
+  "@writeReview": {
+    "description": "Auto metadata for writeReview"
+  },
+  "other": "Other",
+  "@other": {
+    "description": "Auto metadata for other"
+  },
+  "itemsCount": "{count} items",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for itemsCount"
+  },
+  "weakConnectionQueueNotice": "Weak connection. Verification queued and will be sent automatically when online.",
+  "@weakConnectionQueueNotice": {
+    "description": "Auto metadata for weakConnectionQueueNotice"
+  },
+  "pendingVerificationsSent": "{count} pending verifications sent.",
+  "@pendingVerificationsSent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for pendingVerificationsSent"
+  },
+  "loadMenuItemsFirst": "Load menu items first.",
+  "@loadMenuItemsFirst": {
+    "description": "Auto metadata for loadMenuItemsFirst"
+  },
+  "menuNotAddedYet": "Not added yet",
+  "@menuNotAddedYet": {
+    "description": "Auto metadata for menuNotAddedYet"
+  },
+  "menuNotAddedYetDescription": "Menu has not been added for this business yet.",
+  "@menuNotAddedYetDescription": {
+    "description": "Auto metadata for menuNotAddedYetDescription"
+  },
+  "weakConnection": "Weak connection",
+  "@weakConnection": {
+    "description": "Auto metadata for weakConnection"
+  },
+  "contentLoadFailedCheckInternet": "Content could not be loaded right now. Cached data will be shown if available. Check internet and try again.",
+  "@contentLoadFailedCheckInternet": {
+    "description": "Auto metadata for contentLoadFailedCheckInternet"
+  },
+  "trustDataUnavailable": "Data trust unavailable",
+  "@trustDataUnavailable": {
+    "description": "Auto metadata for trustDataUnavailable"
+  },
+  "freshnessAndTrust": "Data trust breakdown",
+  "@freshnessAndTrust": {
+    "description": "Auto metadata for freshnessAndTrust"
+  },
+  "menuUpdatedLabel": "Menu Updated",
+  "@menuUpdatedLabel": {
+    "description": "Auto metadata for menuUpdatedLabel"
+  },
+  "lastPriceVerification": "Last Price Verification",
+  "@lastPriceVerification": {
+    "description": "Auto metadata for lastPriceVerification"
+  },
+  "trustScoreLabel": "Trust Score",
+  "@trustScoreLabel": {
+    "description": "Auto metadata for trustScoreLabel"
+  },
+  "communityScoreDataTrustLabel": "Data trust",
+  "communityScoreMenuFreshnessLabel": "Menu freshness",
+  "last3MonthsPriceChange": "Last 3 Months Price Change",
+  "@last3MonthsPriceChange": {
+    "description": "Auto metadata for last3MonthsPriceChange"
+  },
+  "hoursInfoUnavailable": "Hours information unavailable",
+  "@hoursInfoUnavailable": {
+    "description": "Auto metadata for hoursInfoUnavailable"
+  },
+  "hoursInfoMissing": "Hours information missing",
+  "@hoursInfoMissing": {
+    "description": "Auto metadata for hoursInfoMissing"
+  },
+  "addHoursHelp": "Add business hours to help users.",
+  "@addHoursHelp": {
+    "description": "Auto metadata for addHoursHelp"
+  },
+  "reportHoursInfo": "Report hours information",
+  "@reportHoursInfo": {
+    "description": "Auto metadata for reportHoursInfo"
+  },
+  "menus": "Menus",
+  "@menus": {
+    "description": "Auto metadata for menus"
+  },
+  "menusLoadFailed": "Menus failed to load",
+  "@menusLoadFailed": {
+    "description": "Auto metadata for menusLoadFailed"
+  },
+  "noMenu": "No menu",
+  "@noMenu": {
+    "description": "Auto metadata for noMenu"
+  },
+  "addFirstMenuHelp": "Help users by adding the first menu.",
+  "@addFirstMenuHelp": {
+    "description": "Auto metadata for addFirstMenuHelp"
+  },
+  "crowdInfoUnavailable": "Crowd info unavailable",
+  "@crowdInfoUnavailable": {
+    "description": "Auto metadata for crowdInfoUnavailable"
+  },
+  "liveCrowdLabel": "Live crowd: {state}",
+  "@liveCrowdLabel": {
+    "placeholders": {
+      "state": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for liveCrowdLabel"
+  },
+  "reviewsLoadFailed": "Reviews failed to load",
+  "@reviewsLoadFailed": {
+    "description": "Auto metadata for reviewsLoadFailed"
+  },
+  "noReviews": "No reviews",
+  "@noReviews": {
+    "description": "Auto metadata for noReviews"
+  },
+  "leaveFirstReviewHelp": "Contribute by leaving the first review.",
+  "@leaveFirstReviewHelp": {
+    "description": "Auto metadata for leaveFirstReviewHelp"
+  },
+  "writeFirstReview": "Write first review",
+  "@writeFirstReview": {
+    "description": "Auto metadata for writeFirstReview"
+  },
+  "recentReviews": "Recent reviews",
+  "@recentReviews": {
+    "description": "Auto metadata for recentReviews"
+  },
+  "reviewFallbackTitle": "Review",
+  "@reviewFallbackTitle": {
+    "description": "Auto metadata for reviewFallbackTitle"
+  },
+  "activeCampaigns": "Active campaigns",
+  "@activeCampaigns": {
+    "description": "Auto metadata for activeCampaigns"
+  },
+  "menuDataUnavailable": "Menu data unavailable",
+  "@menuDataUnavailable": {
+    "description": "Auto metadata for menuDataUnavailable"
+  },
+  "noMenuProductsYet": "No products to list yet.",
+  "@noMenuProductsYet": {
+    "description": "Auto metadata for noMenuProductsYet"
+  },
+  "menu": "Menu",
+  "@menu": {
+    "description": "Auto metadata for menu"
+  },
+  "featuredFromCuisine": "Featured from {cuisine} cuisine.",
+  "@featuredFromCuisine": {
+    "placeholders": {
+      "cuisine": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for featuredFromCuisine"
+  },
+  "weeklyPriceChange": "+₺50 this week",
+  "@weeklyPriceChange": {
+    "description": "Auto metadata for weeklyPriceChange"
+  },
+  "chartPlaceholderSoon": "Chart area (coming soon)",
+  "@chartPlaceholderSoon": {
+    "description": "Auto metadata for chartPlaceholderSoon"
+  },
+  "featuredCuisineSuffix": "cuisine highlights.",
+  "@featuredCuisineSuffix": {
+    "description": "Auto metadata for featuredCuisineSuffix"
+  },
+  "connectionProblemTryAgain": "There may be a connection issue. Please try again.",
+  "@connectionProblemTryAgain": {
+    "description": "Auto metadata for connectionProblemTryAgain"
+  },
+  "noActiveCampaign": "No active campaigns",
+  "@noActiveCampaign": {
+    "description": "Auto metadata for noActiveCampaign"
+  },
+  "activeCampaignCountLabel": "active campaigns",
+  "@activeCampaignCountLabel": {
+    "description": "Auto metadata for activeCampaignCountLabel"
+  },
+  "noAmenityInfo": "No amenity information",
+  "@noAmenityInfo": {
+    "description": "Auto metadata for noAmenityInfo"
+  },
+  "amenityCountLabel": "amenities marked",
+  "@amenityCountLabel": {
+    "description": "Auto metadata for amenityCountLabel"
+  },
+  "noLocationVerificationData": "No location verification data",
+  "@noLocationVerificationData": {
+    "description": "Auto metadata for noLocationVerificationData"
+  },
+  "lastLocationVerification": "Last location verification",
+  "@lastLocationVerification": {
+    "description": "Auto metadata for lastLocationVerification"
+  },
+  "noNewProductRecord": "No new product record",
+  "@noNewProductRecord": {
+    "description": "Auto metadata for noNewProductRecord"
+  },
+  "newProduct": "New product",
+  "@newProduct": {
+    "description": "Auto metadata for newProduct"
+  },
+  "reportInfoErrorPrefix": "Report incorrect info. Last update:",
+  "@reportInfoErrorPrefix": {
+    "description": "Auto metadata for reportInfoErrorPrefix"
+  },
+  "noLocation": "No location",
+  "@noLocation": {
+    "description": "Auto metadata for noLocation"
+  },
+  "noHoursInfo": "No hours info",
+  "@noHoursInfo": {
+    "description": "Auto metadata for noHoursInfo"
+  },
+  "reviewsCountSuffix": "reviews",
+  "@reviewsCountSuffix": {
+    "description": "Auto metadata for reviewsCountSuffix"
+  },
+  "noTime": "No time",
+  "@noTime": {
+    "description": "Auto metadata for noTime"
+  },
+  "tabSteaks": "Steaks",
+  "@tabSteaks": {
+    "description": "Auto metadata for tabSteaks"
+  },
+  "tabBurgers": "Burgers",
+  "@tabBurgers": {
+    "description": "Auto metadata for tabBurgers"
+  },
+  "tabSides": "Sides",
+  "@tabSides": {
+    "description": "Auto metadata for tabSides"
+  },
+  "tabBeverages": "Beverages",
+  "@tabBeverages": {
+    "description": "Auto metadata for tabBeverages"
+  },
+  "locationNotAvailable": "Location not available",
+  "@locationNotAvailable": {
+    "description": "Auto metadata for locationNotAvailable"
+  },
+  "sortRecommended": "Recommended",
+  "@sortRecommended": {
+    "description": "Auto metadata for sortRecommended"
+  },
+  "sortDistance": "Distance",
+  "@sortDistance": {
+    "description": "Auto metadata for sortDistance"
+  },
+  "sortRating": "Rating",
+  "@sortRating": {
+    "description": "Auto metadata for sortRating"
+  },
+  "sortPriceLow": "Price",
+  "@sortPriceLow": {
+    "description": "Auto metadata for sortPriceLow"
+  },
+  "sortNewlyVerified": "Newly verified",
+  "@sortNewlyVerified": {
+    "description": "Auto metadata for sortNewlyVerified"
+  },
+  "rankingFormulaTitle": "Ranking Formula",
+  "@rankingFormulaTitle": {
+    "description": "Auto metadata for rankingFormulaTitle"
+  },
+  "rankingFormulaIntro": "Yeedoy uses transparent ranking:",
+  "@rankingFormulaIntro": {
+    "description": "Auto metadata for rankingFormulaIntro"
+  },
+  "rankingWeightDistance": "30% Distance",
+  "@rankingWeightDistance": {
+    "description": "Auto metadata for rankingWeightDistance"
+  },
+  "rankingWeightAccuracy": "30% Accuracy (recent verifications)",
+  "@rankingWeightAccuracy": {
+    "description": "Auto metadata for rankingWeightAccuracy"
+  },
+  "rankingWeightEngagement": "20% Engagement (average rating)",
+  "@rankingWeightEngagement": {
+    "description": "Auto metadata for rankingWeightEngagement"
+  },
+  "rankingWeightQuality": "20% Quality (quality score)",
+  "@rankingWeightQuality": {
+    "description": "Auto metadata for rankingWeightQuality"
+  },
+  "rankingFormulaNote": "These weights are fixed; admins cannot change them arbitrarily.",
+  "@rankingFormulaNote": {
+    "description": "Auto metadata for rankingFormulaNote"
+  },
+  "minRatingLabel": "Minimum rating: {value}",
+  "@minRatingLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for minRatingLabel"
+  },
+  "priceLevel": "Price level",
+  "@priceLevel": {
+    "description": "Auto metadata for priceLevel"
+  },
+  "prioritizeOpenNow": "Prioritize currently open businesses",
+  "@prioritizeOpenNow": {
+    "description": "Auto metadata for prioritizeOpenNow"
+  },
+  "prioritizeNewlyVerified": "Prioritize newly verified prices",
+  "@prioritizeNewlyVerified": {
+    "description": "Auto metadata for prioritizeNewlyVerified"
+  },
+  "reset": "Reset",
+  "@reset": {
+    "description": "Auto metadata for reset"
+  },
+  "apply": "Apply",
+  "@apply": {
+    "description": "Auto metadata for apply"
+  },
+  "priceTierAny": "All",
+  "@priceTierAny": {
+    "description": "Auto metadata for priceTierAny"
+  },
+  "priceTierBudget": "Budget",
+  "@priceTierBudget": {
+    "description": "Auto metadata for priceTierBudget"
+  },
+  "priceTierMedium": "Medium",
+  "@priceTierMedium": {
+    "description": "Auto metadata for priceTierMedium"
+  },
+  "priceTierPremium": "Premium",
+  "@priceTierPremium": {
+    "description": "Auto metadata for priceTierPremium"
+  },
+  "tabAllItems": "All Items",
+  "@tabAllItems": {
+    "description": "Auto metadata for tabAllItems"
+  },
+  "tabStarters": "Starters",
+  "@tabStarters": {
+    "description": "Auto metadata for tabStarters"
+  },
+  "usersLabel": "users",
+  "@usersLabel": {
+    "description": "Auto metadata for usersLabel"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Auto metadata for unknown"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Auto metadata for today"
+  },
+  "dayUnit": "days",
+  "@dayUnit": {
+    "description": "Auto metadata for dayUnit"
+  },
+  "tekrarDene": "Retry",
+  "@tekrarDene": {
+    "description": "Auto metadata for tekrarDene"
+  },
+  "vazgec": "Cancel",
+  "@vazgec": {
+    "description": "Auto metadata for vazgec"
+  },
+  "reddet": "Reject",
+  "@reddet": {
+    "description": "Auto metadata for reddet"
+  },
+  "title": "Title",
+  "@title": {
+    "description": "Auto metadata for title"
+  },
+  "isleniyor": "Processing...",
+  "@isleniyor": {
+    "description": "Auto metadata for isleniyor"
+  },
+  "onayla": "Approve",
+  "@onayla": {
+    "description": "Auto metadata for onayla"
+  },
+  "approved": "Approved",
+  "@approved": {
+    "description": "Auto metadata for approved"
+  },
+  "tumu": "All",
+  "@tumu": {
+    "description": "Auto metadata for tumu"
+  },
+  "kayitBulunamadi": "No records found.",
+  "@kayitBulunamadi": {
+    "description": "Auto metadata for kayitBulunamadi"
+  },
+  "temizle": "Clear",
+  "@temizle": {
+    "description": "Auto metadata for temizle"
+  },
+  "uygula": "Apply",
+  "@uygula": {
+    "description": "Auto metadata for uygula"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Auto metadata for pending"
+  },
+  "reddedildi": "Rejected",
+  "@reddedildi": {
+    "description": "Auto metadata for reddedildi"
+  },
+  "satirSec": "Select row",
+  "@satirSec": {
+    "description": "Auto metadata for satirSec"
+  },
+  "gonder": "Send",
+  "@gonder": {
+    "description": "Auto metadata for gonder"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Auto metadata for rejected"
+  },
+  "detay": "Detail",
+  "@detay": {
+    "description": "Auto metadata for detay"
+  },
+  "duzenle": "Edit",
+  "@duzenle": {
+    "description": "Auto metadata for duzenle"
+  },
+  "eminMisin": "Are you sure?",
+  "@eminMisin": {
+    "description": "Auto metadata for eminMisin"
+  },
+  "guncellendi": "Updated.",
+  "@guncellendi": {
+    "description": "Auto metadata for guncellendi"
+  },
+  "reddedildi_2": "Rejected.",
+  "@reddedildi_2": {
+    "description": "Auto metadata for reddedildi_2"
+  },
+  "sla": "SLA",
+  "@sla": {
+    "description": "Auto metadata for sla"
+  },
+  "csvDisaAktar": "Export CSV",
+  "@csvDisaAktar": {
+    "description": "Auto metadata for csvDisaAktar"
+  },
+  "onaylandi": "Approved",
+  "@onaylandi": {
+    "description": "Auto metadata for onaylandi"
+  },
+  "yenile": "Refresh",
+  "@yenile": {
+    "description": "Auto metadata for yenile"
+  },
+  "decreaseQuantity": "Decrease quantity",
+  "increaseQuantity": "Increase quantity",
+  "kapat": "Close",
+  "suspendedMealsEmptyDescription": "Your suspended meal plans will appear here.",
+  "ara": "Search",
+  "ratingLabel": "{count} stars",
+  "@ratingLabel": {
+    "description": "Star rating tooltip label",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "atanan": "Assigned",
+  "@atanan": {
+    "description": "Auto metadata for atanan"
+  },
+  "beklemede": "Pending",
+  "@beklemede": {
+    "description": "Auto metadata for beklemede"
+  },
+  "durum": "Status",
+  "@durum": {
+    "description": "Auto metadata for durum"
+  },
+  "tabRecommended": "Recommended",
+  "@tabRecommended": {
+    "description": "Auto metadata for tabRecommended"
+  },
+  "tabCampaigns": "Campaigns",
+  "@tabCampaigns": {
+    "description": "Auto metadata for tabCampaigns"
+  },
+  "tabFoods": "Foods",
+  "@tabFoods": {
+    "description": "Auto metadata for tabFoods"
+  },
+  "whyTop": "Why on top?",
+  "@whyTop": {
+    "description": "Auto metadata for whyTop"
+  },
+  "quickSuggestionTitle": "Quick suggestion",
+  "@quickSuggestionTitle": {
+    "description": "Auto metadata for quickSuggestionTitle"
+  },
+  "quickSuggestionSubtitle": "Start with a ready budget for 2 people",
+  "@quickSuggestionSubtitle": {
+    "description": "Auto metadata for quickSuggestionSubtitle"
+  },
+  "quickSuggestionPreset": "2 people / TL 600",
+  "@quickSuggestionPreset": {
+    "description": "Auto metadata for quickSuggestionPreset"
+  },
+  "whatToEatTitle": "What should I eat now?",
+  "@whatToEatTitle": {
+    "description": "Auto metadata for whatToEatTitle"
+  },
+  "whatToEatSubtitle": "Best combo in 3 steps",
+  "@whatToEatSubtitle": {
+    "description": "Auto metadata for whatToEatSubtitle"
+  },
+  "nearbyShort": "Nearby",
+  "@nearbyShort": {
+    "description": "Auto metadata for nearbyShort"
+  },
+  "affordableShort": "Affordable",
+  "@affordableShort": {
+    "description": "Auto metadata for affordableShort"
+  },
+  "quickDecisionShort": "Quick choice",
+  "@quickDecisionShort": {
+    "description": "Auto metadata for quickDecisionShort"
+  },
+  "start": "Start",
+  "@start": {
+    "description": "Auto metadata for start"
+  },
+  "friendGroupTitle": "Friends group",
+  "@friendGroupTitle": {
+    "description": "Auto metadata for friendGroupTitle"
+  },
+  "friendGroupSubtitle": "Share a link and let everyone suggest",
+  "@friendGroupSubtitle": {
+    "description": "Auto metadata for friendGroupSubtitle"
+  },
+  "openGroup": "Open group",
+  "@openGroup": {
+    "description": "Auto metadata for openGroup"
+  },
+  "myGroups": "My groups",
+  "@myGroups": {
+    "description": "Auto metadata for myGroups"
+  },
+  "onTheRoadTitle": "On the road",
+  "@onTheRoadTitle": {
+    "description": "Auto metadata for onTheRoadTitle"
+  },
+  "onTheRoadSubtitle": "Fast food options within 20 km",
+  "@onTheRoadSubtitle": {
+    "description": "Auto metadata for onTheRoadSubtitle"
+  },
+  "heroesTitle": "Heroes",
+  "@heroesTitle": {
+    "description": "Auto metadata for heroesTitle"
+  },
+  "heroesSubtitle": "Suspended meal good deeds list",
+  "@heroesSubtitle": {
+    "description": "Auto metadata for heroesSubtitle"
+  },
+  "view": "View",
+  "@view": {
+    "description": "Auto metadata for view"
+  },
+  "bestBusinessesThisWeek": "Best Businesses This Week",
+  "@bestBusinessesThisWeek": {
+    "description": "Auto metadata for bestBusinessesThisWeek"
+  },
+  "bestBusinessesThisMonth": "Best Businesses This Month",
+  "@bestBusinessesThisMonth": {
+    "description": "Auto metadata for bestBusinessesThisMonth"
+  },
+  "onTheRoad20km": "On the road • 20 km",
+  "@onTheRoad20km": {
+    "description": "Auto metadata for onTheRoad20km"
+  },
+  "nearbyKm": "Nearby • {km} km",
+  "@nearbyKm": {
+    "placeholders": {
+      "km": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for nearbyKm"
+  },
+  "liveResultsUpdating": "Live results are shown. Full result list is updating...",
+  "@liveResultsUpdating": {
+    "description": "Auto metadata for liveResultsUpdating"
+  },
+  "businessApprovedData": "Business approved",
+  "@businessApprovedData": {
+    "description": "Auto metadata for businessApprovedData"
+  },
+  "communityData": "Community data",
+  "@communityData": {
+    "description": "Auto metadata for communityData"
+  },
+  "removeFromFavorites": "Remove from favorites",
+  "@removeFromFavorites": {
+    "description": "Auto metadata for removeFromFavorites"
+  },
+  "locationPermissionTitle": "Allow location",
+  "@locationPermissionTitle": {
+    "description": "Auto metadata for locationPermissionTitle"
+  },
+  "locationPermissionDescription": "You can still use the app without permission. Nearby results may be less accurate.",
+  "@locationPermissionDescription": {
+    "description": "Auto metadata for locationPermissionDescription"
+  },
+  "allow": "Allow",
+  "@allow": {
+    "description": "Auto metadata for allow"
+  },
+  "selectLocation": "Select location",
+  "@selectLocation": {
+    "description": "Auto metadata for selectLocation"
+  },
+  "manualLocationHint": "Manual start picks city/district and radius.",
+  "@manualLocationHint": {
+    "description": "Auto metadata for manualLocationHint"
+  },
+  "noResultsYet": "No results yet",
+  "@noResultsYet": {
+    "description": "Auto metadata for noResultsYet"
+  },
+  "lowDataInArea": "Low data in this area",
+  "@lowDataInArea": {
+    "description": "Auto metadata for lowDataInArea"
+  },
+  "tryDifferentSearchOrFilter": "Try a different search or filter.",
+  "@tryDifferentSearchOrFilter": {
+    "description": "Auto metadata for tryDifferentSearchOrFilter"
+  },
+  "beFirstContributorInArea": "Add the first contribution and help the list grow.",
+  "@beFirstContributorInArea": {
+    "description": "Auto metadata for beFirstContributorInArea"
+  },
+  "topVerifiedMenus": "Top 10 most verified menus",
+  "@topVerifiedMenus": {
+    "description": "Auto metadata for topVerifiedMenus"
+  },
+  "mostTrustedMenusInCity": "Most trusted menus in this city.",
+  "@mostTrustedMenusInCity": {
+    "description": "Auto metadata for mostTrustedMenusInCity"
+  },
+  "seeList": "See list",
+  "@seeList": {
+    "description": "Auto metadata for seeList"
+  },
+  "localContributionCall": "Local contribution call: extra badge for first 50 contributions.",
+  "@localContributionCall": {
+    "description": "Auto metadata for localContributionCall"
+  },
+  "addFirstMenu": "Add first menu",
+  "@addFirstMenu": {
+    "description": "Auto metadata for addFirstMenu"
+  },
+  "suggestBusiness": "Suggest business",
+  "@suggestBusiness": {
+    "description": "Auto metadata for suggestBusiness"
+  },
+  "noSurpriseSuggestionNow": "No surprise suggestion right now.",
+  "@noSurpriseSuggestionNow": {
+    "description": "Auto metadata for noSurpriseSuggestionNow"
+  },
+  "priceVerifiedInLast48h": "This price was verified in the last 48 hours",
+  "@priceVerifiedInLast48h": {
+    "description": "Auto metadata for priceVerifiedInLast48h"
+  },
+  "menuMayBeOutdated": "Menu may be outdated",
+  "@menuMayBeOutdated": {
+    "description": "Auto metadata for menuMayBeOutdated"
+  },
+  "verifiedByBusiness": "Verified by business",
+  "@verifiedByBusiness": {
+    "description": "Auto metadata for verifiedByBusiness"
+  },
+  "updatedByCommunity": "Updated by community",
+  "@updatedByCommunity": {
+    "description": "Auto metadata for updatedByCommunity"
+  },
+  "topRankedInDistrict": "Top ranked in your district",
+  "@topRankedInDistrict": {
+    "description": "Auto metadata for topRankedInDistrict"
+  },
+  "surpriseDiscoveryTitle": "Surprise discovery",
+  "@surpriseDiscoveryTitle": {
+    "description": "Auto metadata for surpriseDiscoveryTitle"
+  },
+  "surpriseDiscoverySubtitle": "Not boring, surprise picks.",
+  "@surpriseDiscoverySubtitle": {
+    "description": "Auto metadata for surpriseDiscoverySubtitle"
+  },
+  "randomButGood": "Random but good today",
+  "@randomButGood": {
+    "description": "Auto metadata for randomButGood"
+  },
+  "outsideYourUsual": "Outside your usual",
+  "@outsideYourUsual": {
+    "description": "Auto metadata for outsideYourUsual"
+  },
+  "pricePerformanceSurprise": "Price-performance surprise",
+  "@pricePerformanceSurprise": {
+    "description": "Auto metadata for pricePerformanceSurprise"
+  },
+  "nearbyCampaignsAndAnnouncements": "Nearby campaigns and announcements",
+  "@nearbyCampaignsAndAnnouncements": {
+    "description": "Auto metadata for nearbyCampaignsAndAnnouncements"
+  },
+  "noNearbyCampaign": "No nearby campaign",
+  "@noNearbyCampaign": {
+    "description": "Auto metadata for noNearbyCampaign"
+  },
+  "noActiveAnnouncementInArea": "No active announcement in this area. Try again later.",
+  "@noActiveAnnouncementInArea": {
+    "description": "Auto metadata for noActiveAnnouncementInArea"
+  },
+  "remainingLabel": "Remaining",
+  "@remainingLabel": {
+    "description": "Auto metadata for remainingLabel"
+  },
+  "campaign": "Campaign",
+  "@campaign": {
+    "description": "Auto metadata for campaign"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Auto metadata for active"
+  },
+  "noLocationDataForMap": "No location data for map",
+  "@noLocationDataForMap": {
+    "description": "Auto metadata for noLocationDataForMap"
+  },
+  "mapDataMissingUseList": "Some results do not have location data. You can use list view.",
+  "@mapDataMissingUseList": {
+    "description": "Auto metadata for mapDataMissingUseList"
+  },
+  "openMapView": "Open map view",
+  "@openMapView": {
+    "description": "Auto metadata for openMapView"
+  },
+  "mapHintTapPins": "Tip: Tap pins to open business details.",
+  "@mapHintTapPins": {
+    "description": "Auto metadata for mapHintTapPins"
+  },
+  "locationPermissionRequired": "Location permission required.",
+  "@locationPermissionRequired": {
+    "description": "Auto metadata for locationPermissionRequired"
+  },
+  "noFoodFoundForCriteria": "No food found for your criteria. Try loosening filters.",
+  "@noFoodFoundForCriteria": {
+    "description": "Auto metadata for noFoodFoundForCriteria"
+  },
+  "whatToEatDescription": "Decide with people count, budget, and distance.",
+  "@whatToEatDescription": {
+    "description": "Auto metadata for whatToEatDescription"
+  },
+  "stepPeopleCount": "1) People count",
+  "@stepPeopleCount": {
+    "description": "Auto metadata for stepPeopleCount"
+  },
+  "quickDecisionThreeOptions": "Quick choice: 3 options",
+  "@quickDecisionThreeOptions": {
+    "description": "Auto metadata for quickDecisionThreeOptions"
+  },
+  "stepBudgetTotal": "2) Budget (total)",
+  "@stepBudgetTotal": {
+    "description": "Auto metadata for stepBudgetTotal"
+  },
+  "budgetTl": "Budget (₺)",
+  "@budgetTl": {
+    "description": "Auto metadata for budgetTl"
+  },
+  "stepDistance": "3) Distance",
+  "@stepDistance": {
+    "description": "Auto metadata for stepDistance"
+  },
+  "locationNotSelected": "Location not selected",
+  "@locationNotSelected": {
+    "description": "Auto metadata for locationNotSelected"
+  },
+  "seeSuggestions": "See suggestions",
+  "@seeSuggestions": {
+    "description": "Auto metadata for seeSuggestions"
+  },
+  "getSingleSuggestion": "Get one suggestion",
+  "@getSingleSuggestion": {
+    "description": "Auto metadata for getSingleSuggestion"
+  },
+  "go": "Go",
+  "@go": {
+    "description": "Auto metadata for go"
+  },
+  "restart": "Restart",
+  "@restart": {
+    "description": "Auto metadata for restart"
+  },
+  "quickShortcuts": "Quick shortcuts",
+  "@quickShortcuts": {
+    "description": "Auto metadata for quickShortcuts"
+  },
+  "quickShortcutsSubtitle": "Access frequent actions from here.",
+  "@quickShortcutsSubtitle": {
+    "description": "Auto metadata for quickShortcutsSubtitle"
+  },
+  "savedItems": "Saved items",
+  "@savedItems": {
+    "description": "Auto metadata for savedItems"
+  },
+  "myFriendGroup": "My friend group",
+  "@myFriendGroup": {
+    "description": "Auto metadata for myFriendGroup"
+  },
+  "tasteExperts": "Taste experts",
+  "@tasteExperts": {
+    "description": "Auto metadata for tasteExperts"
+  },
+  "businessTools": "Business tools",
+  "@businessTools": {
+    "description": "Auto metadata for businessTools"
+  },
+  "businessToolsSubtitle": "Tools you need to grow your business.",
+  "@businessToolsSubtitle": {
+    "description": "Auto metadata for businessToolsSubtitle"
+  },
+  "sponsoredLabelChip": "Sponsored label",
+  "@sponsoredLabelChip": {
+    "description": "Auto metadata for sponsoredLabelChip"
+  },
+  "sponsored": "Sponsored",
+  "@sponsored": {
+    "description": "Auto metadata for sponsored"
+  },
+  "ready": "ready",
+  "@ready": {
+    "description": "Auto metadata for ready"
+  },
+  "plan": "planned",
+  "@plan": {
+    "description": "Auto metadata for plan"
+  },
+  "sponsoredDisclosure": "This area is for visibility. It does not affect normal ranking.",
+  "@sponsoredDisclosure": {
+    "description": "Auto metadata for sponsoredDisclosure"
+  },
+  "sponsoredTooltip": "Sponsored records are shown in a separate section.",
+  "@sponsoredTooltip": {
+    "description": "Auto metadata for sponsoredTooltip"
+  },
+  "localInsightsReady": "Local insights ready for {area}",
+  "@localInsightsReady": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for localInsightsReady"
+  },
+  "show": "Show",
+  "@show": {
+    "description": "Auto metadata for show"
+  },
+  "restaurant": "Restaurant",
+  "@restaurant": {
+    "description": "Auto metadata for restaurant"
+  },
+  "cafe": "Cafe",
+  "@cafe": {
+    "description": "Auto metadata for cafe"
+  },
+  "venue": "Venue",
+  "@venue": {
+    "description": "Auto metadata for venue"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Auto metadata for notifications"
+  },
+  "businessPackage": "Business package",
+  "@businessPackage": {
+    "description": "Auto metadata for businessPackage"
+  },
+  "redirectToReservation": "Redirect to reservation",
+  "@redirectToReservation": {
+    "description": "Auto metadata for redirectToReservation"
+  },
+  "priceAlerts": "Price alerts",
+  "@priceAlerts": {
+    "description": "Auto metadata for priceAlerts"
+  },
+  "corporateIntegration": "Corporate integration",
+  "@corporateIntegration": {
+    "description": "Auto metadata for corporateIntegration"
+  },
+  "detailedReports": "Detailed reports",
+  "@detailedReports": {
+    "description": "Auto metadata for detailedReports"
+  },
+  "qrTools": "QR tools",
+  "@qrTools": {
+    "description": "Auto metadata for qrTools"
+  },
+  "unlockNewFeatures": "Unlock new features",
+  "@unlockNewFeatures": {
+    "description": "Auto metadata for unlockNewFeatures"
+  },
+  "branchManagement": "Branch management",
+  "@branchManagement": {
+    "description": "Auto metadata for branchManagement"
+  },
+  "menuWithQr": "Menu with QR",
+  "@menuWithQr": {
+    "description": "Auto metadata for menuWithQr"
+  },
+  "newFeatures": "New features",
+  "@newFeatures": {
+    "description": "Auto metadata for newFeatures"
+  },
+  "nearOpenSectionTitle": "Nearby and open in {area}",
+  "@nearOpenSectionTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for nearOpenSectionTitle"
+  },
+  "mostViewedThisWeekTitle": "Most viewed this week in {area}",
+  "@mostViewedThisWeekTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for mostViewedThisWeekTitle"
+  },
+  "noViewDataInArea": "No view data in this area yet.",
+  "@noViewDataInArea": {
+    "description": "Auto metadata for noViewDataInArea"
+  },
+  "viewsMetric": "{count} views",
+  "@viewsMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for viewsMetric"
+  },
+  "highestPriceChangeTitle": "Highest price changes in {area}",
+  "@highestPriceChangeTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for highestPriceChangeTitle"
+  },
+  "noPriceMovementInArea": "No price movement in this area yet.",
+  "@noPriceMovementInArea": {
+    "description": "Auto metadata for noPriceMovementInArea"
+  },
+  "priceChangeMetric": "{count} price changes",
+  "@priceChangeMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for priceChangeMetric"
+  },
+  "nightOpenFavoritesTitle": "Night-open favorites in {area}",
+  "@nightOpenFavoritesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for nightOpenFavoritesTitle"
+  },
+  "noNightOpenFavoritesInArea": "No night-open favorites found in this area.",
+  "@noNightOpenFavoritesInArea": {
+    "description": "Auto metadata for noNightOpenFavoritesInArea"
+  },
+  "followersMetric": "{count} followers",
+  "@followersMetric": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for followersMetric"
+  },
+  "popularCategoriesTitle": "Popular categories in {area}",
+  "@popularCategoriesTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for popularCategoriesTitle"
+  },
+  "regionalPriceIndexTitle": "Regional price index in {area}",
+  "@regionalPriceIndexTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for regionalPriceIndexTitle"
+  },
+  "detailedAnalysis": "Detailed analysis",
+  "@detailedAnalysis": {
+    "description": "Auto metadata for detailedAnalysis"
+  },
+  "loadWhenScrolledDown": "Loads when you scroll down",
+  "@loadWhenScrolledDown": {
+    "description": "Auto metadata for loadWhenScrolledDown"
+  },
+  "anomalyMonitoringTitle": "Anomaly monitoring in {area}",
+  "@anomalyMonitoringTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for anomalyMonitoringTitle"
+  },
+  "general": "General",
+  "@general": {
+    "description": "Auto metadata for general"
+  },
+  "priceIndexLoadFailed": "Price index could not be loaded right now.",
+  "@priceIndexLoadFailed": {
+    "description": "Auto metadata for priceIndexLoadFailed"
+  },
+  "noPriceIndexDataInArea": "No price index data for this area.",
+  "@noPriceIndexDataInArea": {
+    "description": "Auto metadata for noPriceIndexDataInArea"
+  },
+  "medianPriceLabel": "Median {price}",
+  "@medianPriceLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for medianPriceLabel"
+  },
+  "anomalyListLoadFailed": "Anomaly list could not be loaded right now.",
+  "@anomalyListLoadFailed": {
+    "description": "Auto metadata for anomalyListLoadFailed"
+  },
+  "noPriceAnomalyLast30Days": "No notable price anomaly in the last 30 days.",
+  "@noPriceAnomalyLast30Days": {
+    "description": "Auto metadata for noPriceAnomalyLast30Days"
+  },
+  "sectionLoadFailed": "This section could not be loaded.",
+  "@sectionLoadFailed": {
+    "description": "Auto metadata for sectionLoadFailed"
+  },
+  "rankedAt": "Ranked #{rank}",
+  "@rankedAt": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for rankedAt"
+  },
+  "yourScore": "Your score",
+  "@yourScore": {
+    "description": "Auto metadata for yourScore"
+  },
+  "createGroup": "Create group",
+  "@createGroup": {
+    "description": "Auto metadata for createGroup"
+  },
+  "newPlaces": "New places",
+  "@newPlaces": {
+    "description": "Auto metadata for newPlaces"
+  },
+  "campaignEnded": "ended",
+  "@campaignEnded": {
+    "description": "Auto metadata for campaignEnded"
+  },
+  "timeDays": "{count} d",
+  "@timeDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for timeDays"
+  },
+  "timeHours": "{count} h",
+  "@timeHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for timeHours"
+  },
+  "timeMinutes": "{count} m",
+  "@timeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for timeMinutes"
+  },
+  "timeDaysAgo": "{count}d ago",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for timeDaysAgo"
+  },
+  "timeHoursAgo": "{count}h ago",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for timeHoursAgo"
+  },
+  "timeMinutesAgo": "{count}m ago",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for timeMinutesAgo"
+  },
+  "statusVerifiedShort": "Verified",
+  "@statusVerifiedShort": {
+    "description": "Auto metadata for statusVerifiedShort"
+  },
+  "statusMixedShort": "Mixed",
+  "@statusMixedShort": {
+    "description": "Auto metadata for statusMixedShort"
+  },
+  "statusOutdatedShort": "Outdated",
+  "@statusOutdatedShort": {
+    "description": "Auto metadata for statusOutdatedShort"
+  },
+  "statusUnknownShort": "Unknown",
+  "@statusUnknownShort": {
+    "description": "Auto metadata for statusUnknownShort"
+  },
+  "threeMonthsShort": "(3 Mo)",
+  "@threeMonthsShort": {
+    "description": "Auto metadata for threeMonthsShort"
+  },
+  "versionAndSource": "(v{version}, {source})",
+  "@versionAndSource": {
+    "placeholders": {
+      "version": {
+        "type": "int"
+      },
+      "source": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for versionAndSource"
+  },
+  "sourceOwner": "owner",
+  "@sourceOwner": {
+    "description": "Auto metadata for sourceOwner"
+  },
+  "sourceCommunity": "community",
+  "@sourceCommunity": {
+    "description": "Auto metadata for sourceCommunity"
+  },
+  "sourceAi": "automatic",
+  "@sourceAi": {
+    "description": "Auto metadata for sourceAi"
+  },
+  "shareBusinessMessage": "Discover on Yeedoy: {name}\n{location}\n{web}\n{deep}",
+  "@shareBusinessMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "location": {
+        "type": "String"
+      },
+      "web": {
+        "type": "String"
+      },
+      "deep": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for shareBusinessMessage"
+  },
+  "noLinkFound": "No link found",
+  "@noLinkFound": {
+    "description": "Auto metadata for noLinkFound"
+  },
+  "newEmbedLinksWillAppear": "New embed links will appear here.",
+  "@newEmbedLinksWillAppear": {
+    "description": "Auto metadata for newEmbedLinksWillAppear"
+  },
+  "link": "Link",
+  "@link": {
+    "description": "Auto metadata for link"
+  },
+  "untitledLink": "Untitled link",
+  "@untitledLink": {
+    "description": "Auto metadata for untitledLink"
+  },
+  "menuShareNotFoundTitle": "Menu not found • {appName}",
+  "@menuShareNotFoundTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuShareNotFoundTitle"
+  },
+  "menuShareNotFoundDescription": "Menu was not found or is not published.",
+  "@menuShareNotFoundDescription": {
+    "description": "Auto metadata for menuShareNotFoundDescription"
+  },
+  "menuContentNotFound": "Menu content not found.",
+  "@menuContentNotFound": {
+    "description": "Auto metadata for menuContentNotFound"
+  },
+  "openAppForBetterExperience": "Open the app for a better experience",
+  "@openAppForBetterExperience": {
+    "description": "Auto metadata for openAppForBetterExperience"
+  },
+  "openApp": "Open App",
+  "@openApp": {
+    "description": "Auto metadata for openApp"
+  },
+  "nearbyPeopleViewed": "{count} people nearby viewed this",
+  "@nearbyPeopleViewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for nearbyPeopleViewed"
+  },
+  "verifiedPrices": "Verified prices",
+  "@verifiedPrices": {
+    "description": "Auto metadata for verifiedPrices"
+  },
+  "selectRatingFirst": "Please select a rating",
+  "@selectRatingFirst": {
+    "description": "Auto metadata for selectRatingFirst"
+  },
+  "thankYou": "Thank you!",
+  "@thankYou": {
+    "description": "Auto metadata for thankYou"
+  },
+  "noProductsFound": "No products found.",
+  "@noProductsFound": {
+    "description": "Auto metadata for noProductsFound"
+  },
+  "preparedWithApp": "Prepared with {appName}",
+  "@preparedWithApp": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for preparedWithApp"
+  },
+  "tableLabel": "Table {tableNo}",
+  "@tableLabel": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tableLabel"
+  },
+  "tableServiceQuestion": "How was the service? (Table {tableNo})",
+  "@tableServiceQuestion": {
+    "placeholders": {
+      "tableNo": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tableServiceQuestion"
+  },
+  "shortNoteOptional": "Short note (optional)",
+  "@shortNoteOptional": {
+    "description": "Auto metadata for shortNoteOptional"
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "Auto metadata for submit"
+  },
+  "submitted": "Submitted",
+  "@submitted": {
+    "description": "Auto metadata for submitted"
+  },
+  "submitting": "Submitting...",
+  "@submitting": {
+    "description": "Auto metadata for submitting"
+  },
+  "mySuggestionsTitle": "My Suggestions",
+  "@mySuggestionsTitle": {
+    "description": "Auto metadata for mySuggestionsTitle"
+  },
+  "mySuggestionsSubtitle": "Track the status of businesses you submitted from here.",
+  "@mySuggestionsSubtitle": {
+    "description": "Auto metadata for mySuggestionsSubtitle"
+  },
+  "viewBusiness": "View Business",
+  "@viewBusiness": {
+    "description": "Auto metadata for viewBusiness"
+  },
+  "statusApproved": "Approved",
+  "@statusApproved": {
+    "description": "Auto metadata for statusApproved"
+  },
+  "statusRejected": "Rejected",
+  "@statusRejected": {
+    "description": "Auto metadata for statusRejected"
+  },
+  "statusPending": "Pending",
+  "@statusPending": {
+    "description": "Auto metadata for statusPending"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Auto metadata for retry"
+  },
+  "notNow": "Not now",
+  "@notNow": {
+    "description": "Auto metadata for notNow"
+  },
+  "onboardingLiveMenusTitle": "Live menus",
+  "@onboardingLiveMenusTitle": {
+    "description": "Auto metadata for onboardingLiveMenusTitle"
+  },
+  "onboardingLiveMenusDescription": "View up-to-date menus from businesses on a single screen. Follow price changes easily.",
+  "@onboardingLiveMenusDescription": {
+    "description": "Auto metadata for onboardingLiveMenusDescription"
+  },
+  "onboardingContributeTitle": "Contribute and move faster",
+  "@onboardingContributeTitle": {
+    "description": "Auto metadata for onboardingContributeTitle"
+  },
+  "onboardingContributeDescription": "You can continue quickly with actions like votes, reviews and price verification.",
+  "@onboardingContributeDescription": {
+    "description": "Auto metadata for onboardingContributeDescription"
+  },
+  "onboardingPriceTitle": "You Set the\nCity's Prices",
+  "onboardingPriceBody1": "Discover restaurants with real prices",
+  "onboardingPriceBody2": "Track price history and city averages",
+  "onboardingPriceBody3": "Filter by budget, save money",
+  "onboardingCommunityTitle": "The Power of Community",
+  "onboardingCommunitySubtitle": "Every price verification helps everyone",
+  "onboardingCommunityBody1": "Real users keep menus up-to-date",
+  "onboardingCommunityBody2": "Price deviations are detected instantly",
+  "onboardingCommunityBody3": "Earn XP and badges for your contributions",
+  "onboardingNotificationTitle": "Instant notifications",
+  "onboardingNotificationDescription": "Get price changes, campaigns, and group requests from your favorite places as they happen.",
+  "onboardingNotificationsEnabled": "Notifications are enabled",
+  "onboardingAllowNotifications": "Allow Notifications",
+  "onboardingSkipNotifications": "Not now",
+  "getStarted": "Get Started",
+  "@getStarted": {
+    "description": "Auto metadata for getStarted"
+  },
+  "continueAction": "Continue",
+  "@continueAction": {
+    "description": "Auto metadata for continueAction"
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Auto metadata for register"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Auto metadata for login"
+  },
+  "enableLocationTitle": "Enable location for better results",
+  "@enableLocationTitle": {
+    "description": "Auto metadata for enableLocationTitle"
+  },
+  "enableLocationSubtitle": "Nearby results are much more accurate with location permission.",
+  "@enableLocationSubtitle": {
+    "description": "Auto metadata for enableLocationSubtitle"
+  },
+  "locationPermissionGranted": "Location permission granted",
+  "@locationPermissionGranted": {
+    "description": "Auto metadata for locationPermissionGranted"
+  },
+  "locationOptionalInfo": "If you skip permission, the app still works. You can choose city/district manually, but nearby quality is better with location.",
+  "@locationOptionalInfo": {
+    "description": "Auto metadata for locationOptionalInfo"
+  },
+  "allowLocation": "Allow location",
+  "@allowLocation": {
+    "description": "Auto metadata for allowLocation"
+  },
+  "chooseLocationManually": "Choose location manually",
+  "@chooseLocationManually": {
+    "description": "Auto metadata for chooseLocationManually"
+  },
+  "menuReading": "Reading menu...",
+  "@menuReading": {
+    "description": "Auto metadata for menuReading"
+  },
+  "noPriceDetectionFound": "No price detection found.",
+  "@noPriceDetectionFound": {
+    "description": "Auto metadata for noPriceDetectionFound"
+  },
+  "receiptOcrNotSupportedWeb": "Receipt OCR is not supported on web.",
+  "@receiptOcrNotSupportedWeb": {
+    "description": "Auto metadata for receiptOcrNotSupportedWeb"
+  },
+  "receiptReading": "Reading receipt...",
+  "@receiptReading": {
+    "description": "Auto metadata for receiptReading"
+  },
+  "noPriceFoundOnReceipt": "No price was found on the receipt.",
+  "@noPriceFoundOnReceipt": {
+    "description": "Auto metadata for noPriceFoundOnReceipt"
+  },
+  "receiptUploading": "Uploading receipt...",
+  "@receiptUploading": {
+    "description": "Auto metadata for receiptUploading"
+  },
+  "receiptUploadFailed": "Receipt upload failed.",
+  "@receiptUploadFailed": {
+    "description": "Auto metadata for receiptUploadFailed"
+  },
+  "camera": "Camera",
+  "@camera": {
+    "description": "Auto metadata for camera"
+  },
+  "gallery": "Gallery",
+  "@gallery": {
+    "description": "Auto metadata for gallery"
+  },
+  "matchReceipt": "Match receipt",
+  "@matchReceipt": {
+    "description": "Auto metadata for matchReceipt"
+  },
+  "matchPrices": "Match prices",
+  "@matchPrices": {
+    "description": "Auto metadata for matchPrices"
+  },
+  "autoMatchedRowsCheck": "{count} rows were auto-matched, please review.",
+  "@autoMatchedRowsCheck": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for autoMatchedRowsCheck"
+  },
+  "unlabeled": "Unlabeled",
+  "@unlabeled": {
+    "description": "Auto metadata for unlabeled"
+  },
+  "priceTry": "Price (₺)",
+  "@priceTry": {
+    "description": "Auto metadata for priceTry"
+  },
+  "selectMenuItem": "Select menu item",
+  "@selectMenuItem": {
+    "description": "Auto metadata for selectMenuItem"
+  },
+  "sendReceipt": "Send receipt",
+  "@sendReceipt": {
+    "description": "Auto metadata for sendReceipt"
+  },
+  "sendReceiptSuggestions": "Send receipt suggestions",
+  "@sendReceiptSuggestions": {
+    "description": "Auto metadata for sendReceiptSuggestions"
+  },
+  "selectAtLeastOneItem": "You must select at least one item.",
+  "@selectAtLeastOneItem": {
+    "description": "Auto metadata for selectAtLeastOneItem"
+  },
+  "invalidPriceExists": "There is an invalid price.",
+  "@invalidPriceExists": {
+    "description": "Auto metadata for invalidPriceExists"
+  },
+  "sendingReceipt": "Sending receipt...",
+  "@sendingReceipt": {
+    "description": "Auto metadata for sendingReceipt"
+  },
+  "receiptSent": "Receipt sent.",
+  "@receiptSent": {
+    "description": "Auto metadata for receiptSent"
+  },
+  "sendingReceiptSuggestions": "Sending receipt suggestions...",
+  "@sendingReceiptSuggestions": {
+    "description": "Auto metadata for sendingReceiptSuggestions"
+  },
+  "priceSuggestionsSent": "Price suggestions sent.",
+  "@priceSuggestionsSent": {
+    "description": "Auto metadata for priceSuggestionsSent"
+  },
+  "searchFoodHint": "Search food (e.g., burger, doner, latte)",
+  "@searchFoodHint": {
+    "description": "Auto metadata for searchFoodHint"
+  },
+  "profileActive": "Profile active",
+  "@profileActive": {
+    "description": "Auto metadata for profileActive"
+  },
+  "profileLoading": "Loading profile...",
+  "@profileLoading": {
+    "description": "Auto metadata for profileLoading"
+  },
+  "dietProfileNotFound": "Diet profile was not found.",
+  "@dietProfileNotFound": {
+    "description": "Auto metadata for dietProfileNotFound"
+  },
+  "noResultsFound": "No results found",
+  "@noResultsFound": {
+    "description": "Auto metadata for noResultsFound"
+  },
+  "allowLocationForNearby": "Allow location permission to show nearby items.",
+  "@allowLocationForNearby": {
+    "description": "Auto metadata for allowLocationForNearby"
+  },
+  "setPriceAlert": "Set Price Alert",
+  "@setPriceAlert": {
+    "description": "Auto metadata for setPriceAlert"
+  },
+  "vegan": "Vegan",
+  "@vegan": {
+    "description": "Auto metadata for vegan"
+  },
+  "vegetarian": "Vegetarian",
+  "@vegetarian": {
+    "description": "Auto metadata for vegetarian"
+  },
+  "lactoseFree": "Lactose-free",
+  "@lactoseFree": {
+    "description": "Auto metadata for lactoseFree"
+  },
+  "maxCalories": "Maximum calories",
+  "@maxCalories": {
+    "description": "Auto metadata for maxCalories"
+  },
+  "onlyVerifiedPrice": "Only verified price",
+  "@onlyVerifiedPrice": {
+    "description": "Auto metadata for onlyVerifiedPrice"
+  },
+  "votes": "{count} votes",
+  "@votes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for votes"
+  },
+  "glutenFree": "Gluten-free",
+  "@glutenFree": {
+    "description": "Auto metadata for glutenFree"
+  },
+  "menuItem": "Item",
+  "@menuItem": {
+    "description": "Auto metadata for menuItem"
+  },
+  "cataloged": "Cataloged",
+  "@cataloged": {
+    "description": "Auto metadata for cataloged"
+  },
+  "priceAlert": "Price Alert",
+  "@priceAlert": {
+    "description": "Auto metadata for priceAlert"
+  },
+  "priceAlertSubtitle": "Notify me when it drops below the target price.",
+  "@priceAlertSubtitle": {
+    "description": "Auto metadata for priceAlertSubtitle"
+  },
+  "addToBill": "Add to Bill",
+  "@addToBill": {
+    "description": "Auto metadata for addToBill"
+  },
+  "voteSaved": "Vote saved",
+  "@voteSaved": {
+    "description": "Auto metadata for voteSaved"
+  },
+  "photoAdded": "Photo added",
+  "@photoAdded": {
+    "description": "Auto metadata for photoAdded"
+  },
+  "photoQualityWarning": "The photo looks {warnings}. You can upload a clearer and brighter photo.",
+  "@photoQualityWarning": {
+    "placeholders": {
+      "warnings": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for photoQualityWarning"
+  },
+  "suggestEdit": "Suggest edit",
+  "@suggestEdit": {
+    "description": "Auto metadata for suggestEdit"
+  },
+  "verifyPriceWithReceipt": "Verify price with receipt",
+  "@verifyPriceWithReceipt": {
+    "description": "Auto metadata for verifyPriceWithReceipt"
+  },
+  "cart": "Cart",
+  "@cart": {
+    "description": "Auto metadata for cart"
+  },
+  "cartEmpty": "Cart is empty",
+  "@cartEmpty": {
+    "description": "Auto metadata for cartEmpty"
+  },
+  "addItemToCalculate": "Add an item to calculate.",
+  "@addItemToCalculate": {
+    "description": "Auto metadata for addItemToCalculate"
+  },
+  "tipPercentage": "Tip percentage",
+  "@tipPercentage": {
+    "description": "Auto metadata for tipPercentage"
+  },
+  "serviceIncluded": "Service included",
+  "@serviceIncluded": {
+    "description": "Auto metadata for serviceIncluded"
+  },
+  "coverIncluded": "Cover included",
+  "@coverIncluded": {
+    "description": "Auto metadata for coverIncluded"
+  },
+  "subtotal": "Subtotal",
+  "@subtotal": {
+    "description": "Auto metadata for subtotal"
+  },
+  "cover": "Cover",
+  "@cover": {
+    "description": "Auto metadata for cover"
+  },
+  "serviceWithPercent": "Service ({percent}%)",
+  "@serviceWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for serviceWithPercent"
+  },
+  "tipWithPercent": "Tip ({percent}%)",
+  "@tipWithPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tipWithPercent"
+  },
+  "serviceCoverMayVary": "Service/cover may vary by business.",
+  "@serviceCoverMayVary": {
+    "description": "Auto metadata for serviceCoverMayVary"
+  },
+  "estimatedTotal": "Estimated Total",
+  "@estimatedTotal": {
+    "description": "Auto metadata for estimatedTotal"
+  },
+  "vatExcluded": "VAT excluded",
+  "@vatExcluded": {
+    "description": "Auto metadata for vatExcluded"
+  },
+  "errorOccurred": "Something went wrong",
+  "@errorOccurred": {
+    "description": "Auto metadata for errorOccurred"
+  },
+  "menuItemNotFoundDescription": "The item may not be added yet. You can be the first to add it.",
+  "@menuItemNotFoundDescription": {
+    "description": "Auto metadata for menuItemNotFoundDescription"
+  },
+  "trustScoreInfoNote": "This score is not user voting; it shows how reliably you contribute to the community.",
+  "@trustScoreInfoNote": {
+    "description": "Auto metadata for trustScoreInfoNote"
+  },
+  "plusPoints": "+{points} points",
+  "@plusPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for plusPoints"
+  },
+  "verifyContributionRaisedScore": "Your price verification strengthened your community trust.",
+  "@verifyContributionRaisedScore": {
+    "description": "Auto metadata for verifyContributionRaisedScore"
+  },
+  "priceVerification": "Price verification",
+  "@priceVerification": {
+    "description": "Auto metadata for priceVerification"
+  },
+  "priceVerificationSteps": "1) Enter the seen price  2) Add note/photo if needed  3) Submit",
+  "@priceVerificationSteps": {
+    "description": "Auto metadata for priceVerificationSteps"
+  },
+  "newPriceTry": "New price (₺)",
+  "@newPriceTry": {
+    "description": "Auto metadata for newPriceTry"
+  },
+  "note": "Note",
+  "@note": {
+    "description": "Auto metadata for note"
+  },
+  "addEvidencePhoto": "Add evidence photo",
+  "@addEvidencePhoto": {
+    "description": "Auto metadata for addEvidencePhoto"
+  },
+  "evidenceAdded": "Evidence added",
+  "@evidenceAdded": {
+    "description": "Auto metadata for evidenceAdded"
+  },
+  "menuItemName": "Item name",
+  "@menuItemName": {
+    "description": "Auto metadata for menuItemName"
+  },
+  "menuItemNameRequired": "Item name cannot be empty",
+  "@menuItemNameRequired": {
+    "description": "Auto metadata for menuItemNameRequired"
+  },
+  "enterValidPrice": "Enter a valid price",
+  "@enterValidPrice": {
+    "description": "Auto metadata for enterValidPrice"
+  },
+  "sendSuggestion": "Send suggestion",
+  "@sendSuggestion": {
+    "description": "Auto metadata for sendSuggestion"
+  },
+  "noChanges": "No changes",
+  "@noChanges": {
+    "description": "Auto metadata for noChanges"
+  },
+  "priceCannotBeEmpty": "Price cannot be empty",
+  "@priceCannotBeEmpty": {
+    "description": "Auto metadata for priceCannotBeEmpty"
+  },
+  "suggestionSentPendingApproval": "Your suggestion was sent (pending approval)",
+  "@suggestionSentPendingApproval": {
+    "description": "Auto metadata for suggestionSentPendingApproval"
+  },
+  "noSuggestionFound": "No suggestion found",
+  "@noSuggestionFound": {
+    "description": "Auto metadata for noSuggestionFound"
+  },
+  "suggestedFoods": "Suggested foods",
+  "@suggestedFoods": {
+    "description": "Auto metadata for suggestedFoods"
+  },
+  "priceHistoryLast3": "Price history (last 3)",
+  "@priceHistoryLast3": {
+    "description": "Auto metadata for priceHistoryLast3"
+  },
+  "price": "Price",
+  "@price": {
+    "description": "Auto metadata for price"
+  },
+  "last30DaysVotes": "Last 30 days votes: +{ok} / -{bad}",
+  "@last30DaysVotes": {
+    "placeholders": {
+      "ok": {
+        "type": "int"
+      },
+      "bad": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for last30DaysVotes"
+  },
+  "lastVerificationDate": "Last verification: {date}",
+  "@lastVerificationDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for lastVerificationDate"
+  },
+  "uniqueVerifiersIn48h": "Unique verifiers in 48 hours: {count}",
+  "@uniqueVerifiersIn48h": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for uniqueVerifiersIn48h"
+  },
+  "strongConsensusPriceSafe": "Strong consensus: price is safe",
+  "@strongConsensusPriceSafe": {
+    "description": "Auto metadata for strongConsensusPriceSafe"
+  },
+  "priceConfidenceScore": "Price confidence score: %{score}",
+  "@priceConfidenceScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for priceConfidenceScore"
+  },
+  "priceConfidenceDataTrustHint": "Price confidence is one part of data trust; it looks at recent verification and consensus.",
+  "seenCorrect": "Seen • Correct",
+  "@seenCorrect": {
+    "description": "Auto metadata for seenCorrect"
+  },
+  "seenIncorrect": "Seen • Incorrect",
+  "@seenIncorrect": {
+    "description": "Auto metadata for seenIncorrect"
+  },
+  "suggestNewPrice": "Suggest new price",
+  "@suggestNewPrice": {
+    "description": "Auto metadata for suggestNewPrice"
+  },
+  "howCalculated": "How calculated?",
+  "@howCalculated": {
+    "description": "Auto metadata for howCalculated"
+  },
+  "verificationRate": "Verification rate",
+  "@verificationRate": {
+    "description": "Auto metadata for verificationRate"
+  },
+  "recentPositiveVotes": "Recent positive votes",
+  "@recentPositiveVotes": {
+    "description": "Auto metadata for recentPositiveVotes"
+  },
+  "priceStability": "Price stability",
+  "@priceStability": {
+    "description": "Auto metadata for priceStability"
+  },
+  "priceChangeLast30Days": "Price changes in last 30 days: {count}",
+  "@priceChangeLast30Days": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for priceChangeLast30Days"
+  },
+  "scoreForInfoOnly": "This score is for informational purposes only.",
+  "@scoreForInfoOnly": {
+    "description": "Auto metadata for scoreForInfoOnly"
+  },
+  "pricePerformance": "Price/Performance",
+  "@pricePerformance": {
+    "description": "Auto metadata for pricePerformance"
+  },
+  "valueScoreFormulaHint": "Calculated by verification rate, recent positive votes, and price stability.",
+  "@valueScoreFormulaHint": {
+    "description": "Auto metadata for valueScoreFormulaHint"
+  },
+  "communityScoreExplainAction": "What do these scores mean?",
+  "communityScoreWhatImproves": "What improves it?",
+  "communityScoreHowUsed": "How the app uses it",
+  "communityScoreUserTrustCategory": "User trust",
+  "communityScoreDataTrustCategory": "Data trust",
+  "communityScoreInfoOnlyCategory": "Info score",
+  "communityScoreUserTrustSummary": "Shows how reliable the community finds your contributions. Popularity does not grow this score; accuracy and approval quality do.",
+  "communityScoreUserTrustSignalAccuracy": "Accurate contributions and price checks",
+  "communityScoreUserTrustSignalApproval": "How often your contributions are approved",
+  "communityScoreUserTrustSignalSafety": "Low spam, abuse, and rejection signals",
+  "communityScoreUserTrustUsage": "More trusted contributions can surface faster in community flows and verification decisions.",
+  "communityScoreDataTrustSummary": "Shows how dependable a menu or price data is right now.",
+  "communityScoreDataTrustSignalFreshness": "Menu freshness and the latest audit date",
+  "communityScoreDataTrustSignalConsensus": "Multiple verifiers and strong consensus",
+  "communityScoreDataTrustSignalStability": "Low conflict and a consistent change history",
+  "communityScoreDataTrustUsage": "The app uses this signal before presenting menu and price data as dependable.",
+  "communityScoreValueInsightSummary": "This is not a trust score; it is an informational score built from verification, votes, and price stability.",
+  "communityScoreValueSignalVerification": "Verification rate",
+  "communityScoreValueSignalVotes": "Recent positive votes",
+  "communityScoreValueSignalStability": "Price stability",
+  "communityScoreValueUsage": "Use it as a decision aid, not as proof on its own.",
+  "menuPhotos": "Menu Photos",
+  "@menuPhotos": {
+    "description": "Auto metadata for menuPhotos"
+  },
+  "updateMenuEarnPoints": "Update menu, earn {points} points",
+  "@updateMenuEarnPoints": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for updateMenuEarnPoints"
+  },
+  "menuPhotosHint": "Menu photos should show the product. Auto-cropped; dark/blurry ones are warned.",
+  "@menuPhotosHint": {
+    "description": "Auto metadata for menuPhotosHint"
+  },
+  "noPhotosYet": "No photos yet.",
+  "@noPhotosYet": {
+    "description": "Auto metadata for noPhotosYet"
+  },
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "Auto metadata for yesterday"
+  },
+  "timeMonthsAgo": "{count} months ago",
+  "@timeMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for timeMonthsAgo"
+  },
+  "priceInvalid": "Price is invalid.",
+  "@priceInvalid": {
+    "description": "Auto metadata for priceInvalid"
+  },
+  "noteNoLinkPhone": "Note cannot contain links/phone numbers.",
+  "@noteNoLinkPhone": {
+    "description": "Auto metadata for noteNoLinkPhone"
+  },
+  "noteContainsProfanity": "Note contains inappropriate language.",
+  "@noteContainsProfanity": {
+    "description": "Auto metadata for noteContainsProfanity"
+  },
+  "noteTooManyEmoji": "Note contains too many emojis.",
+  "@noteTooManyEmoji": {
+    "description": "Auto metadata for noteTooManyEmoji"
+  },
+  "rateLimited24h": "You already suggested within 24 hours.",
+  "@rateLimited24h": {
+    "description": "Auto metadata for rateLimited24h"
+  },
+  "dailyPriceSuggestionLimitReached": "Daily price suggestion limit reached.",
+  "@dailyPriceSuggestionLimitReached": {
+    "description": "Auto metadata for dailyPriceSuggestionLimitReached"
+  },
+  "invalidEvidenceLink": "Evidence link is invalid.",
+  "@invalidEvidenceLink": {
+    "description": "Auto metadata for invalidEvidenceLink"
+  },
+  "invalidCurrency": "Currency is invalid.",
+  "@invalidCurrency": {
+    "description": "Auto metadata for invalidCurrency"
+  },
+  "loginPageTitle": "Sign in",
+  "@loginPageTitle": {
+    "description": "Auto metadata for loginPageTitle"
+  },
+  "loginActionFailedTitle": "Action could not be completed",
+  "@loginActionFailedTitle": {
+    "description": "Auto metadata for loginActionFailedTitle"
+  },
+  "loginActionFailedDescription": "{error}\nCheck your connection and try again.",
+  "@loginActionFailedDescription": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for loginActionFailedDescription"
+  },
+  "loginEmailLabel": "Email",
+  "@loginEmailLabel": {
+    "description": "Auto metadata for loginEmailLabel"
+  },
+  "loginPasswordLabel": "Password",
+  "@loginPasswordLabel": {
+    "description": "Auto metadata for loginPasswordLabel"
+  },
+  "loginPrimaryAction": "Sign in",
+  "@loginPrimaryAction": {
+    "description": "Auto metadata for loginPrimaryAction"
+  },
+  "loginSigningInAction": "Signing in...",
+  "@loginSigningInAction": {
+    "description": "Auto metadata for loginSigningInAction"
+  },
+  "loginSignupAction": "Login / Sign up",
+  "@loginSignupAction": {
+    "description": "Auto metadata for loginSignupAction"
+  },
+  "loginSigningUpAction": "Creating account...",
+  "@loginSigningUpAction": {
+    "description": "Auto metadata for loginSigningUpAction"
+  },
+  "loginSignupSuccessMessage": "Account created. Complete email/phone verification.",
+  "@loginSignupSuccessMessage": {
+    "description": "Auto metadata for loginSignupSuccessMessage"
+  },
+  "drawerTopBusinesses": "Top businesses",
+  "@drawerTopBusinesses": {
+    "description": "Auto metadata for drawerTopBusinesses"
+  },
+  "drawerSocial": "Social",
+  "@drawerSocial": {
+    "description": "Auto metadata for drawerSocial"
+  },
+  "drawerGourmets": "Food experts",
+  "@drawerGourmets": {
+    "description": "Auto metadata for drawerGourmets"
+  },
+  "drawerFollowing": "Following",
+  "@drawerFollowing": {
+    "description": "Auto metadata for drawerFollowing"
+  },
+  "drawerExperimental": "Experimental",
+  "@drawerExperimental": {
+    "description": "Auto metadata for drawerExperimental"
+  },
+  "drawerFeed": "Feed",
+  "@drawerFeed": {
+    "description": "Auto metadata for drawerFeed"
+  },
+  "drawerTasteTwin": "Taste twin",
+  "@drawerTasteTwin": {
+    "description": "Auto metadata for drawerTasteTwin"
+  },
+  "drawerHeroes": "Heroes",
+  "@drawerHeroes": {
+    "description": "Auto metadata for drawerHeroes"
+  },
+  "drawerGroupRequests": "Group requests",
+  "@drawerGroupRequests": {
+    "description": "Auto metadata for drawerGroupRequests"
+  },
+  "drawerCompare": "Compare",
+  "@drawerCompare": {
+    "description": "Auto metadata for drawerCompare"
+  },
+  "drawerQuickTools": "Quick tools",
+  "@drawerQuickTools": {
+    "description": "Auto metadata for drawerQuickTools"
+  },
+  "drawerSmartSuggestionShortcut": "Smart suggestion (2 people / 600 TRY)",
+  "@drawerSmartSuggestionShortcut": {
+    "description": "Auto metadata for drawerSmartSuggestionShortcut"
+  },
+  "drawerAccount": "Account",
+  "@drawerAccount": {
+    "description": "Auto metadata for drawerAccount"
+  },
+  "drawerMyFavorites": "My favorites",
+  "@drawerMyFavorites": {
+    "description": "Auto metadata for drawerMyFavorites"
+  },
+  "drawerInbox": "Inbox",
+  "@drawerInbox": {
+    "description": "Auto metadata for drawerInbox"
+  },
+  "drawerInboxWithCount": "Inbox ({count})",
+  "@drawerInboxWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for drawerInboxWithCount"
+  },
+  "drawerMySuggestions": "My suggestions",
+  "@drawerMySuggestions": {
+    "description": "Auto metadata for drawerMySuggestions"
+  },
+  "drawerSuspendedMeals": "Suspended meals",
+  "@drawerSuspendedMeals": {
+    "description": "Auto metadata for drawerSuspendedMeals"
+  },
+  "drawerLegalAndTrust": "Legal and Trust",
+  "@drawerLegalAndTrust": {
+    "description": "Auto metadata for drawerLegalAndTrust"
+  },
+  "budgetComboEntryTitle": "My budget is",
+  "@budgetComboEntryTitle": {
+    "description": "Auto metadata for budgetComboEntryTitle"
+  },
+  "budgetComboLocationNotSelected": "Location not selected",
+  "@budgetComboLocationNotSelected": {
+    "description": "Auto metadata for budgetComboLocationNotSelected"
+  },
+  "budgetComboBudgetLabel": "Budget (TRY)",
+  "@budgetComboBudgetLabel": {
+    "description": "Auto metadata for budgetComboBudgetLabel"
+  },
+  "budgetComboPartySizeLabel": "People",
+  "@budgetComboPartySizeLabel": {
+    "description": "Auto metadata for budgetComboPartySizeLabel"
+  },
+  "budgetComboCategoryOptionalLabel": "Category (optional)",
+  "@budgetComboCategoryOptionalLabel": {
+    "description": "Auto metadata for budgetComboCategoryOptionalLabel"
+  },
+  "budgetComboSeeSuggestions": "See suggestions",
+  "@budgetComboSeeSuggestions": {
+    "description": "Auto metadata for budgetComboSeeSuggestions"
+  },
+  "budgetComboAllCategories": "All categories",
+  "@budgetComboAllCategories": {
+    "description": "Auto metadata for budgetComboAllCategories"
+  },
+  "budgetComboCategoryCafe": "Cafe",
+  "@budgetComboCategoryCafe": {
+    "description": "Auto metadata for budgetComboCategoryCafe"
+  },
+  "budgetComboCategoryRestaurant": "Restaurant",
+  "@budgetComboCategoryRestaurant": {
+    "description": "Auto metadata for budgetComboCategoryRestaurant"
+  },
+  "budgetComboCategoryDessert": "Dessert",
+  "@budgetComboCategoryDessert": {
+    "description": "Auto metadata for budgetComboCategoryDessert"
+  },
+  "budgetComboCategoryBreakfast": "Breakfast",
+  "@budgetComboCategoryBreakfast": {
+    "description": "Auto metadata for budgetComboCategoryBreakfast"
+  },
+  "budgetComboCategoryFishMeat": "Fish / Meat",
+  "@budgetComboCategoryFishMeat": {
+    "description": "Auto metadata for budgetComboCategoryFishMeat"
+  },
+  "budgetComboCategoryVenue": "Venue",
+  "@budgetComboCategoryVenue": {
+    "description": "Auto metadata for budgetComboCategoryVenue"
+  },
+  "budgetComboResultsTitle": "Budget Combos",
+  "@budgetComboResultsTitle": {
+    "description": "Auto metadata for budgetComboResultsTitle"
+  },
+  "budgetComboMissingInfoTitle": "Missing information",
+  "@budgetComboMissingInfoTitle": {
+    "description": "Auto metadata for budgetComboMissingInfoTitle"
+  },
+  "budgetComboMissingInfoDescription": "Please enter budget and location information.",
+  "@budgetComboMissingInfoDescription": {
+    "description": "Auto metadata for budgetComboMissingInfoDescription"
+  },
+  "budgetComboNoResultsTitle": "No suitable combo yet",
+  "@budgetComboNoResultsTitle": {
+    "description": "Auto metadata for budgetComboNoResultsTitle"
+  },
+  "budgetComboNoResultsDescription": "Try increasing the budget or reducing the party size.",
+  "@budgetComboNoResultsDescription": {
+    "description": "Auto metadata for budgetComboNoResultsDescription"
+  },
+  "budgetComboAdjustCriteriaTitle": "Adjust criteria",
+  "@budgetComboAdjustCriteriaTitle": {
+    "description": "Auto metadata for budgetComboAdjustCriteriaTitle"
+  },
+  "budgetComboDefaultAction": "Default",
+  "@budgetComboDefaultAction": {
+    "description": "Auto metadata for budgetComboDefaultAction"
+  },
+  "budgetComboRadiusDistrictScope": "Distance filter is applied at city/district level.",
+  "@budgetComboRadiusDistrictScope": {
+    "description": "Auto metadata for budgetComboRadiusDistrictScope"
+  },
+  "budgetComboRadiusTarget": "Distance target: {km} km",
+  "@budgetComboRadiusTarget": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for budgetComboRadiusTarget"
+  },
+  "budgetComboWeightDistance": "Distance",
+  "@budgetComboWeightDistance": {
+    "description": "Auto metadata for budgetComboWeightDistance"
+  },
+  "budgetComboWeightPrice": "Price",
+  "@budgetComboWeightPrice": {
+    "description": "Auto metadata for budgetComboWeightPrice"
+  },
+  "budgetComboWeightRating": "Rating",
+  "@budgetComboWeightRating": {
+    "description": "Auto metadata for budgetComboWeightRating"
+  },
+  "budgetComboFallbackSortHint": "If distance/rating data is missing, ranking is based on price.",
+  "@budgetComboFallbackSortHint": {
+    "description": "Auto metadata for budgetComboFallbackSortHint"
+  },
+  "budgetComboBestComboTitle": "Best combo",
+  "@budgetComboBestComboTitle": {
+    "description": "Auto metadata for budgetComboBestComboTitle"
+  },
+  "budgetComboTagTop": "Top",
+  "@budgetComboTagTop": {
+    "description": "Auto metadata for budgetComboTagTop"
+  },
+  "budgetComboOtherSuggestionsTitle": "Other suggestions",
+  "@budgetComboOtherSuggestionsTitle": {
+    "description": "Auto metadata for budgetComboOtherSuggestionsTitle"
+  },
+  "budgetComboRatingLabelValue": "Rating {rating}",
+  "@budgetComboRatingLabelValue": {
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for budgetComboRatingLabelValue"
+  },
+  "budgetComboBestTag": "Best",
+  "@budgetComboBestTag": {
+    "description": "Auto metadata for budgetComboBestTag"
+  },
+  "budgetComboMainItemLabel": "Main",
+  "@budgetComboMainItemLabel": {
+    "description": "Auto metadata for budgetComboMainItemLabel"
+  },
+  "budgetComboDrinkItemLabel": "Drink",
+  "@budgetComboDrinkItemLabel": {
+    "description": "Auto metadata for budgetComboDrinkItemLabel"
+  },
+  "budgetComboTotalLabel": "{price} total",
+  "@budgetComboTotalLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for budgetComboTotalLabel"
+  },
+  "budgetComboGoToBusinessAction": "Go to business",
+  "@budgetComboGoToBusinessAction": {
+    "description": "Auto metadata for budgetComboGoToBusinessAction"
+  },
+  "panelAccessTitle": "Panel Access",
+  "@panelAccessTitle": {
+    "description": "Auto metadata for panelAccessTitle"
+  },
+  "panelWebOnlyMessage": "This panel is available on the web.",
+  "@panelWebOnlyMessage": {
+    "description": "Auto metadata for panelWebOnlyMessage"
+  },
+  "panelRedirectedPath": "Redirected path: {path}",
+  "@panelRedirectedPath": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for panelRedirectedPath"
+  },
+  "panelBackToDiscover": "Back to Discover",
+  "@panelBackToDiscover": {
+    "description": "Auto metadata for panelBackToDiscover"
+  },
+  "notFoundTitle": "Page Not Found",
+  "@notFoundTitle": {
+    "description": "Auto metadata for notFoundTitle"
+  },
+  "businessHeaderStatusClosingLabel": "Status / Closing",
+  "@businessHeaderStatusClosingLabel": {
+    "description": "Auto metadata for businessHeaderStatusClosingLabel"
+  },
+  "businessHeaderAveragePriceLabel": "Average price",
+  "@businessHeaderAveragePriceLabel": {
+    "description": "Auto metadata for businessHeaderAveragePriceLabel"
+  },
+  "businessHeaderPopularItemLabel": "Popular item",
+  "@businessHeaderPopularItemLabel": {
+    "description": "Auto metadata for businessHeaderPopularItemLabel"
+  },
+  "businessHeaderLastVerificationLabel": "Last verification",
+  "@businessHeaderLastVerificationLabel": {
+    "description": "Auto metadata for businessHeaderLastVerificationLabel"
+  },
+  "businessStatusOpen": "Open",
+  "@businessStatusOpen": {
+    "description": "Auto metadata for businessStatusOpen"
+  },
+  "businessStatusClosed": "Closed",
+  "@businessStatusClosed": {
+    "description": "Auto metadata for businessStatusClosed"
+  },
+  "businessHeaderDirectionsAction": "Directions",
+  "@businessHeaderDirectionsAction": {
+    "description": "Auto metadata for businessHeaderDirectionsAction"
+  },
+  "chainPageTitle": "Chain",
+  "@chainPageTitle": {
+    "description": "Auto metadata for chainPageTitle"
+  },
+  "chainPageNoBranches": "No branches found.",
+  "@chainPageNoBranches": {
+    "description": "Auto metadata for chainPageNoBranches"
+  },
+  "chainPageNearbyBranchesTitle": "Nearby branches",
+  "@chainPageNearbyBranchesTitle": {
+    "description": "Auto metadata for chainPageNearbyBranchesTitle"
+  },
+  "chainPageBranchMenuPriceHint": "Branch menus and prices may differ.",
+  "@chainPageBranchMenuPriceHint": {
+    "description": "Auto metadata for chainPageBranchMenuPriceHint"
+  },
+  "chainPageBranchMoreExpensive": "This branch is more expensive (%{pct})",
+  "@chainPageBranchMoreExpensive": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for chainPageBranchMoreExpensive"
+  },
+  "chainPageBranchMoreAffordable": "This branch is more affordable (%{pct})",
+  "@chainPageBranchMoreAffordable": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for chainPageBranchMoreAffordable"
+  },
+  "chainPageBranchNearAverage": "Close to chain average",
+  "@chainPageBranchNearAverage": {
+    "description": "Auto metadata for chainPageBranchNearAverage"
+  },
+  "comparePageTitle": "Comparison",
+  "@comparePageTitle": {
+    "description": "Auto metadata for comparePageTitle"
+  },
+  "compareEmptyTitle": "Comparison is empty",
+  "@compareEmptyTitle": {
+    "description": "Auto metadata for compareEmptyTitle"
+  },
+  "compareEmptyDescription": "Add items from business pages to compare.",
+  "@compareEmptyDescription": {
+    "description": "Auto metadata for compareEmptyDescription"
+  },
+  "compareBackToDiscover": "Back to Discover",
+  "@compareBackToDiscover": {
+    "description": "Auto metadata for compareBackToDiscover"
+  },
+  "compareBestPickAction": "Show the most sensible pick",
+  "@compareBestPickAction": {
+    "description": "Auto metadata for compareBestPickAction"
+  },
+  "compareSuggestedBadge": "Suggested",
+  "@compareSuggestedBadge": {
+    "description": "Auto metadata for compareSuggestedBadge"
+  },
+  "compareMedianPriceLabel": "Median price",
+  "@compareMedianPriceLabel": {
+    "description": "Auto metadata for compareMedianPriceLabel"
+  },
+  "compareVerifiedRateLabel": "Verified rate",
+  "@compareVerifiedRateLabel": {
+    "description": "Auto metadata for compareVerifiedRateLabel"
+  },
+  "compareLastUpdateLabel": "Last update",
+  "@compareLastUpdateLabel": {
+    "description": "Auto metadata for compareLastUpdateLabel"
+  },
+  "compareBestItemTitle": "Affordable item",
+  "@compareBestItemTitle": {
+    "description": "Auto metadata for compareBestItemTitle"
+  },
+  "compareGoToBusinessAction": "Go to business",
+  "@compareGoToBusinessAction": {
+    "description": "Auto metadata for compareGoToBusinessAction"
+  },
+  "compareRemoveTooltip": "Remove",
+  "@compareRemoveTooltip": {
+    "description": "Auto metadata for compareRemoveTooltip"
+  },
+  "compareRecommendedSnack": "Recommendation: {name}",
+  "@compareRecommendedSnack": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for compareRecommendedSnack"
+  },
+  "contributeDefaultBusinessName": "this place",
+  "@contributeDefaultBusinessName": {
+    "description": "Auto metadata for contributeDefaultBusinessName"
+  },
+  "contributeOpenBusinessFirst": "Open a business page first for this contribution.",
+  "@contributeOpenBusinessFirst": {
+    "description": "Auto metadata for contributeOpenBusinessFirst"
+  },
+  "contributeUploadingProgress": "Sending...",
+  "@contributeUploadingProgress": {
+    "description": "Auto metadata for contributeUploadingProgress"
+  },
+  "contributeUploadSentSingle": "Sent - will be added to the menu after review.",
+  "@contributeUploadSentSingle": {
+    "description": "Auto metadata for contributeUploadSentSingle"
+  },
+  "contributeUploadSentMultiple": "{count} pages sent - will be added to the menu after review.",
+  "@contributeUploadSentMultiple": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for contributeUploadSentMultiple"
+  },
+  "contributeUploadFailed": "Upload failed. Please try again.",
+  "@contributeUploadFailed": {
+    "description": "Auto metadata for contributeUploadFailed"
+  },
+  "contributeQrDecodingProgress": "Decoding QR...",
+  "@contributeQrDecodingProgress": {
+    "description": "Auto metadata for contributeQrDecodingProgress"
+  },
+  "contributeQrUnreadableSentReview": "QR couldn't be read. Sending for visual review.",
+  "@contributeQrUnreadableSentReview": {
+    "description": "Auto metadata for contributeQrUnreadableSentReview"
+  },
+  "contributeQrVerifiedRedirecting": "QR verified. Redirecting you.",
+  "@contributeQrVerifiedRedirecting": {
+    "description": "Auto metadata for contributeQrVerifiedRedirecting"
+  },
+  "contributeQrProcessFailed": "QR processing failed. Please try again.",
+  "@contributeQrProcessFailed": {
+    "description": "Auto metadata for contributeQrProcessFailed"
+  },
+  "contributeExternalQrUseBusinessPage": "For external QR codes, use Contribute from the business page.",
+  "@contributeExternalQrUseBusinessPage": {
+    "description": "Auto metadata for contributeExternalQrUseBusinessPage"
+  },
+  "contributeSendingForReviewProgress": "Sending for review...",
+  "@contributeSendingForReviewProgress": {
+    "description": "Auto metadata for contributeSendingForReviewProgress"
+  },
+  "contributeQrImageSentForReview": "QR image sent. It will be processed after review.",
+  "@contributeQrImageSentForReview": {
+    "description": "Auto metadata for contributeQrImageSentForReview"
+  },
+  "contributeExternalLinkSentForReview": "External link sent for review.",
+  "@contributeExternalLinkSentForReview": {
+    "description": "Auto metadata for contributeExternalLinkSentForReview"
+  },
+  "contributeSourceCamera": "Camera",
+  "@contributeSourceCamera": {
+    "description": "Auto metadata for contributeSourceCamera"
+  },
+  "contributeSourceGallery": "Gallery",
+  "@contributeSourceGallery": {
+    "description": "Auto metadata for contributeSourceGallery"
+  },
+  "contributeSelectBusinessForPriceVerification": "Select a business first for price verification.",
+  "@contributeSelectBusinessForPriceVerification": {
+    "description": "Auto metadata for contributeSelectBusinessForPriceVerification"
+  },
+  "contributeSelectMenuItemToVerifyPrice": "Select one menu item and verify its price.",
+  "@contributeSelectMenuItemToVerifyPrice": {
+    "description": "Auto metadata for contributeSelectMenuItemToVerifyPrice"
+  },
+  "discoveryFilterCafe": "Cafe",
+  "@discoveryFilterCafe": {
+    "description": "Auto metadata for discoveryFilterCafe"
+  },
+  "discoveryFilterRestaurant": "Restaurant",
+  "@discoveryFilterRestaurant": {
+    "description": "Auto metadata for discoveryFilterRestaurant"
+  },
+  "discoveryFilterDessertPastry": "Dessert / Pastry",
+  "@discoveryFilterDessertPastry": {
+    "description": "Auto metadata for discoveryFilterDessertPastry"
+  },
+  "discoveryFilterBreakfast": "Breakfast",
+  "@discoveryFilterBreakfast": {
+    "description": "Auto metadata for discoveryFilterBreakfast"
+  },
+  "discoveryFilterFishMeat": "Fish / Meat",
+  "@discoveryFilterFishMeat": {
+    "description": "Auto metadata for discoveryFilterFishMeat"
+  },
+  "discoveryFilterVenue": "Venue",
+  "@discoveryFilterVenue": {
+    "description": "Auto metadata for discoveryFilterVenue"
+  },
+  "discoveryHomeCategoryDoner": "Thin Doner",
+  "@discoveryHomeCategoryDoner": {
+    "description": "Auto metadata for discoveryHomeCategoryDoner"
+  },
+  "discoveryHomeCategoryPide": "Pide",
+  "@discoveryHomeCategoryPide": {
+    "description": "Auto metadata for discoveryHomeCategoryPide"
+  },
+  "discoveryHomeCategoryLahmacun": "Lahmacun",
+  "@discoveryHomeCategoryLahmacun": {
+    "description": "Auto metadata for discoveryHomeCategoryLahmacun"
+  },
+  "discoveryHomeCategoryBurger": "Burger",
+  "@discoveryHomeCategoryBurger": {
+    "description": "Auto metadata for discoveryHomeCategoryBurger"
+  },
+  "discoveryHomeCategoryPizza": "Pizza",
+  "@discoveryHomeCategoryPizza": {
+    "description": "Auto metadata for discoveryHomeCategoryPizza"
+  },
+  "discoveryHomeCategoryKebap": "Kebab",
+  "@discoveryHomeCategoryKebap": {
+    "description": "Auto metadata for discoveryHomeCategoryKebap"
+  },
+  "discoveryHomeCategoryCorba": "Soup",
+  "@discoveryHomeCategoryCorba": {
+    "description": "Auto metadata for discoveryHomeCategoryCorba"
+  },
+  "discoveryHomeCategoryKahvalti": "Breakfast",
+  "@discoveryHomeCategoryKahvalti": {
+    "description": "Auto metadata for discoveryHomeCategoryKahvalti"
+  },
+  "discoveryHomeCategoryManti": "Manti",
+  "@discoveryHomeCategoryManti": {
+    "description": "Auto metadata for discoveryHomeCategoryManti"
+  },
+  "discoveryHomeCategoryTatli": "Dessert",
+  "@discoveryHomeCategoryTatli": {
+    "description": "Auto metadata for discoveryHomeCategoryTatli"
+  },
+  "discoveryRecentSearches": "Recent searches",
+  "@discoveryRecentSearches": {
+    "description": "Auto metadata for discoveryRecentSearches"
+  },
+  "discoveryCatalogSuggestions": "Catalog suggestions",
+  "@discoveryCatalogSuggestions": {
+    "description": "Auto metadata for discoveryCatalogSuggestions"
+  },
+  "feedEmptyMessage": "No feed yet. Try following taste experts to get started.",
+  "@feedEmptyMessage": {
+    "description": "Auto metadata for feedEmptyMessage"
+  },
+  "all": "All",
+  "@all": {
+    "description": "Auto metadata for all"
+  },
+  "sil": "Delete",
+  "@sil": {
+    "description": "Auto metadata for sil"
+  },
+  "favoritesCollectionLabel": "Collection",
+  "@favoritesCollectionLabel": {
+    "description": "Auto metadata for favoritesCollectionLabel"
+  },
+  "favoritesSavedHereSubtitle": "Your saved places are here",
+  "@favoritesSavedHereSubtitle": {
+    "description": "Auto metadata for favoritesSavedHereSubtitle"
+  },
+  "favoritesSharedCollectionSubtitle": "Shared collection: {name}",
+  "@favoritesSharedCollectionSubtitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for favoritesSharedCollectionSubtitle"
+  },
+  "favoritesSearchHint": "Search in favorites",
+  "@favoritesSearchHint": {
+    "description": "Auto metadata for favoritesSearchHint"
+  },
+  "favoritesNearbyLoadingLocation": "Getting location for nearby mode...",
+  "@favoritesNearbyLoadingLocation": {
+    "description": "Auto metadata for favoritesNearbyLoadingLocation"
+  },
+  "favoritesNearbyFallbackOrdering": "Location unavailable. Showing default order.",
+  "@favoritesNearbyFallbackOrdering": {
+    "description": "Auto metadata for favoritesNearbyFallbackOrdering"
+  },
+  "favoritesNearbySortedByDistance": "Nearby items are sorted by distance.",
+  "@favoritesNearbySortedByDistance": {
+    "description": "Auto metadata for favoritesNearbySortedByDistance"
+  },
+  "favoritesCollectionsTitle": "Collections",
+  "@favoritesCollectionsTitle": {
+    "description": "Auto metadata for favoritesCollectionsTitle"
+  },
+  "favoritesCreateCollectionTooltip": "Create collection",
+  "@favoritesCreateCollectionTooltip": {
+    "description": "Auto metadata for favoritesCreateCollectionTooltip"
+  },
+  "favoritesShareCollectionTooltip": "Share collection",
+  "@favoritesShareCollectionTooltip": {
+    "description": "Auto metadata for favoritesShareCollectionTooltip"
+  },
+  "favoritesDeleteCollectionTooltip": "Delete collection",
+  "@favoritesDeleteCollectionTooltip": {
+    "description": "Auto metadata for favoritesDeleteCollectionTooltip"
+  },
+  "favoritesCreatorSelectCollectionHint": "Select a collection first for creator mode.",
+  "@favoritesCreatorSelectCollectionHint": {
+    "description": "Auto metadata for favoritesCreatorSelectCollectionHint"
+  },
+  "favoritesCreatorCollectionTitle": "Creator collection",
+  "@favoritesCreatorCollectionTitle": {
+    "description": "Auto metadata for favoritesCreatorCollectionTitle"
+  },
+  "favoritesCreatorCollectionSubtitle": "Publish your collection and grow followers. Label sponsored content when needed.",
+  "@favoritesCreatorCollectionSubtitle": {
+    "description": "Auto metadata for favoritesCreatorCollectionSubtitle"
+  },
+  "favoritesPublishAction": "Publish",
+  "@favoritesPublishAction": {
+    "description": "Auto metadata for favoritesPublishAction"
+  },
+  "favoritesPublishVisibleSubtitle": "Visible on your profile and share links.",
+  "@favoritesPublishVisibleSubtitle": {
+    "description": "Auto metadata for favoritesPublishVisibleSubtitle"
+  },
+  "favoritesPublishPrivateSubtitle": "Only you can see this collection.",
+  "@favoritesPublishPrivateSubtitle": {
+    "description": "Auto metadata for favoritesPublishPrivateSubtitle"
+  },
+  "favoritesSharedCollectionTitle": "Shared collection",
+  "@favoritesSharedCollectionTitle": {
+    "description": "Auto metadata for favoritesSharedCollectionTitle"
+  },
+  "favoritesFollowCollectionHint": "Follow this collection to avoid missing updates.",
+  "@favoritesFollowCollectionHint": {
+    "description": "Auto metadata for favoritesFollowCollectionHint"
+  },
+  "favoritesFollowAction": "Follow",
+  "@favoritesFollowAction": {
+    "description": "Auto metadata for favoritesFollowAction"
+  },
+  "favoritesFollowingAction": "Following",
+  "@favoritesFollowingAction": {
+    "description": "Auto metadata for favoritesFollowingAction"
+  },
+  "favoritesFollowersChip": "{count} followers",
+  "@favoritesFollowersChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for favoritesFollowersChip"
+  },
+  "favoritesEngagementChip": "{count} interactions",
+  "@favoritesEngagementChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for favoritesEngagementChip"
+  },
+  "favoritesNewCollectionTitle": "New Collection",
+  "@favoritesNewCollectionTitle": {
+    "description": "Auto metadata for favoritesNewCollectionTitle"
+  },
+  "favoritesCollectionNameExample": "e.g. Late-night doner",
+  "@favoritesCollectionNameExample": {
+    "description": "Auto metadata for favoritesCollectionNameExample"
+  },
+  "favoritesCreateAction": "Create",
+  "@favoritesCreateAction": {
+    "description": "Auto metadata for favoritesCreateAction"
+  },
+  "favoritesDeleteCollectionConfirmTitle": "Delete this collection?",
+  "@favoritesDeleteCollectionConfirmTitle": {
+    "description": "Auto metadata for favoritesDeleteCollectionConfirmTitle"
+  },
+  "favoritesDeleteCollectionConfirmBody": "This action cannot be undone.",
+  "@favoritesDeleteCollectionConfirmBody": {
+    "description": "Auto metadata for favoritesDeleteCollectionConfirmBody"
+  },
+  "favoritesBusinessCollectionsTitle": "\"{businessName}\" collections",
+  "@favoritesBusinessCollectionsTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for favoritesBusinessCollectionsTitle"
+  },
+  "favoritesNoCollectionYet": "No collection yet. Create one first.",
+  "@favoritesNoCollectionYet": {
+    "description": "Auto metadata for favoritesNoCollectionYet"
+  },
+  "favoritesNewCollectionAction": "New collection",
+  "@favoritesNewCollectionAction": {
+    "description": "Auto metadata for favoritesNewCollectionAction"
+  },
+  "favoritesDisclosureSponsored": "Sponsored",
+  "@favoritesDisclosureSponsored": {
+    "description": "Auto metadata for favoritesDisclosureSponsored"
+  },
+  "favoritesDisclosureOrganic": "Organic",
+  "@favoritesDisclosureOrganic": {
+    "description": "Auto metadata for favoritesDisclosureOrganic"
+  },
+  "favoritesDisclosurePrivate": "Private",
+  "@favoritesDisclosurePrivate": {
+    "description": "Auto metadata for favoritesDisclosurePrivate"
+  },
+  "favoritesShareText": "My Yeedoy collection: {name}\n{link}\n\nMode: Nearby suggestions\nLabel: {disclosure}",
+  "@favoritesShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      },
+      "disclosure": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for favoritesShareText"
+  },
+  "favoritesAdDisclosureTitle": "Sponsored content notice",
+  "@favoritesAdDisclosureTitle": {
+    "description": "Auto metadata for favoritesAdDisclosureTitle"
+  },
+  "favoritesAdDisclosureBody": "If this collection includes a collaboration, you must mark it as \"Sponsored\".",
+  "@favoritesAdDisclosureBody": {
+    "description": "Auto metadata for favoritesAdDisclosureBody"
+  },
+  "favoritesCacheStaleMessage": "Data may have been last updated {days} days ago.",
+  "@favoritesCacheStaleMessage": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for favoritesCacheStaleMessage"
+  },
+  "favoritesAddToCollectionTooltip": "Add to collection",
+  "@favoritesAddToCollectionTooltip": {
+    "description": "Auto metadata for favoritesAddToCollectionTooltip"
+  },
+  "followingPageTitle": "Following",
+  "@followingPageTitle": {
+    "description": "Auto metadata for followingPageTitle"
+  },
+  "followingPageEmpty": "You are not following anyone yet.",
+  "@followingPageEmpty": {
+    "description": "Auto metadata for followingPageEmpty"
+  },
+  "followingPageUnfollowAction": "Unfollow",
+  "@followingPageUnfollowAction": {
+    "description": "Auto metadata for followingPageUnfollowAction"
+  },
+  "gourmetsPageTitle": "Discover taste experts",
+  "@gourmetsPageTitle": {
+    "description": "Auto metadata for gourmetsPageTitle"
+  },
+  "gourmetsPageEmpty": "No taste experts yet.",
+  "@gourmetsPageEmpty": {
+    "description": "Auto metadata for gourmetsPageEmpty"
+  },
+  "groupRequestWizardTitle": "Group Meal Request",
+  "@groupRequestWizardTitle": {
+    "description": "Auto metadata for groupRequestWizardTitle"
+  },
+  "groupRequestWizardEnterDetails": "Enter details",
+  "@groupRequestWizardEnterDetails": {
+    "description": "Auto metadata for groupRequestWizardEnterDetails"
+  },
+  "groupRequestWizardCityLabel": "City",
+  "@groupRequestWizardCityLabel": {
+    "description": "Auto metadata for groupRequestWizardCityLabel"
+  },
+  "groupRequestWizardDistrictLabel": "District",
+  "@groupRequestWizardDistrictLabel": {
+    "description": "Auto metadata for groupRequestWizardDistrictLabel"
+  },
+  "groupRequestWizardCategoryHint": "Category (coffee, diner...)",
+  "@groupRequestWizardCategoryHint": {
+    "description": "Auto metadata for groupRequestWizardCategoryHint"
+  },
+  "groupRequestWizardPartySizeLabel": "Party size",
+  "@groupRequestWizardPartySizeLabel": {
+    "description": "Auto metadata for groupRequestWizardPartySizeLabel"
+  },
+  "groupRequestWizardTotalBudgetLabel": "Total budget (TL)",
+  "@groupRequestWizardTotalBudgetLabel": {
+    "description": "Auto metadata for groupRequestWizardTotalBudgetLabel"
+  },
+  "groupRequestWizardNotesLabel": "Notes",
+  "@groupRequestWizardNotesLabel": {
+    "description": "Auto metadata for groupRequestWizardNotesLabel"
+  },
+  "groupRequestWizardCreateAction": "Create Request",
+  "@groupRequestWizardCreateAction": {
+    "description": "Auto metadata for groupRequestWizardCreateAction"
+  },
+  "groupRequestWizardInfoTitle": "Offers come from businesses",
+  "@groupRequestWizardInfoTitle": {
+    "description": "Auto metadata for groupRequestWizardInfoTitle"
+  },
+  "groupRequestWizardInfoDescription": "After your request opens, businesses can submit offers.",
+  "@groupRequestWizardInfoDescription": {
+    "description": "Auto metadata for groupRequestWizardInfoDescription"
+  },
+  "groupRequestWizardMissingFields": "There are missing required fields",
+  "@groupRequestWizardMissingFields": {
+    "description": "Auto metadata for groupRequestWizardMissingFields"
+  },
+  "groupRequestWizardPickDateTime": "Pick date and time",
+  "@groupRequestWizardPickDateTime": {
+    "description": "Auto metadata for groupRequestWizardPickDateTime"
+  },
+  "groupRequestMyRequestsTitle": "My Requests",
+  "@groupRequestMyRequestsTitle": {
+    "description": "Auto metadata for groupRequestMyRequestsTitle"
+  },
+  "groupRequestNewRequestAction": "New Request",
+  "@groupRequestNewRequestAction": {
+    "description": "Auto metadata for groupRequestNewRequestAction"
+  },
+  "groupRequestNoRequestsTitle": "No requests",
+  "@groupRequestNoRequestsTitle": {
+    "description": "Auto metadata for groupRequestNoRequestsTitle"
+  },
+  "groupRequestNoRequestsDescription": "Create your first group meal request.",
+  "@groupRequestNoRequestsDescription": {
+    "description": "Auto metadata for groupRequestNoRequestsDescription"
+  },
+  "groupRequestPartyAndBudget": "{party} people • {budget}",
+  "@groupRequestPartyAndBudget": {
+    "placeholders": {
+      "party": {
+        "type": "int"
+      },
+      "budget": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for groupRequestPartyAndBudget"
+  },
+  "groupRequestStatusOpen": "Open",
+  "@groupRequestStatusOpen": {
+    "description": "Auto metadata for groupRequestStatusOpen"
+  },
+  "groupRequestStatusAwarded": "Awarded",
+  "@groupRequestStatusAwarded": {
+    "description": "Auto metadata for groupRequestStatusAwarded"
+  },
+  "groupRequestStatusClosed": "Closed",
+  "@groupRequestStatusClosed": {
+    "description": "Auto metadata for groupRequestStatusClosed"
+  },
+  "groupRequestStatusCancelled": "Cancelled",
+  "@groupRequestStatusCancelled": {
+    "description": "Auto metadata for groupRequestStatusCancelled"
+  },
+  "groupRequestDetailTitle": "Group Request",
+  "@groupRequestDetailTitle": {
+    "description": "Auto metadata for groupRequestDetailTitle"
+  },
+  "groupRequestLinkCopied": "Group link copied",
+  "@groupRequestLinkCopied": {
+    "description": "Auto metadata for groupRequestLinkCopied"
+  },
+  "groupRequestNotFound": "Request not found",
+  "@groupRequestNotFound": {
+    "description": "Auto metadata for groupRequestNotFound"
+  },
+  "groupRequestCreatedBannerTitle": "Your request is live",
+  "@groupRequestCreatedBannerTitle": {
+    "description": "Auto metadata for groupRequestCreatedBannerTitle"
+  },
+  "groupRequestCreatedBannerDescription": "Share the group link. Everyone can add and vote on suggestions.",
+  "@groupRequestCreatedBannerDescription": {
+    "description": "Auto metadata for groupRequestCreatedBannerDescription"
+  },
+  "groupRequestLinkTitle": "Group link",
+  "@groupRequestLinkTitle": {
+    "description": "Auto metadata for groupRequestLinkTitle"
+  },
+  "groupRequestCopyAction": "Copy",
+  "@groupRequestCopyAction": {
+    "description": "Auto metadata for groupRequestCopyAction"
+  },
+  "groupRequestAddSuggestionTitle": "Add suggestion",
+  "@groupRequestAddSuggestionTitle": {
+    "description": "Auto metadata for groupRequestAddSuggestionTitle"
+  },
+  "groupRequestAddSuggestionDescription": "Pick a business, add an offer, and let the group vote.",
+  "@groupRequestAddSuggestionDescription": {
+    "description": "Auto metadata for groupRequestAddSuggestionDescription"
+  },
+  "groupRequestAddSuggestionAction": "Add suggestion",
+  "@groupRequestAddSuggestionAction": {
+    "description": "Auto metadata for groupRequestAddSuggestionAction"
+  },
+  "groupRequestOffersTitle": "Offers",
+  "@groupRequestOffersTitle": {
+    "description": "Auto metadata for groupRequestOffersTitle"
+  },
+  "groupRequestNoOffersTitle": "No offers yet",
+  "@groupRequestNoOffersTitle": {
+    "description": "Auto metadata for groupRequestNoOffersTitle"
+  },
+  "groupRequestNoOffersDescription": "Offers will appear here when submitted.",
+  "@groupRequestNoOffersDescription": {
+    "description": "Auto metadata for groupRequestNoOffersDescription"
+  },
+  "groupRequestBusinessFallback": "Business",
+  "@groupRequestBusinessFallback": {
+    "description": "Auto metadata for groupRequestBusinessFallback"
+  },
+  "groupRequestTopContributorBadge": "Top group contributor",
+  "@groupRequestTopContributorBadge": {
+    "description": "Auto metadata for groupRequestTopContributorBadge"
+  },
+  "groupRequestOfferPriceLabel": "Offer: {price}",
+  "@groupRequestOfferPriceLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for groupRequestOfferPriceLabel"
+  },
+  "groupRequestUndoVoteAction": "Undo vote",
+  "@groupRequestUndoVoteAction": {
+    "description": "Auto metadata for groupRequestUndoVoteAction"
+  },
+  "groupRequestVoteAction": "Vote",
+  "@groupRequestVoteAction": {
+    "description": "Auto metadata for groupRequestVoteAction"
+  },
+  "groupRequestProcessing": "Processing...",
+  "@groupRequestProcessing": {
+    "description": "Auto metadata for groupRequestProcessing"
+  },
+  "groupRequestAcceptOfferAction": "Accept offer",
+  "@groupRequestAcceptOfferAction": {
+    "description": "Auto metadata for groupRequestAcceptOfferAction"
+  },
+  "groupRequestVotesLabel": "Votes: {count}",
+  "@groupRequestVotesLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for groupRequestVotesLabel"
+  },
+  "groupRequestSearchMinChars": "Type at least 2 characters",
+  "@groupRequestSearchMinChars": {
+    "description": "Auto metadata for groupRequestSearchMinChars"
+  },
+  "groupRequestBusinessAndPriceRequired": "Business and price are required",
+  "@groupRequestBusinessAndPriceRequired": {
+    "description": "Auto metadata for groupRequestBusinessAndPriceRequired"
+  },
+  "groupRequestSuggestionAdded": "Suggestion added",
+  "@groupRequestSuggestionAdded": {
+    "description": "Auto metadata for groupRequestSuggestionAdded"
+  },
+  "groupRequestSearchBusinessLabel": "Search business",
+  "@groupRequestSearchBusinessLabel": {
+    "description": "Auto metadata for groupRequestSearchBusinessLabel"
+  },
+  "groupRequestSuggestIfMissing": "Suggest if business is missing",
+  "@groupRequestSuggestIfMissing": {
+    "description": "Auto metadata for groupRequestSuggestIfMissing"
+  },
+  "groupRequestTryDifferentName": "Try a different name.",
+  "@groupRequestTryDifferentName": {
+    "description": "Auto metadata for groupRequestTryDifferentName"
+  },
+  "groupRequestOfferTotalPriceLabel": "Offer total price (TL)",
+  "@groupRequestOfferTotalPriceLabel": {
+    "description": "Auto metadata for groupRequestOfferTotalPriceLabel"
+  },
+  "groupRequestNoteLabel": "Note",
+  "@groupRequestNoteLabel": {
+    "description": "Auto metadata for groupRequestNoteLabel"
+  },
+  "groupRequestChangeAction": "Change",
+  "@groupRequestChangeAction": {
+    "description": "Auto metadata for groupRequestChangeAction"
+  },
+  "groupRequestAcceptedSummary": "Result selected. Total: {price}",
+  "@groupRequestAcceptedSummary": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for groupRequestAcceptedSummary"
+  },
+  "groupRequestCopyResultAction": "Copy result",
+  "@groupRequestCopyResultAction": {
+    "description": "Auto metadata for groupRequestCopyResultAction"
+  },
+  "heroesPageTitle": "Heroes",
+  "@heroesPageTitle": {
+    "description": "Auto metadata for heroesPageTitle"
+  },
+  "heroesPageSubtitle": "People who left suspended meals",
+  "@heroesPageSubtitle": {
+    "description": "Auto metadata for heroesPageSubtitle"
+  },
+  "heroesPageEmpty": "No heroes yet.",
+  "@heroesPageEmpty": {
+    "description": "Auto metadata for heroesPageEmpty"
+  },
+  "heroesPageUserFallback": "User",
+  "@heroesPageUserFallback": {
+    "description": "Auto metadata for heroesPageUserFallback"
+  },
+  "heroesPageDonatedMealCount": "{count} suspended meals",
+  "@heroesPageDonatedMealCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for heroesPageDonatedMealCount"
+  },
+  "verifyPriceIsCorrectQuestion": "Is this price correct?",
+  "@verifyPriceIsCorrectQuestion": {
+    "description": "Auto metadata for verifyPriceIsCorrectQuestion"
+  },
+  "verifyPriceCorrectAction": "Correct",
+  "@verifyPriceCorrectAction": {
+    "description": "Auto metadata for verifyPriceCorrectAction"
+  },
+  "verifyPriceIncorrectAction": "Incorrect",
+  "@verifyPriceIncorrectAction": {
+    "description": "Auto metadata for verifyPriceIncorrectAction"
+  },
+  "verifyPriceCorrectPriceLabel": "Correct price (TL)",
+  "@verifyPriceCorrectPriceLabel": {
+    "description": "Auto metadata for verifyPriceCorrectPriceLabel"
+  },
+  "verifyPriceCorrectPriceHint": "e.g. 245.50",
+  "@verifyPriceCorrectPriceHint": {
+    "description": "Auto metadata for verifyPriceCorrectPriceHint"
+  },
+  "verifyPriceChooseCorrectnessFirst": "Please choose correct/incorrect first.",
+  "@verifyPriceChooseCorrectnessFirst": {
+    "description": "Auto metadata for verifyPriceChooseCorrectnessFirst"
+  },
+  "verifyPriceEnterValidPrice": "Please enter a valid price.",
+  "@verifyPriceEnterValidPrice": {
+    "description": "Auto metadata for verifyPriceEnterValidPrice"
+  },
+  "menuItemCalories": "{calories} kcal",
+  "@menuItemCalories": {
+    "placeholders": {
+      "calories": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuItemCalories"
+  },
+  "menuItemAutoApprovedMessage": "Price auto-approved and menu updated.",
+  "@menuItemAutoApprovedMessage": {
+    "description": "Auto metadata for menuItemAutoApprovedMessage"
+  },
+  "menuItemPendingCountMessage": "Suggestion received. {count} suggestions are in queue for this item.",
+  "@menuItemPendingCountMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuItemPendingCountMessage"
+  },
+  "menuItemPendingSingleMessage": "Suggestion received and pending approval.",
+  "@menuItemPendingSingleMessage": {
+    "description": "Auto metadata for menuItemPendingSingleMessage"
+  },
+  "menuItemOnsiteVerifiedPrioritizedMessage": "Thanks. On-site verification signal received; your suggestion was prioritized.",
+  "@menuItemOnsiteVerifiedPrioritizedMessage": {
+    "description": "Auto metadata for menuItemOnsiteVerifiedPrioritizedMessage"
+  },
+  "menuPhotoWarningDark": "dark",
+  "@menuPhotoWarningDark": {
+    "description": "Auto metadata for menuPhotoWarningDark"
+  },
+  "menuPhotoWarningBlurry": "blurry",
+  "@menuPhotoWarningBlurry": {
+    "description": "Auto metadata for menuPhotoWarningBlurry"
+  },
+  "menuContributionLevelLabel": "Contribution Level",
+  "@menuContributionLevelLabel": {
+    "description": "Auto metadata for menuContributionLevelLabel"
+  },
+  "menuScoreUpdated": "Your score was updated",
+  "@menuScoreUpdated": {
+    "description": "Auto metadata for menuScoreUpdated"
+  },
+  "menuLevel": "Level {level}",
+  "@menuLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuLevel"
+  },
+  "menuXpValue": "{xp} XP",
+  "@menuXpValue": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuXpValue"
+  },
+  "menuSelectedVariantLabel": "Selected variant: {label} ({price})",
+  "@menuSelectedVariantLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuSelectedVariantLabel"
+  },
+  "menuPriceHistoryCurrent": "{current} > {source}",
+  "@menuPriceHistoryCurrent": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuPriceHistoryCurrent"
+  },
+  "menuPriceHistoryTransition": "{previous} > {current} > {source}",
+  "@menuPriceHistoryTransition": {
+    "placeholders": {
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuPriceHistoryTransition"
+  },
+  "menuPriceHistoryMeta": "{relative} • {date}{delta}",
+  "@menuPriceHistoryMeta": {
+    "placeholders": {
+      "relative": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "delta": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuPriceHistoryMeta"
+  },
+  "inboxTitle": "Inbox",
+  "@inboxTitle": {
+    "description": "Auto metadata for inboxTitle"
+  },
+  "inboxMarkAllRead": "Mark all as read",
+  "@inboxMarkAllRead": {
+    "description": "Auto metadata for inboxMarkAllRead"
+  },
+  "inboxEmptyTitle": "No notifications",
+  "@inboxEmptyTitle": {
+    "description": "Auto metadata for inboxEmptyTitle"
+  },
+  "inboxEmptyDescription": "Price suggestions, claims, reports, and review reply notifications will appear here.",
+  "@inboxEmptyDescription": {
+    "description": "Auto metadata for inboxEmptyDescription"
+  },
+  "inboxXpGain": "+{xp} XP",
+  "@inboxXpGain": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for inboxXpGain"
+  },
+  "inboxNewLevel": "New level: {level}",
+  "@inboxNewLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for inboxNewLevel"
+  },
+  "inboxLevel": "Level: {level}",
+  "@inboxLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for inboxLevel"
+  },
+  "inboxNow": "Now",
+  "@inboxNow": {
+    "description": "Auto metadata for inboxNow"
+  },
+  "inboxReengagementTitle": "We missed you",
+  "@inboxReengagementTitle": {
+    "description": "Auto metadata for inboxReengagementTitle"
+  },
+  "inboxReengagementSubtitle": "Check nearby new menus.",
+  "@inboxReengagementSubtitle": {
+    "description": "Auto metadata for inboxReengagementSubtitle"
+  },
+  "inboxRecentBusinessClosedTitle": "The place you viewed last seems closed",
+  "@inboxRecentBusinessClosedTitle": {
+    "description": "Auto metadata for inboxRecentBusinessClosedTitle"
+  },
+  "inboxRecentBusinessPriceChangedTitle": "Price changed at the place you viewed last",
+  "@inboxRecentBusinessPriceChangedTitle": {
+    "description": "Auto metadata for inboxRecentBusinessPriceChangedTitle"
+  },
+  "inboxRecentBusinessNearbyTitle": "The place you viewed last is nearby",
+  "@inboxRecentBusinessNearbyTitle": {
+    "description": "Auto metadata for inboxRecentBusinessNearbyTitle"
+  },
+  "inboxRecentBusinessTitle": "The place you viewed last",
+  "@inboxRecentBusinessTitle": {
+    "description": "Auto metadata for inboxRecentBusinessTitle"
+  },
+  "inboxRecentBusinessNearbyReason": "Prioritized because it's near you",
+  "@inboxRecentBusinessNearbyReason": {
+    "description": "Auto metadata for inboxRecentBusinessNearbyReason"
+  },
+  "inboxFavoritesPriceChangedTitle": "Price changed in your favorites",
+  "@inboxFavoritesPriceChangedTitle": {
+    "description": "Auto metadata for inboxFavoritesPriceChangedTitle"
+  },
+  "inboxFavoritesPriceChangedSubtitle": "{name} • Last {count} verifications",
+  "@inboxFavoritesPriceChangedSubtitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for inboxFavoritesPriceChangedSubtitle"
+  },
+  "inboxDailyTaskTitle": "Today's task for you",
+  "@inboxDailyTaskTitle": {
+    "description": "Auto metadata for inboxDailyTaskTitle"
+  },
+  "inboxSegmentPriceHunter": "Verify 1 price today; your trust score will rise faster.",
+  "@inboxSegmentPriceHunter": {
+    "description": "Auto metadata for inboxSegmentPriceHunter"
+  },
+  "inboxSegmentPhotoProof": "Add 1 clear menu/photo proof today.",
+  "@inboxSegmentPhotoProof": {
+    "description": "Auto metadata for inboxSegmentPhotoProof"
+  },
+  "inboxSegmentExplorer": "Open a new place today and check its price status.",
+  "@inboxSegmentExplorer": {
+    "description": "Auto metadata for inboxSegmentExplorer"
+  },
+  "inboxSegmentSilentQuality": "Your silent quality contribution is strong; keep data accurate.",
+  "@inboxSegmentSilentQuality": {
+    "description": "Auto metadata for inboxSegmentSilentQuality"
+  },
+  "inboxSegmentDefault": "Strengthen your graph with a small contribution today.",
+  "@inboxSegmentDefault": {
+    "description": "Auto metadata for inboxSegmentDefault"
+  },
+  "inboxAlertPriceUp": "Price went up by %{pct}",
+  "@inboxAlertPriceUp": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for inboxAlertPriceUp"
+  },
+  "inboxAlertPriceDown": "Price dropped by %{pct}",
+  "@inboxAlertPriceDown": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for inboxAlertPriceDown"
+  },
+  "inboxAlertCheaperNow": "Now %{pct} cheaper",
+  "@inboxAlertCheaperNow": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for inboxAlertCheaperNow"
+  },
+  "inboxAlertAboveDistrictAverage": "Now above district average",
+  "@inboxAlertAboveDistrictAverage": {
+    "description": "Auto metadata for inboxAlertAboveDistrictAverage"
+  },
+  "inboxAlertBelowDistrictAverage": "Now below district average",
+  "@inboxAlertBelowDistrictAverage": {
+    "description": "Auto metadata for inboxAlertBelowDistrictAverage"
+  },
+  "inboxAlertTriggered": "Price alert triggered",
+  "@inboxAlertTriggered": {
+    "description": "Auto metadata for inboxAlertTriggered"
+  },
+  "inboxBusinessClosedArchived": "Business closed (archived).",
+  "@inboxBusinessClosedArchived": {
+    "description": "Auto metadata for inboxBusinessClosedArchived"
+  },
+  "inboxBusinessMoved": "Business moved.",
+  "@inboxBusinessMoved": {
+    "description": "Auto metadata for inboxBusinessMoved"
+  },
+  "inboxBusinessTemporarilyClosed": "Business temporarily closed.",
+  "@inboxBusinessTemporarilyClosed": {
+    "description": "Auto metadata for inboxBusinessTemporarilyClosed"
+  },
+  "inboxBusinessStatusUpdated": "Status updated",
+  "@inboxBusinessStatusUpdated": {
+    "description": "Auto metadata for inboxBusinessStatusUpdated"
+  },
+  "priceAlertSheetTitle": "Create price alert",
+  "@priceAlertSheetTitle": {
+    "description": "Auto metadata for priceAlertSheetTitle"
+  },
+  "priceAlertSheetQueryLabel": "Item or search text",
+  "@priceAlertSheetQueryLabel": {
+    "description": "Auto metadata for priceAlertSheetQueryLabel"
+  },
+  "priceAlertSheetMaxPriceLabel": "Maximum price (TL)",
+  "@priceAlertSheetMaxPriceLabel": {
+    "description": "Auto metadata for priceAlertSheetMaxPriceLabel"
+  },
+  "priceAlertSheetCategoryLabel": "Category",
+  "@priceAlertSheetCategoryLabel": {
+    "description": "Auto metadata for priceAlertSheetCategoryLabel"
+  },
+  "priceAlertSheetValidationError": "Enter a search text and a valid price.",
+  "@priceAlertSheetValidationError": {
+    "description": "Auto metadata for priceAlertSheetValidationError"
+  },
+  "priceAlertSheetSaved": "Price alert saved.",
+  "@priceAlertSheetSaved": {
+    "description": "Auto metadata for priceAlertSheetSaved"
+  },
+  "achievementStatusUnlocked": "Status: Unlocked",
+  "@achievementStatusUnlocked": {
+    "description": "Auto metadata for achievementStatusUnlocked"
+  },
+  "achievementStatusLocked": "Status: Locked",
+  "@achievementStatusLocked": {
+    "description": "Auto metadata for achievementStatusLocked"
+  },
+  "profileGuestUser": "Guest",
+  "@profileGuestUser": {
+    "description": "Auto metadata for profileGuestUser"
+  },
+  "profileIdentitySupportMessage": "You can strengthen your profile by contributing to the community.",
+  "@profileIdentitySupportMessage": {
+    "description": "Auto metadata for profileIdentitySupportMessage"
+  },
+  "profileAlertsTab": "Alerts",
+  "@profileAlertsTab": {
+    "description": "Auto metadata for profileAlertsTab"
+  },
+  "profileFeedTab": "Feed",
+  "@profileFeedTab": {
+    "description": "Auto metadata for profileFeedTab"
+  },
+  "profileLoginToSeeContributions": "Sign in to see your contributions and stats.",
+  "@profileLoginToSeeContributions": {
+    "description": "Auto metadata for profileLoginToSeeContributions"
+  },
+  "profileCreatorBadgeTitle": "Creator badge",
+  "@profileCreatorBadgeTitle": {
+    "description": "Auto metadata for profileCreatorBadgeTitle"
+  },
+  "profileCreatorBadgeEnabled": "Your profile is shown as a creator.",
+  "@profileCreatorBadgeEnabled": {
+    "description": "Auto metadata for profileCreatorBadgeEnabled"
+  },
+  "profileCreatorBadgeDisabled": "You can enable the creator badge if you want.",
+  "@profileCreatorBadgeDisabled": {
+    "description": "Auto metadata for profileCreatorBadgeDisabled"
+  },
+  "profileAddSocialLinkTitle": "Add social link",
+  "@profileAddSocialLinkTitle": {
+    "description": "Auto metadata for profileAddSocialLinkTitle"
+  },
+  "linkLabel": "Link",
+  "@linkLabel": {
+    "description": "Auto metadata for linkLabel"
+  },
+  "profileSocialLinksHint": "YouTube / Instagram / Facebook",
+  "@profileSocialLinksHint": {
+    "description": "Auto metadata for profileSocialLinksHint"
+  },
+  "profileSocialSaveComingSoon": "Saving social links is coming soon.",
+  "@profileSocialSaveComingSoon": {
+    "description": "Auto metadata for profileSocialSaveComingSoon"
+  },
+  "profileStatsTitle": "Profile stats",
+  "@profileStatsTitle": {
+    "description": "Auto metadata for profileStatsTitle"
+  },
+  "profileCommunityTrustTitle": "Community trust",
+  "@profileCommunityTrustTitle": {
+    "description": "Auto metadata for profileCommunityTrustTitle"
+  },
+  "profileCalculating": "Calculating...",
+  "@profileCalculating": {
+    "description": "Auto metadata for profileCalculating"
+  },
+  "profileTrustScorePercent": "Community trust: %{score}",
+  "@profileTrustScorePercent": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for profileTrustScorePercent"
+  },
+  "profileLevelXp": "Level {level} • Total {xp} XP",
+  "@profileLevelXp": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "xp": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for profileLevelXp"
+  },
+  "profileMyAchievementsTitle": "My achievement badges",
+  "@profileMyAchievementsTitle": {
+    "description": "Auto metadata for profileMyAchievementsTitle"
+  },
+  "profileNoAchievementYet": "You have not earned a badge yet.",
+  "@profileNoAchievementYet": {
+    "description": "Auto metadata for profileNoAchievementYet"
+  },
+  "profileAlertsLoginRequired": "Sign in to view alerts.",
+  "@profileAlertsLoginRequired": {
+    "description": "Auto metadata for profileAlertsLoginRequired"
+  },
+  "profileAlertsEmpty": "No alert notifications yet.",
+  "@profileAlertsEmpty": {
+    "description": "Auto metadata for profileAlertsEmpty"
+  },
+  "profileFeedLoginRequired": "Sign in to view your feed.",
+  "@profileFeedLoginRequired": {
+    "description": "Auto metadata for profileFeedLoginRequired"
+  },
+  "profileFeedEmpty": "No feed items yet.",
+  "@profileFeedEmpty": {
+    "description": "Auto metadata for profileFeedEmpty"
+  },
+  "profileFeedEventPriceVerified": "Price verified",
+  "@profileFeedEventPriceVerified": {
+    "description": "Auto metadata for profileFeedEventPriceVerified"
+  },
+  "profileFeedEventMenuUpdated": "Menu updated",
+  "@profileFeedEventMenuUpdated": {
+    "description": "Auto metadata for profileFeedEventMenuUpdated"
+  },
+  "profileFeedEventSponsored": "Sponsored update",
+  "@profileFeedEventSponsored": {
+    "description": "Auto metadata for profileFeedEventSponsored"
+  },
+  "profileDailyTaskTitle": "Today's task",
+  "@profileDailyTaskTitle": {
+    "description": "Auto metadata for profileDailyTaskTitle"
+  },
+  "profileDailyTaskCompleted": "Completed",
+  "@profileDailyTaskCompleted": {
+    "description": "Auto metadata for profileDailyTaskCompleted"
+  },
+  "profileSegmentHintPriceHunter": "You are strong at price checks; one item verification today is enough.",
+  "@profileSegmentHintPriceHunter": {
+    "description": "Auto metadata for profileSegmentHintPriceHunter"
+  },
+  "profileSegmentHintPhotoProof": "You are evidence-focused; a clear menu photo increases your impact.",
+  "@profileSegmentHintPhotoProof": {
+    "description": "Auto metadata for profileSegmentHintPhotoProof"
+  },
+  "profileSegmentHintExplorer": "You are exploration-focused; checking a new business speeds up progress.",
+  "@profileSegmentHintExplorer": {
+    "description": "Auto metadata for profileSegmentHintExplorer"
+  },
+  "profileSegmentHintDefault": "Small but accurate contributions grow your trust graph the fastest.",
+  "@profileSegmentHintDefault": {
+    "description": "Auto metadata for profileSegmentHintDefault"
+  },
+  "profileStatReviews": "Reviews",
+  "@profileStatReviews": {
+    "description": "Auto metadata for profileStatReviews"
+  },
+  "profileStatHelpfulVotes": "Helpful votes",
+  "@profileStatHelpfulVotes": {
+    "description": "Auto metadata for profileStatHelpfulVotes"
+  },
+  "profileStatFavorites": "Favorites",
+  "@profileStatFavorites": {
+    "description": "Auto metadata for profileStatFavorites"
+  },
+  "profileStatContributions": "Contributions",
+  "@profileStatContributions": {
+    "description": "Auto metadata for profileStatContributions"
+  },
+  "profileStatVisits": "Visits",
+  "@profileStatVisits": {
+    "description": "Auto metadata for profileStatVisits"
+  },
+  "profileLatestAchievementTitle": "Latest earned achievement",
+  "@profileLatestAchievementTitle": {
+    "description": "Auto metadata for profileLatestAchievementTitle"
+  },
+  "profileAlertCurrentPrice": "Current price: {price} TL",
+  "@profileAlertCurrentPrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for profileAlertCurrentPrice"
+  },
+  "profileAlertPriceChanged": "Price changed: {previous} → {current} TL",
+  "@profileAlertPriceChanged": {
+    "placeholders": {
+      "previous": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for profileAlertPriceChanged"
+  },
+  "profileSegmentPriceHunter": "Price hunter",
+  "@profileSegmentPriceHunter": {
+    "description": "Auto metadata for profileSegmentPriceHunter"
+  },
+  "profileSegmentExplorer": "Explorer",
+  "@profileSegmentExplorer": {
+    "description": "Auto metadata for profileSegmentExplorer"
+  },
+  "profileSegmentPhotoProof": "Photo proof",
+  "@profileSegmentPhotoProof": {
+    "description": "Auto metadata for profileSegmentPhotoProof"
+  },
+  "profileSegmentBalanced": "Balanced",
+  "@profileSegmentBalanced": {
+    "description": "Auto metadata for profileSegmentBalanced"
+  },
+  "profileMoatSignalsTitle": "Supporting signals",
+  "@profileMoatSignalsTitle": {
+    "description": "Auto metadata for profileMoatSignalsTitle"
+  },
+  "profileSignalTrust": "Trust",
+  "@profileSignalTrust": {
+    "description": "Auto metadata for profileSignalTrust"
+  },
+  "profileSignalAccuracy": "Accuracy",
+  "@profileSignalAccuracy": {
+    "description": "Auto metadata for profileSignalAccuracy"
+  },
+  "profileSignalSegment": "Contribution style",
+  "@profileSignalSegment": {
+    "description": "Auto metadata for profileSignalSegment"
+  },
+  "profileSignalSilentQuality": "Quality streak",
+  "@profileSignalSilentQuality": {
+    "description": "Auto metadata for profileSignalSilentQuality"
+  },
+  "profileSignalApprovalRate": "Approval rate",
+  "profileSupportSignalsSummary": "These signals feed your community trust; they are not separate primary scores.",
+  "profileMoatTrustedRejectedSpam": "Trusted contributions: {trusted} • Rejected: {rejected} • Spam signals: {spam}",
+  "@profileMoatTrustedRejectedSpam": {
+    "placeholders": {
+      "trusted": {
+        "type": "int"
+      },
+      "rejected": {
+        "type": "int"
+      },
+      "spam": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for profileMoatTrustedRejectedSpam"
+  },
+  "profileMoatBehaviorSummary": "Behavior: price {price}, discovery {discovery}, photo {photo}",
+  "@profileMoatBehaviorSummary": {
+    "placeholders": {
+      "price": {
+        "type": "int"
+      },
+      "discovery": {
+        "type": "int"
+      },
+      "photo": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for profileMoatBehaviorSummary"
+  },
+  "profileMoatSilentQualityHint": "Your quality streak is strong; fewer but accurate contributions stand out.",
+  "@profileMoatSilentQualityHint": {
+    "description": "Auto metadata for profileMoatSilentQualityHint"
+  },
+  "businessReviewsCommunityExperiences": "Community experiences",
+  "@businessReviewsCommunityExperiences": {
+    "description": "Auto metadata for businessReviewsCommunityExperiences"
+  },
+  "businessReviewsOwnerCanModerate": "Business owners can moderate inappropriate reviews.",
+  "@businessReviewsOwnerCanModerate": {
+    "description": "Auto metadata for businessReviewsOwnerCanModerate"
+  },
+  "businessReviewsOwnersCanOnlyReply": "Business owners can only reply to reviews.",
+  "@businessReviewsOwnersCanOnlyReply": {
+    "description": "Auto metadata for businessReviewsOwnersCanOnlyReply"
+  },
+  "sortNewest": "Newest",
+  "@sortNewest": {
+    "description": "Auto metadata for sortNewest"
+  },
+  "sortMostHelpful": "Most helpful",
+  "@sortMostHelpful": {
+    "description": "Auto metadata for sortMostHelpful"
+  },
+  "sortVerified": "Verified first",
+  "@sortVerified": {
+    "description": "Sort reviews showing verified visits first"
+  },
+  "businessReviewsQualityLabel": "Quality score: {score}",
+  "@businessReviewsQualityLabel": {
+    "placeholders": {
+      "score": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for businessReviewsQualityLabel"
+  },
+  "helpfulCount": "Helpful ({count})",
+  "@helpfulCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for helpfulCount"
+  },
+  "businessReviewsEmpty": "No reviews yet.",
+  "@businessReviewsEmpty": {
+    "description": "Auto metadata for businessReviewsEmpty"
+  },
+  "reviewCreateRatingLabel": "Rating",
+  "@reviewCreateRatingLabel": {
+    "description": "Auto metadata for reviewCreateRatingLabel"
+  },
+  "reviewCreateOptionalTitleLabel": "Title (optional)",
+  "@reviewCreateOptionalTitleLabel": {
+    "description": "Auto metadata for reviewCreateOptionalTitleLabel"
+  },
+  "reviewCreateContentRequired": "Review cannot be empty.",
+  "@reviewCreateContentRequired": {
+    "description": "Auto metadata for reviewCreateContentRequired"
+  },
+  "reviewCreateSubmitted": "Review submitted.",
+  "@reviewCreateSubmitted": {
+    "description": "Auto metadata for reviewCreateSubmitted"
+  },
+  "reviewCreateErrorNewAccountRateLimited": "Daily review limit reached for new accounts.",
+  "@reviewCreateErrorNewAccountRateLimited": {
+    "description": "Auto metadata for reviewCreateErrorNewAccountRateLimited"
+  },
+  "reviewCreateErrorSameBusinessCooldown": "You cannot submit another review for the same business so soon.",
+  "@reviewCreateErrorSameBusinessCooldown": {
+    "description": "Auto metadata for reviewCreateErrorSameBusinessCooldown"
+  },
+  "reviewCreateErrorContainsLinkOrPhone": "You cannot include links or phone numbers in a review.",
+  "@reviewCreateErrorContainsLinkOrPhone": {
+    "description": "Auto metadata for reviewCreateErrorContainsLinkOrPhone"
+  },
+  "reviewCreateErrorContainsProfanity": "Review contains inappropriate language.",
+  "@reviewCreateErrorContainsProfanity": {
+    "description": "Auto metadata for reviewCreateErrorContainsProfanity"
+  },
+  "reviewCreateErrorEmojiSpam": "Review contains too many emojis.",
+  "@reviewCreateErrorEmojiSpam": {
+    "description": "Auto metadata for reviewCreateErrorEmojiSpam"
+  },
+  "quality": "Quality",
+  "@quality": {
+    "description": "Auto metadata for quality"
+  },
+  "smartFeedEmptyTitle": "No feed yet",
+  "@smartFeedEmptyTitle": {
+    "description": "Auto metadata for smartFeedEmptyTitle"
+  },
+  "smartFeedEmptyDescription": "You can loosen filters or add the first contribution.",
+  "@smartFeedEmptyDescription": {
+    "description": "Auto metadata for smartFeedEmptyDescription"
+  },
+  "smartFeedCurationTitle": "Curation",
+  "@smartFeedCurationTitle": {
+    "description": "Auto metadata for smartFeedCurationTitle"
+  },
+  "smartFeedCategoriesLabel": "Categories",
+  "@smartFeedCategoriesLabel": {
+    "description": "Auto metadata for smartFeedCategoriesLabel"
+  },
+  "smartFeedScenarioLabel": "Scenario",
+  "@smartFeedScenarioLabel": {
+    "description": "Auto metadata for smartFeedScenarioLabel"
+  },
+  "smartFeedBudgetMax": "Up to ₺{amount}",
+  "@smartFeedBudgetMax": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for smartFeedBudgetMax"
+  },
+  "smartFeedUnlimited": "Unlimited",
+  "@smartFeedUnlimited": {
+    "description": "Auto metadata for smartFeedUnlimited"
+  },
+  "smartFeedPreferenceHint": "Preference: {label}",
+  "@smartFeedPreferenceHint": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for smartFeedPreferenceHint"
+  },
+  "smartFeedScenarioHint": "Scenario: {label}",
+  "@smartFeedScenarioHint": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for smartFeedScenarioHint"
+  },
+  "smartFeedContextDefault": "We prepare today's feed according to your rhythm.",
+  "@smartFeedContextDefault": {
+    "description": "Auto metadata for smartFeedContextDefault"
+  },
+  "smartFeedCategoryMeyhane": "Tavern",
+  "@smartFeedCategoryMeyhane": {
+    "description": "Auto metadata for smartFeedCategoryMeyhane"
+  },
+  "smartFeedCategoryAffordable": "Affordable",
+  "@smartFeedCategoryAffordable": {
+    "description": "Auto metadata for smartFeedCategoryAffordable"
+  },
+  "smartFeedBundleStudentFriendly": "Student friendly",
+  "@smartFeedBundleStudentFriendly": {
+    "description": "Auto metadata for smartFeedBundleStudentFriendly"
+  },
+  "smartFeedBundleFirstDate": "First date",
+  "@smartFeedBundleFirstDate": {
+    "description": "Auto metadata for smartFeedBundleFirstDate"
+  },
+  "smartFeedBundleNightSoup": "Night soup",
+  "@smartFeedBundleNightSoup": {
+    "description": "Auto metadata for smartFeedBundleNightSoup"
+  },
+  "smartFeedMinutesAgo": "{count} min ago",
+  "@smartFeedMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for smartFeedMinutesAgo"
+  },
+  "smartFeedHoursAgo": "{count} h ago",
+  "@smartFeedHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for smartFeedHoursAgo"
+  },
+  "smartFeedDaysAgo": "{count} d ago",
+  "@smartFeedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for smartFeedDaysAgo"
+  },
+  "smartFeedEventMenu": "Menu",
+  "@smartFeedEventMenu": {
+    "description": "Auto metadata for smartFeedEventMenu"
+  },
+  "smartFeedEventPrice": "Price",
+  "@smartFeedEventPrice": {
+    "description": "Auto metadata for smartFeedEventPrice"
+  },
+  "smartFeedEventPhoto": "Photo",
+  "@smartFeedEventPhoto": {
+    "description": "Auto metadata for smartFeedEventPhoto"
+  },
+  "smartFeedEventDaily": "Daily",
+  "@smartFeedEventDaily": {
+    "description": "Auto metadata for smartFeedEventDaily"
+  },
+  "smartFeedEventSponsor": "Sponsor",
+  "@smartFeedEventSponsor": {
+    "description": "Auto metadata for smartFeedEventSponsor"
+  },
+  "smartFeedFallbackPriceChanged": "Price updated",
+  "@smartFeedFallbackPriceChanged": {
+    "description": "Auto metadata for smartFeedFallbackPriceChanged"
+  },
+  "smartFeedFallbackPhotoAdded": "New photo added",
+  "@smartFeedFallbackPhotoAdded": {
+    "description": "Auto metadata for smartFeedFallbackPhotoAdded"
+  },
+  "smartFeedFallbackDailyMenu": "Menu of the day",
+  "@smartFeedFallbackDailyMenu": {
+    "description": "Auto metadata for smartFeedFallbackDailyMenu"
+  },
+  "smartFeedFallbackNewContent": "New content",
+  "@smartFeedFallbackNewContent": {
+    "description": "Auto metadata for smartFeedFallbackNewContent"
+  },
+  "smartFeedCtaGoToMenu": "Go to menu",
+  "@smartFeedCtaGoToMenu": {
+    "description": "Auto metadata for smartFeedCtaGoToMenu"
+  },
+  "smartFeedCtaOpenItem": "Open item",
+  "@smartFeedCtaOpenItem": {
+    "description": "Auto metadata for smartFeedCtaOpenItem"
+  },
+  "smartFeedCtaViewPhoto": "View photo",
+  "@smartFeedCtaViewPhoto": {
+    "description": "Auto metadata for smartFeedCtaViewPhoto"
+  },
+  "smartFeedCtaGoToBusiness": "Go to business",
+  "@smartFeedCtaGoToBusiness": {
+    "description": "Auto metadata for smartFeedCtaGoToBusiness"
+  },
+  "smartFeedNearbyKm": "{km} km near you",
+  "@smartFeedNearbyKm": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for smartFeedNearbyKm"
+  },
+  "smartFeedReasonCategoryMatch": "Category matches you",
+  "@smartFeedReasonCategoryMatch": {
+    "description": "Auto metadata for smartFeedReasonCategoryMatch"
+  },
+  "smartFeedReasonScenarioMatch": "Your scenario",
+  "@smartFeedReasonScenarioMatch": {
+    "description": "Auto metadata for smartFeedReasonScenarioMatch"
+  },
+  "smartFeedReasonSimilarUsers": "Loved by similar users",
+  "@smartFeedReasonSimilarUsers": {
+    "description": "Auto metadata for smartFeedReasonSimilarUsers"
+  },
+  "smartFeedDayWeekend": "Weekend",
+  "@smartFeedDayWeekend": {
+    "description": "Auto metadata for smartFeedDayWeekend"
+  },
+  "smartFeedDayWeekday": "Weekday",
+  "@smartFeedDayWeekday": {
+    "description": "Auto metadata for smartFeedDayWeekday"
+  },
+  "smartFeedTimeMorning": "Morning",
+  "@smartFeedTimeMorning": {
+    "description": "Auto metadata for smartFeedTimeMorning"
+  },
+  "smartFeedTimeNoon": "Noon",
+  "@smartFeedTimeNoon": {
+    "description": "Auto metadata for smartFeedTimeNoon"
+  },
+  "smartFeedTimeEvening": "Evening",
+  "@smartFeedTimeEvening": {
+    "description": "Auto metadata for smartFeedTimeEvening"
+  },
+  "smartFeedTimeNight": "Night",
+  "@smartFeedTimeNight": {
+    "description": "Auto metadata for smartFeedTimeNight"
+  },
+  "suggestBusinessSubmitDialogTitle": "Suggestion received?",
+  "@suggestBusinessSubmitDialogTitle": {
+    "description": "Auto metadata for suggestBusinessSubmitDialogTitle"
+  },
+  "suggestBusinessSubmitDialogContent": "Thanks! The business will be published after review.\n\nTracking Code: {code}",
+  "@suggestBusinessSubmitDialogContent": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for suggestBusinessSubmitDialogContent"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Auto metadata for ok"
+  },
+  "suggestBusinessPageTitle": "Add Business",
+  "@suggestBusinessPageTitle": {
+    "description": "Auto metadata for suggestBusinessPageTitle"
+  },
+  "suggestBusinessPageSubtitle": "Add the business you found and contribute to the community. We publish it after review.",
+  "@suggestBusinessPageSubtitle": {
+    "description": "Auto metadata for suggestBusinessPageSubtitle"
+  },
+  "suggestBusinessNameLabel": "Business name",
+  "@suggestBusinessNameLabel": {
+    "description": "Auto metadata for suggestBusinessNameLabel"
+  },
+  "requiredField": "Required",
+  "@requiredField": {
+    "description": "Auto metadata for requiredField"
+  },
+  "suggestBusinessCategoryLabel": "Category",
+  "@suggestBusinessCategoryLabel": {
+    "description": "Auto metadata for suggestBusinessCategoryLabel"
+  },
+  "suggestBusinessAddressLabel": "Address",
+  "@suggestBusinessAddressLabel": {
+    "description": "Auto metadata for suggestBusinessAddressLabel"
+  },
+  "suggestBusinessPhoneLabel": "Phone",
+  "@suggestBusinessPhoneLabel": {
+    "description": "Auto metadata for suggestBusinessPhoneLabel"
+  },
+  "suggestBusinessWebsiteLabel": "Website",
+  "@suggestBusinessWebsiteLabel": {
+    "description": "Auto metadata for suggestBusinessWebsiteLabel"
+  },
+  "suggestBusinessDuplicateTitle": "This business may already exist",
+  "@suggestBusinessDuplicateTitle": {
+    "description": "Auto metadata for suggestBusinessDuplicateTitle"
+  },
+  "suggestBusinessDuplicateFound": "Similar businesses were found:",
+  "@suggestBusinessDuplicateFound": {
+    "description": "Auto metadata for suggestBusinessDuplicateFound"
+  },
+  "suggestBusinessDuplicateConfirm": "Do you still want to submit a new suggestion?",
+  "@suggestBusinessDuplicateConfirm": {
+    "description": "Auto metadata for suggestBusinessDuplicateConfirm"
+  },
+  "suggestBusinessSendAnyway": "Send anyway",
+  "@suggestBusinessSendAnyway": {
+    "description": "Auto metadata for suggestBusinessSendAnyway"
+  },
+  "suggestBusinessOpenAction": "Open",
+  "@suggestBusinessOpenAction": {
+    "description": "Auto metadata for suggestBusinessOpenAction"
+  },
+  "copy": "Copy",
+  "@copy": {
+    "description": "Auto metadata for copy"
+  },
+  "topBusinessesNotEnoughData": "Not enough data yet.",
+  "@topBusinessesNotEnoughData": {
+    "description": "Auto metadata for topBusinessesNotEnoughData"
+  },
+  "topBusinessesBadgeMonth": "Month",
+  "@topBusinessesBadgeMonth": {
+    "description": "Auto metadata for topBusinessesBadgeMonth"
+  },
+  "topBusinessesBadgeWeek": "Week",
+  "@topBusinessesBadgeWeek": {
+    "description": "Auto metadata for topBusinessesBadgeWeek"
+  },
+  "suspendedMealsMyClaimsTitle": "My Suspended Meals",
+  "@suspendedMealsMyClaimsTitle": {
+    "description": "Auto metadata for suspendedMealsMyClaimsTitle"
+  },
+  "suspendedMealsStatusCodeReady": "Code ready",
+  "@suspendedMealsStatusCodeReady": {
+    "description": "Auto metadata for suspendedMealsStatusCodeReady"
+  },
+  "suspendedMealsStatusFulfilled": "Collected",
+  "@suspendedMealsStatusFulfilled": {
+    "description": "Auto metadata for suspendedMealsStatusFulfilled"
+  },
+  "suspendedMealsNoRecords": "No records.",
+  "@suspendedMealsNoRecords": {
+    "description": "Auto metadata for suspendedMealsNoRecords"
+  },
+  "suspendedMealsDeliveryCode": "Delivery code",
+  "@suspendedMealsDeliveryCode": {
+    "description": "Auto metadata for suspendedMealsDeliveryCode"
+  },
+  "suspendedMealsCodeCopied": "Code copied",
+  "@suspendedMealsCodeCopied": {
+    "description": "Auto metadata for suspendedMealsCodeCopied"
+  },
+  "suspendedMealsCodeHint": "Go to the restaurant and share this code.",
+  "@suspendedMealsCodeHint": {
+    "description": "Auto metadata for suspendedMealsCodeHint"
+  },
+  "suspendedMealsPendingReview": "Under review",
+  "@suspendedMealsPendingReview": {
+    "description": "Auto metadata for suspendedMealsPendingReview"
+  },
+  "suspendedMealsMonthsAgo": "{count} months ago",
+  "@suspendedMealsMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for suspendedMealsMonthsAgo"
+  },
+  "tasteTwinTitle": "Taste Twin",
+  "@tasteTwinTitle": {
+    "description": "Auto metadata for tasteTwinTitle"
+  },
+  "tasteTwinLoginRequired": "You need to sign in to view this page.",
+  "@tasteTwinLoginRequired": {
+    "description": "Auto metadata for tasteTwinLoginRequired"
+  },
+  "tasteTwinSubtitle": "People who are similar to you based on your ratings",
+  "@tasteTwinSubtitle": {
+    "description": "Auto metadata for tasteTwinSubtitle"
+  },
+  "tasteTwinNoMatches": "No matches yet.",
+  "@tasteTwinNoMatches": {
+    "description": "Auto metadata for tasteTwinNoMatches"
+  },
+  "tasteTwinMatchSummary": "%{similarity} match • {places} shared places",
+  "@tasteTwinMatchSummary": {
+    "placeholders": {
+      "similarity": {
+        "type": "int"
+      },
+      "places": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tasteTwinMatchSummary"
+  },
+  "tasteTwinSignalHint": "Review + menu signals",
+  "@tasteTwinSignalHint": {
+    "description": "Auto metadata for tasteTwinSignalHint"
+  },
+  "tasteTwinViewSuggestions": "View suggestions",
+  "@tasteTwinViewSuggestions": {
+    "description": "Auto metadata for tasteTwinViewSuggestions"
+  },
+  "tasteTwinRecommendationsTitle": "{name}'s suggestions",
+  "@tasteTwinRecommendationsTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tasteTwinRecommendationsTitle"
+  },
+  "tasteTwinFollowGourmet": "Follow this gourmet",
+  "@tasteTwinFollowGourmet": {
+    "description": "Auto metadata for tasteTwinFollowGourmet"
+  },
+  "tasteTwinNoSuggestionsYet": "No suggestions for now.",
+  "@tasteTwinNoSuggestionsYet": {
+    "description": "Auto metadata for tasteTwinNoSuggestionsYet"
+  },
+  "tasteTwinWhyMatchedTitle": "Why did you match?",
+  "@tasteTwinWhyMatchedTitle": {
+    "description": "Auto metadata for tasteTwinWhyMatchedTitle"
+  },
+  "tasteTwinReviewOverlapTitle": "Review overlap",
+  "@tasteTwinReviewOverlapTitle": {
+    "description": "Auto metadata for tasteTwinReviewOverlapTitle"
+  },
+  "tasteTwinNoSampleYet": "No samples yet.",
+  "@tasteTwinNoSampleYet": {
+    "description": "Auto metadata for tasteTwinNoSampleYet"
+  },
+  "tasteTwinMenuSignalOverlapTitle": "Menu signal overlap",
+  "@tasteTwinMenuSignalOverlapTitle": {
+    "description": "Auto metadata for tasteTwinMenuSignalOverlapTitle"
+  },
+  "tasteTwinMenuSignalOverlapHint": "Price verification / photo likes / photo contribution signals",
+  "@tasteTwinMenuSignalOverlapHint": {
+    "description": "Auto metadata for tasteTwinMenuSignalOverlapHint"
+  },
+  "tasteTwinDivergenceTitle": "You disagreed here :)",
+  "@tasteTwinDivergenceTitle": {
+    "description": "Auto metadata for tasteTwinDivergenceTitle"
+  },
+  "tasteTwinRatingComparison": "You: {myRating} • Other: {otherRating}",
+  "@tasteTwinRatingComparison": {
+    "placeholders": {
+      "myRating": {
+        "type": "int"
+      },
+      "otherRating": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tasteTwinRatingComparison"
+  },
+  "tasteTwinYouAt": "You {value}",
+  "@tasteTwinYouAt": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tasteTwinYouAt"
+  },
+  "tasteTwinSignalComparison": "You: +{mySignal} • Other: +{otherSignal}",
+  "@tasteTwinSignalComparison": {
+    "placeholders": {
+      "mySignal": {
+        "type": "int"
+      },
+      "otherSignal": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tasteTwinSignalComparison"
+  },
+  "tasteTwinMatchRated": "Your match gave {rating} points",
+  "@tasteTwinMatchRated": {
+    "placeholders": {
+      "rating": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tasteTwinMatchRated"
+  },
+  "tasteTwinRatedAt": "{when} {text}",
+  "@tasteTwinRatedAt": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "text": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for tasteTwinRatedAt"
+  },
+  "tasteTwinDebugReviewAndSignal": "Review {review}% + signal {signal}%",
+  "@tasteTwinDebugReviewAndSignal": {
+    "placeholders": {
+      "review": {
+        "type": "int"
+      },
+      "signal": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tasteTwinDebugReviewAndSignal"
+  },
+  "tasteTwinDebugReviewOnly": "Review {review}%",
+  "@tasteTwinDebugReviewOnly": {
+    "placeholders": {
+      "review": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tasteTwinDebugReviewOnly"
+  },
+  "tasteTwinDebugSignalOnly": "Signal {signal}%",
+  "@tasteTwinDebugSignalOnly": {
+    "placeholders": {
+      "signal": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for tasteTwinDebugSignalOnly"
+  },
+  "tasteTwinTodayLower": "today",
+  "@tasteTwinTodayLower": {
+    "description": "Auto metadata for tasteTwinTodayLower"
+  },
+  "tasteTwinYesterdayLower": "yesterday",
+  "@tasteTwinYesterdayLower": {
+    "description": "Auto metadata for tasteTwinYesterdayLower"
+  },
+  "use": "Use",
+  "@use": {
+    "description": "Auto metadata for use"
+  },
+  "quickLoginTitle": "Sign in to continue",
+  "@quickLoginTitle": {
+    "description": "Auto metadata for quickLoginTitle"
+  },
+  "quickLoginDescription": "This action requires an account. You can sign in or skip for now.",
+  "@quickLoginDescription": {
+    "description": "Auto metadata for quickLoginDescription"
+  },
+  "quickLoginAction": "Quick sign in",
+  "@quickLoginAction": {
+    "description": "Auto metadata for quickLoginAction"
+  },
+  "statusBadgeVerified": "Verified",
+  "@statusBadgeVerified": {
+    "description": "Auto metadata for statusBadgeVerified"
+  },
+  "statusBadgePending": "Pending",
+  "@statusBadgePending": {
+    "description": "Auto metadata for statusBadgePending"
+  },
+  "statusBadgeOutdated": "Outdated",
+  "@statusBadgeOutdated": {
+    "description": "Auto metadata for statusBadgeOutdated"
+  },
+  "locationPickerManualHint": "Manual selection works at city/district level. For better nearby quality, radius (5/10/20 km) and location permission give better results.",
+  "@locationPickerManualHint": {
+    "description": "Auto metadata for locationPickerManualHint"
+  },
+  "locationPickerUseAuto": "Use automatic location",
+  "@locationPickerUseAuto": {
+    "description": "Auto metadata for locationPickerUseAuto"
+  },
+  "locationPickerMakeDefault": "Set as default",
+  "@locationPickerMakeDefault": {
+    "description": "Auto metadata for locationPickerMakeDefault"
+  },
+  "locationPickerMakeDefaultHint": "Use this location on next app launch too.",
+  "@locationPickerMakeDefaultHint": {
+    "description": "Auto metadata for locationPickerMakeDefaultHint"
+  },
+  "locationPickerRecent": "Recent selections",
+  "@locationPickerRecent": {
+    "description": "Auto metadata for locationPickerRecent"
+  },
+  "locationPickerSearchDistrict": "Search district",
+  "@locationPickerSearchDistrict": {
+    "description": "Auto metadata for locationPickerSearchDistrict"
+  },
+  "locationPickerPopularDistricts": "Popular districts",
+  "@locationPickerPopularDistricts": {
+    "description": "Auto metadata for locationPickerPopularDistricts"
+  },
+  "locationPickerBusinessCount": "{city} • {count} businesses",
+  "@locationPickerBusinessCount": {
+    "placeholders": {
+      "city": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for locationPickerBusinessCount"
+  },
+  "legalPageTitle": "Legal and Trust",
+  "@legalPageTitle": {
+    "description": "Auto metadata for legalPageTitle"
+  },
+  "legalKvkkSectionTitle": "KVKK / GDPR",
+  "@legalKvkkSectionTitle": {
+    "description": "Auto metadata for legalKvkkSectionTitle"
+  },
+  "legalKvkkIntro": "Yeedoy processes personal data only to provide the service. Consent is requested where required, and data is deleted or exported upon request.",
+  "@legalKvkkIntro": {
+    "description": "Auto metadata for legalKvkkIntro"
+  },
+  "legalKvkkCategoriesAndRights": "Data categories: profile, location, device information, usage analytics. Rights: access, correction, deletion, objection, portability.",
+  "@legalKvkkCategoriesAndRights": {
+    "description": "Auto metadata for legalKvkkCategoriesAndRights"
+  },
+  "legalPrivacyPolicy": "Privacy Policy",
+  "@legalPrivacyPolicy": {
+    "description": "Auto metadata for legalPrivacyPolicy"
+  },
+  "legalKvkkText": "KVKK Text",
+  "@legalKvkkText": {
+    "description": "Auto metadata for legalKvkkText"
+  },
+  "legalGdprText": "GDPR Text",
+  "@legalGdprText": {
+    "description": "Auto metadata for legalGdprText"
+  },
+  "legalApplicationByEmail": "Application: create a request by email.",
+  "@legalApplicationByEmail": {
+    "description": "Auto metadata for legalApplicationByEmail"
+  },
+  "legalCopyrightSectionTitle": "Photo Copyright Notice",
+  "@legalCopyrightSectionTitle": {
+    "description": "Auto metadata for legalCopyrightSectionTitle"
+  },
+  "legalCopyrightIntro": "Menu and venue photos may be subject to copyright. If you see a violation, submit it via Report > Copyright.",
+  "@legalCopyrightIntro": {
+    "description": "Auto metadata for legalCopyrightIntro"
+  },
+  "legalCopyrightDetails": "A content link, proof, and short explanation are enough for copyright notice. Verified violations are removed.",
+  "@legalCopyrightDetails": {
+    "description": "Auto metadata for legalCopyrightDetails"
+  },
+  "legalCopyrightPolicy": "Copyright Policy",
+  "@legalCopyrightPolicy": {
+    "description": "Auto metadata for legalCopyrightPolicy"
+  },
+  "legalOwnershipAppealSectionTitle": "Business Ownership Appeal",
+  "@legalOwnershipAppealSectionTitle": {
+    "description": "Auto metadata for legalOwnershipAppealSectionTitle"
+  },
+  "legalOwnershipAppealIntro": "If your ownership request was rejected, you can appeal. Your documents are reviewed again.",
+  "@legalOwnershipAppealIntro": {
+    "description": "Auto metadata for legalOwnershipAppealIntro"
+  },
+  "legalOwnershipAppealRequiredInfo": "Required information for appeal:",
+  "@legalOwnershipAppealRequiredInfo": {
+    "description": "Auto metadata for legalOwnershipAppealRequiredInfo"
+  },
+  "legalOwnershipAppealRequiredList": "• Business legal name and tax/license info\n• Authorization document\n• Contact phone number",
+  "@legalOwnershipAppealRequiredList": {
+    "description": "Auto metadata for legalOwnershipAppealRequiredList"
+  },
+  "legalSendAppealEmail": "Send appeal email",
+  "@legalSendAppealEmail": {
+    "description": "Auto metadata for legalSendAppealEmail"
+  },
+  "legalProductPrinciplesSectionTitle": "Product Principles",
+  "@legalProductPrinciplesSectionTitle": {
+    "description": "Auto metadata for legalProductPrinciplesSectionTitle"
+  },
+  "legalDontsTitle": "Things not to do:",
+  "@legalDontsTitle": {
+    "description": "Auto metadata for legalDontsTitle"
+  },
+  "legalDontsList": "• Open everything to everyone\n• Hide sponsored content\n• Give owner accounts review delete access\n• Lower quality thresholds for growth",
+  "@legalDontsList": {
+    "description": "Auto metadata for legalDontsList"
+  },
+  "legalPolicySummary": "Policy: sponsored label required={requireSponsoredLabel}, minimum sponsored trust={minSponsoredTrust}, owner review delete={ownerCanDeleteReviews}.",
+  "@legalPolicySummary": {
+    "placeholders": {
+      "requireSponsoredLabel": {
+        "type": "String"
+      },
+      "minSponsoredTrust": {
+        "type": "String"
+      },
+      "ownerCanDeleteReviews": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for legalPolicySummary"
+  },
+  "legalFooter": "Current policy texts and details are published on the website.",
+  "@legalFooter": {
+    "description": "Auto metadata for legalFooter"
+  },
+  "topBusinessReviews": "Reviews: {count}",
+  "@topBusinessReviews": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for topBusinessReviews"
+  },
+  "reportRateLimitBusiness": "You already sent a report for this business today.",
+  "@reportRateLimitBusiness": {
+    "description": "Auto metadata for reportRateLimitBusiness"
+  },
+  "reportRateLimitReview": "You already sent a report for this review in the last 24 hours.",
+  "@reportRateLimitReview": {
+    "description": "Auto metadata for reportRateLimitReview"
+  },
+  "reportRateLimitPhoto": "You already sent a report for this photo in the last 24 hours.",
+  "@reportRateLimitPhoto": {
+    "description": "Auto metadata for reportRateLimitPhoto"
+  },
+  "reportReasonSpam": "Spam / advertisement",
+  "@reportReasonSpam": {
+    "description": "Auto metadata for reportReasonSpam"
+  },
+  "reportReasonAbuse": "Abuse / inappropriate",
+  "@reportReasonAbuse": {
+    "description": "Auto metadata for reportReasonAbuse"
+  },
+  "reportReasonWrongInfo": "Wrong information",
+  "@reportReasonWrongInfo": {
+    "description": "Auto metadata for reportReasonWrongInfo"
+  },
+  "reportReasonCopyright": "Copyright violation",
+  "@reportReasonCopyright": {
+    "description": "Auto metadata for reportReasonCopyright"
+  },
+  "reportReasonIllegal": "Illegal",
+  "@reportReasonIllegal": {
+    "description": "Auto metadata for reportReasonIllegal"
+  },
+  "reportReasonWrongImage": "Wrong image",
+  "@reportReasonWrongImage": {
+    "description": "Auto metadata for reportReasonWrongImage"
+  },
+  "reportReasonClosed": "Business closed",
+  "@reportReasonClosed": {
+    "description": "Auto metadata for reportReasonClosed"
+  },
+  "reportReasonMoved": "Moved",
+  "@reportReasonMoved": {
+    "description": "Auto metadata for reportReasonMoved"
+  },
+  "reportReasonWrongPrice": "Wrong price",
+  "@reportReasonWrongPrice": {
+    "description": "Auto metadata for reportReasonWrongPrice"
+  },
+  "reportBusinessHint": "Too many wrong-information reports reduce visibility. It rises again after owner verification.",
+  "@reportBusinessHint": {
+    "description": "Auto metadata for reportBusinessHint"
+  },
+  "reportReasonLabel": "Reason",
+  "@reportReasonLabel": {
+    "description": "Auto metadata for reportReasonLabel"
+  },
+  "reportCopyrightUrlLabel": "Violation URL (photo link)",
+  "@reportCopyrightUrlLabel": {
+    "description": "Auto metadata for reportCopyrightUrlLabel"
+  },
+  "reportCopyrightOwnerLabel": "Copyright owner name (optional)",
+  "@reportCopyrightOwnerLabel": {
+    "description": "Auto metadata for reportCopyrightOwnerLabel"
+  },
+  "reportCopyrightEmailLabel": "Copyright owner email (optional)",
+  "@reportCopyrightEmailLabel": {
+    "description": "Auto metadata for reportCopyrightEmailLabel"
+  },
+  "reportDetailsLabel": "Details (optional)",
+  "@reportDetailsLabel": {
+    "description": "Auto metadata for reportDetailsLabel"
+  },
+  "reportSubmittedThanks": "Thanks, it will be reviewed.",
+  "@reportSubmittedThanks": {
+    "description": "Auto metadata for reportSubmittedThanks"
+  },
+  "reportCopyrightUrlPrefix": "Violation URL",
+  "@reportCopyrightUrlPrefix": {
+    "description": "Auto metadata for reportCopyrightUrlPrefix"
+  },
+  "reportCopyrightOwnerPrefix": "Owner",
+  "@reportCopyrightOwnerPrefix": {
+    "description": "Auto metadata for reportCopyrightOwnerPrefix"
+  },
+  "reportCopyrightEmailPrefix": "Email",
+  "@reportCopyrightEmailPrefix": {
+    "description": "Auto metadata for reportCopyrightEmailPrefix"
+  },
+  "unexpectedError": "An unexpected error occurred.",
+  "@unexpectedError": {
+    "description": "Auto metadata for unexpectedError"
+  },
+  "weatherHeadlineRainy": "Rainy weather",
+  "@weatherHeadlineRainy": {
+    "description": "Auto metadata for weatherHeadlineRainy"
+  },
+  "weatherHeadlineSnowy": "Cold weather",
+  "@weatherHeadlineSnowy": {
+    "description": "Auto metadata for weatherHeadlineSnowy"
+  },
+  "weatherHeadlineHot": "Hot weather",
+  "@weatherHeadlineHot": {
+    "description": "Auto metadata for weatherHeadlineHot"
+  },
+  "weatherHeadlineClear": "Clear weather",
+  "@weatherHeadlineClear": {
+    "description": "Auto metadata for weatherHeadlineClear"
+  },
+  "weatherHintRainy": "A warm option sounds good",
+  "@weatherHintRainy": {
+    "description": "Auto metadata for weatherHintRainy"
+  },
+  "weatherHintSnowy": "A hot soup sounds good",
+  "@weatherHintSnowy": {
+    "description": "Auto metadata for weatherHintSnowy"
+  },
+  "weatherHintHot": "A refreshing option sounds good",
+  "@weatherHintHot": {
+    "description": "Auto metadata for weatherHintHot"
+  },
+  "weatherHintClear": "Outdoor seating feels great",
+  "@weatherHintClear": {
+    "description": "Auto metadata for weatherHintClear"
+  },
+  "paste": "Paste",
+  "@paste": {
+    "description": "Auto metadata for paste"
+  },
+  "addFirstMenuCta": "Add first menu",
+  "@addFirstMenuCta": {
+    "description": "Auto metadata for addFirstMenuCta"
+  },
+  "vatIncluded": "VAT included",
+  "@vatIncluded": {
+    "description": "Auto metadata for vatIncluded"
+  },
+  "businessViewingNow": "{count} people viewing now",
+  "@businessViewingNow": {
+    "description": "Number of people currently viewing this business page",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "delete": "Delete",
+  "@delete": {"description": "Generic delete action"},
+  "remove": "Remove",
+  "@remove": {"description": "Generic remove action"},
+  "create": "Create",
+  "@create": {"description": "Generic create action"},
+  "required": "This field is required",
+  "@required": {"description": "Validation error for required field"},
+  "collabListsTitle": "My Shared Lists",
+  "@collabListsTitle": {"description": "Collab lists page title"},
+  "collabListCreate": "Create List",
+  "@collabListCreate": {"description": "Create collab list button"},
+  "collabListsEmpty": "No lists yet",
+  "@collabListsEmpty": {"description": "Empty state title for collab lists"},
+  "collabListsEmptyDesc": "Create shared lists with friends and vote on favorite spots together.",
+  "@collabListsEmptyDesc": {"description": "Empty state description for collab lists"},
+  "collabListNameLabel": "List name",
+  "@collabListNameLabel": {"description": "Collab list name field label"},
+  "collabListDescLabel": "Description (optional)",
+  "@collabListDescLabel": {"description": "Collab list description field label"},
+  "collabListItemsEmpty": "List is empty",
+  "@collabListItemsEmpty": {"description": "Empty state for items inside a collab list"},
+  "collabListItemsEmptyDesc": "Add businesses from their page to this list.",
+  "@collabListItemsEmptyDesc": {"description": "Empty state description for collab list items"},
+  "collabListShare": "Copy Invite Link",
+  "@collabListShare": {"description": "Share collab list action"},
+  "collabListDelete": "Delete List",
+  "@collabListDelete": {"description": "Delete collab list action"},
+  "collabListDeleteConfirm": "Are you sure you want to delete this list and all its content?",
+  "@collabListDeleteConfirm": {"description": "Delete collab list confirmation"},
+  "collabListLeave": "Leave List",
+  "@collabListLeave": {"description": "Leave collab list action"},
+  "collabListLeaveConfirm": "Are you sure you want to leave this list?",
+  "@collabListLeaveConfirm": {"description": "Leave collab list confirmation"},
+  "collabListLinkCopied": "Invite link copied",
+  "@collabListLinkCopied": {"description": "Snackbar when invite link is copied"},
+  "collabListJoining": "Joining list...",
+  "@collabListJoining": {"description": "Joining a collab list via invite token"},
+  "collabListInvalidInvite": "Invalid invite link.",
+  "@collabListInvalidInvite": {"description": "Error when invite token is invalid"},
+  "goToMyLists": "Go to My Lists",
+  "@goToMyLists": {"description": "Navigate to collab lists page"}
+}

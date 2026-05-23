@@ -40,9 +40,11 @@ create index if not exists idx_variant_options_group
 alter table public.menu_item_variant_groups  enable row level security;
 alter table public.menu_item_variant_options enable row level security;
 
+drop policy if exists "public_read_variant_groups" on public.menu_item_variant_groups;
 create policy "public_read_variant_groups"
   on public.menu_item_variant_groups for select using (true);
 
+drop policy if exists "public_read_variant_options" on public.menu_item_variant_options;
 create policy "public_read_variant_options"
   on public.menu_item_variant_options for select using (true);
 

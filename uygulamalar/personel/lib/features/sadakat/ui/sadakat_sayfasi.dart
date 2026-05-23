@@ -50,16 +50,25 @@ class SadakatSayfasi extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_outlined),
+            tooltip: 'Yenile',
             onPressed: () => ref.read(sadakatProvider.notifier).yenile(),
           ),
         ],
       ),
-      body: state.when(
-        loading: () => const PersonelListIskeleti(satirSayisi: 4),
-        error: (e, _) => Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: Colors.red))),
-        data: (kartlar) => kartlar.isEmpty
-            ? const _BosKartMesaji()
-            : _KartListesi(kartlar: kartlar),
+      body: RefreshIndicator(
+        onRefresh: () async => ref.read(sadakatProvider.notifier).yenile(),
+        child: state.when(
+          loading: () => const PersonelListIskeleti(satirSayisi: 4),
+          error: (e, _) => ListView(
+            children: [
+              const SizedBox(height: 80),
+              Center(child: Text(HataEsleyici.mesaj(e), style: const TextStyle(color: PColors.danger))),
+            ],
+          ),
+          data: (kartlar) => kartlar.isEmpty
+              ? const _BosKartMesaji()
+              : _KartListesi(kartlar: kartlar),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _puanEkleBottomSheet(context, ref),
@@ -128,6 +137,7 @@ class _PuanEkleSheetState extends ConsumerState<_PuanEkleSheet> {
       return;
     }
 
+    HapticFeedback.lightImpact();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('$puan puan başarıyla eklendi.'),
@@ -466,6 +476,7 @@ class _LoyaltyKartKarti extends ConsumerWidget {
 
     if (onay != true || !context.mounted) return;
 
+    HapticFeedback.lightImpact();
     final hata =
         await ref.read(sadakatProvider.notifier).stampEkle(kart.id);
     if (hata != null && context.mounted) {
