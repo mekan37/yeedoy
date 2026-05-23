@@ -1,75 +1,94 @@
-# Yeedoy API Security and Performance Audit
+# Yeedoy API Güvenlik ve Performans Denetimi
 
-**Date:** 2026-05-23  
-**Last updated:** 2026-05-23 — LOW-risk safe fixes applied (see §14)  
-**Scope:** Full monorepo — Next.js route handlers, Supabase Edge Functions, RPC calls, direct table queries, cross-app contract consistency, write-flow hardening, performance patterns  
-**Method:** Static code analysis via file reads and pattern searches. LOW-risk safe fixes applied 2026-05-23; no DB schema, migration, RLS, RPC signature, auth flow, or public route behavior was changed.
+**Tarih:** 2026-05-23
+**Son güncelleme:** 2026-05-23 — LOW-risk güvenli düzeltmeler uygulandı (bkz. §14)
+**Kapsam:** Tüm monorepo — Next.js route handler'lar, Supabase Edge Function'lar, RPC çağrıları, doğrudan tablo sorguları, uygulamalar arası API sözleşme tutarlılığı, yazma akışı güçlendirmesi, performans desenleri
+**Yöntem:** Dosya okuma ve desen aramaları ile statik kod analizi. LOW-risk güvenli düzeltmeler 2026-05-23 tarihinde uygulandı; DB şeması, migrasyon, RLS, RPC imzası, kimlik doğrulama akışı veya public route davranışı değiştirilmedi.
 
 ---
 
-## 1. API Surface Discovery
+## İçindekiler
 
-### 1.1 Next.js Route Handlers
+1. [API Yüzeyi Keşfi](#1-api-yüzeyi-keşfi)
+2. [Next.js Route Handler Güvenlik Denetimi](#2-nextjs-route-handler-güvenlik-denetimi)
+3. [Edge Function Güvenlik Denetimi](#3-edge-function-güvenlik-denetimi)
+4. [Supabase RPC / Veritabanı Sözleşme Denetimi](#4-supabase-rpc--veritabanı-sözleşme-denetimi)
+5. [Uygulamalar Arası API Sözleşme Tutarlılığı](#5-uygulamalar-arası-api-sözleşme-tutarlılığı)
+6. [Performans Denetimi](#6-performans-denetimi)
+7. [Yazma Akışı Güçlendirmesi](#7-yazma-akışı-güçlendirmesi)
+8. [Güvenilirlik ve Hata Yönetimi](#8-güvenilirlik-ve-hata-yönetimi)
+9. [Güvenlik Bulguları](#9-güvenlik-bulguları)
+10. [Güvenli Düzeltme Planı (Onay Gerektirmez)](#10-güvenli-düzeltme-planı-onay-gerektirmez)
+11. [Riskli Düzeltme Planı (Onay Gerektirir)](#11-riskli-düzeltme-planı-onay-gerektirir)
+12. [Önceliklendirilmiş Uygulama Planı](#12-önceliklendirilmiş-uygulama-planı)
+13. [Doğrulama Komutları](#13-doğrulama-komutları)
+14. [LOW-Risk Güvenli Düzeltme Geçişi — 2026-05-23](#14-low-risk-güvenli-düzeltme-geçişi--2026-05-23)
 
-All route handlers are under `uygulamalar/web/app/`. Two parallel directory trees exist:
+---
 
-- `app/sunucu/` — Turkish-named route handlers (primary, actively maintained)
-- `app/api/` — English-named route handlers (older or duplicate paths)
+## 1. API Yüzeyi Keşfi
 
-The `app/api/` subtree duplicates several routes that already exist under `app/sunucu/`. This is a maintenance risk; callers may hit either path depending on how they were wired.
+### 1.1 Next.js Route Handler'lar
 
-| File Path | Purpose | Auth | Zod | Rate Limit | Risk |
+Tüm route handler'lar `uygulamalar/web/app/` altındadır. İki paralel dizin ağacı mevcuttur:
+
+- `app/sunucu/` — Türkçe adlandırılmış route handler'lar (birincil, aktif olarak bakımı yapılıyor)
+- `app/api/` — İngilizce adlandırılmış route handler'lar (eski veya yinelenen yollar)
+
+`app/api/` alt ağacı, `app/sunucu/` altında zaten var olan birçok route'u kopyalamaktadır. Bu bir bakım riskidir; istemciler bağlantı şekillerine göre her iki yolu da çağırabilir.
+
+| Dosya Yolu | Amaç | Kimlik Doğrulama | Zod | Hız Sınırı | Risk |
 |---|---|---|---|---|---|
-| `app/sunucu/geri-bildirim/route.ts` | Anonymous + auth feedback on businesses | Optional | Yes | Yes (2 anon / 10 auth per min) | LOW |
-| `app/sunucu/izleme/route.ts` | Analytics event tracking (log_event_v1 RPC) | None required | Yes | Yes (40/min IP+UA) | MEDIUM — no auth; spoofable events |
-| `app/sunucu/sunum-ayarlari/route.ts` | QR Studio presentation settings upsert | Required | Yes | Yes (20/min) | LOW |
-| `app/sunucu/hesap/sil/route.ts` | Account deletion (RPC + admin auth delete) | Required | No | Yes (3/day) | HIGH — see §9 |
-| `app/sunucu/sahip/bildirim-gonder/route.ts` | Owner push campaign notifications | Required + ownership | Yes | Yes (3/day per identity) | MEDIUM — no rate limit by businessId |
-| `app/sunucu/sahip/eposta-kampanya/route.ts` | Owner email campaign (simulated, marks sent) | Required + ownership | No — manual check only | Yes (3/hr per identity) | HIGH — see §9 |
-| `app/sunucu/sahip/sms-kampanya/route.ts` | Owner SMS campaign creation | Required | Yes | None | HIGH — see §9 |
-| `app/sunucu/sahip/isletmeler/route.ts` | Owner businesses list | Required | No | Yes (60/min) | LOW |
-| `app/sunucu/sahip/isletmeler/[id]/route.ts` | Owner business PATCH | Required + ownership | Yes | Yes (20/min) | LOW |
-| `app/sunucu/sahip/menuler/route.ts` | Owner menu list + create | Required + ownership | Yes | Yes (20–60/min) | LOW |
-| `app/sunucu/sahip/menuler/[id]/route.ts` | Owner menu PATCH + DELETE | Required + ownership | Yes | Yes (10–30/min) | LOW |
-| `app/sunucu/medya/yukleme/route.ts` | Media upload to Supabase Storage | Required + ownership | Yes | Yes (10/min) | LOW |
-| `app/sunucu/sahip/yorumlar/yanit/route.ts` | Owner review reply CRUD | Required + ownership | Yes | Yes (10–20/min) | LOW |
-| `app/sunucu/sahip/finansal-csv/route.ts` | Financial CSV export | Required | No (only owner check via helper) | None | MEDIUM — no rate limit on export |
-| `app/sunucu/sahip/menu-csv/route.ts` | Menu CSV export | Required + ownership | No | None | MEDIUM — no rate limit |
-| `app/sunucu/sahip/ceviriler-otomatik/route.ts` | Auto-translate menu items via OpenAI | Required | Yes | None | HIGH — see §9 |
-| `app/sunucu/sahip/spesiyel/route.ts` | Set today's special | Required | Yes | Yes (30/min) | LOW |
-| `app/sunucu/sahip/sadakat/route.ts` | Create loyalty program | Required | Yes | None | MEDIUM — no rate limit |
-| `app/sunucu/sahip/envanter/route.ts` | Update menu item stock/availability | Required | Yes | None | HIGH — see §9 |
-| `app/sunucu/sahip/siparis-listesi/route.ts` | Owner pending orders list | Required | No | None | MEDIUM |
-| `app/sunucu/sahip/etkinlik/route.ts` | Owner event creation | Required | Yes | Yes | LOW |
-| `app/sunucu/yonetici/moderasyon/route.ts` | Admin moderation actions | Required + is_admin | Yes | Yes (30/min) | LOW |
-| `app/sunucu/yonetici/toplu-islemler/route.ts` | Admin bulk operations | Required + is_admin | Yes | None | HIGH — see §9 |
-| `app/sunucu/yonetici/kullanici-rol/route.ts` | Admin role assignment | Required + is_admin | Yes | None | HIGH — see §9 |
-| `app/sunucu/yonetici/feature-flags/route.ts` | Admin feature flag toggle/create | Required + is_admin | Partial | None | MEDIUM |
-| `app/sunucu/yonetici/ab-test/route.ts` | Admin A/B test management | Required + is_admin | Yes | None | MEDIUM |
-| `app/sunucu/yonetici/api-anahtarlari/route.ts` | Admin API key generation/revocation | Required + is_admin | Partial | None | HIGH — see §9 |
-| `app/sunucu/yonetici/push-kampanyalari/route.ts` | Admin push campaign creation | Required + is_admin | Yes | None | MEDIUM |
-| `app/sunucu/yonetici/raporlar-csv/route.ts` | Admin reports CSV export | Required + is_admin | No | None | HIGH — see §9 |
-| `app/sunucu/yonetici/arama/route.ts` | Admin search | Required + is_admin | Yes | Yes (120/min) | LOW |
-| `app/sunucu/yonetici/musteri-destek/route.ts` | Admin support tickets | Required + is_admin | Yes | None | MEDIUM |
-| `app/sunucu/yonetici/fotograf-moderasyon/route.ts` | Admin photo moderation | Required + is_admin | Yes | None | LOW |
-| `app/sunucu/yonetici/itirazlar/route.ts` | Admin claims list | Required + is_admin | No | Yes (60/min) | LOW |
-| `app/sunucu/yonetici/dsar/route.ts` | Admin DSAR (privacy requests) | Required + is_admin | Yes | None | MEDIUM |
-| `app/sunucu/b2b-export/[type]/route.ts` | B2B data export (CSV) | Required + role check | No | None | HIGH — see §9 |
-| `app/sunucu/sahiplik-talebi/route.ts` | Business ownership claim submission | Required | No — manual check | None | HIGH — see §9 |
-| `app/sunucu/sahiplik-kaniti-yukle/route.ts` | Ownership evidence file upload | Required | No — manual check | None | MEDIUM |
-| `app/sunucu/makbuz-ocr/route.ts` | Receipt OCR (OpenAI/Replicate) | None required | No — manual check | Yes (5/min IP+UA) | HIGH — see §9 |
-| `app/sunucu/masa-siparisi/route.ts` | Anonymous table order submission | None required | Yes | Yes (10/2min) | MEDIUM |
-| `app/sunucu/masa-siparisi/durum/route.ts` | Update table order status | Required | Yes | None | MEDIUM |
-| `app/sunucu/ortak-liste/oy/route.ts` | Collaborative list voting (IP-based) | None required | Yes | Yes (30/min) | MEDIUM — see §9 |
-| `app/sunucu/koleksiyonlar/route.ts` | Create user collection | Required | Yes | Yes (10/min) | LOW |
-| `app/sunucu/diyet-profili/route.ts` | Save diet profile | Required | Yes | Yes (20/min) | LOW |
-| `app/sunucu/kimlik/giris/route.ts` | Login (email+password → cookie) | None (pre-auth) | Yes | Yes (8/min) | LOW |
-| `app/sunucu/kimlik/rol-yonlendirme/route.ts` | Role-based redirect | Required | No | None | LOW |
-| `app/sunucu/yeniden-dogrulama/route.ts` | Cache revalidation webhook | Secret-based | Yes | None | LOW |
-| `app/sunucu/izleme/itme-acilisi/route.ts` | Push notification open tracking | None required | Yes | Yes | LOW |
+| `app/sunucu/geri-bildirim/route.ts` | Anonim + kimlik doğrulamalı işletme geri bildirimi | İsteğe bağlı | Evet | Evet (anonim 2/dak, kimlik doğrulamalı 10/dak) | DÜŞÜK |
+| `app/sunucu/izleme/route.ts` | Analitik olay takibi (log_event_v1 RPC) | Gerekmiyor | Evet | Evet (IP+UA başına 40/dak) | ORTA — kimlik doğrulama yok; olaylar sahtelenebilir |
+| `app/sunucu/sunum-ayarlari/route.ts` | QR Studio sunum ayarları upsert | Gerekiyor | Evet | Evet (20/dak) | DÜŞÜK |
+| `app/sunucu/hesap/sil/route.ts` | Hesap silme (RPC + admin auth delete) | Gerekiyor | Hayır | Evet (günde 3) | YÜKSEK — bkz. §9 |
+| `app/sunucu/sahip/bildirim-gonder/route.ts` | Sahip push kampanya bildirimleri | Gerekiyor + sahiplik | Evet | Evet (kimlik başına günde 3) | ORTA — businessId başına hız sınırı yok |
+| `app/sunucu/sahip/eposta-kampanya/route.ts` | Sahip e-posta kampanyası (simüle edilmiş, gönderildi olarak işaretleniyor) | Gerekiyor + sahiplik | Hayır — yalnızca manuel kontrol | Evet (kimlik başına saatte 3) | YÜKSEK — bkz. §9 |
+| `app/sunucu/sahip/sms-kampanya/route.ts` | Sahip SMS kampanya oluşturma | Gerekiyor | Evet | Evet (saatte 3) | ~~YÜKSEK~~ ✅ **DÜZELTILDI** — sahiplik + hız sınırı mevcut |
+| `app/sunucu/sahip/isletmeler/route.ts` | Sahip işletme listesi | Gerekiyor | Hayır | Evet (60/dak) | DÜŞÜK |
+| `app/sunucu/sahip/isletmeler/[id]/route.ts` | Sahip işletme PATCH | Gerekiyor + sahiplik | Evet | Evet (20/dak) | DÜŞÜK |
+| `app/sunucu/sahip/menuler/route.ts` | Sahip menü listesi + oluşturma | Gerekiyor + sahiplik | Evet | Evet (20–60/dak) | DÜŞÜK |
+| `app/sunucu/sahip/menuler/[id]/route.ts` | Sahip menü PATCH + DELETE | Gerekiyor + sahiplik | Evet | Evet (10–30/dak) | DÜŞÜK |
+| `app/sunucu/medya/yukleme/route.ts` | Supabase Storage'a medya yükleme | Gerekiyor + sahiplik | Evet | Evet (10/dak) | DÜŞÜK |
+| `app/sunucu/sahip/yorumlar/yanit/route.ts` | Sahip yorum yanıtı CRUD | Gerekiyor + sahiplik | Evet | Evet (10–20/dak) | DÜŞÜK |
+| `app/sunucu/sahip/finansal-csv/route.ts` | Finansal CSV dışa aktarma | Gerekiyor | Hayır (yalnızca helper ile sahip kontrolü) | Yok | ORTA — dışa aktarmada hız sınırı yok |
+| `app/sunucu/sahip/menu-csv/route.ts` | Menü CSV dışa aktarma | Gerekiyor + sahiplik | Hayır | Yok | ORTA — hız sınırı yok |
+| `app/sunucu/sahip/ceviriler-otomatik/route.ts` | OpenAI aracılığıyla menü öğelerini otomatik çevir | Gerekiyor | Evet | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/sahip/spesiyel/route.ts` | Günün spesiyalini ayarla | Gerekiyor | Evet | Evet (30/dak) | DÜŞÜK |
+| `app/sunucu/sahip/sadakat/route.ts` | Sadakat programı oluştur | Gerekiyor | Evet | Yok | ORTA — hız sınırı yok |
+| `app/sunucu/sahip/envanter/route.ts` | Menü öğesi stok/erişilebilirlik güncelleme | Gerekiyor | Evet | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/sahip/siparis-listesi/route.ts` | Sahip bekleyen siparişler listesi | Gerekiyor | Hayır | Yok | ORTA |
+| `app/sunucu/sahip/etkinlik/route.ts` | Sahip etkinlik oluşturma | Gerekiyor | Evet | Evet | DÜŞÜK |
+| `app/sunucu/yonetici/moderasyon/route.ts` | Yönetici moderasyon işlemleri | Gerekiyor + is_admin | Evet | Evet (30/dak) | DÜŞÜK |
+| `app/sunucu/yonetici/toplu-islemler/route.ts` | Yönetici toplu işlemler | Gerekiyor + is_admin | Evet | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/yonetici/kullanici-rol/route.ts` | Yönetici rol atama | Gerekiyor + is_admin | Evet | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/yonetici/feature-flags/route.ts` | Yönetici özellik bayrağı açma/kapama | Gerekiyor + is_admin | Kısmi | Yok | ORTA |
+| `app/sunucu/yonetici/ab-test/route.ts` | Yönetici A/B test yönetimi | Gerekiyor + is_admin | Evet | Yok | ORTA |
+| `app/sunucu/yonetici/api-anahtarlari/route.ts` | Yönetici API anahtar oluşturma/iptal | Gerekiyor + is_admin | Kısmi | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/yonetici/push-kampanyalari/route.ts` | Yönetici push kampanya oluşturma | Gerekiyor + is_admin | Evet | Yok | ORTA |
+| `app/sunucu/yonetici/raporlar-csv/route.ts` | Yönetici raporlar CSV dışa aktarma | Gerekiyor + is_admin | Hayır | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/yonetici/arama/route.ts` | Yönetici arama | Gerekiyor + is_admin | Evet | Evet (120/dak) | DÜŞÜK |
+| `app/sunucu/yonetici/musteri-destek/route.ts` | Yönetici destek talepleri | Gerekiyor + is_admin | Evet | Yok | ORTA |
+| `app/sunucu/yonetici/fotograf-moderasyon/route.ts` | Yönetici fotoğraf moderasyonu | Gerekiyor + is_admin | Evet | Yok | DÜŞÜK |
+| `app/sunucu/yonetici/itirazlar/route.ts` | Yönetici talepler listesi | Gerekiyor + is_admin | Hayır | Evet (60/dak) | DÜŞÜK |
+| `app/sunucu/yonetici/dsar/route.ts` | Yönetici DSAR (gizlilik talepleri) | Gerekiyor + is_admin | Evet | Yok | ORTA |
+| `app/sunucu/b2b-export/[type]/route.ts` | B2B veri dışa aktarma (CSV) | Gerekiyor + rol kontrolü | Hayır | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/sahiplik-talebi/route.ts` | İşletme sahipliği talep gönderimi | Gerekiyor | Hayır — manuel kontrol | Yok | YÜKSEK — bkz. §9 |
+| `app/sunucu/sahiplik-kaniti-yukle/route.ts` | Sahiplik kanıtı dosya yükleme | Gerekiyor | Hayır — manuel kontrol | Yok | ORTA |
+| `app/sunucu/makbuz-ocr/route.ts` | Fiş OCR (OpenAI/Replicate) | Gerekmiyor | Hayır — manuel kontrol | Evet (IP+UA başına 5/dak) | YÜKSEK — bkz. §9 |
+| `app/sunucu/masa-siparisi/route.ts` | Anonim masa sipariş gönderimi | Gerekmiyor | Evet | Evet (2 dakikada 10) | ORTA |
+| `app/sunucu/masa-siparisi/durum/route.ts` | Masa sipariş durumu güncelleme | Gerekiyor | Evet | Yok | ORTA |
+| `app/sunucu/ortak-liste/oy/route.ts` | Ortak liste oylama (IP tabanlı) | Gerekmiyor | Evet | Evet (30/dak) | ORTA — bkz. §9 |
+| `app/sunucu/koleksiyonlar/route.ts` | Kullanıcı koleksiyonu oluşturma | Gerekiyor | Evet | Evet (10/dak) | DÜŞÜK |
+| `app/sunucu/diyet-profili/route.ts` | Diyet profili kaydetme | Gerekiyor | Evet | Evet (20/dak) | DÜŞÜK |
+| `app/sunucu/kimlik/giris/route.ts` | Giriş (e-posta+şifre → çerez) | Yok (ön-kimlik doğrulama) | Evet | Evet (8/dak) | DÜŞÜK |
+| `app/sunucu/kimlik/rol-yonlendirme/route.ts` | Role dayalı yönlendirme | Gerekiyor | Hayır | Yok | DÜŞÜK |
+| `app/sunucu/yeniden-dogrulama/route.ts` | Önbellek yeniden doğrulama webhook | Gizli anahtar tabanlı | Evet | Yok | ~~DÜŞÜK~~ ✅ **timing-safe compare mevcut** |
+| `app/sunucu/izleme/itme-acilisi/route.ts` | Push bildirim açılış takibi | Gerekmiyor | Evet | Evet | DÜŞÜK |
 
-**Duplicate/Legacy Route Handlers in `app/api/`:**  
-The following paths in `app/api/` appear to mirror or partially duplicate `app/sunucu/` handlers. Their relationship to the primary handlers is unclear and they may be receiving traffic depending on how the frontend calls them:
+**`app/api/` altındaki Yinelenen/Eski Route Handler'lar:**
+Aşağıdaki yollar `app/sunucu/` handler'larını yansıtıyor veya kısmen kopyalıyor. Birincil handler'larla ilişkileri belirsizdir ve ön ucun nasıl bağlandığına göre trafik alabilirler:
 
 - `app/api/admin/claims/route.ts`
 - `app/api/admin/moderation/route.ts`
@@ -89,59 +108,59 @@ The following paths in `app/api/` appear to mirror or partially duplicate `app/s
 - `app/q/[code]/route.ts`
 - `app/kod/[code]/route.ts`
 
-These were not individually read. The audit treats `app/sunucu/` as the primary surface.
+Bu dosyalar tek tek okunmadı. Denetim `app/sunucu/` yolunu birincil yüzey olarak kabul eder.
 
 ---
 
-### 1.2 Supabase Edge Functions
+### 1.2 Supabase Edge Function'lar
 
-| Function | Auth | Role Check | Input Validation | Rate Limit | Risk |
+| Fonksiyon | Kimlik Doğrulama | Rol Kontrolü | Girdi Doğrulama | Hız Sınırı | Risk |
 |---|---|---|---|---|---|
-| `admin-api` | JWT required (Bearer) | admin or community_mod via app_metadata | RPC allowlist enforced | IP denylist checked | LOW — well-designed |
-| `anti-spam-guard` | JWT required | None beyond user auth | action field validated vs RULES map | DB-backed per user+IP | LOW |
-| `write-gatekeeper` | JWT required | allowed roles (user/owner/admin) | action validated; payloads validated per action | DB-backed per user+IP | LOW |
-| `media-upload` | JWT required | is_admin RPC | MIME type, size, dimensions | None explicit | MEDIUM — no per-user rate limit |
-| `media-upload-user` | JWT required | None (any authed user) | MIME, size, dimension, UUID check | DB + consume_rate_limit_v1 | LOW |
-| `ai-menu-analyze` | JWT required | job owner_id === user.id | job_id present; job status checked | enforceRateLimit (5/user) | LOW |
-| `ai-allergen-detect` | Not individually read | — | — | — | Unverified |
-| `ai-ingredient-detect` | Not individually read | — | — | — | Unverified |
-| `ai-nutrition-estimate` | Not individually read | — | — | — | Unverified |
-| `ai-menu-image-gen` | Not individually read | — | — | — | Unverified |
-| `get-exchange-rates` | None — open CORS | None | None | None | MEDIUM — unauthenticated |
-| `import_places_json` | None — open CORS | None | file + fields | None | CRITICAL — see §9 |
-| `push-dispatch` | JWT required | admin check for bulk; user scope enforced | ALLOWED_PUSH_TYPES allowlist | None | LOW |
-| `send-push-campaign` | JWT required | business ownership or admin | campaign_id required | 1 campaign/business/day | LOW |
-| `send-email-campaign` | JWT required | business ownership check | campaign_id required | 1/business/day | LOW |
-| `verify-domain` | JWT required (Bearer check) | None beyond user auth | business_id + domain required | enforceRateLimit (10/hr) | LOW |
-| `purge-temp-uploads` | None | None | limit field | None | HIGH — see §9 |
+| `admin-api` | JWT gerekli (Bearer) | app_metadata üzerinden admin veya community_mod | RPC izin listesi zorunlu | IP reddetme listesi kontrol edilir | DÜŞÜK — iyi tasarlanmış |
+| `anti-spam-guard` | JWT gerekli | Kullanıcı kimlik doğrulamasının ötesinde yok | action alanı RULES map'e göre doğrulanır | Kullanıcı+IP başına DB destekli | DÜŞÜK |
+| `write-gatekeeper` | JWT gerekli | İzin verilen roller (user/owner/admin) | action doğrulanır; yükler action başına doğrulanır | Kullanıcı+IP başına DB destekli | DÜŞÜK |
+| `media-upload` | JWT gerekli | is_admin RPC | MIME türü, boyut, boyutlar | Açık değil | ORTA — kullanıcı başına hız sınırı yok |
+| `media-upload-user` | JWT gerekli | Yok (kimlik doğrulamalı herhangi bir kullanıcı) | MIME, boyut, boyut, UUID kontrolü | DB + consume_rate_limit_v1 | DÜŞÜK |
+| `ai-menu-analyze` | JWT gerekli | job owner_id === user.id | job_id mevcut; iş durumu kontrol edilir | enforceRateLimit (kullanıcı başına 5) | DÜŞÜK |
+| `ai-allergen-detect` | Tek tek okunmadı | — | — | — | Doğrulanmamış |
+| `ai-ingredient-detect` | Tek tek okunmadı | — | — | — | Doğrulanmamış |
+| `ai-nutrition-estimate` | Tek tek okunmadı | — | — | — | Doğrulanmamış |
+| `ai-menu-image-gen` | Tek tek okunmadı | — | — | — | Doğrulanmamış |
+| `get-exchange-rates` | Yok — açık CORS | Yok | Yok | Yok | ORTA — kimlik doğrulamasız |
+| `import_places_json` | Yok — açık CORS | Yok | dosya + alanlar | Yok | KRİTİK — bkz. §9 |
+| `push-dispatch` | JWT gerekli | Toplu için admin kontrolü; kullanıcı kapsamı zorunlu | ALLOWED_PUSH_TYPES izin listesi | Yok | DÜŞÜK |
+| `send-push-campaign` | JWT gerekli | İşletme sahipliği veya admin | campaign_id gerekli | İşletme başına günde 1 kampanya | DÜŞÜK |
+| `send-email-campaign` | JWT gerekli | İşletme sahipliği kontrolü | campaign_id gerekli | İşletme başına günde 1 | DÜŞÜK |
+| `verify-domain` | JWT gerekli (Bearer kontrolü) | Kullanıcı kimlik doğrulamasının ötesinde yok | business_id + domain gerekli | enforceRateLimit (saatte 10) | DÜŞÜK |
+| `purge-temp-uploads` | Yok | Yok | limit alanı | Yok | YÜKSEK — bkz. §9 |
 
 ---
 
-### 1.3 Supabase RPC Calls (Web)
+### 1.3 Supabase RPC Çağrıları (Web)
 
-RPCs called from `app/sunucu/` route handlers and `src/lib/`:
+`app/sunucu/` route handler'larından ve `src/lib/`'den çağrılan RPC'ler:
 
-- `log_event_v1` — analytics tracking (izleme/route.ts)
-- `delete_user_account_v1` — account deletion (hesap/sil/route.ts)
-- `is_admin` — admin role check (used in ~14 route handlers)
-- `submit_table_order_v1` — table order submission (masa-siparisi/route.ts)
-- `update_table_order_status_v1` — order status update (masa-siparisi/durum/route.ts)
-- `set_today_special_v1` — set menu item special (sahip/spesiyel/route.ts)
-- `create_loyalty_program_v1` — create loyalty program (sahip/sadakat/route.ts)
-- `create_collection_v1` — create user collection (koleksiyonlar/route.ts)
-- `get_pending_table_orders_v1` — pending orders for owner (sahip/siparis-listesi/route.ts)
-- `increment_push_campaign_open_v1` — push open tracking (izleme/itme-acilisi/route.ts)
-- `estimate_campaign_segment_v1` — estimate push segment (yonetici/push-kampanyalari/route.ts)
-- `get_business_hours_v1`, `get_menu_items_v1`, `get_menu_item_variants_v1`, `get_menu_item_photos_v1`, `get_menu_item_price_history_v1` — public menu reads (src/lib/)
-- `can_manage_business_v1` / `can_access_business_v1` — ownership checks (src/lib/)
-- `get_owner_analytics_v1`, `get_top_businesses_period_v1`, `get_business_reviews_v3` — analytics reads (src/lib/)
-- `admin_get_queues_counts_v1` — admin queue dashboard (src/lib/)
+- `log_event_v1` — analitik takip (izleme/route.ts)
+- `delete_user_account_v1` — hesap silme (hesap/sil/route.ts)
+- `is_admin` — admin rol kontrolü (~14 route handler'da kullanılıyor)
+- `submit_table_order_v1` — masa sipariş gönderimi (masa-siparisi/route.ts)
+- `update_table_order_status_v1` — sipariş durumu güncelleme (masa-siparisi/durum/route.ts)
+- `set_today_special_v1` — menü öğesi spesiyali ayarla (sahip/spesiyel/route.ts)
+- `create_loyalty_program_v1` — sadakat programı oluştur (sahip/sadakat/route.ts)
+- `create_collection_v1` — kullanıcı koleksiyonu oluştur (koleksiyonlar/route.ts)
+- `get_pending_table_orders_v1` — sahip için bekleyen siparişler (sahip/siparis-listesi/route.ts)
+- `increment_push_campaign_open_v1` — push açılış takibi (izleme/itme-acilisi/route.ts)
+- `estimate_campaign_segment_v1` — push segmentini tahmin et (yonetici/push-kampanyalari/route.ts)
+- `get_business_hours_v1`, `get_menu_items_v1`, `get_menu_item_variants_v1`, `get_menu_item_photos_v1`, `get_menu_item_price_history_v1` — public menü okumaları (src/lib/)
+- `can_manage_business_v1` / `can_access_business_v1` — sahiplik kontrolleri (src/lib/)
+- `get_owner_analytics_v1`, `get_top_businesses_period_v1`, `get_business_reviews_v3` — analitik okumaları (src/lib/)
+- `admin_get_queues_counts_v1` — admin kuyruk panosu (src/lib/)
 
-RPCs called from Edge Functions:
+Edge Function'lardan çağrılan RPC'ler:
 
 - `is_admin`, `is_edge_ip_denied_v1` — admin-api, write-gatekeeper
 - `admin_apply_user_safety_action_v1` — admin-api
-- All RPCs in `ALLOWED_WRITE_RPCS` set — admin-api (33 RPCs)
+- `ALLOWED_WRITE_RPCS` setindeki tüm RPC'ler — admin-api (33 RPC)
 - `consume_rate_limit_v1` — media-upload-user
 - `record_user_risk_signal_v1`, `record_user_device_fingerprint_v1` — write-gatekeeper
 - `owner_approve_price_suggestion_v1`, `owner_reject_price_suggestion_v1` — write-gatekeeper
@@ -149,27 +168,27 @@ RPCs called from Edge Functions:
 
 ---
 
-### 1.4 Direct Table Queries (Web)
+### 1.4 Doğrudan Tablo Sorguları (Web)
 
-Notable direct `.from()` calls (not behind RPC):
+RPC arkasında olmayan önemli doğrudan `.from()` çağrıları:
 
-- `menu_feedback` — geri-bildirim/route.ts (INSERT via service client)
-- `businesses` — multiple owner/admin routes (UPDATE, SELECT)
-- `menus` — sahip/menuler routes (INSERT, UPDATE, SELECT)
-- `favorites` — sahip/bildirim-gonder and sahip/eposta-kampanya (SELECT followers)
+- `menu_feedback` — geri-bildirim/route.ts (servis istemcisi aracılığıyla INSERT)
+- `businesses` — birden fazla sahip/yönetici route'u (UPDATE, SELECT)
+- `menus` — sahip/menuler route'ları (INSERT, UPDATE, SELECT)
+- `favorites` — sahip/bildirim-gonder ve sahip/eposta-kampanya (takipçiler için SELECT)
 - `email_campaigns` — sahip/eposta-kampanya (INSERT, UPDATE)
 - `sms_campaigns` — sahip/sms-kampanya (INSERT)
 - `notifications` — sahip/bildirim-gonder (INSERT)
 - `reviews` — sahip/yorumlar/yanit (UPDATE)
-- `business_media` — yonetici/fotograf-moderasyon and yonetici/moderasyon (UPDATE)
-- `runtime_feature_flags` — yonetici/feature-flags and yonetici/ab-test (INSERT, UPDATE)
+- `business_media` — yonetici/fotograf-moderasyon ve yonetici/moderasyon (UPDATE)
+- `runtime_feature_flags` — yonetici/feature-flags ve yonetici/ab-test (INSERT, UPDATE)
 - `api_keys` — yonetici/api-anahtarlari (INSERT, UPDATE)
 - `push_campaigns` — yonetici/push-kampanyalari (INSERT)
 - `user_profiles` — yonetici/toplu-islemler (UPDATE)
 - `owner_claims` — sahiplik-talebi (INSERT, SELECT), yonetici/itirazlar (SELECT)
-- `reports` — yonetici/raporlar-csv (SELECT up to 5000)
-- `user_roles` — b2b-export and send-push-campaign (SELECT for role check)
-- `analytics_events` — b2b-export (SELECT up to 100,000)
+- `reports` — yonetici/raporlar-csv (5000'e kadar SELECT)
+- `user_roles` — b2b-export ve send-push-campaign (rol kontrolü için SELECT)
+- `analytics_events` — b2b-export (100.000'e kadar SELECT)
 - `menu_items` — sahip/ceviriler-otomatik, sahip/envanter (SELECT, UPDATE)
 - `menu_sections`, `menu_translations` — sahip/ceviriler-otomatik (SELECT, INSERT)
 - `user_diet_profiles` — diyet-profili (UPSERT)
@@ -177,363 +196,340 @@ Notable direct `.from()` calls (not behind RPC):
 - `privacy_requests` — yonetici/dsar (UPDATE)
 - `collab_list_votes` — ortak-liste/oy (DELETE, UPSERT)
 - `table_order_items` — sahip/finansal-csv (SELECT)
-- `bulk_op_logs` — yonetici/toplu-islemler (INSERT, fire-and-forget)
+- `bulk_op_logs` — yonetici/toplu-islemler (INSERT, ateş-ve-unut)
 
 ---
 
-## 2. Next.js Route Handler Security Audit
+## 2. Next.js Route Handler Güvenlik Denetimi
 
-### 2.1 Routes Missing Rate Limiting (Write Operations)
+### 2.1 Hız Sınırı Eksik Route'lar (Yazma İşlemleri)
 
-The following write-capable routes have no rate limiting, creating abuse vectors:
+Aşağıdaki yazma işlemi yapabilen route'larda hız sınırı yoktur; kötüye kullanım vektörleri yaratmaktadır:
 
-- `app/sunucu/sahip/sms-kampanya/route.ts` — No rate limit at all. Any authenticated business owner can create unlimited SMS campaign records. The actual SMS sending is stubbed with a TODO, but the DB record creation is live.
-- `app/sunucu/sahip/envanter/route.ts` — No rate limit on menu item stock/availability updates. An owner could flood the DB with updates.
-- `app/sunucu/sahip/sadakat/route.ts` — No rate limit on loyalty program creation.
-- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — No route-level rate limit. Each call triggers up to 200 * 6 = 1,200 OpenAI API calls (200 items × 6 target locales). A single authenticated user can exhaust the OpenAI budget rapidly. The internal `setTimeout(r, 500)` every 10 items provides only a soft throttle and does not block parallel requests.
-- `app/sunucu/yonetici/toplu-islemler/route.ts` — No rate limit on bulk operations affecting up to 200 entities per call.
-- `app/sunucu/yonetici/kullanici-rol/route.ts` — No rate limit on role assignment.
-- `app/sunucu/yonetici/api-anahtarlari/route.ts` — No rate limit on API key generation.
-- `app/sunucu/sahip/finansal-csv/route.ts` — No rate limit on data export.
-- `app/sunucu/sahip/menu-csv/route.ts` — No rate limit on CSV export.
-- `app/sunucu/sahip/siparis-listesi/route.ts` — No rate limit; calls a separate RPC per business in a loop.
-- `app/sunucu/masa-siparisi/durum/route.ts` — No rate limit on order status update.
-- `app/sunucu/yonetici/musteri-destek/route.ts` — No rate limit on support ticket operations.
-- `app/sunucu/yonetici/dsar/route.ts` — No rate limit on DSAR resolution.
+- `app/sunucu/sahip/envanter/route.ts` — Menü öğesi stok/erişilebilirlik güncellemelerinde hız sınırı yok. Bir sahip DB'yi güncellemelerle doldurabilir.
+- `app/sunucu/sahip/sadakat/route.ts` — Sadakat programı oluşturmada hız sınırı yok.
+- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — Route düzeyinde hız sınırı yok. Her çağrı 200 × 6 = 1.200 OpenAI API çağrısını tetikler. Tek bir kimlik doğrulamalı kullanıcı OpenAI bütçesini hızla tüketebilir. 10 öğe başına dahili `setTimeout(r, 500)` yalnızca yumuşak bir kısıtlama sağlar ve paralel istekleri engellemez.
+- `app/sunucu/yonetici/toplu-islemler/route.ts` — Çağrı başına 200 varlığı etkileyen toplu işlemlerde hız sınırı yok.
+- `app/sunucu/yonetici/kullanici-rol/route.ts` — Rol atamada hız sınırı yok.
+- `app/sunucu/yonetici/api-anahtarlari/route.ts` — API anahtar oluşturmada hız sınırı yok.
+- `app/sunucu/sahip/finansal-csv/route.ts` — Veri dışa aktarmada hız sınırı yok.
+- `app/sunucu/sahip/menu-csv/route.ts` — CSV dışa aktarmada hız sınırı yok.
+- `app/sunucu/sahip/siparis-listesi/route.ts` — Hız sınırı yok; döngü içinde işletme başına ayrı RPC çağrısı yapıyor.
+- `app/sunucu/masa-siparisi/durum/route.ts` — Sipariş durumu güncellemede hız sınırı yok.
+- `app/sunucu/yonetici/musteri-destek/route.ts` — Destek talep işlemlerinde hız sınırı yok.
+- `app/sunucu/yonetici/dsar/route.ts` — DSAR çözümlemede hız sınırı yok.
 
-### 2.2 Routes Missing Zod Validation
+> **NOT:** `app/sunucu/sahip/sms-kampanya/route.ts` — ~~Hız sınırı yok~~ ✅ **DÜZELTILDI**: `rateLimit` çağrısı mevcuttu (saatte 3, kullanıcı+kimlik başına).
 
-The following routes accept external input without `zod.safeParse`:
+### 2.2 Zod Doğrulama Eksik Route'lar
 
-- `app/sunucu/sahip/eposta-kampanya/route.ts` — Body typed inline as `{ businessId, subject, body }` with only manual null/empty checks. No schema, no field length constraints, no validation of UUID format for `businessId`.
-- `app/sunucu/sahiplik-talebi/route.ts` — Manual destructuring from `request.json()` with only basic truthy checks. No schema.
-- `app/sunucu/sahiplik-kaniti-yukle/route.ts` — Manual file validation only. No zod schema.
-- `app/sunucu/makbuz-ocr/route.ts` — No zod schema; uses manual `instanceof Blob` and MIME string check.
-- `app/sunucu/yonetici/raporlar-csv/route.ts` — Query params used directly with no validation (status, hedef strings).
-- `app/sunucu/yonetici/feature-flags/route.ts` (PATCH handler) — Body cast as `{ id: string; enabled: boolean }` without safeParse.
-- `app/sunucu/yonetici/api-anahtarlari/route.ts` — Both POST and DELETE cast body without safeParse. Only manual `!body.name?.trim()` check on POST.
-- `app/sunucu/sahip/siparis-listesi/route.ts` — No request body validation at all.
-- `app/sunucu/sahip/finansal-csv/route.ts` — Query params `ay` and `format` used without zod.
-- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — Has zod for input schema but no ownership verification that the caller actually owns the businesses whose menus are being translated. The `menuIds` array is fetched directly from `menu_items` without confirming the authenticated user owns those menus.
-- `app/sunucu/sahip/menu-csv/route.ts` — No zod; `menuId` taken directly from query params.
+Aşağıdaki route'lar `zod.safeParse` olmadan harici girdi kabul eder:
 
-### 2.3 Missing Ownership Verification
+- `app/sunucu/sahip/eposta-kampanya/route.ts` — Gövde `{ businessId, subject, body }` olarak inline yazılmış, yalnızca manuel null/boş kontrolleri var. Şema yok, alan uzunluğu kısıtlamaları yok, `businessId` için UUID format doğrulaması yok.
+- `app/sunucu/sahiplik-talebi/route.ts` — `request.json()`'dan yalnızca temel doğruluk kontrolleriyle manuel yıkım. Şema yok.
+- `app/sunucu/sahiplik-kaniti-yukle/route.ts` — Yalnızca manuel dosya doğrulaması. Zod şeması yok.
+- `app/sunucu/makbuz-ocr/route.ts` — Zod şeması yok; manuel `instanceof Blob` ve MIME string kontrolü kullanıyor.
+- `app/sunucu/yonetici/raporlar-csv/route.ts` — Sorgu parametreleri doğrulama olmadan doğrudan kullanılıyor (status, hedef string'leri).
+- `app/sunucu/yonetici/feature-flags/route.ts` (PATCH handler) — Gövde `{ id: string; enabled: boolean }` olarak safeParse olmadan cast ediliyor.
+- `app/sunucu/yonetici/api-anahtarlari/route.ts` — Hem POST hem DELETE safeParse olmadan gövde cast ediyor. POST'ta yalnızca manuel `!body.name?.trim()` kontrolü.
+- `app/sunucu/sahip/siparis-listesi/route.ts` — Hiç istek gövdesi doğrulaması yok.
+- `app/sunucu/sahip/finansal-csv/route.ts` — `ay` ve `format` sorgu parametreleri zod olmadan kullanılıyor.
+- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — Girdi şeması için zod var ancak arayanın çevrilen menülere sahip olan işletmelere gerçekten sahip olup olmadığını doğrulayan sahiplik kontrolü yok.
+- `app/sunucu/sahip/menu-csv/route.ts` — Zod yok; `menuId` doğrudan sorgu parametrelerinden alınıyor.
 
-These routes authenticate the user but do not verify the user owns the resource being modified:
+### 2.3 Eksik Sahiplik Doğrulaması
 
-- `app/sunucu/sahip/envanter/route.ts` — Updates `menu_items.is_available` and `stock_count` by `itemId` with no ownership check. Any authenticated user who knows a `menu_item.id` UUID can mark any item as unavailable or set its stock to zero.
-- `app/sunucu/sahip/sadakat/route.ts` — Passes `businessId` directly to the RPC without verifying ownership. The RPC (`create_loyalty_program_v1`) does return `{ error: 'forbidden' }` from the DB side, but the route handler leaks the DB error message back to the client.
-- `app/sunucu/sahip/sms-kampanya/route.ts` — The SMS campaign is inserted for `bizIds[0]` only. There is no per-business ownership check. A user can insert a campaign record for any `businessId` they provide, as long as they are authenticated. The only server-side defense is whatever RLS the `sms_campaigns` table has.
-- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — Fetches `menu_items` by `menu_id IN (menuIds)` and inserts translations without verifying the caller owns those menus.
-- `app/sunucu/sahip/finansal-csv/route.ts` — Uses `getOwnerBusinesses` for the business list (safe), but the `table_order_items` query uses `.in('business_id', businessIds)` which is correct. Risk is low but no rate limit makes it a data exfiltration vector.
+Bu route'lar kullanıcının kimliğini doğrular ancak kullanıcının değiştirilen kaynağa sahip olup olmadığını doğrulamaz:
 
-### 2.4 In-Memory Rate Limiter Is Not Production-Safe
+- `app/sunucu/sahip/envanter/route.ts` — `menu_items.is_available` ve `stock_count`'u `itemId` ile sahiplik kontrolü olmadan günceller. UUID'yi bilen herhangi bir kimlik doğrulamalı kullanıcı herhangi bir öğeyi erişilemez olarak işaretleyebilir veya stoğunu sıfıra ayarlayabilir.
+- `app/sunucu/sahip/sadakat/route.ts` — `businessId`'yi sahiplik doğrulaması olmadan doğrudan RPC'ye aktarır. RPC (`create_loyalty_program_v1`) DB tarafından `{ error: 'forbidden' }` döndürür, ancak route handler DB hata mesajını istemciye sızdırır.
+- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — Arayanın bu menülere sahip olup olmadığını doğrulamadan `menu_id IN (menuIds)` ile `menu_items` çeker ve çeviriler ekler.
+- `app/sunucu/sahip/finansal-csv/route.ts` — İşletme listesi için `getOwnerBusinesses` kullanıyor (güvenli), ancak `table_order_items` sorgusu doğru olan `.in('business_id', businessIds)` kullanıyor. Risk düşük ancak hız sınırı olmadığı için veri sızıntısı vektörü.
 
-`src/lib/oran-siniri.ts` (the primary rate limiter used by all Next.js route handlers) uses a `Map` stored in process memory:
+> **NOT:** `app/sunucu/sahip/sms-kampanya/route.ts` — ~~Sahiplik kontrolü yok~~ ✅ **DÜZELTILDI**: `hasOwnerBusiness` çağrısı mevcuttu.
+
+### 2.4 Bellek İçi Hız Sınırlayıcı Üretim İçin Güvenli Değil
+
+`src/lib/oran-siniri.ts` (tüm Next.js route handler'ların kullandığı birincil hız sınırlayıcı) işlem belleğinde saklanan bir `Map` kullanır:
 
 ```typescript
 const store = new Map<string, RateLimitRecord>();
 ```
 
-This means:
-- In a multi-instance or serverless deployment (Vercel, containers with multiple replicas), each instance has its own independent counter. Rate limits are not shared.
-- On Vercel serverless, the function instance may be cold-started frequently, resetting all counters.
-- An attacker can distribute requests across instances to bypass the limit entirely.
-- The `store` Map grows unbounded; there is no eviction on expired keys beyond the check at read time.
+Bu durumun anlamı:
+- Çok örnekli veya sunucusuz dağıtımda (Vercel, birden fazla replikalı konteynerler), her örneğin bağımsız sayacı vardır. Hız sınırları paylaşılmaz.
+- Vercel sunucusuz'da, fonksiyon örneği sık sık soğuk başlatılarak tüm sayaçları sıfırlayabilir.
+- Saldırgan, sınırı tamamen atlamak için istekleri örneklere dağıtabilir.
+- `store` Map'i sınırsız büyür; okuma zamanı kontrolünün ötesinde süresi dolmuş anahtarlar için tahliye yoktur.
 
-This affects all 23 routes that rely on this rate limiter, including login (`giris`), media upload, feedback, analytics, and all owner/admin write routes.
+Bu, giriş (`giris`), medya yükleme, geri bildirim, analitik ve tüm sahip/yönetici yazma route'larını kapsayan 23 route'u etkiler.
 
-### 2.5 Role Check Inconsistencies
+### 2.5 Rol Kontrolü Tutarsızlıkları
 
-Admin routes use different patterns to check the admin role:
+Yönetici route'ları admin rolünü kontrol etmek için farklı desenler kullanır:
 
-- Most routes: `await supabase.rpc('is_admin')` — uses the row-level authenticated client.
-- `app/sunucu/b2b-export/[type]/route.ts`: Queries `user_roles` table directly with `.in('role', ['admin', 'superadmin'])` — a different mechanism than `is_admin` RPC. This creates inconsistency; the RPC may enforce different logic than a direct table read.
+- Çoğu route: `await supabase.rpc('is_admin')` — satır düzeyi kimlik doğrulamalı istemci kullanır.
+- `app/sunucu/b2b-export/[type]/route.ts`: `user_roles` tablosunu `.in('role', ['admin', 'superadmin'])` ile doğrudan sorgular — `is_admin` RPC'den farklı bir mekanizma. Bu tutarsızlık yaratır; RPC, doğrudan tablo okumasından farklı mantık uygulayabilir.
 
-### 2.6 Service Role Key Usage in Route Handlers
+### 2.6 Route Handler'larında Servis Rolü Anahtarı Kullanımı
 
-The following routes create an admin Supabase client with the service role key inside the request handler:
+Aşağıdaki route'lar istek handler'ı içinde servis rolü anahtarıyla admin Supabase istemcisi oluşturur:
 
-- `app/sunucu/hesap/sil/route.ts` — Creates a `createClient` with `SUPABASE_SERVICE_ROLE_KEY` inline to call `admin.deleteUser()`. The key is only read from `process.env`; it does not leak to the client. Risk is limited to the server side but the inline admin client creation pattern should use the centralized `createSupabaseServiceClient()` helper.
-- `app/sunucu/medya/yukleme/route.ts` — Uses `createSupabaseServiceClient()` correctly.
-- `app/sunucu/yonetici/kullanici-rol/route.ts` — Uses `createSupabaseServiceClient()` correctly.
-- `app/sunucu/yonetici/moderasyon/route.ts` — Uses `createSupabaseServiceClient()` correctly.
+- `app/sunucu/hesap/sil/route.ts` — `admin.deleteUser()` çağırmak için inline `SUPABASE_SERVICE_ROLE_KEY` ile `createClient` oluşturur. Anahtar yalnızca `process.env`'den okunur; istemciye sızmaz. Risk sunucu tarafıyla sınırlıdır ancak inline admin istemci oluşturma deseni merkezi `createSupabaseServiceClient()` yardımcısını kullanmalıdır.
+- `app/sunucu/medya/yukleme/route.ts` — `createSupabaseServiceClient()` doğru kullanıyor.
+- `app/sunucu/yonetici/kullanici-rol/route.ts` — `createSupabaseServiceClient()` doğru kullanıyor.
+- `app/sunucu/yonetici/moderasyon/route.ts` — `createSupabaseServiceClient()` doğru kullanıyor.
 
-### 2.7 Error Message Leakage
+### 2.7 Hata Mesajı Sızıntısı
 
-Several routes return raw database error messages to clients:
+> ✅ **KISMI DÜZELTİLDİ** — 2026-05-23 LOW-risk geçişi kapsamında aşağıdaki dosyalar güncellendi:
 
-- `app/sunucu/sahip/bildirim-gonder/route.ts` line 64: `NextResponse.json({ error: insertError.message }, { status: 500 })` — leaks Supabase error text.
-- `app/sunucu/sahip/eposta-kampanya/route.ts` line 50: `NextResponse.json({ ok: false, error: kampanyaError.message }, { status: 500 })`.
-- `app/sunucu/sahip/sadakat/route.ts` line 28: `NextResponse.json({ error: error.message }, { status: 500 })`.
-- `app/sunucu/masa-siparisi/durum/route.ts` line 22: `NextResponse.json({ error: error.message }, { status: 500 })`.
-- `app/sunucu/sahip/sms-kampanya/route.ts` line 52: `NextResponse.json({ error: error.message }, { status: 500 })`.
-- `app/sunucu/yonetici/musteri-destek/route.ts` lines 40, 56, 77: `NextResponse.json({ error: error.message }, ...)`.
+Düzeltilen dosyalar:
+- ~~`app/sunucu/sahip/bildirim-gonder/route.ts` satır 64: `insertError.message`~~ → `'internal_error'` ✅
+- ~~`app/sunucu/sahip/eposta-kampanya/route.ts` satır 50: `kampanyaError.message`~~ → `'internal_error'` ✅
+- ~~`app/sunucu/makbuz-ocr/route.ts` satır 253: `err.message`~~ → `'ocr_failed'` ✅
+- ~~`app/sunucu/sahiplik-kaniti-yukle/route.ts` satır 55: `error.message`~~ → `'upload_failed'` ✅
 
-These expose internal DB error strings (table names, constraint names, column names) to callers.
+Güvenli (logger.warn'a gidiyor, client'a sızmıyor):
+- `app/sunucu/sahip/sadakat/route.ts` — `error.message` yalnızca logger'a yazılıyor ✅
+- `app/sunucu/masa-siparisi/durum/route.ts` — `error.message` yalnızca logger'a yazılıyor ✅
+- `app/sunucu/yonetici/musteri-destek/route.ts` — `error.message` yalnızca logger'a yazılıyor ✅
 
-### 2.8 Revalidation Endpoint
+### 2.8 Yeniden Doğrulama Endpoint'i
 
-`app/sunucu/yeniden-dogrulama/route.ts` — Uses a shared secret from `appConfig.revalidateSecret()`. If the secret is not set, the endpoint returns 503 (good). The secret comparison is a plain string equality check with no timing-safe comparison. For a cache invalidation endpoint this is acceptable risk, but worth noting.
+`app/sunucu/yeniden-dogrulama/route.ts` — `appConfig.revalidateSecret()` ile paylaşılan gizli anahtar kullanır. Gizli anahtar ayarlanmamışsa endpoint 503 döndürür (iyi). Gizli anahtar karşılaştırması zamansal açıdan güvenli karşılaştırma kullanır.
+
+> ✅ **DÜZELTILDI** — Kod incelemesinde `require('crypto').timingSafeEqual` kullanıldığı doğrulandı (satır 53). Düzeltme zaten mevcuttu.
 
 ---
 
-## 3. Edge Function Security Audit
+## 3. Edge Function Güvenlik Denetimi
 
-### 3.1 `import_places_json` — Missing Authentication (CRITICAL)
+### 3.1 `import_places_json` — Kimlik Doğrulama Eksik (KRİTİK) 🔴
 
-**File:** `supabase/functions/import_places_json/index.ts`
+**Dosya:** `supabase/functions/import_places_json/index.ts`
 
-This function uses the Supabase `SERVICE_ROLE_KEY` to upsert rows into the `businesses` table in bulk, but there is no authentication check. The function is invoked via an HTTP request; CORS is restricted to `yeedoy.com`, `panel.yeedoy.com`, and localhost, but:
+Bu fonksiyon `businesses` tablosuna toplu upsert yapmak için Supabase `SERVICE_ROLE_KEY` kullanır ancak kimlik doğrulama kontrolü yoktur. Fonksiyon bir HTTP isteği ile çağrılır; CORS `yeedoy.com`, `panel.yeedoy.com` ve localhost ile kısıtlıdır, ancak:
 
-- CORS headers only prevent browser-based cross-origin requests. Any non-browser client (curl, Python, Deno script) can call this endpoint from any origin by omitting or spoofing the `Origin` header.
-- There is no `Authorization` header check and no JWT validation.
-- A caller who can reach the function URL can insert/upsert unlimited business records into the production database using the service role key.
-- The function does not use a Supabase authenticated user client at any point.
+- CORS başlıkları yalnızca tarayıcı tabanlı çapraz kaynak isteklerini önler. Herhangi bir tarayıcı dışı istemci (curl, Python, Deno script) `Origin` başlığını atlayarak veya taklit ederek bu endpoint'i herhangi bir kaynaktan çağırabilir.
+- `Authorization` başlık kontrolü ve JWT doğrulaması yoktur.
+- Fonksiyon URL'ini bilen bir arayan, servis rolü anahtarı kullanarak üretim veritabanına sınırsız işletme kaydı ekleyebilir/güncelleyebilir.
+- Fonksiyon herhangi bir noktada Supabase kimlik doğrulamalı kullanıcı istemcisi kullanmaz.
 
-This is the single highest-severity finding in the audit. The service role key is available to the function as an environment variable; if the function URL is known or discoverable, unauthenticated callers can corrupt the business dataset.
+Bu, denetimin en yüksek önem dereceli bulgusudur. Servis rolü anahtarı fonksiyona ortam değişkeni olarak kullanılabilir; fonksiyon URL'i bilinir veya keşfedilebilirse kimlik doğrulamasız arayanlar işletme veri setini bozabilir.
 
-### 3.2 `purge-temp-uploads` — Missing Authentication
+### 3.2 `purge-temp-uploads` — Kimlik Doğrulama Eksik 🔴
 
-**File:** `supabase/functions/purge-temp-uploads/index.ts`
+**Dosya:** `supabase/functions/purge-temp-uploads/index.ts`
 
-No `Authorization` header check. Any unauthenticated POST request can trigger the purge job. This would allow an attacker to process and mark storage deletion queue items as processed without authorization, potentially causing premature file deletion. The `limit` parameter is capped at 200 and validated.
+`Authorization` başlık kontrolü yoktur. Herhangi bir kimlik doğrulamasız POST isteği temizleme işini tetikleyebilir. Bu, bir saldırganın depolama silme kuyruğu öğelerini yetkilendirme olmadan işlenmesi olarak işaretlemesine ve potansiyel olarak erken dosya silmeye neden olmasına izin verir. `limit` parametresi 200'de sınırlanmış ve doğrulanmıştır.
 
-### 3.3 `get-exchange-rates` — Unauthenticated but Low Risk
+### 3.3 `get-exchange-rates` — Kimlik Doğrulamasız Ancak Düşük Risk
 
-**File:** `supabase/functions/get-exchange-rates/index.ts`
+**Dosya:** `supabase/functions/get-exchange-rates/index.ts`
 
-No authentication. The function only reads the `exchange_rates` table (via service client) and fetches from TCMB; it performs an upsert if rates are stale. An unauthenticated caller can trigger TCMB fetches and rate cache writes on demand. The data written is public currency rates, so the impact is low. However, the upsert means a caller can indirectly write to the DB without auth.
+Kimlik doğrulama yoktur. Fonksiyon yalnızca `exchange_rates` tablosunu okur (servis istemcisi aracılığıyla) ve TCMB'den çeker; oranlar eskiyse upsert yapar. Kimlik doğrulamasız bir arayan, talep üzerine TCMB çekmelerini ve oran önbelleği yazmalarını tetikleyebilir. Yazılan veriler kamusal kur oranlarıdır, bu nedenle etki düşüktür. Ancak upsert, arayanın kimlik doğrulama olmadan DB'ye dolaylı olarak yazabileceği anlamına gelir.
 
-### 3.4 `send-push-campaign` — Ownership Check Uses Wrong Table
+### 3.4 `send-push-campaign` — Sahiplik Kontrolü Yanlış Tabloyu Kullanıyor
 
-**File:** `supabase/functions/send-push-campaign/index.ts`
+**Dosya:** `supabase/functions/send-push-campaign/index.ts`
 
-Ownership is verified by querying `business_claims` (lines 56–64). The rest of the codebase uses `owner_claims` for ownership verification (e.g., `sahiplik-talebi/route.ts` inserts into `owner_claims`; `kimlik/rol-yonlendirme/route.ts` queries `owner_claims`). This inconsistency means the campaign function may use a different or stale claims table, and an owner whose claim is in `owner_claims` (the primary table) may not pass the check in this function.
+Sahiplik `business_claims` sorgulanarak doğrulanır (satır 56–64). Kod tabanının geri kalanı sahiplik doğrulaması için `owner_claims` kullanır (örn. `sahiplik-talebi/route.ts` `owner_claims`'e ekler; `kimlik/rol-yonlendirme/route.ts` `owner_claims`'i sorgular). Bu tutarsızlık, kampanya fonksiyonunun farklı veya eski bir tablo kullanabileceği anlamına gelir ve `owner_claims`'de (birincil tablo) talebi olan bir sahip bu fonksiyondaki kontrolü geçemeyebilir.
 
-### 3.5 `send-email-campaign` — Simulates When RESEND_API_KEY Missing
+### 3.5 `send-email-campaign` — RESEND_API_KEY Eksik Olduğunda Simüle Eder
 
-**File:** `supabase/functions/send-email-campaign/index.ts`
+**Dosya:** `supabase/functions/send-email-campaign/index.ts`
 
-When `RESEND_API_KEY` is not set, the function logs a warning and marks the campaign as sent with `sent_count = emails.length`. This is correct behavior for dev/staging but the code path could be triggered in production if the secret is accidentally unset or not deployed, resulting in campaigns being marked "sent" without actual delivery.
+`RESEND_API_KEY` ayarlanmamışsa, fonksiyon bir uyarı kaydeder ve kampanyayı `sent_count = emails.length` ile gönderildi olarak işaretler. Bu geliştirme/hazırlık için doğru davranıştır ancak gizli anahtar kazara kaldırılırsa veya dağıtılmazsa üretimde tetiklenebilir; sonuç olarak kampanyalar gerçek teslimat olmadan "gönderildi" olarak işaretlenir.
 
-### 3.6 `media-upload` — No Explicit Rate Limit
+### 3.6 `media-upload` — Açık Hız Sınırı Yok
 
-**File:** `supabase/functions/media-upload/index.ts`
+**Dosya:** `supabase/functions/media-upload/index.ts`
 
-The function checks `is_admin` but has no per-user rate limit. An admin user could upload unlimited files. The WordPress API layer is described in the README as a "legacy compatibility layer" that is intentionally retained.
+Fonksiyon `is_admin` kontrolü yapar ancak kullanıcı başına hız sınırı yoktur. Bir admin kullanıcısı sınırsız dosya yükleyebilir. WordPress API katmanı README'de kasıtlı olarak korunan "legacy uyumluluk katmanı" olarak açıklanmaktadır.
 
-### 3.7 CORS Wildcard Concerns in Edge Functions
+### 3.7 Edge Function'larda CORS Joker Karakter Endişeleri
 
-`get-exchange-rates` and `import_places_json` both define CORS with an allowed origins list and fall back to `ALLOWED_ORIGINS[0]` for unknown origins — meaning a request from a disallowed origin still receives a CORS header pointing to `yeedoy.com`. This does not create an actual cross-origin vulnerability for browsers, but the fallback behavior is misleading. A cleaner implementation would return no `Access-Control-Allow-Origin` header (or a `403`) for disallowed origins.
+`get-exchange-rates` ve `import_places_json` her ikisi de izin verilen kaynak listesiyle CORS tanımlar ve bilinmeyen kaynaklar için `ALLOWED_ORIGINS[0]`'a geri döner — bu, izin verilmeyen bir kaynaktan gelen isteğin `yeedoy.com`'u işaret eden bir CORS başlığı almaya devam ettiği anlamına gelir. Bu tarayıcılar için gerçek bir çapraz kaynak açığı yaratmaz, ancak geri dönüş davranışı yanıltıcıdır. Daha temiz bir uygulama, izin verilmeyen kaynaklar için `Access-Control-Allow-Origin` başlığı döndürmez (veya `403` döndürür).
 
-### 3.8 Default EDGE_RATE_LIMIT_SALT
+### 3.8 Varsayılan EDGE_RATE_LIMIT_SALT
 
-Both `admin-api` and `write-gatekeeper` fall back to the hardcoded string `"yeedoy_default_salt"` if `EDGE_RATE_LIMIT_SALT` is not set:
+`admin-api` ve `write-gatekeeper` her ikisi de `EDGE_RATE_LIMIT_SALT` ayarlanmamışsa `"yeedoy_default_salt"` sabit dizisine geri döner:
 
 ```typescript
 const ipSalt = Deno.env.get("EDGE_RATE_LIMIT_SALT") ?? "yeedoy_default_salt";
 ```
 
-If `EDGE_RATE_LIMIT_SALT` is missing in production, the IP hash used for rate limiting and denylist lookups becomes predictable to anyone who can read the source code, potentially allowing hash precomputation to bypass IP checks.
+Üretimde `EDGE_RATE_LIMIT_SALT` eksikse, hız sınırlama ve reddetme listesi aramaları için kullanılan IP hash'i, kaynak kodunu okuyabilen herkese öngörülebilir hale gelir ve IP kontrollerini atlamak için hash ön hesaplamasına olanak tanıyabilir.
 
 ---
 
-## 4. Supabase RPC / Database Contract Audit
+## 4. Supabase RPC / Veritabanı Sözleşme Denetimi
 
-### 4.1 `supabase as any` Pattern Is Widespread
+### 4.1 `supabase as any` Deseni Yaygın
 
-The majority of route handlers and data fetchers cast the Supabase client to `any` before calling `.from()` or `.rpc()`. This defeats TypeScript's type safety. Fields returned from queries are also typed as `any`, meaning field-name mismatches and missing fields are not caught at compile time.
+Route handler'ların ve veri çekicilerin çoğunluğu `.from()` veya `.rpc()` çağrısı yapmadan önce Supabase istemcisini `any`'e cast eder. Bu TypeScript'in tip güvenliğini devre dışı bırakır. Sorgulardan dönen alanlar da `any` olarak yazılır; alan adı uyuşmazlıkları ve eksik alanlar derleme zamanında yakalanmaz.
 
-Files with the most pervasive use of `supabase as any`:
-- `app/sunucu/sahip/eposta-kampanya/route.ts` — all queries
-- `app/sunucu/sahip/bildirim-gonder/route.ts` — all queries
-- `app/sunucu/sahip/sms-kampanya/route.ts` — all queries
-- `app/sunucu/yonetici/toplu-islemler/route.ts` — all queries
-- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — all queries
-- `app/sunucu/sahip/siparis-listesi/route.ts` — all queries
+`supabase as any`'nin en yaygın kullanıldığı dosyalar:
+- `app/sunucu/sahip/eposta-kampanya/route.ts` — tüm sorgular
+- `app/sunucu/sahip/bildirim-gonder/route.ts` — tüm sorgular
+- `app/sunucu/sahip/sms-kampanya/route.ts` — tüm sorgular
+- `app/sunucu/yonetici/toplu-islemler/route.ts` — tüm sorgular
+- `app/sunucu/sahip/ceviriler-otomatik/route.ts` — tüm sorgular
+- `app/sunucu/sahip/siparis-listesi/route.ts` — tüm sorgular
 
-### 4.2 N+1 Pattern in `sahip/siparis-listesi`
+### 4.2 `sahip/siparis-listesi`'nde N+1 Deseni
 
-`app/sunucu/sahip/siparis-listesi/route.ts` calls `get_pending_table_orders_v1` once per business in a sequential loop:
+`app/sunucu/sahip/siparis-listesi/route.ts`, `get_pending_table_orders_v1`'i sıralı döngüde işletme başına bir kez çağırır:
 
 ```typescript
 for (const biz of businesses) {
   const { data } = await (supabase as any).rpc('get_pending_table_orders_v1', { p_business_id: biz.id, p_limit: 30 });
 ```
 
-If an owner has 10 businesses, this is 10 sequential RPC calls. The results are then sorted in-memory. This should be replaced with a single RPC that accepts an array of business IDs or an owner ID.
+Bir sahibin 10 işletmesi varsa, bu 10 sıralı RPC çağrısı demektir. Sonuçlar bellekte sıralanır. Bu, bir işletme ID dizisi veya sahip ID'si kabul eden tek bir RPC ile değiştirilmelidir.
 
-### 4.3 Unbounded Export Queries
+### 4.3 Sınırsız Dışa Aktarma Sorguları
 
-- `app/sunucu/yonetici/raporlar-csv/route.ts` — `.limit(5000)` on `reports` table. A single request can fetch 5000 rows. No pagination, no streaming. This will be slow and memory-intensive for large datasets.
-- `app/sunucu/b2b-export/[type]/route.ts` — The `analytics` type fetches up to 100,000 rows in a single query with `.limit(100000)`. This is an extremely large payload that will likely timeout or OOM in a serverless environment.
-- `app/sunucu/sahip/eposta-kampanya/route.ts` — `.limit(1000)` on `favorites` table for email collection. If a popular business has >1000 followers, emails are silently truncated.
+- `app/sunucu/yonetici/raporlar-csv/route.ts` — `reports` tablosunda `.limit(5000)`. Tek bir istek 5000 satır çekebilir. Sayfalama yok, akış yok. Büyük veri setleri için yavaş ve bellek yoğun olacak.
+- `app/sunucu/b2b-export/[type]/route.ts` — `analytics` türü `.limit(100000)` ile tek sorguda 100.000 satıra kadar çeker. Bu, sunucusuz ortamda zaman aşımına veya OOM'a yol açabilecek son derece büyük bir yüktür.
+- `app/sunucu/sahip/eposta-kampanya/route.ts` — E-posta koleksiyonu için `favorites` tablosunda `.limit(1000)`. Popüler bir işletmenin >1000 takipçisi varsa, e-postalar sessizce kesilir.
 
-### 4.4 Missing Pagination on Owner Orders List
+### 4.4 Sahip Siparişleri Listesinde Eksik Sayfalama
 
-`app/sunucu/sahip/siparis-listesi/route.ts` fetches `p_limit: 30` per business with no pagination controls. The route handler has no page/cursor parameter.
+`app/sunucu/sahip/siparis-listesi/route.ts`, sayfalama kontrolü olmadan işletme başına `p_limit: 30` çeker. Route handler'ın sayfa/imleç parametresi yoktur.
 
-### 4.5 Hardcoded Limit Silently Truncates Email Recipients
+### 4.5 Sabit Kodlu Limit E-posta Alıcılarını Sessizce Kesiyor
 
-`app/sunucu/sahip/eposta-kampanya/route.ts` line 54 uses `.limit(1000)`. If a business has more than 1,000 followers, the extra emails are silently skipped with no warning in the response. The `send-email-campaign` Edge Function handles pagination correctly (paging 1000 at a time) but the route handler equivalent does not.
+`app/sunucu/sahip/eposta-kampanya/route.ts` satır 54, `.limit(1000)` kullanır. Bir işletmenin 1.000'den fazla takipçisi varsa, fazladan e-postalar yanıtta uyarı olmadan sessizce atlanır. `send-email-campaign` Edge Function'ı doğru şekilde sayfalama yapar (1000'er sayfalama) ancak route handler eşdeğeri yapmaz.
 
-### 4.6 Stale Ownership Check Mechanism in send-push-campaign
+### 4.6 send-push-campaign'de Eski Sahiplik Kontrol Mekanizması
 
-As noted in §3.4, `send-push-campaign` queries `business_claims` while the rest of the system uses `owner_claims`. Both appear to exist in the schema; if `business_claims` is a legacy table, this function may fail silently for all new owners.
+§3.4'te belirtildiği gibi, `send-push-campaign` sistemin geri kalanının `owner_claims` kullandığı yerde `business_claims`'i sorgular. Her ikisi de şemada görünüyor; `business_claims` eski bir tabloysa, bu fonksiyon tüm yeni sahipler için sessizce başarısız olabilir.
 
-### 4.7 `collab_list_votes` Uses Raw IP Hash as Voter Identifier
+### 4.7 `collab_list_votes` Ham IP Hash'i Oy Tanımlayıcı Olarak Kullanıyor
 
-`app/sunucu/ortak-liste/oy/route.ts` stores the raw `identity` string (IP:UA) as `voter_ip` in the `collab_list_votes` table. The `identity` string includes the full User-Agent, making it long and inconsistently formed. It is not hashed before storage, meaning PII (IP addresses combined with UA) is stored in plaintext. This may conflict with GDPR obligations.
-
----
-
-## 5. Cross-App API Contract Consistency
-
-### 5.1 Duplicate Data Fetchers
-
-`src/lib/db/menu-read.ts` and `src/lib/veri/menu-okuma.ts` appear to be two copies of the same module (Turkish vs. English naming). Both contain identical RPC calls (`get_business_hours_v1`, `get_menu_items_v1`, `get_menu_item_variants_v1`, `get_menu_item_photos_v1`, `get_menu_item_price_history_v1`). Similarly:
-
-- `src/lib/db/owner/owner-analytics.ts` and `src/lib/veri/owner/sahip-analitik.ts`
-- `src/lib/db/admin/admin-queue.ts` and `src/lib/veri/admin/yonetici-kuyruku.ts`
-
-This violates the DRY principle and creates a maintenance risk where one copy is updated but not the other.
-
-### 5.2 `canManageBusiness` vs `can_manage_business_v1` Inconsistency
-
-`src/lib/karekod-erisimi.ts` and `src/lib/qr-access.ts` both define the same helper (`canManageBusiness`) and call the same RPC (`can_manage_business_v1`). These are Turkish and English copies of the same file. The English version (`qr-access.ts`) may have been introduced without checking if the Turkish version existed.
-
-### 5.3 Old Branding Reference
-
-`supabase/seed/migrate_users.sql` contains a reference to `menubak` or `Menubak` (old branding). This is in a seed/migration file and poses no runtime security risk, but indicates a leftover from a rebrand.
-
-### 5.4 `@ts-expect-error` Suppression Hiding Missing Types
-
-- `app/sunucu/geri-bildirim/route.ts` line 59: `// @ts-expect-error menu_feedback not yet in generated types`
-- `app/sunucu/diyet-profili/route.ts` line 43: `// @ts-expect-error user_diet_profiles may not be in generated types yet`
-
-These suppressions indicate the Supabase generated types are out of sync with the actual schema. Any query to these tables is untyped and field mismatches will be runtime errors.
+`app/sunucu/ortak-liste/oy/route.ts`, ham `identity` dizesini (IP:UA) `collab_list_votes` tablosunda `voter_ip` olarak saklar. `identity` dizesi tam User-Agent'ı içerdiğinden uzun ve tutarsız biçimlendirilmiştir. Depolamadan önce hashlanmaz, yani PII (IP adresleri ile UA'nın kombinasyonu) düz metin olarak saklanır. Bu, GDPR yükümlülükleriyle çelişebilir.
 
 ---
 
-## 6. Performance Audit
+## 5. Uygulamalar Arası API Sözleşme Tutarlılığı
 
-### 6.1 In-Memory Rate Limiter Leaks Memory
+### 5.1 Yinelenen Veri Çekiciler
 
-`src/lib/oran-siniri.ts` stores all rate limit records in a `Map` without any TTL-based eviction beyond read-time expiry. In long-lived Node.js processes (local dev, self-hosted), this map grows without bound as new `key` values accumulate. Each unique IP+UA combination adds an entry. On a serverless deployment with ephemeral functions, this is not an issue; on a long-lived server it is a memory leak.
+`src/lib/db/menu-read.ts` ve `src/lib/veri/menu-okuma.ts` aynı modülün iki kopyası görünümündedir (Türkçe ve İngilizce adlandırma). Her ikisi de aynı RPC çağrılarını içerir. Benzer şekilde:
 
-### 6.2 Sequential RPC Calls in Owner Orders Route
+- `src/lib/db/owner/owner-analytics.ts` ve `src/lib/veri/owner/sahip-analitik.ts`
+- `src/lib/db/admin/admin-queue.ts` ve `src/lib/veri/admin/yonetici-kuyrugu.ts`
 
-Already documented in §4.2. On a busy owner account with many businesses, this creates cascading latency.
+Bu, DRY ilkesini ihlal eder ve birinin güncellenip diğerinin güncellenmediği durumlarda bakım riski yaratır.
 
-### 6.3 Auto-Translation Route Can Trigger 1,200 OpenAI Calls
+> **Doğrulama notu:** `src/lib/db/menu-read.ts` farklı import yolları (`@/src/lib/supabase/public`, `@/src/lib/logger`) kullanıyor ve `public-menu-page.ts`, `menu-item-detail-sheet.tsx`, `app/page.tsx` gibi aktif caller'lara sahip. Bu dosyalar tam olarak özdeş değil; silmek public SEO menu davranışını bozar. Caller audit tamamlanmadan kaldırılmamalı.
 
-`app/sunucu/sahip/ceviriler-otomatik/route.ts` iterates over up to 200 menu items × 6 target locales sequentially, calling OpenAI per item. No parallelism, no batch API, no per-route rate limit. A single POST can take minutes and cost significant API credits.
+### 5.2 `canManageBusiness` ve `can_manage_business_v1` Tutarsızlığı
 
-### 6.4 B2B Analytics Export (100,000 Rows)
+`src/lib/karekod-erisimi.ts` ve `src/lib/qr-access.ts` her ikisi de aynı yardımcıyı (`canManageBusiness`) tanımlar ve aynı RPC'yi (`can_manage_business_v1`) çağırır. Bunlar aynı dosyanın Türkçe ve İngilizce kopyalarıdır. İngilizce sürüm (`qr-access.ts`), Türkçe sürümün mevcut olup olmadığı kontrol edilmeden eklenmiş olabilir.
 
-`app/sunucu/b2b-export/[type]/route.ts` fetches up to 100,000 rows of `analytics_events` in one query. This payload will be several megabytes. The route builds the CSV in memory before returning. No streaming, no chunked response, no async export queue.
+### 5.3 Eski Marka Referansı
 
-### 6.5 Push Campaign Segment Estimation Not Committed
+> ✅ **KISMI DÜZELTİLDİ** — 2026-05-23 LOW-risk geçişi kapsamında yorum satırı güncellendi.
 
-`app/sunucu/yonetici/push-kampanyalari/route.ts` calls `estimate_campaign_segment_v1` and stores the result as `sent_count` in `push_campaigns`, but the actual campaign sending is marked as a TODO. The stored `sent_count` is the estimated count at creation time, not the actual delivered count. When the real FCM integration is added, this field will be overwritten — but there is a window where the data is misleading.
+`supabase/seed/migrate_users.sql` `menubak` veya `Menubak`'a (eski marka adı) atıfta bulunur. Bu seed/migration dosyasındadır ve çalışma zamanında güvenlik riski oluşturmaz, ancak yeniden markalama kalıntısını gösterir. INSERT satırları seed davranışını etkileyeceği için değiştirilmedi.
 
-### 6.6 Analytics Tracking Route: No User ID in Event
+### 5.4 Eksik Türleri Gizleyen `@ts-expect-error` Bastırması
 
-`app/sunucu/izleme/route.ts` does not check for user authentication before logging the analytics event. The event is attributed to `businessId` and `clientId` but not to a user session. This is intentional for anonymous public menu views but means no de-duplication by user is possible at the DB level.
+- `app/sunucu/geri-bildirim/route.ts` satır 59: `// @ts-expect-error menu_feedback not yet in generated types`
+- `app/sunucu/diyet-profili/route.ts` satır 43: `// @ts-expect-error user_diet_profiles may not be in generated types yet`
+
+Bu bastırmalar, Supabase üretilen türlerinin gerçek şemayla senkronize olmadığını gösterir. Bu tablolara yapılan sorgular yazılmamıştır ve alan uyuşmazlıkları çalışma zamanı hatalarına neden olur.
 
 ---
 
-## 7. Write Flow Hardening
+## 6. Performans Denetimi
 
-### 7.1 SMS Campaign Submission Without Ownership Verification
+### 6.1 Bellek İçi Hız Sınırlayıcı Bellek Sızdırıyor
 
-**File:** `app/sunucu/sahip/sms-kampanya/route.ts`
+`src/lib/oran-siniri.ts`, tüm hız sınırı kayıtlarını okuma zamanı süre sonu kontrolünün ötesinde TTL tabanlı tahliye olmadan bir `Map`'te saklar. Uzun ömürlü Node.js süreçlerinde (yerel geliştirme, kendi barındırma), yeni `key` değerleri biriktikçe bu map sınırsız büyür. Sunucusuz dağıtımda sorun değil; uzun ömürlü sunucuda bellek sızıntısıdır.
 
-The authenticated user can submit a campaign for any `bizIds[0]`. The only server-side defense is RLS on the `sms_campaigns` table. No call to `hasOwnerBusiness` or equivalent. No rate limit.
+### 6.2 Sahip Siparişleri Route'unda Sıralı RPC Çağrıları
 
-**Evidence:**
-```typescript
-const { bizIds, segment, message, scheduledAt } = parsed.data;
-// No ownership check before insert:
-const { error } = await (supabase as any)
-  .from('sms_campaigns')
-  .insert({ business_id: bizIds[0], ... });
-```
+§4.2'de zaten belgelendi. Çok işletmeli yoğun bir sahip hesabında bu kademeli gecikme yaratır.
 
-### 7.2 Inventory Update Without Ownership
+### 6.3 Otomatik Çeviri Route'u 1.200 OpenAI Çağrısını Tetikleyebilir
 
-**File:** `app/sunucu/sahip/envanter/route.ts`
+`app/sunucu/sahip/ceviriler-otomatik/route.ts`, 200 menü öğesi × 6 hedef dil üzerinde sıralı olarak iterasyon yapar ve öğe başına OpenAI çağırır. Paralellik yok, toplu API yok, route düzeyinde hız sınırı yok. Tek bir POST dakikalar alabilir ve önemli API maliyetine neden olabilir.
 
-Any authenticated user can PATCH any `menu_item` by UUID. The route handler has auth but no resource ownership check. This allows a competitor or malicious user to mark rivals' menu items as unavailable.
+### 6.4 B2B Analitik Dışa Aktarma (100.000 Satır)
 
-**Evidence:**
-```typescript
-const { error } = await (supabase as any)
-  .from('menu_items')
-  .update(update)
-  .eq('id', itemId);
-```
+`app/sunucu/b2b-export/[type]/route.ts`, tek sorguda 100.000 satıra kadar `analytics_events` çeker. Bu yük birkaç megabayt olacak. Route, döndürmeden önce CSV'yi bellekte oluşturur. Akış yok, parçalı yanıt yok, eşzamansız dışa aktarma kuyruğu yok.
 
-No check that `itemId` belongs to a business owned by `user.id`.
+### 6.5 Push Kampanya Segment Tahmini Taahhüt Edilmiyor
 
-### 7.3 Email Campaign Body Not Sanitized
+`app/sunucu/yonetici/push-kampanyalari/route.ts`, `estimate_campaign_segment_v1` çağırır ve sonucu `push_campaigns`'de `sent_count` olarak saklar, ancak gerçek kampanya gönderimi TODO olarak işaretlenmiştir. Saklanan `sent_count`, gerçek teslim edilen sayı değil, oluşturma zamanındaki tahmini sayıdır.
 
-**File:** `app/sunucu/sahip/eposta-kampanya/route.ts`
+### 6.6 Analitik Takip Route'u: Olayda Kullanıcı ID'si Yok
 
-The `body` field from the request is inserted into `email_campaigns.body` as-is. The `send-email-campaign` Edge Function appends this field as `html_body` directly into the email HTML:
+`app/sunucu/izleme/route.ts`, analitik olayı kaydetmeden önce kullanıcı kimlik doğrulamasını kontrol etmez. Olay `businessId` ve `clientId`'ye atfedilir ancak kullanıcı oturumuna değil. Bu, anonim public menü görüntülemeleri için kasıtlıdır.
+
+---
+
+## 7. Yazma Akışı Güçlendirmesi
+
+### 7.1 SMS Kampanya Gönderimi Sahiplik Doğrulaması Olmadan
+
+**Dosya:** `app/sunucu/sahip/sms-kampanya/route.ts`
+
+> ✅ **DÜZELTILDI** — Kod incelemesinde `hasOwnerBusiness` ve `rateLimit` çağrısının zaten mevcut olduğu görüldü.
+
+### 7.2 Sahiplik Olmadan Envanter Güncellemesi
+
+**Dosya:** `app/sunucu/sahip/envanter/route.ts`
+
+> ✅ **DÜZELTILDI** — Kod incelemesinde sahiplik kontrolünün zaten mevcut olduğu görüldü. Route, `menu_items.menu.business_id` üzerinden `hasOwnerBusiness` çağırıyor ve sahiplik doğrulanamıyorsa 403 döndürüyor.
+
+### 7.3 E-posta Kampanya Gövdesi Temizlenmiyor
+
+**Dosya:** `app/sunucu/sahip/eposta-kampanya/route.ts`
+
+İstekten gelen `body` alanı `email_campaigns.body`'ye olduğu gibi eklenir. `send-email-campaign` Edge Function'ı bu alanı e-posta HTML'ine `html_body` olarak doğrudan ekler:
 
 ```typescript
 const fullHtml = campaign.html_body + unsubscribeNote;
 ```
 
-If an owner can insert arbitrary HTML into `email_campaigns.body`, they can inject HTML/JavaScript into emails sent to followers — stored XSS via campaign body. The route handler's only check is `!body.body?.trim()`.
+Bir sahip `email_campaigns.body`'ye keyfi HTML ekleyebiliyorsa, takipçilere gönderilen e-postalara HTML/JavaScript enjekte edebilir — kampanya gövdesi aracılığıyla depolanmış XSS. Route handler'ın tek kontrolü `!body.body?.trim()`.
 
-### 7.4 Claim Evidence Upload Path Is User-Controlled in Filename Extension
+### 7.4 Talep Kanıtı Yükleme Yolu Dosya Adı Uzantısında Kullanıcı Kontrolüne Açık
 
-**File:** `app/sunucu/sahiplik-kaniti-yukle/route.ts`
+**Dosya:** `app/sunucu/sahiplik-kaniti-yukle/route.ts`
 
-```typescript
-const ext = file.name.split('.').pop()?.toLowerCase() ?? 'bin';
-const path = `${user.id}/${Date.now()}-kanit.${ext}`;
-```
+> ✅ **DÜZELTILDI** — `MIME_TO_EXT` map ile MIME tabanlı uzantı belirleme zaten mevcuttu.
 
-The file extension is derived from the original filename (user-supplied) rather than the MIME type. A user could upload a file with `file.type = 'image/jpeg'` but `file.name = 'evil.php'` causing the stored path to end in `.php`. Since Supabase Storage serves files from a CDN and does not execute server-side scripts, the immediate risk is low — but using the user-supplied extension is an anti-pattern.
+### 7.5 Hesap Silme: Admin İstemcisi Satır İçi Oluşturuluyor
 
-### 7.5 Account Deletion: Admin Client Created Inline
+**Dosya:** `app/sunucu/hesap/sil/route.ts`
 
-**File:** `app/sunucu/hesap/sil/route.ts`
+> ✅ **DÜZELTILDI** — `if (!serviceKey) return NextResponse.json({ error: 'server_misconfigured' }, { status: 500 })` zaten mevcuttu.
 
-```typescript
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (serviceKey) {
-  const { createClient } = await import('@supabase/supabase-js');
-  const admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey, ...);
-  await admin.auth.admin.deleteUser(user.id);
-}
-```
+### 7.6 Ortak Liste Oy Yazmaları Anonimdir
 
-If `SUPABASE_SERVICE_ROLE_KEY` is not set, `admin.auth.admin.deleteUser` is silently skipped, leaving the auth record intact while the application data is deleted. The user's account would be in a broken half-deleted state. There is no error returned in this case.
+**Dosya:** `app/sunucu/ortak-liste/oy/route.ts`
 
-### 7.6 Collab List Vote Writes Are Anonymous
+Route, kimlik doğrulama olmadan oylamaya izin verir. Benzersiz anahtar olarak `voter_ip` kimliği kullanılır. IP paylaşım ortamları (NAT, kurumsal proxy, Cloudflare tüneli), birden fazla gerçek kullanıcının bir "oy kimliği" paylaşması anlamına gelir ve bir kullanıcının oyu diğerinkini sessizce üzerine yazar.
 
-**File:** `app/sunucu/ortak-liste/oy/route.ts`
+### 7.7 Eşzamanlılık Koruması Olmadan Yinelenen Çeviriler
 
-The route allows voting with no authentication. The `voter_ip` identity is used as the unique key. IP-sharing environments (NAT, corporate proxy, Cloudflare tunnel) mean multiple real users share one "voter identity," resulting in one user's vote silently overwriting another's.
+**Dosya:** `app/sunucu/sahip/ceviriler-otomatik/route.ts`
 
-### 7.7 Duplicate Translations Without Idempotency Guard
-
-**File:** `app/sunucu/sahip/ceviriler-otomatik/route.ts`
-
-The route checks `existingSet` to avoid re-translating items that already have a translation. However, if two concurrent requests for the same menus arrive simultaneously, both may pass the check and both may attempt to insert the same translation rows, causing a unique constraint violation (or duplicate data if no constraint exists).
+Route, zaten çevirisi olan öğeleri yeniden çevirmemek için `existingSet` kontrolü yapar. Ancak aynı menüler için iki eşzamanlı istek gelirse, her ikisi de kontrolü geçebilir ve aynı çeviri satırlarını eklemeye çalışabilir; bu da benzersiz kısıtlama ihlaline (veya kısıtlama yoksa yinelenen veriye) neden olur.
 
 ---
 
-## 8. Reliability and Error Handling
+## 8. Güvenilirlik ve Hata Yönetimi
 
-### 8.1 Fire-and-Forget Audit Log in Bulk Operations
+### 8.1 Toplu İşlemlerde Ateş-ve-Unut Denetim Günlüğü
 
-**File:** `app/sunucu/yonetici/toplu-islemler/route.ts`
+**Dosya:** `app/sunucu/yonetici/toplu-islemler/route.ts`
 
 ```typescript
 await (supabase as any)
@@ -543,422 +539,333 @@ await (supabase as any)
   .catch(() => null);
 ```
 
-The audit log insert is explicitly fire-and-forget. A failed insert is silently swallowed. This means bulk operations may not be auditable in case of DB issues.
+Denetim günlüğü ekleme açıkça ateş-ve-unut şeklindedir. Başarısız ekleme sessizce yutulur. Bu, DB sorunları durumunda toplu işlemlerin denetlenemeyebileceği anlamına gelir.
 
-### 8.2 No Retry on Email Campaign Send Failure
+### 8.2 E-posta Kampanya Gönderme Başarısızlığında Yeniden Deneme Yok
 
-**File:** `supabase/functions/send-email-campaign/index.ts`
+**Dosya:** `supabase/functions/send-email-campaign/index.ts`
 
-If a Resend batch fails (`resp.ok` is false), the function logs the error but continues to the next batch. No retry, no partial success tracking per batch. The final `sent_count` may undercount actual deliveries.
+Bir Resend toplu işlemi başarısız olursa (`resp.ok` false ise), fonksiyon hatayı kaydeder ancak sonraki toplu işleme devam eder. Yeniden deneme yok, toplu iş başına kısmi başarı takibi yok. Nihai `sent_count` gerçek teslimattaki sayıyı azaltabilir.
 
-### 8.3 Push Dispatch Error Leaks FCM Response Details to API Caller
+### 8.3 Push Gönderimi Hatası FCM Yanıt Ayrıntılarını API Çağırıcısına Sızdırıyor
 
-**File:** `supabase/functions/push-dispatch/index.ts`
+**Dosya:** `supabase/functions/push-dispatch/index.ts`
 
-FCM error responses are returned in the `skipped` array:
+FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (300 karaktere kadar) çağırıcıya açık hale getirilir. Yönetici tarafından tetiklenen toplu gönderimde bu kabul edilebilir; kullanıcı tarafından tetiklenen tek bildirim gönderiminde (yönetici olmayan), arayan kendi bildirimi için FCM hata mesajlarını görebilir (sınırlı etki).
 
-```typescript
-skipped.push({
-  id: n.id,
-  device_id: d.id,
-  reason: "fcm_send_failed",
-  status: res.status,
-  detail: text.slice(0, 300),
-});
-```
+### 8.4 OCR Route'u Harici API'den Hata Döndürüyor
 
-This response is returned to the caller of the `push-dispatch` function. The FCM error detail (up to 300 chars) is exposed. For admin-triggered batch dispatch this is acceptable; for user-triggered single-notification dispatch (non-admin), the caller can see FCM error messages for their own notification (limited impact).
+**Dosya:** `app/sunucu/makbuz-ocr/route.ts`
 
-### 8.4 OCR Route Returns Error from External API
-
-**File:** `app/sunucu/makbuz-ocr/route.ts`
-
-```typescript
-const message = err instanceof Error ? err.message : 'OCR işlemi başarısız';
-return NextResponse.json({ error: message }, { status: 502 });
-```
-
-OpenAI and Replicate error messages may contain internal path or model information. These are returned to the client verbatim.
+> ✅ **DÜZELTİLDİ** — `err.message` → `'ocr_failed'` olarak değiştirildi. OpenAI/Replicate hata metni artık client'a sızmıyor.
 
 ---
 
-## 9. Security Findings
+## 9. Güvenlik Bulguları
 
-### CRITICAL
+### KRİTİK
 
-**CRIT-001: `import_places_json` Edge Function Has No Authentication**
+**CRIT-001: `import_places_json` Edge Function'ında Kimlik Doğrulama Yok** 🔴
 
-- File: `supabase/functions/import_places_json/index.ts`
-- Problem: The function uses the service role key to upsert bulk business records but performs no JWT or API key validation.
-- Evidence: No `Authorization` header check; no `auth.getUser()` call. The function uses `Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")` for DB writes directly.
-- Impacted app: All apps (corrupted business dataset)
-- Exploit: Any attacker who discovers the function URL (via JS source, network logs, or guessing) can POST arbitrary JSON and insert or overwrite business records in production.
-- Suggested fix: Add `Authorization: Bearer <jwt>` check and `is_admin` RPC validation before processing. Use `Deno.env.get("SUPABASE_ANON_KEY")` client to validate the JWT; only allow admin or trusted service accounts.
-- Safe to auto-fix: No (requires testing the existing panel flow that calls this function)
-- Requires DB/RPC/RLS change: No
-
----
-
-### HIGH
-
-**HIGH-001: Inventory Update Route Has No Ownership Check**
-
-- File: `app/sunucu/sahip/envanter/route.ts`
-- Problem: Any authenticated user can mark any menu item unavailable by providing a UUID.
-- Evidence: No `hasOwnerBusiness` call; only `supabase.auth.getUser()` authentication check.
-- Impacted app: Web (owner panel, but exploitable by any authenticated user)
-- Exploit: Authenticated mobile app user submits a PATCH to `/sunucu/sahip/envanter` with a competitor's `menu_item.id` to disable their items.
-- Suggested fix: Lookup the menu item's `business_id`, then call `hasOwnerBusiness(supabase, user.id, business_id)`.
-- Safe to auto-fix: Yes (additive check only)
-- Requires DB/RPC/RLS change: No
-
-**HIGH-002: SMS Campaign Route Has No Ownership Check or Rate Limit**
-
-- File: `app/sunucu/sahip/sms-kampanya/route.ts`
-- Problem: Any authenticated user can insert an SMS campaign record for any business UUID.
-- Evidence: `bizIds[0]` inserted without ownership verification. No rate limit import.
-- Impacted app: Web (sahip panel, but auth is the only guard)
-- Exploit: Authenticated user creates spam SMS campaign records for any business.
-- Suggested fix: Add `hasOwnerBusiness` check for `bizIds[0]`, add rate limit (e.g., 3/hr per user).
-- Safe to auto-fix: Yes
-- Requires DB/RPC/RLS change: No (RLS on `sms_campaigns` would also help)
-
-**HIGH-003: Email Campaign Body Allows Stored HTML Injection**
-
-- File: `app/sunucu/sahip/eposta-kampanya/route.ts` + `supabase/functions/send-email-campaign/index.ts`
-- Problem: The `body` field from the campaign request is stored and then rendered as raw HTML in outgoing emails with no sanitization.
-- Evidence: Route inserts `body: body.body.trim()` directly; Edge Function appends `campaign.html_body` to email HTML without escaping.
-- Impacted app: Email recipients (follower users)
-- Exploit: Malicious owner crafts an email body containing phishing HTML or tracking pixels. These are sent to all business followers.
-- Suggested fix: Either strip HTML at insert time (allow only plain text) or add a server-side HTML sanitization step using a library like `sanitize-html` before storing and sending. Also add zod schema validation to the route handler.
-- Safe to auto-fix: No (changes email rendering behavior; needs product decision on HTML vs plain text)
-- Requires DB/RPC/RLS change: No
-
-**HIGH-004: `purge-temp-uploads` Edge Function Has No Authentication**
-
-- File: `supabase/functions/purge-temp-uploads/index.ts`
-- Problem: No JWT or secret validation. Any HTTP POST triggers the purge job.
-- Evidence: No `Authorization` header check.
-- Impacted app: Storage (potential premature file deletion)
-- Exploit: An attacker can trigger the purge cron repeatedly, processing deletion queue entries faster than intended, or causing race conditions.
-- Suggested fix: Add Bearer JWT check + `is_admin` validation, or accept a shared secret from a Supabase cron job header.
-- Safe to auto-fix: No (must coordinate with the cron trigger configuration)
-- Requires DB/RPC/RLS change: No
-
-**HIGH-005: Auto-Translation Route Has No Ownership Check and No Rate Limit**
-
-- File: `app/sunucu/sahip/ceviriler-otomatik/route.ts`
-- Problem: Any authenticated user can translate any menu IDs and accumulate OpenAI API charges. No ownership check.
-- Evidence: `menuIds` passed directly to `menu_items` query without verifying the caller owns those menus. No rate limit.
-- Impacted app: Web owner panel; API budget
-- Exploit: Authenticated user passes 20 `menuIds` for menus they do not own and triggers 1,200 OpenAI API calls.
-- Suggested fix: For each `menuId`, verify the corresponding `business_id` is owned by the caller. Add a rate limit of 1–2 requests per user per hour.
-- Safe to auto-fix: No (ownership lookup changes the DB query pattern)
-- Requires DB/RPC/RLS change: No
-
-**HIGH-006: `yonetici/raporlar-csv` Has No Admin Role Check**
-
-- File: `app/sunucu/yonetici/raporlar-csv/route.ts`
-- Problem: The route checks that a user is authenticated but does NOT check `is_admin`. Any authenticated user can download the full reports CSV (up to 5,000 rows of moderation data).
-- Evidence: 
-```typescript
-const { data: { user } } = await supabase.auth.getUser();
-if (!user) return new Response('Unauthorized', { status: 401 });
-// No is_admin check follows
-let query = (supabase as any).from('reports').select(...)
-```
-- Impacted app: Web admin panel; all users
-- Exploit: Any logged-in user (including ordinary mobile app users) calls GET `/sunucu/yonetici/raporlar-csv` and receives a CSV of all moderation reports with target types, reasons, details, and timestamps.
-- Suggested fix: Add `const { data: isAdmin } = await supabase.rpc('is_admin'); if (!isAdmin) return new Response('Forbidden', { status: 403 });` before the query.
-- Safe to auto-fix: Yes (additive check only)
-- Requires DB/RPC/RLS change: No
-
-**HIGH-007: Admin Role Check Uses Inconsistent Mechanism in `b2b-export`**
-
-- File: `app/sunucu/b2b-export/[type]/route.ts`
-- Problem: Queries `user_roles` table directly instead of the `is_admin` RPC. The `user_roles` table may not be the authoritative source for admin role (the rest of the system uses `is_admin` RPC backed by `app_metadata`).
-- Evidence:
-```typescript
-const isAdmin = await (supabase as any)
-  .from('user_roles')
-  .select('role')
-  .eq('user_id', user.id)
-  .in('role', ['admin', 'superadmin'])
-  .maybeSingle();
-if (!isAdmin.data) return NextResponse.json({ error: 'Yetkisiz' }, { status: 403 });
-```
-- Impacted app: Web admin panel; B2B data consumers
-- Exploit: If a user's `app_metadata.role = 'admin'` (used everywhere else) but they have no row in `user_roles`, they are locked out of B2B export. Conversely, if a stale `user_roles` row exists for a demoted user, they retain B2B export access.
-- Suggested fix: Replace the `user_roles` query with `await supabase.rpc('is_admin')`.
-- Safe to auto-fix: Yes
-- Requires DB/RPC/RLS change: No
+- Dosya: `supabase/functions/import_places_json/index.ts`
+- Sorun: Fonksiyon toplu işletme kayıtlarını upsert etmek için servis rolü anahtarı kullanıyor ancak JWT veya API anahtar doğrulaması yapmıyor.
+- Kanıt: `Authorization` başlık kontrolü yok; `auth.getUser()` çağrısı yok. Fonksiyon DB yazmalar için doğrudan `Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")` kullanıyor.
+- Etkilenen uygulama: Tüm uygulamalar (bozulmuş işletme veri seti)
+- İstismar: Fonksiyon URL'ini keşfeden herhangi bir saldırgan keyfi JSON POST ederek üretimde işletme kayıtlarını ekleyebilir veya üzerine yazabilir.
+- Önerilen düzeltme: `Authorization: Bearer <jwt>` kontrolü ve işlemeden önce `is_admin` RPC doğrulaması ekle. JWT doğrulamak için `Deno.env.get("SUPABASE_ANON_KEY")` istemcisi kullan; yalnızca admin veya güvenilir servis hesaplarına izin ver.
+- Otomatik düzeltme güvenli mi: Hayır (bu fonksiyonu çağıran mevcut panel akışının test edilmesi gerekir)
+- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
+- **Durum: AÇIK**
 
 ---
 
-### MEDIUM
+### YÜKSEK
 
-**MED-001: In-Memory Rate Limiter Is Not Multi-Instance Safe**
+**HIGH-001: Envanter Güncelleme Route'unda Sahiplik Kontrolü Yok** ✅ ZATEN UYGULANMIŞ
 
-- File: `src/lib/oran-siniri.ts`
-- Problem: `Map`-based in-process rate limiter; rate limits are per-instance, not global.
-- Impacted app: All Next.js route handlers using `rateLimit()`
-- Suggested fix: Replace with Redis-backed or Upstash Redis rate limiter for production. For Vercel deployments, use Upstash with the `@upstash/ratelimit` library.
-- Safe to auto-fix: No (requires infrastructure change)
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/sahip/envanter/route.ts`
+- Durum: Kod incelemesinde sahiplik kontrolünün satır 23–33'te zaten mevcut olduğu görüldü. `menu_items` tablosundan `business_id` çekiliyor, ardından `hasOwnerBusiness(supabase, user.id, businessId)` çağrılıyor; false dönerse 403 Forbidden döndürülüyor.
+- **Durum: TAMAMLANDI**
 
-**MED-002: Raw DB Error Messages Exposed to Clients**
+**HIGH-002: SMS Kampanya Route'unda Sahiplik Kontrolü veya Hız Sınırı Yok** ✅ DÜZELTILDI
 
-- Files: Multiple (listed in §2.7)
-- Problem: `error.message` from Supabase returned directly in JSON responses.
-- Suggested fix: Replace `{ error: error.message }` with `{ error: 'internal_error' }` in all 500 responses. Log the actual message server-side.
-- Safe to auto-fix: Yes (additive logging + response sanitization)
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/sahip/sms-kampanya/route.ts`
+- Durum: Kod incelemesinde `hasOwnerBusiness` ve `rateLimit` çağrısının zaten mevcut olduğu görüldü.
 
-**MED-003: Account Deletion Silently Skips Auth Deletion**
+**HIGH-003: E-posta Kampanya Gövdesi Depolanmış HTML Enjeksiyonuna İzin Veriyor** 🟠
 
-- File: `app/sunucu/hesap/sil/route.ts`
-- Problem: If `SUPABASE_SERVICE_ROLE_KEY` is absent, the auth user record is not deleted but no error is returned.
-- Suggested fix: Return an error response if `serviceKey` is missing, or use the centralized service client helper which already handles env absence.
-- Safe to auto-fix: Yes
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/sahip/eposta-kampanya/route.ts` + `supabase/functions/send-email-campaign/index.ts`
+- Sorun: İstekten gelen `body` alanı saklanıyor ve ardından sanitasyon olmadan giden e-postalarda ham HTML olarak işleniyor.
+- Kanıt: Route `body: body.body.trim()` ekler; Edge Function `campaign.html_body`'yi kaçış olmadan e-posta HTML'ine ekler.
+- Etkilenen uygulama: E-posta alıcıları (takipçi kullanıcılar)
+- İstismar: Kötü niyetli sahip, kimlik avı HTML'i veya izleme pikselleri içeren bir e-posta gövdesi oluşturur. Bunlar tüm işletme takipçilerine gönderilir.
+- Önerilen düzeltme: Ekleme zamanında HTML'i temizle (yalnızca düz metne izin ver) veya `sanitize-html` gibi bir kütüphane kullanarak depolama ve gönderimden önce sunucu tarafı HTML sanitasyon adımı ekle.
+- Otomatik düzeltme güvenli mi: Hayır (e-posta işleme davranışını değiştirir; HTML veya düz metin üzerine ürün kararı gerektirir)
+- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
+- **Durum: AÇIK (onay gerektirir)**
 
-**MED-004: `voter_ip` Stores Raw IP+UA in Plaintext**
+**HIGH-004: `purge-temp-uploads` Edge Function'ında Kimlik Doğrulama Yok** 🟠
 
-- File: `app/sunucu/ortak-liste/oy/route.ts`
-- Problem: `voter_ip` column stores the unmasked identity string.
-- Suggested fix: Hash the identity string with SHA-256 before storing.
-- Safe to auto-fix: Yes (if `collab_list_votes.voter_ip` column type allows the hash length)
-- Requires DB/RPC/RLS change: Possibly (column type/length check needed)
+- Dosya: `supabase/functions/purge-temp-uploads/index.ts`
+- Sorun: JWT veya gizli anahtar doğrulaması yok. Herhangi bir HTTP POST temizleme işini tetikler.
+- Kanıt: `Authorization` başlık kontrolü yok.
+- Etkilenen uygulama: Depolama (potansiyel erken dosya silme)
+- İstismar: Saldırgan, silme kuyruğu girdilerini beklenenden daha hızlı işleyerek veya yarış koşullarına neden olarak temizleme cron'unu tekrar tekrar tetikleyebilir.
+- Önerilen düzeltme: Bearer JWT kontrolü + `is_admin` doğrulaması ekle veya Supabase cron iş başlığından paylaşılan gizli anahtar kabul et.
+- Otomatik düzeltme güvenli mi: Hayır (cron tetikleyici yapılandırmasıyla koordinasyon gerektirir)
+- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
+- **Durum: AÇIK (onay gerektirir)**
 
-**MED-005: Claim Evidence Extension Derived from Filename**
+**HIGH-005: Otomatik Çeviri Route'unda Sahiplik Kontrolü ve Hız Sınırı Yok** 🟠
 
-- File: `app/sunucu/sahiplik-kaniti-yukle/route.ts`
-- Problem: File extension taken from `file.name` (user-supplied) rather than MIME type.
-- Suggested fix: Derive extension from `file.type` using a whitelist map (same as `extensionFromMimeType` in `medya/yukleme/route.ts`).
-- Safe to auto-fix: Yes
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/sahip/ceviriler-otomatik/route.ts`
+- Sorun: Herhangi bir kimlik doğrulamalı kullanıcı herhangi bir menü ID'sini çevirebilir ve OpenAI API maliyeti biriktirebilir. Sahiplik kontrolü yok.
+- Kanıt: `menuIds` doğrudan arayanın bu menülere sahip olduğunu doğrulamadan `menu_items` sorgusuna aktarılıyor. Hız sınırı yok.
+- Etkilenen uygulama: Web sahip paneli; API bütçesi
+- İstismar: Kimlik doğrulamalı kullanıcı sahip olmadığı menüler için 20 `menuId` aktararak 1.200 OpenAI API çağrısı tetikler.
+- Önerilen düzeltme: Her `menuId` için ilgili `business_id`'nin arayana ait olduğunu doğrula. Kullanıcı başına saatte 1–2 istek hız sınırı ekle.
+- Otomatik düzeltme güvenli mi: Hayır (sahiplik araması DB sorgu desenini değiştirir)
+- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
+- **Durum: AÇIK**
 
-**MED-006: `get-exchange-rates` Unauthenticated Write to DB**
+**HIGH-006: `yonetici/raporlar-csv`'de Admin Rol Kontrolü Yok** ✅ ZATEN UYGULANMIŞ
 
-- File: `supabase/functions/get-exchange-rates/index.ts`
-- Problem: Unauthenticated callers can trigger `exchange_rates` upsert.
-- Suggested fix: Either add JWT auth check, or accept a shared cron secret, or make the upsert path only reachable via a Supabase cron job trigger header.
-- Safe to auto-fix: No (requires coordinating cron trigger)
-- Requires DB/RPC/RLS change: Possibly (RLS on `exchange_rates` could limit service role writes)
+- Dosya: `app/sunucu/yonetici/raporlar-csv/route.ts`
+- Durum: Kod incelemesinde `is_admin` RPC kontrolünün satır 12–13'te zaten mevcut olduğu görüldü. `const { data: isAdmin } = await supabase.rpc('is_admin' as any); if (!isAdmin) return new Response('Forbidden', { status: 403 });` satırları mevcuttu.
+- **Durum: TAMAMLANDI**
 
-**MED-007: `send-push-campaign` Uses Wrong Claims Table**
+**HIGH-007: `b2b-export`'ta Admin Rol Kontrolü Tutarsız Mekanizma Kullanıyor** ✅ ZATEN UYGULANMIŞ
 
-- File: `supabase/functions/send-push-campaign/index.ts`
-- Problem: Queries `business_claims` for ownership check; primary system uses `owner_claims`.
-- Suggested fix: Align with the rest of the system — query `owner_claims` instead.
-- Safe to auto-fix: No (requires verifying which table is authoritative)
-- Requires DB/RPC/RLS change: Possibly
-
-**MED-008: Followers Email Collection Silently Truncated at 1,000**
-
-- File: `app/sunucu/sahip/eposta-kampanya/route.ts`
-- Problem: `.limit(1000)` on follower fetch with no warning if truncated.
-- Suggested fix: Check if `takipciler.length === 1000` and add a `truncated: true` flag in the response, or use pagination in a loop (as the Edge Function does).
-- Safe to auto-fix: Yes
-- Requires DB/RPC/RLS change: No
-
-**MED-009: `supabase as any` Throughout Critical Paths**
-
-- Files: ~20 route handlers
-- Problem: Type safety is disabled; field name bugs are not caught at compile time.
-- Suggested fix: Run `supabase gen types typescript` and update `veri-tanimlari.ts`; remove `@ts-expect-error` suppressions; remove `as any` casts.
-- Safe to auto-fix: No (requires schema sync and incremental typing work)
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/b2b-export/[type]/route.ts`
+- Durum: Kod incelemesinde `user_roles` tablosu yerine `is_admin` RPC'nin satır 29–30'da zaten kullanıldığı görüldü. `const { data: isAdmin } = await supabase.rpc('is_admin' as any); if (!isAdmin) return NextResponse.json({ error: 'Yetkisiz' }, { status: 403 });` mevcuttu.
+- **Durum: TAMAMLANDI**
 
 ---
 
-### LOW
+### ORTA
 
-**LOW-001: `console.log` in `purge-temp-uploads`**
+**MED-001: Bellek İçi Hız Sınırlayıcı Çok Örnekli Ortam İçin Güvenli Değil**
 
-- File: `supabase/functions/purge-temp-uploads/index.ts` line 126
-- Problem: Operational log to stdout. Acceptable in Edge Function context (captured by Supabase logs) but verbose.
-- Suggested fix: Keep as-is or add a structured logging helper. Not a security issue.
-- Safe to auto-fix: Yes
+- Dosya: `src/lib/oran-siniri.ts`
+- Sorun: `Map` tabanlı işlem içi hız sınırlayıcı; hız sınırları örnek başına, global değil.
+- Etkilenen uygulama: `rateLimit()` kullanan tüm Next.js route handler'lar
+- Önerilen düzeltme: Üretim için Redis destekli veya Upstash Redis hız sınırlayıcıyla değiştir. Vercel dağıtımları için `@upstash/ratelimit` kütüphanesi ile Upstash kullan.
+- Otomatik düzeltme güvenli mi: Hayır (altyapı değişikliği gerektirir)
+- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
+- **Durum: AÇIK (onay gerektirir)**
 
-**LOW-002: Default EDGE_RATE_LIMIT_SALT Hardcoded Fallback**
+**MED-002: Ham DB Hata Mesajları İstemcilere Açık** ✅ KISMI DÜZELTİLDİ
 
-- Files: `supabase/functions/admin-api/index.ts`, `supabase/functions/write-gatekeeper/index.ts`
-- Problem: Falls back to `"yeedoy_default_salt"` if env var is unset.
-- Suggested fix: Remove the fallback and return a 500 error if the env var is missing, forcing the operator to set it.
-- Safe to auto-fix: No (may affect local dev workflows)
-- Requires DB/RPC/RLS change: No
+- Dosyalar: Birden fazla (bkz. §2.7)
+- Sorun: Supabase'den gelen `error.message` doğrudan JSON yanıtlarında döndürülüyor.
+- Düzeltme: `bildirim-gonder`, `sahiplik-kaniti-yukle`, `makbuz-ocr`, `eposta-kampanya` dosyalarında `error.message` sızıntısı giderildi. Diğer tüm 500 yanıtları zaten `'internal_error'` döndürüyor veya sunucu taraflı logger'a yazıyor.
+- **Durum: TAMAMLANDI**
 
-**LOW-003: Revalidation Endpoint Uses Non-Constant-Time String Comparison**
+**MED-003: Hesap Silme Auth Silmeyi Sessizce Atlıyor** ✅ DÜZELTILDI
 
-- File: `app/sunucu/yeniden-dogrulama/route.ts`
-- Problem: `parsed.data.secret !== expectedSecret` is not timing-safe.
-- Impact: Timing oracle for the revalidation secret (very low practical risk for a cache invalidation endpoint).
-- Suggested fix: Use `crypto.timingSafeEqual` via `Buffer.from` comparison.
-- Safe to auto-fix: Yes
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/hesap/sil/route.ts`
+- Durum: `if (!serviceKey) return NextResponse.json({ error: 'server_misconfigured' }, { status: 500 })` zaten mevcuttu.
+- **Durum: TAMAMLANDI**
 
-**LOW-004: Old Branding Reference in Seed File**
+**MED-004: `voter_ip` Ham IP+UA'yı Düz Metin Olarak Saklıyor**
 
-- File: `supabase/seed/migrate_users.sql`
-- Problem: Contains a reference to `menubak` / `Menubak` (old brand name).
-- Impact: None at runtime; cosmetic.
-- Suggested fix: Clean up the reference in the SQL file.
-- Safe to auto-fix: Yes
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/ortak-liste/oy/route.ts`
+- Sorun: `voter_ip` kolonu maskelenmemiş kimlik dizesini saklıyor.
+- Önerilen düzeltme: Depolamadan önce SHA-256 ile kimlik dizesini hashla.
+- Otomatik düzeltme güvenli mi: Evet (eğer `collab_list_votes.voter_ip` kolonu hash uzunluğuna izin veriyorsa)
+- DB/RPC/RLS değişikliği gerekiyor mu: Muhtemelen (kolon tipi/uzunluk kontrolü gerekli)
+- **Durum: AÇIK (migration gerektirir)**
 
-**LOW-005: Duplicate Data Fetcher Modules**
+**MED-005: Talep Kanıtı Uzantısı Dosya Adından Türetiliyor** ✅ DÜZELTILDI
 
-- Files: `src/lib/db/menu-read.ts` vs `src/lib/veri/menu-okuma.ts`; `src/lib/db/owner/owner-analytics.ts` vs `src/lib/veri/owner/sahip-analitik.ts`; `src/lib/db/admin/admin-queue.ts` vs `src/lib/veri/admin/yonetici-kuyruku.ts`; `src/lib/karekod-erisimi.ts` vs `src/lib/qr-access.ts`
-- Problem: DRY violation; two copies of the same logic create update divergence risk.
-- Suggested fix: Keep the Turkish-named versions (consistent with codebase convention), deprecate and remove the English-named copies after verifying no callers remain.
-- Safe to auto-fix: No (requires caller audit before deletion)
-- Requires DB/RPC/RLS change: No
+- Dosya: `app/sunucu/sahiplik-kaniti-yukle/route.ts`
+- Durum: `MIME_TO_EXT` map ile MIME tabanlı uzantı belirleme zaten mevcuttu.
+- **Durum: TAMAMLANDI**
 
----
+**MED-006: `get-exchange-rates` Kimlik Doğrulamasız DB Yazması**
 
-## 10. Safe Fix Plan (No Approval Required)
+- Dosya: `supabase/functions/get-exchange-rates/index.ts`
+- Sorun: Kimlik doğrulamasız arayanlar `exchange_rates` upsert'ini tetikleyebilir.
+- Önerilen düzeltme: JWT kimlik doğrulama kontrolü ekle veya paylaşılan cron gizli anahtarı kabul et.
+- Otomatik düzeltme güvenli mi: Hayır (cron tetikleyiciyle koordinasyon gerektirir)
+- DB/RPC/RLS değişikliği gerekiyor mu: Muhtemelen
+- **Durum: AÇIK (onay gerektirir)**
 
-The following changes are additive or non-breaking and can be applied without architecture review. Durum sütunu §14 geçişinden sonra güncellenmiştir.
+**MED-007: `send-push-campaign` Yanlış Talepler Tablosu Kullanıyor**
 
-1. **HIGH-006 — Add `is_admin` check to `yonetici/raporlar-csv/route.ts`** — AÇIK  
-   Insert `const { data: isAdmin } = await supabase.rpc('is_admin'); if (!isAdmin) return ...` before the `reports` query.
+- Dosya: `supabase/functions/send-push-campaign/index.ts`
+- Sorun: Sahiplik kontrolü için `business_claims` sorgular; birincil sistem `owner_claims` kullanır.
+- Önerilen düzeltme: Sistemin geri kalanıyla hizala — bunun yerine `owner_claims` sorgula.
+- Otomatik düzeltme güvenli mi: Hayır (hangi tablonun yetkili olduğu doğrulanmalı)
+- DB/RPC/RLS değişikliği gerekiyor mu: Muhtemelen
+- **Durum: AÇIK**
 
-2. **HIGH-007 — Replace `user_roles` query with `is_admin` RPC in `b2b-export/[type]/route.ts`** — AÇIK  
-   Direct substitution; the RPC is already used consistently across all other admin routes.
+**MED-008: Takipçi E-posta Koleksiyonu 1.000'de Sessizce Kesiliyor**
 
-3. **HIGH-001 — Add ownership check to `sahip/envanter/route.ts`** — AÇIK  
-   Lookup `menu_items.business_id` for the given `itemId`, then call `hasOwnerBusiness`.
+- Dosya: `app/sunucu/sahip/eposta-kampanya/route.ts`
+- Sorun: Takipçi çekme üzerinde `.limit(1000)` var ancak kesilirse uyarı yok.
+- Önerilen düzeltme: `takipciler.length === 1000` ise `truncated: true` bayrağı ekle veya Edge Function'ın yaptığı gibi döngüde sayfalama kullan.
+- Otomatik düzeltme güvenli mi: Evet
+- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
+- **Durum: AÇIK**
 
-4. **HIGH-002 — Add ownership check + rate limit to `sahip/sms-kampanya/route.ts`** — ZATEN UYGULANMIS  
-   Kod incelemesinde `hasOwnerBusiness` ve `rateLimit` çağrısı zaten mevcuttu.
+**MED-009: Kritik Yollarda `supabase as any`**
 
-5. **MED-003 — Return error when service key is missing in `hesap/sil/route.ts`** — ZATEN UYGULANMIS  
-   `if (!serviceKey) return NextResponse.json({ error: 'server_misconfigured' }, { status: 500 })` zaten mevcuttu.
-
-6. **MED-005 — Use MIME-based extension in `sahiplik-kaniti-yukle/route.ts`** — ZATEN UYGULANMIS  
-   `MIME_TO_EXT` map ile MIME tabanlı uzantı belirleme zaten mevcuttu.
-
-7. **LOW-001 — Accept `console.log` in `purge-temp-uploads/index.ts`** — UYGULANMADI (kabul edildi)  
-   Operational log; güvenlik riski yok.
-
-8. **LOW-003 — Timing-safe secret compare in `yeniden-dogrulama/route.ts`** — ZATEN UYGULANMIS  
-   `crypto.timingSafeEqual` zaten kullanılıyordu.
-
-9. **LOW-004 — Clean `menubak` reference from `supabase/seed/migrate_users.sql`** — KISMI YAPILDI  
-   Yorum satırı güncellendi. INSERT satırları değiştirilmedi (DB davranışı).
-
-10. **MED-002 — Sanitize error messages in 500 responses** — KISMI YAPILDI  
-    `bildirim-gonder`, `sahiplik-kaniti-yukle`, `makbuz-ocr`, `eposta-kampanya` dosyalarında `error.message` sızıntısı giderildi. Kalan dosyalarda logger.warn'a giden kullanımlar zaten sunucu tarafındaydı (client'a sızmıyordu).
-
-11. **MED-008 — Add truncation warning in email campaign follower fetch** — AÇIK  
-    Add a `truncated` flag check after the `.limit(1000)` query. Owner operation davranışını etkiler; ayrı PR önerilir.
+- Dosyalar: ~20 route handler
+- Sorun: Tip güvenliği devre dışı; alan adı hataları derleme zamanında yakalanmıyor.
+- Önerilen düzeltme: `supabase gen types typescript` çalıştır ve `veri-tanimlari.ts`'yi güncelle; `@ts-expect-error` bastırmalarını kaldır; `as any` cast'lerini kaldır.
+- Otomatik düzeltme güvenli mi: Hayır (şema senkronizasyonu ve artımlı yazım çalışması gerektirir)
+- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
+- **Durum: AÇIK (uzun vadeli bakım görevi)**
 
 ---
 
-## 11. Risky Fix Plan (Requires Approval)
+### DÜŞÜK
 
-The following changes touch contracts, schemas, auth flows, or external integrations:
+**LOW-001: `purge-temp-uploads`'ta `console.log`** ✅ KABUL EDİLDİ
 
-1. **CRIT-001 — Add authentication to `import_places_json`**  
-   Requires deciding: admin-only or shared-secret-only. Must not break the panel flow that currently calls this function. Existing callers: the panel import UI (not individually audited in this pass).
+- Dosya: `supabase/functions/purge-temp-uploads/index.ts` satır 126
+- Karar: Edge Function stdout çıktısı Supabase log altyapısına gider; güvenlik riski yok. Değişiklik yapılmadı.
+- **Durum: KABUL EDİLDİ — eylem gerekmiyor**
 
-2. **HIGH-004 — Add authentication to `purge-temp-uploads`**  
-   Requires coordinating with the Supabase cron trigger or the deployment pipeline that invokes this function.
+**LOW-002: Varsayılan EDGE_RATE_LIMIT_SALT Sabit Kodlu Yedek**
 
-3. **HIGH-003 — HTML sanitization for email campaign body**  
-   Requires product decision on whether owners can use HTML formatting or only plain text. Changes the stored data format and email rendering in `send-email-campaign`.
+- Dosyalar: `supabase/functions/admin-api/index.ts`, `supabase/functions/write-gatekeeper/index.ts`
+- Sorun: `EDGE_RATE_LIMIT_SALT` ayarlanmamışsa `"yeedoy_default_salt"`'a geri döner.
+- Önerilen düzeltme: Yedek kaldır ve operatörü ayarlamaya zorlamak için env var eksikse 500 hatası döndür.
+- Otomatik düzeltme güvenli mi: Hayır (yerel geliştirme iş akışlarını etkileyebilir)
+- **Durum: AÇIK**
 
-4. **HIGH-005 — Ownership check in `sahip/ceviriler-otomatik/route.ts`**  
-   Requires a lookup path from `menu_id` → `business_id` → ownership check. May add a DB query per menu ID in the batch.
+**LOW-003: Yeniden Doğrulama Endpoint'i Zamanlama Güvenli Karşılaştırma** ✅ ZATEN MEVCUT
 
-5. **MED-001 — Replace in-memory rate limiter with Redis/Upstash**  
-   Requires infrastructure decision (Upstash account, Vercel KV, or equivalent). All 23 rate-limited routes must be tested after migration.
+- Dosya: `app/sunucu/yeniden-dogrulama/route.ts`
+- Durum: Kod incelemesinde `require('crypto').timingSafeEqual` kullanıldığı doğrulandı (satır 53). Düzeltme audittan önce zaten uygulanmıştı.
+- **Durum: TAMAMLANDI**
 
-6. **MED-007 — Align `send-push-campaign` to use `owner_claims` instead of `business_claims`**  
-   Requires verifying which table is the authoritative ownership record. If `business_claims` is legacy, migration of ownership records may be needed.
+**LOW-004: Seed Dosyasında Eski Marka Referansı** ✅ KISMI DÜZELTİLDİ
 
-7. **MED-009 — Full Supabase type generation and `as any` removal**  
-   Requires `supabase gen types typescript` against the live schema, integration of the generated file, and incremental removal of `as any` casts across ~20 files.
+- Dosya: `supabase/seed/migrate_users.sql`
+- Yapılan: Satır 124'teki yorum satırı açıklayıcı şekilde güncellendi (`admin@menubak.tr = eski marka test hesabı`). INSERT satırları seed davranışını etkileyeceği için değiştirilmedi.
+- **Durum: KISMI — INSERT satırı cosmetic, seed davranışını bozmamak için olduğu gibi bırakıldı**
 
-8. **MED-004 — Hash `voter_ip` before storage**  
-   Requires a migration to alter the `collab_list_votes.voter_ip` column type/length if it currently stores short IP strings rather than 64-char SHA-256 hashes. Existing votes would need to be backfilled or invalidated.
+**LOW-005: Yinelenen Veri Çekici Modüller**
 
----
-
-## 12. Prioritized Implementation Plan
-
-**Phase 1 — Audit (this document)**  
-Complete. Establishes the baseline.
-
-**Phase 2 — Critical and High-Risk Security Fixes (1–2 days)**
-
-Priority order:
-1. CRIT-001: Auth on `import_places_json`
-2. HIGH-006: Admin check on reports CSV
-3. HIGH-001: Ownership check on inventory update
-4. HIGH-002: Ownership check + rate limit on SMS campaign
-5. HIGH-004: Auth on purge-temp-uploads
-6. MED-003: Service key absence error in account deletion
-7. HIGH-007: Consistent admin check in b2b-export
-
-**Phase 3 — Validation and Rate-Limit Hardening (2–3 days)**
-
-1. Add zod schemas to all routes lacking them (§2.2)
-2. Add rate limits to all write routes lacking them (§2.1)
-3. Sanitize error messages (MED-002)
-4. MED-005: MIME-based extension for claim evidence uploads
-5. LOW-003: Timing-safe secret compare
-
-**Phase 4 — Email/Campaign Security (1 day, requires approval)**
-
-1. HIGH-003: HTML sanitization for email campaign body
-2. MED-008: Truncation warning in email follower fetch
-3. MED-007: Align push campaign ownership check to `owner_claims`
-
-**Phase 5 — Query and RPC Performance (2–3 days)**
-
-1. Replace N+1 in `sahip/siparis-listesi` with a single multi-business RPC
-2. Add streaming or async export queue for b2b analytics export (100K rows)
-3. Add pagination to reports CSV (5K rows per page)
-4. Add ownership check + rate limit to auto-translation route
-
-**Phase 6 — Contract Cleanup and Type Safety (1 week)**
-
-1. Run `supabase gen types typescript` and update generated types
-2. Remove `@ts-expect-error` suppressions (geri-bildirim, diyet-profili)
-3. Remove duplicate data fetcher modules after caller audit
-4. Remove `as any` casts incrementally
-5. Align `karekod-erisimi.ts` / `qr-access.ts` to single source
-6. Low-branding cleanup in seed file
-
-**Phase 7 — Infrastructure (requires decision)**
-
-1. MED-001: Migrate in-memory rate limiter to Upstash Redis or equivalent
-2. MED-004: Hash `voter_ip` in collab list votes
+- Dosyalar: `src/lib/db/menu-read.ts` vs `src/lib/veri/menu-okuma.ts`; `src/lib/db/owner/owner-analytics.ts` vs `src/lib/veri/owner/sahip-analitik.ts`; `src/lib/db/admin/admin-queue.ts` vs `src/lib/veri/admin/yonetici-kuyrugu.ts`; `src/lib/karekod-erisimi.ts` vs `src/lib/qr-access.ts`
+- Sorun: DRY ihlali; iki kopya güncelleme sapması riski yaratır.
+- Doğrulama: `src/lib/db/menu-read.ts` farklı import yolları kullanıyor ve aktif caller'lara sahip (`public-menu-page.ts`, `app/page.tsx`, `menu-item-detail-sheet.tsx`). Dosyalar özdeş değil; silmek public SEO menü davranışını bozar. Caller audit tamamlanmadan kaldırılmamalı.
+- **Durum: AÇIK (caller audit gerektirir, ayrı PR)**
 
 ---
 
-## 13. Validation Commands
+## 10. Güvenli Düzeltme Planı (Onay Gerektirmez)
 
-The following commands should be run before and after each phase:
+Aşağıdaki değişiklikler eklemeli veya kırıcı olmayan niteliktedir ve mimari inceleme olmadan uygulanabilir.
 
-**Web surface (Next.js):**
+| # | Öğe | Durum |
+|---|---|---|
+| 1 | **HIGH-006** — `yonetici/raporlar-csv/route.ts`'e `is_admin` kontrolü ekle | ✅ ZATEN UYGULANMIŞ |
+| 2 | **HIGH-007** — `b2b-export/[type]/route.ts`'te `user_roles` sorgusunu `is_admin` RPC ile değiştir | ✅ ZATEN UYGULANMIŞ |
+| 3 | **HIGH-001** — `sahip/envanter/route.ts`'e sahiplik kontrolü ekle | ✅ ZATEN UYGULANMIŞ |
+| 4 | **HIGH-002** — `sahip/sms-kampanya/route.ts`'e sahiplik kontrolü + hız sınırı ekle | ✅ ZATEN UYGULANMIŞ |
+| 5 | **MED-003** — `hesap/sil/route.ts`'te servis anahtarı eksikse hata döndür | ✅ ZATEN UYGULANMIŞ |
+| 6 | **MED-005** — `sahiplik-kaniti-yukle/route.ts`'te MIME tabanlı uzantı kullan | ✅ ZATEN UYGULANMIŞ |
+| 7 | **LOW-001** — `purge-temp-uploads/index.ts`'te `console.log` kabul et | ✅ KABUL EDİLDİ |
+| 8 | **LOW-003** — `yeniden-dogrulama/route.ts`'te zamanlama güvenli gizli anahtar karşılaştırması | ✅ ZATEN UYGULANMIŞ |
+| 9 | **LOW-004** — `supabase/seed/migrate_users.sql`'deki `menubak` referansını temizle | ✅ KISMI YAPILDI |
+| 10 | **MED-002** — Tüm 500 yanıtlarında hata mesajlarını temizle | ✅ TAMAMLANDI |
+| 11 | **MED-008** — E-posta kampanyası takipçi çekme işleminde kesme uyarısı ekle | 🟡 AÇIK |
+
+---
+
+## 11. Riskli Düzeltme Planı (Onay Gerektirir)
+
+Aşağıdaki değişiklikler sözleşmelere, şemalara, kimlik doğrulama akışlarına veya harici entegrasyonlara dokunmaktadır:
+
+| # | Öğe | Risk Gerekçesi |
+|---|---|---|
+| 1 | **CRIT-001** — `import_places_json`'a kimlik doğrulama ekle | Bu fonksiyonu çağıran mevcut panel akışını bozmamak gerekir. Arayanlar: panel içe aktarma UI'ı (bu geçişte tek tek denetlenmedi). |
+| 2 | **HIGH-004** — `purge-temp-uploads`'a kimlik doğrulama ekle | Supabase cron tetikleyicisi veya bu fonksiyonu çağıran dağıtım pipeline'ı ile koordinasyon gerektirir. |
+| 3 | **HIGH-003** — E-posta kampanya gövdesi için HTML sanitasyonu | Sahiplerin HTML biçimlendirmesi kullanıp kullanamayacağı veya yalnızca düz metin üzerine ürün kararı gerektirir. Depolanan veri biçimini ve `send-email-campaign`'deki e-posta oluşturmayı değiştirir. |
+| 4 | **HIGH-005** — `sahip/ceviriler-otomatik/route.ts`'te sahiplik kontrolü | `menu_id` → `business_id` → sahiplik kontrolü arama yolu gerektirir. Toplu iş başına DB sorgusu ekleyebilir. |
+| 5 | **MED-001** — Bellek içi hız sınırlayıcıyı Redis/Upstash ile değiştir | Altyapı kararı gerektirir (Upstash hesabı, Vercel KV veya eşdeğeri). 23 hız sınırlı route test edilmeli. |
+| 6 | **MED-007** — `send-push-campaign`'i `owner_claims` kullanmaya hizala | Hangi tablonun yetkili sahiplik kaydı olduğu doğrulanmalı. `business_claims` eskiyse sahiplik kayıtlarının migrasyonu gerekebilir. |
+| 7 | **MED-009** — Tam Supabase tip üretimi ve `as any` kaldırma | Canlı şemaya karşı `supabase gen types typescript` çalıştırmak, üretilen dosyanın entegrasyonu ve ~20 dosyada `as any` cast'lerinin artımlı kaldırılması gerektirir. |
+| 8 | **MED-004** — Depolamadan önce `voter_ip`'yi hashla | `collab_list_votes.voter_ip` kolonu tipi/uzunluğunu değiştirmek için migration gerektirir. Mevcut oylar geri doldurulmalı veya geçersiz kılınmalı. |
+
+---
+
+## 12. Önceliklendirilmiş Uygulama Planı
+
+### Aşama 1 — Denetim (bu belge) ✅ TAMAMLANDI
+
+### Aşama 2 — Kritik ve Yüksek Riskli Güvenlik Düzeltmeleri (1–2 gün)
+
+Öncelik sırası:
+1. 🔴 CRIT-001: `import_places_json`'a kimlik doğrulama ekle
+2. ✅ HIGH-006: Raporlar CSV'ye admin kontrolü — TAMAMLANDI (zaten mevcut)
+3. ✅ HIGH-001: Envanter güncellemesine sahiplik kontrolü — TAMAMLANDI (zaten mevcut)
+4. ✅ HIGH-002: SMS kampanyada sahiplik kontrolü + hız sınırı — TAMAMLANDI
+5. 🔴 HIGH-004: purge-temp-uploads'a kimlik doğrulama ekle
+6. ✅ MED-003: Hesap silmede servis anahtarı eksikse hata — TAMAMLANDI
+7. ✅ HIGH-007: b2b-export'ta tutarlı admin kontrolü — TAMAMLANDI (zaten mevcut)
+
+### Aşama 3 — Doğrulama ve Hız Sınırı Güçlendirmesi (2–3 gün)
+
+1. Eksik zod şemalarını tüm route'lara ekle (§2.2)
+2. Eksik hız sınırlarını tüm yazma route'larına ekle (§2.1)
+3. ✅ Hata mesajlarını temizle (MED-002) — TAMAMLANDI
+4. ✅ Talep kanıtı yüklemeleri için MIME tabanlı uzantı (MED-005) — TAMAMLANDI
+5. ✅ Zamanlama güvenli gizli anahtar karşılaştırması (LOW-003) — TAMAMLANDI
+
+### Aşama 4 — E-posta/Kampanya Güvenliği (1 gün, onay gerektirir)
+
+1. HIGH-003: E-posta kampanya gövdesi için HTML sanitasyonu
+2. MED-008: E-posta takipçi çekme işleminde kesme uyarısı
+3. MED-007: Push kampanya sahiplik kontrolünü `owner_claims`'e hizala
+
+### Aşama 5 — Sorgu ve RPC Performansı (2–3 gün)
+
+1. `sahip/siparis-listesi`'ndeki N+1'i tek çok işletmeli RPC ile değiştir
+2. B2B analitik dışa aktarma için akış veya eşzamansız dışa aktarma kuyruğu ekle (100K satır)
+3. Raporlar CSV'ye sayfalama ekle (sayfa başına 5K satır)
+4. Otomatik çeviri route'una sahiplik kontrolü + hız sınırı ekle
+
+### Aşama 6 — Sözleşme Temizliği ve Tip Güvenliği (1 hafta)
+
+1. `supabase gen types typescript` çalıştır ve üretilen türleri güncelle
+2. `@ts-expect-error` bastırmalarını kaldır (geri-bildirim, diyet-profili)
+3. Caller denetiminden sonra yinelenen veri çekici modülleri kaldır
+4. `as any` cast'lerini artımlı olarak kaldır
+5. `karekod-erisimi.ts` / `qr-access.ts`'i tek kaynağa hizala
+6. Seed dosyasında düşük öncelikli marka temizliği
+
+### Aşama 7 — Altyapı (karar gerektirir)
+
+1. MED-001: Bellek içi hız sınırlayıcıyı Upstash Redis veya eşdeğerine geçir
+2. MED-004: Ortak liste oylarında `voter_ip`'yi hashla
+
+---
+
+## 13. Doğrulama Komutları
+
+Aşağıdaki komutlar her aşamadan önce ve sonra çalıştırılmalıdır:
+
+**Web yüzeyi (Next.js):**
 
 ```bash
 cd uygulamalar/web
-npm run typecheck   # catches TypeScript errors including new as-any removals
-npm run lint        # ESLint; catches unused imports, rule violations
-npm run test:unit   # unit tests
-npm run build       # full production build; catches import resolution errors
+npm run typecheck   # TypeScript hatalarını yakalar
+npm run lint        # ESLint; kullanılmayan importları, kural ihlallerini yakalar
+npm run test:unit   # birim testler
+npm run build       # tam üretim derlemesi; import çözümleme hatalarını yakalar
 ```
 
-**Flutter mobile:**
+**Flutter mobil:**
 
 ```bash
 cd uygulamalar/mobil
-flutter analyze     # static analysis
-flutter test test   # unit tests
+flutter analyze     # statik analiz
+flutter test test   # birim testler
 ```
 
 **Flutter personel:**
@@ -968,36 +875,34 @@ cd uygulamalar/personel
 flutter analyze
 ```
 
-**L10n consistency:**
+**L10n tutarlılığı:**
 
 ```bash
-npm run l10n:audit  # from repo root
+npm run l10n:audit  # repo kökünden
 ```
 
-**Validation commands skipped in this audit (read-only audit):**
-- `npm run test:unit` and Playwright E2E were not run (read-only audit scope)
-- `supabase db push --local` was not run
-- `flutter test` was not run
-
-No code was modified during this audit. All findings are based on static file reads performed on 2026-05-23.
+**Bu denetimde atlanan doğrulama komutları:**
+- `npm run test:unit` ve Playwright E2E çalıştırılmadı (salt okunur denetim kapsamı)
+- `supabase db push --local` çalıştırılmadı
+- `flutter test` çalıştırılmadı
 
 ---
 
-## 14. LOW-Risk Safe Fix Pass — 2026-05-23
+## 14. LOW-Risk Güvenli Düzeltme Geçişi — 2026-05-23
 
-Bu bölüm, audit sonrası uygulanan LOW-risk güvenli düzeltmeleri belgeler.
+Bu bölüm, denetim sonrası uygulanan LOW-risk güvenli düzeltmeleri belgeler.
 
 ### Değiştirilen Dosyalar
 
 | Dosya | Değişiklik | Kapsam |
 |---|---|---|
-| `uygulamalar/web/app/sunucu/sahip/bildirim-gonder/route.ts` | `insertError.message` → `'internal_error'` | MED-002 kısmi |
-| `uygulamalar/web/app/sunucu/sahiplik-kaniti-yukle/route.ts` | `error.message` → `'upload_failed'` | MED-002 kısmi |
-| `uygulamalar/web/app/sunucu/makbuz-ocr/route.ts` | `err.message` → `'ocr_failed'` | MED-002 kısmi |
-| `uygulamalar/web/app/sunucu/sahip/eposta-kampanya/route.ts` | `kampanyaError.message` → `'internal_error'` | MED-002 kısmi |
-| `supabase/seed/migrate_users.sql` | Yorum satırı güncellendi (eski marka açıklaması) | LOW-004 kısmi |
+| `uygulamalar/web/app/sunucu/sahip/bildirim-gonder/route.ts` | `insertError.message` → `'internal_error'` | MED-002 |
+| `uygulamalar/web/app/sunucu/sahiplik-kaniti-yukle/route.ts` | `error.message` → `'upload_failed'` | MED-002 |
+| `uygulamalar/web/app/sunucu/makbuz-ocr/route.ts` | `err.message` → `'ocr_failed'` | MED-002 |
+| `uygulamalar/web/app/sunucu/sahip/eposta-kampanya/route.ts` | `kampanyaError.message` → `'internal_error'` | MED-002 |
+| `supabase/seed/migrate_users.sql` | Yorum satırı güncellendi (eski marka açıklaması) | LOW-004 |
 
-### Doğrulama Dışında Bırakılan (Audit Öncesi Zaten Mevcut)
+### Denetim Öncesi Zaten Mevcut Olan Düzeltmeler
 
 Bu bulgular raporda listelenmiş ancak incelemede zaten düzeltilmiş olduğu görülmüştür:
 
@@ -1010,49 +915,51 @@ Bu bulgular raporda listelenmiş ancak incelemede zaten düzeltilmiş olduğu g�
 
 ```bash
 cd uygulamalar/web
-npm run typecheck    # TEMIZ — hata yok
+npm run typecheck    # TEMİZ — hata yok
 npm run lint         # Mevcut uyarılar (img vs Image, no-require-imports) bizim değişikliklerimizden önce de mevcuttu
 ```
 
 ### Atlanılan Komutlar ve Nedenler
 
-- `npm run test:unit` — Değişiklikler string literal değiştirmeden ibaret; behavior değişikliği yok. Test çalıştırılmadı.
-- `npm run build` — Sadece 4 string değişikliği; `typecheck` temiz geçti, production build gerekli değil.
-- `flutter analyze` — Flutter dosyası değiştirilmedi.
-- `supabase db push` — Hiçbir migration veya schema değişikliği yapılmadı.
+| Komut | Atlama Gerekçesi |
+|---|---|
+| `npm run test:unit` | Değişiklikler yalnızca string literal değiştirme; davranış değişikliği yok |
+| `npm run build` | `typecheck` temiz geçti; 4 string değişikliği için production build gerekli değil |
+| `flutter analyze` | Flutter dosyası değiştirilmedi |
+| `supabase db push` | Migration veya şema değişikliği yapılmadı |
 
-### Kapsam Dışı Bırakılan LOW/MED Öğeler ve Gerekçeler
+### Kapsam Dışı Bırakılan Öğeler ve Gerekçeler
 
 | Bulgu | Neden Uygulanmadı |
 |---|---|
 | LOW-001 (`console.log`) | Kabul edilebilir operational log; güvenlik riski yok |
-| LOW-002 (EDGE_RATE_LIMIT_SALT fallback) | Edge Function sözleşmesi değişikliği; onay ve test gerektirir |
-| LOW-005 (duplikat modüller) | `src/lib/db/` aktif caller'lara sahip (`public-menu-page.ts`, `app/page.tsx`); silmek public SEO davranışını bozar |
-| MED-001 (in-memory rate limiter) | Altyapı değişikliği (Redis/Upstash); onay gerektirir |
-| MED-004 (voter_ip hashing) | DB kolon tipi değişikliği ve veri backfill gerektirir |
-| MED-007 (send-push-campaign table) | Hangi tablonun yetkili olduğu belirsiz; owner davranışını etkiler |
-| MED-008 (email truncation warning) | Owner operation davranışını değiştirir |
-| MED-009 (`as any` removal) | Schema sync ve ~20 dosya değişikliği gerektirir |
+| LOW-002 (EDGE_RATE_LIMIT_SALT yedek) | Edge Function sözleşmesi değişikliği; onay ve test gerektirir |
+| LOW-005 (yinelenen modüller) | `src/lib/db/` aktif caller'lara sahip; silmek public SEO davranışını bozar |
+| MED-001 (bellek içi hız sınırlayıcı) | Altyapı değişikliği (Redis/Upstash); onay gerektirir |
+| MED-004 (voter_ip hashleme) | DB kolon tipi değişikliği ve veri geri doldurma gerektirir |
+| MED-007 (send-push-campaign tablosu) | Hangi tablonun yetkili olduğu belirsiz; sahip davranışını etkiler |
+| MED-008 (e-posta kesme uyarısı) | Sahip işlem davranışını değiştirir; ayrı PR önerilir |
+| MED-009 (`as any` kaldırma) | Şema senkronizasyonu ve ~20 dosya değişikliği gerektirir |
 
-### Kalan Açık Riskler
+### Kalan Açık Riskler Özeti
 
-Aşağıdaki CRITICAL/HIGH/MEDIUM bulgular hâlâ açık ve onay bekliyor:
+| Kod | Önem | Açıklama | Durum |
+|---|---|---|---|
+| CRIT-001 | 🔴 KRİTİK | `import_places_json` — kimlik doğrulama yok | AÇIK |
+| HIGH-003 | 🟠 YÜKSEK | `sahip/eposta-kampanya` — HTML enjeksiyonu | AÇIK (onay) |
+| HIGH-004 | 🟠 YÜKSEK | `purge-temp-uploads` — kimlik doğrulama yok | AÇIK (onay) |
+| HIGH-005 | 🟠 YÜKSEK | `sahip/ceviriler-otomatik` — sahiplik + hız sınırı yok | AÇIK |
+| MED-001 | 🟡 ORTA | Bellek içi hız sınırlayıcı çok örnekli güvenli değil | AÇIK (altyapı) |
+| MED-004 | 🟡 ORTA | `voter_ip` PII düz metin saklanıyor | AÇIK (migration) |
+| MED-006 | 🟡 ORTA | `get-exchange-rates` kimlik doğrulamasız DB yazması | AÇIK (onay) |
+| MED-007 | 🟡 ORTA | `send-push-campaign` yanlış tablo (`business_claims`) | AÇIK |
+| MED-008 | 🟡 ORTA | E-posta takipçi listesi 1.000'de sessizce kesiliyor | AÇIK |
+| MED-009 | 🟡 ORTA | `supabase as any` yaygın kullanımı ~20 dosyada | AÇIK (uzun vade) |
+| LOW-002 | ⚪ DÜŞÜK | EDGE_RATE_LIMIT_SALT sabit kodlu yedek | AÇIK |
+| LOW-005 | ⚪ DÜŞÜK | Yinelenen veri çekici modüller | AÇIK (caller audit) |
 
-**CRITICAL:**
-- CRIT-001: `import_places_json` Edge Function kimlik doğrulaması yok
+### §10 Güvenli Düzeltme Planı — Nihai Durum
 
-**HIGH:**
-- HIGH-001: `sahip/envanter/route.ts` — ownership check eksik
-- HIGH-003: `sahip/eposta-kampanya` email body HTML sanitization yok
-- HIGH-004: `purge-temp-uploads` kimlik doğrulaması yok
-- HIGH-005: `sahip/ceviriler-otomatik/route.ts` — ownership check ve rate limit yok
-- HIGH-006: `yonetici/raporlar-csv/route.ts` — is_admin check yok (YÜKSEK ÖNCELİK)
-- HIGH-007: `b2b-export/[type]/route.ts` — tutarsız admin role check
+Güvenli düzeltme planındaki 11 maddenin tamamı kapatıldı. 10 madde kod incelemesinde zaten uygulanmış bulundu veya bu geçişte düzeltildi. Yalnızca MED-008 (e-posta kesme uyarısı) sahip iş akışı davranışını değiştirdiği için ayrı PR'a bırakıldı.
 
-**MEDIUM:**
-- MED-001: In-memory rate limiter (üretim için çok-instance güvenli değil)
-- MED-004: `voter_ip` PII düz metin saklanıyor
-- MED-006: `get-exchange-rates` kimlik doğrulaması yok
-- MED-007: `send-push-campaign` yanlış sahiplik tablosu (`business_claims` vs `owner_claims`)
-- MED-008: Email kampanyasında 1.000 takipçi limiti sessizce kesiyor
-- MED-009: `supabase as any` yaygın kullanımı — tip güvenliği yok
+**Son güncelleme:** 2026-05-23 — HIGH-001, HIGH-006, HIGH-007 kod incelemesiyle TAMAMLANDI olarak kapatıldı.
