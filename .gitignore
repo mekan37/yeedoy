@@ -87,12 +87,8 @@ supabase/.temp/
 # Legacy English-named app dirs (migrated to uygulamalar/)
 apps/
 
-# Large raw OSM/geo data files (import done, not repo material)
-*.osm.pbf
-*.geojsonl
-*.pbf
-turkey-*.osm
-turkey-*.geojson
+# Large raw OSM/geo data files — kept locally in veri/osm/, not committed
+veri/osm/
 
 # Agent / tool state
 agentdb.db
