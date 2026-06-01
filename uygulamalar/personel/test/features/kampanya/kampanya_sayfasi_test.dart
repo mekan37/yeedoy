@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:postgrest/postgrest.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:yeedoy_personel/core/ag/supabase_saglayicisi.dart';
 import 'package:yeedoy_personel/features/kampanya/ui/kampanya_sayfasi.dart';
@@ -17,12 +16,10 @@ import 'package:yeedoy_personel/features/kimlik/domain/kimlik_durum.dart';
 class _FakeRpcClient extends Fake implements SupabaseClient {
   final Map<String, dynamic> cevaplar;
   final bool atiHata;
-  final Completer<dynamic>? pendingCompleter;
 
   _FakeRpcClient({
     Map<String, dynamic>? cevaplar,
     this.atiHata = false,
-    this.pendingCompleter,
   }) : cevaplar = cevaplar ?? {
           'send_business_campaign_v1': {'ok': true, 'sent_to': 5},
           'list_push_campaigns_v1': {'items': <dynamic>[]},
@@ -31,9 +28,6 @@ class _FakeRpcClient extends Fake implements SupabaseClient {
   @override
   PostgrestFilterBuilder<T> rpc<T>(String fn, {Object? params, get = false}) {
     if (atiHata) throw Exception('sunucu hatası');
-    if (pendingCompleter != null) {
-      return _AsyncBuilder<T>(pendingCompleter!.future.then((v) => v as T));
-    }
     final data = cevaplar[fn];
     return _SyncBuilder<T>(data as T?);
   }
@@ -61,29 +55,6 @@ class _SyncBuilder<T> extends Fake implements PostgrestFilterBuilder<T> {
 
   @override
   Stream<T> asStream() => Future<T>.value(_v as T).asStream();
-}
-
-class _AsyncBuilder<T> extends Fake implements PostgrestFilterBuilder<T> {
-  final Future<T> _f;
-  _AsyncBuilder(this._f);
-
-  @override
-  Future<U> then<U>(FutureOr<U> Function(T v) f, {Function? onError}) =>
-      _f.then(f, onError: onError);
-
-  @override
-  Future<T> catchError(Function f, {bool Function(Object)? test}) =>
-      _f.catchError(f, test: test ?? (_) => true);
-
-  @override
-  Future<T> whenComplete(FutureOr<void> Function() f) => _f.whenComplete(f);
-
-  @override
-  Future<T> timeout(Duration t, {FutureOr<T> Function()? onTimeout}) =>
-      _f.timeout(t, onTimeout: onTimeout);
-
-  @override
-  Stream<T> asStream() => _f.asStream();
 }
 
 // ---------------------------------------------------------------------------
@@ -130,7 +101,7 @@ Future<void> _pump(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        supabaseProvider.overrideWithValue(client ?? _FakeRpcClient()),
+        supabaseProvider.overrideWithValue(client ?? _FakeRpcClient(atiHata: false)),
         kimlikProvider.overrideWith(
           () => _StubKimlikBildiricisi(kimlik ?? _girilmis()),
         ),
@@ -231,7 +202,7 @@ void main() {
       final client = _FakeRpcClient(cevaplar: {
         'send_business_campaign_v1': {'ok': true, 'sent_to': 0},
         'list_push_campaigns_v1': {'items': <dynamic>[]},
-      });
+      }, atiHata: false);
       await _pump(tester, client: client);
 
       await tester.tap(find.text('Geçmiş'), warnIfMissed: false);

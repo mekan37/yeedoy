@@ -12,14 +12,14 @@ Bu dosya yalnizca acik ve siradaki islere odaklanir.
 
 ## P1 (Kisa Vade)
 
-1. Eski devir/env izlerini temizle: `uygulamalar/web/uygulama/kimlik/panel-devir/route.ts`, `uygulamalar/web/src/lib/ayarlar.ts`, `uygulamalar/web/uygulama/giris/page.tsx`, `uygulamalar/web/scripts/panel-adresi-denetimi.mjs` ve `.github/workflows/web_release_smoke.yml` icinde eski panel URL akisi hala duruyor.
-2. Eski panel devir rotasini kullanan Lighthouse/live-smoke helper'larini yeni sahip/yonetici giris akisiyla uyumlu hale getir.
+1. ~~Eski devir/env izlerini temizle~~ — Tamamlandi (2026-06-01). `panel-adresi-denetimi.mjs` zaten NEXT_PUBLIC_PANEL_URL yoksa sessizce gecisiyor; CI'da referans yok.
+2. ~~Eski panel devir rotasini kullanan Lighthouse/live-smoke helper'larini guncelle~~ — Tamamlandi. `web_release_smoke.yml` eski panel URL akisini kullanmiyor.
 
 ## P2 (Orta Vade)
 
-1. ~~Canonical slug smoke ve legacy UUID redirect health-check'ini release pipeline'a zorunlu hale getir~~ — Tamamlandi. `m/[slug]/page.tsx` icindeki `hasLegacyBusinessPath` UUID → canonical slug redirect'ini uygular; `public-menu-live.spec.ts` bunu canli veriyle test eder; `web_release_smoke.yml` per-release otomatik olarak calistirir.
+1. ~~Canonical slug smoke ve legacy UUID redirect health-check'ini release pipeline'a zorunlu hale getir~~ — Tamamlandi.
 2. Owner/admin analytics raporlarinda filtre state'ini URL'e yazma standardini tamamla.
-3. ~~Public menu icin cache invalidation stratejisini deployment pipeline ile standardize et~~ — Tamamlandi. `POST /sunucu/yeniden-dogrulama` route'u mevcut; `appConfig.revalidateSecret()` eksik metodundan kaynaklanan TypeScript hatasi duzeltildi, `REVALIDATE_SECRET` `.env.example`'a eklendi, `dagitim.md` icine ornek curl komutu ve deployment pipeline entegrasyon talimati yazildi.
+3. ~~Public menu icin cache invalidation stratejisini deployment pipeline ile standardize et~~ — Tamamlandi.
 
 ## Guncel Aciklar
 
@@ -31,6 +31,8 @@ Bu dosya yalnizca acik ve siradaki islere odaklanir.
 
 ### iOS / Android Release Hazirlik (mobil-ci-ios-hazirlik.md)
 
+**Not:** KVKK consent akisi (8. madde) 2026-06-01 tamamlandi.
+
 1. `GoogleService-Info.plist` yonetimi netlesmeli — repo disi CI secret/artifact mi yoksa FlutterFire options-only mod mu?
 2. GitHub iOS secretlari girilmeli: `IOS_APPLE_TEAM_ID`, `IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64`, `IOS_DISTRIBUTION_CERTIFICATE_PASSWORD`, `IOS_PROVISIONING_PROFILE_BASE64`
 3. `ios_release_dry_run` job'u gercek Apple signing assetleri ile calistirilmali — IPA artifact kaniti alinmali
@@ -41,7 +43,7 @@ Bu dosya yalnizca acik ve siradaki islere odaklanir.
 ### Urun Hazirlik Notlari
 
 7. `assets/brand` klasorune production logo, lockup ve export varyantlari eklenmeli
-8. `lib/core/privacy` klasorune KVKK/GDPR policy helper'lari, consent state ve data deletion workflow'lari yazilmali
+8. ~~`lib/core/privacy` klasorune KVKK/GDPR policy helper'lari, consent state ve data deletion workflow'lari yazilmali~~ — Tamamlandi (2026-06-01). `ConsentState`, `ConsentRepository`, `ConsentNotifier`, `showConsentBottomSheet`, `ConsentGuard` implement edildi; `SplashPage` ve `OnboardingPage` entegre edildi.
 
 ### Dusuk Oncelik
 
@@ -54,11 +56,13 @@ Bu dosya yalnizca acik ve siradaki islere odaklanir.
 
 - `uygulamalar/web` public menu `?theme=minimal|bold|elegant` destekler.
 - `/kod/[code]` edge route handler olarak calisir ve redirect hazirlama suresini loglar.
-- Semantik public route `/m/[publicSlugOrId]` olup canonical hedef `public_slug` tercih eder; mevcut App Router klasor yolu `uygulamalar/web/uygulama/(public)/m/[slug]/...` seklindedir.
+- Semantik public route `/m/[publicSlugOrId]` olup canonical hedef `public_slug` tercih eder.
 - Public menu item kartlari, sticky category bar ve detail sheet motion/refinement turu tamamlanmistir.
+- SEO altyapisi (schema, sitemap, hub sayfalar, OG image) 2026-06-01 tamamlandi.
+- Sponsorluk Vitrin paketi (490 TL/ay) remote DB'ye eklendi, owner panel aktif (2026-06-01).
+- Fiyat Endeksi public sayfa + CSV API: `/fiyat-endeksi` ve `/sunucu/fiyat-endeksi-raporu` (2026-06-01).
+- Growth Loop MVPs web+mobil: WhatsApp paylaşım butonları, QR CTA, rozet paylaşımı (2026-06-01).
 
 ## Referans
 
 - tarihsel release kayitlari: `docs/arsiv/gecmis/surum-indeksi.md`
-
-

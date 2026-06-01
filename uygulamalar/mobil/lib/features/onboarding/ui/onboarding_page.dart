@@ -10,6 +10,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/privacy/consent_guard.dart';
 import '../../../core/storage/app_launch_prefs.dart';
 
 class OnboardingPage extends ConsumerStatefulWidget {
@@ -56,6 +57,8 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
           ),
     );
     await AppLaunchPrefs.setSeenOnboarding(true);
+    if (!mounted) return;
+    await ConsentGuard.checkAndShow(context, ref);
     if (!mounted) return;
     context.go('/discover');
   }
