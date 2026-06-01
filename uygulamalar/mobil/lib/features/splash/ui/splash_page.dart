@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/privacy/consent_guard.dart';
 import '../../../core/storage/app_launch_prefs.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key, this.redirectPath});
 
   final String? redirectPath;
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
+class _SplashPageState extends ConsumerState<SplashPage>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _fadeIn;
@@ -67,7 +69,13 @@ class _SplashPageState extends State<SplashPage>
     }
     final seenOnboarding = await AppLaunchPrefs.seenOnboarding();
     if (!mounted) return;
-    context.go(seenOnboarding ? '/discover' : '/onboarding');
+    if (seenOnboarding) {
+      await ConsentGuard.checkAndShow(context, ref);
+      if (!mounted) return;
+      context.go('/discover');
+    } else {
+      context.go('/onboarding');
+    }
   }
 
   @override

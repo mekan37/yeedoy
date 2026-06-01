@@ -127,12 +127,32 @@ export default async function BusinessPage({ params }: Props) {
       ? {
           '@type': 'PostalAddress',
           streetAddress: business.address,
-          addressLocality: business.city ?? undefined,
+          addressLocality: (business as any).district ?? business.city ?? undefined,
           addressRegion: business.city ?? undefined,
           addressCountry: 'TR',
         }
       : undefined,
     menu: `${siteUrl}/m/${business.slug}`,
+    breadcrumb: (() => {
+      const slugify = (t: string) => t.toLowerCase()
+        .replace(/ğ/g,'g').replace(/ş/g,'s').replace(/ı/g,'i')
+        .replace(/ç/g,'c').replace(/ö/g,'o').replace(/ü/g,'u')
+        .replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+      const items: Array<Record<string, unknown>> = [
+        { '@type': 'ListItem', position: 1, name: 'Yeedoy', item: siteUrl + '/' },
+      ];
+      if (business.city) {
+        items.push({ '@type': 'ListItem', position: items.length + 1, name: business.city, item: `${siteUrl}/${slugify(business.city)}` });
+      }
+      if ((business as any).district) {
+        items.push({ '@type': 'ListItem', position: items.length + 1, name: (business as any).district, item: `${siteUrl}/${slugify(business.city ?? '')}/${slugify((business as any).district)}` });
+      }
+      if (business.category) {
+        items.push({ '@type': 'ListItem', position: items.length + 1, name: business.category, item: `${siteUrl}/${slugify(business.city ?? '')}/${slugify((business as any).district ?? '')}/${slugify(business.category)}` });
+      }
+      items.push({ '@type': 'ListItem', position: items.length + 1, name: business.name, item: businessUrl });
+      return { '@type': 'BreadcrumbList', itemListElement: items };
+    })(),
     aggregateRating: business.avgRating && business.reviewCount
       ? { '@type': 'AggregateRating', ratingValue: business.avgRating.toFixed(1), reviewCount: business.reviewCount, bestRating: '5', worstRating: '1' }
       : undefined,
@@ -183,6 +203,34 @@ export default async function BusinessPage({ params }: Props) {
                 <p className="mt-3 text-sm leading-7 text-muted">{business.description}</p>
               </section>
             ) : null}
+            {/* Menü fotoğraf karuseli — Loop kaydırmalı görsel galeri */}
+            {(() => {
+              const photos = (menuData?.items ?? [])
+                .filter((i) => i.image_url)
+                .slice(0, 12);
+              if (photos.length < 2) return null;
+              return (
+                <section>
+                  <h2 className="mb-3 text-lg font-[900] text-textStrong">Menüden Kareler</h2>
+                  <div className="flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                    {photos.map((item) => (
+                      <div key={item.id} className="relative h-36 w-36 shrink-0 overflow-hidden rounded-2xl bg-cardAlt">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.image_url!}
+                          alt={item.name}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-2">
+                          <p className="truncate text-[10px] font-[700] text-white">{item.name}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            })()}
             <YeniUrunlerBolumu newItems={menuData?.items?.slice(0, 4)} />
             {menuPreview.length > 0 ? (
               <section className="grid gap-6">
@@ -197,7 +245,7 @@ export default async function BusinessPage({ params }: Props) {
             <IsletmeKonumBolumu business={business} />
             <IsletmeSaatleriBolumu hours={business.hours} />
             <BolgeselFiyatEndeksi comparison={priceComparison} />
-            <FiyatGecmisiSparkline history={priceHistory} />
+            <FiyatGecmisiSparkline history={priceHistory} shareUrl={businessUrl} />
             <FiyatTakipDugmesi businessId={business.id} />
             <SahiplenmeCagri businessSlug={business.slug} />
           </aside>

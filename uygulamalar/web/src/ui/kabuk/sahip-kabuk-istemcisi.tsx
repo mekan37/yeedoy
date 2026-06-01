@@ -5,6 +5,7 @@ import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
 import { KullaniciFoteri } from './kullanici-foteri';
+import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 
@@ -29,6 +30,7 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/siparisler', label: 'Masa Siparişleri', icon: <OrderIcon /> },
       { href: '/sahip/yorumlar', label: 'Yorumlar', icon: <StarIcon /> },
       { href: '/sahip/karekod', label: 'QR Kodlar', icon: <QrIcon /> },
+      { href: '/sahip/sponsorluk', label: 'Sponsorluk', icon: <SponsIcon /> },
       { href: '/sahip/pazarlama', label: 'Pazarlama', icon: <MegaphoneIcon /> },
     ],
   },
@@ -77,7 +79,7 @@ export function SahipKabukIstemcisi({ children }: { children: ReactNode }) {
         navSections={ownerNavSections}
         logoSlot={<OwnerLogo />}
         topbarTitle="Owner Panel"
-        sidebarFooter={<KullaniciFoteri />}
+        sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
         topbarActions={
           user ? (
             <UserDropdown
@@ -199,6 +201,15 @@ function MegaphoneIcon() {
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
       <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+    </svg>
+  );
+}
+
+function SponsIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="6" />
+      <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
     </svg>
   );
 }

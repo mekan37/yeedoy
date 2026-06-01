@@ -13,9 +13,17 @@ interface BusinessTileProps {
   distanceKm?: number | null;
   /** null = bilinmiyor (rozet gizlenir). true = açık, false = kapalı. */
   isOpenNow?: boolean | null;
+  /** Medyan fiyat (kuruş cinsinden) — fiyat seviyesi rozetini hesaplamak için */
+  medianPriceCents?: number | null;
   socialProof?: string[];
   trailingAction?: ReactNode;
   className?: string;
+}
+
+function priceLevelLabel(cents: number): string {
+  if (cents < 5000) return '₺';
+  if (cents < 15000) return '₺₺';
+  return '₺₺₺';
 }
 
 function fmtKm(km: number) {
@@ -34,6 +42,7 @@ export function BusinessTile({
   qualityScore,
   distanceKm,
   isOpenNow,
+  medianPriceCents,
   socialProof,
   trailingAction,
   className = '',
@@ -96,12 +105,17 @@ export function BusinessTile({
           <p className="truncate text-xs text-muted">{subtitle}</p>
         )}
 
-        {/* Category + açık/kapalı rozeti */}
-        {(category || isOpenNow != null) && (
+        {/* Category + açık/kapalı + fiyat seviyesi rozeti */}
+        {(category || isOpenNow != null || medianPriceCents != null) && (
           <div className="flex flex-wrap items-center gap-1.5">
             {category && (
               <span className="rounded-full bg-[var(--yd-color-primary-soft)] px-2 py-0.5 text-xs font-[800] text-primary">
                 {category}
+              </span>
+            )}
+            {medianPriceCents != null && medianPriceCents > 0 && (
+              <span className="rounded-full border border-border bg-cardAlt px-2 py-0.5 text-[11px] font-[900] text-muted" title={`Medyan fiyat: ₺${(medianPriceCents/100).toFixed(0)}`}>
+                {priceLevelLabel(medianPriceCents)}
               </span>
             )}
             {isOpenNow === true && (

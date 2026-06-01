@@ -4,6 +4,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../business/domain/meal_card_provider_option.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../../../features/sponsorluk/ui/sponsored_badge.dart';
 import 'widgets/meal_card_badge.dart';
 
 class BusinessTile extends StatelessWidget {
@@ -20,6 +21,7 @@ class BusinessTile extends StatelessWidget {
     this.trailingAction,
     this.onWhyTap,
     this.mealCardProviders = const [],
+    this.isSponsored = false,
   });
 
   final String name;
@@ -33,6 +35,9 @@ class BusinessTile extends StatelessWidget {
   final Widget? trailingAction;
   final VoidCallback? onWhyTap;
   final List<MealCardProviderOption> mealCardProviders;
+
+  /// When true, renders a [SponsoredBadge] beneath the business name row.
+  final bool isSponsored;
 
   String? _fmtKm(double? km) {
     if (km == null) return null;
@@ -160,6 +165,10 @@ class BusinessTile extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 6),
+                if (isSponsored) ...[
+                  const SponsoredBadge(),
+                  const SizedBox(height: 4),
+                ],
                 Text(
                   subtitle,
                   style: const TextStyle(color: AppColors.muted, fontSize: 12),

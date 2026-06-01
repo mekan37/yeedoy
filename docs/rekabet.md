@@ -56,15 +56,17 @@ Yeedoy'un değer önergesini farklı biçimlerde kullanan dört birincil segment
 
 ### 1.7 Monetizasyon Modeli
 
-Mevcut durumda Yeedoy'un açıkça tanımlanmış ve yürütülmekte olan bir gelir modeli bulunmamaktadır. Kod tabanı incelemesi üç hazır monetizasyon kanalının altyapısının var olduğunu göstermektedir.
+Kod tabanı incelemesi üç hazır monetizasyon kanalının altyapısının var olduğunu göstermektedir.
 
 | Kanal | Altyapı Durumu | Zaman Dilimi | Gelir Potansiyeli |
 |---|---|---|---|
-| **İşletme Sponsorluk Paketleri** | Hazır (`sponsorship_packages` tablosu, inventory_limit, fiyatlandırma mevcut) | Hemen aktif edilebilir | Orta vadede ana gelir kanalı |
+| **İşletme Sponsorluk Paketleri** | ✅ **Aktive edildi** — "Yeedoy Vitrin" paketi (490 TL/ay) DB'de; `/sahip/sponsorluk` lead formu yayında | Satış başlatılabilir | Orta vadede ana gelir kanalı |
 | **B2B Veri Aboneliği** | Altyapı hazır (`admin_export_menu_inflation_csv_v1`, `admin_export_anonymous_trends_csv_v1`) | 3-6 ay | Yüksek birim marjin, düşük müşteri sayısı |
 | **Owner Premium Plan (Freemium)** | Kısmi altyapı mevcut | 6-12 ay | Geniş tabanlı, ölçeklenebilir |
 
-**Önerilen monetizasyon sırası:** Sponsorluk kanalını aktive et (altyapı hazır, satış süreci kısa) → B2B veri ürünü (3-6 ay) → freemium/premium kullanıcı planı (12. ay). Bu sıra nakit akışını erkene alır ve her kanal bir öncekinin verisini besler.
+**Uygulanan (2026-06-01):** Sponsorluk kanalı aktive edildi — `sponsorship_packages` tablosuna "Yeedoy Vitrin" paketi eklendi (490 TL/ay, 30 gün, discovery yüzeyi). Owner panelinde `/sahip/sponsorluk` sayfası yayına girdi: paket özellikleri, fiyat kartı ve `submit_sponsorship_lead_v1` RPC'ye bağlı lead formu. Yönetim `/yonetici/sponsor-adaylari` üzerinden yapılıyor.
+
+**Sıradaki:** İlk 10 işletmeye elle satış denemesi → 30 günde 5 ödeme hedefi → başarısızlık sinyali ise paket içeriğini revize et.
 
 ### 1.8 İşletme Büyüme Stratejisi (Supply Side)
 
@@ -245,10 +247,10 @@ Puanlama: **3** = güçlü / **2** = orta / **1** = zayıf / **0** = yok
 | Harita + konum entegrasyonu | 1 | **3** | 1 | 1 | 2 | 2 |
 | Türkiye'ye özgü yerelleşme | **3** | 1 | **3** | **3** | 1 | 1 |
 | Sipariş + teslimat altyapısı | 0 | 0 | **3** | **3** | 0 | 0 |
-| SEO ve organik erişim | 1 | **3** | 2 | 2 | 1 | **3** |
+| SEO ve organik erişim | 2 ✅ | **3** | 2 | 2 | 1 | **3** |
 | AI kişiselleştirme | 1 | **3** | 1 | 1 | 1 | 1 |
 | Mobil uygulama kalitesi | 2 | **3** | **3** | **3** | 2 | 2 |
-| **TOPLAM** | **39** | **26** | **19** | **18** | **19** | **18** |
+| **TOPLAM** | **40** | **26** | **19** | **18** | **19** | **18** |
 
 **Yeedoy'un kazandığı boyutlar:**
 - Fiyat şeffaflığı, anomali tespiti, confidence skoru
@@ -300,13 +302,29 @@ Google Maps'in gerçek zamanlı açık/kapalı gösterimi, kullanıcıların tem
 
 Google Maps ve TripAdvisor'da her yemeğin onlarca fotoğrafı varken Yeedoy'da az. Yükleme akışı yeterince teşvik edici değil.
 
-### 5.3 SEO ve Organik Erişim Zayıflığı
+### 5.3 SEO ve Organik Erişim Zayıflığı — ✅ Kısmen Giderildi (2026-06-01)
 
-"Adana'da en iyi kebap", "Beşiktaş'ta ucuz kahvaltı" gibi aramalarda TripAdvisor ve Google Maps ilk sayfaya hakim. Şehir/ilçe/kategori bazlı statik sayfalar henüz tamamlanmamış.
+"Adana'da en iyi kebap", "Beşiktaş'ta ucuz kahvaltı" gibi aramalarda TripAdvisor ve Google Maps ilk sayfaya hakim.
 
-### 5.4 Viral ve Sosyal Paylaşım Döngüsü Yokluğu
+**Uygulanan:**
+- `BreadcrumbList` schema: şehir/ilçe/kategori ve işletme detay sayfaları
+- `Restaurant` schema zenginleştirildi: `breadcrumb`, `addressLocality` (district), `aggregateRating`, `review`
+- `robots.ts`: `/kesif`, `/en-iyiler`, `/isletme/` allow; `/sahip/`, `/yonetici/` disallow eklendi
+- `sitemap.ts`: Türkçe statik rotalar düzeltildi; şehir×ilçe×kategori kombinasyonları eklendi (5K cap, deduplicated)
+- Dinamik OG image: `isletme/[slug]/opengraph-image.tsx` — WhatsApp/Twitter preview için işletme adı + şehir + kategori + rating
+- **Yeni:** `/[sehir]/page.tsx` — Şehir hub sayfaları (ilçe grid + popüler kategoriler + `CollectionPage` schema)
+- **Yeni:** `/[sehir]/[ilce]/page.tsx` — İlçe hub sayfaları (kategori grid + `BreadcrumbList` schema)
+
+**Kalan:** Hub sayfaları henüz DB'de az veri olan şehirler için sınırlı içerik üretecek. Veri büyüdükçe SEO değeri artar.
+
+### 5.4 Viral ve Sosyal Paylaşım Döngüsü Yokluğu — ✅ MVP Seviyesinde Başlatıldı (2026-06-01)
 
 "Menü paylaş kartı", "fiyat anomalisi uyarısı arkadaşa gönder" gibi döngüler kurulmadan büyüme sınırlı kalır.
+
+**Uygulanan MVP:**
+- **Loop 1**: `FiyatGecmisiSparkline` bileşenine `shareUrl` prop + WhatsApp deep-link butonu eklendi. Fiyat trendi (%±) varsa görünür.
+- **Loop 2**: `isletme/[slug]/opengraph-image.tsx` — dinamik OG image, WhatsApp link önizlemesini görselleştirir.
+- **Loop 4**: `/m/[slug]/page.tsx` footer'ına "Siz de ücretsiz QR menü alın →" CTA eklendi (B2B viral başlangıcı).
 
 ### 5.5 Onboarding Deneyimi Eksikliği
 
@@ -338,7 +356,7 @@ Google Maps 2025'te Gemini modelleriyle proaktif öneri yapmaya başladı. Yeedo
 | Fiyat Seviyesi Rozeti | Bütçe seviyesi ilk bakışta anlaşılır | Kart tıklama %15 ↑ | 🟢 Düşük | Görünür rozet |
 | Menü Fotoğraf Karuseli | Menü öğelerinin gerçek fotoğrafları | Google Maps rekabeti azalır | 🟡 Orta | 0.5'ten 2'ye çık |
 | Harita Görünümü (Leaflet) | Yakın çevre restoran keşfi | Churn noktası kapatılır | 🟡 Orta | Harita DAU %10 |
-| SEO Altyapısı (JSON-LD, Sitemap) | Organik Google araması | CAC sıfıra yaklaşır | 🟡 Orta | 10.000+ aylık organik |
+| SEO Altyapısı (JSON-LD, Sitemap) | Organik Google araması | CAC sıfıra yaklaşır | ✅ **Tamamlandı** | 10.000+ aylık organik |
 | App Store / Google Play | Uygulama bulunabilirliği | Store indirme başlanır | 🟡 Orta | 5.000+ aylık indirme |
 | Onboarding Akışı | İlk 60 saniye içinde değer görmek | DAU/MAU %30 ↑ | 🟡 Orta | %70 tamamlama oranı |
 | Fiyat Endiksi Medya Raporu | Medyada Yeedoy tanınırlığı | Sıfır maliyetli brand awareness | 🟢 Düşük | 3+ medya yayını |
@@ -353,8 +371,8 @@ Google Maps 2025'te Gemini modelleriyle proaktif öneri yapmaya başladı. Yeedo
 
 | Özellik | Kullanıcı Değeri | İş Etkisi | Zorluk | Başarı Metriği |
 |---|---|---|---|---|
-| Viral Paylaşım Mekanikler | Fiyat anomalisi tek tıkla paylaşılır | Referral DAU %15 ↑ | 🟡 Orta | 2+ paylaşım/kullanıcı |
-| Sponsorluk Paketi Aktivasyonu | İşletme yüksek görünürlük, push bildirimi | Ana gelir kanalı başlar | 🟢 Düşük | 100 sponsor işletme |
+| Viral Paylaşım Mekanikler | Fiyat anomalisi tek tıkla paylaşılır | Referral DAU %15 ↑ | ✅ **MVP Başlatıldı** | 2+ paylaşım/kullanıcı |
+| Sponsorluk Paketi Aktivasyonu | İşletme yüksek görünürlük, push bildirimi | Ana gelir kanalı başlar | ✅ **Vitrin Paketi Aktif** | 100 sponsor işletme |
 | B2B Fiyat Endeksi (Pilot) | Haftalık fiyat raporu ve anomali | Yüksek marjin gelir | 🟡 Orta | 2 pilot müşteri |
 | Fiyat Anomalisi Bildirimi | Anormal fiyat değişiminde push | Engagement %30 ↑ | 🟡 Orta | Push open rate %40+ |
 | İşletme Takipçi Bildirimi | "Bugünün spesiyali" push gönderimi | İşletme engagement ↑ | 🟡 Orta | 500+ push/hafta |
@@ -466,10 +484,10 @@ Google Maps 2025'te Gemini modelleriyle proaktif öneri yapmaya başladı. Yeedo
 |---|---|---|---|
 | **1** | Medya veri paketini hazırla; Fiyat Endeksi ilk raporu | 1+ medya yayını | Organik trafik ↑ |
 | **1-2** | Açık/kapalı, yoğun saat, fiyat rozeti tamamla | %80 işletme kapsama | Oturum derinliği ↑ |
-| **2-3** | SEO altyapısı: statik sayfalar, JSON-LD, sitemap | 100+ indexlenen sayfa | Google Search Console trafik ↑ |
+| **2-3** | ~~SEO altyapısı: statik sayfalar, JSON-LD, sitemap~~ — ✅ **Tamamlandı (2026-06-01)** | 100+ indexlenen sayfa | Google Search Console trafik ↑ |
 | **3** | App Store ve Google Play listing hazırla | TestFlight aktif | 5.000+ aylık indirme |
-| **3-4** | Sponsorluk paketini ilk 10 işletmeye sat | İlk ücretli işletme | B2B gelir akışı ✅ |
-| **4-5** | Viral paylaşım mekaniklerini kur | Paylaşım butonu aktif | İlk referral ölçüldü |
+| **3-4** | ~~Sponsorluk paketini ilk 10 işletmeye sat~~ — ✅ **Vitrin Paketi Yayında (2026-06-01)** | İlk ücretli işletme | B2B gelir akışı başlar |
+| **4-5** | ~~Viral paylaşım mekaniklerini kur~~ — ✅ **MVP Başlatıldı (2026-06-01)** | Paylaşım metriği devrede | İlk referral ölçüldü |
 | **5-6** | B2B veri ürünü pilot | 2 pilot B2B anlaşma | Veri potansiyeli doğrulandı |
 | **6** | Yıl ortası değerlendirme | Revize 6-12 ay planı | Metrik bazlı karar ✅ |
 | **7-9** | Labs özelliklerini ana akıma taşı (tat ikizi) | Tat ikizi DAU %10 | Kişiselleştirme bağlılığı ↑ |
@@ -490,14 +508,74 @@ Yapısal avantajlar gerçektir; veri altyapısı sağlamdır. Ancak iki kritik e
 
 **Hemen yapılması gerekenler (0-3 ay):**
 
-| Eylem | Gelir | DAU Impact |
-|---|---|---|
-| Temel UX (açık/kapalı, harita, fotoğraf) tamamla | Sıfır | 50K → 150K |
-| Medya anlatısını başlat (Fiyat Endiksi) | Sıfır | Organik trafik 2-3x |
-| SEO altyapısını kur | Sıfır | 10K+ aylık organik |
-| App Store yayınla | Sıfır | 5K+ aylık indirme |
+| Eylem | Gelir | DAU Impact | Durum |
+|---|---|---|---|
+| Temel UX (açık/kapalı, harita, fotoğraf) tamamla | Sıfır | 50K → 150K | Açık |
+| Medya anlatısını başlat (Fiyat Endiksi) | Sıfır | Organik trafik 2-3x | Açık |
+| SEO altyapısını kur | Sıfır | 10K+ aylık organik | ✅ **Tamamlandı** |
+| App Store yayınla | Sıfır | 5K+ aylık indirme | Açık |
 
-Bu dört eylem atılırsa, 6 ay sonunda rakiplerin kısa vadede takip edemeyeceği bir pazar konumu oluşur.
+Bu dört eylemden SEO altyapısı tamamlandı. Kalan üç eylem önceliklendirilmeli.
+
+---
+
+## 9. Uygulanan Değişiklikler
+
+### 2026-06-01 — SEO Altyapısı, Growth Loop MVPs, Sponsorluk Aktivasyonu
+
+#### SEO Altyapısı (`uygulamalar/web/`)
+
+| Değişiklik | Dosya | Etki |
+|---|---|---|
+| `BreadcrumbList` schema | `[sehir]/[ilce]/[kategori]/page.tsx` | Rich snippet + navigasyon sinyali |
+| `Restaurant` schema zenginleştirme | `isletme/[slug]/page.tsx` | `breadcrumb`, `addressLocality` (district), `aggregateRating` |
+| `robots.ts` güncelleme | `app/robots.ts` | `/kesif`, `/en-iyiler`, `/isletme/` allow; `/sahip/`, `/yonetici/` explicit disallow |
+| `sitemap.ts` yeniden yazma | `app/sitemap.ts` | Türkçe statik rotalar; şehir×ilçe×kategori DISTINCT kombinasyonları (5K cap); `slugify` helper |
+| Dinamik OG image | `isletme/[slug]/opengraph-image.tsx` | WhatsApp/Twitter link önizlemesinde isim + şehir + kategori + rating görseli |
+| **Yeni:** Şehir hub sayfası | `[sehir]/page.tsx` | `/istanbul`, `/ankara` vb. — ilçe grid, popüler kategoriler, `CollectionPage` schema |
+| **Yeni:** İlçe hub sayfası | `[sehir]/[ilce]/page.tsx` | `/istanbul/besiktas` vb. — kategori grid, `BreadcrumbList` schema |
+
+#### Growth Loop MVPs
+
+| Loop | Değişiklik | Dosya |
+|---|---|---|
+| Loop 1 — Fiyat Anomalisi | `FiyatGecmisiSparkline`'a `shareUrl` prop + WhatsApp deep-link butonu | `src/ui/acik/isletme.tsx` |
+| Loop 2 — Menü Kartı | Dinamik OG image (iş-listesi sayfası) | `isletme/[slug]/opengraph-image.tsx` |
+| Loop 4 — QR Menü CTA | Footer CTA: "Siz de ücretsiz QR menü alın →" | `m/[slug]/page.tsx` |
+
+#### Sponsorluk Aktivasyonu
+
+| Değişiklik | Dosya | Detay |
+|---|---|---|
+| Vitrin paketi migration | `supabase/migrations/20260601_000001_sponsorship_vitrin_package.sql` | 490 TL/ay, 30 gün, discovery yüzeyi, 100 envanter limiti |
+| Owner sponsorluk sayfası | `app/sahip/sponsorluk/page.tsx` | Paket kartı + `submit_sponsorship_lead_v1` RPC'ye bağlı lead formu |
+| Server action | `app/sahip/sponsorluk/sponsorluk-islemleri.ts` | `'use server'`, auth + business ownership kontrolü |
+| Owner nav | `src/ui/kabuk/sahip-kabuk-istemcisi.tsx` | "Sponsorluk" nav öğesi + `SponsIcon` Büyüme bölümüne eklendi |
+
+#### Mobil Değişiklikler (2026-06-01)
+
+| Değişiklik | Dosya | Etki |
+|---|---|---|
+| Inbox `favorite_price_changed` paylaşım butonu | `notifications/ui/inbox_page.dart` | Loop 1 mobil MVP |
+| Inbox `achievement_unlocked` rozet paylaşım | `notifications/ui/inbox_page.dart` | Loop 5 mobil MVP |
+| Bütçe kombo AppBar paylaşım butonu | `budget_combos/ui/budget_combo_results_page.dart` | Loop 3 mobil MVP |
+| `SponsoredBadge` widget | `sponsorluk/ui/sponsored_badge.dart` | Discovery'de sponsor rozeti |
+| `BusinessTile.isSponsored` prop | `shared/ui/business_tile.dart` | Tile entegrasyonu |
+| Discovery'de `sponsoredBusinessesProvider` izleme | `discovery/ui/parts/discovery_recommended_tab.dart` | Sıfır liste değişikliği, sadece rozet |
+| KVKK `ConsentState` + `ConsentRepository` | `core/privacy/domain/` | KVKK uyumu |
+| `ConsentLocalRepository` (SharedPreferences) | `core/privacy/data/` | Yerel persist |
+| `ConsentNotifier` Riverpod state | `core/privacy/data/consent_provider.dart` | grantAll/deny/clearAll |
+| `showConsentBottomSheet` | `core/privacy/ui/consent_bottom_sheet.dart` | KVKK onay ekranı |
+| `ConsentGuard.checkAndShow` | `core/privacy/consent_guard.dart` | App başlangıç hook |
+
+`flutter analyze`: **No issues found.**
+
+#### Açık Kalan Maddeler
+
+- **App Store / Google Play**: External signing secrets gerekiyor (GitHub Actions)
+- **`ConsentGuard` entegrasyonu**: `router.dart` veya `app.dart`'a başlangıç hook ekle
+- Fiyat Endeksi medya raporu dağıtımı
+- Google Search Console kayıt + sitemap submit
 
 ---
 
@@ -527,4 +605,4 @@ Bu dört eylem atılırsa, 6 ay sonunda rakiplerin kısa vadede takip edemeyece�
 
 ---
 
-**Son Güncelleme:** 2026-06-01 — Yol haritası konsolidasyon ve tekrar temizliği
+**Son Güncelleme:** 2026-06-01 — SEO altyapısı tamamlandı; Growth Loop MVPs (web + mobil) başlatıldı; Vitrin sponsorluk paketi aktive edildi; KVKK consent akışı implement edildi (bkz. Bölüm 9)

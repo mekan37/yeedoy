@@ -309,6 +309,18 @@ export async function renderPublicMenuRoute(input: {
         selectedCategoryId={input.selectedCategoryId}
         isOpenNow={isOpenNow}
       />
+      {/* Loop 4 MVP: QR menü CTA — B2B viral */}
+      <div className="mt-10 border-t border-gray-100 pt-6 text-center text-xs text-gray-400">
+        Bu işletme{' '}
+        <span className="font-[700] text-gray-600">Yeedoy QR Menü</span>{' '}
+        kullanıyor.{' '}
+        <a
+          href="/sahip/baslangic"
+          className="font-[700] text-primary hover:underline"
+        >
+          Siz de ücretsiz QR menü alın →
+        </a>
+      </div>
     </main>
   );
 }

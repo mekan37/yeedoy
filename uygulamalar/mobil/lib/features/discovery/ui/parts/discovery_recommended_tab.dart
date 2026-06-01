@@ -279,6 +279,20 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     final needsLocation = isNearby && st.userLat == null && st.userLng == null;
     final city = st.city.trim();
     final district = st.district.trim();
+    final sponsoredIdsAsync = ref.watch(
+      sponsoredBusinessesProvider(
+        sponsoredDiscoveryParams(
+          city: city,
+          district: district,
+          category: st.category.isEmpty ? null : st.category,
+          limit: 3,
+        ),
+      ),
+    );
+    final sponsoredIds = sponsoredIdsAsync.asData?.value
+            .map((b) => b.id)
+            .toSet() ??
+        const <String>{};
     final hasDistrict = city.isNotEmpty && district.isNotEmpty;
     final neighborhood = ref.watch(
       userLocationProvider.select((loc) => (loc.neighborhood ?? '').trim()),
@@ -966,6 +980,9 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                     qualityScore: entry.value.qualityScore,
                                     mealCardProviders:
                                         entry.value.mealCardProviders,
+                                    isSponsored: sponsoredIds.contains(
+                                      entry.value.id,
+                                    ),
                                     socialProof: _discoverySocialProof(
                                       context: context,
                                       item: entry.value,

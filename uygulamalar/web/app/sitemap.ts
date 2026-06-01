@@ -2,66 +2,47 @@ import type { MetadataRoute } from 'next';
 import { appConfig } from '@/src/lib/config';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 
-export const revalidate = 3600; // regenerate every hour
+export const revalidate = 3600;
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/ğ/g, 'g')
+    .replace(/ş/g, 's')
+    .replace(/ı/g, 'i')
+    .replace(/ç/g, 'c')
+    .replace(/ö/g, 'o')
+    .replace(/ü/g, 'u')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const now = new Date();
 
-  // Only indexable public routes — login/forgot-password carry noindex and must not appear.
   const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: `${siteUrl}/`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 1.0,
-    },
-    {
-      url: `${siteUrl}/discover`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/top`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/feed`,
-      lastModified: now,
-      changeFrequency: 'daily',
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/heroes`,
-      lastModified: now,
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${siteUrl}/suggest`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    {
-      url: `${siteUrl}/legal`,
-      lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
+    { url: `${siteUrl}/`, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
+    { url: `${siteUrl}/kesif`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${siteUrl}/en-iyiler`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${siteUrl}/akis`, lastModified: now, changeFrequency: 'daily', priority: 0.7 },
+    { url: `${siteUrl}/liderler`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${siteUrl}/gurmeler`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
+    { url: `${siteUrl}/arama`, lastModified: now, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${siteUrl}/askida`, lastModified: now, changeFrequency: 'weekly', priority: 0.5 },
+    { url: `${siteUrl}/fiyat-endeksi`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${siteUrl}/yasal`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ];
 
-  let businessRoutes: MetadataRoute.Sitemap = [];
   let isletmeRoutes: MetadataRoute.Sitemap = [];
+  let businessRoutes: MetadataRoute.Sitemap = [];
   let menuRoutes: MetadataRoute.Sitemap = [];
+  let categoryRoutes: MetadataRoute.Sitemap = [];
 
   try {
     const supabase = await createSupabaseServerClient();
 
-    // Fetch active businesses — cap at 5000 total between /b/ and /m/
+    // İşletme detay sayfaları — /isletme/[slug] (SEO öncelikli)
     const { data: businesses } = await (supabase as any)
       .from('businesses')
       .select('slug, updated_at, created_at')
@@ -71,23 +52,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .range(0, 2499) as { data: Array<{ slug: string; updated_at: string | null; created_at: string | null }> | null };
 
     if (businesses) {
-      businessRoutes = businesses.map((b) => ({
-        url: `${siteUrl}/b/${b.slug}`,
-        lastModified: b.updated_at ? new Date(b.updated_at) : b.created_at ? new Date(b.created_at) : now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-      }));
-      // /isletme/[slug] — marketplace business detail pages (higher priority, SEO-rich)
       isletmeRoutes = businesses.map((b) => ({
         url: `${siteUrl}/isletme/${b.slug}`,
         lastModified: b.updated_at ? new Date(b.updated_at) : b.created_at ? new Date(b.created_at) : now,
         changeFrequency: 'weekly' as const,
         priority: 0.85,
       }));
+      // /b/[slug] — QR alias sayfaları
+      businessRoutes = businesses.map((b) => ({
+        url: `${siteUrl}/b/${b.slug}`,
+        lastModified: b.updated_at ? new Date(b.updated_at) : b.created_at ? new Date(b.created_at) : now,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      }));
     }
 
-    // Fetch published menus — cap remaining budget to keep total dynamic entries <= 5000
-    const menuLimit = 5000 - (businesses?.length ?? 0);
+    // Menü sayfaları — /m/[slug]
+    const menuLimit = Math.max(0, 5000 - (businesses?.length ?? 0));
     if (menuLimit > 0) {
       const { data: menus } = await (supabase as any)
         .from('menus')
@@ -106,9 +87,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }));
       }
     }
+
+    // Şehir/ilçe/kategori listesi sayfaları — /[sehir]/[ilce]/[kategori]
+    const { data: combos } = await (supabase as any)
+      .from('businesses')
+      .select('city, district, category')
+      .eq('is_active', true)
+      .not('city', 'is', null)
+      .not('district', 'is', null)
+      .not('category', 'is', null)
+      .order('city')
+      .range(0, 4999) as { data: Array<{ city: string; district: string; category: string }> | null };
+
+    if (combos) {
+      const seen = new Set<string>();
+      for (const row of combos) {
+        const key = `${row.city}||${row.district}||${row.category}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const cs = slugify(row.city);
+        const ds = slugify(row.district);
+        const ks = slugify(row.category);
+        if (!cs || !ds || !ks) continue;
+        categoryRoutes.push({
+          url: `${siteUrl}/${cs}/${ds}/${ks}`,
+          lastModified: now,
+          changeFrequency: 'daily' as const,
+          priority: 0.8,
+        });
+      }
+    }
   } catch {
-    // Return static routes only if DB fetch fails
+    // DB hatasında sadece statik rotaları döndür
   }
 
-  return [...staticRoutes, ...isletmeRoutes, ...businessRoutes, ...menuRoutes];
+  return [...staticRoutes, ...isletmeRoutes, ...businessRoutes, ...menuRoutes, ...categoryRoutes];
 }

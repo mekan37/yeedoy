@@ -23,6 +23,7 @@ type LocalBusiness = {
   is_active?: boolean;
   avg_rating?: number | null;
   review_count?: number | null;
+  median_price_cents?: number | null;
 };
 
 export const revalidate = 3600; // 1 saat
@@ -43,7 +44,7 @@ async function fetchBusinesses(city: string, district: string, category: string)
   const supabase = createSupabasePublicClient();
   const { data } = await (supabase as any)
     .from('businesses')
-    .select('id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,avg_rating,review_count')
+    .select('id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,avg_rating,review_count,median_price_cents')
     .eq('is_active', true)
     .ilike('city', city)
     .ilike('district', district)
@@ -84,6 +85,18 @@ export default async function SehirIlceKategoriPage({ params }: Props) {
 
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
 
+  // JSON-LD: BreadcrumbList
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Yeedoy', item: siteUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: cityLabel, item: `${siteUrl}/${sehir}` },
+      { '@type': 'ListItem', position: 3, name: districtLabel, item: `${siteUrl}/${sehir}/${ilce}` },
+      { '@type': 'ListItem', position: 4, name: categoryLabel, item: `${siteUrl}/${sehir}/${ilce}/${kategori}` },
+    ],
+  };
+
   // JSON-LD: ItemList
   const schema = {
     '@context': 'https://schema.org',
@@ -114,6 +127,7 @@ export default async function SehirIlceKategoriPage({ params }: Props) {
 
   return (
     <PublicShell>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       <Container className="py-8">
         {/* Breadcrumb */}
@@ -157,6 +171,7 @@ export default async function SehirIlceKategoriPage({ params }: Props) {
                 subtitle={`${b.district ?? districtLabel} · ${b.city ?? cityLabel}`}
                 isVerified={b.is_verified ?? false}
                 qualityScore={b.avg_rating}
+                medianPriceCents={b.median_price_cents ?? undefined}
               />
             ))}
           </div>

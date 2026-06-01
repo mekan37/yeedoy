@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
@@ -135,6 +136,48 @@ class InboxPage extends ConsumerWidget {
   }
 }
 
+VoidCallback? _shareCallbackFor(InboxItem item) {
+  if (item.type == 'favorite_price_changed') {
+    return () {
+      final businessId = item.meta['business_id']?.toString() ?? '';
+      final businessName =
+          item.meta['business_name']?.toString() ?? item.title;
+      final prevCents = (item.meta['previous_price_cents'] as num?)?.toInt();
+      final newCents = (item.meta['matched_price_cents'] as num?)?.toInt();
+      final pct = prevCents != null && prevCents > 0 && newCents != null
+          ? (((newCents - prevCents) / prevCents) * 100).round()
+          : null;
+      final emoji =
+          (newCents != null && prevCents != null && newCents > prevCents)
+              ? '🚨'
+              : '✅';
+      final shareText = [
+        '$emoji $businessName',
+        if (pct != null)
+          'Fiyat %${pct.abs()} ${pct > 0 ? 'arttı' : 'düştü'}',
+        'yeedoy.com/isletme/$businessId',
+      ].join('\n');
+      SharePlus.instance.share(ShareParams(text: shareText));
+    };
+  }
+
+  if (item.type == 'achievement_unlocked') {
+    return () {
+      final achievementTitle =
+          item.meta['title']?.toString() ?? 'rozet';
+      final xp = (item.meta['xp'] as num?)?.toInt();
+      final level = (item.meta['level'] as num?)?.toInt();
+      final parts = ['🏅 Yeedoy\'da "$achievementTitle" rozeti kazandım!'];
+      if (xp != null && xp > 0) parts.add('+$xp XP');
+      if (level != null) parts.add('Seviye $level');
+      parts.add('yeedoy.com/gurmeler');
+      SharePlus.instance.share(ShareParams(text: parts.join(' • ')));
+    };
+  }
+
+  return null;
+}
+
 Widget _buildInboxTile({
   required BuildContext context,
   required WidgetRef ref,
@@ -150,6 +193,7 @@ Widget _buildInboxTile({
     message: _messageForInboxItem(context, item),
     timeText: _relative(context, item.createdAt),
     unread: unread,
+    onShare: _shareCallbackFor(item),
     onTap: () async {
       await controller.markRead(item.id);
       if (!context.mounted) return;
@@ -223,6 +267,7 @@ class _InboxTile extends StatelessWidget {
     required this.timeText,
     required this.unread,
     required this.onTap,
+    this.onShare,
   });
 
   final IconData icon;
@@ -232,6 +277,7 @@ class _InboxTile extends StatelessWidget {
   final String timeText;
   final bool unread;
   final VoidCallback onTap;
+  final VoidCallback? onShare;
 
   @override
   Widget build(BuildContext context) {
@@ -268,10 +314,31 @@ class _InboxTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(message),
-        trailing: Text(
-          timeText,
-          style: const TextStyle(color: AppColors.muted, fontSize: 12),
-        ),
+        trailing: onShare != null
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    timeText,
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    icon: const Icon(Icons.share_outlined),
+                    iconSize: 20,
+                    color: AppColors.muted,
+                    tooltip: 'Paylaş',
+                    onPressed: onShare,
+                  ),
+                ],
+              )
+            : Text(
+                timeText,
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
+              ),
       ),
     );
   }

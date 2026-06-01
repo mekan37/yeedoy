@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_repository.dart';
@@ -82,7 +83,24 @@ class _BudgetComboResultsPageState
     final async = ref.watch(budgetCombosProvider(query));
 
     return AppScaffold(
-      appBar: AppBar(title: Text(t.budgetComboResultsTitle)),
+      appBar: AppBar(
+        title: Text(t.budgetComboResultsTitle),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            tooltip: 'Paylaş',
+            onPressed: () {
+              final budgetTL =
+                  (widget.budgetTotalCents / 100).toStringAsFixed(0);
+              final shareText =
+                  '${widget.city}\'da ${widget.partySize} kişi için '
+                  '₺$budgetTL bütçeyle yemek kombinasyonu! '
+                  '🍽️ yeedoy.com/butce?max=${widget.budgetTotalCents}';
+              SharePlus.instance.share(ShareParams(text: shareText));
+            },
+          ),
+        ],
+      ),
       body: async.when(
         loading: () => ListView.separated(
           padding: const EdgeInsets.all(16),

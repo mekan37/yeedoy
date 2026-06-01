@@ -79,6 +79,21 @@ export async function GET(
     rows = data ?? [];
     filename = `yeedoy-analitik-30g-${new Date().toISOString().slice(0,10)}.csv`;
 
+  } else if (type === 'price-index') {
+    // Bölgesel fiyat endeksi — kamuya açık RPC, admin auth ile dışa aktarım
+    const { data: indexData } = await supabaseAny.rpc('get_regional_price_index_v2', {
+      p_city: null, p_district: null, p_limit: 100,
+    });
+    rows = (indexData ?? []).map((r: any) => ({
+      category:            r.category,
+      median_price_tl:     r.median_price_cents != null ? (r.median_price_cents / 100).toFixed(2) : '',
+      avg_price_tl:        r.avg_price_cents    != null ? (r.avg_price_cents    / 100).toFixed(2) : '',
+      sample_count:        r.sample_count,
+      updated_in_30d:      r.updated_in_30d,
+      exported_at:         new Date().toISOString(),
+    }));
+    filename = `yeedoy-fiyat-endeksi-${new Date().toISOString().slice(0,10)}.csv`;
+
   } else {
     return NextResponse.json({ error: 'Geçersiz tür' }, { status: 400 });
   }
