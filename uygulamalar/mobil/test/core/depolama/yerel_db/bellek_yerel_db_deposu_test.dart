@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/depolama/yerel_db/yerel_db_modelleri.dart';
-import 'package:yeedoy/core/depolama/yerel_db/bellek_yerel_db_deposu.dart';
+import 'package:yeedoy/core/storage/local_db/local_db_models.dart';
+import 'package:yeedoy/core/storage/local_db/memory_local_db_store.dart';
 
 void main() {
   group('MemoryLocalDbStore', () {

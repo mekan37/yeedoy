@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/ayarlar/ozellik_bayraklari.dart';
+import 'package:yeedoy/core/config/feature_flags.dart';
 
 void main() {
   group('FeatureFlagsState', () {

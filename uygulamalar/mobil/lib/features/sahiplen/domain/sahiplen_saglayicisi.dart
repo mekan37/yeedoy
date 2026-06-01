@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/ag/supabase_saglayicisi.dart';
-import '../../kimlik/domain/kimlik_saglayicilari.dart';
+import '../../../core/network/supabase_provider.dart';
+import '../../auth/domain/auth_providers.dart';
 
 final sahiplenBasvuruProvider =
-    AsyncNotifierProvider<SahiplenBildiricisi, void>(SahiplenBildiricisi.new);
+    AsyncNotifierProvider.autoDispose<SahiplenBildiricisi, void>(SahiplenBildiricisi.new);
 
 class SahiplenBildiricisi extends AsyncNotifier<void> {
   @override

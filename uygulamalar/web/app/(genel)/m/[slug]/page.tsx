@@ -15,7 +15,33 @@ import {
 } from '@/src/lib/menu-baglantilari';
 import { isUuid, normalizeDisplayParams } from '@/src/lib/yol-normalizasyonu';
 
-export const revalidate = 120;
+export const revalidate = 300;
+
+// Pre-render the 100 most recently active public menu pages at build time.
+// On-demand revalidation (POST /sunucu/yeniden-dogrulama) handles the rest.
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+  try {
+    const { createSupabasePublicClient } = await import('@/src/lib/taban/acik');
+    const supabase = createSupabasePublicClient();
+    const { data } = await (supabase as any)
+      .from('businesses')
+      .select('slug,public_slug')
+      .eq('is_active', true)
+      .not('slug', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(100) as { data: Array<{ slug: string; public_slug: string | null }> | null };
+
+    if (!data) return [];
+    const slugSet = new Set<string>();
+    for (const row of data) {
+      if (row.public_slug) slugSet.add(row.public_slug);
+      else if (row.slug) slugSet.add(row.slug);
+    }
+    return Array.from(slugSet).map((slug) => ({ slug }));
+  } catch {
+    return [];
+  }
+}
 
 type MenuPageProps = {
   params: Promise<{ slug: string }>;

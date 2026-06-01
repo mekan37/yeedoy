@@ -98,6 +98,7 @@ function normalizeBusiness(row: any): AcikIsletmeKarti {
 
 export async function getMarketplaceBusinesses(params: MarketplaceSearchParams = {}) {
   const supabase = createSupabasePublicClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const page = Math.max(1, params.page ?? 1);
   const pageSize = Math.min(48, Math.max(1, params.pageSize ?? 18));
   const from = (page - 1) * pageSize;
@@ -106,7 +107,7 @@ export async function getMarketplaceBusinesses(params: MarketplaceSearchParams =
   const city = params.city?.trim();
   const category = params.category?.trim();
 
-  let query = (supabase as any)
+  let query = supabaseAny
     .from('businesses')
     .select(businessSelect, { count: 'exact' })
     .eq('is_active', true)
@@ -147,8 +148,9 @@ export const getMarketplaceHome = unstable_cache(
 
 export async function getTopMarketplaceBusinesses(limit = 6): Promise<AcikIsletmeKarti[]> {
   const supabase = createSupabasePublicClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   try {
-    const { data, error } = await (supabase as any).rpc('get_top_businesses_period_v1', {
+    const { data, error } = await supabaseAny.rpc('get_top_businesses_period_v1', {
       p_period: 'week',
       p_limit: limit,
     }) as { data: any[] | null; error: any };
@@ -169,8 +171,9 @@ export async function getTopMarketplaceBusinesses(limit = 6): Promise<AcikIsletm
 
 async function getBusinessesByIds(ids: string[]) {
   const supabase = createSupabasePublicClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   if (ids.length === 0) return new Map<string, AcikIsletmeKarti>();
-  const { data } = await (supabase as any)
+  const { data } = await supabaseAny
     .from('businesses')
     .select(businessSelect)
     .in('id', ids)
@@ -180,7 +183,8 @@ async function getBusinessesByIds(ids: string[]) {
 
 export async function getMarketplaceBusinessBySlug(slug: string) {
   const supabase = createSupabasePublicClient();
-  let { data, error } = await (supabase as any)
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  let { data, error } = await supabaseAny
     .from('businesses')
     .select(`${businessSelect},phone,lat,lng`)
     .or(`slug.eq.${escapePostgrestValue(slug)},public_slug.eq.${escapePostgrestValue(slug)}`)
@@ -188,7 +192,7 @@ export async function getMarketplaceBusinessBySlug(slug: string) {
     .maybeSingle() as { data: any | null; error: any };
 
   if (!data && !error && isUuid(slug)) {
-    const byId = await (supabase as any)
+    const byId = await supabaseAny
       .from('businesses')
       .select(`${businessSelect},phone,lat,lng`)
       .eq('id', slug)
@@ -236,7 +240,8 @@ function serializeSupabaseError(error: any) {
 
 export async function getBusinessMenuHref(businessId: string, fallbackSlug: string) {
   const supabase = createSupabasePublicClient();
-  const { data } = await (supabase as any)
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data } = await supabaseAny
     .from('menus')
     .select('id,slug')
     .eq('business_id', businessId)
@@ -249,8 +254,9 @@ export async function getBusinessMenuHref(businessId: string, fallbackSlug: stri
 
 export async function getBusinessReviews(businessId: string, limit = 5): Promise<AcikYorumKarti[]> {
   const supabase = createSupabasePublicClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   try {
-    const { data, error } = await (supabase as any).rpc('get_business_reviews_v3', {
+    const { data, error } = await supabaseAny.rpc('get_business_reviews_v3', {
       p_business_id: businessId,
       p_sort: 'helpful',
       p_limit: limit,
@@ -263,7 +269,7 @@ export async function getBusinessReviews(businessId: string, limit = 5): Promise
     // fall through to table fallback
   }
 
-  const { data } = await (supabase as any)
+  const { data } = await supabaseAny
     .from('business_reviews')
     .select('id,rating,body,content,created_at,verified_visit,user_profiles!user_id(display_name)')
     .eq('business_id', businessId)
@@ -288,15 +294,16 @@ function normalizeReview(row: any): AcikYorumKarti {
 async function enrichBusinessCards(businesses: AcikIsletmeKarti[]) {
   if (businesses.length === 0) return businesses;
   const supabase = createSupabasePublicClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const ids = businesses.map((business) => business.id);
 
   const [ratings, prices] = await Promise.all([
-    (supabase as any)
+    supabaseAny
       .from('business_reviews')
       .select('business_id,rating')
       .in('business_id', ids)
       .eq('is_visible', true) as Promise<{ data: Array<{ business_id: string; rating: number }> | null }>,
-    (supabase as any)
+    supabaseAny
       .from('regional_price_index')
       .select('business_id,median_price_cents')
       .in('business_id', ids) as Promise<{ data: Array<{ business_id: string; median_price_cents: number }> | null }>,
@@ -323,7 +330,8 @@ async function enrichBusinessCards(businesses: AcikIsletmeKarti[]) {
 
 async function getBusinessHoursRows(businessId: string) {
   const supabase = createSupabasePublicClient();
-  const { data } = await (supabase as any).from('business_hours').select('*').eq('business_id', businessId).maybeSingle() as { data: any | null };
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data } = await supabaseAny.from('business_hours').select('*').eq('business_id', businessId).maybeSingle() as { data: any | null };
   if (!data) return [];
   const days = [
     ['Pazartesi', data.mon_open, data.mon_close, 1],

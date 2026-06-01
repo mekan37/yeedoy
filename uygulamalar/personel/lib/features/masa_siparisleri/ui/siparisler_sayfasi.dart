@@ -216,11 +216,13 @@ class _SiparisSutunu extends ConsumerWidget {
       padding: const EdgeInsets.all(12),
       itemCount: siparisler.length,
       separatorBuilder: (_, _) => const SizedBox(height: 8),
-      itemBuilder: (context, i) => _SiparisKarti(
-        siparis: siparisler[i],
-        aksiyonEtiketi: aksiyon,
-        aksiyonDurum: aksiyonDurum,
-        durumRengi: renk,
+      itemBuilder: (context, i) => RepaintBoundary(
+        child: _SiparisKarti(
+          siparis: siparisler[i],
+          aksiyonEtiketi: aksiyon,
+          aksiyonDurum: aksiyonDurum,
+          durumRengi: renk,
+        ),
       ),
     );
   }

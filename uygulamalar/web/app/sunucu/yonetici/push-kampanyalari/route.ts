@@ -12,10 +12,11 @@ const schema = z.object({
 
 export async function POST(req: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const parsed = schema.safeParse(await req.json());
@@ -24,10 +25,10 @@ export async function POST(req: Request) {
   const { businessId, title, body, segment, scheduledAt } = parsed.data;
 
   // Count target users for the segment
-  const { data: estimate } = await (supabase as any)
+  const { data: estimate } = await supabaseAny
     .rpc('estimate_campaign_segment_v1', { p_business_id: businessId, p_segment: segment });
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('push_campaigns')
     .insert({
       business_id: businessId,

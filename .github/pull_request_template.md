@@ -69,7 +69,7 @@
 - [ ] Generated dosya (`.next/`, `build/`, `.dart_tool/`) commit etmedim
 - [ ] TypeScript / Dart code kalitesi kontrolleri pass
 - [ ] L10n audit pass (eğer ARB dosyası değiştirdim)
-- [ ] PRYapıda doğru branch'te mi? (feature/* veya hotfix/*)
+- [ ] PR doğru branch'te mi? (`feature/*`, `fix/*`, `hotfix/*`, `migration/*`)
 
 ---
 

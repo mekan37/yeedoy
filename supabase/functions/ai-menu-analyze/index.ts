@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { enforceRateLimit } from "../_shared/rate-limit.ts";
 
 // ─── helpers ───────────────────────────────────────────────────────────────
 
@@ -15,47 +16,76 @@ function asNonEmptyString(v: unknown): string | null {
   return s.length > 0 ? s : null;
 }
 
-// ─── PaddleOCR service call ─────────────────────────────────────────────────
+// ─── DeepSeek OCR via Replicate ─────────────────────────────────────────────
 
-interface PaddleOcrLine {
-  text: string;
-  confidence: number;
-}
+const DEEPSEEK_OCR_VERSION =
+  "cb3b474fbfc56b1664c8c7841550bccecbe7b74c30e45ce938ffca1180b4dff5";
 
-interface PaddleOcrResult {
-  ok: boolean;
-  raw_text?: string;
-  lines?: PaddleOcrLine[];
+interface ReplicatePrediction {
+  id: string;
+  status: "starting" | "processing" | "succeeded" | "failed" | "canceled";
+  output?: unknown;
   error?: string;
+  urls: { get: string };
 }
 
-async function runPaddleOcr(
-  serviceUrl: string,
-  serviceSecret: string,
+async function runDeepseekOcr(
+  apiToken: string,
   imageUrl: string,
 ): Promise<string | null> {
   try {
-    const res = await fetch(`${serviceUrl}/ocr`, {
+    // 1. Create prediction
+    const createRes = await fetch("https://api.replicate.com/v1/predictions", {
       method: "POST",
       headers: {
+        "Authorization": `Bearer ${apiToken}`,
         "Content-Type": "application/json",
-        "x-service-secret": serviceSecret,
+        "Prefer": "wait=60", // ask Replicate to wait synchronously up to 60s
       },
-      body: JSON.stringify({ image_url: imageUrl }),
-      // 45s timeout — PaddleOCR can be slow on first run
-      signal: AbortSignal.timeout(45_000),
+      body: JSON.stringify({
+        version: DEEPSEEK_OCR_VERSION,
+        input: { image: imageUrl },
+      }),
+      signal: AbortSignal.timeout(70_000),
     });
 
-    if (!res.ok) {
-      console.error(`PaddleOCR service error: ${res.status}`);
+    if (!createRes.ok) {
+      console.error(`Replicate create failed: ${createRes.status}`);
       return null;
     }
 
-    const data = (await res.json()) as PaddleOcrResult;
-    if (!data.ok || !data.raw_text) return null;
-    return data.raw_text;
+    let prediction = (await createRes.json()) as ReplicatePrediction;
+
+    // 2. Poll if not yet complete (Prefer: wait may have resolved it already)
+    let attempts = 0;
+    while (
+      prediction.status !== "succeeded" &&
+      prediction.status !== "failed" &&
+      prediction.status !== "canceled" &&
+      attempts < 30
+    ) {
+      await new Promise((r) => setTimeout(r, 2_000));
+      const pollRes = await fetch(prediction.urls.get, {
+        headers: { "Authorization": `Bearer ${apiToken}` },
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (!pollRes.ok) break;
+      prediction = (await pollRes.json()) as ReplicatePrediction;
+      attempts++;
+    }
+
+    if (prediction.status !== "succeeded" || !prediction.output) {
+      console.warn(`DeepSeek OCR ${prediction.status}: ${prediction.error ?? ""}`);
+      return null;
+    }
+
+    // Output is typically a string or array of strings
+    const output = prediction.output;
+    if (typeof output === "string") return output.trim() || null;
+    if (Array.isArray(output)) return (output as string[]).join("\n").trim() || null;
+    return null;
   } catch (err) {
-    console.error("PaddleOCR call failed:", err);
+    console.error("DeepSeek OCR call failed:", err);
     return null;
   }
 }
@@ -179,9 +209,8 @@ serve(async (req) => {
   const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY");
   const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   const OPENROUTER_API_KEY = Deno.env.get("OPENROUTER_API_KEY");
-  // PaddleOCR service — optional; falls back to raw_text already in DB if unset
-  const PADDLE_OCR_URL = Deno.env.get("PADDLE_OCR_URL");
-  const PADDLE_OCR_SECRET = Deno.env.get("PADDLE_OCR_SECRET") ?? "";
+  // DeepSeek OCR via Replicate — optional; falls back to raw_text already in DB if unset
+  const REPLICATE_API_TOKEN = Deno.env.get("REPLICATE_API_TOKEN");
 
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !SUPABASE_SERVICE_ROLE_KEY) {
     return json({ ok: false, error: "missing_supabase_env" }, 500);
@@ -198,6 +227,9 @@ serve(async (req) => {
   const { data: userRes, error: userErr } = await userClient.auth.getUser();
   if (userErr || !userRes?.user) return json({ ok: false, error: "not_authenticated" }, 401);
   const userId = userRes.user.id;
+
+  try { await enforceRateLimit(userId, "ai-menu-analyze", 5); }
+  catch (r) { return r as Response; }
 
   let body: Record<string, unknown>;
   try {
@@ -228,24 +260,23 @@ serve(async (req) => {
     .eq("id", jobId);
 
   try {
-    // ── Step 1: OCR — PaddleOCR preferred, fall back to existing raw_text ──
+    // ── Step 1: OCR — DeepSeek OCR via Replicate, fall back to existing raw_text ──
     let rawText: string | null = asNonEmptyString(job.raw_text);
 
-    if (PADDLE_OCR_URL) {
-      const paddleText = await runPaddleOcr(
-        PADDLE_OCR_URL,
-        PADDLE_OCR_SECRET,
+    if (REPLICATE_API_TOKEN) {
+      const deepseekText = await runDeepseekOcr(
+        REPLICATE_API_TOKEN,
         job.file_url as string,
       );
-      if (paddleText) {
-        rawText = paddleText;
+      if (deepseekText) {
+        rawText = deepseekText;
         // Persist OCR output for audit
         await adminClient
           .from("menu_ocr_jobs")
-          .update({ raw_text: paddleText, ocr_engine: "paddleocr" })
+          .update({ raw_text: deepseekText, ocr_engine: "deepseek-ocr" })
           .eq("id", jobId);
       } else {
-        console.warn(`PaddleOCR returned no text for job ${jobId}; continuing with existing raw_text`);
+        console.warn(`DeepSeek OCR returned no text for job ${jobId}; continuing with existing raw_text`);
       }
     }
 

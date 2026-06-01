@@ -16,13 +16,13 @@ class AlertEventsParams {
 }
 
 final myPriceAlertsProvider =
-    FutureProvider.family<List<PriceAlert>, PriceAlertsParams>((ref, params) async {
+    FutureProvider.autoDispose.family<List<PriceAlert>, PriceAlertsParams>((ref, params) async {
   final repo = ref.watch(priceAlertsRepositoryProvider);
   return repo.listMyAlerts(limit: params.limit, offset: params.offset);
 });
 
 final myAlertEventsProvider =
-    FutureProvider.family<List<AlertEventItem>, AlertEventsParams>((ref, params) async {
+    FutureProvider.autoDispose.family<List<AlertEventItem>, AlertEventsParams>((ref, params) async {
   final repo = ref.watch(priceAlertsRepositoryProvider);
   final events = await repo.listMyAlertEvents(
     limit: params.limit,

@@ -6,24 +6,24 @@ import '../data/taste_twin_repository.dart';
 import 'taste_twin_models.dart';
 
 final tasteMatchesProvider =
-    NotifierProvider<TasteMatchesController, TasteMatchesState>(TasteMatchesController.new);
+    NotifierProvider.autoDispose<TasteMatchesController, TasteMatchesState>(TasteMatchesController.new);
 final tasteRecommendationsProvider =
-    AsyncNotifierProvider.family<TasteRecommendationsController, List<TasteRecommendation>, String>(
-  TasteRecommendationsController.new,
+    AsyncNotifierProvider.autoDispose.family<TasteRecommendationsController, List<TasteRecommendation>, String>(
+  (arg) => TasteRecommendationsController(arg),
 );
 final tasteOverlapProvider =
-    AsyncNotifierProvider.family<TasteOverlapController, List<TasteOverlapExample>, String>(
-  TasteOverlapController.new,
+    AsyncNotifierProvider.autoDispose.family<TasteOverlapController, List<TasteOverlapExample>, String>(
+  (arg) => TasteOverlapController(arg),
 );
-final tasteSignalOverlapProvider = AsyncNotifierProvider.family<TasteSignalOverlapController,
+final tasteSignalOverlapProvider = AsyncNotifierProvider.autoDispose.family<TasteSignalOverlapController,
     List<TasteSignalOverlapExample>, String>(
-  TasteSignalOverlapController.new,
+  (arg) => TasteSignalOverlapController(arg),
 );
 final tasteDivergenceProvider =
-    AsyncNotifierProvider.family<TasteDivergenceController, List<TasteDivergenceExample>, String>(
-  TasteDivergenceController.new,
+    AsyncNotifierProvider.autoDispose.family<TasteDivergenceController, List<TasteDivergenceExample>, String>(
+  (arg) => TasteDivergenceController(arg),
 );
-final publicProfileProvider = FutureProvider.family<PublicProfile, String>((ref, userId) {
+final publicProfileProvider = FutureProvider.autoDispose.family<PublicProfile, String>((ref, userId) {
   return ref.read(tasteTwinRepositoryProvider).fetchUserPublicProfile(userId);
 });
 

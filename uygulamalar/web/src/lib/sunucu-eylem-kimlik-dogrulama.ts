@@ -25,7 +25,8 @@ export async function withAdminAuth<T>(fn: (userId: string) => Promise<T>): Prom
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) throw new Error('Kimlik dogrulanamadi');
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin') as { data: boolean | null };
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin') as { data: boolean | null };
   if (!isAdmin) throw new Error('Yasakli');
 
   return fn(user.id);

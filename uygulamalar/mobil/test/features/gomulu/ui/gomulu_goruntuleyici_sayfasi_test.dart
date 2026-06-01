@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/ceviri/uygulama_yerellesmeleri.dart';
-import 'package:yeedoy/features/gomulu/ui/gomulu_goruntuleyici_sayfasi.dart';
-import 'package:yeedoy/features/gomulu/ui/saglayicilar/gomulu_saglayici_youtube.dart';
+import 'package:yeedoy/core/i18n/app_localizations.dart';
+import 'package:yeedoy/features/embed/ui/embed_viewer_page.dart';
+import 'package:yeedoy/features/embed/ui/providers/embed_provider_youtube.dart';
 
 void main() {
   Widget wrapWithApp(Widget child) {

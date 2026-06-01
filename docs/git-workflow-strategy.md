@@ -351,11 +351,11 @@ Hangi yüzey değiştiyse, hangi komutlar MUTLAKA çalışmalı:
 |---|---|---|---|
 | `uygulamalar/mobil/**` | `flutter analyze` | `flutter test` | ✅ Yes |
 | `uygulamalar/web/**` | `npm typecheck` + `npm lint` | `npm build`, `npm audit` | ✅ Yes |
-| `uygulamalar/personel/**` | `flutter analyze` | `flutter test` | 🚧 No (yet) |
+| `uygulamalar/personel/**` | `flutter analyze` | `flutter test` | ✅ Yes |
 | `supabase/migrations/**` | `supabase db push --local` | `supabase db diff` | ✅ Yes (manual) |
-| `supabase/functions/**` | `supabase functions serve` (smoke) | `npm run build` | 🚧 No (yet) |
-| `packages/shared_ui_components/**` | `flutter analyze` (mobil + personel) | — | 🚧 No |
-| `packages/shared_models/**` | `flutter analyze` (mobil + personel) | — | 🚧 No |
+| `supabase/functions/**` | `supabase functions serve` (smoke) | `npm run build` | ✅ Yes (smoke) |
+| `packages/shared_ui_components/**` | `flutter analyze` (mobil + personel) | — | ✅ Yes |
+| `packages/shared_models/**` | `flutter analyze` (mobil + personel) | — | ✅ Yes |
 | `packages/l10n_assets/**` | `npm run l10n:audit` | — | ✅ Yes |
 | `.github/workflows/**` | YAML lint (local) | `workflow_dispatch` test | 🚧 No |
 | `docs/**` | Link check (manual) | — | ❌ No |
@@ -1089,9 +1089,7 @@ Yeedoy Git workflow stratejisinin etkin kullanımı için sırasıyla yapılacak
 
 ### Adım 1: PR Template Oluştur (İmmediate)
 
-Dosya: `C:\yeedoy\.github\pull_request_template.md`
-
-Bu strateji dokü'nün Section 5'deki template'i kopyala. PR açarken otomatik olarak gözükecek.
+> ✅ **TAMAMLANDI** — `\.github/pull_request_template.md` mevcut ve güncel.
 
 ### Adım 2: .gitignore Doğrulaması (1 gün)
 
@@ -1118,17 +1116,19 @@ Settings:
 - Allow deletions: ❌ Disable
 - Auto-delete head branches: ✅ Enable
 
+> ⚠️ Bu adım GitHub UI üzerinden (Settings → Branches) veya GitHub CLI aracılığıyla manuel yapılmalıdır. Kod değişikliği gerektirmez.
+
 ### Adım 4: CI Validation Kurulumu (Var, Kontrol)
 
-Mevcut workflows:
+Mevcut aktif workflow'lar:
 - `mobile_quality.yml` ✅ Active
 - `web_quality.yml` ✅ Active
+- `personel_quality.yml` ✅ Active (2026-05-25 eklendi)
+- `packages_quality.yml` ✅ Active (2026-05-25 eklendi)
+- `edge_function_smoke.yml` ✅ Active (2026-05-25 eklendi)
 - `web_release_smoke.yml` ✅ Manual dispatch
 - `mobile_readiness.yml` ✅ Manual dispatch
-
-Eksik (opsiyonel):
-- Personel app quality workflow (henüz yok)
-- Edge function smoke test automation (henüz yok)
+- `panel_quality.yml` 🗄️ Archived (Flutter web → Next.js)
 
 ### Adım 5: İlk Büyük Feature'ı Test Et (1 hafta)
 
@@ -1217,6 +1217,6 @@ Target KPI'lar:
 
 ---
 
-*Son güncelleme: 2026-05-23*
-*Versiyon: 1.0*
+*Son güncelleme: 2026-05-25*
+*Versiyon: 1.1*
 *Yazar: Git Workflow Manager*

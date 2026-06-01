@@ -21,9 +21,10 @@ export type OwnerAnalytics = {
  */
 export async function getOwnerDashboardSummary(userId: string): Promise<OwnerDashboardSummary> {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   try {
-    const { data, error } = await (supabase as any).rpc(
+    const { data, error } = await supabaseAny.rpc(
       'get_owner_dashboard_summary_v1',
       { p_user_id: userId },
     );
@@ -57,7 +58,7 @@ export async function getOwnerDashboardSummary(userId: string): Promise<OwnerDas
     .eq('owner_id', userId);
 
   const businessIds: string[] = [];
-  const { data: bizRows } = await (supabase as any)
+  const { data: bizRows } = await supabaseAny
     .from('businesses')
     .select('id')
     .eq('owner_id', userId);
@@ -76,13 +77,13 @@ export async function getOwnerDashboardSummary(userId: string): Promise<OwnerDas
       .in('business_id', businessIds);
     menuCount = mc ?? 0;
 
-    const { count: rc } = await (supabase as any)
+    const { count: rc } = await supabaseAny
       .from('reviews')
       .select('id', { count: 'exact', head: true })
       .in('business_id', businessIds);
     reviewCount = rc ?? 0;
 
-    const { count: vc } = await (supabase as any)
+    const { count: vc } = await supabaseAny
       .from('analytics_events')
       .select('id', { count: 'exact', head: true })
       .in('business_id', businessIds)
@@ -114,6 +115,7 @@ export async function getOwnerAnalytics(
   userId: string,
 ): Promise<OwnerAnalytics> {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   // Ownership check.
   const { data: business, error: bizError } = await supabase
@@ -133,7 +135,7 @@ export async function getOwnerAnalytics(
   }
 
   try {
-    const { data, error } = await (supabase as any).rpc('get_owner_analytics_v1', {
+    const { data, error } = await supabaseAny.rpc('get_owner_analytics_v1', {
       p_business_id: businessId,
       p_user_id: userId,
     });
@@ -166,19 +168,19 @@ export async function getOwnerAnalytics(
   const ago30d = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
   const [v7, v30, reviews] = await Promise.all([
-    (supabase as any)
+    supabaseAny
       .from('analytics_events')
       .select('id', { count: 'exact', head: true })
       .eq('business_id', businessId)
       .eq('event_name', 'menu_view')
       .gte('created_at', ago7d),
-    (supabase as any)
+    supabaseAny
       .from('analytics_events')
       .select('id', { count: 'exact', head: true })
       .eq('business_id', businessId)
       .eq('event_name', 'menu_view')
       .gte('created_at', ago30d),
-    (supabase as any)
+    supabaseAny
       .from('reviews')
       .select('rating', { count: 'exact' })
       .eq('business_id', businessId),

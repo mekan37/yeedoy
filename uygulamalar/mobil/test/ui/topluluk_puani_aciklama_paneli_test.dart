@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/features/shared/ui/bilesenler/topluluk_puani_aciklama_paneli.dart';
+import 'package:yeedoy/features/shared/ui/components/community_score_explainer_sheet.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
 
 void main() {

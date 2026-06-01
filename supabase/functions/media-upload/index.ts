@@ -137,8 +137,9 @@ serve(async (req) => {
   });
 
   if (!res.ok) {
-    const txt = await res.text();
-    return json({ ok: false, error: "media_upload_failed", status: res.status, detail: txt.slice(0, 400) }, 500);
+    // Sanitize: do not forward upstream error details to clients (info leakage)
+    console.error(`media-upload: upstream error ${res.status}`);
+    return json({ ok: false, error: "media_upload_failed" }, 500);
   }
 
   const media = await res.json();

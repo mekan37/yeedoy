@@ -30,16 +30,20 @@ export async function POST(request: Request) {
   const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, parsed.data.businessId);
   if (!canManageBusiness) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
-  const { data: biz } = await (supabase as any)
+  const { data: bizRaw } = await supabase
     .from('businesses')
     .select('id, name')
     .eq('id', parsed.data.businessId)
     .single();
+  const biz = bizRaw as { id: string; name: string } | null;
 
   if (!biz) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
+  // favorites/notifications are not in Database types yet — cast only the from() result
+  const supabaseAny = supabase as unknown as { from: (t: string) => any };
+
   // Tüm favorileyen kullanıcılara notifications satırı ekle
-  const { data: favorites } = await (supabase as any)
+  const { data: favorites } = await supabaseAny
     .from('favorites')
     .select('user_id')
     .eq('business_id', parsed.data.businessId);
@@ -57,7 +61,7 @@ export async function POST(request: Request) {
     meta: { business_id: parsed.data.businessId, business_name: biz.name },
   }));
 
-  const { error: insertError } = await (supabase as any)
+  const { error: insertError } = await supabaseAny
     .from('notifications')
     .insert(rows);
 

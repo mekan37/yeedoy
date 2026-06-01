@@ -45,10 +45,12 @@ export async function discoverBusinesses(opts: DiscoverOpts = {}): Promise<{
 
   // Sorgu varsa: trigram tabanlı RPC (yazım hatası toleranslı, Türkçe normalize)
   // Sorgu yoksa: kategori/şehir filtreli tablo taraması
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+
   if (opts.q?.trim()) {
     const normalized = normalizeQuery(opts.q);
 
-    const { data: rpcData, error: rpcError } = await (supabase as any).rpc(
+    const { data: rpcData, error: rpcError } = await supabaseAny.rpc(
       'search_businesses_v1',
       {
         p_query: normalized,
@@ -62,7 +64,7 @@ export async function discoverBusinesses(opts: DiscoverOpts = {}): Promise<{
     if (rpcError) {
       // RPC başarısız olursa ilike fallback
       logger.warn('search_businesses_v1 failed, falling back to ilike', { rpcError });
-      return ilikeFallback(supabase, opts, from, to, pageSize);
+      return ilikeFallback(supabaseAny, opts, from, to, pageSize);
     }
 
     const rows = (rpcData ?? []) as Business[];
@@ -79,7 +81,7 @@ export async function discoverBusinesses(opts: DiscoverOpts = {}): Promise<{
     };
   }
 
-  return ilikeFallback(supabase, opts, from, to, pageSize);
+  return ilikeFallback(supabaseAny, opts, from, to, pageSize);
 }
 
 async function ilikeFallback(

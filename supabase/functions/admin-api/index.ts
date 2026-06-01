@@ -138,7 +138,7 @@ serve(async (req) => {
   const reason = text(body.reason);
   const payload = body.payload ?? {};
 
-  const ipSalt = Deno.env.get("EDGE_RATE_LIMIT_SALT") ?? "yeedoy_default_salt";
+  const ipSalt = Deno.env.get("EDGE_RATE_LIMIT_SALT") ?? "";
   const ipHash = await sha256Hex(`${ipSalt}:${readClientIp(req)}`);
   const { data: deniedIp } = await adminClient.rpc("is_edge_ip_denied_v1", {
     p_ip_hash: ipHash,

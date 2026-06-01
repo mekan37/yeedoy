@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../uygulama/tema/renkler.dart';
-import '../../../features/shared/ui/tasarim_sistemi.dart';
-import '../../../features/shared/ui/bilesenler/uygulama_ust_cubugu.dart';
+import '../../../app/theme/colors.dart';
+import '../../../features/shared/ui/components/app_appbar.dart';
+import '../../../features/shared/ui/components/app_scaffold.dart';
 
 // ─── Model ───────────────────────────────────────────────────────────────────
 

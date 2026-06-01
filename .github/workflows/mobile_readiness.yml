@@ -44,7 +44,7 @@ jobs:
     runs-on: macos-latest
     defaults:
       run:
-        working-directory: apps/mobile_flutter
+        working-directory: uygulamalar/mobil
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/mobile_flutter
+        working-directory: uygulamalar/mobil
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -96,7 +96,7 @@ jobs:
     runs-on: macos-latest
     defaults:
       run:
-        working-directory: apps/mobile_flutter
+        working-directory: uygulamalar/mobil
     env:
       IOS_APPLE_TEAM_ID: ${{ secrets.IOS_APPLE_TEAM_ID }}
       IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_P12_BASE64 }}
@@ -184,7 +184,7 @@ jobs:
         run: |
           flutter build ipa \
             --release \
-            -t lib/main_mobile.dart \
+            -t lib/mobil_giris.dart \
             --export-options-plist="$PWD/build/ios-ci/ExportOptions.ci.plist"
 
       - name: Resolve iOS artifact paths
@@ -251,7 +251,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/mobile_flutter
+        working-directory: uygulamalar/mobil
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -280,16 +280,16 @@ jobs:
             echo "::error::ANDROID_RELEASE_KEYSTORE_BASE64 is missing"
             exit 1
           fi
-          echo "$ANDROID_RELEASE_KEYSTORE_BASE64" | base64 --decode > android/app/ci-release.keystore
+          echo "$ANDROID_RELEASE_KEYSTORE_BASE64" | base64 --decode > android/uygulama/ci-release.keystore
 
       - name: Android release build
         env:
-          ANDROID_RELEASE_STORE_FILE: android/app/ci-release.keystore
+          ANDROID_RELEASE_STORE_FILE: android/uygulama/ci-release.keystore
           ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
         run: |
-          flutter build apk --release -t lib/main_mobile.dart
+          flutter build apk --release -t lib/mobil_giris.dart
 
       - name: Resolve Android artifact path
         if: ${{ inputs.upload_android_artifact == true }}
@@ -298,9 +298,9 @@ jobs:
         run: |
           set -euo pipefail
 
-          APK_PATH="$(find "$PWD/build/app/outputs/flutter-apk" -maxdepth 1 -name '*.apk' -print -quit)"
+          APK_PATH="$(find "$PWD/build/uygulama/outputs/flutter-apk" -maxdepth 1 -name '*.apk' -print -quit)"
           if [ -z "$APK_PATH" ]; then
-            echo "::error::Android APK artifact was not produced under build/app/outputs/flutter-apk"
+            echo "::error::Android APK artifact was not produced under build/uygulama/outputs/flutter-apk"
             exit 1
           fi
 

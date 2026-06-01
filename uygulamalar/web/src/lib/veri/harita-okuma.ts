@@ -70,7 +70,8 @@ function normalizeRow(row: any): AcikIsletmeKarti {
 
 export async function getMapBusinesses(limit = 120): Promise<HaritaIsletme[]> {
   const supabase = createSupabasePublicClient();
-  const { data } = await (supabase as any)
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data } = await supabaseAny
     .from('businesses')
     .select('id,name,slug,public_slug,category,city,district,address,logo_url,cover_url,is_verified,lat,lng')
     .eq('is_active', true)

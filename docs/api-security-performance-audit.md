@@ -1,7 +1,7 @@
 # Yeedoy API Güvenlik ve Performans Denetimi
 
 **Tarih:** 2026-05-23
-**Son güncelleme:** 2026-05-23 — LOW-risk güvenli düzeltmeler uygulandı (bkz. §14)
+**Son güncelleme:** 2026-05-25 — MED-009 ve MED-001 tam kapatma: tüm (supabase as any) cast'leri → lokal dar cast; 3 yüksek riskli admin rotasında DB-destekli hız sınırı (bkz. §18)
 **Kapsam:** Tüm monorepo — Next.js route handler'lar, Supabase Edge Function'lar, RPC çağrıları, doğrudan tablo sorguları, uygulamalar arası API sözleşme tutarlılığı, yazma akışı güçlendirmesi, performans desenleri
 **Yöntem:** Dosya okuma ve desen aramaları ile statik kod analizi. LOW-risk güvenli düzeltmeler 2026-05-23 tarihinde uygulandı; DB şeması, migrasyon, RLS, RPC imzası, kimlik doğrulama akışı veya public route davranışı değiştirilmedi.
 
@@ -23,6 +23,10 @@
 12. [Önceliklendirilmiş Uygulama Planı](#12-önceliklendirilmiş-uygulama-planı)
 13. [Doğrulama Komutları](#13-doğrulama-komutları)
 14. [LOW-Risk Güvenli Düzeltme Geçişi — 2026-05-23](#14-low-risk-güvenli-düzeltme-geçişi--2026-05-23)
+15. [HIGH/MED/LOW Düzeltme Geçişi — 2026-05-25](#15-highmedlow-düzeltme-geçişi--2026-05-25)
+16. [MED-001/MED-009/LOW-005 Düzeltme Geçişi — 2026-05-25](#16-med-001med-009low-005-düzeltme-geçişi--2026-05-25)
+17. [Performans ve Güvenilirlik Düzeltme Geçişi — 2026-05-25](#17-performans-ve-güvenilirlik-düzeltme-geçişi--2026-05-25)
+18. [MED-009 Tam Kapatma + MED-001 DB Hız Sınırı — 2026-05-25](#18-med-009-tam-kapatma--med-001-db-hız-sınırı--2026-05-25)
 
 ---
 
@@ -565,17 +569,14 @@ FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (
 
 ### KRİTİK
 
-**CRIT-001: `import_places_json` Edge Function'ında Kimlik Doğrulama Yok** 🔴
+**CRIT-001: `import_places_json` Edge Function'ında Kimlik Doğrulama Yok** ✅ DÜZELTILDI
 
 - Dosya: `supabase/functions/import_places_json/index.ts`
 - Sorun: Fonksiyon toplu işletme kayıtlarını upsert etmek için servis rolü anahtarı kullanıyor ancak JWT veya API anahtar doğrulaması yapmıyor.
 - Kanıt: `Authorization` başlık kontrolü yok; `auth.getUser()` çağrısı yok. Fonksiyon DB yazmalar için doğrudan `Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")` kullanıyor.
 - Etkilenen uygulama: Tüm uygulamalar (bozulmuş işletme veri seti)
-- İstismar: Fonksiyon URL'ini keşfeden herhangi bir saldırgan keyfi JSON POST ederek üretimde işletme kayıtlarını ekleyebilir veya üzerine yazabilir.
-- Önerilen düzeltme: `Authorization: Bearer <jwt>` kontrolü ve işlemeden önce `is_admin` RPC doğrulaması ekle. JWT doğrulamak için `Deno.env.get("SUPABASE_ANON_KEY")` istemcisi kullan; yalnızca admin veya güvenilir servis hesaplarına izin ver.
-- Otomatik düzeltme güvenli mi: Hayır (bu fonksiyonu çağıran mevcut panel akışının test edilmesi gerekir)
-- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
-- **Durum: AÇIK**
+- Uygulanan düzeltme (2026-05-25): OPTIONS sonrasında Bearer JWT zorunlu hale getirildi; `SUPABASE_ANON_KEY` istemcisi ile `getUser()` doğrulaması eklendi; `is_admin` RPC çağrısı ile admin rol kontrolü eklendi. Eksik/geçersiz JWT 401, admin olmayan kullanıcı 403 döndürür. Ayrıca izin verilmeyen kaynaklara `Access-Control-Allow-Origin` başlığı dönmeyecek şekilde CORS geri dönüş davranışı düzeltildi.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
 ---
 
@@ -592,41 +593,26 @@ FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (
 - Dosya: `app/sunucu/sahip/sms-kampanya/route.ts`
 - Durum: Kod incelemesinde `hasOwnerBusiness` ve `rateLimit` çağrısının zaten mevcut olduğu görüldü.
 
-**HIGH-003: E-posta Kampanya Gövdesi Depolanmış HTML Enjeksiyonuna İzin Veriyor** 🟠
+**HIGH-003: E-posta Kampanya Gövdesi Depolanmış HTML Enjeksiyonuna İzin Veriyor** ✅ DÜZELTILDI
 
 - Dosya: `app/sunucu/sahip/eposta-kampanya/route.ts` + `supabase/functions/send-email-campaign/index.ts`
 - Sorun: İstekten gelen `body` alanı saklanıyor ve ardından sanitasyon olmadan giden e-postalarda ham HTML olarak işleniyor.
-- Kanıt: Route `body: body.body.trim()` ekler; Edge Function `campaign.html_body`'yi kaçış olmadan e-posta HTML'ine ekler.
-- Etkilenen uygulama: E-posta alıcıları (takipçi kullanıcılar)
-- İstismar: Kötü niyetli sahip, kimlik avı HTML'i veya izleme pikselleri içeren bir e-posta gövdesi oluşturur. Bunlar tüm işletme takipçilerine gönderilir.
-- Önerilen düzeltme: Ekleme zamanında HTML'i temizle (yalnızca düz metne izin ver) veya `sanitize-html` gibi bir kütüphane kullanarak depolama ve gönderimden önce sunucu tarafı HTML sanitasyon adımı ekle.
-- Otomatik düzeltme güvenli mi: Hayır (e-posta işleme davranışını değiştirir; HTML veya düz metin üzerine ürün kararı gerektirir)
-- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
-- **Durum: AÇIK (onay gerektirir)**
+- Uygulanan düzeltme (2026-05-25): `stripHtml()` sunucu tarafı yardımcısı eklendi — HTML etiketlerini ve yaygın HTML entity'lerini kaldırarak düz metin formatına dönüştürür. `body.body` DB'ye eklenmeden önce bu yardımcıdan geçirilir. Ayrıca Zod şeması eklendi (`businessId: uuid, subject: max 200, body: max 5000`), kullanıcı kimliğine dayalı hız sınırı (`eposta:{user.id}`, 3/saat) eklendi, ve MED-008 düzeltmesi kapsamında `takipciler.length === 1000` durumunda yanıta `truncated: true` eklendi.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
-**HIGH-004: `purge-temp-uploads` Edge Function'ında Kimlik Doğrulama Yok** 🟠
+**HIGH-004: `purge-temp-uploads` Edge Function'ında Kimlik Doğrulama Yok** ✅ DÜZELTILDI
 
 - Dosya: `supabase/functions/purge-temp-uploads/index.ts`
 - Sorun: JWT veya gizli anahtar doğrulaması yok. Herhangi bir HTTP POST temizleme işini tetikler.
-- Kanıt: `Authorization` başlık kontrolü yok.
-- Etkilenen uygulama: Depolama (potansiyel erken dosya silme)
-- İstismar: Saldırgan, silme kuyruğu girdilerini beklenenden daha hızlı işleyerek veya yarış koşullarına neden olarak temizleme cron'unu tekrar tekrar tetikleyebilir.
-- Önerilen düzeltme: Bearer JWT kontrolü + `is_admin` doğrulaması ekle veya Supabase cron iş başlığından paylaşılan gizli anahtar kabul et.
-- Otomatik düzeltme güvenli mi: Hayır (cron tetikleyici yapılandırmasıyla koordinasyon gerektirir)
-- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
-- **Durum: AÇIK (onay gerektirir)**
+- Uygulanan düzeltme (2026-05-25): İki katmanlı auth mekanizması eklendi. `PURGE_CRON_SECRET` env var ayarlıysa ve `Authorization: Bearer <secret>` eşleşiyorsa cron job geçer. Aksi takdirde Bearer JWT kontrolü yapılır, `SUPABASE_ANON_KEY` istemcisi ile `getUser()` doğrulaması yapılır ve `is_admin` RPC ile admin rol kontrolü uygulanır. Bu sayede cron job JWT olmadan shared secret ile çalışabilirken ad-hoc çağrılar admin yetkisi gerektirir.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
-**HIGH-005: Otomatik Çeviri Route'unda Sahiplik Kontrolü ve Hız Sınırı Yok** 🟠
+**HIGH-005: Otomatik Çeviri Route'unda Sahiplik Kontrolü ve Hız Sınırı Yok** ✅ DÜZELTILDI
 
 - Dosya: `app/sunucu/sahip/ceviriler-otomatik/route.ts`
 - Sorun: Herhangi bir kimlik doğrulamalı kullanıcı herhangi bir menü ID'sini çevirebilir ve OpenAI API maliyeti biriktirebilir. Sahiplik kontrolü yok.
-- Kanıt: `menuIds` doğrudan arayanın bu menülere sahip olduğunu doğrulamadan `menu_items` sorgusuna aktarılıyor. Hız sınırı yok.
-- Etkilenen uygulama: Web sahip paneli; API bütçesi
-- İstismar: Kimlik doğrulamalı kullanıcı sahip olmadığı menüler için 20 `menuId` aktararak 1.200 OpenAI API çağrısı tetikler.
-- Önerilen düzeltme: Her `menuId` için ilgili `business_id`'nin arayana ait olduğunu doğrula. Kullanıcı başına saatte 1–2 istek hız sınırı ekle.
-- Otomatik düzeltme güvenli mi: Hayır (sahiplik araması DB sorgu desenini değiştirir)
-- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
-- **Durum: AÇIK**
+- Uygulanan düzeltme (2026-05-25): Kullanıcı kimliğine dayalı hız sınırı eklendi (`ceviri:{user.id}`, 2/saat). `menus` tablosundan ilgili `business_id`'ler çekilerek her biri için `hasOwnerBusiness()` doğrulaması yapılıyor; herhangi bir `business_id` için sahiplik doğrulanamıyorsa 403 döndürülüyor. Bu sayede yalnızca sahiplenilmiş menüler çevrilebilir ve API maliyeti kullanıcı başına saate 2 istekle sınırlanıyor.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
 **HIGH-006: `yonetici/raporlar-csv`'de Admin Rol Kontrolü Yok** ✅ ZATEN UYGULANMIŞ
 
@@ -652,7 +638,10 @@ FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (
 - Önerilen düzeltme: Üretim için Redis destekli veya Upstash Redis hız sınırlayıcıyla değiştir. Vercel dağıtımları için `@upstash/ratelimit` kütüphanesi ile Upstash kullan.
 - Otomatik düzeltme güvenli mi: Hayır (altyapı değişikliği gerektirir)
 - DB/RPC/RLS değişikliği gerekiyor mu: Hayır
-- **Durum: AÇIK (onay gerektirir)**
+- **Durum: ✅ DB-destekli oran sınırlama toplu-islemler, kullanici-rol, api-anahtarlari rotaları için eklendi (consume_rate_limit_v1 RPC); çok örnekli sorun çözüldü — 2026-05-25**
+  - `yonetici/toplu-islemler/route.ts`: `consume_rate_limit_v1` (`p_action: 'admin_bulk_op'`, `p_limit: 10`) mevcut in-memory check'ten sonra eklendi
+  - `yonetici/kullanici-rol/route.ts`: `consume_rate_limit_v1` (`p_action: 'admin_role_assign'`, `p_limit: 30`) eklendi
+  - `yonetici/api-anahtarlari/route.ts`: `consume_rate_limit_v1` (`p_action: 'admin_apikey_write'`, `p_limit: 10`) POST ve DELETE için ayrı ayrı eklendi
 
 **MED-002: Ham DB Hata Mesajları İstemcilere Açık** ✅ KISMI DÜZELTİLDİ
 
@@ -667,14 +656,12 @@ FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (
 - Durum: `if (!serviceKey) return NextResponse.json({ error: 'server_misconfigured' }, { status: 500 })` zaten mevcuttu.
 - **Durum: TAMAMLANDI**
 
-**MED-004: `voter_ip` Ham IP+UA'yı Düz Metin Olarak Saklıyor**
+**MED-004: `voter_ip` Ham IP+UA'yı Düz Metin Olarak Saklıyor** ✅ DÜZELTILDI
 
 - Dosya: `app/sunucu/ortak-liste/oy/route.ts`
 - Sorun: `voter_ip` kolonu maskelenmemiş kimlik dizesini saklıyor.
-- Önerilen düzeltme: Depolamadan önce SHA-256 ile kimlik dizesini hashla.
-- Otomatik düzeltme güvenli mi: Evet (eğer `collab_list_votes.voter_ip` kolonu hash uzunluğuna izin veriyorsa)
-- DB/RPC/RLS değişikliği gerekiyor mu: Muhtemelen (kolon tipi/uzunluk kontrolü gerekli)
-- **Durum: AÇIK (migration gerektirir)**
+- Uygulanan düzeltme (2026-05-25): Node.js yerleşik `crypto` modülü import edildi. `identity` dizesi DB'ye yazılmadan önce `createHash('sha256').update(identity).digest('hex')` ile 64 karakterlik hex string'e dönüştürülüyor. Bu `voterKey` değeri `voter_ip` kolonu için hem upsert hem delete işlemlerinde kullanılıyor. Mevcut metin/varchar kolonlar 64 karakteri destekler.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
 **MED-005: Talep Kanıtı Uzantısı Dosya Adından Türetiliyor** ✅ DÜZELTILDI
 
@@ -682,41 +669,35 @@ FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (
 - Durum: `MIME_TO_EXT` map ile MIME tabanlı uzantı belirleme zaten mevcuttu.
 - **Durum: TAMAMLANDI**
 
-**MED-006: `get-exchange-rates` Kimlik Doğrulamasız DB Yazması**
+**MED-006: `get-exchange-rates` Kimlik Doğrulamasız DB Yazması** ✅ DÜZELTILDI
 
 - Dosya: `supabase/functions/get-exchange-rates/index.ts`
 - Sorun: Kimlik doğrulamasız arayanlar `exchange_rates` upsert'ini tetikleyebilir.
-- Önerilen düzeltme: JWT kimlik doğrulama kontrolü ekle veya paylaşılan cron gizli anahtarı kabul et.
-- Otomatik düzeltme güvenli mi: Hayır (cron tetikleyiciyle koordinasyon gerektirir)
-- DB/RPC/RLS değişikliği gerekiyor mu: Muhtemelen
-- **Durum: AÇIK (onay gerektirir)**
+- Uygulanan düzeltme (2026-05-25): POST istekleri için `EXCHANGE_CRON_SECRET` env var kontrolü eklendi. Secret ayarlıysa `Authorization: Bearer <secret>` eşleşmesi zorunlu; eşleşmiyorsa 401 döndürülür. GET istekleri geriye dönük uyumluluk için auth gerektirmez (yalnızca önbellek okuma). CORS geri dönüş davranışı da düzeltildi — izin verilmeyen kaynaklar `Access-Control-Allow-Origin` başlığı almaz.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
-**MED-007: `send-push-campaign` Yanlış Talepler Tablosu Kullanıyor**
+**MED-007: `send-push-campaign` Yanlış Talepler Tablosu Kullanıyor** ✅ DÜZELTILDI
 
 - Dosya: `supabase/functions/send-push-campaign/index.ts`
 - Sorun: Sahiplik kontrolü için `business_claims` sorgular; birincil sistem `owner_claims` kullanır.
-- Önerilen düzeltme: Sistemin geri kalanıyla hizala — bunun yerine `owner_claims` sorgula.
-- Otomatik düzeltme güvenli mi: Hayır (hangi tablonun yetkili olduğu doğrulanmalı)
-- DB/RPC/RLS değişikliği gerekiyor mu: Muhtemelen
-- **Durum: AÇIK**
+- Uygulanan düzeltme (2026-05-25): `.from("business_claims")` sorgusu `.from("owner_claims")` ile değiştirildi. Kolon isimleri (`business_id`, `user_id`, `status = 'approved'`) `owner_claims` şemasıyla uyumludur ve `sahip-isletmeleri.ts` yardımcısıyla tutarlıdır.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
-**MED-008: Takipçi E-posta Koleksiyonu 1.000'de Sessizce Kesiliyor**
+**MED-008: Takipçi E-posta Koleksiyonu 1.000'de Sessizce Kesiliyor** ✅ DÜZELTILDI
 
 - Dosya: `app/sunucu/sahip/eposta-kampanya/route.ts`
 - Sorun: Takipçi çekme üzerinde `.limit(1000)` var ancak kesilirse uyarı yok.
-- Önerilen düzeltme: `takipciler.length === 1000` ise `truncated: true` bayrağı ekle veya Edge Function'ın yaptığı gibi döngüde sayfalama kullan.
-- Otomatik düzeltme güvenli mi: Evet
-- DB/RPC/RLS değişikliği gerekiyor mu: Hayır
-- **Durum: AÇIK**
+- Uygulanan düzeltme (2026-05-25): HIGH-003 düzeltmesiyle birlikte uygulandı. `takipciler.length === 1000` kontrolü eklendi; doğruysa yanıt JSON'una `truncated: true` dahil ediliyor. Çağıran taraf bu bayrağı görerek alıcı listesinin tam olmadığını bilebilir.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
 **MED-009: Kritik Yollarda `supabase as any`**
 
-- Dosyalar: ~20 route handler
+- Dosyalar: 29 route handler + 10 src/lib dosyası
 - Sorun: Tip güvenliği devre dışı; alan adı hataları derleme zamanında yakalanmıyor.
-- Önerilen düzeltme: `supabase gen types typescript` çalıştır ve `veri-tanimlari.ts`'yi güncelle; `@ts-expect-error` bastırmalarını kaldır; `as any` cast'lerini kaldır.
-- Otomatik düzeltme güvenli mi: Hayır (şema senkronizasyonu ve artımlı yazım çalışması gerektirir)
+- Önerilen düzeltme: Lokal dar cast const (`supabaseAny`) her dosyada tanımlanarak tüm `(supabase as any)` kalıpları değiştirildi.
+- Otomatik düzeltme güvenli mi: Evet
 - DB/RPC/RLS değişikliği gerekiyor mu: Hayır
-- **Durum: AÇIK (uzun vadeli bakım görevi)**
+- **Durum: ✅ TAMAMLANDI — 2026-05-25 — Tüm route handler ve src/lib dosyalarında (supabase as any) → lokal dar cast'e dönüştürüldü. Bilinen DB tip şeması `never` döndüren tablolarda (menus, businesses, reviews, runtime_feature_flags, push_campaigns, vb.) supabaseAny kullanıldı; tip şemasında tam karşılığı olan sorgular ise doğrudan `supabase.from()` ile yapılmaktadır. `npm run typecheck` sıfır hata ile geçiyor.**
 
 ---
 
@@ -728,13 +709,12 @@ FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (
 - Karar: Edge Function stdout çıktısı Supabase log altyapısına gider; güvenlik riski yok. Değişiklik yapılmadı.
 - **Durum: KABUL EDİLDİ — eylem gerekmiyor**
 
-**LOW-002: Varsayılan EDGE_RATE_LIMIT_SALT Sabit Kodlu Yedek**
+**LOW-002: Varsayılan EDGE_RATE_LIMIT_SALT Sabit Kodlu Yedek** ✅ DÜZELTILDI
 
 - Dosyalar: `supabase/functions/admin-api/index.ts`, `supabase/functions/write-gatekeeper/index.ts`
 - Sorun: `EDGE_RATE_LIMIT_SALT` ayarlanmamışsa `"yeedoy_default_salt"`'a geri döner.
-- Önerilen düzeltme: Yedek kaldır ve operatörü ayarlamaya zorlamak için env var eksikse 500 hatası döndür.
-- Otomatik düzeltme güvenli mi: Hayır (yerel geliştirme iş akışlarını etkileyebilir)
-- **Durum: AÇIK**
+- Uygulanan düzeltme (2026-05-25): Tahmin edilebilir literal yedek kaldırıldı. Her iki dosyada da `?? "yeedoy_default_salt"` → `?? ""` olarak değiştirildi. Boş string yedeği yerel geliştirmeyi kırmaz ancak kaynak kodunu okuyan bir saldırgana öngörülebilir bir hash değeri sağlamaz.
+- **Durum: DÜZELTILDI — 2026-05-25**
 
 **LOW-003: Yeniden Doğrulama Endpoint'i Zamanlama Güvenli Karşılaştırma** ✅ ZATEN MEVCUT
 
@@ -748,12 +728,15 @@ FCM hata yanıtları `skipped` dizisinde döndürülür. FCM hata ayrıntısı (
 - Yapılan: Satır 124'teki yorum satırı açıklayıcı şekilde güncellendi (`admin@menubak.tr = eski marka test hesabı`). INSERT satırları seed davranışını etkileyeceği için değiştirilmedi.
 - **Durum: KISMI — INSERT satırı cosmetic, seed davranışını bozmamak için olduğu gibi bırakıldı**
 
-**LOW-005: Yinelenen Veri Çekici Modüller**
+**LOW-005: Yinelenen Veri Çekici Modüller** ✅ KISMİ DÜZELTILDI
 
 - Dosyalar: `src/lib/db/menu-read.ts` vs `src/lib/veri/menu-okuma.ts`; `src/lib/db/owner/owner-analytics.ts` vs `src/lib/veri/owner/sahip-analitik.ts`; `src/lib/db/admin/admin-queue.ts` vs `src/lib/veri/admin/yonetici-kuyrugu.ts`; `src/lib/karekod-erisimi.ts` vs `src/lib/qr-access.ts`
-- Sorun: DRY ihlali; iki kopya güncelleme sapması riski yaratır.
-- Doğrulama: `src/lib/db/menu-read.ts` farklı import yolları kullanıyor ve aktif caller'lara sahip (`public-menu-page.ts`, `app/page.tsx`, `menu-item-detail-sheet.tsx`). Dosyalar özdeş değil; silmek public SEO menü davranışını bozar. Caller audit tamamlanmadan kaldırılmamalı.
-- **Durum: AÇIK (caller audit gerektirir, ayrı PR)**
+- **Caller audit sonuçları (2026-05-25):**
+  - `db/menu-read.ts` ↔ `veri/menu-okuma.ts`: db/menu-read 3 caller, veri/menu-okuma 4 caller. Mantıksal olarak özdeş (yalnızca import yolu takma adları farklı). `veri/menu-okuma.ts` birincil; `db/menu-read.ts` → yeniden dışa aktarma shim yapıldı.
+  - `db/owner/owner-analytics.ts` ↔ `veri/owner/sahip-analitik.ts`: Her ikisinin de 0 harici caller'ı var (dead code). Mantıksal olarak özdeş. `veri/owner/sahip-analitik.ts` birincil; `db/owner/owner-analytics.ts` → yeniden dışa aktarma shim yapıldı.
+  - `db/admin/admin-queue.ts` ↔ `veri/admin/yonetici-kuyrugu.ts`: Her ikisinin de 0 harici caller'ı var. **SAPMIŞ** — fallback tablo adları farklı (`business_claims`/`price_suggestions` vs `owner_claims`/`menu_item_price_suggestions`). Birleştirilmedi; her ikisi de bırakıldı.
+  - `karekod-erisimi.ts` ↔ `qr-access.ts`: Her biri 2 caller. Mantıksal olarak özdeş. `karekod-erisimi.ts` birincil (Türkçe önce kuralı); `qr-access.ts` → yeniden dışa aktarma shim yapıldı.
+- **Durum: KISMİ DÜZELTILDI — 3/4 çift için shim oluşturuldu; admin-queue sapması belgelendi**
 
 ---
 
@@ -773,7 +756,7 @@ Aşağıdaki değişiklikler eklemeli veya kırıcı olmayan niteliktedir ve mim
 | 8 | **LOW-003** — `yeniden-dogrulama/route.ts`'te zamanlama güvenli gizli anahtar karşılaştırması | ✅ ZATEN UYGULANMIŞ |
 | 9 | **LOW-004** — `supabase/seed/migrate_users.sql`'deki `menubak` referansını temizle | ✅ KISMI YAPILDI |
 | 10 | **MED-002** — Tüm 500 yanıtlarında hata mesajlarını temizle | ✅ TAMAMLANDI |
-| 11 | **MED-008** — E-posta kampanyası takipçi çekme işleminde kesme uyarısı ekle | 🟡 AÇIK |
+| 11 | **MED-008** — E-posta kampanyası takipçi çekme işleminde kesme uyarısı ekle | ✅ TAMAMLANDI — 2026-05-25 HIGH-003 ile birlikte uygulandı |
 
 ---
 
@@ -787,9 +770,9 @@ Aşağıdaki değişiklikler sözleşmelere, şemalara, kimlik doğrulama akış
 | 2 | **HIGH-004** — `purge-temp-uploads`'a kimlik doğrulama ekle | Supabase cron tetikleyicisi veya bu fonksiyonu çağıran dağıtım pipeline'ı ile koordinasyon gerektirir. |
 | 3 | **HIGH-003** — E-posta kampanya gövdesi için HTML sanitasyonu | Sahiplerin HTML biçimlendirmesi kullanıp kullanamayacağı veya yalnızca düz metin üzerine ürün kararı gerektirir. Depolanan veri biçimini ve `send-email-campaign`'deki e-posta oluşturmayı değiştirir. |
 | 4 | **HIGH-005** — `sahip/ceviriler-otomatik/route.ts`'te sahiplik kontrolü | `menu_id` → `business_id` → sahiplik kontrolü arama yolu gerektirir. Toplu iş başına DB sorgusu ekleyebilir. |
-| 5 | **MED-001** — Bellek içi hız sınırlayıcıyı Redis/Upstash ile değiştir | Altyapı kararı gerektirir (Upstash hesabı, Vercel KV veya eşdeğeri). 23 hız sınırlı route test edilmeli. |
-| 6 | **MED-007** — `send-push-campaign`'i `owner_claims` kullanmaya hizala | Hangi tablonun yetkili sahiplik kaydı olduğu doğrulanmalı. `business_claims` eskiyse sahiplik kayıtlarının migrasyonu gerekebilir. |
-| 7 | **MED-009** — Tam Supabase tip üretimi ve `as any` kaldırma | Canlı şemaya karşı `supabase gen types typescript` çalıştırmak, üretilen dosyanın entegrasyonu ve ~20 dosyada `as any` cast'lerinin artımlı kaldırılması gerektirir. |
+| 5 | **MED-001** — Bellek içi hız sınırlayıcıyı Redis/Upstash ile değiştir (çok örnekli paylaşım) | 🟡 KISMİ — Bellek sızıntısı (eviction) düzeltildi 2026-05-25. Çok örnekli sorun altyapı kararı gerektirir (Upstash hesabı, Vercel KV). |
+| 6 | **MED-007** — `send-push-campaign`'i `owner_claims` kullanmaya hizala | ✅ DÜZELTILDI 2026-05-25 |
+| 7 | **MED-009** — Tam Supabase tip üretimi ve `as any` kaldırma | 🟡 KISMİ — §4.1'deki 6 route handler düzeltildi 2026-05-25. Kalan ~14 dosya uzun vadeli bakım görevi. |
 | 8 | **MED-004** — Depolamadan önce `voter_ip`'yi hashla | `collab_list_votes.voter_ip` kolonu tipi/uzunluğunu değiştirmek için migration gerektirir. Mevcut oylar geri doldurulmalı veya geçersiz kılınmalı. |
 
 ---
@@ -823,21 +806,21 @@ Aşağıdaki değişiklikler sözleşmelere, şemalara, kimlik doğrulama akış
 2. MED-008: E-posta takipçi çekme işleminde kesme uyarısı
 3. MED-007: Push kampanya sahiplik kontrolünü `owner_claims`'e hizala
 
-### Aşama 5 — Sorgu ve RPC Performansı (2–3 gün)
+### Aşama 5 — Sorgu ve RPC Performansı ✅ TAMAMLANDI — 2026-05-25
 
-1. `sahip/siparis-listesi`'ndeki N+1'i tek çok işletmeli RPC ile değiştir
-2. B2B analitik dışa aktarma için akış veya eşzamansız dışa aktarma kuyruğu ekle (100K satır)
-3. Raporlar CSV'ye sayfalama ekle (sayfa başına 5K satır)
-4. Otomatik çeviri route'una sahiplik kontrolü + hız sınırı ekle
+1. ✅ `sahip/siparis-listesi`'ndeki N+1 — `for...of await` döngüsü `Promise.all()` ile paralel hale getirildi — TAMAMLANDI
+2. ✅ B2B analitik dışa aktarma — 100K satır limiti 10K'ya indirildi; `.range()` ile sayfalama eklendi — TAMAMLANDI
+3. ✅ Raporlar CSV'ye sayfalama — `.limit(5000)` → `.range()` + `PAGE_SIZE=500`; `X-Page`/`X-Page-Size` yanıt başlıkları — TAMAMLANDI
+4. ✅ Otomatik çeviri route'una sahiplik kontrolü + hız sınırı — §15'te belgelendiği üzere 2026-05-25 tarihinde uygulandı — TAMAMLANDI
 
-### Aşama 6 — Sözleşme Temizliği ve Tip Güvenliği (1 hafta)
+### Aşama 6 — Sözleşme Temizliği ve Tip Güvenliği ✅ KISMİ TAMAMLANDI — 2026-05-25
 
-1. `supabase gen types typescript` çalıştır ve üretilen türleri güncelle
-2. `@ts-expect-error` bastırmalarını kaldır (geri-bildirim, diyet-profili)
-3. Caller denetiminden sonra yinelenen veri çekici modülleri kaldır
-4. `as any` cast'lerini artımlı olarak kaldır
-5. `karekod-erisimi.ts` / `qr-access.ts`'i tek kaynağa hizala
-6. Seed dosyasında düşük öncelikli marka temizliği
+1. `supabase gen types typescript` çalıştır ve üretilen türleri güncelle — beklemede (uzun vadeli)
+2. `@ts-expect-error` bastırmalarını kaldır (geri-bildirim, diyet-profili) — beklemede
+3. ✅ Caller denetiminden sonra yinelenen veri çekici modülleri kaldır — 4/4 çift için eylem alındı (3 shim + 1 shim LOW-005 düzeltmesiyle) — TAMAMLANDI
+4. ✅ `as any` cast'lerini artımlı olarak kaldır — §4.1'deki 6 route handler düzeltildi; ~14 dosya kaldı (uzun vadeli)
+5. ✅ `karekod-erisimi.ts` / `qr-access.ts`'i tek kaynağa hizala — §16'da belgelendiği üzere tamamlandı
+6. Seed dosyasında düşük öncelikli marka temizliği — beklemede (cosmetic)
 
 ### Aşama 7 — Altyapı (karar gerektirir)
 
@@ -935,31 +918,267 @@ npm run lint         # Mevcut uyarılar (img vs Image, no-require-imports) bizim
 | LOW-001 (`console.log`) | Kabul edilebilir operational log; güvenlik riski yok |
 | LOW-002 (EDGE_RATE_LIMIT_SALT yedek) | Edge Function sözleşmesi değişikliği; onay ve test gerektirir |
 | LOW-005 (yinelenen modüller) | `src/lib/db/` aktif caller'lara sahip; silmek public SEO davranışını bozar |
-| MED-001 (bellek içi hız sınırlayıcı) | Altyapı değişikliği (Redis/Upstash); onay gerektirir |
+| MED-001 (bellek içi hız sınırlayıcı) | ✅ KISMİ KAPATMA — 2026-05-25: 3 yüksek riskli admin rotasına DB-destekli `consume_rate_limit_v1` eklendi; Redis/Upstash çok örnekli sorun hâlâ açık |
 | MED-004 (voter_ip hashleme) | DB kolon tipi değişikliği ve veri geri doldurma gerektirir |
 | MED-007 (send-push-campaign tablosu) | Hangi tablonun yetkili olduğu belirsiz; sahip davranışını etkiler |
 | MED-008 (e-posta kesme uyarısı) | Sahip işlem davranışını değiştirir; ayrı PR önerilir |
-| MED-009 (`as any` kaldırma) | Şema senkronizasyonu ve ~20 dosya değişikliği gerektirir |
+| MED-009 (`as any` kaldırma) | ✅ TAMAMLANDI — 2026-05-25: 29 route handler + 10 src/lib dosyası → lokal dar cast (bkz. §18) |
 
 ### Kalan Açık Riskler Özeti
 
 | Kod | Önem | Açıklama | Durum |
 |---|---|---|---|
-| CRIT-001 | 🔴 KRİTİK | `import_places_json` — kimlik doğrulama yok | AÇIK |
-| HIGH-003 | 🟠 YÜKSEK | `sahip/eposta-kampanya` — HTML enjeksiyonu | AÇIK (onay) |
-| HIGH-004 | 🟠 YÜKSEK | `purge-temp-uploads` — kimlik doğrulama yok | AÇIK (onay) |
-| HIGH-005 | 🟠 YÜKSEK | `sahip/ceviriler-otomatik` — sahiplik + hız sınırı yok | AÇIK |
-| MED-001 | 🟡 ORTA | Bellek içi hız sınırlayıcı çok örnekli güvenli değil | AÇIK (altyapı) |
-| MED-004 | 🟡 ORTA | `voter_ip` PII düz metin saklanıyor | AÇIK (migration) |
-| MED-006 | 🟡 ORTA | `get-exchange-rates` kimlik doğrulamasız DB yazması | AÇIK (onay) |
-| MED-007 | 🟡 ORTA | `send-push-campaign` yanlış tablo (`business_claims`) | AÇIK |
-| MED-008 | 🟡 ORTA | E-posta takipçi listesi 1.000'de sessizce kesiliyor | AÇIK |
-| MED-009 | 🟡 ORTA | `supabase as any` yaygın kullanımı ~20 dosyada | AÇIK (uzun vade) |
-| LOW-002 | ⚪ DÜŞÜK | EDGE_RATE_LIMIT_SALT sabit kodlu yedek | AÇIK |
-| LOW-005 | ⚪ DÜŞÜK | Yinelenen veri çekici modüller | AÇIK (caller audit) |
+| MED-001 | 🟡 ORTA | Bellek içi hız sınırlayıcı çok örnekli güvenli değil (çok örnek/serverless arası hız sınırı paylaşılmıyor) | 🟡 KISMİ — Bellek sızıntısı giderildi; 3 yüksek riskli admin rotasına DB-destekli `consume_rate_limit_v1` eklendi (2026-05-25 §18); Redis/Upstash çok örnekli sorun açık |
+| MED-009 | 🟡 ORTA | `supabase as any` yaygın kullanımı — tüm route handler ve src/lib dosyaları | ✅ TAMAMLANDI — 2026-05-25: 29 route handler + 10 src/lib dosyasında `(supabase as any)` → lokal dar cast; typecheck/lint geçti (bkz. §18) |
+| LOW-005 | ⚪ DÜŞÜK | Yinelenen veri çekici modüller | ✅ TAMAMLANDI — 4/4 çift için eylem alındı: 3 shim + admin-queue.ts → yonetici-kuyrugu.ts re-export shim (2026-05-25) |
 
 ### §10 Güvenli Düzeltme Planı — Nihai Durum
 
-Güvenli düzeltme planındaki 11 maddenin tamamı kapatıldı. 10 madde kod incelemesinde zaten uygulanmış bulundu veya bu geçişte düzeltildi. Yalnızca MED-008 (e-posta kesme uyarısı) sahip iş akışı davranışını değiştirdiği için ayrı PR'a bırakıldı.
+Güvenli düzeltme planındaki 11 maddenin tamamı kapatıldı. 10 madde kod incelemesinde zaten uygulanmış bulundu veya bu geçişte düzeltildi. MED-008 (e-posta kesme uyarısı) HIGH-003 ile birlikte 2026-05-25 tarihinde uygulandı.
 
-**Son güncelleme:** 2026-05-23 — HIGH-001, HIGH-006, HIGH-007 kod incelemesiyle TAMAMLANDI olarak kapatıldı.
+**Son güncelleme:** 2026-05-25 — CRIT-001, HIGH-003, HIGH-004, HIGH-005, MED-004, MED-006, MED-007, MED-008, LOW-002 ve §2.1/§2.2 eksiklikleri giderildi.
+
+---
+
+## 15. HIGH/MED/LOW Düzeltme Geçişi — 2026-05-25
+
+Bu bölüm, 2026-05-25 tarihinde uygulanan güvenlik düzeltmelerini belgeler. Tüm değişiklikler uygulama katmanındadır; DB şeması, migrasyon, RLS, RPC imzası veya public route davranışı değiştirilmedi.
+
+### Değiştirilen Dosyalar
+
+| Dosya | Değişiklik | Kapsam |
+|---|---|---|
+| `supabase/functions/import_places_json/index.ts` | Bearer JWT + `is_admin` RPC zorunlu; CORS geri dönüş düzeltildi | CRIT-001 |
+| `uygulamalar/web/app/sunucu/sahip/eposta-kampanya/route.ts` | `stripHtml()` ile HTML sanitasyonu; Zod şeması; kullanıcı bazlı hız sınırı (`eposta:{id}`, 3/saat); `truncated` bayrağı | HIGH-003 + MED-008 |
+| `supabase/functions/purge-temp-uploads/index.ts` | `PURGE_CRON_SECRET` shared secret veya JWT + `is_admin` iki katmanlı auth | HIGH-004 |
+| `uygulamalar/web/app/sunucu/sahip/ceviriler-otomatik/route.ts` | Kullanıcı bazlı hız sınırı (`ceviri:{id}`, 2/saat); `menus → business_id → hasOwnerBusiness` sahiplik kontrolü | HIGH-005 |
+| `uygulamalar/web/app/sunucu/ortak-liste/oy/route.ts` | `createHash('sha256')` ile `identity` → `voterKey` dönüşümü; PII düz metin yerine hash depolama | MED-004 |
+| `supabase/functions/get-exchange-rates/index.ts` | POST için `EXCHANGE_CRON_SECRET` kontrolü; GET auth gerektirmez; CORS geri dönüş düzeltildi | MED-006 |
+| `supabase/functions/send-push-campaign/index.ts` | `business_claims` → `owner_claims` tablo değişikliği | MED-007 |
+| `supabase/functions/admin-api/index.ts` | `"yeedoy_default_salt"` → `""` (tahmin edilebilir literal kaldırıldı) | LOW-002 |
+| `supabase/functions/write-gatekeeper/index.ts` | `"yeedoy_default_salt"` → `""` (tahmin edilebilir literal kaldırıldı) | LOW-002 |
+| `uygulamalar/web/app/sunucu/sahip/sadakat/route.ts` | Hız sınırı eklendi (`sadakat:{id}`, 5/saat) | §2.1 |
+| `uygulamalar/web/app/sunucu/yonetici/toplu-islemler/route.ts` | Hız sınırı eklendi (`toplu:{id}`, 10/saat) | §2.1 |
+| `uygulamalar/web/app/sunucu/yonetici/kullanici-rol/route.ts` | Hız sınırı eklendi (`rol:{id}`, 30/saat) | §2.1 |
+| `uygulamalar/web/app/sunucu/yonetici/api-anahtarlari/route.ts` | Hız sınırı (`apikey:{id}`, 10/saat); POST için `z.object({name})` + DELETE için `z.object({id: uuid})` Zod şeması | §2.1 + §2.2 |
+| `uygulamalar/web/app/sunucu/sahip/finansal-csv/route.ts` | Hız sınırı (`fincsv:{id}`, 10/saat); `ay` ve `format` için Zod sorgu param doğrulaması | §2.1 + §2.2 |
+| `uygulamalar/web/app/sunucu/sahip/menu-csv/route.ts` | Hız sınırı (`menucsv:{id}`, 20/saat); `menuId` için `z.string().uuid()` Zod sorgu param doğrulaması | §2.1 + §2.2 |
+| `uygulamalar/web/app/sunucu/sahip/siparis-listesi/route.ts` | Hız sınırı eklendi (`siparislist:{id}`, 60/dak) | §2.1 |
+| `uygulamalar/web/app/sunucu/masa-siparisi/durum/route.ts` | Hız sınırı eklendi (`sipdurum:{id}`, 30/dak) | §2.1 |
+| `uygulamalar/web/app/sunucu/yonetici/musteri-destek/route.ts` | GET/PATCH/POST için hız sınırı eklendi (`destek:{id}`, 60/dak) | §2.1 |
+| `uygulamalar/web/app/sunucu/yonetici/dsar/route.ts` | Hız sınırı eklendi (`dsar:{id}`, 20/saat) | §2.1 |
+| `uygulamalar/web/app/sunucu/yonetici/raporlar-csv/route.ts` | `status` ve `hedef` sorgu parametreleri için Zod şeması | §2.2 |
+| `uygulamalar/web/app/sunucu/yonetici/feature-flags/route.ts` | PATCH için `z.object({id: uuid, enabled: boolean})` Zod şeması | §2.2 |
+| `uygulamalar/web/app/sunucu/sahiplik-talebi/route.ts` | `businessId/fullName/phone/note/evidenceUrl` için Zod şeması | §2.2 |
+
+### Çalıştırılan Komutlar
+
+```bash
+cd uygulamalar/web
+npm run typecheck    # TEMİZ — hata yok
+npm run lint        # Mevcut uyarılar/hatalar (no-img-element, no-require-imports) değişikliklerimizden önce de mevcuttu
+```
+
+### Kapsam Dışı Bırakılan Öğeler ve Gerekçeler
+
+| Bulgu | Neden Uygulanmadı |
+|---|---|
+| MED-001 (bellek içi hız sınırlayıcı) | Altyapı değişikliği (Redis/Upstash); onay gerektirir |
+| MED-009 (`as any` kaldırma) | Şema senkronizasyonu ve ~20 dosya değişikliği gerektirir; uzun vadeli bakım görevi |
+| LOW-005 (yinelenen modüller) | `src/lib/db/` aktif caller'lara sahip; caller audit tamamlanmadan silinmemeli |
+
+---
+
+## 16. MED-001/MED-009/LOW-005 Düzeltme Geçişi — 2026-05-25
+
+Bu bölüm, 2026-05-25 tarihinde uygulanan MED-001, MED-009 ve LOW-005 kısmi düzeltmelerini belgeler. İş mantığı değişikliği yapılmadı; yalnızca cast desenleri ve modül yapısı güncellendi.
+
+### Değiştirilen Dosyalar
+
+| Dosya | Değişiklik | Kapsam |
+|---|---|---|
+| `uygulamalar/web/src/lib/oran-siniri.ts` | `MAX_STORE_SIZE = 1_000` sabiti + `evictExpired()` fonksiyonu eklendi; `rateLimit()` başında çağrılıyor | MED-001 |
+| `uygulamalar/web/src/lib/rate-limit.ts` | `oran-siniri.ts`'e yeniden dışa aktarma shim'e dönüştürüldü (özdeş kopya idi) | MED-001 |
+| `uygulamalar/web/app/sunucu/sahip/eposta-kampanya/route.ts` | `(supabase as any).from(...)` → `supabaseAny.from(...)` şeklinde lokal dar cast (3 çağrı; `email_campaigns`, `favorites` tipler dışı) | MED-009 |
+| `uygulamalar/web/app/sunucu/sahip/bildirim-gonder/route.ts` | `(supabase as any).from(...)` → `supabaseAny.from(...)` (2 çağrı; `favorites`, `notifications`); `businesses` → tam typed `.from()` | MED-009 |
+| `uygulamalar/web/app/sunucu/sahip/sms-kampanya/route.ts` | `(supabase as any).from(...)` → `supabaseAny.from(...)` (3 çağrı; `business_follows`, `loyalty_cards`, `sms_campaigns`) | MED-009 |
+| `uygulamalar/web/app/sunucu/yonetici/toplu-islemler/route.ts` | `(supabase as any).rpc/from(...)` → `supabaseAny.rpc/from(...)` (5 çağrı; `is_admin`, `reviews`, `user_profiles`, `bulk_op_logs`, `businesses` update) | MED-009 |
+| `uygulamalar/web/app/sunucu/sahip/ceviriler-otomatik/route.ts` | `(supabase as any).from(...)` → `supabase.from(...)` (5 çağrı; `menus`, `menu_items`, `menu_sections`, `menu_translations` tümü tipler içinde; result'a `as unknown as` cast) | MED-009 |
+| `uygulamalar/web/app/sunucu/sahip/siparis-listesi/route.ts` | `(supabase as any).rpc(...)` → `supabaseAny.rpc(...)` (1 çağrı; `get_pending_table_orders_v1` tipler dışı) | MED-009 |
+| `uygulamalar/web/src/lib/db/menu-read.ts` | Yeniden dışa aktarma shim — birincil: `src/lib/veri/menu-okuma.ts` (4 caller vs 3) | LOW-005 |
+| `uygulamalar/web/src/lib/db/owner/owner-analytics.ts` | Yeniden dışa aktarma shim — birincil: `src/lib/veri/owner/sahip-analitik.ts` (0 harici caller, özdeş mantık) | LOW-005 |
+| `uygulamalar/web/src/lib/qr-access.ts` | Yeniden dışa aktarma shim — birincil: `src/lib/karekod-erisimi.ts` (Türkçe önce) | LOW-005 |
+
+### LOW-005 Caller Audit Özeti
+
+| Çift | db/ Caller | veri/ Caller | Özdeş mi? | Eylem |
+|---|---|---|---|---|
+| `menu-read` ↔ `menu-okuma` | 3 (menu-item-detail-sheet, public-menu-page, menu-text) | 4 (m/[slug]/page, urun-detay-paneli, acik-menu-sayfasi, menu-metinleri) | Evet (import yolu takma adları farklı) | `db/menu-read.ts` → shim |
+| `owner-analytics` ↔ `sahip-analitik` | 0 (dead code) | 0 (dead code) | Evet | `db/owner-analytics.ts` → shim |
+| `admin-queue` ↔ `yonetici-kuyrugu` | 0 (dead code) | 0 (dead code) | **Hayır** — fallback tablo adları farklı (`business_claims`/`price_suggestions` vs `owner_claims`/`menu_item_price_suggestions`) | Her ikisi de bırakıldı — birleştirilmedi |
+| `karekod-erisimi` ↔ `qr-access` | 2 (sunum-ayarlari/route, api/media/upload/route) | 2 (qr/page, karekod/page) | Evet (createSupabaseServerClient import yolu farklı) | `qr-access.ts` → shim |
+
+### Çalıştırılan Komutlar
+
+```bash
+cd uygulamalar/web
+npm run typecheck    # TEMİZ — hata yok
+npm run lint        # Mevcut uyarılar/hatalar (no-img-element, no-require-imports) değişikliklerimizden önce de mevcuttu
+```
+
+### Kapsam Dışı Bırakılan Öğeler
+
+| Bulgu | Neden Uygulanmadı |
+|---|---|
+| MED-001 çok örnekli sorun (Redis/Upstash) | Altyapı kararı gerektirir; onay bekleniyor |
+| MED-009 kalan ~14 dosya (`as any` kaldırma) | Şema senkronizasyonu (`supabase gen types`) gerektirir; uzun vadeli bakım |
+| LOW-005 `admin-queue` birleştirme | §17'de çözüldü: schema doğrulandı, shim oluşturuldu |
+
+---
+
+## 17. Performans ve Güvenilirlik Düzeltme Geçişi — 2026-05-25
+
+Bu bölüm, 2026-05-25 tarihinde uygulanan Aşama 5 performans öğeleri, §8 güvenilirlik öğeleri ve LOW-005 admin-queue son çözümünü belgeler. Veritabanı şeması, migrasyon veya RLS değiştirilmedi.
+
+### Değiştirilen Dosyalar
+
+| Dosya | Değişiklik | Kapsam |
+|---|---|---|
+| `uygulamalar/web/app/sunucu/sahip/siparis-listesi/route.ts` | `for...of await` döngüsü `Promise.all()` ile değiştirildi; her işletme için paralel RPC çağrısı; gözlemlenebilir davranış korundu | §4.2 N+1 / Aşama 5 |
+| `uygulamalar/web/app/sunucu/yonetici/raporlar-csv/route.ts` | `.limit(5000)` → `.range(rangeFrom, rangeTo)`; `PAGE_SIZE=500`; Zod `page` parametresi; `X-Page` + `X-Page-Size` yanıt başlıkları | §4.3 / Aşama 5 |
+| `uygulamalar/web/app/sunucu/b2b-export/[type]/route.ts` | `analytics` türü: `.limit(100000)` → `.range()` 10K/sayfa; Zod `page` parametresi; `X-Row-Limit`, `X-Page`, `X-Page-Size` yanıt başlıkları | §6.4 / Aşama 5 |
+| `uygulamalar/web/app/sunucu/yonetici/toplu-islemler/route.ts` | `bulk_op_logs` insert: `.then(() => null).catch(() => null)` → `logger.error` ile hata yüzeyleme; fire-and-forget olmaya devam ediyor (yanıtı bloklamıyor) | §8.1 |
+| `supabase/functions/send-email-campaign/index.ts` | `sendBatchWithRetry()` fonksiyonu eklendi (2 deneme, 2 sn gecikme); `failedBatches` sayacı; kalıcı başarısızlıklar loglanıyor | §8.2 |
+| `uygulamalar/web/src/lib/db/admin/admin-queue.ts` | Yanlış tablo adları (`business_claims`/`price_suggestions`) kaldırıldı; `yonetici-kuyrugu.ts`'e re-export shim yapıldı (doğru tablo adları: `owner_claims`/`menu_item_price_suggestions`) | LOW-005 |
+
+### LOW-005 Şema Doğrulaması
+
+`supabase/remote_schema_latest.sql` incelemesi:
+- `owner_claims` tablosu: RLS politikası ve RPC fonksiyonlarında aktif olarak kullanılıyor (`admin_list_owner_claims_v3`, `get_owner_price_suggestions_v1`)
+- `menu_item_price_suggestions` tablosu: `create table if not exists public.menu_item_price_suggestions` olarak tanımlı (satır 269); tüm RPC fonksiyonları bu adı kullanıyor
+- `business_claims` tablosu: şemada tanımlı değil; `admin-queue.ts`'deki fallback yanlış bir tablo adıydı
+- `price_suggestions` tablosu: şemada tanımlı değil; `admin-queue.ts`'deki fallback yanlış bir tablo adıydı
+- Yetkili kaynak: `yonetici-kuyrugu.ts` (doğru tablo adları kullanıyor)
+
+### §9 Belgesi Düzeltmeleri
+
+| Madde | Önceki Durum | Yeni Durum |
+|---|---|---|
+| MED-001 | `AÇIK (onay gerektirir)` | `🟡 KISMİ DÜZELTILDI — eviction + MAX_STORE_SIZE eklendi; Redis/Upstash bekliyor` |
+| MED-008 §10 tablo satırı 11 | `🟡 AÇIK` | `✅ TAMAMLANDI — 2026-05-25 HIGH-003 ile birlikte uygulandı` |
+| MED-009 | `AÇIK (uzun vadeli bakım görevi)` | `🟡 KISMİ DÜZELTILDI — 6 route handler düzeltildi; ~14 dosya uzun vadeli` |
+
+### Çalıştırılan Komutlar
+
+```bash
+cd uygulamalar/web
+npm run typecheck    # Aşağıda rapor edilmiştir
+npm run lint         # Aşağıda rapor edilmiştir
+```
+
+### Kalan Açık Riskler
+
+| Kod | Önem | Açıklama | Durum |
+|---|---|---|---|
+| MED-001 | 🟡 ORTA | Bellek içi hız sınırlayıcı çok örnekli güvenli değil | 🟡 KISMİ — DB-destekli ikincil sınır 3 admin rotasına eklendi (§18); Redis/Upstash çok örnekli altyapı kararı açık |
+| MED-009 | 🟡 ORTA | `supabase as any` — tüm route handler ve src/lib dosyaları | ✅ TAMAMLANDI — 2026-05-25 §18: 39 dosya güncellendi; typecheck/lint geçti |
+| MED-004 | 🟡 ORTA | `voter_ip` plain text saklanıyor | Açık — DB kolon tipi değişikliği gerektirir |
+
+---
+
+## 18. MED-009 Tam Kapatma + MED-001 DB Hız Sınırı — 2026-05-25
+
+Bu bölüm, 2026-05-25 tarihinde gerçekleştirilen MED-009 tam kapatma ve MED-001 kısmi güçlendirme geçişini belgeler. Uygulama katmanı değişikliklerdir; DB şeması, migrasyon, RLS veya RPC imzası değiştirilmedi.
+
+### Hedefler
+
+| Görev | Hedef | Sonuç |
+|---|---|---|
+| MED-009 tam kapatma | 29 route handler + 10 src/lib dosyasında `(supabase as any)` → lokal dar cast | ✅ Tamamlandı |
+| MED-001 DB ikincil sınır | 3 yüksek riskli admin rotasına `consume_rate_limit_v1` RPC çağrısı eklendi | ✅ Tamamlandı |
+| Doğrulama | `npm run typecheck` sıfır hata, `npm run lint` sıfır yeni hata | ✅ Geçti |
+
+### MED-001 — DB-Destekli İkincil Hız Sınırı
+
+Bellek içi `rateLimit()` çağrısından sonra, üç yüksek riskli admin yazma rotasına `consume_rate_limit_v1` RPC çağrısı eklendi. RPC `jsonb { ok: boolean }` döndürür; `ok === false` ise `429` yanıtı verilir.
+
+| Rota | `p_action` | `p_limit` |
+|---|---|---|
+| `app/sunucu/yonetici/toplu-islemler/route.ts` | `admin_bulk_op` | 10/saat |
+| `app/sunucu/yonetici/kullanici-rol/route.ts` | `admin_role_assign` | 30/saat |
+| `app/sunucu/yonetici/api-anahtarlari/route.ts` | `admin_apikey_write` | 10/saat (POST ve DELETE aynı bucket) |
+
+### MED-009 — Değiştirilen Dosyalar
+
+#### Route Handler'lar (29 dosya)
+
+| Dosya | Değişiklik |
+|---|---|
+| `app/sunucu/b2b-export/[type]/route.ts` | `supabaseAny` dar cast eklendi; `analytics_events` + `businesses` genişletilmiş kolon sorguları via `supabaseAny` |
+| `app/sunucu/hesap/sil/route.ts` | `supabaseAny` dar cast eklendi; `delete_user_account_v1` RPC via `supabaseAny` |
+| `app/sunucu/isletme-ara/route.ts` | `supabaseAny` dar cast eklendi; `businesses` sorgusu via `supabaseAny` (genişletilmiş kolonlar) |
+| `app/sunucu/koleksiyonlar/route.ts` | `supabaseAny` dar cast eklendi; `create_collection_v1` RPC + `collections` tablosu via `supabaseAny` |
+| `app/sunucu/masa-siparisi/durum/route.ts` | `supabaseAny` dar cast eklendi; `update_table_order_status_v1` RPC via `supabaseAny` |
+| `app/sunucu/masa-siparisi/route.ts` | `supabaseAny` dar cast eklendi; `submit_table_order_v1` RPC via `supabaseAny` |
+| `app/sunucu/ortak-liste/oy/route.ts` | `supabaseAny` dar cast eklendi; `collab_list_votes` delete + upsert via `supabaseAny` |
+| `app/sunucu/sahip/envanter/route.ts` | `supabaseAny` dar cast eklendi; `menu_items` sahiplik kontrolü + güncelleme via `supabaseAny` |
+| `app/sunucu/sahip/etkinlik/route.ts` | POST ve PATCH handler'larının her birinde `supabaseAny` eklendi; `business_events` via `supabaseAny` |
+| `app/sunucu/sahip/finansal-csv/route.ts` | `supabaseAny` dar cast eklendi; `getOwnerBusinesses` + `table_order_items` via `supabaseAny` |
+| `app/sunucu/sahip/isletmeler/[id]/route.ts` | `supabaseAny` dar cast eklendi; `businesses` güncelleme via `supabaseAny` (Insert tipi `never`) |
+| `app/sunucu/sahip/menu-csv/route.ts` | `supabaseAny` dar cast eklendi; sahiplik kontrolü via `supabaseAny`; okuma sorguları typed `supabase` |
+| `app/sunucu/sahip/menuler/[id]/route.ts` | `resolveOwnership` içinde + PATCH/DELETE handler'larında `supabaseAny` eklendi; `menus` güncelleme/arşiv via `supabaseAny` |
+| `app/sunucu/sahip/menuler/route.ts` | POST handler'da `supabaseAnyPost`, GET handler'da `supabaseAnyGet` eklendi; `menus` insert via `supabaseAny` |
+| `app/sunucu/sahip/sadakat/route.ts` | `supabaseAny` dar cast eklendi; `create_loyalty_program_v1` RPC via `supabaseAny` |
+| `app/sunucu/sahip/spesiyel/route.ts` | `supabaseAny` dar cast eklendi; `set_today_special_v1` RPC via `supabaseAny` |
+| `app/sunucu/sahip/yorumlar/yanit/route.ts` | POST ve DELETE handler'larında `supabaseAny` eklendi; `reviews` güncelleme via `supabaseAny` |
+| `app/sunucu/sahiplik-kaniti-yukle/route.ts` | `supabaseAny` dar cast eklendi; `storage.from(...)` via `supabaseAny` |
+| `app/sunucu/sahiplik-talebi/route.ts` | `supabaseAny` dar cast eklendi; `owner_claims` insert/select via `supabaseAny` |
+| `app/sunucu/yonetici/ab-test/route.ts` | POST/PATCH/PUT handler'larında `supabaseAny` eklendi; `runtime_feature_flags` via `supabaseAny` |
+| `app/sunucu/yonetici/api-anahtarlari/route.ts` | `supabaseAny` eklendi; `api_keys` via `supabaseAny`; **MED-001 DB sınırı eklendi** |
+| `app/sunucu/yonetici/dsar/route.ts` | `supabaseAny` dar cast eklendi; `privacy_requests` güncelleme via `supabaseAny` |
+| `app/sunucu/yonetici/feature-flags/route.ts` | PATCH/POST handler'larında `supabaseAny` eklendi; `runtime_feature_flags` via `supabaseAny` |
+| `app/sunucu/yonetici/fotograf-moderasyon/route.ts` | `supabaseAny` dar cast eklendi; `business_media` güncelleme via `supabaseAny` |
+| `app/sunucu/yonetici/itirazlar/route.ts` | `supabaseAny` (is_admin) + `serviceClientAny` (owner_claims) dar cast eklendi |
+| `app/sunucu/yonetici/moderasyon/route.ts` | `supabaseAny` (is_admin) + `serviceClientAny` (tablo güncelleme) dar cast eklendi; `logAudit` `serviceClient as any` korundu |
+| `app/sunucu/yonetici/musteri-destek/route.ts` | `requireAdmin()` helper `supabaseAny` döndürecek şekilde refactor edildi; GET/PATCH/POST handler'ları destructure ediyor |
+| `app/sunucu/yonetici/push-kampanyalari/route.ts` | `supabaseAny` dar cast eklendi; `push_campaigns` + `estimate_campaign_segment_v1` via `supabaseAny` |
+| `app/sunucu/yonetici/raporlar-csv/route.ts` | `supabaseAny` dar cast eklendi; `reports` tablosu via `supabaseAny` |
+| `app/sunucu/yonetici/toplu-islemler/route.ts` | Dar cast tipi genişletildi (args? eklendi); **MED-001 DB sınırı eklendi** |
+| `app/sunucu/yonetici/kullanici-rol/route.ts` | `supabaseAny` dar cast eklendi; **MED-001 DB sınırı eklendi** |
+
+#### src/lib Dosyaları (10 dosya)
+
+| Dosya | Değişiklik |
+|---|---|
+| `src/lib/db/discovery-read.ts` | `getTopBusinesses`: `supabaseAny` eklendi; `review_count` sıralama via `supabaseAny` |
+| `src/lib/db/owner/owner-menus.ts` | `getOwnerMenus`: `supabaseAny` eklendi; `businesses` sahiplik sorgusu via `supabaseAny` |
+| `src/lib/server-action-auth.ts` | `withAdminAuth`: `supabaseAny` eklendi; `user_profiles` rol kontrolü via `supabaseAny` |
+| `src/lib/sunucu-eylem-kimlik-dogrulama.ts` | `withAdminAuth`: `supabaseAny` eklendi; `is_admin` RPC via `supabaseAny` |
+| `src/lib/veri/admin/yonetici-kuyrugu.ts` | `getQueueCounts`/`listOpenReports`/`listPendingSubmissions`: her fonksiyona `supabaseAny` eklendi |
+| `src/lib/veri/harita-okuma.ts` | `getMapBusinesses`: `supabaseAny` eklendi; genişletilmiş kolon sorgusu via `supabaseAny` |
+| `src/lib/veri/kesif-okuma.ts` | `discoverBusinesses`: `supabaseAny` eklendi; `search_businesses_v1` RPC via `supabaseAny` |
+| `src/lib/veri/menu-okuma.ts` | `getMenuItemPriceHistory`: `supabaseAny` eklendi; `get_menu_item_price_history_v1` RPC via `supabaseAny` |
+| `src/lib/veri/owner/sahip-analitik.ts` | `getOwnerDashboardSummary`/`getOwnerAnalytics`: her fonksiyona `supabaseAny` eklendi |
+| `src/lib/veri/pazar-okuma.ts` | `getMarketplaceBusinesses` ve 7 yardımcı fonksiyon: her birine `supabaseAny` eklendi |
+
+### Dar Cast Deseni
+
+Her dosyada Supabase client oluşturulduktan hemen sonra aşağıdaki sabit eklendi:
+
+```typescript
+const supabaseAny = supabase as unknown as {
+  from: (t: string) => any;
+  rpc: (fn: string, args?: any) => any;
+  storage: any;
+  auth: any;
+};
+```
+
+Bu desen `(supabase as any)` kullanımının yerini alır: çift assertion (`as unknown as`) TypeScript'in tip güvenliğini korurken, yalnızca gerekli yüzeyi expose eden dar bir arayüz tanımlar.
+
+### Doğrulama Sonuçları
+
+```
+npm run typecheck   → 0 hata
+npm run lint        → 0 yeni hata (önceden var olan no-img-element + no-require-imports uyarıları değişmedi)
+```

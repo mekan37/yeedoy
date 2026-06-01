@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { Container } from '@/src/ui/acik/ortak';
-import { HaritaIstemcisi } from '@/src/ui/acik/harita-istemcisi';
 import { getMapBusinesses } from '@/src/lib/veri/harita-okuma';
+import { HaritaSarmalayici } from './harita-sarmalayici';
 
 export const revalidate = 120;
 
@@ -41,10 +41,10 @@ export default async function HaritaPage() {
 
         {/* Full-height map */}
         <div className="relative flex-1">
-          <HaritaIstemcisi businesses={businesses} />
+          <HaritaSarmalayici businesses={businesses} />
 
           {/* Legend overlay */}
-          <div className="pointer-events-none absolute bottom-4 left-4 rounded-2xl border border-border bg-card/95 px-4 py-3 backdrop-blur">
+          <div className="pointer-events-none absolute bottom-4 left-4 z-10 rounded-2xl border border-border bg-card/95 px-4 py-3 backdrop-blur">
             <p className="text-xs font-[900] text-textStrong">OpenStreetMap</p>
             <p className="text-[11px] text-muted">Pin&apos;e tıkla → işletme detayı</p>
           </div>

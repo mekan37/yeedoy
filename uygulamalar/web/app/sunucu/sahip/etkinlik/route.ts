@@ -19,6 +19,7 @@ const patchSchema = z.object({
 
 export async function POST(req: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -27,10 +28,10 @@ export async function POST(req: Request) {
 
   const { bizId, title, description, eventDate, capacity, ticketPrice } = parsed.data;
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, bizId);
+  const canManageBusiness = await hasOwnerBusiness(supabaseAny, user.id, bizId);
   if (!canManageBusiness) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('business_events')
     .insert({
       business_id: bizId,
@@ -49,6 +50,7 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -57,10 +59,10 @@ export async function PATCH(req: Request) {
 
   const { id, status } = parsed.data;
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabaseAny, user.id);
   if (businessIds.length === 0) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-  const { data: event } = await (supabase as any)
+  const { data: event } = await supabaseAny
     .from('business_events')
     .select('id')
     .eq('id', id)
@@ -69,7 +71,7 @@ export async function PATCH(req: Request) {
 
   if (!event) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('business_events')
     .update({ status, updated_at: new Date().toISOString() })
     .eq('id', id);

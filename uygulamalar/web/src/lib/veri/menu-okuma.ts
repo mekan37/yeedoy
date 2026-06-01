@@ -509,8 +509,9 @@ export type PriceHistoryEntry = {
 
 export async function getMenuItemPriceHistory(menuItemId: string): Promise<PriceHistoryEntry[]> {
   const supabase = createSupabasePublicClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   try {
-    const { data, error } = await (supabase as any).rpc('get_menu_item_price_history_v1', {
+    const { data, error } = await supabaseAny.rpc('get_menu_item_price_history_v1', {
       p_menu_item_id: menuItemId,
       p_limit: 10,
     }) as { data: PriceHistoryEntry[] | null; error: unknown };

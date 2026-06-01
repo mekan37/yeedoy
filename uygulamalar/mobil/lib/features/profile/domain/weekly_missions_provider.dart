@@ -3,7 +3,7 @@ import '../../auth/domain/auth_providers.dart';
 import '../data/profile_repository.dart';
 import 'weekly_missions.dart';
 
-final myWeeklyMissionsProvider = FutureProvider<WeeklyMissions>((ref) async {
+final myWeeklyMissionsProvider = FutureProvider.autoDispose<WeeklyMissions>((ref) async {
   final user = ref.watch(userProvider);
   if (user == null) {
     return WeeklyMissions(

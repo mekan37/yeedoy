@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/medya/uygulama_gorsel_onbellek_yonetici.dart';
+import 'package:yeedoy/core/media/app_image_cache_manager.dart';
 
 void main() {
   group('AppImageCacheManager', () {

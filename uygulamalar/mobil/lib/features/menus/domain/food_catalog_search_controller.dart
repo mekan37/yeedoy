@@ -8,7 +8,7 @@ import '../data/food_catalog_repository.dart';
 import 'food_catalog_models.dart';
 
 final foodCatalogSearchProvider =
-    NotifierProvider<FoodCatalogSearchController, FoodCatalogSearchState>(
+    NotifierProvider.autoDispose<FoodCatalogSearchController, FoodCatalogSearchState>(
   FoodCatalogSearchController.new,
 );
 

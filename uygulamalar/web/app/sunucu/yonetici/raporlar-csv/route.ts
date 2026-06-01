@@ -1,22 +1,39 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { z } from 'zod';
+
+const PAGE_SIZE = 500;
+
+const querySchema = z.object({
+  status: z.string().optional(),
+  hedef: z.string().optional(),
+  page: z.coerce.number().int().min(1).default(1),
+});
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const status = url.searchParams.get('status') ?? 'all';
-  const hedef = url.searchParams.get('hedef') ?? '';
+
+  const parsedQuery = querySchema.safeParse(Object.fromEntries(url.searchParams));
+  if (!parsedQuery.success) return new Response('invalid_input', { status: 400 });
+
+  const status = parsedQuery.data.status ?? 'all';
+  const hedef = parsedQuery.data.hedef ?? '';
+  const page = parsedQuery.data.page;
+  const rangeFrom = (page - 1) * PAGE_SIZE;
+  const rangeTo = rangeFrom + PAGE_SIZE - 1;
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return new Response('Unauthorized', { status: 401 });
 
-  const { data: isAdmin } = await supabase.rpc('is_admin' as any);
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return new Response('Forbidden', { status: 403 });
 
-  let query = (supabase as any)
+  let query = supabaseAny
     .from('reports')
     .select('id, target_type, reason, details, status, created_at')
     .order('created_at', { ascending: false })
-    .limit(5000);
+    .range(rangeFrom, rangeTo);
 
   if (status !== 'all') query = query.eq('status', status);
   if (hedef) query = query.eq('target_type', hedef);
@@ -51,6 +68,8 @@ export async function GET(request: Request) {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
       'Content-Disposition': `attachment; filename="raporlar-${ts}.csv"`,
+      'X-Page': String(page),
+      'X-Page-Size': String(PAGE_SIZE),
     },
   });
 }

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yeedoy/uygulama/tema/uygulama_tokenleri.dart';
-import 'package:yeedoy/features/isletme/domain/isletme_ozelligi.dart';
-import 'package:yeedoy/features/isletme/domain/isletme_ozellikleri_saglayicisi.dart';
-import 'package:yeedoy/features/isletme/domain/isletme_yoklamalari_saglayicisi.dart';
-import 'package:yeedoy/features/isletme/domain/isletme_yeni_urunler_saglayicisi.dart';
-import 'package:yeedoy/features/isletme/ui/isletme_sayfasi.dart';
-import 'package:yeedoy/features/ayricaliklar/domain/ayricalik_modelleri.dart';
-import 'package:yeedoy/features/ayricaliklar/domain/ayricalik_saglayicilari.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
+import 'package:yeedoy/features/business/domain/business_amenity.dart';
+import 'package:yeedoy/features/business/domain/business_amenities_provider.dart';
+import 'package:yeedoy/features/business/domain/business_checkins_provider.dart';
+import 'package:yeedoy/features/business/domain/business_new_items_provider.dart';
+import 'package:yeedoy/features/business/ui/business_page.dart';
+import 'package:yeedoy/features/perks/domain/perk_models.dart';
+import 'package:yeedoy/features/perks/domain/perk_providers.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
 
 // ---------------------------------------------------------------------------

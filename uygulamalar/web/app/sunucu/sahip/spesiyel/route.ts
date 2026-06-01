@@ -22,10 +22,11 @@ export async function POST(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const { data, error } = await (supabase as any).rpc('set_today_special_v1', {
+  const { data, error } = await supabaseAny.rpc('set_today_special_v1', {
     p_menu_item_id: parsed.data.menuItemId,
     p_is_special: parsed.data.isSpecial,
     p_note: parsed.data.note ?? null,

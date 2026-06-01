@@ -10,6 +10,7 @@ const createCollectionSchema = z.object({
 
 export async function POST(request: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -32,14 +33,14 @@ export async function POST(request: Request) {
 
   const { name, description } = parsed.data;
 
-  const { data, error } = await (supabase as any).rpc('create_collection_v1', {
+  const { data, error } = await supabaseAny.rpc('create_collection_v1', {
     p_name: name,
     p_description: description ?? null,
   });
 
   if (error) {
     // Fallback: direct insert if RPC not available
-    const { data: inserted, error: insertError } = await (supabase as any)
+    const { data: inserted, error: insertError } = await supabaseAny
       .from('collections')
       .insert({ user_id: user.id, name, description: description ?? null })
       .select('id, name')

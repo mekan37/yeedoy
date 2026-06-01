@@ -6,8 +6,8 @@ Aktif kaynaklar:
 
 - docs haritasi: `docs/index.md`
 - durum raporu: `docs/vision_status.md`
-- backlog: `docs/roadmap.md`
+- backlog: `docs/yol-haritasi.md`
 - kurulum: `docs/setup.md`
-- deploy modeli: `docs/deploy.md`
-- smoke ve incident: `docs/runbook.md`
-- tarihsel release kayitlari: `docs/release_index.md`
+- deploy modeli: `docs/dagitim.md`
+- smoke ve incident: `docs/operasyon-kilavuzu.md`
+- tarihsel release kayitlari: `docs/arsiv/gecmis/surum-indeksi.md`

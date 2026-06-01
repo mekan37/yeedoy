@@ -13,7 +13,7 @@ typedef NearbyCampaignsParams = ({
 });
 
 final nearbyCampaignsProvider =
-    FutureProvider.family<List<NearbyCampaign>, NearbyCampaignsParams>((
+    FutureProvider.autoDispose.family<List<NearbyCampaign>, NearbyCampaignsParams>((
       ref,
       params,
     ) async {

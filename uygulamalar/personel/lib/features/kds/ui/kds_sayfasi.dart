@@ -359,11 +359,13 @@ class _KdsSutun extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             itemCount: siparisler.length,
             separatorBuilder: (_, _) => const SizedBox(height: 8),
-            itemBuilder: (ctx, i) => KdsSiparisKarti(
-              siparis: siparisler[i],
-              durumRengi: renk,
-              aksiyonEtiketi: aksiyonEtiketi,
-              onAksiyon: () => onAksiyon(siparisler[i].id),
+            itemBuilder: (ctx, i) => RepaintBoundary(
+              child: KdsSiparisKarti(
+                siparis: siparisler[i],
+                durumRengi: renk,
+                aksiyonEtiketi: aksiyonEtiketi,
+                onAksiyon: () => onAksiyon(siparisler[i].id),
+              ),
             ),
           ),
         ),

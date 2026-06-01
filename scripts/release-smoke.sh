@@ -16,7 +16,7 @@ require_env() {
 run_web() {
   echo "==> Running web smoke"
   (
-    cd "$ROOT_DIR/apps/web_next"
+    cd "$ROOT_DIR/uygulamalar/web"
     npm run test:e2e
   )
 }
@@ -29,24 +29,15 @@ run_web_live() {
   require_env "PLAYWRIGHT_SMOKE_BUSINESS_ID"
   require_env "PLAYWRIGHT_SMOKE_BUSINESS_PATH"
   (
-    cd "$ROOT_DIR/apps/web_next"
+    cd "$ROOT_DIR/uygulamalar/web"
     PLAYWRIGHT_REQUIRE_CANONICAL_REDIRECT="${PLAYWRIGHT_REQUIRE_CANONICAL_REDIRECT:-true}" \
       npm run test:e2e:live
-  )
-}
-
-run_panel() {
-  echo "==> Running panel smoke"
-  (
-    cd "$ROOT_DIR/apps/panel_flutter_web"
-    npm run test:smoke
   )
 }
 
 case "$TARGET" in
   all)
     run_web
-    run_panel
     ;;
   web)
     run_web
@@ -54,11 +45,8 @@ case "$TARGET" in
   web-live)
     run_web_live
     ;;
-  panel)
-    run_panel
-    ;;
   *)
-    echo "Usage: scripts/release-smoke.sh [all|web|web-live|panel]" >&2
+    echo "Usage: scripts/release-smoke.sh [all|web|web-live]" >&2
     exit 1
     ;;
 esac

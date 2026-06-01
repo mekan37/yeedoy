@@ -14,7 +14,7 @@
 
 **Kural:** Feature kodu monorepo sinirlarini korur: mobile'a owner/admin CRUD eklenemez, panel'e public SEO menu render eklenemez, web_next'e owner/admin CRUD eklenemez.
 
-**Kural:** Supabase'e yazma islemleri repository katmanina girer; UI'dan `client.rpc()` veya `client.from()` ile dogrudan yazma yapilmaz.
+**Kural:** Supabase'e yazma islemleri deposu katmanina girer; UI'dan `client.rpc()` veya `client.from()` ile dogrudan yazma yapilmaz.
 
 ---
 
@@ -27,7 +27,7 @@
 **Kural:** Feature klasor yapisi sabit uclu ayrimdan olusur:
 ```
 features/<feature_name>/
-  data/       -- repository, remote/local data source, cache, IO
+  data/       -- deposu, remote/local data source, cache, IO
   domain/     -- model, provider, controller, state
   ui/         -- page, section, widget, sheet
 ```
@@ -37,7 +37,7 @@ features/<feature_name>/
 - Sheet dosyasi: `*_sheet.dart`
 - Kart dosyasi: `*_card.dart`
 - Provider/Controller: `*_provider.dart`, `*_controller.dart`
-- Repository: `*_repository.dart`
+- Repository: `*_deposu.dart`
 
 **Neden:** IDE arama ve kod incelemesinde dosya tipini ek aciklama olmadan anlamak icin.
 
@@ -95,7 +95,7 @@ AdminDashboardController
 
 **Kural:** UI state yoneten Riverpod nesnesi controller veya provider olarak adlandirilir; `service` ismi state icin kullanilmaz.
 
-**Kural:** Controller'lar ince kalir. Is mantigi repository'ye, UI state domain katmanina tasimir. Controller icinde dogrudan Supabase cagrisi acilmaz.
+**Kural:** Controller'lar ince kalir. Is mantigi deposu'ye, UI state domain katmanina tasimir. Controller icinde dogrudan Supabase cagrisi acilmaz.
 
 ### 2.5 Widget Yapisi
 
@@ -115,7 +115,7 @@ AdminDashboardController
 
 **Kural:** Katman gecisleri tek yonludur: `UI -> domain -> data`. Ters yonde cagriya izin verilmez.
 
-**Kural:** Yeni Supabase sorgusu `data/` klasorundeki repository'ye gider.
+**Kural:** Yeni Supabase sorgusu `data/` klasorundeki deposu'ye gider.
 
 **Kural:** UI'da yeni `client.rpc()` veya `client.from()` acilmaz.
 
@@ -152,20 +152,15 @@ part of '../business_detail_page.dart';
 
 ---
 
-## 4. Panel (Flutter Web) Ozel Kurallari
+## 4. Owner/Admin Web Ozel Kurallari
 
-### 4.1 Sayfa Header Standardi (PanelPageHeader)
+### 4.1 Sayfa Header ve Shell Standardi
 
-**Kural:** Tum owner ve admin sayfalari `PanelPageHeader` componentini kullanir.
+**Kural:** Owner ve admin sayfalari `uygulamalar/web/src/ui/shell/**` altindaki shell bilesenleriyle tutarli kalir.
 
-**Kural:** Yeni panel sayfasi `PanelShell` disinda ayri layout kurmaz. Gecerli shell ailesi:
-- `PanelShell`
-- `PanelContentSurface`
-- `PanelPageHeader`
-- `PanelToolbar`
-- `PanelSidebar`
+**Kural:** Yeni owner/admin sayfasi `uygulamalar/web/uygulama/owner/**` veya `uygulamalar/web/uygulama/admin/**` altinda route edilir; public menu bilesenleriyle CRUD davranisi karistirilmaz.
 
-**Neden:** Panel shell disinda layout kurmak sidebar collapse/drawer mantigini bozar ve responsive davranisti degistirir.
+**Neden:** Owner/admin kabugu ile public menu deneyimini ayri tutmak route guard, auth ve responsive davranisi netlestirir.
 
 ### 4.2 Admin Sayfalari
 
@@ -201,20 +196,20 @@ part of '../business_detail_page.dart';
 
 ## 6. Test Kurallari
 
-**Kural:** Her yeni repository methodu icin birim testi yazilir.
+**Kural:** Her yeni deposu methodu icin birim testi yazilir.
 
 **Kural:** Supabase cagrisi mock'lanir; gercek ag gerektiren testler `integration_test/` altina gider.
 
-**Kural:** Panel browser smoke testleri Playwright ile `e2e/` altinda tutulur.
+**Kural:** Web browser smoke testleri Playwright ile `uygulamalar/web/e2e/` altinda tutulur.
 
 **Kural:** Golden test asset'i olmayan placeholder golden dosyasi eklenmez.
 
 **Kural:** CI kapisi: analyze + test + build. Bu kapidan gecemeyen PR merge edilmez.
 
 **Referans dosyalar:**
-- `apps/mobile_flutter/integration_test/golden_paths_integration_test.dart`
-- `apps/panel_flutter_web/test/`
-- `.github/workflows/panel_quality.yml`
+- `uygulamalar/mobil/integration_test/golden_paths_integration_test.dart`
+- `uygulamalar/web/e2e/`
+- `.github/workflows/`
 
 ---
 

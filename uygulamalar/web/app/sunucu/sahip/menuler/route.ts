@@ -45,12 +45,13 @@ export async function POST(request: Request) {
 
   const { business_id, title } = parsed.data;
 
-  const isOwner = await hasOwnerBusiness(supabase as any, user.id, business_id);
+  const supabaseAnyPost = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const isOwner = await hasOwnerBusiness(supabaseAnyPost, user.id, business_id);
   if (!isOwner) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
-  const { data: menu, error } = await (supabase as any)
+  const { data: menu, error } = await supabaseAnyPost
     .from('menus')
     .insert({
       business_id,
@@ -91,7 +92,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const supabaseAnyGet = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const businessIds = await getOwnerBusinessIds(supabaseAnyGet, user.id);
   if (businessIds.length === 0) {
     return NextResponse.json({ data: [] });
   }

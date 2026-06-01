@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { logger } from '@/src/lib/logger';
 import { z } from 'zod';
 
 const schema = z.discriminatedUnion('type', [
@@ -25,8 +27,22 @@ export async function PATCH(req: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  // reviews / user_profiles / bulk_op_logs / is_admin are not in Database types yet
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
+  const rl = rateLimit(`toplu:${user.id}`, 10, 3_600_000); // 10/hour
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+
+  const { data: dbRate } = await supabaseAny.rpc('consume_rate_limit_v1', {
+    p_action: 'admin_bulk_op',
+    p_limit: 10,
+  });
+  if (dbRate && (dbRate as { ok?: boolean }).ok === false) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+  }
 
   const parsed = schema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
@@ -35,14 +51,14 @@ export async function PATCH(req: Request) {
 
   if (data.type === 'businesses') {
     const isActive = data.action === 'approve';
-    const { error } = await (supabase as any)
+    const { error } = await supabaseAny
       .from('businesses')
       .update({ is_active: isActive })
       .in('id', data.ids);
     if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   } else if (data.type === 'reviews') {
     const newStatus = data.action === 'approve' ? 'approved' : 'rejected';
-    const { error } = await (supabase as any)
+    const { error } = await supabaseAny
       .from('reviews')
       .update({ status: newStatus })
       .in('id', data.ids);
@@ -56,7 +72,7 @@ export async function PATCH(req: Request) {
           : null;
 
     if (update) {
-      const { error } = await (supabase as any)
+      const { error } = await supabaseAny
         .from('user_profiles')
         .update(update)
         .in('user_id', data.ids);
@@ -64,7 +80,7 @@ export async function PATCH(req: Request) {
     }
   }
 
-  await (supabase as any)
+  supabaseAny
     .from('bulk_op_logs')
     .insert({
       op_type: data.type,
@@ -72,8 +88,12 @@ export async function PATCH(req: Request) {
       action: data.action,
       operator: user.id,
     })
-    .then(() => null)
-    .catch(() => null);
+    .then(({ error: logError }: { error: { message: string } | null }) => {
+      if (logError) logger.error('[toplu-islemler] audit log insert failed:', { message: logError.message });
+    })
+    .catch((err: unknown) => {
+      logger.error('[toplu-islemler] audit log unexpected error:', { err });
+    });
 
   return NextResponse.json({ ok: true, count: data.ids.length });
 }

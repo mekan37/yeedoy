@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/ag/supabase_saglayicisi.dart';
+import '../../../core/network/supabase_provider.dart';
 
 class LoyaltyStatus {
   LoyaltyStatus({

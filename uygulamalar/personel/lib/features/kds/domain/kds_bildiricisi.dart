@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -56,8 +57,9 @@ class KdsBildiricisi extends AsyncNotifier<List<MasaSiparisi>> {
     try {
       final taze = await _yukle(supabase, isletmeId);
       state = AsyncData(taze);
-    } catch (_) {
-      // Sessizce hata yutulanır — bir sonraki 30 saniyede tekrar denenecek
+    } catch (e) {
+      // Hata loglanır; bir sonraki 30 saniyede tekrar denenecek
+      debugPrint('KDS oto-yenileme hatası: $e');
     }
   }
 
@@ -68,6 +70,7 @@ class KdsBildiricisi extends AsyncNotifier<List<MasaSiparisi>> {
 
   /// Bir siparişi hazır olarak işaretler — KDS'den kaldırılır.
   Future<void> siparisHazir(String siparisId) async {
+    final kimlik = ref.read(kimlikProvider).valueOrNull;
     // Optimistic: önce listeden çıkar
     state = AsyncData(
       state.valueOrNull?.where((s) => s.id != siparisId).toList() ?? [],
@@ -77,6 +80,7 @@ class KdsBildiricisi extends AsyncNotifier<List<MasaSiparisi>> {
       await supabase.rpc('update_table_order_status_v1', params: {
         'p_order_id': siparisId,
         'p_status': 'done',
+        if (kimlik is KimlikGirilmis) 'p_business_id': kimlik.isletmeId,
       });
     } catch (_) {
       ref.invalidateSelf();
@@ -84,6 +88,7 @@ class KdsBildiricisi extends AsyncNotifier<List<MasaSiparisi>> {
   }
 
   Future<void> _durumGuncelle(String siparisId, String yeniDurum) async {
+    final kimlik = ref.read(kimlikProvider).valueOrNull;
     // Optimistic update
     state = AsyncData(
       state.valueOrNull
@@ -96,6 +101,7 @@ class KdsBildiricisi extends AsyncNotifier<List<MasaSiparisi>> {
       await supabase.rpc('update_table_order_status_v1', params: {
         'p_order_id': siparisId,
         'p_status': yeniDurum,
+        if (kimlik is KimlikGirilmis) 'p_business_id': kimlik.isletmeId,
       });
     } catch (_) {
       ref.invalidateSelf();

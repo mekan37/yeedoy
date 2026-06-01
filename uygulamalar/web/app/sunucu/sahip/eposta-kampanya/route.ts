@@ -1,44 +1,58 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { z } from 'zod';
+
+const bodySchema = z.object({
+  businessId: z.string().uuid(),
+  subject: z.string().min(1).max(200),
+  body: z.string().min(1).max(5000),
+});
+
+function stripHtml(input: string): string {
+  return input
+    .replace(/<[^>]*>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
 
 export async function POST(request: Request) {
-  const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
-    userAgent: request.headers.get('user-agent'),
-  });
-  const limit = rateLimit(`eposta_kampanya:${identity}`, 3, 3_600_000); // 3/saat
-  if (!limit.ok) {
-    return NextResponse.json({ ok: false, error: 'Çok fazla istek. Saatte en fazla 3 kampanya gönderilebilir.' }, { status: 429 });
-  }
-
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
 
-  const body = await request.json() as {
-    businessId: string;
-    subject: string;
-    body: string;
-  };
-
-  if (!body.businessId || !body.subject?.trim() || !body.body?.trim()) {
-    return NextResponse.json({ ok: false, error: 'Eksik parametre' }, { status: 400 });
+  const rl = rateLimit(`eposta:${user.id}`, 3, 3_600_000); // 3/hour per user
+  if (!rl.ok) {
+    return NextResponse.json({ ok: false, error: 'Çok fazla istek. Saatte en fazla 3 kampanya gönderilebilir.' }, { status: 429 });
   }
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, body.businessId);
+  const rawBody = await request.json().catch(() => null);
+  const parsed = bodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
+  }
+
+  const { businessId, subject, body } = parsed.data;
+  const safeBody = stripHtml(body);
+
+  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, businessId);
   if (!canManageBusiness) {
     return NextResponse.json({ ok: false, error: 'İşletme bulunamadı' }, { status: 403 });
   }
 
   // Kampanya kaydı oluştur
-  const { data: kampanya, error: kampanyaError } = await (supabase as any)
+  // email_campaigns is not in Database types yet — cast only the from() result
+  const supabaseAny = supabase as unknown as { from: (t: string) => any };
+  const { data: kampanya, error: kampanyaError } = await supabaseAny
     .from('email_campaigns')
     .insert({
-      business_id: body.businessId,
-      subject: body.subject.trim(),
-      body: body.body.trim(),
+      business_id: businessId,
+      subject: subject.trim(),
+      body: safeBody.trim(),
       status: 'pending',
       created_by: user.id,
       created_at: new Date().toISOString(),
@@ -51,11 +65,14 @@ export async function POST(request: Request) {
   }
 
   // Takipçilerin e-posta adreslerini al
-  const { data: takipciler } = await (supabase as any)
+  // favorites is not in Database types yet — cast only the from() result
+  const { data: takipciler } = await supabaseAny
     .from('favorites')
     .select('user_id, user_profiles:user_id(email, display_name)')
-    .eq('business_id', body.businessId)
+    .eq('business_id', businessId)
     .limit(1000);
+
+  const truncated = (takipciler ?? []).length === 1000;
 
   const eposta_listesi = ((takipciler ?? []) as any[])
     .map((t: any) => ({
@@ -69,7 +86,7 @@ export async function POST(request: Request) {
   // Şimdilik kampanya kaydını "sent" olarak güncelle
   const sentTo = eposta_listesi.length;
 
-  await (supabase as any)
+  await supabaseAny
     .from('email_campaigns')
     .update({
       status: sentTo > 0 ? 'sent' : 'no_recipients',
@@ -78,5 +95,5 @@ export async function POST(request: Request) {
     })
     .eq('id', kampanya.id);
 
-  return NextResponse.json({ ok: true, sent_to: sentTo });
+  return NextResponse.json({ ok: true, sent_to: sentTo, truncated });
 }

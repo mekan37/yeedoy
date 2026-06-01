@@ -4,7 +4,7 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/network/supabase_provider.dart';
 
 final businessRecentCheckinsProvider =
-    FutureProvider.family<int, String>((ref, businessId) async {
+    FutureProvider.autoDispose.family<int, String>((ref, businessId) async {
   if (businessId.trim().isEmpty) return 0;
   final client = ref.watch(supabaseProvider);
   try {

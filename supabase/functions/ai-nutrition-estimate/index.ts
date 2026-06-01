@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { enforceRateLimit } from "../_shared/rate-limit.ts";
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -189,6 +190,9 @@ serve(async (req) => {
   });
   const { data: userRes, error: userErr } = await userClient.auth.getUser();
   if (userErr || !userRes?.user) return json({ ok: false, error: "not_authenticated" }, 401);
+
+  try { await enforceRateLimit(userRes.user.id, "ai-nutrition-estimate", 20); }
+  catch (r) { return r as Response; }
 
   let body: Record<string, unknown>;
   try { body = await req.json(); } catch { return json({ ok: false, error: "invalid_json" }, 400); }

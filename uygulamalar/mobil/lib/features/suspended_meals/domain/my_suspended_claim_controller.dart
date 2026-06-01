@@ -49,12 +49,12 @@ class MySuspendedClaimsState {
 }
 
 final mySuspendedClaimsControllerProvider =
-    NotifierProvider<MySuspendedClaimsController, MySuspendedClaimsState>(
+    NotifierProvider.autoDispose<MySuspendedClaimsController, MySuspendedClaimsState>(
   MySuspendedClaimsController.new,
 );
 
 final mySuspendedBadgeProvider =
-    AsyncNotifierProvider<MySuspendedBadgeController, MySuspendedBadge>(
+    AsyncNotifierProvider.autoDispose<MySuspendedBadgeController, MySuspendedBadge>(
   MySuspendedBadgeController.new,
 );
 

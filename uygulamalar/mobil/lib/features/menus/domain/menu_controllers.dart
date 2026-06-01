@@ -6,11 +6,11 @@ import '../data/menu_repository.dart';
 import 'menu_models.dart';
 
 final menuItemPhotosProvider =
-    AsyncNotifierProvider.family<
+    AsyncNotifierProvider.autoDispose.family<
       MenuItemPhotosController,
       List<MenuItemPhoto>,
       String
-    >(MenuItemPhotosController.new);
+    >((arg) => MenuItemPhotosController(arg));
 
 class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
   MenuItemPhotosController(this.menuItemId);
@@ -70,25 +70,25 @@ class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
 }
 
 final menuItemPriceStatusProvider =
-    AsyncNotifierProvider.family<
+    AsyncNotifierProvider.autoDispose.family<
       MenuItemPriceStatusController,
       MenuItemPriceStatus,
       String
-    >(MenuItemPriceStatusController.new);
+    >((arg) => MenuItemPriceStatusController(arg));
 
 final menuItemValueScoreProvider =
-    AsyncNotifierProvider.family<
+    AsyncNotifierProvider.autoDispose.family<
       MenuItemValueScoreController,
       MenuItemValueScore,
       String
-    >(MenuItemValueScoreController.new);
+    >((arg) => MenuItemValueScoreController(arg));
 
 final menuItemPriceHistoryProvider =
-    AsyncNotifierProvider.family<
+    AsyncNotifierProvider.autoDispose.family<
       MenuItemPriceHistoryController,
       List<MenuItemPriceHistoryEntry>,
       String
-    >(MenuItemPriceHistoryController.new);
+    >((arg) => MenuItemPriceHistoryController(arg));
 
 class MenuItemPriceStatusController extends AsyncNotifier<MenuItemPriceStatus> {
   MenuItemPriceStatusController(this.menuItemId);

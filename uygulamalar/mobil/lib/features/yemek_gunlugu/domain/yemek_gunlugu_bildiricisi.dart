@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/ag/supabase_saglayicisi.dart';
+import '../../../core/network/supabase_provider.dart';
 import 'yemek_gunlugu_modeli.dart';
 
 final yemekGunluguProvider =
-    AsyncNotifierProvider<YemekGunluguBildiricisi, List<YemekGunluguKaydi>>(
+    AsyncNotifierProvider.autoDispose<YemekGunluguBildiricisi, List<YemekGunluguKaydi>>(
   YemekGunluguBildiricisi.new,
 );
 

@@ -17,6 +17,8 @@ Bu klasor, Yeedoy'un Supabase Edge Function kaynaklarini tutar. Her alt klasor b
 - `media-upload-user`: mobile ve user-scoped upload endpoint'idir. Supabase Storage bucket'larina yazar.
 - `purge-temp-uploads`: gecici upload ve temizleme queue'larini periyodik olarak siler.
 - `push-dispatch`: veritabaninda kuyruğa alinmis bildirimleri push saglayicilarina yollar.
+- `send-push-campaign`: owner tarafindan tetiklenen push kampanyalarini FCM batch ile gonderir.
+- `send-email-campaign`: owner tarafindan tetiklenen e-posta kampanyalarini Resend batch API ile gonderir (RESEND_API_KEY secret gerektirir).
 - `write-gatekeeper`: hassas yazma akislarinda merkezi guard katmani olarak calisir.
 
 ## Lokal Calistirma
@@ -148,6 +150,7 @@ Function bazinda gereken env'ler farklidir, ama ana grup su sekildedir:
 - `WP_USERNAME`
 - `WP_APP_PASSWORD`
 - `EDGE_RATE_LIMIT_SALT`
+- `RESEND_API_KEY` — `send-email-campaign` icin gerekli (Resend dashboard'dan alinir)
 
 Notlar:
 

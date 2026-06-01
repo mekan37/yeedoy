@@ -25,7 +25,11 @@
   ],
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
-  }
+  },
+  "github.gitAuthentication": false,
+  "git.autofetch": false,
+  "git.terminalAuthentication": false,
+  "git.useIntegratedAskPass": false
   
 }
 

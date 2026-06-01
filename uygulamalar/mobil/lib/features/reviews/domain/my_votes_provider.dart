@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/reviews_repository.dart';
 
-final myVotesProvider = FutureProvider.family<Set<String>, MyVotesKey>((ref, key) async {
+final myVotesProvider = FutureProvider.autoDispose.family<Set<String>, MyVotesKey>((ref, key) async {
   if (key.userId.isEmpty) return <String>{};
   final ids = key.reviewIdsKey.isEmpty ? <String>[] : key.reviewIdsKey.split(',');
   return ref.read(reviewsRepositoryProvider).listMyVotedReviewIds(

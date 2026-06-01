@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../uygulama/tema/renkler.dart';
-import '../../../features/shared/ui/bilesenler/uygulama_iskele.dart';
-import '../../../features/shared/ui/bilesenler/uygulama_ust_cubugu.dart';
+import '../../../app/theme/colors.dart';
+import '../../../features/shared/ui/components/app_appbar.dart';
+import '../../../features/shared/ui/components/app_scaffold.dart';
 
 class YerlestirSayfasi extends StatefulWidget {
   final String businessId;

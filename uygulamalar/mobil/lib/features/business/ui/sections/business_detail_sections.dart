@@ -856,23 +856,13 @@ class BusinessReviewPhotosSection extends ConsumerWidget {
                   separatorBuilder: (context, i) => const SizedBox(width: 6),
                   itemBuilder: (context, i) => GestureDetector(
                     onTap: () => _openAllPhotos(context, urls, initial: i),
-                    child: ClipRRect(
+                    child: AppNetworkImage(
+                      url: urls[i],
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.cover,
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        urls[i],
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, e, stack) => Container(
-                          width: 90,
-                          height: 90,
-                          color: AppColors.card,
-                          child: const Icon(
-                            Icons.broken_image_outlined,
-                            color: AppColors.muted,
-                          ),
-                        ),
-                      ),
+                      variant: AppImageVariant.thumb,
                     ),
                   ),
                 ),

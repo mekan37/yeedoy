@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/kalite/surum_kapisi.dart';
+import 'package:yeedoy/core/quality/release_gate.dart';
 
 void main() {
   test('allows release when all KPIs are within thresholds', () {

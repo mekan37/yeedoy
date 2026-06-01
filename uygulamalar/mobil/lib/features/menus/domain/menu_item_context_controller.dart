@@ -4,8 +4,8 @@ import '../data/menu_item_context_repository.dart';
 import 'menu_item_context.dart';
 
 final menuItemContextProvider =
-    AsyncNotifierProvider.family<MenuItemContextController, MenuItemContext, String>(
-  MenuItemContextController.new,
+    AsyncNotifierProvider.autoDispose.family<MenuItemContextController, MenuItemContext, String>(
+  (arg) => MenuItemContextController(arg),
 );
 
 class MenuItemContextController extends AsyncNotifier<MenuItemContext> {

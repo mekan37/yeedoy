@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/features/isletme/domain/isletme_detay.dart';
-import 'package:yeedoy/features/yorumlar/domain/yorum_katalogu.dart';
+import 'package:yeedoy/features/business/domain/business_detail.dart';
+import 'package:yeedoy/features/reviews/domain/review_catalog.dart';
 
 void main() {
   test('review catalog only serializes selected criteria', () {

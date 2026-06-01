@@ -1232,7 +1232,7 @@ class _MenuError extends StatelessWidget {
 }
 
 Widget _maxWidth(BuildContext context, Widget child) {
-  final width = MediaQuery.of(context).size.width;
+  final width = MediaQuery.sizeOf(context).width;
   final maxWidth = width >= 1040 ? 1040.0 : (width >= 720 ? 720.0 : width);
   return Align(
     alignment: Alignment.topCenter,

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/features/bildirimler/domain/bildirim_hedef_yol_cozucu.dart';
+import 'package:yeedoy/features/notifications/domain/notification_target_path_resolver.dart';
 
 void main() {
   const businessId = '11111111-1111-4111-8111-111111111111';

@@ -8,6 +8,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const now = new Date();
 
+  // Only indexable public routes — login/forgot-password carry noindex and must not appear.
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${siteUrl}/`,
@@ -51,21 +52,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
-    {
-      url: `${siteUrl}/login`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.2,
-    },
-    {
-      url: `${siteUrl}/forgot-password`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.1,
-    },
   ];
 
   let businessRoutes: MetadataRoute.Sitemap = [];
+  let isletmeRoutes: MetadataRoute.Sitemap = [];
   let menuRoutes: MetadataRoute.Sitemap = [];
 
   try {
@@ -86,6 +76,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: b.updated_at ? new Date(b.updated_at) : b.created_at ? new Date(b.created_at) : now,
         changeFrequency: 'weekly' as const,
         priority: 0.8,
+      }));
+      // /isletme/[slug] — marketplace business detail pages (higher priority, SEO-rich)
+      isletmeRoutes = businesses.map((b) => ({
+        url: `${siteUrl}/isletme/${b.slug}`,
+        lastModified: b.updated_at ? new Date(b.updated_at) : b.created_at ? new Date(b.created_at) : now,
+        changeFrequency: 'weekly' as const,
+        priority: 0.85,
       }));
     }
 
@@ -113,5 +110,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Return static routes only if DB fetch fails
   }
 
-  return [...staticRoutes, ...businessRoutes, ...menuRoutes];
+  return [...staticRoutes, ...isletmeRoutes, ...businessRoutes, ...menuRoutes];
 }

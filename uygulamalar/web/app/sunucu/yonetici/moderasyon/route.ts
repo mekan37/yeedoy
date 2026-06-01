@@ -67,7 +67,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
@@ -93,7 +94,8 @@ export async function POST(request: Request) {
   const statusValue = resolveStatusValue(action, target_type);
 
   if (tableConfig) {
-    const { error } = await (serviceClient as any)
+    const serviceClientAny = serviceClient as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+    const { error } = await serviceClientAny
       .from(tableConfig.table)
       .update({ [tableConfig.statusColumn]: statusValue })
       .eq('id', target_id);

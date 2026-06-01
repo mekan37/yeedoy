@@ -9,7 +9,7 @@ final allMealCardProvidersProvider =
     });
 
 final businessMealCardProvidersProvider =
-    FutureProvider.family<List<MealCardProviderOption>, String>((
+    FutureProvider.autoDispose.family<List<MealCardProviderOption>, String>((
       ref,
       businessId,
     ) async {

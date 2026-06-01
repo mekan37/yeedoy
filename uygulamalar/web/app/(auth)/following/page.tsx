@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 
@@ -37,7 +38,7 @@ export default async function FollowingPage() {
                 <div key={f.followed_id} className="flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4">
                   <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-border bg-primary/10 flex items-center justify-center text-base font-[900] text-primary">
                     {f.user_profiles?.avatar_url
-                      ? <img loading="lazy" src={f.user_profiles.avatar_url} alt={name} className="h-full w-full object-cover" />
+                      ? <Image unoptimized src={f.user_profiles.avatar_url} alt={name} width={40} height={40} className="h-full w-full object-cover" />
                       : name[0].toUpperCase()}
                   </div>
                   <p className="font-[700] text-textStrong">{name}</p>

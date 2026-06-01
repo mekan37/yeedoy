@@ -4,20 +4,20 @@ import '../../../core/storage/offline_cache_prefs.dart';
 import '../data/menu_repository.dart';
 import 'menu_models.dart';
 
-final businessMenusProvider = FutureProvider.family<List<BusinessMenu>, String>(
+final businessMenusProvider = FutureProvider.autoDispose.family<List<BusinessMenu>, String>(
   (ref, businessId) async {
     return ref.watch(menuRepositoryProvider).fetchBusinessMenus(businessId);
   },
 );
 
-final menuSectionsProvider = FutureProvider.family<List<MenuSection>, String>((
+final menuSectionsProvider = FutureProvider.autoDispose.family<List<MenuSection>, String>((
   ref,
   menuId,
 ) async {
   return ref.watch(menuRepositoryProvider).fetchMenuSections(menuId);
 });
 
-final menuItemsProvider = FutureProvider.family<List<MenuItem>, String>((
+final menuItemsProvider = FutureProvider.autoDispose.family<List<MenuItem>, String>((
   ref,
   menuId,
 ) async {
@@ -28,25 +28,25 @@ final menuItemsProvider = FutureProvider.family<List<MenuItem>, String>((
 });
 
 final businessPriceTrustProvider =
-    FutureProvider.family<BusinessPriceTrust, String>((ref, businessId) async {
+    FutureProvider.autoDispose.family<BusinessPriceTrust, String>((ref, businessId) async {
       return ref
           .watch(menuRepositoryProvider)
           .fetchBusinessPriceTrust(businessId);
     });
 
 final menuItemsCacheUpdatedAtProvider =
-    FutureProvider.family<DateTime?, String>((ref, menuId) async {
+    FutureProvider.autoDispose.family<DateTime?, String>((ref, menuId) async {
       return OfflineCachePrefs.loadMenuItemsCachedAt(menuId);
     });
 
 final menuOfflineSavedProvider =
-    FutureProvider.family<bool, String>((ref, menuId) async {
+    FutureProvider.autoDispose.family<bool, String>((ref, menuId) async {
       return OfflineCachePrefs.isMenuSavedForOffline(menuId);
     });
 
 /// Key: '${itemName}|${city}|${excludeBusinessId ?? ''}'
 final menuItemPriceBenchmarkProvider =
-    FutureProvider.family<MenuItemPriceBenchmark?, String>((ref, key) async {
+    FutureProvider.autoDispose.family<MenuItemPriceBenchmark?, String>((ref, key) async {
       final parts = key.split('|');
       if (parts.length < 2) return null;
       final itemName = parts[0];

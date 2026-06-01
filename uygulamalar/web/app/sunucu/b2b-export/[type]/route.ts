@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { z } from 'zod';
 
 function toCsv(rows: Record<string, unknown>[]): string {
   if (!rows.length) return '';
@@ -15,12 +16,25 @@ function toCsv(rows: Record<string, unknown>[]): string {
   return lines.join('\r\n');
 }
 
+const ANALYTICS_PAGE_SIZE = 10_000;
+
+const pageSchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+});
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ type: string }> },
 ) {
   const { type } = await params;
+  const url = new URL(_req.url);
+  const parsedPage = pageSchema.safeParse(Object.fromEntries(url.searchParams));
+  const page = parsedPage.success ? parsedPage.data.page : 1;
+  const rangeFrom = (page - 1) * ANALYTICS_PAGE_SIZE;
+  const rangeTo = rangeFrom + ANALYTICS_PAGE_SIZE - 1;
+
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   // Admin kontrolü
   const { data: { user } } = await supabase.auth.getUser();
@@ -33,7 +47,7 @@ export async function GET(
   let filename = 'export.csv';
 
   if (type === 'businesses') {
-    const { data } = await (supabase as any)
+    const { data } = await supabase
       .from('businesses')
       .select('id,name,category,city,district,address,phone,lat,lng,source,is_active,is_verified,created_at')
       .eq('is_active', true)
@@ -42,7 +56,7 @@ export async function GET(
     filename = `yeedoy-isletmeler-${new Date().toISOString().slice(0,10)}.csv`;
 
   } else if (type === 'menus') {
-    const { data } = await (supabase as any)
+    const { data } = await supabase
       .from('menu_items')
       .select('id,name,category:section_id,price,currency,is_available,created_at,menu:menu_id(business_id)')
       .eq('is_available', true)
@@ -56,12 +70,12 @@ export async function GET(
 
   } else if (type === 'analytics') {
     const since30d = new Date(Date.now() - 30 * 86400000).toISOString();
-    const { data } = await (supabase as any)
+    const { data } = await supabaseAny
       .from('analytics_events')
       .select('event_name,business_id,created_at')
       .gte('created_at', since30d)
       .order('created_at', { ascending: false })
-      .limit(100000);
+      .range(rangeFrom, rangeTo);
     rows = data ?? [];
     filename = `yeedoy-analitik-30g-${new Date().toISOString().slice(0,10)}.csv`;
 
@@ -70,10 +84,14 @@ export async function GET(
   }
 
   const csv = toCsv(rows);
-  return new NextResponse(csv, {
-    headers: {
-      'Content-Type':        'text/csv; charset=utf-8',
-      'Content-Disposition': `attachment; filename="${filename}"`,
-    },
-  });
+  const headers: Record<string, string> = {
+    'Content-Type':        'text/csv; charset=utf-8',
+    'Content-Disposition': `attachment; filename="${filename}"`,
+  };
+  if (type === 'analytics') {
+    headers['X-Row-Limit'] = String(ANALYTICS_PAGE_SIZE);
+    headers['X-Page'] = String(page);
+    headers['X-Page-Size'] = String(ANALYTICS_PAGE_SIZE);
+  }
+  return new NextResponse(csv, { headers });
 }

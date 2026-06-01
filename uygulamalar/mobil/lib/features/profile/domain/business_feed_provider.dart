@@ -55,7 +55,7 @@ class BusinessFeedParams {
 }
 
 final businessFeedProvider =
-    FutureProvider.family<List<BusinessFeedItem>, BusinessFeedParams>((
+    FutureProvider.autoDispose.family<List<BusinessFeedItem>, BusinessFeedParams>((
       ref,
       params,
     ) async {

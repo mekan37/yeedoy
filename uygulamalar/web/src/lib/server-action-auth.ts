@@ -25,7 +25,8 @@ export async function withAdminAuth<T>(fn: (userId: string) => Promise<T>): Prom
   const { data: { user }, error: authError } = await supabase.auth.getUser();
   if (authError || !user) throw new Error('Unauthorized');
 
-  const { data: profile } = await (supabase as any)
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data: profile } = await supabaseAny
     .from('user_profiles')
     .select('role')
     .eq('id', user.id)

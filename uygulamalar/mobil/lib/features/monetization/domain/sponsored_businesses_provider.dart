@@ -27,7 +27,7 @@ SponsoredBusinessesParams sponsoredDiscoveryParams({
 }
 
 final sponsoredBusinessesProvider =
-    FutureProvider.family<List<BusinessCardModel>, SponsoredBusinessesParams>((
+    FutureProvider.autoDispose.family<List<BusinessCardModel>, SponsoredBusinessesParams>((
       ref,
       params,
     ) async {

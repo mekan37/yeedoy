@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/depolama/cevrimdisi_degisim_kuyrugu.dart';
-import 'package:yeedoy/core/depolama/cevrimdisi_kuyruk_tani.dart';
+import 'package:yeedoy/core/storage/offline_mutation_queue.dart';
+import 'package:yeedoy/core/storage/offline_queue_diagnostics.dart';
 
 void main() {
   group('buildOfflineQueueDiagnosticsSummary', () {

@@ -5,7 +5,7 @@ import '../data/diet_profile_repository.dart';
 import 'diet_profile.dart';
 
 final dietProfileProvider =
-    AsyncNotifierProvider<DietProfileController, DietProfile?>(DietProfileController.new);
+    AsyncNotifierProvider.autoDispose<DietProfileController, DietProfile?>(DietProfileController.new);
 
 class DietProfileController extends AsyncNotifier<DietProfile?> {
   @override

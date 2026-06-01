@@ -2,11 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/storage/creator_profile_prefs.dart';
 
-final creatorProfileProvider = FutureProvider<CreatorProfile>((ref) async {
+final creatorProfileProvider = FutureProvider.autoDispose<CreatorProfile>((ref) async {
   return CreatorProfilePrefs.load();
 });
 
-final creatorProfileControllerProvider = Provider<CreatorProfileController>(
+final creatorProfileControllerProvider = Provider.autoDispose<CreatorProfileController>(
   (ref) => CreatorProfileController(ref),
 );
 

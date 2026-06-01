@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/features/menuler/data/ocr_fiyat_cikartici.dart';
+import 'package:yeedoy/features/menus/data/ocr_price_extractor.dart';
 
 void main() {
   group('parsePriceCents', () {

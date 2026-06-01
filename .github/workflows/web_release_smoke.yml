@@ -23,14 +23,13 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/web_next
+        working-directory: uygulamalar/web
     env:
       NEXT_TELEMETRY_DISABLED: '1'
       NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-      NEXT_PUBLIC_PANEL_URL: ${{ secrets.NEXT_PUBLIC_PANEL_URL }}
       PLAYWRIGHT_SMOKE_BUSINESS_ID: ${{ inputs.smoke_business_id || secrets.PLAYWRIGHT_SMOKE_BUSINESS_ID }}
       PLAYWRIGHT_SMOKE_BUSINESS_PATH: ${{ inputs.smoke_business_path || secrets.PLAYWRIGHT_SMOKE_BUSINESS_PATH }}
       PLAYWRIGHT_SMOKE_LANG: ${{ inputs.smoke_lang }}
@@ -47,18 +46,13 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-          cache-dependency-path: apps/web_next/package-lock.json
+          cache-dependency-path: uygulamalar/web/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
-
-      - name: Validate NEXT_PUBLIC_PANEL_URL
-        run: node scripts/validate-panel-url.mjs
-        env:
-          NEXT_PUBLIC_PANEL_URL: ${{ secrets.NEXT_PUBLIC_PANEL_URL }}
 
       - name: Run live smoke
         run: npm run test:e2e:live
@@ -68,5 +62,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-release-smoke-report
-          path: apps/web_next/playwright-report/
+          path: uygulamalar/web/playwright-report/
           retention-days: 7

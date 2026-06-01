@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/analitik/analitik_deposu.dart';
+import 'package:yeedoy/core/analytics/analytics_repository.dart';
 
 void main() {
   group('AnalyticsRepository', () {

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { timingSafeEqual } from 'crypto';
 import { appConfig } from '@/src/lib/ayarlar';
 
 const slugPattern = /^[a-z0-9_-]{1,80}$/;
@@ -49,8 +50,7 @@ export async function POST(request: Request) {
   const expectedBytes  = Buffer.from(expectedSecret);
   const secretsMatch   =
     secretBytes.length === expectedBytes.length &&
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require('crypto').timingSafeEqual(secretBytes, expectedBytes);
+    timingSafeEqual(secretBytes, expectedBytes);
   if (!secretsMatch) {
     return NextResponse.json({ error: 'invalid_secret' }, { status: 401 });
   }
@@ -76,4 +76,3 @@ export async function POST(request: Request) {
 
   return NextResponse.json({ ok: true, invalidated });
 }
-

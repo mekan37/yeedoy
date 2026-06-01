@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/top_businesses_repository.dart';
 import 'top_business.dart';
 
-final topBusinessesListProvider = AsyncNotifierProvider.family<
+final topBusinessesListProvider = AsyncNotifierProvider.autoDispose.family<
     TopBusinessesListController, List<TopBusiness>, String>(
-  TopBusinessesListController.new,
+  (arg) => TopBusinessesListController(arg),
 );
 
 class TopBusinessesListController extends AsyncNotifier<List<TopBusiness>> {

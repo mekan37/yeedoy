@@ -8,6 +8,7 @@ import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/security/route_sanitizer.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../legal/legal_linking.dart';
@@ -60,11 +61,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void _navigateAfterLogin() {
     if (!mounted) return;
-    final redirect = GoRouterState.of(context).uri.queryParameters['redirect'];
-    final target =
-        (redirect != null && redirect.isNotEmpty && redirect != '/login')
-        ? Uri.decodeComponent(redirect)
-        : '/discover';
+    final rawRedirect = GoRouterState.of(context).uri.queryParameters['redirect'];
+    final target = sanitizeInternalRedirect(rawRedirect) ?? '/discover';
     context.go(target);
   }
 

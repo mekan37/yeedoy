@@ -243,7 +243,7 @@ serve(async (req) => {
     return json({ ok: false, error: "invalid_action" }, 400, effectiveRequestId);
   }
 
-  const ipSalt = Deno.env.get("EDGE_RATE_LIMIT_SALT") ?? "yeedoy_default_salt";
+  const ipSalt = Deno.env.get("EDGE_RATE_LIMIT_SALT") ?? "";
   const ipHash = await sha256Hex(`${ipSalt}:${readClientIp(req)}`);
   await trackDeviceFingerprint(userClient, userId, req, ipSalt);
 

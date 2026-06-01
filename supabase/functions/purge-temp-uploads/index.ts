@@ -45,6 +45,35 @@ serve(async (req) => {
     return json({ ok: false, error: "missing_supabase_env" }, 500);
   }
 
+  // ── Auth: cron secret OR JWT + is_admin ───────────────────────────────────
+  const purgeCronSecret = Deno.env.get("PURGE_CRON_SECRET");
+  const authHeader = req.headers.get("Authorization") ?? "";
+
+  if (purgeCronSecret && authHeader === `Bearer ${purgeCronSecret}`) {
+    // Cron job using shared secret — allow through
+  } else {
+    // Fall back to JWT + is_admin check
+    if (!authHeader.startsWith("Bearer ")) {
+      return json({ ok: false, error: "unauthorized" }, 401);
+    }
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    if (!anonKey) {
+      return json({ ok: false, error: "missing_supabase_env" }, 500);
+    }
+    const callerClient = createClient(supabaseUrl, anonKey, {
+      global: { headers: { Authorization: authHeader } },
+    });
+    const { data: { user }, error: userErr } = await callerClient.auth.getUser();
+    if (userErr || !user) {
+      return json({ ok: false, error: "unauthorized" }, 401);
+    }
+    const { data: isAdmin } = await callerClient.rpc("is_admin");
+    if (!isAdmin) {
+      return json({ ok: false, error: "forbidden" }, 403);
+    }
+  }
+  // ── End auth ───────────────────────────────────────────────────────────────
+
   const client = createClient(supabaseUrl, serviceRoleKey);
 
   const body = (await req.json().catch(() => ({}))) as { limit?: number };

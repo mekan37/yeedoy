@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/features/kesif/domain/kesif_akis_olusturucu.dart';
+import 'package:yeedoy/features/discovery/domain/discovery_feed_composer.dart';
 
 void main() {
   group('Discovery feed ad composer', () {

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 
@@ -75,7 +76,7 @@ export default async function HeroesPage() {
 
                   <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-border bg-primary/10 flex items-center justify-center text-sm font-[900] text-primary">
                     {e.avatar_url
-                      ? <img loading="lazy" src={e.avatar_url} alt={name} className="h-full w-full object-cover" />
+                      ? <Image unoptimized src={e.avatar_url} alt={name} width={40} height={40} className="h-full w-full object-cover" />
                       : name[0]?.toUpperCase() ?? 'G'}
                   </div>
 

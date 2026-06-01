@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yeedoy/uygulama/tema/uygulama_tokenleri.dart';
-import 'package:yeedoy/core/analitik/analitik_deposu.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
+import 'package:yeedoy/core/analytics/analytics_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:yeedoy/features/kimlik/data/kimlik_servisi.dart';
-import 'package:yeedoy/features/kimlik/data/kimlik_servisi_saglayicisi.dart';
-import 'package:yeedoy/features/kimlik/domain/kimlik_saglayicilari.dart';
-import 'package:yeedoy/features/kimlik/ui/giris_sayfasi.dart';
-import 'package:yeedoy/features/yasal/yasal_modeller.dart';
-import 'package:yeedoy/features/yasal/yasal_saglayicilari.dart';
-import 'package:yeedoy/features/yasal/yasal_deposu.dart';
+import 'package:yeedoy/features/auth/data/auth_service.dart';
+import 'package:yeedoy/features/auth/data/auth_service_provider.dart';
+import 'package:yeedoy/features/auth/domain/auth_providers.dart';
+import 'package:yeedoy/features/auth/ui/login_page.dart';
+import 'package:yeedoy/features/legal/legal_models.dart';
+import 'package:yeedoy/features/legal/legal_providers.dart';
+import 'package:yeedoy/features/legal/legal_repository.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
 
 // ---------------------------------------------------------------------------

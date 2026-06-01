@@ -23,7 +23,27 @@ import { PaylasimDugmesi } from '@/src/ui/bilesenler/paylasim-dugmesi';
 import { CheckinDugmesi, FiyatTakipDugmesi } from '@/src/ui/acik/eylem-istemcisi';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 
-export const revalidate = 120;
+export const revalidate = 300;
+
+// Pre-render the 100 most recently created active business pages at build time.
+export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
+  try {
+    const { createSupabasePublicClient } = await import('@/src/lib/taban/acik');
+    const supabase = createSupabasePublicClient();
+    const { data } = await (supabase as any)
+      .from('businesses')
+      .select('slug')
+      .eq('is_active', true)
+      .not('slug', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(100) as { data: Array<{ slug: string }> | null };
+
+    if (!data) return [];
+    return data.map((row) => ({ slug: row.slug }));
+  } catch {
+    return [];
+  }
+}
 
 type Props = { params: Promise<{ slug: string }> };
 

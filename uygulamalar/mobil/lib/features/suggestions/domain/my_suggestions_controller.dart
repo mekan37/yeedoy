@@ -45,7 +45,7 @@ class MySuggestionsPagingState {
 }
 
 final mySuggestionsControllerProvider =
-    NotifierProvider<MySuggestionsController, MySuggestionsPagingState>(
+    NotifierProvider.autoDispose<MySuggestionsController, MySuggestionsPagingState>(
         MySuggestionsController.new);
 
 class MySuggestionsController extends Notifier<MySuggestionsPagingState> {

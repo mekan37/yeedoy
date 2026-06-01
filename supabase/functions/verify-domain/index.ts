@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { enforceRateLimit } from "../_shared/rate-limit.ts";
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -36,6 +37,13 @@ serve(async (req) => {
     global: { headers: { Authorization: authHeader } },
     auth: { persistSession: false },
   });
+
+  // Rate limit: 10 verifications per hour per user
+  const { data: { user: rlUser } } = await supabase.auth.getUser();
+  if (rlUser) {
+    try { await enforceRateLimit(rlUser.id, "verify-domain", 10); }
+    catch (r) { return r as Response; }
+  }
 
   let body: { business_id?: string; domain?: string };
   try {

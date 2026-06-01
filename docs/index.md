@@ -37,6 +37,12 @@ Bu klasor sadece karar, kontrat, operasyon ve release icin gerekli dokumanlari t
 
 ADR dosyalari `docs/adr/` altinda tutulur.
 
-## Korunan Dosyalar
+## Temizleme (2026-06-01)
 
-`docs/guvenlik.md` ve `docs/stil-yeni.md` bu temizlikte taranmadi ve degistirilmedi.
+44 obsolete/duplicate dosya silindi:
+- English-Turkish duplikasyon konsolidasyonu (22 dosya): Türkçe versiyonlar tutuldu
+- Tamamlanmış proje durum raporları (6 dosya): yol-haritasi.md ve eksik.md'de tutulur
+- Eski mimarı referansları (6 dosya): mimari-kurallari.md'de güncellenmiş
+- Tarihsel geçiş planları (5 dosya): mobilnext.md'de aktif takip
+
+Detaylar: `docs/CLEANUP_SUMMARY_2026-06-01.md`

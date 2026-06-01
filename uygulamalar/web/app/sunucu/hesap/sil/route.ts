@@ -14,13 +14,14 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
   // 1. Uygulama verilerini temizle (RPC)
-  const { data: rpcData, error: rpcError } = await (supabase as any)
+  const { data: rpcData, error: rpcError } = await supabaseAny
     .rpc('delete_user_account_v1');
 
   if (rpcError) {

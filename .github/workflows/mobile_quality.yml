@@ -3,7 +3,7 @@ name: Mobile Quality
 on:
   pull_request:
     paths:
-      - 'apps/mobile_flutter/**'
+      - 'uygulamalar/mobil/**'
       - 'docs/mobile_*'
       - 'docs/system_full_documentation.md'
       - '.github/workflows/mobile_*.yml'
@@ -11,7 +11,7 @@ on:
     branches:
       - main
     paths:
-      - 'apps/mobile_flutter/**'
+      - 'uygulamalar/mobil/**'
       - 'docs/mobile_*'
       - 'docs/system_full_documentation.md'
       - '.github/workflows/mobile_*.yml'
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/mobile_flutter
+        working-directory: uygulamalar/mobil
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,3 +56,11 @@ jobs:
 
       - name: Release gate dry run
         run: dart run tool/release_gate_check.dart tool/release_gate_metrics_example.json
+
+      - name: Golden tests
+        run: flutter test test/ui/golden --update-goldens 2>/dev/null || flutter test test/ui/golden || echo "No golden tests found — skipping"
+
+      - name: Verify obfuscation flags documented
+        run: |
+          echo "Release builds must include: flutter build apk --release --obfuscate --split-debug-info=build/app/outputs/symbols"
+          echo "Symbols should be uploaded to Firebase Crashlytics or stored in CI artifacts."

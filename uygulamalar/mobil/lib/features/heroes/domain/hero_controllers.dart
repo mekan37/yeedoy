@@ -4,7 +4,7 @@ import '../data/hero_repository.dart';
 import 'hero_models.dart';
 
 final heroesProvider =
-    AsyncNotifierProvider<HeroesController, List<HeroEntry>>(HeroesController.new);
+    AsyncNotifierProvider.autoDispose<HeroesController, List<HeroEntry>>(HeroesController.new);
 
 class HeroesController extends AsyncNotifier<List<HeroEntry>> {
   @override
@@ -21,7 +21,7 @@ class HeroesController extends AsyncNotifier<List<HeroEntry>> {
 }
 
 final weeklyLeaderboardProvider =
-    AsyncNotifierProvider<WeeklyLeaderboardController, List<WeeklyLeaderboardEntry>>(
+    AsyncNotifierProvider.autoDispose<WeeklyLeaderboardController, List<WeeklyLeaderboardEntry>>(
   WeeklyLeaderboardController.new,
 );
 

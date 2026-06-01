@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/uygulama/tema/uygulama_tokenleri.dart';
-import 'package:yeedoy/features/shared/ui/bilesenler/uygulama_rozet.dart';
-import 'package:yeedoy/features/shared/ui/bilesenler/uygulama_dugmesi.dart';
-import 'package:yeedoy/features/shared/ui/bilesenler/etiket.dart';
-import 'package:yeedoy/features/shared/ui/bilesenler/bos_durum.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
+import 'package:yeedoy/features/shared/ui/components/app_badge.dart';
+import 'package:yeedoy/features/shared/ui/components/app_button.dart';
+import 'package:yeedoy/features/shared/ui/components/app_chip.dart';
+import 'package:yeedoy/features/shared/ui/components/app_empty_state.dart';
 
 void main() {
   ThemeData testTheme() {

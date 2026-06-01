@@ -7,7 +7,7 @@ import '../../../core/errors/app_error_codes.dart';
 import '../../menus/data/menu_item_search_repository.dart';
 import '../../menus/domain/menu_item_search_model.dart';
 
-final todayPickProvider = NotifierProvider<TodayPickController, TodayPickState>(
+final todayPickProvider = NotifierProvider.autoDispose<TodayPickController, TodayPickState>(
   TodayPickController.new,
 );
 

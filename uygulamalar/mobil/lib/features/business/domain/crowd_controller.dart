@@ -4,8 +4,8 @@ import '../data/crowd_repository.dart';
 import 'crowd_models.dart';
 
 final businessCrowdProvider =
-    AsyncNotifierProvider.family<BusinessCrowdController, BusinessCrowdStatus, String>(
-  BusinessCrowdController.new,
+    AsyncNotifierProvider.autoDispose.family<BusinessCrowdController, BusinessCrowdStatus, String>(
+  (arg) => BusinessCrowdController(arg),
 );
 
 class BusinessCrowdController extends AsyncNotifier<BusinessCrowdStatus> {

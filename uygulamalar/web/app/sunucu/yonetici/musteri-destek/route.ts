@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { z } from 'zod';
 
@@ -15,23 +16,27 @@ const replySchema = z.object({
 
 async function requireAdmin() {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { supabase, user: null, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
+  if (!user) return { supabase, supabaseAny, user: null, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
-  if (!isAdmin) return { supabase, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
+  if (!isAdmin) return { supabase, supabaseAny, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
 
-  return { supabase, user, response: null };
+  return { supabase, supabaseAny, user, response: null };
 }
 
 export async function GET(req: Request) {
-  const { supabase, response } = await requireAdmin();
+  const { supabaseAny, user, response } = await requireAdmin();
   if (response) return response;
+
+  const rl = rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const ticketId = new URL(req.url).searchParams.get('ticketId');
   if (!ticketId) return NextResponse.json({ error: 'Missing ticketId' }, { status: 400 });
 
-  const { data: messages, error } = await (supabase as any)
+  const { data: messages, error } = await supabaseAny
     .from('support_ticket_messages')
     .select('id, ticket_id, sender, message, created_at')
     .eq('ticket_id', ticketId)
@@ -42,15 +47,18 @@ export async function GET(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const { supabase, user, response } = await requireAdmin();
+  const { supabaseAny, user, response } = await requireAdmin();
   if (response) return response;
+
+  const rl = rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const parsed = schema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 
   const { ticketId, status } = parsed.data;
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('support_tickets')
     .update({ status, updated_at: new Date().toISOString(), assigned_to: user?.id })
     .eq('id', ticketId);
@@ -60,14 +68,17 @@ export async function PATCH(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { supabase, user, response } = await requireAdmin();
+  const { supabaseAny, user, response } = await requireAdmin();
   if (response) return response;
+
+  const rl = rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const parsed = replySchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 
   const { ticketId, message, sender } = parsed.data;
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('support_ticket_messages')
     .insert({
       ticket_id: ticketId,
@@ -77,7 +88,7 @@ export async function POST(req: Request) {
     });
 
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
-  await (supabase as any)
+  await supabaseAny
     .from('support_tickets')
     .update({ status: 'in_progress', updated_at: new Date().toISOString(), assigned_to: user?.id })
     .eq('id', ticketId);

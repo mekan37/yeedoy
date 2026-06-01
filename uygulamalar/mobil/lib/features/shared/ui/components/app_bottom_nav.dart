@@ -68,7 +68,7 @@ class AppBottomNav extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     if (width >= 1024) return const SizedBox.shrink();
     final uri = GoRouter.of(context).routeInformationProvider.value.uri;
     final idx = _indexFromLocation(uri);

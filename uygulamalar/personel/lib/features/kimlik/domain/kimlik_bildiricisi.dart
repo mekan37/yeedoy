@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,18 +16,22 @@ final kimlikProvider = AsyncNotifierProvider<KimlikBildiricisi, KimlikDurum>(
 );
 
 class KimlikBildiricisi extends AsyncNotifier<KimlikDurum> {
+  StreamSubscription<AuthState>? _authSubscription;
+
   @override
   Future<KimlikDurum> build() async {
     final supabase = ref.watch(supabaseProvider);
 
-    // Auth state stream dinle
-    supabase.auth.onAuthStateChange.listen((event) {
+    // Auth state stream dinle — subscription sakla ve dispose'da iptal et
+    _authSubscription?.cancel();
+    _authSubscription = supabase.auth.onAuthStateChange.listen((event) {
       if (event.event == AuthChangeEvent.signedOut) {
         state = const AsyncData(KimlikGirilmemis());
       } else if (event.event == AuthChangeEvent.signedIn && event.session != null) {
         _dogrulaVeYukle(supabase, event.session!.user);
       }
     });
+    ref.onDispose(() => _authSubscription?.cancel());
 
     final session = supabase.auth.currentSession;
     if (session == null) return const KimlikGirilmemis();

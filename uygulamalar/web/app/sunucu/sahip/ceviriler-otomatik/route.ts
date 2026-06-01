@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { rateLimit } from '@/src/lib/oran-siniri';
+import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { z } from 'zod';
 
 const schema = z.object({
@@ -38,23 +40,39 @@ export async function POST(req: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+  const rl = rateLimit(`ceviri:${user.id}`, 2, 3_600_000); // 2/hour per user
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+
   const parsed = schema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 
   const { menuIds, targetLocales, engine } = parsed.data;
 
+  // Verify ownership: fetch business_ids for the requested menuIds
+  const { data: menuRows } = await supabase
+    .from('menus')
+    .select('id, business_id')
+    .in('id', menuIds) as { data: Array<{ id: string; business_id: string }> | null };
+
+  const businessIds = Array.from(new Set((menuRows ?? []).map((m) => m.business_id)));
+
+  for (const businessId of businessIds) {
+    const owned = await hasOwnerBusiness(supabase as any, user.id, businessId);
+    if (!owned) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  }
+
   // Fetch menu items + sections
-  const { data: items } = await (supabase as any)
+  const { data: items } = await supabase
     .from('menu_items')
     .select('id, name')
     .in('menu_id', menuIds)
-    .limit(200) as { data: Array<{ id: string; name: string }> | null };
+    .limit(200) as unknown as { data: Array<{ id: string; name: string }> | null };
 
-  const { data: sections } = await (supabase as any)
+  const { data: sections } = await supabase
     .from('menu_sections')
     .select('id, name')
     .in('menu_id', menuIds)
-    .limit(50) as { data: Array<{ id: string; name: string }> | null };
+    .limit(50) as unknown as { data: Array<{ id: string; name: string }> | null };
 
   const toTranslate = [
     ...((items ?? []).map(i => ({ entity_type: 'menu_item', entity_id: i.id, name: i.name }))),
@@ -64,11 +82,11 @@ export async function POST(req: Request) {
   if (toTranslate.length === 0) return NextResponse.json({ ok: true, translated: 0 });
 
   // Check existing translations to avoid duplicates
-  const { data: existing } = await (supabase as any)
+  const { data: existing } = await supabase
     .from('menu_translations')
     .select('entity_id, locale')
     .in('entity_id', toTranslate.map(t => t.entity_id))
-    .in('locale', targetLocales) as { data: Array<{ entity_id: string; locale: string }> | null };
+    .in('locale', targetLocales) as unknown as { data: Array<{ entity_id: string; locale: string }> | null };
 
   const existingSet = new Set((existing ?? []).map(e => `${e.entity_id}:${e.locale}`));
 
@@ -95,7 +113,7 @@ export async function POST(req: Request) {
   }
 
   if (inserts.length > 0) {
-    await (supabase as any).from('menu_translations').insert(inserts);
+    await supabase.from('menu_translations').insert(inserts as any);
   }
 
   return NextResponse.json({ ok: true, translated });

@@ -31,20 +31,23 @@ export async function POST(req: Request) {
   const { bizIds, segment, message, scheduledAt } = parsed.data;
 
   // Verify ownership of the target business
-  const owned = await hasOwnerBusiness(supabase as any, user.id, bizIds[0]);
+  const owned = await hasOwnerBusiness(supabase as any, user.id, bizIds[0]); // supabase as any needed for helper signature
   if (!owned) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
+  // business_follows / loyalty_cards / sms_campaigns are not in Database types yet
+  const supabaseAny = supabase as unknown as { from: (t: string) => any };
 
   // Count recipients
   let sentCount = 0;
   if (segment === 'followers' || segment === 'all') {
-    const { count } = await (supabase as any)
+    const { count } = await supabaseAny
       .from('business_follows')
       .select('id', { count: 'exact', head: true })
       .in('business_id', bizIds);
     sentCount = count ?? 0;
   }
   if (segment === 'loyalty') {
-    const { count } = await (supabase as any)
+    const { count } = await supabaseAny
       .from('loyalty_cards')
       .select('id', { count: 'exact', head: true })
       .in('business_id', bizIds);
@@ -52,7 +55,7 @@ export async function POST(req: Request) {
   }
 
   // Insert campaign record
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('sms_campaigns')
     .insert({
       business_id: bizIds[0],

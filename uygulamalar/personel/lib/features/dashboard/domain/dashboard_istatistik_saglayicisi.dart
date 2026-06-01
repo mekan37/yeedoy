@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,7 +20,7 @@ class GunlukVeri {
 }
 
 final haftalikVeriProvider =
-    AsyncNotifierProvider<HaftalikVeriBildiricisi, List<GunlukVeri>>(
+    AsyncNotifierProvider.autoDispose<HaftalikVeriBildiricisi, List<GunlukVeri>>(
   HaftalikVeriBildiricisi.new,
 );
 
@@ -82,7 +83,8 @@ class HaftalikVeriBildiricisi extends AsyncNotifier<List<GunlukVeri>> {
         ));
       }
       return sonuc;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('HaftalikVeri yükleme hatası: $e');
       return [];
     }
   }
@@ -104,7 +106,7 @@ class SaatlikVeri {
 }
 
 final saatlikVeriProvider =
-    AsyncNotifierProvider<SaatlikVeriBildiricisi, List<SaatlikVeri>>(
+    AsyncNotifierProvider.autoDispose<SaatlikVeriBildiricisi, List<SaatlikVeri>>(
   SaatlikVeriBildiricisi.new,
 );
 
@@ -141,7 +143,8 @@ class SaatlikVeriBildiricisi extends AsyncNotifier<List<SaatlikVeri>> {
         saat: i,
         siparisSayisi: saatlikSayac[i] ?? 0,
       ));
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SaatlikVeri yükleme hatası: $e');
       return [];
     }
   }
@@ -156,7 +159,7 @@ class PersonelPerformans {
 }
 
 final personelPerformansProvider =
-    AsyncNotifierProvider<PersonelPerformansiBildiricisi, List<PersonelPerformans>>(
+    AsyncNotifierProvider.autoDispose<PersonelPerformansiBildiricisi, List<PersonelPerformans>>(
   PersonelPerformansiBildiricisi.new,
 );
 
@@ -175,7 +178,10 @@ class PersonelPerformansiBildiricisi extends AsyncNotifier<List<PersonelPerforma
         siparisSayisi: (r['siparis_sayisi'] as num?)?.toInt() ?? 0,
         tamamlanan: (r['tamamlanan'] as num?)?.toInt() ?? 0,
       )).toList();
-    } catch (_) { return []; }
+    } catch (e) {
+      debugPrint('PersonelPerformans yükleme hatası: $e');
+      return [];
+    }
   }
 }
 
@@ -204,7 +210,7 @@ class DashboardIstatistik {
 }
 
 final dashboardIstatistikProvider =
-    AsyncNotifierProvider<DashboardIstatistikBildiricisi, DashboardIstatistik?>(
+    AsyncNotifierProvider.autoDispose<DashboardIstatistikBildiricisi, DashboardIstatistik?>(
   DashboardIstatistikBildiricisi.new,
 );
 
@@ -220,24 +226,19 @@ class DashboardIstatistikBildiricisi
   Future<DashboardIstatistik?> _yukle(
       SupabaseClient supabase, String isletmeId) async {
     try {
-      final bugun = DateTime.now();
-      final bugunBaslangic =
-          DateTime(bugun.year, bugun.month, bugun.day).toUtc().toIso8601String();
+      // Sipariş istatistiklerini tek RPC ile çek (MED-009: N+1 sorgu önleme)
+      final rpcSonuc = await supabase.rpc(
+        'get_dashboard_stats_today_v1',
+        params: {'p_business_id': isletmeId},
+      );
 
-      final siparisler = await supabase
-          .from('table_orders')
-          .select('status')
-          .eq('business_id', isletmeId)
-          .gte('created_at', bugunBaslangic) as List<dynamic>;
+      final data = (rpcSonuc as Map<String, dynamic>?) ?? const {};
+      final bekleyen = (data['bugun_bekleyen'] as num?)?.toInt() ?? 0;
+      final hazirlaniyor = (data['bugun_hazirlaniyor'] as num?)?.toInt() ?? 0;
+      final tamamlanan = (data['bugun_tamamlanan'] as num?)?.toInt() ?? 0;
+      final toplam = (data['toplam_bugun'] as num?)?.toInt() ?? 0;
 
-      int bekleyen = 0, hazirlaniyor = 0, tamamlanan = 0;
-      for (final s in siparisler) {
-        final durum = s['status'] as String? ?? '';
-        if (durum == 'pending') bekleyen++;
-        if (durum == 'seen') hazirlaniyor++;
-        if (durum == 'done') tamamlanan++;
-      }
-
+      // Menü kalem sayıları RPC kapsamı dışında — ayrı sorgu
       final menuKalemleri = await supabase
           .from('menu_items')
           .select('is_available')
@@ -246,35 +247,24 @@ class DashboardIstatistikBildiricisi
       int aktif = 0, pasif = 0;
       for (final m in menuKalemleri) {
         final mevcut = m['is_available'] as bool? ?? true;
-        if (mevcut) { aktif++; } else { pasif++; }
-      }
-
-      // Gelir: tamamlanan siparişlerin toplam tutarı
-      double gelir = 0;
-      try {
-        final gelirRows = await supabase
-            .from('table_order_items')
-            .select('price, quantity')
-            .eq('business_id', isletmeId)
-            .gte('created_at', bugunBaslangic) as List<dynamic>;
-        for (final row in gelirRows) {
-          final fiyat = (row['price'] as num?)?.toDouble() ?? 0;
-          final adet = (row['quantity'] as num?)?.toInt() ?? 1;
-          gelir += fiyat * adet;
+        if (mevcut) {
+          aktif++;
+        } else {
+          pasif++;
         }
-      } catch (_) { /* gelir hesaplaması opsiyonel */ }
+      }
 
       return DashboardIstatistik(
         bugunBekleyen: bekleyen,
         bugunHazirlaniyor: hazirlaniyor,
         bugunTamamlanan: tamamlanan,
-        toplamBugun: siparisler.length,
+        toplamBugun: toplam,
         aktifMenuKalemi: aktif,
         pasifMenuKalemi: pasif,
-        bugunGelir: gelir,
-        bugunMusteriSayisi: siparisler.length,
+        bugunMusteriSayisi: toplam,
       );
-    } catch (_) {
+    } catch (e) {
+      debugPrint('DashboardIstatistik yükleme hatası: $e');
       return null;
     }
   }

@@ -5,8 +5,19 @@ type RateLimitRecord = {
 
 const store = new Map<string, RateLimitRecord>();
 
+const MAX_STORE_SIZE = 1_000;
+
+function evictExpired(now: number) {
+  // Only scan if store is getting large to avoid O(n) on every call
+  if (store.size < MAX_STORE_SIZE) return;
+  for (const [k, v] of store) {
+    if (v.resetAt <= now) store.delete(k);
+  }
+}
+
 export function rateLimit(key: string, limit: number, windowMs: number) {
   const timestamp = Date.now();
+  evictExpired(timestamp);
   const current = store.get(key);
 
   if (!current || current.resetAt <= timestamp) {

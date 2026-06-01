@@ -76,8 +76,8 @@ class _KampanyaSayfasiState extends ConsumerState<KampanyaSayfasi> {
         final kod = result['error'] as String? ?? 'unknown';
         setState(() { _sonuc = _hataMetni(kod); _hata = true; _gonderiyor = false; });
       }
-    } catch (e) {
-      setState(() { _sonuc = 'Bir hata oluştu: $e'; _hata = true; _gonderiyor = false; });
+    } catch (_) {
+      setState(() { _sonuc = 'Bir hata oluştu. Lütfen tekrar deneyin.'; _hata = true; _gonderiyor = false; });
     }
   }
 
@@ -214,7 +214,7 @@ class _GonderTab extends StatelessWidget {
               final tarih = await showDatePicker(context: context, initialDate: simdi, firstDate: simdi, lastDate: simdi.add(const Duration(days: 30)));
               if (tarih == null || !context.mounted) return;
               final saat = await showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(simdi.add(const Duration(hours: 1))));
-              if (saat == null) return;
+              if (saat == null || !context.mounted) return;
               onZamanlamaChange(DateTime(tarih.year, tarih.month, tarih.day, saat.hour, saat.minute));
             },
             child: Container(
@@ -310,20 +310,41 @@ class _BildirimOnizleme extends StatelessWidget {
 
 // ─── Geçmiş Tab (P-18) ────────────────────────────────────────────────────────
 
-class _GecmisTab extends ConsumerWidget {
+class _GecmisTab extends ConsumerStatefulWidget {
   const _GecmisTab();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_GecmisTab> createState() => _GecmisTabState();
+}
+
+class _GecmisTabState extends ConsumerState<_GecmisTab> {
+  Future<List<Map<String, dynamic>>>? _gecmisFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    // Future, initState'de bir kez oluşturulur; her build() yeniden oluşturmaz.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final kimlik = ref.read(kimlikProvider).valueOrNull;
+      if (kimlik is KimlikGirilmis && mounted) {
+        setState(() {
+          _gecmisFuture = _yukle(ref, kimlik.isletmeId);
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final kimlik = ref.watch(kimlikProvider).valueOrNull;
     if (kimlik is! KimlikGirilmis) {
       return const Center(child: Text('Oturum açık değil.', style: TextStyle(color: PColors.muted)));
     }
 
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: _yukle(ref, kimlik.isletmeId),
+      future: _gecmisFuture,
       builder: (ctx, snap) {
-        if (snap.connectionState == ConnectionState.waiting) {
+        if (snap.connectionState == ConnectionState.waiting || snap.connectionState == ConnectionState.none) {
           return const Center(child: CircularProgressIndicator(strokeWidth: 2));
         }
         final liste = snap.data ?? [];

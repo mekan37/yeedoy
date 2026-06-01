@@ -21,6 +21,10 @@ const ALLOWED_PUSH_TYPES = new Set<string>([
   "owner_new_review",
   "favorite_revisit_reminder",
   "friend_checkin",
+  "loyalty_reward_unlocked",
+  "loyalty_points_earned",
+  "menu_updated",
+  "business_hours_changed",
 ]);
 
 function isInvalidFcmTokenError(raw: string): boolean {

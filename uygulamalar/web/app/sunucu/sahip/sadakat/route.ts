@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 const schema = z.object({
@@ -15,10 +16,14 @@ export async function POST(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const { data, error } = await (supabase as any).rpc('create_loyalty_program_v1', {
+  const rl = rateLimit(`sadakat:${user.id}`, 5, 3_600_000); // 5/hour
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+
+  const { data, error } = await supabaseAny.rpc('create_loyalty_program_v1', {
     p_business_id: parsed.data.businessId,
     p_name: parsed.data.name,
     p_stamps_needed: parsed.data.stampsNeeded,

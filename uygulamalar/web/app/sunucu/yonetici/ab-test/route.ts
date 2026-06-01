@@ -21,10 +21,11 @@ const winnerSchema = z.object({
 
 export async function POST(req: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const parsed = createSchema.safeParse(await req.json());
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
 
   const { name, description, rolloutPercent, environment = 'staging' } = parsed.data;
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('runtime_feature_flags')
     .insert({
       key: name,
@@ -52,10 +53,11 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const parsed = patchSchema.safeParse(await req.json());
@@ -63,7 +65,7 @@ export async function PATCH(req: Request) {
 
   const { id, enabled } = parsed.data;
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('runtime_feature_flags')
     .update({ enabled, updated_at: new Date().toISOString() })
     .eq('key', id);
@@ -74,23 +76,24 @@ export async function PATCH(req: Request) {
 
 export async function PUT(req: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const parsed = winnerSchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 
   const { id, winner } = parsed.data;
-  const { data: current } = await (supabase as any)
+  const { data: current } = await supabaseAny
     .from('runtime_feature_flags')
     .select('metadata')
     .eq('key', id)
     .maybeSingle();
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('runtime_feature_flags')
     .update({
       metadata: { ...((current?.metadata ?? {}) as Record<string, unknown>), winner },

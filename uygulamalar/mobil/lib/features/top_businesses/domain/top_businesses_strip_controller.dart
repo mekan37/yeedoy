@@ -32,11 +32,11 @@ class _TopBusinessesController extends AsyncNotifier<List<TopBusiness>> {
 }
 
 final topBusinessesWeekProvider =
-    AsyncNotifierProvider<_TopBusinessesController, List<TopBusiness>>(
+    AsyncNotifierProvider.autoDispose<_TopBusinessesController, List<TopBusiness>>(
   () => _TopBusinessesController('week', 6, 2),
 );
 
 final topBusinessesMonthProvider =
-    AsyncNotifierProvider<_TopBusinessesController, List<TopBusiness>>(
+    AsyncNotifierProvider.autoDispose<_TopBusinessesController, List<TopBusiness>>(
   () => _TopBusinessesController('month', 6, 2),
 );

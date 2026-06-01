@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yeedoy/core/depolama/yerel_db/paylasilan_tercihler_yerel_db_deposu.dart';
-import 'package:yeedoy/core/depolama/cevrimdisi_degisim_kuyrugu.dart';
-import 'package:yeedoy/core/depolama/cevrimdisi_gonderim_kuyrugu.dart';
+import 'package:yeedoy/core/storage/local_db/shared_prefs_local_db_store.dart';
+import 'package:yeedoy/core/storage/offline_mutation_queue.dart';
+import 'package:yeedoy/core/storage/offline_submission_queue.dart';
 
 void main() {
   setUp(() async {

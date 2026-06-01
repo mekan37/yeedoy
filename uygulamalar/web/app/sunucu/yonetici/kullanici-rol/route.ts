@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { z } from 'zod';
@@ -16,6 +17,18 @@ export async function PATCH(req: Request) {
   const { data: isAdmin } = await supabase.rpc('is_admin');
   if (!isAdmin) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
+  const rl = rateLimit(`rol:${user.id}`, 30, 3_600_000); // 30/hour
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data: dbRate } = await supabaseAny.rpc('consume_rate_limit_v1', {
+    p_action: 'admin_role_assign',
+    p_limit: 30,
+  });
+  if (dbRate && (dbRate as { ok?: boolean }).ok === false) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
   const parsed = schema.safeParse(await req.json());

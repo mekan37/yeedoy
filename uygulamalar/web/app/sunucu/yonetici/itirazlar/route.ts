@@ -25,7 +25,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
@@ -42,7 +43,8 @@ export async function GET(request: Request) {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
 
-  const { data: claims, error, count } = await (serviceClient as any)
+  const serviceClientAny = serviceClient as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data: claims, error, count } = await serviceClientAny
     .from('owner_claims')
     .select('*', { count: 'exact' })
     .eq('status', 'pending')

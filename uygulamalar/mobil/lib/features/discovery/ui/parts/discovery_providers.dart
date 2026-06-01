@@ -1,7 +1,7 @@
 part of '../discovery_page.dart';
 
 final regionalPriceIndexProvider =
-    FutureProvider.family<
+    FutureProvider.autoDispose.family<
       List<RegionalPriceIndexItem>,
       ({String city, String district})
     >((ref, params) {
@@ -15,7 +15,7 @@ final regionalPriceIndexProvider =
     });
 
 final priceAnomaliesProvider =
-    FutureProvider.family<
+    FutureProvider.autoDispose.family<
       List<PriceAnomalyItem>,
       ({String city, String district})
     >((ref, params) {
@@ -31,7 +31,7 @@ final priceAnomaliesProvider =
     });
 
 final homeFeedProvider =
-    FutureProvider.family<
+    FutureProvider.autoDispose.family<
       HomeFeedData,
       ({String city, String district, String? neighborhood})
     >((ref, params) {

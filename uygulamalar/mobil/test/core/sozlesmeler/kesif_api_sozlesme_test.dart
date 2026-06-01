@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/features/kesif/domain/isletme_karti.dart';
-import 'package:yeedoy/features/kesif/domain/ana_akis.dart';
+import 'package:yeedoy/features/discovery/domain/business_card.dart';
+import 'package:yeedoy/features/discovery/domain/home_feed.dart';
 
 void main() {
   group('API contract - discovery', () {

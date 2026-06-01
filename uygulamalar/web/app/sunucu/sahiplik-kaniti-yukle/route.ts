@@ -6,6 +6,7 @@ const ALLOWED_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/we
 
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
 
   const bytes = await file.arrayBuffer();
 
-  const { error } = await (supabase as any).storage
+  const { error } = await supabaseAny.storage
     .from('claim-evidence')
     .upload(path, bytes, {
       contentType: file.type,
@@ -56,7 +57,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Signed URL (admin okuyabilmesi için 30 gün geçerli)
-  const { data: signedData } = await (supabase as any).storage
+  const { data: signedData } = await supabaseAny.storage
     .from('claim-evidence')
     .createSignedUrl(path, 60 * 60 * 24 * 30);
 

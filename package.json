@@ -2,34 +2,40 @@
   "name": "yeedoy-repo",
   "private": true,
   "workspaces": [
-    "apps/web_next",
-    "apps/mobile_flutter",
-    "apps/panel_flutter_web",
+    "uygulamalar/web",
+    "uygulamalar/mobil",
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently -k -n WEB,PANEL,MOBILE -c cyan,green,yellow \"npm --prefix apps/web_next run dev\" \"npm --prefix apps/panel_flutter_web run dev\" \"npm --prefix apps/mobile_flutter run dev\"",
-    "build": "npm run build:web && npm run build:panel && npm run build:mobile",
-    "lint": "npm run lint:web && npm run lint:panel && npm run lint:mobile",
-    "l10n:audit": "node tools/l10n_audit.mjs",
-    "test:web": "cd apps/web_next && npm run test",
-    "test:smoke:web": "cd apps/web_next && npm run test:smoke",
-    "verify:matrix:lint": "npm run lint:web && npm run lint:panel && npm run lint:mobile",
-    "verify:matrix:build": "npm run build:web && npm run build:panel && npm run build:mobile",
+    "dev": "concurrently -k -n WEB,MOBILE -c cyan,yellow \"npm --prefix uygulamalar/web run dev\" \"npm --prefix uygulamalar/mobil run dev\"",
+    "build": "npm run build:web && npm run build:mobile",
+    "lint": "npm run lint:web && npm run lint:mobile",
+    "l10n:audit": "node tools/ceviri-denetimi.mjs",
+    "test:web": "cd uygulamalar/web && npm run test",
+    "test:smoke:web": "cd uygulamalar/web && npm run test:smoke",
+    "verify:matrix:lint": "npm run lint:web && npm run lint:mobile",
+    "verify:matrix:build": "npm run build:web && npm run build:mobile",
     "verify:matrix": "npm run l10n:audit && npm run verify:matrix:lint && npm run test:smoke:web",
-    "ci": "npm run verify:matrix && npm --prefix apps/mobile_flutter run test && npm --prefix apps/panel_flutter_web run test",
-    "hooks:install": "node tools/install_hooks.mjs",
-    "clean": "node tools/workspace_ops.mjs clean",
-    "build:web": "npm --prefix apps/web_next run build",
-    "build:panel": "npm --prefix apps/panel_flutter_web run build",
-    "build:mobile": "npm --prefix apps/mobile_flutter run build",
-    "lint:web": "npm --prefix apps/web_next run lint",
-    "lint:panel": "npm --prefix apps/panel_flutter_web run lint",
-    "lint:mobile": "npm --prefix apps/mobile_flutter run lint",
-    "build:owner": "node tools/workspace_ops.mjs build-owner",
-    "build:admin": "node tools/workspace_ops.mjs build-admin",
-    "build:next": "node tools/workspace_ops.mjs build-next",
-    "build:all": "node tools/workspace_ops.mjs build-all"
+    "ci": "npm run verify:matrix && npm --prefix uygulamalar/mobil run test",
+    "hooks:install": "node tools/hook-kur.mjs",
+    "clean": "node tools/calisma-alani-islemleri.mjs clean",
+    "build:web": "npm --prefix uygulamalar/web run build",
+    "build:mobile": "npm --prefix uygulamalar/mobil run build",
+    "lint:web": "npm --prefix uygulamalar/web run lint",
+    "lint:mobile": "npm --prefix uygulamalar/mobil run lint",
+    "build:next": "node tools/calisma-alani-islemleri.mjs build-next",
+    "build:all": "node tools/calisma-alani-islemleri.mjs build-all",
+    "import:overpass-ilce": "node tools/overpass-ilce-canli-ice-aktar.mjs",
+    "import:overpass-ilce:reset": "node tools/overpass-ilce-canli-ice-aktar.mjs --reset",
+    "koordinat:duzelt": "node tools/koordinat-duzelt.mjs",
+    "koordinat:duzelt:reset": "node tools/koordinat-duzelt.mjs --reset",
+    "import:foursquare": "node tools/foursquare-ilce-ice-aktar.mjs",
+    "import:foursquare:reset": "node tools/foursquare-ilce-ice-aktar.mjs --reset",
+    "import:osm": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf",
+    "import:osm:poi": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=poi",
+    "import:osm:sinir": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=sinir",
+    "import:osm:ata-sinir": "node tools/osm-pbf-isle.mjs --sadece=ata-sinir",
+    "import:osm:dry": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --dry-run"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.91.1",
@@ -38,6 +44,15 @@
     "firebase": "^12.9.0"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "dead-code-checker": "^1.1.0",
+    "supabase": "^2.98.2"
+  },
+  "overrides": {
+    "postcss": "^8.5.10",
+    "next": {
+      ".": "^15.5.18",
+      "postcss": "^8.5.10"
+    }
   }
 }

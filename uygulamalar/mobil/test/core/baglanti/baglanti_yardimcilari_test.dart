@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:yeedoy/core/baglanti/baglanti_yardimcilari.dart';
+import 'package:yeedoy/core/linking/link_utils.dart';
 
 void main() {
   group('link_utils', () {

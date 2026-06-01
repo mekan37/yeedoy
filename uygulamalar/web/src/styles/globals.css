@@ -430,3 +430,30 @@ input:focus-visible {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* ── Leaflet map overrides ────────────────────────────────────────────────── */
+
+/* Ensure Leaflet tiles and controls render below the site's sticky header (z-30) */
+.leaflet-container {
+  z-index: 0;
+  /* Prevent the map from capturing page scroll on touch devices.
+     Users must use two fingers to pan; single-finger scroll moves the page. */
+  touch-action: pan-y;
+}
+
+/* Keep Leaflet popups and controls above the tile layer but below the header */
+.leaflet-pane {
+  z-index: 1;
+}
+.leaflet-control {
+  z-index: 2;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 2;
+}
+
+/* Location-picker map allows full touch interaction (drag to place marker) */
+.leaflet-container.location-picker {
+  touch-action: none;
+}

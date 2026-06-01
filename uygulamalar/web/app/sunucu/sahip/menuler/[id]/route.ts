@@ -19,7 +19,8 @@ async function resolveOwnership(
   menuId: string,
   userId: string,
 ): Promise<{ ok: true } | { ok: false; response: NextResponse }> {
-  const { data: menu, error } = await (supabase as any)
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  const { data: menu, error } = await supabase
     .from('menus')
     .select('id, business_id')
     .eq('id', menuId)
@@ -29,7 +30,7 @@ async function resolveOwnership(
     return { ok: false, response: NextResponse.json({ error: 'menu_not_found' }, { status: 404 }) };
   }
 
-  const isOwner = await hasOwnerBusiness(supabase as any, userId, (menu as { business_id: string }).business_id);
+  const isOwner = await hasOwnerBusiness(supabaseAny, userId, (menu as { business_id: string }).business_id);
   if (!isOwner) {
     return { ok: false, response: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
   }
@@ -50,6 +51,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -76,7 +78,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     return ownership.response;
   }
 
-  const { data: updated, error } = await (supabase as any)
+  const { data: updated, error } = await supabaseAny
     .from('menus')
     .update(parsed.data)
     .eq('id', id)
@@ -107,6 +109,7 @@ export async function DELETE(request: Request, context: RouteContext) {
   }
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -121,7 +124,7 @@ export async function DELETE(request: Request, context: RouteContext) {
   }
 
   // Soft-delete: set status = 'archived'
-  const { data: archived, error } = await (supabase as any)
+  const { data: archived, error } = await supabaseAny
     .from('menus')
     .update({ status: 'archived' })
     .eq('id', id)

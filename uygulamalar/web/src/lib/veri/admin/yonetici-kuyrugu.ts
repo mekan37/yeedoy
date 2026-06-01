@@ -33,9 +33,10 @@ export type BusinessSubmissionRow = {
  */
 export async function getQueueCounts(): Promise<QueueCounts> {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   try {
-    const { data, error } = await (supabase as any).rpc('admin_get_queues_counts_v1');
+    const { data, error } = await supabaseAny.rpc('admin_get_queues_counts_v1');
 
     if (!error && data) {
       const row = data as {
@@ -61,19 +62,19 @@ export async function getQueueCounts(): Promise<QueueCounts> {
 
   // Fallback: individual table counts.
   const [reports, claims, suggestions, submissions] = await Promise.all([
-    (supabase as any)
+    supabaseAny
       .from('reports')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'open'),
-    (supabase as any)
+    supabase
       .from('owner_claims')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'pending'),
-    (supabase as any)
+    supabaseAny
       .from('menu_item_price_suggestions')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'pending'),
-    (supabase as any)
+    supabaseAny
       .from('business_submissions')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'pending'),
@@ -92,8 +93,9 @@ export async function getQueueCounts(): Promise<QueueCounts> {
  */
 export async function listOpenReports(limit = 50): Promise<ReportRow[]> {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
-  const { data, error } = await (supabase as any)
+  const { data, error } = await supabaseAny
     .from('reports')
     .select('*')
     .eq('status', 'open')
@@ -113,8 +115,9 @@ export async function listOpenReports(limit = 50): Promise<ReportRow[]> {
  */
 export async function listPendingSubmissions(limit = 50): Promise<BusinessSubmissionRow[]> {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
-  const { data, error } = await (supabase as any)
+  const { data, error } = await supabaseAny
     .from('business_submissions')
     .select('*')
     .eq('status', 'pending')

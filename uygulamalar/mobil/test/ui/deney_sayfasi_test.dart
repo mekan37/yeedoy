@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yeedoy/uygulama/tema/uygulama_tokenleri.dart';
-import 'package:yeedoy/core/ayarlar/ozellik_bayraklari.dart';
-import 'package:yeedoy/features/kimlik/domain/kimlik_saglayicilari.dart';
-import 'package:yeedoy/features/shared/ui/deney_sayfasi.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
+import 'package:yeedoy/core/config/feature_flags.dart';
+import 'package:yeedoy/features/auth/domain/auth_providers.dart';
+import 'package:yeedoy/features/shared/ui/labs_page.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
 
 class TestFeatureFlagsController extends FeatureFlagsController {

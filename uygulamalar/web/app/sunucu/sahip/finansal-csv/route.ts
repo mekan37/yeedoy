@@ -1,17 +1,34 @@
 import { NextResponse } from 'next/server';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { z } from 'zod';
+
+const querySchema = z.object({
+  ay: z.string().regex(/^\d{4}-\d{2}$/).optional(),
+  format: z.enum(['csv', 'json', 'standard', 'parasut', 'logo']).optional(),
+});
 
 const KDV = 0.18;
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const ay = url.searchParams.get('ay');
-  const format = url.searchParams.get('format') ?? 'standard'; // standard | parasut | logo
+
+  const parsedQuery = querySchema.safeParse(Object.fromEntries(url.searchParams));
+  if (!parsedQuery.success) {
+    return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
+  }
+
+  const ay = parsedQuery.data.ay ?? null;
+  const format = parsedQuery.data.format ?? 'standard'; // standard | parasut | logo
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const rl = rateLimit(`fincsv:${user.id}`, 10, 3_600_000); // 10/hour
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const simdi = new Date();
   let yil = simdi.getFullYear();
@@ -25,7 +42,7 @@ export async function GET(request: Request) {
   const aySonu = new Date(yil, ayNum, 1).toISOString();
 
   const businesses = await getOwnerBusinesses<{ id: string; name: string }>(
-    supabase as any,
+    supabaseAny,
     user.id,
     'id, name',
   );
@@ -36,7 +53,7 @@ export async function GET(request: Request) {
   );
 
   const { data: kalemler } = businessIds.length > 0
-    ? await (supabase as any)
+    ? await supabaseAny
         .from('table_order_items')
         .select('business_id, price, quantity, created_at')
         .in('business_id', businessIds)

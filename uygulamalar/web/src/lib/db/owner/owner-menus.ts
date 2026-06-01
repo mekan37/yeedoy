@@ -25,9 +25,10 @@ export type MenuWithSections = {
  */
 export async function getOwnerMenus(userId: string): Promise<OwnerMenuSummary[]> {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   // First resolve the businesses owned by this user.
-  const { data: businesses, error: bizError } = await (supabase as any)
+  const { data: businesses, error: bizError } = await supabaseAny
     .from('businesses')
     .select('id')
     .eq('owner_id', userId);

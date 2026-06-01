@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,6 +10,20 @@ import 'uygulama/uygulama.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    // TODO: Crashlytics bağlandıktan sonra: FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    // TODO: FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    if (kDebugMode) {
+      debugPrint('[PersonelApp] Uncaught error: $error');
+    }
+    return true;
+  };
+
   await dotenv.load(fileName: '.env');
 
   await Supabase.initialize(

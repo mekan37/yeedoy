@@ -48,8 +48,8 @@ class BusinessReviewsState {
   }
 }
 
-final businessReviewsProvider = NotifierProvider.family<BusinessReviewsController, BusinessReviewsState, String>(
-  BusinessReviewsController.new,
+final businessReviewsProvider = NotifierProvider.autoDispose.family<BusinessReviewsController, BusinessReviewsState, String>(
+  (arg) => BusinessReviewsController(arg),
 );
 
 class BusinessReviewsController extends Notifier<BusinessReviewsState> {
@@ -132,4 +132,3 @@ class BusinessReviewsController extends Notifier<BusinessReviewsState> {
     await loadInitial();
   }
 }
-

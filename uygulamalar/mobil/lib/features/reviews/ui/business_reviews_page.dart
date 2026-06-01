@@ -6,6 +6,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/config/product_guardrail_overrides.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/media/app_network_image.dart';
 import '../data/reviews_repository.dart';
 import '../domain/business_reviews_controller.dart';
 import '../../shared/ui/widgets/report_bottom_sheet.dart';
@@ -429,23 +430,13 @@ class _ReviewPhotoGrid extends StatelessWidget {
         separatorBuilder: (context, i) => const SizedBox(width: 6),
         itemBuilder: (context, i) => GestureDetector(
           onTap: () => _openFullscreen(context, i),
-          child: ClipRRect(
+          child: AppNetworkImage(
+            url: urls[i],
+            width: 80,
+            height: 80,
+            fit: BoxFit.cover,
             borderRadius: BorderRadius.circular(8),
-            child: Image.network(
-              urls[i],
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
-              errorBuilder: (context, e, stack) => Container(
-                width: 80,
-                height: 80,
-                color: AppColors.card,
-                child: const Icon(
-                  Icons.broken_image_outlined,
-                  color: AppColors.muted,
-                ),
-              ),
-            ),
+            variant: AppImageVariant.thumb,
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { enforceRateLimit } from "../_shared/rate-limit.ts";
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -29,12 +30,23 @@ const VALID_ALLERGENS = new Set([
 
 // ─── Gemma prompt ─────────────────────────────────────────────────────────────
 
+function sanitizeForPrompt(input: string, maxLen = 200): string {
+  return input
+    .replace(/["""''`]/g, "'")
+    .replace(/\n+/g, " ")
+    .substring(0, maxLen)
+    .replace(/ignore\s+(all\s+)?previous\s+instructions?/gi, "[REDACTED]")
+    .replace(/you\s+are\s+now\s+(?!going|about|ready)/gi, "[REDACTED] ");
+}
+
 function buildAllergenPrompt(itemName: string, description: string): string {
+  const safeName = sanitizeForPrompt(itemName, 150);
+  const safeDesc = sanitizeForPrompt(description, 300);
   return `You are a food allergen expert specializing in Turkish and Mediterranean cuisine.
 
 Analyze the following menu item and identify which of the 14 EU-regulated allergens it contains or may contain.
 
-Food item: "${itemName}"${description ? `\nDescription: "${description}"` : ""}
+Food item: "${safeName}"${safeDesc ? `\nDescription: "${safeDesc}"` : ""}
 
 The 14 allergens and their codes:
 - gluten (wheat, rye, barley, oats)
@@ -101,6 +113,12 @@ serve(async (req) => {
   const { data: userRes, error: userErr } = await userClient.auth.getUser();
   if (userErr || !userRes?.user) {
     return json({ ok: false, error: "not_authenticated" }, 401);
+  }
+
+  try {
+    await enforceRateLimit(userRes.user.id, "ai-allergen-detect", 20);
+  } catch (rateLimitResponse) {
+    return rateLimitResponse as Response;
   }
 
   let body: Record<string, unknown>;

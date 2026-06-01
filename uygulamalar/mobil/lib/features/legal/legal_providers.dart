@@ -5,14 +5,14 @@ import 'legal_models.dart';
 import 'legal_repository.dart';
 
 final legalAcceptanceSnapshotProvider =
-    FutureProvider<PolicyAcceptanceSnapshot?>((ref) async {
+    FutureProvider.autoDispose<PolicyAcceptanceSnapshot?>((ref) async {
       final user = ref.watch(userProvider);
       if (user == null) return null;
       return ref.read(legalRepositoryProvider).loadAcceptanceSnapshot();
     });
 
 final legalRequestOverviewProvider =
-    FutureProvider<LegalRequestOverview?>((ref) async {
+    FutureProvider.autoDispose<LegalRequestOverview?>((ref) async {
       final user = ref.watch(userProvider);
       if (user == null) return null;
       return ref.read(legalRepositoryProvider).loadRequestOverview();

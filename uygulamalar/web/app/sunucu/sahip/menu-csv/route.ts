@@ -1,18 +1,28 @@
 import { NextResponse } from 'next/server';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { z } from 'zod';
+
+const querySchema = z.object({ menuId: z.string().uuid() });
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const menuId = url.searchParams.get('menuId');
-  if (!menuId) return NextResponse.json({ error: 'menuId required' }, { status: 400 });
+
+  const parsedQuery = querySchema.safeParse(Object.fromEntries(url.searchParams));
+  if (!parsedQuery.success) return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
+  const { menuId } = parsedQuery.data;
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+  const rl = rateLimit(`menucsv:${user.id}`, 20, 3_600_000); // 20/hour
+  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+
   // Verify ownership
-  const { data: menu } = await (supabase as any)
+  const { data: menu } = await supabase
     .from('menus')
     .select('id, title, business_id')
     .eq('id', menuId)
@@ -20,11 +30,11 @@ export async function GET(req: Request) {
 
   if (!menu) return NextResponse.json({ error: 'Menu not found' }, { status: 404 });
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, menu.business_id);
+  const canManageBusiness = await hasOwnerBusiness(supabaseAny, user.id, menu.business_id);
   if (!canManageBusiness) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   // Fetch sections and items
-  const { data: sections } = await (supabase as any)
+  const { data: sections } = await supabase
     .from('menu_sections')
     .select('id, title, sort_order')
     .eq('menu_id', menuId)
@@ -34,7 +44,7 @@ export async function GET(req: Request) {
   const sectionMap = Object.fromEntries(((sections ?? []) as any[]).map((s: any) => [s.id, s.title]));
 
   const { data: items } = sectionIds.length > 0
-    ? await (supabase as any)
+    ? await supabase
         .from('menu_items')
         .select('id, section_id, name, description, price_cents, currency, is_available, sort_order')
         .in('section_id', sectionIds)

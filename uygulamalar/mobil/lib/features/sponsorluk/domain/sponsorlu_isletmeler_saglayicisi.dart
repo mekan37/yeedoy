@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../kesif/data/kesif_deposu.dart';
-import '../../kesif/domain/isletme_karti.dart';
+import '../../discovery/data/discovery_repository.dart';
+import '../../discovery/domain/business_card.dart';
 
 typedef SponsoredBusinessesParams = ({
   String surface,
@@ -27,7 +27,7 @@ SponsoredBusinessesParams sponsoredDiscoveryParams({
 }
 
 final sponsoredBusinessesProvider =
-    FutureProvider.family<List<BusinessCardModel>, SponsoredBusinessesParams>((
+    FutureProvider.autoDispose.family<List<BusinessCardModel>, SponsoredBusinessesParams>((
       ref,
       params,
     ) async {

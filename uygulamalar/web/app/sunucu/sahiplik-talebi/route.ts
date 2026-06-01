@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { z } from 'zod';
+
+const schema = z.object({
+  businessId: z.string().uuid(),
+  fullName: z.string().min(1).max(200).transform((s) => s.trim()),
+  phone: z.string().min(1).max(30).transform((s) => s.trim()),
+  note: z.string().max(1000).optional(),
+  evidenceUrl: z.string().url().optional(),
+});
 
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServerClient();
@@ -9,21 +18,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Giriş yapmanız gerekiyor.' }, { status: 401 });
   }
 
-  let body: { businessId?: string; fullName?: string; phone?: string; note?: string; evidenceUrl?: string };
-  try {
-    body = await request.json();
-  } catch {
+  const rawBody = await request.json().catch(() => null);
+  const parsed = schema.safeParse(rawBody);
+  if (!parsed.success) {
     return NextResponse.json({ error: 'Geçersiz veri.' }, { status: 400 });
   }
 
-  const { businessId, fullName, phone, note, evidenceUrl } = body;
+  const { businessId, fullName, phone, note, evidenceUrl } = parsed.data;
 
-  if (!businessId || !fullName?.trim() || !phone?.trim()) {
-    return NextResponse.json({ error: 'Zorunlu alanlar eksik.' }, { status: 400 });
-  }
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   // İşletme var mı?
-  const { data: biz } = await (supabase as any)
+  const { data: biz } = await supabase
     .from('businesses')
     .select('id')
     .eq('id', businessId)
@@ -35,7 +41,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Tekrar talep var mı?
-  const { data: existing } = await (supabase as any)
+  const { data: existing } = await supabaseAny
     .from('owner_claims')
     .select('id, status')
     .eq('user_id', user.id)
@@ -49,7 +55,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ redirect: '/sahip/gosterge-panosu?bilgi=talep_bekliyor' });
   }
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('owner_claims')
     .insert({
       business_id:    businessId,

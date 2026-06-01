@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:yeedoy/uygulama/tema/uygulama_tokenleri.dart';
-import 'package:yeedoy/features/kimlik/domain/kimlik_saglayicilari.dart';
-import 'package:yeedoy/features/bildirimler/domain/gelen_kutusu_modelleri.dart';
-import 'package:yeedoy/features/bildirimler/domain/gelen_kutusu_saglayicisi.dart';
-import 'package:yeedoy/features/bildirimler/ui/gelen_kutusu_sayfasi.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
+import 'package:yeedoy/features/auth/domain/auth_providers.dart';
+import 'package:yeedoy/features/notifications/domain/inbox_models.dart';
+import 'package:yeedoy/features/notifications/domain/inbox_provider.dart';
+import 'package:yeedoy/features/notifications/ui/inbox_page.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
 
 // ---------------------------------------------------------------------------

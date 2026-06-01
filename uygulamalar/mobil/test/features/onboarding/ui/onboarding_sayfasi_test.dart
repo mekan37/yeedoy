@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yeedoy/uygulama/tema/uygulama_tokenleri.dart';
-import 'package:yeedoy/core/analitik/analitik_deposu.dart';
-import 'package:yeedoy/core/analitik/uygulama_olaylari.dart';
-import 'package:yeedoy/core/depolama/uygulama_baslatma_tercihleri.dart';
-import 'package:yeedoy/features/onboarding/ui/onboarding_sayfasi.dart';
+import 'package:yeedoy/app/theme/app_tokens.dart';
+import 'package:yeedoy/core/analytics/analytics_repository.dart';
+import 'package:yeedoy/core/analytics/app_events.dart';
+import 'package:yeedoy/core/storage/app_launch_prefs.dart';
+import 'package:yeedoy/features/onboarding/ui/onboarding_page.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
 
 ThemeData _theme() => ThemeData(

@@ -27,7 +27,7 @@ class CompareBusiness {
   final int? cheapestItemPriceCents;
 }
 
-final compareBusinessesProvider = FutureProvider<List<CompareBusiness>>((ref) async {
+final compareBusinessesProvider = FutureProvider.autoDispose<List<CompareBusiness>>((ref) async {
   final ids = ref.watch(compareControllerProvider);
   if (ids.isEmpty) return const [];
 

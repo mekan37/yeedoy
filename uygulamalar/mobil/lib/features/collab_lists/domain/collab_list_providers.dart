@@ -6,7 +6,7 @@ import 'collab_list_models.dart';
 // ── My lists ─────────────────────────────────────────────────────────────────
 
 final myCollabListsProvider =
-    AsyncNotifierProvider<MyCollabListsNotifier, List<CollabList>>(
+    AsyncNotifierProvider.autoDispose<MyCollabListsNotifier, List<CollabList>>(
   MyCollabListsNotifier.new,
 );
 
@@ -47,9 +47,9 @@ class MyCollabListsNotifier extends AsyncNotifier<List<CollabList>> {
 
 // ── Detail ────────────────────────────────────────────────────────────────────
 
-final collabListDetailProvider = AsyncNotifierProvider.family<
+final collabListDetailProvider = AsyncNotifierProvider.autoDispose.family<
     CollabListDetailNotifier, CollabListDetail, String>(
-  CollabListDetailNotifier.new,
+  (arg) => CollabListDetailNotifier(arg),
 );
 
 class CollabListDetailNotifier extends AsyncNotifier<CollabListDetail> {

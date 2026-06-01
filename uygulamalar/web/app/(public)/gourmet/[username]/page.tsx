@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
@@ -81,7 +82,7 @@ export default async function GourmetProfilePage({ params }: Props) {
         <div className="flex items-center gap-5 mb-8">
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-border bg-primary/10 flex items-center justify-center text-2xl font-[900] text-primary">
             {profile.avatar_url
-              ? <img loading="lazy" src={profile.avatar_url} alt={name} className="h-full w-full object-cover" />
+              ? <Image unoptimized src={profile.avatar_url} alt={name} width={80} height={80} className="h-full w-full object-cover" />
               : name[0]?.toUpperCase() ?? 'G'}
           </div>
           <div>

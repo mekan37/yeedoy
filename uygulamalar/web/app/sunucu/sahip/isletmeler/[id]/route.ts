@@ -41,6 +41,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -62,12 +63,12 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: 'no_fields_to_update' }, { status: 400 });
   }
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, id);
+  const canManageBusiness = await hasOwnerBusiness(supabaseAny, user.id, id);
   if (!canManageBusiness) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
-  const { data: updated, error } = await (supabase as any)
+  const { data: updated, error } = await supabaseAny
     .from('businesses')
     .update(parsed.data)
     .eq('id', id)

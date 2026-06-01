@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/onbellek/sureli_bellek_onbellegi.dart';
+import 'package:yeedoy/core/cache/ttl_memory_cache.dart';
 
 void main() {
   group('TtlMemoryCache', () {

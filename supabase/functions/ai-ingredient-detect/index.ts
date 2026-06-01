@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { enforceRateLimit } from "../_shared/rate-limit.ts";
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -101,6 +102,9 @@ serve(async (req) => {
   if (userErr || !userRes?.user) {
     return json({ ok: false, error: "not_authenticated" }, 401);
   }
+
+  try { await enforceRateLimit(userRes.user.id, "ai-ingredient-detect", 20); }
+  catch (r) { return r as Response; }
 
   let body: Record<string, unknown>;
   try {

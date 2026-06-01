@@ -53,9 +53,9 @@ serve(async (req) => {
   if (campError || !campaign) return json({ ok: false, error: "campaign_not_found" }, 404);
   if (campaign.sent_at) return json({ ok: false, error: "already_sent" }, 409);
 
-  // Verify caller owns the business
+  // Verify caller owns the business (use owner_claims — the authoritative table)
   const { count: claimCount } = await supabase
-    .from("business_claims")
+    .from("owner_claims")
     .select("id", { count: "exact", head: true })
     .eq("business_id", campaign.business_id)
     .eq("user_id", user.id)

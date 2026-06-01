@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../uygulama/tema/renkler.dart';
-import '../../../features/shared/ui/bilesenler/uygulama_iskele.dart';
-import '../../../features/shared/ui/bilesenler/uygulama_ust_cubugu.dart';
-import '../../../features/kimlik/domain/kimlik_saglayicilari.dart';
+import '../../../app/theme/colors.dart';
+import '../../../features/shared/ui/components/app_appbar.dart';
+import '../../../features/shared/ui/components/app_scaffold.dart';
+import '../../../features/auth/domain/auth_providers.dart';
 import '../domain/sahiplen_saglayicisi.dart';
 
 class SahiplenSayfasi extends ConsumerStatefulWidget {

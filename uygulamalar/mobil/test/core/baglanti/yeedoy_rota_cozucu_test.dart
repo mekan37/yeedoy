@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/baglanti/yeedoy_rota_cozucu.dart';
+import 'package:yeedoy/core/linking/yeedoy_route_resolver.dart';
 
 void main() {
   group('resolveYeedoyRouteFromQr', () {

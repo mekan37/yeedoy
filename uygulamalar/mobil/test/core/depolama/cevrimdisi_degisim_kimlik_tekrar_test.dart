@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yeedoy/core/depolama/offline_mutation_idempotency.dart';
+import 'package:yeedoy/core/storage/offline_mutation_idempotency.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

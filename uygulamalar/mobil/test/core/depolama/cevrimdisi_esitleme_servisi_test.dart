@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/depolama/cevrimdisi_esitleme_servisi.dart';
+import 'package:yeedoy/core/storage/offline_sync_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

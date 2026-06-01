@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/analitik/uygulama_olaylari.dart';
-import 'package:yeedoy/core/kalite/altin_yollar.dart';
+import 'package:yeedoy/core/analytics/app_events.dart';
+import 'package:yeedoy/core/quality/golden_paths.dart';
 
 void main() {
   group('Golden path coverage', () {

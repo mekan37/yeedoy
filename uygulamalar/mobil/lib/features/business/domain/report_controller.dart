@@ -27,8 +27,8 @@ class ReportState {
 }
 
 final reportControllerProvider =
-    NotifierProvider.family<ReportController, ReportState, String>(
-      ReportController.new,
+    NotifierProvider.autoDispose.family<ReportController, ReportState, String>(
+      (arg) => ReportController(arg),
     );
 
 class ReportController extends Notifier<ReportState> {
@@ -70,8 +70,8 @@ class ReportController extends Notifier<ReportState> {
 }
 
 final reviewReportControllerProvider =
-    NotifierProvider.family<ReviewReportController, ReportState, String>(
-      ReviewReportController.new,
+    NotifierProvider.autoDispose.family<ReviewReportController, ReportState, String>(
+      (arg) => ReviewReportController(arg),
     );
 
 class ReviewReportController extends Notifier<ReportState> {
@@ -113,8 +113,8 @@ class ReviewReportController extends Notifier<ReportState> {
 }
 
 final menuPhotoReportControllerProvider =
-    NotifierProvider.family<MenuPhotoReportController, ReportState, String>(
-      MenuPhotoReportController.new,
+    NotifierProvider.autoDispose.family<MenuPhotoReportController, ReportState, String>(
+      (arg) => MenuPhotoReportController(arg),
     );
 
 class MenuPhotoReportController extends Notifier<ReportState> {

@@ -125,7 +125,28 @@ serve(async (req) => {
     </p>`;
   const fullHtml = campaign.html_body + unsubscribeNote;
 
+  async function sendBatchWithRetry(
+    messages: Array<{ from: string; to: string; subject: string; html: string }>,
+  ): Promise<boolean> {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const resp = await fetch("https://api.resend.com/emails/batch", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(messages),
+      });
+      if (resp.ok) return true;
+      const errText = await resp.text();
+      console.error(`Resend batch error (attempt ${attempt + 1}/2):`, resp.status, errText);
+      if (attempt === 0) await new Promise((r) => setTimeout(r, 2000));
+    }
+    return false;
+  }
+
   let sentCount = 0;
+  let failedBatches = 0;
 
   if (!RESEND_API_KEY) {
     // No Resend key — log and skip (dev/staging)
@@ -143,20 +164,12 @@ serve(async (req) => {
         html: fullHtml,
       }));
 
-      const resp = await fetch("https://api.resend.com/emails/batch", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(messages),
-      });
-
-      if (resp.ok) {
+      const ok = await sendBatchWithRetry(messages);
+      if (ok) {
         sentCount += batch.length;
       } else {
-        const errText = await resp.text();
-        console.error("Resend batch error:", resp.status, errText);
+        failedBatches += 1;
+        console.error(`Resend batch permanently failed after 2 attempts (batch starting at index ${i})`);
       }
 
       // Respect Resend rate limit (~50/sec)
@@ -164,6 +177,10 @@ serve(async (req) => {
         await new Promise((r) => setTimeout(r, RESEND_BATCH_DELAY_MS));
       }
     }
+  }
+
+  if (failedBatches > 0) {
+    console.error(`[send-email-campaign] campaign ${campaignId} completed with ${failedBatches} failed batch(es); sent_count=${sentCount}`);
   }
 
   // Update campaign record

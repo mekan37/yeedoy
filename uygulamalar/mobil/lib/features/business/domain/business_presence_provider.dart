@@ -9,8 +9,8 @@ import '../../../core/network/supabase_provider.dart';
 ///
 /// Returns null while the channel is connecting (avoids flash of "1 person").
 final businessPresenceCountProvider =
-    NotifierProvider.family<BusinessPresenceNotifier, int?, String>(
-  BusinessPresenceNotifier.new,
+    NotifierProvider.autoDispose.family<BusinessPresenceNotifier, int?, String>(
+  (arg) => BusinessPresenceNotifier(arg),
 );
 
 class BusinessPresenceNotifier extends Notifier<int?> {

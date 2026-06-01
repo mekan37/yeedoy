@@ -79,16 +79,63 @@ function pickPhone(tags: Record<string, any>) {
   return normStr(tags.phone || tags["contact:phone"]) || null;
 }
 
+const ALLOWED_ORIGINS = [
+  "https://yeedoy.com",
+  "https://panel.yeedoy.com",
+  "http://localhost:3000",
+  "http://localhost:3001",
+];
+
+function corsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("origin") ?? "";
+  const headers: Record<string, string> = {
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Authorization, Content-Type",
+    "Vary": "Origin",
+  };
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+  // Non-allowed origins receive no Access-Control-Allow-Origin header
+  return headers;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response("ok", {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Methods": "POST,OPTIONS",
-      },
+    return new Response(null, { status: 204, headers: corsHeaders(req) });
+  }
+
+  // ── Auth: require valid JWT + is_admin ─────────────────────────────────────
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader?.startsWith("Bearer ")) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { "content-type": "application/json", ...corsHeaders(req) },
     });
   }
+
+  const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+  const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+  const callerClient = createClient(supabaseUrl, anonKey, {
+    global: { headers: { Authorization: authHeader } },
+  });
+
+  const { data: { user }, error: userErr } = await callerClient.auth.getUser();
+  if (userErr || !user) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { "content-type": "application/json", ...corsHeaders(req) },
+    });
+  }
+
+  const { data: isAdmin } = await callerClient.rpc("is_admin");
+  if (!isAdmin) {
+    return new Response(JSON.stringify({ error: "forbidden" }), {
+      status: 403,
+      headers: { "content-type": "application/json", ...corsHeaders(req) },
+    });
+  }
+  // ── End auth ───────────────────────────────────────────────────────────────
 
   try {
     const form = await req.formData();
@@ -107,11 +154,10 @@ Deno.serve(async (req) => {
     const elements: any[] = json?.overpass?.elements || json?.elements || [];
     if (!Array.isArray(elements) || elements.length === 0) {
       return new Response(JSON.stringify({ ok: true, inserted: 0, skipped: 0, note: "no_elements" }), {
-        headers: { "content-type": "application/json", "Access-Control-Allow-Origin": "*" },
+        headers: { "content-type": "application/json", ...corsHeaders(req) },
       });
     }
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceKey);
 
@@ -181,13 +227,13 @@ Deno.serve(async (req) => {
       city: city || null,
       district: district || null,
     }), {
-      headers: { "content-type": "application/json", "Access-Control-Allow-Origin": "*" },
+      headers: { "content-type": "application/json", ...corsHeaders(req) },
     });
 
   } catch (e) {
     return new Response(JSON.stringify({ ok: false, error: String(e) }), {
       status: 500,
-      headers: { "content-type": "application/json", "Access-Control-Allow-Origin": "*" },
+      headers: { "content-type": "application/json", ...corsHeaders(req) },
     });
   }
 });

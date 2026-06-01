@@ -30,8 +30,9 @@ export async function POST(request: Request) {
 
   // Anonim istemci — müşteri giriş yapmak zorunda değil
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
-  const { data, error } = await (supabase as any).rpc('submit_table_order_v1', {
+  const { data, error } = await supabaseAny.rpc('submit_table_order_v1', {
     p_business_id: parsed.data.businessId,
     p_table_number: parsed.data.tableNumber,
     p_items_json: JSON.stringify(parsed.data.items),

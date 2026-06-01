@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/buyume/ab_deneyleri.dart';
+import 'package:yeedoy/core/growth/ab_experiments.dart';
 
 void main() {
   test('home category layout falls back to horizontal when disabled', () {

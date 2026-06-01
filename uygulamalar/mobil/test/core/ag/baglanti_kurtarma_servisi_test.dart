@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/core/ag/baglanti_kurtarma_servisi.dart';
+import 'package:yeedoy/core/network/connectivity_restore_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

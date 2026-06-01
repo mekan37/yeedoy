@@ -6,6 +6,7 @@ import { FavoriteButton, ReportBusinessButton, ShareButton } from '@/src/ui/acik
 import { Icon } from '@/src/ui/acik/simgeler';
 import type { AcikIsletmeKarti } from '@/src/ui/acik/tipler';
 import { AcikKapaliRozeti, AdresKopyalaButonu } from '@/src/ui/acik/isletme-istemci';
+import { BusinessMap } from '@/src/components/maps/BusinessMap';
 
 export type AcikIsletmeDetayi = AcikIsletmeKarti & {
   phone?: string | null;
@@ -140,6 +141,14 @@ export function IsletmeKonumBolumu({ business }: { business: AcikIsletmeDetayi }
           {business.isVerified ? <DogrulanmisRozeti /> : <Badge>Topluluk doğrulaması bekleniyor</Badge>}
           {business.phone ? <Badge>Telefon var</Badge> : null}
         </div>
+        {business.lat && business.lng ? (
+          <BusinessMap
+            location={{ lat: business.lat, lng: business.lng }}
+            name={business.name}
+            address={business.address}
+            className="mt-2 h-48 w-full overflow-hidden rounded-xl"
+          />
+        ) : null}
         {mapsHref ? (
           <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-border px-4 font-[900] text-textStrong hover:border-primary/30">
             <Icon name="pin" size={16} /> Haritada aç

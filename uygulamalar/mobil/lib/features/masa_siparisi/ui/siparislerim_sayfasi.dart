@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../uygulama/tema/renkler.dart';
-import '../../../core/hatalar/uygulama_hata_esleyicisi.dart';
-import '../../../features/shared/ui/tasarim_sistemi.dart';
-import '../../../features/shared/ui/bilesenler/uygulama_ust_cubugu.dart';
+import '../../../app/theme/colors.dart';
+import '../../../core/errors/app_error_mapper.dart';
+import '../../../features/shared/ui/design_system.dart';
+import '../../../features/shared/ui/components/app_appbar.dart';
+import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../domain/masa_siparisi_gonder_bildiricisi.dart';
 import '../domain/masa_siparisi_modeli.dart';
 

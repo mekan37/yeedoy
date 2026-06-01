@@ -11,6 +11,7 @@ const schema = z.object({
 
 export async function PATCH(req: Request) {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -20,7 +21,7 @@ export async function PATCH(req: Request) {
   const { itemId, stockCount, isAvailable } = parsed.data;
 
   // Verify caller owns the business this menu item belongs to
-  const { data: item } = await (supabase as any)
+  const { data: item } = await supabaseAny
     .from('menu_items')
     .select('menu:menu_id(business_id)')
     .eq('id', itemId)
@@ -29,7 +30,7 @@ export async function PATCH(req: Request) {
   const businessId = item?.menu?.business_id;
   if (!businessId) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  const owned = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const owned = await hasOwnerBusiness(supabaseAny, user.id, businessId);
   if (!owned) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   const update: Record<string, unknown> = {};
@@ -38,7 +39,7 @@ export async function PATCH(req: Request) {
 
   if (Object.keys(update).length === 0) return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('menu_items')
     .update(update)
     .eq('id', itemId);

@@ -1,21 +1,20 @@
 # Yeedoy AI Calisma Kurallari
 
-Bu repo tek bir Node projesi degil. Aktif urun yuzeyi uc app'ten olusur:
+Bu repo tek bir Node projesi degil. Aktif urun yuzeyi iki app'ten olusur:
 
-- `apps/mobile_flutter`: son kullanici mobil uygulamasi
-- `apps/panel_flutter_web`: owner + admin Flutter web paneli
-- `apps/web_next`: public menu + QR + branding Next.js uygulamasi
+- `uygulamalar/mobil`: son kullanici mobil uygulamasi
+- `uygulamalar/web`: public menu, QR, branding, owner ve admin Next.js uygulamasi
 
 ## Aktif Kaynaklar
 
 - Flutter ortak model kaynagi: `packages/shared_models`
 - Flutter ortak UI primitive kaynagi: `packages/shared_ui_components`
 - Flutter ortak l10n senkron kaynagi: `packages/l10n_assets/common_en.arb`, `packages/l10n_assets/common_tr.arb`
-- Flutter tema source-of-truth: `apps/mobile_flutter/lib/app/theme/*`
-- Web token aynasi: `apps/web_next/src/styles/tokens.css`, `apps/web_next/tailwind.config.js`
+- Flutter tema source-of-truth: `uygulamalar/mobil/lib/uygulama/theme/*`
+- Web token aynasi: `uygulamalar/web/src/styles/tokens.css`, `uygulamalar/web/tailwind.config.js`
 
 Not:
-- `packages/ui_tokens` mevcut ama `apps/web_next` icin aktif source-of-truth degil.
+- `packages/ui_tokens` mevcut ama `uygulamalar/web` icin aktif source-of-truth degil.
 - `packages/api_client`, `packages/shared_config`, `packages/shared_types` repo icinde neredeyse baglanmiyor; yeni is bunlara tasinmamalidir.
 
 ## Mimari Standart
@@ -29,35 +28,34 @@ Baskin yapi feature-first ve `data/domain/ui` ayrimidir.
 - `ui`: `Page`, `Sheet`, `Card`, `Section`, `Widget`
 
 Kurallar:
-- Yeni Supabase erisimi once repository'ye eklenir.
+- Yeni Supabase erisimi once deposu'ye eklenir.
 - Yeni state orkestrasyonu `domain` altinda `Provider`, `Notifier`, `AsyncNotifier` ile kurulur.
 - UI katmani yeni RPC yazmasi eklememelidir.
 - Var olan UI-icinde-provider ornekleri teknik borctur; yeni kodda tekrar edilmez.
 
 ### Next app
 
-`apps/web_next` ikiye ayrilir:
+`uygulamalar/web` ikiye ayrilir:
 
-- `app/`: route, metadata, route handler
+- `uygulama/`: route, metadata, route handler
 - `src/lib`: db, supabase, schema, analytics, route helpers
 - `src/ui`: client component ve section'lar
 
 Kurallar:
-- Public veri okuma `src/lib/db/*` ve ilgili helper'larda kalir.
-- Mutation route'lari `app/api/**/route.ts` altinda olur.
+- Public veri okuma `src/lib/veri/*` ve ilgili helper'larda kalir.
+- Mutation route'lari `uygulama/api/**/route.ts` altinda olur.
 - Route handler icinde `zod.safeParse`, auth ve rate-limit desenleri korunur.
-- Owner/admin CRUD ekranlari `web_next` icine tasinmaz.
+- Owner/admin CRUD ekranlari `uygulamalar/web/uygulama/owner/**` ve `uygulamalar/web/uygulama/admin/**` altinda kalir.
 
 ## Uygulama Sinirlari
 
 - `mobile_flutter` kesif, menu, review, favori, profil, katki ve offline/notification akislarina bakar.
-- `panel_flutter_web` owner/admin operasyonu, moderation, menu CRUD, onboarding, analytics ve growth akislarina bakar.
-- `web_next` public menu dagitimi, QR Studio, branding upload, panel handoff ve analytics toplar.
+- `web_next` public menu dagitimi, QR Studio, branding upload, owner/admin operasyonu, moderation, menu CRUD, onboarding, analytics ve growth akislarini tasir.
 
 Ban:
 - Mobil icine admin/owner operasyon paneli ekleme.
-- Next icine panel CRUD ekleme.
-- Panel icine public SEO menu render mantigi tasima.
+- Owner/admin CRUD icin yeni Flutter web panel yuzeyi ekleme.
+- Public SEO menu render mantigini Next disina tasima.
 
 ## Tema ve UI
 
@@ -70,8 +68,8 @@ Ban:
 ## I18n
 
 - Flutter app'lerde kullaniciya gorunen yeni metin `app_en.arb` + `app_tr.arb` icine eklenir.
-- Iki Flutter app'te ayni anahtar kullaniliyorsa `packages/l10n_assets/common_*.arb` kaynagini guncelle, sonra `node packages/l10n_assets/scripts/sync-l10n.mjs` calistir.
-- Web public UI copy'si `apps/web_next/src/lib/i18n.ts` ve benzeri merkezi dosyalarda tutulur; component icine yeni sabit string gomulmez.
+- Mobil Flutter'da kullaniciya gorunen ortak anahtar gerekiyorsa `packages/l10n_assets/common_*.arb` kaynagini guncelle, sonra `node packages/l10n_assets/scripts/sync-l10n.mjs` calistir.
+- Web public UI copy'si `uygulamalar/web/src/lib/i18n.ts` ve benzeri merkezi dosyalarda tutulur; component icine yeni sabit string gomulmez.
 
 ## Adlandirma
 
@@ -96,12 +94,10 @@ npm run verify:matrix
 App bazli:
 
 ```bash
-npm --prefix apps/mobile_flutter run lint
-npm --prefix apps/panel_flutter_web run lint
-npm --prefix apps/panel_flutter_web run test
-npm --prefix apps/web_next run typecheck
-npm --prefix apps/web_next run lint
-npm --prefix apps/web_next run test
+npm --prefix uygulamalar/mobil run lint
+npm --prefix uygulamalar/web run typecheck
+npm --prefix uygulamalar/web run lint
+npm --prefix uygulamalar/web run test
 ```
 
 Not:

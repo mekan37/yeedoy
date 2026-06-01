@@ -25,16 +25,34 @@ class GroupRequestDetailPage extends ConsumerStatefulWidget {
 class _GroupRequestDetailPageState
     extends ConsumerState<GroupRequestDetailPage> {
   bool _accepting = false;
+  // Future, initState'de bir kez oluşturulur; her build() yeniden başlatmaz.
+  Future<GroupRequest?>? _requestFuture;
 
   String get _shareUrl =>
       '${AppConfig.webBaseUrl}/group-requests/${widget.requestId}';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _refreshRequestFuture();
+      }
+    });
+  }
+
+  void _refreshRequestFuture() {
+    final repo = ref.read(groupRequestsRepositoryProvider);
+    setState(() {
+      _requestFuture = _loadRequest(repo, widget.requestId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final created =
         GoRouterState.of(context).uri.queryParameters['created'] == '1';
-    final repo = ref.watch(groupRequestsRepositoryProvider);
     final shareUrl = _shareUrl;
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +78,7 @@ class _GroupRequestDetailPageState
         ],
       ),
       body: FutureBuilder<GroupRequest?>(
-        future: _loadRequest(repo, widget.requestId),
+        future: _requestFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return ListView.separated(
@@ -259,7 +277,7 @@ class _GroupRequestDetailPageState
     }
     ref.invalidate(_offersProvider(widget.requestId));
     if (mounted) {
-      setState(() {});
+      _refreshRequestFuture();
     }
   }
 

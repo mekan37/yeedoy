@@ -60,9 +60,10 @@ export async function discoverBusinesses(opts: DiscoverOpts = {}): Promise<{
 
 export async function getTopBusinesses(limit = 10): Promise<Business[]> {
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   // Attempt to sort by review_count if the column exists (not in generated types — use any).
-  const { data, error } = await (supabase as any)
+  const { data, error } = await supabaseAny
     .from('businesses')
     .select(businessSelect)
     .eq('is_active', true)

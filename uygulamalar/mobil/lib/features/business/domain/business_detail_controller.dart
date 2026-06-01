@@ -4,11 +4,11 @@ import '../data/business_detail_repository.dart';
 import 'business_detail.dart';
 
 final businessDetailProvider =
-    AsyncNotifierProvider.family<
+    AsyncNotifierProvider.autoDispose.family<
       BusinessDetailController,
       BusinessDetail,
       String
-    >(BusinessDetailController.new);
+    >((arg) => BusinessDetailController(arg));
 
 class BusinessDetailController extends AsyncNotifier<BusinessDetail> {
   BusinessDetailController(this.businessId);

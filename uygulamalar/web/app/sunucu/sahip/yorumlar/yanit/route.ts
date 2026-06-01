@@ -30,18 +30,19 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const review = await getOwnedReview(supabase as any, user.id, parsed.data.reviewId);
+  const review = await getOwnedReview(supabaseAny, user.id, parsed.data.reviewId);
   if (!review) {
     return NextResponse.json({ error: 'review_not_found' }, { status: 404 });
   }
 
   const repliedAt = new Date().toISOString();
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('reviews')
     .update({
       owner_reply: parsed.data.reply,
@@ -73,17 +74,18 @@ export async function DELETE(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const review = await getOwnedReview(supabase as any, user.id, parsed.data.reviewId);
+  const review = await getOwnedReview(supabaseAny, user.id, parsed.data.reviewId);
   if (!review) {
     return NextResponse.json({ error: 'review_not_found' }, { status: 404 });
   }
 
-  const { error } = await (supabase as any)
+  const { error } = await supabaseAny
     .from('reviews')
     .update({ owner_reply: null, owner_replied_at: null })
     .eq('id', parsed.data.reviewId);

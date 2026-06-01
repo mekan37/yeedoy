@@ -1,11 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../uygulama/tema/renkler.dart';
-import '../../../core/hatalar/uygulama_hata_esleyicisi.dart';
-import '../../../features/shared/ui/bilesenler/uygulama_ust_cubugu.dart';
-import '../../../features/shared/ui/tasarim_sistemi.dart';
+import '../../../app/theme/colors.dart';
+import '../../../core/errors/app_error_mapper.dart';
+import '../../../features/shared/ui/components/app_appbar.dart';
+import '../../../features/shared/ui/components/app_scaffold.dart';
+import '../../../features/shared/ui/design_system.dart';
 import '../domain/sadakat_saglayicisi.dart';
 
 // Tier renkleri
@@ -88,7 +90,6 @@ class _LoyaltyCardItem extends StatelessWidget {
 
     return AppCard(
       onTap: onTap,
-      borderRadius: 16,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -284,13 +285,15 @@ class _BusinessAvatar extends StatelessWidget {
     if (logoUrl != null && logoUrl!.isNotEmpty) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(24),
-        child: Image.network(
-          logoUrl!,
+        child: CachedNetworkImage(
+          imageUrl: logoUrl!,
           width: 40,
           height: 40,
           fit: BoxFit.cover,
-          semanticLabel: '$businessName logosu',
-          errorBuilder: (ctx, err, stack) => _Initials(name: businessName),
+          memCacheWidth: 80,
+          memCacheHeight: 80,
+          placeholder: (ctx, url) => const SizedBox(width: 40, height: 40),
+          errorWidget: (ctx, url, err) => _Initials(name: businessName),
         ),
       );
     }

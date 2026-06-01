@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/ag/supabase_saglayicisi.dart';
+import '../../../core/network/supabase_provider.dart';
 import 'masa_siparisi_modeli.dart';
 import 'masa_siparisi_sepet_bildiricisi.dart';
 

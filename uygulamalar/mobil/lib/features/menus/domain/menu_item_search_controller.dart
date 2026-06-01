@@ -11,7 +11,7 @@ import 'menu_item_search_model.dart';
 import 'menu_item_search_state.dart';
 
 final menuItemSearchProvider =
-    NotifierProvider<MenuItemSearchController, MenuItemSearchState>(
+    NotifierProvider.autoDispose<MenuItemSearchController, MenuItemSearchState>(
       MenuItemSearchController.new,
     );
 
