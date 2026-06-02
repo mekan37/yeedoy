@@ -1,7 +1,7 @@
 # Yeedoy Commit Mesaj Kılavuzu
 
 > Standart: [Conventional Commits](https://www.conventionalcommits.org/) + Türkçe
-> Son güncelleme: 2026-05-23
+> Son güncelleme: 2026-06-02
 
 Tüm Yeedoy commit'leri bu kılavuz izlemelidir. CI/CD pipeline'ları ve PR review'lar bu standardı kontrol eder.
 
@@ -73,6 +73,8 @@ type(scope): açıklama [issue]
 - `ci` — `.github/workflows`
 - `docs` — Dokümantasyon
 - `assets` — Resim, font, icon
+- `script` — `tools/*.mjs` (import, migration, validation script'leri)
+- `config` — `.env`, `pubspec.yaml`, `package.json`, `tailwind.config` vb.
 
 **Kategori:**
 - `security` — Güvenlik
@@ -292,6 +294,14 @@ Kurallı adlandırma:
 - `Fixes` — Bug fix (security, critical)
 - `Related to` — Bağlantılı ama doğrudan çözmez
 
+### Co-Authored-By (AI Yardımlı Commit'ler)
+
+AI yardımıyla oluşturulan commit'lerde footer'a ekle:
+
+```
+Co-Authored-By: claude-flow <ruv@ruv.net>
+```
+
 ---
 
 ## 8. Commit Mesajı Checklist
@@ -306,6 +316,7 @@ Commit'i git push'lamadan önce kontrol et:
 - [ ] Breaking change varsa `BREAKING CHANGE:` footer'ında mı?
 - [ ] Issue referansı varsa `Closes #XXX` footer'ında mı?
 - [ ] Multi-line commit'in body'si 72 karakterde kırılmış mı?
+- [ ] AI yardımlı ise `Co-Authored-By:` footer'ı var mı?
 
 ---
 
@@ -364,21 +375,50 @@ feat(api): total_count field zorunlu yap
 (not indicating breaking change)
 ```
 
+### `@ ` Prefix — AI/Harici Commit'ler
+
+Agent veya AI yardımıyla oluşturulan commit'ler `@ ` ile başlar:
+
+```
+@ docs: SEO stratejisi — URL mimarisi, schema.org, sitemap
+@ feat(mobile): discovery skeleton state — AI paired session
+```
+
+Bu prefix olmayan commit'ler standart geliştirici commit'leridir.
+
 ---
 
 ## 10. Automation
 
-Bu kılavuz CI/CD tarafından desteklenir:
+Bu kılavuz aşağıdaki araçlarla desteklenir:
 
-- **Husky pre-commit hook:** Commit mesajı doğrulaması (opsiyonel setup)
-- **GitHub PR template:** PR açılınca reminder
-- **CI validation:** `npm run lint:commits` (tarafı)
+### Pre-commit Hook
 
-Manuel validation:
+Kurulum (repo klonlandıktan sonra bir kez çalıştır):
 
 ```bash
-# Commit mesajını kontrol et
+npm run hooks:install
+```
+
+Yüklenen hook (`.git/hooks/pre-commit`) her commit öncesi otomatik çalıştırır:
+1. **Hardcoded renk kontrolü** — `dart run tool/hardcoded_color_check.dart`  
+   Flutter kodunda `Color(0xFF...)` veya raw hex gibi token dışı değer varsa commit bloklanır.
+2. **L10n denetimi** — `node tools/ceviri-denetimi.mjs`  
+   ARB dosyalarında eksik veya tutarsız çeviri anahtarı varsa commit bloklanır.
+
+> Not: Husky ve commitlint yapılandırılmamıştır. Commit mesajı format kontrolü manuel checklist ile yapılır.
+
+### Manuel Doğrulama
+
+```bash
+# Son 5 commit'i gözden geçir
 git log --oneline -5
+
+# L10n denetimi (hook tetiklenmeden)
+npm run l10n:audit
+
+# Tüm kalite kontrolleri
+npm run verify:matrix
 ```
 
 ---
@@ -391,6 +431,6 @@ git log --oneline -5
 
 ---
 
-*Son güncelleme: 2026-05-23*
+*Son güncelleme: 2026-06-02*
 *Versiyon: 1.0*
 *Dil: Türkçe + İngilizce*
