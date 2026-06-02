@@ -11,7 +11,7 @@ void main() {
         type: 'price_verification_result',
         data: const {'business_id': businessId, 'menu_item_id': menuItemId},
       );
-      expect(route, '/isletme/$businessId/menu-item/$menuItemId');
+      expect(route, '/b/$businessId/menu-item/$menuItemId');
     });
 
     test('falls back to inbox when ids are invalid', () {
@@ -27,7 +27,7 @@ void main() {
         type: 'review_reply',
         data: const {'business_id': businessId},
       );
-      expect(route, '/isletme/$businessId/reviews');
+      expect(route, '/b/$businessId/reviews');
     });
 
     test('returns menu item route for price_suggestion_result', () {
@@ -35,7 +35,7 @@ void main() {
         type: 'price_suggestion_result',
         data: const {'business_id': businessId, 'menu_item_id': menuItemId},
       );
-      expect(route, '/isletme/$businessId/menu-item/$menuItemId');
+      expect(route, '/b/$businessId/menu-item/$menuItemId');
     });
 
     test('returns inbox for report_result', () {
@@ -51,7 +51,7 @@ void main() {
         type: 'unknown_type',
         data: const {'business_id': businessId},
       );
-      expect(route, '/isletme/$businessId');
+      expect(route, '/b/$businessId');
     });
   });
 
@@ -67,7 +67,7 @@ void main() {
         'target_path': 'https://evil.example/phish',
         'business_id': businessId,
       });
-      expect(route, '/isletme/$businessId');
+      expect(route, '/b/$businessId');
     });
   });
 }

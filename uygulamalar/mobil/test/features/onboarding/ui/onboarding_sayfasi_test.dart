@@ -6,6 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yeedoy/app/theme/app_tokens.dart';
 import 'package:yeedoy/core/analytics/analytics_repository.dart';
 import 'package:yeedoy/core/analytics/app_events.dart';
+import 'package:yeedoy/core/privacy/data/consent_provider.dart';
+import 'package:yeedoy/core/privacy/domain/consent_repository.dart';
+import 'package:yeedoy/core/privacy/domain/consent_state.dart';
 import 'package:yeedoy/core/storage/app_launch_prefs.dart';
 import 'package:yeedoy/features/onboarding/ui/onboarding_page.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
@@ -76,6 +79,9 @@ Future<List<String>> _pumpOnboarding(
             },
           ),
         ),
+        // Consent already decided — prevents ConsentGuard from showing
+        // a bottom sheet that would block navigation in tests.
+        consentNotifierProvider.overrideWith((_) => _DecidedConsentNotifier()),
       ],
       child: MaterialApp.router(
         routerConfig: router,
@@ -151,4 +157,33 @@ void main() {
 
     expect(find.text('/login?mode=signup'), findsOneWidget);
   });
+}
+
+// Stub repository that always returns a decided consent state so that
+// ConsentGuard skips the bottom sheet during tests.
+class _DecidedConsentRepository implements ConsentRepository {
+  @override
+  Future<ConsentState> load() async => const ConsentState(
+        analytics: ConsentStatus.granted,
+        marketing: ConsentStatus.denied,
+        dataRetention: ConsentStatus.granted,
+      );
+
+  @override
+  Future<void> save(ConsentState state) async {}
+
+  @override
+  Future<void> clear() async {}
+}
+
+// Fake notifier that starts with a decided state synchronously, so that
+// ConsentGuard.checkAndShow sees hasDecided == true immediately.
+class _DecidedConsentNotifier extends ConsentNotifier {
+  _DecidedConsentNotifier() : super(_DecidedConsentRepository()) {
+    state = const ConsentState(
+      analytics: ConsentStatus.granted,
+      marketing: ConsentStatus.denied,
+      dataRetention: ConsentStatus.granted,
+    );
+  }
 }
