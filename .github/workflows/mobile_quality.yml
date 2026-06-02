@@ -42,6 +42,14 @@ jobs:
       - name: Flutter pub get
         run: flutter pub get
 
+      - name: Create stub .env for CI
+        # .env is listed as a Flutter asset (pubspec.yaml) but is gitignored.
+        # A stub file is needed so that flutter analyze doesn't emit a warning.
+        run: |
+          if [ ! -f .env ]; then
+            echo "# CI stub — not used at runtime" > .env
+          fi
+
       - name: Analyze
         run: flutter analyze
 

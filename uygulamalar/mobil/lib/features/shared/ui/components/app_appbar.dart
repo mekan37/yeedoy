@@ -28,7 +28,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     final canPop = Navigator.of(context).canPop();
     final effectiveLeading = leading ?? (canPop ? const BackButton() : null);
     final List<Widget> effectiveActions = [
-      if (actions != null) ...actions!,
+      ...?actions,
       if (showProfileAction) const _AppBarProfileAction(),
     ];
 
