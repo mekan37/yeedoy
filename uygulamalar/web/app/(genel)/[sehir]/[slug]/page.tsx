@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -45,10 +46,12 @@ function slugify(text: string): string {
 
 type PageMode = 'district' | 'category';
 
-async function resolveMode(
+// cache() memoizes per-request: generateMetadata + page component share one DB call pair.
+// If slug matches both district and category, district wins (>= count bias — acceptable determinism).
+const resolveMode = cache(async (
   cityLabel: string,
   slugLabel: string,
-): Promise<{ mode: PageMode; businesses: LocalBusiness[] }> {
+): Promise<{ mode: PageMode; businesses: LocalBusiness[] }> => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return { mode: 'category', businesses: [] };
   try {
     const supabase = createSupabasePublicClient();
@@ -79,7 +82,7 @@ async function resolveMode(
   } catch {
     return { mode: 'category', businesses: [] };
   }
-}
+});
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { sehir, slug } = await params;
