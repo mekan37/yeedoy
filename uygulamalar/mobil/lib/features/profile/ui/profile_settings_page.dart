@@ -790,7 +790,7 @@ class _SocialField extends StatelessWidget {
   });
 
   final String label;
-  final IconData icon;
+  final FaIconData icon;
   final TextEditingController controller;
   final String? Function(String?) validator;
   final String helperText;
@@ -803,7 +803,7 @@ class _SocialField extends StatelessWidget {
       children: [
         SizedBox(
           width: 24,
-          child: Icon(icon, color: AppColors.textStrong, size: 18),
+          child: FaIcon(icon, color: AppColors.textStrong, size: 18),
         ),
         const SizedBox(width: 10),
         Expanded(

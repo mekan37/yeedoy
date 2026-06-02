@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -270,7 +271,8 @@ class _InboxTile extends StatelessWidget {
     this.onShare,
   });
 
-  final IconData icon;
+  /// Either [IconData] (Material) or [FaIconData] (Font Awesome).
+  final Object icon;
   final Color accentColor;
   final String title;
   final String message;
@@ -290,7 +292,9 @@ class _InboxTile extends StatelessWidget {
             CircleAvatar(
               radius: 18,
               backgroundColor: accentColor.withValues(alpha: 0.12),
-              child: Icon(icon, size: 18, color: accentColor),
+              child: icon is FaIconData
+                  ? FaIcon(icon as FaIconData, size: 18, color: accentColor)
+                  : Icon(icon as IconData, size: 18, color: accentColor),
             ),
             if (unread)
               Positioned(
@@ -359,7 +363,8 @@ String _relative(BuildContext context, DateTime time) {
 class _InboxVisual {
   const _InboxVisual({required this.icon, required this.color});
 
-  final IconData icon;
+  /// Either [IconData] (Material) or [FaIconData] (Font Awesome).
+  final Object icon;
   final Color color;
 }
 

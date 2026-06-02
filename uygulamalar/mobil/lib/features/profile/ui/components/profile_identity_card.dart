@@ -183,7 +183,7 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
                           onTap: () => _openLink(context, entry.$2),
                           child: Padding(
                             padding: const EdgeInsets.all(6),
-                            child: Icon(
+                            child: FaIcon(
                               entry.$1,
                               size: 16,
                               color: AppColors.muted,
@@ -209,11 +209,11 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
     );
   }
 
-  List<(IconData, String)> _sortedSocial(Map<String, String> links) {
+  List<(FaIconData, String)> _sortedSocial(Map<String, String> links) {
     final instagram = normalizeSocialUrl(links['instagram'] ?? '');
     final youtube = normalizeSocialUrl(links['youtube'] ?? '');
     final facebook = normalizeSocialUrl(links['facebook'] ?? '');
-    final out = <(IconData, String)>[];
+    final out = <(FaIconData, String)>[];
     if (instagram != null && instagram.isNotEmpty) {
       out.add((FontAwesomeIcons.instagram, instagram));
     }

@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class AppAchievementVisual {
   const AppAchievementVisual({required this.icon, required this.color});
 
-  final IconData icon;
+  final FaIconData icon;
   final Color color;
 }
 
