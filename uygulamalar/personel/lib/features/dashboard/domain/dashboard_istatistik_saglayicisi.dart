@@ -35,54 +35,21 @@ class HaftalikVeriBildiricisi extends AsyncNotifier<List<GunlukVeri>> {
   Future<List<GunlukVeri>> _yukle(
       SupabaseClient supabase, String isletmeId) async {
     try {
-      final bugun = DateTime.now();
-      final yediGunOnce = DateTime(bugun.year, bugun.month, bugun.day - 6)
-          .toUtc()
-          .toIso8601String();
+      final rpcSonuc = await supabase.rpc(
+        'get_dashboard_weekly_v1',
+        params: {'p_business_id': isletmeId},
+      ) as Map<String, dynamic>?;
 
-      final siparisRows = await supabase
-          .from('table_orders')
-          .select('created_at, status')
-          .eq('business_id', isletmeId)
-          .gte('created_at', yediGunOnce) as List<dynamic>;
-
-      final gelirRows = await supabase
-          .from('table_order_items')
-          .select('created_at, price, quantity')
-          .eq('business_id', isletmeId)
-          .gte('created_at', yediGunOnce) as List<dynamic>;
-
-      final Map<String, int> gunlukSiparis = {};
-      final Map<String, double> gunlukGelir = {};
-
-      for (final s in siparisRows) {
-        final tarih = DateTime.tryParse(s['created_at'] as String? ?? '');
-        if (tarih == null) continue;
-        final gun = '${tarih.toLocal().year}-${tarih.toLocal().month.toString().padLeft(2, '0')}-${tarih.toLocal().day.toString().padLeft(2, '0')}';
-        gunlukSiparis[gun] = (gunlukSiparis[gun] ?? 0) + 1;
-      }
-
-      for (final g in gelirRows) {
-        final tarih = DateTime.tryParse(g['created_at'] as String? ?? '');
-        if (tarih == null) continue;
-        final gun = '${tarih.toLocal().year}-${tarih.toLocal().month.toString().padLeft(2, '0')}-${tarih.toLocal().day.toString().padLeft(2, '0')}';
-        final fiyat = (g['price'] as num?)?.toDouble() ?? 0;
-        final adet = (g['quantity'] as num?)?.toInt() ?? 1;
-        gunlukGelir[gun] = (gunlukGelir[gun] ?? 0) + fiyat * adet;
-      }
-
-      final sonuc = <GunlukVeri>[];
-      for (var i = 6; i >= 0; i--) {
-        final gun = DateTime(bugun.year, bugun.month, bugun.day - i);
-        final anahtarStr =
-            '${gun.year}-${gun.month.toString().padLeft(2, '0')}-${gun.day.toString().padLeft(2, '0')}';
-        sonuc.add(GunlukVeri(
-          gun: gun,
-          siparisSayisi: gunlukSiparis[anahtarStr] ?? 0,
-          gelir: gunlukGelir[anahtarStr] ?? 0,
-        ));
-      }
-      return sonuc;
+      final gunlukRaw = (rpcSonuc?['gunluk'] as List?) ?? [];
+      return gunlukRaw.map((g) {
+        final tarihStr = g['gun'] as String? ?? '';
+        final tarih = DateTime.tryParse(tarihStr) ?? DateTime.now();
+        return GunlukVeri(
+          gun: tarih,
+          siparisSayisi: (g['siparis_sayisi'] as num?)?.toInt() ?? 0,
+          gelir: (g['gelir'] as num?)?.toDouble() ?? 0.0,
+        );
+      }).toList();
     } catch (e) {
       debugPrint('HaftalikVeri yükleme hatası: $e');
       return [];
@@ -98,7 +65,7 @@ class HaftalikVeriBildiricisi extends AsyncNotifier<List<GunlukVeri>> {
   }
 }
 
-// P-14: Saatlik sipariş verisi
+// P-14: Saatlik sipariş verisi — get_dashboard_weekly_v1.saatlik alanından
 class SaatlikVeri {
   final int saat;
   final int siparisSayisi;
@@ -121,28 +88,20 @@ class SaatlikVeriBildiricisi extends AsyncNotifier<List<SaatlikVeri>> {
   Future<List<SaatlikVeri>> _yukle(
       SupabaseClient supabase, String isletmeId) async {
     try {
-      final bugun = DateTime.now();
-      final bugunBaslangic =
-          DateTime(bugun.year, bugun.month, bugun.day).toUtc().toIso8601String();
-      final siparisler = await supabase
-          .from('table_orders')
-          .select('created_at')
-          .eq('business_id', isletmeId)
-          .gte('created_at', bugunBaslangic) as List<dynamic>;
+      final rpcSonuc = await supabase.rpc(
+        'get_dashboard_weekly_v1',
+        params: {'p_business_id': isletmeId, 'p_days': 1},
+      ) as Map<String, dynamic>?;
 
-      final Map<int, int> saatlikSayac = {};
-      for (final s in siparisler) {
-        final tarih = DateTime.tryParse(s['created_at'] as String? ?? '');
-        if (tarih == null) continue;
-        final saat = tarih.toLocal().hour;
-        saatlikSayac[saat] = (saatlikSayac[saat] ?? 0) + 1;
-      }
-
+      final saatlikRaw = (rpcSonuc?['saatlik'] as List?) ?? [];
       final simdi = DateTime.now().hour;
-      return List.generate(simdi + 1, (i) => SaatlikVeri(
-        saat: i,
-        siparisSayisi: saatlikSayac[i] ?? 0,
-      ));
+      return saatlikRaw
+          .map((s) => SaatlikVeri(
+                saat: (s['saat'] as num?)?.toInt() ?? 0,
+                siparisSayisi: (s['siparis_sayisi'] as num?)?.toInt() ?? 0,
+              ))
+          .where((s) => s.saat <= simdi)
+          .toList();
     } catch (e) {
       debugPrint('SaatlikVeri yükleme hatası: $e');
       return [];
@@ -150,7 +109,7 @@ class SaatlikVeriBildiricisi extends AsyncNotifier<List<SaatlikVeri>> {
   }
 }
 
-// P-16: Personel performans verisi
+// P-16: Personel performans verisi — get_dashboard_stats_today_v1.personel_performans
 class PersonelPerformans {
   final String staffId;
   final int siparisSayisi;
@@ -169,11 +128,13 @@ class PersonelPerformansiBildiricisi extends AsyncNotifier<List<PersonelPerforma
     final kimlik = ref.watch(kimlikProvider).valueOrNull;
     if (kimlik is! KimlikGirilmis) return [];
     try {
-      final rows = await ref.read(supabaseProvider).rpc(
-        'get_staff_performance_today_v1',
+      final rpcSonuc = await ref.read(supabaseProvider).rpc(
+        'get_dashboard_stats_today_v1',
         params: {'p_business_id': kimlik.isletmeId},
-      ) as List<dynamic>;
-      return rows.map((r) => PersonelPerformans(
+      ) as Map<String, dynamic>?;
+
+      final perfs = (rpcSonuc?['personel_performans'] as List?) ?? [];
+      return perfs.map((r) => PersonelPerformans(
         staffId: r['staff_id'] as String? ?? '?',
         siparisSayisi: (r['siparis_sayisi'] as num?)?.toInt() ?? 0,
         tamamlanan: (r['tamamlanan'] as num?)?.toInt() ?? 0,
@@ -226,42 +187,28 @@ class DashboardIstatistikBildiricisi
   Future<DashboardIstatistik?> _yukle(
       SupabaseClient supabase, String isletmeId) async {
     try {
-      // Sipariş istatistiklerini tek RPC ile çek (MED-009: N+1 sorgu önleme)
-      final rpcSonuc = await supabase.rpc(
-        'get_dashboard_stats_today_v1',
-        params: {'p_business_id': isletmeId},
-      );
+      final results = await Future.wait([
+        supabase.rpc(
+          'get_dashboard_stats_today_v1',
+          params: {'p_business_id': isletmeId},
+        ),
+        supabase.rpc(
+          'get_menu_item_counts_v1',
+          params: {'p_business_id': isletmeId},
+        ),
+      ]);
 
-      final data = (rpcSonuc as Map<String, dynamic>?) ?? const {};
-      final bekleyen = (data['bugun_bekleyen'] as num?)?.toInt() ?? 0;
-      final hazirlaniyor = (data['bugun_hazirlaniyor'] as num?)?.toInt() ?? 0;
-      final tamamlanan = (data['bugun_tamamlanan'] as num?)?.toInt() ?? 0;
-      final toplam = (data['toplam_bugun'] as num?)?.toInt() ?? 0;
-
-      // Menü kalem sayıları RPC kapsamı dışında — ayrı sorgu
-      final menuKalemleri = await supabase
-          .from('menu_items')
-          .select('is_available')
-          .eq('business_id', isletmeId) as List<dynamic>;
-
-      int aktif = 0, pasif = 0;
-      for (final m in menuKalemleri) {
-        final mevcut = m['is_available'] as bool? ?? true;
-        if (mevcut) {
-          aktif++;
-        } else {
-          pasif++;
-        }
-      }
+      final data = (results[0] as Map<String, dynamic>?) ?? const {};
+      final menuData = (results[1] as Map<String, dynamic>?) ?? const {};
 
       return DashboardIstatistik(
-        bugunBekleyen: bekleyen,
-        bugunHazirlaniyor: hazirlaniyor,
-        bugunTamamlanan: tamamlanan,
-        toplamBugun: toplam,
-        aktifMenuKalemi: aktif,
-        pasifMenuKalemi: pasif,
-        bugunMusteriSayisi: toplam,
+        bugunBekleyen: (data['bugun_bekleyen'] as num?)?.toInt() ?? 0,
+        bugunHazirlaniyor: (data['bugun_hazirlaniyor'] as num?)?.toInt() ?? 0,
+        bugunTamamlanan: (data['bugun_tamamlanan'] as num?)?.toInt() ?? 0,
+        toplamBugun: (data['toplam_bugun'] as num?)?.toInt() ?? 0,
+        aktifMenuKalemi: (menuData['aktif'] as num?)?.toInt() ?? 0,
+        pasifMenuKalemi: (menuData['pasif'] as num?)?.toInt() ?? 0,
+        bugunMusteriSayisi: (data['toplam_bugun'] as num?)?.toInt() ?? 0,
       );
     } catch (e) {
       debugPrint('DashboardIstatistik yükleme hatası: $e');
