@@ -155,29 +155,35 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      value: _marketingOptIn,
-                      onChanged: _saving
-                          ? null
-                          : (value) {
-                              setState(() {
-                                _marketingOptIn = value;
-                              });
-                            },
-                      title: const Text('Kampanya ve bildirim izinleri'),
+                    Material(
+                      type: MaterialType.transparency,
+                      child: SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        value: _marketingOptIn,
+                        onChanged: _saving
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  _marketingOptIn = value;
+                                });
+                              },
+                        title: const Text('Kampanya ve bildirim izinleri'),
+                      ),
                     ),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      value: _analyticsOptIn,
-                      onChanged: _saving
-                          ? null
-                          : (value) {
-                              setState(() {
-                                _analyticsOptIn = value;
-                              });
-                            },
-                      title: const Text('Ürün analitiği iyileştirme izni'),
+                    Material(
+                      type: MaterialType.transparency,
+                      child: SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        value: _analyticsOptIn,
+                        onChanged: _saving
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  _analyticsOptIn = value;
+                                });
+                              },
+                        title: const Text('Ürün analitiği iyileştirme izni'),
+                      ),
                     ),
                     const Text(
                       'Bu tercihler zorunlu sözleşme kabulünden ayrı tutulur ve daha sonra profil ayarlarından güncellenebilir.',

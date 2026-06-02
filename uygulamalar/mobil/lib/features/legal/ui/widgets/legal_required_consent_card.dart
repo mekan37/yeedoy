@@ -35,13 +35,16 @@ class LegalRequiredConsentCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CheckboxListTile(
-          contentPadding: EdgeInsets.zero,
-          controlAffinity: ListTileControlAffinity.leading,
-          value: value,
-          onChanged: disabled ? null : onChanged,
-          title: const Text(
-            'Devam ederek Kullanım Şartları ve Gizlilik Politikası’nı kabul ediyorum.',
+        Material(
+          type: MaterialType.transparency,
+          child: CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            value: value,
+            onChanged: disabled ? null : onChanged,
+            title: const Text(
+              'Devam ederek Kullanım Şartları ve Gizlilik Politikası’nı kabul ediyorum.',
+            ),
           ),
         ),
         if (helperText != null && helperText!.trim().isNotEmpty) ...[
