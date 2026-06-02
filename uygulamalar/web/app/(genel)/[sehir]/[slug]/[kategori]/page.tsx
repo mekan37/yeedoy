@@ -108,7 +108,7 @@ export default async function SehirSlugKategoriPage({ params }: Props) {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
 
   const businesses = await fetchBusinesses(cityLabel, districtLabel, categoryLabel);
-  if (businesses.length === 0 && sehir.length < 3) notFound();
+  if (businesses.length === 0) notFound();
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -182,30 +182,20 @@ export default async function SehirSlugKategoriPage({ params }: Props) {
         </nav>
         <h1 className="mb-1 text-3xl font-[900] tracking-tight text-textStrong">{categoryLabel}</h1>
         <p className="mb-8 text-muted">{districtLabel}, {cityLabel} · {businesses.length} işletme</p>
-        {businesses.length === 0 ? (
-          <div className="rounded-2xl border border-border bg-card p-10 text-center">
-            <p className="text-lg font-[800] text-textStrong">Sonuç bulunamadı</p>
-            <p className="mt-2 text-sm text-muted">Bu bölgede henüz {categoryLabel} kategorisinde işletme kaydı yok.</p>
-            <Link href="/kesif" className="mt-4 inline-block rounded-xl bg-primary px-4 py-2.5 text-sm font-[800] text-white">
-              Tüm İşletmelere Bak
-            </Link>
-          </div>
-        ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {businesses.map((b) => (
-              <BusinessTile
-                key={b.id}
-                slug={b.public_slug ?? b.slug}
-                name={b.name}
-                category={b.category ?? undefined}
-                subtitle={`${b.district ?? districtLabel} · ${b.city ?? cityLabel}`}
-                isVerified={b.is_verified ?? false}
-                qualityScore={b.avg_rating}
-                medianPriceCents={b.median_price_cents ?? undefined}
-              />
-            ))}
-          </div>
-        )}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {businesses.map((b) => (
+            <BusinessTile
+              key={b.id}
+              slug={b.public_slug ?? b.slug}
+              name={b.name}
+              category={b.category ?? undefined}
+              subtitle={`${b.district ?? districtLabel} · ${b.city ?? cityLabel}`}
+              isVerified={b.is_verified ?? false}
+              qualityScore={b.avg_rating}
+              medianPriceCents={b.median_price_cents ?? undefined}
+            />
+          ))}
+        </div>
       </Container>
     </PublicShell>
   );
