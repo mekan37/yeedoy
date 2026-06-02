@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
@@ -108,12 +109,12 @@ export default async function OwnerSponsorshipPage() {
                 {businesses.length === 0 ? (
                   <div className="text-center py-6">
                     <p className="text-sm text-muted">Başvuru yapabilmek için önce bir işletme eklemeniz gerekiyor.</p>
-                    <a
+                    <Link
                       href="/sahip/isletmeler/yeni"
                       className="mt-3 inline-block rounded-xl bg-primary px-4 py-2 text-sm font-[800] text-white"
                     >
                       İşletme Ekle
-                    </a>
+                    </Link>
                   </div>
                 ) : (
                   <SponsorlukFormu businesses={businesses as Array<{ id: string; name: string }>} />

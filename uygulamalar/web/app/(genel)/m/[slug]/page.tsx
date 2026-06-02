@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { AcikMenuIstemcisi } from '@/src/ui/bolumler/acik-menu-istemcisi';
 import { getBrandThemeDefinition, getBrandThemeOptions, type BrandTheme } from '@/src/lib/marka-temasi';
@@ -314,12 +315,12 @@ export async function renderPublicMenuRoute(input: {
         Bu işletme{' '}
         <span className="font-[700] text-gray-600">Yeedoy QR Menü</span>{' '}
         kullanıyor.{' '}
-        <a
+        <Link
           href="/sahip/baslangic"
           className="font-[700] text-primary hover:underline"
         >
           Siz de ücretsiz QR menü alın →
-        </a>
+        </Link>
       </div>
     </main>
   );
