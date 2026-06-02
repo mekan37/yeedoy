@@ -1233,7 +1233,7 @@ Bu adımlar Adım 3 (Branch Protection) ayarlanırken kullanılacaktır.
 
 ### Adım 5: İlk Feature'ı Pratik Yap (1 hafta)
 
-> 🟡 **BEKLIYOR** — Adım 3 (Branch Protection) tamamlandıktan sonra başlat.
+> ✅ **TAMAMLANDI** — Test PR #1 açıldı, branch protection doğrulandı (2026-06-02). `personel_quality` ✅ `web_quality` ✅ zorunlu check'ler çalışıyor. PR closed without merge.
 
 Feature-branch modeli pratiğe koyma:
 
