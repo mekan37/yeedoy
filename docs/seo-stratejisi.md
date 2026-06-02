@@ -146,13 +146,19 @@ Blog ve uzun form içerik için:
 ### 2.1 Mevcut Rotalar (Korunacak ve İyileştirilecek)
 
 ```
-/m/[slug]              → QR menü sayfası (canonical: /isletme/[slug])
-/qr/[businessId]       → QR generator
+/m/[slug]                        → QR menü sayfası (canonical: /isletme/[slug]) ✅
+/qr/[businessId]                 → QR generator ✅
+/isletme/[slug]                  → İşletme detay sayfası (canonical kaynak) ✅
+/[sehir]/[ilce]/[kategori]       → İlçe + kategori listesi ✅
+/fiyat-endeksi/                  → Fiyat endeksi sayfası ✅
 ```
 
 ### 2.2 Yeni SEO Rotaları (Öncelik Sırasıyla)
 
 #### Tier 1: Şehir + Kategori (1.215 sayfa)
+
+> ⚠️ **Mevcut DEĞİL** — Yalnızca `[sehir]/[ilce]/[kategori]` (üç seviye) implemente edilmiş. Bu iki seviyeli route ayrıca geliştirilmeli.
+
 ```
 /[sehir]/[kategori]
 
@@ -169,6 +175,9 @@ Blog ve uzun form içerik için:
 **Sayfa içi SEO:** H1, listing grid, fiyat karşılaştırma modülü, FAQ, breadcrumb
 
 #### Tier 2: Şehir + İlçe + Kategori (6.075 sayfa)
+
+> ✅ **Mevcut** — `uygulamalar/web/app/(genel)/[sehir]/[ilce]/[kategori]/page.tsx` uygulamada var.
+
 ```
 /[sehir]/[ilce]/[kategori]
 
@@ -208,6 +217,9 @@ Blog ve uzun form içerik için:
 **Hedef keyword türü:** `en ucuz [şehir] [kategori]`, `fiyat endeksi`
 
 #### Tier 5: Blog / Editorial
+
+> ⚠️ **Mevcut DEĞİL** — `/blog/[slug]` route henüz implement edilmemiş. Öncelikli eksik madde.
+
 ```
 /blog/[slug]
 
@@ -263,8 +275,8 @@ topluluk yorumları. Fiyat geçmişiyle karşılaştır, doğrulanmış menüler
 
 **H1:** `[İşletme Adı]`
 
-**Ek İçerik (mevcut yok, eklenecek):**
-- Fiyat geçmişi sparkline (son 6 ay, Yeedoy'a özgü differansiyatör)
+**Ek İçerik Durumu:**
+- Fiyat geçmişi sparkline (son 6 ay, Yeedoy'a özgü differansiyatör) ✅ `FiyatGecmisiSparkline` bileşeni entegre
 - "Bu bölgedeki benzer restoranlar" bloğu (iç linkleme)
 - Menü item başlıkları H2/H3 olarak render edilmeli (schema + SEO)
 - Açık/kapalı durum — real-time, schema ile (`OpeningHoursSpecification`)
@@ -769,7 +781,7 @@ export async function generateStaticParams() {
 }
 
 // Revalidation stratejisi:
-export const revalidate = 3600; // 1 saat (işletme sayfaları)
+export const revalidate = 300; // 5 dakika (işletme sayfaları — mevcut değer)
 // Kategori sayfaları için: 86400 (24 saat)
 // Blog için: false (tam statik)
 ```
@@ -889,10 +901,10 @@ Her ay kontrol edilecekler:
 
 ### Hafta 1-2: Temel Altyapı
 
-- [ ] `sitemap.ts` oluştur (`uygulamalar/web/app/sitemap.ts`)
-- [ ] `robots.txt` güncelle
-- [ ] Restaurant + BreadcrumbList schema → tüm işletme sayfaları
-- [ ] Meta title/description şablonlarını uygula (tüm mevcut sayfalar)
+- [x] `sitemap.ts` oluştur (`uygulamalar/web/app/sitemap.ts`)
+- [x] `robots.ts` güncelle (`robots.ts` — Next.js App Router)
+- [x] Restaurant + BreadcrumbList schema → işletme sayfaları (ld+json entegre)
+- [x] Meta title/description şablonlarını uygula (mevcut işletme sayfaları)
 - [ ] Google Search Console bağla, sitemap gönder
 - [ ] Google Analytics 4 event tracking (menu_view, business_view, price_history_view)
 
@@ -937,4 +949,4 @@ Her ay kontrol edilecekler:
 *İlgili proje dosyaları:*
 - `docs/rekabet.md` — rekabet analizi ve fırsat haritası
 - `uygulamalar/web/` — Next.js web uygulaması
-- `docs/mimari-kurallari.md` — uygulama mimari sınırları
+- `CLAUDE.md` — uygulama mimari sınırları ve geliştirici kuralları
