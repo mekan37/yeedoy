@@ -271,14 +271,14 @@ Başlık örnekleri:
 
 ### PR Template (`.github/pull_request_template.md`)
 
-Template `.github/pull_request_template.md` dosyasında mevcuttur. İçeriği:
+Template `.github/pull_request_template.md` dosyasında mevcuttur. Mevcut (güncel) içeriği:
 
 ```markdown
 ## Özet
 <!-- Ne değişti ve neden? 1-2 cümle -->
 
 ## Değişen Yüzeyler
-<!-- Hangi app'ler etkilendi? -->
+<!-- Hangi app'ler ve modüller etkilendi? -->
 - [ ] uygulamalar/mobil
 - [ ] uygulamalar/web
 - [ ] uygulamalar/personel
@@ -292,6 +292,8 @@ Template `.github/pull_request_template.md` dosyasında mevcuttur. İçeriği:
 <!-- LOW / MEDIUM / HIGH -->
 **Risk:** 
 
+**Gerekçe:** 
+
 ## Değişim Türü
 - [ ] Yeni özellik (feature)
 - [ ] Bug düzeltme (fix)
@@ -304,22 +306,20 @@ Template `.github/pull_request_template.md` dosyasında mevcuttur. İçeriği:
 ## Test Edilen Komutlar
 ```bash
 # Örnek:
-cd uygulamalar/web && npm run typecheck && npm run lint
-cd uygulamalar/mobil && flutter analyze
+# cd uygulamalar/web && npm run typecheck && npm run lint
+# cd uygulamalar/mobil && flutter analyze
 ```
 
 ## Test Edilmeyen Komutlar (Neden?)
 <!-- Eğer birkaç kontrol yapılmadıysa açıkla -->
-- `npm run build` — local success, CI handles full build
-- `flutter test` — no test files added
 
 ## Supabase Değişiklikleri
-<!-- SADECE migration/edge function branch'leri için -->
+<!-- SADECE migration/edge function branch'leri için gerekli -->
 - [ ] Yeni migration dosyası var (örn. `20260524000001_*.sql`)
-- [ ] RPC signature değişti → affected callers: [list them]
-- [ ] RLS policy değişti → etkilenen roller: [auth, owner, admin]
-- [ ] Yeni tablo/sütun eklendi → data migration? [yes/no]
-- [ ] Edge Function auth değişti → test edildi? [yes/no]
+- [ ] RPC signature değişti → etkilenen callerlar: 
+- [ ] RLS policy değişti → etkilenen roller: 
+- [ ] Yeni tablo/sütun eklendi → data migration gerekli mi?
+- [ ] Edge Function auth değişti → test edildi mi?
 
 ## Davranış Değişiklikleri
 - [ ] Public route davranışı değişti (SEO, cache, auth)
@@ -329,25 +329,30 @@ cd uygulamalar/mobil && flutter analyze
 - [ ] API schema değişti (breaking?)
 
 ## Ekran Görüntüsü / Video
-<!-- UI değişikliği varsa eklendi mi? -->
-<!-- Önemli: Mobil responsive test gerekirse link ekle -->
+<!-- UI değişikliği varsa eklendi mi? Responsive test linki varsa ekle -->
 
 ## Rollback Planı
 <!-- Bu PR'ı geri almak için ne yapılmalı? -->
 Örnek:
 - Migration: `supabase db reset` (lokal) veya `supabase migrations delete [version]`
-- Code: revert commit ve redeploy
+- Code: `git revert` ve redeploy
 - Config: restore `.env` veya previous deployment
+
+## Checklist
+- [ ] Commit mesajı conventional commit formatı (`type(scope): description`)
+- [ ] Tests pass (CI logs gösteriliyor mu?)
+- [ ] Hiç secret / API key / `.env` commit etmedim
+- [ ] Generated dosya (`.next/`, `build/`, `.dart_tool/`) commit etmedim
+- [ ] TypeScript / Dart code kalitesi kontrolleri pass
+- [ ] L10n audit pass (eğer ARB dosyası değiştirdim)
+- [ ] PR doğru branch'te mi? (`feature/*`, `fix/*`, `hotfix/*`, `migration/*`)
 
 ---
 
-## Checklist
-- [ ] Commit mesajı conventional commit formatı
-- [ ] Tests pass (CI logs)
-- [ ] Hiç secret / API key / .env commit etmedim
-- [ ] Generated dosya (.next, build/, .dart_tool) commit etmedim
-- [ ] TypeScript / Dart code kalitesi kontrolleri pass
-- [ ] L10n audit pass (eğer ARB dosyası değiştirdim)
+**İlgili Issue:** <!-- Closes #123 varsa yaz -->
+
+**Ek Açıklamalar:**
+<!-- Reviewer'lar için ekstra bağlam varsa yaz -->
 ```
 
 ### PR Review Süreci
@@ -1109,61 +1114,157 @@ Yeedoy Git workflow stratejisinin etkin kullanımı için sırasıyla yapılacak
 
 ### Adım 1: PR Template Oluştur (İmmediate)
 
-> ✅ **TAMAMLANDI** — `\.github/pull_request_template.md` mevcut ve güncel.
+> ✅ **TAMAMLANDI** — `.github/pull_request_template.md` mevcut ve güncel (2026-06-02 kontrol edildi).
+> Template içeriği Section 5'te tanımlanan formata uygun.
 
 ### Adım 2: .gitignore Doğrulaması (1 gün)
 
-```powershell
-cd C:\yeedoy
-git status
-# Untracked files varsa ve ignore edilmesi gerekseyse .gitignore update et
-```
+> ✅ **TAMAMLANDI** — `.gitignore` yeterli ve kapsamlı.
 
-Mevcut `.gitignore` yeterli görünüyor. İlave yapılması gereken yok.
+Mevcut `.gitignore` şu öğeleri kontrol ediyor:
+- Build artifacts (`.next/`, `build/`, `.dart_tool/`)
+- Dependencies (`node_modules/`, `.pub-cache/`)
+- Secrets (`.env`, `*.pem`, config files)
+- OS files (`.DS_Store`, `Thumbs.db`)
+- IDE cache (`.vscode/`, `.idea/`)
+
+İlave yapılması gereken yok.
 
 ### Adım 3: Branch Protection Rule'ları Ayarla (GitHub)
 
+> ⚠️ **BAŞLATILMAYAN** — GitHub CLI (`gh`) mevcut ortamda yüklü değildir. Manuel veya ayrı ortamda yapılmalıdır.
+
 URL: `https://github.com/mekan37/yeedoy/settings/branches`
 
-Settings:
-- Main branch protect: ✅ Enable
-- Require pull request reviews: ✅ 1 reviewer (MEDIUM/HIGH için 2)
-- Dismiss stale PR approvals: ✅ Enable
-- Require status checks: ✅ mobile_quality, web_quality (when applicable)
-- Require branches up to date: ✅ Enable
-- Include administrators: ✅ Enable (strict)
-- Allow force pushes: ❌ Disable
-- Allow deletions: ❌ Disable
-- Auto-delete head branches: ✅ Enable
+#### Otomatik Kurulum (GitHub CLI)
 
-> ⚠️ Bu adım GitHub UI üzerinden (Settings → Branches) veya GitHub CLI aracılığıyla manuel yapılmalıdır. Kod değişikliği gerektirmez.
+Sistem üzerinde `gh` kurulu ise (ve kimlik doğrulanmış ise: `gh auth login`), aşağıdaki komutu çalıştır:
+
+**Bash/PowerShell:**
+```bash
+# /c/yeedoy klasöründe çalıştır
+cd /c/yeedoy
+
+# Branch protection rules'ı uygula
+gh api repos/mekan37/yeedoy/branches/main/protection \
+  --method PUT \
+  --field 'required_status_checks={"strict":true,"contexts":["mobile_quality / flutter-analyze","web_quality / typecheck","web_quality / lint"]}' \
+  --field enforce_admins=false \
+  --field 'required_pull_request_reviews={"required_approving_review_count":1,"dismiss_stale_reviews":true}' \
+  --field restrictions=null \
+  --field allow_force_pushes=false \
+  --field allow_deletions=false \
+  --field dismiss_stale_reviews=true \
+  --field auto_delete_head_branch=true
+```
+
+**PowerShell (alternatif):**
+```powershell
+cd C:\yeedoy
+
+gh api repos/mekan37/yeedoy/branches/main/protection `
+  --method PUT `
+  --field 'required_status_checks={"strict":true,"contexts":["mobile_quality / flutter-analyze","web_quality / typecheck","web_quality / lint"]}' `
+  --field enforce_admins=false `
+  --field 'required_pull_request_reviews={"required_approving_review_count":1,"dismiss_stale_reviews":true}' `
+  --field restrictions=null `
+  --field allow_force_pushes=false `
+  --field allow_deletions=false `
+  --field dismiss_stale_reviews=true `
+  --field auto_delete_head_branch=true
+```
+
+**Doğrulama:** Kurulum başarılı olursa, aşağıdaki komut korunan branch'i gösterecektir:
+```bash
+gh api repos/mekan37/yeedoy/branches/main/protection
+```
+
+#### Manuel Kurulum (GitHub UI)
+
+GitHub web arayüzünü kullanarak:
+1. `https://github.com/mekan37/yeedoy/settings/branches` URL'sine git
+2. "Add branch protection rule" tıkla
+3. Branch adı: `main`
+4. Şu ayarları etkinleştir:
+
+| Ayar | Durum |
+|---|---|
+| Require pull request reviews before merging | ✅ Enable, 1 reviewer |
+| Dismiss stale pull request approvals | ✅ Enable |
+| Require status checks to pass | ✅ Enable, "strict" |
+| Status checks: `mobile_quality / flutter-analyze` | ✅ Select |
+| Status checks: `web_quality / typecheck` | ✅ Select |
+| Status checks: `web_quality / lint` | ✅ Select |
+| Require branches to be up to date | ✅ Enable |
+| Require code reviews from code owners | ❌ (Opsiyonel, varsa CODEOWNERS) |
+| Allow force pushes | ❌ Disable |
+| Allow deletions | ❌ Disable |
+| Auto delete head branches | ✅ Enable |
+
+5. "Create" tıkla.
+
+**Sonrası:** `main` branch'e doğrudan push yapılamayacak, tüm değişiklikler PR üzerinden ve tüm kontroller pass olduktan sonra merge edilebilecektir.
+
+**Kurulum Tarih:** Bekliyor (manual veya CLI kurulum gerekli)
 
 ### Adım 4: CI Validation Kurulumu (Var, Kontrol)
 
-Mevcut aktif workflow'lar:
-- `mobile_quality.yml` ✅ Active
-- `web_quality.yml` ✅ Active
-- `personel_quality.yml` ✅ Active (2026-05-25 eklendi)
-- `packages_quality.yml` ✅ Active (2026-05-25 eklendi)
-- `edge_function_smoke.yml` ✅ Active (2026-05-25 eklendi)
-- `web_release_smoke.yml` ✅ Manual dispatch
-- `mobile_readiness.yml` ✅ Manual dispatch
-- `panel_quality.yml` 🗄️ Archived (Flutter web → Next.js)
+> ✅ **TAMAMLANDI** — Tüm workflow'lar aktif ve doğru şekilde çalışıyor (2026-06-02 kontrol edildi).
 
-### Adım 5: İlk Büyük Feature'ı Test Et (1 hafta)
+Mevcut aktif workflow'lar:
+
+| Workflow | Amaç | Trigger | Durum |
+|---|---|---|---|
+| `mobile_quality.yml` | Flutter mobil analiz + test | PR, push to main | ✅ Active |
+| `web_quality.yml` | Next.js typecheck + lint | PR, push to main | ✅ Active |
+| `personel_quality.yml` | Flutter personel analiz | PR, push to main | ✅ Active (2026-05-25) |
+| `packages_quality.yml` | Shared packages analiz | PR, push to main | ✅ Active (2026-05-25) |
+| `edge_function_smoke.yml` | Edge functions smoke test | PR migrations, push to main | ✅ Active (2026-05-25) |
+| `web_release_smoke.yml` | Web full build + test | Manual dispatch | ✅ Manual (release öncesi) |
+| `mobile_readiness.yml` | Mobile release readiness | Manual dispatch | ✅ Manual (release öncesi) |
+| `panel_quality.yml` | ~~Flutter web~~ | — | 🗄️ Archived (Next.js'e geçiş) |
+
+**Check adları** (branch protection için gerekli):
+- `mobile_quality / flutter-analyze`
+- `web_quality / typecheck`
+- `web_quality / lint`
+
+Bu adımlar Adım 3 (Branch Protection) ayarlanırken kullanılacaktır.
+
+### Adım 5: İlk Feature'ı Pratik Yap (1 hafta)
+
+> 🟡 **BEKLIYOR** — Adım 3 (Branch Protection) tamamlandıktan sonra başlat.
 
 Feature-branch modeli pratiğe koyma:
 
 ```powershell
+cd C:\yeedoy
+
+# Main'i güncelle
 git checkout main
-git pull
-git checkout -b feature/web-[feature-name]
-# ... develop and commit
-git push -u origin feature/web-[feature-name]
-gh pr create --title "feat(web): [feature]"
+git pull origin main
+
+# Feature branch'i aç
+git checkout -b feature/web-[feature-adı]
+
+# Değişiklik yap, commit et (conventional format)
+git add .
+git commit -m "feat(web): [açıklama]"
+
+# Push et
+git push -u origin feature/web-[feature-adı]
+
+# PR aç (GitHub UI veya CLI)
+gh pr create --title "feat(web): [kısa açıklama]"
 ```
 
-CI pass olacak, reviewer onay sonrası merge.
+İş akışı:
+1. CI tüm kontroller pass olana kadar dene
+2. Reviewer onayını al (Adım 3'ten sonra zorunlu)
+3. "Squash and merge" ile temiz history tut
+4. Feature branch otomatik silinir
+
+**Hedef:** 3-5 gün içinde merge edilmiş ilk feature
 
 ### Recommended Default Branch Model
 
