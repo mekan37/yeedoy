@@ -2,11 +2,7 @@ name: Mobile Quality
 
 on:
   pull_request:
-    paths:
-      - 'uygulamalar/mobil/**'
-      - 'docs/mobile_*'
-      - 'docs/system_full_documentation.md'
-      - '.github/workflows/mobile_*.yml'
+    # paths filtresi kaldırıldı — her PR'da tetiklenir (required check eksik kalmasın)
   push:
     branches:
       - main
@@ -26,23 +22,44 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check relevant file changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            mobile:
+              - 'uygulamalar/mobil/**'
+              - 'docs/mobile_*'
+              - 'docs/system_full_documentation.md'
+              - '.github/workflows/mobile_*.yml'
+
+      - name: No relevant changes — skipping
+        if: steps.changes.outputs.mobile == 'false'
+        run: echo "No mobile changes detected. Required check passing as no-op."
 
       - name: Set up Java
+        if: steps.changes.outputs.mobile == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: '17'
 
       - name: Set up Flutter
+        if: steps.changes.outputs.mobile == 'true'
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
 
       - name: Flutter pub get
+        if: steps.changes.outputs.mobile == 'true'
         run: flutter pub get
 
       - name: Create stub .env for CI
+        if: steps.changes.outputs.mobile == 'true'
         # .env is listed as a Flutter asset (pubspec.yaml) but is gitignored.
         # A stub file is needed so that flutter analyze doesn't emit a warning.
         run: |
@@ -51,24 +68,31 @@ jobs:
           fi
 
       - name: Analyze
+        if: steps.changes.outputs.mobile == 'true'
         run: flutter analyze
 
       - name: Unit and widget tests
+        if: steps.changes.outputs.mobile == 'true'
         run: flutter test test
 
       - name: Offline write guard
+        if: steps.changes.outputs.mobile == 'true'
         run: dart run tool/offline_write_guard_check.dart
 
       - name: Hardcoded color check
+        if: steps.changes.outputs.mobile == 'true'
         run: dart run tool/hardcoded_color_check.dart
 
       - name: Release gate dry run
+        if: steps.changes.outputs.mobile == 'true'
         run: dart run tool/release_gate_check.dart tool/release_gate_metrics_example.json
 
       - name: Golden tests
+        if: steps.changes.outputs.mobile == 'true'
         run: flutter test test/ui/golden --update-goldens 2>/dev/null || flutter test test/ui/golden || echo "No golden tests found — skipping"
 
       - name: Verify obfuscation flags documented
+        if: steps.changes.outputs.mobile == 'true'
         run: |
           echo "Release builds must include: flutter build apk --release --obfuscate --split-debug-info=build/app/outputs/symbols"
           echo "Symbols should be uploaded to Firebase Crashlytics or stored in CI artifacts."
