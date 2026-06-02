@@ -33,15 +33,22 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const supabase = createSupabasePublicClient();
-  const { data } = await (supabase as any)
-    .from('businesses')
-    .select('city,district,category')
-    .eq('is_active', true)
-    .not('city', 'is', null)
-    .not('district', 'is', null)
-    .not('category', 'is', null)
-    .limit(500);
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
+  let data: Array<{ city: string; district: string; category: string }> | null = null;
+  try {
+    const supabase = createSupabasePublicClient();
+    const result = await (supabase as any)
+      .from('businesses')
+      .select('city,district,category')
+      .eq('is_active', true)
+      .not('city', 'is', null)
+      .not('district', 'is', null)
+      .not('category', 'is', null)
+      .limit(500);
+    data = result.data;
+  } catch {
+    return [];
+  }
   if (!data) return [];
   const slugify = (s: string) =>
     s.toLowerCase()
