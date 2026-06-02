@@ -23,6 +23,12 @@ final _approvedPatterns = <RegExp>[
   RegExp(r'legal_required_consent_card\.dart'),
   // Achievements grid unlocked/locked visual
   RegExp(r'achievements_grid\.dart'),
+  // App theme uses primary brand gradient stops not in AppColors
+  RegExp(r'lib[/\\]app[/\\]theme[/\\]app_theme\.dart'),
+  // Loyalty tier colors are intentional metallic brand values
+  RegExp(r'sadakat_kartlarim_sayfasi\.dart'),
+  // Yerlestir page uses dark panel overlay colors not in AppColors
+  RegExp(r'yerlestir_sayfasi\.dart'),
 ];
 
 void main() {

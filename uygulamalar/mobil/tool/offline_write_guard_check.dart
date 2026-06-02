@@ -158,10 +158,75 @@ final _rpcRegistry = <String, _WriteClassification>{
     requiresIdempotency: false,
     note: 'User-owned profile preference write.',
   ),
+  'upsert_user_location_prefs_v1': const _WriteClassification(
+    strategy: 'profile_state_write',
+    requiresIdempotency: false,
+    note: 'User-owned location preference upsert; safe to repeat.',
+  ),
   'vote_group_offer_v1': const _WriteClassification(
     strategy: 'legacy_fallback',
     requiresIdempotency: false,
     note: 'Legacy fallback behind desired-state v2.',
+  ),
+  'toggle_favorite_v1': const _WriteClassification(
+    strategy: 'legacy_fallback',
+    requiresIdempotency: false,
+    note: 'Legacy toggle; desired-state path preferred.',
+  ),
+  'upsert_collection_share_v1': const _WriteClassification(
+    strategy: 'direct_rpc_reviewed',
+    requiresIdempotency: false,
+    note: 'Collection share upsert; reviewed for idempotency.',
+  ),
+  'toggle_collection_follow_v1': const _WriteClassification(
+    strategy: 'direct_rpc_reviewed',
+    requiresIdempotency: false,
+    note: 'Collection follow toggle; not queued today.',
+  ),
+  'bump_collection_engagement_v1': const _WriteClassification(
+    strategy: 'low_risk_side_effect',
+    requiresIdempotency: false,
+    note: 'Engagement counter bump; additive and low risk.',
+  ),
+  'submit_review_v3': const _WriteClassification(
+    strategy: 'idempotent_rpc',
+    requiresIdempotency: true,
+    note: 'Queued + idempotent review write v3.',
+  ),
+  'submit_table_feedback_v1': const _WriteClassification(
+    strategy: 'direct_rpc_reviewed',
+    requiresIdempotency: false,
+    note: 'In-restaurant table feedback; one-off write.',
+  ),
+  'submit_menu_item_price_suggestion_v3': const _WriteClassification(
+    strategy: 'legacy_fallback',
+    requiresIdempotency: false,
+    note: 'Legacy fallback; v5 is the idempotent path.',
+  ),
+  'submit_receipt_submission_v1': const _WriteClassification(
+    strategy: 'direct_rpc_reviewed',
+    requiresIdempotency: false,
+    note: 'Receipt/OCR submission; reviewed for replay safety.',
+  ),
+  'vote_menu_item_price_v1': const _WriteClassification(
+    strategy: 'legacy_fallback',
+    requiresIdempotency: false,
+    note: 'Legacy price vote; desired-state v2 preferred.',
+  ),
+  'upsert_collab_vote_v1': const _WriteClassification(
+    strategy: 'desired_state_rpc',
+    requiresIdempotency: false,
+    note: 'Collab list vote upsert; desired-state write, safe to repeat.',
+  ),
+  'submit_table_order_v1': const _WriteClassification(
+    strategy: 'direct_rpc_reviewed',
+    requiresIdempotency: false,
+    note: 'In-restaurant table order submit; reviewed for replay safety.',
+  ),
+  'vote_menu_item_photo_v1': const _WriteClassification(
+    strategy: 'legacy_fallback',
+    requiresIdempotency: false,
+    note: 'Legacy photo vote; desired-state v2 preferred.',
   ),
 };
 
@@ -192,6 +257,33 @@ final _directWriteRegistry = <String, _DirectWriteClassification>{
   ),
   'user_profiles': const _DirectWriteClassification(
     note: 'User-owned profile upsert.',
+  ),
+  'user_policy_acceptances': const _DirectWriteClassification(
+    note: 'Legal consent write; KVKK required, one-off per policy version.',
+  ),
+  'privacy_requests': const _DirectWriteClassification(
+    note: 'KVKK privacy request insert; one-off, not queued.',
+  ),
+  'account_deletion_requests': const _DirectWriteClassification(
+    note: 'Account deletion request insert; one-off, not queued.',
+  ),
+  'business_ownership_claims': const _DirectWriteClassification(
+    note: 'Business claim insert; one-off owner flow, not queued.',
+  ),
+  'collab_lists': const _DirectWriteClassification(
+    note: 'Collab list create/delete; user-initiated, not queued.',
+  ),
+  'collab_list_items': const _DirectWriteClassification(
+    note: 'Collab list item insert/delete; user-initiated, not queued.',
+  ),
+  'collab_list_members': const _DirectWriteClassification(
+    note: 'Collab list member delete; user-initiated, not queued.',
+  ),
+  'collab_list_votes': const _DirectWriteClassification(
+    note: 'Collab list vote delete; user-initiated, not queued.',
+  ),
+  'temp': const _DirectWriteClassification(
+    note: 'Temp upload staging in storage bucket; not a DB table write.',
   ),
 };
 
