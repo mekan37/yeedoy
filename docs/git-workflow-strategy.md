@@ -1132,7 +1132,7 @@ Mevcut `.gitignore` şu öğeleri kontrol ediyor:
 
 ### Adım 3: Branch Protection Rule'ları Ayarla (GitHub)
 
-> ⚠️ **ENGELLENDİ** — GitHub free plan + private repo kombinasyonu branch protection API'sini desteklemiyor (HTTP 403). Çözüm: repo'yu public yap **veya** GitHub Pro'ya geç ($4/ay). `gh` kurulu ve `mekan37` olarak giriş yapıldı, engel plan kısıtlamasından kaynaklanıyor.
+> ✅ **TAMAMLANDI** — `gh` CLI ile uygulandı (2026-06-02). Repo public yapıldı. Kurallar: 1 reviewer zorunlu, stale review dismiss, flutter-analyze + web-typecheck-lint status checks, force push/deletion kapalı, enforce_admins aktif.
 
 URL: `https://github.com/mekan37/yeedoy/settings/branches`
 
