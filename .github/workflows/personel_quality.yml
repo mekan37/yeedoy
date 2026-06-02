@@ -2,9 +2,7 @@ name: Personel Quality
 
 on:
   pull_request:
-    paths:
-      - 'uygulamalar/personel/**'
-      - '.github/workflows/personel_*.yml'
+    # paths filtresi kaldırıldı — her PR'da tetiklenir (required check eksik kalmasın)
   push:
     branches:
       - main
@@ -22,24 +20,50 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check relevant file changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            personel:
+              - 'uygulamalar/personel/**'
+              - '.github/workflows/personel_*.yml'
+
+      - name: No relevant changes — skipping
+        if: steps.changes.outputs.personel == 'false'
+        run: echo "No personel changes detected. Required check passing as no-op."
 
       - name: Set up Java
+        if: steps.changes.outputs.personel == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: '17'
 
       - name: Set up Flutter
+        if: steps.changes.outputs.personel == 'true'
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
 
+      - name: Create dummy .env for CI
+        if: steps.changes.outputs.personel == 'true'
+        run: |
+          [ -f .env ] || cp .env.example .env 2>/dev/null || \
+          printf 'SUPABASE_URL=https://placeholder.supabase.co\nSUPABASE_ANON_KEY=placeholder\nAPP_ENV=test\n' > .env
+
       - name: Flutter pub get
+        if: steps.changes.outputs.personel == 'true'
         run: flutter pub get
 
       - name: Analyze
+        if: steps.changes.outputs.personel == 'true'
         run: flutter analyze
 
       - name: Unit and widget tests
+        if: steps.changes.outputs.personel == 'true'
         run: flutter test test --reporter=compact || echo "No tests found — skipping"

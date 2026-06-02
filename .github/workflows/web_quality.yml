@@ -2,10 +2,7 @@ name: Web Quality
 
 on:
   pull_request:
-    paths:
-      - 'uygulamalar/web/**'
-      - 'packages/ui_tokens/**'
-      - '.github/workflows/web_quality.yml'
+    # paths filtresi kaldırıldı — her PR'da tetiklenir (required check eksik kalmasın)
   push:
     branches:
       - main
@@ -27,8 +24,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check relevant file changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            web:
+              - 'uygulamalar/web/**'
+              - 'packages/ui_tokens/**'
+              - '.github/workflows/web_quality.yml'
+
+      - name: No relevant changes — skipping
+        if: steps.changes.outputs.web == 'false'
+        run: echo "No web changes detected. Required check passing as no-op."
 
       - name: Set up Node
+        if: steps.changes.outputs.web == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -36,23 +50,27 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
+        if: steps.changes.outputs.web == 'true'
         run: npm ci
 
       - name: Typecheck
+        if: steps.changes.outputs.web == 'true'
         run: npm run typecheck
 
       - name: Lint
+        if: steps.changes.outputs.web == 'true'
         run: npm run lint
 
       - name: Unit tests
+        if: steps.changes.outputs.web == 'true'
         run: npm run test:unit
 
       - name: Install Playwright browser
-        if: env.NEXT_PUBLIC_SUPABASE_URL != ''
+        if: steps.changes.outputs.web == 'true' && env.NEXT_PUBLIC_SUPABASE_URL != ''
         run: npx playwright install --with-deps chromium
 
       - name: E2E smoke
-        if: env.NEXT_PUBLIC_SUPABASE_URL != ''
+        if: steps.changes.outputs.web == 'true' && env.NEXT_PUBLIC_SUPABASE_URL != ''
         env:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SITE_URL: http://localhost:3200
@@ -60,20 +78,22 @@ jobs:
         run: npm run test:e2e
 
       - name: Build
+        if: steps.changes.outputs.web == 'true'
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key' }}
         run: npm run build
 
       - name: Dependency security audit
+        if: steps.changes.outputs.web == 'true'
         run: npm audit --audit-level=high
         continue-on-error: false
 
       - name: RLS coverage check
         # Fails if any public table has no RLS policies — zero rows expected
+        if: steps.changes.outputs.web == 'true' && env.SUPABASE_DB_URL != ''
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-        if: env.SUPABASE_DB_URL != ''
         run: |
           RESULT=$(psql "$SUPABASE_DB_URL" -tAc "
             SELECT tablename FROM pg_tables
