@@ -174,8 +174,9 @@ type(scope): açıklama
 
 ### Scope Listesi
 ```
-mobile, web, personel, supabase, edge, packages, l10n, 
-ci, docs, assets, security, performance, ui, api, db
+mobile, web, personel, supabase, edge, packages, l10n,
+ci, docs, assets, security, performance, ui, api, db,
+script, config
 ```
 
 ### Örnek Commit'ler (Türkçe)
@@ -235,6 +236,25 @@ fix(mobile): QR scanner focus lock issue — recursive build loop düzeltildi
 chore: Update Supabase Flutter client to ^2.5.0
 ```
 
+### `@ ` Prefix (AI/Agent Commit'leri)
+
+AI agent veya harici araç yardımıyla oluşturulan commit'ler başına `@ ` eklenir:
+
+```
+@ docs: SEO stratejisi — URL mimarisi, schema.org, sitemap
+@ feat(mobile): discovery skeleton — AI paired session
+```
+
+Normal geliştirici commit'leri `@ ` almaz.
+
+### Co-Authored-By Footer
+
+AI yardımlı commit'lerde footer'a ekle:
+
+```
+Co-Authored-By: claude-flow <ruv@ruv.net>
+```
+
 ---
 
 ## 5. Pull Request Rules
@@ -251,7 +271,7 @@ Başlık örnekleri:
 
 ### PR Template (`.github/pull_request_template.md`)
 
-Aşağıdaki template C:\yeedoy\.github\ dizinine yerleştirin:
+Template `.github/pull_request_template.md` dosyasında mevcuttur. İçeriği:
 
 ```markdown
 ## Özet
@@ -1217,6 +1237,6 @@ Target KPI'lar:
 
 ---
 
-*Son güncelleme: 2026-05-25*
+*Son güncelleme: 2026-06-02*
 *Versiyon: 1.1*
 *Yazar: Git Workflow Manager*
