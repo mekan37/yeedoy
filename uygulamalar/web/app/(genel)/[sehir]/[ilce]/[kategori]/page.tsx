@@ -32,6 +32,33 @@ type Props = {
   params: Promise<{ sehir: string; ilce: string; kategori: string }>;
 };
 
+export async function generateStaticParams() {
+  const supabase = createSupabasePublicClient();
+  const { data } = await (supabase as any)
+    .from('businesses')
+    .select('city,district,category')
+    .eq('is_active', true)
+    .not('city', 'is', null)
+    .not('district', 'is', null)
+    .not('category', 'is', null)
+    .limit(500);
+  if (!data) return [];
+  const slugify = (s: string) =>
+    s.toLowerCase()
+      .replace(/ğ/g, 'g').replace(/ş/g, 's').replace(/ı/g, 'i')
+      .replace(/ç/g, 'c').replace(/ö/g, 'o').replace(/ü/g, 'u')
+      .replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const seen = new Set<string>();
+  const params: { sehir: string; ilce: string; kategori: string }[] = [];
+  for (const b of data) {
+    const key = `${b.city}|${b.district}|${b.category}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    params.push({ sehir: slugify(b.city), ilce: slugify(b.district), kategori: slugify(b.category) });
+  }
+  return params;
+}
+
 // Slug decode + başlık büyüt
 function slug2label(slug: string) {
   return decodeURIComponent(slug)
@@ -97,6 +124,29 @@ export default async function SehirIlceKategoriPage({ params }: Props) {
     ],
   };
 
+  // JSON-LD: FAQPage
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `${districtLabel}'da ${categoryLabel} fiyatları ne kadar?`,
+        acceptedAnswer: { '@type': 'Answer', text: `${districtLabel} ve ${cityLabel} çevresinde ${categoryLabel} kategorisindeki restoranların güncel fiyatları Yeedoy'da listelenmiştir.` },
+      },
+      {
+        '@type': 'Question',
+        name: `${cityLabel}'da en iyi ${categoryLabel} yerleri nereler?`,
+        acceptedAnswer: { '@type': 'Answer', text: `${cityLabel}'da ${categoryLabel} kategorisinde en yüksek Yeedoy puanına sahip işletmeler bu sayfada sıralanmaktadır.` },
+      },
+      {
+        '@type': 'Question',
+        name: `${districtLabel} ${categoryLabel} menüsü nasıl karşılaştırılır?`,
+        acceptedAnswer: { '@type': 'Answer', text: `Her işletmenin Yeedoy sayfasında güncel menü fiyatları, fiyat geçmişi ve doğrulanmış yorumlar yer almaktadır.` },
+      },
+    ],
+  };
+
   // JSON-LD: ItemList
   const schema = {
     '@context': 'https://schema.org',
@@ -129,15 +179,16 @@ export default async function SehirIlceKategoriPage({ params }: Props) {
     <PublicShell>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Container className="py-8">
         {/* Breadcrumb */}
         <nav className="mb-4 text-sm text-muted" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1">
             <li><Link href="/" className="hover:text-primary">Ana Sayfa</Link></li>
             <li aria-hidden="true">›</li>
-            <li><Link href="/kesif" className="hover:text-primary">{cityLabel}</Link></li>
+            <li><Link href={`/${sehir}`} className="hover:text-primary">{cityLabel}</Link></li>
             <li aria-hidden="true">›</li>
-            <li><Link href={`/kesif?city=${encodeURIComponent(cityLabel)}`} className="hover:text-primary">{districtLabel}</Link></li>
+            <li><Link href={`/${sehir}/${ilce}`} className="hover:text-primary">{districtLabel}</Link></li>
             <li aria-hidden="true">›</li>
             <li className="font-[700] text-textStrong">{categoryLabel}</li>
           </ol>
