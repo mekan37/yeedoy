@@ -1132,7 +1132,7 @@ Mevcut `.gitignore` şu öğeleri kontrol ediyor:
 
 ### Adım 3: Branch Protection Rule'ları Ayarla (GitHub)
 
-> ⚠️ **BAŞLATILMAYAN** — GitHub CLI (`gh`) mevcut ortamda yüklü değildir. Manuel veya ayrı ortamda yapılmalıdır.
+> ⚠️ **ENGELLENDİ** — GitHub free plan + private repo kombinasyonu branch protection API'sini desteklemiyor (HTTP 403). Çözüm: repo'yu public yap **veya** GitHub Pro'ya geç ($4/ay). `gh` kurulu ve `mekan37` olarak giriş yapıldı, engel plan kısıtlamasından kaynaklanıyor.
 
 URL: `https://github.com/mekan37/yeedoy/settings/branches`
 
