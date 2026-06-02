@@ -1233,7 +1233,7 @@ Bu adımlar Adım 3 (Branch Protection) ayarlanırken kullanılacaktır.
 
 ### Adım 5: İlk Feature'ı Pratik Yap (1 hafta)
 
-> 🟡 **BEKLIYOR** — Adım 3 (Branch Protection) tamamlandıktan sonra başlat.
+> 🔄 **DEVAM EDİYOR** — Section 14 Step 5 test PR'ı açıldı (2026-06-02).
 
 Feature-branch modeli pratiğe koyma:
 
