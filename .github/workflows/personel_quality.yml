@@ -38,6 +38,11 @@ jobs:
       - name: Flutter pub get
         run: flutter pub get
 
+      - name: Create dummy .env for CI
+        run: |
+          [ -f .env ] || cp .env.example .env 2>/dev/null || \
+          printf 'SUPABASE_URL=https://placeholder.supabase.co\nSUPABASE_ANON_KEY=placeholder\nAPP_ENV=test\n' > .env
+
       - name: Analyze
         run: flutter analyze
 
