@@ -165,9 +165,12 @@ CFBundleShortVersionString: "$(FLUTTER_BUILD_NAME)"  // pubspec.yaml X.Y.Z
 | `NSMicrophoneUsageDescription` | Sesli arama ve video özellikleri için mikrofon gereklidir. | ✅ Var |
 | `NSSiriUsageDescription` | Siri, Yeedoy'da yakınındaki ucuz yemekleri bulmanıza yardımcı olur. | ✅ Var (EN needed) |
 | `NSFaceIDUsageDescription` | Uygulamaya hızlı ve güvenli giriş için Face ID kullanmak ister misiniz? | ✅ Var (EN needed) |
+| `NSUserTrackingUsageDescription` | Size daha ilgili reklamlar gösterebilmek ve reklam performansını ölçebilmek için uygulama etkinliğinizin diğer şirketlere ait uygulama ve web sitelerinde izlenmesine izin isteyebiliriz. | ✅ Eklendi (fix/mobile-ios-att-description PR) |
 
 **Durum:**
 - ✅ Tüm permission açıklamaları Türkçe
+- ✅ NSUserTrackingUsageDescription → Eklendi (fix/mobile-ios-att-description PR)
+- ⏳ App Store Privacy ATT review → App Store Connect'te manuel kontrol
 - 🟡 English (EN) açıklamaları eksik (optional ama App Store'da istenen diller varsa ekle)
 - ✅ AdMob App ID: `ca-app-pub-1150074560839161~8895703262`
 - ✅ Deep link schemes
@@ -721,6 +724,7 @@ Location            ✅ NSLocationWhenInUseUsageDescription
 Microphone          ✅ NSMicrophoneUsageDescription (video call)
 Siri                ✅ NSSiriUsageDescription
 Face ID             ✅ NSFaceIDUsageDescription
+Tracking (ATT)      ✅ NSUserTrackingUsageDescription (AdMob / iOS 14.5+)
 ```
 
 **App Store Policy Check:**
