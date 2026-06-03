@@ -4,7 +4,7 @@ import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
-import { HoursForm } from './saatler-formu';
+import { HoursForm, type WeeklyHourRow } from './saatler-formu';
 
 export const metadata: Metadata = {
   title: 'Çalışma Saatleri | Sahip Paneli',
@@ -40,14 +40,17 @@ export default async function OwnerHoursPage() {
     );
   }
 
-  // Fetch hours for all businesses
-  const { data: hoursRows } = await (supabase as any)
-    .from('business_hours')
-    .select('*')
-    .in('business_id', list.map((b) => b.id)) as { data: Array<Record<string, unknown> & { business_id: string }> | null };
-
-  const hoursMap = Object.fromEntries(
-    (hoursRows ?? []).map((h) => [h.business_id, h]),
+  // Fetch hours for all businesses via RPC (reads business_weekly_hours — the canonical table)
+  const hoursMap = new Map<string, WeeklyHourRow[]>();
+  await Promise.all(
+    list.map(async (b) => {
+      const { data } = await (supabase as any).rpc('get_business_hours_v1', {
+        p_business_id: b.id,
+      }) as { data: { weekly: WeeklyHourRow[]; special: unknown[]; is_open_now: boolean | null } | null };
+      if (data?.weekly && data.weekly.length > 0) {
+        hoursMap.set(b.id, data.weekly);
+      }
+    }),
   );
 
   return (
@@ -61,7 +64,7 @@ export default async function OwnerHoursPage() {
         <div className="flex flex-col gap-6">
           {list.map((b) => (
             <PanelBolumKarti key={b.id} title={b.name}>
-              <HoursForm businessId={b.id} hours={hoursMap[b.id] as any ?? null} />
+              <HoursForm businessId={b.id} hours={hoursMap.get(b.id) ?? null} />
             </PanelBolumKarti>
           ))}
         </div>
@@ -77,4 +80,3 @@ function ClockIcon() {
     </svg>
   );
 }
-
