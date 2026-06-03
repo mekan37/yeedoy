@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
-export async function markLeadContacted(formData: FormData) {
+export async function closeLeadAction(formData: FormData) {
   const id = String(formData.get('id') ?? '');
   const currentStatus = String(formData.get('currentStatus') ?? 'new');
   if (!id) return;
@@ -13,7 +13,7 @@ export async function markLeadContacted(formData: FormData) {
 
   await sb.rpc('admin_update_sponsorship_lead_status_v1', {
     p_id: id,
-    p_status: 'contacted',
+    p_status: 'closed',
   });
 
   revalidatePath(`/yonetici/sponsor-adaylari?status=${currentStatus}`);
