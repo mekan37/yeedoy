@@ -241,11 +241,11 @@ class _MicroTrendSection extends StatelessWidget {
                       distanceKm: entry.value.business.distanceKm,
                       qualityScore: entry.value.business.qualityScore,
                       mealCardProviders: entry.value.business.mealCardProviders,
+                      isOpenNow: entry.value.business.isOpenNow,
+                      medianPriceCents: entry.value.business.medianPriceCents,
                       socialProof: [
                         AppLocalizations.of(context).rankedAt(entry.key + 1),
                         metricLabel(entry.value),
-                        if (entry.value.business.isOpenNow == true)
-                          AppLocalizations.of(context).openNow,
                       ],
                       onTap: () => context.go('/b/${entry.value.business.id}'),
                     ),
