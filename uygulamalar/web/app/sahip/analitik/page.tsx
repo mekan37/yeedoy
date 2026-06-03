@@ -2,9 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { getYogunSaatler } from '@/src/lib/veri/owner/mesgul-saatler';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YogunSaatlerKarti } from '@/src/ui/bilesenler/yogun-saatler-karti';
 
 export const metadata: Metadata = {
   title: 'Analitik | Sahip Paneli',
@@ -44,6 +46,11 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const businessIds = businesses.map((b: { id: string }) => b.id);
 
   const since = new Date(Date.now() - aralikGun[aralik] * 24 * 60 * 60 * 1000).toISOString();
+
+  // Yoğun saatler: ilk işletme için RPC çağrısı (tek business_id alıyor)
+  const yogunSaatler = businessIds.length > 0
+    ? await getYogunSaatler(businessIds[0])
+    : [];
 
   const [menuViewsRes, qrScansRes, whatsappRes, siparisRes, gunlukOlaylar] = await Promise.all([
     businessIds.length > 0
@@ -165,6 +172,17 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
         {olaylar.length > 0 && (
           <PanelBolumKarti title="Saatlik Dağılım" className="mt-6">
             <SaatlikDagilimGrafik saatler={saatlerVeri} />
+          </PanelBolumKarti>
+        )}
+
+        {/* Yoğun Saatler — get_business_busy_hours_v1 (son 28 gün) */}
+        {businessIds.length > 0 && (
+          <PanelBolumKarti
+            title="Yoğun Saatler"
+            description="İlk işletmenize ait saat bazlı yoğunluk analizi"
+            className="mt-6"
+          >
+            <YogunSaatlerKarti veriler={yogunSaatler} />
           </PanelBolumKarti>
         )}
       </PanelIcerikYuzeyi>
