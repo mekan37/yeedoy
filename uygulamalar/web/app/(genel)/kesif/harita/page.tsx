@@ -3,14 +3,27 @@ import Link from 'next/link';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { Container } from '@/src/ui/acik/ortak';
 import { getMapBusinesses } from '@/src/lib/veri/harita-okuma';
+import { appConfig } from '@/src/lib/ayarlar';
 import { HaritaSarmalayici } from './harita-sarmalayici';
 
 export const revalidate = 120;
 
-export const metadata: Metadata = {
-  title: 'Harita | Keşfet | Yeedoy',
-  description: 'Türkiye genelinde restoranları, kafeleri ve işletmeleri harita üzerinde keşfedin.',
-};
+export function generateMetadata(): Metadata {
+  const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
+  const canonical = `${siteUrl}/kesif/harita`;
+  return {
+    title: 'Harita — Yakındaki Restoranlar | Yeedoy',
+    description: 'Türkiye genelinde restoranları, kafeleri ve işletmeleri harita üzerinde keşfedin. Fiyat seviyesi ve açık/kapalı bilgisiyle en yakın mekanı bul.',
+    alternates: { canonical },
+    robots: { index: true, follow: true },
+    openGraph: {
+      title: 'Harita — Yakındaki Restoranlar | Yeedoy',
+      description: 'İşletmeleri harita üzerinde keşfet. Fiyat seviyesi, açık/kapalı durumu ve menü detayı.',
+      url: canonical,
+      images: [{ url: `${siteUrl}/sunucu/acik-grafik?title=Harita+Ke%C5%9Ffi`, width: 1200, height: 630, alt: 'Harita Keşfi | Yeedoy' }],
+    },
+  };
+}
 
 export default async function HaritaPage() {
   const businesses = await getMapBusinesses(120);
