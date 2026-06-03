@@ -23,7 +23,7 @@ Yeedoy mobil uygulaması (iOS + Android) **çoğunlukla yayın hazırı** aşama
 | Deep Links | ✅ Hazır | yeedoy://, io.supabase.yeedoy://, https://yeedoy.com links tanımlı |
 | Adaptive Icon | ✅ Var | Android adaptive icon + iOS AppIcon var |
 | Store Listing | ✅ Hazır | store_listing.md'de Türkçe + İngilizce copy |
-| Privacy Policy URL | ❌ Eksik | yeedoy.com/privacy veya benzeri gerekli |
+| Privacy Policy URL | ✅ Teknik sayfa oluşturuldu | yeedoy.com/gizlilik — Hukuki nihai onay önerilir |
 | Version Numbers | ✅ Setup | pubspec.yaml: 1.0.0+1 (bağlantılı versionCode) |
 | AdMob Integration | ✅ Hazır | CA-APP-ID'ler manifest + Info.plist'de |
 
@@ -253,7 +253,7 @@ firebase_performance: ^0.11.1+4    ✅ Performance monitoring
 
 | Eksik | Aciliyet | Çözüm |
 |-------|----------|-------|
-| Privacy Policy URL | **CRITICAL** | yeedoy.com/gizlilik-politikasi veya benzeri linki yayınla |
+| Privacy Policy URL | ~~CRITICAL~~ ✅ Çözüldü | yeedoy.com/gizlilik — Hukuki nihai onay önerilir |
 | Real keystore file | **HIGH** | `keytool` ile lokal oluştur, CI/CD env var'ları ile dağıt |
 | English permission descriptions (iOS) | **MEDIUM** | Info.plist'e İngilizce açıklamalar ekle |
 | App icon 1024x1024 (Store) | **HIGH** | Icon asset üret ve `appiconset`'e ekle |
@@ -415,7 +415,7 @@ iOS: `FLUTTER_BUILD_NUMBER` otomatik set edilir
    - Veri retention: 1 yıl veya kullanıcı silip atana kadar
 
 6. **Privacy Policy:**
-   - URL: https://yeedoy.com/gizlilik-politikasi
+   - URL: https://yeedoy.com/gizlilik
    - Gerekli: ✅ Koşullu
 
 7. **Çıkış Ülkeleri:**
@@ -444,7 +444,7 @@ iOS: `FLUTTER_BUILD_NUMBER` otomatik set edilir
    - Description: `docs/store_listing.md` EN uzun
    - Keywords: `docs/store_listing.md`
    - Screenshot: 6.7" iPhone + iPad Pro
-   - Privacy URL: https://yeedoy.com/privacy (EN)
+   - Privacy URL: https://yeedoy.com/gizlilik
 
 4. **App Information:**
    - Category: Lifestyle → Food
@@ -562,7 +562,7 @@ iOS: `FLUTTER_BUILD_NUMBER` otomatik set edilir
 ## 12. Sonraki Adımlar (Priority Order)
 
 ### CRITICAL (Bu haftada)
-1. Privacy Policy URL yayınla → yeedoy.com/gizlilik-politikasi
+1. ~~Privacy Policy URL yayınla~~ ✅ Tamamlandı → yeedoy.com/gizlilik
 2. Data Safety formu için veri envanteri yap (Google Play)
 3. Content Rating IARC formu doldur
 
@@ -608,7 +608,7 @@ Aşağıdakiler bu dökümanın kapsamı dışındadır (security/operational):
 - ❌ Gerçek keystore dosyası oluşturma (lokal yapılacak)
 - ❌ Signing config build.gradle'a doğrudan entegrasyonu (env var'lar tercih)
 - ❌ Play Console / App Store hesabı oluşturma (manual process)
-- ❌ Privacy policy sayfası yazma
+- ✅ Privacy policy sayfası yazıldı → /gizlilik (Hukuki nihai onay ayrıca yapılacak)
 - ❌ Android/iOS release build test (CI workflow'larda olacak)
 - ❌ TestFlight beta setup (manual)
 - ❌ Store screenshot tasarımı (design team)
@@ -730,7 +730,7 @@ Yeedoy mobil uygulaması **yayın için hazırdır**, fakat aşağıdaki kritik 
 2. ✅ **Permissions:** Tüm izinler uygun
 3. ✅ **Firebase:** Crashlytics + Analytics entegre
 4. ✅ **CI/CD:** Workflow'lar aktif
-5. ❌ **Privacy Policy:** CRITICAL — https://yeedoy.com/gizlilik-politikasi gerekli
+5. ✅ **Privacy Policy:** https://yeedoy.com/gizlilik — Teknik sayfa oluşturuldu (Hukuki nihai onay önerilir)
 6. ❌ **Data Safety:** Google Play formu
 7. ❌ **Keystore:** Lokal oluştur + CI secret'lar
 8. ❌ **Store Assets:** Icon 1024x1024 + 8 screenshot
