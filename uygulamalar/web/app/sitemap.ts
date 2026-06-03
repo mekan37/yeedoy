@@ -37,6 +37,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let isletmeRoutes: MetadataRoute.Sitemap = [];
   let businessRoutes: MetadataRoute.Sitemap = [];
   let menuRoutes: MetadataRoute.Sitemap = [];
+  let cityRoutes: MetadataRoute.Sitemap = [];
+  let districtRoutes: MetadataRoute.Sitemap = [];
   let categoryRoutes: MetadataRoute.Sitemap = [];
 
   try {
@@ -88,7 +90,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }
     }
 
-    // Şehir/ilçe/kategori listesi sayfaları — /[sehir]/[ilce]/[kategori]
+    // Şehir/ilçe/kategori listesi sayfaları — /[sehir], /[sehir]/[ilce], /[sehir]/[ilce]/[kategori]
     const { data: combos } = await (supabase as any)
       .from('businesses')
       .select('city, district, category')
@@ -100,26 +102,55 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .range(0, 4999) as { data: Array<{ city: string; district: string; category: string }> | null };
 
     if (combos) {
-      const seen = new Set<string>();
+      const seenCity = new Set<string>();
+      const seenDistrict = new Set<string>();
+      const seenCategory = new Set<string>();
+
       for (const row of combos) {
-        const key = `${row.city}||${row.district}||${row.category}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
         const cs = slugify(row.city);
         const ds = slugify(row.district);
         const ks = slugify(row.category);
         if (!cs || !ds || !ks) continue;
-        categoryRoutes.push({
-          url: `${siteUrl}/${cs}/${ds}/${ks}`,
-          lastModified: now,
-          changeFrequency: 'daily' as const,
-          priority: 0.8,
-        });
+
+        // /[sehir] — city hub
+        if (!seenCity.has(cs)) {
+          seenCity.add(cs);
+          cityRoutes.push({
+            url: `${siteUrl}/${cs}`,
+            lastModified: now,
+            changeFrequency: 'daily' as const,
+            priority: 0.85,
+          });
+        }
+
+        // /[sehir]/[ilce] — district listing
+        const districtKey = `${cs}||${ds}`;
+        if (!seenDistrict.has(districtKey)) {
+          seenDistrict.add(districtKey);
+          districtRoutes.push({
+            url: `${siteUrl}/${cs}/${ds}`,
+            lastModified: now,
+            changeFrequency: 'daily' as const,
+            priority: 0.82,
+          });
+        }
+
+        // /[sehir]/[ilce]/[kategori] — category listing
+        const categoryKey = `${cs}||${ds}||${ks}`;
+        if (!seenCategory.has(categoryKey)) {
+          seenCategory.add(categoryKey);
+          categoryRoutes.push({
+            url: `${siteUrl}/${cs}/${ds}/${ks}`,
+            lastModified: now,
+            changeFrequency: 'daily' as const,
+            priority: 0.8,
+          });
+        }
       }
     }
   } catch {
     // DB hatasında sadece statik rotaları döndür
   }
 
-  return [...staticRoutes, ...isletmeRoutes, ...businessRoutes, ...menuRoutes, ...categoryRoutes];
+  return [...staticRoutes, ...isletmeRoutes, ...businessRoutes, ...menuRoutes, ...cityRoutes, ...districtRoutes, ...categoryRoutes];
 }
