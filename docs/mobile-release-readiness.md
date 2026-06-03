@@ -272,8 +272,8 @@ firebase_performance: ^0.11.1+4    ✅ Performance monitoring
 | English permission descriptions (iOS) | **MEDIUM** | ⏳ TODO | Info.plist'e İngilizce açıklamalar ekle |
 | App icon 1024x1024 (Store) | **HIGH** | ⏳ TODO | Icon asset üret ve `appiconset`'e ekle |
 | Store screenshots | **HIGH** | ⏳ TODO | 8 ekran (store_listing.md'den) üret |
-| Content rating questionnaire | **HIGH** | ⏳ TODO | Google Play'de doldur (IARC) |
-| Data safety form | **CRITICAL** | ⏳ TODO | Google Play'de doldur (veri türleri, şifreleme) |
+| Content rating questionnaire | **HIGH** | 🔧 Taslak hazır | docs/store-data-safety-iarc.md — IARC cevapları belgede — Play Console'da doldurulacak |
+| Data safety form | **CRITICAL** | 🔧 Taslak hazır | docs/store-data-safety-iarc.md — 10 veri kategorisi — Play Console'da doldurulacak |
 | Release notes | **MEDIUM** | ⏳ TODO | v1.0 release notes yaz (changelog) |
 | TestFlight/beta testers | **MEDIUM** | ⏳ TODO | Internal testers (Google Groups) kur |
 
@@ -615,8 +615,8 @@ gh secret set ANDROID_RELEASE_KEY_PASSWORD --body "your_key_password"
 
 ### CRITICAL (Bu haftada)
 1. ~~Privacy Policy URL yayınla~~ ✅ Tamamlandı → yeedoy.com/gizlilik
-2. Data Safety formu için veri envanteri yap (Google Play)
-3. Content Rating IARC formu doldur
+2. ~~Data Safety formu için veri envanteri yap~~ ✅ Taslak hazır → docs/store-data-safety-iarc.md — Play Console'da manuel girilecek
+3. ~~Content Rating IARC formu taslağı~~ ✅ Taslak hazır → docs/store-data-safety-iarc.md — Play Console'da doldurulacak
 
 ### HIGH (Sonraki hafta)
 1. Keystore file oluştur (lokal)
@@ -824,7 +824,7 @@ Yeedoy mobil uygulaması **yayın için hazırdır**, fakat aşağıdaki kritik 
 3. ✅ **Firebase:** Crashlytics + Analytics entegre
 4. ✅ **CI/CD:** Workflow'lar aktif
 5. ✅ **Privacy Policy:** https://yeedoy.com/gizlilik — Teknik sayfa oluşturuldu (Hukuki nihai onay önerilir)
-6. ❌ **Data Safety:** Google Play formu
+6. 🔧 **Data Safety + IARC:** Taslak hazır (docs/store-data-safety-iarc.md) — Play Console'da manuel girilecek
 7. ❌ **Keystore:** Lokal oluştur + CI secret'lar
 8. ❌ **Store Assets:** Icon 1024x1024 + 8 screenshot
 
