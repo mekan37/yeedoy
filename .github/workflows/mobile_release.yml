@@ -1,0 +1,169 @@
+name: Mobile Release AAB
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_note:
+        description: 'Release note (optional, for tracking)'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  android_release_aab:
+    runs-on: ubuntu-latest
+    # Skip job if secrets not configured — inform instead of failing
+    if: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD != '' && secrets.ANDROID_RELEASE_KEY_ALIAS != '' && secrets.ANDROID_RELEASE_KEY_PASSWORD != '' }}
+    defaults:
+      run:
+        working-directory: uygulamalar/mobil
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Create dummy .env for build
+        run: |
+          if [ ! -f .env ]; then
+            echo "SUPABASE_URL=placeholder" > .env
+            echo "SUPABASE_ANON_KEY=placeholder" >> .env
+            echo "APP_ENV=production" >> .env
+          fi
+
+      - name: Decode Android keystore
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "⚠️ ANDROID_KEYSTORE_BASE64 secret not configured"
+            echo "Using environment variables: ANDROID_RELEASE_STORE_FILE (from CI secrets)"
+            exit 0
+          fi
+          mkdir -p android/keystore
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/keystore/yeedoy-release.keystore
+
+      - name: Create key.properties from secrets
+        shell: bash
+        env:
+          ANDROID_RELEASE_STORE_FILE: ${{ secrets.ANDROID_RELEASE_STORE_FILE || 'android/keystore/yeedoy-release.keystore' }}
+          ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
+          ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
+          ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
+        run: |
+          cat > android/key.properties << EOF
+          storeFile=$ANDROID_RELEASE_STORE_FILE
+          storePassword=$ANDROID_RELEASE_STORE_PASSWORD
+          keyAlias=$ANDROID_RELEASE_KEY_ALIAS
+          keyPassword=$ANDROID_RELEASE_KEY_PASSWORD
+          EOF
+          chmod 600 android/key.properties
+
+      - name: Build Release AAB
+        run: |
+          flutter build appbundle --release \
+            --obfuscate \
+            --split-debug-info=build/app/outputs/symbols
+
+      - name: Resolve AAB artifact paths
+        id: artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          AAB_PATH="$(find "$PWD/build/app/outputs/bundle/release" -maxdepth 1 -name '*.aab' -print -quit)"
+          if [ -z "$AAB_PATH" ]; then
+            echo "::error::AAB artifact was not produced under build/app/outputs/bundle/release"
+            exit 1
+          fi
+
+          {
+            echo "aab_path=$AAB_PATH"
+            echo "aab_name=$(basename "$AAB_PATH")"
+            echo "symbols_dir=$PWD/build/app/outputs/symbols"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-android-aab-${{ github.run_number }}
+          path: |
+            ${{ steps.artifacts.outputs.aab_path }}
+            ${{ steps.artifacts.outputs.symbols_dir }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Release summary
+        if: always()
+        env:
+          AAB_PATH: ${{ steps.artifacts.outputs.aab_path }}
+          AAB_NAME: ${{ steps.artifacts.outputs.aab_name }}
+          SYMBOLS_DIR: ${{ steps.artifacts.outputs.symbols_dir }}
+        shell: bash
+        run: |
+          {
+            echo "## Android Release AAB Build"
+            echo ""
+            echo "- artifact: \`${AAB_NAME:-not produced}\`"
+            echo "- run: \`${{ github.run_number }}\`"
+            if [ -n "${AAB_PATH:-}" ]; then
+              echo "- aab path: \`${AAB_PATH}\`"
+              echo "- symbols: \`${SYMBOLS_DIR}\`"
+            fi
+            if [ -n "${{ inputs.version_note }}" ]; then
+              echo "- note: \`${{ inputs.version_note }}\`"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Cleanup sensitive files
+        if: always()
+        shell: bash
+        run: |
+          rm -f android/keystore/yeedoy-release.keystore
+          rm -f android/key.properties
+          rm -f .env
+
+  secrets_not_configured:
+    runs-on: ubuntu-latest
+    if: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD == '' || secrets.ANDROID_RELEASE_KEY_ALIAS == '' || secrets.ANDROID_RELEASE_KEY_PASSWORD == '' }}
+    steps:
+      - name: Check secrets configuration
+        shell: bash
+        run: |
+          {
+            echo "## ⚠️ Android Release Signing Secrets Not Configured"
+            echo ""
+            echo "This workflow skipped because required GitHub Actions secrets are missing."
+            echo ""
+            echo "### Required Secrets"
+            echo "Set these in: GitHub → Settings → Secrets and variables → Actions"
+            echo ""
+            echo "| Secret | Description |"
+            echo "|--------|-------------|"
+            echo "| \`ANDROID_KEYSTORE_BASE64\` | Keystore file encoded in base64 (optional; or use file approach) |"
+            echo "| \`ANDROID_RELEASE_STORE_PASSWORD\` | Keystore password |"
+            echo "| \`ANDROID_RELEASE_KEY_ALIAS\` | Key alias within keystore (e.g., \`yeedoy-release\`) |"
+            echo "| \`ANDROID_RELEASE_KEY_PASSWORD\` | Key password |"
+            echo ""
+            echo "### Next Steps"
+            echo "1. Create keystore locally (see docs/mobile-release-readiness.md, Appendix C)"
+            echo "2. Base64 encode the .keystore file: \`base64 < yeedoy.keystore\`"
+            echo "3. Add each secret via GitHub UI or \`gh secret set\`"
+            echo "4. Re-trigger this workflow after secrets are configured"
+            echo ""
+            echo "See: docs/mobile-release-readiness.md"
+          } >> "$GITHUB_STEP_SUMMARY"

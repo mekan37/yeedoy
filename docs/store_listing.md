@@ -3,8 +3,8 @@
 > **Durum:** ⏳ **2 kritik blocker açık — Release readiness bkz. docs/mobile-release-readiness.md**
 >
 > - ✅ Privacy Policy sayfası oluşturuldu: yeedoy.com/gizlilik — Hukuki nihai onay önerilir
-> - Android Keystore + CI secrets yapılandırılması
-> - Data Safety + IARC formu (Google Play)
+> - ✅ Android Keystore + CI workflow teknik altyapısı hazır — Gerçek keystore lokal oluşturulacak + secrets manuel eklenecek
+> - ⏳ Data Safety + IARC formu (Google Play)
 >
 > **Amaç:** ASO (App Store Optimization) için TR/EN başlık, açıklama ve anahtar kelime seti.  
 > **Son Güncelleme:** 2026-04-22
