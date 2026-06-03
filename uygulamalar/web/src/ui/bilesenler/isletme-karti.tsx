@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
+import { getPriceLevel, getPriceLevelClass } from '@/src/lib/fiyat-seviyesi';
 
 interface BusinessTileProps {
   name: string;
@@ -18,12 +19,6 @@ interface BusinessTileProps {
   socialProof?: string[];
   trailingAction?: ReactNode;
   className?: string;
-}
-
-function priceLevelLabel(cents: number): string {
-  if (cents < 5000) return '₺';
-  if (cents < 15000) return '₺₺';
-  return '₺₺₺';
 }
 
 function fmtKm(km: number) {
@@ -113,11 +108,14 @@ export function BusinessTile({
                 {category}
               </span>
             )}
-            {medianPriceCents != null && medianPriceCents > 0 && (
-              <span className="rounded-full border border-border bg-cardAlt px-2 py-0.5 text-[11px] font-[900] text-muted" title={`Medyan fiyat: ₺${(medianPriceCents/100).toFixed(0)}`}>
-                {priceLevelLabel(medianPriceCents)}
-              </span>
-            )}
+            {(() => {
+              const priceLevel = getPriceLevel(medianPriceCents);
+              return priceLevel != null ? (
+                <span className={`rounded-full border border-border bg-cardAlt px-2 py-0.5 text-[11px] font-[900] ${getPriceLevelClass(priceLevel)}`} title={`Medyan fiyat: ₺${((medianPriceCents as number)/100).toFixed(0)}`}>
+                  {priceLevel}
+                </span>
+              ) : null;
+            })()}
             {isOpenNow === true && (
               <span className="inline-flex items-center gap-1 rounded-full border border-success/30 bg-success/[0.10] px-2 py-0.5 text-[11px] font-[800] text-success">
                 <span className="h-[5px] w-[5px] rounded-full bg-success" aria-hidden="true" />
