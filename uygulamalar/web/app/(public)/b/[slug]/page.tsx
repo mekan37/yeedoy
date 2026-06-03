@@ -20,14 +20,17 @@ type Business = {
   is_verified: boolean; is_active: boolean;
 };
 
-type Hours = {
-  mon_open: string | null; mon_close: string | null;
-  tue_open: string | null; tue_close: string | null;
-  wed_open: string | null; wed_close: string | null;
-  thu_open: string | null; thu_close: string | null;
-  fri_open: string | null; fri_close: string | null;
-  sat_open: string | null; sat_close: string | null;
-  sun_open: string | null; sun_close: string | null;
+type WeeklyHourRow = {
+  day_of_week: number;
+  open_time: string;
+  close_time: string;
+  is_closed: boolean;
+};
+
+type HoursRpcResult = {
+  weekly: WeeklyHourRow[];
+  special: unknown[];
+  is_open_now: boolean | null;
 } | null;
 
 type Review = {
@@ -38,24 +41,10 @@ type Review = {
 
 type MenuRow = { id: string; title: string; slug: string | null; status: string };
 
-const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'] as const;
-const DAY_LABELS = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
-
-function isOpenNow(hours: Hours): { open: boolean; closeAt: string | null } {
-  if (!hours) return { open: false, closeAt: null };
-  const now = new Date();
-  const day = DAY_KEYS[now.getDay()];
-  const openStr = hours[`${day}_open` as keyof Hours] as string | null;
-  const closeStr = hours[`${day}_close` as keyof Hours] as string | null;
-  if (!openStr || !closeStr) return { open: false, closeAt: null };
-  const [oh, om] = openStr.split(':').map(Number);
-  const [ch, cm] = closeStr.split(':').map(Number);
-  const nowMins = now.getHours() * 60 + now.getMinutes();
-  const openMins = oh * 60 + om;
-  const closeMins = ch * 60 + cm;
-  const open = nowMins >= openMins && nowMins < closeMins;
-  return { open, closeAt: closeStr.slice(0, 5) };
-}
+// day_of_week: 0=Pazar, 1=Pazartesi ... 6=Cumartesi
+const DOW_LABELS = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+// Display order Mon→Sun (dow values)
+const DOW_ORDER = [1, 2, 3, 4, 5, 6, 0];
 
 function fmtTime(t: string | null) {
   if (!t) return '—';
@@ -92,7 +81,7 @@ export default async function BusinessPage({ params }: Props) {
     (supabase as any).from('menus').select('id, title, slug, status').eq('business_id', biz.id).eq('status', 'published').order('created_at', { ascending: true }).limit(10) as Promise<{ data: MenuRow[] | null }>,
     (supabase as any).from('business_reviews').select('id, rating, body, content, created_at, verified_visit, user_profiles!user_id(display_name)').eq('business_id', biz.id).eq('is_visible', true).order('created_at', { ascending: false }).limit(5) as Promise<{ data: Review[] | null }>,
     (supabase as any).from('business_reviews').select('rating', { count: 'exact' }).eq('business_id', biz.id).eq('is_visible', true) as Promise<{ data: { rating: number }[] | null; count: number | null }>,
-    (supabase as any).from('business_hours').select('*').eq('business_id', biz.id).maybeSingle() as Promise<{ data: Hours }>,
+    (supabase as any).rpc('get_business_hours_v1', { p_business_id: biz.id }) as Promise<{ data: HoursRpcResult }>,
     (supabase as any).from('menu_item_photos').select('url, url_thumb').eq('business_id', biz.id).eq('status', 'approved').eq('is_hidden', false).order('up_votes', { ascending: false }).limit(9) as Promise<{ data: Array<{ url: string; url_thumb: string | null }> | null }>,
   ]);
 
@@ -101,9 +90,19 @@ export default async function BusinessPage({ params }: Props) {
   const reviewCount = statsRes.count ?? 0;
   const ratings = statsRes.data ?? [];
   const avgRating = ratings.length > 0 ? ratings.reduce((s, r) => s + r.rating, 0) / ratings.length : null;
-  const hours = hoursRes.data;
+  const hoursData = hoursRes.data;
+  const weeklyHours = hoursData?.weekly ?? [];
+  // is_open_now is computed server-side with Europe/Istanbul timezone by get_business_hours_v1
+  const isOpen = hoursData?.is_open_now ?? false;
+  const hasHours = weeklyHours.length > 0;
+
+  // Find close time for today's badge (Istanbul UTC+3)
+  const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
+  const todayDow = nowIstanbul.getUTCDay();
+  const todayRow = weeklyHours.find((r) => r.day_of_week === todayDow);
+  const closeAt = todayRow && !todayRow.is_closed ? todayRow.close_time.slice(0, 5) : null;
+
   const photos = photosRes.data ?? [];
-  const { open: isOpen, closeAt } = isOpenNow(hours);
 
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const hasContact = biz.phone || biz.whatsapp_number || biz.website || biz.instagram_handle || biz.address || (biz.lat && biz.lng);
@@ -156,7 +155,7 @@ export default async function BusinessPage({ params }: Props) {
                     Doğrulanmış
                   </span>
                 )}
-                {hours && (
+                {hasHours && (
                   <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${isOpen ? 'bg-green-500/90 text-white' : 'bg-black/50 text-white/80'}`}>
                     {isOpen ? `Açık · ${closeAt}'e kadar` : 'Şu an kapalı'}
                   </span>
@@ -303,20 +302,23 @@ export default async function BusinessPage({ params }: Props) {
           <aside className="space-y-4">
 
             {/* Hours card */}
-            {hours && (
+            {hasHours && (
               <div className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
                 <h3 className="mb-3 flex items-center gap-2 text-sm font-[900] text-textStrong">
                   <ClockIcon /> Çalışma Saatleri
                 </h3>
                 <ul className="space-y-1.5">
-                  {DAY_KEYS.map((day, idx) => {
-                    const openT = hours[`${day}_open` as keyof Hours] as string | null;
-                    const closeT = hours[`${day}_close` as keyof Hours] as string | null;
-                    const isToday = idx === new Date().getDay();
+                  {DOW_ORDER.map((dow) => {
+                    const row = weeklyHours.find((r) => r.day_of_week === dow);
+                    const isToday = dow === todayDow;
+                    const label = DOW_LABELS[dow] ?? String(dow);
+                    const value = row && !row.is_closed
+                      ? `${fmtTime(row.open_time)} – ${fmtTime(row.close_time)}`
+                      : 'Kapalı';
                     return (
-                      <li key={day} className={`flex items-center justify-between text-xs ${isToday ? 'font-[800] text-textStrong' : 'text-muted'}`}>
-                        <span>{DAY_LABELS[idx]}{isToday && ' (bugün)'}</span>
-                        <span>{openT ? `${fmtTime(openT)} – ${fmtTime(closeT)}` : 'Kapalı'}</span>
+                      <li key={dow} className={`flex items-center justify-between text-xs ${isToday ? 'font-[800] text-textStrong' : 'text-muted'}`}>
+                        <span>{label}{isToday && ' (bugün)'}</span>
+                        <span>{value}</span>
                       </li>
                     );
                   })}

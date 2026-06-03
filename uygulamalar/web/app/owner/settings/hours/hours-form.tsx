@@ -4,29 +4,38 @@ import { useState, useTransition } from 'react';
 import { PanelActionButton } from '@/src/ui/components/panel-action-button';
 import { saveHours } from './actions';
 
-type Hours = {
-  mon_open: string | null; mon_close: string | null;
-  tue_open: string | null; tue_close: string | null;
-  wed_open: string | null; wed_close: string | null;
-  thu_open: string | null; thu_close: string | null;
-  fri_open: string | null; fri_close: string | null;
-  sat_open: string | null; sat_close: string | null;
-  sun_open: string | null; sun_close: string | null;
-} | null;
+// day_of_week: 0=Pazar, 1=Paz, ..., 6=Cumartesi (matches business_weekly_hours)
+export type WeeklyHourRow = {
+  day_of_week: number;
+  open_time: string;
+  close_time: string;
+  is_closed: boolean;
+};
 
 const DAYS = [
-  { key: 'mon', label: 'Pazartesi' },
-  { key: 'tue', label: 'Salı' },
-  { key: 'wed', label: 'Çarşamba' },
-  { key: 'thu', label: 'Perşembe' },
-  { key: 'fri', label: 'Cuma' },
-  { key: 'sat', label: 'Cumartesi' },
-  { key: 'sun', label: 'Pazar' },
+  { key: 'mon', label: 'Pazartesi', dow: 1 },
+  { key: 'tue', label: 'Salı', dow: 2 },
+  { key: 'wed', label: 'Çarşamba', dow: 3 },
+  { key: 'thu', label: 'Perşembe', dow: 4 },
+  { key: 'fri', label: 'Cuma', dow: 5 },
+  { key: 'sat', label: 'Cumartesi', dow: 6 },
+  { key: 'sun', label: 'Pazar', dow: 0 },
 ] as const;
 
-export function HoursForm({ businessId, hours }: { businessId: string; hours: Hours }) {
+export function HoursForm({
+  businessId,
+  hours,
+}: {
+  businessId: string;
+  hours: WeeklyHourRow[] | null;
+}) {
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
+
+  // Index weekly rows by day_of_week for O(1) lookup
+  const byDow = new Map<number, WeeklyHourRow>(
+    (hours ?? []).map((r) => [r.day_of_week, r]),
+  );
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,14 +51,15 @@ export function HoursForm({ businessId, hours }: { businessId: string; hours: Ho
   return (
     <form onSubmit={handleSubmit}>
       <div className="space-y-3">
-        {DAYS.map(({ key, label }) => {
-          const openVal = hours?.[`${key}_open` as keyof Hours] ?? '';
-          const closeVal = hours?.[`${key}_close` as keyof Hours] ?? '';
+        {DAYS.map(({ key, label, dow }) => {
+          const row = byDow.get(dow);
+          const openVal = row && !row.is_closed ? row.open_time.slice(0, 5) : '';
+          const closeVal = row && !row.is_closed ? row.close_time.slice(0, 5) : '';
           return (
             <div key={key} className="grid grid-cols-[120px_1fr_1fr] items-center gap-3">
               <span className="text-sm font-[700] text-textStrong">{label}</span>
-              <TimeInput name={`${key}_open`} defaultValue={openVal as string} placeholder="09:00" />
-              <TimeInput name={`${key}_close`} defaultValue={closeVal as string} placeholder="22:00" />
+              <TimeInput name={`${key}_open`} defaultValue={openVal} placeholder="09:00" />
+              <TimeInput name={`${key}_close`} defaultValue={closeVal} placeholder="22:00" />
             </div>
           );
         })}

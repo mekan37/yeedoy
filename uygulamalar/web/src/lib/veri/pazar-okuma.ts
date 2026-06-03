@@ -328,24 +328,55 @@ async function enrichBusinessCards(businesses: AcikIsletmeKarti[]) {
   });
 }
 
+// day_of_week to display label mapping (0=Pazar, 1=Pazartesi ... 6=Cumartesi)
+const DOW_LABELS: Record<number, string> = {
+  1: 'Pazartesi',
+  2: 'Salı',
+  3: 'Çarşamba',
+  4: 'Perşembe',
+  5: 'Cuma',
+  6: 'Cumartesi',
+  0: 'Pazar',
+};
+
+// Display order for the hours list (Mon→Sun)
+const DOW_ORDER = [1, 2, 3, 4, 5, 6, 0];
+
 async function getBusinessHoursRows(businessId: string) {
   const supabase = createSupabasePublicClient();
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
-  const { data } = await supabaseAny.from('business_hours').select('*').eq('business_id', businessId).maybeSingle() as { data: any | null };
-  if (!data) return [];
-  const days = [
-    ['Pazartesi', data.mon_open, data.mon_close, 1],
-    ['Salı', data.tue_open, data.tue_close, 2],
-    ['Çarşamba', data.wed_open, data.wed_close, 3],
-    ['Perşembe', data.thu_open, data.thu_close, 4],
-    ['Cuma', data.fri_open, data.fri_close, 5],
-    ['Cumartesi', data.sat_open, data.sat_close, 6],
-    ['Pazar', data.sun_open, data.sun_close, 0],
-  ] as const;
-  const today = new Date().getDay();
-  return days.map(([label, open, close, day]) => ({
-    label,
-    value: open && close ? `${String(open).slice(0, 5)} - ${String(close).slice(0, 5)}` : 'Kapalı',
-    active: day === today,
-  }));
+
+  // Use get_business_hours_v1 which reads business_weekly_hours (canonical table).
+  // is_open_now is computed server-side with Europe/Istanbul timezone — no client Date math.
+  const { data } = await supabaseAny.rpc('get_business_hours_v1', {
+    p_business_id: businessId,
+  }) as {
+    data: {
+      weekly: Array<{ day_of_week: number; open_time: string; close_time: string; is_closed: boolean }>;
+      special: unknown[];
+      is_open_now: boolean | null;
+    } | null;
+  };
+
+  if (!data?.weekly || data.weekly.length === 0) return [];
+
+  const byDow = new Map(data.weekly.map((r) => [r.day_of_week, r]));
+
+  // Istanbul DOW for "today" badge — derived from is_open_now context is not available here,
+  // so we use a lightweight server-side approximation: UTC+3 offset.
+  const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
+  const todayDow = nowIstanbul.getUTCDay(); // 0=Sun ... 6=Sat, same convention as business_weekly_hours
+
+  return DOW_ORDER.map((dow) => {
+    const row = byDow.get(dow);
+    const label = DOW_LABELS[dow] ?? String(dow);
+    if (!row || row.is_closed) {
+      return { label, value: 'Kapalı', active: dow === todayDow };
+    }
+    return {
+      label,
+      value: `${row.open_time.slice(0, 5)} - ${row.close_time.slice(0, 5)}`,
+      active: dow === todayDow,
+    };
+  });
 }

@@ -7,7 +7,8 @@ import type { ResolvedPresentationRecord } from '@/src/lib/sunum-ayarlari';
 
 type Business = Database['public']['Tables']['businesses']['Row'];
 type BusinessMedia = Database['public']['Tables']['business_media']['Row'];
-type BusinessHours = Database['public']['Tables']['business_hours']['Row'];
+// BusinessHours (legacy wide-format table) type retained only for internal reference.
+// New code uses BusinessHoursInfo from get_business_hours_v1 RPC.
 type Menu = Database['public']['Tables']['menus']['Row'];
 type MenuCategory = Database['public']['Tables']['menu_categories']['Row'];
 type MenuSection = Database['public']['Tables']['menu_sections']['Row'];
@@ -51,7 +52,7 @@ export type BusinessSocialLinks = {
 
 export type PublicMenuData = {
   business: Business;
-  businessHours: BusinessHours | null;
+  businessHours: BusinessHoursInfo;
   socialLinks: BusinessSocialLinks | null;
   media: BusinessMediaBundle;
   presentation: ResolvedPresentationRecord;
@@ -160,29 +161,13 @@ export async function getBusinessBySlugOrId(identifier: string) {
   return getBusinessBySlugCached(slug);
 }
 
-const getBusinessHoursCached = unstable_cache(
-  async (businessId: string) => {
-    const supabase = createSupabasePublicClient();
-    const { data, error } = await supabase
-      .from('business_hours')
-      .select('*')
-      .eq('business_id', businessId)
-      .maybeSingle();
-
-    if (error) {
-      logger.warn('Failed to fetch business hours', { businessId, error });
-      return null;
-    }
-
-    return (data ?? null) as BusinessHours | null;
-  },
-  ['public-business-hours'],
-  { revalidate: 600 },
-);
-
-export async function getBusinessHours(businessId: string) {
-  return getBusinessHoursCached(businessId);
-}
+/**
+ * @deprecated Reads legacy business_hours (wide-format) table which is no longer written
+ * by the owner panel. Use getBusinessHoursInfo() which calls get_business_hours_v1 RPC
+ * and reads the canonical business_weekly_hours table instead.
+ * Remove after 2026-09-01.
+ */
+// getBusinessHours / getBusinessHoursCached removed — all callers migrated to getBusinessHoursInfo.
 
 export type BusinessHoursInfo = {
   isOpenNow: boolean | null;
@@ -548,7 +533,7 @@ export async function getPublicMenuData(businessSlugOrId: string): Promise<Publi
   if (!business) return null;
 
   const [businessHours, socialLinks, media, menu, presentation] = await Promise.all([
-    getBusinessHours(business.id),
+    getBusinessHoursInfo(business.id),
     getBusinessSocialLinksCached(business.id),
     getBusinessMedia(business),
     getMenuForBusiness(business.id),
