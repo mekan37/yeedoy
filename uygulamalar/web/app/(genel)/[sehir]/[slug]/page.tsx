@@ -24,6 +24,8 @@ type LocalBusiness = {
   review_count?: number | null;
   price_level?: string | null;
   median_price_cents?: number | null;
+  district_slug?: string | null;
+  category_slug?: string | null;
 };
 
 export const revalidate = 3600;
@@ -47,39 +49,54 @@ function slugify(text: string): string {
 
 type PageMode = 'district' | 'category';
 
-// cache() memoizes per-request: generateMetadata + page component share one DB call pair.
-// If slug matches both district and category, district wins (>= count bias — acceptable determinism).
+// cache() memoizes per-request: generateMetadata + page component share one DB call.
+// Deterministic resolution: district_slug exact match wins over category_slug exact match.
+// Partial ilike fallback covers categories whose slugify() output differs from category_slug
+// (e.g. "Kahvaltı" → "kahvalti" in DB but URL param may vary), preserving old URL behaviour.
 const resolveMode = cache(async (
-  cityLabel: string,
-  slugLabel: string,
+  citySlug: string,   // URL param — already lowercase+slugified (e.g. "istanbul")
+  slugParam: string,  // URL param — district or category slug (e.g. "besiktas", "kahve")
 ): Promise<{ mode: PageMode; businesses: LocalBusiness[] }> => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return { mode: 'category', businesses: [] };
   try {
     const supabase = createSupabasePublicClient();
-    const [districtResult, categoryResult] = await Promise.all([
-      (supabase as any)
-        .from('businesses')
-        .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents')
-        .eq('is_active', true)
-        .ilike('city', cityLabel)
-        .ilike('district', slugLabel)
-        .order('avg_rating', { ascending: false })
-        .limit(60),
-      (supabase as any)
-        .from('businesses')
-        .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents')
-        .eq('is_active', true)
-        .ilike('city', cityLabel)
-        .ilike('category', `%${slugLabel}%`)
-        .order('avg_rating', { ascending: false })
-        .limit(60),
-    ]);
-    const districtBiz: LocalBusiness[] = districtResult.data ?? [];
-    const categoryBiz: LocalBusiness[] = categoryResult.data ?? [];
-    if (districtBiz.length >= categoryBiz.length && districtBiz.length > 0) {
-      return { mode: 'district', businesses: districtBiz };
+
+    // Single OR query — hits partial indexes on district_slug and category_slug.
+    const { data } = await (supabase as any)
+      .from('businesses')
+      .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents,district_slug,category_slug')
+      .eq('is_active', true)
+      .eq('city_slug', citySlug)
+      .or(`district_slug.eq.${slugParam},category_slug.eq.${slugParam}`)
+      .order('avg_rating', { ascending: false })
+      .limit(60);
+
+    const allResults: LocalBusiness[] = data ?? [];
+
+    // District is always preferred when both match (deterministic — no count comparison).
+    const districtBiz = allResults.filter((b) => b.district_slug === slugParam);
+    const categoryBiz = allResults.filter((b) => b.category_slug === slugParam);
+
+    if (districtBiz.length > 0) return { mode: 'district', businesses: districtBiz };
+    if (categoryBiz.length > 0) return { mode: 'category', businesses: categoryBiz };
+
+    // Partial match fallback: covers categories stored with different Turkish char mapping
+    // (e.g. URL "kahvalti" while DB category is "Kahvaltı" → category_slug "kahvalti").
+    // This path is uncommon after migration but preserves backward compatibility.
+    const { data: partialData } = await (supabase as any)
+      .from('businesses')
+      .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents')
+      .eq('is_active', true)
+      .eq('city_slug', citySlug)
+      .ilike('category', `%${slugParam.replace(/-/g, ' ')}%`)
+      .order('avg_rating', { ascending: false })
+      .limit(60);
+
+    if ((partialData?.length ?? 0) > 0) {
+      return { mode: 'category', businesses: partialData };
     }
-    return { mode: 'category', businesses: categoryBiz };
+
+    return { mode: 'category', businesses: [] };
   } catch {
     return { mode: 'category', businesses: [] };
   }
@@ -91,7 +108,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slugLabel = slug2label(slug);
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const canonical = `${siteUrl}/${sehir}/${slug}`;
-  const { mode } = await resolveMode(cityLabel, slugLabel);
+  const { mode } = await resolveMode(sehir, slug);
   const title = mode === 'district'
     ? `${slugLabel}, ${cityLabel} — Restoran ve Menüler | Yeedoy`
     : `${slugLabel} — ${cityLabel} | Güncel Fiyatlar | Yeedoy`;
@@ -111,7 +128,7 @@ export default async function SehirSlugPage({ params }: Props) {
   const cityLabel = slug2label(sehir);
   const slugLabel = slug2label(slug);
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
-  const { mode, businesses } = await resolveMode(cityLabel, slugLabel);
+  const { mode, businesses } = await resolveMode(sehir, slug);
 
   if (businesses.length === 0) notFound();
 
