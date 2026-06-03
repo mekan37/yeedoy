@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/network/connectivity_restore_service.dart';
+import '../core/privacy/consent_guard.dart';
+import '../core/privacy/data/consent_provider.dart';
 import '../core/storage/theme_prefs.dart';
 import '../features/auth/domain/auth_providers.dart';
 import '../features/notifications/domain/push_notification_lifecycle_provider.dart';
@@ -74,7 +76,7 @@ class YeedoyApp extends ConsumerWidget {
   }
 }
 
-class _GlobalPushIntentListener extends ConsumerWidget {
+class _GlobalPushIntentListener extends ConsumerStatefulWidget {
   const _GlobalPushIntentListener({
     required this.router,
     required this.data,
@@ -86,7 +88,46 @@ class _GlobalPushIntentListener extends ConsumerWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_GlobalPushIntentListener> createState() =>
+      _GlobalPushIntentListenerState();
+}
+
+class _GlobalPushIntentListenerState
+    extends ConsumerState<_GlobalPushIntentListener> {
+  /// Prevents the consent sheet from being shown more than once per session,
+  /// even if the widget rebuilds (e.g. theme/locale changes).
+  bool _consentShown = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Schedule the consent check after the first frame so that:
+    // 1. The Navigator is mounted and can host the bottom sheet.
+    // 2. ConsentNotifier._init() has had a chance to load from SharedPreferences.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _maybeShowConsent();
+    });
+  }
+
+  Future<void> _maybeShowConsent() async {
+    if (!mounted || _consentShown) return;
+
+    // ConsentNotifier._init() is async — it calls SharedPreferences.getInstance()
+    // which resolves in the microtask queue. A single extra event-loop turn
+    // ensures that future has settled before we read the state.
+    await Future<void>.delayed(Duration.zero);
+
+    if (!mounted || _consentShown) return;
+    final state = ref.read(consentNotifierProvider);
+    if (state.hasDecided) return;
+
+    // Mark before await so concurrent rebuilds can never enter twice.
+    _consentShown = true;
+    await ConsentGuard.checkAndShow(context, ref);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ref.watch(androidDebugPushLifecycleProvider);
     ref.watch(connectivityRestoreLifecycleProvider);
     ref.watch(offlineSyncLifecycleProvider);
@@ -97,7 +138,7 @@ class _GlobalPushIntentListener extends ConsumerWidget {
       final event = next.asData?.value.event;
       if (event == AuthChangeEvent.passwordRecovery) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          router.go('/account-security');
+          widget.router.go('/account-security');
         });
       }
     });
@@ -108,7 +149,7 @@ class _GlobalPushIntentListener extends ConsumerWidget {
         debugPrint('[GlobalPushIntentListener] route=${next.route}');
         return true;
       }());
-      router.go(next.route);
+      widget.router.go(next.route);
       ref.read(pushTapIntentProvider.notifier).clear();
     });
 
@@ -118,15 +159,16 @@ class _GlobalPushIntentListener extends ConsumerWidget {
         final current = ref.read(pushTapIntentProvider);
         if (current == null) return;
         assert(() {
-          debugPrint('[GlobalPushIntentListener] pendingRoute=${current.route}');
+          debugPrint(
+              '[GlobalPushIntentListener] pendingRoute=${current.route}');
           return true;
         }());
-        router.go(current.route);
+        widget.router.go(current.route);
         ref.read(pushTapIntentProvider.notifier).clear();
       });
     }
 
-    return MediaQuery(data: data, child: child);
+    return MediaQuery(data: widget.data, child: widget.child);
   }
 }
 
