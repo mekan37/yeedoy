@@ -986,6 +986,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                     isOpenNow: entry.value.isOpenNow,
                                     medianPriceCents:
                                         entry.value.medianPriceCents,
+                                    priceLevel: entry.value.priceLevel,
                                     socialProof: _discoverySocialProof(
                                       context: context,
                                       item: entry.value,

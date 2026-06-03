@@ -243,6 +243,7 @@ class _MicroTrendSection extends StatelessWidget {
                       mealCardProviders: entry.value.business.mealCardProviders,
                       isOpenNow: entry.value.business.isOpenNow,
                       medianPriceCents: entry.value.business.medianPriceCents,
+                      priceLevel: entry.value.business.priceLevel,
                       socialProof: [
                         AppLocalizations.of(context).rankedAt(entry.key + 1),
                         metricLabel(entry.value),
