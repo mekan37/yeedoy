@@ -18,6 +18,7 @@ type LocalBusiness = {
   is_verified?: boolean | null;
   avg_rating?: number | null;
   review_count?: number | null;
+  price_level?: string | null;
   median_price_cents?: number | null;
 };
 
@@ -72,7 +73,7 @@ async function fetchBusinesses(city: string, district: string, category: string)
     const supabase = createSupabasePublicClient();
     const { data } = await (supabase as any)
       .from('businesses')
-      .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,median_price_cents')
+      .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents')
       .eq('is_active', true)
       .ilike('city', city)
       .ilike('district', district)
@@ -192,6 +193,7 @@ export default async function SehirSlugKategoriPage({ params }: Props) {
               subtitle={`${b.district ?? districtLabel} · ${b.city ?? cityLabel}`}
               isVerified={b.is_verified ?? false}
               qualityScore={b.avg_rating}
+              priceLevel={b.price_level ?? undefined}
               medianPriceCents={b.median_price_cents ?? undefined}
             />
           ))}

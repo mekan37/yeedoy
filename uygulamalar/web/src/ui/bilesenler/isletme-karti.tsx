@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { type ReactNode } from 'react';
-import { getPriceLevel, getPriceLevelClass } from '@/src/lib/fiyat-seviyesi';
+import { getPriceLevelFromBusiness, getPriceLevelClass } from '@/src/lib/fiyat-seviyesi';
 
 interface BusinessTileProps {
   name: string;
@@ -14,7 +14,9 @@ interface BusinessTileProps {
   distanceKm?: number | null;
   /** null = bilinmiyor (rozet gizlenir). true = açık, false = kapalı. */
   isOpenNow?: boolean | null;
-  /** Medyan fiyat (kuruş cinsinden) — fiyat seviyesi rozetini hesaplamak için */
+  /** DB'den gelen fiyat seviyesi: 'budget' | 'mid' | 'premium' | null */
+  priceLevel?: string | null;
+  /** Medyan fiyat (kuruş cinsinden) — priceLevel NULL ise fallback */
   medianPriceCents?: number | null;
   socialProof?: string[];
   trailingAction?: ReactNode;
@@ -37,6 +39,7 @@ export function BusinessTile({
   qualityScore,
   distanceKm,
   isOpenNow,
+  priceLevel,
   medianPriceCents,
   socialProof,
   trailingAction,
@@ -101,7 +104,7 @@ export function BusinessTile({
         )}
 
         {/* Category + açık/kapalı + fiyat seviyesi rozeti */}
-        {(category || isOpenNow != null || medianPriceCents != null) && (
+        {(category || isOpenNow != null || priceLevel != null || medianPriceCents != null) && (
           <div className="flex flex-wrap items-center gap-1.5">
             {category && (
               <span className="rounded-full bg-[var(--yd-color-primary-soft)] px-2 py-0.5 text-xs font-[800] text-primary">
@@ -109,10 +112,10 @@ export function BusinessTile({
               </span>
             )}
             {(() => {
-              const priceLevel = getPriceLevel(medianPriceCents);
-              return priceLevel != null ? (
-                <span className={`rounded-full border border-border bg-cardAlt px-2 py-0.5 text-[11px] font-[900] ${getPriceLevelClass(priceLevel)}`} title={`Medyan fiyat: ₺${((medianPriceCents as number)/100).toFixed(0)}`}>
-                  {priceLevel}
+              const { level } = getPriceLevelFromBusiness(priceLevel, medianPriceCents);
+              return level != null ? (
+                <span className={`rounded-full border border-border bg-cardAlt px-2 py-0.5 text-[11px] font-[900] ${getPriceLevelClass(level)}`}>
+                  {level}
                 </span>
               ) : null;
             })()}
