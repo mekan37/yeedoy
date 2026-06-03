@@ -265,9 +265,9 @@ biometric data kategorisinde beyan gerekmez.
 |---|---|---|
 | Identifiers | Evet | AdMob advertising ID (ATT kapsaminda) |
 
-**Not:** iOS 14.5+ icin ATT (App Tracking Transparency) frameworku eklenmemistir.
-AdMob kullanimi icin ATT popup zorunludur; aksi halde App Store onay reddedilme riski vardir.
-Bu surumde `NSUserTrackingUsageDescription` Info.plist'e eklenmeli ve ATT entegrasyonu yapilmalidir.
+**Not:** iOS 14.5+ ATT (App Tracking Transparency) framework zorunluluğu:
+- [x] `NSUserTrackingUsageDescription` Info.plist'e eklendi (PR fix/mobile-ios-att-description)
+- [ ] ATT popup (UMP SDK) — opsiyonel ama önerilir (GDPR/AB için)
 
 ### Data Linked to You
 
@@ -323,7 +323,7 @@ Bu surumde `NSUserTrackingUsageDescription` Info.plist'e eklenmeli ve ATT entegr
 
 | # | Madde | Aciklama |
 |---|---|---|
-| 1 | ATT Framework (iOS) | `NSUserTrackingUsageDescription` Info.plist'e eklenmeli, ATT popup tetiklenmeli |
+| 1 | ATT Framework (iOS) | ~~`NSUserTrackingUsageDescription` Info.plist'e eklenmeli~~ ✅ Eklendi (PR fix/mobile-ios-att-description) — ATT popup (UMP SDK) opsiyonel ama önerilir |
 | 2 | Google Play Data Safety formu | Bu belgeden yararlanarak Play Console'da manuel doldurulacak |
 | 3 | IARC formu | Play Console'da questionnaire tamamlanacak |
 

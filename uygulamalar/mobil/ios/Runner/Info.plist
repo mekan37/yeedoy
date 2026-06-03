@@ -54,6 +54,8 @@
 	<string>ca-app-pub-1150074560839161~8895703262</string>
 
 	<!-- ── İzin açıklamaları (App Store zorunlu) ─────────────────── -->
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Size daha ilgili reklamlar gösterebilmek ve reklam performansını ölçebilmek için uygulama etkinliğinizin diğer şirketlere ait uygulama ve web sitelerinde izlenmesine izin isteyebiliriz.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Menü fotoğrafı çekmek ve barkod/QR okumak için kamera gereklidir.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
