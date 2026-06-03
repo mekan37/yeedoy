@@ -983,6 +983,9 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                     isSponsored: sponsoredIds.contains(
                                       entry.value.id,
                                     ),
+                                    isOpenNow: entry.value.isOpenNow,
+                                    medianPriceCents:
+                                        entry.value.medianPriceCents,
                                     socialProof: _discoverySocialProof(
                                       context: context,
                                       item: entry.value,
