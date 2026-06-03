@@ -24,6 +24,7 @@ class BusinessTile extends StatelessWidget {
     this.isSponsored = false,
     this.isOpenNow,
     this.medianPriceCents,
+    this.priceLevel,
   });
 
   final String name;
@@ -45,12 +46,13 @@ class BusinessTile extends StatelessWidget {
   /// hidden. False means closed, true means open.
   final bool? isOpenNow;
 
-  /// Median price in Turkish kurus (1/100 TL). Null or zero hides the badge.
-  ///
-  /// TODO(P2): Replace threshold-based mapping with `businesses.price_level`
-  /// column once the migration from docs/db-open-hours-price-badge-plan.md
-  /// (section 5.2) is applied. See: compute_business_price_level_v1.
+  /// Median price in Turkish kurus (1/100 TL). Used as fallback when
+  /// [priceLevel] is null. Null or zero hides the badge.
   final int? medianPriceCents;
+
+  /// DB `price_level` column value: 'budget' | 'mid' | 'premium' | null.
+  /// Takes precedence over [medianPriceCents] for badge display.
+  final String? priceLevel;
 
   String? _fmtKm(double? km) {
     if (km == null) return null;
@@ -58,17 +60,31 @@ class BusinessTile extends StatelessWidget {
     return '${km.toStringAsFixed(km < 10 ? 1 : 0)} km';
   }
 
-  /// Returns a ₺ symbol string based on [cents], or null when cents is
-  /// unavailable/zero. Thresholds are in kurus (1/100 TL).
+  /// Returns a ₺ symbol string for the price badge.
   ///
-  /// TODO(P2): Replace with `businesses.price_level` column value once the
-  /// migration from docs/db-open-hours-price-badge-plan.md (section 5.2)
-  /// is applied; update this helper to read 'budget'/'mid'/'premium' directly.
-  static String? _priceLevelSymbol(int? cents) {
+  /// [priceLevel] (DB column) is checked first:
+  ///   'budget' → ₺, 'mid' → ₺₺, 'premium' → ₺₺₺
+  ///
+  /// Falls back to threshold-based mapping from [cents] (kurus, 1/100 TL)
+  /// when [priceLevel] is null or unrecognised:
+  ///   < 20 000 → ₺ (< 200 TL), < 45 000 → ₺₺ (200–450 TL), else → ₺₺₺
+  ///
+  /// Returns null when both inputs are absent/zero — badge is hidden.
+  static String? _priceLevelBadge(String? priceLevel, int? cents) {
+    switch (priceLevel) {
+      case 'budget':
+        return '₺';
+      case 'mid':
+        return '₺₺';
+      case 'premium':
+        return '₺₺₺';
+      default:
+        break;
+    }
     if (cents == null || cents <= 0) return null;
-    if (cents < 20000) return '₺';      // < 200 TL
-    if (cents < 45000) return '₺₺';    // 200-450 TL
-    return '₺₺₺';                      // > 450 TL
+    if (cents < 20000) return '₺';
+    if (cents < 45000) return '₺₺';
+    return '₺₺₺';
   }
 
   @override
@@ -195,10 +211,10 @@ class BusinessTile extends StatelessWidget {
                   const SponsoredBadge(),
                   const SizedBox(height: 4),
                 ],
-                if (isOpenNow != null || _priceLevelSymbol(medianPriceCents) != null) ...[
+                if (isOpenNow != null || _priceLevelBadge(priceLevel, medianPriceCents) != null) ...[
                   _OpenPriceBadgeRow(
                     isOpenNow: isOpenNow,
-                    priceLevelSymbol: _priceLevelSymbol(medianPriceCents),
+                    priceLevelSymbol: _priceLevelBadge(priceLevel, medianPriceCents),
                   ),
                   const SizedBox(height: 6),
                 ],

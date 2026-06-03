@@ -15,6 +15,7 @@ class BusinessCardModel {
     this.avgRating,
     this.trustScore,
     this.medianPriceCents,
+    this.priceLevel,
     this.isOpenNow,
     this.recentPriceVerifiedCount,
     this.ownerVerified,
@@ -36,6 +37,10 @@ class BusinessCardModel {
   final double? avgRating;
   final double? trustScore;
   final int? medianPriceCents;
+
+  /// DB `price_level` column value. One of: 'budget' | 'mid' | 'premium' | null.
+  final String? priceLevel;
+
   final bool? isOpenNow;
   final int? recentPriceVerifiedCount;
   final bool? ownerVerified;
@@ -59,6 +64,7 @@ class BusinessCardModel {
             (m['trust_score'] as num?)?.toDouble() ??
             (m['moat_score'] as num?)?.toDouble(),
         medianPriceCents: (m['median_price_cents'] as num?)?.toInt(),
+        priceLevel: m['price_level'] as String?,
         isOpenNow: m['is_open_now'] as bool?,
         recentPriceVerifiedCount: (m['recent_price_verified_count'] as num?)
             ?.toInt(),
@@ -97,6 +103,7 @@ class BusinessCardModel {
     double? avgRating,
     double? trustScore,
     int? medianPriceCents,
+    String? priceLevel,
     bool? isOpenNow,
     int? recentPriceVerifiedCount,
     bool? ownerVerified,
@@ -117,6 +124,7 @@ class BusinessCardModel {
       avgRating: avgRating ?? this.avgRating,
       trustScore: trustScore ?? this.trustScore,
       medianPriceCents: medianPriceCents ?? this.medianPriceCents,
+      priceLevel: priceLevel ?? this.priceLevel,
       isOpenNow: isOpenNow ?? this.isOpenNow,
       recentPriceVerifiedCount:
           recentPriceVerifiedCount ?? this.recentPriceVerifiedCount,
@@ -140,6 +148,7 @@ class BusinessCardModel {
     'avg_rating': avgRating,
     'trust_score': trustScore,
     'median_price_cents': medianPriceCents,
+    'price_level': priceLevel,
     'is_open_now': isOpenNow,
     'recent_price_verified_count': recentPriceVerifiedCount,
     'owner_verified': ownerVerified,
