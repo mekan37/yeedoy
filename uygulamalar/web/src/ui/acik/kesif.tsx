@@ -6,6 +6,7 @@ import { Badge, ButtonLink, Card, EmptyState, SectionHeader, Skeleton } from '@/
 import { FavoriteButton } from '@/src/ui/acik/eylem-istemcisi';
 import { Icon } from '@/src/ui/acik/simgeler';
 import type { AcikIsletmeKarti } from '@/src/ui/acik/tipler';
+import { getPriceLevel } from '@/src/lib/fiyat-seviyesi';
 
 export const MARKETPLACE_CATEGORIES = [
   { id: '', label: 'Tümü', icon: '🍽' },
@@ -120,6 +121,7 @@ export function BusinessGrid({ businesses, emptyHref = '/kesif' }: { businesses:
 export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
   const slug = business.slug || business.publicSlug || business.id;
   const cover = buildMenuImageUrl(business.coverUrl || business.logoUrl, { width: 700, quality: 78 });
+  const priceLevel = getPriceLevel(business.medianPriceCents);
   return (
     <Card href={`/isletme/${slug}`} className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-48 overflow-hidden bg-cardAlt">
@@ -154,9 +156,11 @@ export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
           ) : null}
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted">
-          <span className="inline-flex items-center rounded-full border border-border bg-bg px-2 py-0.5 text-xs font-[900] text-textStrong">
-            {business.medianPriceCents ? formatPriceLevel(business.medianPriceCents) : '₺₺'}
-          </span>
+          {priceLevel != null && (
+            <span className="inline-flex items-center rounded-full border border-border bg-bg px-2 py-0.5 text-xs font-[900] text-textStrong">
+              {priceLevel}
+            </span>
+          )}
           <span className="inline-flex items-center gap-1"><Icon name="clock" size={15} /> 20-35 dk</span>
           {business.distanceKm ? <span className="inline-flex items-center gap-1"><Icon name="pin" size={15} /> {business.distanceKm.toFixed(1)} km</span> : <span className="inline-flex items-center gap-1"><Icon name="pin" size={15} /> Yakında</span>}
         </div>
@@ -246,12 +250,6 @@ export function DiscoveryResults({
       ) : null}
     </section>
   );
-}
-
-function formatPriceLevel(cents: number) {
-  if (cents < 20000) return '₺';
-  if (cents < 45000) return '₺₺';
-  return '₺₺₺';
 }
 
 export type FiyatSinyalItem = {
@@ -379,13 +377,6 @@ export function BolgeselFiyatEndeksi({ cities }: { cities: BolgeFiyatItem[] }) {
     return `₺${(cents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
   }
 
-  function priceLevel(cents?: number | null) {
-    if (!cents) return '₺';
-    if (cents < 15000) return '₺';
-    if (cents < 35000) return '₺₺';
-    return '₺₺₺';
-  }
-
   return (
     <section>
       <SectionHeader eyebrow="Bölgesel karşılaştırma" title="🗺 Şehre Göre Ortalama Fiyat" className="mb-5" />
@@ -397,7 +388,7 @@ export function BolgeselFiyatEndeksi({ cities }: { cities: BolgeFiyatItem[] }) {
             className="flex items-center gap-4 p-4"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--yd-color-primary-soft)] text-lg font-[900] text-primary">
-              {priceLevel(city.avg_price_cents)}
+              {getPriceLevel(city.avg_price_cents) ?? '—'}
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-[900] text-textStrong">{city.city ?? 'Şehir'}</p>
