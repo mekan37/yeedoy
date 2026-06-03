@@ -1,5 +1,11 @@
 # Yeedoy — App Store / Google Play Mağaza Listeleme Kılavuzu
 
+> **Durum:** ⏳ **3 kritik blocker açık — Release readiness bkz. docs/mobile-release-readiness.md**
+>
+> - Privacy Policy sayfası gerekli (yeedoy.com/gizlilik)
+> - Android Keystore + CI secrets yapılandırılması
+> - Data Safety + IARC formu (Google Play)
+>
 > **Amaç:** ASO (App Store Optimization) için TR/EN başlık, açıklama ve anahtar kelime seti.  
 > **Son Güncelleme:** 2026-04-22
 

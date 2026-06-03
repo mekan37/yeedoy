@@ -1,7 +1,12 @@
 # DB Plan: Açık/Kapalı, Yoğun Saat ve Fiyat Seviyesi Rozeti
 
+> **Durum: TAMAMLANDI — Haziran 2026**
+>
+> P0–P3 tüm maddeler kapatıldı. Bkz. PR #12, #13, #15–#22, #19, #20.
+> Bu dosya artık arşiv niteliğinde — uygulama kodu için kaynak değil.
+>
 > Hazırlanma: 2026-06-03
-> Durum: Planlama — migration henüz yazılmadı
+> Durum: Planlama — migration henüz yazılmadı (ESKI NOT — güncellenmiş)
 > Yazar: postgres-pro analizi
 
 ---

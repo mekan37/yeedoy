@@ -1,5 +1,10 @@
 # Web Slug Resolver — Deterministik Çözüm Planı
 
+> **Durum: AÇIK — Deterministik çözüm (migration seçeneği A) henüz uygulanmadı**
+>
+> Mevcut `/[sehir]/[slug]` route'u count-heuristic kullanıyor (district vs. kategori sayısı karşılaştırılıyor).
+> Seçenek A (ÖNERİLEN): businesses tablosuna slug sütunları eklemek gerekli.
+
 ## Sorun
 
 `/[sehir]/[slug]` route'u slug'ın district mi kategori mi olduğunu count karşılaştırmasıyla

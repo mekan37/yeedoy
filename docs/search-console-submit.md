@@ -1,6 +1,19 @@
 # Google Search Console — Submit Kılavuzu
 
-## Ön Koşullar Kontrol Listesi
+> **Son Güncelleme:** 3 Haziran 2026
+>
+> **Teknik Ön Koşullar:** ✅ **Tamamlandı (PR #9)**
+> - robots.ts: allow/disallow kuralları ✅
+> - sitemap.ts: şehir/ilçe hub sayfaları eklendi ✅
+> - JSON-LD schemas: BreadcrumbList, Restaurant, CollectionPage ✅
+> - Panel noindex ✅
+>
+> **Manuel Adımlar:** ⏳ **Bekleniyor**
+> - Domain verification (DNS TXT veya HTML dosya)
+> - Sitemap XML submit
+> - Coverage audit + Excluded URLs analiz
+>
+> ## Ön Koşullar Kontrol Listesi
 
 ### robots.txt/ts Durumu
 - [x] /sahip/* disallow ✓

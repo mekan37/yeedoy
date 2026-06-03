@@ -1,6 +1,6 @@
 # Yeedoy — Eksik / Kısmi Listesi
 
-> **Tarih:** 2026-06-02  
+> **Tarih:** 2026-06-03 (Haziran 2026 PR #7–#23 sonrası güncellendi)  
 > **Yöntem:** Canlı kod taraması — kaynak kod, migration'lar, edge function'lar, CI workflow'ları  
 > **Kapsam:** Mobile Flutter · Personel Flutter · Next.js Web · Supabase
 
@@ -100,12 +100,36 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 
 ---
 
+## ✅ Tamamlanan — Haziran 2026 (PR #7–#23)
+
+| # | Alan | Madde | PR | Durum |
+|---|---|---|---|---|
+| — | DB | Business hours kalibrasyon hatası (owner → `business_weekly_hours` alignment) | #12 | ✅ |
+| — | Web | Price level rozet tutarsızlığı | #13 | ✅ |
+| — | Mobile | Discovery açık/kapalı + fiyat rozeti | #14, #18 | ✅ |
+| — | DB | `businesses.price_level` sütunu | #15 | ✅ |
+| — | Web | Price level entegrasyonu | #16 | ✅ |
+| — | DB | `search_nearby_businesses_v3` genişletildi | #17 | ✅ |
+| — | Web | SEO sitemap hub sayfaları | #9 | ✅ |
+| — | Web | Panel noindex | #9 | ✅ |
+| — | Ops | KVKK ConsentGuard startup | #7 | ✅ |
+| — | Test | Consent + growth smoke testleri | #8 | ✅ |
+| — | Mobile | Keşif haritası MVP | #22 | ✅ |
+| — | Docs | Fiyat Endeksi medya raporu taslağı | #10 | ✅ |
+| — | Docs | DB açık/kapalı + fiyat rozeti analiz | #11 | ✅ |
+| — | Ops | `analytics_events` composite index | #19 | ✅ |
+| — | DB | `get_business_busy_hours_v1` RPC | #20 | ✅ |
+| — | Web | Owner panel Yoğun Saatler widget | #21 | ✅ |
+| — | Docs | Mobile release readiness checklist | #23 | ✅ |
+
+---
+
 ## Öncelik Sırası
 
 ```
 🔴 1-3   → Provider seç ve bağla (FCM/OneSignal, Netgsm/Twilio, e-posta)
 🟠 4-11  → Owner marketing aktif hale getir (sahip retention doğrudan etkileniyor)
 🟠 12-19 → Admin ops araçlarını tamamla (şu an manuel moderasyon gerekiyor)
-🟡 20-30 → UX ve özellik boşluklarını kapat
+🟡 20-30 → UX ve özellik boşluklarını kapat (açık/kapalı, rozet, harita ✅ tamamlandı)
 ⚪ 31-36 → Teknik borç ve test kapsamı
 ```
