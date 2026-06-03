@@ -119,16 +119,17 @@ File: `uygulamalar/mobil/android/app/src/main/AndroidManifest.xml`
 ### 🟡 Key.properties (Keystore) Status
 
 **Var mı:**
-- `uygulamalar/mobil/android/key.properties` ✅ Var (git'te değil)
-- `uygulamalar/mobil/android/key.properties.example` ✅ Template var
+- `uygulamalar/mobil/android/key.properties.example` ✅ Template güncellendi
+- `uygulamalar/mobil/android/key.properties` ✅ .gitignore'da korumalı
 
 **Gerçek keystore dosyası:**
-- `uygulamalar/mobil/android/yeedoy.keystore` ❓ Kontrol edilmedi (güvenlik)
-- `uygulamalar/mobil/android/*.keystore` ❓ Kontrol edilmedi (güvenlik)
+- `.gitignore`: `**/android/key.properties`, `**/android/keystore/`, `*.keystore` ✅ Güvenli
+- Gerçek keystore ❌ Lokal oluşturulmalı (CI/CD'de base64 secret kullanılacak)
 
 **Durum:**
-- `key.properties` ✅ Template mevcut, örnek değerler gösterilmiş
-- Gerçek keystore ❌ Lokal oluşturulmalı (CI/CD'de env var'lar kullanılacak)
+- `key.properties.example` ✅ Yeterli açıklamalarla güncellendi
+- `.gitignore` ✅ Keystore filesi + key.properties protected
+- CI workflow ✅ `mobile_release.yml` oluşturuldu (secrets kullanıyor)
 
 ---
 
@@ -236,32 +237,45 @@ firebase_performance: ^0.11.1+4    ✅ Performance monitoring
 
 ### ✅ mobile_readiness.yml
 
-**Amaç:** Release öncesi manual validation
+**Amaç:** Release öncesi manual validation + iOS/Android dry run
 
 **Trigger:** `workflow_dispatch` (manuel)
 
-**Checks:**
-- [ ] Manifest permissions doğru
-- [ ] Signing config setup
-- [ ] Keystore accessible
-- [ ] Version bump
-- [ ] Release notes prepared
+**Jobs:**
+- `ios_readiness_audit` — Info.plist, permissions, code signing check
+- `release_gate_audit` — Metrics validation
+- `ios_release_dry_run` (opsiyonel) — Signed IPA build
+- `android_release_dry_run` (opsiyonel) — APK build (secrets gerektiriyor)
+
+### 🆕 mobile_release.yml
+
+**Amaç:** Production AAB build + artifact upload (Google Play store deploy)
+
+**Trigger:** `workflow_dispatch` (manuel — store deploy için)
+
+**Davranış:**
+- Secrets varsa ✅ Flutter AAB build → artifact upload (30 gün) + symbols
+- Secrets yoksa ℹ️ Skip (fail değil) — net uyarı, manuel adımlar gösterir
+
+**Artifacts:**
+- `app-release.aab` — Play Console'a upload edilecek
+- `symbols/` — Crashlytics için (otomatik upload veya manuel)
 
 ---
 
 ## 5. Eksik Dosyalar ve Adımlar
 
-| Eksik | Aciliyet | Çözüm |
-|-------|----------|-------|
-| Privacy Policy URL | ~~CRITICAL~~ ✅ Çözüldü | yeedoy.com/gizlilik — Hukuki nihai onay önerilir |
-| Real keystore file | **HIGH** | `keytool` ile lokal oluştur, CI/CD env var'ları ile dağıt |
-| English permission descriptions (iOS) | **MEDIUM** | Info.plist'e İngilizce açıklamalar ekle |
-| App icon 1024x1024 (Store) | **HIGH** | Icon asset üret ve `appiconset`'e ekle |
-| Store screenshots | **HIGH** | 8 ekran (store_listing.md'den) üret |
-| Content rating questionnaire | **HIGH** | Google Play'de doldur (IARC) |
-| Data safety form | **CRITICAL** | Google Play'de doldur (veri türleri, şifreleme) |
-| Release notes | **MEDIUM** | v1.0 release notes yaz (changelog) |
-| TestFlight/beta testers | **MEDIUM** | Internal testers (Google Groups) kur |
+| Eksik | Aciliyet | Durum | Çözüm |
+|-------|----------|-------|-------|
+| Android Keystore + CI secrets | **HIGH** | 🔧 Teknik altyap hazır | Aşağıya bkz. "Keystore Oluşturma" |
+| Privacy Policy URL | ~~CRITICAL~~ | ✅ Çözüldü | yeedoy.com/gizlilik — Hukuki nihai onay önerilir |
+| English permission descriptions (iOS) | **MEDIUM** | ⏳ TODO | Info.plist'e İngilizce açıklamalar ekle |
+| App icon 1024x1024 (Store) | **HIGH** | ⏳ TODO | Icon asset üret ve `appiconset`'e ekle |
+| Store screenshots | **HIGH** | ⏳ TODO | 8 ekran (store_listing.md'den) üret |
+| Content rating questionnaire | **HIGH** | ⏳ TODO | Google Play'de doldur (IARC) |
+| Data safety form | **CRITICAL** | ⏳ TODO | Google Play'de doldur (veri türleri, şifreleme) |
+| Release notes | **MEDIUM** | ⏳ TODO | v1.0 release notes yaz (changelog) |
+| TestFlight/beta testers | **MEDIUM** | ⏳ TODO | Internal testers (Google Groups) kur |
 
 ---
 
@@ -337,50 +351,88 @@ iOS: `FLUTTER_BUILD_NUMBER` otomatik set edilir
 
 ---
 
-## 7. GitHub Actions Secrets (CI/CD)
+## 7. GitHub Actions Secrets (CI/CD) — Android Release Signing
 
-**Gerekli:**
+**Gerekli Secrets:**
 
-| Secret Name | Açıklama | Örnek |
-|---|---|---|
-| `ANDROID_RELEASE_STORE_FILE` | Keystore dosya path | `android/yeedoy.keystore` |
-| `ANDROID_RELEASE_STORE_PASSWORD` | Keystore password | `***` |
-| `ANDROID_RELEASE_KEY_ALIAS` | Key alias | `yeedoy` |
-| `ANDROID_RELEASE_KEY_PASSWORD` | Key password | `***` |
-| `GOOGLE_PLAY_JSON_KEY` | Play Console service account (base64) | `base64 encoded JSON` |
-| `APP_STORE_CONNECT_API_KEY` | App Store Connect API (p8 file base64) | `base64 encoded p8` |
-| `FIREBASE_TOKEN` | Firebase CLI token (crashlytics symbols) | `firebase token (CI login)` |
+| Secret Name | Açıklama | Durum | Ekleme Yolu |
+|---|---|---|---|
+| `ANDROID_KEYSTORE_BASE64` | Keystore dosyasının base64 kodlanmış hali (opsiyonel) | ⏳ Manuel | Aşağıya bkz. |
+| `ANDROID_RELEASE_STORE_PASSWORD` | Keystore şifresi | ⏳ Manuel | GitHub UI |
+| `ANDROID_RELEASE_KEY_ALIAS` | Key alias (ör: `yeedoy-release`) | ⏳ Manuel | GitHub UI |
+| `ANDROID_RELEASE_KEY_PASSWORD` | Key şifresi | ⏳ Manuel | GitHub UI |
 
-**Setup (PowerShell örneği):**
+**Setup — Keystore Base64 Encoding (Windows PowerShell):**
 
 ```powershell
-# Keystore'u Base64'e çevir
-[Convert]::ToBase64String([IO.File]::ReadAllBytes("yeedoy.keystore")) | Set-Clipboard
+# 1. Lokal keystore oluştur (aşağıya bkz. Appendix C)
+cd C:\yeedoy\uygulamalar\mobil\android
 
-# GitHub Settings → Secrets and variables → Actions → New repository secret
-# ANDROID_KEYSTORE_BASE64 → paste
+# 2. Keystore'u base64'e kodla
+$bytes = [IO.File]::ReadAllBytes("app/yeedoy.keystore")
+$base64 = [Convert]::ToBase64String($bytes)
+$base64 | Set-Clipboard
+
+# 3. GitHub UI'da secret ekle:
+#    Settings → Secrets and variables → Actions → New repository secret
+#    Name: ANDROID_KEYSTORE_BASE64
+#    Value: [paste]
+
+# 4. Diğer 3 secret'ı da ekle (keystore şifresi, alias, key şifresi)
 ```
 
-**CI Workflow'da kullanımı:**
+**Setup — GitHub CLI Alternatifi:**
+
+```bash
+# Keystore base64'e kodla
+base64 < android/app/yeedoy.keystore | tr -d '\n' | gh secret set ANDROID_KEYSTORE_BASE64
+
+# Diğer secrets
+gh secret set ANDROID_RELEASE_STORE_PASSWORD --body "your_store_password"
+gh secret set ANDROID_RELEASE_KEY_ALIAS --body "yeedoy-release"
+gh secret set ANDROID_RELEASE_KEY_PASSWORD --body "your_key_password"
+```
+
+**CI Workflow'da Kullanımı:**
+
+`.github/workflows/mobile_release.yml` — Flutter AAB release build:
 
 ```yaml
-- name: Decode Keystore
-  run: |
-    $bytes = [Convert]::FromBase64String("${{ secrets.ANDROID_KEYSTORE_BASE64 }}")
-    [IO.File]::WriteAllBytes("android/app/yeedoy.keystore", $bytes)
-
-- name: Build Release AAB
+- name: Decode Android keystore
+  shell: bash
   env:
-    ANDROID_RELEASE_STORE_FILE: android/app/yeedoy.keystore
+    ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+  run: |
+    mkdir -p android/keystore
+    echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/keystore/yeedoy-release.keystore
+
+- name: Create key.properties from secrets
+  shell: bash
+  env:
+    ANDROID_RELEASE_STORE_FILE: android/keystore/yeedoy-release.keystore
     ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
     ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
     ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
   run: |
-    cd uygulamalar/mobil
+    cat > android/key.properties << EOF
+    storeFile=$ANDROID_RELEASE_STORE_FILE
+    storePassword=$ANDROID_RELEASE_STORE_PASSWORD
+    keyAlias=$ANDROID_RELEASE_KEY_ALIAS
+    keyPassword=$ANDROID_RELEASE_KEY_PASSWORD
+    EOF
+
+- name: Build Release AAB
+  run: |
     flutter build appbundle --release \
       --obfuscate \
       --split-debug-info=build/app/outputs/symbols
 ```
+
+**Security Notes:**
+- ✅ Keystore dosyası git'e commit edilmez (`.gitignore` koruması)
+- ✅ `key.properties` CI'da secrets'ten oluşturulur
+- ✅ Sensitive dosyalar workflow cleanup'ında silinir
+- ✅ Base64 secret'lar GitHub tarafından encrypted olarak depolanır
 
 ---
 
@@ -680,45 +732,86 @@ Face ID             ✅ NSFaceIDUsageDescription
 
 ## Appendix C: Keystore Creation (Windows PowerShell)
 
+### Step 1: Generate Keystore
+
 ```powershell
 # Windows 11 Pro + JDK 17+
-# Komut: keytool (JDK'nın bir parçası)
+# keytool: JDK'nın bir parçası (%JAVA_HOME%\bin\keytool.exe)
 
 cd C:\yeedoy\uygulamalar\mobil\android
 
-# 1. Keystore oluştur (10 yıl geçerli)
+# Keystore oluştur (10 yıl geçerli)
 keytool -genkey -v `
-  -keystore yeedoy.keystore `
-  -alias yeedoy `
+  -keystore app/yeedoy.keystore `
+  -alias yeedoy-release `
   -keyalg RSA `
   -keysize 2048 `
   -validity 10000 `
   -dname "CN=Yeedoy, O=Yeedoy Inc, L=Istanbul, ST=Istanbul, C=TR"
 
-# Çıktı: yeedoy.keystore (güvenli bir yerde sakla!)
+# İnteraktif sorular:
+#   Keystore password: [enter 16+ character password]
+#   Re-enter password: [confirm]
+#   Key password: [same or different, enter]
+#   Confirm password: [confirm]
 
-# 2. key.properties doldur
-"storeFile=android/app/yeedoy.keystore`n" + `
-"storePassword=<güçlü-şifre>`n" + `
-"keyAlias=yeedoy`n" + `
-"keyPassword=<aynı-veya-farklı-şifre>" | `
-  Out-File -Encoding UTF8 "key.properties"
+# Çıktı: app/yeedoy.keystore (günün sonunda güvenli bir yerde sakla!)
+```
 
-# 3. GitHub Actions secret'ları kur (Base64)
-$keystore = [IO.File]::ReadAllBytes("android/app/yeedoy.keystore")
-$base64 = [Convert]::ToBase64String($keystore)
+### Step 2: Create key.properties (Local Development)
+
+```powershell
+# key.properties.example'i kopyala
+Copy-Item "key.properties.example" -Destination "key.properties"
+
+# Gerçek değerleri doldur
+# (Text editor'da aç ve CHANGE_ME yerine gerçek values'ları koy)
+# storeFile=app/yeedoy.keystore
+# storePassword=<your_keystore_password>
+# keyAlias=yeedoy-release
+# keyPassword=<your_key_password>
+
+# key.properties is git-ignored — güvenli
+```
+
+### Step 3: Verify Keystore
+
+```powershell
+# Keystore doğruluğu kontrol et
+keytool -list -v -keystore app/yeedoy.keystore
+
+# Çıktı: certificate details, validity, alias confirmations
+```
+
+### Step 4: Encode for GitHub Actions Secret
+
+```powershell
+# Keystore'u base64'e kodla (CI için)
+$bytes = [IO.File]::ReadAllBytes("app/yeedoy.keystore")
+$base64 = [Convert]::ToBase64String($bytes)
 $base64 | Set-Clipboard
 
-# GitHub UI'da:
-# Settings → Secrets and variables → Actions → New repository secret
+echo "Base64 encoded keystore copied to clipboard"
+echo "Size: $($base64.Length) characters"
+
+# Clipboard'daki base64'i GitHub secret olarak ekle:
+# GitHub → Settings → Secrets and variables → Actions → New repository secret
 # Name: ANDROID_KEYSTORE_BASE64
 # Value: [paste]
+
+# Diğer 3 secret'ı da ekle:
+# - ANDROID_RELEASE_STORE_PASSWORD (keystore şifresi)
+# - ANDROID_RELEASE_KEY_ALIAS (yeedoy-release)
+# - ANDROID_RELEASE_KEY_PASSWORD (key şifresi)
 ```
 
 **Güvenlik Notları:**
-- Keystore dosyasını GitHub'a upload etme (private key taşıyor)
-- Base64 secret yeterli (CI/CD decrypt edecek)
-- Şifreleri minimum 16 karakter, mixed case + numbers + symbols
+- ✅ Keystore dosyası GIT'E COMMIT ETME (private key taşıyor, `.gitignore` korumalı)
+- ✅ Base64 string'i clipboard'dan temizle (çoğunlukla otomatik, fakat `Clear-Clipboard` de kullanabilirsin)
+- ✅ Şifreleri minimum 16 karakter, mixed case + numbers + symbols kullan
+- ✅ Keystore backupını offline depolamada sakla (USB, safe vb.)
+- ⚠️ Keystore password'ü kâğıda yazıp kilitli yerde sakla (şayet unutırsan, yeni keystore oluştarman gerekir)
+- ⚠️ Base64 string'i sadece GitHub secret'a ekle, GitHub dışında share etme
 
 ---
 

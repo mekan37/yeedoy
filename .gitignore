@@ -66,6 +66,12 @@ test-results/
 **/android/.gradle/
 **/android/app/build/
 **/android/local.properties
+**/android/key.properties
+**/android/keystore/
+**/android/**/*.keystore
+**/android/**/*.jks
+*.keystore
+*.jks
 
 # iOS / macOS
 **/ios/Pods/
