@@ -63,6 +63,7 @@ function normalizeRow(row: any): AcikIsletmeKarti {
     isVerified: row.is_verified ?? false,
     avgRating: row.avg_rating ?? null,
     reviewCount: row.review_count ?? null,
+    priceLevel: typeof row.price_level === 'string' ? row.price_level : null,
     medianPriceCents: row.median_price_cents ?? null,
     menuHref: `/m/${row.slug ?? row.public_slug ?? row.id}`,
   };
@@ -73,7 +74,7 @@ export async function getMapBusinesses(limit = 120): Promise<HaritaIsletme[]> {
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data } = await supabaseAny
     .from('businesses')
-    .select('id,name,slug,public_slug,category,city,district,address,logo_url,cover_url,is_verified,lat,lng')
+    .select('id,name,slug,public_slug,category,city,district,address,logo_url,cover_url,is_verified,lat,lng,price_level')
     .eq('is_active', true)
     .order('created_at', { ascending: false })
     .limit(limit) as { data: any[] | null };

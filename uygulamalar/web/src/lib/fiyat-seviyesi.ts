@@ -1,17 +1,10 @@
 /**
  * Fiyat seviyesi rozeti için tek eşik kaynağı.
  *
- * Mevcut durum (P0 — birleştirme):
- *   isletme-karti.tsx: <5000=₺  <15000=₺₺  ≥15000=₺₺₺  (çok düşük eşikler, eski)
- *   kesif.tsx (BusinessCard): <20000=₺  <45000=₺₺  ≥45000=₺₺₺
- *   kesif.tsx (BolgeselFiyatEndeksi): <15000=₺  <35000=₺₺  ≥35000=₺₺₺
- *
- * Seçilen eşikler: plan dosyasındaki öneriye ve kesif.tsx BusinessCard eşiklerine
- * göre hizalandı — bireysel işletme kartlarında daha gerçekçi Türkiye fiyat aralıkları.
- *
- * TODO(P2 migration): businesses.price_level sütunu + city+category bazlı p33/p66
- * percentile hesabı hazır olduğunda bu helper, DB sütununu tercihli kullanacak.
- * Bkz. docs/db-open-hours-price-badge-plan.md — Bölüm 4 ve 6.
+ * Öncelik sırası:
+ *   1. businesses.price_level DB sütunu ('budget' | 'mid' | 'premium') — PR #15 ile eklendi.
+ *   2. medianPriceCents eşik hesabı (fallback — DB sütunu NULL ise devreye girer).
+ *   3. Her ikisi de NULL → rozet gizlenir.
  *
  * Eşikler enflasyon ile revize edilmeli — değişiklik için bu dosya tek nokta.
  */
@@ -27,6 +20,14 @@ export const PRICE_LEVEL_THRESHOLDS = {
 export type PriceLevel = '₺' | '₺₺' | '₺₺₺';
 
 /**
+ * Fiyat seviyesinin kaynağını belirtir.
+ * 'db'       — businesses.price_level sütunundan geldi (daha güvenilir).
+ * 'computed' — medianPriceCents eşik hesabından türetildi (fallback).
+ * null       — kaynak yok, rozet gösterilmemeli.
+ */
+export type PriceLevelSource = 'db' | 'computed' | null;
+
+/**
  * medianPriceCents değerinden fiyat seviyesi döner.
  * null/undefined ise null döner → rozet gösterilmemeli.
  * 0 veya negatif değer de null döner (geçersiz fiyat verisi).
@@ -36,6 +37,25 @@ export function getPriceLevel(medianPriceCents: number | null | undefined): Pric
   if (medianPriceCents < PRICE_LEVEL_THRESHOLDS.BUDGET) return '₺';
   if (medianPriceCents < PRICE_LEVEL_THRESHOLDS.MID) return '₺₺';
   return '₺₺₺';
+}
+
+/**
+ * businesses.price_level DB sütununu önce dener; NULL ise medianPriceCents'e düşer.
+ *
+ * Kullanım:
+ *   const { level } = getPriceLevelFromBusiness(business.priceLevel, business.medianPriceCents);
+ *   // level null ise rozet gösterme.
+ */
+export function getPriceLevelFromBusiness(
+  priceLevelDb: string | null | undefined,
+  medianPriceCents: number | null | undefined,
+): { level: PriceLevel | null; source: PriceLevelSource } {
+  if (priceLevelDb === 'budget') return { level: '₺', source: 'db' };
+  if (priceLevelDb === 'mid') return { level: '₺₺', source: 'db' };
+  if (priceLevelDb === 'premium') return { level: '₺₺₺', source: 'db' };
+
+  const level = getPriceLevel(medianPriceCents);
+  return { level, source: level != null ? 'computed' : null };
 }
 
 /**

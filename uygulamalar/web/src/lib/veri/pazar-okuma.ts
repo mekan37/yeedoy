@@ -20,7 +20,7 @@ type MarketplaceBusinessDetail = AcikIsletmeKarti & {
 };
 
 const businessSelect =
-  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at';
+  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at,price_level';
 
 const fallbackBusinesses: AcikIsletmeKarti[] = [];
 
@@ -89,6 +89,7 @@ function normalizeBusiness(row: any): AcikIsletmeKarti {
     avgRating: typeof row.avg_rating === 'number' ? row.avg_rating : null,
     reviewCount: typeof row.review_count === 'number' ? row.review_count : null,
     distanceKm: typeof row.distance_km === 'number' ? row.distance_km : null,
+    priceLevel: typeof row.price_level === 'string' ? row.price_level : null,
     medianPriceCents: typeof row.median_price_cents === 'number' ? row.median_price_cents : null,
     recentPriceVerifiedCount: typeof row.recent_price_verified_count === 'number' ? row.recent_price_verified_count : null,
     isOpenNow: typeof row.is_open_now === 'boolean' ? row.is_open_now : null,

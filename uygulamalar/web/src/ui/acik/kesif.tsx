@@ -6,7 +6,7 @@ import { Badge, ButtonLink, Card, EmptyState, SectionHeader, Skeleton } from '@/
 import { FavoriteButton } from '@/src/ui/acik/eylem-istemcisi';
 import { Icon } from '@/src/ui/acik/simgeler';
 import type { AcikIsletmeKarti } from '@/src/ui/acik/tipler';
-import { getPriceLevel } from '@/src/lib/fiyat-seviyesi';
+import { getPriceLevel, getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
 
 export const MARKETPLACE_CATEGORIES = [
   { id: '', label: 'Tümü', icon: '🍽' },
@@ -121,7 +121,7 @@ export function BusinessGrid({ businesses, emptyHref = '/kesif' }: { businesses:
 export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
   const slug = business.slug || business.publicSlug || business.id;
   const cover = buildMenuImageUrl(business.coverUrl || business.logoUrl, { width: 700, quality: 78 });
-  const priceLevel = getPriceLevel(business.medianPriceCents);
+  const { level: priceLevel } = getPriceLevelFromBusiness(business.priceLevel, business.medianPriceCents);
   return (
     <Card href={`/isletme/${slug}`} className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-48 overflow-hidden bg-cardAlt">

@@ -16,6 +16,8 @@ export type AcikIsletmeKarti = {
   avgRating?: number | null;
   reviewCount?: number | null;
   distanceKm?: number | null;
+  /** DB sütunu: 'budget' | 'mid' | 'premium' | null. PR #15 ile eklendi. */
+  priceLevel?: string | null;
   medianPriceCents?: number | null;
   recentPriceVerifiedCount?: number | null;
   menuHref?: string | null;
