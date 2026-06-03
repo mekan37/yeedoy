@@ -6,9 +6,6 @@ import { logger } from '@/src/lib/logger';
 
 export const runtime = 'nodejs';
 
-// Admin ve moderator rolleri
-const ADMIN_ROLES = ['super_admin', 'admin', 'community_mod'] as const;
-
 // Desteklenen export tipleri
 // PII notu: tüm RPC'ler aggregate/anonymized veri döndürür;
 // bireysel kullanıcıya ait satır bu exportlara dahil değildir.
@@ -16,7 +13,7 @@ type ExportType = 'inflation' | 'trends' | 'regional';
 
 const EXPORT_CONFIG: Record<
   ExportType,
-  { rpc: string; params: (days: number, city: string | null) => Record<string, unknown>; filename: (days: number) => string }
+  { rpc: string; params: (days: number) => Record<string, unknown>; filename: (days: number) => string }
 > = {
   inflation: {
     rpc: 'admin_export_menu_inflation_csv_v1',
@@ -36,17 +33,7 @@ const EXPORT_CONFIG: Record<
 };
 
 export async function GET(request: NextRequest) {
-  // Rate limit: admin export başına 10 istek/dakika
-  const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
-    userAgent: request.headers.get('user-agent'),
-  });
-  const limit = rateLimit(`admin-b2b-export:${identity}`, 10, 60_000);
-  if (!limit.ok) {
-    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-  }
-
-  // Auth kontrolü
+  // Auth kontrolü — getUser() JWT'yi server'da doğrular
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -56,14 +43,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  // Admin rol kontrolü
-  const { data: profile, error: profileError } = await (supabase as any)
-    .from('user_profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
+  // Rate limit: user bazlı 10 istek/dakika (auth sonrası)
+  const limit = rateLimit(`admin-b2b-export:${user.id}`, 10, 60_000);
+  if (!limit.ok) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+  }
 
-  if (profileError || !profile || !ADMIN_ROLES.includes(profile.role)) {
+  // Admin kontrolü — is_admin() SECURITY DEFINER RPC (admin_users tablosuna göre)
+  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  if (!isAdmin) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
@@ -86,7 +74,7 @@ export async function GET(request: NextRequest) {
   // RPC çağrısı — is_admin() SECURITY DEFINER içinde kontrol edilir
   const { data: csvData, error: rpcError } = await (supabase as any).rpc(
     config.rpc,
-    config.params(days, searchParams.get('city')),
+    config.params(days),
   );
 
   if (rpcError) {
