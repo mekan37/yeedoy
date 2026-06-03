@@ -4,7 +4,7 @@
 >
 > - ✅ Privacy Policy sayfası oluşturuldu: yeedoy.com/gizlilik — Hukuki nihai onay önerilir
 > - ✅ Android Keystore + CI workflow teknik altyapısı hazır — Gerçek keystore lokal oluşturulacak + secrets manuel eklenecek
-> - ⏳ Data Safety + IARC formu (Google Play)
+> - ✅ Data Safety + IARC taslagi hazir — docs/store-data-safety-iarc.md — Store formuna manuel girilecek — Hukuki nihai onay onerilir
 >
 > **Amaç:** ASO (App Store Optimization) için TR/EN başlık, açıklama ve anahtar kelime seti.  
 > **Son Güncelleme:** 2026-04-22
