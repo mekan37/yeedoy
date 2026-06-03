@@ -1,112 +1,175 @@
 import type { Metadata } from 'next';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
+import { ExportDownloadButton } from './export-download-button';
 
 export const metadata: Metadata = {
   title: 'B2B Dışa Aktarma | Admin Panel',
   robots: { index: false, follow: false },
 };
 
-const EXPORT_ITEMS = [
+// Sayfa sunucu bileşenidir; export indirme client bileşeninden tetiklenir.
+
+interface ExportItem {
+  id: 'inflation' | 'trends' | 'regional';
+  title: string;
+  description: string;
+  detail: string;
+  defaultDays: number;
+  columns: string;
+  icon: React.ReactNode;
+}
+
+const EXPORT_ITEMS: ExportItem[] = [
   {
-    id: 'businesses',
-    title: 'İşletme Listesi',
-    description: 'Tüm kayıtlı işletmeleri CSV formatında dışa aktar.',
-    icon: <BuildingIcon />,
+    id: 'inflation',
+    title: 'Menü Fiyat Enflasyonu',
+    description: 'Seçilen dönemde menü öğelerinde gözlemlenen fiyat değişimlerini dışa aktar.',
+    detail: 'İşletme veya kullanıcı verisi içermez. Şehir/ilçe + ürün adı + fiyat değişim yüzdesi.',
+    defaultDays: 90,
+    columns: 'city, district, menu_item_name, first_price_cents, last_price_cents, inflation_pct',
+    icon: <TrendIcon />,
   },
   {
-    id: 'menus',
-    title: 'Menü Veritabanı',
-    description: 'Menü ve menü öğeleri verilerini dışa aktar.',
-    icon: <MenuIcon />,
-  },
-  {
-    id: 'analytics',
-    title: 'Kullanıcı Analitikleri',
-    description: 'Kullanıcı aktivitesi ve analitik verilerini dışa aktar.',
+    id: 'trends',
+    title: 'Anonim Kullanım Trendleri',
+    description: 'Günlük etkinlik sayılarını şehir/ilçe ve etkinlik tipine göre dışa aktar.',
+    detail: 'Tamamen anonimleştirilmiştir. Bireysel kullanıcıya atfedilemez.',
+    defaultDays: 30,
+    columns: 'day, city, district, event_name, event_count',
     icon: <ChartIcon />,
   },
-] as const;
+  {
+    id: 'regional',
+    title: 'Bölgesel Fiyat Endeksi',
+    description: 'Şehir/ilçe bazında ortalama ve medyan menü fiyatlarını dışa aktar.',
+    detail: 'Aggregate veri — işletme veya kullanıcı kimliği içermez.',
+    defaultDays: 90,
+    columns: 'city, district, avg_price_cents, median_price_cents, item_count, change_pct',
+    icon: <MapIcon />,
+  },
+];
 
-export default async function AdminB2bExportsPage() {
+export default function AdminB2bExportsPage() {
   return (
     <div className="flex flex-col">
       <PanelPageHeader
         eyebrow="Admin"
         title="B2B Dışa Aktarma"
-        description="Veri dışa aktarma araçları yakında kullanıma sunulacak."
+        description="Aggregate ve anonimleştirilmiş pazar verilerini CSV olarak dışa aktar. PII içermez."
       />
       <PanelContentSurface className="pt-6">
-        <div className="grid gap-4 sm:grid-cols-3">
+        {/* PII açıklaması */}
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50/60 px-4 py-3">
+          <InfoIcon />
+          <p className="text-xs leading-relaxed text-blue-800">
+            <span className="font-[800]">Veri gizliliği notu:</span> Tüm exportlar yalnızca aggregate veya
+            anonimleştirilmiş verileri içerir. Bireysel kullanıcı, işletme sahibi veya kişisel bilgi
+            (PII) bu raporlara dahil edilmemektedir.
+          </p>
+        </div>
+
+        {/* Export kartları */}
+        <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-3">
           {EXPORT_ITEMS.map((item) => (
             <PanelSectionCard key={item.id} title={item.title} description={item.description}>
               <div className="flex flex-col gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl text-muted"
-                  style={{ background: 'radial-gradient(circle at center, rgba(127,29,29,0.08), rgba(127,29,29,0.03))' }}>
+                {/* İkon */}
+                <div
+                  className="flex h-12 w-12 items-center justify-center rounded-xl text-muted"
+                  style={{
+                    background:
+                      'radial-gradient(circle at center, rgba(127,29,29,0.08), rgba(127,29,29,0.03))',
+                  }}
+                >
                   {item.icon}
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-[800] text-amber-700">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                    Hazırlanıyor
+
+                {/* PII notu */}
+                <p className="text-[11px] leading-relaxed text-muted">{item.detail}</p>
+
+                {/* Sütun listesi */}
+                <div className="rounded-lg bg-black/[0.03] px-3 py-2">
+                  <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Sütunlar</p>
+                  <p className="mt-0.5 font-mono text-[10px] text-muted">{item.columns}</p>
+                </div>
+
+                {/* Durum badge + download buton */}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-[800] text-green-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
+                    Aktif
                   </span>
-                  <button
-                    type="button"
-                    disabled
-                    className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-[700] text-muted opacity-50 cursor-not-allowed"
-                  >
-                    <DownloadIcon />
-                    CSV İndir
-                  </button>
+                  <ExportDownloadButton
+                    exportType={item.id}
+                    days={item.defaultDays}
+                    label={`CSV İndir (${item.defaultDays}g)`}
+                  />
                 </div>
               </div>
             </PanelSectionCard>
           ))}
         </div>
 
-        <div className="mt-8 rounded-2xl border border-dashed border-border bg-card/60 px-6 py-10 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full text-2xl text-muted"
-            style={{ background: 'radial-gradient(circle at center, rgba(127,29,29,0.10), rgba(127,29,29,0.04))' }}>
-            <ExportIcon />
-          </div>
-          <p className="mt-4 text-[17px] font-[900] text-textStrong">Veri dışa aktarma araçları yakında</p>
-          <p className="mt-1 text-sm leading-relaxed text-muted">
-            B2B entegrasyonları için CSV ve JSON dışa aktarma altyapısı geliştirme aşamasındadır.
-          </p>
+        {/* Gelişmiş filtreler bölümü */}
+        <div className="mt-6">
+          <PanelSectionCard title="Özel Tarih Aralığı" description="Farklı gün aralıklarıyla export alın">
+            <div className="grid gap-6 sm:grid-cols-3">
+              {EXPORT_ITEMS.map((item) => (
+                <div key={`adv-${item.id}`} className="space-y-3">
+                  <p className="text-[13px] font-[800] text-textStrong">{item.title}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[7, 30, 90, 180, 365].map((days) => (
+                      <ExportDownloadButton
+                        key={days}
+                        exportType={item.id}
+                        days={days}
+                        label={`${days}g`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </PanelSectionCard>
         </div>
       </PanelContentSurface>
     </div>
   );
 }
 
-function BuildingIcon() {
+function TrendIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="2" width="18" height="20" rx="2" />
-      <path d="M9 22V12h6v10" />
-      <path d="M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01" />
-    </svg>
-  );
-}
-
-function MenuIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z" />
-      <path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
-      <path d="M9.5 14.5v-5c0-.83-.67-1.5-1.5-1.5S6.5 8.67 6.5 9.5v5" />
-      <path d="M3.5 14.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5" />
-      <path d="M6.5 18h2" />
-      <path d="M18 18H6.5" />
-      <path d="M6.5 14.5h2" />
-      <path d="M9.5 14.5H18" />
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+      <polyline points="16 7 22 7 22 13" />
     </svg>
   );
 }
 
 function ChartIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <line x1="18" y1="20" x2="18" y2="10" />
       <line x1="12" y1="20" x2="12" y2="4" />
       <line x1="6" y1="20" x2="6" y2="14" />
@@ -115,22 +178,43 @@ function ChartIcon() {
   );
 }
 
-function DownloadIcon() {
+function MapIcon() {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" y1="15" x2="12" y2="3" />
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
+      <line x1="9" y1="3" x2="9" y2="18" />
+      <line x1="15" y1="6" x2="15" y2="21" />
     </svg>
   );
 }
 
-function ExportIcon() {
+function InfoIcon() {
   return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="17 8 12 3 7 8" />
-      <line x1="12" y1="3" x2="12" y2="15" />
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mt-0.5 shrink-0 text-blue-500"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
     </svg>
   );
 }
