@@ -1,8 +1,8 @@
 # Yeedoy — App Store / Google Play Mağaza Listeleme Kılavuzu
 
-> **Durum:** ⏳ **3 kritik blocker açık — Release readiness bkz. docs/mobile-release-readiness.md**
+> **Durum:** ⏳ **2 kritik blocker açık — Release readiness bkz. docs/mobile-release-readiness.md**
 >
-> - Privacy Policy sayfası gerekli (yeedoy.com/gizlilik)
+> - ✅ Privacy Policy sayfası oluşturuldu: yeedoy.com/gizlilik — Hukuki nihai onay önerilir
 > - Android Keystore + CI secrets yapılandırılması
 > - Data Safety + IARC formu (Google Play)
 >

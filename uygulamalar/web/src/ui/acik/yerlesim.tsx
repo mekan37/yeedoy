@@ -219,7 +219,7 @@ export function PublicFooter() {
             <Link href="/yasal" className="hover:text-primary">Yasal</Link>
             <Link href="/yasal/yorum-politikasi" className="hover:text-primary">Yorum Politikası</Link>
             <Link href="/yasal/terms" className="hover:text-primary">Kullanım Şartları</Link>
-            <Link href="/yasal/privacy" className="hover:text-primary">Gizlilik</Link>
+            <Link href="/gizlilik" className="hover:text-primary">Gizlilik Politikası</Link>
             <Link href="/yardim" className="hover:text-primary">Yardım</Link>
           </div>
         </div>
