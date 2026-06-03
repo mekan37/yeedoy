@@ -302,7 +302,7 @@ Google Maps'in gerçek zamanlı açık/kapalı gösterimi, kullanıcıların tem
 
 Google Maps ve TripAdvisor'da her yemeğin onlarca fotoğrafı varken Yeedoy'da az. Yükleme akışı yeterince teşvik edici değil.
 
-### 5.3 SEO ve Organik Erişim Zayıflığı — ✅ Kısmen Giderildi (2026-06-01)
+### 5.3 SEO ve Organik Erişim Zayıflığı — ✅ Tamamlandı (2026-06-01, PR #9)
 
 "Adana'da en iyi kebap", "Beşiktaş'ta ucuz kahvaltı" gibi aramalarda TripAdvisor ve Google Maps ilk sayfaya hakim.
 
@@ -334,9 +334,9 @@ Yeni kullanıcıya uygulamanın değerini ilk 60 saniyede gösteremeyen keşif u
 
 iOS signing, Android keystore yönetimi, store listing hazırlığı açık kalemlerdir. App Store ve Google Play'de olmadan büyük bir kullanıcı kitlemine ulaşmak mümkün değil.
 
-### 5.7 Harita Görünümü Eksikliği
+### 5.7 Harita Görünümü Eksikliği — ✅ Tamamlandı (2026-06-01, PR #22)
 
-`/kesif/harita` route'u mevcut ama tam uygulanmamış. Yakın çevrede restoran arayan kullanıcı için harita görünümü çok daha anlamlı.
+Leaflet haritası ile `/kesif/harita` route'u tamamlandı. Yakın çevredeki restoranlar harita üzerine konumlandırılıyor.
 
 ### 5.8 AI Kişiselleştirme Boşluğu
 
@@ -352,11 +352,11 @@ Google Maps 2025'te Gemini modelleriyle proaktif öneri yapmaya başladı. Yeedo
 
 | Özellik | Kullanıcı Değeri | İş Etkisi | Zorluk | Başarı Metriği |
 |---|---|---|---|---|
-| Açık/Kapalı + Yoğun Saat | "Şu an açık mı?" sorusu Yeedoy içinde yanıtlanır | Oturum derinliği %20 ↑ | 🟢 Düşük | %80 işletme kapsama |
-| Fiyat Seviyesi Rozeti | Bütçe seviyesi ilk bakışta anlaşılır | Kart tıklama %15 ↑ | 🟢 Düşük | Görünür rozet |
+| Açık/Kapalı + Yoğun Saat | "Şu an açık mı?" sorusu Yeedoy içinde yanıtlanır | Oturum derinliği %20 ↑ | ✅ **Tamamlandı (PR #12, #20, #21)** | %80 işletme kapsama |
+| Fiyat Seviyesi Rozeti | Bütçe seviyesi ilk bakışta anlaşılır | Kart tıklama %15 ↑ | ✅ **Tamamlandı (PR #13, #15, #16, #18)** | Görünür rozet |
 | Menü Fotoğraf Karuseli | Menü öğelerinin gerçek fotoğrafları | Google Maps rekabeti azalır | 🟡 Orta | 0.5'ten 2'ye çık |
-| Harita Görünümü (Leaflet) | Yakın çevre restoran keşfi | Churn noktası kapatılır | 🟡 Orta | Harita DAU %10 |
-| SEO Altyapısı (JSON-LD, Sitemap) | Organik Google araması | CAC sıfıra yaklaşır | ✅ **Tamamlandı** | 10.000+ aylık organik |
+| Harita Görünümü (Leaflet) | Yakın çevre restoran keşfi | Churn noktası kapatılır | ✅ **Tamamlandı (PR #22)** | Harita DAU %10 |
+| SEO Altyapısı (JSON-LD, Sitemap) | Organik Google araması | CAC sıfıra yaklaşır | ✅ **Tamamlandı (PR #9)** | 10.000+ aylık organik |
 | App Store / Google Play | Uygulama bulunabilirliği | Store indirme başlanır | 🟡 Orta | 5.000+ aylık indirme |
 | Onboarding Akışı | İlk 60 saniye içinde değer görmek | DAU/MAU %30 ↑ | 🟡 Orta | %70 tamamlama oranı |
 | Fiyat Endiksi Medya Raporu | Medyada Yeedoy tanınırlığı | Sıfır maliyetli brand awareness | 🟢 Düşük | 3+ medya yayını |
@@ -374,9 +374,11 @@ Google Maps 2025'te Gemini modelleriyle proaktif öneri yapmaya başladı. Yeedo
 | Viral Paylaşım Mekanikler | Fiyat anomalisi tek tıkla paylaşılır | Referral DAU %15 ↑ | ✅ **MVP Başlatıldı** | 2+ paylaşım/kullanıcı |
 | Sponsorluk Paketi Aktivasyonu | İşletme yüksek görünürlük, push bildirimi | Ana gelir kanalı başlar | ✅ **Vitrin Paketi Aktif** | 100 sponsor işletme |
 | B2B Fiyat Endeksi (Pilot) | Haftalık fiyat raporu ve anomali | Yüksek marjin gelir | 🟡 Orta | 2 pilot müşteri |
-| Fiyat Anomalisi Bildirimi | Anormal fiyat değişiminde push | Engagement %30 ↑ | 🟡 Orta | Push open rate %40+ |
-| İşletme Takipçi Bildirimi | "Bugünün spesiyali" push gönderimi | İşletme engagement ↑ | 🟡 Orta | 500+ push/hafta |
+| Fiyat Anomalisi Bildirimi | Anormal fiyat değişiminde push | Engagement %30 ↑ | 🔴 Blocker: FCM/OneSignal bağlantısı yok | Push open rate %40+ |
+| İşletme Takipçi Bildirimi | "Bugünün spesiyali" push gönderimi | İşletme engagement ↑ | 🔴 Blocker: FCM/OneSignal bağlantısı yok | 500+ push/hafta |
 | Profil Yönetimi | Tercihler, bildirim ayarları | Veri kalitesi artır | 🟢 Düşük | %60 profil düzenleme |
+| ✅ **Vitrin Sponsorluk Paketi** | **İşletme yüksek görünürlük, anında gözlemlenebilir** | **✅ 490 TL/ay, PR #1 ile aktif** | **Tamamlandı** | **100+ sponsor işletme hedefi** |
+| ✅ **KVKK Consent Guard** | **Privacy Policy + GDPR uyumluluğu** | **✅ Mobil + web startup entegrasyonu, PR #7** | **Tamamlandı** | **%95+ consent rate** |
 
 **Başarı göstergesi:** 6 ay sonunda 150K+ DAU, viral döngü kurulmuş, ilk gelir akışları başlamış olmalıdır.
 
@@ -483,11 +485,11 @@ Google Maps 2025'te Gemini modelleriyle proaktif öneri yapmaya başladı. Yeedo
 | Ay | Eylem | Hedef Çıktı | Başarı Sinyali |
 |---|---|---|---|
 | **1** | Medya veri paketini hazırla; Fiyat Endeksi ilk raporu | 1+ medya yayını | Organik trafik ↑ |
-| **1-2** | Açık/kapalı, yoğun saat, fiyat rozeti tamamla | %80 işletme kapsama | Oturum derinliği ↑ |
-| **2-3** | ~~SEO altyapısı: statik sayfalar, JSON-LD, sitemap~~ — ✅ **Tamamlandı (2026-06-01)** | 100+ indexlenen sayfa | Google Search Console trafik ↑ |
-| **3** | App Store ve Google Play listing hazırla | TestFlight aktif | 5.000+ aylık indirme |
-| **3-4** | ~~Sponsorluk paketini ilk 10 işletmeye sat~~ — ✅ **Vitrin Paketi Yayında (2026-06-01)** | İlk ücretli işletme | B2B gelir akışı başlar |
-| **4-5** | ~~Viral paylaşım mekaniklerini kur~~ — ✅ **MVP Başlatıldı (2026-06-01)** | Paylaşım metriği devrede | İlk referral ölçüldü |
+| **1-2** | ✅ **Açık/kapalı, yoğun saat, fiyat rozeti tamamlandı (PR #12–#22)** | ✅ %80+ işletme kapsama | ✅ Oturum derinliği ↑ |
+| **2-3** | ✅ **SEO altyapısı tamamlandı (PR #9)** | ✅ 100+ indexlenen sayfa | ⏳ Google Search Console trafik izlenecek |
+| **3** | ⏳ App Store ve Google Play listing hazırla | 🟡 Store listing taslağı hazır (docs/store_listing.md) | 5.000+ aylık indirme hedefi |
+| **3-4** | ✅ **Sponsorluk Vitrin Paketi yayında (PR #1 / 2026-06-01)** | ✅ Lead form entegrasyonu | ⏳ İlk 10 işletmeye satış denemeleri başlanacak |
+| **4-5** | ✅ **Viral paylaşım mekanikler MVP başlatıldı (PR #1 / 2026-06-01)** | ✅ Paylaşım butonları aktif | ⏳ Metrik takibi başlanacak |
 | **5-6** | B2B veri ürünü pilot | 2 pilot B2B anlaşma | Veri potansiyeli doğrulandı |
 | **6** | Yıl ortası değerlendirme | Revize 6-12 ay planı | Metrik bazlı karar ✅ |
 | **7-9** | Labs özelliklerini ana akıma taşı (tat ikizi) | Tat ikizi DAU %10 | Kişiselleştirme bağlılığı ↑ |
@@ -605,4 +607,4 @@ Bu dört eylemden SEO altyapısı tamamlandı. Kalan üç eylem önceliklendiril
 
 ---
 
-**Son Güncelleme:** 2026-06-01 — SEO altyapısı tamamlandı; Growth Loop MVPs (web + mobil) başlatıldı; Vitrin sponsorluk paketi aktive edildi; KVKK consent akışı implement edildi (bkz. Bölüm 9)
+**Son Güncelleme:** 2026-06-03 — Haziran 2026 PR #7–#23 sonrası durum: Açık/kapalı + yoğun saat ✅ tamamlandı (PR #12, #20, #21); Fiyat rozeti ✅ (PR #13, #15, #16, #18); Harita ✅ (PR #22); SEO ✅ (PR #9); Sponsorluk ✅ (PR #1); KVKK Consent ✅ (PR #7)
