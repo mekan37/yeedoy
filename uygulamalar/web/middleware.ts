@@ -96,7 +96,18 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
   if (isAdminRoute || isAdminApiRoute) {
     const { data: isAdmin, error: adminCheckError } = await supabase.rpc('is_admin');
 
-    if (adminCheckError || !isAdmin) {
+    if (adminCheckError) {
+      console.error(
+        '[middleware] is_admin rpc error',
+        `code=${adminCheckError.code}`,
+        `pathname=${request.nextUrl.pathname}`,
+      );
+      const forbiddenUrl = request.nextUrl.clone();
+      forbiddenUrl.pathname = '/forbidden';
+      return NextResponse.redirect(forbiddenUrl);
+    }
+
+    if (!isAdmin) {
       const forbiddenUrl = request.nextUrl.clone();
       forbiddenUrl.pathname = '/forbidden';
       return NextResponse.redirect(forbiddenUrl);
