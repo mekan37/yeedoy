@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { logger } from '@/src/lib/kayitci';
 
 // ─── Tipler ─────────────────────────────────────────────────────────────────
@@ -189,8 +190,15 @@ export async function listAdminSponsorships(
 
 /**
  * sponsorship_packages tablosunu doğrudan sorgular (admin RLS politikası).
+ * checkAdminAccess() guard: is_admin() RPC — tablo sorgusunda RLS'e ek defense-in-depth.
  */
 export async function listAdminSponsorPackages(): Promise<SponsorPackage[]> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) {
+    logger.warn('listAdminSponsorPackages: admin guard başarısız', { status: guard.status });
+    return [];
+  }
+
   const supabase = await createSupabaseServerClient();
   const sb = supabase as unknown as { from: (t: string) => any };
 

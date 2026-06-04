@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { logger } from '@/src/lib/kayitci';
 
 export type QueueCounts = {
@@ -30,8 +31,15 @@ export type BusinessSubmissionRow = {
 /**
  * Returns pending queue counts for the admin dashboard.
  * Tries the admin_get_queues_counts_v1 RPC first, then falls back to individual table counts.
+ * checkAdminAccess() guard: is_admin() RPC — admin_users tablosu kontrolü.
  */
 export async function getQueueCounts(): Promise<QueueCounts> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) {
+    logger.warn('getQueueCounts: admin guard başarısız', { status: guard.status });
+    return { reports_open: 0, claims_pending: 0, suggestions_pending: 0, submissions_pending: 0 };
+  }
+
   const supabase = await createSupabaseServerClient();
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
@@ -90,8 +98,15 @@ export async function getQueueCounts(): Promise<QueueCounts> {
 
 /**
  * Returns open report rows for the admin queue.
+ * checkAdminAccess() guard: is_admin() RPC — admin_users tablosu kontrolü.
  */
 export async function listOpenReports(limit = 50): Promise<ReportRow[]> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) {
+    logger.warn('listOpenReports: admin guard başarısız', { status: guard.status });
+    return [];
+  }
+
   const supabase = await createSupabaseServerClient();
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
@@ -112,8 +127,15 @@ export async function listOpenReports(limit = 50): Promise<ReportRow[]> {
 
 /**
  * Returns pending business submission rows for the admin queue.
+ * checkAdminAccess() guard: is_admin() RPC — admin_users tablosu kontrolü.
  */
 export async function listPendingSubmissions(limit = 50): Promise<BusinessSubmissionRow[]> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) {
+    logger.warn('listPendingSubmissions: admin guard başarısız', { status: guard.status });
+    return [];
+  }
+
   const supabase = await createSupabaseServerClient();
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
