@@ -1,5 +1,22 @@
 # Haziran 2026 Tamamlananlar
 
+## 2026-06-04 — owner/marketing/loyalty MVP
+
+**Branch:** `feature/web-owner-loyalty-mvp`
+
+- `app/owner/marketing/loyalty/page.tsx` stub'ı gerçek MVP'ye çevrildi
+- `src/lib/veri/owner/sadakat.ts` — `loyalty_programs` tablosu data helper (`getOwnerLoyaltyPrograms`)
+- `app/owner/marketing/loyalty/loyalty-actions.ts` — `upsert_loyalty_program_v1` server action
+- `app/owner/marketing/loyalty/loyalty-form.tsx` — `useActionState` tabanlı client form bileşeni
+- `hasOwnerBusiness()` ile server action ownership guard (fail-closed)
+- Puan kuralları: checkin / review / photo / reward_threshold / reward_type / reward_value
+- Aktif/pasif toggle (program durdurma)
+- Çoklu business desteği: `?business_id=uuid` searchParams
+- Sağ panel info card: puan kazanım özeti
+- Geçersiz `sadakat_karti` migration'a dokunulmadı
+
+---
+
 ## 2026-06-04 — admin/appeals MVP
 
 **Branch:** `feature/web-admin-appeals-mvp`
