@@ -42,7 +42,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | 14 | `admin/sponsorship-packages` | Paket modülü stub |
 | 15 | `admin/b2b-exports` | Veri dışa aktarma stub |
 | 16 | `admin/incidents` | Olay yönetimi stub |
-| 17 | `admin/locations` | ✅ MVP tamamlandı — veri kalitesi görünümü: koordinatsız/şehirsiz/slugsuz metrikler + işletme tablosu (PR #feature/web-admin-locations-mvp) |
+| 17 | `admin/locations` | ✅ MVP tamamlandı — veri kalitesi görünümü: koordinatsız/şehirsiz/slugsuz metrikler + işletme tablosu (PR #42) |
 | 18 | `admin/receipt-submissions` | Fatura inceleme stub |
 | 19 | `admin/appeals` | İtiraz yönetimi — DB migration var (`moderation_appeals`), UI stub |
 
