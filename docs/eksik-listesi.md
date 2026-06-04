@@ -29,7 +29,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | 8 | `owner/qr` | QR görüntüleme/indirme UI iskeleti var, gerçek QR generate/download yok |
 | 9 | `owner/settings/domain` | Custom domain doğrulama — `verify-domain` edge function yazılmış (119 satır), UI↔backend bağlantısı yok |
 | 10 | `owner/ai-analysis` | AI menü analizi — `ai-menu-analyze` edge function yazılmış (345 satır), owner panel entegrasyonu yok |
-| 11 | `owner/menu/translations` | Çoklu dil çevirisi panelden yönetilemiyor — migration var, UI stub |
+| 11 | `owner/menu/translations` | ✅ MVP tamamlandı — EN/AR, per-item kaydet, tamamlanma istatistikleri (PR #38) |
 
 ---
 
@@ -121,6 +121,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | — | DB | `get_business_busy_hours_v1` RPC | #20 | ✅ |
 | — | Web | Owner panel Yoğun Saatler widget | #21 | ✅ |
 | — | Docs | Mobile release readiness checklist | #23 | ✅ |
+| — | Web | Owner menu translations MVP | #38 | ✅ |
 
 ---
 
