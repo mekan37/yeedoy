@@ -40,16 +40,24 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
 // ── Protected panel route guard ───────────────────────────────────────────────
 const OWNER_PREFIX = '/owner';
 const ADMIN_PREFIX = '/admin';
-// /api/admin/* routes are NOT rewritten by subdomain logic — guard them explicitly
+// Turkish-language aliases for the same panels
+const YONETICI_PREFIX = '/yonetici';  // alias for /admin panel pages
+const SAHIP_PREFIX = '/sahip';        // alias for /owner panel pages
+// /api/admin/* and /sunucu/yonetici/* routes are NOT rewritten by subdomain
+// logic — guard them explicitly at the middleware level.
 const ADMIN_API_PREFIX = '/api/admin';
+const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici'; // Turkish alias for /api/admin/*
 const LOGIN_PATH = '/login';
 
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
-  const isOwnerRoute = pathname.startsWith(OWNER_PREFIX);
-  const isAdminRoute = pathname.startsWith(ADMIN_PREFIX);
-  // /api/admin/* sits outside the panel prefix — guard it with the same logic
-  const isAdminApiRoute = pathname.startsWith(ADMIN_API_PREFIX);
+  const isOwnerRoute = pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX);
+  const isAdminRoute =
+    pathname.startsWith(ADMIN_PREFIX) || pathname.startsWith(YONETICI_PREFIX);
+  // /api/admin/* and /sunucu/yonetici/* sit outside the panel prefix — guard
+  // them with the same admin-role logic.
+  const isAdminApiRoute =
+    pathname.startsWith(ADMIN_API_PREFIX) || pathname.startsWith(SUNUCU_YONETICI_PREFIX);
 
   if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
 
