@@ -3,20 +3,18 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 /**
  * Server-side admin yetki kontrolü — defense-in-depth 2. katman.
  *
- * is_admin() RPC, admin_users tablosunu sorgular (tek yetkili kaynak).
- * Middleware'den bağımsız çalışır: middleware'i geçen ancak admin_users
- * kaydı olmayan kullanıcılar data helper katmanında bu guard ile bloke edilir.
+ * Yetki kaynağı: public.admin_users tablosu (is_admin() RPC üzerinden).
  *
- * TUTARSIZLIK NOTU:
- *   middleware.ts → user_profiles.role kontrolü ('super_admin' | 'admin' | 'community_mod')
- *   is_admin() RPC → admin_users tablosu kontrolü
+ * Mimari:
+ *   middleware.ts   → is_admin() RPC ile route-level koruma (1. katman)
+ *   checkAdminAccess() → is_admin() RPC ile data-layer koruma (2. katman)
  *
- *   Bu iki kaynak kasıtlı defense-in-depth oluşturur:
- *   - user_profiles.role = 'community_mod' → middleware panel rotasını geçirir
- *   - admin_users tablosunda kaydı yoksa → is_admin() false → bu guard 403 döner
+ * Her iki katman da aynı kaynağa (admin_users) bağlıdır. Middleware'i atlayan
+ * veya geçen bir istek bu guard ile ikinci kez doğrulanır.
  *
- *   Uzun vadede middleware'in de admin_users tablosuna bağlanması önerilir.
- *   Ancak middleware Edge runtime'da çalıştığından önce migration testi gerekir.
+ * community_mod erişimi: admin_users kaydı olmayan community_mod kullanıcılar
+ * her iki katmandan da geçemez. Bu ayrı bir yetki modeli (örn. is_admin_or_community_mod_v1)
+ * gerektirirse açıkça tanımlanmalıdır.
  *
  * Kullanım (data helper'larda):
  *   const guard = await checkAdminAccess();
