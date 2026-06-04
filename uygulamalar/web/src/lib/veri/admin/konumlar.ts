@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { logger } from '@/src/lib/kayitci';
 
 // ─── Tipler ───────────────────────────────────────────────────────────────────
@@ -86,7 +87,9 @@ function mapRow(b: Record<string, unknown>): KonumIsletme {
 /**
  * Konum veri kalitesi listesini döndürür.
  * businesses tablosunu doğrudan sorgular.
- * Supabase service client varsa kullanır (RLS bypass); yoksa server session ile is_admin() güvencesi.
+ * Supabase service client varsa kullanır (RLS bypass).
+ * Her durumda checkAdminAccess() ile is_admin() guard uygulanır — service client
+ * kullanıldığında RLS atlandığından guard zorunludur.
  */
 export async function adminKonumlariGetir(
   params?: KonumKaliteFiltre,
@@ -95,19 +98,16 @@ export async function adminKonumlariGetir(
   const offset = params?.offset ?? 0;
 
   try {
+    // Her durumda is_admin() guard — service client path'inde RLS bypass olduğundan kritik
+    const guard = await checkAdminAccess();
+    if (!guard.authorized) {
+      logger.warn('adminKonumlariGetir: admin guard başarısız', { status: guard.status });
+      return { items: [], total: 0, fetchError: false };
+    }
+
     const supabaseOrPromise = buildSupabaseClient();
     const supabase =
       supabaseOrPromise instanceof Promise ? await supabaseOrPromise : supabaseOrPromise;
-
-    // Service client yoksa is_admin() ile guard
-    const isServiceClient = createSupabaseServiceClient() !== null;
-    if (!isServiceClient) {
-      const { data: isAdmin } = await (supabase as any).rpc('is_admin');
-      if (!isAdmin) {
-        logger.warn('adminKonumlariGetir: is_admin() false');
-        return { items: [], total: 0, fetchError: false };
-      }
-    }
 
     let query = (supabase as any)
       .from('businesses')
@@ -160,18 +160,16 @@ export async function adminKonumOzetiniGetir(): Promise<KonumOzet> {
   };
 
   try {
+    // Her durumda is_admin() guard — service client path'inde RLS bypass olduğundan kritik
+    const guard = await checkAdminAccess();
+    if (!guard.authorized) {
+      logger.warn('adminKonumOzetiniGetir: admin guard başarısız', { status: guard.status });
+      return bos;
+    }
+
     const supabaseOrPromise = buildSupabaseClient();
     const supabase =
       supabaseOrPromise instanceof Promise ? await supabaseOrPromise : supabaseOrPromise;
-
-    const isServiceClient = createSupabaseServiceClient() !== null;
-    if (!isServiceClient) {
-      const { data: isAdmin } = await (supabase as any).rpc('is_admin');
-      if (!isAdmin) {
-        logger.warn('adminKonumOzetiniGetir: is_admin() false');
-        return bos;
-      }
-    }
 
     const sb = supabase as any;
     const [toplam, koordinatsiz, sehirsiz, ilcesiz, slugsuz] = await Promise.all([

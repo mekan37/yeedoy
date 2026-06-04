@@ -2,36 +2,12 @@
 
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { logger } from '@/src/lib/kayitci';
 
 type ReviewStatus = 'pending' | 'reviewed' | 'needs_followup';
 
 const GECERLI_DURUMLAR: ReviewStatus[] = ['pending', 'reviewed', 'needs_followup'];
-
-async function adminKontrol(): Promise<
-  | { ok: true; supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>; userId: string }
-  | { ok: false; hata: string }
-> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { ok: false, hata: 'Oturum açmanız gerekiyor' };
-
-  const { data: profil } = await (supabase as any)
-    .from('user_profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
-
-  const adminRoller = ['super_admin', 'admin', 'community_mod'];
-  if (!profil || !adminRoller.includes(profil.role)) {
-    return { ok: false, hata: 'Bu işlem için yetkiniz yok' };
-  }
-
-  return { ok: true, supabase, userId: user.id };
-}
 
 /**
  * Fiş başvurusunun inceleme durumunu günceller.
@@ -50,13 +26,14 @@ export async function fisDurumGuncelle(formData: FormData): Promise<void> {
     return;
   }
 
-  const kontrol = await adminKontrol();
-  if (!kontrol.ok) {
-    logger.warn('fisDurumGuncelle: Admin kontrolü başarısız', { hata: kontrol.hata });
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) {
+    logger.warn('fisDurumGuncelle: Admin guard başarısız', { status: guard.status });
     return;
   }
 
-  const { supabase, userId } = kontrol;
+  const supabase = await createSupabaseServerClient();
+  const { userId } = guard;
   const sb = supabase as unknown as { rpc: (fn: string, args: Record<string, unknown>) => any };
 
   try {
