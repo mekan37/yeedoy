@@ -22,7 +22,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 
 | # | Route | Durum |
 |---|---|---|
-| 4 | `owner/marketing/loyalty` | Sadakat programı UI var, DB migration var (`20260424000007_loyalty_program`), panel aktivasyonu yok |
+| 4 | `owner/marketing/loyalty` | ✅ MVP tamamlandı — loyalty_programs + upsert_loyalty_program_v1 RPC, puan kuralları, aktif/pasif toggle (PR #48) |
 | 5 | `owner/marketing/automations` | Otomasyon motoru yok — sadece "yakında" placeholder kartı |
 | 6 | `owner/marketing/campaigns` | Push kampanya formu var, FCM bağlantısı yok → blocker: madde 1 |
 | 7 | `owner/marketing/email` | E-posta form var, provider bağlantısı yok → blocker: madde 3 |

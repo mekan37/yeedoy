@@ -37,7 +37,7 @@ export async function getOwnerLoyaltyPrograms(
     .in('business_id', businessIds);
 
   if (error) {
-    logger.warn('getOwnerLoyaltyPrograms failed', { businessIds, error });
+    logger.warn('getOwnerLoyaltyPrograms failed', { code: (error as { code?: string }).code });
     return { programs: [], fetchError: true };
   }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { PanelActionButton } from '@/src/ui/components/panel-action-button';
 import { upsertLoyaltyAction, type LoyaltyActionResult } from './loyalty-actions';
 import type { LoyaltyProgram } from '@/src/lib/veri/owner/sadakat';
@@ -27,6 +27,10 @@ export function LoyaltyForm({ businessId, program }: LoyaltyFormProps) {
     reward_type: 'discount_pct' as const,
     reward_value: 10,
   };
+
+  const [selectedRewardType, setSelectedRewardType] = useState<'discount_pct' | 'free_item'>(
+    defaults.reward_type,
+  );
 
   return (
     <form action={formAction} className="flex flex-col gap-6">
@@ -138,7 +142,8 @@ export function LoyaltyForm({ businessId, program }: LoyaltyFormProps) {
               </label>
               <select
                 name="reward_type"
-                defaultValue={defaults.reward_type}
+                value={selectedRewardType}
+                onChange={(e) => setSelectedRewardType(e.target.value as 'discount_pct' | 'free_item')}
                 className="h-10 w-full rounded-lg border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
               >
                 <option value="discount_pct">İndirim (%)</option>
@@ -150,7 +155,7 @@ export function LoyaltyForm({ businessId, program }: LoyaltyFormProps) {
             </div>
           </div>
 
-          {defaults.reward_type !== 'free_item' && (
+          {selectedRewardType !== 'free_item' ? (
             <PointField
               label="İndirim Oranı (%)"
               name="reward_value"
@@ -160,8 +165,7 @@ export function LoyaltyForm({ businessId, program }: LoyaltyFormProps) {
               defaultValue={defaults.reward_value}
               icon={<PercentIcon />}
             />
-          )}
-          {defaults.reward_type === 'free_item' && (
+          ) : (
             /* Hidden reward_value — still needs to be submitted */
             <input type="hidden" name="reward_value" value={defaults.reward_value} />
           )}
