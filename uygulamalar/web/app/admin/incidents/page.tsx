@@ -1,124 +1,122 @@
 import type { Metadata } from 'next';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/components/panel-empty-state';
+import { listAdminOlaylar, type Olay, type OlaySeverity } from '@/src/lib/veri/admin/olaylar';
 
 export const metadata: Metadata = {
   title: 'Olay Merkezi | Admin Panel',
   robots: { index: false, follow: false },
 };
 
-type Props = { searchParams: Promise<{ severity?: string; status?: string; page?: string }> };
+// ─── Sabitler ────────────────────────────────────────────────────────────────
+
 const PAGE_SIZE = 40;
 
-const SEVERITY_LABELS: Record<string, string> = {
+const SEVERITY_LABELS: Record<OlaySeverity, string> = {
   low: 'Düşük',
   medium: 'Orta',
   high: 'Yüksek',
   critical: 'Kritik',
 };
 
-const STATUS_LABELS: Record<string, string> = {
-  open: 'Açık',
-  investigating: 'İnceleniyor',
-  resolved: 'Çözüldü',
-  closed: 'Kapatıldı',
+const SEVERITY_STYLES: Record<OlaySeverity, string> = {
+  critical: 'bg-red-100 text-red-700',
+  high: 'bg-orange-50 text-orange-700',
+  medium: 'bg-amber-50 text-amber-700',
+  low: 'bg-zinc-100 text-zinc-500',
+};
+
+/** Aksiyon kodunu okunabilir Türkçe etikete çevir */
+function aksiyonEtiketi(action: string): string {
+  const MAP: Record<string, string> = {
+    'user.safety_action': 'Güvenlik Aksiyonu',
+    'admin.impersonation.start': 'Hesap Taklit Başladı',
+    'admin.impersonation.stop': 'Hesap Taklit Bitti',
+    'user.anonymized': 'Kullanıcı Anonimleştirildi',
+    'achievement.reset': 'Rozet Sıfırlandı',
+    'business.verification_changed': 'Doğrulama Değişti',
+    'admin.ban': 'Kullanıcı Banlandı',
+    'admin.unban': 'Ban Kaldırıldı',
+    'admin.shadow_ban': 'Gizli Ban',
+    'admin.feature_flag': 'Özellik Bayrağı',
+    'admin.bulk_action': 'Toplu Aksiyon',
+    'admin.data_export': 'Veri Dışa Aktarım',
+  };
+  return MAP[action] ?? action;
+}
+
+// ─── Sayfa ───────────────────────────────────────────────────────────────────
+
+type Props = {
+  searchParams: Promise<{ severity?: string; page?: string; q?: string }>;
 };
 
 export default async function AdminIncidentsPage({ searchParams }: Props) {
-  const { severity = 'all', status = 'open', page = '1' } = await searchParams;
+  const {
+    severity = 'all',
+    page = '1',
+    q = '',
+  } = await searchParams;
+
   const pageNum = Math.max(1, parseInt(page, 10));
   const offset = (pageNum - 1) * PAGE_SIZE;
 
-  const supabase = await createSupabaseServerClient();
+  const validSeverity = ['low', 'medium', 'high', 'critical', 'all'].includes(severity)
+    ? (severity as OlaySeverity | 'all')
+    : 'all';
 
-  let list: any[] = [];
-  let count: number | null = 0;
-  let totalPages = 0;
-  let fetchError = false;
+  const { list, hasNextPage, fetchError } = await listAdminOlaylar({
+    severity: validSeverity,
+    limit: PAGE_SIZE + 1,
+    offset,
+    search: q || undefined,
+  });
 
-  try {
-    let query = (supabase as any)
-      .from('admin_incidents')
-      .select('id, incident_type, severity, status, description, created_at, resolved_at', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .range(offset, offset + PAGE_SIZE - 1);
-
-    if (status !== 'all') query = query.eq('status', status);
-    if (severity !== 'all') query = query.eq('severity', severity);
-
-    const res = await query as { data: any[] | null; count: number | null; error: any };
-
-    if (res.error) {
-      fetchError = true;
-    } else {
-      list = res.data ?? [];
-      count = res.count;
-      totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
-    }
-  } catch {
-    fetchError = true;
-  }
+  const toplamGorunen = list.length + offset;
 
   return (
     <div className="flex flex-col">
       <PanelPageHeader
         eyebrow="Admin"
         title="Olay Merkezi"
-        description={fetchError ? 'Tablo erişilemiyor' : `${count ?? 0} olay`}
+        description={
+          fetchError
+            ? 'Veriye erişilemiyor'
+            : `${toplamGorunen > 0 ? `${toplamGorunen}+ olay` : 'Olay yok'}`
+        }
       />
+
       <PanelContentSurface className="pt-6">
         {fetchError ? (
           <PanelEmptyState
             icon={<AlertIcon />}
-            title="Bu özellik yakında aktif edilecek"
-            description="admin_incidents tablosu henüz yapılandırılmamış olabilir."
+            title="Veriye erişilemiyor"
+            description="Oturum süresi dolmuş olabilir veya yetki hatası oluştu."
           />
         ) : (
           <div className="flex flex-col gap-4">
-            {/* Filters */}
-            <div className="flex flex-wrap gap-3">
+            {/* Filtreler */}
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Severity filtresi */}
               <form method="get" className="flex gap-2">
-                <input type="hidden" name="severity" value={severity} />
-                {[
-                  { value: 'open', label: 'Açık' },
-                  { value: 'investigating', label: 'İnceleniyor' },
-                  { value: 'resolved', label: 'Çözüldü' },
-                  { value: 'all', label: 'Tümü' },
-                ].map(({ value, label }) => (
-                  <button
-                    key={value}
-                    type="submit"
-                    name="status"
-                    value={value}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
-                      status === value
-                        ? 'bg-primary text-white'
-                        : 'border border-border bg-card text-muted hover:text-textStrong'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </form>
-
-              <form method="get" className="flex gap-2">
-                <input type="hidden" name="status" value={status} />
-                {[
-                  { value: 'all', label: 'Tüm Ciddiyet' },
-                  { value: 'critical', label: 'Kritik' },
-                  { value: 'high', label: 'Yüksek' },
-                  { value: 'medium', label: 'Orta' },
-                  { value: 'low', label: 'Düşük' },
-                ].map(({ value, label }) => (
+                {q && <input type="hidden" name="q" value={q} />}
+                {(
+                  [
+                    { value: 'all', label: 'Tüm Ciddiyet' },
+                    { value: 'critical', label: 'Kritik' },
+                    { value: 'high', label: 'Yüksek' },
+                    { value: 'medium', label: 'Orta' },
+                    { value: 'low', label: 'Düşük' },
+                  ] as const
+                ).map(({ value, label }) => (
                   <button
                     key={value}
                     type="submit"
                     name="severity"
                     value={value}
                     className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
-                      severity === value
+                      validSeverity === value
                         ? 'bg-primary text-white'
                         : 'border border-border bg-card text-muted hover:text-textStrong'
                     }`}
@@ -127,90 +125,86 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
                   </button>
                 ))}
               </form>
+
+              {/* Arama */}
+              <form method="get" className="flex gap-2">
+                <input type="hidden" name="severity" value={validSeverity} />
+                <input
+                  type="search"
+                  name="q"
+                  defaultValue={q}
+                  placeholder="Aksiyon veya hedef ara…"
+                  className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-textStrong placeholder:text-muted focus:outline-none focus:ring-1 focus:ring-primary"
+                />
+                <button
+                  type="submit"
+                  className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-[700] text-muted hover:text-textStrong"
+                >
+                  Ara
+                </button>
+              </form>
             </div>
 
+            {/* Liste */}
             {list.length === 0 ? (
-              <PanelEmptyState icon={<AlertIcon />} title="Olay yok" />
+              <PanelEmptyState
+                icon={<AlertIcon />}
+                title="Olay bulunamadı"
+                description="Bu filtre kombinasyonuyla kayıt yok."
+              />
             ) : (
               <PanelSectionCard noPadding>
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-border text-left">
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Olay Tipi</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Ciddiyet</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Açıklama</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Oluşturma Tarihi</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
-                    {list.map((inc: any) => (
-                      <tr key={inc.id} className="hover:bg-black/[0.02]">
-                        <td className="px-5 py-3 font-[700] text-textStrong">
-                          {inc.incident_type ?? '—'}
-                        </td>
-                        <td className="px-5 py-3">
-                          <span
-                            className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
-                              inc.severity === 'critical'
-                                ? 'bg-red-100 text-red-700'
-                                : inc.severity === 'high'
-                                ? 'bg-orange-50 text-orange-700'
-                                : inc.severity === 'medium'
-                                ? 'bg-amber-50 text-amber-700'
-                                : 'bg-zinc-100 text-zinc-500'
-                            }`}
-                          >
-                            {SEVERITY_LABELS[inc.severity] ?? inc.severity ?? '—'}
-                          </span>
-                        </td>
-                        <td className="px-5 py-3">
-                          <span
-                            className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
-                              inc.status === 'resolved' || inc.status === 'closed'
-                                ? 'bg-green-50 text-green-700'
-                                : inc.status === 'investigating'
-                                ? 'bg-blue-50 text-blue-700'
-                                : 'bg-amber-50 text-amber-700'
-                            }`}
-                          >
-                            {STATUS_LABELS[inc.status] ?? inc.status ?? '—'}
-                          </span>
-                        </td>
-                        <td className="max-w-[300px] px-5 py-3 text-muted">
-                          <p className="line-clamp-2">{inc.description ?? '—'}</p>
-                        </td>
-                        <td className="px-5 py-3 text-xs text-muted">
-                          {new Date(inc.created_at).toLocaleDateString('tr-TR')}
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border text-left">
+                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                          Aksiyon
+                        </th>
+                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                          Ciddiyet
+                        </th>
+                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                          Hedef Tipi
+                        </th>
+                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                          Admin
+                        </th>
+                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                          Tarih
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {list.map((olay: Olay) => (
+                        <OlaySatiri key={olay.id} olay={olay} />
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
-                {totalPages > 1 && (
-                  <div className="flex items-center justify-between border-t border-border px-5 py-3">
-                    <span className="text-xs text-muted">Sayfa {pageNum} / {totalPages}</span>
-                    <div className="flex gap-2">
-                      {pageNum > 1 && (
-                        <a
-                          href={`?severity=${severity}&status=${status}&page=${pageNum - 1}`}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
-                        >
-                          ← Önceki
-                        </a>
-                      )}
-                      {pageNum < totalPages && (
-                        <a
-                          href={`?severity=${severity}&status=${status}&page=${pageNum + 1}`}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
-                        >
-                          Sonraki →
-                        </a>
-                      )}
-                    </div>
+                {/* Sayfalama */}
+                <div className="flex items-center justify-between border-t border-border px-5 py-3">
+                  <span className="text-xs text-muted">Sayfa {pageNum}</span>
+                  <div className="flex gap-2">
+                    {pageNum > 1 && (
+                      <a
+                        href={`?severity=${validSeverity}&page=${pageNum - 1}${q ? `&q=${encodeURIComponent(q)}` : ''}`}
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                      >
+                        Onceki
+                      </a>
+                    )}
+                    {hasNextPage && (
+                      <a
+                        href={`?severity=${validSeverity}&page=${pageNum + 1}${q ? `&q=${encodeURIComponent(q)}` : ''}`}
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                      >
+                        Sonraki
+                      </a>
+                    )}
                   </div>
-                )}
+                </div>
               </PanelSectionCard>
             )}
           </div>
@@ -220,9 +214,55 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
   );
 }
 
+// ─── Alt Bileşenler ───────────────────────────────────────────────────────────
+
+function OlaySatiri({ olay }: { olay: Olay }) {
+  return (
+    <tr className="hover:bg-black/[0.02]">
+      <td className="px-5 py-3">
+        <span className="font-[700] text-textStrong">{aksiyonEtiketi(olay.action)}</span>
+        <span className="ml-2 text-[10px] text-muted">{olay.action}</span>
+      </td>
+      <td className="px-5 py-3">
+        <span
+          className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${SEVERITY_STYLES[olay.severity]}`}
+        >
+          {SEVERITY_LABELS[olay.severity]}
+        </span>
+      </td>
+      <td className="px-5 py-3 text-xs text-muted">{olay.target_type ?? '—'}</td>
+      <td className="px-5 py-3 text-xs text-muted">
+        {olay.actor_display}
+        {olay.actor_role && (
+          <span className="ml-1 text-[10px] text-muted/70">({olay.actor_role})</span>
+        )}
+      </td>
+      <td className="px-5 py-3 text-xs text-muted">
+        {new Date(olay.created_at).toLocaleString('tr-TR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        })}
+      </td>
+    </tr>
+  );
+}
+
 function AlertIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
       <line x1="12" y1="9" x2="12" y2="13" />
       <line x1="12" y1="17" x2="12.01" y2="17" />
