@@ -50,14 +50,21 @@ export async function decideAppealAction(formData: FormData): Promise<void> {
   };
 
   try {
-    const { error } = await sb.rpc('admin_decide_moderation_appeal_v1', {
+    const { data, error } = await sb.rpc('admin_decide_moderation_appeal_v1', {
       p_appeal_id: appealId,
       p_decision: decisionRaw,
       p_note: noteValue,
     });
 
     if (error) {
-      logger.warn('decideAppealAction: RPC hatası', { error });
+      logger.warn('decideAppealAction: RPC transport hatası', { code: (error as { code?: string }).code });
+      return;
+    }
+
+    const result = data as { ok?: boolean; error?: string } | null;
+    if (!result?.ok) {
+      // Soft-fail: forbidden / appeal_not_found / invalid_decision
+      logger.warn('decideAppealAction: RPC soft-fail', { rpcError: result?.error });
       return;
     }
   } catch (err) {
@@ -65,6 +72,5 @@ export async function decideAppealAction(formData: FormData): Promise<void> {
     return;
   }
 
-  revalidatePath(`/admin/appeals?status=${statusParam}`);
   revalidatePath('/admin/appeals');
 }
