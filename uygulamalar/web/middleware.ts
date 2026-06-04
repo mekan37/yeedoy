@@ -90,16 +90,13 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
     return NextResponse.redirect(loginUrl);
   }
 
-  // Admin routes (panel pages + API routes) require admin role check
+  // Admin routes (panel pages + API routes) require admin role check.
+  // Uses is_admin() RPC which reads from admin_users table (SECURITY DEFINER).
+  // user_profiles.role / user_profiles.id do not exist in production schema.
   if (isAdminRoute || isAdminApiRoute) {
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
+    const { data: isAdmin, error: adminCheckError } = await supabase.rpc('is_admin');
 
-    const adminRoles = ['super_admin', 'admin', 'community_mod'];
-    if (!profile || !adminRoles.includes(profile.role)) {
+    if (adminCheckError || !isAdmin) {
       const forbiddenUrl = request.nextUrl.clone();
       forbiddenUrl.pathname = '/forbidden';
       return NextResponse.redirect(forbiddenUrl);
