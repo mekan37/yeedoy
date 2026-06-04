@@ -1,6 +1,18 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { logger } from '@/src/lib/kayitci';
 
+/** Yalnızca http/https scheme'e izin ver — javascript: ve diğer vektörleri engelle. */
+function guvenliImageUrl(raw: string | null): string | null {
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== 'https:' && url.protocol !== 'http:') return null;
+    return raw;
+  } catch {
+    return null;
+  }
+}
+
 // ─── Tipler ─────────────────────────────────────────────────────────────────
 
 export type FisGonderimDurumu = 'pending' | 'reviewed' | 'needs_followup' | 'all';
@@ -112,7 +124,7 @@ export async function listAdminFisGonderimleri(params: {
         city: row['city'] != null ? String(row['city']) : null,
         district: row['district'] != null ? String(row['district']) : null,
         chain_name: row['chain_name'] != null ? String(row['chain_name']) : null,
-        image_url: row['image_url'] != null ? String(row['image_url']) : null,
+        image_url: guvenliImageUrl(row['image_url'] != null ? String(row['image_url']) : null),
         matches_count: Number(row['matches_count'] ?? 0),
         review_status: String(row['review_status'] ?? 'pending'),
         review_note: row['review_note'] != null ? String(row['review_note']) : null,
