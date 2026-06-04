@@ -44,7 +44,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | 16 | `admin/incidents` | Olay yönetimi stub |
 | 17 | `admin/locations` | ✅ MVP tamamlandı — veri kalitesi görünümü: koordinatsız/şehirsiz/slugsuz metrikler + işletme tablosu (PR #42) |
 | 18 | `admin/receipt-submissions` | Fatura inceleme stub |
-| 19 | `admin/appeals` | İtiraz yönetimi — DB migration var (`moderation_appeals`), UI stub |
+| 19 | `admin/appeals` | ✅ MVP tamamlandı — moderation_appeals + admin_list/decide_v1 RPC, status filtresi, admin note, pagination (PR #46) |
 
 ---
 
