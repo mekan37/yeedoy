@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../app/theme/colors.dart';
@@ -410,37 +411,26 @@ class _PaylasimTab extends StatelessWidget {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // QR placeholder (qr_flutter paketi olmadan basit temsil)
             Container(
-              width: 200,
-              height: 200,
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.border, width: 2),
                 borderRadius: BorderRadius.circular(16),
                 color: Colors.white,
               ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Icon(
-                    Icons.qr_code_2_rounded,
-                    size: 160,
-                    color: Colors.black,
-                  ),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.restaurant_menu,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.all(12),
+              child: QrImageView(
+                data: url,
+                version: QrVersions.auto,
+                size: 200,
+                backgroundColor: Colors.white,
+                eyeStyle: const QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: Colors.black,
+                ),
+                dataModuleStyle: const QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: Colors.black,
+                ),
               ),
             ),
             const SizedBox(height: 12),
