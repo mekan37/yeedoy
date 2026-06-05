@@ -1,6 +1,30 @@
 # Push Delivery Integration Plan
 
-> Status: Fail-safe implementation deployed. Activation blocked on Firebase secrets.
+> Status: Fail-safe implementation deployed. GitHub secrets in place. Runtime env pending activation.
+> **Last updated:** 2026-06-05
+
+## Mevcut Aktivasyon Durumu
+
+| Ortam | Firebase env var | FCM aktif mi? | Not |
+|---|---|---|---|
+| GitHub Actions (CI) | ✅ Secret olarak kayıtlı (FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY) | Workflow yok | Secrets var ama CI workflow'lara atanmadı |
+| Local dev (`.env.local`) | ❌ Eksik | ❌ Hayır — `provider_not_configured: true` | Local dosya override gerekiyor |
+| Production runtime (Vercel veya deployment) | ❌ Yapılandırılmadı | — | Deployment anında env var eklenince aktif |
+
+**Kritik ayrım:** GitHub repository secret'ları yalnızca GitHub Actions workflow'larında `${{ secrets.FIREBASE_PROJECT_ID }}` syntax'ıyla erişilebilir. Next.js server runtime'ı (lokal `.env.local` dosyası veya production deployment env var'ları) tamamen ayrı bir yapılandırma katmanıdır.
+
+`fcm-client.ts` şu an:
+```javascript
+const projectId = process.env.FIREBASE_PROJECT_ID?.trim();  // Runtime'dan oku
+const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.trim();
+const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n').trim();
+
+if (!projectId || !clientEmail || !privateKey) {
+  return { success_count: 0, failure_count: 0, provider_not_configured: true };  // Fail-safe
+}
+```
+
+Runtime env var'ları yoksa otomatik olarak `provider_not_configured: true` döndürüyor (fail-safe).
 
 ## Mevcut Altyapı
 
@@ -15,72 +39,164 @@
 | `fcm-client.ts` | `src/lib/push/fcm-client.ts` | Deployed |
 | Admin push route | `app/sunucu/yonetici/push-kampanyalari/route.ts` | FCM entegre edildi |
 
-## Eksikler — Aktivasyon için Gerekli
+## Aktivasyon için Gerekli — Runtime env Yapılandırması
 
-| Gereksinim | Nerede alınır |
-|---|---|
-| Firebase projesi | Firebase Console → yeni proje veya mevcut proje |
-| Service account key (JSON) | Firebase Console → Project Settings → Service Accounts → Generate new private key |
-| GitHub/Vercel secret tanımları | Aşağıdaki secret isimlerini ekle |
+Runtime ortamlarında (lokal, production) 3 Firebase env var gerekiyor:
 
-## Gerekli Secret İsimleri
+| Env Var | Değer | Nereden alınır |
+|---|---|---|
+| `FIREBASE_PROJECT_ID` | ör. `yeedoy-498507` | Firebase Console → Project Settings |
+| `FIREBASE_CLIENT_EMAIL` | ör. `yeedoy@yeedoy-498507.iam.gserviceaccount.com` | Service account e-postası |
+| `FIREBASE_PRIVATE_KEY` | `-----BEGIN RSA PRIVATE KEY-----\n...\n-----END...` | Service account private key (escaped newlines) |
 
+**Not:** Bu değerleri GitHub repository secret'larına koymak deploy yapılandırmasını etkilemez. Deployment zaman'ında deployment platform'unun (Vercel, Railway, Fly.io vb.) environment variables panel'inde ayrı olarak eklenmeleri gerekir. |
+
+## FIREBASE_PRIVATE_KEY Newline Detayı
+
+Firebase Console'dan indirilen `serviceAccountKey.json` örneği:
+
+```json
+{
+  "type": "service_account",
+  "project_id": "yeedoy-498507",
+  "private_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBA...\n-----END RSA PRIVATE KEY-----\n",
+  "client_email": "yeedoy@yeedoy-498507.iam.gserviceaccount.com",
+  ...
+}
 ```
-FIREBASE_PROJECT_ID        # Firebase proje ID'si (ör. yeedoy-prod)
-FIREBASE_CLIENT_EMAIL      # Service account e-postası (ör. firebase-adminsdk-xyz@yeedoy-prod.iam.gserviceaccount.com)
-FIREBASE_PRIVATE_KEY       # Service account private key (-----BEGIN RSA PRIVATE KEY----- satırıyla başlar)
+
+**Kritik:** `private_key` alanı literal `\n` karakterlerini (escaped backslash-n) içerir — gerçek newline değil.
+
+Bu değeri env var olarak kullandığında:
+
+#### `.env.local` (lokal dev)
+```bash
+FIREBASE_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\nMIIEpAI...\n-----END RSA PRIVATE KEY-----\n"
 ```
+Tırnak içinde değeri `\n`'ler olarak kopyala. `fcm-client.ts` otomatik işleyecek.
 
-### FIREBASE_PRIVATE_KEY Newline Notu
+#### Vercel / diğer deployment
+UI copy-paste yapıyorsan, tırnaklarını çıkarıp değeri öyle ekle:
+```
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBA...
+-----END RSA PRIVATE KEY-----
+```
+Deployment platform otomatik olarak env var string'ine `\n` karakterlerini koyacak.
 
-Firebase Console'dan indirilen JSON dosyasındaki `private_key` alanı literal `\n` karakterleri içerir.
-Bu değeri environment variable olarak kaydederken **olduğu gibi** kaydet — `fcm-client.ts` içinde
-`.replace(/\\n/g, '\n')` ile gerçek newline'a dönüştürülmektedir.
-
-Vercel'de eklerken: değeri tırnak içinde yaz, `\n` karakterlerini olduğu gibi bırak.
+**Sonuç:** `fcm-client.ts` satır 22'de `.replace(/\\n/g, '\n')` her durumda işleri düzeltir.
 
 ## Aktivasyon Adımları
 
-1. [Firebase Console](https://console.firebase.google.com) → projeyi seç veya oluştur
-2. Project Settings → Service Accounts → "Generate new private key" → JSON indir
-3. JSON dosyasından 3 alan al:
+### 1. Firebase Service Account Key Oluştur
+
+1. [Firebase Console](https://console.firebase.google.com) → proje seç veya oluştur
+2. Project Settings → Service Accounts tab → "Generate new private key" → JSON indir
+3. JSON dosyasından 3 değeri al:
    - `project_id` → `FIREBASE_PROJECT_ID`
    - `client_email` → `FIREBASE_CLIENT_EMAIL`
-   - `private_key` → `FIREBASE_PRIVATE_KEY`
-4. Vercel dashboard → Settings → Environment Variables → 3 değeri ekle (Production + Preview)
-5. GitHub → Repository Secrets → aynı 3 değeri ekle (CI build için)
-6. Vercel'de yeni deploy tetikle → `fcm-client.ts` secrets'ı okuyacak ve gerçek gönderime geçecek
+   - `private_key` → `FIREBASE_PRIVATE_KEY` (tırnak içindeki tüm içeriği, `-----BEGIN...-----END` dahil)
 
-## Mevcut Fail-Safe Davranışı
+### 2. Lokal Test için (.env.local — ASLA commit etme)
 
-Secrets eksikse route şunu döndürür:
+`.env.local` dosyasını (`.gitignore` içinde) oluştur:
+
+```bash
+# .env.local (LOCAL DEV ONLY — never commit)
+FIREBASE_PROJECT_ID=yeedoy-498507
+FIREBASE_CLIENT_EMAIL=yeedoy@yeedoy-498507.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA...\n-----END RSA PRIVATE KEY-----\n"
+```
+
+**Not:** `FIREBASE_PRIVATE_KEY` literal `\n` karakterlerini (escaped newline) içermeli. `fcm-client.ts` bunu `.replace(/\\n/g, '\n')` ile gerçek newline'a dönüştürüyor.
+
+Doğrulaştırma: `npm run dev` ile local server başlat, admin push kampanya sayfasından test kampanyası gönder → API yanıtında `providerNotConfigured: false` ve `sentCount > 0` görmelisin.
+
+### 3. Production Deployment (Vercel / diğer platform)
+
+Kullandığın deployment platform'unun (Vercel, Railway, Fly.io vb.) dashboard'unda:
+
+1. Environment Variables → Add 3 variables (Production + Preview):
+   - Name: `FIREBASE_PROJECT_ID` → Value: `yeedoy-498507`
+   - Name: `FIREBASE_CLIENT_EMAIL` → Value: `yeedoy@yeedoy-498507.iam.gserviceaccount.com`
+   - Name: `FIREBASE_PRIVATE_KEY` → Value: JSON'dan kopyalanan `private_key` alanı (tırnak başında \n'lerle başlar, end'de \n'lerle biter)
+2. Deploy tetikle
+3. Deployment tamamlandıktan sonra push kampanya API otomatik olarak aktif hale gelir
+
+### 4. GitHub Secrets (İsteğe bağlı — CI workflow'ları için)
+
+GitHub Actions workflow'ları Firebase services'ine erişmesi gerekiyorsa, aynı 3 secret'ı ` GitHub → Repository Settings → Secrets` altına ekle. Ancak web deployment için gerekli değildir.
+
+**Uyarı:** Şu an CI workflow'larında hiçbiri Firebase secrets'ları kullanmıyor.
+
+## providerNotConfigured Nasıl Anlaşılır?
+
+Admin push kampanya API endpoint: `POST /api/sunucu/yonetici/push-kampanyalari`
+
+### Senaryo 1: Env Var Eksikse (Deployment öncesi veya lokal yardım yapılandırılmadıysa)
 
 ```json
 {
   "ok": true,
-  "sentCount": <estimate_campaign_segment_v1 tahmini>,
+  "sentCount": 0,
   "providerNotConfigured": true
 }
 ```
 
-Secrets mevcut ve FCM başarılıysa:
+Bu durumda:
+- FCM hiç çalışmamış
+- Server log: `fcm: provider not configured — FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY missing`
+- Kampanya DB'ye kaydedildi (`sent_count = 0`, `sent_at = now`)
+- **Aksiyon:** Runtime env var'larını ekle ve deployment yenile
+
+### Senaryo 2: Env Var Mevcut, FCM Başarılıysa
 
 ```json
 {
   "ok": true,
-  "sentCount": <gerçek başarılı gönderim sayısı>,
+  "sentCount": 150,
   "providerNotConfigured": false
 }
 ```
 
+Bu durumda:
+- FCM 150 token'a başarıyla göndermiş
+- Server log: `fcm: batch send complete { success_count: 150, failure_count: 12 }`
+- Kampanya DB'ye kaydedildi (`sent_count = 150`, `sent_at = now`)
+- **Status:** Aktif ve çalışıyor
+
+### Senaryo 3: Env Var Mevcut, FCM Başarısızsa (ör. auth error)
+
+```json
+{
+  "ok": true,
+  "sentCount": 0,
+  "providerNotConfigured": false
+}
+```
+
+Bu durumda:
+- FCM bağlantı hatasıyla başarısız
+- Server log: `fcm: send auth failed { status: 401 }` veya `fcm: failed to obtain access token`
+- Kampanya DB'ye kaydedildi ama `sent_count = 0`
+- **Aksiyon:** Private key, client email doğrulaması yap
+
 ## Güvenlik Notları
 
-- FCM token değerleri asla loglanmaz — yalnızca count loglanır
-- `FIREBASE_PRIVATE_KEY` asla loglanmaz
-- OAuth2 access token asla loglanmaz
-- Ham Firebase API hata detayları UI'a dönmez — sadece `{ error: 'internal_error' }` veya genel `failure_count`
-- Route admin-only korumalıdır (`is_admin()` RPC guard)
-- `getSegmentTokens` service role key yoksa `[]` döndürür ve sadece warn log yazar
+### Logging / PII
+- FCM token değerleri **asla** loglanmaz — yalnızca `success_count` / `failure_count` loglanır
+- `FIREBASE_PRIVATE_KEY` env var **asla** loglanmaz
+- OAuth2 access token **asla** loglanmaz veya kullanıcıya döndürülmez
+- Ham Firebase API hata detayları UI'a **dönmez** — sadece `{ error: 'internal_error' }` veya count-based yanıt
+
+### Access Control
+- Admin push kampanya route **admin-only korumalıdır** (`is_admin()` RPC guard)
+- `getSegmentTokens` RPC — service role key yoksa `[]` döndürür (kampanya o iş) ve sadece warn log yazar
+
+### Env Var Güvenliği
+- `.env.local` **ASLA commit etme** → `.gitignore` içinde
+- Deployment platform secrets (Vercel, Railway vb.) **UI üzerinden gir** — version control'de sakla değil
+- Private key yalnızca lokal test ve deployment platform tarafından erişilebilir olmalı
 
 ## Segment Davranışı
 
@@ -91,3 +207,52 @@ Secrets mevcut ve FCM başarılıysa:
 | `loyal_top20`, `inactive_30d` ve diğerleri | `all_followers` ile aynı davranır (MVP scope) |
 | Pasif token filtresi | `last_seen_at > 90 gün` olanlar dahil edilmez |
 | Limit | Max 500 token (MVP scope) |
+
+## Test Planı (Env Var Eklendikten Sonra)
+
+### 1. Lokal Test
+
+```bash
+# .env.local'e Firebase 3 env var'ını ekle
+npm run dev
+# Admin push kampanya sayfasına git: /sunucu/yonetici/push-kampanyalari
+# Test kampanyası oluştur ve gönder
+```
+
+**Beklenen yanıt:**
+```json
+{
+  "ok": true,
+  "sentCount": 50,  // veya sıfır token varsa 0
+  "providerNotConfigured": false
+}
+```
+
+**Server log beklentisi:**
+```
+fcm: batch send complete { success_count: 50, failure_count: 2 }
+```
+
+### 2. Doğrulama
+
+- [ ] Admin push sayfasında kampanya formu çıkışı
+- [ ] `providerNotConfigured: false` yanıt aldın
+- [ ] `push_campaigns` tablosunda `sent_count > 0` kaydı (kontrol: `supabase > push_campaigns` tablo)
+- [ ] Server log'da FCM token değerleri **yoktur** (yalnızca count görünüyor)
+- [ ] `.env.local` gitignore'da ve commit edilmedi
+
+### 3. Troubleshooting
+
+| Sorun | Beklenen hata | Çözüm |
+|---|---|---|
+| Private key yanlış | `fcm: oauth token exchange returned no access_token` | Firebase Console'dan private key'i tekrar kopyala |
+| Client email yanlış | `fcm: send auth failed { status: 401 }` | Service account email doğru mu kontrol et |
+| Hiç token yok | `sentCount: 0, providerNotConfigured: false` | Mobil uygulamadan FCM token gönderildi mi kontrol et (user_devices) |
+| Env var eksik | `sentCount: 0, providerNotConfigured: true` | Runtime env var'ları (.env.local / deployment) ekle |
+
+### 4. Production Dağıtım
+
+1. Deployment platform (Vercel, Railway vb.) → Environment Variables → 3 Firebase var ekle
+2. Yeni deploy tetikle
+3. Admin push kampanya sayfasından production'da test yap
+4. `sentCount > 0` ve `providerNotConfigured: false` gözlemle
