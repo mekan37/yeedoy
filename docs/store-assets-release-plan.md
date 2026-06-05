@@ -50,6 +50,8 @@ Aşağıdaki aktiviteler **bu haftada/haftaya** tamamlanmalıdır:
 
 ## 1. App Icon Gereksinimleri
 
+> **Detaylı üretim brief:** docs/store-icon-feature-graphic-brief.md
+
 ### 1.1 Specifikasyonlar
 
 **Google Play Store:**
