@@ -23,7 +23,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | # | Route | Durum |
 |---|---|---|
 | 4 | `owner/marketing/loyalty` | ✅ MVP tamamlandı — loyalty_programs + upsert_loyalty_program_v1 RPC, puan kuralları, aktif/pasif toggle (PR #48) |
-| 5 | `owner/marketing/automations` | Otomasyon motoru yok — sadece "yakında" placeholder kartı |
+| 5 | `owner/marketing/automations` | ✅ MVP tamamlandı — business_automations + toggle, dış provider beklemede (PR #51) |
 | 6 | `owner/marketing/campaigns` | Push kampanya formu var, FCM bağlantısı yok → blocker: madde 1 |
 | 7 | `owner/marketing/email` | E-posta form var, provider bağlantısı yok → blocker: madde 3 |
 | 8 | `owner/qr` | QR görüntüleme/indirme UI iskeleti var, gerçek QR generate/download yok |
