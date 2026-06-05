@@ -13,7 +13,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | # | Alan | Dosya | Durum |
 |---|---|---|---|
 | 1 | **Push Bildirimi Gönderimi** | `app/sunucu/yonetici/push-kampanyalari/route.ts` | ✅ FCM delivery code hazır (PR #52). GitHub secrets var ama runtime env eksik (FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY). `.env.local` eklenince lokal test aktif; production'da deployment platform env var'larına eklenince live. Şu an `providerNotConfigured: true` döndürüyor. Docs: `docs/push-delivery-integration-plan.md` |
-| 2 | **SMS Kampanya Gönderimi** | `app/sunucu/sahip/sms-kampanya/route.ts:72` | DB'ye kaydediyor, Netgsm/Twilio çağrısı yok |
+| 2 | **SMS Kampanya Gönderimi** | `app/sunucu/sahip/sms-kampanya/route.ts:72` | Route + ownership guard var. Telefon verisi, is_subscribed_sms, opt-out, KVKK kayit eksik. Provider entegrasyonundan once consent altyapisi zorunlu. Bkz: `docs/sms-delivery-integration-plan.md` |
 | 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | Edge function yazılmış, provider (SendGrid/Resend/vb.) bağlantısı yok |
 
 ---
