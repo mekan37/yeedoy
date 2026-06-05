@@ -90,6 +90,16 @@
 
 ## P3 — Mobil Teknik Borçlar
 
+### Profil Sosyal Bağlantı Kaydetme
+- **Durum:** Blocker — user_profiles.social_links kolonu yok
+- **Neden:** Flutter modeli ve URL normalizasyon hazır; DB kolonu eksik
+- **Gerekli:** `user_profiles` tablosuna `social_links JSONB DEFAULT '{}'::jsonb` kolonu eklenecek migration
+- **Mevcut dosya:** `features/profile/data/profile_repository.dart` — upsertMyProfile() sosyal linkleri normalize ediyor ama DB'ye kaydetmiyor (kolon yok)
+- **UI:** `features/profile/ui/profile_page.dart:179` — profileSocialSaveComingSoon placeholder
+- **Önerilen branch:** `migration/supabase-user-profile-social-links` (migration) → `feature/mobile-profile-social-links-save` (Flutter)
+- **Commit:** `migration(supabase): add social_links to user_profiles` → `feat(mobile): save profile social links`
+- **Not:** Migration onaylandıktan sonra upsertMyProfile() içinde payload'a `'social_links': normalizedLinks` eklenmesi yeterli
+
 ### estimate_email_segment_v1 — follower_id Kullanımı
 - **Durum:** ✅ PR #55 ile düzeltildi
 
