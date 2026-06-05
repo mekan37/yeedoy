@@ -79,7 +79,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | # | Alan | Satır | Durum |
 |---|---|---|---|
 | 28 | **Kampanya Sayfası** | `features/kampanya/ui/kampanya_sayfasi.dart` (446 satır) | UI yazılmış, data/domain katmanı yok — backend bağlantısı kurulamaz |
-| 29 | **QR Görüntüleme** | `features/qr/ui/qr_sayfasi.dart` (153 satır) | UI var, data/domain yok |
+| 29 | **QR Görüntüleme** | `features/qr/ui/qr_sayfasi.dart` (153 satır) | ✅ Tamamlandı — qr_flutter + kimlikProvider + masa no input + kopyala butonu. Ayrı data/domain katmanı gereksiz (payload auth state + user input'tan hesaplanıyor). |
 | 30 | **QR Tarayıcı** | `features/qr_tarayici/ui/qr_tarayici_sayfasi.dart` (515 satır) | UI var, data/domain yok — `mobile_scanner` pubspec'te mevcut |
 
 ---
