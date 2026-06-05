@@ -992,6 +992,12 @@ abstract class AppLocalizations {
   /// **'Grafik alanı (yakında)'**
   String get chartPlaceholderSoon;
 
+  /// No description provided for @noPriceDataYet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz fiyat verisi yok'**
+  String get noPriceDataYet;
+
   /// Auto metadata for featuredCuisineSuffix
   ///
   /// In tr, this message translates to:

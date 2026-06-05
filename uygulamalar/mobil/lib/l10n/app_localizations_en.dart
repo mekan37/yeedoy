@@ -490,6 +490,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartPlaceholderSoon => 'Chart area (coming soon)';
 
   @override
+  String get noPriceDataYet => 'No price data yet';
+
+  @override
   String get featuredCuisineSuffix => 'cuisine highlights.';
 
   @override

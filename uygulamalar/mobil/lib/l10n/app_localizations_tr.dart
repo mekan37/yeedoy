@@ -494,6 +494,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get chartPlaceholderSoon => 'Grafik alanı (yakında)';
 
   @override
+  String get noPriceDataYet => 'Henüz fiyat verisi yok';
+
+  @override
   String get featuredCuisineSuffix => 'mutfağından öne çıkan lezzetler';
 
   @override

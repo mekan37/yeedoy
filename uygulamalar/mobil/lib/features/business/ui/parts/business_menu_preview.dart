@@ -46,19 +46,17 @@ class _PriceHistorySection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         AppCard(
-          child: Container(
-            height: 170,
-            decoration: BoxDecoration(
-              color: AppColors.card,
-              borderRadius: BorderRadius.circular(tokens.radius16),
-              border: Border.all(color: AppColors.border),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              AppLocalizations.of(context).chartPlaceholderSoon,
-              style: const TextStyle(color: AppColors.muted),
-            ),
-          ),
+          child: points.isEmpty || points.every((v) => v == 0)
+              ? SizedBox(
+                  height: 80,
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context).noPriceDataYet,
+                      style: const TextStyle(color: AppColors.muted),
+                    ),
+                  ),
+                )
+              : _PriceBarChart(points: points),
         ),
       ],
     );
@@ -521,6 +519,64 @@ class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Simple vertical-bar chart for price-history points.
+/// Uses only core Flutter widgets — no external chart package.
+class _PriceBarChart extends StatelessWidget {
+  const _PriceBarChart({required this.points});
+
+  final List<int> points;
+
+  @override
+  Widget build(BuildContext context) {
+    final values = points.isNotEmpty ? points : <int>[0];
+    final maxValue = values.fold(0, (m, v) => v > m ? v : m);
+    const barHeight = 80.0;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          for (var i = 0; i < values.length; i++) ...[
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: barHeight,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: maxValue <= 0
+                            ? 6
+                            : (6 + (values[i] / maxValue) * (barHeight - 6))
+                                .clamp(6, barHeight),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '${values[i]}',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.muted,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (i != values.length - 1) const SizedBox(width: 6),
+          ],
+        ],
+      ),
     );
   }
 }

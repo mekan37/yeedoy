@@ -550,6 +550,7 @@
   },
   "weeklyPriceChange": "+₺50 bu hafta",
   "chartPlaceholderSoon": "Grafik alanı (yakında)",
+  "noPriceDataYet": "Henüz fiyat verisi yok",
   "featuredCuisineSuffix": "mutfağından öne çıkan lezzetler",
   "connectionProblemTryAgain": "Bağlantı sorunu var, tekrar dene.",
   "noActiveCampaign": "Aktif kampanya yok",
