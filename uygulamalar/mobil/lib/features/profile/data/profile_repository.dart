@@ -77,6 +77,7 @@ class ProfileRepository {
     await _supabase.from('user_profiles').upsert({
       'user_id': uid,
       'display_name': displayName.isEmpty ? 'Kullanici' : displayName,
+      'social_links': normalizedLinks.isEmpty ? null : normalizedLinks,
     }, onConflict: 'user_id');
   }
 

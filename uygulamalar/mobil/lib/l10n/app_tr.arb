@@ -1970,6 +1970,8 @@
   "linkLabel": "Bağlantı",
   "profileSocialLinksHint": "YouTube / Instagram / Facebook",
   "profileSocialSaveComingSoon": "Sosyal bağlantı kaydetme özelliği yakında.",
+  "profileSocialSaved": "Sosyal bağlantı kaydedildi.",
+  "profileSocialSaveError": "Kaydedilemedi. Lütfen tekrar deneyin.",
   "profileStatsTitle": "Profil istatistikleri",
   "profileCommunityTrustTitle": "Topluluk güveni",
   "profileCalculating": "Hesaplanıyor...",
