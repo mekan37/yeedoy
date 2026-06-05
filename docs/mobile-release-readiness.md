@@ -8,7 +8,9 @@
 
 ## Executive Summary
 
-Yeedoy mobil uygulaması (iOS + Android) **çoğunlukla yayın hazırı** aşamadadır. Aşağıdaki kontroller yapılmıştır:
+Yeedoy mobil uygulaması (iOS + Android) **çoğunlukla yayın hazırı** aşamadadır. Aşağıdaki kontroller yapılmıştır.
+
+> **Store Assets Notu:** App icon 1024×1024, 8 screenshot, release notes hazırlanması ve Play Console manuel form adımları bkz. **docs/store-assets-release-plan.md**
 
 | Kontrol | Durum | Detay |
 |---------|-------|-------|

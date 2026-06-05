@@ -1,10 +1,11 @@
 # Yeedoy — App Store / Google Play Mağaza Listeleme Kılavuzu
 
-> **Durum:** ⏳ **2 kritik blocker açık — Release readiness bkz. docs/mobile-release-readiness.md**
+> **Durum:** ✅ Teknik altyapı tamamlandı — Store assets hazırlanıyor — Release readiness bkz. docs/mobile-release-readiness.md
 >
-> - ✅ Privacy Policy sayfası oluşturuldu: yeedoy.com/gizlilik — Hukuki nihai onay önerilir
-> - ✅ Android Keystore + CI workflow teknik altyapısı hazır — Gerçek keystore lokal oluşturulacak + secrets manuel eklenecek
-> - ✅ Data Safety + IARC taslagi hazir — docs/store-data-safety-iarc.md — Store formuna manuel girilecek — Hukuki nihai onay onerilir
+> - ✅ Privacy Policy sayfası: https://yeedoy.com/gizlilik — Hukuki nihai onay önerilir
+> - ✅ Android Keystore + CI workflow: ANDROID_KEYSTORE_BASE64 secret eklendi (2026-06-05) — kalan 3 secret terminal'de set edilecek
+> - ✅ Data Safety + IARC taslağı: docs/store-data-safety-iarc.md — Play Console'da manuel doldurulacak
+> - ⏳ **Store Assets:** App icon 1024×1024, 8 screenshot, release notes — docs/store-assets-release-plan.md
 >
 > **Amaç:** ASO (App Store Optimization) için TR/EN başlık, açıklama ve anahtar kelime seti.  
 > **Son Güncelleme:** 2026-04-22
