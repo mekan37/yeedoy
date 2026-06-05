@@ -18,7 +18,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 |---|---|---|---|
 | 1 | **Push Bildirimi Gönderimi** | `app/sunucu/yonetici/push-kampanyalari/route.ts` | ✅ FCM delivery code hazır (PR #52). GitHub secrets var ama runtime env eksik (FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY). `.env.local` eklenince lokal test aktif; production'da deployment platform env var'larına eklenince live. Şu an `providerNotConfigured: true` döndürüyor. Docs: `docs/push-delivery-integration-plan.md` |
 | 2 | **SMS Kampanya Gönderimi** | `app/sunucu/sahip/sms-kampanya/route.ts:72` | Route + ownership guard var. Telefon verisi, is_subscribed_sms, opt-out, KVKK kayit eksik. Provider entegrasyonundan once consent altyapisi zorunlu. Bkz: `docs/sms-delivery-integration-plan.md` |
-| 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | Edge function yazılmış, provider (SendGrid/Resend/vb.) bağlantısı yok |
+| 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | 🟡 Resend delivery kodu bağlandı (PR #54) — `RESEND_API_KEY` runtime env eklenmeden `providerNotConfigured: true` döner. Owner `/owner/marketing/email` MVP hazır. Bkz: `docs/email-delivery-integration-plan.md` |
 
 ---
 
@@ -27,9 +27,9 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | # | Route | Durum |
 |---|---|---|
 | 4 | `owner/marketing/loyalty` | ✅ MVP tamamlandı — loyalty_programs + upsert_loyalty_program_v1 RPC, puan kuralları, aktif/pasif toggle (PR #48) |
-| 5 | `owner/marketing/automations` | ✅ MVP tamamlandı — business_automations + toggle, dış provider beklemede (PR #51) |
+| 5 | `owner/marketing/automations` | ✅ MVP tamamlandı — business_automations + toggle, dış provider beklemede (PR #49) |
 | 6 | `owner/marketing/campaigns` | Push kampanya formu var, FCM bağlantısı yok → blocker: madde 1 |
-| 7 | `owner/marketing/email` | E-posta form var, provider bağlantısı yok → blocker: madde 3 |
+| 7 | `owner/marketing/email` | ✅ MVP tamamlandı — email-campaign-form.tsx + Resend delivery bağlandı (PR #54). `RESEND_API_KEY` runtime env gerekiyor (madde 3 ile aynı blocker). `is_subscribed_email` consent filtresi aktif. |
 | 8 | `owner/qr` | QR görüntüleme/indirme UI iskeleti var, gerçek QR generate/download yok |
 | 9 | `owner/settings/domain` | Custom domain doğrulama — `verify-domain` edge function yazılmış (119 satır), UI↔backend bağlantısı yok |
 | 10 | `owner/ai-analysis` | AI menü analizi — `ai-menu-analyze` edge function yazılmış (345 satır), owner panel entegrasyonu yok |
@@ -44,10 +44,10 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | 12 | `admin/sponsorships` | Sponsorluk modülü — DB migration var (`20260601_sponsorship_vitrin_package`), admin UI stub |
 | 13 | `admin/sponsorship-leads` | Aday modülü stub |
 | 14 | `admin/sponsorship-packages` | Paket modülü stub |
-| 15 | `admin/b2b-exports` | Veri dışa aktarma stub |
-| 16 | `admin/incidents` | Olay yönetimi stub |
+| 15 | `admin/b2b-exports` | ✅ MVP tamamlandı — ExportDownloadButton, CSV/JSON export (PR #40) |
+| 16 | `admin/incidents` | ✅ MVP tamamlandı — listAdminOlaylar, severity filtresi, pagination (PR #43) |
 | 17 | `admin/locations` | ✅ MVP tamamlandı — veri kalitesi görünümü: koordinatsız/şehirsiz/slugsuz metrikler + işletme tablosu (PR #42) |
-| 18 | `admin/receipt-submissions` | Fatura inceleme stub |
+| 18 | `admin/receipt-submissions` | ✅ MVP tamamlandı — listAdminFisGonderimleri, status filtresi, özet kartları (PR #41) |
 | 19 | `admin/appeals` | ✅ MVP tamamlandı — moderation_appeals + admin_list/decide_v1 RPC, status filtresi, admin note, pagination (PR #46) |
 
 ---
@@ -66,11 +66,11 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 
 | # | Alan | Dosya | Durum |
 |---|---|---|---|
-| 23 | **Profil Sosyal Bağlantı Kaydetme** | `features/profile/ui/profile_page.dart:179` | Form var, `profileSocialSaveComingSoon` — backend çağrısı yok |
-| 24 | **Business Menü Grafiği** | `features/business/ui/parts/business_menu_preview.dart:58` | `chartPlaceholderSoon` — grafik alanı placeholder |
+| 23 | **Profil Sosyal Bağlantı Kaydetme** | `features/profile/ui/profile_page.dart:179` | ✅ Tamamlandı — user_profiles.social_links migration (PR #69) + _SocialLinkSection widget, URL key detection, save/error state (PR #70) |
+| 24 | **Business Menü Grafiği** | `features/business/ui/parts/business_menu_preview.dart:58` | ✅ Tamamlandı — _PriceBarChart, priceChanges3m verisi, boş state (PR #72) |
 | 25 | **Zincir İşletmeler** | `features/chains/` | Feature klasörü 1 dosya — implementasyon başlanmamış |
 | 26 | **Grup Oy** | `features/grup_oy/` | Feature klasörü 1 dosya — implementasyon başlanmamış |
-| 27 | **Yerlestir QR** | `features/yerlestir/ui/yerlestir_sayfasi.dart:413` | UI var, QR generate placeholder (`qr_flutter` paketi pubspec'te yok) |
+| 27 | **Yerlestir QR** | `features/yerlestir/ui/yerlestir_sayfasi.dart:413` | ✅ Tamamlandı — qr_flutter ^4.1.0 eklendi, QrImageView gerçek URL ile render (PR #71) |
 
 ---
 
