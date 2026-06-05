@@ -12,7 +12,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 
 | # | Alan | Dosya | Durum |
 |---|---|---|---|
-| 1 | **Push Bildirimi Gönderimi** | `app/sunucu/yonetici/push-kampanyalari/route.ts:46` | DB'ye kaydediyor, FCM/OneSignal çağrısı yok — gerçek teslimat yapılmıyor |
+| 1 | **Push Bildirimi Gönderimi** | `app/sunucu/yonetici/push-kampanyalari/route.ts` | FCM delivery helper hazır; secret eksik (FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY). Secret eklenince otomatik aktif. |
 | 2 | **SMS Kampanya Gönderimi** | `app/sunucu/sahip/sms-kampanya/route.ts:72` | DB'ye kaydediyor, Netgsm/Twilio çağrısı yok |
 | 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | Edge function yazılmış, provider (SendGrid/Resend/vb.) bağlantısı yok |
 
