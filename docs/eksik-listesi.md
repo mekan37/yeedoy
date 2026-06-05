@@ -1,5 +1,9 @@
 # Yeedoy — Eksik / Kısmi Listesi
 
+> **Not:** Bu dosya web/admin/owner backlog için açık duruyor.
+> Tüm proje açık işleri için: [`docs/kalan-isler.md`](kalan-isler.md)
+> Tamamlanan işler için: [`docs/tamamlananlar-2026-06.md`](tamamlananlar-2026-06.md)
+
 > **Tarih:** 2026-06-03 (Haziran 2026 PR #7–#23 sonrası güncellendi)  
 > **Yöntem:** Canlı kod taraması — kaynak kod, migration'lar, edge function'lar, CI workflow'ları  
 > **Kapsam:** Mobile Flutter · Personel Flutter · Next.js Web · Supabase
