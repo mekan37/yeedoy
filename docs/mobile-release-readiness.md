@@ -276,7 +276,7 @@ firebase_performance: ^0.11.1+4    ✅ Performance monitoring
 | Privacy Policy URL | ~~CRITICAL~~ | ✅ Çözüldü | yeedoy.com/gizlilik — Hukuki nihai onay önerilir |
 | English permission descriptions (iOS) | **MEDIUM** | ⏳ TODO | Info.plist'e İngilizce açıklamalar ekle |
 | App icon 1024x1024 (Store) | **HIGH** | ⏳ TODO | Icon asset üret ve `appiconset`'e ekle |
-| Store screenshots | **HIGH** | ⏳ TODO | 8 ekran (store_listing.md'den) üret |
+| Store screenshots | **HIGH** | ✅ Tamamlandı | 8/8 Android ekran çekildi (2026-06-05) — store-assets/screenshots/android/ |
 | Content rating questionnaire | **HIGH** | 🔧 Taslak hazır | docs/store-data-safety-iarc.md — IARC cevapları belgede — Play Console'da doldurulacak |
 | Data safety form | **CRITICAL** | 🔧 Taslak hazır | docs/store-data-safety-iarc.md — 10 veri kategorisi — Play Console'da doldurulacak |
 | Release notes | **MEDIUM** | ⏳ TODO | v1.0 release notes yaz (changelog) |
@@ -635,7 +635,7 @@ $base64 | Set-Clipboard
 1. ✅ GitHub Actions secrets setup (base64 encode + ANDROID_KEYSTORE_BASE64)
 2. ⏳ Kalan 3 secret'ı terminal'de set et (keystore şifresi, alias, key şifresi)
 3. App icon 1024x1024 üret (Store requirements)
-4. Store screenshots üret (8 ekran, store_listing.md'den)
+4. ✅ Store screenshots üret (8 ekran) — Tamamlandı (2026-06-05)
 
 ### MEDIUM (Sonraki 2 hafta)
 1. TestFlight beta testers kurula (internal testing)
