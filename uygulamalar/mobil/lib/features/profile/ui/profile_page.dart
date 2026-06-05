@@ -5,7 +5,10 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/network/supabase_provider.dart';
 import '../../../core/ui/link_paste_field.dart';
+import '../data/profile_model.dart';
+import '../data/profile_repository.dart';
 import '../../../features/shared/ui/achievements/achievement_visuals.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
@@ -158,31 +161,7 @@ class _ProfileTab extends ConsumerWidget {
                   ),
           ),
           const SizedBox(height: 12),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    t.profileAddSocialLinkTitle,
-                    style: TextStyle(fontWeight: FontWeight.w800),
-                  ),
-                  SizedBox(height: 8),
-                  LinkPasteField(
-                    label: t.linkLabel,
-                    hintText: t.profileSocialLinksHint,
-                    previewTitle: t.socialPreview,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    t.profileSocialSaveComingSoon,
-                    style: TextStyle(color: AppColors.muted, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          const _SocialLinkSection(),
           const SizedBox(height: 12),
           Text(
             t.profileStatsTitle,
@@ -743,6 +722,123 @@ class _EmptyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text, style: const TextStyle(color: AppColors.muted));
+  }
+}
+
+class _SocialLinkSection extends ConsumerStatefulWidget {
+  const _SocialLinkSection();
+
+  @override
+  ConsumerState<_SocialLinkSection> createState() => _SocialLinkSectionState();
+}
+
+class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
+  final _controller = TextEditingController();
+  bool _saving = false;
+  String? _feedback;
+  bool _feedbackIsError = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  String _keyForUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null) return 'website';
+    final host = uri.host.toLowerCase().replaceAll('www.', '');
+    if (host.contains('instagram.com')) return 'instagram';
+    if (host.contains('youtube.com') || host.contains('youtu.be')) return 'youtube';
+    if (host.contains('facebook.com') || host.contains('fb.watch')) return 'facebook';
+    if (host.contains('tiktok.com')) return 'tiktok';
+    if (host.contains('twitter.com') || host.contains('x.com')) return 'x';
+    return 'website';
+  }
+
+  Future<void> _save() async {
+    final t = AppLocalizations.of(context);
+    final raw = _controller.text.trim();
+    final socialLinks = raw.isEmpty
+        ? <String, String>{}
+        : {_keyForUrl(raw): raw};
+
+    setState(() {
+      _saving = true;
+      _feedback = null;
+    });
+    try {
+      final uid = ref.read(supabaseProvider).auth.currentUser?.id;
+      if (uid == null) throw StateError('auth_required');
+      await ref.read(profileRepositoryProvider).upsertMyProfile(
+            Profile(id: uid, firstName: '', lastName: '', socialLinks: socialLinks),
+          );
+      if (mounted) {
+        setState(() {
+          _feedback = t.profileSocialSaved;
+          _feedbackIsError = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _feedback = t.profileSocialSaveError;
+          _feedbackIsError = true;
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              t.profileAddSocialLinkTitle,
+              style: const TextStyle(fontWeight: FontWeight.w800),
+            ),
+            const SizedBox(height: 8),
+            LinkPasteField(
+              label: t.linkLabel,
+              hintText: t.profileSocialLinksHint,
+              previewTitle: t.socialPreview,
+              controller: _controller,
+            ),
+            if (_feedback != null) ...[
+              const SizedBox(height: 6),
+              Text(
+                _feedback!,
+                style: TextStyle(
+                  color: _feedbackIsError ? Colors.red : Colors.green,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: FilledButton(
+                onPressed: _saving ? null : _save,
+                child: _saving
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(t.save),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

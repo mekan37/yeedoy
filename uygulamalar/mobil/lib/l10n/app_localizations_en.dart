@@ -2982,6 +2982,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Saving social links is coming soon.';
 
   @override
+  String get profileSocialSaved => 'Social link saved.';
+
+  @override
+  String get profileSocialSaveError => 'Could not save. Please try again.';
+
+  @override
   String get profileStatsTitle => 'Profile stats';
 
   @override

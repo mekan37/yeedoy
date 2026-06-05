@@ -5423,6 +5423,18 @@ abstract class AppLocalizations {
   /// **'Sosyal bağlantı kaydetme özelliği yakında.'**
   String get profileSocialSaveComingSoon;
 
+  /// No description provided for @profileSocialSaved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sosyal bağlantı kaydedildi.'**
+  String get profileSocialSaved;
+
+  /// No description provided for @profileSocialSaveError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedilemedi. Lütfen tekrar deneyin.'**
+  String get profileSocialSaveError;
+
   /// Auto metadata for profileStatsTitle
   ///
   /// In tr, this message translates to:

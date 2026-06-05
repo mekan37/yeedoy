@@ -2963,6 +2963,12 @@ class AppLocalizationsTr extends AppLocalizations {
       'Sosyal bağlantı kaydetme özelliği yakında.';
 
   @override
+  String get profileSocialSaved => 'Sosyal bağlantı kaydedildi.';
+
+  @override
+  String get profileSocialSaveError => 'Kaydedilemedi. Lütfen tekrar deneyin.';
+
+  @override
   String get profileStatsTitle => 'Profil istatistikleri';
 
   @override

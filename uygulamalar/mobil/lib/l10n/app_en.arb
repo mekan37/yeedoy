@@ -3910,6 +3910,8 @@
     "description": "Auto metadata for profileSocialLinksHint"
   },
   "profileSocialSaveComingSoon": "Saving social links is coming soon.",
+  "profileSocialSaved": "Social link saved.",
+  "profileSocialSaveError": "Could not save. Please try again.",
   "@profileSocialSaveComingSoon": {
     "description": "Auto metadata for profileSocialSaveComingSoon"
   },
