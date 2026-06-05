@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { z } from 'zod';
+import { getSegmentTokens } from '@/src/lib/push/get-segment-tokens';
+import { sendFcmBatch } from '@/src/lib/push/fcm-client';
 
 const schema = z.object({
   businessId: z.string().uuid(),
@@ -43,6 +45,24 @@ export async function POST(req: Request) {
 
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
 
-  // TODO: integrate with FCM/OneSignal for actual delivery
-  return NextResponse.json({ ok: true, sentCount: estimate ?? 0 });
+  // Attempt FCM delivery (fail-safe: returns provider_not_configured if secrets missing)
+  const tokens = await getSegmentTokens(businessId, segment);
+  const fcmResult = await sendFcmBatch(tokens, { title, body });
+
+  // Update sent_count with actual delivery result when FCM is active
+  if (!fcmResult.provider_not_configured && fcmResult.success_count > 0) {
+    await supabaseAny
+      .from('push_campaigns')
+      .update({ sent_count: fcmResult.success_count, sent_at: new Date().toISOString() })
+      .eq('business_id', businessId)
+      .eq('title', title)
+      .order('created_at', { ascending: false })
+      .limit(1);
+  }
+
+  return NextResponse.json({
+    ok: true,
+    sentCount: fcmResult.provider_not_configured ? (estimate ?? 0) : fcmResult.success_count,
+    providerNotConfigured: fcmResult.provider_not_configured ?? false,
+  });
 }
