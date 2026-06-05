@@ -19,7 +19,7 @@ Yeedoy mobil uygulaması (iOS + Android) **çoğunlukla yayın hazırı** aşama
 | Firebase Integration | ✅ Hazır | google-services.json + GoogleService-Info.plist var |
 | CI Workflows | ✅ Aktif | mobile_quality.yml + mobile_readiness.yml |
 | Flutter Analysis | ✅ Pass | `flutter analyze` → No issues found |
-| Keystore File | 🟡 Eksik | key.properties template var, gerçek keystore gerekli |
+| Keystore File | ✅ Tamamlandı | ANDROID_KEYSTORE_BASE64 GitHub secret olarak eklendi |
 | Deep Links | ✅ Hazır | yeedoy://, io.supabase.yeedoy://, https://yeedoy.com links tanımlı |
 | Adaptive Icon | ✅ Var | Android adaptive icon + iOS AppIcon var |
 | Store Listing | ✅ Hazır | store_listing.md'de Türkçe + İngilizce copy |
@@ -360,10 +360,10 @@ iOS: `FLUTTER_BUILD_NUMBER` otomatik set edilir
 
 | Secret Name | Açıklama | Durum | Ekleme Yolu |
 |---|---|---|---|
-| `ANDROID_KEYSTORE_BASE64` | Keystore dosyasının base64 kodlanmış hali (opsiyonel) | ⏳ Manuel | Aşağıya bkz. |
-| `ANDROID_RELEASE_STORE_PASSWORD` | Keystore şifresi | ⏳ Manuel | GitHub UI |
-| `ANDROID_RELEASE_KEY_ALIAS` | Key alias (ör: `yeedoy-release`) | ⏳ Manuel | GitHub UI |
-| `ANDROID_RELEASE_KEY_PASSWORD` | Key şifresi | ⏳ Manuel | GitHub UI |
+| `ANDROID_KEYSTORE_BASE64` | Keystore dosyasının base64 kodlanmış hali (opsiyonel) | ✅ Eklendi | 2026-06-05 — gh secret set kullanılarak set edildi |
+| `ANDROID_RELEASE_STORE_PASSWORD` | Keystore şifresi | ⏳ Bekleniyor | Terminal: `! gh secret set ANDROID_RELEASE_STORE_PASSWORD --repo mekan37/yeedoy` |
+| `ANDROID_RELEASE_KEY_ALIAS` | Key alias (ör: `yeedoy-release`) | ⏳ Bekleniyor | Terminal: `! gh secret set ANDROID_RELEASE_KEY_ALIAS --repo mekan37/yeedoy` |
+| `ANDROID_RELEASE_KEY_PASSWORD` | Key şifresi | ⏳ Bekleniyor | Terminal: `! gh secret set ANDROID_RELEASE_KEY_PASSWORD --repo mekan37/yeedoy` |
 
 **Setup — Keystore Base64 Encoding (Windows PowerShell):**
 
@@ -384,16 +384,19 @@ $base64 | Set-Clipboard
 # 4. Diğer 3 secret'ı da ekle (keystore şifresi, alias, key şifresi)
 ```
 
-**Setup — GitHub CLI Alternatifi:**
+**Setup — GitHub CLI Alternatifi (TAMAMLANDI):**
 
 ```bash
-# Keystore base64'e kodla
-base64 < android/app/yeedoy.keystore | tr -d '\n' | gh secret set ANDROID_KEYSTORE_BASE64
+# Keystore base64'e kodla ve secret set et (✅ 2026-06-05 tamamlandı)
+# Komut: cat yeedoy-upload-key-base64.txt | gh secret set ANDROID_KEYSTORE_BASE64 --repo mekan37/yeedoy
 
-# Diğer secrets
-gh secret set ANDROID_RELEASE_STORE_PASSWORD --body "your_store_password"
-gh secret set ANDROID_RELEASE_KEY_ALIAS --body "yeedoy-release"
-gh secret set ANDROID_RELEASE_KEY_PASSWORD --body "your_key_password"
+# Diğer 3 secret'ı set et (⏳ terminal'de çalıştır):
+! gh secret set ANDROID_RELEASE_STORE_PASSWORD --repo mekan37/yeedoy
+! gh secret set ANDROID_RELEASE_KEY_ALIAS --repo mekan37/yeedoy
+! gh secret set ANDROID_RELEASE_KEY_PASSWORD --repo mekan37/yeedoy
+
+# Her komut çalıştırıldığında terminal şifreyi gizli olarak sorar.
+# Key alias tipik olarak: yeedoy-release (keystore oluştururken kullandığın değer)
 ```
 
 **CI Workflow'da Kullanımı:**
@@ -620,10 +623,15 @@ gh secret set ANDROID_RELEASE_KEY_PASSWORD --body "your_key_password"
 1. ~~Privacy Policy URL yayınla~~ ✅ Tamamlandı → yeedoy.com/gizlilik
 2. ~~Data Safety formu için veri envanteri yap~~ ✅ Taslak hazır → docs/store-data-safety-iarc.md — Play Console'da manuel girilecek
 3. ~~Content Rating IARC formu taslağı~~ ✅ Taslak hazır → docs/store-data-safety-iarc.md — Play Console'da doldurulacak
+4. ✅ **Keystore + ANDROID_KEYSTORE_BASE64 secret** — Tamamlandı (2026-06-05)
+5. ⏳ **Diğer 3 secret'ı terminal'de set et:**
+   - `! gh secret set ANDROID_RELEASE_STORE_PASSWORD --repo mekan37/yeedoy`
+   - `! gh secret set ANDROID_RELEASE_KEY_ALIAS --repo mekan37/yeedoy`
+   - `! gh secret set ANDROID_RELEASE_KEY_PASSWORD --repo mekan37/yeedoy`
 
 ### HIGH (Sonraki hafta)
-1. Keystore file oluştur (lokal)
-2. GitHub Actions secrets setup (base64 encode)
+1. ✅ GitHub Actions secrets setup (base64 encode + ANDROID_KEYSTORE_BASE64)
+2. ⏳ Kalan 3 secret'ı terminal'de set et (keystore şifresi, alias, key şifresi)
 3. App icon 1024x1024 üret (Store requirements)
 4. Store screenshots üret (8 ekran, store_listing.md'den)
 
@@ -829,7 +837,7 @@ Yeedoy mobil uygulaması **yayın için hazırdır**, fakat aşağıdaki kritik 
 4. ✅ **CI/CD:** Workflow'lar aktif
 5. ✅ **Privacy Policy:** https://yeedoy.com/gizlilik — Teknik sayfa oluşturuldu (Hukuki nihai onay önerilir)
 6. 🔧 **Data Safety + IARC:** Taslak hazır (docs/store-data-safety-iarc.md) — Play Console'da manuel girilecek
-7. ❌ **Keystore:** Lokal oluştur + CI secret'lar
+7. ✅ **Keystore:** ANDROID_KEYSTORE_BASE64 secret eklendi (2026-06-05) — Kalan 3 secret'ı terminal'de set et
 8. ❌ **Store Assets:** Icon 1024x1024 + 8 screenshot
 
 Tüm bu adımlar tamamlandıktan sonra, 2-3 haftalık internal/beta testing → production release yapılabilir.
