@@ -92,6 +92,8 @@ Aşağıdaki aktiviteler **bu haftada/haftaya** tamamlanmalıdır:
 
 ## 2. Screenshot Gereksinimleri
 
+> **Detaylı çekim rehberi:** docs/store-screenshot-capture-guide.md
+
 ### 2.1 Specifikasyonlar
 
 **Google Play Store:**
