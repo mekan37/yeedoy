@@ -70,10 +70,11 @@
 ## P2 — Runtime Env / Dış Entegrasyonlar
 
 ### Firebase FCM Runtime Env
-- **Durum:** Açık — kod hazır, secrets runtime'a eklenmedi
-- **Gerekli:** FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
-- **Hedef:** .env.local (local) veya deployment platform env vars
-- **Not:** GitHub secrets var ama web server runtime'ına geçmesi gerekiyor
+- **Durum:** 🟡 .env.local'e eklendi — admin UI push testi bekleniyor
+- **Kontrol (2026-06-05):** FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY set, format OK
+- **DB:** 1 stale Android token (son görülme 2026-05-12) — aktif test için yeni mobil oturum gerekiyor
+- **Sonraki adım:** Admin UI → push kampanya gönder → `providerNotConfigured: false` doğrula
+- **Bkz:** docs/push-delivery-integration-plan.md
 
 ### Resend Email Runtime Env
 - **Durum:** Açık — kod hazır, RESEND_API_KEY runtime'a eklenmedi

@@ -1,15 +1,30 @@
 # Push Delivery Integration Plan
 
-> Status: Fail-safe implementation deployed. GitHub secrets in place. Runtime env pending activation.
+> Status: Runtime env eklendi — FCM aktif, UI testi bekleniyor.
 > **Last updated:** 2026-06-05
 
 ## Mevcut Aktivasyon Durumu
 
 | Ortam | Firebase env var | FCM aktif mi? | Not |
 |---|---|---|---|
-| GitHub Actions (CI) | ✅ Secret olarak kayıtlı (FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY) | Workflow yok | Secrets var ama CI workflow'lara atanmadı |
-| Local dev (`.env.local`) | ❌ Eksik | ❌ Hayır — `provider_not_configured: true` | Local dosya override gerekiyor |
-| Production runtime (Vercel veya deployment) | ❌ Yapılandırılmadı | — | Deployment anında env var eklenince aktif |
+| GitHub Actions (CI) | ✅ Secret kayıtlı | Workflow yok | CI workflow'lara atanmadı |
+| Local dev (`.env.local`) | ✅ Eklendi (2026-06-05) | ✅ Aktif | FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY set |
+| Production runtime | ❌ Deployment yok | — | Deployment anında env var eklenince aktif |
+
+### Private Key Format Kontrolü
+- `FIREBASE_PRIVATE_KEY`: escaped `\n` formatı → `fcm-client.ts` `replace(/\\n/g, '\n')` ile işliyor → **FORMAT OK**
+
+### FCM Token Durumu (DB)
+- `user_devices` tablosunda **1 Android token** kayıtlı (son görülme: 2026-05-12)
+- Token stale (>20 gün) — gerçek test için aktif bir mobil oturumu gerekiyor
+- iOS token: 0
+
+### Test Adımları (admin UI üzerinden)
+1. `npm run dev` ile local server başlat (port 3000)
+2. Admin hesabıyla `/yonetici/push-kampanyalari` sayfasına git
+3. Bir işletme ve "new_30d" gibi küçük segment seç
+4. Kampanya gönder — `providerNotConfigured: false` ve `sentCount` görmeli
+5. `push_campaigns` tablosunda `sent_count` güncellendi mi kontrol et
 
 **Kritik ayrım:** GitHub repository secret'ları yalnızca GitHub Actions workflow'larında `${{ secrets.FIREBASE_PROJECT_ID }}` syntax'ıyla erişilebilir. Next.js server runtime'ı (lokal `.env.local` dosyası veya production deployment env var'ları) tamamen ayrı bir yapılandırma katmanıdır.
 
