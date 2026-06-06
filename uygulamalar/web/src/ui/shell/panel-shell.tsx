@@ -11,6 +11,7 @@ interface PanelShellProps {
   topbarTitle?: string;
   topbarActions?: ReactNode;
   sidebarFooter?: ReactNode;
+  bannerSlot?: ReactNode;
   children: ReactNode;
 }
 
@@ -22,6 +23,7 @@ export function PanelShell({
   topbarTitle,
   topbarActions,
   sidebarFooter,
+  bannerSlot,
   children,
 }: PanelShellProps) {
   const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } = usePanelStore();
@@ -60,6 +62,7 @@ export function PanelShell({
           }
           actions={topbarActions}
         />
+        {bannerSlot}
         <main className="flex-1 overflow-y-auto">{children}</main>
       </div>
     </div>

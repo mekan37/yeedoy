@@ -54,13 +54,19 @@ const adminNavSections: NavSection[] = [
   },
 ];
 
-export function AdminShellClient({ children }: { children: ReactNode }) {
+interface AdminShellClientProps {
+  children: ReactNode;
+  bannerSlot?: ReactNode;
+}
+
+export function AdminShellClient({ children, bannerSlot }: AdminShellClientProps) {
   return (
     <AppProviders>
       <PanelShell
         navSections={adminNavSections}
         logoSlot={<AdminLogo />}
         topbarTitle="Admin Panel"
+        bannerSlot={bannerSlot}
       >
         {children}
       </PanelShell>

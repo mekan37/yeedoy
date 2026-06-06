@@ -71,7 +71,12 @@ function useCurrentUser() {
   return user;
 }
 
-export function SahipKabukIstemcisi({ children }: { children: ReactNode }) {
+interface SahipKabukIstemcisiProps {
+  children: ReactNode;
+  bannerSlot?: ReactNode;
+}
+
+export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcisiProps) {
   const user = useCurrentUser();
   return (
     <AppProviders>
@@ -90,6 +95,7 @@ export function SahipKabukIstemcisi({ children }: { children: ReactNode }) {
             />
           ) : undefined
         }
+        bannerSlot={bannerSlot}
       >
         {children}
       </PanelShell>
