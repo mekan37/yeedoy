@@ -199,6 +199,7 @@ export async function listAdminSponsorPackages(): Promise<SponsorPackage[]> {
     return [];
   }
 
+
   const supabase = await createSupabaseServerClient();
   const sb = supabase as unknown as { from: (t: string) => any };
 

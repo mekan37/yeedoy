@@ -42,6 +42,7 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/grup-istekleri', label: 'Grup İstekleri', icon: <LayersIcon /> },
       { href: '/yonetici/sponsorluklar', label: 'Sponsorluklar', icon: <PackageIcon /> },
       { href: '/yonetici/sponsor-adaylari', label: 'Sponsor Adayları', icon: <UserPlusIcon /> },
+      { href: '/yonetici/sponsor-paketleri', label: 'Sponsor Paketleri', icon: <DollarSignIcon /> },
       { href: '/yonetici/b2b-dis-aktarim', label: 'B2B Dışa Aktarma', icon: <DownloadIcon /> },
     ],
   },
