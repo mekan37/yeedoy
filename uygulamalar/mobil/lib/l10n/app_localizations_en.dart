@@ -490,6 +490,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartPlaceholderSoon => 'Chart area (coming soon)';
 
   @override
+  String get noPriceDataYet => 'No price data yet';
+
+  @override
   String get featuredCuisineSuffix => 'cuisine highlights.';
 
   @override
@@ -2980,6 +2983,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get profileSocialSaveComingSoon =>
       'Saving social links is coming soon.';
+
+  @override
+  String get profileSocialSaved => 'Social link saved.';
+
+  @override
+  String get profileSocialSaveError => 'Could not save. Please try again.';
 
   @override
   String get profileStatsTitle => 'Profile stats';

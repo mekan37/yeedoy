@@ -4,228 +4,343 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import {
+  listAdminFisGonderimleri,
+  getAdminFisGonderimOzeti,
+  REVIEW_STATUS_LABELS,
+  REVIEW_STATUS_STYLES,
+  type FisGonderimDurumu,
+} from '@/src/lib/veri/admin/fis-gonderimleri';
+import { fisDurumGuncelle } from './fis-moderasyon-islemi';
 
 export const metadata: Metadata = {
-  title: 'Fiş Başvuruları | Yonetici Paneli',
+  title: 'Fiş Başvuruları | Yönetici Paneli',
   robots: { index: false, follow: false },
 };
 
 type Props = { searchParams: Promise<{ status?: string; page?: string }> };
+
 const PAGE_SIZE = 40;
 
-const STATUS_LABELS: Record<string, string> = {
-  pending: 'Bekliyor',
-  reviewed: 'İncelendi',
-  needs_followup: 'Takip Gerekli',
-};
-
-type ReceiptStatus = 'pending' | 'reviewed' | 'needs_followup' | 'all';
-
-type ReceiptRow = {
-  receipt_id: string;
-  created_at: string;
-  user_id: string | null;
-  business_id: string | null;
-  business_name: string | null;
-  city: string | null;
-  district: string | null;
-  chain_name: string | null;
-  image_url: string | null;
-  matches_count: number | null;
-  review_status: string;
-  review_note: string | null;
-};
-
-const STATUS_FILTERS: Array<{ value: ReceiptStatus; label: string }> = [
+const STATUS_FILTRELER: Array<{ value: FisGonderimDurumu; label: string }> = [
   { value: 'pending', label: 'Bekliyor' },
-  { value: 'reviewed', label: 'İncelendi' },
   { value: 'needs_followup', label: 'Takip Gerekli' },
+  { value: 'reviewed', label: 'İncelendi' },
   { value: 'all', label: 'Tümü' },
 ];
 
-export default async function AdminReceiptSubmissionsPage({ searchParams }: Props) {
+function normalizeStatus(value: string): FisGonderimDurumu {
+  return STATUS_FILTRELER.some((f) => f.value === value)
+    ? (value as FisGonderimDurumu)
+    : 'pending';
+}
+
+export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
   const { status: rawStatus = 'pending', page = '1' } = await searchParams;
   const status = normalizeStatus(rawStatus);
   const pageNum = Math.max(1, parseInt(page, 10));
   const offset = (pageNum - 1) * PAGE_SIZE;
 
-  const supabase = await createSupabaseServerClient();
+  const [{ list, count, hasNextPage, fetchError }, ozet] = await Promise.all([
+    listAdminFisGonderimleri({
+      reviewStatus: status,
+      limit: PAGE_SIZE + 1,
+      offset,
+    }),
+    getAdminFisGonderimOzeti(),
+  ]);
 
-  const { list, count, hasNextPage, fetchError } = await getReceiptRows(supabase as any, {
-    status,
-    offset,
-  });
-  const totalPages = count != null ? Math.ceil(count / PAGE_SIZE) : pageNum + (hasNextPage ? 1 : 0);
+  const totalPages =
+    count != null
+      ? Math.ceil(count / PAGE_SIZE)
+      : pageNum + (hasNextPage ? 1 : 0);
+
+  const sayfaAciklamasi = fetchError
+    ? 'Fiş başvuruları okunamadı'
+    : count != null
+      ? `${count} başvuru`
+      : `${list.length} başvuru`;
 
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
         eyebrow="Admin"
         title="Fiş Başvuruları"
-        description={fetchError ? 'Fiş başvuruları okunamadı' : count != null ? `${count} başvuru` : `${list.length} başvuru`}
+        description={sayfaAciklamasi}
       />
-      <PanelIcerikYuzeyi className="pt-6">
-        {fetchError ? (
-          <PanelEmptyState
-            icon={<ReceiptIcon />}
-            title="Fiş başvuruları okunamadı"
-            description="receipt_submissions yapısı var, ancak listeleme RPC'si veya yetki kontrolü başarısız oldu."
-          />
-        ) : (
-          <div className="flex flex-col gap-4">
-            <form method="get" className="flex gap-2">
-              {STATUS_FILTERS.map(({ value, label }) => (
-                <button
-                  key={value}
-                  type="submit"
-                  name="status"
-                  value={value}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
-                    status === value
-                      ? 'bg-primary text-white'
-                      : 'border border-border bg-card text-muted hover:text-textStrong'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </form>
 
-            {list.length === 0 ? (
-              <PanelEmptyState icon={<ReceiptIcon />} title="Başvuru yok" />
-            ) : (
-              <PanelBolumKarti noPadding>
+      <PanelIcerikYuzeyi className="pt-6">
+        <div className="flex flex-col gap-5">
+
+          {/* Özet kartları */}
+          {!fetchError && (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <OzetKarti label="Bekliyor" deger={ozet.pending_count} renk="text-amber-600" />
+              <OzetKarti label="Takip Gerekli" deger={ozet.needs_followup_count} renk="text-blue-600" />
+              <OzetKarti label="İncelendi" deger={ozet.reviewed_count} renk="text-green-600" />
+              <OzetKarti label="Son 24 Saat" deger={ozet.recent_24h_count} renk="text-textStrong" />
+            </div>
+          )}
+
+          {/* Durum filtreleri */}
+          <form method="get" className="flex flex-wrap gap-2">
+            {STATUS_FILTRELER.map(({ value, label }) => (
+              <button
+                key={value}
+                type="submit"
+                name="status"
+                value={value}
+                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                  status === value
+                    ? 'bg-primary text-white'
+                    : 'border border-border bg-card text-muted hover:text-textStrong'
+                }`}
+              >
+                {label}
+                {value === 'pending' && ozet.pending_count > 0 && (
+                  <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[9px] font-[900] text-white">
+                    {ozet.pending_count > 99 ? '99+' : ozet.pending_count}
+                  </span>
+                )}
+                {value === 'needs_followup' && ozet.needs_followup_count > 0 && (
+                  <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[9px] font-[900] text-white">
+                    {ozet.needs_followup_count > 99 ? '99+' : ozet.needs_followup_count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </form>
+
+          {/* İçerik */}
+          {fetchError ? (
+            <PanelEmptyState
+              icon={<FisIkonu />}
+              title="Fiş başvuruları okunamadı"
+              description="receipt_submissions yapısı mevcut ancak RPC erişimi veya yetki kontrolü başarısız oldu."
+            />
+          ) : list.length === 0 ? (
+            <PanelEmptyState
+              icon={<FisIkonu />}
+              title="Başvuru yok"
+              description={
+                status === 'all'
+                  ? 'Henüz fiş başvurusu alınmamış.'
+                  : `"${REVIEW_STATUS_LABELS[status] ?? status}" durumunda başvuru yok.`
+              }
+            />
+          ) : (
+            <PanelBolumKarti noPadding>
+              <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border text-left">
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Eşleşme</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
-                      <th className="px-5 py-3 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">Fiş</th>
+                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        Kullanıcı
+                      </th>
+                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        İşletme
+                      </th>
+                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        Eşleşme
+                      </th>
+                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        Durum
+                      </th>
+                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        Tarih
+                      </th>
+                      <th className="px-5 py-3 text-center text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        Fiş
+                      </th>
+                      <th className="px-5 py-3 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        İşlem
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {list.map((r) => (
-                      <tr key={r.receipt_id} className="hover:bg-black/[0.02]">
+                    {list.map((row) => (
+                      <tr key={row.receipt_id} className="hover:bg-black/[0.02]">
+                        {/* Kullanıcı — maskelenmiş */}
                         <td className="px-5 py-3 font-mono text-xs text-muted">
-                          {r.user_id ? String(r.user_id).slice(0, 8) + '…' : '—'}
+                          {row.submitter_display}
                         </td>
+
+                        {/* İşletme */}
                         <td className="px-5 py-3">
-                          <p className="font-[700] text-textStrong">{r.business_name ?? '—'}</p>
-                          <p className="text-xs text-muted">{[r.district, r.city, r.chain_name].filter(Boolean).join(' · ')}</p>
+                          <p className="font-[700] text-textStrong">
+                            {row.business_name ?? '—'}
+                          </p>
+                          <p className="text-xs text-muted">
+                            {[row.district, row.city, row.chain_name]
+                              .filter(Boolean)
+                              .join(' · ')}
+                          </p>
                         </td>
-                        <td className="px-5 py-3 font-[800] text-textStrong">
-                          {r.matches_count ?? 0} ürün
+
+                        {/* Eşleşme sayısı */}
+                        <td className="px-5 py-3">
+                          <span
+                            className={`text-sm font-[800] ${
+                              row.matches_count === 0
+                                ? 'text-red-500'
+                                : 'text-textStrong'
+                            }`}
+                          >
+                            {row.matches_count} ürün
+                          </span>
                         </td>
+
+                        {/* Durum badge */}
                         <td className="px-5 py-3">
                           <span
                             className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
-                              r.review_status === 'reviewed'
-                                ? 'bg-green-50 text-green-700'
-                                : r.review_status === 'needs_followup'
-                                ? 'bg-blue-50 text-blue-700'
-                                : 'bg-amber-50 text-amber-700'
+                              REVIEW_STATUS_STYLES[row.review_status] ??
+                              'bg-zinc-100 text-zinc-500'
                             }`}
                           >
-                            {STATUS_LABELS[r.review_status] ?? r.review_status}
+                            {REVIEW_STATUS_LABELS[row.review_status] ?? row.review_status}
                           </span>
-                          {r.review_note && <p className="mt-1 max-w-xs truncate text-xs text-muted">{r.review_note}</p>}
+                          {row.review_note && (
+                            <p className="mt-1 max-w-[180px] truncate text-xs text-muted">
+                              {row.review_note}
+                            </p>
+                          )}
                         </td>
+
+                        {/* Tarih */}
                         <td className="px-5 py-3 text-xs text-muted">
-                          {new Date(r.created_at).toLocaleDateString('tr-TR')}
+                          {new Date(row.created_at).toLocaleDateString('tr-TR')}
                         </td>
-                        <td className="px-5 py-3 text-right">
-                          {r.image_url ? (
+
+                        {/* Fiş görseli */}
+                        <td className="px-5 py-3 text-center">
+                          {row.image_url ? (
                             <a
-                              href={r.image_url}
+                              href={row.image_url}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex min-h-9 items-center rounded-lg border border-border px-3 text-xs font-[800] text-textStrong transition-colors hover:border-primary/30 hover:text-primary"
+                              className="inline-flex min-h-8 items-center gap-1 rounded-lg border border-border px-2.5 text-xs font-[800] text-textStrong transition-colors hover:border-primary/30 hover:text-primary"
                             >
-                              Görüntüle
+                              <FisIkonu boyut={14} />
+                              Gör
                             </a>
                           ) : (
                             <span className="text-xs text-muted">—</span>
                           )}
                         </td>
+
+                        {/* Moderasyon işlemleri */}
+                        <td className="px-5 py-3">
+                          <div className="flex items-center justify-end gap-1.5">
+                            {row.review_status !== 'reviewed' && (
+                              <form action={fisDurumGuncelle}>
+                                <input type="hidden" name="receipt_id" value={row.receipt_id} />
+                                <input type="hidden" name="review_status" value="reviewed" />
+                                <button
+                                  type="submit"
+                                  className="rounded-lg bg-green-50 px-2.5 py-1.5 text-[11px] font-[800] text-green-700 transition-colors hover:bg-green-100"
+                                >
+                                  İncele
+                                </button>
+                              </form>
+                            )}
+                            {row.review_status !== 'needs_followup' && (
+                              <form action={fisDurumGuncelle}>
+                                <input type="hidden" name="receipt_id" value={row.receipt_id} />
+                                <input type="hidden" name="review_status" value="needs_followup" />
+                                <button
+                                  type="submit"
+                                  className="rounded-lg bg-blue-50 px-2.5 py-1.5 text-[11px] font-[800] text-blue-700 transition-colors hover:bg-blue-100"
+                                >
+                                  Takip
+                                </button>
+                              </form>
+                            )}
+                            {row.review_status !== 'pending' && (
+                              <form action={fisDurumGuncelle}>
+                                <input type="hidden" name="receipt_id" value={row.receipt_id} />
+                                <input type="hidden" name="review_status" value="pending" />
+                                <button
+                                  type="submit"
+                                  className="rounded-lg bg-zinc-50 px-2.5 py-1.5 text-[11px] font-[800] text-zinc-500 transition-colors hover:bg-zinc-100"
+                                >
+                                  Sıfırla
+                                </button>
+                              </form>
+                            )}
+                          </div>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+              </div>
 
-                {totalPages > 1 && (
-                  <div className="flex items-center justify-between border-t border-border px-5 py-3">
-                    <span className="text-xs text-muted">Sayfa {pageNum} / {totalPages}</span>
-                    <div className="flex gap-2">
-                      {pageNum > 1 && (
-                        <Link href={`?status=${status}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
-                          ← Önceki
-                        </Link>
-                      )}
-                      {pageNum < totalPages && (
-                        <Link href={`?status=${status}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
-                          Sonraki →
-                        </Link>
-                      )}
-                    </div>
+              {/* Sayfalama */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between border-t border-border px-5 py-3">
+                  <span className="text-xs text-muted">
+                    Sayfa {pageNum} / {totalPages}
+                  </span>
+                  <div className="flex gap-2">
+                    {pageNum > 1 && (
+                      <Link
+                        href={`?status=${status}&page=${pageNum - 1}`}
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                      >
+                        Önceki
+                      </Link>
+                    )}
+                    {pageNum < totalPages && (
+                      <Link
+                        href={`?status=${status}&page=${pageNum + 1}`}
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                      >
+                        Sonraki
+                      </Link>
+                    )}
                   </div>
-                )}
-              </PanelBolumKarti>
-            )}
-          </div>
-        )}
+                </div>
+              )}
+            </PanelBolumKarti>
+          )}
+        </div>
       </PanelIcerikYuzeyi>
     </div>
   );
 }
 
-async function getReceiptRows(
-  supabase: any,
-  input: { status: ReceiptStatus; offset: number },
-): Promise<{ list: ReceiptRow[]; count: number | null; hasNextPage: boolean; fetchError: boolean }> {
-  const reviewStatus = input.status === 'all' ? null : input.status;
+// ─── Alt Bileşenler ──────────────────────────────────────────────────────────
 
-  const [{ data, error }, summary] = await Promise.all([
-    supabase.rpc('admin_list_receipt_submissions_v2', {
-      p_query: null,
-      p_review_status: reviewStatus,
-      p_only_unmatched: false,
-      p_limit: PAGE_SIZE + 1,
-      p_offset: input.offset,
-    }),
-    supabase.rpc('admin_get_receipt_submission_summary_v1', {
-      p_query: null,
-      p_review_status: reviewStatus,
-      p_only_unmatched: false,
-    }),
-  ]);
-
-  if (error) {
-    return { list: [], count: 0, hasNextPage: false, fetchError: true };
-  }
-
-  const rows = ((data ?? []) as ReceiptRow[]);
-  const count = Array.isArray(summary.data) && summary.data[0]?.total_count != null
-    ? Number(summary.data[0].total_count)
-    : null;
-
-  return {
-    list: rows.slice(0, PAGE_SIZE),
-    count,
-    hasNextPage: rows.length > PAGE_SIZE,
-    fetchError: false,
-  };
-}
-
-function normalizeStatus(value: string): ReceiptStatus {
-  return STATUS_FILTERS.some((filter) => filter.value === value) ? (value as ReceiptStatus) : 'pending';
-}
-
-function ReceiptIcon() {
+function OzetKarti({
+  label,
+  deger,
+  renk,
+}: {
+  label: string;
+  deger: number;
+  renk: string;
+}) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <div className="rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
+      <p className="text-[11px] font-[700] uppercase tracking-wide text-muted">{label}</p>
+      <p className={`mt-1 text-2xl font-[900] ${renk}`}>{deger}</p>
+    </div>
+  );
+}
+
+function FisIkonu({ boyut = 20 }: { boyut?: number }) {
+  return (
+    <svg
+      width={boyut}
+      height={boyut}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
       <polyline points="14 2 14 8 20 8" />
       <line x1="16" y1="13" x2="8" y2="13" />
@@ -234,4 +349,3 @@ function ReceiptIcon() {
     </svg>
   );
 }
-

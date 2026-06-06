@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { getOptedInEmails } from '@/src/lib/email/get-opted-in-emails';
+import { sendEmailCampaign } from '@/src/lib/email/resend-client';
 import { z } from 'zod';
 
 const bodySchema = z.object({
@@ -64,36 +66,30 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   }
 
-  // Takipçilerin e-posta adreslerini al
-  // favorites is not in Database types yet — cast only the from() result
-  const { data: takipciler } = await supabaseAny
-    .from('favorites')
-    .select('user_id, user_profiles:user_id(email, display_name)')
-    .eq('business_id', businessId)
-    .limit(1000);
+  // Opted-in recipients only (is_subscribed_email consent filter via service role)
+  const recipients = await getOptedInEmails(businessId);
 
-  const truncated = (takipciler ?? []).length === 1000;
+  // Attempt Resend delivery (fail-safe — returns provider_not_configured: true if key missing)
+  const emailResult = await sendEmailCampaign(recipients, {
+    subject,
+    htmlBody: `<p>${safeBody}</p>`,
+    fromName: 'Yeedoy',
+    fromEmail: process.env.RESEND_FROM_EMAIL ?? 'noreply@yeedoy.com',
+  });
 
-  const eposta_listesi = ((takipciler ?? []) as any[])
-    .map((t: any) => ({
-      userId: t.user_id,
-      email: t.user_profiles?.email,
-      isim: t.user_profiles?.display_name ?? 'Değerli Müşteri',
-    }))
-    .filter((t: any) => t.email);
-
-  // E-posta gönderimini simulate et (gerçek gönderim için Resend/SendGrid entegrasyonu gerekir)
-  // Şimdilik kampanya kaydını "sent" olarak güncelle
-  const sentTo = eposta_listesi.length;
-
+  // Update campaign record with actual sent_count (email_campaigns schema: sent_count, sent_at)
   await supabaseAny
     .from('email_campaigns')
     .update({
-      status: sentTo > 0 ? 'sent' : 'no_recipients',
-      sent_to: sentTo,
+      sent_count: emailResult.success_count,
       sent_at: new Date().toISOString(),
     })
     .eq('id', kampanya.id);
 
-  return NextResponse.json({ ok: true, sent_to: sentTo, truncated });
+  return NextResponse.json({
+    ok: true,
+    sent_to: emailResult.success_count,
+    provider_not_configured: emailResult.provider_not_configured ?? false,
+    truncated: false,
+  });
 }

@@ -494,6 +494,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get chartPlaceholderSoon => 'Grafik alanı (yakında)';
 
   @override
+  String get noPriceDataYet => 'Henüz fiyat verisi yok';
+
+  @override
   String get featuredCuisineSuffix => 'mutfağından öne çıkan lezzetler';
 
   @override
@@ -2961,6 +2964,12 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get profileSocialSaveComingSoon =>
       'Sosyal bağlantı kaydetme özelliği yakında.';
+
+  @override
+  String get profileSocialSaved => 'Sosyal bağlantı kaydedildi.';
+
+  @override
+  String get profileSocialSaveError => 'Kaydedilemedi. Lütfen tekrar deneyin.';
 
   @override
   String get profileStatsTitle => 'Profil istatistikleri';

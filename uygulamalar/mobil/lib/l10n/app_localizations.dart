@@ -992,6 +992,12 @@ abstract class AppLocalizations {
   /// **'Grafik alanı (yakında)'**
   String get chartPlaceholderSoon;
 
+  /// No description provided for @noPriceDataYet.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz fiyat verisi yok'**
+  String get noPriceDataYet;
+
   /// Auto metadata for featuredCuisineSuffix
   ///
   /// In tr, this message translates to:
@@ -5422,6 +5428,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Sosyal bağlantı kaydetme özelliği yakında.'**
   String get profileSocialSaveComingSoon;
+
+  /// No description provided for @profileSocialSaved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sosyal bağlantı kaydedildi.'**
+  String get profileSocialSaved;
+
+  /// No description provided for @profileSocialSaveError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedilemedi. Lütfen tekrar deneyin.'**
+  String get profileSocialSaveError;
 
   /// Auto metadata for profileStatsTitle
   ///

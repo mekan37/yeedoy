@@ -72,6 +72,8 @@ test-results/
 **/android/**/*.jks
 *.keystore
 *.jks
+*-upload-key-base64.txt
+*-upload-key*.txt
 
 # iOS / macOS
 **/ios/Pods/

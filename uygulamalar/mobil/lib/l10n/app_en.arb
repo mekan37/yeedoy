@@ -652,6 +652,7 @@
     "description": "Auto metadata for weeklyPriceChange"
   },
   "chartPlaceholderSoon": "Chart area (coming soon)",
+  "noPriceDataYet": "No price data yet",
   "@chartPlaceholderSoon": {
     "description": "Auto metadata for chartPlaceholderSoon"
   },
@@ -3910,6 +3911,8 @@
     "description": "Auto metadata for profileSocialLinksHint"
   },
   "profileSocialSaveComingSoon": "Saving social links is coming soon.",
+  "profileSocialSaved": "Social link saved.",
+  "profileSocialSaveError": "Could not save. Please try again.",
   "@profileSocialSaveComingSoon": {
     "description": "Auto metadata for profileSocialSaveComingSoon"
   },

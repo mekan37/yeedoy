@@ -114,6 +114,22 @@
 
 ---
 
+## Owner Marketing Automations MVP (PR #51 — 2026-06-05)
+
+| Dosya | Degisiklik |
+|---|---|
+| `app/owner/marketing/automations/page.tsx` | Stub yeniden yazildi — server component, auth guard, business selector, template kartlari |
+| `app/owner/marketing/automations/automation-actions.ts` | Server action — `toggleAutomationAction`, `hasOwnerBusiness()` ownership guard, template whitelist |
+| `app/owner/marketing/automations/automation-toggle.tsx` | Client toggle — `useOptimistic` + `useTransition`, ARIA switch |
+| `src/lib/veri/owner/otomasyonlar.ts` | `getOwnerAutomations()` veri katmani yardimcisi |
+
+Mimari kararlar:
+- RLS policy (`business_owners` tablosu yok) guvenilmez — app-layer `hasOwnerBusiness()` guard eklendi
+- 6 template_id whitelist ile input dogrulama yapiliyor
+- Dis bildirim saglayicisi (push/SMS/e-posta) bagli degil — UI'da banner mevcut
+
+---
+
 ## Kalan En Önemli 10 İş
 
 Sıra önem derecesine göre:
