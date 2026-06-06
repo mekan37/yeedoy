@@ -65,7 +65,12 @@ const adminNavSections: NavSection[] = [
   },
 ];
 
-export function YoneticiKabukIstemcisi({ children }: { children: ReactNode }) {
+interface YoneticiKabukIstemcisiProps {
+  children: ReactNode;
+  bannerSlot?: ReactNode;
+}
+
+export function YoneticiKabukIstemcisi({ children, bannerSlot }: YoneticiKabukIstemcisiProps) {
   return (
     <AppProviders>
       <PanelShell
@@ -74,6 +79,7 @@ export function YoneticiKabukIstemcisi({ children }: { children: ReactNode }) {
         topbarTitle="Yonetici Paneli"
         topbarCenter={<YoneticiUstArama />}
         sidebarFooter={<KullaniciFoteri />}
+        bannerSlot={bannerSlot}
       >
         {children}
       </PanelShell>

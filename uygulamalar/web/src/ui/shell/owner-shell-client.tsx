@@ -40,13 +40,19 @@ const ownerNavSections: NavSection[] = [
   },
 ];
 
-export function OwnerShellClient({ children }: { children: ReactNode }) {
+interface OwnerShellClientProps {
+  children: ReactNode;
+  bannerSlot?: ReactNode;
+}
+
+export function OwnerShellClient({ children, bannerSlot }: OwnerShellClientProps) {
   return (
     <AppProviders>
       <PanelShell
         navSections={ownerNavSections}
         logoSlot={<OwnerLogo />}
         topbarTitle="Owner Panel"
+        bannerSlot={bannerSlot}
       >
         {children}
       </PanelShell>

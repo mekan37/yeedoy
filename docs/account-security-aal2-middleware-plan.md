@@ -291,8 +291,8 @@ Kullanici high-risk route'a erisir
 | PR 1 | Audit + plan belgesi (docs-only) | Sifir | Tamamlandi |
 | PR 2 | Unenroll TOTP dogrulama eksigi giderildi | Orta | Tamamlandi |
 | PR 3 | Eski stub route'u redirect ile temizlendi | Dusuk | Tamamlandi |
-| **PR 4 (bu PR)** | **AAL2 middleware rollout plani (docs-only)** | **Sifir** | **Bu PR** |
-| PR 5 | Soft banner — admin/owner layout'unda 2FA uyarisi | Sifir | Planlandi |
+| PR 4 | AAL2 middleware rollout plani (docs-only) | Sifir | Tamamlandi |
+| **PR 5 (Faz 1) ✅** | **Soft banner — admin/owner layout'unda 2FA uyarisi** | **Sifir** | **Tamamlandi (PR #87)** |
 | PR 6 | Admin high-risk AAL2 middleware + JWT AMR optimizasyonu | Orta | Planlandi |
 | PR 7 | Owner high-risk AAL2 middleware | Orta | Planlandi |
 | PR 8 | E2E / smoke testleri (2FA akislari) | Dusuk | Planlandi |
