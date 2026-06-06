@@ -1,12 +1,13 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export async function hepsiniOkunduIsaretle(): Promise<{ ok: boolean; error?: string }> {
   try {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { ok: false, error: 'Oturum bulunamadı' };
+    if (!user) return { ok: false, error: 'Oturum gerekli' };
 
     for (const table of ['notifications', 'user_notifications']) {
       const { error } = await (supabase as any)
@@ -16,9 +17,11 @@ export async function hepsiniOkunduIsaretle(): Promise<{ ok: boolean; error?: st
         .eq('is_read', false) as { error: { code?: string } | null };
       if (!error || error.code !== '42P01') break;
     }
+
+    revalidatePath('/gelen-kutusu');
     return { ok: true };
-  } catch (err) {
-    return { ok: false, error: err instanceof Error ? err.message : 'Bir hata oluştu' };
+  } catch {
+    return { ok: false, error: 'Bir sorun oluştu' };
   }
 }
 
@@ -26,7 +29,7 @@ export async function bildirimiOkunduIsaretle(notifId: string): Promise<{ ok: bo
   try {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { ok: false, error: 'Oturum bulunamadı' };
+    if (!user) return { ok: false, error: 'Oturum gerekli' };
 
     for (const table of ['notifications', 'user_notifications']) {
       const { error } = await (supabase as any)
@@ -36,9 +39,10 @@ export async function bildirimiOkunduIsaretle(notifId: string): Promise<{ ok: bo
         .eq('user_id', user.id) as { error: { code?: string } | null };
       if (!error || error.code !== '42P01') break;
     }
+    revalidatePath('/gelen-kutusu');
     return { ok: true };
-  } catch (err) {
-    return { ok: false, error: err instanceof Error ? err.message : 'Bir hata oluştu' };
+  } catch {
+    return { ok: false, error: 'Bir sorun oluştu' };
   }
 }
 
@@ -46,7 +50,7 @@ export async function bildirimiSil(notifId: string): Promise<{ ok: boolean; erro
   try {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { ok: false, error: 'Oturum bulunamadı' };
+    if (!user) return { ok: false, error: 'Oturum gerekli' };
 
     for (const table of ['notifications', 'user_notifications']) {
       const { error } = await (supabase as any)
@@ -56,9 +60,10 @@ export async function bildirimiSil(notifId: string): Promise<{ ok: boolean; erro
         .eq('user_id', user.id) as { error: { code?: string } | null };
       if (!error || error.code !== '42P01') break;
     }
+    revalidatePath('/gelen-kutusu');
     return { ok: true };
-  } catch (err) {
-    return { ok: false, error: err instanceof Error ? err.message : 'Bir hata oluştu' };
+  } catch {
+    return { ok: false, error: 'Bir sorun oluştu' };
   }
 }
 
@@ -66,7 +71,7 @@ export async function eskiBildirimleriSil(): Promise<{ ok: boolean; error?: stri
   try {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { ok: false, error: 'Oturum bulunamadı' };
+    if (!user) return { ok: false, error: 'Oturum gerekli' };
 
     const otuzGunOnce = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
@@ -79,8 +84,9 @@ export async function eskiBildirimleriSil(): Promise<{ ok: boolean; error?: stri
         .lt('created_at', otuzGunOnce) as { error: { code?: string } | null };
       if (!error || error.code !== '42P01') break;
     }
+    revalidatePath('/gelen-kutusu');
     return { ok: true };
-  } catch (err) {
-    return { ok: false, error: err instanceof Error ? err.message : 'Bir hata oluştu' };
+  } catch {
+    return { ok: false, error: 'Bir sorun oluştu' };
   }
 }

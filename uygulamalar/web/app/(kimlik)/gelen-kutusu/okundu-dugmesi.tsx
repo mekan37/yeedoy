@@ -13,12 +13,18 @@ export function HepsiniOkunduButonu({ disabled }: { disabled?: boolean }) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [done, setDone] = useState(false);
+  const [hata, setHata] = useState(false);
 
   function handleClick() {
+    setHata(false);
     startTransition(async () => {
-      await hepsiniOkunduIsaretle();
-      setDone(true);
-      router.refresh();
+      const sonuc = await hepsiniOkunduIsaretle();
+      if (sonuc.ok) {
+        setDone(true);
+        router.refresh();
+      } else {
+        setHata(true);
+      }
     });
   }
 
@@ -29,6 +35,14 @@ export function HepsiniOkunduButonu({ disabled }: { disabled?: boolean }) {
           <polyline points="20 6 9 17 4 12" />
         </svg>
         Tümü okundu
+      </span>
+    );
+  }
+
+  if (hata) {
+    return (
+      <span className="inline-flex items-center gap-1 rounded-xl border border-danger/25 bg-danger/[0.08] px-3 py-1.5 text-xs font-[700] text-danger">
+        Bir sorun oluştu
       </span>
     );
   }
