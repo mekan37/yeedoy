@@ -78,7 +78,7 @@
 - **Bkz:** docs/push-delivery-integration-plan.md
 
 ### Resend Email Runtime Env
-- **Durum:** 🟡 KISMEM HAZIR — kod hazır, RESEND_API_KEY runtime'a eklenmedi
+- **Durum:** 🟡 KISMEN HAZIR — kod hazır, RESEND_API_KEY runtime'a eklenmedi
 - **GitHub Secrets:** ❌ RESEND_API_KEY missing
 - **Local .env.local:** ❌ RESEND_API_KEY missing
 - **Gerekli:** RESEND_API_KEY, (opsiyonel: RESEND_FROM_EMAIL, SUPABASE_SERVICE_ROLE_KEY)

@@ -18,7 +18,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 |---|---|---|---|
 | 1 | **Push Bildirimi Gönderimi** | `app/sunucu/yonetici/push-kampanyalari/route.ts` | ✅ HAZIR — FCM code deployed (PR #52). GitHub secrets ✅ (FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY). Local `.env.local` ✅ configured. Lokal test aktif. Production'da Vercel env vars'ı eklenince live. Docs: `docs/push-delivery-integration-plan.md` — 2026-06-06 verified |
 | 2 | **SMS Kampanya Gönderimi** | `app/sunucu/sahip/sms-kampanya/route.ts:72` | 🔴 BLOCKER — Route deployed ama migration ❌ / phone field ❌ / consent ❌ / provider ❌. KVKK + IYS altyapısı zorunlu. SMS_API_KEY / SMS_PROVIDER env vars mevcut değil. Bkz: `docs/sms-delivery-integration-plan.md` |
-| 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | 🟡 KISMEM HAZIR — Resend code deployed (PR #54). GitHub secrets ❌ (RESEND_API_KEY missing). Local `.env.local` ❌ (RESEND_API_KEY missing). Owner `/owner/marketing/email` MVP hazır. Bkz: `docs/email-delivery-integration-plan.md` — 2026-06-06 verified |
+| 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | 🟡 KISMEN HAZIR — Resend code deployed (PR #54). GitHub secrets ❌ (RESEND_API_KEY missing). Local `.env.local` ❌ (RESEND_API_KEY missing). Owner `/owner/marketing/email` MVP hazır. Bkz: `docs/email-delivery-integration-plan.md` — 2026-06-06 verified |
 
 ---
 
