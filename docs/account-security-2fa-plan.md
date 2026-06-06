@@ -4,6 +4,13 @@ Tarih: 2026-06-06
 
 ---
 
+## AAL2 Middleware Plani
+
+> **Guncel:** AAL2 middleware rollout plani hazir — bkz. `docs/account-security-aal2-middleware-plan.md`
+> Route kapsami, lockout riskleri, asamali rollout stratejisi ve test matrisi o belgede detaylandirilmistir.
+
+---
+
 ## Mevcut Durum
 
 - **Hesap güvenliği sayfası (aktif):** `uygulamalar/web/app/(kimlik)/profil/security/page.tsx`
