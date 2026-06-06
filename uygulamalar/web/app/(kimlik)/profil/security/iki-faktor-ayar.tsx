@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { toast } from '@/src/lib/toast-deposu';
 
-type Phase = 'idle' | 'loading' | 'enroll' | 'verify' | 'done' | 'unenrolling';
+// 'disable-confirm' → kullanıcı TOTP kodunu giriyor (factor silinmedi)
+// 'disable-verifying' → challenge+verify+unenroll devam ediyor
+type Phase = 'idle' | 'loading' | 'enroll' | 'verify' | 'done' | 'disable-confirm' | 'disable-verifying';
 
 export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnabled: boolean; factorId?: string | null }) {
   const [phase, setPhase] = useState<Phase>('idle');
@@ -13,6 +15,13 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
   const [factorId, setFactorId] = useState<string | null>(initialFactorId ?? null);
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  // Kodu sıfırlayan yardımcı — her akış geçişinde ortak temizlik
+  function resetDisableFlow() {
+    setPhase('idle');
+    setCode('');
+    setError(null);
+  }
 
   async function startEnroll() {
     setPhase('loading');
@@ -25,8 +34,8 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
       setSecret(data.totp.secret);
       setFactorId(data.id);
       setPhase('enroll');
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Hata oluştu');
+    } catch {
+      setError('Kurulum başlatılamadı, lütfen tekrar deneyin.');
       setPhase('idle');
     }
   }
@@ -38,35 +47,150 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
     try {
       const supabase = createSupabaseBrowserClient();
       const { data: challenge } = await supabase.auth.mfa.challenge({ factorId });
-      if (!challenge) throw new Error('Challenge alınamadı');
+      if (!challenge) throw new Error('challenge_failed');
       const { error: verifyErr } = await supabase.auth.mfa.verify({ factorId, challengeId: challenge.id, code });
-      if (verifyErr) throw verifyErr;
+      if (verifyErr) throw new Error('verify_failed');
       toast('İki faktörlü doğrulama aktif edildi', 'success');
       setPhase('done');
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Kod hatalı');
+    } catch {
+      setError('Kod hatalı veya süresi dolmuş. Lütfen tekrar deneyin.');
       setPhase('enroll');
     }
   }
 
-  async function unenroll() {
-    if (!factorId) return;
-    setPhase('unenrolling');
+  /**
+   * GÜVENLİ UNENROLL AKIŞI
+   *
+   * 1. listFactors() → factor'ın bu kullanıcıya ait olduğunu doğrula
+   * 2. challenge() → TOTP challenge oluştur
+   * 3. verify(code) → kullanıcının girdiği kod doğru mu?
+   * 4. Sadece verify başarılıysa → unenroll(factorId)
+   *
+   * Herhangi bir adımda başarısız olursa unenroll ÇAĞRILMAZ.
+   * Ham Supabase hata mesajları UI'a yansıtılmaz.
+   */
+  async function verifyAndUnenroll() {
+    if (!factorId || code.length < 6) return;
+
+    setPhase('disable-verifying');
+    setError(null);
+
     try {
       const supabase = createSupabaseBrowserClient();
-      const { error: err } = await supabase.auth.mfa.unenroll({ factorId });
-      if (err) throw err;
+
+      // 1. Oturum kontrolü
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setError('Oturum bulunamadı. Lütfen tekrar giriş yapın.');
+        setPhase('disable-confirm');
+        return;
+      }
+
+      // 2. Factor ownership doğrulama — client'tan gelen factorId'nin
+      //    gerçekten bu kullanıcıya ait olduğunu güvence altına alır.
+      const { data: factorsData } = await supabase.auth.mfa.listFactors();
+      const ownedFactor = factorsData?.totp?.find((f) => f.id === factorId);
+      if (!ownedFactor) {
+        setError('Geçersiz işlem.');
+        setPhase('disable-confirm');
+        return;
+      }
+
+      // 3. Challenge oluştur
+      const { data: challenge, error: challengeErr } = await supabase.auth.mfa.challenge({ factorId });
+      if (challengeErr || !challenge) {
+        setError('Bir sorun oluştu, lütfen tekrar deneyin.');
+        setPhase('disable-confirm');
+        return;
+      }
+
+      // 4. Kodu doğrula
+      const { error: verifyErr } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId: challenge.id,
+        code,
+      });
+      if (verifyErr) {
+        // Ham verifyErr.message UI'a yansıtılmaz
+        setError('Kod hatalı veya süresi dolmuş.');
+        setPhase('disable-confirm');
+        return;
+      }
+
+      // 5. Sadece verify başarılıysa unenroll çağrılır
+      const { error: unenrollErr } = await supabase.auth.mfa.unenroll({ factorId });
+      if (unenrollErr) {
+        // Ham unenrollErr.message UI'a yansıtılmaz
+        setError('Bir sorun oluştu, lütfen tekrar deneyin.');
+        setPhase('disable-confirm');
+        return;
+      }
+
       toast('İki faktörlü doğrulama kaldırıldı', 'info');
-      setPhase('idle');
       setFactorId(null);
       setQrCode(null);
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Kaldırma başarısız');
-      setPhase('idle');
+      resetDisableFlow();
+    } catch {
+      setError('Bir sorun oluştu, lütfen tekrar deneyin.');
+      setPhase('disable-confirm');
     }
   }
 
-  if (phase === 'done' || (isEnabled && phase === 'idle' && initialFactorId)) {
+  // ─── Aktif 2FA görünümü ───────────────────────────────────────────────────
+  if (phase === 'done' || (isEnabled && (phase === 'idle' || phase === 'disable-confirm' || phase === 'disable-verifying') && initialFactorId)) {
+    // "Devre dışı bırak" doğrulama adımı
+    if (phase === 'disable-confirm' || phase === 'disable-verifying') {
+      return (
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 rounded-xl border border-success/25 bg-success/[0.08] px-4 py-3">
+            <span className="text-success">✓</span>
+            <p className="text-sm font-[700] text-success">İki faktörlü doğrulama aktif</p>
+          </div>
+          <div className="rounded-xl border border-danger/20 bg-danger/[0.04] p-4">
+            <p className="mb-3 text-sm font-[700] text-textStrong">
+              2FA&apos;yı devre dışı bırakmak için kimlik doğrulayıcı uygulamanızdaki 6 haneli kodu girin.
+            </p>
+            <div className="mb-3">
+              <label htmlFor="disable-totp-code" className="mb-1.5 block text-sm font-[900] text-textStrong">
+                Doğrulama Kodu
+              </label>
+              <input
+                id="disable-totp-code"
+                type="text"
+                inputMode="numeric"
+                value={code}
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                placeholder="123456"
+                maxLength={6}
+                disabled={phase === 'disable-verifying'}
+                className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-center text-lg font-[900] tracking-[0.5em] text-textStrong focus:outline-none focus:ring-2 focus:ring-danger/30 disabled:opacity-60"
+              />
+            </div>
+            {error && <p className="mb-3 text-sm font-[700] text-danger">{error}</p>}
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={verifyAndUnenroll}
+                disabled={code.length < 6 || phase === 'disable-verifying'}
+                className="flex-1 inline-flex min-h-10 items-center justify-center rounded-xl border border-danger/30 bg-danger/[0.08] text-sm font-[800] text-danger hover:bg-danger/[0.14] disabled:opacity-50"
+              >
+                {phase === 'disable-verifying' ? 'Doğrulanıyor…' : 'Doğrula ve Devre Dışı Bırak'}
+              </button>
+              <button
+                type="button"
+                onClick={resetDisableFlow}
+                disabled={phase === 'disable-verifying'}
+                className="rounded-xl border border-border px-4 text-sm font-[700] text-muted hover:bg-cardAlt disabled:opacity-50"
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Varsayılan: 2FA aktif, "2FA'yı Kapat" butonu
     return (
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2 rounded-xl border border-success/25 bg-success/[0.08] px-4 py-3">
@@ -75,16 +199,16 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
         </div>
         <button
           type="button"
-          onClick={unenroll}
-          disabled={(phase as string) === 'unenrolling'}
-          className="inline-flex min-h-10 items-center rounded-xl border border-danger/30 bg-danger/[0.08] px-4 text-sm font-[800] text-danger hover:bg-danger/[0.14] disabled:opacity-50"
+          onClick={() => { setError(null); setCode(''); setPhase('disable-confirm'); }}
+          className="inline-flex min-h-10 items-center rounded-xl border border-danger/30 bg-danger/[0.08] px-4 text-sm font-[800] text-danger hover:bg-danger/[0.14]"
         >
-          {(phase as string) === 'unenrolling' ? 'Kaldırılıyor…' : '2FA\'yı Kapat'}
+          2FA&apos;yı Kapat
         </button>
       </div>
     );
   }
 
+  // ─── Enroll akışı ─────────────────────────────────────────────────────────
   if (phase === 'enroll' || phase === 'loading') {
     return (
       <div className="flex flex-col gap-4">
@@ -93,7 +217,6 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
         </p>
         {qrCode && (
           <div className="flex justify-center rounded-2xl border border-border bg-white p-4">
-            {/* QR code as SVG data URL */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={qrCode} alt="2FA QR Kodu" className="h-40 w-40" />
           </div>
@@ -138,6 +261,7 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
     );
   }
 
+  // ─── Varsayılan: 2FA pasif, kurulum başlatma ──────────────────────────────
   return (
     <div className="flex flex-col gap-3">
       {error && <p className="text-sm font-[700] text-danger">{error}</p>}
