@@ -125,5 +125,5 @@ Mevcut açık web işleri için bkz. `docs/eksik-listesi.md`
 - Fiyat Endeksi medya lansmanı (bkz. docs/archive/fiyat-endeksi-medya-raporu.md)
 - Search Console submit (tamamlandı, ek optimizasyon yapılabilir)
 - A/B test alt yapısı
-- 2FA / hesap güvenliği
+- 2FA / hesap güvenliği — Audit/plan hazır (`docs/account-security-2fa-plan.md`); aktif route implement edilmiş, 3 boşluk tespit edildi (disable doğrulama, eski route temizleme, middleware AAL2). Implementation PR'ları planlandı (#78+)
 - Collab lists v2
