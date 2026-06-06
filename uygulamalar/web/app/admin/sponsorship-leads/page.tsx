@@ -8,6 +8,7 @@ import {
   LEAD_STATUS_STYLES,
 } from '@/src/lib/veri/admin/sponsorluk';
 import { markLeadContactedAdmin, closeLeadAdmin } from './actions';
+import { maskPhone, maskMessage } from '@/src/lib/gizlilik/pii-mask';
 
 export const metadata: Metadata = {
   title: 'Sponsor Adayları | Admin Panel',
@@ -15,14 +16,6 @@ export const metadata: Metadata = {
 };
 
 type Props = { searchParams: Promise<{ status?: string }> };
-
-/** PII maskeleme: telefon numarasının son iki hanesi hariç tümü gizlenir. */
-function maskPhone(phone: string): string {
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length < 4) return '****';
-  const visible = digits.slice(-2);
-  return phone.slice(0, 3) + ' *** *** **' + visible;
-}
 
 const SURFACE_LABELS: Record<string, string> = {
   discovery: 'Keşif',
@@ -102,7 +95,7 @@ export default async function AdminSponsorshipLeadsPage({ searchParams }: Props)
                       )}
                     </p>
                     {lead.message && (
-                      <p className="mt-1.5 line-clamp-2 text-sm text-muted">{lead.message}</p>
+                      <p className="mt-1.5 line-clamp-2 text-sm text-muted">{maskMessage(lead.message)}</p>
                     )}
                     <p className="mt-1 text-[11px] text-muted">
                       {new Date(lead.created_at).toLocaleDateString('tr-TR', {

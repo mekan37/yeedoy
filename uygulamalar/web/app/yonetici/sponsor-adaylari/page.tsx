@@ -9,6 +9,7 @@ import {
   LEAD_STATUS_LABELS,
   LEAD_STATUS_STYLES,
 } from '@/src/lib/veri/admin/sponsorluk';
+import { maskPhone, maskMessage } from '@/src/lib/gizlilik/pii-mask';
 
 export const metadata: Metadata = {
   title: 'Sponsor Adaylari | Yonetici Paneli',
@@ -86,10 +87,10 @@ export default async function AdminSponsorLeadsPage({ searchParams }: Props) {
                     <p className="mt-0.5 text-xs text-muted">
                       {l.city && <span className="mr-2">{l.city}</span>}
                       {l.district && <span className="mr-2">{l.district}</span>}
-                      {l.phone && <span className="font-[700]">{l.phone}</span>}
+                      {l.phone && <span className="font-[700]">{maskPhone(l.phone)}</span>}
                     </p>
                     {l.message && (
-                      <p className="mt-1.5 text-sm text-muted line-clamp-2">{l.message}</p>
+                      <p className="mt-1.5 text-sm text-muted line-clamp-2">{maskMessage(l.message)}</p>
                     )}
                     <p className="mt-1 text-[11px] text-muted">
                       {new Date(l.created_at).toLocaleDateString('tr-TR', {
