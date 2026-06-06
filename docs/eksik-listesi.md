@@ -57,7 +57,7 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 | # | Alan | Durum |
 |---|---|---|
 | 20 | **Taste Twin (web)** | Sayfa tam stub (`(auth)/taste-twin`) — mobil algoritması çalışıyor ama web'e özel RPC yok |
-| 21 | **2FA / Hesap Güvenliği** | Audit/plan hazır (bkz. `docs/account-security-2fa-plan.md`). Aktif route `(kimlik)/profil/security` TOTP enroll/verify implement edilmiş; boşluklar: (a) eski `(auth)/profile/security` stub redirect/temizleme, (b) unenroll öncesi kod doğrulama eksik, (c) middleware AAL2 kontrolü yok. TOTP implementation bekliyor (PR #78+) |
+| 21 | **2FA / Hesap Güvenliği** | Audit/plan hazır (bkz. `docs/account-security-2fa-plan.md`). TOTP enroll/verify `(kimlik)/profil/security` route'unda aktif ✅ (PR #84). Eski stub redirect tamamlandı ✅ (bu PR). Kalan: unenroll öncesi kod doğrulama eksik + middleware AAL2 kontrolü (ayrı PR). |
 | 22 | **Inbox toplu okundu** | "Hepsini okundu işaretle" butonu devre dışı ("yakında" tooltip) |
 
 ---

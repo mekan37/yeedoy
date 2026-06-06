@@ -165,11 +165,11 @@ enabled
 | `app/(kimlik)/profil/security/iki-faktor-ayar.tsx` | Client component; tüm TOTP akışı | Tamamlandı (boşluk: disable doğrulama eksik) |
 | `app/(kimlik)/profil/security/oturum-kapat.tsx` | Client; sign out butonu | Tamamlandı |
 
-### Eski Route (stub — temizlenmeli)
+### Eski Route (temizlendi)
 
 | Dosya | Rol | Durum |
 |---|---|---|
-| `app/(auth)/profile/security/page.tsx` | Eski ingilizce route; "Yakında" badge | Redirect veya silinmeli |
+| `app/(auth)/profile/security/page.tsx` | Eski ingilizce route; "Yakında" badge | Eski stub cleanup tamamlandı — `/profile/security` → `/profil/security` redirect eklendi (bu PR) |
 
 ### Henüz Yazılmamış Bileşenler
 
@@ -208,10 +208,10 @@ enabled
 
 | PR | Kapsam | Risk |
 |---|---|---|
-| **Bu PR** | Audit + plan belgesi (docs-only) | Sıfır |
-| **PR 2** | `RecoveryWarningBanner` + eski route redirect/temizleme | Düşük |
-| **PR 3** | Disable akışında kod doğrulama (`TwoFactorDisableForm`) | Orta (auth mutation) |
-| **PR 4** | Middleware AAL2 kontrolü — panel route guard iyileştirmesi | Yüksek (dikkatli test gerekir) |
+| **PR 1 (plan)** | Audit + plan belgesi (docs-only) | Sıfır |
+| **PR 2 (bu PR)** | Eski route redirect — `/profile/security` → `/profil/security` | Düşük (tamamlandı) |
+| **PR 3** | `RecoveryWarningBanner` + disable akışında kod doğrulama (`TwoFactorDisableForm`) | Orta (auth mutation) |
+| **PR 4** | Middleware AAL2 kontrolü — panel route guard iyileştirmesi (ayrı PR) | Yüksek (dikkatli test gerekir) |
 | **PR 5** | E2E smoke test — enrollment + disable akışı | Düşük |
 
 ---
