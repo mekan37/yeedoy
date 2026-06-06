@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 
 export const metadata: Metadata = {
@@ -54,6 +54,7 @@ export default async function TasteTwinPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  if (!user) redirect('/login?redirect=/taste-twin');
 
   let matches: MatchWithProfile[] = [];
   let topRecommendations: RecommendationRow[] = [];
@@ -178,10 +179,11 @@ export default async function TasteTwinPage() {
                       {idx + 1}
                     </div>
 
-                    {/* Avatar */}
+                    {/* Avatar — plain <img> to support external OAuth avatar hosts */}
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-primary/10 text-base font-[900] text-primary">
                       {m.profile?.avatar_url ? (
-                        <Image
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
                           src={m.profile.avatar_url}
                           alt={name}
                           width={44}
