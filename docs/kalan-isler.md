@@ -70,21 +70,27 @@
 ## P2 — Runtime Env / Dış Entegrasyonlar
 
 ### Firebase FCM Runtime Env
-- **Durum:** 🟡 .env.local'e eklendi — admin UI push testi bekleniyor
-- **Kontrol (2026-06-05):** FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY set, format OK
-- **DB:** 1 stale Android token (son görülme 2026-05-12) — aktif test için yeni mobil oturum gerekiyor
-- **Sonraki adım:** Admin UI → push kampanya gönder → `providerNotConfigured: false` doğrula
+- **Durum:** ✅ HAZIR — GitHub secrets ✅, local .env.local ✅ (2026-06-06 verified)
+- **GitHub Secrets:** FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY ✅ tanımlı
+- **Local .env.local:** Tüm 3 Firebase var'ı set
+- **Lokal test:** npm run dev → /yonetici/push-kampanyalari → test kampanyası → `providerNotConfigured: false` doğrula
+- **Production:** Vercel env vars → Dashboard → Environment Variables → 3 Firebase var ekle → redeploy
 - **Bkz:** docs/push-delivery-integration-plan.md
 
 ### Resend Email Runtime Env
-- **Durum:** Açık — kod hazır, RESEND_API_KEY runtime'a eklenmedi
-- **Gerekli:** RESEND_API_KEY, RESEND_FROM_EMAIL
-- **Hedef:** .env.local veya deployment platform
+- **Durum:** 🟡 KISMEM HAZIR — kod hazır, RESEND_API_KEY runtime'a eklenmedi
+- **GitHub Secrets:** ❌ RESEND_API_KEY missing
+- **Local .env.local:** ❌ RESEND_API_KEY missing
+- **Gerekli:** RESEND_API_KEY, (opsiyonel: RESEND_FROM_EMAIL, SUPABASE_SERVICE_ROLE_KEY)
+- **Hedef:** .env.local veya deployment platform → Resend Dashboard'dan API key al → ekle
+- **Bkz:** docs/email-delivery-integration-plan.md
 
 ### SMS Entegrasyonu (6 Blocker)
-- **Durum:** Plan hazır — blocker listesi aktif
+- **Durum:** 🔴 BLOCKER — route deployed ama tüm altyapı eksik
+- **GitHub Secrets:** ❌ SMS_API_KEY, SMS_PROVIDER missing
+- **Local .env.local:** ❌ Hiçbir SMS var'ı yok
 - **Bkz:** docs/sms-delivery-integration-plan.md
-- **Blocker'lar:** telefon verisi, is_subscribed_sms, opt-out, migration, provider credentials, KVKK kayıt
+- **Blocker'lar:** migration (user_profiles.phone, business_follows.is_subscribed_sms, sms_campaigns table), KVKK consent, opt-out handler, provider (Netgsm/Ileti Merkezi/Twilio)
 
 ---
 

@@ -1,7 +1,7 @@
 # SMS Delivery Integration Plan
 
-> Status: Route + ownership guard deployed. Phone data, consent, opt-out ve provider entegrasyonu eksik.
-> **Last updated:** 2026-06-05
+> Status: 🔴 BLOCKER — Route deployed, tüm altyapı eksik (migration, phone field, consent, provider). Gönderimden önce KVKK + IYS setup zorunlu.
+> **Last updated:** 2026-06-06 (Runtime environment verified — all env vars MISSING)
 
 ---
 

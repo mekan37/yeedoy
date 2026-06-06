@@ -1,14 +1,17 @@
 # Email Delivery Integration Plan
 
-> Status: Fail-safe implementation deployed. Runtime env pending activation.
-> **Last updated:** 2026-06-05
+> Status: 🟡 PARTIAL — Resend code deployed, GitHub Secrets ❌ MISSING, local .env.local ❌ missing RESEND_API_KEY (2026-06-06 verified).
+> **Last updated:** 2026-06-06 (Runtime environment verified)
 
-## Mevcut Aktivasyon Durumu
+## Mevcut Aktivasyon Durması
 
 | Ortam | RESEND_API_KEY | Email aktif mi? | Not |
 |---|---|---|---|
-| Local dev (`.env.local`) | Eksik | Hayir — `provider_not_configured: true` | Local dosya override gerekiyor |
-| Production runtime (Vercel veya deployment) | Yapilandirilmadi | — | Deployment aninda env var eklenince aktif |
+| GitHub Secrets | ❌ MISSING | — | Repository secrets'ta tanımlı değil |
+| Local dev (`.env.local`) | ❌ MISSING | Hayır — `provider_not_configured: true` | RESEND_API_KEY ve SUPABASE_SERVICE_ROLE_KEY eksik |
+| Production runtime (Vercel veya deployment) | Hazırlanmadı | — | Deployment anında env var eklenince aktif |
+
+**Kontrol Tarihi:** 2026-06-06 | `gh secret list --repo mekan37/yeedoy` ile doğrulandı
 
 `resend-client.ts` su an:
 ```javascript

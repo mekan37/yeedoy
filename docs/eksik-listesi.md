@@ -16,9 +16,9 @@ Bunlar diğer tüm kampanya/bildirim özelliklerinin önündeki blocker'lardır.
 
 | # | Alan | Dosya | Durum |
 |---|---|---|---|
-| 1 | **Push Bildirimi Gönderimi** | `app/sunucu/yonetici/push-kampanyalari/route.ts` | ✅ FCM delivery code hazır (PR #52). GitHub secrets var ama runtime env eksik (FIREBASE_PROJECT_ID/CLIENT_EMAIL/PRIVATE_KEY). `.env.local` eklenince lokal test aktif; production'da deployment platform env var'larına eklenince live. Şu an `providerNotConfigured: true` döndürüyor. Docs: `docs/push-delivery-integration-plan.md` |
-| 2 | **SMS Kampanya Gönderimi** | `app/sunucu/sahip/sms-kampanya/route.ts:72` | Route + ownership guard var. Telefon verisi, is_subscribed_sms, opt-out, KVKK kayit eksik. Provider entegrasyonundan once consent altyapisi zorunlu. Bkz: `docs/sms-delivery-integration-plan.md` |
-| 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | 🟡 Resend delivery kodu bağlandı (PR #54) — `RESEND_API_KEY` runtime env eklenmeden `providerNotConfigured: true` döner. Owner `/owner/marketing/email` MVP hazır. Bkz: `docs/email-delivery-integration-plan.md` |
+| 1 | **Push Bildirimi Gönderimi** | `app/sunucu/yonetici/push-kampanyalari/route.ts` | ✅ HAZIR — FCM code deployed (PR #52). GitHub secrets ✅ (FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY). Local `.env.local` ✅ configured. Lokal test aktif. Production'da Vercel env vars'ı eklenince live. Docs: `docs/push-delivery-integration-plan.md` — 2026-06-06 verified |
+| 2 | **SMS Kampanya Gönderimi** | `app/sunucu/sahip/sms-kampanya/route.ts:72` | 🔴 BLOCKER — Route deployed ama migration ❌ / phone field ❌ / consent ❌ / provider ❌. KVKK + IYS altyapısı zorunlu. SMS_API_KEY / SMS_PROVIDER env vars mevcut değil. Bkz: `docs/sms-delivery-integration-plan.md` |
+| 3 | **E-posta Kampanyası** | `supabase/functions/send-email-campaign/` (193 satır) | 🟡 KISMEM HAZIR — Resend code deployed (PR #54). GitHub secrets ❌ (RESEND_API_KEY missing). Local `.env.local` ❌ (RESEND_API_KEY missing). Owner `/owner/marketing/email` MVP hazır. Bkz: `docs/email-delivery-integration-plan.md` — 2026-06-06 verified |
 
 ---
 

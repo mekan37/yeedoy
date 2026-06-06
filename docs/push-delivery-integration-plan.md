@@ -1,7 +1,7 @@
 # Push Delivery Integration Plan
 
-> Status: Runtime env eklendi — FCM aktif, UI testi bekleniyor.
-> **Last updated:** 2026-06-05
+> Status: ✅ HAZIR — FCM code deployed, GitHub Secrets ✅ var, local .env.local ✅ configured (2026-06-06 verified).
+> **Last updated:** 2026-06-06 (Runtime environment verified)
 
 ## Mevcut Aktivasyon Durumu
 
