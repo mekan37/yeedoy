@@ -3,7 +3,7 @@
 > Status: 🟡 PARTIAL — Resend code deployed, GitHub Secrets ❌ MISSING, local .env.local ❌ missing RESEND_API_KEY (2026-06-06 verified).
 > **Last updated:** 2026-06-06 (Runtime environment verified)
 
-## Mevcut Aktivasyon Durması
+## Mevcut Aktivasyon Durumu
 
 | Ortam | RESEND_API_KEY | Email aktif mi? | Not |
 |---|---|---|---|

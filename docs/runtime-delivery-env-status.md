@@ -156,7 +156,7 @@ RESEND_FROM_EMAIL          ❌ NOT DEFINED (defaults to noreply@yeedoy.com if mi
 - ❌ SMS Client library (`src/lib/sms/sms-client.ts` — NOT YET CREATED)
 - ❌ `sms_campaigns` DB migration — table schema missing
 - ❌ `user_profiles.phone` column — phone data collection missing
-- ❌ `business_follows.is_subscribed_sms` consent column — KVKK filtresis missing
+- ❌ `business_follows.is_subscribed_sms` consent column — KVKK filtresi eksik
 - ❌ Opt-out handler endpoint — IYS compliance missing
 - ❌ SMS provider integration — no Netgsm/Ileti Merkezi/Twilio adapter
 
