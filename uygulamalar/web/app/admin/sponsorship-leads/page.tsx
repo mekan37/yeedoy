@@ -1,147 +1,180 @@
 import type { Metadata } from 'next';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/components/panel-empty-state';
+import {
+  listAdminSponsorLeads,
+  LEAD_STATUS_LABELS,
+  LEAD_STATUS_STYLES,
+} from '@/src/lib/veri/admin/sponsorluk';
+import { markLeadContactedAdmin, closeLeadAdmin } from './actions';
 
 export const metadata: Metadata = {
-  title: 'Sponsorluk Adayları | Admin Panel',
+  title: 'Sponsor Adayları | Admin Panel',
   robots: { index: false, follow: false },
 };
 
 type Props = { searchParams: Promise<{ status?: string }> };
 
-const STATUS_MAP: Record<string, { label: string; className: string }> = {
-  new:        { label: 'Yeni',         className: 'bg-blue-50 text-blue-700' },
-  contacted:  { label: 'İletişime Geçildi', className: 'bg-amber-50 text-amber-700' },
-  negotiating:{ label: 'Müzakerede',   className: 'bg-purple-50 text-purple-700' },
-  closed_won: { label: 'Kazanıldı',    className: 'bg-green-50 text-green-700' },
-  closed_lost:{ label: 'Kaybedildi',   className: 'bg-zinc-100 text-zinc-500' },
+/** PII maskeleme: telefon numarasının son iki hanesi hariç tümü gizlenir. */
+function maskPhone(phone: string): string {
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length < 4) return '****';
+  const visible = digits.slice(-2);
+  return phone.slice(0, 3) + ' *** *** **' + visible;
+}
+
+const SURFACE_LABELS: Record<string, string> = {
+  discovery: 'Keşif',
+  business_page: 'İşletme Sayfası',
+  stories: 'Hikayeler',
+  verified: 'Doğrulanmış',
+  premium: 'Premium',
 };
 
+const STATUS_TABS = [
+  { v: 'new', l: 'Yeni' },
+  { v: 'contacted', l: 'İletişim Kuruldu' },
+  { v: 'closed', l: 'Kapatıldı' },
+  { v: 'all', l: 'Tümü' },
+];
+
 export default async function AdminSponsorshipLeadsPage({ searchParams }: Props) {
-  const { status = 'all' } = await searchParams;
-  const supabase = await createSupabaseServerClient();
+  const { status = 'new' } = await searchParams;
 
-  let list: any[] = [];
-  let count: number | null = null;
-  let tableExists = true;
-
-  try {
-    let query = (supabase as any)
-      .from('sponsorship_leads')
-      .select('id, company_name, contact_name, contact_email, status, budget, notes, created_at', { count: 'exact' })
-      .order('created_at', { ascending: false });
-
-    if (status !== 'all') query = query.eq('status', status);
-
-    const { data, count: total, error } = await query;
-    if (error && (error.code === '42P01' || error.message?.includes('does not exist'))) {
-      tableExists = false;
-    } else {
-      list = data ?? [];
-      count = total ?? 0;
-    }
-  } catch {
-    tableExists = false;
-  }
+  const list = await listAdminSponsorLeads(status, 100);
 
   return (
     <div className="flex flex-col">
       <PanelPageHeader
         eyebrow="Admin"
-        title="Sponsorluk Adayları"
-        description={tableExists && count != null ? `${count.toLocaleString('tr-TR')} aday` : 'Potansiyel sponsor adaylarını yönet'}
+        title="Sponsor Adayları"
+        description={`${list.length.toLocaleString('tr-TR')} başvuru`}
       />
       <PanelContentSurface className="pt-6">
-        {!tableExists ? (
-          <PanelSectionCard>
-            <PanelEmptyState
-              icon={<UserPlusIcon />}
-              title="Aday modülü yakında"
-              description="Sponsorluk aday yönetimi altyapısı henüz hazır değil."
-            />
-          </PanelSectionCard>
-        ) : (
-          <>
-            <form method="get" className="mb-4 flex flex-wrap gap-2">
-              {[
-                { value: 'all',         label: 'Tümü' },
-                { value: 'new',         label: 'Yeni' },
-                { value: 'contacted',   label: 'İletişime Geçildi' },
-                { value: 'negotiating', label: 'Müzakerede' },
-                { value: 'closed_won',  label: 'Kazanıldı' },
-                { value: 'closed_lost', label: 'Kaybedildi' },
-              ].map(({ value, label }) => (
-                <button
-                  key={value}
-                  type="submit"
-                  name="status"
-                  value={value}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
-                    status === value
-                      ? 'bg-primary text-white'
-                      : 'bg-card border border-border text-muted hover:text-textStrong'
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </form>
+        {/* Durum filtresi */}
+        <form method="get" className="mb-4 flex flex-wrap gap-2">
+          {STATUS_TABS.map(({ v, l }) => (
+            <button
+              key={v}
+              type="submit"
+              name="status"
+              value={v}
+              className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                status === v
+                  ? 'bg-primary text-white'
+                  : 'border border-border bg-card text-muted hover:text-textStrong'
+              }`}
+            >
+              {l}
+            </button>
+          ))}
+        </form>
 
-            {list.length === 0 ? (
-              <PanelEmptyState
-                icon={<UserPlusIcon />}
-                title="Aday bulunamadı"
-                description="Seçilen filtre için kayıt yok."
-              />
-            ) : (
-              <PanelSectionCard noPadding>
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-border text-left">
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şirket</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İletişim</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Bütçe</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
-                    {list.map((lead: any) => {
-                      const statusInfo = STATUS_MAP[lead.status] ?? STATUS_MAP['new'];
-                      return (
-                        <tr key={lead.id} className="hover:bg-black/[0.01]">
-                          <td className="px-5 py-3 font-[700] text-textStrong">{lead.company_name ?? '—'}</td>
-                          <td className="px-5 py-3 text-muted">
-                            <p>{lead.contact_name ?? '—'}</p>
-                            <p className="text-xs">{lead.contact_email ?? ''}</p>
-                          </td>
-                          <td className="px-5 py-3 font-[700] text-textStrong">
-                            {lead.budget != null
-                              ? new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(lead.budget)
-                              : '—'}
-                          </td>
-                          <td className="px-5 py-3">
-                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
-                              {statusInfo.label}
-                            </span>
-                          </td>
-                          <td className="px-5 py-3 text-xs text-muted">
-                            {new Date(lead.created_at).toLocaleDateString('tr-TR')}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </PanelSectionCard>
-            )}
-          </>
+        {list.length === 0 ? (
+          <PanelEmptyState
+            icon={<UserPlusIcon />}
+            title="Aday bulunamadı"
+            description="Seçili filtre için kayıt yok."
+          />
+        ) : (
+          <PanelSectionCard noPadding>
+            <div className="divide-y divide-border">
+              {list.map((lead) => (
+                <div key={lead.lead_id} className="flex items-start gap-4 px-5 py-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="truncate font-[800] text-textStrong">
+                        {lead.business_name || '—'}
+                      </p>
+                      {lead.preferred_surface && (
+                        <span className="shrink-0 rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-[800] text-primary">
+                          {SURFACE_LABELS[lead.preferred_surface] ?? lead.preferred_surface}
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-0.5 text-xs text-muted">
+                      {lead.city && <span className="mr-2">{lead.city}</span>}
+                      {lead.district && <span className="mr-2">{lead.district}</span>}
+                      {/* PII: telefon maskelendi */}
+                      {lead.phone && (
+                        <span className="font-[700]">{maskPhone(lead.phone)}</span>
+                      )}
+                    </p>
+                    {lead.message && (
+                      <p className="mt-1.5 line-clamp-2 text-sm text-muted">{lead.message}</p>
+                    )}
+                    <p className="mt-1 text-[11px] text-muted">
+                      {new Date(lead.created_at).toLocaleDateString('tr-TR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </p>
+                  </div>
+
+                  {/* Durum + Eylemler */}
+                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[10px] font-[800] ${
+                        LEAD_STATUS_STYLES[lead.status] ?? 'bg-zinc-100 text-zinc-600'
+                      }`}
+                    >
+                      {LEAD_STATUS_LABELS[lead.status] ?? lead.status}
+                    </span>
+
+                    {lead.status === 'new' && (
+                      <form action={markLeadContactedAdmin}>
+                        <input type="hidden" name="id" value={lead.lead_id} />
+                        <input type="hidden" name="currentStatus" value={status} />
+                        <button
+                          type="submit"
+                          className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] text-textStrong hover:bg-black/[0.04]"
+                        >
+                          İletişim Kuruldu
+                        </button>
+                      </form>
+                    )}
+
+                    {(lead.status === 'new' || lead.status === 'contacted') && (
+                      <form action={closeLeadAdmin}>
+                        <input type="hidden" name="id" value={lead.lead_id} />
+                        <input type="hidden" name="currentStatus" value={status} />
+                        <button
+                          type="submit"
+                          className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] text-muted transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-700"
+                        >
+                          Kapat
+                        </button>
+                      </form>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </PanelSectionCard>
         )}
       </PanelContentSurface>
     </div>
   );
 }
 
-function UserPlusIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /><line x1="20" y1="8" x2="20" y2="14" /><line x1="23" y1="11" x2="17" y2="11" /></svg>; }
+function UserPlusIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="8.5" cy="7" r="4" />
+      <line x1="20" y1="8" x2="20" y2="14" />
+      <line x1="23" y1="11" x2="17" y2="11" />
+    </svg>
+  );
+}
