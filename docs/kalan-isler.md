@@ -125,5 +125,5 @@ Mevcut açık web işleri için bkz. `docs/eksik-listesi.md`
 - Fiyat Endeksi medya lansmanı (bkz. docs/archive/fiyat-endeksi-medya-raporu.md)
 - Search Console submit (tamamlandı, ek optimizasyon yapılabilir)
 - A/B test alt yapısı
-- 2FA / hesap güvenliği — TOTP enroll/verify aktif ✅ (PR #84). Eski stub redirect tamamlandı ✅ (PR #85). AAL2 middleware rollout planı hazır ✅ (PR #86). Soft banner (Faz 1) tamamlandı ✅ (PR #87, bkz. docs/account-security-aal2-middleware-plan.md). Sıradaki: admin high-risk AAL2 middleware (Faz 2) → owner high-risk AAL2 middleware (Faz 3) → E2E smoke testleri
+- 2FA / hesap güvenliği — TOTP enroll/verify aktif ✅ (PR #84). Eski stub redirect tamamlandı ✅ (PR #85). AAL2 middleware rollout planı hazır ✅ (PR #86). Soft banner (Faz 1) tamamlandı ✅ (PR #87). Test planı + TwoFactorBanner unit testleri ✅ (bu PR, bkz. docs/account-security-2fa-test-plan.md). Sıradaki: admin high-risk AAL2 middleware (Faz 2) → owner high-risk AAL2 middleware (Faz 3) → E2E smoke testleri
 - Collab lists v2
