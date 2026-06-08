@@ -99,7 +99,7 @@ Future<void> main() async {
   final startupType = hasPersistedSession ? StartupType.warm : StartupType.cold;
   await Supabase.initialize(
     url: supabaseUrl,
-    anonKey: supabaseAnonKey,
+    publishableKey: supabaseAnonKey,
     authOptions: FlutterAuthClientOptions(localStorage: localStorage),
   );
 
