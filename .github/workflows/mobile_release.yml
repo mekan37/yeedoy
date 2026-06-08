@@ -12,31 +12,53 @@ on:
 jobs:
   android_release_aab:
     runs-on: ubuntu-latest
-    # Skip job if secrets not configured — inform instead of failing
-    if: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD != '' && secrets.ANDROID_RELEASE_KEY_ALIAS != '' && secrets.ANDROID_RELEASE_KEY_PASSWORD != '' }}
     defaults:
       run:
         working-directory: uygulamalar/mobil
     steps:
+      # NOTE: the `secrets` context cannot be referenced in a job-level `if:`
+      # (GitHub Actions only allows github/needs/vars/inputs there — using
+      # `secrets.X != ''` at the job level fails workflow validation with
+      # "Unrecognized named-value: 'secrets'" and the run can never be
+      # dispatched). Gate on a step output instead.
+      - name: Check release signing secrets
+        id: check
+        shell: bash
+        env:
+          HAS_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD != '' }}
+          HAS_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS != '' }}
+          HAS_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD != '' }}
+        run: |
+          if [ "$HAS_STORE_PASSWORD" = "true" ] && [ "$HAS_KEY_ALIAS" = "true" ] && [ "$HAS_KEY_PASSWORD" = "true" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout
+        if: steps.check.outputs.configured == 'true'
         uses: actions/checkout@v4
 
       - name: Set up Java
+        if: steps.check.outputs.configured == 'true'
         uses: actions/setup-java@v4
         with:
           distribution: zulu
           java-version: '17'
 
       - name: Set up Flutter
+        if: steps.check.outputs.configured == 'true'
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
 
       - name: Flutter pub get
+        if: steps.check.outputs.configured == 'true'
         run: flutter pub get
 
       - name: Create dummy .env for build
+        if: steps.check.outputs.configured == 'true'
         run: |
           if [ ! -f .env ]; then
             echo "SUPABASE_URL=placeholder" > .env
@@ -45,6 +67,7 @@ jobs:
           fi
 
       - name: Decode Android keystore
+        if: steps.check.outputs.configured == 'true'
         shell: bash
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -58,6 +81,7 @@ jobs:
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/keystore/yeedoy-release.keystore
 
       - name: Create key.properties from secrets
+        if: steps.check.outputs.configured == 'true'
         shell: bash
         env:
           ANDROID_RELEASE_STORE_FILE: ${{ secrets.ANDROID_RELEASE_STORE_FILE || 'android/keystore/yeedoy-release.keystore' }}
@@ -74,12 +98,14 @@ jobs:
           chmod 600 android/key.properties
 
       - name: Build Release AAB
+        if: steps.check.outputs.configured == 'true'
         run: |
           flutter build appbundle --release \
             --obfuscate \
             --split-debug-info=build/app/outputs/symbols
 
       - name: Resolve AAB artifact paths
+        if: steps.check.outputs.configured == 'true'
         id: artifacts
         shell: bash
         run: |
@@ -98,6 +124,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Upload AAB artifact
+        if: steps.check.outputs.configured == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: mobile-android-aab-${{ github.run_number }}
@@ -108,7 +135,7 @@ jobs:
           retention-days: 30
 
       - name: Release summary
-        if: always()
+        if: always() && steps.check.outputs.configured == 'true'
         env:
           AAB_PATH: ${{ steps.artifacts.outputs.aab_path }}
           AAB_NAME: ${{ steps.artifacts.outputs.aab_name }}
@@ -130,24 +157,21 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Cleanup sensitive files
-        if: always()
+        if: always() && steps.check.outputs.configured == 'true'
         shell: bash
         run: |
           rm -f android/keystore/yeedoy-release.keystore
           rm -f android/key.properties
           rm -f .env
 
-  secrets_not_configured:
-    runs-on: ubuntu-latest
-    if: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD == '' || secrets.ANDROID_RELEASE_KEY_ALIAS == '' || secrets.ANDROID_RELEASE_KEY_PASSWORD == '' }}
-    steps:
-      - name: Check secrets configuration
+      - name: Secrets not configured
+        if: steps.check.outputs.configured == 'false'
         shell: bash
         run: |
           {
             echo "## ⚠️ Android Release Signing Secrets Not Configured"
             echo ""
-            echo "This workflow skipped because required GitHub Actions secrets are missing."
+            echo "This workflow skipped the build because required GitHub Actions secrets are missing."
             echo ""
             echo "### Required Secrets"
             echo "Set these in: GitHub → Settings → Secrets and variables → Actions"
@@ -160,10 +184,10 @@ jobs:
             echo "| \`ANDROID_RELEASE_KEY_PASSWORD\` | Key password |"
             echo ""
             echo "### Next Steps"
-            echo "1. Create keystore locally (see docs/mobile-release-readiness.md, Appendix C)"
+            echo "1. Create keystore locally (see docs/release/mobile-release-readiness.md, Appendix C)"
             echo "2. Base64 encode the .keystore file: \`base64 < yeedoy.keystore\`"
             echo "3. Add each secret via GitHub UI or \`gh secret set\`"
             echo "4. Re-trigger this workflow after secrets are configured"
             echo ""
-            echo "See: docs/mobile-release-readiness.md"
+            echo "See: docs/release/mobile-release-readiness.md"
           } >> "$GITHUB_STEP_SUMMARY"
