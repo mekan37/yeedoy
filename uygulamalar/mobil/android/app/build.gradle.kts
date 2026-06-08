@@ -66,7 +66,10 @@ android {
                         "Release signing configured but 'storeFile' bos.",
                     )
                 }
-                val resolvedStoreFile = file(storeFilePath)
+                // Resolve relative to the Gradle root project (android/), matching
+                // the documented convention in key.properties.example and the CI
+                // keystore decode step — NOT the app module directory (android/app/).
+                val resolvedStoreFile = rootProject.file(storeFilePath)
                 if (!resolvedStoreFile.exists()) {
                     throw GradleException(
                         "Release signing storeFile bulunamadi: $storeFilePath",

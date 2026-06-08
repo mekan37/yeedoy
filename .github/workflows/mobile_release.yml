@@ -87,7 +87,10 @@ jobs:
         if: steps.check.outputs.configured == 'true'
         shell: bash
         env:
-          ANDROID_RELEASE_STORE_FILE: ${{ secrets.ANDROID_RELEASE_STORE_FILE || 'android/keystore/yeedoy-release.keystore' }}
+          # storeFile is resolved by Gradle relative to the android/ root project
+          # (rootProject.file in build.gradle.kts) — the decode step below writes
+          # the keystore to android/keystore/, i.e. keystore/... relative to android/.
+          ANDROID_RELEASE_STORE_FILE: ${{ secrets.ANDROID_RELEASE_STORE_FILE || 'keystore/yeedoy-release.keystore' }}
           ANDROID_RELEASE_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD }}
           ANDROID_RELEASE_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS }}
           ANDROID_RELEASE_KEY_PASSWORD: ${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}
