@@ -105,16 +105,16 @@ Yeni isimler bu mevcut sozlugu bozmayacak sekilde secilir.
 
 ### Flutter source-of-truth
 
-- `apps/mobile_flutter/lib/app/theme/colors.dart`
-- `apps/mobile_flutter/lib/app/theme/app_tokens.dart`
-- `apps/mobile_flutter/lib/app/theme/app_typography.dart`
-- `apps/mobile_flutter/lib/app/theme/app_theme.dart`
+- `uygulamalar/mobil/lib/app/theme/colors.dart`
+- `uygulamalar/mobil/lib/app/theme/app_tokens.dart`
+- `uygulamalar/mobil/lib/app/theme/app_typography.dart`
+- `uygulamalar/mobil/lib/app/theme/app_theme.dart`
 
 ### Web aynasi
 
-- `apps/web_next/src/styles/tokens.css`
-- `apps/web_next/src/styles/globals.css`
-- `apps/web_next/tailwind.config.js`
+- `uygulamalar/web/src/styles/tokens.css`
+- `uygulamalar/web/src/styles/globals.css`
+- `uygulamalar/web/tailwind.config.js`
 
 Kural:
 - Flutter'da `AppColors` ve `AppTokens` disinda yeni sabit renk/spacing/radius kullanma.

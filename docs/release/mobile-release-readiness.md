@@ -10,7 +10,7 @@
 
 Yeedoy mobil uygulaması (iOS + Android) **çoğunlukla yayın hazırı** aşamadadır. Aşağıdaki kontroller yapılmıştır.
 
-> **Store Assets Notu:** App icon 1024×1024, 8 screenshot, release notes hazırlanması ve Play Console manuel form adımları bkz. **docs/store-assets-release-plan.md**
+> **Store Assets Notu:** App icon 1024×1024, 8 screenshot, release notes hazırlanması ve Play Console manuel form adımları için bkz. **§16 Store Asset Üretimi** (bu belgede aşağıda).
 
 | Kontrol | Durum | Detay |
 |---------|-------|-------|
@@ -275,10 +275,10 @@ firebase_performance: ^0.11.1+4    ✅ Performance monitoring
 | Android Keystore + CI secrets | **HIGH** | 🔧 Teknik altyap hazır | Aşağıya bkz. "Keystore Oluşturma" |
 | Privacy Policy URL | ~~CRITICAL~~ | ✅ Çözüldü | yeedoy.com/gizlilik — Hukuki nihai onay önerilir |
 | English permission descriptions (iOS) | **MEDIUM** | ⏳ TODO | Info.plist'e İngilizce açıklamalar ekle |
-| App icon 1024x1024 (Store) | **HIGH** | ⏳ TODO | Icon asset üret ve `appiconset`'e ekle |
+| App icon 1024x1024 (Store) | **HIGH** | ✅ Üretildi (2026-06-05) | `store-assets/icon/yeedoy-master-icon-1024.png` (RGB, alfasız) + `yeedoy-play-icon-512.png`; arka plan rengi onayı (beyaz vs marka kırmızısı) açık — bkz. `docs/archive/store-icon-production-notes.md` |
 | Store screenshots | **HIGH** | ⏳ TODO | 8 ekran (store_listing.md'den) üret |
-| Content rating questionnaire | **HIGH** | 🔧 Taslak hazır | docs/store-data-safety-iarc.md — IARC cevapları belgede — Play Console'da doldurulacak |
-| Data safety form | **CRITICAL** | 🔧 Taslak hazır | docs/store-data-safety-iarc.md — 10 veri kategorisi — Play Console'da doldurulacak |
+| Content rating questionnaire | **HIGH** | 🔧 Taslak hazır | docs/release/store-data-safety-iarc.md — IARC cevapları belgede — Play Console'da doldurulacak |
+| Data safety form | **CRITICAL** | 🔧 Taslak hazır | docs/release/store-data-safety-iarc.md — 10 veri kategorisi — Play Console'da doldurulacak |
 | Release notes | **MEDIUM** | ⏳ TODO | v1.0 release notes yaz (changelog) |
 | TestFlight/beta testers | **MEDIUM** | ⏳ TODO | Internal testers (Google Groups) kur |
 
@@ -460,8 +460,8 @@ $base64 | Set-Clipboard
 3. **Store Listing Doldur:**
    - Title (TR): "Yeedoy: Restoran Fiyat Takip & Menü" (50 char maks)
    - Short desc (TR): "Restoran fiyatlarını takip et. Toplulukla doğrula. Bütçene uygun yeri bul."
-   - Full desc: `docs/store_listing.md` TR uzun açıklama
-   - Keywords: `docs/store_listing.md`
+   - Full desc: `docs/release/store_listing.md` TR uzun açıklama
+   - Keywords: `docs/release/store_listing.md`
    - Icons/screenshots: 8 ekran (store_listing.md)
 
 4. **Content Rating (IARC):**
@@ -501,8 +501,8 @@ $base64 | Set-Clipboard
 3. **Store Listing (Metadata):**
    - Name: "Yeedoy: Menu Price Tracker" (30 char)
    - Subtitle: "Community-verified restaurant prices" (30 char)
-   - Description: `docs/store_listing.md` EN uzun
-   - Keywords: `docs/store_listing.md`
+   - Description: `docs/release/store_listing.md` EN uzun
+   - Keywords: `docs/release/store_listing.md`
    - Screenshot: 6.7" iPhone + iPad Pro
    - Privacy URL: https://yeedoy.com/gizlilik
 
@@ -623,8 +623,8 @@ $base64 | Set-Clipboard
 
 ### CRITICAL (Bu haftada)
 1. ~~Privacy Policy URL yayınla~~ ✅ Tamamlandı → yeedoy.com/gizlilik
-2. ~~Data Safety formu için veri envanteri yap~~ ✅ Taslak hazır → docs/store-data-safety-iarc.md — Play Console'da manuel girilecek
-3. ~~Content Rating IARC formu taslağı~~ ✅ Taslak hazır → docs/store-data-safety-iarc.md — Play Console'da doldurulacak
+2. ~~Data Safety formu için veri envanteri yap~~ ✅ Taslak hazır → docs/release/store-data-safety-iarc.md — Play Console'da manuel girilecek
+3. ~~Content Rating IARC formu taslağı~~ ✅ Taslak hazır → docs/release/store-data-safety-iarc.md — Play Console'da doldurulacak
 4. ✅ **Keystore + ANDROID_KEYSTORE_BASE64 secret** — Tamamlandı (2026-06-05)
 5. ⏳ **Diğer 3 secret'ı terminal'de set et:**
    - `! gh secret set ANDROID_RELEASE_STORE_PASSWORD --repo mekan37/yeedoy`
@@ -634,7 +634,7 @@ $base64 | Set-Clipboard
 ### HIGH (Sonraki hafta)
 1. ✅ GitHub Actions secrets setup (base64 encode + ANDROID_KEYSTORE_BASE64)
 2. ⏳ Kalan 3 secret'ı terminal'de set et (keystore şifresi, alias, key şifresi)
-3. App icon 1024x1024 üret (Store requirements)
+3. ✅ App icon 1024x1024 üretildi (2026-06-05) — arka plan rengi onayı (beyaz vs `#7F1D1D`) bekliyor, bkz. `docs/archive/store-icon-production-notes.md`
 4. Store screenshots üret (8 ekran, store_listing.md'den)
 
 ### MEDIUM (Sonraki 2 hafta)
@@ -659,7 +659,7 @@ $base64 | Set-Clipboard
 | `uygulamalar/mobil/ios/Runner/Info.plist` | iOS config | ✅ Deep links OK |
 | `uygulamalar/mobil/android/app/google-services.json` | Firebase Android | ✅ Config var |
 | `uygulamalar/mobil/ios/Runner/GoogleService-Info.plist` | Firebase iOS | ✅ Config var |
-| `docs/store_listing.md` | Store metadata | ✅ Türkçe + EN |
+| `docs/release/store_listing.md` | Store metadata | ✅ Türkçe + EN |
 | `.github/workflows/mobile_quality.yml` | CI analysis | ✅ Active |
 | `.github/workflows/mobile_readiness.yml` | Release checklist | ✅ Manual |
 | `android/key.properties.example` | Keystore template | ✅ Example var |
@@ -677,7 +677,7 @@ Aşağıdakiler bu dökümanın kapsamı dışındadır (security/operational):
 - ❌ Android/iOS release build test (CI workflow'larda olacak)
 - ❌ TestFlight beta setup (manual)
 - ❌ Store screenshot tasarımı (design team)
-- ❌ App icon 1024x1024 tasarımı
+- ✅ App icon 1024x1024 tasarımı — üretildi (2026-06-05), bkz. `docs/archive/store-icon-production-notes.md`
 
 Bu adımların tümü PR merge sonrası dönem içinde yapılmalıdır.
 
@@ -838,15 +838,138 @@ Yeedoy mobil uygulaması **yayın için hazırdır**, fakat aşağıdaki kritik 
 3. ✅ **Firebase:** Crashlytics + Analytics entegre
 4. ✅ **CI/CD:** Workflow'lar aktif
 5. ✅ **Privacy Policy:** https://yeedoy.com/gizlilik — Teknik sayfa oluşturuldu (Hukuki nihai onay önerilir)
-6. 🔧 **Data Safety + IARC:** Taslak hazır (docs/store-data-safety-iarc.md) — Play Console'da manuel girilecek
+6. 🔧 **Data Safety + IARC:** Taslak hazır (docs/release/store-data-safety-iarc.md) — Play Console'da manuel girilecek
 7. ✅ **Keystore:** ANDROID_KEYSTORE_BASE64 secret eklendi (2026-06-05) — Kalan 3 secret'ı terminal'de set et
-8. ❌ **Store Assets:** Icon 1024x1024 + 8 screenshot
+8. 🔧 **Store Assets:** Icon 1024x1024 ✅ üretildi (2026-06-05, onay bekliyor) + Feature graphic 1200x500 ✅ üretildi — 8 screenshot ❌ henüz yok (main'de 0/8, bkz. `kalan-isler.md` P1)
 
 Tüm bu adımlar tamamlandıktan sonra, 2-3 haftalık internal/beta testing → production release yapılabilir.
 
 ---
 
+## 16. Store Asset Üretimi — Screenshot Senaryoları, Release Notes, Feature Graphic
+
+> Bu bölüm `docs/store-assets-release-plan.md` (2026-06-05, Deployment Engineer) içeriğinden taşındı ve dosya silindi — bu belge artık tek kanonik release dokümanıdır. Üretim brief'leri için ayrıca bkz. `docs/release/store-screenshot-capture-guide.md` ve `docs/archive/store-icon-feature-graphic-brief.md`.
+
+### 16.1 Önerilen 8 Screenshot Senaryosu
+
+Her screenshot bir özelliği vurgulamalı. Önerilen akışlar ve overlay metinleri:
+
+| # | Ekran | Özellik | Başlık (TR) | Başlık (EN) | Açıklama |
+|---|---|---|---|---|---|
+| 1 | Discovery listesi (harita üstü) | Keşif + konum | "Yakınındaki Yerleri Bul" | "Discover Nearby Spots" | İşletme listesi, fiyat rozetleri (₺/₺₺/₺₺₺) görülmeli |
+| 2 | Harita view | Harita | "Haritada Keşfet" | "Explore on Map" | Pin'ler, yakınlık göstergesi |
+| 3 | Business detail page | İşletme detay | "Her Detay Bir Arada" | "All Details in One Place" | Rating, menü, fiyat geçmişi grafiği, "X kişi onayladı" rozeti |
+| 4 | Menu item detail (fiyat grafiği) | Fiyat trendleri | "Fiyat Trendini Takip Et" | "Track Price Trends" | Fiyat geçmişi çizgi grafiği (son 90 gün), min/max etiketleri |
+| 5 | Review create sheet | Yorum yazma | "Toplulukla Doğrula" | "Verify with Community" | 5 yıldız rating UI, 5 kriter (lezzet, servis vb.), fotoğraf ekle butonu |
+| 6 | Budget Combo (arama sonuçları) | Bütçe filtresi | "Bütçene Uygun Yer Bul" | "Find Within Your Budget" | Filter chips (2 kişi, 100₺), sonuç listesi |
+| 7 | Home screen widget | Widget | "Ana Ekrandaki Akışını Takip Et" | "Track on Your Home Screen" | Widget gösterimi (business card + weather-style compact) |
+| 8 | Business owner reply (yorum detayı) | İşletme yanıtı | "Fiyat Hakkında Daha Bilgi" | "Learn More About Pricing" | Yorum + owner yanıt konuşması |
+
+En önemli 3: Discovery (1), Business detail (3), Price trend (4). QR scanner ekranı 9. alternatif olarak eklenebilir; favorite/notification chip ekranı opsiyonel.
+
+**Spesifikasyonlar:**
+- **Google Play:** 2-8 adet, min 320px / maks 3840px (kenar), 16:9 veya 9:16 (önerilen: 9:16 dikey), PNG/JPG
+- **App Store:** iPhone 6.5" → 1284×2778px (zorunlu), iPhone 5.5" → 1242×2208px (zorunlu), iPad 12.9" → 2048×2732px (opsiyonel); metin overlay maks 2 satır başlık + 2 satır açıklama
+- **Tavsiye:** iOS 3 dil × 2 cihaz = 6 screenshot (min); Android 2 dil × 4 senaryo = 8 screenshot (maks)
+
+**Çekim adımları:** Android Emulator (Pixel 5, API 34, 1080×2340px) veya iOS Simulator (iPhone 15 Pro Max, iOS 17.x, 1284×2778px) → `flutter run -d <device>` → Supabase demo/seed verisiyle gerçek işletme/menü göster → `adb shell screencap` veya `xcrun simctl io booted screenshot` ile yakala → Figma/Canva ile başlık+açıklama overlay (Yeedoy red #7F1D1D başlık, Sora bold/regular font, 24px padding) → export (Play: 1080×1920 PNG; iOS 6.5": 1284×2778; iOS 5.5": 1242×2208).
+
+### 16.2 v1.0 Release Notes Şablonu
+
+**Türkçe:**
+
+```
+Yeedoy v1.0'a Hoş Geldiniz!
+
+🎉 İlk resmi sürüm yayında!
+
+Yeedoy, Türkiye'nin ilk topluluk destekli restoran fiyat takip uygulamasıdır.
+
+⭐ Öne Çıkan Özellikler:
+• Yakınındaki restoran fiyatlarını keşfet ve karşılaştır
+• Menü fiyatlarının geçmiş trendlerini görüntüle
+• Favori menü öğelerinde fiyat değişimi olduğunda bildirim al
+• Menü fotoğrafı çek ve toplulukla doğrula
+• Harita üzerinde bütçene uygun yerler bul
+• QR kod ile masadan doğrudan menüye erişim sağla
+• Yorum yaz, fiyatları doğrula, topluluğa katkıda bulun
+
+🚀 Teknik İyileştirmeler:
+• Firebase Crashlytics ile hata takibi
+• Çevrimdışı mod desteği
+• Siri Shortcuts entegrasyonu
+• iOS 14+ ve Android 8.0+ uyumu
+
+💬 Geri Bildirim:
+Herhangi bir sorun veya öneriniz varsa, support@yeedoy.com adresine yazınız.
+
+Yeedoy'u sevenler: Lütfen 5 yıldız verin! 🌟
+```
+
+Karakter sayısı: ~450 (Play Store limiti ~500 — güvenli)
+
+**English:**
+
+```
+Welcome to Yeedoy v1.0!
+
+🎉 Official launch edition!
+
+Yeedoy is Turkey's first community-driven restaurant price tracking app.
+
+⭐ Key Features:
+• Discover and compare nearby restaurant prices
+• Track price history trends for your favorite menu items
+• Get notified instantly when prices change
+• Add photos and verify prices with the community
+• Find budget-friendly restaurants on the map
+• Access menus instantly with QR code scanning
+• Write reviews, verify prices, contribute to the community
+
+🚀 Technical Improvements:
+• Firebase Crashlytics crash reporting
+• Offline mode support
+• Siri Shortcuts integration
+• iOS 14+ and Android 8.0+ compatibility
+
+💬 Feedback:
+Found a bug or have a suggestion? Email us at support@yeedoy.com.
+
+Love Yeedoy? Please rate us 5 stars! 🌟
+```
+
+Character count: ~420 (Play Store limit ~500 — safe)
+
+**Nereye girer:** Google Play → Release management → Latest release → Release notes tab; App Store → Version history → 1.0 → Release notes field.
+
+### 16.3 Feature Graphic (Google Play, opsiyonel ama ASO için önerilir)
+
+> **Durum: ✅ Üretildi (2026-06-05).** `store-assets/feature/yeedoy-feature-graphic-1200x500.png` (1200×500, RGB, 37 KB) — gradient arka plan (#7F1D1D → açık kırmızı), sol tarafta marka ikonu, sağda "Yeedoy" başlığı + "Restoran fiyatlarını toplulukla keşfet" sloganı. Üretim kodu, font kaynakları ve kalite kontrol detayları için bkz. `docs/archive/store-feature-graphic-production-notes.md`. Açık kalemler: görsel onay (KRİTİK), Türkçe karakter encoding kontrolü (ORTA), Play Console'a yükleme (KRİTİK).
+>
+> Aşağıdaki spec orijinal tasarım brifidir — üretilen dosya bu speke göre hazırlanmıştır.
+
+- **Boyut:** 1200×500 px, PNG veya JPG
+- **Gösterim:** Store listing'in en üst kısmında (promo banner)
+- **Tasarım önerisi:** Sol — Yeedoy logosu/ikon (300×300px, ortalı); Sağ — başlık "Yeedoy: Topluluk Destekli Fiyat Takip" + açıklama "Menü fiyatlarını sen belirliyorsun"; arka plan gradient (red #7F1D1D → slate); font Sora bold
+
+### 16.4 Glossary
+
+| Terim | Açıklama |
+|---|---|
+| **AAB** | Android App Bundle (Google Play formatı) |
+| **APK** | Android app package (doğrudan cihaz kurulumu) |
+| **IPA** | iOS app package (App Store formatı) |
+| **ASO** | App Store Optimization |
+| **FCM** | Firebase Cloud Messaging |
+| **IARC** | International Age Rating Coalition |
+| **UGC** | User-generated content |
+| **DAU** | Daily active users |
+| **ANR** | Application not responding (donma) |
+| **Vitals** | Play Console performans metrikleri |
+
+---
+
 **Döküman Versiyonu:** 1.0  
-**Hazırlanma Tarihi:** 2026-06-03  
+**Hazırlanma Tarihi:** 2026-06-03 (§16 eklendi: 2026-06-08 — `store-assets-release-plan.md` birleştirmesi)  
 **Auditor:** Deployment Engineer  
 **Status:** Ready for review

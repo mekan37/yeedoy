@@ -352,8 +352,8 @@ biometric data kategorisinde beyan gerekmez.
 **Referans alinan kaynaklar:**
 - `uygulamalar/mobil/android/app/src/main/AndroidManifest.xml` (dogrudan incelendi)
 - `uygulamalar/mobil/ios/Runner/Info.plist` (dogrudan incelendi)
-- `docs/mobile-release-readiness.md`
-- `docs/store_listing.md`
+- `docs/release/mobile-release-readiness.md`
+- `docs/release/store_listing.md`
 - pubspec.yaml Firebase/AdMob bagimlilik listesi
 
 **Kapsam disi konular:**
@@ -365,4 +365,4 @@ biometric data kategorisinde beyan gerekmez.
 
 *Son Guncelleme: Haziran 2026*
 *Hazirlayan: Legal Advisor (claude-sonnet-4-6)*
-*Referans: docs/mobile-release-readiness.md, docs/store_listing.md, AndroidManifest.xml, Info.plist*
+*Referans: docs/release/mobile-release-readiness.md, docs/release/store_listing.md, AndroidManifest.xml, Info.plist*
