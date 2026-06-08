@@ -266,6 +266,29 @@ firebase_performance: ^0.11.1+4    ✅ Performance monitoring
 - `app-release.aab` — Play Console'a upload edilecek
 - `symbols/` — Crashlytics için (otomatik upload veya manuel)
 
+**🔍 Doğrulama denemesi (2026-06-08, branch `fix/mobile-p0-release-blockers`):**
+
+Workflow'u gerçek bir signed AAB üretecek şekilde 3 kez tetikledik (`gh workflow run mobile_release.yml`) ve CI loglarından (varsayım değil) 3 ayrı, gerçek, önceden var olan pipeline bug'ı bulup düzelttik:
+
+| # | Bug | Belirti | Düzeltme | Commit |
+|---|---|---|---|---|
+| 1 | Job-level `if: secrets.X != ''` geçersiz syntax | HTTP 422 — `Unrecognized named-value: 'secrets'`; tüm dispatch'ler bloke + her push'ta repo genelinde hayalet "failure" run kayıtları | Step-output gate'e (`steps.check.outputs.configured`) çevrildi | `ebc6a98` |
+| 2 | Step sıralaması — secrets-check adımı checkout'tan önce, ama `working-directory: uygulamalar/mobil` bekliyor | Run 1 (`27130708095`): 8s'de "No such file or directory" | Checkout ilk adıma alındı + `working-directory: .` eklendi | `a5d31a0` |
+| 3 | `file(storeFilePath)` `android/app/`'a göre çözümleniyor, ama keystore `android/keystore/`'a yazılıyor (ve `key.properties.example`'daki konvansiyon `android/`'a göredir) | Run 2 (`27130751947`): `bundleRelease` 1m23s'de "Release signing storeFile bulunamadi: android/keystore/yeedoy-release.keystore" | `file()` → `rootProject.file()`; CI default path `android/keystore/...` → `keystore/...` | `5628d7f` |
+
+**Run 3 sonucu** (`27130981247` — https://github.com/mekan37/yeedoy/actions/runs/27130981247, tüm 3 fix uygulanmış): Keystore artık doğru bulunup okunuyor, build 11 dakika sürdü ve `:app:signReleaseBundle` adımında şu hatayla durdu:
+
+```
+Failed to read key *** from store ".../android/keystore/yeedoy-release.keystore":
+No key with alias '***' found in keystore
+```
+
+**Bu artık bir kod/pipeline hatası DEĞİL** — `ANDROID_KEYSTORE_BASE64` secret'ının çözümlediği keystore dosyasıyla `ANDROID_RELEASE_KEY_ALIAS` secret değeri birbiriyle uyuşmuyor. Olası nedenler: (a) yanlış `.keystore`/`.jks` dosyası base64 olarak yüklenmiş, (b) alias adı yanlış yazılmış. **Secret değerlerini görme/güncelleme yetkim ve erişimim yok** — bu adım repo sahibi tarafından yapılmalı:
+
+1. Orijinal keystore dosyasında `keytool -list -v -keystore <dosya> -storepass <şifre>` çalıştırıp gerçek alias adını doğrula
+2. `ANDROID_RELEASE_KEY_ALIAS` secret'ını gerçek alias ile güncelle (`gh secret set ANDROID_RELEASE_KEY_ALIAS --repo mekan37/yeedoy`) — veya yanlış dosya yüklendiyse `ANDROID_KEYSTORE_BASE64`'ü doğru dosyayla yeniden encode/set et
+3. `gh workflow run mobile_release.yml --repo mekan37/yeedoy --ref fix/mobile-p0-release-blockers` ile yeniden tetikle ve `mobile-android-aab-<run_number>` artifact'inin yüklendiğini doğrula
+
 ---
 
 ## 5. Eksik Dosyalar ve Adımlar

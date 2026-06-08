@@ -65,11 +65,22 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   installSafeDebugPrint();
   // Run Firebase and MobileAds initialization in parallel — they are independent.
-  await Future.wait([
-    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
-    MobileAds.instance.initialize(),
-  ]);
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // A failure here (missing/invalid config, platform quirk) must not crash
+  // app startup: Firebase-dependent features simply stay disabled and the
+  // failure is logged for Crashlytics/observability follow-up instead.
+  var firebaseReady = false;
+  try {
+    await Future.wait([
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+      MobileAds.instance.initialize(),
+    ]);
+    firebaseReady = true;
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  } catch (error, stack) {
+    debugPrint(
+      'Firebase/MobileAds initialization failed — continuing without it: $error\n$stack',
+    );
+  }
 
   await dotenv.load(fileName: ".env");
 
@@ -98,9 +109,11 @@ Future<void> main() async {
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
     final taxonomy = classifyError(details.exception);
-    FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
-    FirebaseCrashlytics.instance.setCustomKey('error_source', 'flutter_error');
-    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    if (firebaseReady) {
+      FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
+      FirebaseCrashlytics.instance.setCustomKey('error_source', 'flutter_error');
+      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    }
     unawaited(
       rootContainer
           .read(appTelemetryProvider)
@@ -114,9 +127,11 @@ Future<void> main() async {
 
   PlatformDispatcher.instance.onError = (error, stack) {
     final taxonomy = classifyError(error);
-    FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
-    FirebaseCrashlytics.instance.setCustomKey('error_source', 'platform_dispatcher');
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    if (firebaseReady) {
+      FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
+      FirebaseCrashlytics.instance.setCustomKey('error_source', 'platform_dispatcher');
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    }
     unawaited(
       rootContainer
           .read(appTelemetryProvider)

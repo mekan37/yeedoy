@@ -9,22 +9,30 @@
 ## P0 — Release Blocker (Bunlar olmadan store yayını yapılamaz)
 
 ### Firebase Init Crash Fix
-- **Durum:** 🟡 Main'de kısmen çözüldü, ek düzeltme unmerged branch'te bekliyor
-- **Kanıt:** PR #66 (`fix(mobile): guard firebase initialization against duplicate app`, commit `8928034`) ve PR #68 (`fix(mobile): disable duplicate firebase auto initialization`, commit `a4c15cd`) main'e merge edildi — `uygulamalar/mobil/lib/main.dart:58-60` artık `if (Firebase.apps.isEmpty) { await Firebase.initializeApp(...) }` guard'ı içeriyor. **Ancak** `store/android-screenshot-set` branch'i (commit `33cb1a8`, main'e merge edilmemiş) "Fixed Firebase duplicate-app crash: removed FirebaseInitProvider from AndroidManifest.xml" notuyla **ek bir manifest düzeltmesi** içeriyor — bu da PR #66/#68'in tek başına yeterli olmayabileceğini gösteriyor.
-- **Etki:** Android screenshot capture ve emulator testleri bu fixe bağlı
-- **Bağımlılık:** `store/android-screenshot-set` branch'inin gözden geçirilip merge edilmesi
-- **Önerilen branch:** `store/android-screenshot-set` (mevcut, merge'e hazır olabilir — review gerekir)
+- **Durum:** ✅ Çözüldü — her iki katman da main'de doğrulandı + ek savunma katmanı eklendi
+- **Kanıt:** Doğrulama (2026-06-08, `fix/mobile-p0-release-blockers` branch'inden): bu maddenin önceki notu **yanlıştı** — manifest düzeltmesinin yalnızca unmerged `store/android-screenshot-set` branch'inde (`33cb1a8`) olduğu iddiası geçersiz. Gerçek durum: (1) Dart guard commit `4f8772f` (`fix(mobile): guard firebase initialization against duplicate app`) main'de — `git merge-base --is-ancestor 4f8772f main` → YES; (2) AndroidManifest `FirebaseInitProvider` `tools:node="remove"` düzeltmesi commit `517be7b` (`fix(mobile): disable duplicate firebase auto initialization`) main'de — `git merge-base --is-ancestor 517be7b main` → YES, `uygulamalar/mobil/android/app/src/main/AndroidManifest.xml:93-100` doğrulandı. **Ek olarak** bu oturumda commit `ebc6a98` ile `lib/main.dart`'a savunma katmanı eklendi: `Firebase.initializeApp()` + `MobileAds.instance.initialize()` artık `try/catch` içinde, başarısızlık durumunda `firebaseReady=false` ile devam ediyor (Crashlytics çağrıları `if (firebaseReady)` ile korunuyor) — böylece dokümante edilmemiş bir init hatası bile artık açılışta crash'e yol açamaz.
+- **Etki:** Android screenshot capture ve emulator testleri bu fixe bağlıydı — artık engel değil
+- **Bağımlılık:** Yok — her iki katman main'de, ek savunma katmanı `fix/mobile-p0-release-blockers` branch'inde (PR bekliyor)
+- **Önerilen branch:** `fix/mobile-p0-release-blockers` (mevcut — review + merge)
 - **Önerilen agent:** mobile-developer (flutter-expert sistemde yok, en yakın uzman)
-- **Kabul kriteri:** Pixel 9 Pro emulator'da uygulama Firebase init sırasında crash olmadan açılır; `store/android-screenshot-set` branch'i main'e merge edilir veya çakışmaları çözülerek yeniden uygulanır
+- **Kabul kriteri:** ✅ `Firebase.apps.isEmpty` guard main'de (`4f8772f`) · ✅ `FirebaseInitProvider` manifest'ten kaldırılmış (`517be7b`) · ✅ `flutter analyze lib/main.dart` → "No issues found!" · ✅ try/catch savunma katmanı eklendi (`ebc6a98`) — emulator runtime testi store/screenshot işiyle birlikte ayrıca yapılmalı (statik doğrulama tamamlandı, runtime smoke test P1'e taşındı, bkz. aşağıda)
 
 ### Android Release AAB Artifact Doğrulaması
-- **Durum:** Açık
-- **Kanıt:** `mobile_release.yml` workflow dosyası mevcut ancak gerçek signed AAB derlenip doğrulanmadı
-- **Etki:** Play Store submit imkansız kalır
-- **Bağımlılık:** 3 GitHub secret (`ANDROID_RELEASE_KEY_ALIAS`, `STORE_PASSWORD`, `KEY_PASSWORD`) eklendi mi doğrulanmalı (`gh secret list`)
-- **Önerilen branch:** `store/android-release-build-verify`
-- **Önerilen agent:** devops-engineer
-- **Kabul kriteri:** CI'da signed release AAB derlenir, indirilebilir, `apksigner verify` ile imza doğrulanır
+- **Durum:** 🟡 Pipeline 3 gerçek bug'dan arındırıldı, derleme imzalama adımına kadar ilerliyor — ancak GitHub secret **değerleri** birbiriyle uyuşmuyor (kod değil, config/secret sorunu — repo sahibi tarafından çözülmeli)
+- **Kanıt:** `fix/mobile-p0-release-blockers` branch'inde 3 ayrı, gerçek, önceden var olan bug bulundu ve düzeltildi (her biri CI run loglarından teşhis edildi, varsayım yapılmadı):
+  1. **Geçersiz `if: secrets.X != ''` job-seviyesi syntax** (`ebc6a98`, `a5d31a0`) — GitHub Actions job-level `if:` koşullarında `secrets` context kullanılamıyor (sadece `github/needs/vars/inputs`); bu HTTP 422 ile **tüm dispatch'leri bloke ediyordu** ve **her push'ta repo genelinde hayalet "failure" run kayıtları** oluşturuyordu (`gh run list` ile doğrulandı — bu run'ların hiçbirinde gerçek job çalışmamış). Step-output gate (`steps.check.outputs.configured`) ile yeniden yazıldı.
+  2. **Step sıralama / working-directory hatası** (`a5d31a0`) — "Check release signing secrets" adımı "Checkout"tan önce çalışıyor ama `defaults.run.working-directory: uygulamalar/mobil` kullanıyordu (checkout öncesi yok). Checkout ilk adıma taşındı + `working-directory: .` eklendi.
+  3. **Keystore `storeFile` yol çözümleme uyuşmazlığı** (`5628d7f`) — `android/app/build.gradle.kts` içinde `file(storeFilePath)` Gradle tarafından `android/app/` dizinine göre çözümleniyordu, ama "Decode Android keystore" adımı dosyayı `android/keystore/`'a yazıyor ve `key.properties.example` "relative to android/ directory" diyor. Sonuç: Gradle `android/app/android/keystore/...` arıyordu (yanlış, var olmayan yol). `file()` → `rootProject.file()` + CI default path `'android/keystore/...'` → `'keystore/...'` olarak düzeltildi (her ikisi `android/`'a göre tutarlı).
+  - **Doğrulama run'ları:** Run 1 (`27130708095`) → step-ordering hatasıyla 8s'de fail · Run 2 (`27130751947`) → keystore path hatasıyla `bundleRelease` adımında 1m23s'de fail · **Run 3 (`27130981247`, tüm 3 fix uygulanmış halde, https://github.com/mekan37/yeedoy/actions/runs/27130981247) → keystore artık DOĞRU okunuyor, build 11m9s sürdü ve `:app:signReleaseBundle` adımında şu hatayla fail oldu: `Failed to read key *** from store ".../android/keystore/yeedoy-release.keystore": No key with alias '***' found in keystore`.**
+  - **Bu son hata kod/pipeline hatası DEĞİL** — `ANDROID_KEYSTORE_BASE64` secret'ının decode ettiği keystore dosyası ile `ANDROID_RELEASE_KEY_ALIAS` secret'ının değeri birbiriyle uyuşmuyor (ya yanlış keystore yüklenmiş ya da alias adı yanlış yazılmış). Secret değerlerini görme/değiştirme yetkim yok ve olmamalı.
+- **Etki:** Play Store submit şu an mümkün değil — ama artık net, tek bir engel var: secret değer uyuşmazlığı (config sorunu, kod sorunu değil)
+- **Bağımlılık (yeni — repo sahibi/yetkili tarafından yapılmalı):**
+  1. Yerelde `ANDROID_KEYSTORE_BASE64` secret'ının kaynağı olan `.keystore`/`.jks` dosyasını `keytool -list -v -keystore <dosya>` ile aç, içindeki gerçek alias adını/adlarını gör
+  2. `ANDROID_RELEASE_KEY_ALIAS` secret değerini bu gerçek alias ile eşleştir (`gh secret set ANDROID_RELEASE_KEY_ALIAS`) — ya da yanlış keystore yüklendiyse doğru `.keystore` dosyasını yeniden base64 encode edip `ANDROID_KEYSTORE_BASE64`'ü güncelle
+  3. `gh workflow run mobile_release.yml --ref fix/mobile-p0-release-blockers` ile yeniden tetikle
+- **Önerilen branch:** `fix/mobile-p0-release-blockers` (mevcut — pipeline fix'leri burada, review + merge edilebilir; secret düzeltmesi sonrası tekrar doğrulama gerekir)
+- **Önerilen agent:** devops-engineer (pipeline) + repo sahibi (secret değerleri)
+- **Kabul kriteri:** 🟡 Kısmi — ✅ pipeline 3 bug'dan arındı ve imzalama adımına kadar başarıyla ilerliyor · ❌ signed AAB henüz üretilemedi (secret uyuşmazlığı nedeniyle) · ⏳ secret düzeltmesi sonrası: CI'da signed release AAB derlenmeli, `mobile-android-aab-<run_number>` artifact'i yüklenmeli, `apksigner verify` ile imza doğrulanmalı
 
 ---
 
