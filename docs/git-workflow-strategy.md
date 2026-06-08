@@ -1224,10 +1224,21 @@ Mevcut aktif workflow'lar:
 | `mobile_readiness.yml` | Mobile release readiness | Manual dispatch | ✅ Manual (release öncesi) |
 | `panel_quality.yml` | ~~Flutter web~~ | — | 🗄️ Archived (Next.js'e geçiş) |
 
-**Check adları** (branch protection için gerekli):
-- `mobile_quality / flutter-analyze`
-- `web_quality / typecheck`
-- `web_quality / lint`
+**Check adları** (branch protection için gerekli — gerçek check-run isimleri, 2026-06-08 doğrulandı):
+- `web_quality`
+- `mobile_quality`
+- `personel_quality`
+
+> ⚠️ **Not (2026-06-08):** Yukarıdaki üç madde önceden `mobile_quality / flutter-analyze`,
+> `web_quality / typecheck`, `web_quality / lint` ve sonra `Web Quality / web_quality` gibi
+> bileşik "Workflow Adı / Job Adı" formatlarıyla yazılmıştı. Workflow dosyalarında job'lara
+> ayrı bir `name:` verilmediği için GitHub Actions check-run'ları sade job id ile raporluyor
+> (`web_quality`, `mobile_quality`, `personel_quality` — workflow adı prefix'i yok). Bu
+> mismatch yüzünden CI gerçekte PASS olsa bile PR'lar `mergeStateStatus: BLOCKED` kalıyor ve
+> admin bypass (`gh pr merge --admin`) gerekiyordu (bkz. PR #87, #88). Required status check
+> context listesi `gh api .../protection/required_status_checks --method PATCH` ile gerçek
+> check-run isimlerine güncellendi; diğer branch protection ayarları (enforce_admins,
+> force-push/deletion koruması, required reviews) değişmedi.
 
 Bu adımlar Adım 3 (Branch Protection) ayarlanırken kullanılacaktır.
 
