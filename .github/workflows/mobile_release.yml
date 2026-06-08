@@ -16,6 +16,12 @@ jobs:
       run:
         working-directory: uygulamalar/mobil
     steps:
+      # Checkout always runs — it doesn't depend on release secrets, and the
+      # job's working-directory default (uygulamalar/mobil) only exists after
+      # checkout, so any earlier step needs `working-directory: .` to run.
+      - name: Checkout
+        uses: actions/checkout@v4
+
       # NOTE: the `secrets` context cannot be referenced in a job-level `if:`
       # (GitHub Actions only allows github/needs/vars/inputs there — using
       # `secrets.X != ''` at the job level fails workflow validation with
@@ -24,6 +30,7 @@ jobs:
       - name: Check release signing secrets
         id: check
         shell: bash
+        working-directory: .
         env:
           HAS_STORE_PASSWORD: ${{ secrets.ANDROID_RELEASE_STORE_PASSWORD != '' }}
           HAS_KEY_ALIAS: ${{ secrets.ANDROID_RELEASE_KEY_ALIAS != '' }}
@@ -34,10 +41,6 @@ jobs:
           else
             echo "configured=false" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Checkout
-        if: steps.check.outputs.configured == 'true'
-        uses: actions/checkout@v4
 
       - name: Set up Java
         if: steps.check.outputs.configured == 'true'
