@@ -293,10 +293,14 @@ Kullanici high-risk route'a erisir
 | PR 3 | Eski stub route'u redirect ile temizlendi | Dusuk | Tamamlandi |
 | PR 4 | AAL2 middleware rollout plani (docs-only) | Sifir | Tamamlandi |
 | **PR 5 (Faz 1) ✅** | **Soft banner — admin/owner layout'unda 2FA uyarisi** | **Sifir** | **Tamamlandi (PR #87)** |
-| PR 6 | Admin high-risk AAL2 middleware + JWT AMR optimizasyonu | Orta | Planlandi |
-| PR 7 | Owner high-risk AAL2 middleware | Orta | Planlandi |
-| PR 8 | E2E / smoke testleri (2FA akislari) | Dusuk | Planlandi |
-| PR 9 | Full AAL2 (opsiyonel, degerlendirme sonrasi) | Yuksek | Belirsiz |
+| **PR 6 ✅** | **2FA test plani + TwoFactorBanner unit testleri** | **Sifir** | **Tamamlandi (bu PR)** |
+| PR 7 | Admin high-risk AAL2 middleware + JWT AMR optimizasyonu | Orta | Planlandi |
+| PR 8 | Owner high-risk AAL2 middleware | Orta | Planlandi |
+| PR 9 | E2E / smoke testleri (2FA akislari) | Dusuk | Planlandi |
+| PR 10 | Full AAL2 (opsiyonel, degerlendirme sonrasi) | Yuksek | Belirsiz |
+
+Test plan olusturuldu: `docs/account-security-2fa-test-plan.md`
+TwoFactorBanner unit testleri eklendi: `uygulamalar/web/test/ui/two-factor-banner.test.tsx` (7 test, hepsi gecti)
 
 ---
 
