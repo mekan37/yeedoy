@@ -78,13 +78,15 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     unawaited(_loadRecentSearches());
     unawaited(AssistantShortcutsService.donateDiscoverActivity());
     if (widget.initialSort != null) {
-      final sortBy = DiscoverySort.values.where(
-        (s) => s.name == widget.initialSort,
-      ).firstOrNull;
+      final sortBy = DiscoverySort.values
+          .where((s) => s.name == widget.initialSort)
+          .firstOrNull;
       if (sortBy != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
-            ref.read(discoverySearchProvider.notifier).setFilters(sortBy: sortBy);
+            ref
+                .read(discoverySearchProvider.notifier)
+                .setFilters(sortBy: sortBy);
           }
         });
       }
@@ -289,9 +291,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         ),
       ),
     );
-    final sponsoredIds = sponsoredIdsAsync.asData?.value
-            .map((b) => b.id)
-            .toSet() ??
+    final sponsoredIds =
+        sponsoredIdsAsync.asData?.value.map((b) => b.id).toSet() ??
         const <String>{};
     final hasDistrict = city.isNotEmpty && district.isNotEmpty;
     final neighborhood = ref.watch(
@@ -1014,16 +1015,15 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                         duration: const Duration(
                                           milliseconds: 180,
                                         ),
-                                        transitionBuilder:
-                                            (child, animation) {
-                                              return ScaleTransition(
-                                                scale: Tween<double>(
-                                                  begin: 0.7,
-                                                  end: 1,
-                                                ).animate(animation),
-                                                child: child,
-                                              );
-                                            },
+                                        transitionBuilder: (child, animation) {
+                                          return ScaleTransition(
+                                            scale: Tween<double>(
+                                              begin: 0.7,
+                                              end: 1,
+                                            ).animate(animation),
+                                            child: child,
+                                          );
+                                        },
                                         child: Icon(
                                           (favCache[entry.value.id] ??
                                                   favIds.contains(
@@ -1033,9 +1033,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                               : Icons.star_outline,
                                           key: ValueKey(
                                             favCache[entry.value.id] ??
-                                                favIds.contains(
-                                                  entry.value.id,
-                                                ),
+                                                favIds.contains(entry.value.id),
                                           ),
                                         ),
                                       ),
@@ -1263,7 +1261,9 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                                 ),
                                                 OutlinedButton.icon(
                                                   onPressed: () =>
-                                                      _openLocationSheet(context),
+                                                      _openLocationSheet(
+                                                        context,
+                                                      ),
                                                   icon: const Icon(
                                                     Icons.location_on_outlined,
                                                     size: 18,
@@ -1468,10 +1468,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                t.rankingFormulaTitle,
-                style: context.sectionTitleStyle,
-              ),
+              Text(t.rankingFormulaTitle, style: context.sectionTitleStyle),
               const SizedBox(height: 8),
               Text(t.rankingFormulaIntro),
               const SizedBox(height: 6),
@@ -1552,7 +1549,9 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
       builder: (ctx) {
         return Consumer(
           builder: (context, ref, _) {
-            final mealCardOptionsAsync = ref.watch(allMealCardProvidersProvider);
+            final mealCardOptionsAsync = ref.watch(
+              allMealCardProvidersProvider,
+            );
             return StatefulBuilder(
               builder: (ctx, setModalState) {
                 return SafeArea(
@@ -1571,24 +1570,27 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                             ),
                           ),
                           const SizedBox(height: 14),
-                          Text(t.minRatingLabel(localRating.toStringAsFixed(1))),
+                          Text(
+                            t.minRatingLabel(localRating.toStringAsFixed(1)),
+                          ),
                           Slider(
                             value: localRating,
                             min: 0,
                             max: 5,
                             divisions: 10,
                             label: localRating.toStringAsFixed(1),
-                            onChanged: (v) => setModalState(() => localRating = v),
+                            onChanged: (v) =>
+                                setModalState(() => localRating = v),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             t.localeName.startsWith('tr')
                                 ? (localMaxBudgetTl <= 0
-                                    ? 'Kişi başı bütçe: Sınırsız'
-                                    : 'Kişi başı max bütçe: ${localMaxBudgetTl.round()}₺')
+                                      ? 'Kişi başı bütçe: Sınırsız'
+                                      : 'Kişi başı max bütçe: ${localMaxBudgetTl.round()}₺')
                                 : (localMaxBudgetTl <= 0
-                                    ? 'Budget per person: No limit'
-                                    : 'Max budget per person: ${localMaxBudgetTl.round()}₺'),
+                                      ? 'Budget per person: No limit'
+                                      : 'Max budget per person: ${localMaxBudgetTl.round()}₺'),
                           ),
                           Slider(
                             value: localMaxBudgetTl,
@@ -1597,8 +1599,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                             divisions: 50,
                             label: localMaxBudgetTl <= 0
                                 ? (t.localeName.startsWith('tr')
-                                    ? 'Sınırsız'
-                                    : 'No limit')
+                                      ? 'Sınırsız'
+                                      : 'No limit')
                                 : '${localMaxBudgetTl.round()}₺',
                             onChanged: (v) =>
                                 setModalState(() => localMaxBudgetTl = v),
@@ -1654,8 +1656,12 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                       borderRadius: BorderRadius.circular(6),
                                       onTap: () {
                                         setModalState(() {
-                                          if (localMealCardKeys.contains(option.key)) {
-                                            localMealCardKeys.remove(option.key);
+                                          if (localMealCardKeys.contains(
+                                            option.key,
+                                          )) {
+                                            localMealCardKeys.remove(
+                                              option.key,
+                                            );
                                           } else {
                                             localMealCardKeys.add(option.key);
                                           }
@@ -1677,7 +1683,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                             contentPadding: EdgeInsets.zero,
                             value: localOpenNow,
                             title: Text(t.prioritizeOpenNow),
-                            onChanged: (v) => setModalState(() => localOpenNow = v),
+                            onChanged: (v) =>
+                                setModalState(() => localOpenNow = v),
                           ),
                           SwitchListTile(
                             contentPadding: EdgeInsets.zero,
@@ -1712,9 +1719,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                 child: FilledButton(
                                   onPressed: () async {
                                     Navigator.pop(ctx);
-                                    final mealCardKeys = localMealCardKeys
-                                        .toList(growable: false)
-                                      ..sort();
+                                    final mealCardKeys =
+                                        localMealCardKeys.toList(
+                                          growable: false,
+                                        )..sort();
                                     await ref
                                         .read(discoverySearchProvider.notifier)
                                         .setFilters(
@@ -1726,7 +1734,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                           maxBudgetCents: localMaxBudgetTl <= 0
                                               ? null
                                               : (localMaxBudgetTl * 100)
-                                                  .round(),
+                                                    .round(),
                                         );
                                   },
                                   child: Text(t.apply),
@@ -1918,9 +1926,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                       if (st.hasBudgetFilter) ...[
                         const SizedBox(width: 8),
                         _PremiumFilterChip(
-                          label: AppLocalizations.of(
-                                    context,
-                                  ).localeName.startsWith('tr')
+                          label:
+                              AppLocalizations.of(
+                                context,
+                              ).localeName.startsWith('tr')
                               ? 'Max ${(st.maxBudgetCents! / 100).round()}₺'
                               : 'Max ${(st.maxBudgetCents! / 100).round()}₺',
                           icon: Icons.money_off_rounded,
@@ -1935,7 +1944,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                       ],
                       const SizedBox(width: 8),
                       _PremiumFilterChip(
-                        label: AppLocalizations.of(context).localeName.startsWith('tr')
+                        label:
+                            AppLocalizations.of(
+                              context,
+                            ).localeName.startsWith('tr')
                             ? 'Taste Twin'
                             : 'Taste Twin',
                         icon: Icons.auto_awesome_rounded,
@@ -2146,15 +2158,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
   }
 
   String _categoryImageFor(String category, int index) {
-    final normalized = category.toLowerCase();
-    for (final cfg in discoveryHomeCategories) {
-      if (normalized.contains(cfg.searchTerm.toLowerCase())) {
-        return cfg.imagePool.first;
-      }
-    }
-    final fallback =
-        discoveryHomeCategories[index % discoveryHomeCategories.length];
-    return fallback.imagePool.first;
+    return CategoryAssets.resolve(category);
   }
 
   Widget _buildFreshLinksSection(

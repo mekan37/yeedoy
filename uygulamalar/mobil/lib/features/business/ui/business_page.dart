@@ -11,6 +11,7 @@ import 'package:firebase_performance/firebase_performance.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/analytics_repository.dart';
+import '../../../core/assets/category_assets.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
@@ -413,7 +414,9 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
             ref.invalidate(businessTrendingItemsProvider(widget.businessId));
             ref.invalidate(businessNewItemsProvider(widget.businessId));
             ref.invalidate(businessAmenitiesProvider(widget.businessId));
-            ref.invalidate(businessMealCardProvidersProvider(widget.businessId));
+            ref.invalidate(
+              businessMealCardProvidersProvider(widget.businessId),
+            );
             ref.invalidate(businessRecentCheckinsProvider(widget.businessId));
           },
           child: _BusinessSectionsScroll(business: business),

@@ -1,10 +1,7 @@
 part of '../business_page.dart';
 
 class _BusinessHeroTrustHeader extends StatelessWidget {
-  const _BusinessHeroTrustHeader({
-    required this.business,
-    this.isOpenNow,
-  });
+  const _BusinessHeroTrustHeader({required this.business, this.isOpenNow});
 
   final Business business;
   final bool? isOpenNow;
@@ -109,7 +106,7 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
     return Hero(
       tag: heroTag,
       child: Image.asset(
-        _heroImageForCategory(business.category),
+        CategoryAssets.resolve(business.category),
         fit: BoxFit.cover,
       ),
     );

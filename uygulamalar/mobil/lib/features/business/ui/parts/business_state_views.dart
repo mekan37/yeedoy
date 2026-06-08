@@ -56,8 +56,7 @@ class _BusinessPresenceBadge extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count =
-        ref.watch(businessPresenceCountProvider(businessId));
+    final count = ref.watch(businessPresenceCountProvider(businessId));
     if (count == null || count < 2) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
@@ -96,9 +95,10 @@ class _PulsingDotState extends State<_PulsingDot>
       vsync: this,
       duration: const Duration(milliseconds: 1200),
     )..repeat(reverse: true);
-    _anim = Tween<double>(begin: 0.4, end: 1.0).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
-    );
+    _anim = Tween<double>(
+      begin: 0.4,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -222,23 +222,6 @@ int? _parseMinutes(String? value) {
   final m = int.tryParse(parts[1]);
   if (h == null || m == null) return null;
   return h * 60 + m;
-}
-
-String _heroImageForCategory(String category) {
-  final c = category.toLowerCase();
-  if (c.contains('steak') || c.contains('et')) {
-    return 'assets/images/categories/kebap.png';
-  }
-  if (c.contains('burger')) {
-    return 'assets/images/categories/burger.png';
-  }
-  if (c.contains('pizza')) {
-    return 'assets/images/categories/pizza.png';
-  }
-  if (c.contains('kahvalt')) {
-    return 'assets/images/categories/kahvalti.png';
-  }
-  return 'assets/images/categories/doner.png';
 }
 
 String _menuImageForIndex(int index) {

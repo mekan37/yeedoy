@@ -19,6 +19,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/analytics/analytics_repository.dart';
+import '../../../core/assets/category_assets.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
 import '../../../core/config/feature_flags.dart';
