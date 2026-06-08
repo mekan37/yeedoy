@@ -275,7 +275,7 @@ firebase_performance: ^0.11.1+4    ✅ Performance monitoring
 | Android Keystore + CI secrets | **HIGH** | 🔧 Teknik altyap hazır | Aşağıya bkz. "Keystore Oluşturma" |
 | Privacy Policy URL | ~~CRITICAL~~ | ✅ Çözüldü | yeedoy.com/gizlilik — Hukuki nihai onay önerilir |
 | English permission descriptions (iOS) | **MEDIUM** | ⏳ TODO | Info.plist'e İngilizce açıklamalar ekle |
-| App icon 1024x1024 (Store) | **HIGH** | ⏳ TODO | Icon asset üret ve `appiconset`'e ekle |
+| App icon 1024x1024 (Store) | **HIGH** | ✅ Üretildi (2026-06-05) | `store-assets/icon/yeedoy-master-icon-1024.png` (RGB, alfasız) + `yeedoy-play-icon-512.png`; arka plan rengi onayı (beyaz vs marka kırmızısı) açık — bkz. `docs/archive/store-icon-production-notes.md` |
 | Store screenshots | **HIGH** | ⏳ TODO | 8 ekran (store_listing.md'den) üret |
 | Content rating questionnaire | **HIGH** | 🔧 Taslak hazır | docs/release/store-data-safety-iarc.md — IARC cevapları belgede — Play Console'da doldurulacak |
 | Data safety form | **CRITICAL** | 🔧 Taslak hazır | docs/release/store-data-safety-iarc.md — 10 veri kategorisi — Play Console'da doldurulacak |
@@ -634,7 +634,7 @@ $base64 | Set-Clipboard
 ### HIGH (Sonraki hafta)
 1. ✅ GitHub Actions secrets setup (base64 encode + ANDROID_KEYSTORE_BASE64)
 2. ⏳ Kalan 3 secret'ı terminal'de set et (keystore şifresi, alias, key şifresi)
-3. App icon 1024x1024 üret (Store requirements)
+3. ✅ App icon 1024x1024 üretildi (2026-06-05) — arka plan rengi onayı (beyaz vs `#7F1D1D`) bekliyor, bkz. `docs/archive/store-icon-production-notes.md`
 4. Store screenshots üret (8 ekran, store_listing.md'den)
 
 ### MEDIUM (Sonraki 2 hafta)
@@ -677,7 +677,7 @@ Aşağıdakiler bu dökümanın kapsamı dışındadır (security/operational):
 - ❌ Android/iOS release build test (CI workflow'larda olacak)
 - ❌ TestFlight beta setup (manual)
 - ❌ Store screenshot tasarımı (design team)
-- ❌ App icon 1024x1024 tasarımı
+- ✅ App icon 1024x1024 tasarımı — üretildi (2026-06-05), bkz. `docs/archive/store-icon-production-notes.md`
 
 Bu adımların tümü PR merge sonrası dönem içinde yapılmalıdır.
 
@@ -840,7 +840,7 @@ Yeedoy mobil uygulaması **yayın için hazırdır**, fakat aşağıdaki kritik 
 5. ✅ **Privacy Policy:** https://yeedoy.com/gizlilik — Teknik sayfa oluşturuldu (Hukuki nihai onay önerilir)
 6. 🔧 **Data Safety + IARC:** Taslak hazır (docs/release/store-data-safety-iarc.md) — Play Console'da manuel girilecek
 7. ✅ **Keystore:** ANDROID_KEYSTORE_BASE64 secret eklendi (2026-06-05) — Kalan 3 secret'ı terminal'de set et
-8. ❌ **Store Assets:** Icon 1024x1024 + 8 screenshot
+8. 🔧 **Store Assets:** Icon 1024x1024 ✅ üretildi (2026-06-05, onay bekliyor) + Feature graphic 1200x500 ✅ üretildi — 8 screenshot ❌ henüz yok (main'de 0/8, bkz. `kalan-isler.md` P1)
 
 Tüm bu adımlar tamamlandıktan sonra, 2-3 haftalık internal/beta testing → production release yapılabilir.
 
@@ -943,6 +943,10 @@ Character count: ~420 (Play Store limit ~500 — safe)
 **Nereye girer:** Google Play → Release management → Latest release → Release notes tab; App Store → Version history → 1.0 → Release notes field.
 
 ### 16.3 Feature Graphic (Google Play, opsiyonel ama ASO için önerilir)
+
+> **Durum: ✅ Üretildi (2026-06-05).** `store-assets/feature/yeedoy-feature-graphic-1200x500.png` (1200×500, RGB, 37 KB) — gradient arka plan (#7F1D1D → açık kırmızı), sol tarafta marka ikonu, sağda "Yeedoy" başlığı + "Restoran fiyatlarını toplulukla keşfet" sloganı. Üretim kodu, font kaynakları ve kalite kontrol detayları için bkz. `docs/archive/store-feature-graphic-production-notes.md`. Açık kalemler: görsel onay (KRİTİK), Türkçe karakter encoding kontrolü (ORTA), Play Console'a yükleme (KRİTİK).
+>
+> Aşağıdaki spec orijinal tasarım brifidir — üretilen dosya bu speke göre hazırlanmıştır.
 
 - **Boyut:** 1200×500 px, PNG veya JPG
 - **Gösterim:** Store listing'in en üst kısmında (promo banner)
