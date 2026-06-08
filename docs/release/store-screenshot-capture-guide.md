@@ -428,10 +428,9 @@ adb shell am broadcast -a com.android.systemui.demo -e command exit
 
 | Belge | Icerik |
 |---|---|
-| `docs/store-assets-release-plan.md` | Release plani, screenshot specs, release notes sablonu |
-| `docs/store_listing.md` | ASO copy (TR + EN), anahtar kelimeler |
-| `docs/store-data-safety-iarc.md` | Data Safety + IARC taslak |
-| `docs/mobile-release-readiness.md` | Tam release checklist |
+| `docs/release/mobile-release-readiness.md` | Tam release checklist + §16 Store Asset Üretimi (screenshot specs, release notes sablonu, feature graphic) |
+| `docs/release/store_listing.md` | ASO copy (TR + EN), anahtar kelimeler |
+| `docs/release/store-data-safety-iarc.md` | Data Safety + IARC taslak |
 
 ---
 
