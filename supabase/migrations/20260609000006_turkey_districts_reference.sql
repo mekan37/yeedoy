@@ -1,7 +1,7 @@
 -- ============================================================
 -- turkey_districts_reference
 -- Türkiye 81 il + ~973 ilçe referans tablosu (salt okunur).
--- Normalizasyon migration'ı (20260609000003) bu tabloyu kullanır.
+-- Normalizasyon migration'ı (20260609000007) bu tabloyu kullanır.
 -- RLS gerekmez — tamamen read-only, hassas veri yok.
 -- Oluşturulma: 2026-06-09
 -- ============================================================

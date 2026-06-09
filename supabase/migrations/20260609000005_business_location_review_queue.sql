@@ -64,5 +64,5 @@ GRANT SELECT, INSERT, UPDATE ON public.business_location_review_queue TO authent
 
 COMMENT ON TABLE public.business_location_review_queue IS
   'Manuel gözden geçirme kuyruğu: normalize edilemeyen veya düşük güvenli city/district kayıtları. '
-  'Kaynak migration: 20260609000003_normalize_businesses_location. '
+  'Kaynak migration: 20260609000007_normalize_businesses_location. '
   'Admin panelinden review_status güncellenerek işlenir.';
