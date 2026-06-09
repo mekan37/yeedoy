@@ -101,6 +101,25 @@
 - **Önerilen agent:** project-manager
 - **Kabul kriteri:** Tüm asset checklist maddeleri ✅ — icon, feature graphic, 8 Android + 8 iOS screenshot store-assets/ altında
 
+### P1 — City Alias / Search Normalizasyonu (normalizasyon sonrası zorunlu)
+
+- **Durum:** Açık — normalizasyon migration'ı (20260609000003) uygulandıktan sonra bu madde aktif hale gelir
+- **Bağlantı:** `supabase/migrations/20260609000003_normalize_businesses_location.sql`
+- **Etkilenen RPC'ler:** `search_businesses_v1`, `search_nearby_businesses_v3` (ve city parametresi alan tüm RPC'ler)
+- **Sorun:** Normalizasyon sonrası `businesses.city` artık yalnızca canonical il adları içeriyor (`Kocaeli`, `Hatay`, `Sakarya`, `Afyonkarahisar` vb.). Kullanıcı eski popüler adlarla arama yaparsa (`İzmit`, `Antakya`, `Adapazarı`, `Afyon`) sonuçlar boş döner.
+- **Kabul kriterleri:**
+  - `İzmit` araması → `Kocaeli` ilindeki işletmeleri döndürmeli
+  - `Adapazarı` araması → `Sakarya` ilindeki işletmeleri döndürmeli
+  - `Afyon` araması → `Afyonkarahisar` ilindeki işletmeleri döndürmeli
+  - `Antakya` araması → `Hatay` ilindeki işletmeleri döndürmeli
+  - `Karşıyaka` araması → `İzmir` ilindeki işletmeleri döndürmeli
+- **Çözüm seçenekleri (ayrı PR'da):**
+  - RPC içinde `city_aliases` lookup tablosu (canonical_city → alias listesi); arama gelince alias'tan canonical'e çevir
+  - Client-side canonical çevirme önce (mobil/web), ardından RPC çağrısı
+  - `pg_trgm` fuzzy search ile eşik tabanlı benzerlik araması
+- **Önerilen branch:** `feature/city-alias-search`
+- **Önerilen agent:** postgres-pro (RPC tarafı) + mobile-developer / nextjs-developer (client tarafı)
+
 ---
 
 ## P2 — Runtime Env / Dış Entegrasyonlar
