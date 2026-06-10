@@ -1787,6 +1787,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
             sliver: SliverList.list(
               children: [
+                const _DiscoveryGreetingHeader(),
                 AppCard(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 14,
@@ -1876,6 +1877,43 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                       contentPadding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
+                ),
+                const SizedBox(height: 12),
+                CategoryQuickFilters(
+                  items: [
+                    CategoryQuickFilterItem(
+                      id: 'featured',
+                      title: AppLocalizations.of(context).discoveryFeaturedCategory,
+                      imageAsset: '',
+                      isFeatured: true,
+                    ),
+                    ..._homeCategories.take(8).map(
+                          (item) => CategoryQuickFilterItem(
+                            id: item.id,
+                            title: _homeCategoryTitle(context, item.titleKey),
+                            imageAsset:
+                                _selectedCategoryImage[item.id] ?? item.imagePool.first,
+                          ),
+                        ),
+                  ],
+                  layout: CategoryQuickFiltersLayout.roundedRow,
+                  showHeader: false,
+                  onTap: (item) {
+                    if (item.isFeatured) {
+                      qCtrl.clear();
+                      ref
+                          .read(discoverySearchProvider.notifier)
+                          .setQuery('', withDebounce: false);
+                      if (mounted) setState(() {});
+                      return;
+                    }
+                    final selected = _homeCategories.firstWhere((e) => e.id == item.id);
+                    qCtrl.text = selected.searchTerm;
+                    ref
+                        .read(discoverySearchProvider.notifier)
+                        .setQuery(selected.searchTerm, withDebounce: false);
+                    if (mounted) setState(() {});
+                  },
                 ),
                 const SizedBox(height: 12),
                 SingleChildScrollView(
@@ -2024,7 +2062,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  AppLocalizations.of(context).nearbyVerifiedSpots,
+                  AppLocalizations.of(context).discoverForYou,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 12),
@@ -2036,7 +2074,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                       context,
                     ).changeFiltersTryAgain,
                   )
-                else
+                else ...[
                   ..._buildNearbyCardsWithAds(
                     context: context,
                     ref: ref,
@@ -2045,6 +2083,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     favIds: favIds,
                     isLoggedIn: isLoggedIn,
                   ),
+                  _DiscoveryPromoBanner(onTap: () => _openWhatToEat(context)),
+                ],
               ],
             ),
           ),
@@ -2058,12 +2098,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     const hours = [2, 5, 8];
     if (index % 4 == 3) return t.timeDaysAgo(1);
     return t.timeHoursAgo(hours[index % hours.length]);
-  }
-
-  String _updatedLabel(BuildContext context, int index) {
-    final t = AppLocalizations.of(context);
-    const days = [0, 2, 1];
-    return t.updatedDaysAgo(days[index % days.length]);
   }
 
   List<Widget> _buildNearbyCardsWithAds({
@@ -2084,19 +2118,13 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     for (var index = 0; index < nearbyItems.length; index++) {
       final item = nearbyItems[index];
       final isFav = favCache[item.id] ?? favIds.contains(item.id);
-      final hasVerified = (item.recentPriceVerifiedCount ?? 0) > 0;
       widgets.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 14),
-          child: _NearbyVerifiedSpotCard(
+          child: _ForYouBusinessCard(
             item: item,
             imageAsset: _categoryImageFor(item.category, index + 2),
             ratingLabel: _ratingLabel(item),
-            averageSpend: _avgSpendLabel(context, item),
-            updatedLabel: _updatedLabel(context, index),
-            statusType: hasVerified
-                ? StatusBadgeType.verified
-                : StatusBadgeType.outdated,
             isFavorite: isFav,
             onTap: () => _openBusiness(item.id, source: 'nearby_verified'),
             onFavoriteTap: () async {
@@ -2138,14 +2166,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     }
 
     return widgets;
-  }
-
-  String _avgSpendLabel(BuildContext context, BusinessCardModel item) {
-    final t = AppLocalizations.of(context);
-    final raw = item.medianPriceCents;
-    if (raw == null || raw <= 0) return t.avgSpendPerPerson('---');
-    final amount = formatCurrency(context, raw / 100, currencyCode: 'TRY');
-    return t.avgSpendPerPerson(amount);
   }
 
   String _ratingLabel(BusinessCardModel item) {
