@@ -1896,7 +1896,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                   ],
                   layout: CategoryQuickFiltersLayout.roundedRow,
                   showHeader: false,
-                  onTap: (item) {
+                  onTap: (item) async {
                     if (item.isFeatured) {
                       qCtrl.clear();
                       ref
@@ -1906,7 +1906,22 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                       return;
                     }
                     final selected = _homeCategories.firstWhere((e) => e.id == item.id);
+                    final clientId = await getAnalyticsClientId();
+                    if (mounted) {
+                      unawaited(
+                        ref
+                            .read(analyticsRepositoryProvider)
+                            .logEvent(
+                              eventName: AppEvents.categoryClick,
+                              source: 'category_quick_filters',
+                              clientId: clientId,
+                              meta: {'category_id': selected.id},
+                            ),
+                      );
+                    }
+                    unawaited(CategoryPrefs.bumpTapCount(item.id));
                     qCtrl.text = selected.searchTerm;
+                    await _rememberSearch(selected.searchTerm);
                     ref
                         .read(discoverySearchProvider.notifier)
                         .setQuery(selected.searchTerm, withDebounce: false);
