@@ -1836,8 +1836,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                const WeatherHintBar(compact: true),
                 const SizedBox(height: 12),
                 Container(
                   decoration: BoxDecoration(
@@ -1915,6 +1913,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     if (mounted) setState(() {});
                   },
                 ),
+                const SizedBox(height: 12),
+                const WeatherHintBar(compact: true),
                 const SizedBox(height: 12),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
