@@ -332,6 +332,23 @@ class AppLocalizationsTr extends AppLocalizations {
   String get nearbyVerifiedSpots => 'Yakındaki Doğrulanmış Mekanlar';
 
   @override
+  String get discoverForYou => 'Senin için keşfet';
+
+  @override
+  String discoveryGreetingHello(String name) {
+    return 'Merhaba $name 👋';
+  }
+
+  @override
+  String get discoveryGreetingHelloAnon => 'Merhaba 👋';
+
+  @override
+  String get discoveryGreetingSubtitle => 'Bugün ne yemek istersin?';
+
+  @override
+  String get discoveryFeaturedCategory => 'Öne Çıkanlar';
+
+  @override
   String get noNearbyVerifiedSpots => 'Yakında doğrulanmış mekan bulunamadı';
 
   @override

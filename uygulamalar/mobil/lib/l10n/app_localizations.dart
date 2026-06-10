@@ -698,6 +698,36 @@ abstract class AppLocalizations {
   /// **'Yakındaki Doğrulanmış Mekanlar'**
   String get nearbyVerifiedSpots;
 
+  /// Auto metadata for discoverForYou
+  ///
+  /// In tr, this message translates to:
+  /// **'Senin için keşfet'**
+  String get discoverForYou;
+
+  /// Auto metadata for discoveryGreetingHello
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba {name} 👋'**
+  String discoveryGreetingHello(String name);
+
+  /// Auto metadata for discoveryGreetingHelloAnon
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba 👋'**
+  String get discoveryGreetingHelloAnon;
+
+  /// Auto metadata for discoveryGreetingSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ne yemek istersin?'**
+  String get discoveryGreetingSubtitle;
+
+  /// Auto metadata for discoveryFeaturedCategory
+  ///
+  /// In tr, this message translates to:
+  /// **'Öne Çıkanlar'**
+  String get discoveryFeaturedCategory;
+
   /// Auto metadata for noNearbyVerifiedSpots
   ///
   /// In tr, this message translates to:

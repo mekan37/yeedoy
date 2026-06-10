@@ -445,6 +445,31 @@
   "@nearbyVerifiedSpots": {
     "description": "Auto metadata for nearbyVerifiedSpots"
   },
+  "discoverForYou": "Senin için keşfet",
+  "@discoverForYou": {
+    "description": "Auto metadata for discoverForYou"
+  },
+  "discoveryGreetingHello": "Merhaba {name} 👋",
+  "@discoveryGreetingHello": {
+    "description": "Auto metadata for discoveryGreetingHello",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryGreetingHelloAnon": "Merhaba 👋",
+  "@discoveryGreetingHelloAnon": {
+    "description": "Auto metadata for discoveryGreetingHelloAnon"
+  },
+  "discoveryGreetingSubtitle": "Bugün ne yemek istersin?",
+  "@discoveryGreetingSubtitle": {
+    "description": "Auto metadata for discoveryGreetingSubtitle"
+  },
+  "discoveryFeaturedCategory": "Öne Çıkanlar",
+  "@discoveryFeaturedCategory": {
+    "description": "Auto metadata for discoveryFeaturedCategory"
+  },
   "noNearbyVerifiedSpots": "Yakında doğrulanmış mekan bulunamadı",
   "@noNearbyVerifiedSpots": {
     "description": "Auto metadata for noNearbyVerifiedSpots"

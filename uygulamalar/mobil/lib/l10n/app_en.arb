@@ -445,6 +445,31 @@
   "@nearbyVerifiedSpots": {
     "description": "Auto metadata for nearbyVerifiedSpots"
   },
+  "discoverForYou": "Discover for you",
+  "@discoverForYou": {
+    "description": "Auto metadata for discoverForYou"
+  },
+  "discoveryGreetingHello": "Hi {name} 👋",
+  "@discoveryGreetingHello": {
+    "description": "Auto metadata for discoveryGreetingHello",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryGreetingHelloAnon": "Hi 👋",
+  "@discoveryGreetingHelloAnon": {
+    "description": "Auto metadata for discoveryGreetingHelloAnon"
+  },
+  "discoveryGreetingSubtitle": "What do you feel like eating today?",
+  "@discoveryGreetingSubtitle": {
+    "description": "Auto metadata for discoveryGreetingSubtitle"
+  },
+  "discoveryFeaturedCategory": "Featured",
+  "@discoveryFeaturedCategory": {
+    "description": "Auto metadata for discoveryFeaturedCategory"
+  },
   "noNearbyVerifiedSpots": "No nearby verified spots found",
   "@noNearbyVerifiedSpots": {
     "description": "Auto metadata for noNearbyVerifiedSpots"

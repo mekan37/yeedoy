@@ -332,6 +332,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearbyVerifiedSpots => 'Nearby Verified Spots';
 
   @override
+  String get discoverForYou => 'Discover for you';
+
+  @override
+  String discoveryGreetingHello(String name) {
+    return 'Hi $name 👋';
+  }
+
+  @override
+  String get discoveryGreetingHelloAnon => 'Hi 👋';
+
+  @override
+  String get discoveryGreetingSubtitle => 'What do you feel like eating today?';
+
+  @override
+  String get discoveryFeaturedCategory => 'Featured';
+
+  @override
   String get noNearbyVerifiedSpots => 'No nearby verified spots found';
 
   @override
