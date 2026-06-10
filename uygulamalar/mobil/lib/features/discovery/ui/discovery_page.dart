@@ -29,6 +29,8 @@ import '../../../core/storage/offline_cache_prefs.dart';
 import '../../../core/storage/search_prefs.dart';
 
 import '../../auth/domain/auth_providers.dart';
+import '../../taste_twin/domain/taste_twin_controllers.dart';
+import '../../shared/ui/components/open_price_badge.dart';
 import '../../top_businesses/ui/top_businesses_strip.dart';
 
 import '../domain/discovery_search_notifier.dart';

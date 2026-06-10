@@ -1,5 +1,264 @@
 part of '../discovery_page.dart';
 
+class _DiscoveryGreetingHeader extends ConsumerWidget {
+  const _DiscoveryGreetingHeader();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final user = ref.watch(userProvider);
+
+    String? displayName;
+    if (user != null) {
+      final profileAsync = ref.watch(publicProfileProvider(user.id));
+      final name = profileAsync.asData?.value.displayName.trim() ?? '';
+      if (name.isNotEmpty) displayName = name;
+    }
+
+    final greeting = displayName != null
+        ? t.discoveryGreetingHello(displayName)
+        : t.discoveryGreetingHelloAnon;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            greeting,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w900),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            t.discoveryGreetingSubtitle,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: AppColors.muted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ForYouBusinessCard extends StatelessWidget {
+  const _ForYouBusinessCard({
+    required this.item,
+    required this.imageAsset,
+    required this.ratingLabel,
+    required this.isFavorite,
+    required this.onTap,
+    required this.onFavoriteTap,
+  });
+
+  final BusinessCardModel item;
+  final String imageAsset;
+  final String ratingLabel;
+  final bool isFavorite;
+  final VoidCallback onTap;
+  final VoidCallback onFavoriteTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final distance = t.distanceKm(
+      double.parse((item.distanceKm ?? 0.4).toStringAsFixed(1)),
+    );
+    final priceSymbol = priceLevelSymbol(item.priceLevel, item.medianPriceCents);
+
+    return AppCard(
+      padding: const EdgeInsets.all(10),
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${item.category} • $distance',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppColors.muted),
+                    ),
+                  ],
+                ),
+                if (item.isOpenNow != null || priceSymbol != null) ...[
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (item.isOpenNow != null)
+                        OpenStatusBadge(isOpen: item.isOpenNow!)
+                      else
+                        const SizedBox.shrink(),
+                      if (priceSymbol != null) PriceLevelBadge(symbol: priceSymbol),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          SizedBox(
+            width: 96,
+            height: 96,
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset(
+                    imageAsset,
+                    width: 96,
+                    height: 96,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  left: 6,
+                  top: 6,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.68),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const FaIcon(
+                          FontAwesomeIcons.star,
+                          size: 10,
+                          color: AppColors.star,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          ratingLabel,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 6,
+                  top: 6,
+                  child: Material(
+                    color: Colors.white.withValues(alpha: 0.92),
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: onFavoriteTap,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? AppColors.primary : AppColors.muted,
+                          size: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DiscoveryPromoBanner extends StatelessWidget {
+  const _DiscoveryPromoBanner({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Material(
+      color: AppColors.primarySoft,
+      borderRadius: BorderRadius.circular(tokens.radius20),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(tokens.radius20),
+        child: Padding(
+          padding: EdgeInsets.all(tokens.space16),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.whatToEatTitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      t.whatToEatDescription,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppColors.muted),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Container(
+                width: 44,
+                height: 44,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: const FaIcon(
+                  FontAwesomeIcons.arrowRight,
+                  color: AppColors.onPrimary,
+                  size: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _FreshLinkCard extends StatelessWidget {
   const _FreshLinkCard({required this.item, required this.onTap});
 
