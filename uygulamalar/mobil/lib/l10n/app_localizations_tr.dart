@@ -329,9 +329,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryLocationSubtitle => 'Şehir/ilçeye göre keşfet';
 
   @override
-  String get nearbyVerifiedSpots => 'Yakındaki Doğrulanmış Mekanlar';
-
-  @override
   String get discoverForYou => 'Senin için keşfet';
 
   @override

@@ -692,12 +692,6 @@ abstract class AppLocalizations {
   /// **'Şehir/ilçeye göre keşfet'**
   String get discoveryLocationSubtitle;
 
-  /// Auto metadata for nearbyVerifiedSpots
-  ///
-  /// In tr, this message translates to:
-  /// **'Yakındaki Doğrulanmış Mekanlar'**
-  String get nearbyVerifiedSpots;
-
   /// Auto metadata for discoverForYou
   ///
   /// In tr, this message translates to:

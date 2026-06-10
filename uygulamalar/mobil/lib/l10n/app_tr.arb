@@ -441,10 +441,6 @@
   "@discoveryLocationSubtitle": {
     "description": "Auto metadata for discoveryLocationSubtitle"
   },
-  "nearbyVerifiedSpots": "Yakındaki Doğrulanmış Mekanlar",
-  "@nearbyVerifiedSpots": {
-    "description": "Auto metadata for nearbyVerifiedSpots"
-  },
   "discoverForYou": "Senin için keşfet",
   "@discoverForYou": {
     "description": "Auto metadata for discoverForYou"

@@ -329,9 +329,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoveryLocationSubtitle => 'Discover by city/district';
 
   @override
-  String get nearbyVerifiedSpots => 'Nearby Verified Spots';
-
-  @override
   String get discoverForYou => 'Discover for you';
 
   @override

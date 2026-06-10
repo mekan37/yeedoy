@@ -441,10 +441,6 @@
   "@discoveryLocationSubtitle": {
     "description": "Auto metadata for discoveryLocationSubtitle"
   },
-  "nearbyVerifiedSpots": "Nearby Verified Spots",
-  "@nearbyVerifiedSpots": {
-    "description": "Auto metadata for nearbyVerifiedSpots"
-  },
   "discoverForYou": "Discover for you",
   "@discoverForYou": {
     "description": "Auto metadata for discoverForYou"
