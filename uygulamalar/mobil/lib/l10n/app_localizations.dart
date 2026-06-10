@@ -1910,6 +1910,48 @@ abstract class AppLocalizations {
   /// **'İğnelere dokunarak detayları gör.'**
   String get mapHintTapPins;
 
+  /// No description provided for @mapGreetingSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakınında ne var?'**
+  String get mapGreetingSubtitle;
+
+  /// No description provided for @mapSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mekan veya bölge ara...'**
+  String get mapSearchHint;
+
+  /// No description provided for @mapFilterOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık'**
+  String get mapFilterOpen;
+
+  /// No description provided for @mapFilterPrice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat'**
+  String get mapFilterPrice;
+
+  /// No description provided for @mapAttribution.
+  ///
+  /// In tr, this message translates to:
+  /// **'© OpenStreetMap katkıda bulunanlar'**
+  String get mapAttribution;
+
+  /// No description provided for @mapRecenterTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumuma git'**
+  String get mapRecenterTooltip;
+
+  /// No description provided for @mapLayersTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katmanlar'**
+  String get mapLayersTooltip;
+
   /// Auto metadata for locationPermissionRequired
   ///
   /// In tr, this message translates to:

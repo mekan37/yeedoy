@@ -4,8 +4,11 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:yeedoy/features/discovery/domain/business_card.dart';
 import 'package:yeedoy/features/discovery/domain/discovery_search_state.dart';
@@ -72,6 +75,7 @@ import '../../../features/shared/ui/components/weather_hint_bar.dart';
 import '../../notifications/ui/components/notifications_bell.dart';
 
 part 'surfaces/discovery_campaigns_tab.dart';
+part 'surfaces/discovery_map_page.dart';
 part 'surfaces/discovery_map_surface.dart';
 part 'surfaces/discovery_insight_sections.dart';
 part 'parts/discovery_providers.dart';
@@ -91,6 +95,9 @@ class DiscoveryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    if (GoRouterState.of(context).uri.queryParameters['view'] == 'map') {
+      return const _DiscoveryMapPage();
+    }
     return DefaultTabController(
       length: 3,
       child: Column(

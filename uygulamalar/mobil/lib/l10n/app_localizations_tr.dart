@@ -968,6 +968,27 @@ class AppLocalizationsTr extends AppLocalizations {
   String get mapHintTapPins => 'İğnelere dokunarak detayları gör.';
 
   @override
+  String get mapGreetingSubtitle => 'Yakınında ne var?';
+
+  @override
+  String get mapSearchHint => 'Mekan veya bölge ara...';
+
+  @override
+  String get mapFilterOpen => 'Açık';
+
+  @override
+  String get mapFilterPrice => 'Fiyat';
+
+  @override
+  String get mapAttribution => '© OpenStreetMap katkıda bulunanlar';
+
+  @override
+  String get mapRecenterTooltip => 'Konumuma git';
+
+  @override
+  String get mapLayersTooltip => 'Katmanlar';
+
+  @override
   String get locationPermissionRequired => 'Konum izni gerekli.';
 
   @override

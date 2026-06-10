@@ -1,7 +1,9 @@
 part of '../discovery_page.dart';
 
 class _DiscoveryGreetingHeader extends ConsumerWidget {
-  const _DiscoveryGreetingHeader();
+  const _DiscoveryGreetingHeader({String? subtitle}) : _subtitle = subtitle;
+
+  final String? _subtitle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,7 +35,7 @@ class _DiscoveryGreetingHeader extends ConsumerWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            t.discoveryGreetingSubtitle,
+            _subtitle ?? t.discoveryGreetingSubtitle,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall

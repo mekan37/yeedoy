@@ -972,6 +972,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapHintTapPins => 'Tip: Tap pins to open business details.';
 
   @override
+  String get mapGreetingSubtitle => 'What\'s nearby?';
+
+  @override
+  String get mapSearchHint => 'Search for a place or area...';
+
+  @override
+  String get mapFilterOpen => 'Open';
+
+  @override
+  String get mapFilterPrice => 'Price';
+
+  @override
+  String get mapAttribution => '© OpenStreetMap contributors';
+
+  @override
+  String get mapRecenterTooltip => 'Go to my location';
+
+  @override
+  String get mapLayersTooltip => 'Layers';
+
+  @override
   String get locationPermissionRequired => 'Location permission required.';
 
   @override

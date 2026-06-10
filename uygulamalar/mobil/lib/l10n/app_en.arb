@@ -1267,6 +1267,13 @@
   "@mapHintTapPins": {
     "description": "Auto metadata for mapHintTapPins"
   },
+  "mapGreetingSubtitle": "What's nearby?",
+  "mapSearchHint": "Search for a place or area...",
+  "mapFilterOpen": "Open",
+  "mapFilterPrice": "Price",
+  "mapAttribution": "© OpenStreetMap contributors",
+  "mapRecenterTooltip": "Go to my location",
+  "mapLayersTooltip": "Layers",
   "locationPermissionRequired": "Location permission required.",
   "@locationPermissionRequired": {
     "description": "Auto metadata for locationPermissionRequired"
