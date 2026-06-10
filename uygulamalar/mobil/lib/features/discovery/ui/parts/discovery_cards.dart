@@ -28,16 +28,16 @@ class _DiscoveryGreetingHeader extends ConsumerWidget {
             greeting,
             style: Theme.of(context)
                 .textTheme
-                .headlineSmall
-                ?.copyWith(fontWeight: FontWeight.w900),
+                .bodyMedium
+                ?.copyWith(color: AppColors.muted),
           ),
           const SizedBox(height: 4),
           Text(
             t.discoveryGreetingSubtitle,
             style: Theme.of(context)
                 .textTheme
-                .bodyMedium
-                ?.copyWith(color: AppColors.muted),
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w900),
           ),
         ],
       ),

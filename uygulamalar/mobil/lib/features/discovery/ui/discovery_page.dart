@@ -69,6 +69,7 @@ import 'components/discovery_search_bar.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
+import '../../notifications/ui/components/notifications_bell.dart';
 
 part 'surfaces/discovery_campaigns_tab.dart';
 part 'surfaces/discovery_map_surface.dart';
@@ -94,13 +95,8 @@ class DiscoveryPage extends ConsumerWidget {
       length: 3,
       child: Column(
         children: [
-          TabBar(
-            tabs: [
-              Tab(text: t.tabRecommended),
-              Tab(text: t.tabCampaigns),
-              Tab(text: t.tabFoods),
-            ],
-          ),
+          const SafeArea(bottom: false, child: _DiscoveryTopBar()),
+          _DiscoveryPillTabBar(t: t),
           Expanded(
             child: TabBarView(
               children: [
