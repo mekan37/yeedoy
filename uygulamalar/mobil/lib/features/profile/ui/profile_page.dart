@@ -670,7 +670,7 @@ class _ProfileHomeHeader extends ConsumerWidget {
             ),
           ),
           IconButton(
-            tooltip: 'Bildirim Kutusu',
+            tooltip: t.drawerInbox,
             onPressed: () => context.go('/inbox'),
             icon: const NotificationsBell(),
           ),
