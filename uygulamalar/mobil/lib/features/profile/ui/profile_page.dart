@@ -96,31 +96,9 @@ class _ProfileTab extends ConsumerWidget {
           const SizedBox(height: 12),
           _ProfileHeroCard(userEmail: user?.email),
           const SizedBox(height: 12),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.settings_rounded),
-              title: Text(t.profileSettings),
-              subtitle: Text(t.privacySocialSubtitle),
-              trailing: const Icon(Icons.chevron_right_rounded),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ProfileSettingsPage(),
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.shield_outlined),
-              title: const Text('Hesap Güvenliği'),
-              subtitle: const Text('Şifre ve e-posta değiştir'),
-              trailing: const Icon(Icons.chevron_right_rounded),
-              onTap: () => context.push('/account-security'),
-            ),
-          ),
+          const _ProfileQuickActionsGrid(),
+          const SizedBox(height: 12),
+          const _ProfileAccountList(),
           const SizedBox(height: 12),
           if (user == null) ...[
             _InfoCard(
@@ -277,6 +255,174 @@ class _ProfileTab extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _QuickActionTile extends StatelessWidget {
+  const _QuickActionTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    return InkWell(
+      borderRadius: BorderRadius.circular(tokens.radius12),
+      onTap: onTap,
+      child: Container(
+        constraints: BoxConstraints(minHeight: tokens.minHitTarget * 1.4),
+        padding: EdgeInsets.all(tokens.space12),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(tokens.radius12),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: AppColors.primary),
+            SizedBox(height: tokens.space8),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.textStrong,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileQuickActionsGrid extends StatelessWidget {
+  const _ProfileQuickActionsGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          t.profileQuickActionsTitle,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: AppColors.textStrong,
+          ),
+        ),
+        SizedBox(height: tokens.space8),
+        Row(
+          children: [
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.favorite_border,
+                label: t.profileQuickActionFavorites,
+                onTap: () => context.go('/favorites'),
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.notifications_active_outlined,
+                label: t.profileQuickActionPriceAlerts,
+                onTap: () => DefaultTabController.of(context).animateTo(1),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: tokens.space8),
+        Row(
+          children: [
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.dynamic_feed_outlined,
+                label: t.profileQuickActionFeed,
+                onTap: () => DefaultTabController.of(context).animateTo(2),
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.settings_outlined,
+                label: t.profileSettings,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const ProfileSettingsPage(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileAccountList extends StatelessWidget {
+  const _ProfileAccountList();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          t.profileAccountSectionTitle,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: AppColors.textStrong,
+          ),
+        ),
+        SizedBox(height: tokens.space8),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.card,
+            borderRadius: BorderRadius.circular(tokens.radius16),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.person_outline),
+                title: Text(t.profileSettings),
+                subtitle: Text(t.privacySocialSubtitle),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const ProfileSettingsPage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(height: 1, color: AppColors.border),
+              ListTile(
+                leading: const Icon(Icons.shield_outlined),
+                title: Text(t.profileAccountSecurityTitle),
+                subtitle: Text(t.profileAccountSecuritySubtitle),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => context.push('/account-security'),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
