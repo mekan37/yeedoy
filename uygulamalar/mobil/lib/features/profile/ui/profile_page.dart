@@ -12,6 +12,7 @@ import '../data/profile_repository.dart';
 import '../../../features/shared/ui/achievements/achievement_visuals.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
+import '../../notifications/ui/components/notifications_bell.dart';
 import '../../price_alerts/domain/price_alert_models.dart';
 import '../../price_alerts/domain/price_alerts_provider.dart';
 import '../domain/achievement.dart';
@@ -25,6 +26,7 @@ import '../domain/profile_progress_provider.dart';
 import '../domain/profile_stats.dart';
 import '../domain/profile_stats_provider.dart';
 import '../domain/reputation_provider.dart';
+import '../../taste_twin/domain/taste_twin_controllers.dart';
 import '../domain/user_moat_signals.dart';
 import 'profile_settings_page.dart';
 import 'components/achievements_grid.dart';
@@ -87,6 +89,8 @@ class _ProfileTab extends ConsumerWidget {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          const _ProfileHomeHeader(),
+          const SizedBox(height: 12),
           ProfileIdentityCard(userEmail: user?.email),
           const SizedBox(height: 12),
           Card(
@@ -267,6 +271,59 @@ class _ProfileTab extends ConsumerWidget {
                 ],
               );
             },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileHomeHeader extends ConsumerWidget {
+  const _ProfileHomeHeader();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final user = ref.watch(userProvider);
+    String? displayName;
+    if (user != null) {
+      final profileAsync = ref.watch(publicProfileProvider(user.id));
+      final name = profileAsync.asData?.value.displayName.trim() ?? '';
+      if (name.isNotEmpty) displayName = name;
+    }
+    final greeting = displayName != null
+        ? t.discoveryGreetingHello(displayName)
+        : t.discoveryGreetingHelloAnon;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  greeting,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  t.profileHomeTitle,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            tooltip: 'Bildirim Kutusu',
+            onPressed: () => context.go('/inbox'),
+            icon: const NotificationsBell(),
           ),
         ],
       ),
