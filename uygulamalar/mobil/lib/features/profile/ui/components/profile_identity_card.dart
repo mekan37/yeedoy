@@ -168,11 +168,6 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
                     ),
                   ),
                 ],
-                const SizedBox(height: 2),
-                Text(
-                  t.profileIdentitySupportMessage,
-                  style: TextStyle(color: AppColors.muted),
-                ),
                 if (socialLinks.isNotEmpty) ...[
                   const SizedBox(height: 10),
                   Row(
@@ -203,11 +198,7 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
     );
   }
 
-  Widget _card({required Widget child}) {
-    return Card(
-      child: Padding(padding: const EdgeInsets.all(14), child: child),
-    );
-  }
+  Widget _card({required Widget child}) => child;
 
   List<(FaIconData, String)> _sortedSocial(Map<String, String> links) {
     final instagram = normalizeSocialUrl(links['instagram'] ?? '');
