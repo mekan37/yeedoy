@@ -54,11 +54,8 @@ class BusinessFeedParams {
   final int offset;
 }
 
-final businessFeedProvider =
-    FutureProvider.autoDispose.family<List<BusinessFeedItem>, BusinessFeedParams>((
-      ref,
-      params,
-    ) async {
+final businessFeedProvider = FutureProvider.autoDispose
+    .family<List<BusinessFeedItem>, BusinessFeedParams>((ref, params) async {
       final client = ref.watch(supabaseProvider);
       try {
         final res = await client.rpc(
@@ -104,4 +101,3 @@ final businessFeedProvider =
         throw Exception(AppErrorMapper.message(e));
       }
     });
-

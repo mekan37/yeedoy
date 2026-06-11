@@ -26,14 +26,17 @@ class DietProfileRepository {
 
   Future<DietProfile> upsertMyDietProfile(DietProfile profile) async {
     try {
-      final res = await client.rpc('upsert_my_diet_profile_v1', params: {
-        'p_vegan': profile.vegan,
-        'p_vegetarian': profile.vegetarian,
-        'p_gluten_free': profile.glutenFree,
-        'p_lactose_free': profile.lactoseFree,
-        'p_halal': profile.halal,
-        'p_max_calories': profile.maxCalories,
-      });
+      final res = await client.rpc(
+        'upsert_my_diet_profile_v1',
+        params: {
+          'p_vegan': profile.vegan,
+          'p_vegetarian': profile.vegetarian,
+          'p_gluten_free': profile.glutenFree,
+          'p_lactose_free': profile.lactoseFree,
+          'p_halal': profile.halal,
+          'p_max_calories': profile.maxCalories,
+        },
+      );
       if (res == null) return profile;
       return DietProfile.fromMap((res as Map).cast<String, dynamic>());
     } catch (e) {

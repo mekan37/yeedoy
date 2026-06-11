@@ -99,30 +99,31 @@ void main() {
   final t = AppLocalizationsTr();
 
   group('ProfilePage redesign (guest)', () {
-    testWidgets('renders home header, hero card, quick actions and account list', (
-      tester,
-    ) async {
-      await _pumpProfilePage(tester);
+    testWidgets(
+      'renders home header, hero card, quick actions and account list',
+      (tester) async {
+        await _pumpProfilePage(tester);
 
-      expect(find.text(t.profileHomeTitle), findsOneWidget);
-      expect(find.text(t.discoveryGreetingHelloAnon), findsOneWidget);
+        expect(find.text(t.profileHomeTitle), findsOneWidget);
+        expect(find.text(t.discoveryGreetingHelloAnon), findsOneWidget);
 
-      expect(find.text(t.profileQuickActionsTitle), findsOneWidget);
-      expect(find.text(t.profileQuickActionFavorites), findsOneWidget);
-      expect(find.text(t.profileQuickActionPriceAlerts), findsOneWidget);
-      expect(find.text(t.profileQuickActionFeed), findsOneWidget);
-      expect(find.text(t.profileSettings), findsNWidgets(2));
+        expect(find.text(t.profileQuickActionsTitle), findsOneWidget);
+        expect(find.text(t.profileQuickActionFavorites), findsOneWidget);
+        expect(find.text(t.profileQuickActionPriceAlerts), findsOneWidget);
+        expect(find.text(t.profileQuickActionFeed), findsOneWidget);
+        expect(find.text(t.profileSettings), findsNWidgets(2));
 
-      expect(find.text(t.profileAccountSectionTitle), findsOneWidget);
-      expect(find.text(t.profileAccountSecurityTitle), findsOneWidget);
-      expect(find.text(t.profileAccountSecuritySubtitle), findsOneWidget);
+        expect(find.text(t.profileAccountSectionTitle), findsOneWidget);
+        expect(find.text(t.profileAccountSecurityTitle), findsOneWidget);
+        expect(find.text(t.profileAccountSecuritySubtitle), findsOneWidget);
 
-      // Badges banner is hidden for guests (myProfileProgressProvider is null).
-      expect(find.text(t.profileBadgesBannerTitle), findsNothing);
+        // Badges banner is hidden for guests (myProfileProgressProvider is null).
+        expect(find.text(t.profileBadgesBannerTitle), findsNothing);
 
-      // Location row is hidden when there is no device location.
-      expect(find.byIcon(Icons.location_on_outlined), findsNothing);
-    });
+        // Location row is hidden when there is no device location.
+        expect(find.byIcon(Icons.location_on_outlined), findsNothing);
+      },
+    );
 
     testWidgets('Favorilerim quick action navigates to /favorites', (
       tester,

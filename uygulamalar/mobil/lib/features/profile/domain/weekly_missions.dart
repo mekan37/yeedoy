@@ -22,13 +22,13 @@ class WeeklyMissions {
   final int completedCount;
 
   factory WeeklyMissions.fromMap(Map<String, dynamic> m) => WeeklyMissions(
-        weekStart: DateTime.parse(m['week_start'].toString()),
-        reviewsDone: (m['reviews_done'] as num?)?.toInt() ?? 0,
-        visitsDone: (m['visits_done'] as num?)?.toInt() ?? 0,
-        votesDone: (m['votes_done'] as num?)?.toInt() ?? 0,
-        reviewsGoal: (m['reviews_goal'] as num?)?.toInt() ?? 1,
-        visitsGoal: (m['visits_goal'] as num?)?.toInt() ?? 3,
-        votesGoal: (m['votes_goal'] as num?)?.toInt() ?? 3,
-        completedCount: (m['completed_count'] as num?)?.toInt() ?? 0,
-      );
+    weekStart: DateTime.parse(m['week_start'].toString()),
+    reviewsDone: (m['reviews_done'] as num?)?.toInt() ?? 0,
+    visitsDone: (m['visits_done'] as num?)?.toInt() ?? 0,
+    votesDone: (m['votes_done'] as num?)?.toInt() ?? 0,
+    reviewsGoal: (m['reviews_goal'] as num?)?.toInt() ?? 1,
+    visitsGoal: (m['visits_goal'] as num?)?.toInt() ?? 3,
+    votesGoal: (m['votes_goal'] as num?)?.toInt() ?? 3,
+    completedCount: (m['completed_count'] as num?)?.toInt() ?? 0,
+  );
 }

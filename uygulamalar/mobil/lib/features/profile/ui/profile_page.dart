@@ -697,9 +697,7 @@ class _AlertsTab extends ConsumerWidget {
       error: (err, _) => Center(child: _ErrorText(text: '$err')),
       data: (items) {
         if (items.isEmpty) {
-          return Center(
-            child: _EmptyText(text: t.profileAlertsEmpty),
-          );
+          return Center(child: _EmptyText(text: t.profileAlertsEmpty));
         }
         return ListView.separated(
           padding: const EdgeInsets.all(16),
@@ -729,9 +727,7 @@ class _FeedTab extends ConsumerWidget {
       error: (err, _) => Center(child: _ErrorText(text: '$err')),
       data: (items) {
         if (items.isEmpty) {
-          return Center(
-            child: _EmptyText(text: t.profileFeedEmpty),
-          );
+          return Center(child: _EmptyText(text: t.profileFeedEmpty));
         }
         return ListView.separated(
           padding: const EdgeInsets.all(16),
@@ -864,9 +860,18 @@ class _StatsGrid extends StatelessWidget {
       runSpacing: 8,
       children: [
         _StatChip(label: t.profileStatReviews, value: '${stats.reviewsCount}'),
-        _StatChip(label: t.profileStatHelpfulVotes, value: '${stats.helpfulReceived}'),
-        _StatChip(label: t.profileStatFavorites, value: '${stats.favoritesCount}'),
-        _StatChip(label: t.profileStatContributions, value: '${stats.contributionScore}'),
+        _StatChip(
+          label: t.profileStatHelpfulVotes,
+          value: '${stats.helpfulReceived}',
+        ),
+        _StatChip(
+          label: t.profileStatFavorites,
+          value: '${stats.favoritesCount}',
+        ),
+        _StatChip(
+          label: t.profileStatContributions,
+          value: '${stats.contributionScore}',
+        ),
         _StatChip(label: t.profileStatVisits, value: '${stats.visitsCount}'),
       ],
     );
@@ -1007,10 +1012,7 @@ class _MoatSignalsCard extends StatelessWidget {
                   label: t.profileSignalApprovalRate,
                   value: '%$approvalRate',
                 ),
-                _SignalChip(
-                  label: t.profileSignalSegment,
-                  value: segmentLabel,
-                ),
+                _SignalChip(label: t.profileSignalSegment, value: segmentLabel),
                 _SignalChip(
                   label: t.profileSignalSilentQuality,
                   value: '${signals.silentQualityScore}',
@@ -1155,8 +1157,12 @@ class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
     if (uri == null) return 'website';
     final host = uri.host.toLowerCase().replaceAll('www.', '');
     if (host.contains('instagram.com')) return 'instagram';
-    if (host.contains('youtube.com') || host.contains('youtu.be')) return 'youtube';
-    if (host.contains('facebook.com') || host.contains('fb.watch')) return 'facebook';
+    if (host.contains('youtube.com') || host.contains('youtu.be')) {
+      return 'youtube';
+    }
+    if (host.contains('facebook.com') || host.contains('fb.watch')) {
+      return 'facebook';
+    }
     if (host.contains('tiktok.com')) return 'tiktok';
     if (host.contains('twitter.com') || host.contains('x.com')) return 'x';
     return 'website';
@@ -1176,8 +1182,15 @@ class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
     try {
       final uid = ref.read(supabaseProvider).auth.currentUser?.id;
       if (uid == null) throw StateError('auth_required');
-      await ref.read(profileRepositoryProvider).upsertMyProfile(
-            Profile(id: uid, firstName: '', lastName: '', socialLinks: socialLinks),
+      await ref
+          .read(profileRepositoryProvider)
+          .upsertMyProfile(
+            Profile(
+              id: uid,
+              firstName: '',
+              lastName: '',
+              socialLinks: socialLinks,
+            ),
           );
       if (mounted) {
         setState(() {
@@ -1247,6 +1260,3 @@ class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
     );
   }
 }
-
-
-

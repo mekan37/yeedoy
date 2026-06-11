@@ -3,7 +3,9 @@ import '../../auth/domain/auth_providers.dart';
 import '../data/profile_repository.dart';
 import 'profile_stats.dart';
 
-final myProfileStatsProvider = FutureProvider.autoDispose<ProfileStats>((ref) async {
+final myProfileStatsProvider = FutureProvider.autoDispose<ProfileStats>((
+  ref,
+) async {
   final user = ref.watch(userProvider);
   if (user == null) {
     return ProfileStats(

@@ -5,7 +5,9 @@ import '../data/diet_profile_repository.dart';
 import 'diet_profile.dart';
 
 final dietProfileProvider =
-    AsyncNotifierProvider.autoDispose<DietProfileController, DietProfile?>(DietProfileController.new);
+    AsyncNotifierProvider.autoDispose<DietProfileController, DietProfile?>(
+      DietProfileController.new,
+    );
 
 class DietProfileController extends AsyncNotifier<DietProfile?> {
   @override
@@ -29,7 +31,9 @@ class DietProfileController extends AsyncNotifier<DietProfile?> {
 
   Future<DietProfile> save(DietProfile profile) async {
     state = const AsyncLoading();
-    final updated = await ref.read(dietProfileRepositoryProvider).upsertMyDietProfile(profile);
+    final updated = await ref
+        .read(dietProfileRepositoryProvider)
+        .upsertMyDietProfile(profile);
     state = AsyncValue.data(updated);
     return updated;
   }
