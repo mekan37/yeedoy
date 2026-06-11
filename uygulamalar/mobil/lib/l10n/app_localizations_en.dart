@@ -221,6 +221,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String etaRangeMinutes(int min, int max) {
+    return '$min-$max min';
+  }
+
+  @override
   String avgSpendPerPerson(String amount) {
     return '$amount / person';
   }

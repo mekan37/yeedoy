@@ -47,6 +47,18 @@ class _DiscoveryGreetingHeader extends ConsumerWidget {
   }
 }
 
+/// Estimates a walking-time range from [distanceKm] using a 4-5 km/h
+/// walking speed. Returns null for non-positive distances. Falls back to
+/// a single value (via [AppLocalizations.timeMinutes]) when the rounded
+/// bounds collapse to the same minute.
+String? _walkingEtaLabel(AppLocalizations t, double distanceKm) {
+  if (distanceKm <= 0) return null;
+  final minMinutes = (distanceKm * 12).ceil();
+  final maxMinutes = (distanceKm * 15).ceil();
+  if (maxMinutes <= minMinutes) return t.timeMinutes(minMinutes);
+  return t.etaRangeMinutes(minMinutes, maxMinutes);
+}
+
 class _ForYouBusinessCard extends StatelessWidget {
   const _ForYouBusinessCard({
     required this.item,
@@ -67,126 +79,152 @@ class _ForYouBusinessCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final distance = t.distanceKm(
-      double.parse((item.distanceKm ?? 0.4).toStringAsFixed(1)),
-    );
+    final tokens = AppTokens.of(context);
+    final distanceKm = item.distanceKm ?? 0.4;
+    final distance = t.distanceKm(double.parse(distanceKm.toStringAsFixed(1)));
+    final eta = _walkingEtaLabel(t, distanceKm);
     final priceSymbol = priceLevelSymbol(item.priceLevel, item.medianPriceCents);
 
     return AppCard(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(0),
       onTap: onTap,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w900),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${item.category} • $distance',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(color: AppColors.muted),
-                    ),
-                  ],
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(tokens.radius20),
                 ),
-                if (item.isOpenNow != null || priceSymbol != null) ...[
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: AspectRatio(
+                  aspectRatio: 16 / 10,
+                  child: Image.asset(imageAsset, fit: BoxFit.cover),
+                ),
+              ),
+              Positioned(
+                left: tokens.space8,
+                top: tokens.space8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.92),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (item.isOpenNow != null)
-                        OpenStatusBadge(isOpen: item.isOpenNow!)
-                      else
-                        const SizedBox.shrink(),
-                      if (priceSymbol != null) PriceLevelBadge(symbol: priceSymbol),
+                      const FaIcon(
+                        FontAwesomeIcons.solidStar,
+                        size: 11,
+                        color: AppColors.star,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        ratingLabel,
+                        style: const TextStyle(
+                          color: AppColors.textStrong,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ),
-                ],
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          SizedBox(
-            width: 96,
-            height: 96,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
-                  child: Image.asset(
-                    imageAsset,
-                    width: 96,
-                    height: 96,
-                    fit: BoxFit.cover,
-                  ),
                 ),
-                Positioned(
-                  left: 6,
-                  top: 6,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.68),
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const FaIcon(
-                          FontAwesomeIcons.star,
-                          size: 10,
-                          color: AppColors.star,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          ratingLabel,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 6,
-                  top: 6,
-                  child: Material(
-                    color: Colors.white.withValues(alpha: 0.92),
-                    shape: const CircleBorder(),
-                    child: InkWell(
-                      customBorder: const CircleBorder(),
-                      onTap: onFavoriteTap,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6),
-                        child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? AppColors.primary : AppColors.muted,
-                          size: 16,
-                        ),
+              ),
+              Positioned(
+                right: tokens.space8,
+                top: tokens.space8,
+                child: Material(
+                  color: Colors.white.withValues(alpha: 0.92),
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    onTap: onFavoriteTap,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? AppColors.primary : AppColors.muted,
+                        size: 18,
                       ),
                     ),
                   ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+              tokens.space12,
+              tokens.space12,
+              tokens.space12,
+              tokens.space12,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w900),
+                ),
+                SizedBox(height: tokens.space4),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        item.category,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: AppColors.muted),
+                      ),
+                    ),
+                    if (item.isOpenNow != null) ...[
+                      SizedBox(width: tokens.space8),
+                      OpenStatusBadge(isOpen: item.isOpenNow!),
+                    ],
+                  ],
+                ),
+                SizedBox(height: tokens.space8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.location_on_outlined,
+                            size: 14,
+                            color: AppColors.muted,
+                          ),
+                          const SizedBox(width: 4),
+                          Flexible(
+                            child: Text(
+                              eta == null ? distance : '$distance • $eta',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: AppColors.muted),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (priceSymbol != null) ...[
+                      SizedBox(width: tokens.space8),
+                      PriceLevelBadge(symbol: priceSymbol),
+                    ],
+                  ],
                 ),
               ],
             ),

@@ -494,6 +494,12 @@ abstract class AppLocalizations {
   /// **'{km} km'**
   String distanceKm(num km);
 
+  /// Estimated walking time range shown on business cards
+  ///
+  /// In tr, this message translates to:
+  /// **'{min}-{max} dk'**
+  String etaRangeMinutes(int min, int max);
+
   /// Auto metadata for avgSpendPerPerson
   ///
   /// In tr, this message translates to:

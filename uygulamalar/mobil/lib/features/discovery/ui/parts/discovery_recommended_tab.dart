@@ -1773,7 +1773,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     required AsyncValue<List<Embed>> freshLinksAsync,
   }) {
     final items = st.items;
-    final freshItems = items.take(8).toList();
+    final freshItems = items
+        .where((b) => (b.recentPriceVerifiedCount ?? 0) > 0)
+        .take(8)
+        .toList();
     final nearbyItems = items;
     final locationLabel = _formatLocation(context, st.city, st.district);
 
@@ -2015,56 +2018,50 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.of(context).freshMenuUpdates,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(AppLocalizations.of(context).seeAll),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 220,
-                  child: freshItems.isEmpty
-                      ? AppEmptyState(
-                          icon: Icons.update_rounded,
-                          title: AppLocalizations.of(context).noFreshData,
-                          description: AppLocalizations.of(
-                            context,
-                          ).freshDataWillAppear,
-                        )
-                      : ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: freshItems.length,
-                          separatorBuilder: (_, _) => const SizedBox(width: 12),
-                          itemBuilder: (context, index) {
-                            final item = freshItems[index];
-                            return _DiscoveryUpdateCard(
-                              item: item,
-                              imageAsset: _categoryImageFor(
-                                item.category,
-                                index,
-                              ),
-                              timeLabel: _freshTimeLabel(context, index),
-                              onTap: () => _openBusiness(
-                                item.id,
-                                source: 'fresh_updates',
-                              ),
-                            );
-                          },
+                if (freshItems.isNotEmpty) ...[
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context).freshMenuUpdates,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(AppLocalizations.of(context).seeAll),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 220,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: freshItems.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 12),
+                      itemBuilder: (context, index) {
+                        final item = freshItems[index];
+                        return _DiscoveryUpdateCard(
+                          item: item,
+                          imageAsset: _categoryImageFor(
+                            item.category,
+                            index,
+                          ),
+                          timeLabel: AppLocalizations.of(context).menuUpdatedLabel,
+                          onTap: () => _openBusiness(
+                            item.id,
+                            source: 'fresh_updates',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 24),
                 Text(
                   AppLocalizations.of(context).freshLinks,
@@ -2106,13 +2103,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         ],
       ),
     );
-  }
-
-  String _freshTimeLabel(BuildContext context, int index) {
-    final t = AppLocalizations.of(context);
-    const hours = [2, 5, 8];
-    if (index % 4 == 3) return t.timeDaysAgo(1);
-    return t.timeHoursAgo(hours[index % hours.length]);
   }
 
   List<Widget> _buildNearbyCardsWithAds({

@@ -289,6 +289,18 @@
     },
     "description": "Auto metadata for distanceKm"
   },
+  "etaRangeMinutes": "{min}-{max} dk",
+  "@etaRangeMinutes": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    },
+    "description": "Estimated walking time range shown on business cards"
+  },
   "avgSpendPerPerson": "Kişi başı {amount}",
   "@avgSpendPerPerson": {
     "placeholders": {
