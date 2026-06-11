@@ -5,11 +5,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/location/user_location_controller.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/ui/link_paste_field.dart';
 import '../data/profile_model.dart';
 import '../data/profile_repository.dart';
 import '../../../features/shared/ui/achievements/achievement_visuals.dart';
+import '../../../features/shared/ui/design_system.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../notifications/ui/components/notifications_bell.dart';
@@ -21,6 +23,7 @@ import '../domain/business_feed_provider.dart';
 import '../domain/creator_profile_provider.dart';
 import '../domain/daily_micro_task.dart';
 import '../domain/daily_micro_task_provider.dart';
+import '../domain/favorite_collections_count_provider.dart';
 import '../domain/moat_signals_provider.dart';
 import '../domain/profile_progress_provider.dart';
 import '../domain/profile_stats.dart';
@@ -91,7 +94,7 @@ class _ProfileTab extends ConsumerWidget {
         children: [
           const _ProfileHomeHeader(),
           const SizedBox(height: 12),
-          ProfileIdentityCard(userEmail: user?.email),
+          _ProfileHeroCard(userEmail: user?.email),
           const SizedBox(height: 12),
           Card(
             child: ListTile(
@@ -272,6 +275,128 @@ class _ProfileTab extends ConsumerWidget {
               );
             },
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileLocationRow extends ConsumerWidget {
+  const _ProfileLocationRow();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loc = ref.watch(userLocationProvider);
+    if (loc.loading || loc.permissionDenied || !loc.hasLocation) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.location_on_outlined,
+            size: 16,
+            color: AppColors.muted,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            loc.city!,
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatCell extends StatelessWidget {
+  const _StatCell({required this.value, required this.label});
+
+  final int? value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value?.toString() ?? '—',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w900,
+            color: AppColors.textStrong,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileStatsRow extends ConsumerWidget {
+  const _ProfileStatsRow();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final statsAsync = ref.watch(myProfileStatsProvider);
+    final collectionsAsync = ref.watch(myFavoriteCollectionsCountProvider);
+
+    return Row(
+      children: [
+        Expanded(
+          child: _StatCell(
+            value: statsAsync.asData?.value.favoritesCount,
+            label: t.profileStatFavoritesShort,
+          ),
+        ),
+        Expanded(
+          child: _StatCell(
+            value: statsAsync.asData?.value.reviewsCount,
+            label: t.profileStatReviewsShort,
+          ),
+        ),
+        Expanded(
+          child: _StatCell(
+            value: collectionsAsync.asData?.value,
+            label: t.profileStatListsShort,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileHeroCard extends StatelessWidget {
+  const _ProfileHeroCard({this.userEmail});
+
+  final String? userEmail;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    return Container(
+      padding: EdgeInsets.all(tokens.space16),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(tokens.radius16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileIdentityCard(userEmail: userEmail),
+          const _ProfileLocationRow(),
+          SizedBox(height: tokens.space12),
+          const _ProfileStatsRow(),
         ],
       ),
     );
