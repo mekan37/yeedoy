@@ -2126,7 +2126,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
       widgets.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 14),
-          child: _ForYouBusinessCard(
+          child: VerticalBusinessCard(
             item: item,
             imageAsset: _categoryImageFor(item.category, index + 2),
             ratingLabel: _ratingLabel(item),
@@ -2173,18 +2173,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     return widgets;
   }
 
-  String _ratingLabel(BusinessCardModel item) {
-    final rating = ((item.avgRating ?? 4.6) * 10).round() / 10;
-    final trust = item.trustScore ?? 1.2;
-    final votes = trust >= 10
-        ? '${(trust / 1000).toStringAsFixed(1)}k'
-        : '1.2k';
-    return '$rating ($votes)';
-  }
+  String _ratingLabel(BusinessCardModel item) => businessRatingLabel(item);
 
-  String _categoryImageFor(String category, int index) {
-    return CategoryAssets.resolve(category);
-  }
+  String _categoryImageFor(String category, int index) =>
+      categoryImageAsset(category);
 
   Widget _buildFreshLinksSection(
     BuildContext context,

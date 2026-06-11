@@ -17,14 +17,15 @@ import '../data/collection_social_repository.dart';
 import '../data/collection_share_repository.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
-import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../discovery/domain/business_card.dart';
 import '../../favorites/domain/favorites_controller.dart';
 import '../../favorites/domain/favorite_status_provider.dart';
 import '../../profile/domain/creator_profile_provider.dart';
 import '../../shared/ui/category_chip.dart';
-import '../../../features/shared/ui/components/app_hero_header.dart';
+import '../../notifications/ui/components/notifications_bell.dart';
+import '../../taste_twin/domain/taste_twin_controllers.dart';
+import '../../../features/shared/ui/components/vertical_business_card.dart';
 
 class FavoritesPage extends ConsumerStatefulWidget {
   const FavoritesPage({
@@ -63,6 +64,9 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
   bool _locLoading = false;
   Position? _pos;
   DateTime? _favoritesCachedAt;
+  bool _openOnly = false;
+  bool _nearbySort = false;
+  bool _showCollectionsPanel = false;
 
   final categories = const [
     'Kafe',
@@ -131,15 +135,16 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
 
     var filtered = items.where((b) {
       final okCat = category.isEmpty || b.category == category;
+      final okOpen = !_openOnly || b.isOpenNow == true;
       final okQ =
           q.isEmpty ||
           b.name.toLowerCase().contains(q) ||
           (b.address ?? '').toLowerCase().contains(q) ||
           (b.district ?? '').toLowerCase().contains(q);
-      return okCat && okQ;
+      return okCat && okOpen && okQ;
     }).toList();
 
-    if (widget.nearbyMode && _pos != null) {
+    if ((widget.nearbyMode || _nearbySort) && _pos != null) {
       filtered.sort((a, b) {
         final da = _distanceKm(a, _pos!);
         final db = _distanceKm(b, _pos!);
@@ -147,63 +152,109 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
       });
     }
 
-    return AppScaffold(
-      appBar: AppBar(title: Text(t.favorites)),
-      body: RefreshIndicator(
+    final tokens = AppTokens.of(context);
+
+    return SafeArea(
+      child: RefreshIndicator(
         onRefresh: () async {
           await ref.read(favoritesControllerProvider.notifier).refresh();
           await _loadCollections();
           await _loadSocial();
           await _loadFavoritesCacheMeta();
           if (_isSharedMode) await _loadSharedItems();
-          if (widget.nearbyMode) await _loadLocation();
+          if (widget.nearbyMode || _nearbySort) await _loadLocation();
         },
         child: ListView(
           controller: scrollCtrl,
           padding: const EdgeInsets.all(16),
           children: [
-            AppHeroHeader(
-              title: t.favorites,
-              subtitle: _isSharedMode
-                  ? t.favoritesSharedCollectionSubtitle(
-                      _sharedName ??
-                          widget.sharedCollectionName ??
-                          t.favoritesCollectionLabel,
-                    )
-                  : t.favoritesSavedHereSubtitle,
-              icon: Icons.star_rounded,
-            ),
-            if (_showStaleBadge(_favoritesCachedAt)) ...[
-              const SizedBox(height: 10),
-              _OfflineStaleBadge(updatedAt: _favoritesCachedAt!),
+            const _FavoritesHeader(),
+            if (!_isSharedMode && st.items.isNotEmpty) ...[
+              _FavoritesCountBanner(count: st.items.length),
+              SizedBox(height: tokens.space12),
             ],
-            const SizedBox(height: 14),
-            if (_isSharedMode) _sharedCollectionPanel(),
-            TextField(
-              controller: qCtrl,
-              onChanged: _onSearchChanged,
-              decoration: InputDecoration(
-                hintText: t.favoritesSearchHint,
-                prefixIcon: Icon(Icons.search),
-              ),
+            if (_showStaleBadge(_favoritesCachedAt)) ...[
+              _OfflineStaleBadge(updatedAt: _favoritesCachedAt!),
+              SizedBox(height: tokens.space12),
+            ],
+            if (_isSharedMode) ...[
+              _sharedCollectionPanel(),
+              SizedBox(height: tokens.space12),
+            ],
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: qCtrl,
+                    onChanged: _onSearchChanged,
+                    decoration: InputDecoration(
+                      hintText: t.favoritesSearchHint,
+                      prefixIcon: const Icon(Icons.search),
+                    ),
+                  ),
+                ),
+                if (!_isSharedMode) ...[
+                  SizedBox(width: tokens.space8),
+                  Material(
+                    color: _showCollectionsPanel
+                        ? AppColors.primarySoft
+                        : AppColors.cardAlt,
+                    borderRadius: BorderRadius.circular(tokens.radius12),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(tokens.radius12),
+                      onTap: () => setState(
+                        () => _showCollectionsPanel = !_showCollectionsPanel,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(14),
+                        child: Icon(
+                          Icons.tune,
+                          color: _showCollectionsPanel
+                              ? AppColors.primary
+                              : AppColors.textStrong,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: tokens.space8),
             if (widget.nearbyMode) _nearbyBanner(),
-            if (!_isSharedMode) _collectionsSection(isCreator: isCreator),
-            if (!_isSharedMode && isCreator) _creatorCollectionPanel(),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
                   CategoryChip(
                     label: t.all,
-                    selected: category.isEmpty,
-                    onTap: () => setState(() => category = ''),
+                    selected: category.isEmpty && !_openOnly && !_nearbySort,
+                    onTap: () => setState(() {
+                      category = '';
+                      _openOnly = false;
+                      _nearbySort = false;
+                    }),
+                  ),
+                  const SizedBox(width: 8),
+                  CategoryChip(
+                    label: '🟢 ${t.mapFilterOpen}',
+                    selected: _openOnly,
+                    onTap: () => setState(() => _openOnly = !_openOnly),
+                  ),
+                  const SizedBox(width: 8),
+                  CategoryChip(
+                    label: '📍 ${t.nearbyShort}',
+                    selected: _nearbySort,
+                    onTap: () {
+                      final next = !_nearbySort;
+                      setState(() => _nearbySort = next);
+                      if (next && _pos == null) _loadLocation();
+                    },
                   ),
                   const SizedBox(width: 8),
                   for (final c in categories) ...[
                     CategoryChip(
-                      label: _localizedCategoryLabel(context, c),
+                      label:
+                          '${_categoryEmoji(c)} ${_localizedCategoryLabel(context, c)}',
                       selected: category == c,
                       onTap: () => setState(() => category = c),
                     ),
@@ -212,7 +263,12 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 12),
+            if (!_isSharedMode && _showCollectionsPanel) ...[
+              SizedBox(height: tokens.space12),
+              _collectionsSection(isCreator: isCreator),
+              if (isCreator) _creatorCollectionPanel(),
+            ],
+            SizedBox(height: tokens.space12),
             if (!_isSharedMode && st.error != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -231,15 +287,16 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
               ),
             ] else ...[
               for (final b in filtered) ...[
-                _FavoriteBusinessCard(
+                VerticalBusinessCard(
                   key: ValueKey('fav_${b.id}'),
-                  business: b,
-                  distanceKm: _pos == null ? null : _distanceKm(b, _pos!),
+                  item: _pos == null
+                      ? b
+                      : b.copyWith(distanceKm: _distanceKm(b, _pos!)),
+                  imageAsset: categoryImageAsset(b.category),
+                  ratingLabel: businessRatingLabel(b),
+                  isFavorite: favIds.contains(b.id),
                   onTap: () => context.go('/b/${b.id}'),
-                  onCollection: _isSharedMode
-                      ? null
-                      : () => _openCollectionPicker(b),
-                  onToggleFavorite: () async {
+                  onFavoriteTap: () async {
                     try {
                       await ref
                           .read(favoritesControllerProvider.notifier)
@@ -251,9 +308,26 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
                       );
                     }
                   },
-                  isFavorited: favIds.contains(b.id),
+                  topRightExtra: _isSharedMode
+                      ? null
+                      : Material(
+                          color: Colors.white.withValues(alpha: 0.92),
+                          shape: const CircleBorder(),
+                          child: InkWell(
+                            customBorder: const CircleBorder(),
+                            onTap: () => _openCollectionPicker(b),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Icon(
+                                Icons.folder_copy_outlined,
+                                color: AppColors.muted,
+                                size: 18,
+                              ),
+                            ),
+                          ),
+                        ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: tokens.space12),
               ],
             ],
             if (!_isSharedMode && st.isLoadingMore)
@@ -265,6 +339,18 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
         ),
       ),
     );
+  }
+
+  String _categoryEmoji(String c) {
+    return switch (c) {
+      'Kafe' => '☕',
+      'Restoran' => '🍽️',
+      'Tatlıcı' => '🍰',
+      'Kahvaltı' => '🍳',
+      'Balık / Et' => '🍖',
+      'Mekan' => '📍',
+      _ => '🍴',
+    };
   }
 
   void _onSearchChanged(String value) {
@@ -1041,96 +1127,90 @@ class _CreatorBadgesRow extends StatelessWidget {
   }
 }
 
-class _FavoriteBusinessCard extends StatelessWidget {
-  const _FavoriteBusinessCard({
-    super.key,
-    required this.business,
-    required this.onTap,
-    required this.onToggleFavorite,
-    required this.isFavorited,
-    this.onCollection,
-    this.distanceKm,
-  });
+class _FavoritesHeader extends ConsumerWidget {
+  const _FavoritesHeader();
 
-  final BusinessCardModel business;
-  final VoidCallback onTap;
-  final VoidCallback onToggleFavorite;
-  final bool isFavorited;
-  final VoidCallback? onCollection;
-  final double? distanceKm;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final user = ref.watch(userProvider);
+    String? displayName;
+    if (user != null) {
+      final profileAsync = ref.watch(publicProfileProvider(user.id));
+      final name = profileAsync.asData?.value.displayName.trim() ?? '';
+      if (name.isNotEmpty) displayName = name;
+    }
+    final greeting = displayName != null
+        ? t.discoveryGreetingHello(displayName)
+        : t.discoveryGreetingHelloAnon;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  greeting,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  t.favorites,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            tooltip: t.drawerInbox,
+            onPressed: () => context.go('/inbox'),
+            icon: const NotificationsBell(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FavoritesCountBanner extends StatelessWidget {
+  const _FavoritesCountBanner({required this.count});
+
+  final int count;
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final subtitle = '${business.district ?? ''} ${business.city ?? ''}'.trim();
-    final chips = <Widget>[];
-    if (business.isOpenNow == true) {
-      chips.add(_InfoChip(text: t.openNow, color: AppColors.success));
-    }
-    if ((business.recentPriceVerifiedCount ?? 0) > 0) {
-      chips.add(
-        _InfoChip(text: t.priceVerifiedInLast48h, color: AppColors.primary),
-      );
-    }
-    if (distanceKm != null && distanceKm! < 9999) {
-      chips.add(
-        _InfoChip(
-          text: '${distanceKm!.toStringAsFixed(distanceKm! < 10 ? 1 : 0)} km',
-          color: AppColors.warning,
-        ),
-      );
-    }
-
-    return AppCard(
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    final tokens = AppTokens.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: tokens.space16,
+        vertical: tokens.space12,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(tokens.radius16),
+      ),
+      child: Row(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  business.name,
-                  style: const TextStyle(fontWeight: FontWeight.w900),
-                ),
+          const Icon(Icons.favorite, color: AppColors.primary, size: 20),
+          SizedBox(width: tokens.space8),
+          Expanded(
+            child: Text(
+              t.favoritesCountBanner(count),
+              style: const TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w800,
               ),
-              IconButton(
-                tooltip: isFavorited ? t.removeFromFavorites : t.addToFavorites,
-                onPressed: onToggleFavorite,
-                icon: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 180),
-                  transitionBuilder: (child, animation) {
-                    return ScaleTransition(
-                      scale: Tween<double>(
-                        begin: 0.7,
-                        end: 1,
-                      ).animate(animation),
-                      child: child,
-                    );
-                  },
-                  child: Icon(
-                    isFavorited ? Icons.star : Icons.star_border,
-                    key: ValueKey(isFavorited),
-                  ),
-                ),
-              ),
-              if (onCollection != null)
-                IconButton(
-                  tooltip: t.favoritesAddToCollectionTooltip,
-                  onPressed: onCollection,
-                  icon: const Icon(Icons.folder_copy_outlined),
-                ),
-            ],
+            ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            '${business.category} • $subtitle',
-            style: const TextStyle(color: AppColors.muted, fontSize: 12),
-          ),
-          if (chips.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            Wrap(spacing: 8, runSpacing: 8, children: chips),
-          ],
         ],
       ),
     );
@@ -1178,4 +1258,3 @@ class _EmptyFavs extends StatelessWidget {
     );
   }
 }
-

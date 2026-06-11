@@ -22,7 +22,6 @@ import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/analytics/analytics_repository.dart';
-import '../../../core/assets/category_assets.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
 import '../../../core/config/feature_flags.dart';
@@ -33,7 +32,7 @@ import '../../../core/storage/search_prefs.dart';
 
 import '../../auth/domain/auth_providers.dart';
 import '../../taste_twin/domain/taste_twin_controllers.dart';
-import '../../shared/ui/components/open_price_badge.dart';
+import '../../shared/ui/components/vertical_business_card.dart';
 import '../../top_businesses/ui/top_businesses_strip.dart';
 
 import '../domain/discovery_search_notifier.dart';

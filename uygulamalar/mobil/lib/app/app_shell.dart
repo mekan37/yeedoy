@@ -33,9 +33,11 @@ class _AppShellState extends ConsumerState<AppShell> {
     final titleStyle = context.appText.titleMedium?.copyWith(
       fontWeight: FontWeight.w600,
     );
-    // Discovery (Keşfet) renders its own in-content header (hamburger menu +
-    // notification bell), replacing the shared AppAppBar on this route.
-    final hideAppBar = widget.location.startsWith('/discover');
+    // Discovery (Keşfet) and Favorites render their own in-content headers
+    // (greeting + title + notification bell), replacing the shared AppAppBar
+    // on these routes.
+    final hideAppBar = widget.location.startsWith('/discover') ||
+        widget.location.startsWith('/favorites');
 
     return PopScope(
       canPop: false,
