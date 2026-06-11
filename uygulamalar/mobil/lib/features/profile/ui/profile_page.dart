@@ -66,9 +66,27 @@ class ProfilePage extends ConsumerWidget {
   }
 }
 
-class _ProfileTab extends ConsumerWidget {
+class _ProfileTab extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ProfileTab> createState() => _ProfileTabState();
+}
+
+class _ProfileTabState extends ConsumerState<_ProfileTab> {
+  final _achievementsSectionKey = GlobalKey();
+
+  void _scrollToAchievements() {
+    final ctx = _achievementsSectionKey.currentContext;
+    if (ctx != null) {
+      Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final user = ref.watch(userProvider);
     final statsAsync = ref.watch(myProfileStatsProvider);
@@ -99,6 +117,8 @@ class _ProfileTab extends ConsumerWidget {
           const _ProfileQuickActionsGrid(),
           const SizedBox(height: 12),
           const _ProfileAccountList(),
+          const SizedBox(height: 12),
+          _ProfileBadgesBanner(onTap: _scrollToAchievements),
           const SizedBox(height: 12),
           if (user == null) ...[
             _InfoCard(
@@ -217,42 +237,100 @@ class _ProfileTab extends ConsumerWidget {
                 : _MoatSignalsCard(signals: signals),
           ),
           const SizedBox(height: 12),
-          Text(
-            t.profileMyAchievementsTitle,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: AppColors.textStrong,
+          Column(
+            key: _achievementsSectionKey,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                t.profileMyAchievementsTitle,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.textStrong,
+                ),
+              ),
+              const SizedBox(height: 8),
+              achievementsAsync.when(
+                loading: () => const LinearProgressIndicator(),
+                error: (err, _) => _ErrorText(text: '$err'),
+                data: (items) {
+                  if (items.isEmpty) {
+                    return _EmptyText(text: t.profileNoAchievementYet);
+                  }
+                  final latestUnlocked = items
+                      .where((e) => e.unlocked && e.unlockedAt != null)
+                      .fold<Achievement?>(
+                        null,
+                        (prev, curr) =>
+                            prev == null ||
+                                curr.unlockedAt!.isAfter(prev.unlockedAt!)
+                            ? curr
+                            : prev,
+                      );
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (latestUnlocked != null)
+                        _LatestAchievementBanner(item: latestUnlocked),
+                      const SizedBox(height: 8),
+                      AchievementsGrid(items: items),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileBadgesBanner extends ConsumerWidget {
+  const _ProfileBadgesBanner({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    final progress = ref.watch(myProfileProgressProvider).asData?.value;
+    if (progress == null) return const SizedBox.shrink();
+
+    return Container(
+      padding: EdgeInsets.all(tokens.space16),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(tokens.radius16),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.emoji_events_outlined, color: AppColors.primary),
+          SizedBox(width: tokens.space12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.profileBadgesBannerTitle,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(t.profileBadgesBannerCount(progress.unlockedCount)),
+                const SizedBox(height: 2),
+                Text(
+                  t.profileBadgesBannerSubtitle,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 8),
-          achievementsAsync.when(
-            loading: () => const LinearProgressIndicator(),
-            error: (err, _) => _ErrorText(text: '$err'),
-            data: (items) {
-              if (items.isEmpty) {
-                return _EmptyText(text: t.profileNoAchievementYet);
-              }
-              final latestUnlocked = items
-                  .where((e) => e.unlocked && e.unlockedAt != null)
-                  .fold<Achievement?>(
-                    null,
-                    (prev, curr) =>
-                        prev == null ||
-                            curr.unlockedAt!.isAfter(prev.unlockedAt!)
-                        ? curr
-                        : prev,
-                  );
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (latestUnlocked != null)
-                    _LatestAchievementBanner(item: latestUnlocked),
-                  const SizedBox(height: 8),
-                  AchievementsGrid(items: items),
-                ],
-              );
-            },
-          ),
+          IconButton(onPressed: onTap, icon: const Icon(Icons.arrow_forward)),
         ],
       ),
     );
