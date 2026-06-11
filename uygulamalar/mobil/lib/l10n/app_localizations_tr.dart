@@ -2466,6 +2466,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String favoritesCountBanner(int count) {
+    return '$count mekan favorilerinde';
+  }
+
+  @override
   String get favoritesNewCollectionTitle => 'Yeni Koleksiyon';
 
   @override
@@ -2966,6 +2971,51 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileGuestUser => 'Misafir';
+
+  @override
+  String get profileHomeTitle => 'Profilin';
+
+  @override
+  String get profileStatFavoritesShort => 'Favori';
+
+  @override
+  String get profileStatReviewsShort => 'Yorum';
+
+  @override
+  String get profileStatListsShort => 'Liste';
+
+  @override
+  String get profileQuickActionsTitle => 'Hızlı işlemler';
+
+  @override
+  String get profileQuickActionFavorites => 'Favorilerim';
+
+  @override
+  String get profileQuickActionPriceAlerts => 'Fiyat Alarmları';
+
+  @override
+  String get profileQuickActionFeed => 'Akışım';
+
+  @override
+  String get profileAccountSectionTitle => 'Hesap';
+
+  @override
+  String get profileAccountSecurityTitle => 'Hesap Güvenliği';
+
+  @override
+  String get profileAccountSecuritySubtitle => 'Şifre ve e-posta değiştir';
+
+  @override
+  String get profileBadgesBannerTitle => 'Rozet Koleksiyonun';
+
+  @override
+  String profileBadgesBannerCount(int count) {
+    return '$count rozetin var!';
+  }
+
+  @override
+  String get profileBadgesBannerSubtitle =>
+      'Keşfetmeye devam et, yeni rozetler kazan! 🚀';
 
   @override
   String get profileIdentitySupportMessage =>

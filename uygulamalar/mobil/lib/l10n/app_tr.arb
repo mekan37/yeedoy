@@ -1642,6 +1642,15 @@
     },
     "description": "Auto metadata for favoritesEngagementChip"
   },
+  "favoritesCountBanner": "{count} mekan favorilerinde",
+  "@favoritesCountBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for favoritesCountBanner"
+  },
   "favoritesNewCollectionTitle": "Yeni Koleksiyon",
   "favoritesCollectionNameExample": "Örn: Gece döneri",
   "favoritesCreateAction": "Oluştur",
@@ -2000,6 +2009,27 @@
   "achievementStatusUnlocked": "Durum: Açık",
   "achievementStatusLocked": "Durum: Kilitli",
   "profileGuestUser": "Misafir",
+  "profileHomeTitle": "Profilin",
+  "profileStatFavoritesShort": "Favori",
+  "profileStatReviewsShort": "Yorum",
+  "profileStatListsShort": "Liste",
+  "profileQuickActionsTitle": "Hızlı işlemler",
+  "profileQuickActionFavorites": "Favorilerim",
+  "profileQuickActionPriceAlerts": "Fiyat Alarmları",
+  "profileQuickActionFeed": "Akışım",
+  "profileAccountSectionTitle": "Hesap",
+  "profileAccountSecurityTitle": "Hesap Güvenliği",
+  "profileAccountSecuritySubtitle": "Şifre ve e-posta değiştir",
+  "profileBadgesBannerTitle": "Rozet Koleksiyonun",
+  "profileBadgesBannerCount": "{count} rozetin var!",
+  "@profileBadgesBannerCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profileBadgesBannerSubtitle": "Keşfetmeye devam et, yeni rozetler kazan! 🚀",
   "profileIdentitySupportMessage": "Topluluğa katkılı yaparak profilini güçlendirebilirsin.",
   "profileAlertsTab": "Alarmlar",
   "profileFeedTab": "Akış",

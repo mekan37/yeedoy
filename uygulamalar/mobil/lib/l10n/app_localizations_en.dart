@@ -2481,6 +2481,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String favoritesCountBanner(int count) {
+    return '$count places in your favorites';
+  }
+
+  @override
   String get favoritesNewCollectionTitle => 'New Collection';
 
   @override
@@ -2985,6 +2990,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileGuestUser => 'Guest';
+
+  @override
+  String get profileHomeTitle => 'Your Profile';
+
+  @override
+  String get profileStatFavoritesShort => 'Favorites';
+
+  @override
+  String get profileStatReviewsShort => 'Reviews';
+
+  @override
+  String get profileStatListsShort => 'Lists';
+
+  @override
+  String get profileQuickActionsTitle => 'Quick actions';
+
+  @override
+  String get profileQuickActionFavorites => 'My Favorites';
+
+  @override
+  String get profileQuickActionPriceAlerts => 'Price Alerts';
+
+  @override
+  String get profileQuickActionFeed => 'My Feed';
+
+  @override
+  String get profileAccountSectionTitle => 'Account';
+
+  @override
+  String get profileAccountSecurityTitle => 'Account Security';
+
+  @override
+  String get profileAccountSecuritySubtitle => 'Change password and email';
+
+  @override
+  String get profileBadgesBannerTitle => 'Your Badge Collection';
+
+  @override
+  String profileBadgesBannerCount(int count) {
+    return 'You have $count badges!';
+  }
+
+  @override
+  String get profileBadgesBannerSubtitle =>
+      'Keep exploring to earn new badges! 🚀';
 
   @override
   String get profileIdentitySupportMessage =>

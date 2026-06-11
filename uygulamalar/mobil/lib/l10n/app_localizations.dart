@@ -4567,6 +4567,12 @@ abstract class AppLocalizations {
   /// **'Etkileşim {count}'**
   String favoritesEngagementChip(int count);
 
+  /// Auto metadata for favoritesCountBanner
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} mekan favorilerinde'**
+  String favoritesCountBanner(int count);
+
   /// Auto metadata for favoritesNewCollectionTitle
   ///
   /// In tr, this message translates to:
@@ -5434,6 +5440,90 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Misafir'**
   String get profileGuestUser;
+
+  /// No description provided for @profileHomeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profilin'**
+  String get profileHomeTitle;
+
+  /// No description provided for @profileStatFavoritesShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favori'**
+  String get profileStatFavoritesShort;
+
+  /// No description provided for @profileStatReviewsShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorum'**
+  String get profileStatReviewsShort;
+
+  /// No description provided for @profileStatListsShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste'**
+  String get profileStatListsShort;
+
+  /// No description provided for @profileQuickActionsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hızlı işlemler'**
+  String get profileQuickActionsTitle;
+
+  /// No description provided for @profileQuickActionFavorites.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favorilerim'**
+  String get profileQuickActionFavorites;
+
+  /// No description provided for @profileQuickActionPriceAlerts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat Alarmları'**
+  String get profileQuickActionPriceAlerts;
+
+  /// No description provided for @profileQuickActionFeed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Akışım'**
+  String get profileQuickActionFeed;
+
+  /// No description provided for @profileAccountSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap'**
+  String get profileAccountSectionTitle;
+
+  /// No description provided for @profileAccountSecurityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Güvenliği'**
+  String get profileAccountSecurityTitle;
+
+  /// No description provided for @profileAccountSecuritySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre ve e-posta değiştir'**
+  String get profileAccountSecuritySubtitle;
+
+  /// No description provided for @profileBadgesBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rozet Koleksiyonun'**
+  String get profileBadgesBannerTitle;
+
+  /// No description provided for @profileBadgesBannerCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} rozetin var!'**
+  String profileBadgesBannerCount(int count);
+
+  /// No description provided for @profileBadgesBannerSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Keşfetmeye devam et, yeni rozetler kazan! 🚀'**
+  String get profileBadgesBannerSubtitle;
 
   /// Auto metadata for profileIdentitySupportMessage
   ///

@@ -3189,6 +3189,15 @@
     },
     "description": "Auto metadata for favoritesEngagementChip"
   },
+  "favoritesCountBanner": "{count} places in your favorites",
+  "@favoritesCountBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for favoritesCountBanner"
+  },
   "favoritesNewCollectionTitle": "New Collection",
   "@favoritesNewCollectionTitle": {
     "description": "Auto metadata for favoritesNewCollectionTitle"
@@ -3909,6 +3918,67 @@
   "profileGuestUser": "Guest",
   "@profileGuestUser": {
     "description": "Auto metadata for profileGuestUser"
+  },
+  "profileHomeTitle": "Your Profile",
+  "@profileHomeTitle": {
+    "description": "Auto metadata for profileHomeTitle"
+  },
+  "profileStatFavoritesShort": "Favorites",
+  "@profileStatFavoritesShort": {
+    "description": "Auto metadata for profileStatFavoritesShort"
+  },
+  "profileStatReviewsShort": "Reviews",
+  "@profileStatReviewsShort": {
+    "description": "Auto metadata for profileStatReviewsShort"
+  },
+  "profileStatListsShort": "Lists",
+  "@profileStatListsShort": {
+    "description": "Auto metadata for profileStatListsShort"
+  },
+  "profileQuickActionsTitle": "Quick actions",
+  "@profileQuickActionsTitle": {
+    "description": "Auto metadata for profileQuickActionsTitle"
+  },
+  "profileQuickActionFavorites": "My Favorites",
+  "@profileQuickActionFavorites": {
+    "description": "Auto metadata for profileQuickActionFavorites"
+  },
+  "profileQuickActionPriceAlerts": "Price Alerts",
+  "@profileQuickActionPriceAlerts": {
+    "description": "Auto metadata for profileQuickActionPriceAlerts"
+  },
+  "profileQuickActionFeed": "My Feed",
+  "@profileQuickActionFeed": {
+    "description": "Auto metadata for profileQuickActionFeed"
+  },
+  "profileAccountSectionTitle": "Account",
+  "@profileAccountSectionTitle": {
+    "description": "Auto metadata for profileAccountSectionTitle"
+  },
+  "profileAccountSecurityTitle": "Account Security",
+  "@profileAccountSecurityTitle": {
+    "description": "Auto metadata for profileAccountSecurityTitle"
+  },
+  "profileAccountSecuritySubtitle": "Change password and email",
+  "@profileAccountSecuritySubtitle": {
+    "description": "Auto metadata for profileAccountSecuritySubtitle"
+  },
+  "profileBadgesBannerTitle": "Your Badge Collection",
+  "@profileBadgesBannerTitle": {
+    "description": "Auto metadata for profileBadgesBannerTitle"
+  },
+  "profileBadgesBannerCount": "You have {count} badges!",
+  "@profileBadgesBannerCount": {
+    "description": "Auto metadata for profileBadgesBannerCount",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profileBadgesBannerSubtitle": "Keep exploring to earn new badges! 🚀",
+  "@profileBadgesBannerSubtitle": {
+    "description": "Auto metadata for profileBadgesBannerSubtitle"
   },
   "profileIdentitySupportMessage": "You can strengthen your profile by contributing to the community.",
   "@profileIdentitySupportMessage": {
