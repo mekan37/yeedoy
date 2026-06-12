@@ -27,10 +27,15 @@ class _ConstrainedContent extends StatelessWidget {
 }
 
 class _BusinessFixedHeader extends StatelessWidget {
-  const _BusinessFixedHeader({required this.business, required this.isOpenNow});
+  const _BusinessFixedHeader({
+    required this.business,
+    required this.isOpenNow,
+    required this.heroCollapse,
+  });
 
   final Business business;
   final bool? isOpenNow;
+  final ValueNotifier<double> heroCollapse;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,10 @@ class _BusinessFixedHeader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _BusinessHeroTrustHeader(business: business),
+            _BusinessHeroTrustHeader(
+              business: business,
+              heroCollapse: heroCollapse,
+            ),
             _BusinessInfoPanel(business: business, isOpenNow: isOpenNow),
           ],
         ),

@@ -1,61 +1,81 @@
 part of '../business_page.dart';
 
 class _BusinessHeroTrustHeader extends StatelessWidget {
-  const _BusinessHeroTrustHeader({required this.business});
+  const _BusinessHeroTrustHeader({
+    required this.business,
+    required this.heroCollapse,
+  });
 
   final Business business;
+  final ValueNotifier<double> heroCollapse;
 
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(tokens.radius20),
-      child: AspectRatio(
-        aspectRatio: 16 / 10,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            _buildHeroImage(),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withValues(alpha: 0.15),
-                    Colors.black.withValues(alpha: 0.35),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final expandedHeight = constraints.maxWidth * 10 / 16;
+        return ValueListenableBuilder<double>(
+          valueListenable: heroCollapse,
+          builder: (context, progress, _) {
+            final height = expandedHeight * (1 - 0.45 * progress);
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(tokens.radius20),
+              child: SizedBox(
+                height: height,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    _buildHeroImage(),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.black.withValues(alpha: 0.15),
+                            Colors.black.withValues(alpha: 0.35),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: tokens.space12,
+                      left: tokens.space12,
+                      child: _HeroOverlayButton(
+                        icon: Icons.arrow_back,
+                        tooltip: MaterialLocalizations.of(
+                          context,
+                        ).backButtonTooltip,
+                        onPressed: () => context.pop(),
+                      ),
+                    ),
+                    Positioned(
+                      top: tokens.space12,
+                      right: tokens.space12,
+                      child: Row(
+                        children: [
+                          _HeroOverlayButton(
+                            icon: Icons.share_outlined,
+                            tooltip: AppLocalizations.of(context).share,
+                            onPressed: () =>
+                                unawaited(_shareBusiness(context, business)),
+                          ),
+                          SizedBox(width: tokens.space8),
+                          _FavoriteToggleButton(
+                            businessId: business.id,
+                            overlay: true,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ),
-            Positioned(
-              top: tokens.space12,
-              left: tokens.space12,
-              child: _HeroOverlayButton(
-                icon: Icons.arrow_back,
-                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                onPressed: () => context.pop(),
-              ),
-            ),
-            Positioned(
-              top: tokens.space12,
-              right: tokens.space12,
-              child: Row(
-                children: [
-                  _HeroOverlayButton(
-                    icon: Icons.share_outlined,
-                    tooltip: AppLocalizations.of(context).share,
-                    onPressed: () =>
-                        unawaited(_shareBusiness(context, business)),
-                  ),
-                  SizedBox(width: tokens.space8),
-                  _FavoriteToggleButton(businessId: business.id, overlay: true),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+            );
+          },
+        );
+      },
     );
   }
 

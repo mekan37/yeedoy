@@ -317,6 +317,8 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
   bool _didLogBusinessOpen = false;
   Trace? _businessLoadTrace;
   bool _businessTraceStopped = false;
+  final ValueNotifier<double> _heroCollapse = ValueNotifier<double>(0);
+  static const double _heroCollapseRange = 160;
 
   @override
   void initState() {
@@ -364,6 +366,7 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
       unawaited(stopFirebaseTrace(_businessLoadTrace));
     }
     _businessSub?.close();
+    _heroCollapse.dispose();
     super.dispose();
   }
 
@@ -414,35 +417,46 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
               bottom: false,
               child: DefaultTabController(
                 length: 3,
-                child: Column(
-                  children: [
-                    _BusinessFixedHeader(
-                      business: business,
-                      isOpenNow: isOpenNow,
-                    ),
-                    _BusinessSegmentedTabBar(
-                      labels: [
-                        t.businessTabGeneral,
-                        t.businessTabMenu,
-                        t.businessTabReviews,
-                      ],
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        children: [
-                          _BusinessGeneralTab(
-                            business: business,
-                            isOpenNow: isOpenNow,
-                          ),
-                          _BusinessMenuTab(
-                            businessId: business.id,
-                            fallbackCategory: business.category,
-                          ),
-                          _BusinessReviewsTab(businessId: business.id),
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    final offset = notification.metrics.pixels.clamp(
+                      0.0,
+                      _heroCollapseRange,
+                    );
+                    _heroCollapse.value = offset / _heroCollapseRange;
+                    return false;
+                  },
+                  child: Column(
+                    children: [
+                      _BusinessFixedHeader(
+                        business: business,
+                        isOpenNow: isOpenNow,
+                        heroCollapse: _heroCollapse,
+                      ),
+                      _BusinessSegmentedTabBar(
+                        labels: [
+                          t.businessTabGeneral,
+                          t.businessTabMenu,
+                          t.businessTabReviews,
                         ],
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            _BusinessGeneralTab(
+                              business: business,
+                              isOpenNow: isOpenNow,
+                            ),
+                            _BusinessMenuTab(
+                              businessId: business.id,
+                              fallbackCategory: business.category,
+                            ),
+                            _BusinessReviewsTab(businessId: business.id),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
