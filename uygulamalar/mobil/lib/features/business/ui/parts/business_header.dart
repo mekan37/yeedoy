@@ -30,6 +30,31 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
               ),
             ),
             Positioned(
+              top: tokens.space12,
+              left: tokens.space12,
+              child: _HeroOverlayButton(
+                icon: Icons.arrow_back,
+                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+                onPressed: () => context.pop(),
+              ),
+            ),
+            Positioned(
+              top: tokens.space12,
+              right: tokens.space12,
+              child: Row(
+                children: [
+                  _HeroOverlayButton(
+                    icon: Icons.share_outlined,
+                    tooltip: AppLocalizations.of(context).share,
+                    onPressed: () =>
+                        unawaited(_shareBusiness(context, business)),
+                  ),
+                  SizedBox(width: tokens.space8),
+                  _FavoriteToggleButton(businessId: business.id, overlay: true),
+                ],
+              ),
+            ),
+            Positioned(
               left: tokens.space16,
               right: tokens.space16,
               bottom: tokens.space16,
@@ -55,6 +80,10 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
                       if (isOpenNow != null) ...[
                         const SizedBox(width: 8),
                         _OpenNowHeroBadge(isOpen: isOpenNow!),
+                      ],
+                      if (business.reviewsCount > 0) ...[
+                        const SizedBox(width: 8),
+                        _RatingBadge(rating: business.avgRating),
                       ],
                       const SizedBox(width: 10),
                       Expanded(
@@ -145,7 +174,9 @@ class _OpenNowHeroBadge extends StatelessWidget {
           ),
           const SizedBox(width: 5),
           Text(
-            isOpen ? 'Açık' : 'Kapalı',
+            isOpen
+                ? AppLocalizations.of(context).openNow
+                : AppLocalizations.of(context).closedNow,
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -153,6 +184,223 @@ class _OpenNowHeroBadge extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _HeroOverlayButton extends StatelessWidget {
+  const _HeroOverlayButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+    this.iconColor = Colors.white,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+  final Color iconColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.35),
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        tooltip: tooltip,
+        onPressed: onPressed,
+        padding: EdgeInsets.zero,
+        icon: Icon(icon, color: iconColor, size: 20),
+      ),
+    );
+  }
+}
+
+class _FavoriteToggleButton extends ConsumerWidget {
+  const _FavoriteToggleButton({required this.businessId, this.overlay = false});
+
+  final String businessId;
+  final bool overlay;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final isLoggedIn = ref.watch(userProvider.select((user) => user != null));
+    final isFavorited = ref.watch(isFavoritedProvider(businessId));
+    final tooltip = isFavorited ? t.favoriteAdded : t.addToFavorites;
+    final icon = isFavorited ? Icons.favorite : Icons.favorite_border;
+
+    Future<void> handleToggle() async {
+      if (!isLoggedIn) {
+        await showQuickLoginSheet(context, redirectPath: '/b/$businessId');
+        return;
+      }
+      try {
+        HapticFeedback.lightImpact();
+        await ref
+            .read(favoritesControllerProvider.notifier)
+            .toggleFavorite(businessId);
+      } catch (error) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(error))));
+      }
+    }
+
+    if (overlay) {
+      return _HeroOverlayButton(
+        icon: icon,
+        tooltip: tooltip,
+        iconColor: isFavorited ? AppColors.danger : Colors.white,
+        onPressed: () => unawaited(handleToggle()),
+      );
+    }
+    return IconButton(
+      tooltip: tooltip,
+      onPressed: () => unawaited(handleToggle()),
+      icon: Icon(icon, color: isFavorited ? AppColors.primary : AppColors.text),
+    );
+  }
+}
+
+class _RatingBadge extends StatelessWidget {
+  const _RatingBadge({required this.rating});
+
+  final double rating;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: AppColors.warning.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.warning.withValues(alpha: 0.5)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.star_rounded, color: AppColors.star, size: 14),
+          const SizedBox(width: 4),
+          Text(
+            rating.toStringAsFixed(1),
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BadgeChip extends StatelessWidget {
+  const _BadgeChip({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
+
+  final IconData icon;
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BusinessBadgeChipRow extends ConsumerWidget {
+  const _BusinessBadgeChipRow({required this.business});
+
+  final Business business;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    final trustAsync = ref.watch(_businessTrustProvider(business.id));
+    final trendingAsync = ref.watch(businessTrendingItemsProvider(business.id));
+
+    final showMenuVerified = trustAsync.value?.menuSource == 'owner';
+    final showPopular = trendingAsync.value?.isNotEmpty ?? false;
+
+    if (!showMenuVerified && !showPopular) return const SizedBox.shrink();
+
+    return Padding(
+      padding: EdgeInsets.only(top: tokens.space12),
+      child: Wrap(
+        spacing: tokens.space8,
+        runSpacing: tokens.space8,
+        children: [
+          if (showMenuVerified)
+            _BadgeChip(
+              icon: Icons.verified_outlined,
+              label: t.businessBadgeMenuVerified,
+              color: AppColors.success,
+            ),
+          if (showPopular)
+            _BadgeChip(
+              icon: Icons.local_fire_department_outlined,
+              label: t.businessBadgePopular,
+              color: AppColors.warning,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BusinessDescription extends StatelessWidget {
+  const _BusinessDescription({required this.description});
+
+  final String? description;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = description?.trim() ?? '';
+    if (text.isEmpty) return const SizedBox.shrink();
+    final tokens = AppTokens.of(context);
+    return Padding(
+      padding: EdgeInsets.only(top: tokens.space12),
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: AppColors.text,
+          fontSize: 14,
+          height: 1.4,
+        ),
       ),
     );
   }
