@@ -1,10 +1,9 @@
 part of '../business_page.dart';
 
 class _BusinessHeroTrustHeader extends StatelessWidget {
-  const _BusinessHeroTrustHeader({required this.business, this.isOpenNow});
+  const _BusinessHeroTrustHeader({required this.business});
 
   final Business business;
-  final bool? isOpenNow;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.black.withValues(alpha: 0.15),
-                    Colors.black.withValues(alpha: 0.65),
+                    Colors.black.withValues(alpha: 0.35),
                   ],
                 ),
               ),
@@ -51,55 +50,6 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
                   ),
                   SizedBox(width: tokens.space8),
                   _FavoriteToggleButton(businessId: business.id, overlay: true),
-                ],
-              ),
-            ),
-            Positioned(
-              left: tokens.space16,
-              right: tokens.space16,
-              bottom: tokens.space16,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    business.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 34,
-                      fontWeight: FontWeight.w900,
-                      height: 1.05,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      StatusBadge(
-                        type: StatusBadgeType.verified,
-                        label: AppLocalizations.of(context).verified,
-                      ),
-                      if (isOpenNow != null) ...[
-                        const SizedBox(width: 8),
-                        _OpenNowHeroBadge(isOpen: isOpenNow!),
-                      ],
-                      if (business.reviewsCount > 0) ...[
-                        const SizedBox(width: 8),
-                        _RatingBadge(rating: business.avgRating),
-                      ],
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          '${business.category} - ${_locText(context, business.district, business.city)}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -137,53 +87,6 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
       child: Image.asset(
         CategoryAssets.resolve(business.category),
         fit: BoxFit.cover,
-      ),
-    );
-  }
-}
-
-class _OpenNowHeroBadge extends StatelessWidget {
-  const _OpenNowHeroBadge({required this.isOpen});
-  final bool isOpen;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: isOpen
-            ? Colors.green.withValues(alpha: 0.2)
-            : Colors.white.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isOpen
-              ? Colors.green.withValues(alpha: 0.5)
-              : Colors.white.withValues(alpha: 0.25),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 6,
-            height: 6,
-            decoration: BoxDecoration(
-              color: isOpen ? Colors.green : Colors.white54,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 5),
-          Text(
-            isOpen
-                ? AppLocalizations.of(context).openNow
-                : AppLocalizations.of(context).closedNow,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
-              color: isOpen ? Colors.green[200] : Colors.white60,
-            ),
-          ),
-        ],
       ),
     );
   }
