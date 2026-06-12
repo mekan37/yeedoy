@@ -104,7 +104,6 @@ class _BusinessInfoPanel extends StatelessWidget {
     final t = AppLocalizations.of(context);
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(top: -tokens.radius24),
       padding: EdgeInsets.fromLTRB(
         tokens.space16,
         tokens.space16,
