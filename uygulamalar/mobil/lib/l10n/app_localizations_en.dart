@@ -3938,4 +3938,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goToMyLists => 'Go to My Lists';
+
+  @override
+  String get businessTabGeneral => 'General';
+
+  @override
+  String get businessTabMenu => 'Menu';
+
+  @override
+  String get businessTabReviews => 'Reviews';
+
+  @override
+  String get businessBadgeMenuVerified => 'Verified Menu';
+
+  @override
+  String get businessBadgePopular => 'Popular';
+
+  @override
+  String get featuredSectionTitle => 'Featured';
+
+  @override
+  String get featuredRatingLabel => 'Rating';
+
+  @override
+  String get featuredMenuVerifiedSubtitle => 'Updated by the owner';
+
+  @override
+  String get popularDishesTitle => 'Popular dishes';
+
+  @override
+  String get locationHoursTitle => 'Location & hours';
+
+  @override
+  String get directions => 'Directions';
+
+  @override
+  String get viewMenu => 'View Menu';
 }

@@ -7112,6 +7112,78 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Listelerime Git'**
   String get goToMyLists;
+
+  /// Business detail page tab: general
+  ///
+  /// In tr, this message translates to:
+  /// **'Genel'**
+  String get businessTabGeneral;
+
+  /// Business detail page tab: menu
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü'**
+  String get businessTabMenu;
+
+  /// Business detail page tab: reviews
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumlar'**
+  String get businessTabReviews;
+
+  /// Badge shown when the menu source is owner-verified
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü Onaylı'**
+  String get businessBadgeMenuVerified;
+
+  /// Badge shown when the business has trending items
+  ///
+  /// In tr, this message translates to:
+  /// **'Popüler'**
+  String get businessBadgePopular;
+
+  /// Business detail Genel tab featured section title
+  ///
+  /// In tr, this message translates to:
+  /// **'Öne çıkanlar'**
+  String get featuredSectionTitle;
+
+  /// Label under the rating value in the featured section
+  ///
+  /// In tr, this message translates to:
+  /// **'Puan'**
+  String get featuredRatingLabel;
+
+  /// Subtitle for the verified-menu featured card
+  ///
+  /// In tr, this message translates to:
+  /// **'Sahibi tarafından güncellendi'**
+  String get featuredMenuVerifiedSubtitle;
+
+  /// Business detail Genel tab popular dishes section title
+  ///
+  /// In tr, this message translates to:
+  /// **'Popüler lezzetler'**
+  String get popularDishesTitle;
+
+  /// Business detail Genel tab location and hours section title
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum ve saatler'**
+  String get locationHoursTitle;
+
+  /// Bottom action bar directions button
+  ///
+  /// In tr, this message translates to:
+  /// **'Yol Tarifi'**
+  String get directions;
+
+  /// Bottom action bar view menu button
+  ///
+  /// In tr, this message translates to:
+  /// **'Menüyü Gör'**
+  String get viewMenu;
 }
 
 class _AppLocalizationsDelegate

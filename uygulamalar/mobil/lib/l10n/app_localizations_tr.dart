@@ -3918,4 +3918,40 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get goToMyLists => 'Listelerime Git';
+
+  @override
+  String get businessTabGeneral => 'Genel';
+
+  @override
+  String get businessTabMenu => 'Menü';
+
+  @override
+  String get businessTabReviews => 'Yorumlar';
+
+  @override
+  String get businessBadgeMenuVerified => 'Menü Onaylı';
+
+  @override
+  String get businessBadgePopular => 'Popüler';
+
+  @override
+  String get featuredSectionTitle => 'Öne çıkanlar';
+
+  @override
+  String get featuredRatingLabel => 'Puan';
+
+  @override
+  String get featuredMenuVerifiedSubtitle => 'Sahibi tarafından güncellendi';
+
+  @override
+  String get popularDishesTitle => 'Popüler lezzetler';
+
+  @override
+  String get locationHoursTitle => 'Konum ve saatler';
+
+  @override
+  String get directions => 'Yol Tarifi';
+
+  @override
+  String get viewMenu => 'Menüyü Gör';
 }
