@@ -55,6 +55,84 @@ class _BusinessFixedHeader extends StatelessWidget {
   }
 }
 
+class _BusinessSegmentedTabBar extends StatelessWidget {
+  const _BusinessSegmentedTabBar({required this.labels});
+
+  final List<String> labels;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    final controller = DefaultTabController.of(context);
+    return _ConstrainedContent(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          tokens.space16,
+          tokens.space12,
+          tokens.space16,
+          tokens.space8,
+        ),
+        child: Container(
+          padding: EdgeInsets.all(tokens.space4),
+          decoration: BoxDecoration(
+            color: AppColors.bg,
+            borderRadius: BorderRadius.circular(tokens.radius12),
+          ),
+          child: AnimatedBuilder(
+            animation: controller,
+            builder: (context, _) {
+              return Row(
+                children: [
+                  for (var i = 0; i < labels.length; i++)
+                    Expanded(
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => controller.animateTo(i),
+                        child: AnimatedContainer(
+                          duration: tokens.fast,
+                          padding: EdgeInsets.symmetric(
+                            vertical: tokens.space8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: controller.index == i
+                                ? AppColors.card
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(
+                              tokens.radius12,
+                            ),
+                            border: Border(
+                              bottom: BorderSide(
+                                color: controller.index == i
+                                    ? AppColors.primary
+                                    : Colors.transparent,
+                                width: 2,
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            labels[i],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 13,
+                              color: controller.index == i
+                                  ? AppColors.primary
+                                  : AppColors.muted,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _BusinessGeneralTab extends ConsumerWidget {
   const _BusinessGeneralTab({required this.business, required this.isOpenNow});
 
