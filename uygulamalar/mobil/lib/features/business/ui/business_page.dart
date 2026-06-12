@@ -22,7 +22,6 @@ import '../../../core/media/app_network_image.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/community_score_explainer_sheet.dart';
 import '../domain/business_detail_controller.dart';
-import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
@@ -374,16 +373,6 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
     final businessAsync = ref.watch(_businessProvider(widget.businessId));
 
     return AppScaffold(
-      appBar: AppAppBar(
-        title: Text(t.businessLabel),
-        actions: [
-          IconButton(
-            tooltip: t.report,
-            onPressed: () => _openReportSheet(context, widget.businessId),
-            icon: const Icon(Icons.flag_outlined),
-          ),
-        ],
-      ),
       body: businessAsync.when(
         loading: () => const _BusinessLoadingView(),
         error: (error, _) => _BusinessErrorView(
@@ -421,40 +410,40 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
               );
               ref.invalidate(businessRecentCheckinsProvider(widget.businessId));
             },
-            child: DefaultTabController(
-              length: 3,
-              child: Column(
-                children: [
-                  _BusinessFixedHeader(
-                    business: business,
-                    isOpenNow: isOpenNow,
-                  ),
-                  TabBar(
-                    labelColor: AppColors.primary,
-                    unselectedLabelColor: AppColors.muted,
-                    indicatorColor: AppColors.primary,
-                    tabs: [
-                      Tab(text: t.businessTabGeneral),
-                      Tab(text: t.businessTabMenu),
-                      Tab(text: t.businessTabReviews),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        _BusinessGeneralTab(
-                          business: business,
-                          isOpenNow: isOpenNow,
-                        ),
-                        _BusinessMenuTab(
-                          businessId: business.id,
-                          fallbackCategory: business.category,
-                        ),
-                        _BusinessReviewsTab(businessId: business.id),
+            child: SafeArea(
+              bottom: false,
+              child: DefaultTabController(
+                length: 3,
+                child: Column(
+                  children: [
+                    _BusinessFixedHeader(
+                      business: business,
+                      isOpenNow: isOpenNow,
+                    ),
+                    _BusinessSegmentedTabBar(
+                      labels: [
+                        t.businessTabGeneral,
+                        t.businessTabMenu,
+                        t.businessTabReviews,
                       ],
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          _BusinessGeneralTab(
+                            business: business,
+                            isOpenNow: isOpenNow,
+                          ),
+                          _BusinessMenuTab(
+                            businessId: business.id,
+                            fallbackCategory: business.category,
+                          ),
+                          _BusinessReviewsTab(businessId: business.id),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
