@@ -686,62 +686,68 @@ class _BusinessLocationHoursSection extends ConsumerWidget {
             style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
           ),
           SizedBox(height: tokens.space8),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: _LocationHoursCard(
-                  icon: Icons.location_on_outlined,
-                  text: business.address?.trim().isNotEmpty == true
-                      ? business.address!
-                      : _locText(context, business.district, business.city),
-                  onTap: () => unawaited(
-                    _openDirections(
-                      businessName: business.name,
-                      address: business.address,
-                      lat: business.lat,
-                      lng: business.lng,
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: _LocationHoursCard(
+                    icon: Icons.location_on_outlined,
+                    text: business.address?.trim().isNotEmpty == true
+                        ? business.address!
+                        : _locText(
+                            context,
+                            business.district,
+                            business.city,
+                          ),
+                    onTap: () => unawaited(
+                      _openDirections(
+                        businessName: business.name,
+                        address: business.address,
+                        lat: business.lat,
+                        lng: business.lng,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: tokens.space8),
-              Expanded(
-                child: hoursAsync.when(
-                  loading: () => _LocationHoursCard(
-                    icon: Icons.schedule_outlined,
-                    text: t.noHoursInfo,
-                    onTap: null,
-                  ),
-                  error: (_, _) => _LocationHoursCard(
-                    icon: Icons.schedule_outlined,
-                    text: t.hoursInfoMissing,
-                    onTap: () => _openReportSheet(context, business.id),
-                  ),
-                  data: (today) {
-                    if (today == null) {
+                SizedBox(width: tokens.space8),
+                Expanded(
+                  child: hoursAsync.when(
+                    loading: () => _LocationHoursCard(
+                      icon: Icons.schedule_outlined,
+                      text: t.noHoursInfo,
+                      onTap: null,
+                    ),
+                    error: (_, _) => _LocationHoursCard(
+                      icon: Icons.schedule_outlined,
+                      text: t.hoursInfoMissing,
+                      onTap: () => _openReportSheet(context, business.id),
+                    ),
+                    data: (today) {
+                      if (today == null) {
+                        return _LocationHoursCard(
+                          icon: Icons.schedule_outlined,
+                          text: t.hoursInfoMissing,
+                          onTap: () => _openReportSheet(context, business.id),
+                        );
+                      }
+                      final statusLabel = isOpenNow == true
+                          ? t.openNow
+                          : t.closedNow;
                       return _LocationHoursCard(
-                        icon: Icons.schedule_outlined,
-                        text: t.hoursInfoMissing,
+                        icon: Icons.schedule,
+                        iconColor: isOpenNow == true
+                            ? AppColors.success
+                            : AppColors.danger,
+                        text:
+                            '$statusLabel · ${_hoursText(context, today.open, today.close)}',
                         onTap: () => _openReportSheet(context, business.id),
                       );
-                    }
-                    final statusLabel = isOpenNow == true
-                        ? t.openNow
-                        : t.closedNow;
-                    return _LocationHoursCard(
-                      icon: Icons.schedule,
-                      iconColor: isOpenNow == true
-                          ? AppColors.success
-                          : AppColors.danger,
-                      text:
-                          '$statusLabel · ${_hoursText(context, today.open, today.close)}',
-                      onTap: () => _openReportSheet(context, business.id),
-                    );
-                  },
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
