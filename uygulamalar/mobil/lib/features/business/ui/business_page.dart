@@ -46,7 +46,6 @@ import '../domain/crowd_controller.dart';
 import '../domain/business_presence_provider.dart';
 import '../ui/components/business_header_compact.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
-import '../../contribute/ui/contribute_entry.dart';
 import '../../shared/ui/share/business_share_card_sheet.dart';
 import '../../reviews/domain/reviews_provider.dart';
 
@@ -375,18 +374,9 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
     final businessAsync = ref.watch(_businessProvider(widget.businessId));
 
     return AppScaffold(
-      floatingActionButton: ContributeFab(businessId: widget.businessId),
       appBar: AppAppBar(
         title: Text(t.businessLabel),
         actions: [
-          businessAsync.maybeWhen(
-            data: (business) => IconButton(
-              tooltip: t.share,
-              onPressed: () => _shareBusiness(context, business),
-              icon: const Icon(Icons.share_outlined),
-            ),
-            orElse: SizedBox.shrink,
-          ),
           IconButton(
             tooltip: t.report,
             onPressed: () => _openReportSheet(context, widget.businessId),
@@ -400,28 +390,75 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
           message: AppErrorMapper.message(error),
           onRetry: () => ref.invalidate(_businessProvider(widget.businessId)),
         ),
-        data: (business) => RefreshIndicator(
-          onRefresh: () async {
-            ref
-                .read(discoveryRepositoryProvider)
-                .invalidateBusiness(widget.businessId);
-            ref.read(menuRepositoryProvider).clearReadCache();
-            ref.invalidate(_businessProvider(widget.businessId));
-            ref.invalidate(_businessHoursProvider(widget.businessId));
-            ref.invalidate(businessMenusProvider(widget.businessId));
-            ref.invalidate(businessCrowdProvider(widget.businessId));
-            ref.invalidate(businessDetailProvider(widget.businessId));
-            ref.invalidate(businessPerksProvider(widget.businessId));
-            ref.invalidate(businessTrendingItemsProvider(widget.businessId));
-            ref.invalidate(businessNewItemsProvider(widget.businessId));
-            ref.invalidate(businessAmenitiesProvider(widget.businessId));
-            ref.invalidate(
-              businessMealCardProvidersProvider(widget.businessId),
-            );
-            ref.invalidate(businessRecentCheckinsProvider(widget.businessId));
-          },
-          child: _BusinessSectionsScroll(business: business),
-        ),
+        data: (business) {
+          final isOpenNow = ref.watch(
+            _businessHoursProvider(business.id).select(
+              (async) => async.maybeWhen(
+                data: (today) => today == null
+                    ? null
+                    : _isOpenNow(today.open, today.close, DateTime.now()),
+                orElse: () => null,
+              ),
+            ),
+          );
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref
+                  .read(discoveryRepositoryProvider)
+                  .invalidateBusiness(widget.businessId);
+              ref.read(menuRepositoryProvider).clearReadCache();
+              ref.invalidate(_businessProvider(widget.businessId));
+              ref.invalidate(_businessHoursProvider(widget.businessId));
+              ref.invalidate(businessMenusProvider(widget.businessId));
+              ref.invalidate(businessCrowdProvider(widget.businessId));
+              ref.invalidate(businessDetailProvider(widget.businessId));
+              ref.invalidate(businessPerksProvider(widget.businessId));
+              ref.invalidate(businessTrendingItemsProvider(widget.businessId));
+              ref.invalidate(businessNewItemsProvider(widget.businessId));
+              ref.invalidate(businessAmenitiesProvider(widget.businessId));
+              ref.invalidate(
+                businessMealCardProvidersProvider(widget.businessId),
+              );
+              ref.invalidate(businessRecentCheckinsProvider(widget.businessId));
+            },
+            child: DefaultTabController(
+              length: 3,
+              child: Column(
+                children: [
+                  _BusinessFixedHeader(
+                    business: business,
+                    isOpenNow: isOpenNow,
+                  ),
+                  TabBar(
+                    labelColor: AppColors.primary,
+                    unselectedLabelColor: AppColors.muted,
+                    indicatorColor: AppColors.primary,
+                    tabs: [
+                      Tab(text: t.businessTabGeneral),
+                      Tab(text: t.businessTabMenu),
+                      Tab(text: t.businessTabReviews),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        _BusinessGeneralTab(
+                          business: business,
+                          isOpenNow: isOpenNow,
+                        ),
+                        _BusinessMenuTab(
+                          businessId: business.id,
+                          fallbackCategory: business.category,
+                        ),
+                        _BusinessReviewsTab(businessId: business.id),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
