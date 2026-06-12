@@ -371,7 +371,8 @@ class BusinessCrowdSection extends ConsumerStatefulWidget {
   final String businessId;
 
   @override
-  ConsumerState<BusinessCrowdSection> createState() => _BusinessCrowdSectionState();
+  ConsumerState<BusinessCrowdSection> createState() =>
+      _BusinessCrowdSectionState();
 }
 
 class _BusinessCrowdSectionState extends ConsumerState<BusinessCrowdSection> {
@@ -517,7 +518,7 @@ class BusinessReviewsSection extends ConsumerWidget {
                 style: const TextStyle(color: AppColors.muted, fontSize: 12),
               ),
               const SizedBox(height: 8),
-              for (final review in detail.latestReviews.take(3))
+              for (final review in detail.latestReviews)
                 ListTile(
                   key: ValueKey(review.id),
                   contentPadding: EdgeInsets.zero,
@@ -547,7 +548,9 @@ class BusinessMealCardsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final providersAsync = ref.watch(businessMealCardProvidersProvider(businessId));
+    final providersAsync = ref.watch(
+      businessMealCardProvidersProvider(businessId),
+    );
     return providersAsync.maybeWhen(
       data: (providers) {
         if (providers.isEmpty) return const SizedBox.shrink();
@@ -838,8 +841,7 @@ class BusinessReviewPhotosSection extends ConsumerWidget {
                   ),
                   if (urls.length >= 6)
                     TextButton(
-                      onPressed: () =>
-                          _openAllPhotos(context, urls),
+                      onPressed: () => _openAllPhotos(context, urls),
                       child: Text(
                         isLocTr ? 'Tümünü gör' : 'See all',
                         style: const TextStyle(fontSize: 13),
@@ -874,8 +876,11 @@ class BusinessReviewPhotosSection extends ConsumerWidget {
     );
   }
 
-  void _openAllPhotos(BuildContext context, List<String> urls,
-      {int initial = 0}) {
+  void _openAllPhotos(
+    BuildContext context,
+    List<String> urls, {
+    int initial = 0,
+  }) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         fullscreenDialog: true,
@@ -887,8 +892,7 @@ class BusinessReviewPhotosSection extends ConsumerWidget {
 }
 
 class _BusinessPhotosViewer extends StatefulWidget {
-  const _BusinessPhotosViewer(
-      {required this.urls, required this.initialIndex});
+  const _BusinessPhotosViewer({required this.urls, required this.initialIndex});
   final List<String> urls;
   final int initialIndex;
 
