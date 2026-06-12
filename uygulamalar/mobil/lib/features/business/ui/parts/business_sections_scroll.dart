@@ -636,7 +636,7 @@ class _BusinessLocationHoursSection extends ConsumerWidget {
                     text: t.noHoursInfo,
                     onTap: null,
                   ),
-                  error: (_, __) => _LocationHoursCard(
+                  error: (_, _) => _LocationHoursCard(
                     icon: Icons.schedule_outlined,
                     text: t.hoursInfoMissing,
                     onTap: () => _openReportSheet(context, business.id),
