@@ -46,9 +46,8 @@ class _BusinessFixedHeader extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _BusinessHeroTrustHeader(business: business, isOpenNow: isOpenNow),
-            _BusinessBadgeChipRow(business: business),
-            _BusinessDescription(description: business.description),
+            _BusinessHeroTrustHeader(business: business),
+            _BusinessInfoPanel(business: business, isOpenNow: isOpenNow),
           ],
         ),
       ),
