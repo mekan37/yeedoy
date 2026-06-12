@@ -92,6 +92,97 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
   }
 }
 
+class _BusinessInfoPanel extends StatelessWidget {
+  const _BusinessInfoPanel({required this.business, this.isOpenNow});
+
+  final Business business;
+  final bool? isOpenNow;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    final t = AppLocalizations.of(context);
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(top: -tokens.radius24),
+      padding: EdgeInsets.fromLTRB(
+        tokens.space16,
+        tokens.space16,
+        tokens.space16,
+        tokens.space4,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(tokens.radius24),
+          topRight: Radius.circular(tokens.radius24),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  business.name,
+                  style: const TextStyle(
+                    color: AppColors.textStrong,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    height: 1.1,
+                  ),
+                ),
+              ),
+              IconButton(
+                tooltip: t.report,
+                onPressed: () => _openReportSheet(context, business.id),
+                icon: const Icon(Icons.flag_outlined, color: AppColors.muted),
+              ),
+            ],
+          ),
+          SizedBox(height: tokens.space8),
+          Wrap(
+            spacing: tokens.space8,
+            runSpacing: tokens.space8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              StatusBadge(type: StatusBadgeType.verified, label: t.verified),
+              if (business.reviewsCount > 0)
+                _BadgeChip(
+                  icon: Icons.star_rounded,
+                  label:
+                      '${business.avgRating.toStringAsFixed(1)} (${business.reviewsCount})',
+                  color: AppColors.warning,
+                ),
+              if (isOpenNow != null)
+                _BadgeChip(
+                  icon: Icons.schedule,
+                  label: isOpenNow! ? t.openNow : t.closedNow,
+                  color: isOpenNow! ? AppColors.success : AppColors.danger,
+                ),
+            ],
+          ),
+          SizedBox(height: tokens.space8),
+          Text(
+            '${business.category} · ${_locText(context, business.district, business.city)}',
+            style: const TextStyle(
+              color: AppColors.muted,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          _BusinessBadgeChipRow(business: business),
+          _BusinessDescription(description: business.description),
+        ],
+      ),
+    );
+  }
+}
+
 class _HeroOverlayButton extends StatelessWidget {
   const _HeroOverlayButton({
     required this.icon,
