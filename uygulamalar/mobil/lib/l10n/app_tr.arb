@@ -478,11 +478,11 @@
   "@discoveryFeaturedCategory": {
     "description": "Auto metadata for discoveryFeaturedCategory"
   },
-  "discoveryCampaignPromoTitle": "Kampanyaları kaçırma!",
+  "discoveryCampaignPromoTitle": "Lezzetli fırsatları kaçırma! 🎉",
   "@discoveryCampaignPromoTitle": {
     "description": "Auto metadata for discoveryCampaignPromoTitle"
   },
-  "discoveryCampaignPromoSubtitle": "Bu haftanın fırsatlarına göz at",
+  "discoveryCampaignPromoSubtitle": "Sana özel indirimleri keşfet.",
   "@discoveryCampaignPromoSubtitle": {
     "description": "Auto metadata for discoveryCampaignPromoSubtitle"
   },

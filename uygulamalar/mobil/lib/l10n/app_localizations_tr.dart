@@ -351,11 +351,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryFeaturedCategory => 'Öne Çıkanlar';
 
   @override
-  String get discoveryCampaignPromoTitle => 'Kampanyaları kaçırma!';
+  String get discoveryCampaignPromoTitle => 'Lezzetli fırsatları kaçırma! 🎉';
 
   @override
-  String get discoveryCampaignPromoSubtitle =>
-      'Bu haftanın fırsatlarına göz at';
+  String get discoveryCampaignPromoSubtitle => 'Sana özel indirimleri keşfet.';
 
   @override
   String get noNearbyVerifiedSpots => 'Yakında doğrulanmış mekan bulunamadı';

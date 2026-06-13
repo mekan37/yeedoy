@@ -478,11 +478,11 @@
   "@discoveryFeaturedCategory": {
     "description": "Auto metadata for discoveryFeaturedCategory"
   },
-  "discoveryCampaignPromoTitle": "Don't miss the deals!",
+  "discoveryCampaignPromoTitle": "Don't miss tasty deals! 🎉",
   "@discoveryCampaignPromoTitle": {
     "description": "Auto metadata for discoveryCampaignPromoTitle"
   },
-  "discoveryCampaignPromoSubtitle": "Check out this week's promotions",
+  "discoveryCampaignPromoSubtitle": "Discover deals picked just for you.",
   "@discoveryCampaignPromoSubtitle": {
     "description": "Auto metadata for discoveryCampaignPromoSubtitle"
   },

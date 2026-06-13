@@ -351,11 +351,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoveryFeaturedCategory => 'Featured';
 
   @override
-  String get discoveryCampaignPromoTitle => 'Don\'t miss the deals!';
+  String get discoveryCampaignPromoTitle => 'Don\'t miss tasty deals! 🎉';
 
   @override
   String get discoveryCampaignPromoSubtitle =>
-      'Check out this week\'s promotions';
+      'Discover deals picked just for you.';
 
   @override
   String get noNearbyVerifiedSpots => 'No nearby verified spots found';

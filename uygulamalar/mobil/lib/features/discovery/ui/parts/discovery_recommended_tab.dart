@@ -276,7 +276,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     final isLoggedIn = ref.watch(userProvider.select((user) => user != null));
     final favIds = ref.watch(favoriteIdsProvider);
     final favCache = ref.watch(favoriteStatusCacheProvider);
-    final freshLinksAsync = ref.watch(freshEmbedsProvider(8));
     final isNearby = st.mode == DiscoveryMode.nearby;
     final needsLocation = isNearby && st.userLat == null && st.userLng == null;
     final city = st.city.trim();
@@ -311,7 +310,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         isLoggedIn: isLoggedIn,
         favIds: favIds,
         favCache: favCache,
-        freshLinksAsync: freshLinksAsync,
       );
     }
     return Stack(
@@ -1770,7 +1768,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     required bool isLoggedIn,
     required Set<String> favIds,
     required Map<String, bool> favCache,
-    required AsyncValue<List<Embed>> freshLinksAsync,
   }) {
     final items = st.items;
     final freshItems = items
@@ -2018,6 +2015,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     ],
                   ),
                 ),
+                const SizedBox(height: 16),
+                _DiscoveryCampaignPromoCard(
+                  onTap: () => DefaultTabController.of(context).animateTo(1),
+                ),
                 if (freshItems.isNotEmpty) ...[
                   const SizedBox(height: 24),
                   Row(
@@ -2062,16 +2063,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     ),
                   ),
                 ],
-                const SizedBox(height: 24),
-                Text(
-                  AppLocalizations.of(context).freshLinks,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 170,
-                  child: _buildFreshLinksSection(context, freshLinksAsync),
-                ),
                 const SizedBox(height: 24),
                 Text(
                   AppLocalizations.of(context).discoverForYou,
@@ -2160,11 +2151,14 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
       );
       if (!shouldInsertAd) continue;
       final ad = adController.adForSlot(adShown);
-      if (ad == null) continue;
       widgets.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 14),
-          child: NativeAdCard(ad: ad),
+          child: ad != null
+              ? NativeAdCard(ad: ad)
+              : _DiscoveryCampaignPromoCard(
+                  onTap: () => DefaultTabController.of(context).animateTo(1),
+                ),
         ),
       );
       adShown += 1;
@@ -2177,54 +2171,4 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
 
   String _categoryImageFor(String category, int index) =>
       categoryImageAsset(category);
-
-  Widget _buildFreshLinksSection(
-    BuildContext context,
-    AsyncValue<List<Embed>> freshLinksAsync,
-  ) {
-    return freshLinksAsync.when(
-      loading: () => const Center(
-        child: SizedBox(
-          width: 22,
-          height: 22,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      ),
-      error: (_, _) => AppEmptyState(
-        icon: Icons.link_off_rounded,
-        title: AppLocalizations.of(context).noLinkFound,
-        description: AppLocalizations.of(context).newEmbedLinksWillAppear,
-      ),
-      data: (freshLinks) {
-        if (freshLinks.isEmpty) {
-          return AppEmptyState(
-            icon: Icons.link_off_rounded,
-            title: AppLocalizations.of(context).noLinkFound,
-            description: AppLocalizations.of(context).newEmbedLinksWillAppear,
-          );
-        }
-        return ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: freshLinks.length,
-          separatorBuilder: (_, _) => const SizedBox(width: 12),
-          itemBuilder: (context, index) {
-            final link = freshLinks[index];
-            return _FreshLinkCard(
-              item: link,
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => EmbedViewerPage(
-                      url: link.urlNormalized,
-                      title: link.title,
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-    );
-  }
 }
