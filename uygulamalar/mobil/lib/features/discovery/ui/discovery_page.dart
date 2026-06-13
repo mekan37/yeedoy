@@ -59,8 +59,6 @@ import '../../ads/ui/native_ad_card.dart';
 import '../../profile/domain/profile_progress_provider.dart';
 import '../../profile/domain/profile_progress.dart';
 import '../../contribute/ui/contribute_entry.dart';
-import '../../embed/data/embed_repository.dart';
-import '../../embed/ui/embed_viewer_page.dart';
 import '../../business/domain/meal_card_providers_provider.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
 import '../../../core/services/home_widget_service.dart';

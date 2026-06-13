@@ -111,97 +111,88 @@ class _DiscoveryPromoBanner extends StatelessWidget {
   }
 }
 
-class _FreshLinkCard extends StatelessWidget {
-  const _FreshLinkCard({required this.item, required this.onTap});
+/// Promo card shown between businesses when no native ad is available for a
+/// slot. Tapping it switches the Discovery tab bar to "Kampanyalar" (index 1).
+class _DiscoveryCampaignPromoCard extends StatelessWidget {
+  const _DiscoveryCampaignPromoCard({required this.onTap});
 
-  final Embed item;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final provider = item.provider.toLowerCase();
-    final (icon, color, label) = switch (provider) {
-      'youtube' => (Icons.play_circle_fill_rounded, Colors.red, 'YouTube'),
-      'instagram' => (Icons.camera_alt_rounded, Colors.pink, 'Instagram'),
-      'facebook' => (Icons.facebook_rounded, Colors.blue, 'Facebook'),
-      _ => (
-        Icons.link_rounded,
-        AppColors.muted,
-        AppLocalizations.of(context).link,
-      ),
-    };
-    final title = item.title?.trim().isNotEmpty == true
-        ? item.title!.trim()
-        : AppLocalizations.of(context).untitledLink;
-    final ownerType = item.ownerType.toLowerCase() == 'business'
-        ? AppLocalizations.of(context).businessLabel
-        : AppLocalizations.of(context).profile;
-    return SizedBox(
-      width: 220,
-      child: AppCard(
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Material(
+      color: AppColors.campaignPromoBg,
+      borderRadius: BorderRadius.circular(tokens.radius20),
+      child: InkWell(
         onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(tokens.radius20),
+        child: Padding(
+          padding: EdgeInsets.all(tokens.space16),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.discoveryCampaignPromoTitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      t.discoveryCampaignPromoSubtitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppColors.muted),
+                    ),
+                  ],
+                ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
+              const SizedBox(width: 12),
+              Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  Icon(icon, size: 14, color: color),
-                  const SizedBox(width: 4),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      color: color,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(tokens.radius16),
+                    child: Image.asset(
+                      'assets/images/categories/tatli.png',
+                      width: 72,
+                      height: 72,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -8,
+                    right: -8,
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: const FaIcon(
+                        FontAwesomeIcons.arrowRight,
+                        color: AppColors.onPrimary,
+                        size: 14,
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.textStrong,
-                fontWeight: FontWeight.w800,
-                fontSize: 16,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              ownerType,
-              style: const TextStyle(
-                color: AppColors.muted,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              _agoText(context, item.createdAt),
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-String _agoText(BuildContext context, DateTime value) {
-  final t = AppLocalizations.of(context);
-  final diff = DateTime.now().difference(value);
-  if (diff.inMinutes < 60) return t.timeMinutesAgo(diff.inMinutes);
-  if (diff.inHours < 24) return t.timeHoursAgo(diff.inHours);
-  return t.timeDaysAgo(diff.inDays);
 }
 
 class _PremiumFilterChip extends StatelessWidget {

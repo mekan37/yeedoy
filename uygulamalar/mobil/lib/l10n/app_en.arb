@@ -478,6 +478,14 @@
   "@discoveryFeaturedCategory": {
     "description": "Auto metadata for discoveryFeaturedCategory"
   },
+  "discoveryCampaignPromoTitle": "Don't miss the deals!",
+  "@discoveryCampaignPromoTitle": {
+    "description": "Auto metadata for discoveryCampaignPromoTitle"
+  },
+  "discoveryCampaignPromoSubtitle": "Check out this week's promotions",
+  "@discoveryCampaignPromoSubtitle": {
+    "description": "Auto metadata for discoveryCampaignPromoSubtitle"
+  },
   "noNearbyVerifiedSpots": "No nearby verified spots found",
   "@noNearbyVerifiedSpots": {
     "description": "Auto metadata for noNearbyVerifiedSpots"

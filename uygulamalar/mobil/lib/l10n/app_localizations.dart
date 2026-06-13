@@ -728,6 +728,18 @@ abstract class AppLocalizations {
   /// **'Öne Çıkanlar'**
   String get discoveryFeaturedCategory;
 
+  /// Auto metadata for discoveryCampaignPromoTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Kampanyaları kaçırma!'**
+  String get discoveryCampaignPromoTitle;
+
+  /// Auto metadata for discoveryCampaignPromoSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu haftanın fırsatlarına göz at'**
+  String get discoveryCampaignPromoSubtitle;
+
   /// Auto metadata for noNearbyVerifiedSpots
   ///
   /// In tr, this message translates to:
