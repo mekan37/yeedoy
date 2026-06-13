@@ -731,13 +731,13 @@ abstract class AppLocalizations {
   /// Auto metadata for discoveryCampaignPromoTitle
   ///
   /// In tr, this message translates to:
-  /// **'Kampanyaları kaçırma!'**
+  /// **'Lezzetli fırsatları kaçırma! 🎉'**
   String get discoveryCampaignPromoTitle;
 
   /// Auto metadata for discoveryCampaignPromoSubtitle
   ///
   /// In tr, this message translates to:
-  /// **'Bu haftanın fırsatlarına göz at'**
+  /// **'Sana özel indirimleri keşfet.'**
   String get discoveryCampaignPromoSubtitle;
 
   /// Auto metadata for noNearbyVerifiedSpots
@@ -1873,6 +1873,72 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yakındaki kampanyalar ve duyurular'**
   String get nearbyCampaignsAndAnnouncements;
+
+  /// Auto metadata for campaignsGreeting
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba! 👋'**
+  String get campaignsGreeting;
+
+  /// Auto metadata for campaignsSearchPlaceholder
+  ///
+  /// In tr, this message translates to:
+  /// **'Kampanya veya işletme ara...'**
+  String get campaignsSearchPlaceholder;
+
+  /// Auto metadata for campaignFilterAll
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get campaignFilterAll;
+
+  /// Auto metadata for campaignFilterSoon
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakında'**
+  String get campaignFilterSoon;
+
+  /// Auto metadata for campaignFilterToday
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get campaignFilterToday;
+
+  /// Auto metadata for campaignFilterFood
+  ///
+  /// In tr, this message translates to:
+  /// **'Yemek'**
+  String get campaignFilterFood;
+
+  /// Auto metadata for campaignFilterDessert
+  ///
+  /// In tr, this message translates to:
+  /// **'Tatlı'**
+  String get campaignFilterDessert;
+
+  /// Auto metadata for campaignFilterDiscount20
+  ///
+  /// In tr, this message translates to:
+  /// **'%20+'**
+  String get campaignFilterDiscount20;
+
+  /// Auto metadata for campaignsNearbyHeader
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakınındaki kampanyalar'**
+  String get campaignsNearbyHeader;
+
+  /// Auto metadata for campaignsFeaturedBadge
+  ///
+  /// In tr, this message translates to:
+  /// **'Lezzet Fırsatları'**
+  String get campaignsFeaturedBadge;
+
+  /// Auto metadata for campaignDiscountLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'%{percent} indirim'**
+  String campaignDiscountLabel(int percent);
 
   /// Auto metadata for noNearbyCampaign
   ///

@@ -761,6 +761,17 @@
   "outsideYourUsual": "Rutin dışı",
   "pricePerformanceSurprise": "Fiyat/performans sürprizi",
   "nearbyCampaignsAndAnnouncements": "Yakındaki kampanyalar ve duyurular",
+  "campaignsGreeting": "Merhaba! 👋",
+  "campaignsSearchPlaceholder": "Kampanya veya işletme ara...",
+  "campaignFilterAll": "Tümü",
+  "campaignFilterSoon": "Yakında",
+  "campaignFilterToday": "Bugün",
+  "campaignFilterFood": "Yemek",
+  "campaignFilterDessert": "Tatlı",
+  "campaignFilterDiscount20": "%20+",
+  "campaignsNearbyHeader": "Yakınındaki kampanyalar",
+  "campaignsFeaturedBadge": "Lezzet Fırsatları",
+  "campaignDiscountLabel": "%{percent} indirim",
   "noNearbyCampaign": "Yakında kampanya yok",
   "noActiveAnnouncementInArea": "Bölgede aktif duyuru yok",
   "remainingLabel": "Kalan",
@@ -3056,6 +3067,44 @@
   },
   "@nearbyCampaignsAndAnnouncements": {
     "description": "Auto metadata for nearbyCampaignsAndAnnouncements"
+  },
+  "@campaignsGreeting": {
+    "description": "Auto metadata for campaignsGreeting"
+  },
+  "@campaignsSearchPlaceholder": {
+    "description": "Auto metadata for campaignsSearchPlaceholder"
+  },
+  "@campaignFilterAll": {
+    "description": "Auto metadata for campaignFilterAll"
+  },
+  "@campaignFilterSoon": {
+    "description": "Auto metadata for campaignFilterSoon"
+  },
+  "@campaignFilterToday": {
+    "description": "Auto metadata for campaignFilterToday"
+  },
+  "@campaignFilterFood": {
+    "description": "Auto metadata for campaignFilterFood"
+  },
+  "@campaignFilterDessert": {
+    "description": "Auto metadata for campaignFilterDessert"
+  },
+  "@campaignFilterDiscount20": {
+    "description": "Auto metadata for campaignFilterDiscount20"
+  },
+  "@campaignsNearbyHeader": {
+    "description": "Auto metadata for campaignsNearbyHeader"
+  },
+  "@campaignsFeaturedBadge": {
+    "description": "Auto metadata for campaignsFeaturedBadge"
+  },
+  "@campaignDiscountLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for campaignDiscountLabel"
   },
   "@noNearbyCampaign": {
     "description": "Auto metadata for noNearbyCampaign"

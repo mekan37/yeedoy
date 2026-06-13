@@ -955,6 +955,41 @@ class AppLocalizationsEn extends AppLocalizations {
       'Nearby campaigns and announcements';
 
   @override
+  String get campaignsGreeting => 'Hello! 👋';
+
+  @override
+  String get campaignsSearchPlaceholder => 'Search campaigns or businesses...';
+
+  @override
+  String get campaignFilterAll => 'All';
+
+  @override
+  String get campaignFilterSoon => 'Ending soon';
+
+  @override
+  String get campaignFilterToday => 'Today';
+
+  @override
+  String get campaignFilterFood => 'Food';
+
+  @override
+  String get campaignFilterDessert => 'Dessert';
+
+  @override
+  String get campaignFilterDiscount20 => '20%+';
+
+  @override
+  String get campaignsNearbyHeader => 'Campaigns near you';
+
+  @override
+  String get campaignsFeaturedBadge => 'Tasty Deals';
+
+  @override
+  String campaignDiscountLabel(int percent) {
+    return '$percent% off';
+  }
+
+  @override
   String get noNearbyCampaign => 'No nearby campaign';
 
   @override

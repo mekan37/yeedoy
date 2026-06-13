@@ -1251,6 +1251,55 @@
   "@nearbyCampaignsAndAnnouncements": {
     "description": "Auto metadata for nearbyCampaignsAndAnnouncements"
   },
+  "campaignsGreeting": "Hello! 👋",
+  "@campaignsGreeting": {
+    "description": "Auto metadata for campaignsGreeting"
+  },
+  "campaignsSearchPlaceholder": "Search campaigns or businesses...",
+  "@campaignsSearchPlaceholder": {
+    "description": "Auto metadata for campaignsSearchPlaceholder"
+  },
+  "campaignFilterAll": "All",
+  "@campaignFilterAll": {
+    "description": "Auto metadata for campaignFilterAll"
+  },
+  "campaignFilterSoon": "Ending soon",
+  "@campaignFilterSoon": {
+    "description": "Auto metadata for campaignFilterSoon"
+  },
+  "campaignFilterToday": "Today",
+  "@campaignFilterToday": {
+    "description": "Auto metadata for campaignFilterToday"
+  },
+  "campaignFilterFood": "Food",
+  "@campaignFilterFood": {
+    "description": "Auto metadata for campaignFilterFood"
+  },
+  "campaignFilterDessert": "Dessert",
+  "@campaignFilterDessert": {
+    "description": "Auto metadata for campaignFilterDessert"
+  },
+  "campaignFilterDiscount20": "20%+",
+  "@campaignFilterDiscount20": {
+    "description": "Auto metadata for campaignFilterDiscount20"
+  },
+  "campaignsNearbyHeader": "Campaigns near you",
+  "@campaignsNearbyHeader": {
+    "description": "Auto metadata for campaignsNearbyHeader"
+  },
+  "campaignsFeaturedBadge": "Tasty Deals",
+  "@campaignsFeaturedBadge": {
+    "description": "Auto metadata for campaignsFeaturedBadge"
+  },
+  "campaignDiscountLabel": "{percent}% off",
+  "@campaignDiscountLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for campaignDiscountLabel"
+  },
   "noNearbyCampaign": "No nearby campaign",
   "@noNearbyCampaign": {
     "description": "Auto metadata for noNearbyCampaign"

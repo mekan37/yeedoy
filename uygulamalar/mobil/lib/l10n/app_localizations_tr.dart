@@ -951,6 +951,41 @@ class AppLocalizationsTr extends AppLocalizations {
       'Yakındaki kampanyalar ve duyurular';
 
   @override
+  String get campaignsGreeting => 'Merhaba! 👋';
+
+  @override
+  String get campaignsSearchPlaceholder => 'Kampanya veya işletme ara...';
+
+  @override
+  String get campaignFilterAll => 'Tümü';
+
+  @override
+  String get campaignFilterSoon => 'Yakında';
+
+  @override
+  String get campaignFilterToday => 'Bugün';
+
+  @override
+  String get campaignFilterFood => 'Yemek';
+
+  @override
+  String get campaignFilterDessert => 'Tatlı';
+
+  @override
+  String get campaignFilterDiscount20 => '%20+';
+
+  @override
+  String get campaignsNearbyHeader => 'Yakınındaki kampanyalar';
+
+  @override
+  String get campaignsFeaturedBadge => 'Lezzet Fırsatları';
+
+  @override
+  String campaignDiscountLabel(int percent) {
+    return '%$percent indirim';
+  }
+
+  @override
   String get noNearbyCampaign => 'Yakında kampanya yok';
 
   @override
