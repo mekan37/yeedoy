@@ -60,6 +60,11 @@ class NearbyCampaignsNotifier extends AsyncNotifier<List<NearbyCampaign>> {
         );
   }
 
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => build());
+  }
+
   Future<void> toggleSaved(String storyId) async {
     final current = state.value;
     if (current == null) return;
@@ -86,7 +91,8 @@ class NearbyCampaignsNotifier extends AsyncNotifier<List<NearbyCampaign>> {
           .toggleSavedCampaign(storyId);
       state = AsyncData(toggleCampaignSavedInList(optimistic, storyId, saved));
     } catch (_) {
-      state = AsyncData(current);
+      await refresh();
+      rethrow;
     }
   }
 }
