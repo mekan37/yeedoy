@@ -30,7 +30,7 @@ class MenuItemSearchRepository {
     required int offset,
   }) async {
     try {
-      final res = await client.rpc('search_menu_items_v1', params: {
+      final res = await client.rpc('search_menu_items_v2', params: {
         'p_user_lat': userLat,
         'p_user_lng': userLng,
         'p_radius_km': radiusKm.toDouble(),
