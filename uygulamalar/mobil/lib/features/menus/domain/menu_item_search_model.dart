@@ -16,6 +16,10 @@ class MenuItemSearchResult {
     this.isVegetarian = false,
     this.isGlutenFree = false,
     this.isLactoseFree = false,
+    this.description,
+    this.imageUrl,
+    this.isTodaySpecial = false,
+    this.specialNote,
   });
 
   final String menuItemId;
@@ -23,6 +27,10 @@ class MenuItemSearchResult {
   final String businessId;
   final String name;
   final String businessName;
+  final String? description;
+  final String? imageUrl;
+  final bool isTodaySpecial;
+  final String? specialNote;
   final double? distanceKm;
   final int? priceCents;
   final String priceStatus;
@@ -40,8 +48,8 @@ class MenuItemSearchResult {
       menuItemId: _asString(map, ['menu_item_id', 'item_id', 'id']) ?? '',
       menuId: _asString(map, ['menu_id', 'menuId']) ?? '',
       businessId: _asString(map, ['business_id', 'businessId']) ?? '',
-      name: _asString(map, ['name', 'title']) ?? '?or?n',
-      businessName: _asString(map, ['business_name', 'place_name', 'business']) ?? 'I?Yletme',
+      name: _asString(map, ['item_name', 'name', 'title']) ?? 'Ürün',
+      businessName: _asString(map, ['business_name', 'place_name', 'business']) ?? 'İşletme',
       distanceKm: _asDouble(map, ['distance_km', 'distanceKm', 'distance']),
       priceCents: _asInt(map, ['price_cents', 'priceCents', 'price']),
       priceStatus: _asString(map, ['price_status', 'status']) ?? 'unknown',
@@ -53,6 +61,10 @@ class MenuItemSearchResult {
       isVegetarian: _asBool(map, ['is_vegetarian', 'vegetarian']) ?? false,
       isGlutenFree: _asBool(map, ['is_gluten_free', 'gluten_free']) ?? false,
       isLactoseFree: _asBool(map, ['is_lactose_free', 'lactose_free']) ?? false,
+      description: _asString(map, ['item_description', 'description']),
+      imageUrl: _asString(map, ['image_url', 'imageUrl']),
+      isTodaySpecial: _asBool(map, ['is_today_special', 'isTodaySpecial']) ?? false,
+      specialNote: _asString(map, ['special_note', 'specialNote']),
     );
   }
 }

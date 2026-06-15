@@ -2434,6 +2434,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryCatalogSuggestions => 'Katalog önerileri';
 
   @override
+  String get discoveryFoodsGreeting => 'Merhaba! 👋';
+
+  @override
+  String get discoveryFoodsSearchHint => 'Yemek veya kategori ara...';
+
+  @override
+  String get todaysPickTitle => 'Günün lezzeti';
+
+  @override
+  String get popularFoodsTitle => 'Popüler yemekler';
+
+  @override
   String get feedEmptyMessage =>
       'Henüz akış yok. Lezzet uzmanlarını takip ederek başlayabilirsin.';
 

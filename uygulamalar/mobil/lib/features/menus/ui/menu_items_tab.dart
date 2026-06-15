@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/media/app_network_image.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
+import '../../discovery/ui/categories_config.dart';
 import '../../profile/domain/diet_profile_controller.dart';
 import '../../price_alerts/ui/price_alert_sheet.dart';
 import '../domain/menu_item_search_controller.dart';
@@ -24,6 +26,7 @@ class MenuItemsTab extends ConsumerStatefulWidget {
 class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
   final qCtrl = TextEditingController();
   final scrollCtrl = ScrollController();
+  String? _selectedCategoryId;
 
   @override
   void initState() {
@@ -46,9 +49,15 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
     final st = ref.watch(menuItemSearchProvider);
     final profileAsync = ref.watch(dietProfileProvider);
     final user = ref.watch(userProvider);
+
+    final todaySpecial = st.items
+        .where((item) => item.isTodaySpecial)
+        .cast<MenuItemSearchResult?>()
+        .firstWhere((item) => item != null, orElse: () => null);
 
     return RefreshIndicator(
       onRefresh: () => ref.read(menuItemSearchProvider.notifier).refresh(),
@@ -56,19 +65,33 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
         controller: scrollCtrl,
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
         children: [
+          Text(
+            t.discoveryFoodsGreeting,
+            style: context.subtitleStyle,
+          ),
+          SizedBox(height: tokens.space4),
+          Text(
+            t.tabFoods,
+            style: context.titleStyle.copyWith(fontSize: 28),
+          ),
+          SizedBox(height: tokens.space16),
+
           Row(
             children: [
               Expanded(
                 child: TextField(
                   controller: qCtrl,
                   textInputAction: TextInputAction.search,
-                  onChanged: (_) => ref
-                      .read(menuItemSearchProvider.notifier)
-                      .setQuery(qCtrl.text.trim()),
+                  onChanged: (_) {
+                    setState(() => _selectedCategoryId = null);
+                    ref
+                        .read(menuItemSearchProvider.notifier)
+                        .setQuery(qCtrl.text.trim());
+                  },
                   onSubmitted: (_) =>
                       ref.read(menuItemSearchProvider.notifier).refresh(),
                   decoration: InputDecoration(
-                    hintText: t.searchFoodHint,
+                    hintText: t.discoveryFoodsSearchHint,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: qCtrl.text.isEmpty
                         ? null
@@ -77,6 +100,7 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
                             icon: const Icon(Icons.close),
                             onPressed: () {
                               qCtrl.clear();
+                              setState(() => _selectedCategoryId = null);
                               ref
                                   .read(menuItemSearchProvider.notifier)
                                   .setQuery('');
@@ -86,10 +110,31 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
                               setState(() {});
                             },
                           ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(999),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(999),
+                      borderSide: BorderSide(color: AppColors.border),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(999),
+                      borderSide: const BorderSide(
+                        color: AppColors.primary,
+                        width: 1.5,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: AppColors.card,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: tokens.space16,
+                      vertical: tokens.space12,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: tokens.space8),
               IconButton.filledTonal(
                 tooltip: t.filters,
                 icon: const Icon(Icons.tune),
@@ -97,7 +142,36 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: tokens.space12),
+
+          // Category chips row
+          SizedBox(
+            height: tokens.minHitTarget,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: tokens.space8),
+                  child: AppFilterChip(
+                    label: t.all,
+                    selected: _selectedCategoryId == null,
+                    onTap: () => _selectCategory(null, null),
+                  ),
+                ),
+                for (final category in discoveryHomeCategories)
+                  Padding(
+                    padding: EdgeInsets.only(right: tokens.space8),
+                    child: AppFilterChip(
+                      label: _categoryChipLabel(t, category.titleKey),
+                      selected: _selectedCategoryId == category.id,
+                      onTap: () => _selectCategory(category.id, category),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          SizedBox(height: tokens.space16),
+
           Row(
             children: [
               FilterChip(
@@ -192,6 +266,23 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
           if (st.loading && st.items.isEmpty) ...[
             const _MenuItemsSkeleton(),
           ] else ...[
+            if (todaySpecial != null) ...[
+              RepaintBoundary(
+                child: _TodaySpecialBanner(
+                  item: todaySpecial,
+                  title: t.todaysPickTitle,
+                  onTap: () => _openMenuItem(context, todaySpecial),
+                ),
+              ),
+              SizedBox(height: tokens.space16),
+            ],
+            if (st.items.isNotEmpty) ...[
+              Text(
+                t.popularFoodsTitle,
+                style: context.sectionTitleStyle,
+              ),
+              SizedBox(height: tokens.space12),
+            ],
             for (final item in st.items) ...[
               RepaintBoundary(
                 child: _MenuItemCard(
@@ -228,6 +319,14 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
         ],
       ),
     );
+  }
+
+  void _selectCategory(String? id, DiscoveryCategoryConfig? category) {
+    setState(() => _selectedCategoryId = id);
+    final searchTerm = category?.searchTerm ?? '';
+    qCtrl.text = searchTerm;
+    ref.read(menuItemSearchProvider.notifier).setQuery(searchTerm);
+    ref.read(menuItemSearchProvider.notifier).refresh();
   }
 
   void _openFilters(BuildContext context, MenuItemSearchState st) {
@@ -305,6 +404,136 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
   }
 }
 
+/// Maps a discovery home category title key to its localized label.
+/// Mirrors `_homeCategoryTitle` in discovery_controls.dart (private to that
+/// file's `part of` library, so duplicated here intentionally).
+String _categoryChipLabel(AppLocalizations t, String titleKey) {
+  return switch (titleKey) {
+    'discoveryHomeCategoryDoner' => t.discoveryHomeCategoryDoner,
+    'discoveryHomeCategoryPide' => t.discoveryHomeCategoryPide,
+    'discoveryHomeCategoryLahmacun' => t.discoveryHomeCategoryLahmacun,
+    'discoveryHomeCategoryBurger' => t.discoveryHomeCategoryBurger,
+    'discoveryHomeCategoryPizza' => t.discoveryHomeCategoryPizza,
+    'discoveryHomeCategoryKebap' => t.discoveryHomeCategoryKebap,
+    'discoveryHomeCategoryCorba' => t.discoveryHomeCategoryCorba,
+    'discoveryHomeCategoryKahvalti' => t.discoveryHomeCategoryKahvalti,
+    'discoveryHomeCategoryManti' => t.discoveryHomeCategoryManti,
+    'discoveryHomeCategoryTatli' => t.discoveryHomeCategoryTatli,
+    _ => titleKey,
+  };
+}
+
+class _TodaySpecialBanner extends StatelessWidget {
+  const _TodaySpecialBanner({
+    required this.item,
+    required this.title,
+    required this.onTap,
+  });
+
+  final MenuItemSearchResult item;
+  final String title;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    final subtitle = item.specialNote?.trim().isNotEmpty == true
+        ? item.specialNote!.trim()
+        : item.description?.trim();
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(tokens.radius20),
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(tokens.space12),
+        decoration: BoxDecoration(
+          color: AppColors.primarySoft,
+          borderRadius: BorderRadius.circular(tokens.radius20),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.local_fire_department,
+                  color: AppColors.primary,
+                  size: 18,
+                ),
+                SizedBox(width: tokens.space8),
+                Text(
+                  title,
+                  style: context.captionStyle.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: tokens.space12),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(tokens.radius16),
+                  child: SizedBox(
+                    width: 72,
+                    height: 72,
+                    child: item.imageUrl == null
+                        ? Container(
+                            color: AppColors.card,
+                            alignment: Alignment.center,
+                            child: const Icon(
+                              Icons.restaurant_menu,
+                              color: AppColors.muted,
+                            ),
+                          )
+                        : AppNetworkImage(
+                            url: item.imageUrl!,
+                            width: 72,
+                            height: 72,
+                          ),
+                  ),
+                ),
+                SizedBox(width: tokens.space12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        item.name,
+                        style: context.sectionTitleStyle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (subtitle != null && subtitle.isNotEmpty) ...[
+                        SizedBox(height: tokens.space4),
+                        Text(
+                          subtitle,
+                          style: context.captionStyle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                SizedBox(width: tokens.space8),
+                IconButton(
+                  onPressed: onTap,
+                  icon: const Icon(Icons.chevron_right),
+                  color: AppColors.primary,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _MenuItemCard extends StatelessWidget {
   const _MenuItemCard({
     required this.item,
@@ -319,110 +548,163 @@ class _MenuItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
     return InkWell(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(tokens.radius16),
       onTap: onTap,
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
+          padding: EdgeInsets.all(tokens.space12),
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
+              ClipRRect(
+                borderRadius: BorderRadius.circular(tokens.radius12),
+                child: SizedBox(
+                  width: 64,
+                  height: 64,
+                  child: item.imageUrl == null
+                      ? Container(
+                          color: AppColors.bg,
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            Icons.restaurant_menu,
+                            color: AppColors.muted,
+                          ),
+                        )
+                      : AppNetworkImage(
+                          url: item.imageUrl!,
+                          width: 64,
+                          height: 64,
+                        ),
+                ),
+              ),
+              SizedBox(width: tokens.space12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       item.name,
                       style: const TextStyle(fontWeight: FontWeight.w900),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (item.description != null &&
+                        item.description!.trim().isNotEmpty) ...[
+                      SizedBox(height: tokens.space4),
+                      Text(
+                        item.description!.trim(),
+                        style: context.captionStyle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    SizedBox(height: tokens.space4),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.storefront_outlined,
+                          size: 14,
+                          color: AppColors.muted,
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            item.businessName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: AppColors.muted,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (item.distanceKm != null) ...[
+                          const SizedBox(width: 6),
+                          Text(
+                            t.distanceKm(item.distanceKm!),
+                            style: const TextStyle(
+                              color: AppColors.muted,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    SizedBox(height: tokens.space8),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      children: [
+                        _StatusBadge(config: _statusBadge(item.priceStatus, t)),
+                        if (item.isVegan) _DietChip(label: t.vegan),
+                        if (item.isGlutenFree) _DietChip(label: t.glutenFree),
+                        if (item.priceStatus == 'verified' &&
+                            (item.total30d ?? 0) > 0)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.check_circle_outline,
+                                size: 12,
+                                color: AppColors.success,
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                t.localeName.startsWith('tr')
+                                    ? '${item.total30d} kişi onayladı'
+                                    : '${item.total30d} verified',
+                                style: const TextStyle(
+                                  color: AppColors.success,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          )
+                        else if (item.total30d != null)
+                          Text(
+                            '(${t.votes(item.total30d!)})',
+                            style: const TextStyle(
+                              color: AppColors.muted,
+                              fontSize: 11,
+                            ),
+                          ),
+                        if (item.calories != null)
+                          Text(
+                            t.menuItemCalories(item.calories!),
+                            style: const TextStyle(
+                              color: AppColors.muted,
+                              fontSize: 12,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: tokens.space8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: onAlertTap,
+                    icon: const Icon(Icons.notifications_active_outlined),
+                    tooltip: t.setPriceAlert,
+                    visualDensity: VisualDensity.compact,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(
+                      minWidth: 32,
+                      minHeight: 32,
                     ),
                   ),
-                  const SizedBox(width: 8),
                   Text(
                     _formatPrice(item.priceCents, locale: t.localeName),
                     style: const TextStyle(fontWeight: FontWeight.w900),
                   ),
                 ],
-              ),
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  _StatusBadge(config: _statusBadge(item.priceStatus, t)),
-                  const SizedBox(width: 6),
-                  if (item.priceStatus == 'verified' &&
-                      (item.total30d ?? 0) > 0) ...[
-                    Icon(
-                      Icons.check_circle_outline,
-                      size: 12,
-                      color: AppColors.success,
-                    ),
-                    const SizedBox(width: 3),
-                    Text(
-                      t.localeName.startsWith('tr')
-                          ? '${item.total30d} kişi onayladı'
-                          : '${item.total30d} verified',
-                      style: const TextStyle(
-                        color: AppColors.success,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ] else if (item.total30d != null) ...[
-                    Text(
-                      '(${t.votes(item.total30d!)})',
-                      style: const TextStyle(
-                        color: AppColors.muted,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
-                  if (item.calories != null) ...[
-                    const SizedBox(width: 8),
-                    Text(
-                      t.menuItemCalories(item.calories!),
-                      style: const TextStyle(
-                        color: AppColors.muted,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      item.businessName,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  if (item.distanceKm != null)
-                    Text(
-                      t.distanceKm(item.distanceKm!),
-                      style: const TextStyle(
-                        color: AppColors.muted,
-                        fontSize: 12,
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: [
-                  if (item.isVegan) _DietChip(label: t.vegan),
-                  if (item.isGlutenFree) _DietChip(label: t.glutenFree),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerRight,
-                child: OutlinedButton.icon(
-                  onPressed: onAlertTap,
-                  icon: const Icon(Icons.notifications_active_outlined),
-                  label: Text(t.setPriceAlert),
-                ),
               ),
             ],
           ),

@@ -4525,6 +4525,30 @@ abstract class AppLocalizations {
   /// **'Katalog önerileri'**
   String get discoveryCatalogSuggestions;
 
+  /// Auto metadata for discoveryFoodsGreeting
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba! 👋'**
+  String get discoveryFoodsGreeting;
+
+  /// Auto metadata for discoveryFoodsSearchHint
+  ///
+  /// In tr, this message translates to:
+  /// **'Yemek veya kategori ara...'**
+  String get discoveryFoodsSearchHint;
+
+  /// Auto metadata for todaysPickTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Günün lezzeti'**
+  String get todaysPickTitle;
+
+  /// Auto metadata for popularFoodsTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Popüler yemekler'**
+  String get popularFoodsTitle;
+
   /// Auto metadata for feedEmptyMessage
   ///
   /// In tr, this message translates to:
