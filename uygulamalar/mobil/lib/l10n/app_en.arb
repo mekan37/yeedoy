@@ -3030,6 +3030,22 @@
   "@discoveryCatalogSuggestions": {
     "description": "Auto metadata for discoveryCatalogSuggestions"
   },
+  "discoveryFoodsGreeting": "Hello! 👋",
+  "@discoveryFoodsGreeting": {
+    "description": "Auto metadata for discoveryFoodsGreeting"
+  },
+  "discoveryFoodsSearchHint": "Search for food or category...",
+  "@discoveryFoodsSearchHint": {
+    "description": "Auto metadata for discoveryFoodsSearchHint"
+  },
+  "todaysPickTitle": "Today's pick",
+  "@todaysPickTitle": {
+    "description": "Auto metadata for todaysPickTitle"
+  },
+  "popularFoodsTitle": "Popular foods",
+  "@popularFoodsTitle": {
+    "description": "Auto metadata for popularFoodsTitle"
+  },
   "feedEmptyMessage": "No feed yet. Try following taste experts to get started.",
   "@feedEmptyMessage": {
     "description": "Auto metadata for feedEmptyMessage"

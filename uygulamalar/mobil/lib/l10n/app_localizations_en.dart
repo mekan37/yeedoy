@@ -2348,6 +2348,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoveryCatalogSuggestions => 'Catalog suggestions';
 
   @override
+  String get discoveryFoodsGreeting => 'Hello! 👋';
+
+  @override
+  String get discoveryFoodsSearchHint => 'Search for food or category...';
+
+  @override
+  String get todaysPickTitle => 'Today\'s pick';
+
+  @override
+  String get popularFoodsTitle => 'Popular foods';
+
+  @override
   String get feedEmptyMessage =>
       'No feed yet. Try following taste experts to get started.';
 

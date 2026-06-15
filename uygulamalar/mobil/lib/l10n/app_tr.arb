@@ -1552,6 +1552,10 @@
   "discoveryHomeCategoryTatli": "Tatlı",
   "discoveryRecentSearches": "Son aramalar",
   "discoveryCatalogSuggestions": "Katalog önerileri",
+  "discoveryFoodsGreeting": "Merhaba! 👋",
+  "discoveryFoodsSearchHint": "Yemek veya kategori ara...",
+  "todaysPickTitle": "Günün lezzeti",
+  "popularFoodsTitle": "Popüler yemekler",
   "feedEmptyMessage": "Henüz akış yok. Lezzet uzmanlarını takip ederek başlayabilirsin.",
   "all": "Tümü",
   "sil": "Sil",
@@ -3971,6 +3975,18 @@
   },
   "@discoveryCatalogSuggestions": {
     "description": "Auto metadata for discoveryCatalogSuggestions"
+  },
+  "@discoveryFoodsGreeting": {
+    "description": "Auto metadata for discoveryFoodsGreeting"
+  },
+  "@discoveryFoodsSearchHint": {
+    "description": "Auto metadata for discoveryFoodsSearchHint"
+  },
+  "@todaysPickTitle": {
+    "description": "Auto metadata for todaysPickTitle"
+  },
+  "@popularFoodsTitle": {
+    "description": "Auto metadata for popularFoodsTitle"
   },
   "@feedEmptyMessage": {
     "description": "Auto metadata for feedEmptyMessage"
