@@ -23,11 +23,11 @@ class CategoryAssets {
   };
 
   static String resolve(String? categorySlugOrName) {
-    final key = _normalize(categorySlugOrName);
+    final key = normalize(categorySlugOrName);
     return bySlug[key] ?? defaultAsset;
   }
 
-  static String _normalize(String? value) {
+  static String normalize(String? value) {
     if (value == null) return '';
     return value
         .trim()
