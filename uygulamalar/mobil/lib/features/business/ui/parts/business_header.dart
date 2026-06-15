@@ -1,6 +1,6 @@
 part of '../business_page.dart';
 
-class _BusinessHeroTrustHeader extends StatelessWidget {
+class _BusinessHeroTrustHeader extends ConsumerWidget {
   const _BusinessHeroTrustHeader({
     required this.business,
     required this.heroCollapse,
@@ -10,8 +10,11 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
   final ValueNotifier<double> heroCollapse;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final tokens = AppTokens.of(context);
+    final t = AppLocalizations.of(context);
+    final trustAsync = ref.watch(_businessTrustProvider(business.id));
+    final showMenuVerified = trustAsync.value?.menuSource == 'owner';
     return LayoutBuilder(
       builder: (context, constraints) {
         final expandedHeight = constraints.maxWidth * 10 / 16;
@@ -47,7 +50,13 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
                         tooltip: MaterialLocalizations.of(
                           context,
                         ).backButtonTooltip,
-                        onPressed: () => context.pop(),
+                        onPressed: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.go('/discover');
+                          }
+                        },
                       ),
                     ),
                     Positioned(
@@ -69,6 +78,28 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
                         ],
                       ),
                     ),
+                    if (business.isVerified || showMenuVerified)
+                      Positioned(
+                        bottom: tokens.space12,
+                        left: tokens.space12,
+                        right: tokens.space12,
+                        child: Wrap(
+                          spacing: tokens.space8,
+                          runSpacing: tokens.space8,
+                          children: [
+                            if (business.isVerified)
+                              _HeroBadgeChip(
+                                icon: Icons.verified_rounded,
+                                label: t.verified,
+                              ),
+                            if (showMenuVerified)
+                              _HeroBadgeChip(
+                                icon: Icons.verified_outlined,
+                                label: t.businessBadgeMenuVerified,
+                              ),
+                          ],
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -167,7 +198,6 @@ class _BusinessInfoPanel extends StatelessWidget {
             runSpacing: tokens.space8,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              StatusBadge(type: StatusBadgeType.verified, label: t.verified),
               if (business.reviewsCount > 0)
                 _BadgeChip(
                   icon: Icons.star_rounded,
@@ -229,6 +259,39 @@ class _HeroOverlayButton extends StatelessWidget {
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         icon: Icon(icon, color: iconColor, size: 20),
+      ),
+    );
+  }
+}
+
+class _HeroBadgeChip extends StatelessWidget {
+  const _HeroBadgeChip({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.black.withValues(alpha: 0.45),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: AppColors.success),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -330,13 +393,11 @@ class _BusinessBadgeChipRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final tokens = AppTokens.of(context);
-    final trustAsync = ref.watch(_businessTrustProvider(business.id));
     final trendingAsync = ref.watch(businessTrendingItemsProvider(business.id));
 
-    final showMenuVerified = trustAsync.value?.menuSource == 'owner';
     final showPopular = trendingAsync.value?.isNotEmpty ?? false;
 
-    if (!showMenuVerified && !showPopular) return const SizedBox.shrink();
+    if (!showPopular) return const SizedBox.shrink();
 
     return Padding(
       padding: EdgeInsets.only(top: tokens.space12),
@@ -344,18 +405,11 @@ class _BusinessBadgeChipRow extends ConsumerWidget {
         spacing: tokens.space8,
         runSpacing: tokens.space8,
         children: [
-          if (showMenuVerified)
-            _BadgeChip(
-              icon: Icons.verified_outlined,
-              label: t.businessBadgeMenuVerified,
-              color: AppColors.success,
-            ),
-          if (showPopular)
-            _BadgeChip(
-              icon: Icons.local_fire_department_outlined,
-              label: t.businessBadgePopular,
-              color: AppColors.warning,
-            ),
+          _BadgeChip(
+            icon: Icons.local_fire_department_outlined,
+            label: t.businessBadgePopular,
+            color: AppColors.warning,
+          ),
         ],
       ),
     );

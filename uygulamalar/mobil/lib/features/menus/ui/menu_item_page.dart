@@ -14,10 +14,7 @@ import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
 import '../../../core/errors/app_error_mapper.dart';
-import '../../../core/content/content_moderation.dart';
-import '../../../core/errors/app_error_codes.dart';
 import '../../../core/media/app_network_image.dart';
-import '../../../core/media/media_upload_repository.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
@@ -30,7 +27,6 @@ import '../../profile/domain/profile_progress_provider.dart';
 import '../data/food_catalog_repository.dart';
 import '../domain/food_catalog_models.dart';
 import '../domain/food_catalog_search_controller.dart';
-import '../data/offline_verify_queue.dart';
 import '../data/menu_repository.dart';
 import '../ui/menu_ocr_flow.dart';
 import '../domain/menu_controllers.dart';
@@ -41,6 +37,7 @@ import '../../price_alerts/ui/price_alert_sheet.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../shared/ui/share/business_share_card_sheet.dart';
 import '../../discovery/data/discovery_repository.dart';
+import 'widgets/price_suggestion_sheet.dart';
 
 part 'sections/menu_item_detail_sections.dart';
 part 'sections/menu_item_suggestion_sections.dart';
@@ -207,7 +204,7 @@ Future<PriceSuggestionSubmissionResult?> _openPriceSuggestionSheet(
     context: context,
     isScrollControlled: true,
     showDragHandle: true,
-    builder: (_) => _PriceSuggestionSheet(
+    builder: (_) => PriceSuggestionSheet(
       menuItemId: menuItemId,
       businessId: businessId,
       menuId: menuId,

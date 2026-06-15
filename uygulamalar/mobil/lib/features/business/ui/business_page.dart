@@ -47,6 +47,9 @@ import '../ui/components/business_header_compact.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
 import '../../shared/ui/share/business_share_card_sheet.dart';
 import '../../reviews/domain/reviews_provider.dart';
+import '../../reviews/ui/review_create_form.dart';
+import '../../menus/data/offline_verify_queue.dart';
+import '../../menus/ui/widgets/price_suggestion_sheet.dart';
 
 part 'sections/business_detail_sections.dart';
 part 'parts/business_models.dart';
@@ -181,7 +184,7 @@ final _businessTrustProvider =
 
       DateTime? menuUpdatedAt;
       var menuVersion = 1;
-      var menuSource = 'owner';
+      var menuSource = '';
       var menuConfidence = 0.0;
 
       try {

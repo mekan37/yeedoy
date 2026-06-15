@@ -14,7 +14,7 @@
 
 ### In scope
 - Extend `Business` model + `fetchBusiness` query to expose `description` (already present in `businesses_with_stats` view, just not read).
-- Restyle `_BusinessHeroTrustHeader`: hero overlay back/share/favorite buttons, rating badge, distance (if location available), `_OpenNowHeroBadge` l10n fix.
+- Restyle `_BusinessHeroTrustHeader`: hero overlay back/share/favorite buttons, rating badge, `_OpenNowHeroBadge` l10n fix.
 - New real-data badge chip row (Menü Onaylı / Popüler).
 - New description block (`business.description`).
 - New `Genel` / `Menü` / `Yorumlar` `TabBar` + `TabBarView` skeleton, header fixed above tabs.
@@ -29,6 +29,7 @@
 - Reviewer avatar/display name in "Son yorumlar" — `ReviewPreview` has no avatar/name field; the summary card shows rating + date + content only.
 - Full weekly-hours bottom sheet — Faz 1 shows today's hours only (existing `_businessHoursProvider` data); chevron navigates to the existing "report hours" flow if no detail view exists.
 - Any change to `AppBottomNav`/`AppShell`/router structure beyond in-page tab navigation.
+- **Distance row** (mockup's "500m") — `userLocationProvider` (`UserLocationState`) does not expose the user's `lat`/`lng` (only `city`/`district`/`neighborhood`/`mode`), so a real distance cannot be computed without a separate location-infrastructure change. Deferred to a later phase.
 
 ---
 
@@ -62,10 +63,6 @@ Locate the repository method backing `_businessProvider` (`discoveryRepositoryPr
 - Category + location text (existing, unchanged).
 - `StatusBadge(type: verified, label: t.verified)` — unchanged, existing condition.
 - `_OpenNowHeroBadge`: replace hardcoded `'Açık'`/`'Kapalı'` strings (line 148) with `t.openNow` / `t.closedNow` (existing ARB keys, already used in `BusinessHoursSection`).
-
-### 3.3 Distance row
-- New `_DistanceRow` widget: `ref.watch(userLocationProvider)`. If `loc.hasLocation && business.lat != null && business.lng != null`, compute distance via the same haversine/distance helper used for `BusinessCardModel.distanceKm` in Discovery (locate and reuse — do not duplicate the formula). Display as `"{distanceKm.toStringAsFixed(distanceKm < 10 ? 1 : 0)} km"` (or `"{meters} m"` if `< 1km`, matching Discovery's existing distance-formatting helper if one exists — reuse it).
-- If no location permission/data, this row is omitted entirely (`SizedBox.shrink()`).
 
 ### 3.4 Badge chip row (new, below the title row, above description)
 New `_BusinessBadgeChipRow` widget (`ConsumerWidget`):
@@ -215,9 +212,9 @@ New `bottomNavigationBar: _BusinessBottomActionBar(business: business)` on the `
 | `directions` | "Yol Tarifi" | "Directions" |
 | `viewMenu` | "Menüyü Gör" | "View Menu" |
 
-Before adding each key, check `app_tr.arb`/`app_en.arb` for an existing equivalent (e.g. a generic `seeAll`/`directions` key from another feature) and reuse it instead of creating a duplicate.
+Confirmed via `app_tr.arb`/`app_en.arb`: `seeAll` ("Tümünü Gör"/"See all") already exists and is reused for both "Popüler lezzetler" and "Son yorumlar" trailing links — **not** added as a new key. `directions`/`viewMenu` do not exist yet and are added as new keys.
 
-Existing keys reused as-is: `openNow`, `closedNow`, `verified`, `recentReviews`, `reviewsCountSuffix`, `contributeMenuPhoto`, `hoursInfoMissing`, `addHoursHelp`, `reportHoursInfo`, `favoriteAdded`, `addToFavorites`.
+Existing keys reused as-is: `openNow`, `closedNow`, `verified`, `recentReviews`, `reviewsCountSuffix`, `contributeMenuPhoto`, `hoursInfoMissing`, `addHoursHelp`, `reportHoursInfo`, `favoriteAdded`, `addToFavorites`, `seeAll`.
 
 ---
 
@@ -226,7 +223,7 @@ Existing keys reused as-is: `openNow`, `closedNow`, `verified`, `recentReviews`,
 - `lib/features/business/domain/business.dart` — add `description` field (Section 2.1).
 - Repository method backing `_businessProvider` (locate via `discoveryRepositoryProvider.fetchBusiness`) — confirm/add `description` to select (Section 2.2).
 - `lib/features/business/ui/business_page.dart` — `DefaultTabController` wrap, remove `ContributeFab`, remove share action from `AppBar`, add `bottomNavigationBar`.
-- `lib/features/business/ui/parts/business_header.dart` — `_BusinessHeroTrustHeader` overlay buttons, rating badge, distance row, `_OpenNowHeroBadge` l10n fix; new `_BusinessBadgeChipRow`, `_BusinessDescription`, `_RatingBadge`, `_DistanceRow`, `_FavoriteToggleButton`.
+- `lib/features/business/ui/parts/business_header.dart` — `_BusinessHeroTrustHeader` overlay buttons, rating badge, `_OpenNowHeroBadge` l10n fix; new `_BusinessBadgeChipRow`, `_BusinessDescription`, `_RatingBadge`, `_FavoriteToggleButton`.
 - `lib/features/business/ui/parts/business_sections_scroll.dart` — restructure into `_BusinessFixedHeader`, `_BusinessGeneralTab`, `_BusinessMenuTab`, `_BusinessReviewsTab`; new `_BusinessFeaturedSection`, `_BusinessPopularDishesSection`, `_BusinessLocationHoursSection`, `_BusinessRecentReviewsSection`, `_BusinessBottomActionBar`.
 - `lib/features/business/ui/sections/business_detail_sections.dart` — `BusinessReviewsSection` remove `.take(3)` limit.
 - `lib/l10n/app_tr.arb`, `lib/l10n/app_en.arb` — new keys (Section 8); regenerate via `flutter gen-l10n`.
@@ -245,9 +242,8 @@ Per `CLAUDE.md` minimum validation for Flutter code:
 
 ## 11. Open Implementation Notes (for the plan)
 
-- Locate the existing distance-formatting/haversine helper used by `BusinessCardModel.distanceKm` in Discovery and reuse it for `_DistanceRow` (Section 3.3) — do not write a second implementation.
-- Locate an existing 2-column card-grid pattern (e.g., in `discovery_cards.dart`) for `_BusinessPopularDishesSection` (Section 5.2) — reuse the pattern/widget if one exists.
-- Locate the date-formatting helper used for `lastPriceVerifiedAt`/similar relative dates and reuse for `_BusinessRecentReviewsSection`'s review date (Section 5.4).
-- Confirm `_openDirections` (in `business_state_views.dart`) is reachable from `business_sections_scroll.dart` and `business_page.dart` (all are `part of` the same library — should be directly callable).
-- Confirm `favoritesRepositoryProvider`/`isFavoritedProvider`/`toggleFavorite` exact provider names by reading `business_detail_sections.dart` lines ~140-170 before implementing `_FavoriteToggleButton`.
+- No existing 2-column card-grid pattern was found in `discovery_cards.dart`; `_BusinessPopularDishesSection` (Section 5.2) uses a fresh `GridView.count(crossAxisCount: 2, shrinkWrap: true, physics: NeverScrollableScrollPhysics())`.
+- `_relativeTimeLabel(context, value)` (in `business_state_views.dart`) is the existing relative-date helper, reused for `_BusinessRecentReviewsSection`'s review date (Section 5.4).
+- `_openDirections` (in `business_state_views.dart`) is `part of` the same library as `business_sections_scroll.dart` and `business_page.dart` — directly callable, no import needed.
+- Favorite toggle: `ref.watch(isFavoritedProvider(business.id))` + `ref.read(favoritesControllerProvider.notifier).toggleFavorite(business.id)` (confirmed in `business_detail_sections.dart` `BusinessActionsSection`, lines 142/160-161).
 - `dart format` all touched files after edits.

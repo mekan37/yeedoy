@@ -173,7 +173,7 @@ class BusinessActionsSection extends ConsumerWidget {
           const SizedBox(width: 8),
           Expanded(
             child: OutlinedButton.icon(
-              onPressed: () => context.go('/b/${business.id}/review'),
+              onPressed: () => DefaultTabController.of(context).animateTo(2),
               icon: const Icon(Icons.rate_review_outlined),
               label: Text(t.writeReview),
             ),
@@ -501,8 +501,6 @@ class BusinessReviewsSection extends ConsumerWidget {
               icon: Icons.reviews_outlined,
               title: t.noReviews,
               description: t.leaveFirstReviewHelp,
-              ctaLabel: t.writeFirstReview,
-              onCta: () => context.go('/b/$businessId/review'),
             );
           }
           return Column(

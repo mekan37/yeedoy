@@ -71,7 +71,6 @@ class _BusinessSegmentedTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
-    final controller = DefaultTabController.of(context);
     return _ConstrainedContent(
       child: Padding(
         padding: EdgeInsets.fromLTRB(
@@ -80,62 +79,7 @@ class _BusinessSegmentedTabBar extends StatelessWidget {
           tokens.space16,
           tokens.space8,
         ),
-        child: Container(
-          padding: EdgeInsets.all(tokens.space4),
-          decoration: BoxDecoration(
-            color: AppColors.bg,
-            borderRadius: BorderRadius.circular(tokens.radius12),
-          ),
-          child: AnimatedBuilder(
-            animation: controller,
-            builder: (context, _) {
-              return Row(
-                children: [
-                  for (var i = 0; i < labels.length; i++)
-                    Expanded(
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () => controller.animateTo(i),
-                        child: AnimatedContainer(
-                          duration: tokens.fast,
-                          padding: EdgeInsets.symmetric(
-                            vertical: tokens.space8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: controller.index == i
-                                ? AppColors.card
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(
-                              tokens.radius12,
-                            ),
-                            border: Border(
-                              bottom: BorderSide(
-                                color: controller.index == i
-                                    ? AppColors.primary
-                                    : Colors.transparent,
-                                width: 2,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            labels[i],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 13,
-                              color: controller.index == i
-                                  ? AppColors.primary
-                                  : AppColors.muted,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
-          ),
-        ),
+        child: AppSegmentedTabBar(labels: labels),
       ),
     );
   }
@@ -312,6 +256,7 @@ class _BusinessReviewsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final tokens = AppTokens.of(context);
     final padding = EdgeInsets.fromLTRB(
       tokens.space16,
@@ -323,6 +268,17 @@ class _BusinessReviewsTab extends StatelessWidget {
       child: ListView(
         padding: padding,
         children: [
+          Text(
+            t.reviewCreateHeroTitle,
+            style: const TextStyle(
+              fontWeight: FontWeight.w900,
+              color: AppColors.textStrong,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(height: tokens.space8),
+          ReviewCreateForm(businessId: businessId),
+          SizedBox(height: tokens.space20),
           BusinessReviewsSection(businessId: businessId),
           SizedBox(height: tokens.space16),
           BusinessReviewPhotosSection(businessId: businessId),

@@ -41,7 +41,6 @@ class _DiscoveryPillTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
-    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: EdgeInsets.fromLTRB(
         tokens.space16,
@@ -49,33 +48,8 @@ class _DiscoveryPillTabBar extends StatelessWidget {
         tokens.space16,
         tokens.space8,
       ),
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: AppColors.cardAlt,
-          borderRadius: BorderRadius.circular(999),
-        ),
-        child: TabBar(
-          tabs: [
-            Tab(text: t.tabRecommended),
-            Tab(text: t.tabCampaigns),
-            Tab(text: t.tabFoods),
-          ],
-          indicator: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(999),
-          ),
-          indicatorSize: TabBarIndicatorSize.tab,
-          dividerColor: Colors.transparent,
-          labelColor: AppColors.onPrimary,
-          unselectedLabelColor: AppColors.textStrong,
-          labelStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w800),
-          unselectedLabelStyle: textTheme.labelLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
-          padding: EdgeInsets.zero,
-          labelPadding: EdgeInsets.symmetric(vertical: tokens.space8),
-        ),
+      child: AppSegmentedTabBar(
+        labels: [t.tabRecommended, t.tabCampaigns, t.tabFoods],
       ),
     );
   }
