@@ -26,10 +26,14 @@ class TopBusinessesRepository {
   Future<List<TopBusiness>> fetchTopBusinesses({
     required String period,
     int limit = 6,
-    int minReviews = 2,
+    int minReviews = 0,
+    double? userLat,
+    double? userLng,
     bool force = false,
   }) async {
-    final key = '$period|$limit|$minReviews';
+    final latKey = userLat != null ? userLat.toStringAsFixed(2) : '';
+    final lngKey = userLng != null ? userLng.toStringAsFixed(2) : '';
+    final key = '$period|$limit|$minReviews|$latKey|$lngKey';
     final cached = _cache[key];
     if (!force && cached != null) {
       final age = DateTime.now().difference(cached.fetchedAt);
@@ -41,6 +45,8 @@ class TopBusinessesRepository {
         'p_period': period,
         'p_limit': limit,
         'p_min_reviews': minReviews,
+        'p_user_lat': userLat,
+        'p_user_lng': userLng,
       });
 
       final list = (res as List).map((e) => TopBusiness.fromMap(e)).toList();
