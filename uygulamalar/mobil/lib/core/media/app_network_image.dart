@@ -29,11 +29,10 @@ class AppNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resolved = _preferWebp(url);
-    final maxWidthDiskCache = switch (variant) {
-      AppImageVariant.thumb => 320,
-      AppImageVariant.medium => 900,
-      AppImageVariant.original => null,
+    final (resolved, diskWidth) = switch (variant) {
+      AppImageVariant.thumb => (_buildOptimizedUrl(url, width: 320, quality: 80), 320),
+      AppImageVariant.medium => (_buildOptimizedUrl(url, width: 900, quality: 80), 900),
+      AppImageVariant.original => (_buildOptimizedUrl(url), null),
     };
 
     Widget child = CachedNetworkImage(
@@ -42,8 +41,8 @@ class AppNetworkImage extends StatelessWidget {
       fit: fit,
       width: width,
       height: height,
-      memCacheWidth: maxWidthDiskCache,
-      maxWidthDiskCache: maxWidthDiskCache,
+      memCacheWidth: diskWidth,
+      maxWidthDiskCache: diskWidth,
       fadeInDuration: const Duration(milliseconds: 180),
       placeholder: (context, _) => _ImageSkeleton(url: resolved),
       errorWidget: (context, url, error) =>
@@ -57,72 +56,68 @@ class AppNetworkImage extends StatelessWidget {
   }
 }
 
+/// Returns an optimized Supabase render URL for a square avatar at [size]×[size] px.
+String buildAvatarUrl(String url, {int size = 128}) =>
+    _buildOptimizedUrl(url, width: size, height: size, quality: 80);
+
 Future<void> precacheImageUrls(
   BuildContext context,
   List<String> urls, {
   AppImageVariant variant = AppImageVariant.thumb,
   int take = 5,
 }) async {
-  final maxWidth = switch (variant) {
-    AppImageVariant.thumb => 320,
-    AppImageVariant.medium => 900,
-    AppImageVariant.original => null,
-  };
   final futures = <Future<void>>[];
   for (final raw in urls.take(take)) {
     final url = raw.trim();
     if (url.isEmpty) continue;
+    final optimized = switch (variant) {
+      AppImageVariant.thumb => _buildOptimizedUrl(url, width: 320, quality: 80),
+      AppImageVariant.medium => _buildOptimizedUrl(url, width: 900, quality: 80),
+      AppImageVariant.original => _buildOptimizedUrl(url),
+    };
     final provider = CachedNetworkImageProvider(
-      _preferWebp(url),
+      optimized,
       cacheManager: AppImageCacheManager.instance,
-      maxWidth: maxWidth,
     );
     futures.add(precacheImage(provider, context));
   }
   await Future.wait(futures);
 }
 
-String _preferWebp(String url) {
-  final value = url.trim();
-  if (value.isEmpty) return value;
-  final lower = value.toLowerCase();
-  if (lower.contains('.webp')) return value;
-  final uri = Uri.tryParse(value);
-  if (uri == null || !uri.hasAuthority) return value;
-  if (!_supportsImageTransforms(uri)) return value;
-  final params = Map<String, String>.from(uri.queryParameters);
-  if (!params.containsKey('format')) {
-    params['format'] = 'webp';
-  }
-  return uri.replace(queryParameters: params).toString();
-}
-
-String _lowResCandidate(String url) {
+/// Returns the original Supabase object URL unchanged (the project's
+/// `/storage/v1/render/image/public/...` transform endpoint returns 403 —
+/// image transformations are not enabled on this project's plan, so we
+/// serve `/storage/v1/object/public/...` directly). [width]/[height]/[quality]
+/// are still used by callers to drive `memCacheWidth`/`maxWidthDiskCache`
+/// for client-side downsampling via `CachedNetworkImage`.
+/// For other CDNs (cdn/imgix/cloudinary) adds format=webp only.
+String _buildOptimizedUrl(String url, {int? width, int? height, int quality = 80}) {
   final value = url.trim();
   if (value.isEmpty) return value;
   final uri = Uri.tryParse(value);
   if (uri == null || !uri.hasAuthority) return value;
-  if (!_supportsImageTransforms(uri)) return value;
-  final params = Map<String, String>.from(uri.queryParameters);
-  params.putIfAbsent('w', () => '240');
-  params.putIfAbsent('q', () => '50');
-  params.putIfAbsent('format', () => 'webp');
-  return uri.replace(queryParameters: params).toString();
-}
 
-bool _supportsImageTransforms(Uri uri) {
   final host = uri.host.toLowerCase();
-  final path = uri.path.toLowerCase();
-  if (host.contains('supabase.co') && path.contains('/storage/v1/object/')) {
-    return true;
+  final path = uri.path;
+
+  if (host.contains('supabase.co') &&
+      path.contains('/storage/v1/object/public/')) {
+    return value;
   }
+
   if (host.contains('cdn') ||
       host.contains('imgix') ||
       host.contains('cloudinary')) {
-    return true;
+    final params = Map<String, String>.from(uri.queryParameters);
+    params.putIfAbsent('format', () => 'webp');
+    return uri.replace(queryParameters: params).toString();
   }
-  return false;
+
+  return value;
 }
+
+String _lowResCandidate(String url) =>
+    _buildOptimizedUrl(url, width: 240, quality: 50);
 
 class _LowResFallback extends StatelessWidget {
   const _LowResFallback({required this.url, required this.fit});

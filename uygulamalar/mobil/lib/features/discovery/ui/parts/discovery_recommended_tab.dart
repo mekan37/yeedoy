@@ -247,6 +247,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
           source: 'discovery_home',
           clientId: clientId,
         );
+    if (!mounted) return;
     await trackFunnelStepOnce(
       ref.read(analyticsRepositoryProvider),
       step: FunnelStep.open,
@@ -836,7 +837,9 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               const SizedBox(height: 12),
                             ],
 
-                            // Header
+                            // Header — konum etiketi salt okunur;
+                            // konum değiştirmek için üstteki app bar'daki
+                            // global konum seçici kullanılır.
                             Row(
                               children: [
                                 Builder(
@@ -851,39 +854,26 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                             st.district,
                                           );
 
-                                    return InkWell(
-                                      borderRadius: BorderRadius.circular(12),
-                                      onTap: isNearby
-                                          ? null
-                                          : () => _openLocationSheet(context),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 6,
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(
-                                              Icons.place_outlined,
-                                              size: 18,
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 6,
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(
+                                            Icons.place_outlined,
+                                            size: 18,
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            headerText,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w900,
                                             ),
-                                            const SizedBox(width: 6),
-                                            Text(
-                                              headerText,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w900,
-                                              ),
-                                            ),
-                                            if (!isNearby) ...[
-                                              const SizedBox(width: 4),
-                                              const Icon(
-                                                Icons.expand_more,
-                                                size: 18,
-                                              ),
-                                            ],
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     );
                                   },
@@ -1773,10 +1763,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     required AsyncValue<List<Embed>> freshLinksAsync,
   }) {
     final items = st.items;
-    final freshItems = items.take(8).toList();
     final nearbyItems = items;
-    final locationLabel = _formatLocation(context, st.city, st.district);
-
     return RefreshIndicator(
       onRefresh: () => ref.read(discoverySearchProvider.notifier).refresh(),
       child: CustomScrollView(
@@ -1787,55 +1774,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
             sliver: SliverList.list(
               children: [
-                AppCard(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color: AppColors.primarySoft,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(
-                          Icons.location_on_rounded,
-                          color: AppColors.primary,
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context).currentLocation,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              locationLabel,
-                              style: Theme.of(context).textTheme.titleSmall
-                                  ?.copyWith(fontWeight: FontWeight.w800),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        tooltip: AppLocalizations.of(context).changeLocation,
-                        onPressed: () => _openLocationSheet(context),
-                        icon: const Icon(Icons.expand_more_rounded),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
                 const WeatherHintBar(compact: true),
                 const SizedBox(height: 12),
                 Container(
@@ -1962,67 +1900,19 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.of(context).freshMenuUpdates,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(AppLocalizations.of(context).seeAll),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 220,
-                  child: freshItems.isEmpty
-                      ? AppEmptyState(
-                          icon: Icons.update_rounded,
-                          title: AppLocalizations.of(context).noFreshData,
-                          description: AppLocalizations.of(
-                            context,
-                          ).freshDataWillAppear,
-                        )
-                      : ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: freshItems.length,
-                          separatorBuilder: (_, _) => const SizedBox(width: 12),
-                          itemBuilder: (context, index) {
-                            final item = freshItems[index];
-                            return _DiscoveryUpdateCard(
-                              item: item,
-                              imageAsset: _categoryImageFor(
-                                item.category,
-                                index,
-                              ),
-                              timeLabel: _freshTimeLabel(context, index),
-                              onTap: () => _openBusiness(
-                                item.id,
-                                source: 'fresh_updates',
-                              ),
-                            );
-                          },
-                        ),
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  AppLocalizations.of(context).freshLinks,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 170,
-                  child: _buildFreshLinksSection(context, freshLinksAsync),
-                ),
-                const SizedBox(height: 24),
+                if ((freshLinksAsync.asData?.value ?? []).isNotEmpty) ...[
+                  const SizedBox(height: 24),
+                  Text(
+                    AppLocalizations.of(context).freshLinks,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    height: 170,
+                    child: _buildFreshLinksSection(context, freshLinksAsync),
+                  ),
+                  const SizedBox(height: 24),
+                ],
                 Text(
                   AppLocalizations.of(context).nearbyVerifiedSpots,
                   style: Theme.of(context).textTheme.titleLarge,
@@ -2051,13 +1941,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         ],
       ),
     );
-  }
-
-  String _freshTimeLabel(BuildContext context, int index) {
-    final t = AppLocalizations.of(context);
-    const hours = [2, 5, 8];
-    if (index % 4 == 3) return t.timeDaysAgo(1);
-    return t.timeHoursAgo(hours[index % hours.length]);
   }
 
   String _updatedLabel(BuildContext context, int index) {

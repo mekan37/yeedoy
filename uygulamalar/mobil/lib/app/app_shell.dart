@@ -98,10 +98,9 @@ class _AppShellState extends ConsumerState<AppShell> {
   static String _locationLabel(UserLocationState loc) {
     final city = (loc.city ?? '').trim();
     final district = (loc.district ?? '').trim();
-    if (city.isEmpty && district.isEmpty) return 'Şehir seç';
-    if (city.isEmpty) return district;
-    if (district.isEmpty) return city;
-    return '$district • $city';
+    if (district.isNotEmpty) return district;
+    if (city.isNotEmpty) return city;
+    return 'Şehir seç';
   }
 }
 
@@ -123,8 +122,8 @@ class _LocationPill extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Icon(Icons.place_outlined, size: 18),
-            SizedBox(width: tokens.space8),
-            AppChip(label: label, filled: true),
+            SizedBox(width: tokens.space4),
+            AppChip(label: label, filled: true, compact: true),
           ],
         ),
       ),

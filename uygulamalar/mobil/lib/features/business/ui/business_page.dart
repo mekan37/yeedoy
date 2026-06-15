@@ -48,6 +48,9 @@ import '../../shared/ui/widgets/meal_card_badge.dart';
 import '../../contribute/ui/contribute_entry.dart';
 import '../../shared/ui/share/business_share_card_sheet.dart';
 import '../../reviews/domain/reviews_provider.dart';
+import '../../reviews/domain/business_reviews_controller.dart';
+import '../../reviews/domain/review.dart';
+import '../../reviews/domain/review_rating_summary.dart';
 
 part 'sections/business_detail_sections.dart';
 part 'parts/business_models.dart';
@@ -172,6 +175,23 @@ final _businessFrequentTagsProvider =
           .toList(growable: false);
     });
 
+/// İşletmenin alan doluluk durumuna göre temel güven skoru hesaplar (0–100 int).
+/// Supabase kaynaklı quality/menu confidence skoru yoksa bu değer fallback olarak kullanılır.
+int _computeBusinessBaseTrustScore(Business b) {
+  var score = 0;
+  if (b.name.isNotEmpty) score += 10;
+  if (b.category.isNotEmpty) score += 10;
+  if (b.city?.isNotEmpty == true) score += 5;
+  if (b.district?.isNotEmpty == true) score += 5;
+  if (b.address?.isNotEmpty == true) score += 10;
+  if (b.lat != null && b.lng != null) score += 15;
+  if (b.reviewsCount > 0) score += 15;
+  // phone, website, description, ownerVerified Business modelinde yer almadığından
+  // bu alanların ağırlıkları (10+5+5+10=30) maksimum skor 70 olarak kalır.
+  // Mevcut alanların toplamı: 10+10+5+5+10+15+15 = 70 → 100'e orantılıyoruz.
+  return ((score / 70) * 100).round().clamp(0, 100);
+}
+
 final _businessTrustProvider =
     FutureProvider.family<_BusinessTrustSnapshot, String>((
       ref,
@@ -289,7 +309,11 @@ final _businessTrustProvider =
 
       final qualityScore = confCount > 0 ? (confSum / confCount) * 100 : null;
       final menuScore = menuConfidence > 0 ? menuConfidence * 100 : null;
-      final trustScoreRaw = qualityScore ?? menuScore ?? 50;
+      // Supabase'den gelen skor yoksa işletmenin alan doluluk durumuna
+      // göre hesaplanan temel güven skorunu kullan (sabit 50 yerine).
+      final businessAsync = await ref.read(_businessProvider(businessId).future);
+      final baseTrust = _computeBusinessBaseTrustScore(businessAsync);
+      final trustScoreRaw = qualityScore ?? menuScore ?? baseTrust.toDouble();
       final trustScore = trustScoreRaw.clamp(0, 100).round();
 
       return _BusinessTrustSnapshot(
@@ -377,21 +401,6 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
       floatingActionButton: ContributeFab(businessId: widget.businessId),
       appBar: AppAppBar(
         title: Text(t.businessLabel),
-        actions: [
-          businessAsync.maybeWhen(
-            data: (business) => IconButton(
-              tooltip: t.share,
-              onPressed: () => _shareBusiness(context, business),
-              icon: const Icon(Icons.share_outlined),
-            ),
-            orElse: SizedBox.shrink,
-          ),
-          IconButton(
-            tooltip: t.report,
-            onPressed: () => _openReportSheet(context, widget.businessId),
-            icon: const Icon(Icons.flag_outlined),
-          ),
-        ],
       ),
       body: businessAsync.when(
         loading: () => const _BusinessLoadingView(),

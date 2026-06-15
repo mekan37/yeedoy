@@ -91,7 +91,8 @@ ThemeData buildAppTheme() {
     tabBarTheme: TabBarThemeData(
       labelColor: Colors.white,
       unselectedLabelColor: AppColors.muted,
-      indicatorSize: TabBarIndicatorSize.tab,
+      indicatorSize: TabBarIndicatorSize.label,
+      labelPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       dividerColor: Colors.transparent,
       overlayColor: WidgetStateProperty.all(Colors.transparent),
       labelStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
@@ -102,12 +103,12 @@ ThemeData buildAppTheme() {
           end: Alignment.bottomRight,
           colors: [Color(0xFF7F1D1D), Color(0xFFDC2626)],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(18.r),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF7F1D1D).withValues(alpha: 0.28),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: const Color(0xFF7F1D1D).withValues(alpha: 0.22),
+            blurRadius: 6,
+            offset: const Offset(0, 1.5),
           ),
         ],
       ),
@@ -269,10 +270,29 @@ ThemeData buildDarkAppTheme() {
       ),
     ),
     tabBarTheme: TabBarThemeData(
-      labelColor: AppDarkColors.textStrong,
+      labelColor: AppDarkColors.onPrimary,
       unselectedLabelColor: AppDarkColors.muted,
-      indicatorColor: AppDarkColors.primaryStrong,
-      labelStyle: const TextStyle(fontWeight: FontWeight.w800),
+      indicatorSize: TabBarIndicatorSize.label,
+      labelPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+      dividerColor: Colors.transparent,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
+      labelStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
+      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+      indicator: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppDarkColors.primary, AppDarkColors.primaryStrong],
+        ),
+        borderRadius: BorderRadius.circular(18.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppDarkColors.primaryStrong.withValues(alpha: 0.30),
+            blurRadius: 6,
+            offset: const Offset(0, 1.5),
+          ),
+        ],
+      ),
     ),
     drawerTheme: DrawerThemeData(
       backgroundColor: AppDarkColors.bg,

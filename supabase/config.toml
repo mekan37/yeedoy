@@ -23,6 +23,10 @@ pop3_port = 54326
 [storage]
 file_size_limit = "50MiB"
 
+# [[storage.buckets]] sections are managed via SQL migrations.
+# CLI v2.98.x does not support the [[storage.buckets]] TOML syntax.
+# Buckets are created/updated by supabase/migrations/20260609000005_fix_storage_policies.sql
+
 [auth]
 site_url = "http://localhost:3000"
 additional_redirect_urls = ["http://localhost:3000", "http://localhost:54321"]

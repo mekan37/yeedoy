@@ -144,69 +144,6 @@ class _PremiumFilterChip extends StatelessWidget {
   }
 }
 
-class _DiscoveryUpdateCard extends StatelessWidget {
-  const _DiscoveryUpdateCard({
-    required this.item,
-    required this.imageAsset,
-    required this.timeLabel,
-    required this.onTap,
-  });
-
-  final BusinessCardModel item;
-  final String imageAsset;
-  final String timeLabel;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 190,
-      child: AppCard(
-        onTap: onTap,
-        padding: const EdgeInsets.all(0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
-              child: AspectRatio(
-                aspectRatio: 16 / 10,
-                child: Image.asset(imageAsset, fit: BoxFit.cover),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.name,
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w800,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    timeLabel,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _NearbyVerifiedSpotCard extends StatelessWidget {
   const _NearbyVerifiedSpotCard({
     required this.item,
@@ -352,7 +289,12 @@ class _NearbyVerifiedSpotCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    StatusBadge(type: statusType, label: t.priceVerified),
+                    StatusBadge(
+                      type: statusType,
+                      label: statusType == StatusBadgeType.verified
+                          ? t.priceVerified
+                          : t.menuMayBeOutdated,
+                    ),
                     const Spacer(),
                     if ((item.reviewCount ?? 0) > 0) ...[
                       GestureDetector(

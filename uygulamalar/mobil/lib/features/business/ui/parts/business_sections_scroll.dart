@@ -43,6 +43,8 @@ class _BusinessSectionsScroll extends ConsumerWidget {
               children: [
                 _BusinessHeroTrustHeader(business: business, isOpenNow: isOpenNow),
                 SizedBox(height: tokens.space12),
+                _BusinessActionChips(business: business),
+                SizedBox(height: tokens.space8),
                 _BusinessPresenceBadge(businessId: business.id),
                 const WeatherHintBar(compact: true),
                 SizedBox(height: tokens.space16),
@@ -124,6 +126,11 @@ class _BusinessSectionsScroll extends ConsumerWidget {
                 _BusinessMenuPreviewSection(
                   businessId: business.id,
                   fallbackCategory: business.category,
+                ),
+                SizedBox(height: tokens.space16),
+                BusinessReviewsSection(
+                  businessId: business.id,
+                  businessName: business.name,
                 ),
                 SizedBox(height: tokens.space16),
                 BusinessFrequentTagsSection(businessId: business.id),

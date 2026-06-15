@@ -59,26 +59,31 @@ android {
 
     signingConfigs {
         if (hasReleaseSigningConfig) {
-            create("release") {
-                val storeFilePath = releaseStoreFilePath.orEmpty()
-                if (storeFilePath.isEmpty()) {
-                    throw GradleException(
-                        "Release signing configured but 'storeFile' bos.",
-                    )
-                }
-                // Resolve relative to the Gradle root project (android/), matching
-                // the documented convention in key.properties.example and the CI
-                // keystore decode step — NOT the app module directory (android/app/).
-                val resolvedStoreFile = rootProject.file(storeFilePath)
-                if (!resolvedStoreFile.exists()) {
+            val storeFilePath = releaseStoreFilePath.orEmpty()
+            if (storeFilePath.isEmpty()) {
+                throw GradleException(
+                    "Release signing configured but 'storeFile' bos.",
+                )
+            }
+            // Resolve relative to the Gradle root project (android/), matching
+            // the documented convention in key.properties.example and the CI
+            // keystore decode step — NOT the app module directory (android/app/).
+            val resolvedStoreFile = rootProject.file(storeFilePath)
+            if (!resolvedStoreFile.exists()) {
+                // Keystore file absent: block release builds, not debug.
+                // Debug builds fall back to the auto-generated Android debug key.
+                if (isReleaseTaskRequested) {
                     throw GradleException(
                         "Release signing storeFile bulunamadi: $storeFilePath",
                     )
                 }
-                storeFile = resolvedStoreFile
-                storePassword = releaseStorePassword
-                keyAlias = releaseKeyAlias
-                keyPassword = releaseKeyPassword
+            } else {
+                create("release") {
+                    storeFile = resolvedStoreFile
+                    storePassword = releaseStorePassword
+                    keyAlias = releaseKeyAlias
+                    keyPassword = releaseKeyPassword
+                }
             }
         }
     }
@@ -90,8 +95,9 @@ android {
                     "Release signing not configured. android/key.properties kullanin ya da ANDROID_RELEASE_STORE_FILE / ANDROID_RELEASE_STORE_PASSWORD / ANDROID_RELEASE_KEY_ALIAS / ANDROID_RELEASE_KEY_PASSWORD env'lerini tanimlayin.",
                 )
             }
-            if (hasReleaseSigningConfig) {
-                signingConfig = signingConfigs.getByName("release")
+            val releaseSigningConfig = signingConfigs.findByName("release")
+            if (releaseSigningConfig != null) {
+                signingConfig = releaseSigningConfig
             }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

@@ -2497,6 +2497,11 @@
   "@loginSignupSuccessMessage": {
     "description": "Auto metadata for loginSignupSuccessMessage"
   },
+  "authErrorInvalidCredentials": "Incorrect email or password. Please try again.",
+  "authErrorEmailNotConfirmed": "Please verify your email address.",
+  "authErrorTooManyRequests": "Too many attempts. Please wait a moment.",
+  "authErrorUserNotFound": "No account found with this email.",
+  "authErrorGeneric": "Sign in failed. Please try again.",
   "drawerTopBusinesses": "Top businesses",
   "@drawerTopBusinesses": {
     "description": "Auto metadata for drawerTopBusinesses"
@@ -5068,5 +5073,29 @@
   "collabListInvalidInvite": "Invalid invite link.",
   "@collabListInvalidInvite": {"description": "Error when invite token is invalid"},
   "goToMyLists": "Go to My Lists",
-  "@goToMyLists": {"description": "Navigate to collab lists page"}
+  "@goToMyLists": {"description": "Navigate to collab lists page"},
+  "businessTabGeneral": "General",
+  "@businessTabGeneral": {"description": "Business detail page tab: general"},
+  "businessTabMenu": "Menu",
+  "@businessTabMenu": {"description": "Business detail page tab: menu"},
+  "businessTabReviews": "Reviews",
+  "@businessTabReviews": {"description": "Business detail page tab: reviews"},
+  "businessBadgeMenuVerified": "Verified Menu",
+  "@businessBadgeMenuVerified": {"description": "Badge shown when the menu source is owner-verified"},
+  "businessBadgePopular": "Popular",
+  "@businessBadgePopular": {"description": "Badge shown when the business has trending items"},
+  "featuredSectionTitle": "Featured",
+  "@featuredSectionTitle": {"description": "Business detail Genel tab featured section title"},
+  "featuredRatingLabel": "Rating",
+  "@featuredRatingLabel": {"description": "Label under the rating value in the featured section"},
+  "featuredMenuVerifiedSubtitle": "Updated by the owner",
+  "@featuredMenuVerifiedSubtitle": {"description": "Subtitle for the verified-menu featured card"},
+  "popularDishesTitle": "Popular dishes",
+  "@popularDishesTitle": {"description": "Business detail Genel tab popular dishes section title"},
+  "locationHoursTitle": "Location & hours",
+  "@locationHoursTitle": {"description": "Business detail Genel tab location and hours section title"},
+  "directions": "Directions",
+  "@directions": {"description": "Bottom action bar directions button"},
+  "viewMenu": "View Menu",
+  "@viewMenu": {"description": "Bottom action bar view menu button"}
 }

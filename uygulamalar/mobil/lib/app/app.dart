@@ -123,7 +123,14 @@ class _GlobalPushIntentListenerState
 
     // Mark before await so concurrent rebuilds can never enter twice.
     _consentShown = true;
-    await ConsentGuard.checkAndShow(context, ref);
+
+    // `context` here sits ABOVE the GoRouter's Navigator (this widget wraps
+    // the router's child inside MaterialApp.builder), so it has no Navigator
+    // ancestor. Use the router's navigator context instead, which does.
+    final navigatorContext =
+        widget.router.routerDelegate.navigatorKey.currentContext;
+    if (navigatorContext == null || !navigatorContext.mounted) return;
+    await ConsentGuard.checkAndShow(navigatorContext, ref);
   }
 
   @override

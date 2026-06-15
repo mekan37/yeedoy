@@ -1948,6 +1948,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Account created. Complete email/phone verification.';
 
   @override
+  String get authErrorInvalidCredentials =>
+      'Incorrect email or password. Please try again.';
+
+  @override
+  String get authErrorEmailNotConfirmed => 'Please verify your email address.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Too many attempts. Please wait a moment.';
+
+  @override
+  String get authErrorUserNotFound => 'No account found with this email.';
+
+  @override
+  String get authErrorGeneric => 'Sign in failed. Please try again.';
+
+  @override
   String get drawerTopBusinesses => 'Top businesses';
 
   @override

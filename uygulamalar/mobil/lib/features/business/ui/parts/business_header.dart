@@ -48,10 +48,6 @@ class _BusinessHeroTrustHeader extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      StatusBadge(
-                        type: StatusBadgeType.verified,
-                        label: AppLocalizations.of(context).verified,
-                      ),
                       if (isOpenNow != null) ...[
                         const SizedBox(width: 8),
                         _OpenNowHeroBadge(isOpen: isOpenNow!),

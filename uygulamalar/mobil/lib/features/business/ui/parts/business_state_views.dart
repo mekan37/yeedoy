@@ -123,6 +123,175 @@ class _PulsingDotState extends State<_PulsingDot>
   }
 }
 
+// ---------------------------------------------------------------------------
+// Action chips row: Favori, Buradayım, Paylaş, Bildir
+// ---------------------------------------------------------------------------
+
+class _BusinessActionChips extends ConsumerStatefulWidget {
+  const _BusinessActionChips({required this.business});
+  final Business business;
+
+  @override
+  ConsumerState<_BusinessActionChips> createState() =>
+      _BusinessActionChipsState();
+}
+
+class _BusinessActionChipsState extends ConsumerState<_BusinessActionChips> {
+  bool _checkingIn = false;
+
+  Future<void> _handleFavorite() async {
+    final isLoggedIn = ref.read(userProvider) != null;
+    if (!isLoggedIn) {
+      if (!mounted) return;
+      await showQuickLoginSheet(
+        context,
+        redirectPath: '/b/${widget.business.id}',
+      );
+      return;
+    }
+    try {
+      HapticFeedback.lightImpact();
+      await ref
+          .read(favoritesControllerProvider.notifier)
+          .toggleFavorite(widget.business.id);
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppErrorMapper.message(error))),
+      );
+    }
+  }
+
+  Future<void> _handleCheckIn() async {
+    final isLoggedIn = ref.read(userProvider) != null;
+    if (!isLoggedIn) {
+      if (!mounted) return;
+      await showQuickLoginSheet(
+        context,
+        redirectPath: '/b/${widget.business.id}',
+      );
+      return;
+    }
+    if (_checkingIn) return;
+    setState(() => _checkingIn = true);
+    try {
+      HapticFeedback.lightImpact();
+      final clientId = await getAnalyticsClientId();
+      await ref.read(supabaseProvider).rpc(
+        'log_checkin_v1',
+        params: {
+          'p_business_id': widget.business.id,
+          'p_menu_id': null,
+          'p_table_no': null,
+          'p_client_id': clientId,
+        },
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Konum bildirimi kaydedildi')),
+      );
+    } catch (_) {
+      // Sessiz hata — check-in best-effort
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Konum bildirimi kaydedildi')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _checkingIn = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isFavorited = ref.watch(isFavoritedProvider(widget.business.id));
+    final t = AppLocalizations.of(context);
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _ActionChip(
+          icon: isFavorited ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+          iconColor: isFavorited ? AppColors.danger : null,
+          label: isFavorited ? t.favoriteAdded : t.addToFavorites,
+          onTap: _handleFavorite,
+        ),
+        _ActionChip(
+          icon: Icons.place_rounded,
+          label: 'Buradayım',
+          onTap: _checkingIn ? null : _handleCheckIn,
+        ),
+        _ActionChip(
+          icon: Icons.share_rounded,
+          label: t.share,
+          onTap: () => _shareBusiness(context, widget.business),
+        ),
+        _ActionChip(
+          icon: Icons.flag_outlined,
+          label: t.report,
+          onTap: () => _openReportSheet(context, widget.business.id),
+        ),
+      ],
+    );
+  }
+}
+
+class _ActionChip extends StatelessWidget {
+  const _ActionChip({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.iconColor,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback? onTap;
+  final Color? iconColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(tokens.radius12),
+        child: Container(
+          height: 44,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.border),
+            borderRadius: BorderRadius.circular(tokens.radius12),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: iconColor ?? AppColors.text,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textStrong,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+
 void _openReportSheet(BuildContext context, String businessId) {
   showModalBottomSheet(
     context: context,

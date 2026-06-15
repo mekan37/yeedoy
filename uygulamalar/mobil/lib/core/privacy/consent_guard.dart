@@ -21,7 +21,11 @@ import 'ui/consent_bottom_sheet.dart';
 class ConsentGuard {
   const ConsentGuard._();
 
-  /// [context] geçerli bir Navigator'a sahip olmalıdır.
+  /// [context], bir Navigator ata öğesine sahip olmalıdır (örn. GoRouter'ın
+  /// `routerDelegate.navigatorKey.currentContext`'i). Çağıranın kendi
+  /// `context`'i (ör. `MaterialApp.builder` içindeki widget'lar)
+  /// `MaterialApp.router`'ın Navigator'ının ÜZERİNDE yer aldığından
+  /// `showModalBottomSheet` için kullanılamaz.
   static Future<void> checkAndShow(
     BuildContext context,
     WidgetRef ref,

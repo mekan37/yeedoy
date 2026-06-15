@@ -47,6 +47,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool _acceptedRequiredPolicies = false;
   String? _errorMessage;
   _AuthAction? _lastAction;
+  bool _showSignupPrompt = false;
+  late bool _signupIntent;
+
+  @override
+  void initState() {
+    super.initState();
+    _signupIntent = widget.initialSignup;
+  }
 
   @override
   void dispose() {
@@ -232,6 +240,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     setState(() {
       _loading = true;
       _errorMessage = null;
+      _showSignupPrompt = false;
       _lastAction = action;
     });
   }
@@ -241,7 +250,42 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _setError(Object e) {
-    if (mounted) setState(() => _errorMessage = AppErrorMapper.message(e));
+    if (!mounted) return;
+    final t = context.l10n;
+    final localizedMsg = _localizeAuthError(e, t);
+    final showSignup = _lastAction == _AuthAction.signIn &&
+        (e.toString().toLowerCase().contains('invalid login') ||
+            e.toString().toLowerCase().contains('invalid_credentials') ||
+            e.toString().toLowerCase().contains('user not found') ||
+            e.toString().toLowerCase().contains('no user'));
+    setState(() {
+      _errorMessage = localizedMsg;
+      _showSignupPrompt = showSignup;
+    });
+  }
+
+  String _localizeAuthError(Object error, AppLocalizations t) {
+    final msg = error.toString().toLowerCase();
+    if (msg.contains('email not confirmed')) {
+      return t.authErrorEmailNotConfirmed;
+    }
+    if (msg.contains('invalid login') ||
+        msg.contains('invalid_credentials') ||
+        msg.contains('credentials')) {
+      return t.authErrorInvalidCredentials;
+    }
+    if (msg.contains('too many requests') || msg.contains('rate')) {
+      return t.authErrorTooManyRequests;
+    }
+    if (msg.contains('user not found') || msg.contains('no user')) {
+      return t.authErrorUserNotFound;
+    }
+    // Bilinmeyen AuthException → generic mesaj
+    if (error.toString().contains('AuthException') ||
+        error.toString().contains('AuthApiException')) {
+      return t.authErrorGeneric;
+    }
+    return AppErrorMapper.message(error);
   }
 
   Future<void> _retryLastAction() async {
@@ -277,10 +321,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             AppEmptyState(
               icon: Icons.wifi_off_outlined,
               title: t.loginActionFailedTitle,
-              description: t.loginActionFailedDescription(_errorMessage ?? ''),
+              description: _errorMessage ?? '',
               ctaLabel: _lastAction == null ? null : t.retry,
               onCta: _lastAction == null ? null : _retryLastAction,
             ),
+            if (_showSignupPrompt) ...[
+              const SizedBox(height: 8),
+              Center(
+                child: TextButton(
+                  onPressed: () => setState(() {
+                    _showSignupPrompt = false;
+                    _errorMessage = null;
+                    _mode = _AuthMode.email;
+                    _signupIntent = true;
+                  }),
+                  child: const Text(
+                    'Hesap oluşturmak ister misiniz? Kayıt Ol',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ),
+            ],
             const SizedBox(height: 12),
           ],
           const SizedBox(height: 12),
@@ -307,7 +372,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               passCtrl: _passCtrl,
               loading: _loading,
               acceptedPolicies: _acceptedRequiredPolicies,
-              signupIntent: widget.initialSignup,
+              signupIntent: _signupIntent,
               onAcceptPolicies: (v) =>
                   setState(() => _acceptedRequiredPolicies = v ?? false),
               onSignIn: _signIn,
@@ -517,36 +582,39 @@ class _EmailForm extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
-        Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: AppColors.bg,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Kayıt işlemi sürüm bazlıdır. Yeni şartlar yayınlanırsa uygulama yeniden onay ister.',
-                style: TextStyle(
-                  color: AppColors.slate,
-                  fontSize: 12,
-                  height: 1.5,
+        if (signupIntent) ...[
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: AppColors.bg,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Kayıt işlemi sürüm bazlıdır. Yeni şartlar yayınlanırsa uygulama yeniden onay ister.',
+                  style: TextStyle(
+                    color: AppColors.slate,
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              LegalRequiredConsentCard(
-                value: acceptedPolicies,
-                disabled: loading,
-                helperText: 'Bu kabul yalnızca kayıt oluştururken zorunludur.',
-                onChanged: onAcceptPolicies,
-                onOpenLink: onOpenLegalUrl,
-              ),
-            ],
+                const SizedBox(height: 10),
+                LegalRequiredConsentCard(
+                  value: acceptedPolicies,
+                  disabled: loading,
+                  helperText: 'Bu kabul yalnızca kayıt oluştururken zorunludur.',
+                  onChanged: onAcceptPolicies,
+                  onOpenLink: onOpenLegalUrl,
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
+          const SizedBox(height: 16),
+        ] else
+          const SizedBox(height: 16),
         if (signupIntent) ...[
           FilledButton(
             onPressed: loading ? null : onSignUp,

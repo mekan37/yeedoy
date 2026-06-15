@@ -695,7 +695,7 @@ abstract class AppLocalizations {
   /// Auto metadata for nearbyVerifiedSpots
   ///
   /// In tr, this message translates to:
-  /// **'Yakındaki Doğrulanmış Mekanlar'**
+  /// **'Yakınındaki Mekanlar'**
   String get nearbyVerifiedSpots;
 
   /// Auto metadata for noNearbyVerifiedSpots
@@ -3607,6 +3607,36 @@ abstract class AppLocalizations {
   /// **'Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.'**
   String get loginSignupSuccessMessage;
 
+  /// No description provided for @authErrorInvalidCredentials.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta veya şifre hatalı. Tekrar deneyin.'**
+  String get authErrorInvalidCredentials;
+
+  /// No description provided for @authErrorEmailNotConfirmed.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta adresinizi doğrulayın.'**
+  String get authErrorEmailNotConfirmed;
+
+  /// No description provided for @authErrorTooManyRequests.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok fazla deneme. Lütfen kısa süre bekleyin.'**
+  String get authErrorTooManyRequests;
+
+  /// No description provided for @authErrorUserNotFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu e-posta ile hesap bulunamadı.'**
+  String get authErrorUserNotFound;
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş başarısız. Lütfen tekrar deneyin.'**
+  String get authErrorGeneric;
+
   /// Auto metadata for drawerTopBusinesses
   ///
   /// In tr, this message translates to:
@@ -5366,7 +5396,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileIdentitySupportMessage
   ///
   /// In tr, this message translates to:
-  /// **'Topluluğa katkılı yaparak profilini güçlendirebilirsin.'**
+  /// **'Sende katkı yaparak profilini güçlendirebilirsin.'**
   String get profileIdentitySupportMessage;
 
   /// Auto metadata for profileAlertsTab

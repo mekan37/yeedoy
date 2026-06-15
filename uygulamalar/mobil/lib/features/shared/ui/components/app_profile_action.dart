@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../app/theme/colors.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/media/app_image_cache_manager.dart';
+import '../../../../core/media/app_network_image.dart';
 import '../../../auth/domain/auth_providers.dart';
 import '../../../taste_twin/domain/taste_twin_controllers.dart';
 
@@ -66,9 +67,8 @@ class AppProfileAction extends ConsumerWidget {
               backgroundColor: Colors.white,
               backgroundImage: avatarUrl.isNotEmpty
                   ? CachedNetworkImageProvider(
-                      avatarUrl,
+                      buildAvatarUrl(avatarUrl, size: 64),
                       cacheManager: AppImageCacheManager.instance,
-                      maxWidth: 320,
                     )
                   : null,
               child: avatarUrl.isEmpty
@@ -83,13 +83,15 @@ class AppProfileAction extends ConsumerWidget {
                     )
                   : null,
             ),
-            const SizedBox(width: 8),
-            Text(
-              displayName,
-              style: TextStyle(fontWeight: FontWeight.w800, color: textColor),
-            ),
-            const SizedBox(width: 4),
-            Icon(Icons.chevron_right, size: 16, color: iconColor),
+            if (!isInverse) ...[
+              const SizedBox(width: 8),
+              Text(
+                displayName,
+                style: TextStyle(fontWeight: FontWeight.w800, color: textColor),
+              ),
+              const SizedBox(width: 4),
+              Icon(Icons.chevron_right, size: 16, color: iconColor),
+            ],
           ],
         ),
       ),

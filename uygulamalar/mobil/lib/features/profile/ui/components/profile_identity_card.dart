@@ -8,6 +8,7 @@ import '../../../../app/theme/colors.dart';
 import '../../../../core/errors/app_error_mapper.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/media/app_image_cache_manager.dart';
+import '../../../../core/media/app_network_image.dart';
 import '../../../../core/privacy/name_masking.dart';
 import '../../../auth/domain/auth_providers.dart';
 import '../../../embed/ui/embed_viewer_page.dart';
@@ -111,9 +112,8 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
                   backgroundColor: AppColors.cardAlt,
                   backgroundImage: avatarUrl.isNotEmpty
                       ? CachedNetworkImageProvider(
-                          avatarUrl,
+                          buildAvatarUrl(avatarUrl, size: 96),
                           cacheManager: AppImageCacheManager.instance,
-                          maxWidth: 512,
                         )
                       : null,
                   child: avatarUrl.isEmpty

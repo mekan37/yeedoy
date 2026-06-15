@@ -9,23 +9,29 @@ class AppChip extends StatelessWidget {
     required this.label,
     this.color,
     this.filled = false,
+    this.compact = false,
     this.semanticLabel,
   });
 
   final String label;
   final Color? color;
   final bool filled;
+  final bool compact;
   final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
     final useColor = color ?? AppColors.textStrong;
+    final hPad = compact ? tokens.space8 : tokens.space12;
+    final vPad = compact ? 3.0 : 6.0;
     return Semantics(
       label: semanticLabel ?? label,
       child: Container(
-        constraints: BoxConstraints(minHeight: tokens.minHitTarget),
-        padding: EdgeInsets.symmetric(horizontal: tokens.space12, vertical: 6),
+        constraints: compact
+            ? null
+            : BoxConstraints(minHeight: tokens.minHitTarget),
+        padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
         decoration: BoxDecoration(
           color: filled ? useColor.withValues(alpha: 0.14) : AppColors.cardAlt,
           borderRadius: BorderRadius.circular(tokens.radius24),
@@ -38,7 +44,7 @@ class AppChip extends StatelessWidget {
             label,
             style: TextStyle(
               color: useColor,
-              fontSize: 12,
+              fontSize: compact ? 11 : 12,
               fontWeight: FontWeight.w800,
             ),
           ),

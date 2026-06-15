@@ -53,6 +53,7 @@ final inboxUnreadCountProvider = Provider<int>((ref) {
 
 class InboxController extends Notifier<InboxState> {
   RealtimeChannel? _channel;
+  SupabaseClient? _supabaseClient;
 
   @override
   InboxState build() {
@@ -76,6 +77,7 @@ class InboxController extends Notifier<InboxState> {
 
   void _subscribeRealtime(String userId) {
     final client = ref.read(supabaseProvider);
+    _supabaseClient = client;
     if (_channel != null) return;
 
     _channel = client
@@ -99,8 +101,10 @@ class InboxController extends Notifier<InboxState> {
 
   void _disposeChannel() {
     if (_channel == null) return;
-    final client = ref.read(supabaseProvider);
-    client.removeChannel(_channel!);
+    final client = _supabaseClient;
+    if (client != null) {
+      client.removeChannel(_channel!);
+    }
     _channel = null;
   }
 

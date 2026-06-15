@@ -64,7 +64,7 @@ class DiscoverySearchState {
 
   factory DiscoverySearchState.initial() => const DiscoverySearchState(
         items: [],
-        loading: false,
+        loading: true,
         isLoadingMore: false,
         hasMore: true,
         query: '',
@@ -96,7 +96,8 @@ class DiscoverySearchState {
     String? district,
     String? category,
     DiscoveryMode? mode,
-    Object? error,
+    // Sentinel: geçilmediğinde mevcut error korunur; null geçmek için clearError kullanın.
+    Object? error = _sentinel,
     int? radiusKm,
     double? userLat,
     double? userLng,
@@ -120,7 +121,7 @@ class DiscoverySearchState {
       district: district ?? this.district,
       category: category ?? this.category,
       mode: mode ?? this.mode,
-      error: error,
+      error: identical(error, _sentinel) ? this.error : error,
       radiusKm: radiusKm ?? this.radiusKm,
       userLat: userLat ?? this.userLat,
       userLng: userLng ?? this.userLng,

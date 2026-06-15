@@ -173,7 +173,16 @@ class BusinessActionsSection extends ConsumerWidget {
           const SizedBox(width: 8),
           Expanded(
             child: OutlinedButton.icon(
-              onPressed: () => context.go('/b/${business.id}/review'),
+              onPressed: () {
+                if (!isLoggedIn) {
+                  showQuickLoginSheet(
+                    context,
+                    redirectPath: '/b/${business.id}/review',
+                  );
+                  return;
+                }
+                context.go('/b/${business.id}/review');
+              },
               icon: const Icon(Icons.rate_review_outlined),
               label: Text(t.writeReview),
             ),
@@ -475,66 +484,554 @@ class _CrowdChip extends StatelessWidget {
   }
 }
 
-class BusinessReviewsSection extends ConsumerWidget {
-  const BusinessReviewsSection({super.key, required this.businessId});
+// ─── BusinessReviewsSection ──────────────────────────────────────────────────
+// Tam özellikli yorum bölümü: rating özeti, filtreler, yorum kartları, sayfalama.
+
+class BusinessReviewsSection extends ConsumerStatefulWidget {
+  const BusinessReviewsSection({
+    super.key,
+    required this.businessId,
+    required this.businessName,
+  });
   final String businessId;
+  final String businessName;
+
+  @override
+  ConsumerState<BusinessReviewsSection> createState() =>
+      _BusinessReviewsSectionState();
+}
+
+class _BusinessReviewsSectionState
+    extends ConsumerState<BusinessReviewsSection> {
+  static const _previewCount = 5;
+
+  void _openWriteReview(BuildContext context) {
+    final isLoggedIn = ref.read(userProvider) != null;
+    if (!isLoggedIn) {
+      showQuickLoginSheet(
+        context,
+        redirectPath: '/b/${widget.businessId}/review',
+      );
+      return;
+    }
+    context.go('/b/${widget.businessId}/review');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final isLocTr = t.localeName.startsWith('tr');
+    final summaryAsync =
+        ref.watch(reviewRatingSummaryProvider(widget.businessId));
+    final reviewsState =
+        ref.watch(businessReviewsProvider(widget.businessId));
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Başlık + Yorum Yap butonu ────────────────────────────────────
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  isLocTr ? 'Yorumlar' : 'Reviews',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () => context.go(
+                  '/b/${widget.businessId}/reviews',
+                ),
+                icon: const Icon(Icons.open_in_new, size: 14),
+                label: Text(
+                  isLocTr ? 'Tümünü Gör' : 'See all',
+                  style: const TextStyle(fontSize: 13),
+                ),
+              ),
+            ],
+          ),
+          // ── Rating özeti ─────────────────────────────────────────────────
+          summaryAsync.when(
+            loading: () => const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: AppSkeletonLine(width: 200),
+            ),
+            error: (_, _) => const SizedBox.shrink(),
+            data: (summary) {
+              if (summary.ratingCount == 0) {
+                return _EmptyReviewsHint(
+                  isLocTr: isLocTr,
+                  onWrite: () => _openWriteReview(context),
+                );
+              }
+              return _InlineRatingSummary(
+                summary: summary,
+                isLocTr: isLocTr,
+                onWrite: () => _openWriteReview(context),
+              );
+            },
+          ),
+          const SizedBox(height: 12),
+          // ── Filtre chip'leri ──────────────────────────────────────────────
+          _ReviewFilterChips(
+            businessId: widget.businessId,
+            isLocTr: isLocTr,
+          ),
+          const SizedBox(height: 10),
+          // ── Yorum listesi ─────────────────────────────────────────────────
+          if (reviewsState.isLoading && reviewsState.items.isEmpty)
+            const _InlineReviewsSkeleton()
+          else if (reviewsState.items.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: Center(
+                child: Text(
+                  isLocTr
+                      ? 'Henüz yorum yok. İlk yorumu sen yaz!'
+                      : 'No reviews yet. Be the first!',
+                  style: const TextStyle(color: AppColors.muted),
+                ),
+              ),
+            )
+          else ...[
+            for (final review
+                in reviewsState.items.take(_previewCount)) ...[
+              RepaintBoundary(
+                child: _InlineReviewCard(review: review),
+              ),
+              const SizedBox(height: 8),
+            ],
+            if (reviewsState.items.length > _previewCount ||
+                reviewsState.hasMore)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () =>
+                        context.go('/b/${widget.businessId}/reviews'),
+                    icon: const Icon(Icons.rate_review_outlined, size: 16),
+                    label: Text(
+                      isLocTr ? 'Tüm Yorumları Gör' : 'See All Reviews',
+                    ),
+                  ),
+                ),
+              ),
+          ],
+          const SizedBox(height: 4),
+          // ── Yorum Yap butonu ──────────────────────────────────────────────
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton.icon(
+              onPressed: () => _openWriteReview(context),
+              icon: const Icon(Icons.edit_outlined, size: 16),
+              label: Text(t.writeReview),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Rating özeti — inline (küçük, kart içi kullanım)
+class _InlineRatingSummary extends StatelessWidget {
+  const _InlineRatingSummary({
+    required this.summary,
+    required this.isLocTr,
+    required this.onWrite,
+  });
+
+  final ReviewRatingSummary summary;
+  final bool isLocTr;
+  final VoidCallback onWrite;
+
+  @override
+  Widget build(BuildContext context) {
+    final overall = summary.avgOverallRating ?? 0;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                overall.toStringAsFixed(1),
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textStrong,
+                  height: 1.1,
+                ),
+              ),
+              _MiniStarRow(rating: overall),
+              const SizedBox(height: 2),
+              Text(
+                '${summary.ratingCount} ${isLocTr ? 'yorum' : 'reviews'}',
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: AppColors.muted,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(width: 16),
+          if (summary.hasDistribution)
+            Expanded(child: _MiniDistributionBars(summary: summary))
+          else
+            const Spacer(),
+        ],
+      ),
+    );
+  }
+}
+
+// Yorum yokken gösterilecek ipucu
+class _EmptyReviewsHint extends StatelessWidget {
+  const _EmptyReviewsHint({
+    required this.isLocTr,
+    required this.onWrite,
+  });
+
+  final bool isLocTr;
+  final VoidCallback onWrite;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Text(
+        isLocTr
+            ? 'Bu işletme için henüz değerlendirme yok.'
+            : 'No reviews for this business yet.',
+        style: const TextStyle(color: AppColors.muted),
+      ),
+    );
+  }
+}
+
+// 5 yıldızlık dağılım — mini bar
+class _MiniDistributionBars extends StatelessWidget {
+  const _MiniDistributionBars({required this.summary});
+  final ReviewRatingSummary summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final total =
+        summary.distributionDesc.fold(0, (a, b) => a + b);
+    if (total == 0) return const SizedBox.shrink();
+    return Column(
+      children: List.generate(5, (i) {
+        final stars = 5 - i;
+        final count = summary.distributionDesc[i];
+        final fraction = count / total;
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 3),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 12,
+                child: Text(
+                  '$stars',
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppColors.muted,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.end,
+                ),
+              ),
+              const SizedBox(width: 3),
+              const Icon(Icons.star_rounded, size: 10, color: AppColors.star),
+              const SizedBox(width: 4),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: fraction,
+                    minHeight: 6,
+                    backgroundColor: AppColors.border,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      AppColors.star,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+}
+
+// Mini yıldız satırı
+class _MiniStarRow extends StatelessWidget {
+  const _MiniStarRow({required this.rating});
+  final double rating;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(5, (i) {
+        final filled = (i + 1) <= rating;
+        final halfFilled = !filled && (i + 0.5) < rating;
+        return Icon(
+          filled
+              ? Icons.star_rounded
+              : halfFilled
+                  ? Icons.star_half_rounded
+                  : Icons.star_border_rounded,
+          size: 14,
+          color: AppColors.star,
+        );
+      }),
+    );
+  }
+}
+
+// Filtre chip'leri — sort ve photos toggle
+class _ReviewFilterChips extends ConsumerWidget {
+  const _ReviewFilterChips({
+    required this.businessId,
+    required this.isLocTr,
+  });
+
+  final String businessId;
+  final bool isLocTr;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final detailAsync = ref.watch(businessDetailProvider(businessId));
-    return AppCard(
-      child: detailAsync.when(
-        loading: () => const AppSkeletonCard(),
-        error: (error, _) => AppEmptyState(
-          icon: Icons.wifi_off_outlined,
-          title: t.reviewsLoadFailed,
-          description:
-              '${AppErrorMapper.message(error)}. ${t.connectionProblemTryAgain}',
-          ctaLabel: AppLocalizations.of(context).retry,
-          onCta: () => ref.invalidate(businessDetailProvider(businessId)),
-        ),
-        data: (detail) {
-          if (detail.latestReviews.isEmpty) {
-            return AppEmptyState(
-              icon: Icons.reviews_outlined,
-              title: t.noReviews,
-              description: t.leaveFirstReviewHelp,
-              ctaLabel: t.writeFirstReview,
-              onCta: () => context.go('/b/$businessId/review'),
-            );
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                t.recentReviews,
-                style: const TextStyle(fontWeight: FontWeight.w900),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${detail.latestReviews.length} ${t.reviewsCountSuffix}',
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
-              ),
-              const SizedBox(height: 8),
-              for (final review in detail.latestReviews.take(3))
-                ListTile(
-                  key: ValueKey(review.id),
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    review.title?.trim().isEmpty == false
-                        ? review.title!
-                        : t.reviewFallbackTitle,
-                  ),
-                  subtitle: Text(
-                    review.content,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+    final st = ref.watch(businessReviewsProvider(businessId));
+    final notifier =
+        ref.read(businessReviewsProvider(businessId).notifier);
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          _SortChip(
+            label: isLocTr ? 'Son' : 'Recent',
+            value: 'newest',
+            selected: st.sort == 'newest',
+            onTap: () => notifier.setSort('newest'),
+          ),
+          const SizedBox(width: 8),
+          _SortChip(
+            label: isLocTr ? 'Yüksek Puan' : 'Top Rated',
+            value: 'helpful',
+            selected: st.sort == 'helpful',
+            onTap: () => notifier.setSort('helpful'),
+          ),
+          const SizedBox(width: 8),
+          _SortChip(
+            label: isLocTr ? 'Doğrulanmış' : 'Verified',
+            value: 'verified',
+            selected: st.sort == 'verified',
+            icon: Icons.verified_rounded,
+            onTap: () => notifier.setSort('verified'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SortChip extends StatelessWidget {
+  const _SortChip({
+    required this.label,
+    required this.value,
+    required this.selected,
+    required this.onTap,
+    this.icon,
+  });
+
+  final String label;
+  final String value;
+  final bool selected;
+  final VoidCallback onTap;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return FilterChip(
+      label: icon != null
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  size: 12,
+                  color: selected ? Colors.white : AppColors.muted,
                 ),
+                const SizedBox(width: 4),
+                Text(label),
+              ],
+            )
+          : Text(label),
+      selected: selected,
+      onSelected: (_) => onTap(),
+      selectedColor: AppColors.primary,
+      labelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        color: selected ? Colors.white : AppColors.text,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      showCheckmark: false,
+    );
+  }
+}
+
+// Inline review card — işletme sayfası için kompakt kart
+class _InlineReviewCard extends StatelessWidget {
+  const _InlineReviewCard({required this.review});
+  final Review review;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              _CompactStars(rating: review.rating),
+              const SizedBox(width: 8),
+              if (review.verifiedVisit) ...[
+                _InlineBadge(
+                  icon: Icons.verified_rounded,
+                  color: AppColors.success,
+                ),
+                const SizedBox(width: 6),
+              ],
+              if (review.qualityScore >= Review.qualityBadgeThreshold) ...[
+                _InlineBadge(
+                  icon: Icons.workspace_premium_rounded,
+                  color: AppColors.primary,
+                ),
+                const SizedBox(width: 6),
+              ],
+              const Spacer(),
+              Text(
+                _relativeDate(review.createdAt),
+                style: const TextStyle(
+                  color: AppColors.muted,
+                  fontSize: 11,
+                ),
+              ),
             ],
-          );
-        },
+          ),
+          if ((review.title ?? '').trim().isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Text(
+              review.title!,
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 13,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+          if (review.content.trim().isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text(
+              review.content,
+              style: const TextStyle(
+                color: AppColors.slate,
+                fontSize: 13,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  String _relativeDate(DateTime d) {
+    final diff = DateTime.now().difference(d);
+    if (diff.inDays >= 365) {
+      final y = (diff.inDays / 365).floor();
+      return '$y yıl önce';
+    }
+    if (diff.inDays >= 30) {
+      final mo = (diff.inDays / 30).floor();
+      return '$mo ay önce';
+    }
+    if (diff.inDays >= 1) return '${diff.inDays} gün önce';
+    if (diff.inHours >= 1) return '${diff.inHours} saat önce';
+    return 'Az önce';
+  }
+}
+
+class _CompactStars extends StatelessWidget {
+  const _CompactStars({required this.rating});
+  final int rating;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(5, (i) {
+        return Icon(
+          i < rating ? Icons.star_rounded : Icons.star_border_rounded,
+          size: 14,
+          color: i < rating ? AppColors.star : AppColors.border,
+        );
+      }),
+    );
+  }
+}
+
+class _InlineBadge extends StatelessWidget {
+  const _InlineBadge({required this.icon, required this.color});
+  final IconData icon;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(icon, size: 13, color: color);
+  }
+}
+
+class _InlineReviewsSkeleton extends StatelessWidget {
+  const _InlineReviewsSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: List.generate(
+        3,
+        (i) => Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Container(
+            height: 72,
+            decoration: BoxDecoration(
+              color: AppColors.card,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
       ),
     );
   }

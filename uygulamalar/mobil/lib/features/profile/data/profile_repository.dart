@@ -316,10 +316,10 @@ class ProfileRepository {
         .from('menu-media')
         .getPublicUrl(storagePath);
 
-    await _supabase.from('user_profiles').upsert(
-      {'user_id': uid, 'avatar_url': publicUrl},
-      onConflict: 'user_id',
-    );
+    await _supabase
+        .from('user_profiles')
+        .update({'avatar_url': publicUrl})
+        .eq('user_id', uid);
 
     return publicUrl;
   }

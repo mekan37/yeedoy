@@ -329,7 +329,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryLocationSubtitle => 'Şehir/ilçeye göre keşfet';
 
   @override
-  String get nearbyVerifiedSpots => 'Yakındaki Doğrulanmış Mekanlar';
+  String get nearbyVerifiedSpots => 'Yakınındaki Mekanlar';
 
   @override
   String get noNearbyVerifiedSpots => 'Yakında doğrulanmış mekan bulunamadı';
@@ -1932,6 +1932,23 @@ class AppLocalizationsTr extends AppLocalizations {
       'Kayıt oluşturuldu. E-posta/telefon doğrulamasını tamamla.';
 
   @override
+  String get authErrorInvalidCredentials =>
+      'E-posta veya şifre hatalı. Tekrar deneyin.';
+
+  @override
+  String get authErrorEmailNotConfirmed => 'E-posta adresinizi doğrulayın.';
+
+  @override
+  String get authErrorTooManyRequests =>
+      'Çok fazla deneme. Lütfen kısa süre bekleyin.';
+
+  @override
+  String get authErrorUserNotFound => 'Bu e-posta ile hesap bulunamadı.';
+
+  @override
+  String get authErrorGeneric => 'Giriş başarısız. Lütfen tekrar deneyin.';
+
+  @override
   String get drawerTopBusinesses => 'Top İşletmeler';
 
   @override
@@ -2929,7 +2946,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileIdentitySupportMessage =>
-      'Topluluğa katkılı yaparak profilini güçlendirebilirsin.';
+      'Sende katkı yaparak profilini güçlendirebilirsin.';
 
   @override
   String get profileAlertsTab => 'Alarmlar';
