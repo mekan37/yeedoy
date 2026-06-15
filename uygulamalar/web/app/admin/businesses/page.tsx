@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/components/panel-empty-state';
+import { PanelActionButton } from '@/src/ui/components/panel-action-button';
 
 export const metadata: Metadata = {
   title: 'İşletmeler | Admin Panel',
@@ -39,6 +40,13 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
         eyebrow="Admin"
         title="İşletmeler"
         description={count != null ? `${count.toLocaleString('tr-TR')} işletme` : ''}
+        actions={
+          <Link href="/admin/businesses/new">
+            <PanelActionButton variant="primary" icon={<PlusIcon />}>
+              Yeni İşletme Ekle
+            </PanelActionButton>
+          </Link>
+        }
       />
       <PanelContentSurface className="pt-6">
         {/* Search */}
@@ -139,6 +147,14 @@ function BuildingIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><path d="M9 22V12h6v10" />
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
     </svg>
   );
 }

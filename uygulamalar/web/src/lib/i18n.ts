@@ -147,6 +147,46 @@ export const copy = {
   },
 } as const;
 
+// Admin panel copy — işletme ve menü ekleme akışı
+export const adminBusinessCopy = {
+  tr: {
+    newBusinessTitle: 'Yeni İşletme Ekle',
+    newBusinessSaved: 'İşletme başarıyla eklendi',
+    newBusinessAddMenu: 'Menü Ekle',
+    newBusinessAddAnother: 'Yeni İşletme Ekle',
+    newBusinessGoToList: 'İşletmelere Git',
+    newMenuTitle: 'Yeni Menü Ekle',
+    newMenuSaved: 'Menü başarıyla oluşturuldu',
+    newMenuGoToBusiness: 'İşletmeye Dön',
+    newMenuAddSections: 'Menü Bölümleri Ekle',
+    fieldName: 'İşletme adı',
+    fieldCategory: 'Kategori',
+    fieldCity: 'Şehir',
+    fieldDistrict: 'İlçe',
+    fieldAddress: 'Adres',
+    fieldPhone: 'Telefon',
+    fieldWebsite: 'Website',
+    fieldDescription: 'Açıklama',
+    fieldPriceLevel: 'Fiyat seviyesi',
+    fieldIsActive: 'Aktif',
+    priceBudget: 'Bütçe dostu',
+    priceMid: 'Orta',
+    pricePremium: 'Premium',
+    fieldMenuName: 'Menü adı',
+    fieldMenuDescription: 'Açıklama',
+    fieldMenuIsActive: 'Aktif',
+    saveButton: 'Kaydet',
+    savingButton: 'Kaydediliyor...',
+    requiredHint: '* zorunlu alan',
+    errorGeneric: 'Bir hata oluştu, lütfen tekrar deneyin.',
+    step1Label: 'İşletme Bilgileri',
+    step2Label: 'İşletme Eklendi',
+    goToBusinesses: 'İşletmeler',
+  },
+} as const;
+
+export type AdminBusinessCopy = typeof adminBusinessCopy.tr;
+
 export type MenuCopy = (typeof copy)[AppLang];
 
 export const landingCopy = {
