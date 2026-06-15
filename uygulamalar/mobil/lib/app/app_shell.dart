@@ -33,6 +33,11 @@ class _AppShellState extends ConsumerState<AppShell> {
     final titleStyle = context.appText.titleMedium?.copyWith(
       fontWeight: FontWeight.w600,
     );
+    // Discovery (Keşfet) and Favorites render their own in-content headers
+    // (greeting + title + notification bell), replacing the shared AppAppBar
+    // on these routes.
+    final hideAppBar = widget.location.startsWith('/discover') ||
+        widget.location.startsWith('/favorites');
 
     return PopScope(
       canPop: false,
@@ -58,27 +63,29 @@ class _AppShellState extends ConsumerState<AppShell> {
         );
       },
       child: Scaffold(
-        appBar: AppAppBar(
-          centerTitle: false,
-          title: Text(AppStrings.appName, style: titleStyle),
-          actions: [
-            _LocationPill(
-              label: _locationLabel(loc),
-              onTap: () => _openLocationSheet(context),
-            ),
-            if (flags.hasExperimentalNavigation)
-              IconButton(
-                tooltip: 'Labs',
-                icon: const Icon(Icons.science_outlined),
-                onPressed: () => context.go('/labs'),
+        appBar: hideAppBar
+            ? null
+            : AppAppBar(
+                centerTitle: false,
+                title: Text(AppStrings.appName, style: titleStyle),
+                actions: [
+                  _LocationPill(
+                    label: _locationLabel(loc),
+                    onTap: () => _openLocationSheet(context),
+                  ),
+                  if (flags.hasExperimentalNavigation)
+                    IconButton(
+                      tooltip: 'Labs',
+                      icon: const Icon(Icons.science_outlined),
+                      onPressed: () => context.go('/labs'),
+                    ),
+                  IconButton(
+                    tooltip: 'Bildirim Kutusu',
+                    onPressed: () => context.go('/inbox'),
+                    icon: const NotificationsBell(),
+                  ),
+                ],
               ),
-            IconButton(
-              tooltip: 'Bildirim Kutusu',
-              onPressed: () => context.go('/inbox'),
-              icon: const NotificationsBell(),
-            ),
-          ],
-        ),
         body: widget.child,
         drawer: const AppDrawer(),
         bottomNavigationBar: const AppBottomNav(),

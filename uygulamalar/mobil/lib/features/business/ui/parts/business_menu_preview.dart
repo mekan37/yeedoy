@@ -210,6 +210,8 @@ class _BusinessMenuPreviewSectionState
                   imageAsset: _menuImageForIndex(i),
                   fallbackDescription:
                       '${widget.fallbackCategory} ${t.featuredCuisineSuffix}',
+                  businessId: widget.businessId,
+                  menuId: selectedMenuId,
                 ),
                 if (i != filteredItems.length - 1) const Divider(height: 20),
               ],
@@ -347,29 +349,36 @@ class _MenuFilterChip extends StatelessWidget {
   }
 }
 
-class _BusinessMenuItemRow extends StatefulWidget {
+class _BusinessMenuItemRow extends ConsumerStatefulWidget {
   const _BusinessMenuItemRow({
     required this.item,
     required this.variants,
     required this.imageAsset,
     required this.fallbackDescription,
+    required this.businessId,
+    required this.menuId,
   });
 
   final MenuItem item;
   final List<_MenuItemVariant> variants;
   final String imageAsset;
   final String fallbackDescription;
+  final String businessId;
+  final String menuId;
 
   @override
-  State<_BusinessMenuItemRow> createState() => _BusinessMenuItemRowState();
+  ConsumerState<_BusinessMenuItemRow> createState() =>
+      _BusinessMenuItemRowState();
 }
 
-class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
+class _BusinessMenuItemRowState extends ConsumerState<_BusinessMenuItemRow> {
   String? _selectedVariantId;
+  bool _voting = false;
 
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
+    final t = AppLocalizations.of(context);
     final item = widget.item;
     final variants = widget.variants;
     if (_selectedVariantId != null &&
@@ -491,13 +500,32 @@ class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
                 style: const TextStyle(color: AppColors.muted),
               ),
               const SizedBox(height: 6),
-              StatusBadge(
-                type: item.priceStatus == 'verified'
-                    ? StatusBadgeType.verified
-                    : StatusBadgeType.pending,
-                label: item.priceStatus == 'verified'
-                    ? AppLocalizations.of(context).verified
-                    : AppLocalizations.of(context).pending,
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  StatusBadge(
+                    type: item.priceStatus == 'verified'
+                        ? StatusBadgeType.verified
+                        : StatusBadgeType.pending,
+                    label: item.priceStatus == 'verified'
+                        ? t.verified
+                        : t.pending,
+                  ),
+                  if (item.priceStatus == 'verified' &&
+                      (item.total30d ?? 0) > 0)
+                    Text(
+                      t.localeName.startsWith('tr')
+                          ? '${item.total30d} kullanıcı onayladı'
+                          : '${item.total30d} users confirmed',
+                      style: const TextStyle(
+                        color: AppColors.muted,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                ],
               ),
               if (variants.isNotEmpty) ...[
                 const SizedBox(height: 6),
@@ -515,10 +543,83 @@ class _BusinessMenuItemRowState extends State<_BusinessMenuItemRow> {
                   ],
                 ),
               ],
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: OutlinedButton.icon(
+                  onPressed: _voting ? null : () => _onPriceActionTap(context),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.primary,
+                    side: const BorderSide(color: AppColors.primary),
+                  ),
+                  icon: _voting
+                      ? const SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.price_change_outlined, size: 18),
+                  label: Text(
+                    item.priceStatus == 'verified'
+                        ? t.verifyPrice
+                        : t.suggestNewPrice,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _onPriceActionTap(BuildContext context) async {
+    final isLoggedIn = ref.read(userProvider.select((user) => user != null));
+    if (!isLoggedIn) {
+      await showQuickLoginSheet(
+        context,
+        redirectPath: '/b/${widget.businessId}',
+      );
+      return;
+    }
+    final item = widget.item;
+    if (item.priceStatus == 'verified') {
+      setState(() => _voting = true);
+      try {
+        await ref
+            .read(menuRepositoryProvider)
+            .voteMenuItemPrice(
+              menuItemId: item.id,
+              vote: 1,
+              businessId: widget.businessId,
+              menuId: widget.menuId,
+            );
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).thankYou)),
+        );
+      } catch (e) {
+        if (!context.mounted) return;
+        if (e is! OfflineQueuedException) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(AppErrorMapper.message(e))),
+          );
+        }
+      } finally {
+        if (mounted) setState(() => _voting = false);
+      }
+      return;
+    }
+    if (widget.menuId.isEmpty) return;
+    await showModalBottomSheet<PriceSuggestionSubmissionResult>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => PriceSuggestionSheet(
+        menuItemId: item.id,
+        businessId: widget.businessId,
+        menuId: widget.menuId,
+      ),
     );
   }
 }

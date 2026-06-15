@@ -1192,34 +1192,6 @@ String _relativeTime(BuildContext context, DateTime time) {
   return t.timeMonthsAgo(months);
 }
 
-String _priceSuggestionErrorText(BuildContext context, Object? error) {
-  final t = AppLocalizations.of(context);
-  if (error == null) return '';
-  if (error == 'invalid_price') return t.priceInvalid;
-  if (error == AppErrorCodes.containsLinkOrPhone) {
-    return t.noteNoLinkPhone;
-  }
-  if (error == AppErrorCodes.containsProfanity) {
-    return t.noteContainsProfanity;
-  }
-  if (error == AppErrorCodes.emojiSpam) {
-    return t.noteTooManyEmoji;
-  }
-  if (error == 'rate_limited_24h') {
-    return t.rateLimited24h;
-  }
-  if (error == AppErrorCodes.priceSuggestionDailyRateLimited) {
-    return t.dailyPriceSuggestionLimitReached;
-  }
-  if (error == 'bad_evidence_url') {
-    return t.invalidEvidenceLink;
-  }
-  if (error == 'bad_currency') {
-    return t.invalidCurrency;
-  }
-  return AppErrorMapper.message(error);
-}
-
 _StatusBadgeConfig _statusBadge(String status, AppLocalizations t) {
   switch (status) {
     case 'verified':

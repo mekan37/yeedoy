@@ -7,7 +7,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/errors/app_error_mapper.dart';
@@ -55,7 +54,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
   Future<void> _loadVersion() async {
     try {
       final info = await PackageInfo.fromPlatform();
-      if (mounted) setState(() => _appVersion = '${info.version} (${info.buildNumber})');
+      if (mounted) {
+        setState(() => _appVersion = '${info.version} (${info.buildNumber})');
+      }
     } catch (_) {}
   }
 
@@ -134,9 +135,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
       ).showSnackBar(SnackBar(content: Text(t.profileSaved)));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(t.saveError(AppErrorMapper.message(e)))));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.saveError(AppErrorMapper.message(e)))),
+      );
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -196,9 +197,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
       await openLegalUrl(url);
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppErrorMapper.message(error))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(error))));
     }
   }
 
@@ -210,7 +211,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     final overview = ref.read(legalRequestOverviewProvider).asData?.value;
     if (overview?.hasOpenPrivacyRequest ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bekleyen bir gizlilik başvurunuz zaten var.')),
+        const SnackBar(
+          content: Text('Bekleyen bir gizlilik başvurunuz zaten var.'),
+        ),
       );
       return;
     }
@@ -226,10 +229,7 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  helper,
-                  style: const TextStyle(color: AppColors.muted),
-                ),
+                Text(helper, style: const TextStyle(color: AppColors.muted)),
                 const SizedBox(height: 12),
                 TextField(
                   controller: controller,
@@ -255,20 +255,22 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
         },
       );
       if (submitted != true) return;
-      await ref.read(legalRepositoryProvider).submitPrivacyRequest(
+      await ref
+          .read(legalRepositoryProvider)
+          .submitPrivacyRequest(
             requestType: requestType,
             details: controller.text,
           );
       ref.invalidate(legalRequestOverviewProvider);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Başvurunuz kaydedildi.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Başvurunuz kaydedildi.')));
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppErrorMapper.message(error))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(error))));
     } finally {
       controller.dispose();
     }
@@ -278,7 +280,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     final overview = ref.read(legalRequestOverviewProvider).asData?.value;
     if (overview?.hasOpenAccountDeletionRequest ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bekleyen bir hesap silme talebiniz zaten var.')),
+        const SnackBar(
+          content: Text('Bekleyen bir hesap silme talebiniz zaten var.'),
+        ),
       );
       return;
     }
@@ -350,9 +354,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
         },
       );
       if (confirmed != true) return;
-      await ref.read(legalRepositoryProvider).submitAccountDeletionRequest(
-            reason: reasonController.text,
-          );
+      await ref
+          .read(legalRepositoryProvider)
+          .submitAccountDeletionRequest(reason: reasonController.text);
       ref.invalidate(legalRequestOverviewProvider);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -360,9 +364,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
       );
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppErrorMapper.message(error))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(error))));
     } finally {
       reasonController.dispose();
       confirmationController.dispose();
@@ -611,11 +615,16 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                           ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          enabled: !(legalOverview?.hasOpenPrivacyRequest ?? false),
+                          enabled:
+                              !(legalOverview?.hasOpenPrivacyRequest ?? false),
                           leading: const Icon(Icons.download_outlined),
                           title: const Text('Verilerimi dışa aktar'),
                           subtitle: legalOverview?.privacyRequest != null
-                              ? Text(_requestStatusText(legalOverview?.privacyRequest))
+                              ? Text(
+                                  _requestStatusText(
+                                    legalOverview?.privacyRequest,
+                                  ),
+                                )
                               : const Text(
                                   'Hesabınıza bağlı verilerin kopyasını talep edin.',
                                 ),
@@ -630,11 +639,16 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                         ),
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          enabled: !(legalOverview?.hasOpenPrivacyRequest ?? false),
+                          enabled:
+                              !(legalOverview?.hasOpenPrivacyRequest ?? false),
                           leading: const Icon(Icons.mark_email_read_outlined),
                           title: const Text('Gizlilik başvurusu'),
                           subtitle: legalOverview?.privacyRequest != null
-                              ? Text(_requestStatusText(legalOverview?.privacyRequest))
+                              ? Text(
+                                  _requestStatusText(
+                                    legalOverview?.privacyRequest,
+                                  ),
+                                )
                               : const Text(
                                   'Düzeltme, itiraz veya kısıtlama gibi taleplerinizi gönderin.',
                                 ),
@@ -657,7 +671,8 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                             color: AppColors.danger,
                           ),
                           title: const Text('Hesabımı sil'),
-                          subtitle: legalOverview?.accountDeletionRequest != null
+                          subtitle:
+                              legalOverview?.accountDeletionRequest != null
                               ? Text(
                                   _requestStatusText(
                                     legalOverview?.accountDeletionRequest,
@@ -666,7 +681,8 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                               : const Text(
                                   'Kalıcı silme sürecini başlatır; geri alınamaz olabilir.',
                                 ),
-                          onTap: legalOverview?.hasOpenAccountDeletionRequest ??
+                          onTap:
+                              legalOverview?.hasOpenAccountDeletionRequest ??
                                   false
                               ? null
                               : _showAccountDeletionDialog,
@@ -698,7 +714,10 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                         if (_appVersion.isNotEmpty)
                           ListTile(
                             contentPadding: EdgeInsets.zero,
-                            leading: const Icon(Icons.info_outline, color: AppColors.muted),
+                            leading: const Icon(
+                              Icons.info_outline,
+                              color: AppColors.muted,
+                            ),
                             title: Text(
                               'Versiyon $_appVersion',
                               style: const TextStyle(color: AppColors.muted),

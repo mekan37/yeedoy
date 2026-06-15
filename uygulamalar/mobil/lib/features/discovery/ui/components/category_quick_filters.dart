@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yeedoy/core/i18n/app_localizations.dart';
 
 import '../../../../app/theme/colors.dart';
@@ -9,14 +10,19 @@ class CategoryQuickFilterItem {
     required this.id,
     required this.title,
     required this.imageAsset,
+    this.isFeatured = false,
   });
 
   final String id;
   final String title;
   final String imageAsset;
+
+  /// When true, renders as the highlighted "Featured" chip (star icon,
+  /// primary-colored border) instead of a category photo.
+  final bool isFeatured;
 }
 
-enum CategoryQuickFiltersLayout { horizontal, grid2x4 }
+enum CategoryQuickFiltersLayout { horizontal, grid2x4, roundedRow }
 
 class CategoryQuickFilters extends StatelessWidget {
   const CategoryQuickFilters({
@@ -25,12 +31,18 @@ class CategoryQuickFilters extends StatelessWidget {
     required this.onTap,
     this.layout = CategoryQuickFiltersLayout.horizontal,
     this.title,
+    this.showHeader = true,
   });
 
   final List<CategoryQuickFilterItem> items;
   final ValueChanged<CategoryQuickFilterItem> onTap;
   final CategoryQuickFiltersLayout layout;
   final String? title;
+
+  /// When false, the `AppSectionHeader` title row is omitted — used for the
+  /// compact "roundedRow" chips placed directly under the search box, which
+  /// have no section title in the mockup.
+  final bool showHeader;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +53,10 @@ class CategoryQuickFilters extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppSectionHeader(title: resolvedTitle),
-        const SizedBox(height: 8),
+        if (showHeader) ...[
+          AppSectionHeader(title: resolvedTitle),
+          const SizedBox(height: 8),
+        ],
         if (layout == CategoryQuickFiltersLayout.grid2x4)
           GridView.builder(
             shrinkWrap: true,
@@ -58,6 +72,19 @@ class CategoryQuickFilters extends StatelessWidget {
               final item = visible[index];
               return _CategoryCard(item: item, onTap: () => onTap(item));
             },
+          )
+        else if (layout == CategoryQuickFiltersLayout.roundedRow)
+          SizedBox(
+            height: 84,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: visible.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final item = visible[index];
+                return _RoundedCategoryChip(item: item, onTap: () => onTap(item));
+              },
+            ),
           )
         else
           SizedBox(
@@ -127,6 +154,79 @@ class _CategoryCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _RoundedCategoryChip extends StatelessWidget {
+  const _RoundedCategoryChip({required this.item, required this.onTap});
+
+  final CategoryQuickFilterItem item;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final circle = item.isFeatured
+        ? Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: AppColors.primarySoft,
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.primary, width: 2),
+            ),
+            alignment: Alignment.center,
+            child: const FaIcon(
+              FontAwesomeIcons.star,
+              size: 20,
+              color: AppColors.primary,
+            ),
+          )
+        : ClipOval(
+            child: Image.asset(
+              item.imageAsset,
+              width: 52,
+              height: 52,
+              fit: BoxFit.cover,
+              cacheWidth: 104,
+              errorBuilder: (_, _, _) => Container(
+                width: 52,
+                height: 52,
+                color: AppColors.cardAlt,
+                alignment: Alignment.center,
+                child: const Icon(
+                  Icons.restaurant_menu_outlined,
+                  size: 20,
+                  color: AppColors.muted,
+                ),
+              ),
+            ),
+          );
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(999),
+      child: SizedBox(
+        width: 64,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            circle,
+            const SizedBox(height: 6),
+            Text(
+              item.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: item.isFeatured ? FontWeight.w800 : FontWeight.w700,
+                color: item.isFeatured ? AppColors.primary : AppColors.textStrong,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -22,7 +22,6 @@ import '../../../core/media/app_network_image.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/community_score_explainer_sheet.dart';
 import '../domain/business_detail_controller.dart';
-import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
@@ -41,16 +40,16 @@ import '../domain/meal_card_providers_provider.dart';
 import '../domain/business_checkins_provider.dart';
 import '../domain/business_new_items_provider.dart';
 import '../domain/business_trending_provider.dart';
+import '../domain/business_trending_item.dart';
 import '../domain/crowd_controller.dart';
 import '../domain/business_presence_provider.dart';
 import '../ui/components/business_header_compact.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
-import '../../contribute/ui/contribute_entry.dart';
 import '../../shared/ui/share/business_share_card_sheet.dart';
 import '../../reviews/domain/reviews_provider.dart';
-import '../../reviews/domain/business_reviews_controller.dart';
-import '../../reviews/domain/review.dart';
-import '../../reviews/domain/review_rating_summary.dart';
+import '../../reviews/ui/review_create_form.dart';
+import '../../menus/data/offline_verify_queue.dart';
+import '../../menus/ui/widgets/price_suggestion_sheet.dart';
 
 part 'sections/business_detail_sections.dart';
 part 'parts/business_models.dart';
@@ -175,23 +174,6 @@ final _businessFrequentTagsProvider =
           .toList(growable: false);
     });
 
-/// İşletmenin alan doluluk durumuna göre temel güven skoru hesaplar (0–100 int).
-/// Supabase kaynaklı quality/menu confidence skoru yoksa bu değer fallback olarak kullanılır.
-int _computeBusinessBaseTrustScore(Business b) {
-  var score = 0;
-  if (b.name.isNotEmpty) score += 10;
-  if (b.category.isNotEmpty) score += 10;
-  if (b.city?.isNotEmpty == true) score += 5;
-  if (b.district?.isNotEmpty == true) score += 5;
-  if (b.address?.isNotEmpty == true) score += 10;
-  if (b.lat != null && b.lng != null) score += 15;
-  if (b.reviewsCount > 0) score += 15;
-  // phone, website, description, ownerVerified Business modelinde yer almadığından
-  // bu alanların ağırlıkları (10+5+5+10=30) maksimum skor 70 olarak kalır.
-  // Mevcut alanların toplamı: 10+10+5+5+10+15+15 = 70 → 100'e orantılıyoruz.
-  return ((score / 70) * 100).round().clamp(0, 100);
-}
-
 final _businessTrustProvider =
     FutureProvider.family<_BusinessTrustSnapshot, String>((
       ref,
@@ -202,7 +184,7 @@ final _businessTrustProvider =
 
       DateTime? menuUpdatedAt;
       var menuVersion = 1;
-      var menuSource = 'owner';
+      var menuSource = '';
       var menuConfidence = 0.0;
 
       try {
@@ -309,11 +291,7 @@ final _businessTrustProvider =
 
       final qualityScore = confCount > 0 ? (confSum / confCount) * 100 : null;
       final menuScore = menuConfidence > 0 ? menuConfidence * 100 : null;
-      // Supabase'den gelen skor yoksa işletmenin alan doluluk durumuna
-      // göre hesaplanan temel güven skorunu kullan (sabit 50 yerine).
-      final businessAsync = await ref.read(_businessProvider(businessId).future);
-      final baseTrust = _computeBusinessBaseTrustScore(businessAsync);
-      final trustScoreRaw = qualityScore ?? menuScore ?? baseTrust.toDouble();
+      final trustScoreRaw = qualityScore ?? menuScore ?? 50;
       final trustScore = trustScoreRaw.clamp(0, 100).round();
 
       return _BusinessTrustSnapshot(
@@ -342,6 +320,8 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
   bool _didLogBusinessOpen = false;
   Trace? _businessLoadTrace;
   bool _businessTraceStopped = false;
+  final ValueNotifier<double> _heroCollapse = ValueNotifier<double>(0);
+  static const double _heroCollapseRange = 160;
 
   @override
   void initState() {
@@ -389,6 +369,7 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
       unawaited(stopFirebaseTrace(_businessLoadTrace));
     }
     _businessSub?.close();
+    _heroCollapse.dispose();
     super.dispose();
   }
 
@@ -398,38 +379,92 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
     final businessAsync = ref.watch(_businessProvider(widget.businessId));
 
     return AppScaffold(
-      floatingActionButton: ContributeFab(businessId: widget.businessId),
-      appBar: AppAppBar(
-        title: Text(t.businessLabel),
-      ),
       body: businessAsync.when(
         loading: () => const _BusinessLoadingView(),
         error: (error, _) => _BusinessErrorView(
           message: AppErrorMapper.message(error),
           onRetry: () => ref.invalidate(_businessProvider(widget.businessId)),
         ),
-        data: (business) => RefreshIndicator(
-          onRefresh: () async {
-            ref
-                .read(discoveryRepositoryProvider)
-                .invalidateBusiness(widget.businessId);
-            ref.read(menuRepositoryProvider).clearReadCache();
-            ref.invalidate(_businessProvider(widget.businessId));
-            ref.invalidate(_businessHoursProvider(widget.businessId));
-            ref.invalidate(businessMenusProvider(widget.businessId));
-            ref.invalidate(businessCrowdProvider(widget.businessId));
-            ref.invalidate(businessDetailProvider(widget.businessId));
-            ref.invalidate(businessPerksProvider(widget.businessId));
-            ref.invalidate(businessTrendingItemsProvider(widget.businessId));
-            ref.invalidate(businessNewItemsProvider(widget.businessId));
-            ref.invalidate(businessAmenitiesProvider(widget.businessId));
-            ref.invalidate(
-              businessMealCardProvidersProvider(widget.businessId),
-            );
-            ref.invalidate(businessRecentCheckinsProvider(widget.businessId));
-          },
-          child: _BusinessSectionsScroll(business: business),
-        ),
+        data: (business) {
+          final isOpenNow = ref.watch(
+            _businessHoursProvider(business.id).select(
+              (async) => async.maybeWhen(
+                data: (today) => today == null
+                    ? null
+                    : _isOpenNow(today.open, today.close, DateTime.now()),
+                orElse: () => null,
+              ),
+            ),
+          );
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref
+                  .read(discoveryRepositoryProvider)
+                  .invalidateBusiness(widget.businessId);
+              ref.read(menuRepositoryProvider).clearReadCache();
+              ref.invalidate(_businessProvider(widget.businessId));
+              ref.invalidate(_businessHoursProvider(widget.businessId));
+              ref.invalidate(businessMenusProvider(widget.businessId));
+              ref.invalidate(businessCrowdProvider(widget.businessId));
+              ref.invalidate(businessDetailProvider(widget.businessId));
+              ref.invalidate(businessPerksProvider(widget.businessId));
+              ref.invalidate(businessTrendingItemsProvider(widget.businessId));
+              ref.invalidate(businessNewItemsProvider(widget.businessId));
+              ref.invalidate(businessAmenitiesProvider(widget.businessId));
+              ref.invalidate(
+                businessMealCardProvidersProvider(widget.businessId),
+              );
+              ref.invalidate(businessRecentCheckinsProvider(widget.businessId));
+            },
+            child: SafeArea(
+              bottom: false,
+              child: DefaultTabController(
+                length: 3,
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    final offset = notification.metrics.pixels.clamp(
+                      0.0,
+                      _heroCollapseRange,
+                    );
+                    _heroCollapse.value = offset / _heroCollapseRange;
+                    return false;
+                  },
+                  child: Column(
+                    children: [
+                      _BusinessFixedHeader(
+                        business: business,
+                        isOpenNow: isOpenNow,
+                        heroCollapse: _heroCollapse,
+                      ),
+                      _BusinessSegmentedTabBar(
+                        labels: [
+                          t.businessTabGeneral,
+                          t.businessTabMenu,
+                          t.businessTabReviews,
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            _BusinessGeneralTab(
+                              business: business,
+                              isOpenNow: isOpenNow,
+                            ),
+                            _BusinessMenuTab(
+                              businessId: business.id,
+                              fallbackCategory: business.category,
+                            ),
+                            _BusinessReviewsTab(businessId: business.id),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

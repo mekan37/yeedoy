@@ -1,96 +1,198 @@
 part of '../discovery_page.dart';
 
-class _FreshLinkCard extends StatelessWidget {
-  const _FreshLinkCard({required this.item, required this.onTap});
+class _DiscoveryGreetingHeader extends ConsumerWidget {
+  const _DiscoveryGreetingHeader({String? subtitle}) : _subtitle = subtitle;
 
-  final Embed item;
+  final String? _subtitle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final user = ref.watch(userProvider);
+
+    String? displayName;
+    if (user != null) {
+      final profileAsync = ref.watch(publicProfileProvider(user.id));
+      final name = profileAsync.asData?.value.displayName.trim() ?? '';
+      if (name.isNotEmpty) displayName = name;
+    }
+
+    final greeting = displayName != null
+        ? t.discoveryGreetingHello(displayName)
+        : t.discoveryGreetingHelloAnon;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            greeting,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: AppColors.muted),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            _subtitle ?? t.discoveryGreetingSubtitle,
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(fontWeight: FontWeight.w900),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DiscoveryPromoBanner extends StatelessWidget {
+  const _DiscoveryPromoBanner({required this.onTap});
+
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final provider = item.provider.toLowerCase();
-    final (icon, color, label) = switch (provider) {
-      'youtube' => (Icons.play_circle_fill_rounded, Colors.red, 'YouTube'),
-      'instagram' => (Icons.camera_alt_rounded, Colors.pink, 'Instagram'),
-      'facebook' => (Icons.facebook_rounded, Colors.blue, 'Facebook'),
-      _ => (
-        Icons.link_rounded,
-        AppColors.muted,
-        AppLocalizations.of(context).link,
-      ),
-    };
-    final title = item.title?.trim().isNotEmpty == true
-        ? item.title!.trim()
-        : AppLocalizations.of(context).untitledLink;
-    final ownerType = item.ownerType.toLowerCase() == 'business'
-        ? AppLocalizations.of(context).businessLabel
-        : AppLocalizations.of(context).profile;
-    return SizedBox(
-      width: 220,
-      child: AppCard(
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Material(
+      color: AppColors.primarySoft,
+      borderRadius: BorderRadius.circular(tokens.radius20),
+      child: InkWell(
         onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(icon, size: 14, color: color),
-                  const SizedBox(width: 4),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      color: color,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12,
+        borderRadius: BorderRadius.circular(tokens.radius20),
+        child: Padding(
+          padding: EdgeInsets.all(tokens.space16),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.whatToEatTitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w900),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 4),
+                    Text(
+                      t.whatToEatDescription,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppColors.muted),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.textStrong,
-                fontWeight: FontWeight.w800,
-                fontSize: 16,
+              const SizedBox(width: 12),
+              Container(
+                width: 44,
+                height: 44,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: const FaIcon(
+                  FontAwesomeIcons.arrowRight,
+                  color: AppColors.onPrimary,
+                  size: 16,
+                ),
               ),
-            ),
-            const Spacer(),
-            Text(
-              ownerType,
-              style: const TextStyle(
-                color: AppColors.muted,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              _agoText(context, item.createdAt),
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-String _agoText(BuildContext context, DateTime value) {
-  final t = AppLocalizations.of(context);
-  final diff = DateTime.now().difference(value);
-  if (diff.inMinutes < 60) return t.timeMinutesAgo(diff.inMinutes);
-  if (diff.inHours < 24) return t.timeHoursAgo(diff.inHours);
-  return t.timeDaysAgo(diff.inDays);
+/// Promo card shown between businesses when no native ad is available for a
+/// slot. Tapping it switches the Discovery tab bar to "Kampanyalar" (index 1).
+class _DiscoveryCampaignPromoCard extends StatelessWidget {
+  const _DiscoveryCampaignPromoCard({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Material(
+      color: AppColors.campaignPromoBg,
+      borderRadius: BorderRadius.circular(tokens.radius20),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(tokens.radius20),
+        child: Padding(
+          padding: EdgeInsets.all(tokens.space16),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.discoveryCampaignPromoTitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      t.discoveryCampaignPromoSubtitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: AppColors.muted),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(tokens.radius16),
+                    child: Image.asset(
+                      'assets/images/categories/tatli.png',
+                      width: 72,
+                      height: 72,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -8,
+                    right: -8,
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: const FaIcon(
+                        FontAwesomeIcons.arrowRight,
+                        color: AppColors.onPrimary,
+                        size: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _PremiumFilterChip extends StatelessWidget {
@@ -144,181 +246,64 @@ class _PremiumFilterChip extends StatelessWidget {
   }
 }
 
-class _NearbyVerifiedSpotCard extends StatelessWidget {
-  const _NearbyVerifiedSpotCard({
+class _DiscoveryUpdateCard extends StatelessWidget {
+  const _DiscoveryUpdateCard({
     required this.item,
     required this.imageAsset,
-    required this.ratingLabel,
-    required this.averageSpend,
-    required this.updatedLabel,
-    required this.statusType,
-    required this.isFavorite,
+    required this.timeLabel,
     required this.onTap,
-    required this.onFavoriteTap,
   });
 
   final BusinessCardModel item;
   final String imageAsset;
-  final String ratingLabel;
-  final String averageSpend;
-  final String updatedLabel;
-  final StatusBadgeType statusType;
-  final bool isFavorite;
+  final String timeLabel;
   final VoidCallback onTap;
-  final VoidCallback onFavoriteTap;
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    final distance = t.distanceKm(
-      double.parse((item.distanceKm ?? 0.4).toStringAsFixed(1)),
-    );
-    return AppCard(
-      padding: const EdgeInsets.all(0),
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.asset(imageAsset, fit: BoxFit.cover),
-                ),
+    return SizedBox(
+      width: 190,
+      child: AppCard(
+        onTap: onTap,
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
               ),
-              Positioned(
-                left: 10,
-                bottom: 10,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.68),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const FaIcon(
-                        FontAwesomeIcons.star,
-                        size: 10,
-                        color: AppColors.star,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        ratingLabel,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              child: AspectRatio(
+                aspectRatio: 16 / 10,
+                child: Image.asset(imageAsset, fit: BoxFit.cover),
               ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Material(
-                  color: Colors.white.withValues(alpha: 0.92),
-                  shape: const CircleBorder(),
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: onFavoriteTap,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? AppColors.primary : AppColors.muted,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        item.name,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w900),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          t.avgSpend,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        Text(
-                          averageSpend,
-                          style: Theme.of(context).textTheme.titleSmall
-                              ?.copyWith(fontWeight: FontWeight.w900),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '$distance • ${item.category}',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
-                ),
-                const SizedBox(height: 12),
-                const Divider(height: 1),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    StatusBadge(
-                      type: statusType,
-                      label: statusType == StatusBadgeType.verified
-                          ? t.priceVerified
-                          : t.menuMayBeOutdated,
-                    ),
-                    const Spacer(),
-                    if ((item.reviewCount ?? 0) > 0) ...[
-                      GestureDetector(
-                        onTap: () => context.push('/b/${item.id}/reviews'),
-                        child: Text(
-                          AppLocalizations.of(context).reviewsCount(item.reviewCount!),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                    ],
-                    Text(
-                      updatedLabel,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-              ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    timeLabel,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

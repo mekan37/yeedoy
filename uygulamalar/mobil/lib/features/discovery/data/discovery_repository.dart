@@ -453,7 +453,7 @@ class DiscoveryRepository {
     String? district,
     int limit = 20,
   }) async {
-    final cacheKey = _key('nearby_campaigns_v1', {
+    final cacheKey = _key('nearby_campaigns_v2', {
       'lat': lat?.toStringAsFixed(4),
       'lng': lng?.toStringAsFixed(4),
       'radius': radiusKm,
@@ -469,10 +469,10 @@ class DiscoveryRepository {
 
     try {
       final items = await _telemetry.traceRpc<List<NearbyCampaign>>(
-        operation: 'get_nearby_campaign_stories_v1',
+        operation: 'get_nearby_campaign_stories_v2',
         run: () async {
           final res = await client.rpc(
-            'get_nearby_campaign_stories_v1',
+            'get_nearby_campaign_stories_v2',
             params: {
               'p_lat': lat,
               'p_lng': lng,
@@ -498,6 +498,19 @@ class DiscoveryRepository {
       if (stale != null) return stale;
       rethrow;
     }
+  }
+
+  Future<bool> toggleSavedCampaign(String storyId) async {
+    final res = await _telemetry.traceRpc<dynamic>(
+      operation: 'toggle_saved_campaign_v1',
+      run: () => client.rpc(
+        'toggle_saved_campaign_v1',
+        params: {'p_story_id': storyId},
+      ),
+      sampleRate: 1,
+    );
+    if (res is Map && res['saved'] == true) return true;
+    return false;
   }
 
   Future<List<BusinessCardModel>> _attachOwnerVerification(

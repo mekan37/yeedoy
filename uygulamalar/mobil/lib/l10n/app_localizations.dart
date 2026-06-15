@@ -494,6 +494,12 @@ abstract class AppLocalizations {
   /// **'{km} km'**
   String distanceKm(num km);
 
+  /// Estimated walking time range shown on business cards
+  ///
+  /// In tr, this message translates to:
+  /// **'{min}-{max} dk'**
+  String etaRangeMinutes(int min, int max);
+
   /// Auto metadata for avgSpendPerPerson
   ///
   /// In tr, this message translates to:
@@ -697,6 +703,48 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yakınındaki Mekanlar'**
   String get nearbyVerifiedSpots;
+
+  /// Auto metadata for discoverForYou
+  ///
+  /// In tr, this message translates to:
+  /// **'Senin için keşfet'**
+  String get discoverForYou;
+
+  /// Auto metadata for discoveryGreetingHello
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba {name} 👋'**
+  String discoveryGreetingHello(String name);
+
+  /// Auto metadata for discoveryGreetingHelloAnon
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba 👋'**
+  String get discoveryGreetingHelloAnon;
+
+  /// Auto metadata for discoveryGreetingSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ne yemek istersin?'**
+  String get discoveryGreetingSubtitle;
+
+  /// Auto metadata for discoveryFeaturedCategory
+  ///
+  /// In tr, this message translates to:
+  /// **'Öne Çıkanlar'**
+  String get discoveryFeaturedCategory;
+
+  /// Auto metadata for discoveryCampaignPromoTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Lezzetli fırsatları kaçırma! 🎉'**
+  String get discoveryCampaignPromoTitle;
+
+  /// Auto metadata for discoveryCampaignPromoSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Sana özel indirimleri keşfet.'**
+  String get discoveryCampaignPromoSubtitle;
 
   /// Auto metadata for noNearbyVerifiedSpots
   ///
@@ -1832,6 +1880,72 @@ abstract class AppLocalizations {
   /// **'Yakındaki kampanyalar ve duyurular'**
   String get nearbyCampaignsAndAnnouncements;
 
+  /// Auto metadata for campaignsGreeting
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba! 👋'**
+  String get campaignsGreeting;
+
+  /// Auto metadata for campaignsSearchPlaceholder
+  ///
+  /// In tr, this message translates to:
+  /// **'Kampanya veya işletme ara...'**
+  String get campaignsSearchPlaceholder;
+
+  /// Auto metadata for campaignFilterAll
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get campaignFilterAll;
+
+  /// Auto metadata for campaignFilterSoon
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakında'**
+  String get campaignFilterSoon;
+
+  /// Auto metadata for campaignFilterToday
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get campaignFilterToday;
+
+  /// Auto metadata for campaignFilterFood
+  ///
+  /// In tr, this message translates to:
+  /// **'Yemek'**
+  String get campaignFilterFood;
+
+  /// Auto metadata for campaignFilterDessert
+  ///
+  /// In tr, this message translates to:
+  /// **'Tatlı'**
+  String get campaignFilterDessert;
+
+  /// Auto metadata for campaignFilterDiscount20
+  ///
+  /// In tr, this message translates to:
+  /// **'%20+'**
+  String get campaignFilterDiscount20;
+
+  /// Auto metadata for campaignsNearbyHeader
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakınındaki kampanyalar'**
+  String get campaignsNearbyHeader;
+
+  /// Auto metadata for campaignsFeaturedBadge
+  ///
+  /// In tr, this message translates to:
+  /// **'Lezzet Fırsatları'**
+  String get campaignsFeaturedBadge;
+
+  /// Auto metadata for campaignDiscountLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'%{percent} indirim'**
+  String campaignDiscountLabel(int percent);
+
   /// Auto metadata for noNearbyCampaign
   ///
   /// In tr, this message translates to:
@@ -1885,6 +1999,48 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'İğnelere dokunarak detayları gör.'**
   String get mapHintTapPins;
+
+  /// No description provided for @mapGreetingSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakınında ne var?'**
+  String get mapGreetingSubtitle;
+
+  /// No description provided for @mapSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mekan veya bölge ara...'**
+  String get mapSearchHint;
+
+  /// No description provided for @mapFilterOpen.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık'**
+  String get mapFilterOpen;
+
+  /// No description provided for @mapFilterPrice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat'**
+  String get mapFilterPrice;
+
+  /// No description provided for @mapAttribution.
+  ///
+  /// In tr, this message translates to:
+  /// **'© OpenStreetMap katkıda bulunanlar'**
+  String get mapAttribution;
+
+  /// No description provided for @mapRecenterTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumuma git'**
+  String get mapRecenterTooltip;
+
+  /// No description provided for @mapLayersTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katmanlar'**
+  String get mapLayersTooltip;
 
   /// Auto metadata for locationPermissionRequired
   ///
@@ -4525,6 +4681,12 @@ abstract class AppLocalizations {
   /// **'Etkileşim {count}'**
   String favoritesEngagementChip(int count);
 
+  /// Auto metadata for favoritesCountBanner
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} mekan favorilerinde'**
+  String favoritesCountBanner(int count);
+
   /// Auto metadata for favoritesNewCollectionTitle
   ///
   /// In tr, this message translates to:
@@ -5392,6 +5554,90 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Misafir'**
   String get profileGuestUser;
+
+  /// No description provided for @profileHomeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profilin'**
+  String get profileHomeTitle;
+
+  /// No description provided for @profileStatFavoritesShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favori'**
+  String get profileStatFavoritesShort;
+
+  /// No description provided for @profileStatReviewsShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorum'**
+  String get profileStatReviewsShort;
+
+  /// No description provided for @profileStatListsShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste'**
+  String get profileStatListsShort;
+
+  /// No description provided for @profileQuickActionsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hızlı işlemler'**
+  String get profileQuickActionsTitle;
+
+  /// No description provided for @profileQuickActionFavorites.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favorilerim'**
+  String get profileQuickActionFavorites;
+
+  /// No description provided for @profileQuickActionPriceAlerts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat Alarmları'**
+  String get profileQuickActionPriceAlerts;
+
+  /// No description provided for @profileQuickActionFeed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Akışım'**
+  String get profileQuickActionFeed;
+
+  /// No description provided for @profileAccountSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap'**
+  String get profileAccountSectionTitle;
+
+  /// No description provided for @profileAccountSecurityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Güvenliği'**
+  String get profileAccountSecurityTitle;
+
+  /// No description provided for @profileAccountSecuritySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre ve e-posta değiştir'**
+  String get profileAccountSecuritySubtitle;
+
+  /// No description provided for @profileBadgesBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rozet Koleksiyonun'**
+  String get profileBadgesBannerTitle;
+
+  /// No description provided for @profileBadgesBannerCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} rozetin var!'**
+  String profileBadgesBannerCount(int count);
+
+  /// No description provided for @profileBadgesBannerSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Keşfetmeye devam et, yeni rozetler kazan! 🚀'**
+  String get profileBadgesBannerSubtitle;
 
   /// Auto metadata for profileIdentitySupportMessage
   ///
@@ -6980,6 +7226,78 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Listelerime Git'**
   String get goToMyLists;
+
+  /// Business detail page tab: general
+  ///
+  /// In tr, this message translates to:
+  /// **'Genel'**
+  String get businessTabGeneral;
+
+  /// Business detail page tab: menu
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü'**
+  String get businessTabMenu;
+
+  /// Business detail page tab: reviews
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumlar'**
+  String get businessTabReviews;
+
+  /// Badge shown when the menu source is owner-verified
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü Onaylı'**
+  String get businessBadgeMenuVerified;
+
+  /// Badge shown when the business has trending items
+  ///
+  /// In tr, this message translates to:
+  /// **'Popüler'**
+  String get businessBadgePopular;
+
+  /// Business detail Genel tab featured section title
+  ///
+  /// In tr, this message translates to:
+  /// **'Öne çıkanlar'**
+  String get featuredSectionTitle;
+
+  /// Label under the rating value in the featured section
+  ///
+  /// In tr, this message translates to:
+  /// **'Puan'**
+  String get featuredRatingLabel;
+
+  /// Subtitle for the verified-menu featured card
+  ///
+  /// In tr, this message translates to:
+  /// **'Sahibi tarafından güncellendi'**
+  String get featuredMenuVerifiedSubtitle;
+
+  /// Business detail Genel tab popular dishes section title
+  ///
+  /// In tr, this message translates to:
+  /// **'Popüler lezzetler'**
+  String get popularDishesTitle;
+
+  /// Business detail Genel tab location and hours section title
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum ve saatler'**
+  String get locationHoursTitle;
+
+  /// Bottom action bar directions button
+  ///
+  /// In tr, this message translates to:
+  /// **'Yol Tarifi'**
+  String get directions;
+
+  /// Bottom action bar view menu button
+  ///
+  /// In tr, this message translates to:
+  /// **'Menüyü Gör'**
+  String get viewMenu;
 }
 
 class _AppLocalizationsDelegate

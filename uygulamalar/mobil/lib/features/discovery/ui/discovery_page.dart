@@ -4,8 +4,11 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:yeedoy/features/discovery/domain/business_card.dart';
 import 'package:yeedoy/features/discovery/domain/discovery_search_state.dart';
@@ -19,7 +22,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/analytics/analytics_repository.dart';
-import '../../../core/assets/category_assets.dart';
+import '../../../core/media/app_network_image.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
 import '../../../core/config/feature_flags.dart';
@@ -29,6 +32,8 @@ import '../../../core/storage/offline_cache_prefs.dart';
 import '../../../core/storage/search_prefs.dart';
 
 import '../../auth/domain/auth_providers.dart';
+import '../../taste_twin/domain/taste_twin_controllers.dart';
+import '../../shared/ui/components/vertical_business_card.dart';
 import '../../top_businesses/ui/top_businesses_strip.dart';
 
 import '../domain/discovery_search_notifier.dart';
@@ -55,8 +60,6 @@ import '../../ads/ui/native_ad_card.dart';
 import '../../profile/domain/profile_progress_provider.dart';
 import '../../profile/domain/profile_progress.dart';
 import '../../contribute/ui/contribute_entry.dart';
-import '../../embed/data/embed_repository.dart';
-import '../../embed/ui/embed_viewer_page.dart';
 import '../../business/domain/meal_card_providers_provider.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
 import '../../../core/services/home_widget_service.dart';
@@ -67,8 +70,10 @@ import 'components/discovery_search_bar.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
+import '../../notifications/ui/components/notifications_bell.dart';
 
 part 'surfaces/discovery_campaigns_tab.dart';
+part 'surfaces/discovery_map_page.dart';
 part 'surfaces/discovery_map_surface.dart';
 part 'surfaces/discovery_insight_sections.dart';
 part 'parts/discovery_providers.dart';
@@ -88,17 +93,15 @@ class DiscoveryPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    if (GoRouterState.of(context).uri.queryParameters['view'] == 'map') {
+      return const _DiscoveryMapPage();
+    }
     return DefaultTabController(
       length: 3,
       child: Column(
         children: [
-          TabBar(
-            tabs: [
-              Tab(text: t.tabRecommended),
-              Tab(text: t.tabCampaigns),
-              Tab(text: t.tabFoods),
-            ],
-          ),
+          const SafeArea(bottom: false, child: _DiscoveryTopBar()),
+          _DiscoveryPillTabBar(t: t),
           Expanded(
             child: TabBarView(
               children: [

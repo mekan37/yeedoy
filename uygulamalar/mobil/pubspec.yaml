@@ -53,6 +53,8 @@ dependencies:
   google_mobile_ads: ^7.0.0
   home_widget: ^0.6.0
   package_info_plus: ^8.3.0
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,5 +1,60 @@
 part of '../discovery_page.dart';
 
+/// In-content header for the Discovery (Keşfet) tab: hamburger menu on the
+/// left (opens [AppDrawer]) and notification bell on the right (navigates to
+/// `/inbox`). Replaces the shared [AppAppBar] on this route — see
+/// `AppShell.hideAppBar`.
+class _DiscoveryTopBar extends StatelessWidget {
+  const _DiscoveryTopBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: tokens.space8),
+      child: Row(
+        children: [
+          IconButton(
+            tooltip: 'Menü',
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: const Icon(Icons.menu_rounded),
+          ),
+          const Spacer(),
+          IconButton(
+            tooltip: 'Bildirim Kutusu',
+            onPressed: () => context.go('/inbox'),
+            icon: const NotificationsBell(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Compact pill/segment style replacement for the default Material [TabBar]
+/// used to switch between Önerilenler / Kampanyalar / Yemekler.
+class _DiscoveryPillTabBar extends StatelessWidget {
+  const _DiscoveryPillTabBar({required this.t});
+
+  final AppLocalizations t;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        tokens.space16,
+        0,
+        tokens.space16,
+        tokens.space8,
+      ),
+      child: AppSegmentedTabBar(
+        labels: [t.tabRecommended, t.tabCampaigns, t.tabFoods],
+      ),
+    );
+  }
+}
+
 class _SmallBadge extends StatelessWidget {
   const _SmallBadge(this.label);
 

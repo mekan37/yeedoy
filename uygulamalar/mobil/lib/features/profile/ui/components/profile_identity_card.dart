@@ -28,7 +28,8 @@ class ProfileIdentityCard extends ConsumerStatefulWidget {
   final bool compact;
 
   @override
-  ConsumerState<ProfileIdentityCard> createState() => _ProfileIdentityCardState();
+  ConsumerState<ProfileIdentityCard> createState() =>
+      _ProfileIdentityCardState();
 }
 
 class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
@@ -38,7 +39,9 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
     if (_uploadingAvatar) return;
     setState(() => _uploadingAvatar = true);
     try {
-      final url = await ref.read(profileRepositoryProvider).pickAndUploadAvatar();
+      final url = await ref
+          .read(profileRepositoryProvider)
+          .pickAndUploadAvatar();
       if (url != null) {
         final uid = ref.read(userProvider)?.id;
         // Clear in-memory cache so publicProfileProvider returns fresh data.
@@ -48,9 +51,9 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppErrorMapper.message(e))),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
       }
     } finally {
       if (mounted) setState(() => _uploadingAvatar = false);
@@ -80,9 +83,15 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
     );
   }
 
-  Widget _buildContent(BuildContext context, Profile? profile, String avatarUrl) {
+  Widget _buildContent(
+    BuildContext context,
+    Profile? profile,
+    String avatarUrl,
+  ) {
     final t = AppLocalizations.of(context);
-    final emailLabel = (widget.userEmail ?? t.profileGuestUser).split('@').first;
+    final emailLabel = (widget.userEmail ?? t.profileGuestUser)
+        .split('@')
+        .first;
     final first = profile?.firstName ?? '';
     final last = profile?.lastName ?? '';
     final mode = profile?.privacyMode ?? NamePrivacyMode.full;
@@ -139,7 +148,11 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
                               color: Colors.white,
                             ),
                           )
-                        : const Icon(Icons.camera_alt, size: 10, color: Colors.white),
+                        : const Icon(
+                            Icons.camera_alt,
+                            size: 10,
+                            color: Colors.white,
+                          ),
                   ),
                 ),
               ],
@@ -168,11 +181,6 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
                     ),
                   ),
                 ],
-                const SizedBox(height: 2),
-                Text(
-                  t.profileIdentitySupportMessage,
-                  style: TextStyle(color: AppColors.muted),
-                ),
                 if (socialLinks.isNotEmpty) ...[
                   const SizedBox(height: 10),
                   Row(
@@ -203,11 +211,7 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
     );
   }
 
-  Widget _card({required Widget child}) {
-    return Card(
-      child: Padding(padding: const EdgeInsets.all(14), child: child),
-    );
-  }
+  Widget _card({required Widget child}) => child;
 
   List<(FaIconData, String)> _sortedSocial(Map<String, String> links) {
     final instagram = normalizeSocialUrl(links['instagram'] ?? '');
@@ -239,4 +243,3 @@ class _ProfileIdentityCardState extends ConsumerState<ProfileIdentityCard> {
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 }
-

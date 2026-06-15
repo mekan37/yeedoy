@@ -221,6 +221,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String etaRangeMinutes(int min, int max) {
+    return '$min-$max dk';
+  }
+
+  @override
   String avgSpendPerPerson(String amount) {
     return 'Kişi başı $amount';
   }
@@ -330,6 +335,29 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get nearbyVerifiedSpots => 'Yakınındaki Mekanlar';
+
+  @override
+  String get discoverForYou => 'Senin için keşfet';
+
+  @override
+  String discoveryGreetingHello(String name) {
+    return 'Merhaba $name 👋';
+  }
+
+  @override
+  String get discoveryGreetingHelloAnon => 'Merhaba 👋';
+
+  @override
+  String get discoveryGreetingSubtitle => 'Bugün ne yemek istersin?';
+
+  @override
+  String get discoveryFeaturedCategory => 'Öne Çıkanlar';
+
+  @override
+  String get discoveryCampaignPromoTitle => 'Lezzetli fırsatları kaçırma! 🎉';
+
+  @override
+  String get discoveryCampaignPromoSubtitle => 'Sana özel indirimleri keşfet.';
 
   @override
   String get noNearbyVerifiedSpots => 'Yakında doğrulanmış mekan bulunamadı';
@@ -926,6 +954,41 @@ class AppLocalizationsTr extends AppLocalizations {
       'Yakındaki kampanyalar ve duyurular';
 
   @override
+  String get campaignsGreeting => 'Merhaba! 👋';
+
+  @override
+  String get campaignsSearchPlaceholder => 'Kampanya veya işletme ara...';
+
+  @override
+  String get campaignFilterAll => 'Tümü';
+
+  @override
+  String get campaignFilterSoon => 'Yakında';
+
+  @override
+  String get campaignFilterToday => 'Bugün';
+
+  @override
+  String get campaignFilterFood => 'Yemek';
+
+  @override
+  String get campaignFilterDessert => 'Tatlı';
+
+  @override
+  String get campaignFilterDiscount20 => '%20+';
+
+  @override
+  String get campaignsNearbyHeader => 'Yakınındaki kampanyalar';
+
+  @override
+  String get campaignsFeaturedBadge => 'Lezzet Fırsatları';
+
+  @override
+  String campaignDiscountLabel(int percent) {
+    return '%$percent indirim';
+  }
+
+  @override
   String get noNearbyCampaign => 'Yakında kampanya yok';
 
   @override
@@ -952,6 +1015,27 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get mapHintTapPins => 'İğnelere dokunarak detayları gör.';
+
+  @override
+  String get mapGreetingSubtitle => 'Yakınında ne var?';
+
+  @override
+  String get mapSearchHint => 'Mekan veya bölge ara...';
+
+  @override
+  String get mapFilterOpen => 'Açık';
+
+  @override
+  String get mapFilterPrice => 'Fiyat';
+
+  @override
+  String get mapAttribution => '© OpenStreetMap katkıda bulunanlar';
+
+  @override
+  String get mapRecenterTooltip => 'Konumuma git';
+
+  @override
+  String get mapLayersTooltip => 'Katmanlar';
 
   @override
   String get locationPermissionRequired => 'Konum izni gerekli.';
@@ -2443,6 +2527,11 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
+  String favoritesCountBanner(int count) {
+    return '$count mekan favorilerinde';
+  }
+
+  @override
   String get favoritesNewCollectionTitle => 'Yeni Koleksiyon';
 
   @override
@@ -2943,6 +3032,51 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileGuestUser => 'Misafir';
+
+  @override
+  String get profileHomeTitle => 'Profilin';
+
+  @override
+  String get profileStatFavoritesShort => 'Favori';
+
+  @override
+  String get profileStatReviewsShort => 'Yorum';
+
+  @override
+  String get profileStatListsShort => 'Liste';
+
+  @override
+  String get profileQuickActionsTitle => 'Hızlı işlemler';
+
+  @override
+  String get profileQuickActionFavorites => 'Favorilerim';
+
+  @override
+  String get profileQuickActionPriceAlerts => 'Fiyat Alarmları';
+
+  @override
+  String get profileQuickActionFeed => 'Akışım';
+
+  @override
+  String get profileAccountSectionTitle => 'Hesap';
+
+  @override
+  String get profileAccountSecurityTitle => 'Hesap Güvenliği';
+
+  @override
+  String get profileAccountSecuritySubtitle => 'Şifre ve e-posta değiştir';
+
+  @override
+  String get profileBadgesBannerTitle => 'Rozet Koleksiyonun';
+
+  @override
+  String profileBadgesBannerCount(int count) {
+    return '$count rozetin var!';
+  }
+
+  @override
+  String get profileBadgesBannerSubtitle =>
+      'Keşfetmeye devam et, yeni rozetler kazan! 🚀';
 
   @override
   String get profileIdentitySupportMessage =>
@@ -3845,4 +3979,40 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get goToMyLists => 'Listelerime Git';
+
+  @override
+  String get businessTabGeneral => 'Genel';
+
+  @override
+  String get businessTabMenu => 'Menü';
+
+  @override
+  String get businessTabReviews => 'Yorumlar';
+
+  @override
+  String get businessBadgeMenuVerified => 'Menü Onaylı';
+
+  @override
+  String get businessBadgePopular => 'Popüler';
+
+  @override
+  String get featuredSectionTitle => 'Öne çıkanlar';
+
+  @override
+  String get featuredRatingLabel => 'Puan';
+
+  @override
+  String get featuredMenuVerifiedSubtitle => 'Sahibi tarafından güncellendi';
+
+  @override
+  String get popularDishesTitle => 'Popüler lezzetler';
+
+  @override
+  String get locationHoursTitle => 'Konum ve saatler';
+
+  @override
+  String get directions => 'Yol Tarifi';
+
+  @override
+  String get viewMenu => 'Menüyü Gör';
 }

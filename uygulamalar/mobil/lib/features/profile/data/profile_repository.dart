@@ -136,7 +136,9 @@ class ProfileRepository {
     );
   }
 
-  Future<ContributionHistory> fetchMyContributionHistory({int limit = 12}) async {
+  Future<ContributionHistory> fetchMyContributionHistory({
+    int limit = 12,
+  }) async {
     final userId = _supabase.auth.currentUser?.id;
     if (userId == null) {
       return ContributionHistory(
@@ -309,17 +311,20 @@ class ProfileRepository {
 
     await _supabase.storage
         .from('menu-media')
-        .uploadBinary(storagePath, bytes,
-            fileOptions: FileOptions(contentType: mime, upsert: true));
+        .uploadBinary(
+          storagePath,
+          bytes,
+          fileOptions: FileOptions(contentType: mime, upsert: true),
+        );
 
     final publicUrl = _supabase.storage
         .from('menu-media')
         .getPublicUrl(storagePath);
 
-    await _supabase
-        .from('user_profiles')
-        .update({'avatar_url': publicUrl})
-        .eq('user_id', uid);
+    await _supabase.from('user_profiles').upsert({
+      'user_id': uid,
+      'avatar_url': publicUrl,
+    }, onConflict: 'user_id');
 
     return publicUrl;
   }

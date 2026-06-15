@@ -289,6 +289,18 @@
     },
     "description": "Auto metadata for distanceKm"
   },
+  "etaRangeMinutes": "{min}-{max} dk",
+  "@etaRangeMinutes": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    },
+    "description": "Estimated walking time range shown on business cards"
+  },
   "avgSpendPerPerson": "Kişi başı {amount}",
   "@avgSpendPerPerson": {
     "placeholders": {
@@ -444,6 +456,39 @@
   "nearbyVerifiedSpots": "Yakınındaki Mekanlar",
   "@nearbyVerifiedSpots": {
     "description": "Auto metadata for nearbyVerifiedSpots"
+  },
+  "discoverForYou": "Senin için keşfet",
+  "@discoverForYou": {
+    "description": "Auto metadata for discoverForYou"
+  },
+  "discoveryGreetingHello": "Merhaba {name} 👋",
+  "@discoveryGreetingHello": {
+    "description": "Auto metadata for discoveryGreetingHello",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryGreetingHelloAnon": "Merhaba 👋",
+  "@discoveryGreetingHelloAnon": {
+    "description": "Auto metadata for discoveryGreetingHelloAnon"
+  },
+  "discoveryGreetingSubtitle": "Bugün ne yemek istersin?",
+  "@discoveryGreetingSubtitle": {
+    "description": "Auto metadata for discoveryGreetingSubtitle"
+  },
+  "discoveryFeaturedCategory": "Öne Çıkanlar",
+  "@discoveryFeaturedCategory": {
+    "description": "Auto metadata for discoveryFeaturedCategory"
+  },
+  "discoveryCampaignPromoTitle": "Lezzetli fırsatları kaçırma! 🎉",
+  "@discoveryCampaignPromoTitle": {
+    "description": "Auto metadata for discoveryCampaignPromoTitle"
+  },
+  "discoveryCampaignPromoSubtitle": "Sana özel indirimleri keşfet.",
+  "@discoveryCampaignPromoSubtitle": {
+    "description": "Auto metadata for discoveryCampaignPromoSubtitle"
   },
   "noNearbyVerifiedSpots": "Yakında doğrulanmış mekan bulunamadı",
   "@noNearbyVerifiedSpots": {
@@ -720,6 +765,17 @@
   "outsideYourUsual": "Rutin dışı",
   "pricePerformanceSurprise": "Fiyat/performans sürprizi",
   "nearbyCampaignsAndAnnouncements": "Yakındaki kampanyalar ve duyurular",
+  "campaignsGreeting": "Merhaba! 👋",
+  "campaignsSearchPlaceholder": "Kampanya veya işletme ara...",
+  "campaignFilterAll": "Tümü",
+  "campaignFilterSoon": "Yakında",
+  "campaignFilterToday": "Bugün",
+  "campaignFilterFood": "Yemek",
+  "campaignFilterDessert": "Tatlı",
+  "campaignFilterDiscount20": "%20+",
+  "campaignsNearbyHeader": "Yakınındaki kampanyalar",
+  "campaignsFeaturedBadge": "Lezzet Fırsatları",
+  "campaignDiscountLabel": "%{percent} indirim",
   "noNearbyCampaign": "Yakında kampanya yok",
   "noActiveAnnouncementInArea": "Bölgede aktif duyuru yok",
   "remainingLabel": "Kalan",
@@ -729,6 +785,13 @@
   "mapDataMissingUseList": "Harita verisi eksik, liste görünümünü kullan.",
   "openMapView": "Harita Görünümünü Aç",
   "mapHintTapPins": "İğnelere dokunarak detayları gör.",
+  "mapGreetingSubtitle": "Yakınında ne var?",
+  "mapSearchHint": "Mekan veya bölge ara...",
+  "mapFilterOpen": "Açık",
+  "mapFilterPrice": "Fiyat",
+  "mapAttribution": "© OpenStreetMap katkıda bulunanlar",
+  "mapRecenterTooltip": "Konumuma git",
+  "mapLayersTooltip": "Katmanlar",
   "locationPermissionRequired": "Konum izni gerekli.",
   "noFoodFoundForCriteria": "Bu kriterlere uygun yemek bulunamadı",
   "whatToEatDescription": "Tercihlerine göre öneriler",
@@ -1607,6 +1670,15 @@
     },
     "description": "Auto metadata for favoritesEngagementChip"
   },
+  "favoritesCountBanner": "{count} mekan favorilerinde",
+  "@favoritesCountBanner": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for favoritesCountBanner"
+  },
   "favoritesNewCollectionTitle": "Yeni Koleksiyon",
   "favoritesCollectionNameExample": "Örn: Gece döneri",
   "favoritesCreateAction": "Oluştur",
@@ -1965,7 +2037,28 @@
   "achievementStatusUnlocked": "Durum: Açık",
   "achievementStatusLocked": "Durum: Kilitli",
   "profileGuestUser": "Misafir",
-  "profileIdentitySupportMessage": "Sende katkı yaparak profilini güçlendirebilirsin.",
+  "profileHomeTitle": "Profilin",
+  "profileStatFavoritesShort": "Favori",
+  "profileStatReviewsShort": "Yorum",
+  "profileStatListsShort": "Liste",
+  "profileQuickActionsTitle": "Hızlı işlemler",
+  "profileQuickActionFavorites": "Favorilerim",
+  "profileQuickActionPriceAlerts": "Fiyat Alarmları",
+  "profileQuickActionFeed": "Akışım",
+  "profileAccountSectionTitle": "Hesap",
+  "profileAccountSecurityTitle": "Hesap Güvenliği",
+  "profileAccountSecuritySubtitle": "Şifre ve e-posta değiştir",
+  "profileBadgesBannerTitle": "Rozet Koleksiyonun",
+  "profileBadgesBannerCount": "{count} rozetin var!",
+  "@profileBadgesBannerCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profileBadgesBannerSubtitle": "Keşfetmeye devam et, yeni rozetler kazan! 🚀",
+  "profileIdentitySupportMessage": "Topluluğa katkılı yaparak profilini güçlendirebilirsin.",
   "profileAlertsTab": "Alarmlar",
   "profileFeedTab": "Akış",
   "profileLoginToSeeContributions": "Katkılarını ve istatistiklerini görmek için giriş yap.",
@@ -2983,6 +3076,44 @@
   },
   "@nearbyCampaignsAndAnnouncements": {
     "description": "Auto metadata for nearbyCampaignsAndAnnouncements"
+  },
+  "@campaignsGreeting": {
+    "description": "Auto metadata for campaignsGreeting"
+  },
+  "@campaignsSearchPlaceholder": {
+    "description": "Auto metadata for campaignsSearchPlaceholder"
+  },
+  "@campaignFilterAll": {
+    "description": "Auto metadata for campaignFilterAll"
+  },
+  "@campaignFilterSoon": {
+    "description": "Auto metadata for campaignFilterSoon"
+  },
+  "@campaignFilterToday": {
+    "description": "Auto metadata for campaignFilterToday"
+  },
+  "@campaignFilterFood": {
+    "description": "Auto metadata for campaignFilterFood"
+  },
+  "@campaignFilterDessert": {
+    "description": "Auto metadata for campaignFilterDessert"
+  },
+  "@campaignFilterDiscount20": {
+    "description": "Auto metadata for campaignFilterDiscount20"
+  },
+  "@campaignsNearbyHeader": {
+    "description": "Auto metadata for campaignsNearbyHeader"
+  },
+  "@campaignsFeaturedBadge": {
+    "description": "Auto metadata for campaignsFeaturedBadge"
+  },
+  "@campaignDiscountLabel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for campaignDiscountLabel"
   },
   "@noNearbyCampaign": {
     "description": "Auto metadata for noNearbyCampaign"

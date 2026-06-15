@@ -5,13 +5,16 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/location/user_location_controller.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/ui/link_paste_field.dart';
 import '../data/profile_model.dart';
 import '../data/profile_repository.dart';
 import '../../../features/shared/ui/achievements/achievement_visuals.dart';
+import '../../../features/shared/ui/design_system.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
+import '../../notifications/ui/components/notifications_bell.dart';
 import '../../price_alerts/domain/price_alert_models.dart';
 import '../../price_alerts/domain/price_alerts_provider.dart';
 import '../domain/achievement.dart';
@@ -20,11 +23,13 @@ import '../domain/business_feed_provider.dart';
 import '../domain/creator_profile_provider.dart';
 import '../domain/daily_micro_task.dart';
 import '../domain/daily_micro_task_provider.dart';
+import '../domain/favorite_collections_count_provider.dart';
 import '../domain/moat_signals_provider.dart';
 import '../domain/profile_progress_provider.dart';
 import '../domain/profile_stats.dart';
 import '../domain/profile_stats_provider.dart';
 import '../domain/reputation_provider.dart';
+import '../../taste_twin/domain/taste_twin_controllers.dart';
 import '../domain/user_moat_signals.dart';
 import 'profile_settings_page.dart';
 import 'components/achievements_grid.dart';
@@ -61,9 +66,27 @@ class ProfilePage extends ConsumerWidget {
   }
 }
 
-class _ProfileTab extends ConsumerWidget {
+class _ProfileTab extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ProfileTab> createState() => _ProfileTabState();
+}
+
+class _ProfileTabState extends ConsumerState<_ProfileTab> {
+  final _achievementsSectionKey = GlobalKey();
+
+  void _scrollToAchievements() {
+    final ctx = _achievementsSectionKey.currentContext;
+    if (ctx != null) {
+      Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final user = ref.watch(userProvider);
     final statsAsync = ref.watch(myProfileStatsProvider);
@@ -87,33 +110,15 @@ class _ProfileTab extends ConsumerWidget {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          ProfileIdentityCard(userEmail: user?.email),
+          const _ProfileHomeHeader(),
           const SizedBox(height: 12),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.settings_rounded),
-              title: Text(t.profileSettings),
-              subtitle: Text(t.privacySocialSubtitle),
-              trailing: const Icon(Icons.chevron_right_rounded),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ProfileSettingsPage(),
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.shield_outlined),
-              title: const Text('Hesap Güvenliği'),
-              subtitle: const Text('Şifre ve e-posta değiştir'),
-              trailing: const Icon(Icons.chevron_right_rounded),
-              onTap: () => context.push('/account-security'),
-            ),
-          ),
+          _ProfileHeroCard(userEmail: user?.email),
+          const SizedBox(height: 12),
+          const _ProfileQuickActionsGrid(),
+          const SizedBox(height: 12),
+          const _ProfileAccountList(),
+          const SizedBox(height: 12),
+          _ProfileBadgesBanner(onTap: _scrollToAchievements),
           const SizedBox(height: 12),
           if (user == null) ...[
             _InfoCard(
@@ -232,41 +237,442 @@ class _ProfileTab extends ConsumerWidget {
                 : _MoatSignalsCard(signals: signals),
           ),
           const SizedBox(height: 12),
-          Text(
-            t.profileMyAchievementsTitle,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: AppColors.textStrong,
+          Column(
+            key: _achievementsSectionKey,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                t.profileMyAchievementsTitle,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.textStrong,
+                ),
+              ),
+              const SizedBox(height: 8),
+              achievementsAsync.when(
+                loading: () => const LinearProgressIndicator(),
+                error: (err, _) => _ErrorText(text: '$err'),
+                data: (items) {
+                  if (items.isEmpty) {
+                    return _EmptyText(text: t.profileNoAchievementYet);
+                  }
+                  final latestUnlocked = items
+                      .where((e) => e.unlocked && e.unlockedAt != null)
+                      .fold<Achievement?>(
+                        null,
+                        (prev, curr) =>
+                            prev == null ||
+                                curr.unlockedAt!.isAfter(prev.unlockedAt!)
+                            ? curr
+                            : prev,
+                      );
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (latestUnlocked != null)
+                        _LatestAchievementBanner(item: latestUnlocked),
+                      const SizedBox(height: 8),
+                      AchievementsGrid(items: items),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileBadgesBanner extends ConsumerWidget {
+  const _ProfileBadgesBanner({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    final progress = ref.watch(myProfileProgressProvider).asData?.value;
+    if (progress == null) return const SizedBox.shrink();
+
+    return Container(
+      padding: EdgeInsets.all(tokens.space16),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(tokens.radius16),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.emoji_events_outlined, color: AppColors.primary),
+          SizedBox(width: tokens.space12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.profileBadgesBannerTitle,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(t.profileBadgesBannerCount(progress.unlockedCount)),
+                const SizedBox(height: 2),
+                Text(
+                  t.profileBadgesBannerSubtitle,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 8),
-          achievementsAsync.when(
-            loading: () => const LinearProgressIndicator(),
-            error: (err, _) => _ErrorText(text: '$err'),
-            data: (items) {
-              if (items.isEmpty) {
-                return _EmptyText(text: t.profileNoAchievementYet);
-              }
-              final latestUnlocked = items
-                  .where((e) => e.unlocked && e.unlockedAt != null)
-                  .fold<Achievement?>(
-                    null,
-                    (prev, curr) =>
-                        prev == null ||
-                            curr.unlockedAt!.isAfter(prev.unlockedAt!)
-                        ? curr
-                        : prev,
+          IconButton(onPressed: onTap, icon: const Icon(Icons.arrow_forward)),
+        ],
+      ),
+    );
+  }
+}
+
+class _QuickActionTile extends StatelessWidget {
+  const _QuickActionTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    return InkWell(
+      borderRadius: BorderRadius.circular(tokens.radius12),
+      onTap: onTap,
+      child: Container(
+        constraints: BoxConstraints(minHeight: tokens.minHitTarget * 1.4),
+        padding: EdgeInsets.all(tokens.space12),
+        decoration: BoxDecoration(
+          color: AppColors.card,
+          borderRadius: BorderRadius.circular(tokens.radius12),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: AppColors.primary),
+            SizedBox(height: tokens.space8),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.textStrong,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileQuickActionsGrid extends StatelessWidget {
+  const _ProfileQuickActionsGrid();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          t.profileQuickActionsTitle,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: AppColors.textStrong,
+          ),
+        ),
+        SizedBox(height: tokens.space8),
+        Row(
+          children: [
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.favorite_border,
+                label: t.profileQuickActionFavorites,
+                onTap: () => context.go('/favorites'),
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.notifications_active_outlined,
+                label: t.profileQuickActionPriceAlerts,
+                onTap: () => DefaultTabController.of(context).animateTo(1),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: tokens.space8),
+        Row(
+          children: [
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.dynamic_feed_outlined,
+                label: t.profileQuickActionFeed,
+                onTap: () => DefaultTabController.of(context).animateTo(2),
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.settings_outlined,
+                label: t.profileSettings,
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const ProfileSettingsPage(),
+                    ),
                   );
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (latestUnlocked != null)
-                    _LatestAchievementBanner(item: latestUnlocked),
-                  const SizedBox(height: 8),
-                  AchievementsGrid(items: items),
-                ],
-              );
-            },
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileAccountList extends StatelessWidget {
+  const _ProfileAccountList();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          t.profileAccountSectionTitle,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w800,
+            color: AppColors.textStrong,
+          ),
+        ),
+        SizedBox(height: tokens.space8),
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.card,
+            borderRadius: BorderRadius.circular(tokens.radius16),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.person_outline),
+                title: Text(t.profileSettings),
+                subtitle: Text(t.privacySocialSubtitle),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const ProfileSettingsPage(),
+                    ),
+                  );
+                },
+              ),
+              const Divider(height: 1, color: AppColors.border),
+              ListTile(
+                leading: const Icon(Icons.shield_outlined),
+                title: Text(t.profileAccountSecurityTitle),
+                subtitle: Text(t.profileAccountSecuritySubtitle),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => context.push('/account-security'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileLocationRow extends ConsumerWidget {
+  const _ProfileLocationRow();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loc = ref.watch(userLocationProvider);
+    if (loc.loading || loc.permissionDenied || !loc.hasLocation) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.location_on_outlined,
+            size: 16,
+            color: AppColors.muted,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            loc.city!,
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatCell extends StatelessWidget {
+  const _StatCell({required this.value, required this.label});
+
+  final int? value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value?.toString() ?? '—',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w900,
+            color: AppColors.textStrong,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileStatsRow extends ConsumerWidget {
+  const _ProfileStatsRow();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final statsAsync = ref.watch(myProfileStatsProvider);
+    final collectionsAsync = ref.watch(myFavoriteCollectionsCountProvider);
+
+    return Row(
+      children: [
+        Expanded(
+          child: _StatCell(
+            value: statsAsync.asData?.value.favoritesCount,
+            label: t.profileStatFavoritesShort,
+          ),
+        ),
+        Expanded(
+          child: _StatCell(
+            value: statsAsync.asData?.value.reviewsCount,
+            label: t.profileStatReviewsShort,
+          ),
+        ),
+        Expanded(
+          child: _StatCell(
+            value: collectionsAsync.asData?.value,
+            label: t.profileStatListsShort,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileHeroCard extends StatelessWidget {
+  const _ProfileHeroCard({this.userEmail});
+
+  final String? userEmail;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = AppTokens.of(context);
+    return Container(
+      padding: EdgeInsets.all(tokens.space16),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(tokens.radius16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileIdentityCard(userEmail: userEmail),
+          const _ProfileLocationRow(),
+          SizedBox(height: tokens.space12),
+          const _ProfileStatsRow(),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileHomeHeader extends ConsumerWidget {
+  const _ProfileHomeHeader();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
+    final user = ref.watch(userProvider);
+    String? displayName;
+    if (user != null) {
+      final profileAsync = ref.watch(publicProfileProvider(user.id));
+      final name = profileAsync.asData?.value.displayName.trim() ?? '';
+      if (name.isNotEmpty) displayName = name;
+    }
+    final greeting = displayName != null
+        ? t.discoveryGreetingHello(displayName)
+        : t.discoveryGreetingHelloAnon;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  greeting,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  t.profileHomeTitle,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            tooltip: t.drawerInbox,
+            onPressed: () => context.go('/inbox'),
+            icon: const NotificationsBell(),
           ),
         ],
       ),
@@ -291,9 +697,7 @@ class _AlertsTab extends ConsumerWidget {
       error: (err, _) => Center(child: _ErrorText(text: '$err')),
       data: (items) {
         if (items.isEmpty) {
-          return Center(
-            child: _EmptyText(text: t.profileAlertsEmpty),
-          );
+          return Center(child: _EmptyText(text: t.profileAlertsEmpty));
         }
         return ListView.separated(
           padding: const EdgeInsets.all(16),
@@ -323,9 +727,7 @@ class _FeedTab extends ConsumerWidget {
       error: (err, _) => Center(child: _ErrorText(text: '$err')),
       data: (items) {
         if (items.isEmpty) {
-          return Center(
-            child: _EmptyText(text: t.profileFeedEmpty),
-          );
+          return Center(child: _EmptyText(text: t.profileFeedEmpty));
         }
         return ListView.separated(
           padding: const EdgeInsets.all(16),
@@ -458,9 +860,18 @@ class _StatsGrid extends StatelessWidget {
       runSpacing: 8,
       children: [
         _StatChip(label: t.profileStatReviews, value: '${stats.reviewsCount}'),
-        _StatChip(label: t.profileStatHelpfulVotes, value: '${stats.helpfulReceived}'),
-        _StatChip(label: t.profileStatFavorites, value: '${stats.favoritesCount}'),
-        _StatChip(label: t.profileStatContributions, value: '${stats.contributionScore}'),
+        _StatChip(
+          label: t.profileStatHelpfulVotes,
+          value: '${stats.helpfulReceived}',
+        ),
+        _StatChip(
+          label: t.profileStatFavorites,
+          value: '${stats.favoritesCount}',
+        ),
+        _StatChip(
+          label: t.profileStatContributions,
+          value: '${stats.contributionScore}',
+        ),
         _StatChip(label: t.profileStatVisits, value: '${stats.visitsCount}'),
       ],
     );
@@ -601,10 +1012,7 @@ class _MoatSignalsCard extends StatelessWidget {
                   label: t.profileSignalApprovalRate,
                   value: '%$approvalRate',
                 ),
-                _SignalChip(
-                  label: t.profileSignalSegment,
-                  value: segmentLabel,
-                ),
+                _SignalChip(label: t.profileSignalSegment, value: segmentLabel),
                 _SignalChip(
                   label: t.profileSignalSilentQuality,
                   value: '${signals.silentQualityScore}',
@@ -749,8 +1157,12 @@ class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
     if (uri == null) return 'website';
     final host = uri.host.toLowerCase().replaceAll('www.', '');
     if (host.contains('instagram.com')) return 'instagram';
-    if (host.contains('youtube.com') || host.contains('youtu.be')) return 'youtube';
-    if (host.contains('facebook.com') || host.contains('fb.watch')) return 'facebook';
+    if (host.contains('youtube.com') || host.contains('youtu.be')) {
+      return 'youtube';
+    }
+    if (host.contains('facebook.com') || host.contains('fb.watch')) {
+      return 'facebook';
+    }
     if (host.contains('tiktok.com')) return 'tiktok';
     if (host.contains('twitter.com') || host.contains('x.com')) return 'x';
     return 'website';
@@ -770,8 +1182,15 @@ class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
     try {
       final uid = ref.read(supabaseProvider).auth.currentUser?.id;
       if (uid == null) throw StateError('auth_required');
-      await ref.read(profileRepositoryProvider).upsertMyProfile(
-            Profile(id: uid, firstName: '', lastName: '', socialLinks: socialLinks),
+      await ref
+          .read(profileRepositoryProvider)
+          .upsertMyProfile(
+            Profile(
+              id: uid,
+              firstName: '',
+              lastName: '',
+              socialLinks: socialLinks,
+            ),
           );
       if (mounted) {
         setState(() {
@@ -841,6 +1260,3 @@ class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
     );
   }
 }
-
-
-

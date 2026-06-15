@@ -221,6 +221,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String etaRangeMinutes(int min, int max) {
+    return '$min-$max min';
+  }
+
+  @override
   String avgSpendPerPerson(String amount) {
     return '$amount / person';
   }
@@ -329,7 +334,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoveryLocationSubtitle => 'Discover by city/district';
 
   @override
-  String get nearbyVerifiedSpots => 'Nearby Verified Spots';
+  String get discoverForYou => 'Discover for you';
+
+  @override
+  String discoveryGreetingHello(String name) {
+    return 'Hi $name 👋';
+  }
+
+  @override
+  String get discoveryGreetingHelloAnon => 'Hi 👋';
+
+  @override
+  String get discoveryGreetingSubtitle => 'What do you feel like eating today?';
+
+  @override
+  String get discoveryFeaturedCategory => 'Featured';
+
+  @override
+  String get discoveryCampaignPromoTitle => 'Don\'t miss tasty deals! 🎉';
+
+  @override
+  String get discoveryCampaignPromoSubtitle =>
+      'Discover deals picked just for you.';
 
   @override
   String get noNearbyVerifiedSpots => 'No nearby verified spots found';
@@ -929,6 +955,41 @@ class AppLocalizationsEn extends AppLocalizations {
       'Nearby campaigns and announcements';
 
   @override
+  String get campaignsGreeting => 'Hello! 👋';
+
+  @override
+  String get campaignsSearchPlaceholder => 'Search campaigns or businesses...';
+
+  @override
+  String get campaignFilterAll => 'All';
+
+  @override
+  String get campaignFilterSoon => 'Ending soon';
+
+  @override
+  String get campaignFilterToday => 'Today';
+
+  @override
+  String get campaignFilterFood => 'Food';
+
+  @override
+  String get campaignFilterDessert => 'Dessert';
+
+  @override
+  String get campaignFilterDiscount20 => '20%+';
+
+  @override
+  String get campaignsNearbyHeader => 'Campaigns near you';
+
+  @override
+  String get campaignsFeaturedBadge => 'Tasty Deals';
+
+  @override
+  String campaignDiscountLabel(int percent) {
+    return '$percent% off';
+  }
+
+  @override
   String get noNearbyCampaign => 'No nearby campaign';
 
   @override
@@ -956,6 +1017,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapHintTapPins => 'Tip: Tap pins to open business details.';
+
+  @override
+  String get mapGreetingSubtitle => 'What\'s nearby?';
+
+  @override
+  String get mapSearchHint => 'Search for a place or area...';
+
+  @override
+  String get mapFilterOpen => 'Open';
+
+  @override
+  String get mapFilterPrice => 'Price';
+
+  @override
+  String get mapAttribution => '© OpenStreetMap contributors';
+
+  @override
+  String get mapRecenterTooltip => 'Go to my location';
+
+  @override
+  String get mapLayersTooltip => 'Layers';
 
   @override
   String get locationPermissionRequired => 'Location permission required.';
@@ -2458,6 +2540,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String favoritesCountBanner(int count) {
+    return '$count places in your favorites';
+  }
+
+  @override
   String get favoritesNewCollectionTitle => 'New Collection';
 
   @override
@@ -2962,6 +3049,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileGuestUser => 'Guest';
+
+  @override
+  String get profileHomeTitle => 'Your Profile';
+
+  @override
+  String get profileStatFavoritesShort => 'Favorites';
+
+  @override
+  String get profileStatReviewsShort => 'Reviews';
+
+  @override
+  String get profileStatListsShort => 'Lists';
+
+  @override
+  String get profileQuickActionsTitle => 'Quick actions';
+
+  @override
+  String get profileQuickActionFavorites => 'My Favorites';
+
+  @override
+  String get profileQuickActionPriceAlerts => 'Price Alerts';
+
+  @override
+  String get profileQuickActionFeed => 'My Feed';
+
+  @override
+  String get profileAccountSectionTitle => 'Account';
+
+  @override
+  String get profileAccountSecurityTitle => 'Account Security';
+
+  @override
+  String get profileAccountSecuritySubtitle => 'Change password and email';
+
+  @override
+  String get profileBadgesBannerTitle => 'Your Badge Collection';
+
+  @override
+  String profileBadgesBannerCount(int count) {
+    return 'You have $count badges!';
+  }
+
+  @override
+  String get profileBadgesBannerSubtitle =>
+      'Keep exploring to earn new badges! 🚀';
 
   @override
   String get profileIdentitySupportMessage =>
@@ -3865,4 +3997,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goToMyLists => 'Go to My Lists';
+
+  @override
+  String get businessTabGeneral => 'General';
+
+  @override
+  String get businessTabMenu => 'Menu';
+
+  @override
+  String get businessTabReviews => 'Reviews';
+
+  @override
+  String get businessBadgeMenuVerified => 'Verified Menu';
+
+  @override
+  String get businessBadgePopular => 'Popular';
+
+  @override
+  String get featuredSectionTitle => 'Featured';
+
+  @override
+  String get featuredRatingLabel => 'Rating';
+
+  @override
+  String get featuredMenuVerifiedSubtitle => 'Updated by the owner';
+
+  @override
+  String get popularDishesTitle => 'Popular dishes';
+
+  @override
+  String get locationHoursTitle => 'Location & hours';
+
+  @override
+  String get directions => 'Directions';
+
+  @override
+  String get viewMenu => 'View Menu';
 }

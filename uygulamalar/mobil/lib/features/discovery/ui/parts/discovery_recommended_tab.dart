@@ -247,7 +247,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
           source: 'discovery_home',
           clientId: clientId,
         );
-    if (!mounted) return;
     await trackFunnelStepOnce(
       ref.read(analyticsRepositoryProvider),
       step: FunnelStep.open,
@@ -277,7 +276,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     final isLoggedIn = ref.watch(userProvider.select((user) => user != null));
     final favIds = ref.watch(favoriteIdsProvider);
     final favCache = ref.watch(favoriteStatusCacheProvider);
-    final freshLinksAsync = ref.watch(freshEmbedsProvider(8));
     final isNearby = st.mode == DiscoveryMode.nearby;
     final needsLocation = isNearby && st.userLat == null && st.userLng == null;
     final city = st.city.trim();
@@ -312,7 +310,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         isLoggedIn: isLoggedIn,
         favIds: favIds,
         favCache: favCache,
-        freshLinksAsync: freshLinksAsync,
       );
     }
     return Stack(
@@ -837,9 +834,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               const SizedBox(height: 12),
                             ],
 
-                            // Header — konum etiketi salt okunur;
-                            // konum değiştirmek için üstteki app bar'daki
-                            // global konum seçici kullanılır.
+                            // Header
                             Row(
                               children: [
                                 Builder(
@@ -854,26 +849,39 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                             st.district,
                                           );
 
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 6,
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Icon(
-                                            Icons.place_outlined,
-                                            size: 18,
-                                          ),
-                                          const SizedBox(width: 6),
-                                          Text(
-                                            headerText,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w900,
+                                    return InkWell(
+                                      borderRadius: BorderRadius.circular(12),
+                                      onTap: isNearby
+                                          ? null
+                                          : () => _openLocationSheet(context),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 6,
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const Icon(
+                                              Icons.place_outlined,
+                                              size: 18,
                                             ),
-                                          ),
-                                        ],
+                                            const SizedBox(width: 6),
+                                            Text(
+                                              headerText,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                            if (!isNearby) ...[
+                                              const SizedBox(width: 4),
+                                              const Icon(
+                                                Icons.expand_more,
+                                                size: 18,
+                                              ),
+                                            ],
+                                          ],
+                                        ),
                                       ),
                                     );
                                   },
@@ -1760,10 +1768,15 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     required bool isLoggedIn,
     required Set<String> favIds,
     required Map<String, bool> favCache,
-    required AsyncValue<List<Embed>> freshLinksAsync,
   }) {
     final items = st.items;
+    final freshItems = items
+        .where((b) => (b.recentPriceVerifiedCount ?? 0) > 0)
+        .take(8)
+        .toList();
     final nearbyItems = items;
+    final locationLabel = _formatLocation(context, st.city, st.district);
+
     return RefreshIndicator(
       onRefresh: () => ref.read(discoverySearchProvider.notifier).refresh(),
       child: CustomScrollView(
@@ -1774,7 +1787,55 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
             sliver: SliverList.list(
               children: [
-                const WeatherHintBar(compact: true),
+                const _DiscoveryGreetingHeader(),
+                AppCard(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: AppColors.primarySoft,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.location_on_rounded,
+                          color: AppColors.primary,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context).currentLocation,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              locationLabel,
+                              style: Theme.of(context).textTheme.titleSmall
+                                  ?.copyWith(fontWeight: FontWeight.w800),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      IconButton(
+                        tooltip: AppLocalizations.of(context).changeLocation,
+                        onPressed: () => _openLocationSheet(context),
+                        icon: const Icon(Icons.expand_more_rounded),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 12),
                 Container(
                   decoration: BoxDecoration(
@@ -1815,6 +1876,60 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     ),
                   ),
                 ),
+                const SizedBox(height: 12),
+                CategoryQuickFilters(
+                  items: [
+                    CategoryQuickFilterItem(
+                      id: 'featured',
+                      title: AppLocalizations.of(context).discoveryFeaturedCategory,
+                      imageAsset: '',
+                      isFeatured: true,
+                    ),
+                    ..._homeCategories.take(8).map(
+                          (item) => CategoryQuickFilterItem(
+                            id: item.id,
+                            title: _homeCategoryTitle(context, item.titleKey),
+                            imageAsset:
+                                _selectedCategoryImage[item.id] ?? item.imagePool.first,
+                          ),
+                        ),
+                  ],
+                  layout: CategoryQuickFiltersLayout.roundedRow,
+                  showHeader: false,
+                  onTap: (item) async {
+                    if (item.isFeatured) {
+                      qCtrl.clear();
+                      ref
+                          .read(discoverySearchProvider.notifier)
+                          .setQuery('', withDebounce: false);
+                      if (mounted) setState(() {});
+                      return;
+                    }
+                    final selected = _homeCategories.firstWhere((e) => e.id == item.id);
+                    final clientId = await getAnalyticsClientId();
+                    if (mounted) {
+                      unawaited(
+                        ref
+                            .read(analyticsRepositoryProvider)
+                            .logEvent(
+                              eventName: AppEvents.categoryClick,
+                              source: 'category_quick_filters',
+                              clientId: clientId,
+                              meta: {'category_id': selected.id},
+                            ),
+                      );
+                    }
+                    unawaited(CategoryPrefs.bumpTapCount(item.id));
+                    qCtrl.text = selected.searchTerm;
+                    await _rememberSearch(selected.searchTerm);
+                    ref
+                        .read(discoverySearchProvider.notifier)
+                        .setQuery(selected.searchTerm, withDebounce: false);
+                    if (mounted) setState(() {});
+                  },
+                ),
+                const SizedBox(height: 12),
+                const WeatherHintBar(compact: true),
                 const SizedBox(height: 12),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -1900,21 +2015,57 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     ],
                   ),
                 ),
-                if ((freshLinksAsync.asData?.value ?? []).isNotEmpty) ...[
+                const SizedBox(height: 16),
+                _DiscoveryCampaignPromoCard(
+                  onTap: () => DefaultTabController.of(context).animateTo(1),
+                ),
+                if (freshItems.isNotEmpty) ...[
                   const SizedBox(height: 24),
-                  Text(
-                    AppLocalizations.of(context).freshLinks,
-                    style: Theme.of(context).textTheme.titleLarge,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context).freshMenuUpdates,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(AppLocalizations.of(context).seeAll),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 12),
                   SizedBox(
-                    height: 170,
-                    child: _buildFreshLinksSection(context, freshLinksAsync),
+                    height: 220,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: freshItems.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 12),
+                      itemBuilder: (context, index) {
+                        final item = freshItems[index];
+                        return _DiscoveryUpdateCard(
+                          item: item,
+                          imageAsset: _categoryImageFor(
+                            item.category,
+                            index,
+                          ),
+                          timeLabel: AppLocalizations.of(context).menuUpdatedLabel,
+                          onTap: () => _openBusiness(
+                            item.id,
+                            source: 'fresh_updates',
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                  const SizedBox(height: 24),
                 ],
+                const SizedBox(height: 24),
                 Text(
-                  AppLocalizations.of(context).nearbyVerifiedSpots,
+                  AppLocalizations.of(context).discoverForYou,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 12),
@@ -1926,7 +2077,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                       context,
                     ).changeFiltersTryAgain,
                   )
-                else
+                else ...[
                   ..._buildNearbyCardsWithAds(
                     context: context,
                     ref: ref,
@@ -1935,18 +2086,14 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     favIds: favIds,
                     isLoggedIn: isLoggedIn,
                   ),
+                  _DiscoveryPromoBanner(onTap: () => _openWhatToEat(context)),
+                ],
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  String _updatedLabel(BuildContext context, int index) {
-    final t = AppLocalizations.of(context);
-    const days = [0, 2, 1];
-    return t.updatedDaysAgo(days[index % days.length]);
   }
 
   List<Widget> _buildNearbyCardsWithAds({
@@ -1967,19 +2114,13 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     for (var index = 0; index < nearbyItems.length; index++) {
       final item = nearbyItems[index];
       final isFav = favCache[item.id] ?? favIds.contains(item.id);
-      final hasVerified = (item.recentPriceVerifiedCount ?? 0) > 0;
       widgets.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 14),
-          child: _NearbyVerifiedSpotCard(
+          child: VerticalBusinessCard(
             item: item,
             imageAsset: _categoryImageFor(item.category, index + 2),
             ratingLabel: _ratingLabel(item),
-            averageSpend: _avgSpendLabel(context, item),
-            updatedLabel: _updatedLabel(context, index),
-            statusType: hasVerified
-                ? StatusBadgeType.verified
-                : StatusBadgeType.outdated,
             isFavorite: isFav,
             onTap: () => _openBusiness(item.id, source: 'nearby_verified'),
             onFavoriteTap: () async {
@@ -2010,11 +2151,14 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
       );
       if (!shouldInsertAd) continue;
       final ad = adController.adForSlot(adShown);
-      if (ad == null) continue;
       widgets.add(
         Padding(
           padding: const EdgeInsets.only(bottom: 14),
-          child: NativeAdCard(ad: ad),
+          child: ad != null
+              ? NativeAdCard(ad: ad)
+              : _DiscoveryCampaignPromoCard(
+                  onTap: () => DefaultTabController.of(context).animateTo(1),
+                ),
         ),
       );
       adShown += 1;
@@ -2023,74 +2167,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     return widgets;
   }
 
-  String _avgSpendLabel(BuildContext context, BusinessCardModel item) {
-    final t = AppLocalizations.of(context);
-    final raw = item.medianPriceCents;
-    if (raw == null || raw <= 0) return t.avgSpendPerPerson('---');
-    final amount = formatCurrency(context, raw / 100, currencyCode: 'TRY');
-    return t.avgSpendPerPerson(amount);
-  }
+  String _ratingLabel(BusinessCardModel item) => businessRatingLabel(item);
 
-  String _ratingLabel(BusinessCardModel item) {
-    final rating = ((item.avgRating ?? 4.6) * 10).round() / 10;
-    final trust = item.trustScore ?? 1.2;
-    final votes = trust >= 10
-        ? '${(trust / 1000).toStringAsFixed(1)}k'
-        : '1.2k';
-    return '$rating ($votes)';
-  }
-
-  String _categoryImageFor(String category, int index) {
-    return CategoryAssets.resolve(category);
-  }
-
-  Widget _buildFreshLinksSection(
-    BuildContext context,
-    AsyncValue<List<Embed>> freshLinksAsync,
-  ) {
-    return freshLinksAsync.when(
-      loading: () => const Center(
-        child: SizedBox(
-          width: 22,
-          height: 22,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      ),
-      error: (_, _) => AppEmptyState(
-        icon: Icons.link_off_rounded,
-        title: AppLocalizations.of(context).noLinkFound,
-        description: AppLocalizations.of(context).newEmbedLinksWillAppear,
-      ),
-      data: (freshLinks) {
-        if (freshLinks.isEmpty) {
-          return AppEmptyState(
-            icon: Icons.link_off_rounded,
-            title: AppLocalizations.of(context).noLinkFound,
-            description: AppLocalizations.of(context).newEmbedLinksWillAppear,
-          );
-        }
-        return ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: freshLinks.length,
-          separatorBuilder: (_, _) => const SizedBox(width: 12),
-          itemBuilder: (context, index) {
-            final link = freshLinks[index];
-            return _FreshLinkCard(
-              item: link,
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => EmbedViewerPage(
-                      url: link.urlNormalized,
-                      title: link.title,
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-    );
-  }
+  String _categoryImageFor(String category, int index) =>
+      categoryImageAsset(category);
 }

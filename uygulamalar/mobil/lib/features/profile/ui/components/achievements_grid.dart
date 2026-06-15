@@ -132,7 +132,9 @@ void _showDetails(BuildContext context, Achievement item, Color color) {
             Row(
               children: [
                 Text(
-                  item.unlocked ? t.achievementStatusUnlocked : t.achievementStatusLocked,
+                  item.unlocked
+                      ? t.achievementStatusUnlocked
+                      : t.achievementStatusLocked,
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
                 const Spacer(),
@@ -148,6 +150,3 @@ void _showDetails(BuildContext context, Achievement item, Color color) {
     ),
   );
 }
-
-
-

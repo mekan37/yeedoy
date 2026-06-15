@@ -34,6 +34,7 @@ class AppColors {
   static const primaryStrong = AppPalette.accent;
   static const primaryDeep = AppPalette.wine;
   static const onPrimary = Color(0xFFFFFFFF);
+  static const campaignPromoBg = primarySoft;
 
   // Text
   static const slate = Color(0xFF434D57); // legacy alias (used widely)

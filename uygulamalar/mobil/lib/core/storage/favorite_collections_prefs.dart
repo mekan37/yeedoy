@@ -67,10 +67,10 @@ class FavoriteCollection {
       createdAtIso: (map['created_at'] ?? '').toString(),
       isPublic: map['is_public'] == true,
       isSponsored: map['is_sponsored'] == true,
-      followersCount: (map['followers_count'] ?? 0) is int
+      followersCount: map['followers_count'] is int
           ? (map['followers_count'] as int)
           : int.tryParse('${map['followers_count'] ?? 0}') ?? 0,
-      engagementCount: (map['engagement_count'] ?? 0) is int
+      engagementCount: map['engagement_count'] is int
           ? (map['engagement_count'] as int)
           : int.tryParse('${map['engagement_count'] ?? 0}') ?? 0,
     );
