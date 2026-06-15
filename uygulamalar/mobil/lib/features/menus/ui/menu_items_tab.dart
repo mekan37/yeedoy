@@ -146,7 +146,7 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
 
           // Category chips row
           SizedBox(
-            height: 40,
+            height: tokens.minHitTarget,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
@@ -464,10 +464,9 @@ class _TodaySpecialBanner extends StatelessWidget {
                 SizedBox(width: tokens.space8),
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: context.captionStyle.copyWith(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w900,
-                    fontSize: 13,
                   ),
                 ),
               ],
