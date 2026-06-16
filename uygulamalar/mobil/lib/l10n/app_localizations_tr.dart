@@ -3092,7 +3092,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get profileIdentitySupportMessage =>
-      'Sende katkı yaparak profilini güçlendirebilirsin.';
+      'Topluluğa katkılı yaparak profilini güçlendirebilirsin.';
 
   @override
   String get profileAlertsTab => 'Alarmlar';
@@ -4006,6 +4006,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get businessBadgePopular => 'Popüler';
+
+  @override
+  String get businessBadgeDelivery => 'Paket Servis';
+
+  @override
+  String get businessBadgeDineIn => 'Yerinde Yeme';
 
   @override
   String get featuredSectionTitle => 'Öne çıkanlar';

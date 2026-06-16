@@ -4029,6 +4029,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get businessBadgePopular => 'Popular';
 
   @override
+  String get businessBadgeDelivery => 'Delivery';
+
+  @override
+  String get businessBadgeDineIn => 'Dine In';
+
+  @override
   String get featuredSectionTitle => 'Featured';
 
   @override

@@ -5666,7 +5666,7 @@ abstract class AppLocalizations {
   /// Auto metadata for profileIdentitySupportMessage
   ///
   /// In tr, this message translates to:
-  /// **'Sende katkı yaparak profilini güçlendirebilirsin.'**
+  /// **'Topluluğa katkılı yaparak profilini güçlendirebilirsin.'**
   String get profileIdentitySupportMessage;
 
   /// Auto metadata for profileAlertsTab
@@ -7280,6 +7280,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Popüler'**
   String get businessBadgePopular;
+
+  /// Badge shown when business offers delivery
+  ///
+  /// In tr, this message translates to:
+  /// **'Paket Servis'**
+  String get businessBadgeDelivery;
+
+  /// Badge shown when business offers dine-in seating
+  ///
+  /// In tr, this message translates to:
+  /// **'Yerinde Yeme'**
+  String get businessBadgeDineIn;
 
   /// Business detail Genel tab featured section title
   ///
