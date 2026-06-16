@@ -37,7 +37,8 @@ class _AppShellState extends ConsumerState<AppShell> {
     // (greeting + title + notification bell), replacing the shared AppAppBar
     // on these routes.
     final hideAppBar = widget.location.startsWith('/discover') ||
-        widget.location.startsWith('/favorites');
+        widget.location.startsWith('/favorites') ||
+        widget.location.startsWith('/inbox');
 
     return PopScope(
       canPop: false,

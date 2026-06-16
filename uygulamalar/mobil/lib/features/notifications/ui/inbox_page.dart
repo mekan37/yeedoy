@@ -11,7 +11,6 @@ import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../features/shared/ui/achievements/achievement_visuals.dart';
-import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../domain/inbox_models.dart';
 import '../domain/inbox_provider.dart';
 import '../domain/push_notification_service.dart';
@@ -53,10 +52,9 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     final notificationsDenied = ref.watch(notificationsDeniedProvider);
     final items = _filtered(st);
 
-    return AppScaffold(
-      body: RefreshIndicator(
-        onRefresh: () => controller.refresh(),
-        child: ListView(
+    return RefreshIndicator(
+      onRefresh: () => controller.refresh(),
+      child: ListView(
           padding: EdgeInsets.zero,
           children: [
             _buildHeader(t, controller),
@@ -107,7 +105,6 @@ class _InboxPageState extends ConsumerState<InboxPage> {
             const SizedBox(height: 16),
           ],
         ),
-      ),
     );
   }
 
