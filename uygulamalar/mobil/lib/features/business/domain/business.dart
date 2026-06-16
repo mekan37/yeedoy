@@ -21,6 +21,7 @@ class Business {
     this.avgRating = 0,
     this.description,
     this.isVerified = false,
+    this.priceLevel,
   });
 
   final String id;
@@ -45,6 +46,7 @@ class Business {
   final double avgRating;
   final String? description;
   final bool isVerified;
+  final String? priceLevel;
 
   factory Business.fromMap(Map<String, dynamic> m) => Business(
     id: m['id'] as String,
@@ -70,6 +72,7 @@ class Business {
     avgRating: (m['avg_rating'] as num?)?.toDouble() ?? 0,
     description: m['description'] as String?,
     isVerified: (m['is_verified'] as bool?) ?? false,
+    priceLevel: m['price_level'] as String?,
   );
 
   Map<String, dynamic> toMap() => {
@@ -94,5 +97,6 @@ class Business {
     'avg_rating': avgRating,
     'description': description,
     'is_verified': isVerified,
+    'price_level': priceLevel,
   };
 }
