@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +29,7 @@ import '../../../features/shared/ui/components/weather_hint_bar.dart';
 import '../../shared/ui/widgets/report_bottom_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../discovery/data/discovery_repository.dart';
+import '../../discovery/domain/discovery_search_notifier.dart';
 import '../../favorites/domain/favorite_status_provider.dart';
 import '../../favorites/domain/favorites_controller.dart';
 import '../../menus/data/menu_repository.dart';

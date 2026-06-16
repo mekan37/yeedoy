@@ -15,33 +15,45 @@ class _BusinessHeroTrustHeader extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final trustAsync = ref.watch(_businessTrustProvider(business.id));
     final showMenuVerified = trustAsync.value?.menuSource == 'owner';
+    const collapsedHeight = 56.0;
     return LayoutBuilder(
       builder: (context, constraints) {
         final expandedHeight = constraints.maxWidth * 10 / 16;
         return ValueListenableBuilder<double>(
           valueListenable: heroCollapse,
           builder: (context, progress, _) {
-            final height = expandedHeight * (1 - 0.45 * progress);
+            final height =
+                expandedHeight + (collapsedHeight - expandedHeight) * progress;
+            // Image and verified badges fade out over the first 70% of the
+            // collapse so the photo is fully gone before the bar settles.
+            final imageOpacity = (1 - progress / 0.7).clamp(0.0, 1.0);
+            final radius = tokens.radius20 * (1 - progress);
             return ClipRRect(
-              borderRadius: BorderRadius.circular(tokens.radius20),
-              child: SizedBox(
+              borderRadius: BorderRadius.circular(radius),
+              child: Container(
                 height: height,
+                color: Color.lerp(Colors.transparent, AppColors.card, progress),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    _buildHeroImage(),
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.black.withValues(alpha: 0.15),
-                            Colors.black.withValues(alpha: 0.35),
-                          ],
+                    if (imageOpacity > 0)
+                      Opacity(opacity: imageOpacity, child: _buildHeroImage()),
+                    if (imageOpacity > 0)
+                      Opacity(
+                        opacity: imageOpacity,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.black.withValues(alpha: 0.15),
+                                Colors.black.withValues(alpha: 0.35),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
                     Positioned(
                       top: tokens.space12,
                       left: tokens.space12,
@@ -50,6 +62,7 @@ class _BusinessHeroTrustHeader extends ConsumerWidget {
                         tooltip: MaterialLocalizations.of(
                           context,
                         ).backButtonTooltip,
+                        progress: progress,
                         onPressed: () {
                           if (context.canPop()) {
                             context.pop();
@@ -67,6 +80,7 @@ class _BusinessHeroTrustHeader extends ConsumerWidget {
                           _HeroOverlayButton(
                             icon: Icons.share_outlined,
                             tooltip: AppLocalizations.of(context).share,
+                            progress: progress,
                             onPressed: () =>
                                 unawaited(_shareBusiness(context, business)),
                           ),
@@ -74,30 +88,35 @@ class _BusinessHeroTrustHeader extends ConsumerWidget {
                           _FavoriteToggleButton(
                             businessId: business.id,
                             overlay: true,
+                            progress: progress,
                           ),
                         ],
                       ),
                     ),
-                    if (business.isVerified || showMenuVerified)
+                    if ((business.isVerified || showMenuVerified) &&
+                        imageOpacity > 0)
                       Positioned(
                         bottom: tokens.space12,
                         left: tokens.space12,
                         right: tokens.space12,
-                        child: Wrap(
-                          spacing: tokens.space8,
-                          runSpacing: tokens.space8,
-                          children: [
-                            if (business.isVerified)
-                              _HeroBadgeChip(
-                                icon: Icons.verified_rounded,
-                                label: t.verified,
-                              ),
-                            if (showMenuVerified)
-                              _HeroBadgeChip(
-                                icon: Icons.verified_outlined,
-                                label: t.businessBadgeMenuVerified,
-                              ),
-                          ],
+                        child: Opacity(
+                          opacity: imageOpacity,
+                          child: Wrap(
+                            spacing: tokens.space8,
+                            runSpacing: tokens.space8,
+                            children: [
+                              if (business.isVerified)
+                                _HeroBadgeChip(
+                                  icon: Icons.verified_rounded,
+                                  label: t.verified,
+                                ),
+                              if (showMenuVerified)
+                                _HeroBadgeChip(
+                                  icon: Icons.verified_outlined,
+                                  label: t.businessBadgeMenuVerified,
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                   ],
@@ -224,6 +243,7 @@ class _BusinessInfoPanel extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
+          _BusinessInfoRow(business: business),
           _BusinessBadgeChipRow(business: business),
           _BusinessDescription(description: business.description),
         ],
@@ -238,6 +258,7 @@ class _HeroOverlayButton extends StatelessWidget {
     required this.tooltip,
     required this.onPressed,
     this.iconColor = Colors.white,
+    this.progress = 0,
   });
 
   final IconData icon;
@@ -245,20 +266,29 @@ class _HeroOverlayButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color iconColor;
 
+  /// Hero collapse progress (0 = expanded photo, 1 = collapsed bar). Used to
+  /// fade the circular overlay background out and the icon color from white
+  /// to the normal text color so the buttons stay legible once the photo is
+  /// gone.
+  final double progress;
+
   @override
   Widget build(BuildContext context) {
+    final background = Color.lerp(
+      Colors.black.withValues(alpha: 0.35),
+      Colors.transparent,
+      progress,
+    );
+    final color = Color.lerp(iconColor, AppColors.text, progress);
     return Container(
       width: 44,
       height: 44,
-      decoration: BoxDecoration(
-        color: Colors.black.withValues(alpha: 0.35),
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: background, shape: BoxShape.circle),
       child: IconButton(
         tooltip: tooltip,
         onPressed: onPressed,
         padding: EdgeInsets.zero,
-        icon: Icon(icon, color: iconColor, size: 20),
+        icon: Icon(icon, color: color, size: 20),
       ),
     );
   }
@@ -298,10 +328,15 @@ class _HeroBadgeChip extends StatelessWidget {
 }
 
 class _FavoriteToggleButton extends ConsumerWidget {
-  const _FavoriteToggleButton({required this.businessId, this.overlay = false});
+  const _FavoriteToggleButton({
+    required this.businessId,
+    this.overlay = false,
+    this.progress = 0,
+  });
 
   final String businessId;
   final bool overlay;
+  final double progress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -334,6 +369,7 @@ class _FavoriteToggleButton extends ConsumerWidget {
         icon: icon,
         tooltip: tooltip,
         iconColor: isFavorited ? AppColors.danger : Colors.white,
+        progress: progress,
         onPressed: () => unawaited(handleToggle()),
       );
     }
@@ -439,6 +475,82 @@ class _BusinessDescription extends StatelessWidget {
     );
   }
 }
+
+class _BusinessInfoRow extends ConsumerWidget {
+  const _BusinessInfoRow({required this.business});
+
+  final Business business;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loc = ref.watch(
+      discoverySearchProvider.select((s) => (s.userLat, s.userLng)),
+    );
+    final userLat = loc.$1;
+    final userLng = loc.$2;
+
+    double? distanceKm;
+    if (business.lat != null &&
+        business.lng != null &&
+        userLat != null &&
+        userLng != null) {
+      distanceKm =
+          _haversineKm(userLat, userLng, business.lat!, business.lng!);
+    }
+
+    final walkMinutes = distanceKm != null
+        ? (distanceKm / 4.5 * 60).round().clamp(1, 99)
+        : null;
+
+    final priceInfo = _priceInfo(business.priceLevel);
+
+    if (distanceKm == null && priceInfo == null) return const SizedBox.shrink();
+
+    final tokens = AppTokens.of(context);
+    final parts = <String>[];
+
+    if (distanceKm != null) {
+      final distText = distanceKm < 1
+          ? '${(distanceKm * 1000).round()} m'
+          : '${distanceKm.toStringAsFixed(1)} km';
+      parts.add('📍 $distText');
+      if (walkMinutes != null) parts.add('~$walkMinutes dk yürüme');
+    }
+
+    if (priceInfo != null) {
+      parts.add('${priceInfo.$1} ${priceInfo.$2}');
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(top: tokens.space8),
+      child: Text(
+        parts.join(' · '),
+        style: const TextStyle(color: AppColors.muted, fontSize: 12),
+      ),
+    );
+  }
+
+  static (String, String)? _priceInfo(String? level) {
+    switch (level) {
+      case 'budget': return ('₺', 'Ekonomik');
+      case 'mid': return ('₺₺', 'Orta');
+      case 'premium': return ('₺₺₺', 'Üst Düzey');
+      default: return null;
+    }
+  }
+}
+
+double _haversineKm(double lat1, double lng1, double lat2, double lng2) {
+  const r = 6371.0;
+  final dLat = _deg2rad(lat2 - lat1);
+  final dLng = _deg2rad(lng2 - lng1);
+  final a = sin(dLat / 2) * sin(dLat / 2) +
+      cos(_deg2rad(lat1)) * cos(_deg2rad(lat2)) *
+          sin(dLng / 2) * sin(dLng / 2);
+  return r * 2 * atan2(sqrt(a), sqrt(1 - a));
+}
+
+double _deg2rad(double deg) => deg * (pi / 180);
 
 class _TopStatCard extends StatelessWidget {
   const _TopStatCard({
