@@ -1466,6 +1466,30 @@
   "budgetComboCategoryBreakfast": "Kahvaltı",
   "budgetComboCategoryFishMeat": "Balık / Et",
   "budgetComboCategoryVenue": "Mekan",
+  "smartRecoTitle": "Akıllı Öneri",
+  "@smartRecoTitle": {
+    "description": "Auto metadata for smartRecoTitle"
+  },
+  "smartRecoSubtitle": "Bütçene ve kişi sayısına göre en iyi seçenekler",
+  "@smartRecoSubtitle": {
+    "description": "Auto metadata for smartRecoSubtitle"
+  },
+  "smartRecoEmptyTitle": "Uygun işletme bulunamadı",
+  "@smartRecoEmptyTitle": {
+    "description": "Auto metadata for smartRecoEmptyTitle"
+  },
+  "smartRecoEmptyDesc": "Bütçeni artırarak veya kişi sayısını azaltarak tekrar dene",
+  "@smartRecoEmptyDesc": {
+    "description": "Auto metadata for smartRecoEmptyDesc"
+  },
+  "smartRecoShuffleLabel": "Şansını Dene!",
+  "@smartRecoShuffleLabel": {
+    "description": "Auto metadata for smartRecoShuffleLabel"
+  },
+  "smartRecoShuffleDesc": "Farklı öneriler göster",
+  "@smartRecoShuffleDesc": {
+    "description": "Auto metadata for smartRecoShuffleDesc"
+  },
   "budgetComboResultsTitle": "Bütçe Kombinleri",
   "budgetComboMissingInfoTitle": "Eksik bilgi",
   "budgetComboMissingInfoDescription": "Lütfen bütçe ve konum bilgisini girin.",

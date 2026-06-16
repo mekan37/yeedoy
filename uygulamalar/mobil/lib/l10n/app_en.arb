@@ -2736,6 +2736,30 @@
   "@budgetComboCategoryVenue": {
     "description": "Auto metadata for budgetComboCategoryVenue"
   },
+  "smartRecoTitle": "Smart Picks",
+  "@smartRecoTitle": {
+    "description": "Auto metadata for smartRecoTitle"
+  },
+  "smartRecoSubtitle": "Best picks for your budget and group size",
+  "@smartRecoSubtitle": {
+    "description": "Auto metadata for smartRecoSubtitle"
+  },
+  "smartRecoEmptyTitle": "No matching places found",
+  "@smartRecoEmptyTitle": {
+    "description": "Auto metadata for smartRecoEmptyTitle"
+  },
+  "smartRecoEmptyDesc": "Try raising your budget or reducing party size",
+  "@smartRecoEmptyDesc": {
+    "description": "Auto metadata for smartRecoEmptyDesc"
+  },
+  "smartRecoShuffleLabel": "Feeling Lucky?",
+  "@smartRecoShuffleLabel": {
+    "description": "Auto metadata for smartRecoShuffleLabel"
+  },
+  "smartRecoShuffleDesc": "Show different picks",
+  "@smartRecoShuffleDesc": {
+    "description": "Auto metadata for smartRecoShuffleDesc"
+  },
   "budgetComboResultsTitle": "Budget Combos",
   "@budgetComboResultsTitle": {
     "description": "Auto metadata for budgetComboResultsTitle"
