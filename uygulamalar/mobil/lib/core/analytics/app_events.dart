@@ -32,6 +32,9 @@ class AppEvents {
   // Budget combos
   static const budgetComboSearch = 'budget_combo_search';
   static const budgetComboBusinessOpen = 'budget_combo_business_open';
+  static const smartRecoSearch = 'smart_reco_search';
+  static const smartRecoBusinessOpen = 'smart_reco_business_open';
+  static const smartRecoShuffle = 'smart_reco_shuffle';
 
   // A/B tests
   static const experimentExposure = 'experiment_exposure';
