@@ -29,9 +29,7 @@ class AppEvents {
   static const funnelMenuView = 'funnel_menu_view';
   static const funnelContribution = 'funnel_contribution';
 
-  // Budget combos
-  static const budgetComboSearch = 'budget_combo_search';
-  static const budgetComboBusinessOpen = 'budget_combo_business_open';
+  // Smart recommendations
   static const smartRecoSearch = 'smart_reco_search';
   static const smartRecoBusinessOpen = 'smart_reco_business_open';
   static const smartRecoShuffle = 'smart_reco_shuffle';

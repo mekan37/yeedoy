@@ -4,14 +4,14 @@
 /// Widget bağımlılıklarını minimize etmek için:
 /// - SponsoredBadge → widget render testi (yalnızca tema gerektirmez)
 /// - Inbox share callback → pure function unit testi
-/// - BudgetCombo sort logic → pure function unit testi
-/// - BudgetComboResult.fromMap → model parse testi
+/// - SmartReco sort logic → pure function unit testi
+/// - SmartRecommendation.fromMap → model parse testi
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:yeedoy/features/budget_combos/domain/budget_combo_models.dart';
 import 'package:yeedoy/features/notifications/domain/inbox_models.dart';
+import 'package:yeedoy/features/smart_recommendation/domain/smart_reco_models.dart';
 import 'package:yeedoy/features/sponsorluk/ui/sponsored_badge.dart';
 
 // ---------------------------------------------------------------------------
@@ -68,11 +68,12 @@ _ShareCallback? _shareCallbackFor(InboxItem item) {
 }
 
 // ---------------------------------------------------------------------------
-// BudgetCombo sort logic — results_page private _sortWithWeights yeniden impl
+// SmartReco sort logic — smart_recommendation_page private _sortWithWeights
+// yeniden impl
 // ---------------------------------------------------------------------------
 
-List<BudgetComboResult> _sortWithWeights(
-  List<BudgetComboResult> items, {
+List<SmartRecommendation> _sortWithWeights(
+  List<SmartRecommendation> items, {
   double weightDistance = 0.35,
   double weightPrice = 0.45,
   double weightRating = 0.2,
@@ -114,7 +115,7 @@ List<BudgetComboResult> _sortWithWeights(
   final wPrice = totalWeight == 0 ? 1.0 : weightPrice / totalWeight;
   final wRating = totalWeight == 0 ? 0.0 : weightRating / totalWeight;
 
-  double scoreItem(BudgetComboResult item) {
+  double scoreItem(SmartRecommendation item) {
     final priceScore =
         1 - ((item.totalCents.toDouble() - minPrice) / priceRange);
     final parts = <double>[priceScore];
@@ -163,23 +164,15 @@ InboxItem _inboxItem(
       meta: meta,
     );
 
-BudgetComboResult _combo(
+SmartRecommendation _reco(
   String id, {
   required int totalCents,
   double? distanceKm,
   double? rating,
 }) =>
-    BudgetComboResult(
+    SmartRecommendation(
       businessId: id,
       businessName: 'İşletme $id',
-      combo: BudgetCombo(
-        main: BudgetComboItem(
-          id: '$id-main',
-          name: 'Ana yemek',
-          priceCents: totalCents,
-          currency: 'TRY',
-        ),
-      ),
       totalCents: totalCents,
       distanceKm: distanceKm,
       rating: rating,
@@ -350,9 +343,9 @@ void main() {
   });
 
   // =========================================================================
-  // 3. BudgetCombo sort logic — crash ve doğruluk testi
+  // 3. SmartReco sort logic — crash ve doğruluk testi
   // =========================================================================
-  group('BudgetCombo sort logic', () {
+  group('SmartReco sort logic', () {
     test('boş liste sort crash yapmıyor', () {
       expect(() => _sortWithWeights([]), returnsNormally);
       expect(_sortWithWeights([]), isEmpty);
@@ -360,15 +353,15 @@ void main() {
 
     test('tek eleman sort crash yapmıyor', () {
       final items = [
-        _combo('a', totalCents: 5000, distanceKm: 1.5, rating: 8.0),
+        _reco('a', totalCents: 5000, distanceKm: 1.5, rating: 8.0),
       ];
       final sorted = _sortWithWeights(items);
       expect(sorted.length, 1);
     });
 
     test('daha ucuz işletme price-weight yüksekken öne geçer', () {
-      final cheap = _combo('cheap', totalCents: 3000, rating: 7.0);
-      final expensive = _combo('exp', totalCents: 8000, rating: 9.0);
+      final cheap = _reco('cheap', totalCents: 3000, rating: 7.0);
+      final expensive = _reco('exp', totalCents: 8000, rating: 9.0);
 
       // weightPrice ağır; fiyat daha belirleyici
       final sorted = _sortWithWeights(
@@ -382,8 +375,8 @@ void main() {
     });
 
     test('daha yakın işletme distance-weight yüksekken öne geçer', () {
-      final near = _combo('near', totalCents: 6000, distanceKm: 0.5);
-      final far = _combo('far', totalCents: 5000, distanceKm: 10.0);
+      final near = _reco('near', totalCents: 6000, distanceKm: 0.5);
+      final far = _reco('far', totalCents: 5000, distanceKm: 10.0);
 
       // weightDistance çok ağır
       final sorted = _sortWithWeights(
@@ -398,9 +391,9 @@ void main() {
 
     test('distanceKm null olan öğeler crash yapmıyor', () {
       final items = [
-        _combo('a', totalCents: 4000),
-        _combo('b', totalCents: 6000, distanceKm: 2.0),
-        _combo('c', totalCents: 5000),
+        _reco('a', totalCents: 4000),
+        _reco('b', totalCents: 6000, distanceKm: 2.0),
+        _reco('c', totalCents: 5000),
       ];
       expect(() => _sortWithWeights(items), returnsNormally);
       final sorted = _sortWithWeights(items);
@@ -409,8 +402,8 @@ void main() {
 
     test('tüm ağırlıklar 0 olduğunda crash yapmıyor', () {
       final items = [
-        _combo('a', totalCents: 3000),
-        _combo('b', totalCents: 7000),
+        _reco('a', totalCents: 3000),
+        _reco('b', totalCents: 7000),
       ];
       expect(
         () => _sortWithWeights(
@@ -425,9 +418,9 @@ void main() {
   });
 
   // =========================================================================
-  // 4. BudgetComboResult model parse testi
+  // 4. SmartRecommendation model parse testi
   // =========================================================================
-  group('BudgetComboResult model parse', () {
+  group('SmartRecommendation model parse', () {
     test('fromMap tüm alanları doğru parse eder', () {
       final map = {
         'business_id': 'b-1',
@@ -435,73 +428,61 @@ void main() {
         'total_cents': 4500,
         'distance_km': 1.2,
         'rating': 8.5,
-        'combo': {
-          'main': {
-            'id': 'm-1',
-            'name': 'Adana Kebap',
-            'price_cents': 3500,
-            'currency': 'TRY',
-          },
-          'drink': {
-            'id': 'd-1',
-            'name': 'Ayran',
-            'price_cents': 1000,
-            'currency': 'TRY',
-          },
-        },
+        'review_count': 42,
+        'cuisine': 'Türk',
+        'image_url': 'https://example.com/img.jpg',
+        'original_total_cents': 5000,
+        'discount_pct': 10,
+        'estimated_minutes': 15,
       };
 
-      final result = BudgetComboResult.fromMap(map);
+      final result = SmartRecommendation.fromMap(map);
       expect(result.businessId, 'b-1');
       expect(result.businessName, 'Lezzet Durağı');
       expect(result.totalCents, 4500);
       expect(result.distanceKm, 1.2);
       expect(result.rating, 8.5);
-      expect(result.combo.main.name, 'Adana Kebap');
-      expect(result.combo.drink?.name, 'Ayran');
+      expect(result.reviewCount, 42);
+      expect(result.cuisine, 'Türk');
+      expect(result.imageUrl, 'https://example.com/img.jpg');
+      expect(result.originalTotalCents, 5000);
+      expect(result.discountPct, 10);
+      expect(result.estimatedMinutes, 15);
     });
 
-    test('fromMap drink null ile crash yapmıyor', () {
+    test('fromMap opsiyonel alanlar null ile crash yapmıyor', () {
       final map = {
         'business_id': 'b-2',
         'business_name': 'Sadece Yemek',
         'total_cents': 3000,
-        'combo': {
-          'main': {
-            'id': 'm-2',
-            'name': 'Izgara Köfte',
-            'price_cents': 3000,
-            'currency': 'TRY',
-          },
-        },
       };
-      final result = BudgetComboResult.fromMap(map);
-      expect(result.combo.drink, isNull);
+      final result = SmartRecommendation.fromMap(map);
+      expect(result.distanceKm, isNull);
+      expect(result.rating, isNull);
+      expect(result.imageUrl, isNull);
       expect(result.businessId, 'b-2');
     });
 
     test('fromMap eksik alanlar default değer alır', () {
-      final result = BudgetComboResult.fromMap({'combo': {}});
+      final result = SmartRecommendation.fromMap({});
       expect(result.businessId, '');
       expect(result.totalCents, 0);
       expect(result.distanceKm, isNull);
       expect(result.rating, isNull);
     });
 
-    test('BudgetComboQuery alanları doğru atanır', () {
-      const query = BudgetComboQuery(
+    test('SmartRecoQuery alanları doğru atanır', () {
+      const query = SmartRecoQuery(
         city: 'Ankara',
         district: 'Çankaya',
         partySize: 2,
-        budgetTotalCents: 20000,
-        category: 'Kebap',
+        budgetMaxCents: 20000,
       );
       expect(query.city, 'Ankara');
       expect(query.district, 'Çankaya');
       expect(query.partySize, 2);
-      expect(query.budgetTotalCents, 20000);
-      expect(query.category, 'Kebap');
-      expect(query.limit, 30);
+      expect(query.budgetMaxCents, 20000);
+      expect(query.limit, 10);
     });
   });
 }
