@@ -430,10 +430,19 @@ class _BusinessBadgeChipRow extends ConsumerWidget {
     final t = AppLocalizations.of(context);
     final tokens = AppTokens.of(context);
     final trendingAsync = ref.watch(businessTrendingItemsProvider(business.id));
+    final trustAsync = ref.watch(_businessTrustProvider(business.id));
+    final amenitiesAsync = ref.watch(businessAmenitiesProvider(business.id));
 
     final showPopular = trendingAsync.value?.isNotEmpty ?? false;
+    final showMenuVerified = trustAsync.value?.menuSource == 'owner';
+    final amenities = amenitiesAsync.asData?.value ?? const [];
+    final hasDelivery = amenities.any((a) => a.key == 'delivery');
+    final hasDineIn =
+        amenities.any((a) => a.key == 'dine_in' || a.key == 'takeaway');
 
-    if (!showPopular) return const SizedBox.shrink();
+    if (!showPopular && !showMenuVerified && !hasDelivery && !hasDineIn) {
+      return const SizedBox.shrink();
+    }
 
     return Padding(
       padding: EdgeInsets.only(top: tokens.space12),
@@ -441,11 +450,30 @@ class _BusinessBadgeChipRow extends ConsumerWidget {
         spacing: tokens.space8,
         runSpacing: tokens.space8,
         children: [
-          _BadgeChip(
-            icon: Icons.local_fire_department_outlined,
-            label: t.businessBadgePopular,
-            color: AppColors.warning,
-          ),
+          if (showMenuVerified)
+            _BadgeChip(
+              icon: Icons.verified_outlined,
+              label: t.businessBadgeMenuVerified,
+              color: AppColors.success,
+            ),
+          if (hasDelivery)
+            _BadgeChip(
+              icon: Icons.delivery_dining_outlined,
+              label: t.businessBadgeDelivery,
+              color: AppColors.muted,
+            ),
+          if (hasDineIn)
+            _BadgeChip(
+              icon: Icons.restaurant_outlined,
+              label: t.businessBadgeDineIn,
+              color: AppColors.muted,
+            ),
+          if (showPopular)
+            _BadgeChip(
+              icon: Icons.local_fire_department_outlined,
+              label: t.businessBadgePopular,
+              color: AppColors.warning,
+            ),
         ],
       ),
     );
