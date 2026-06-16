@@ -221,6 +221,13 @@ class _ResultsSection extends ConsumerWidget {
           style: const TextStyle(color: AppColors.danger),
         ),
         data: (items) {
+          if (items.isNotEmpty) {
+            ref.read(analyticsRepositoryProvider).logEvent(
+              eventName: AppEvents.smartRecoSearch,
+              source: 'smart_reco',
+              meta: {'count': items.length},
+            );
+          }
           if (items.isEmpty) {
             return AppEmptyState(
               icon: Icons.search_off_outlined,
@@ -254,6 +261,7 @@ class _SmartBusinessCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppCard(
+      padding: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
           ref.read(analyticsRepositoryProvider).logEvent(
@@ -427,6 +435,7 @@ class _ShuffleTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     return AppCard(
+      padding: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
           ref.read(analyticsRepositoryProvider).logEvent(
