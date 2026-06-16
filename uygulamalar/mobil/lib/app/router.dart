@@ -13,7 +13,7 @@ import '../features/auth/ui/forgot_password_page.dart';
 import '../features/auth/ui/account_security_page.dart';
 import '../features/perks/ui/perks_page.dart';
 import '../features/business/ui/business_page.dart';
-import '../features/budget_combos/ui/budget_combo_results_page.dart';
+import '../features/smart_recommendation/ui/smart_recommendation_page.dart';
 import '../features/chains/ui/chain_page.dart';
 import '../features/compare/ui/compare_page.dart';
 import '../features/discovery/ui/discovery_page.dart';
@@ -268,27 +268,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/budget-combos',
-        pageBuilder: (c, s) {
-          final qp = s.uri.queryParameters;
-          final city = sanitizeFreeText(qp['city']);
-          final district = sanitizeFreeText(qp['district']);
-          final party = int.tryParse(qp['party'] ?? '') ?? 2;
-          final budget = int.tryParse(qp['budget'] ?? '') ?? 0;
-          final categoryRaw = sanitizeFreeText(qp['category']);
-          final category = categoryRaw.isEmpty ? null : categoryRaw;
-          final radius = double.tryParse(qp['radius'] ?? '');
-          return buildFadeSlidePage(
-            state: s,
-            child: BudgetComboResultsPage(
-              city: city,
-              district: district,
-              partySize: party,
-              budgetTotalCents: budget,
-              category: category,
-              radiusKm: radius,
-            ),
-          );
-        },
+        pageBuilder: (c, s) => buildFadeSlidePage(
+          state: s,
+          child: const SmartRecommendationPage(),
+        ),
       ),
       GoRoute(
         path: '/b/:id',
