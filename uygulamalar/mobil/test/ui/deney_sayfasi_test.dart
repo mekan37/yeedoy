@@ -92,7 +92,7 @@ void main() {
     expect(find.text('Feed'), findsAtLeastNWidgets(1));
     expect(find.text('Food experts'), findsOneWidget);
     expect(find.text('Heroes'), findsNothing);
-    expect(find.text('Budget Combos'), findsNothing);
+    expect(find.text('Smart Picks'), findsNothing);
   });
 
   testWidgets('shows labs-only entries when labs flag is enabled', (
@@ -111,7 +111,7 @@ void main() {
     // 'Heroes' appears in both the status chip row and the entry list.
     expect(find.text('Heroes'), findsAtLeastNWidgets(1));
     expect(find.text('Group requests'), findsOneWidget);
-    expect(find.text('Budget Combos'), findsOneWidget);
+    expect(find.text('Smart Picks'), findsOneWidget);
     expect(find.text('Feed'), findsNothing);
   });
 }
