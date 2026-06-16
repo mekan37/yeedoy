@@ -318,19 +318,7 @@ class _WhatToEatSheetState extends ConsumerState<_WhatToEatSheet> {
                 onPressed: !hasLocation || budgetCents <= 0
                     ? null
                     : () {
-                        final params = <String, String>{
-                          'city': city,
-                          'district': district,
-                          'party': _partySize.toString(),
-                          'budget': budgetCents.toString(),
-                          'radius': _radiusKm.toStringAsFixed(0),
-                        };
-                        context.go(
-                          Uri(
-                            path: '/budget-combos',
-                            queryParameters: params,
-                          ).toString(),
-                        );
+                        context.go('/budget-combos');
                       },
                 child: Text(t.seeSuggestions),
               ),

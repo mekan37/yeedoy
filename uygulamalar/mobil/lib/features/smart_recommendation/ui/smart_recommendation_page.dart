@@ -442,6 +442,7 @@ class _ShuffleTile extends ConsumerWidget {
             eventName: AppEvents.smartRecoShuffle,
             source: 'smart_reco',
           );
+          ref.read(smartRecoRepositoryProvider).clearReadCache();
           ref.refresh(smartRecoProvider(query));
         },
         borderRadius: BorderRadius.circular(16),
