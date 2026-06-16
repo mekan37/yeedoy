@@ -55,7 +55,25 @@ class _BusinessFixedHeader extends StatelessWidget {
               business: business,
               heroCollapse: heroCollapse,
             ),
-            _BusinessInfoPanel(business: business, isOpenNow: isOpenNow),
+            ValueListenableBuilder<double>(
+              valueListenable: heroCollapse,
+              builder: (context, progress, _) {
+                final opacity = (1 - progress / 0.7).clamp(0.0, 1.0);
+                return ClipRect(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    heightFactor: (1 - progress).clamp(0.0, 1.0),
+                    child: Opacity(
+                      opacity: opacity,
+                      child: _BusinessInfoPanel(
+                        business: business,
+                        isOpenNow: isOpenNow,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -230,8 +248,6 @@ class _BusinessMenuTab extends StatelessWidget {
             businessId: businessId,
             fallbackCategory: fallbackCategory,
           ),
-          SizedBox(height: tokens.space16),
-          BusinessMenusSection(businessId: businessId),
           SizedBox(height: tokens.space16),
           BusinessMealCardsSection(businessId: businessId),
           SizedBox(height: tokens.space16),
@@ -460,19 +476,20 @@ class _PopularDishCard extends StatelessWidget {
     final tokens = AppTokens.of(context);
     final remoteUrl = _normalizeImageUrl(item.imageUrl);
     return Container(
-      padding: EdgeInsets.all(tokens.space8),
+      padding: EdgeInsets.all(tokens.space12),
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(tokens.radius12),
+        borderRadius: BorderRadius.circular(tokens.radius16),
         border: Border.all(color: AppColors.border),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(tokens.radius12),
             child: SizedBox(
-              width: 48,
-              height: 48,
+              width: 64,
+              height: 64,
               child: remoteUrl != null
                   ? AppNetworkImage(
                       url: remoteUrl,
@@ -485,31 +502,28 @@ class _PopularDishCard extends StatelessWidget {
                     ),
             ),
           ),
-          SizedBox(width: tokens.space8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  item.itemName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 13,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  _formatPriceWithCurrency(
-                    context,
-                    item.priceCents,
-                    item.currency,
-                  ),
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
-                ),
-              ],
+          SizedBox(height: tokens.space8),
+          Text(
+            item.itemName,
+            style: const TextStyle(
+              fontWeight: FontWeight.w800,
+              fontSize: 13,
+              color: AppColors.textStrong,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 2),
+          Text(
+            _formatPriceWithCurrency(
+              context,
+              item.priceCents,
+              item.currency,
+            ),
+            style: const TextStyle(
+              color: AppColors.primary,
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
             ),
           ),
         ],
@@ -530,7 +544,7 @@ class _BusinessPopularDishesSection extends ConsumerWidget {
     final trendingAsync = ref.watch(businessTrendingItemsProvider(business.id));
     final items = trendingAsync.value ?? const <BusinessTrendingItem>[];
     if (items.isEmpty) return const SizedBox.shrink();
-    final shown = items.take(4).toList(growable: false);
+    final shown = items.take(2).toList(growable: false);
 
     return Padding(
       padding: EdgeInsets.only(bottom: tokens.space16),
@@ -554,19 +568,18 @@ class _BusinessPopularDishesSection extends ConsumerWidget {
               ),
             ],
           ),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: tokens.space8,
-            crossAxisSpacing: tokens.space8,
-            childAspectRatio: 2.4,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              for (final item in shown)
-                _PopularDishCard(
-                  item: item,
-                  fallbackCategory: business.category,
+              for (int i = 0; i < shown.length; i++) ...[
+                if (i > 0) SizedBox(width: tokens.space8),
+                Expanded(
+                  child: _PopularDishCard(
+                    item: shown[i],
+                    fallbackCategory: business.category,
+                  ),
                 ),
+              ],
             ],
           ),
         ],
