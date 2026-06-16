@@ -437,8 +437,7 @@ class _BusinessBadgeChipRow extends ConsumerWidget {
     final showMenuVerified = trustAsync.value?.menuSource == 'owner';
     final amenities = amenitiesAsync.asData?.value ?? const [];
     final hasDelivery = amenities.any((a) => a.key == 'delivery');
-    final hasDineIn =
-        amenities.any((a) => a.key == 'dine_in' || a.key == 'takeaway');
+    final hasDineIn = amenities.any((a) => a.key == 'dine_in');
 
     if (!showPopular && !showMenuVerified && !hasDelivery && !hasDineIn) {
       return const SizedBox.shrink();
