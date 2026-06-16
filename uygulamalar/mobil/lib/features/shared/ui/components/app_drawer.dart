@@ -97,7 +97,7 @@ class AppDrawer extends ConsumerWidget {
                 _LinkTile(
                   icon: Icons.auto_awesome_outlined,
                   label: t.drawerSmartSuggestionShortcut,
-                  onTap: () => context.go('/discover'),
+                  onTap: () => context.go('/budget-combos'),
                 ),
                 _LinkTile(
                   icon: Icons.notifications_active_outlined,
