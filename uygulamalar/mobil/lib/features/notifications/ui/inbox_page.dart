@@ -57,7 +57,8 @@ class _InboxPageState extends ConsumerState<InboxPage> {
       child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            _buildHeader(t, controller),
+            const SafeArea(bottom: false, child: AppTopBar()),
+            _buildHeader(t),
             _buildFilterBar(),
             if (notificationsDenied)
               const Padding(
@@ -108,55 +109,24 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     );
   }
 
-  Widget _buildHeader(AppLocalizations t, InboxController controller) {
-    final unreadCount = ref.watch(inboxUnreadCountProvider);
+  Widget _buildHeader(AppLocalizations t) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Merhaba! 👋',
-                  style: TextStyle(fontSize: 12, color: AppColors.muted),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  t.inboxTitle,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.textStrong,
-                  ),
-                ),
-              ],
-            ),
+          const Text(
+            'Merhaba! 👋',
+            style: TextStyle(fontSize: 12, color: AppColors.muted),
           ),
-          IconButton(
-            icon: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.notifications_outlined, size: 26),
-                if (unreadCount > 0)
-                  Positioned(
-                    right: -3,
-                    top: -3,
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                        color: AppColors.danger,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ),
-              ],
+          const SizedBox(height: 2),
+          Text(
+            t.inboxTitle,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+              color: AppColors.textStrong,
             ),
-            onPressed: () {},
-            tooltip: t.inboxTitle,
           ),
         ],
       ),

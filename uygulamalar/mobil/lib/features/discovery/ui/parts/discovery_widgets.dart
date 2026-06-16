@@ -1,34 +1,12 @@
 part of '../discovery_page.dart';
 
-/// In-content header for the Discovery (Keşfet) tab: hamburger menu on the
-/// left (opens [AppDrawer]) and notification bell on the right (navigates to
-/// `/inbox`). Replaces the shared [AppAppBar] on this route — see
-/// `AppShell.hideAppBar`.
+/// Thin wrapper kept for backward compat within this `part of` file.
+/// Delegates to the shared [AppTopBar] — see `AppShell.hideAppBar`.
 class _DiscoveryTopBar extends StatelessWidget {
   const _DiscoveryTopBar();
 
   @override
-  Widget build(BuildContext context) {
-    final tokens = AppTokens.of(context);
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: tokens.space8),
-      child: Row(
-        children: [
-          IconButton(
-            tooltip: 'Menü',
-            onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.menu_rounded),
-          ),
-          const Spacer(),
-          IconButton(
-            tooltip: 'Bildirim Kutusu',
-            onPressed: () => context.go('/inbox'),
-            icon: const NotificationsBell(),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => const AppTopBar();
 }
 
 /// Compact pill/segment style replacement for the default Material [TabBar]
