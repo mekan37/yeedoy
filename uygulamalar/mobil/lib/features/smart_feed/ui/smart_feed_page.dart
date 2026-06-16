@@ -9,7 +9,6 @@ import '../../../core/media/app_network_image.dart';
 import '../../../core/weather/weather_hint_provider.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
-import '../../budget_combos/ui/budget_combo_entry_card.dart';
 import '../../discovery/ui/discovery_page.dart';
 import '../domain/smart_feed_controller.dart';
 import '../domain/smart_feed_models.dart';
@@ -82,7 +81,7 @@ class _SmartFeedPageState extends ConsumerState<SmartFeedPage> {
                         .updatePreferences(next),
                   ),
                   const SizedBox(height: 14),
-                  const BudgetComboEntryCard(),
+                  const _SmartRecoPromoBanner(),
                   const SizedBox(height: 14),
                   _SmartContextBanner(
                     preferences: prefs,
@@ -135,6 +134,52 @@ class _SmartFeedPageState extends ConsumerState<SmartFeedPage> {
             const DiscoveryPage(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SmartRecoPromoBanner extends StatelessWidget {
+  const _SmartRecoPromoBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    return AppCard(
+      onTap: () => context.go('/budget-combos'),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.primarySoft,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Icon(Icons.lightbulb_outline, color: AppColors.textStrong),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.smartRecoTitle,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  t.smartRecoSubtitle,
+                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right, color: AppColors.muted),
+        ],
       ),
     );
   }

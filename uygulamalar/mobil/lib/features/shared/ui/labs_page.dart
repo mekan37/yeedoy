@@ -41,7 +41,7 @@ class LabsPage extends ConsumerWidget {
         ),
       if (flags.enableLabs)
         _LabsEntry(
-          title: t.budgetComboResultsTitle,
+          title: t.smartRecoTitle,
           subtitle: t.drawerExperimental,
           route: '/budget-combos',
           icon: Icons.savings_outlined,
