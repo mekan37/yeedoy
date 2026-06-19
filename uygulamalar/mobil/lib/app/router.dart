@@ -9,9 +9,11 @@ import '../core/config/feature_flags.dart';
 import '../core/security/route_sanitizer.dart';
 import '../features/auth/domain/auth_providers.dart';
 import '../features/auth/ui/login_page.dart';
+import '../features/auth/ui/register_page.dart';
 import '../features/auth/ui/forgot_password_page.dart';
 import '../features/auth/ui/account_security_page.dart';
 import '../features/perks/ui/perks_page.dart';
+import '../features/price_alerts/ui/price_alerts_page.dart';
 import '../features/business/ui/business_page.dart';
 import '../features/smart_recommendation/ui/smart_recommendation_page.dart';
 import '../features/chains/ui/chain_page.dart';
@@ -29,7 +31,16 @@ import '../features/menus/ui/menu_item_page.dart';
 import '../features/menus/ui/public_menu_share_page.dart';
 import '../features/notifications/ui/inbox_page.dart';
 import '../features/onboarding/ui/onboarding_page.dart';
+import '../features/profile/ui/account_info_page.dart';
+import '../features/profile/ui/achievements_page.dart';
 import '../features/profile/ui/profile_page.dart';
+import '../features/profile/ui/social_accounts_page.dart';
+import '../features/notifications/ui/notification_preferences_page.dart';
+import '../features/support/ui/live_support_page.dart';
+import '../features/support/ui/help_support_page.dart';
+import '../features/support/ui/faq_page.dart';
+import '../features/location/ui/location_picker_page.dart';
+import '../features/contribute/ui/contribute_page.dart';
 import '../features/reviews/ui/business_reviews_page.dart';
 import '../features/reviews/ui/review_create_page.dart';
 import '../features/smart_feed/ui/smart_feed_page.dart';
@@ -42,6 +53,7 @@ import '../features/top_businesses/ui/top_businesses_page.dart';
 import '../features/collab_lists/ui/collab_lists_page.dart';
 import '../features/collab_lists/ui/collab_list_detail_page.dart';
 import '../features/collab_lists/ui/collab_list_join_page.dart';
+import '../features/legal/ui/data_deletion_page.dart';
 import '../features/legal/ui/legal_page.dart';
 import '../features/legal/ui/legal_acceptance_page.dart';
 import '../features/legal/legal_providers.dart';
@@ -204,7 +216,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '/discover',
             builder: (c, s) {
               final sort = s.uri.queryParameters['sort'];
-              return DiscoveryPage(initialSort: sort == 'price_asc' ? 'priceLow' : null);
+              return DiscoveryPage(
+                initialSort: sort == 'price_asc' ? 'priceLow' : null,
+              );
             },
           ),
           GoRoute(
@@ -241,6 +255,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             },
           ),
           GoRoute(path: '/inbox', builder: (c, s) => const InboxPage()),
+          GoRoute(
+            path: '/contribute',
+            builder: (c, s) => const ContributePage(),
+          ),
+          GoRoute(
+            path: '/price-alerts',
+            builder: (c, s) => const PriceAlertsPage(),
+          ),
         ],
       ),
       GoRoute(
@@ -265,6 +287,48 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/compare',
         pageBuilder: (c, s) =>
             buildFadeSlidePage(state: s, child: const ComparePage()),
+      ),
+      GoRoute(
+        path: '/account-info',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const AccountInfoPage()),
+      ),
+      GoRoute(
+        path: '/social-accounts',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const SocialAccountsPage()),
+      ),
+      GoRoute(
+        path: '/achievements',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const AchievementsPage()),
+      ),
+      GoRoute(
+        path: '/live-support',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const LiveSupportPage()),
+      ),
+      GoRoute(
+        path: '/help-support',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const HelpSupportPage()),
+      ),
+      GoRoute(
+        path: '/faq',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const FaqPage()),
+      ),
+      GoRoute(
+        path: '/location-picker',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const LocationPickerPage()),
+      ),
+      GoRoute(
+        path: '/notification-preferences',
+        pageBuilder: (c, s) => buildFadeSlidePage(
+          state: s,
+          child: const NotificationPreferencesPage(),
+        ),
       ),
       GoRoute(
         path: '/budget-combos',
@@ -379,6 +443,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/suggest', builder: (c, s) => const SuggestBusinessPage()),
       GoRoute(
+        path: '/suggest-business',
+        builder: (c, s) => const SuggestBusinessPage(),
+      ),
+      GoRoute(
         path: '/dev-tools',
         builder: (c, s) => const DeveloperToolsPage(),
       ),
@@ -402,11 +470,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return GroupRequestDetailPage(requestId: requestId);
         },
       ),
-      GoRoute(
-        path: '/login',
-        builder: (c, s) =>
-            LoginPage(initialSignup: s.uri.queryParameters['mode'] == 'signup'),
-      ),
+      GoRoute(path: '/login', builder: (c, s) => const LoginPage()),
+      GoRoute(path: '/register', builder: (c, s) => const RegisterPage()),
       GoRoute(
         path: '/forgot-password',
         builder: (c, s) => const ForgotPasswordPage(),
@@ -424,6 +489,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(path: '/legal', builder: (c, s) => const LegalPage()),
+      GoRoute(
+        path: '/data-deletion',
+        builder: (c, s) => const DataDeletionPage(),
+      ),
       GoRoute(
         path: '/top-businesses',
         builder: (c, s) {

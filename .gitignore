@@ -98,6 +98,14 @@ apps/
 # Large raw OSM/geo data files — kept locally in veri/osm/, not committed
 veri/osm/
 
+# Design sync build artifacts (gitignored; durable set in .design-sync/ IS committed)
+.ds-sync/
+.ds-build/
+ds-bundle/
+.design-sync/.cache/
+.design-sync/learnings/
+.design-sync/node_modules
+
 # Agent / tool state
 agentdb.db
 agentdb.rvf
