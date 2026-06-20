@@ -28,7 +28,7 @@ class ProfileRepository {
     try {
       final row = await _supabase
           .from('user_profiles')
-          .select('user_id,display_name')
+          .select('user_id,display_name,social_links')
           .eq('user_id', uid)
           .single();
       final data = (row as Map).cast<String, dynamic>();
@@ -39,11 +39,22 @@ class ProfileRepository {
           .toList();
       final firstName = parts.isNotEmpty ? parts.first : '';
       final lastName = parts.length > 1 ? parts.sublist(1).join(' ') : '';
+      final socialRaw = data['social_links'];
+      final socialLinks = <String, String>{};
+      if (socialRaw is Map) {
+        for (final entry in socialRaw.entries) {
+          final key = entry.key.toString().trim();
+          final value = entry.value?.toString().trim() ?? '';
+          if (key.isEmpty || value.isEmpty) continue;
+          socialLinks[key] = value;
+        }
+      }
       return Profile(
         id: (data['user_id'] ?? uid).toString(),
         firstName: firstName,
         lastName: lastName,
         displayName: displayName.isEmpty ? null : displayName,
+        socialLinks: socialLinks,
       );
     } on PostgrestException catch (e) {
       // No row found => return null, anything else rethrow.
