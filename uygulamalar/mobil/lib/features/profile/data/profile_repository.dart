@@ -93,7 +93,7 @@ class ProfileRepository {
   }
 
   Future<ProfileStats> fetchMyStats() async {
-    final res = await _supabase.rpc('get_my_profile_stats');
+    final res = await _supabase.rpc('get_my_profile_stats_v1');
     if (res is List && res.isNotEmpty) {
       return ProfileStats.fromMap(res.first as Map<String, dynamic>);
     }
@@ -128,7 +128,7 @@ class ProfileRepository {
   }
 
   Future<WeeklyMissions> fetchMyWeeklyMissions() async {
-    final res = await _supabase.rpc('get_my_weekly_missions');
+    final res = await _supabase.rpc('get_my_weekly_missions_v1');
     if (res is List && res.isNotEmpty) {
       return WeeklyMissions.fromMap(res.first as Map<String, dynamic>);
     }

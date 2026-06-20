@@ -177,14 +177,9 @@ class _BusinessActionChipsState extends ConsumerState<_BusinessActionChips> {
     try {
       HapticFeedback.lightImpact();
       final clientId = await getAnalyticsClientId();
-      await ref.read(supabaseProvider).rpc(
-        'log_checkin_v1',
-        params: {
-          'p_business_id': widget.business.id,
-          'p_menu_id': null,
-          'p_table_no': null,
-          'p_client_id': clientId,
-        },
+      await ref.read(checkInRepositoryProvider).logCheckin(
+        businessId: widget.business.id,
+        clientId: clientId,
       );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

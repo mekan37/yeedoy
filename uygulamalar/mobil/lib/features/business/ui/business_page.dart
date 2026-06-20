@@ -39,6 +39,7 @@ import '../../perks/domain/perk_providers.dart';
 import '../domain/business.dart';
 import '../domain/business_amenities_provider.dart';
 import '../domain/meal_card_providers_provider.dart';
+import '../data/check_in_repository.dart';
 import '../domain/business_checkins_provider.dart';
 import '../domain/business_new_items_provider.dart';
 import '../domain/business_trending_provider.dart';

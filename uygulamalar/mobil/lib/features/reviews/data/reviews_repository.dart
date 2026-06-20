@@ -116,7 +116,7 @@ class ReviewsRepository {
     }
   }
 
-  /// Uploads review photos to temp_uploads with kind 'review_photo'.
+  /// Uploads review photos to the review_photos table.
   Future<void> uploadReviewPhotos({
     required String reviewId,
     required String businessId,
@@ -128,24 +128,21 @@ class ReviewsRepository {
     for (final file in files) {
       final bytes = await file.readAsBytes();
       final ext = _normalizedExt(file.name);
+      final mime = ext == 'png' ? 'image/png' : 'image/jpeg';
       final path =
-          'temp_uploads/$businessId/${now.millisecondsSinceEpoch}_${_randomHex()}.review.$ext';
+          'review-photos/$businessId/${now.millisecondsSinceEpoch}_${_randomHex()}.$ext';
       await client.storage.from('temp').uploadBinary(
             path,
             bytes,
-            fileOptions: FileOptions(
-              contentType: ext == 'png' ? 'image/png' : 'image/jpeg',
-              upsert: false,
-            ),
+            fileOptions: FileOptions(contentType: mime, upsert: false),
           );
-      await client.from('temp_uploads').insert({
+      await client.from('review_photos').insert({
         'business_id': businessId,
         'user_id': userId,
         'review_id': reviewId,
-        'kind': 'review_photo',
         'storage_bucket': 'temp',
         'storage_path': path,
-        'mime_type': ext == 'png' ? 'image/png' : 'image/jpeg',
+        'mime_type': mime,
         'bytes': bytes.length,
         'status': 'pending',
       });
@@ -171,10 +168,9 @@ class ReviewsRepository {
     int limit = 9,
   }) async {
     final res = await client
-        .from('temp_uploads')
+        .from('review_photos')
         .select('storage_bucket, storage_path')
         .eq('business_id', businessId)
-        .eq('kind', 'review_photo')
         .neq('status', 'rejected')
         .order('created_at', ascending: false)
         .limit(limit);
@@ -186,13 +182,12 @@ class ReviewsRepository {
     }).toList();
   }
 
-  /// Fetches approved/pending photo URLs for a review from temp_uploads.
+  /// Fetches approved/pending photo URLs for a review.
   Future<List<String>> fetchReviewPhotos(String reviewId) async {
     final res = await client
-        .from('temp_uploads')
+        .from('review_photos')
         .select('storage_bucket, storage_path')
         .eq('review_id', reviewId)
-        .eq('kind', 'review_photo')
         .neq('status', 'rejected')
         .order('created_at')
         .limit(6);

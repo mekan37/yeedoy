@@ -16,6 +16,7 @@ import '../../../core/web/web_utils.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../data/menu_repository.dart';
+import '../../business/data/check_in_repository.dart';
 
 class PublicMenuSharePage extends ConsumerStatefulWidget {
   const PublicMenuSharePage({super.key, required this.menuId});
@@ -283,17 +284,12 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
     _loggedCheckin = true;
     try {
       final clientId = await getAnalyticsClientId();
-      await ref
-          .read(supabaseProvider)
-          .rpc(
-            'log_checkin_v1',
-            params: {
-              'p_business_id': businessId,
-              'p_menu_id': menuId,
-              'p_table_no': tableNo,
-              'p_client_id': clientId,
-            },
-          );
+      await ref.read(checkInRepositoryProvider).logCheckin(
+        businessId: businessId,
+        menuId: menuId,
+        tableNo: tableNo,
+        clientId: clientId,
+      );
     } catch (_) {
       // Silent fail on web open.
     }
@@ -475,33 +471,110 @@ class _MenuItemRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
     final name = (item['name'] ?? '').toString();
-    final desc = (item['description'] ?? '').toString();
+    final desc = (item['description'] ?? '').toString().trim();
+    final imageUrl = (item['image_url'] ?? '').toString().trim();
     final price = _fmtPrice(
       context,
       item['price_cents'] as num?,
       item['currency']?.toString(),
     );
+    final isVegan = item['is_vegan'] == true;
+    final isVegetarian = item['is_vegetarian'] == true;
+    final isGlutenFree = item['is_gluten_free'] == true;
+    final isLactoseFree = item['is_lactose_free'] == true;
+    final isHalal = item['is_halal'] == true;
+    final hasDietBadges =
+        isVegan || isVegetarian || isGlutenFree || isLactoseFree || isHalal;
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(name, style: const TextStyle(fontWeight: FontWeight.w800)),
-              if (desc.trim().isNotEmpty)
-                Text(
-                  desc,
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
-                ),
-            ],
-          ),
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: EdgeInsets.all(tokens.space12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(tokens.radius12),
+              child: SizedBox(
+                width: 64,
+                height: 64,
+                child: imageUrl.isEmpty
+                    ? Container(
+                        color: AppColors.bg,
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.restaurant_menu,
+                          color: AppColors.muted,
+                        ),
+                      )
+                    : AppNetworkImage(url: imageUrl, width: 64, height: 64),
+              ),
+            ),
+            SizedBox(width: tokens.space12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(fontWeight: FontWeight.w900),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (desc.isNotEmpty) ...[
+                    SizedBox(height: tokens.space4),
+                    Text(
+                      desc,
+                      style: context.captionStyle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  if (hasDietBadges) ...[
+                    SizedBox(height: tokens.space8),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      children: [
+                        if (isVegan) _DietBadge(label: t.vegan),
+                        if (isVegetarian) _DietBadge(label: t.vegetarian),
+                        if (isGlutenFree) _DietBadge(label: t.glutenFree),
+                        if (isLactoseFree) _DietBadge(label: t.lactoseFree),
+                        if (isHalal) const _DietBadge(label: 'Helal'),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Text(price, style: const TextStyle(fontWeight: FontWeight.w900)),
+          ],
         ),
-        const SizedBox(width: 8),
-        Text(price, style: const TextStyle(fontWeight: FontWeight.w800)),
-      ],
+      ),
+    );
+  }
+}
+
+class _DietBadge extends StatelessWidget {
+  const _DietBadge({required this.label});
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.25),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800),
+      ),
     );
   }
 }
