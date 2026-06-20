@@ -160,6 +160,46 @@ class CollabListRepository {
     return data['list_id'] as String;
   }
 
+  // ── Group vote data (by invite token) ─────────────────────────────────────
+
+  Future<
+    ({
+      String id,
+      String name,
+      String? description,
+      List<Map<String, dynamic>> items,
+      List<Map<String, dynamic>> votes,
+    })
+  > fetchGroupVoteData(String token) async {
+    final listeRow = await _client
+        .from('collab_lists')
+        .select('id, name, description')
+        .eq('invite_token', token)
+        .single();
+
+    final listeId = listeRow['id'] as String;
+
+    final itemsRaw = await _client
+        .from('collab_list_items')
+        .select('id, business_id, businesses(name, slug, category, city, district)')
+        .eq('list_id', listeId);
+
+    final votesRaw = await _client
+        .from('collab_list_votes')
+        .select('item_id, vote')
+        .eq('list_id', listeId);
+
+    return (
+      id: listeId,
+      name: listeRow['name'] as String,
+      description: listeRow['description'] as String?,
+      items: itemsRaw,
+      votes: votesRaw,
+    );
+  }
+
+  Future<void> removeVote(String itemId) => upsertVote(itemId, 0);
+
   // ── Delete list ────────────────────────────────────────────────────────────
 
   Future<void> deleteList(String listId) async {

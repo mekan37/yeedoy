@@ -218,9 +218,9 @@ class DiscoveryRepository {
     int minReviews = 2,
   }) async {
     final res = await _telemetry.traceRpc<dynamic>(
-      operation: 'get_top_businesses',
+      operation: 'get_top_businesses_period_v1',
       run: () => client.rpc(
-        'get_top_businesses',
+        'get_top_businesses_period_v1',
         params: {
           'p_period': period,
           'p_limit': limit,

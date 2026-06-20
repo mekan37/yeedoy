@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../features/collab_lists/data/collab_list_repository.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 
@@ -61,15 +62,15 @@ class _OyVerState {
 
 // ─── Sayfa ───────────────────────────────────────────────────────────────────
 
-class OyVerSayfasi extends StatefulWidget {
+class OyVerSayfasi extends ConsumerStatefulWidget {
   const OyVerSayfasi({super.key, required this.token});
   final String token;
 
   @override
-  State<OyVerSayfasi> createState() => _OyVerSayfasiState();
+  ConsumerState<OyVerSayfasi> createState() => _OyVerSayfasiState();
 }
 
-class _OyVerSayfasiState extends State<OyVerSayfasi> {
+class _OyVerSayfasiState extends ConsumerState<OyVerSayfasi> {
   _OyVerState? _state;
   bool _yukleniyor = true;
   String? _hata;
@@ -86,57 +87,24 @@ class _OyVerSayfasiState extends State<OyVerSayfasi> {
       _hata = null;
     });
     try {
-      final supabase = Supabase.instance.client;
+      final repo = ref.read(collabListRepositoryProvider);
+      final data = await repo.fetchGroupVoteData(widget.token);
 
-      final listeRes =
-          await (supabase as dynamic)
-                  .from('collab_lists')
-                  .select('id, name, description')
-                  .eq('invite_token', widget.token)
-                  .single()
-              as Map<String, dynamic>;
-
-      final listeId = listeRes['id'] as String;
-      final listAdi = listeRes['name'] as String;
-      final aciklama = listeRes['description'] as String?;
-
-      final kalemRes =
-          await (supabase as dynamic)
-                  .from('collab_list_items')
-                  .select(
-                    'id, business_id, businesses(name, slug, category, city, district)',
-                  )
-                  .eq('list_id', listeId)
-              as List<dynamic>;
-
-      final oyRes =
-          await (supabase as dynamic)
-                  .from('collab_list_votes')
-                  .select('item_id, vote')
-                  .eq('list_id', listeId)
-              as List<dynamic>;
-
-      // Oy sayılarını grupla
       final oyMap = <String, Map<String, int>>{};
-      for (final oy in oyRes) {
+      for (final oy in data.votes) {
         final itemId = oy['item_id'] as String;
-        final vote = oy['vote'] as int;
+        final vote = (oy['vote'] as num).toInt();
         oyMap.putIfAbsent(itemId, () => {'up': 0, 'down': 0});
-        if (vote == 1) {
-          oyMap[itemId]!['up'] = (oyMap[itemId]!['up'] ?? 0) + 1;
-        }
-        if (vote == -1) {
-          oyMap[itemId]!['down'] = (oyMap[itemId]!['down'] ?? 0) + 1;
-        }
+        if (vote == 1) oyMap[itemId]!['up'] = (oyMap[itemId]!['up'] ?? 0) + 1;
+        if (vote == -1) oyMap[itemId]!['down'] = (oyMap[itemId]!['down'] ?? 0) + 1;
       }
 
-      final items = kalemRes.map((k) {
+      final items = data.items.map((k) {
         final biz = k['businesses'] as Map<String, dynamic>? ?? {};
         final itemId = k['id'] as String;
-        final konum = [
-          biz['district'],
-          biz['city'],
-        ].where((x) => x != null).join(', ');
+        final konum = [biz['district'], biz['city']]
+            .where((x) => x != null)
+            .join(', ');
         return OyVeItem(
           id: itemId,
           businessId: k['business_id'] as String,
@@ -151,9 +119,9 @@ class _OyVerSayfasiState extends State<OyVerSayfasi> {
 
       setState(() {
         _state = _OyVerState(
-          listeId: listeId,
-          listAdi: listAdi,
-          aciklama: aciklama,
+          listeId: data.id,
+          listAdi: data.name,
+          aciklama: data.description,
           items: items,
         );
         _yukleniyor = false;
@@ -175,39 +143,18 @@ class _OyVerSayfasiState extends State<OyVerSayfasi> {
       final idx = _state!.items.indexWhere((i) => i.id == item.id);
       if (idx < 0) return;
       final current = _state!.items[idx];
-      // Önceki oyu geri al
-      if (oncekiVote == 1) {
-        current.upVotes = (current.upVotes - 1).clamp(0, 999);
-      }
-      if (oncekiVote == -1) {
-        current.downVotes = (current.downVotes - 1).clamp(0, 999);
-      }
-      // Yeni oyu ekle
+      if (oncekiVote == 1) current.upVotes = (current.upVotes - 1).clamp(0, 999);
+      if (oncekiVote == -1) current.downVotes = (current.downVotes - 1).clamp(0, 999);
       if (yeniVote == 1) current.upVotes++;
       if (yeniVote == -1) current.downVotes++;
       current.userVote = yeniVote;
     });
 
     try {
-      final supabase = Supabase.instance.client;
-      if (yeniVote == null) {
-        await (supabase as dynamic)
-            .from('collab_list_votes')
-            .delete()
-            .eq('list_id', _state!.listeId)
-            .eq('item_id', item.id);
-      } else {
-        await (supabase as dynamic).rpc(
-          'upsert_collab_vote_v1',
-          params: {
-            'p_list_id': _state!.listeId,
-            'p_item_id': item.id,
-            'p_vote': yeniVote,
-          },
-        );
-      }
+      final repo = ref.read(collabListRepositoryProvider);
+      await repo.upsertVote(item.id, yeniVote ?? 0);
     } catch (_) {
-      _yukle(); // Hata durumunda taze yükle
+      _yukle();
     }
   }
 

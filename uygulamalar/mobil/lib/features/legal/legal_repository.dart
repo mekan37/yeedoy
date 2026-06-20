@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -84,7 +83,6 @@ class LegalRepository {
               'policy_version_id': version.id,
               'accepted_at': now,
               'source_app': sourceApp,
-              'user_agent': _buildUserAgent(),
             },
           )
           .toList(),
@@ -118,66 +116,54 @@ class LegalRepository {
     );
   }
 
+  /// Gizlilik / veri silme talebi gönderir.
+  ///
+  /// RPC: submit_privacy_request_v1(p_request_type, p_details)
+  ///
+  /// Geçerli [requestType] değerleri:
+  ///   delete_data, delete_interactions, delete_support,
+  ///   delete_owner_claims, other,
+  ///   data_export, privacy_application, access, rectification,
+  ///   erasure, restriction, objection, portability
+  ///
+  /// Kullanıcı oturumu yoksa StateError('auth_required') fırlatır.
   Future<void> submitPrivacyRequest({
     required String requestType,
-    required String details,
+    String? details,
   }) async {
     final uid = _supabase.auth.currentUser?.id;
     if (uid == null) {
       throw StateError('auth_required');
     }
 
-    await _ensureNoOpenRequest(
-      table: 'privacy_requests',
-      userId: uid,
-      openStatuses: _openPrivacyStatuses,
-      duplicateError: 'privacy_request_already_open',
+    await _supabase.rpc(
+      'submit_privacy_request_v1',
+      params: <String, dynamic>{
+        'p_request_type': requestType,
+        if (details != null && details.trim().isNotEmpty)
+          'p_details': details.trim(),
+      },
     );
-    await _supabase.from('privacy_requests').insert(<String, dynamic>{
-      'user_id': uid,
-      'request_type': requestType,
-      'status': 'submitted',
-      'details': details.trim(),
-      'submitted_at': DateTime.now().toUtc().toIso8601String(),
-    });
   }
 
-  Future<void> submitAccountDeletionRequest({required String reason}) async {
+  /// Hesap silme talebi gönderir.
+  ///
+  /// RPC: submit_account_deletion_request_v1(p_reason)
+  ///
+  /// Kullanıcı oturumu yoksa StateError('auth_required') fırlatır.
+  Future<void> submitAccountDeletionRequest({String? reason}) async {
     final uid = _supabase.auth.currentUser?.id;
     if (uid == null) {
       throw StateError('auth_required');
     }
 
-    await _ensureNoOpenRequest(
-      table: 'account_deletion_requests',
-      userId: uid,
-      openStatuses: _openAccountDeletionStatuses,
-      duplicateError: 'account_deletion_request_already_open',
+    await _supabase.rpc(
+      'submit_account_deletion_request_v1',
+      params: <String, dynamic>{
+        if (reason != null && reason.trim().isNotEmpty)
+          'p_reason': reason.trim(),
+      },
     );
-    await _supabase.from('account_deletion_requests').insert(<String, dynamic>{
-      'user_id': uid,
-      'reason': reason.trim(),
-      'status': 'requested',
-      'requested_at': DateTime.now().toUtc().toIso8601String(),
-    });
-  }
-
-  Future<void> _ensureNoOpenRequest({
-    required String table,
-    required String userId,
-    required List<String> openStatuses,
-    required String duplicateError,
-  }) async {
-    final rows = await _supabase
-        .from(table)
-        .select('id')
-        .eq('user_id', userId)
-        .inFilter('status', openStatuses)
-        .limit(1);
-    final hasOpenRequest = (rows as List? ?? const []).isNotEmpty;
-    if (hasOpenRequest) {
-      throw Exception(duplicateError);
-    }
   }
 
   Future<LegalRequestRecord?> _loadLatestOpenRequest({
@@ -203,8 +189,4 @@ class LegalRepository {
     return null;
   }
 
-  String _buildUserAgent() {
-    final platform = defaultTargetPlatform.name;
-    return 'yeedoy-mobile/$platform';
-  }
 }
