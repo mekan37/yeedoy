@@ -58,7 +58,10 @@ import '../features/legal/ui/legal_page.dart';
 import '../features/legal/ui/legal_acceptance_page.dart';
 import '../features/legal/legal_providers.dart';
 import '../features/devtools/ui/developer_tools_page.dart';
+import '../features/grup_oy/ui/oy_ver_sayfasi.dart';
+import '../features/sadakat/ui/sadakat_kartlarim_sayfasi.dart';
 import '../features/shared/ui/labs_page.dart';
+import '../features/yemek_gunlugu/ui/yemek_gunlugu_sayfasi.dart';
 import '../core/i18n/app_localizations.dart';
 import '../core/config/app_config.dart';
 
@@ -335,6 +338,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (c, s) => buildFadeSlidePage(
           state: s,
           child: const SmartRecommendationPage(),
+        ),
+      ),
+      GoRoute(
+        path: '/loyalty-cards',
+        pageBuilder: (c, s) => buildFadeSlidePage(
+          state: s,
+          child: const SadakatKartlarimSayfasi(),
+        ),
+      ),
+      GoRoute(
+        path: '/food-journal',
+        pageBuilder: (c, s) => buildFadeSlidePage(
+          state: s,
+          child: const YemekGunluguSayfasi(),
+        ),
+      ),
+      GoRoute(
+        path: '/group-vote/:token',
+        pageBuilder: (c, s) => buildFadeSlidePage(
+          state: s,
+          child: OyVerSayfasi(token: s.pathParameters['token']!),
         ),
       ),
       GoRoute(

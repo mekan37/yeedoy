@@ -1,38 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/location/user_location_controller.dart';
-import '../../../core/network/supabase_provider.dart';
-import '../../../core/ui/link_paste_field.dart';
-import '../data/profile_model.dart';
-import '../data/profile_repository.dart';
-import '../../../features/shared/ui/achievements/achievement_visuals.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
-import '../../notifications/ui/components/notifications_bell.dart';
-import '../../price_alerts/domain/price_alert_models.dart';
-import '../../price_alerts/domain/price_alerts_provider.dart';
 import '../domain/achievement.dart';
 import '../domain/achievements_provider.dart';
-import '../domain/business_feed_provider.dart';
 import '../domain/creator_profile_provider.dart';
 import '../domain/daily_micro_task.dart';
 import '../domain/daily_micro_task_provider.dart';
 import '../domain/favorite_collections_count_provider.dart';
 import '../domain/moat_signals_provider.dart';
 import '../domain/profile_progress_provider.dart';
-import '../domain/profile_stats.dart';
 import '../domain/profile_stats_provider.dart';
 import '../domain/reputation_provider.dart';
-import '../../taste_twin/domain/taste_twin_controllers.dart';
 import '../domain/user_moat_signals.dart';
 import 'profile_settings_page.dart';
-import 'components/achievements_grid.dart';
 import 'components/profile_identity_card.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -42,27 +29,7 @@ class ProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    return DefaultTabController(
-      length: 3,
-      initialIndex: initialTab.clamp(0, 2),
-      child: Column(
-        children: [
-          TabBar(
-            tabs: [
-              Tab(text: t.profile),
-              Tab(text: t.profileAlertsTab),
-              Tab(text: t.profileFeedTab),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [_ProfileTab(), _AlertsTab(), _FeedTab()],
-            ),
-          ),
-        ],
-      ),
-    );
+    return _ProfileTab();
   }
 }
 
@@ -72,24 +39,10 @@ class _ProfileTab extends ConsumerStatefulWidget {
 }
 
 class _ProfileTabState extends ConsumerState<_ProfileTab> {
-  final _achievementsSectionKey = GlobalKey();
-
-  void _scrollToAchievements() {
-    final ctx = _achievementsSectionKey.currentContext;
-    if (ctx != null) {
-      Scrollable.ensureVisible(
-        ctx,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final user = ref.watch(userProvider);
-    final statsAsync = ref.watch(myProfileStatsProvider);
     final achievementsAsync = ref.watch(myAchievementsProvider);
     final dailyTaskAsync = ref.watch(myDailyMicroTaskProvider);
     final reputationAsync = ref.watch(myReputationScoreProvider);
@@ -118,8 +71,6 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
           const SizedBox(height: 12),
           const _ProfileAccountList(),
           const SizedBox(height: 12),
-          _ProfileBadgesBanner(onTap: _scrollToAchievements),
-          const SizedBox(height: 12),
           if (user == null) ...[
             _InfoCard(
               title: t.login,
@@ -129,29 +80,19 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
             ),
             const SizedBox(height: 12),
           ],
+          // ── İçerik Üretici Rozeti ────────────────────────────────────
           creatorAsync.when(
             loading: () => const SizedBox.shrink(),
             error: (_, _) => const SizedBox.shrink(),
-            data: (creator) => Card(
-              child: SwitchListTile(
-                value: creator.isCreator,
-                onChanged: user == null
-                    ? null
-                    : (value) {
-                        ref
-                            .read(creatorProfileControllerProvider)
-                            .setIsCreator(value);
-                      },
-                title: Text(t.profileCreatorBadgeTitle),
-                subtitle: Text(
-                  creator.isCreator
-                      ? t.profileCreatorBadgeEnabled
-                      : t.profileCreatorBadgeDisabled,
-                ),
-              ),
+            data: (creator) => _CreatorBadgeCard(
+              isCreator: creator.isCreator,
+              enabled: user != null,
+              onChanged: (v) =>
+                  ref.read(creatorProfileControllerProvider).setIsCreator(v),
             ),
           ),
           const SizedBox(height: 12),
+          // ── Günlük Görevler ──────────────────────────────────────────
           dailyTaskAsync.when(
             loading: () => const SizedBox.shrink(),
             error: (_, _) => const SizedBox.shrink(),
@@ -166,69 +107,13 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
                   ),
           ),
           const SizedBox(height: 12),
-          const _SocialLinkSection(),
-          const SizedBox(height: 12),
-          Text(
-            t.profileStatsTitle,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: AppColors.textStrong,
-            ),
-          ),
-          const SizedBox(height: 8),
-          statsAsync.when(
-            loading: () => const LinearProgressIndicator(),
-            error: (err, _) => _ErrorText(text: '$err'),
-            data: (stats) => _StatsGrid(stats: stats),
+          // ── Güven & İlerleme ─────────────────────────────────────────
+          _CommunityTrustCard(
+            reputationAsync: reputationAsync,
+            progressAsync: progressAsync,
           ),
           const SizedBox(height: 12),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    t.profileCommunityTrustTitle,
-                    style: const TextStyle(fontWeight: FontWeight.w800),
-                  ),
-                  const SizedBox(height: 6),
-                  reputationAsync.when(
-                    loading: () => Text(t.profileCalculating),
-                    error: (err, _) => _ErrorText(text: '$err'),
-                    data: (score) => Text(t.profileTrustScorePercent(score)),
-                  ),
-                  const SizedBox(height: 6),
-                  progressAsync.when(
-                    loading: () => const SizedBox.shrink(),
-                    error: (_, _) => const SizedBox.shrink(),
-                    data: (progress) {
-                      if (progress == null) return const SizedBox.shrink();
-                      final value = progress.nextLevelXp == 0
-                          ? 0.0
-                          : (progress.xpInLevel / progress.nextLevelXp).clamp(
-                              0.0,
-                              1.0,
-                            );
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            t.profileLevelXp(progress.level, progress.totalXp),
-                          ),
-                          const SizedBox(height: 6),
-                          LinearProgressIndicator(value: value),
-                        ],
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          const CommunityScoreGuideCard(kind: CommunityScoreKind.userTrust),
-          const SizedBox(height: 12),
+          // ── Katkı Profili ────────────────────────────────────────────
           moatSignalsAsync.when(
             loading: () => const SizedBox.shrink(),
             error: (_, _) => const SizedBox.shrink(),
@@ -237,105 +122,352 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
                 : _MoatSignalsCard(signals: signals),
           ),
           const SizedBox(height: 12),
-          Column(
-            key: _achievementsSectionKey,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                t.profileMyAchievementsTitle,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textStrong,
-                ),
-              ),
-              const SizedBox(height: 8),
-              achievementsAsync.when(
-                loading: () => const LinearProgressIndicator(),
-                error: (err, _) => _ErrorText(text: '$err'),
-                data: (items) {
-                  if (items.isEmpty) {
-                    return _EmptyText(text: t.profileNoAchievementYet);
-                  }
-                  final latestUnlocked = items
-                      .where((e) => e.unlocked && e.unlockedAt != null)
-                      .fold<Achievement?>(
-                        null,
-                        (prev, curr) =>
-                            prev == null ||
-                                curr.unlockedAt!.isAfter(prev.unlockedAt!)
-                            ? curr
-                            : prev,
-                      );
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (latestUnlocked != null)
-                        _LatestAchievementBanner(item: latestUnlocked),
-                      const SizedBox(height: 8),
-                      AchievementsGrid(items: items),
-                    ],
-                  );
-                },
-              ),
-            ],
-          ),
+          _AchievementsNavCard(achievementsAsync: achievementsAsync),
         ],
       ),
     );
   }
 }
 
-class _ProfileBadgesBanner extends ConsumerWidget {
-  const _ProfileBadgesBanner({required this.onTap});
+// ── Shared card shell ─────────────────────────────────────────────────────────
 
-  final VoidCallback onTap;
+class _SectionCardShell extends StatelessWidget {
+  const _SectionCardShell({required this.children});
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    );
+  }
+}
+
+class _CardHeader extends StatelessWidget {
+  const _CardHeader({
+    required this.icon,
+    required this.iconColor,
+    required this.iconBg,
+    required this.title,
+    this.trailing,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final Color iconBg;
+  final String title;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+      child: Row(
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w900,
+                fontSize: 15,
+                color: AppColors.textStrong,
+              ),
+            ),
+          ),
+          ?trailing,
+        ],
+      ),
+    );
+  }
+}
+
+class _CardRow extends StatelessWidget {
+  const _CardRow({
+    required this.icon,
+    required this.iconColor,
+    required this.iconBg,
+    required this.title,
+    this.subtitle,
+    this.trailing,
+    this.onTap,
+    this.bottom,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final Color iconBg;
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+  final Widget? bottom;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: iconBg,
+                    borderRadius: BorderRadius.circular(13),
+                  ),
+                  child: Icon(icon, color: iconColor, size: 22),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                          color: AppColors.textStrong,
+                        ),
+                      ),
+                      if (subtitle != null)
+                        Text(
+                          subtitle!,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.muted,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                ?trailing,
+              ],
+            ),
+            if (bottom != null) ...[const SizedBox(height: 10), bottom!],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget _statusBadge(String label, Color color) => Container(
+  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+  decoration: BoxDecoration(
+    color: color.withValues(alpha: 0.12),
+    borderRadius: BorderRadius.circular(999),
+  ),
+  child: Text(
+    label,
+    style: TextStyle(
+      color: color,
+      fontWeight: FontWeight.w800,
+      fontSize: 12,
+    ),
+  ),
+);
+
+// ── İçerik Üretici Rozeti ─────────────────────────────────────────────────────
+
+class _CreatorBadgeCard extends StatelessWidget {
+  const _CreatorBadgeCard({
+    required this.isCreator,
+    required this.enabled,
+    required this.onChanged,
+  });
+
+  final bool isCreator;
+  final bool enabled;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return _SectionCardShell(
+      children: [
+        _CardHeader(
+          icon: Icons.workspace_premium_rounded,
+          iconColor: const Color(0xFFD97706),
+          iconBg: const Color(0xFFFEF3C7),
+          title: 'İçerik Üretici Rozeti',
+          trailing: Switch(
+            value: isCreator,
+            onChanged: enabled ? onChanged : null,
+            activeThumbColor: AppColors.primary,
+            activeTrackColor: AppColors.primary.withValues(alpha: 0.35),
+          ),
+        ),
+        const Divider(height: 1, color: AppColors.border),
+        _CardRow(
+          icon: isCreator ? Icons.verified_rounded : Icons.info_outline_rounded,
+          iconColor:
+              isCreator ? AppColors.success : AppColors.muted,
+          iconBg:
+              isCreator
+                  ? AppColors.success.withValues(alpha: 0.1)
+                  : AppColors.border.withValues(alpha: 0.5),
+          title: isCreator ? 'Rozet Aktif' : 'Rozet Kapalı',
+          subtitle: isCreator
+              ? 'Toplulukta içerik üreticisi olarak görünüyorsun'
+              : 'Etkinleştirerek profilinde öne çık',
+          trailing: _statusBadge(
+            isCreator ? 'Aktif' : 'Kapalı',
+            isCreator ? AppColors.success : AppColors.muted,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ── Güven & İlerleme ──────────────────────────────────────────────────────────
+
+class _CommunityTrustCard extends StatelessWidget {
+  const _CommunityTrustCard({
+    required this.reputationAsync,
+    required this.progressAsync,
+  });
+
+  final AsyncValue<int> reputationAsync;
+  final AsyncValue<dynamic> progressAsync;
+
+  @override
+  Widget build(BuildContext context) {
+    final score = reputationAsync.asData?.value ?? 0;
+    final progress = progressAsync.asData?.value;
+    final xpRatio = progress == null || progress.nextLevelXp == 0
+        ? 0.0
+        : (progress.xpInLevel / progress.nextLevelXp).clamp(0.0, 1.0);
+
+    return _SectionCardShell(
+      children: [
+        _CardHeader(
+          icon: Icons.shield_outlined,
+          iconColor: AppColors.info,
+          iconBg: AppColors.info.withValues(alpha: 0.1),
+          title: 'Güven & İlerleme',
+          trailing: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            icon: const Icon(
+              Icons.info_outline_rounded,
+              size: 18,
+              color: AppColors.muted,
+            ),
+            onPressed: () => showCommunityScoreExplainerSheet(
+              context,
+              kind: CommunityScoreKind.userTrust,
+            ),
+          ),
+        ),
+        const Divider(height: 1, color: AppColors.border),
+        _CardRow(
+          icon: Icons.shield_rounded,
+          iconColor: const Color(0xFF1E88E5),
+          iconBg: const Color(0xFFE3F2FD),
+          title: 'Kullanıcı Güveni',
+          subtitle: 'Topluluğa güven sağlayan katkıların',
+          trailing: reputationAsync.isLoading
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : _statusBadge('%$score', AppColors.info),
+        ),
+        const Divider(height: 1, color: AppColors.border),
+        _CardRow(
+          icon: Icons.star_rounded,
+          iconColor: const Color(0xFFD97706),
+          iconBg: const Color(0xFFFEF3C7),
+          title: progress == null
+              ? 'Seviye —'
+              : 'Seviye ${progress.level}',
+          subtitle: progress == null
+              ? 'Hesaplanıyor…'
+              : '${progress.totalXp} XP toplam  •  ${progress.xpInLevel}/${progress.nextLevelXp} sonraki seviye',
+          bottom: ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: xpRatio,
+              minHeight: 6,
+              backgroundColor: AppColors.border,
+              color: const Color(0xFFD97706),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ── Katkı Profili (Moat Signals) ──────────────────────────────────────────────
+
+// ── Achievements nav card ──────────────────────────────────────────────────────
+
+class _AchievementsNavCard extends ConsumerWidget {
+  const _AchievementsNavCard({required this.achievementsAsync});
+  final AsyncValue<List<Achievement>> achievementsAsync;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final tokens = AppTokens.of(context);
-    final progress = ref.watch(myProfileProgressProvider).asData?.value;
-    if (progress == null) return const SizedBox.shrink();
+    final progressAsync = ref.watch(myProfileProgressProvider);
+    final items = (achievementsAsync.asData?.value ?? <Achievement>[])
+        .where((a) => !a.isHidden)
+        .toList();
+    final unlockedCount = items.where((a) => a.unlocked).length;
+    final totalCount = items.length;
+    final totalXp = progressAsync.asData?.value?.totalXp ?? 0;
+    final pct = totalCount == 0
+        ? 0.0
+        : (unlockedCount / totalCount).clamp(0.0, 1.0);
 
-    return Container(
-      padding: EdgeInsets.all(tokens.space16),
-      decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        borderRadius: BorderRadius.circular(tokens.radius16),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.emoji_events_outlined, color: AppColors.primary),
-          SizedBox(width: tokens.space12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  t.profileBadgesBannerTitle,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textStrong,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(t.profileBadgesBannerCount(progress.unlockedCount)),
-                const SizedBox(height: 2),
-                Text(
-                  t.profileBadgesBannerSubtitle,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
-                ),
-              ],
+    return _SectionCardShell(
+      children: [
+        _CardRow(
+          icon: Icons.workspace_premium_rounded,
+          iconColor: AppColors.primary,
+          iconBg: AppColors.primarySoft,
+          title: 'Başarı Rozetlerim',
+          subtitle: '$unlockedCount / $totalCount rozet  •  $totalXp XP',
+          trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.muted),
+          onTap: () => context.push('/achievements'),
+          bottom: ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: pct,
+              minHeight: 6,
+              backgroundColor: AppColors.border,
+              color: AppColors.primary,
             ),
           ),
-          IconButton(onPressed: onTap, icon: const Icon(Icons.arrow_forward)),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
+
 
 class _QuickActionTile extends StatelessWidget {
   const _QuickActionTile({
@@ -404,7 +536,7 @@ class _ProfileQuickActionsGrid extends StatelessWidget {
           children: [
             Expanded(
               child: _QuickActionTile(
-                icon: Icons.favorite_border,
+                icon: Icons.favorite_rounded,
                 label: t.profileQuickActionFavorites,
                 onTap: () => context.go('/favorites'),
               ),
@@ -412,21 +544,33 @@ class _ProfileQuickActionsGrid extends StatelessWidget {
             SizedBox(width: tokens.space8),
             Expanded(
               child: _QuickActionTile(
-                icon: Icons.notifications_active_outlined,
-                label: t.profileQuickActionPriceAlerts,
-                onTap: () => DefaultTabController.of(context).animateTo(1),
+                icon: Icons.chat_bubble_outline_rounded,
+                label: 'Yorumlarım',
+                onTap: () {/* TODO: navigate to reviews */},
               ),
             ),
-          ],
-        ),
-        SizedBox(height: tokens.space8),
-        Row(
-          children: [
+            SizedBox(width: tokens.space8),
             Expanded(
               child: _QuickActionTile(
-                icon: Icons.dynamic_feed_outlined,
-                label: t.profileQuickActionFeed,
-                onTap: () => DefaultTabController.of(context).animateTo(2),
+                icon: Icons.card_giftcard_rounded,
+                label: 'Sadakat',
+                onTap: () => context.push('/loyalty-cards'),
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.menu_book_rounded,
+                label: 'Yemek Günlüğü',
+                onTap: () => context.push('/food-journal'),
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.notifications_outlined,
+                label: t.drawerInbox,
+                onTap: () => context.go('/inbox'),
               ),
             ),
             SizedBox(width: tokens.space8),
@@ -477,25 +621,51 @@ class _ProfileAccountList extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
-                leading: const Icon(Icons.person_outline),
+                leading: const Icon(
+                  Icons.person_outline,
+                  color: AppColors.primary,
+                ),
                 title: Text(t.profileSettings),
-                subtitle: Text(t.privacySocialSubtitle),
+                subtitle: const Text('Kişisel bilgilerini düzenle'),
                 trailing: const Icon(Icons.chevron_right_rounded),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const ProfileSettingsPage(),
-                    ),
-                  );
-                },
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const ProfileSettingsPage(),
+                  ),
+                ),
               ),
               const Divider(height: 1, color: AppColors.border),
               ListTile(
-                leading: const Icon(Icons.shield_outlined),
-                title: Text(t.profileAccountSecurityTitle),
-                subtitle: Text(t.profileAccountSecuritySubtitle),
+                leading: const Icon(
+                  Icons.location_on_outlined,
+                  color: AppColors.primary,
+                ),
+                title: const Text('Adreslerim'),
+                subtitle: const Text('Kayıtlı adreslerini yönet'),
                 trailing: const Icon(Icons.chevron_right_rounded),
                 onTap: () => context.push('/account-security'),
+              ),
+              const Divider(height: 1, color: AppColors.border),
+              ListTile(
+                leading: const Icon(
+                  Icons.notifications_outlined,
+                  color: AppColors.primary,
+                ),
+                title: const Text('Bildirim Tercihleri'),
+                subtitle: const Text('Bildirim ayarlarını düzenle'),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => context.go('/inbox'),
+              ),
+              const Divider(height: 1, color: AppColors.border),
+              ListTile(
+                leading: const Icon(
+                  Icons.headset_mic_outlined,
+                  color: AppColors.primary,
+                ),
+                title: const Text('Yardım ve Destek'),
+                subtitle: const Text('Sık sorulan sorular ve destek'),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => context.go('/legal'),
               ),
             ],
           ),
@@ -537,34 +707,6 @@ class _ProfileLocationRow extends ConsumerWidget {
   }
 }
 
-class _StatCell extends StatelessWidget {
-  const _StatCell({required this.value, required this.label});
-
-  final int? value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          value?.toString() ?? '—',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w900,
-            color: AppColors.textStrong,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: Theme.of(
-            context,
-          ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
-        ),
-      ],
-    );
-  }
-}
 
 class _ProfileStatsRow extends ConsumerWidget {
   const _ProfileStatsRow();
@@ -572,30 +714,95 @@ class _ProfileStatsRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    final tokens = AppTokens.of(context);
     final statsAsync = ref.watch(myProfileStatsProvider);
     final collectionsAsync = ref.watch(myFavoriteCollectionsCountProvider);
 
-    return Row(
-      children: [
-        Expanded(
-          child: _StatCell(
-            value: statsAsync.asData?.value.favoritesCount,
-            label: t.profileStatFavoritesShort,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(tokens.radius12),
+        border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Expanded(
+              child: _StatCellIcon(
+                icon: Icons.favorite_rounded,
+                iconColor: const Color(0xFFE53935),
+                value: statsAsync.asData?.value.favoritesCount,
+                label: t.profileStatFavoritesShort,
+              ),
+            ),
+            VerticalDivider(
+              width: 1,
+              color: AppColors.border.withValues(alpha: 0.5),
+            ),
+            Expanded(
+              child: _StatCellIcon(
+                icon: Icons.chat_bubble_rounded,
+                iconColor: const Color(0xFF1E88E5),
+                value: statsAsync.asData?.value.reviewsCount,
+                label: t.profileStatReviewsShort,
+              ),
+            ),
+            VerticalDivider(
+              width: 1,
+              color: AppColors.border.withValues(alpha: 0.5),
+            ),
+            Expanded(
+              child: _StatCellIcon(
+                icon: Icons.format_list_bulleted_rounded,
+                iconColor: const Color(0xFF43A047),
+                value: collectionsAsync.asData?.value,
+                label: t.profileStatListsShort,
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          child: _StatCell(
-            value: statsAsync.asData?.value.reviewsCount,
-            label: t.profileStatReviewsShort,
+      ),
+    );
+  }
+}
+
+class _StatCellIcon extends StatelessWidget {
+  const _StatCellIcon({
+    required this.icon,
+    required this.iconColor,
+    required this.value,
+    required this.label,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final int? value;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 14),
+      child: Column(
+        children: [
+          Icon(icon, color: iconColor, size: 20),
+          const SizedBox(height: 4),
+          Text(
+            value?.toString() ?? '—',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w900,
+              color: AppColors.textStrong,
+            ),
           ),
-        ),
-        Expanded(
-          child: _StatCell(
-            value: collectionsAsync.asData?.value,
-            label: t.profileStatListsShort,
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -627,39 +834,27 @@ class _ProfileHeroCard extends StatelessWidget {
   }
 }
 
-class _ProfileHomeHeader extends ConsumerWidget {
+class _ProfileHomeHeader extends StatelessWidget {
   const _ProfileHomeHeader();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final user = ref.watch(userProvider);
-    String? displayName;
-    if (user != null) {
-      final profileAsync = ref.watch(publicProfileProvider(user.id));
-      final name = profileAsync.asData?.value.displayName.trim() ?? '';
-      if (name.isNotEmpty) displayName = name;
-    }
-    final greeting = displayName != null
-        ? t.discoveryGreetingHello(displayName)
-        : t.discoveryGreetingHelloAnon;
-
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 4),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  greeting,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+                  'Merhaba! 👋',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.muted,
+                  ),
                 ),
-                const SizedBox(height: 4),
                 Text(
                   t.profileHomeTitle,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -670,9 +865,16 @@ class _ProfileHomeHeader extends ConsumerWidget {
             ),
           ),
           IconButton(
-            tooltip: t.drawerInbox,
-            onPressed: () => context.go('/inbox'),
-            icon: const NotificationsBell(),
+            tooltip: t.settings,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const ProfileSettingsPage(),
+              ),
+            ),
+            icon: const Icon(
+              Icons.settings_outlined,
+              color: AppColors.textStrong,
+            ),
           ),
         ],
       ),
@@ -680,84 +882,75 @@ class _ProfileHomeHeader extends ConsumerWidget {
   }
 }
 
-class _AlertsTab extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final user = ref.watch(userProvider);
-    if (user == null) {
-      return Center(child: Text(t.profileAlertsLoginRequired));
-    }
 
-    final eventsAsync = ref.watch(
-      myAlertEventsProvider(const AlertEventsParams()),
-    );
-    return eventsAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, _) => Center(child: _ErrorText(text: '$err')),
-      data: (items) {
-        if (items.isEmpty) {
-          return Center(child: _EmptyText(text: t.profileAlertsEmpty));
-        }
-        return ListView.separated(
-          padding: const EdgeInsets.all(16),
-          itemCount: items.length,
-          separatorBuilder: (_, _) => const SizedBox(height: 8),
-          itemBuilder: (context, index) => _AlertEventTile(item: items[index]),
-        );
-      },
-    );
-  }
+// ── Daily task definitions ────────────────────────────────────────────────────
+
+class _TaskDef {
+  const _TaskDef({
+    required this.key,
+    required this.icon,
+    required this.iconColor,
+    required this.iconBg,
+    required this.title,
+    required this.subtitle,
+    required this.target,
+    required this.points,
+  });
+
+  final String key;
+  final IconData icon;
+  final Color iconColor;
+  final Color iconBg;
+  final String title;
+  final String subtitle;
+  final int target;
+  final int points;
 }
 
-class _FeedTab extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final user = ref.watch(userProvider);
-    if (user == null) {
-      return Center(child: Text(t.profileFeedLoginRequired));
-    }
+const _kDailyTasks = <_TaskDef>[
+  _TaskDef(
+    key: 'review',
+    icon: Icons.chat_bubble_outline_rounded,
+    iconColor: Color(0xFFE53935),
+    iconBg: Color(0xFFFFEBEE),
+    title: '1 yorum yap',
+    subtitle: 'Topluluğa değer katar.',
+    target: 1,
+    points: 20,
+  ),
+  _TaskDef(
+    key: 'photo',
+    icon: Icons.camera_alt_outlined,
+    iconColor: Color(0xFFFF6D00),
+    iconBg: Color(0xFFFFF3E0),
+    title: '1 fotoğraf yükle',
+    subtitle: 'Lezzetini görselleyle paylaş!',
+    target: 1,
+    points: 15,
+  ),
+  _TaskDef(
+    key: 'price',
+    icon: Icons.price_check_outlined,
+    iconColor: Color(0xFF3949AB),
+    iconBg: Color(0xFFE8EAF6),
+    title: '1 fiyat doğrula',
+    subtitle: 'Doğru fiyatlar, güçlü topluluk.',
+    target: 1,
+    points: 20,
+  ),
+  _TaskDef(
+    key: 'discover',
+    icon: Icons.location_on_outlined,
+    iconColor: Color(0xFF00897B),
+    iconBg: Color(0xFFE0F2F1),
+    title: '1 mekan keşfet',
+    subtitle: 'Yeedoy\'u keşfet, puan kazan!',
+    target: 1,
+    points: 25,
+  ),
+];
 
-    final feedAsync = ref.watch(
-      businessFeedProvider(const BusinessFeedParams()),
-    );
-    return feedAsync.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, _) => Center(child: _ErrorText(text: '$err')),
-      data: (items) {
-        if (items.isEmpty) {
-          return Center(child: _EmptyText(text: t.profileFeedEmpty));
-        }
-        return ListView.separated(
-          padding: const EdgeInsets.all(16),
-          itemCount: items.length,
-          separatorBuilder: (_, _) => const SizedBox(height: 8),
-          itemBuilder: (context, index) {
-            final item = items[index];
-            return Card(
-              child: ListTile(
-                title: Text(item.businessName),
-                subtitle: Text(_feedSubtitle(context, item)),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.push('/b/${item.event.businessId}'),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  String _feedSubtitle(BuildContext context, BusinessFeedItem item) {
-    final t = AppLocalizations.of(context);
-    final type = item.event.type;
-    if (type == 'price_verified') return t.profileFeedEventPriceVerified;
-    if (type == 'menu_updated') return t.profileFeedEventMenuUpdated;
-    if (type == 'sponsored') return t.profileFeedEventSponsored;
-    return t.profileCommunityTrustTitle;
-  }
-}
+// ── Daily task card ────────────────────────────────────────────────────────────
 
 class _DailyTaskCard extends StatelessWidget {
   const _DailyTaskCard({required this.task, this.segmentHint});
@@ -765,68 +958,251 @@ class _DailyTaskCard extends StatelessWidget {
   final DailyMicroTask task;
   final String? segmentHint;
 
+  int _currentFor(_TaskDef def) {
+    if (task.taskKey.contains(def.key)) return task.currentValue;
+    return 0;
+  }
+
+  bool _completedFor(_TaskDef def) {
+    if (task.taskKey.contains(def.key)) return task.completed;
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+    final completedCount =
+        _kDailyTasks.where((d) => _completedFor(d)).length;
+    final totalCount = _kDailyTasks.length;
+    final progressValue =
+        totalCount == 0 ? 0.0 : completedCount / totalCount;
+
+    return _SectionCardShell(
+      children: [
+        // ── Header ──────────────────────────────────────────────────────
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+          child: Row(
+            children: [
+              const Text(
+                'Günlük Görevler',
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 16,
+                  color: AppColors.textStrong,
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () => context.push('/achievements'),
+                child: const Text(
+                  'İlerleme ödülleri >',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        // ── Progress row + bar ───────────────────────────────────────────
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: Row(
+            children: [
+              const Text(
+                'Bugünkü ilerleme ',
+                style: TextStyle(fontSize: 13, color: AppColors.muted),
+              ),
+              Text(
+                '$completedCount/$totalCount',
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: progressValue,
+              minHeight: 5,
+              backgroundColor: AppColors.border,
+              color: AppColors.primary,
+            ),
+          ),
+        ),
+        // ── Segment hint ─────────────────────────────────────────────────
+        if ((segmentHint ?? '').isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+            child: Text(
+              segmentHint!,
+              style: const TextStyle(
+                color: AppColors.info,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        // ── Task rows ────────────────────────────────────────────────────
+        for (final def in _kDailyTasks) ...[
+          const Divider(height: 1, color: AppColors.border),
+          _TaskRow(
+            def: def,
+            current: _currentFor(def),
+            completed: _completedFor(def),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _TaskRow extends StatelessWidget {
+  const _TaskRow({
+    required this.def,
+    required this.current,
+    required this.completed,
+  });
+
+  final _TaskDef def;
+  final int current;
+  final bool completed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        children: [
+          // Icon bubble
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: def.iconBg,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(def.icon, color: def.iconColor, size: 22),
+          ),
+          const SizedBox(width: 12),
+          // Title + subtitle
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  t.profileDailyTaskTitle,
-                  style: const TextStyle(fontWeight: FontWeight.w800),
+                  def.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14,
+                    color: AppColors.textStrong,
+                  ),
                 ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    task.completed
-                        ? t.profileDailyTaskCompleted
-                        : '${task.currentValue}/${task.targetValue}',
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                Text(
+                  def.subtitle,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.muted,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              task.title,
-              style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(width: 8),
+          // Status + points
+          if (completed) ...[
+            _DailyPill(
+              label: 'Tamamlandı',
+              color: AppColors.success,
+              filled: false,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(width: 6),
+            _PointsBadge(points: def.points, completed: true),
+          ] else ...[
             Text(
-              task.description,
-              style: const TextStyle(color: AppColors.muted),
-            ),
-            if ((segmentHint ?? '').isNotEmpty) ...[
-              const SizedBox(height: 6),
-              Text(
-                segmentHint!,
-                style: const TextStyle(
-                  color: AppColors.info,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
+              '$current/${def.target}',
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.muted,
+                fontWeight: FontWeight.w700,
               ),
-            ],
-            const SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: task.progress,
-              color: task.completed ? AppColors.success : AppColors.primary,
-              backgroundColor: AppColors.border,
+            ),
+            const SizedBox(width: 6),
+            _PointsBadge(points: def.points, completed: false),
+            const SizedBox(width: 2),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.muted,
+              size: 18,
             ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+class _DailyPill extends StatelessWidget {
+  const _DailyPill({
+    required this.label,
+    required this.color,
+    required this.filled,
+  });
+
+  final String label;
+  final Color color;
+  final bool filled;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+      decoration: BoxDecoration(
+        color: filled ? color : color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(999),
+        border: filled ? null : Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: filled ? Colors.white : color,
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+    );
+  }
+}
+
+class _PointsBadge extends StatelessWidget {
+  const _PointsBadge({required this.points, required this.completed});
+
+  final int points;
+  final bool completed;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = completed ? AppColors.success : AppColors.primary;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        '+$points puan',
+        style: TextStyle(
+          color: color,
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
@@ -847,123 +1223,8 @@ String _profileSegmentHint(BuildContext context, String? segment) {
   }
 }
 
-class _StatsGrid extends StatelessWidget {
-  const _StatsGrid({required this.stats});
 
-  final ProfileStats stats;
 
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        _StatChip(label: t.profileStatReviews, value: '${stats.reviewsCount}'),
-        _StatChip(
-          label: t.profileStatHelpfulVotes,
-          value: '${stats.helpfulReceived}',
-        ),
-        _StatChip(
-          label: t.profileStatFavorites,
-          value: '${stats.favoritesCount}',
-        ),
-        _StatChip(
-          label: t.profileStatContributions,
-          value: '${stats.contributionScore}',
-        ),
-        _StatChip(label: t.profileStatVisits, value: '${stats.visitsCount}'),
-      ],
-    );
-  }
-}
-
-class _StatChip extends StatelessWidget {
-  const _StatChip({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 160,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(color: AppColors.muted, fontSize: 12),
-          ),
-          const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w800)),
-        ],
-      ),
-    );
-  }
-}
-
-class _LatestAchievementBanner extends StatelessWidget {
-  const _LatestAchievementBanner({required this.item});
-
-  final Achievement item;
-
-  @override
-  Widget build(BuildContext context) {
-    final visual = appAchievementVisualForId(
-      item.id,
-      fallbackHex: item.colorHex,
-    );
-    final t = AppLocalizations.of(context);
-    return Card(
-      child: ListTile(
-        leading: FaIcon(visual.icon, color: visual.color, size: 22),
-        title: Text(
-          t.profileLatestAchievementTitle,
-          style: const TextStyle(fontWeight: FontWeight.w800),
-        ),
-        subtitle: Text(item.title),
-        trailing: const Icon(Icons.celebration_outlined),
-      ),
-    );
-  }
-}
-
-class _AlertEventTile extends StatelessWidget {
-  const _AlertEventTile({required this.item});
-
-  final AlertEventItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    final current = item.event.matchedPriceCents / 100;
-    final previous = item.event.previousPriceCents != null
-        ? (item.event.previousPriceCents! / 100).toStringAsFixed(0)
-        : null;
-
-    return Card(
-      child: ListTile(
-        title: Text(item.businessName),
-        subtitle: Text(
-          previous == null
-              ? t.profileAlertCurrentPrice(current.toStringAsFixed(0))
-              : t.profileAlertPriceChanged(
-                  previous,
-                  current.toStringAsFixed(0),
-                ),
-        ),
-        trailing: const Icon(Icons.notifications_active_outlined),
-      ),
-    );
-  }
-}
 
 class _MoatSignalsCard extends StatelessWidget {
   const _MoatSignalsCard({required this.signals});
@@ -984,99 +1245,72 @@ class _MoatSignalsCard extends StatelessWidget {
         : ((signals.approvedCount * 100) / signals.contributionCount)
               .round()
               .clamp(0, 100);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              t.profileMoatSignalsTitle,
-              style: const TextStyle(fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              t.profileSupportSignalsSummary,
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _SignalChip(
-                  label: t.profileSignalAccuracy,
-                  value: '%${signals.accuracyScore}',
-                ),
-                _SignalChip(
-                  label: t.profileSignalApprovalRate,
-                  value: '%$approvalRate',
-                ),
-                _SignalChip(label: t.profileSignalSegment, value: segmentLabel),
-                _SignalChip(
-                  label: t.profileSignalSilentQuality,
-                  value: '${signals.silentQualityScore}',
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              t.profileMoatTrustedRejectedSpam(
-                signals.trustedActions,
-                signals.rejectedActions,
-                signals.spamSignals,
-              ),
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              t.profileMoatBehaviorSummary(
-                signals.priceActions,
-                signals.discoveryActions,
-                signals.photoActions,
-              ),
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-            if (signals.isSilentQuality) ...[
-              const SizedBox(height: 6),
-              Text(
-                t.profileMoatSilentQualityHint,
-                style: const TextStyle(
-                  color: AppColors.success,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ],
+
+    return _SectionCardShell(
+      children: [
+        _CardHeader(
+          icon: Icons.analytics_outlined,
+          iconColor: const Color(0xFF7C3AED),
+          iconBg: const Color(0xFFEDE9FE),
+          title: t.profileMoatSignalsTitle,
         ),
-      ),
+        const Divider(height: 1, color: AppColors.border),
+        _CardRow(
+          icon: Icons.radar_rounded,
+          iconColor: const Color(0xFF0284C7),
+          iconBg: const Color(0xFFE0F2FE),
+          title: t.profileSignalSegment,
+          subtitle: t.profileSupportSignalsSummary,
+          trailing: _statusBadge(segmentLabel, const Color(0xFF0284C7)),
+        ),
+        const Divider(height: 1, color: AppColors.border),
+        _CardRow(
+          icon: Icons.verified_outlined,
+          iconColor: AppColors.success,
+          iconBg: AppColors.success.withValues(alpha: 0.1),
+          title: t.profileSignalAccuracy,
+          subtitle: t.profileMoatTrustedRejectedSpam(
+            signals.trustedActions,
+            signals.rejectedActions,
+            signals.spamSignals,
+          ),
+          trailing: _statusBadge('%${signals.accuracyScore}', AppColors.success),
+        ),
+        const Divider(height: 1, color: AppColors.border),
+        _CardRow(
+          icon: Icons.thumb_up_outlined,
+          iconColor: const Color(0xFFD97706),
+          iconBg: const Color(0xFFFEF3C7),
+          title: t.profileSignalApprovalRate,
+          subtitle: t.profileMoatBehaviorSummary(
+            signals.priceActions,
+            signals.discoveryActions,
+            signals.photoActions,
+          ),
+          trailing: _statusBadge(
+            '%$approvalRate',
+            approvalRate >= 70 ? AppColors.success : AppColors.warning,
+          ),
+        ),
+        if (signals.isSilentQuality) ...[
+          const Divider(height: 1, color: AppColors.border),
+          _CardRow(
+            icon: Icons.stars_rounded,
+            iconColor: AppColors.success,
+            iconBg: AppColors.success.withValues(alpha: 0.1),
+            title: t.profileSignalSilentQuality,
+            subtitle: t.profileMoatSilentQualityHint,
+            trailing: _statusBadge(
+              '${signals.silentQualityScore}',
+              AppColors.success,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
 
-class _SignalChip extends StatelessWidget {
-  const _SignalChip({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.cardAlt,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Text(
-        '$label: $value',
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-      ),
-    );
-  }
-}
 
 class _InfoCard extends StatelessWidget {
   const _InfoCard({
@@ -1111,152 +1345,5 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
-class _ErrorText extends StatelessWidget {
-  const _ErrorText({required this.text});
 
-  final String text;
 
-  @override
-  Widget build(BuildContext context) {
-    return Text(text, style: const TextStyle(color: AppColors.danger));
-  }
-}
-
-class _EmptyText extends StatelessWidget {
-  const _EmptyText({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(text, style: const TextStyle(color: AppColors.muted));
-  }
-}
-
-class _SocialLinkSection extends ConsumerStatefulWidget {
-  const _SocialLinkSection();
-
-  @override
-  ConsumerState<_SocialLinkSection> createState() => _SocialLinkSectionState();
-}
-
-class _SocialLinkSectionState extends ConsumerState<_SocialLinkSection> {
-  final _controller = TextEditingController();
-  bool _saving = false;
-  String? _feedback;
-  bool _feedbackIsError = false;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  String _keyForUrl(String url) {
-    final uri = Uri.tryParse(url);
-    if (uri == null) return 'website';
-    final host = uri.host.toLowerCase().replaceAll('www.', '');
-    if (host.contains('instagram.com')) return 'instagram';
-    if (host.contains('youtube.com') || host.contains('youtu.be')) {
-      return 'youtube';
-    }
-    if (host.contains('facebook.com') || host.contains('fb.watch')) {
-      return 'facebook';
-    }
-    if (host.contains('tiktok.com')) return 'tiktok';
-    if (host.contains('twitter.com') || host.contains('x.com')) return 'x';
-    return 'website';
-  }
-
-  Future<void> _save() async {
-    final t = AppLocalizations.of(context);
-    final raw = _controller.text.trim();
-    final socialLinks = raw.isEmpty
-        ? <String, String>{}
-        : {_keyForUrl(raw): raw};
-
-    setState(() {
-      _saving = true;
-      _feedback = null;
-    });
-    try {
-      final uid = ref.read(supabaseProvider).auth.currentUser?.id;
-      if (uid == null) throw StateError('auth_required');
-      await ref
-          .read(profileRepositoryProvider)
-          .upsertMyProfile(
-            Profile(
-              id: uid,
-              firstName: '',
-              lastName: '',
-              socialLinks: socialLinks,
-            ),
-          );
-      if (mounted) {
-        setState(() {
-          _feedback = t.profileSocialSaved;
-          _feedbackIsError = false;
-        });
-      }
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _feedback = t.profileSocialSaveError;
-          _feedbackIsError = true;
-        });
-      }
-    } finally {
-      if (mounted) setState(() => _saving = false);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              t.profileAddSocialLinkTitle,
-              style: const TextStyle(fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(height: 8),
-            LinkPasteField(
-              label: t.linkLabel,
-              hintText: t.profileSocialLinksHint,
-              previewTitle: t.socialPreview,
-              controller: _controller,
-            ),
-            if (_feedback != null) ...[
-              const SizedBox(height: 6),
-              Text(
-                _feedback!,
-                style: TextStyle(
-                  color: _feedbackIsError ? Colors.red : Colors.green,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FilledButton(
-                onPressed: _saving ? null : _save,
-                child: _saving
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(t.save),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

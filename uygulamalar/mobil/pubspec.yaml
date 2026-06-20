@@ -83,10 +83,6 @@ flutter:
         - asset: assets/fonts/Sora-Regular.ttf
         - asset: assets/fonts/Sora-SemiBold.ttf
         - asset: assets/fonts/Sora-Bold.ttf
-    - family: Flexing
-      fonts:
-        - asset: assets/fonts/Flexing-Black.ttf
-          weight: 800
   assets:
     - .env
     - assets/brand/
