@@ -34,6 +34,7 @@ import '../features/onboarding/ui/onboarding_page.dart';
 import '../features/profile/ui/account_info_page.dart';
 import '../features/profile/ui/achievements_page.dart';
 import '../features/profile/ui/profile_page.dart';
+import '../features/profile/ui/profile_settings_page.dart';
 import '../features/profile/ui/social_accounts_page.dart';
 import '../features/notifications/ui/notification_preferences_page.dart';
 import '../features/support/ui/live_support_page.dart';
@@ -332,6 +333,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           state: s,
           child: const NotificationPreferencesPage(),
         ),
+      ),
+      GoRoute(
+        path: '/settings',
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const ProfileSettingsPage()),
       ),
       GoRoute(
         path: '/budget-combos',

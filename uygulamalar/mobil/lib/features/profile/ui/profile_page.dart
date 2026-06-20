@@ -19,7 +19,6 @@ import '../domain/profile_progress_provider.dart';
 import '../domain/profile_stats_provider.dart';
 import '../domain/reputation_provider.dart';
 import '../domain/user_moat_signals.dart';
-import 'profile_settings_page.dart';
 import 'components/profile_identity_card.dart';
 
 class ProfilePage extends ConsumerWidget {
@@ -578,13 +577,7 @@ class _ProfileQuickActionsGrid extends StatelessWidget {
               child: _QuickActionTile(
                 icon: Icons.settings_outlined,
                 label: t.profileSettings,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const ProfileSettingsPage(),
-                    ),
-                  );
-                },
+                onTap: () => context.push('/settings'),
               ),
             ),
           ],
@@ -628,11 +621,7 @@ class _ProfileAccountList extends StatelessWidget {
                 title: Text(t.profileSettings),
                 subtitle: const Text('Kişisel bilgilerini düzenle'),
                 trailing: const Icon(Icons.chevron_right_rounded),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ProfileSettingsPage(),
-                  ),
-                ),
+                onTap: () => context.push('/settings'),
               ),
               const Divider(height: 1, color: AppColors.border),
               ListTile(
@@ -866,11 +855,7 @@ class _ProfileHomeHeader extends StatelessWidget {
           ),
           IconButton(
             tooltip: t.settings,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const ProfileSettingsPage(),
-              ),
-            ),
+            onPressed: () => context.push('/settings'),
             icon: const Icon(
               Icons.settings_outlined,
               color: AppColors.textStrong,
