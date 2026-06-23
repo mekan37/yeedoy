@@ -32,11 +32,9 @@ const adminNavSections: NavSection[] = [
     title: 'Büyüme ve Gelir',
     items: [
       { href: '/yonetici/analitik', label: 'Analitik', icon: <ChartIcon /> },
-      { href: '/yonetici/buyume', label: 'Büyüme', icon: <TrendingIcon /> },
       { href: '/yonetici/musteri-destek', label: 'Müşteri Destek', icon: <HeadsetIcon /> },
       { href: '/yonetici/oneriler', label: 'Öneriler', icon: <LightbulbIcon /> },
       { href: '/yonetici/fiyat-onerileri', label: 'Fiyat Önerileri', icon: <TagIcon /> },
-      { href: '/yonetici/grup-istekleri', label: 'Grup İstekleri', icon: <LayersIcon /> },
     ],
   },
   {
