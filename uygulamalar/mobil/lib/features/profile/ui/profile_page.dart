@@ -8,11 +8,7 @@ import '../../../core/location/user_location_controller.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
-import '../domain/achievement.dart';
-import '../domain/achievements_provider.dart';
 import '../domain/creator_profile_provider.dart';
-import '../domain/daily_micro_task.dart';
-import '../domain/daily_micro_task_provider.dart';
 import '../domain/favorite_collections_count_provider.dart';
 import '../domain/moat_signals_provider.dart';
 import '../domain/profile_progress_provider.dart';
@@ -42,8 +38,6 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final user = ref.watch(userProvider);
-    final achievementsAsync = ref.watch(myAchievementsProvider);
-    final dailyTaskAsync = ref.watch(myDailyMicroTaskProvider);
     final reputationAsync = ref.watch(myReputationScoreProvider);
     final progressAsync = ref.watch(myProfileProgressProvider);
     final creatorAsync = ref.watch(creatorProfileProvider);
@@ -52,8 +46,6 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
     return RefreshIndicator(
       onRefresh: () async {
         ref.invalidate(myProfileStatsProvider);
-        ref.invalidate(myAchievementsProvider);
-        ref.invalidate(myDailyMicroTaskProvider);
         ref.invalidate(myReputationScoreProvider);
         ref.invalidate(myProfileProgressProvider);
         ref.invalidate(creatorProfileProvider);
@@ -91,21 +83,6 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
             ),
           ),
           const SizedBox(height: 12),
-          // ── Günlük Görevler ──────────────────────────────────────────
-          dailyTaskAsync.when(
-            loading: () => const SizedBox.shrink(),
-            error: (_, _) => const SizedBox.shrink(),
-            data: (task) => task == null
-                ? const SizedBox.shrink()
-                : _DailyTaskCard(
-                    task: task,
-                    segmentHint: _profileSegmentHint(
-                      context,
-                      moatSignalsAsync.asData?.value?.primarySegment,
-                    ),
-                  ),
-          ),
-          const SizedBox(height: 12),
           // ── Güven & İlerleme ─────────────────────────────────────────
           _CommunityTrustCard(
             reputationAsync: reputationAsync,
@@ -120,8 +97,6 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
                 ? const SizedBox.shrink()
                 : _MoatSignalsCard(signals: signals),
           ),
-          const SizedBox(height: 12),
-          _AchievementsNavCard(achievementsAsync: achievementsAsync),
         ],
       ),
     );
@@ -203,7 +178,6 @@ class _CardRow extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.trailing,
-    this.onTap,
     this.bottom,
   });
 
@@ -213,13 +187,12 @@ class _CardRow extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? trailing;
-  final VoidCallback? onTap;
   final Widget? bottom;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: null,
       borderRadius: BorderRadius.circular(16),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
@@ -423,50 +396,6 @@ class _CommunityTrustCard extends StatelessWidget {
 
 // ── Katkı Profili (Moat Signals) ──────────────────────────────────────────────
 
-// ── Achievements nav card ──────────────────────────────────────────────────────
-
-class _AchievementsNavCard extends ConsumerWidget {
-  const _AchievementsNavCard({required this.achievementsAsync});
-  final AsyncValue<List<Achievement>> achievementsAsync;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final progressAsync = ref.watch(myProfileProgressProvider);
-    final items = (achievementsAsync.asData?.value ?? <Achievement>[])
-        .where((a) => !a.isHidden)
-        .toList();
-    final unlockedCount = items.where((a) => a.unlocked).length;
-    final totalCount = items.length;
-    final totalXp = progressAsync.asData?.value?.totalXp ?? 0;
-    final pct = totalCount == 0
-        ? 0.0
-        : (unlockedCount / totalCount).clamp(0.0, 1.0);
-
-    return _SectionCardShell(
-      children: [
-        _CardRow(
-          icon: Icons.workspace_premium_rounded,
-          iconColor: AppColors.primary,
-          iconBg: AppColors.primarySoft,
-          title: 'Başarı Rozetlerim',
-          subtitle: '$unlockedCount / $totalCount rozet  •  $totalXp XP',
-          trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.muted),
-          onTap: () => context.push('/achievements'),
-          bottom: ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: pct,
-              minHeight: 6,
-              backgroundColor: AppColors.border,
-              color: AppColors.primary,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 
 class _QuickActionTile extends StatelessWidget {
   const _QuickActionTile({
@@ -546,22 +475,6 @@ class _ProfileQuickActionsGrid extends StatelessWidget {
                 icon: Icons.chat_bubble_outline_rounded,
                 label: 'Yorumlarım',
                 onTap: () {/* TODO: navigate to reviews */},
-              ),
-            ),
-            SizedBox(width: tokens.space8),
-            Expanded(
-              child: _QuickActionTile(
-                icon: Icons.card_giftcard_rounded,
-                label: 'Sadakat',
-                onTap: () => context.push('/loyalty-cards'),
-              ),
-            ),
-            SizedBox(width: tokens.space8),
-            Expanded(
-              child: _QuickActionTile(
-                icon: Icons.menu_book_rounded,
-                label: 'Yemek Günlüğü',
-                onTap: () => context.push('/food-journal'),
               ),
             ),
             SizedBox(width: tokens.space8),
@@ -866,349 +779,6 @@ class _ProfileHomeHeader extends StatelessWidget {
     );
   }
 }
-
-
-// ── Daily task definitions ────────────────────────────────────────────────────
-
-class _TaskDef {
-  const _TaskDef({
-    required this.key,
-    required this.icon,
-    required this.iconColor,
-    required this.iconBg,
-    required this.title,
-    required this.subtitle,
-    required this.target,
-    required this.points,
-  });
-
-  final String key;
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBg;
-  final String title;
-  final String subtitle;
-  final int target;
-  final int points;
-}
-
-const _kDailyTasks = <_TaskDef>[
-  _TaskDef(
-    key: 'review',
-    icon: Icons.chat_bubble_outline_rounded,
-    iconColor: Color(0xFFE53935),
-    iconBg: Color(0xFFFFEBEE),
-    title: '1 yorum yap',
-    subtitle: 'Topluluğa değer katar.',
-    target: 1,
-    points: 20,
-  ),
-  _TaskDef(
-    key: 'photo',
-    icon: Icons.camera_alt_outlined,
-    iconColor: Color(0xFFFF6D00),
-    iconBg: Color(0xFFFFF3E0),
-    title: '1 fotoğraf yükle',
-    subtitle: 'Lezzetini görselleyle paylaş!',
-    target: 1,
-    points: 15,
-  ),
-  _TaskDef(
-    key: 'price',
-    icon: Icons.price_check_outlined,
-    iconColor: Color(0xFF3949AB),
-    iconBg: Color(0xFFE8EAF6),
-    title: '1 fiyat doğrula',
-    subtitle: 'Doğru fiyatlar, güçlü topluluk.',
-    target: 1,
-    points: 20,
-  ),
-  _TaskDef(
-    key: 'discover',
-    icon: Icons.location_on_outlined,
-    iconColor: Color(0xFF00897B),
-    iconBg: Color(0xFFE0F2F1),
-    title: '1 mekan keşfet',
-    subtitle: 'Yeedoy\'u keşfet, puan kazan!',
-    target: 1,
-    points: 25,
-  ),
-];
-
-// ── Daily task card ────────────────────────────────────────────────────────────
-
-class _DailyTaskCard extends StatelessWidget {
-  const _DailyTaskCard({required this.task, this.segmentHint});
-
-  final DailyMicroTask task;
-  final String? segmentHint;
-
-  int _currentFor(_TaskDef def) {
-    if (task.taskKey.contains(def.key)) return task.currentValue;
-    return 0;
-  }
-
-  bool _completedFor(_TaskDef def) {
-    if (task.taskKey.contains(def.key)) return task.completed;
-    return false;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final completedCount =
-        _kDailyTasks.where((d) => _completedFor(d)).length;
-    final totalCount = _kDailyTasks.length;
-    final progressValue =
-        totalCount == 0 ? 0.0 : completedCount / totalCount;
-
-    return _SectionCardShell(
-      children: [
-        // ── Header ──────────────────────────────────────────────────────
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
-          child: Row(
-            children: [
-              const Text(
-                'Günlük Görevler',
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 16,
-                  color: AppColors.textStrong,
-                ),
-              ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () => context.push('/achievements'),
-                child: const Text(
-                  'İlerleme ödülleri >',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        // ── Progress row + bar ───────────────────────────────────────────
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-          child: Row(
-            children: [
-              const Text(
-                'Bugünkü ilerleme ',
-                style: TextStyle(fontSize: 13, color: AppColors.muted),
-              ),
-              Text(
-                '$completedCount/$totalCount',
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: progressValue,
-              minHeight: 5,
-              backgroundColor: AppColors.border,
-              color: AppColors.primary,
-            ),
-          ),
-        ),
-        // ── Segment hint ─────────────────────────────────────────────────
-        if ((segmentHint ?? '').isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-            child: Text(
-              segmentHint!,
-              style: const TextStyle(
-                color: AppColors.info,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        // ── Task rows ────────────────────────────────────────────────────
-        for (final def in _kDailyTasks) ...[
-          const Divider(height: 1, color: AppColors.border),
-          _TaskRow(
-            def: def,
-            current: _currentFor(def),
-            completed: _completedFor(def),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-class _TaskRow extends StatelessWidget {
-  const _TaskRow({
-    required this.def,
-    required this.current,
-    required this.completed,
-  });
-
-  final _TaskDef def;
-  final int current;
-  final bool completed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          // Icon bubble
-          Container(
-            width: 42,
-            height: 42,
-            decoration: BoxDecoration(
-              color: def.iconBg,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(def.icon, color: def.iconColor, size: 22),
-          ),
-          const SizedBox(width: 12),
-          // Title + subtitle
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  def.title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14,
-                    color: AppColors.textStrong,
-                  ),
-                ),
-                Text(
-                  def.subtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.muted,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          // Status + points
-          if (completed) ...[
-            _DailyPill(
-              label: 'Tamamlandı',
-              color: AppColors.success,
-              filled: false,
-            ),
-            const SizedBox(width: 6),
-            _PointsBadge(points: def.points, completed: true),
-          ] else ...[
-            Text(
-              '$current/${def.target}',
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppColors.muted,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(width: 6),
-            _PointsBadge(points: def.points, completed: false),
-            const SizedBox(width: 2),
-            const Icon(
-              Icons.chevron_right_rounded,
-              color: AppColors.muted,
-              size: 18,
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _DailyPill extends StatelessWidget {
-  const _DailyPill({
-    required this.label,
-    required this.color,
-    required this.filled,
-  });
-
-  final String label;
-  final Color color;
-  final bool filled;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-      decoration: BoxDecoration(
-        color: filled ? color : color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(999),
-        border: filled ? null : Border.all(color: color.withValues(alpha: 0.3)),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: filled ? Colors.white : color,
-          fontSize: 11,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-    );
-  }
-}
-
-class _PointsBadge extends StatelessWidget {
-  const _PointsBadge({required this.points, required this.completed});
-
-  final int points;
-  final bool completed;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = completed ? AppColors.success : AppColors.primary;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        '+$points puan',
-        style: TextStyle(
-          color: color,
-          fontSize: 11,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-    );
-  }
-}
-
-String _profileSegmentHint(BuildContext context, String? segment) {
-  final t = AppLocalizations.of(context);
-  switch (segment) {
-    case 'price_hunter':
-      return t.profileSegmentHintPriceHunter;
-    case 'photo_proof':
-      return t.profileSegmentHintPhotoProof;
-    case 'explorer':
-      return t.profileSegmentHintExplorer;
-    default:
-      return t.profileSegmentHintDefault;
-  }
-}
-
-
 
 
 class _MoatSignalsCard extends StatelessWidget {

@@ -280,19 +280,10 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     final needsLocation = isNearby && st.userLat == null && st.userLng == null;
     final city = st.city.trim();
     final district = st.district.trim();
-    final sponsoredIdsAsync = ref.watch(
-      sponsoredBusinessesProvider(
-        sponsoredDiscoveryParams(
-          city: city,
-          district: district,
-          category: st.category.isEmpty ? null : st.category,
-          limit: 3,
-        ),
-      ),
-    );
-    final sponsoredIds =
-        sponsoredIdsAsync.asData?.value.map((b) => b.id).toSet() ??
-        const <String>{};
+    // MVP scope: sponsorlu işletme listeleme kapatıldı (final stratejik karar
+    // raporu §16 — MVP'de sponsorluk yok). Network çağrısı kaldırıldı; legacy
+    // (render edilmeyen) sponsorlu bölüm artık boş set kullanır.
+    const sponsoredIds = <String>{};
     final hasDistrict = city.isNotEmpty && district.isNotEmpty;
     final neighborhood = ref.watch(
       userLocationProvider.select((loc) => (loc.neighborhood ?? '').trim()),
@@ -316,16 +307,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
       children: [
         RefreshIndicator(
           onRefresh: () async {
-            ref.invalidate(
-              sponsoredBusinessesProvider(
-                sponsoredDiscoveryParams(
-                  city: st.city,
-                  district: st.district,
-                  category: st.category.isEmpty ? null : st.category,
-                  limit: 2,
-                ),
-              ),
-            );
             await ref.read(discoverySearchProvider.notifier).refresh();
           },
           child: LayoutBuilder(
@@ -1529,13 +1510,28 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     BuildContext context,
     DiscoverySearchState st,
   ) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => SearchFilterSheet(
+        initialState: st,
+        initialQuery: qCtrl.text,
+      ),
+    );
+  }
+
+  // ignore: unused_element
+  Future<void> _openFiltersSheetLegacy(
+    BuildContext context,
+    DiscoverySearchState st,
+  ) async {
     final t = AppLocalizations.of(context);
     var localRating = st.minRating;
     var localPriceTier = st.priceTier;
     var localOpenNow = st.openNow;
     var localRecentBoost = st.recentPriceBoost;
     final localMealCardKeys = <String>{...st.mealCardKeys};
-    // Budget slider: 0 means no limit; stored as TL value (cents / 100)
     var localMaxBudgetTl = st.maxBudgetCents != null
         ? (st.maxBudgetCents! / 100).roundToDouble()
         : 0.0;

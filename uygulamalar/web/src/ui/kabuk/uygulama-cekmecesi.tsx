@@ -24,18 +24,14 @@ const NAV_SECTIONS: { title: string; items: { href: string; label: string; icon:
     title: 'Keşfet',
     items: [
       { href: '/kesif',       label: 'Keşfet',    icon: '🔍' },
+      { href: '/arama',       label: 'Arama',     icon: '🔎' },
       { href: '/en-iyiler',   label: 'En İyiler', icon: '🏆' },
-      { href: '/liderler',    label: 'Liderler',  icon: '📍' },
-      { href: '/butce',       label: 'Bütçe',     icon: '💰' },
     ],
   },
   {
     title: 'Özellikler',
     items: [
-      { href: '/akilli-akis',     label: 'Akıllı Akış',            icon: '✨' },
-      { href: '/tat-ikizi',       label: 'Taste Twin',             icon: '🤝' },
       { href: '/fiyat-uyarilari', label: 'Fiyat Uyarıları',       icon: '🔔' },
-      { href: '/ortak-listeler',  label: 'Kolaborasyon Listeleri', icon: '📋' },
     ],
   },
 ];

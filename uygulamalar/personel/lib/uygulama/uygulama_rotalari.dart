@@ -6,15 +6,12 @@ import '../core/riverpod_uzantilari.dart';
 import '../features/kimlik/domain/kimlik_bildiricisi.dart';
 import '../features/kimlik/domain/kimlik_durum.dart';
 import '../features/kimlik/ui/giris_sayfasi.dart';
-import '../features/masa_siparisleri/ui/siparisler_sayfasi.dart';
 import '../features/dashboard/ui/dashboard_sayfasi.dart';
 import '../features/menu_yonetimi/ui/menu_yonetimi_sayfasi.dart';
-import '../features/sadakat/ui/sadakat_sayfasi.dart';
 import '../features/ayarlar/ui/ayarlar_sayfasi.dart';
 import '../features/qr_tarayici/ui/qr_tarayici_sayfasi.dart';
 import '../features/yorumlar/ui/yorumlar_sayfasi.dart';
 import '../features/kampanya/ui/kampanya_sayfasi.dart';
-import '../features/kds/ui/kds_sayfasi.dart';
 import '../features/shared/ui/ana_kabuk.dart';
 import '../features/shared/ui/yukleniyor_sayfasi.dart';
 
@@ -23,7 +20,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     refreshListenable: kimlikListenable,
-    initialLocation: '/siparisler',
+    initialLocation: '/dashboard',
     redirect: (context, state) {
       final kimlikDurum = ref.read(kimlikProvider).valueOrNull;
       final yukleniyor = ref.read(kimlikProvider).isLoading;
@@ -43,7 +40,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       if (state.uri.toString() == '/giris' ||
           state.uri.toString() == '/yukleniyor') {
-        return '/siparisler';
+        return '/dashboard';
       }
       return null;
     },
@@ -80,10 +77,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _, child) => AnaKabuk(child: child),
         routes: [
           GoRoute(
-            path: '/siparisler',
-            builder: (_, _) => const SiparislerSayfasi(),
-          ),
-          GoRoute(
             path: '/dashboard',
             builder: (_, _) => const DashboardSayfasi(),
           ),
@@ -92,16 +85,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (_, _) => const MenuYonetimiSayfasi(),
           ),
           GoRoute(
-            path: '/sadakat',
-            builder: (_, _) => const SadakatSayfasi(),
-          ),
-          GoRoute(
             path: '/ayarlar',
             builder: (_, _) => const AyarlarSayfasi(),
-          ),
-          GoRoute(
-            path: '/kds',
-            builder: (_, _) => const KdsSayfasi(),
           ),
         ],
       ),

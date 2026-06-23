@@ -161,14 +161,6 @@ class AppDrawer extends ConsumerWidget {
               onTap: () => go('/'),
             ),
             _DrawerItem(
-              icon: Icons.people_outline,
-              label: t.smartRecoTitle,
-              subtitle: '2 kişi x fiyat',
-              path: '/budget-combos',
-              currentPath: currentPath,
-              onTap: () => go('/budget-combos'),
-            ),
-            _DrawerItem(
               icon: Icons.notifications_outlined,
               label: t.priceAlerts,
               path: '/price-alerts',
@@ -204,13 +196,6 @@ class AppDrawer extends ConsumerWidget {
               path: '/favorites',
               currentPath: currentPath,
               onTap: () => go('/favorites'),
-            ),
-            _DrawerItem(
-              icon: Icons.balance_outlined,
-              label: t.drawerCompare,
-              path: '/compare',
-              currentPath: currentPath,
-              onTap: () => go('/compare'),
             ),
             if (flags.hasExperimentalNavigation)
               _DrawerItem(
@@ -452,14 +437,12 @@ class _DrawerItem extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
-    this.subtitle,
     this.path,
     this.currentPath,
   });
 
   final IconData icon;
   final String label;
-  final String? subtitle;
   final String? path;
   final String? currentPath;
   final VoidCallback onTap;
@@ -503,13 +486,6 @@ class _DrawerItem extends StatelessWidget {
                       color: active ? AppColors.primary : AppColors.textStrong,
                     ),
                   ),
-                  if (subtitle != null) ...[
-                    const SizedBox(height: 1),
-                    Text(
-                      subtitle!,
-                      style: TextStyle(fontSize: 11, color: AppColors.muted),
-                    ),
-                  ],
                 ],
               ),
             ),

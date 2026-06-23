@@ -32,7 +32,6 @@ import '../features/menus/ui/public_menu_share_page.dart';
 import '../features/notifications/ui/inbox_page.dart';
 import '../features/onboarding/ui/onboarding_page.dart';
 import '../features/profile/ui/account_info_page.dart';
-import '../features/profile/ui/achievements_page.dart';
 import '../features/profile/ui/profile_page.dart';
 import '../features/profile/ui/profile_settings_page.dart';
 import '../features/profile/ui/social_accounts_page.dart';
@@ -301,11 +300,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/social-accounts',
         pageBuilder: (c, s) =>
             buildFadeSlidePage(state: s, child: const SocialAccountsPage()),
-      ),
-      GoRoute(
-        path: '/achievements',
-        pageBuilder: (c, s) =>
-            buildFadeSlidePage(state: s, child: const AchievementsPage()),
       ),
       GoRoute(
         path: '/live-support',

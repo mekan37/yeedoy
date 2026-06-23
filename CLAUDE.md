@@ -10,7 +10,7 @@ Yeedoy is a monorepo with three active Flutter/Next.js apps backed by Supabase:
 |-----|------|---------|
 | Mobile | `uygulamalar/mobil/` | End-user Flutter app (Android/iOS) |
 | Web | `uygulamalar/web/` | Next.js 15 — public menu, QR, owner & admin panels |
-| Personel | `uygulamalar/personel/` | Flutter web — owner/waiter POS operations |
+| Personel | `uygulamalar/personel/` | Flutter web — owner menu/profile/review management (MVP scope; POS/order/KDS surfaces hidden from nav per 2026 strategic decision) |
 
 Shared packages (Dart/Flutter):
 - `packages/shared_models/` — canonical domain models

@@ -23,27 +23,18 @@ const ownerNavSections: NavSection[] = [
     title: 'Büyüme',
     items: [
       { href: '/sahip/analitik', label: 'Analitik', icon: <ChartIcon /> },
-      { href: '/sahip/finansal', label: 'Finansal Raporlar', icon: <TLIcon /> },
-      { href: '/sahip/crm', label: 'Müşteri CRM', icon: <CrmIcon /> },
       { href: '/sahip/fiyat-raporu', label: 'Fiyat Raporu', icon: <PriceIcon /> },
-      { href: '/sahip/buyume', label: 'Büyüme', icon: <TrendingIcon /> },
-      { href: '/sahip/siparisler', label: 'Masa Siparişleri', icon: <OrderIcon /> },
       { href: '/sahip/yorumlar', label: 'Yorumlar', icon: <StarIcon /> },
       { href: '/sahip/karekod', label: 'QR Kodlar', icon: <QrIcon /> },
-      { href: '/sahip/sponsorluk', label: 'Sponsorluk', icon: <SponsIcon /> },
-      { href: '/sahip/pazarlama', label: 'Pazarlama', icon: <MegaphoneIcon /> },
     ],
   },
   {
     title: 'Yönetim',
     items: [
       { href: '/sahip/ekip', label: 'Ekip', icon: <UsersIcon /> },
-      { href: '/sahip/envanter', label: 'Envanter', icon: <BoxIcon /> },
       { href: '/sahip/fiyat-onerileri', label: 'Fiyat Önerileri', icon: <TagIcon /> },
       { href: '/sahip/istekler', label: 'Grup İstekleri', icon: <GroupIcon /> },
-      { href: '/sahip/askiya-alinanlar', label: 'Askıya Alma', icon: <GiftIcon /> },
       { href: '/sahip/etkinlik', label: 'Aktivite', icon: <ActivityIcon /> },
-      { href: '/sahip/yapay-zeka-analizi', label: 'Yapay Zeka', icon: <BrainIcon /> },
       { href: '/sahip/cop-kutusu', label: 'Çöp Kutusu', icon: <TrashIcon /> },
       { href: '/sahip/ayarlar', label: 'Ayarlar', icon: <SettingsIcon /> },
     ],
@@ -163,14 +154,6 @@ function ChartIcon() {
   );
 }
 
-function OrderIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
-    </svg>
-  );
-}
-
 function PriceIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -197,25 +180,6 @@ function QrIcon() {
       <line x1="14" y1="20" x2="14" y2="20" />
       <line x1="20" y1="14" x2="20" y2="14" />
       <line x1="20" y1="20" x2="20" y2="20" />
-    </svg>
-  );
-}
-
-function MegaphoneIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-    </svg>
-  );
-}
-
-function SponsIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="8" r="6" />
-      <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
     </svg>
   );
 }
@@ -260,15 +224,6 @@ function RocketIcon() {
   );
 }
 
-function TrendingIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-      <polyline points="17 6 23 6 23 12" />
-    </svg>
-  );
-}
-
 function GroupIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -280,47 +235,10 @@ function GroupIcon() {
   );
 }
 
-function GiftIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 12 20 22 4 22 4 12" />
-      <rect x="2" y="7" width="20" height="5" />
-      <line x1="12" y1="22" x2="12" y2="7" />
-      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
-      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
-    </svg>
-  );
-}
-
 function ActivityIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-    </svg>
-  );
-}
-
-function BrainIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
-      <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
-    </svg>
-  );
-}
-
-function TLIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="7" y1="5" x2="17" y2="5" /><line x1="7" y1="12" x2="14" y2="12" /><path d="M9 5v14" /><path d="M14 12v4a2 2 0 0 0 2 2h1" />
-    </svg>
-  );
-}
-
-function CrmIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /><polyline points="16 3 18 5 22 2" />
     </svg>
   );
 }
@@ -336,12 +254,3 @@ function TrashIcon() {
   );
 }
 
-function BoxIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-      <line x1="12" y1="22.08" x2="12" y2="12" />
-    </svg>
-  );
-}

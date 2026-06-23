@@ -26,7 +26,6 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/cop-kutusu', label: 'Silinmiş Menüler', icon: <TrashIcon /> },
       { href: '/yonetici/olaylar', label: 'Olaylar', icon: <AlertIcon /> },
       { href: '/yonetici/konumlar', label: 'Konumlar', icon: <MapPinIcon /> },
-      { href: '/yonetici/masa-geri-bildirimleri', label: 'Masa Geri Bildirimleri', icon: <MessageIcon /> },
     ],
   },
   {
@@ -34,16 +33,10 @@ const adminNavSections: NavSection[] = [
     items: [
       { href: '/yonetici/analitik', label: 'Analitik', icon: <ChartIcon /> },
       { href: '/yonetici/buyume', label: 'Büyüme', icon: <TrendingIcon /> },
-      { href: '/yonetici/finansal-yonetim', label: 'Finansal Yönetim', icon: <DollarSignIcon /> },
-      { href: '/yonetici/push-kampanyalari', label: 'Push Kampanyaları', icon: <BellIcon /> },
       { href: '/yonetici/musteri-destek', label: 'Müşteri Destek', icon: <HeadsetIcon /> },
       { href: '/yonetici/oneriler', label: 'Öneriler', icon: <LightbulbIcon /> },
       { href: '/yonetici/fiyat-onerileri', label: 'Fiyat Önerileri', icon: <TagIcon /> },
       { href: '/yonetici/grup-istekleri', label: 'Grup İstekleri', icon: <LayersIcon /> },
-      { href: '/yonetici/sponsorluklar', label: 'Sponsorluklar', icon: <PackageIcon /> },
-      { href: '/yonetici/sponsor-adaylari', label: 'Sponsor Adayları', icon: <UserPlusIcon /> },
-      { href: '/yonetici/sponsor-paketleri', label: 'Sponsor Paketleri', icon: <DollarSignIcon /> },
-      { href: '/yonetici/b2b-dis-aktarim', label: 'B2B Dışa Aktarma', icon: <DownloadIcon /> },
     ],
   },
   {
@@ -51,8 +44,6 @@ const adminNavSections: NavSection[] = [
     items: [
       { href: '/yonetici/fraud-tespiti', label: 'Fraud Tespiti', icon: <AlertIcon /> },
       { href: '/yonetici/fotograf-moderasyon', label: 'Fotoğraf Moderasyon', icon: <ImageIcon /> },
-      { href: '/yonetici/toplu-islemler', label: 'Toplu İşlemler', icon: <LayersIcon /> },
-      { href: '/yonetici/ab-test', label: 'A/B Test', icon: <BeakerIcon /> },
       { href: '/yonetici/feature-flags', label: 'Feature Flags', icon: <FlagFeatureIcon /> },
       { href: '/yonetici/api-anahtarlari', label: 'API Anahtarları', icon: <KeyIcon /> },
       { href: '/yonetici/roller', label: 'Roller', icon: <ShieldIcon /> },
@@ -274,15 +265,6 @@ function GiftIcon() {
   );
 }
 
-function CheckCircleIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="9 12 11 14 15 10" />
-    </svg>
-  );
-}
-
 function ScaleIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -336,33 +318,6 @@ function MapPinIcon() {
   );
 }
 
-function MessageIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
-  );
-}
-
-function DollarSignIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="2" x2="12" y2="22" />
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-    </svg>
-  );
-}
-
-function DownloadIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" y1="15" x2="12" y2="3" />
-    </svg>
-  );
-}
-
 function ClipboardIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -401,37 +356,6 @@ function LightbulbIcon() {
   );
 }
 
-function PackageIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="16.5" y1="9.4" x2="7.5" y2="4.21" />
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-      <line x1="12" y1="22.08" x2="12" y2="12" />
-    </svg>
-  );
-}
-
-function UserPlusIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-      <circle cx="8.5" cy="7" r="4" />
-      <line x1="20" y1="8" x2="20" y2="14" />
-      <line x1="23" y1="11" x2="17" y2="11" />
-    </svg>
-  );
-}
-
-function BellIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-    </svg>
-  );
-}
-
 function HeadsetIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -447,15 +371,6 @@ function ImageIcon() {
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
       <circle cx="8.5" cy="8.5" r="1.5" />
       <polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
-}
-
-function BeakerIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 3h6m-5 0v7l-5.4 8.1A1 1 0 0 0 5.45 20h13.1a1 1 0 0 0 .85-1.89L14 10V3" />
-      <path d="M8.5 14h7" />
     </svg>
   );
 }

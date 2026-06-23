@@ -17,8 +17,6 @@ const NAV_ITEMS = [
   { href: '/kesif',     label: 'Keşfet' },
   { href: '/arama',     label: 'Arama' },
   { href: '/en-iyiler', label: 'En İyiler' },
-  { href: '/liderler',  label: 'Liderler' },
-  { href: '/butce',     label: 'Bütçe' },
 ];
 
 // Owner sayfaları için ayrı nav (panel subdomain, /isletme, /sahiplen/*)
@@ -185,9 +183,6 @@ export function PublicFooter() {
             <Link href="/kesif" className="hover:text-primary">İşletmeler</Link>
             <Link href="/arama" className="hover:text-primary">Arama</Link>
             <Link href="/en-iyiler" className="hover:text-primary">En İyiler</Link>
-            <Link href="/liderler" className="hover:text-primary">Liderlik Tablosu</Link>
-            <Link href="/zincirler" className="hover:text-primary">Zincir İşletmeler</Link>
-            <Link href="/karsilastir" className="hover:text-primary">Karşılaştır</Link>
           </div>
         </div>
 
@@ -195,12 +190,7 @@ export function PublicFooter() {
         <div>
           <p className="font-[900] text-textStrong">Özellikler</p>
           <div className="mt-3 grid gap-2 text-sm text-muted">
-            <Link href="/akilli-akis" className="hover:text-primary">Akıllı Akış</Link>
-            <Link href="/tat-ikizi" className="hover:text-primary">Taste Twin</Link>
-            <Link href="/butce" className="hover:text-primary">Bütçe Planlayıcı</Link>
             <Link href="/fiyat-uyarilari" className="hover:text-primary">Fiyat Uyarıları</Link>
-            <Link href="/ortak-listeler" className="hover:text-primary">Kolaborasyon Listeleri</Link>
-            <Link href="/grup-istekleri" className="hover:text-primary">Grup Talepleri</Link>
           </div>
         </div>
 
@@ -254,9 +244,9 @@ export function MobileBottomNav() {
         <Icon name="pin" size={16} />
         <span className="mt-0.5">Keşfet</span>
       </Link>
-      <Link href="/akilli-akis" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-[900] text-textStrong hover:bg-cardAlt">
-        <Icon name="star" size={16} />
-        <span className="mt-0.5">Akış</span>
+      <Link href="/arama" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-[900] text-textStrong hover:bg-cardAlt">
+        <Icon name="search" size={16} />
+        <span className="mt-0.5">Arama</span>
       </Link>
       <Link href="/profil" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-[900] text-textStrong hover:bg-cardAlt">
         <Icon name="user" size={16} />
