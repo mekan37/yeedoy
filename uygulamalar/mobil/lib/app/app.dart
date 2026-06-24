@@ -112,10 +112,10 @@ class _GlobalPushIntentListenerState
   Future<void> _maybeShowConsent() async {
     if (!mounted || _consentShown) return;
 
-    // ConsentNotifier._init() is async — it calls SharedPreferences.getInstance()
-    // which resolves in the microtask queue. A single extra event-loop turn
-    // ensures that future has settled before we read the state.
-    await Future<void>.delayed(Duration.zero);
+    // ConsentNotifier._init() is async. Do not rely on a single event-loop
+    // turn here; wait for persisted preferences before deciding whether the
+    // sheet is needed.
+    await ref.read(consentNotifierProvider.notifier).load();
 
     if (!mounted || _consentShown) return;
     final state = ref.read(consentNotifierProvider);
@@ -167,7 +167,8 @@ class _GlobalPushIntentListenerState
         if (current == null) return;
         assert(() {
           debugPrint(
-              '[GlobalPushIntentListener] pendingRoute=${current.route}');
+            '[GlobalPushIntentListener] pendingRoute=${current.route}',
+          );
           return true;
         }());
         widget.router.go(current.route);
@@ -178,5 +179,3 @@ class _GlobalPushIntentListenerState
     return MediaQuery(data: widget.data, child: widget.child);
   }
 }
-
-

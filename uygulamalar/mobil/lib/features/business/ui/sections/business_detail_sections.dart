@@ -306,66 +306,6 @@ class BusinessHoursSection extends ConsumerWidget {
   }
 }
 
-class BusinessMenusSection extends ConsumerWidget {
-  const BusinessMenusSection({super.key, required this.businessId});
-  final String businessId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final menusAsync = ref.watch(businessMenusProvider(businessId));
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            t.menus,
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              color: AppColors.textStrong,
-            ),
-          ),
-          const SizedBox(height: 8),
-          menusAsync.when(
-            loading: () => const AppSkeletonLine(width: 140),
-            error: (error, _) => AppEmptyState(
-              icon: Icons.wifi_off_outlined,
-              title: t.menusLoadFailed,
-              description:
-                  '${AppErrorMapper.message(error)}. ${t.connectionProblemTryAgain}',
-              ctaLabel: AppLocalizations.of(context).retry,
-              onCta: () => ref.invalidate(businessMenusProvider(businessId)),
-            ),
-            data: (menus) {
-              if (menus.isEmpty) {
-                return AppEmptyState(
-                  icon: Icons.menu_book_outlined,
-                  title: t.noMenu,
-                  description: t.addFirstMenuHelp,
-                  ctaLabel: AppLocalizations.of(context).addFirstMenuCta,
-                  onCta: () => _openReportSheet(context, businessId),
-                );
-              }
-              return Column(
-                children: [
-                  for (final menu in menus)
-                    ListTile(
-                      key: ValueKey(menu.id),
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(menu.title),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => context.go('/b/$businessId/menu/${menu.id}'),
-                    ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class BusinessCrowdSection extends ConsumerStatefulWidget {
   const BusinessCrowdSection({super.key, required this.businessId});
   final String businessId;

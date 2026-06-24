@@ -355,6 +355,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/food-journal',
+        // MVP scope dışı: yemek günlüğü (sadakat/gamification kapsamı) MVP'de
+        // kapalı. Nav girişi yok; deep-link/manuel URL erişimine karşı redirect.
+        // Sayfa silinmedi, geriye dönük uyumluluk için route saklı tutuldu.
+        redirect: (c, s) => '/profile',
         pageBuilder: (c, s) => buildFadeSlidePage(
           state: s,
           child: const YemekGunluguSayfasi(),
@@ -362,6 +366,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/group-vote/:token',
+        // MVP scope dışı: grup oylama (sosyal kapsam) MVP'de kapalı. Nav girişi
+        // yok; deep-link/manuel URL erişimine karşı redirect. Sayfa silinmedi,
+        // geriye dönük uyumluluk için route saklı tutuldu.
+        redirect: (c, s) => '/discover',
         pageBuilder: (c, s) => buildFadeSlidePage(
           state: s,
           child: OyVerSayfasi(token: s.pathParameters['token']!),
@@ -539,12 +547,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/my-suspended',
         builder: (c, s) => const MySuspendedClaimsPage(),
       ),
+      // MVP scope dışı: ortak listeler (sosyal kapsam) MVP'de kapalı. Nav
+      // girişi yok; deep-link/manuel URL erişimine karşı redirect. Sayfalar
+      // silinmedi, geriye dönük uyumluluk için route'lar saklı tutuldu.
       GoRoute(
         path: '/collab-lists',
+        redirect: (c, s) => '/discover',
         builder: (c, s) => const CollabListsPage(),
       ),
       GoRoute(
         path: '/collab-lists/join',
+        redirect: (c, s) => '/discover',
         builder: (c, s) {
           final token = sanitizeFreeText(
             s.uri.queryParameters['token'],
@@ -555,6 +568,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/collab-lists/:id',
+        redirect: (c, s) => '/discover',
         builder: (c, s) {
           final id = sanitizeUuid(s.pathParameters['id']) ?? '';
           return CollabListDetailPage(listId: id);

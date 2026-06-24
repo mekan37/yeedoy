@@ -46,6 +46,7 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
     try {
       // 1. Dosya varsa yükle
       let evidenceUrl: string | null = null;
+      let evidencePath: string | null = null;
       if (file) {
         const fd = new FormData();
         fd.append('file', file);
@@ -57,13 +58,14 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
           return;
         }
         evidenceUrl = data.url;
+        evidencePath = data.path;
       }
 
       // 2. Talebi gönder
       const res = await fetch('/sunucu/sahiplik-talebi', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ businessId, fullName, phone, note, evidenceUrl }),
+        body:    JSON.stringify({ businessId, fullName, phone, note, evidenceUrl, evidencePath }),
       });
       const data = await res.json();
 

@@ -2,15 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Ürün Kapsamı Uyarısı:** Güncel ürün kapsamı için sadece `docs/product/2026-yeedoy-final-scope-source-of-truth.md` baz alınacak. `docs/research` ve `docs/engineering` içindeki eski raporlar tarihsel bağlamdır, tek başına karar kaynağı değildir.
+
 ## Repository Structure
 
-Yeedoy is a monorepo with three active Flutter/Next.js apps backed by Supabase:
+Yeedoy is a monorepo with two active Flutter/Next.js apps backed by Supabase:
 
 | App | Path | Purpose |
 |-----|------|---------|
 | Mobile | `uygulamalar/mobil/` | End-user Flutter app (Android/iOS) |
 | Web | `uygulamalar/web/` | Next.js 15 — public menu, QR, owner & admin panels |
-| Personel | `uygulamalar/personel/` | Flutter web — owner menu/profile/review management (MVP scope; POS/order/KDS surfaces hidden from nav per 2026 strategic decision) |
 
 Shared packages (Dart/Flutter):
 - `packages/shared_models/` — canonical domain models
@@ -22,9 +23,9 @@ Do not build new architecture on `packages/api_client`, `packages/shared_config`
 
 ## Commands
 
-### Flutter (mobile or personel app)
+### Flutter (mobile app)
 ```bash
-# Run from app directory (uygulamalar/mobil or uygulamalar/personel)
+# Run from app directory (uygulamalar/mobil)
 flutter analyze
 flutter test
 flutter test test/path/to/single_test.dart
@@ -87,9 +88,7 @@ Naming conventions:
 - Supabase RPC wrappers match existing names (`*_v1`, `*_v2`)
 
 Mobile entry: `lib/main_mobile.dart` → router: `lib/app/router.dart`  
-Theme source-of-truth: `lib/app/theme/*` (mobile is canonical; personel mirrors it)
-
-Design system import (personel/panel): `import '../../../shared/ui/design_system.dart'`
+Theme source-of-truth: `lib/app/theme/*`
 
 ### Next.js web app
 

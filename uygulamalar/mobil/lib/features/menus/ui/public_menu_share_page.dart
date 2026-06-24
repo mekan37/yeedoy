@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/config/feature_flags.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/analytics_repository.dart';
@@ -92,7 +93,12 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
               .trim()
               .toLowerCase();
 
-          if (source == 'qr' && businessId.isNotEmpty) {
+          final flags = ref.watch(featureFlagsProvider);
+          if (shouldLogQrAutoCheckin(
+            flags: flags,
+            source: source,
+            businessId: businessId,
+          )) {
             _logCheckinOnce(
               businessId: businessId,
               menuId: widget.menuId,
@@ -284,12 +290,14 @@ class _PublicMenuSharePageState extends ConsumerState<PublicMenuSharePage> {
     _loggedCheckin = true;
     try {
       final clientId = await getAnalyticsClientId();
-      await ref.read(checkInRepositoryProvider).logCheckin(
-        businessId: businessId,
-        menuId: menuId,
-        tableNo: tableNo,
-        clientId: clientId,
-      );
+      await ref
+          .read(checkInRepositoryProvider)
+          .logCheckin(
+            businessId: businessId,
+            menuId: menuId,
+            tableNo: tableNo,
+            clientId: clientId,
+          );
     } catch (_) {
       // Silent fail on web open.
     }
@@ -448,10 +456,7 @@ class _SectionBlock extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: context.sectionTitleStyle,
-        ),
+        Text(title, style: context.sectionTitleStyle),
         const SizedBox(height: 8),
         if (items.isEmpty)
           Text(t.noProductsFound)
@@ -801,3 +806,13 @@ class _TableFeedbackCard extends StatelessWidget {
   }
 }
 
+@visibleForTesting
+bool shouldLogQrAutoCheckin({
+  required FeatureFlagsState flags,
+  required String source,
+  required String businessId,
+}) {
+  return flags.enableQrAutoCheckin &&
+      source.trim().toLowerCase() == 'qr' &&
+      businessId.trim().isNotEmpty;
+}

@@ -94,4 +94,4 @@ flutter test integration_test/live_write_smoke_integration_test.dart ^
 
 ## Not
 - Developer Tools ekranı `DEV_TOOLS_ENABLED` ve debug koşuluyla açılır.
-- Repo-root GitHub Actions tarafinda istemci bazli `mobile_quality`, `mobile_readiness`, `panel_quality` ve `web_quality` workflow'lari bulunur.
+- Repo-root GitHub Actions tarafinda istemci bazli `mobile_quality` ve `mobile_readiness` workflow'lari bulunur.

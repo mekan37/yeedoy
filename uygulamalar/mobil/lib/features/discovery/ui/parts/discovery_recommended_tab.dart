@@ -281,9 +281,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
     final city = st.city.trim();
     final district = st.district.trim();
     // MVP scope: sponsorlu işletme listeleme kapatıldı (final stratejik karar
-    // raporu §16 — MVP'de sponsorluk yok). Network çağrısı kaldırıldı; legacy
-    // (render edilmeyen) sponsorlu bölüm artık boş set kullanır.
-    const sponsoredIds = <String>{};
+    // raporu §16 — MVP'de sponsorluk yok). Sponsorlu bölüm ve ilgili ölü kod
+    // kaldırıldı.
     final hasDistrict = city.isNotEmpty && district.isNotEmpty;
     final neighborhood = ref.watch(
       userLocationProvider.select((loc) => (loc.neighborhood ?? '').trim()),
@@ -920,17 +919,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                 ),
                               ),
 
-                            _DiscoverySponsoredSection(
-                              city: st.city,
-                              district: st.district,
-                              category: st.category.isEmpty
-                                  ? null
-                                  : st.category,
-                              onOpenBusiness: (id) {
-                                _openBusiness(id, source: 'sponsored');
-                              },
-                            ),
-
                             if (st.loading && st.items.isEmpty) ...[
                               if (_surfaceMode == _DiscoverySurfaceMode.map)
                                 const _DiscoveryMapSkeleton()
@@ -960,9 +948,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                     qualityScore: entry.value.qualityScore,
                                     mealCardProviders:
                                         entry.value.mealCardProviders,
-                                    isSponsored: sponsoredIds.contains(
-                                      entry.value.id,
-                                    ),
                                     isOpenNow: entry.value.isOpenNow,
                                     medianPriceCents:
                                         entry.value.medianPriceCents,

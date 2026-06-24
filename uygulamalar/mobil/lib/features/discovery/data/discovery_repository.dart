@@ -3,7 +3,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/cache/request_cache.dart';
 import '../../../core/cache/swr_payload.dart';
-import '../../../core/config/product_guardrail_overrides.dart';
 import '../../../core/monitoring/app_telemetry.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/storage/local_db/local_db_models.dart';
@@ -23,7 +22,6 @@ final discoveryRepositoryProvider = Provider<DiscoveryRepository>((ref) {
   return DiscoveryRepository(
     ref.watch(supabaseProvider),
     ref.watch(appTelemetryProvider),
-    ref.watch(productGuardrailOverridesProvider),
     ref.watch(requestCacheProvider),
     ref.watch(localDbStoreProvider),
   );
@@ -33,14 +31,12 @@ class DiscoveryRepository {
   DiscoveryRepository(
     this.client,
     this._telemetry,
-    this._guardrails,
     RequestCache requestCache,
     this._localDb,
   ) : _cache = requestCache.scope(_cacheScope);
 
   final SupabaseClient client;
   final AppTelemetry _telemetry;
-  final ProductGuardrailOverrides _guardrails;
   final RequestCacheScope _cache;
   final LocalDbStore _localDb;
 
@@ -365,83 +361,6 @@ class DiscoveryRepository {
       final stale = _cache.getStale<List<BusinessCardModel>>(cacheKey);
       if (stale != null) return stale;
       rethrow;
-    }
-  }
-
-  Future<List<BusinessCardModel>> fetchSponsoredBusinesses({
-    required String surface,
-    String? city,
-    String? district,
-    String? category,
-    int limit = 6,
-  }) async {
-    final res = await _telemetry.traceRpc<dynamic>(
-      operation: 'get_sponsored_businesses',
-      run: () => client.rpc(
-        'get_sponsored_businesses_v1',
-        params: {
-          'p_surface': surface,
-          'p_city': (city ?? '').trim().isEmpty ? null : city!.trim(),
-          'p_district': (district ?? '').trim().isEmpty
-              ? null
-              : district!.trim(),
-          'p_category': (category ?? '').trim().isEmpty
-              ? null
-              : category!.trim(),
-          'p_limit': limit,
-        },
-      ),
-      sampleRate: 0.3,
-    );
-
-    final items = (res as List)
-        .map((e) => BusinessCardModel.fromSponsoredMap(e))
-        .toList();
-    if (items.isEmpty) return items;
-
-    final ids = items.map((e) => e.id).where((id) => id.isNotEmpty).toList();
-    if (ids.isEmpty) return items;
-
-    try {
-      final statsRes = await client
-          .from('businesses_with_stats')
-          .select('id, avg_rating, quality_score, recent_price_verified_count')
-          .inFilter('id', ids);
-      final statsMap = <String, Map<String, dynamic>>{};
-      for (final row in (statsRes as List).whereType<Map>()) {
-        final data = row.cast<String, dynamic>();
-        statsMap[(data['id'] ?? '').toString()] = data;
-      }
-      final enriched = items.map((b) {
-        final data = statsMap[b.id];
-        if (data == null) return b;
-        final quality = (data['quality_score'] as num?)?.toDouble() ?? 0;
-        final recent =
-            ((data['recent_price_verified_count'] as num?)?.toInt() ?? 0).clamp(
-              0,
-              5,
-            );
-        final rating = (data['avg_rating'] as num?)?.toDouble() ?? 0;
-        final trustScore =
-            ((quality.clamp(0, 5) / 5) * 0.7) + ((recent / 5) * 0.3);
-        return b.copyWith(
-          avgRating: rating,
-          qualityScore: quality,
-          trustScore: trustScore.clamp(0, 1).toDouble(),
-          recentPriceVerifiedCount: recent,
-        );
-      }).toList();
-
-      final filtered = enriched.where((b) {
-        final trust = b.trustScore ?? 0;
-        final rating = b.avgRating ?? 0;
-        return trust >= _guardrails.minSponsoredTrustScore &&
-            rating >= _guardrails.minSponsoredRating;
-      }).toList();
-
-      return filtered;
-    } catch (_) {
-      return items;
     }
   }
 

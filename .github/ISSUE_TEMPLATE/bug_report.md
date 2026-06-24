@@ -24,7 +24,7 @@ assignees: ''
 <!-- Varsa hata ekran görüntüsü veya video ekle -->
 
 ## Ortam
-- Platform: <!-- mobil / web / personel -->
+- Platform: <!-- mobil / web -->
 - İşletim Sistemi: <!-- iOS / Android / Windows / macOS / Web Browser -->
 - App Versiyonu: <!-- v1.2.3 veya "latest" -->
 - Supabase Status: <!-- lokal test / production -->

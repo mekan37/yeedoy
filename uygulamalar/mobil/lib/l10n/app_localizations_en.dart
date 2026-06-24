@@ -2149,6 +2149,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get budgetComboCategoryVenue => 'Venue';
 
   @override
+  String get smartRecoTitle => 'Smart Picks';
+
+  @override
+  String get smartRecoSubtitle => 'Best picks for your budget and group size';
+
+  @override
+  String get smartRecoEmptyTitle => 'No matching places found';
+
+  @override
+  String get smartRecoEmptyDesc =>
+      'Try raising your budget or reducing party size';
+
+  @override
+  String get smartRecoShuffleLabel => 'Feeling Lucky?';
+
+  @override
+  String get smartRecoShuffleDesc => 'Show different picks';
+
+  @override
   String get budgetComboResultsTitle => 'Budget Combos';
 
   @override

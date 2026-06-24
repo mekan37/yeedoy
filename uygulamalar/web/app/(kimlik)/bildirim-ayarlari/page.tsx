@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PushIzinButonu } from './push-izin-butonu';
 import { BildirimTercihleri } from './bildirim-tercihleri';
+import { PazarlamaEmailToggle } from './pazarlama-email-toggle';
 
 export const metadata: Metadata = {
   title: 'Bildirim Ayarları | Yeedoy',
@@ -46,6 +47,22 @@ export default async function BildirimAyarlariPage() {
     // Table not yet migrated; show defaults
   }
 
+  // Global pazarlama e-posta tercihi (user_profiles.marketing_email_opt_in)
+  // migration 20260620000001 uygulanmadan önce sütun yoktur; hata durumunda false default.
+  let marketingEmailEnabled = false;
+  try {
+    const { data: profileData } = await (supabase as any)
+      .from('user_profiles')
+      .select('marketing_email_opt_in')
+      .eq('user_id', user!.id)
+      .single();
+    if (profileData && typeof profileData.marketing_email_opt_in === 'boolean') {
+      marketingEmailEnabled = profileData.marketing_email_opt_in;
+    }
+  } catch {
+    // Sütun henüz yok veya sorgu hatası — default false ile devam et
+  }
+
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-lg px-4 py-12">
@@ -65,13 +82,27 @@ export default async function BildirimAyarlariPage() {
           <PushIzinButonu />
         </section>
 
-        <section className="rounded-2xl border border-border bg-card p-6">
+        <section className="mb-8 rounded-2xl border border-border bg-card p-6">
           <h2 className="mb-4 text-base font-[900] text-textStrong">Bildirim Türleri</h2>
           <BildirimTercihleri
             userId={user!.id}
             types={NOTIFICATION_TYPES as unknown as Array<{ key: string; label: string; description: string }>}
             initialPrefs={prefs}
           />
+        </section>
+
+        {/* E-posta tercihleri — global pazarlama izni */}
+        <section className="rounded-2xl border border-border bg-card p-6">
+          <h2 className="mb-1 text-base font-[900] text-textStrong">E-posta Tercihleri</h2>
+          <p className="mb-4 text-sm text-muted">
+            Yeedoy&apos;dan gelen e-postaları yönetin.
+          </p>
+          <PazarlamaEmailToggle initialEnabled={marketingEmailEnabled} />
+          <p className="mt-3 text-xs leading-relaxed text-muted">
+            Bu tercihi kapatırsanız Yeedoy&apos;dan pazarlama e-postası almayı bırakırsınız.
+            İşletmelerin gönderdiği kampanya e-postaları için ayrıca her işletmenin takip
+            sayfasından aboneliğinizi yönetebilirsiniz.
+          </p>
         </section>
       </div>
     </main>

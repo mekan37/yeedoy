@@ -2,17 +2,14 @@
 /// Growth feature'ları smoke testleri
 ///
 /// Widget bağımlılıklarını minimize etmek için:
-/// - SponsoredBadge → widget render testi (yalnızca tema gerektirmez)
 /// - Inbox share callback → pure function unit testi
 /// - SmartReco sort logic → pure function unit testi
 /// - SmartRecommendation.fromMap → model parse testi
 library;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yeedoy/features/notifications/domain/inbox_models.dart';
 import 'package:yeedoy/features/smart_recommendation/domain/smart_reco_models.dart';
-import 'package:yeedoy/features/sponsorluk/ui/sponsored_badge.dart';
 
 // ---------------------------------------------------------------------------
 // Inbox share callback helper — inbox_page.dart'daki private fonksiyonu
@@ -184,63 +181,7 @@ SmartRecommendation _reco(
 
 void main() {
   // =========================================================================
-  // 1. SponsoredBadge görünürlük
-  // =========================================================================
-  group('SponsoredBadge görünürlük', () {
-    testWidgets('SponsoredBadge render oluyor — "Sponsorlu" yazısı görünür',
-        (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: SponsoredBadge()),
-        ),
-      );
-      expect(find.text('Sponsorlu'), findsOneWidget,
-          reason: 'Badge "Sponsorlu" labelını göstermeli');
-    });
-
-    testWidgets('SponsoredBadge olmadığında "Sponsorlu" yazısı yok',
-        (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: SizedBox.shrink()),
-        ),
-      );
-      expect(find.text('Sponsorlu'), findsNothing,
-          reason: 'SponsoredBadge yoksa label render edilmemeli');
-    });
-
-    testWidgets('SponsoredBadge verified_outlined ikon içeriyor', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: SponsoredBadge()),
-        ),
-      );
-      expect(
-        find.byIcon(Icons.verified_outlined),
-        findsOneWidget,
-        reason: 'SponsoredBadge verified_outlined ikonunu içermeli',
-      );
-    });
-
-    testWidgets('SponsoredBadge çoklu render crash yapmıyor', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Column(
-              children: [
-                SponsoredBadge(),
-                SponsoredBadge(),
-              ],
-            ),
-          ),
-        ),
-      );
-      expect(find.text('Sponsorlu'), findsNWidgets(2));
-    });
-  });
-
-  // =========================================================================
-  // 2. Inbox paylaşım callback — crash testi
+  // 1. Inbox paylaşım callback — crash testi
   // =========================================================================
   group('Inbox paylaşım callback — crash testi', () {
     test('favorite_price_changed callback null değil', () {
@@ -343,7 +284,7 @@ void main() {
   });
 
   // =========================================================================
-  // 3. SmartReco sort logic — crash ve doğruluk testi
+  // 2. SmartReco sort logic — crash ve doğruluk testi
   // =========================================================================
   group('SmartReco sort logic', () {
     test('boş liste sort crash yapmıyor', () {
@@ -418,7 +359,7 @@ void main() {
   });
 
   // =========================================================================
-  // 4. SmartRecommendation model parse testi
+  // 3. SmartRecommendation model parse testi
   // =========================================================================
   group('SmartRecommendation model parse', () {
     test('fromMap tüm alanları doğru parse eder', () {

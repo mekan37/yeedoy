@@ -26,10 +26,8 @@ const COMMON_EN = resolve(pkg, 'common_en.arb');
 const COMMON_TR = resolve(pkg, 'common_tr.arb');
 
 const TARGETS = [
-  { path: resolve(root, 'apps/mobile_flutter/lib/l10n/app_en.arb'), locale: 'en', label: 'mobile/en' },
-  { path: resolve(root, 'apps/mobile_flutter/lib/l10n/app_tr.arb'), locale: 'tr', label: 'mobile/tr' },
-  { path: resolve(root, 'apps/panel_flutter_web/lib/l10n/app_en.arb'), locale: 'en', label: 'panel/en' },
-  { path: resolve(root, 'apps/panel_flutter_web/lib/l10n/app_tr.arb'), locale: 'tr', label: 'panel/tr' },
+  { path: resolve(root, 'uygulamalar/mobil/lib/l10n/app_en.arb'), locale: 'en', label: 'mobile/en' },
+  { path: resolve(root, 'uygulamalar/mobil/lib/l10n/app_tr.arb'), locale: 'tr', label: 'mobile/tr' },
 ];
 
 // ── helpers ───────────────────────────────────────────────────────────────────

@@ -55,7 +55,7 @@ export async function GET(request: Request) {
   const to = from + pageSize - 1;
 
   const { data: claims, error, count } = await (serviceClient as any)
-    .from('business_claims')
+    .from('owner_claims')
     .select('*', { count: 'exact' })
     .eq('status', 'pending')
     .order('created_at', { ascending: true })

@@ -4,13 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../app/brand/brand_widgets.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/storage/offline_submission_queue.dart';
-import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../data/suggestions_repository.dart';
+
+// ── Category & reason constants ───────────────────────────────────────────────
+
+const _kCategories = [
+  ('restaurant', 'Restoran'),
+  ('cafe', 'Kafe'),
+  ('fish', 'Balık & Et'),
+  ('bakery', 'Pastane & Fırın'),
+  ('fastfood', 'Fast Food'),
+  ('other', 'Diğer'),
+];
+
+const _kReasons = [
+  'Lezzetli yemekleri var',
+  'Harika atmosferi var',
+  'Uygun fiyatlı',
+  'Arkadaşlarıma tavsiye etmek istiyorum',
+  'Henüz Yeedoy\'da yok',
+  'Diğer',
+];
+
+// ── Page ─────────────────────────────────────────────────────────────────────
 
 class SuggestBusinessPage extends ConsumerStatefulWidget {
   const SuggestBusinessPage({super.key});
@@ -21,79 +41,83 @@ class SuggestBusinessPage extends ConsumerStatefulWidget {
 }
 
 class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
-  final _formKey = GlobalKey<FormState>();
+  final _nameCtrl = TextEditingController();
+  String? _category;
+  final _addressCtrl = TextEditingController();
+  final _notesCtrl = TextEditingController();
+  String? _reason;
+  final _emailCtrl = TextEditingController();
+  final _phoneCtrl = TextEditingController();
 
-  final nameCtrl = TextEditingController();
-  final categoryCtrl = TextEditingController();
-  final cityCtrl = TextEditingController();
-  final districtCtrl = TextEditingController();
-  final addressCtrl = TextEditingController();
-  final phoneCtrl = TextEditingController();
-  final websiteCtrl = TextEditingController();
-  final notesCtrl = TextEditingController();
-
-  bool loading = false;
+  bool _loading = false;
   bool _checkingDuplicates = false;
   List<ExistingBusinessCandidate> _duplicates = const [];
   Timer? _dupTimer;
 
-  final categories = const ['cafe', 'restaurant', 'fish'];
+  @override
+  void initState() {
+    super.initState();
+    _notesCtrl.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
     _dupTimer?.cancel();
-    nameCtrl.dispose();
-    categoryCtrl.dispose();
-    cityCtrl.dispose();
-    districtCtrl.dispose();
-    addressCtrl.dispose();
-    phoneCtrl.dispose();
-    websiteCtrl.dispose();
-    notesCtrl.dispose();
+    _nameCtrl.dispose();
+    _addressCtrl.dispose();
+    _notesCtrl.dispose();
+    _emailCtrl.dispose();
+    _phoneCtrl.dispose();
     super.dispose();
   }
 
+  // ── Submit ────────────────────────────────────────────────────────────────
+
   Future<void> _submit() async {
     final t = AppLocalizations.of(context);
-    if (!(_formKey.currentState?.validate() ?? false)) return;
-    await _runDuplicateCheck();
+    if (_nameCtrl.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('İşletme adı zorunludur.')),
+      );
+      return;
+    }
+    if (_category == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Lütfen bir kategori seçin.')),
+      );
+      return;
+    }
     if (_duplicates.isNotEmpty) {
-      final proceed = await _confirmWithDuplicates();
+      final proceed = await _confirmWithDuplicates(t);
       if (!proceed) return;
     }
 
-    setState(() => loading = true);
+    setState(() => _loading = true);
     try {
-      final id = await ref
-          .read(suggestionsRepositoryProvider)
-          .submit(
-            name: nameCtrl.text.trim(),
-            category: categoryCtrl.text.trim(),
-            city: cityCtrl.text.trim().isEmpty ? null : cityCtrl.text.trim(),
-            district: districtCtrl.text.trim().isEmpty
-                ? null
-                : districtCtrl.text.trim(),
-            address: addressCtrl.text.trim().isEmpty
-                ? null
-                : addressCtrl.text.trim(),
-            phone: phoneCtrl.text.trim().isEmpty ? null : phoneCtrl.text.trim(),
-            website: websiteCtrl.text.trim().isEmpty
-                ? null
-                : websiteCtrl.text.trim(),
-            notes: notesCtrl.text.trim().isEmpty ? null : notesCtrl.text.trim(),
-          );
+      final notesParts = <String>[];
+      if (_notesCtrl.text.trim().isNotEmpty) notesParts.add(_notesCtrl.text.trim());
+      if (_reason != null) notesParts.add('Öneri Nedeni: $_reason');
+      if (_emailCtrl.text.trim().isNotEmpty) {
+        notesParts.add('İletişim E-posta: ${_emailCtrl.text.trim()}');
+      }
+
+      final id = await ref.read(suggestionsRepositoryProvider).submit(
+        name: _nameCtrl.text.trim(),
+        category: _category!,
+        address: _addressCtrl.text.trim().isEmpty ? null : _addressCtrl.text.trim(),
+        phone: _phoneCtrl.text.trim().isEmpty ? null : _phoneCtrl.text.trim(),
+        notes: notesParts.isEmpty ? null : notesParts.join('\n\n'),
+      );
 
       if (!mounted) return;
       await showDialog(
         context: context,
-        builder: (dialogContext) => AlertDialog(
+        builder: (ctx) => AlertDialog(
           title: Text(t.suggestBusinessSubmitDialogTitle),
-          content: Text(
-            t.suggestBusinessSubmitDialogContent(id.substring(0, 8)),
-          ),
+          content: Text(t.suggestBusinessSubmitDialogContent(id.substring(0, 8))),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
+              onPressed: () => Navigator.pop(ctx),
               child: Text(t.ok),
             ),
           ],
@@ -103,156 +127,21 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
       context.pop();
     } on OfflineSubmissionQueuedException {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(t.weakConnectionQueueNotice)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(t.weakConnectionQueueNotice)),
+      );
       context.pop();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppErrorMapper.message(e))),
+      );
     } finally {
-      if (mounted) setState(() => loading = false);
+      if (mounted) setState(() => _loading = false);
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    return AppScaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        title: const Padding(
-          padding: EdgeInsets.only(left: 6),
-          child: BrandWordmark(height: 26),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-        children: [
-          Text(
-            t.suggestBusinessPageTitle,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            t.suggestBusinessPageSubtitle,
-            style: TextStyle(color: AppColors.muted),
-          ),
-          const SizedBox(height: 14),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: nameCtrl,
-                      onChanged: (_) => _scheduleDuplicateCheck(),
-                      decoration: InputDecoration(
-                        labelText: t.suggestBusinessNameLabel,
-                      ),
-                      validator: (v) =>
-                          (v ?? '').trim().isEmpty ? t.requiredField : null,
-                    ),
-                    if (_checkingDuplicates)
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: LinearProgressIndicator(minHeight: 2),
-                      ),
-                    if (_duplicates.isNotEmpty) ...[
-                      const SizedBox(height: 10),
-                      _PossibleDuplicateBox(
-                        items: _duplicates,
-                        onOpenBusiness: (id) => context.go('/b/$id'),
-                      ),
-                    ],
-                    const SizedBox(height: 12),
-                    DropdownButtonFormField<String>(
-                      initialValue: categories.contains(categoryCtrl.text)
-                          ? categoryCtrl.text
-                          : null,
-                      decoration: InputDecoration(
-                        labelText: t.suggestBusinessCategoryLabel,
-                      ),
-                      items: categories
-                          .map(
-                            (c) => DropdownMenuItem(
-                              value: c,
-                              child: Text(_categoryLabel(t, c)),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (v) => categoryCtrl.text = v ?? '',
-                      validator: (v) =>
-                          (v ?? '').trim().isEmpty ? t.requiredField : null,
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: cityCtrl,
-                      onChanged: (_) => _scheduleDuplicateCheck(),
-                      decoration: InputDecoration(
-                        labelText: t.groupRequestWizardCityLabel,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: districtCtrl,
-                      onChanged: (_) => _scheduleDuplicateCheck(),
-                      decoration: InputDecoration(
-                        labelText: t.groupRequestWizardDistrictLabel,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: addressCtrl,
-                      onChanged: (_) => _scheduleDuplicateCheck(),
-                      decoration: InputDecoration(
-                        labelText: t.suggestBusinessAddressLabel,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: phoneCtrl,
-                      decoration: InputDecoration(
-                        labelText: t.suggestBusinessPhoneLabel,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: websiteCtrl,
-                      decoration: InputDecoration(
-                        labelText: t.suggestBusinessWebsiteLabel,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextFormField(
-                      controller: notesCtrl,
-                      decoration: InputDecoration(
-                        labelText: t.groupRequestNoteLabel,
-                      ),
-                      minLines: 2,
-                      maxLines: 4,
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                        onPressed: loading ? null : _submit,
-                        child: Text(loading ? t.submitting : t.submit),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // ── Duplicate check ───────────────────────────────────────────────────────
 
   void _scheduleDuplicateCheck() {
     _dupTimer?.cancel();
@@ -260,7 +149,7 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
   }
 
   Future<void> _runDuplicateCheck() async {
-    final name = nameCtrl.text.trim();
+    final name = _nameCtrl.text.trim();
     if (name.length < 3) {
       if (!mounted) return;
       setState(() {
@@ -271,14 +160,10 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
     }
     if (mounted) setState(() => _checkingDuplicates = true);
     try {
-      final list = await ref
-          .read(suggestionsRepositoryProvider)
-          .findPossibleExisting(
-            name: name,
-            city: cityCtrl.text.trim(),
-            district: districtCtrl.text.trim(),
-            address: addressCtrl.text.trim(),
-          );
+      final list = await ref.read(suggestionsRepositoryProvider).findPossibleExisting(
+        name: name,
+        address: _addressCtrl.text.trim(),
+      );
       if (!mounted) return;
       setState(() => _duplicates = list);
     } catch (_) {
@@ -289,11 +174,10 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
     }
   }
 
-  Future<bool> _confirmWithDuplicates() async {
-    final t = AppLocalizations.of(context);
+  Future<bool> _confirmWithDuplicates(AppLocalizations t) async {
     final res = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: Text(t.suggestBusinessDuplicateTitle),
         content: SizedBox(
           width: 420,
@@ -314,11 +198,11 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
+            onPressed: () => Navigator.pop(ctx, false),
             child: Text(t.cancel),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
+            onPressed: () => Navigator.pop(ctx, true),
             child: Text(t.suggestBusinessSendAnyway),
           ),
         ],
@@ -326,22 +210,673 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
     );
     return res == true;
   }
+
+  // ── Build ─────────────────────────────────────────────────────────────────
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.bg,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // ── Header ────────────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: AppColors.textStrong,
+                      size: 20,
+                    ),
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'İşletme Öner',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textStrong,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.primary, width: 1.5),
+                      ),
+                      child: const Icon(
+                        Icons.help_outline_rounded,
+                        color: AppColors.primary,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // ── Content ───────────────────────────────────────────────────
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+                children: [
+                  _HeroCard(),
+                  const SizedBox(height: 24),
+
+                  // ── İşletme Bilgileri ────────────────────────────────────
+                  _SectionTitle('İşletme Bilgileri'),
+                  const SizedBox(height: 10),
+                  _InputBox(
+                    icon: Icons.storefront_outlined,
+                    hint: 'İşletme Adı',
+                    ctrl: _nameCtrl,
+                    onChanged: (_) => _scheduleDuplicateCheck(),
+                  ),
+                  const SizedBox(height: 8),
+                  _CategoryBox(
+                    value: _category,
+                    onChanged: (v) => setState(() => _category = v),
+                  ),
+                  if (_checkingDuplicates) ...[
+                    const SizedBox(height: 6),
+                    const LinearProgressIndicator(minHeight: 2, color: AppColors.primary),
+                  ],
+                  if (_duplicates.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    _DuplicateWarning(
+                      items: _duplicates,
+                      onOpenBusiness: (id) => context.go('/b/$id'),
+                    ),
+                  ],
+                  const SizedBox(height: 8),
+                  _AddressBox(
+                    ctrl: _addressCtrl,
+                    onChanged: (_) => _scheduleDuplicateCheck(),
+                  ),
+                  const SizedBox(height: 8),
+                  _NotesBox(ctrl: _notesCtrl),
+
+                  const SizedBox(height: 24),
+
+                  // ── Öneri Nedeni ─────────────────────────────────────────
+                  _SectionTitle('Öneri Nedeni'),
+                  const SizedBox(height: 10),
+                  _ReasonBox(
+                    value: _reason,
+                    onChanged: (v) => setState(() => _reason = v),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // ── Fotoğraf ─────────────────────────────────────────────
+                  const _OptionalSectionTitle(
+                    title: 'Fotoğraf',
+                    subtitle: '(İsteğe Bağlı)',
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'İşletmeye ait fotoğraflar ekleyerek önerinizi güçlendirin.',
+                    style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  ),
+                  const SizedBox(height: 10),
+                  _PhotoBox(),
+
+                  const SizedBox(height: 24),
+
+                  // ── İletişim Bilgileri ───────────────────────────────────
+                  const _OptionalSectionTitle(
+                    title: 'İletişim Bilgileri',
+                    subtitle: '(İsteğe Bağlı)',
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Sizinle iletişime geçebilmemiz için bilgilerinizi bırakabilirsiniz.',
+                    style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  ),
+                  const SizedBox(height: 10),
+                  _InputBox(
+                    icon: Icons.mail_outline_rounded,
+                    hint: 'E-posta adresiniz',
+                    ctrl: _emailCtrl,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 8),
+                  _InputBox(
+                    icon: Icons.phone_outlined,
+                    hint: 'Telefon numaranız',
+                    ctrl: _phoneCtrl,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 10),
+                  _FeedbackInfoCard(),
+
+                  const SizedBox(height: 24),
+
+                  // ── Submit button ────────────────────────────────────────
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: FilledButton.icon(
+                      onPressed: _loading ? null : _submit,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        disabledBackgroundColor:
+                            AppColors.primary.withValues(alpha: 0.5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      icon: _loading
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Icon(
+                              Icons.send_rounded,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                      label: const Text(
+                        'Öneriyi Gönder',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
-class _PossibleDuplicateBox extends StatelessWidget {
-  const _PossibleDuplicateBox({
-    required this.items,
-    required this.onOpenBusiness,
+// ── Hero card ─────────────────────────────────────────────────────────────────
+
+class _HeroCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 80,
+            height: 80,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(
+                    Icons.store_rounded,
+                    color: AppColors.primary.withValues(alpha: 0.5),
+                    size: 36,
+                  ),
+                ),
+                Positioned(
+                  bottom: -4,
+                  right: 0,
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.location_on_rounded,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 16),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Şehrine değer kat!',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  'Beğendiğin bir işletmeyi mi bulamıyorsun? Bize öner, değerlendirelim. Topluluğumuzun önerileriyle daha iyi bir deneyim sunalım.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.muted,
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Input box ─────────────────────────────────────────────────────────────────
+
+class _InputBox extends StatelessWidget {
+  const _InputBox({
+    required this.icon,
+    required this.hint,
+    required this.ctrl,
+    this.onChanged,
+    this.keyboardType,
   });
+
+  final IconData icon;
+  final String hint;
+  final TextEditingController ctrl;
+  final ValueChanged<String>? onChanged;
+  final TextInputType? keyboardType;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        children: [
+          const SizedBox(width: 12),
+          Icon(icon, color: AppColors.muted, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: TextField(
+              controller: ctrl,
+              onChanged: onChanged,
+              keyboardType: keyboardType,
+              style: const TextStyle(
+                fontSize: 13,
+                color: AppColors.textStrong,
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                filled: false,
+                hintText: hint,
+                hintStyle: const TextStyle(
+                  color: AppColors.muted,
+                  fontSize: 13,
+                ),
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Category dropdown box ─────────────────────────────────────────────────────
+
+class _CategoryBox extends StatelessWidget {
+  const _CategoryBox({required this.value, required this.onChanged});
+
+  final String? value;
+  final ValueChanged<String?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        children: [
+          const SizedBox(width: 12),
+          const Icon(Icons.label_outline_rounded, color: AppColors.muted, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: value,
+                isDense: true,
+                isExpanded: true,
+                hint: const Text(
+                  'İşletme Kategorisi',
+                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                ),
+                icon: const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: AppColors.muted,
+                  size: 18,
+                ),
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textStrong,
+                ),
+                items: _kCategories
+                    .map(
+                      (c) => DropdownMenuItem(
+                        value: c.$1,
+                        child: Text(c.$2),
+                      ),
+                    )
+                    .toList(),
+                onChanged: onChanged,
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Address box ───────────────────────────────────────────────────────────────
+
+class _AddressBox extends StatelessWidget {
+  const _AddressBox({required this.ctrl, required this.onChanged});
+
+  final TextEditingController ctrl;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        children: [
+          const SizedBox(width: 12),
+          const Icon(Icons.location_on_outlined, color: AppColors.muted, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: TextField(
+              controller: ctrl,
+              onChanged: onChanged,
+              style: const TextStyle(fontSize: 13, color: AppColors.textStrong),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                filled: false,
+                hintText: 'İşletme Adresi',
+                hintStyle: TextStyle(color: AppColors.muted, fontSize: 13),
+                isDense: true,
+                contentPadding: EdgeInsets.symmetric(vertical: 14),
+              ),
+            ),
+          ),
+          const Icon(Icons.my_location_outlined, color: AppColors.muted, size: 18),
+          const SizedBox(width: 12),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Notes (textarea) box ──────────────────────────────────────────────────────
+
+class _NotesBox extends StatelessWidget {
+  const _NotesBox({required this.ctrl});
+
+  final TextEditingController ctrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(width: 12),
+              const Padding(
+                padding: EdgeInsets.only(top: 14),
+                child: Icon(
+                  Icons.format_list_bulleted_rounded,
+                  color: AppColors.muted,
+                  size: 18,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: TextField(
+                  controller: ctrl,
+                  maxLines: 4,
+                  maxLength: 500,
+                  buildCounter:
+                      (_, {required currentLength, required isFocused, maxLength}) =>
+                          null,
+                  style: const TextStyle(fontSize: 13, color: AppColors.textStrong),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    filled: false,
+                    hintText: 'İşletme Hakkında',
+                    hintStyle: TextStyle(color: AppColors.muted, fontSize: 13),
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 14),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 12, 8),
+            child: Text(
+              '${ctrl.text.length}/500',
+              style: const TextStyle(fontSize: 11, color: AppColors.muted),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Reason dropdown box ───────────────────────────────────────────────────────
+
+class _ReasonBox extends StatelessWidget {
+  const _ReasonBox({required this.value, required this.onChanged});
+
+  final String? value;
+  final ValueChanged<String?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        children: [
+          const SizedBox(width: 12),
+          const Icon(Icons.star_border_rounded, color: AppColors.primary, size: 20),
+          const SizedBox(width: 8),
+          Expanded(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: value,
+                isDense: true,
+                isExpanded: true,
+                hint: const Text(
+                  'Neden bu işletmeyi öneriyorsunuz?',
+                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                ),
+                icon: const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  color: AppColors.muted,
+                  size: 18,
+                ),
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textStrong,
+                ),
+                items: _kReasons
+                    .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+                    .toList(),
+                onChanged: onChanged,
+              ),
+            ),
+          ),
+          const SizedBox(width: 4),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Photo upload box ──────────────────────────────────────────────────────────
+
+class _PhotoBox extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: AppColors.border,
+            style: BorderStyle.solid,
+            width: 1.5,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: AppColors.primarySoft,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.camera_alt_outlined,
+                color: AppColors.primary,
+                size: 22,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Fotoğraf Ekle',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textStrong,
+              ),
+            ),
+            const SizedBox(height: 2),
+            const Text(
+              'PNG, JPG (Maks. 5MB)',
+              style: TextStyle(fontSize: 12, color: AppColors.muted),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Feedback info card ────────────────────────────────────────────────────────
+
+class _FeedbackInfoCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8F0FE),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.info_outline_rounded, color: AppColors.info, size: 18),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Öneriniz değerlendirildikten sonra size geri dönüş sağlayacağız.',
+              style: TextStyle(
+                fontSize: 12,
+                color: AppColors.info,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Duplicate warning ─────────────────────────────────────────────────────────
+
+class _DuplicateWarning extends StatelessWidget {
+  const _DuplicateWarning({required this.items, required this.onOpenBusiness});
 
   final List<ExistingBusinessCandidate> items;
   final ValueChanged<String> onOpenBusiness;
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.warning.withValues(alpha: 0.10),
         border: Border.all(color: AppColors.warning.withValues(alpha: 0.35)),
@@ -350,9 +885,19 @@ class _PossibleDuplicateBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.suggestBusinessDuplicateTitle,
-            style: TextStyle(fontWeight: FontWeight.w900),
+          const Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 16),
+              SizedBox(width: 6),
+              Text(
+                'Benzer işletmeler mevcut',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                  color: AppColors.textStrong,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           for (final d in items) ...[
@@ -361,12 +906,24 @@ class _PossibleDuplicateBox extends StatelessWidget {
                 Expanded(
                   child: Text(
                     '${d.name} • ${d.district} ${d.city}'.trim(),
-                    style: const TextStyle(color: AppColors.slate),
+                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
                   ),
                 ),
                 TextButton(
                   onPressed: () => onOpenBusiness(d.id),
-                  child: Text(t.suggestBusinessOpenAction),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: const Text(
+                    'İncele',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -377,15 +934,47 @@ class _PossibleDuplicateBox extends StatelessWidget {
   }
 }
 
-String _categoryLabel(AppLocalizations t, String key) {
-  switch (key) {
-    case 'cafe':
-      return t.discoveryFilterCafe;
-    case 'restaurant':
-      return t.discoveryFilterRestaurant;
-    case 'fish':
-      return t.discoveryFilterFishMeat;
-    default:
-      return key;
+// ── Section title helpers ─────────────────────────────────────────────────────
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.text);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w800,
+        color: AppColors.textStrong,
+      ),
+    );
+  }
+}
+
+class _OptionalSectionTitle extends StatelessWidget {
+  const _OptionalSectionTitle({required this.title, required this.subtitle});
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          '$title ',
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
+            color: AppColors.textStrong,
+          ),
+        ),
+        Text(
+          subtitle,
+          style: const TextStyle(fontSize: 13, color: AppColors.muted),
+        ),
+      ],
+    );
   }
 }

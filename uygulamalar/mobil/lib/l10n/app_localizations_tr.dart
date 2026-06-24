@@ -2131,6 +2131,26 @@ class AppLocalizationsTr extends AppLocalizations {
   String get budgetComboCategoryVenue => 'Mekan';
 
   @override
+  String get smartRecoTitle => 'Akıllı Öneri';
+
+  @override
+  String get smartRecoSubtitle =>
+      'Bütçene ve kişi sayısına göre en iyi seçenekler';
+
+  @override
+  String get smartRecoEmptyTitle => 'Uygun işletme bulunamadı';
+
+  @override
+  String get smartRecoEmptyDesc =>
+      'Bütçeni artırarak veya kişi sayısını azaltarak tekrar dene';
+
+  @override
+  String get smartRecoShuffleLabel => 'Şansını Dene!';
+
+  @override
+  String get smartRecoShuffleDesc => 'Farklı öneriler göster';
+
+  @override
   String get budgetComboResultsTitle => 'Bütçe Kombinleri';
 
   @override

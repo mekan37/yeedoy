@@ -3,17 +3,21 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/colors.dart';
 import '../../../../core/i18n/app_localizations.dart';
 
-/// Returns a ₺ symbol string for the price badge.
+/// Returns a price badge label.
 ///
-/// [priceLevel] (DB column) is checked first:
+/// When [cents] (kurus, 1/100 TL) is a positive average/median menu price,
+/// returns an approximate price like "~₺85" so the user sees an actual
+/// number instead of a bare currency symbol.
+///
+/// Otherwise falls back to a tier symbol from [priceLevel] (DB column):
 ///   'budget' → ₺, 'mid' → ₺₺, 'premium' → ₺₺₺
-///
-/// Falls back to threshold-based mapping from [cents] (kurus, 1/100 TL)
-/// when [priceLevel] is null or unrecognised:
-///   < 20 000 → ₺ (< 200 TL), < 45 000 → ₺₺ (200–450 TL), else → ₺₺₺
 ///
 /// Returns null when both inputs are absent/zero — badge is hidden.
 String? priceLevelSymbol(String? priceLevel, int? cents) {
+  if (cents != null && cents > 0) {
+    final lira = (cents / 100).round();
+    return '~₺$lira';
+  }
   switch (priceLevel) {
     case 'budget':
       return '₺';
@@ -22,12 +26,8 @@ String? priceLevelSymbol(String? priceLevel, int? cents) {
     case 'premium':
       return '₺₺₺';
     default:
-      break;
+      return null;
   }
-  if (cents == null || cents <= 0) return null;
-  if (cents < 20000) return '₺';
-  if (cents < 45000) return '₺₺';
-  return '₺₺₺';
 }
 
 /// Shows "Açık" (green dot) or "Kapalı" (grey dot).

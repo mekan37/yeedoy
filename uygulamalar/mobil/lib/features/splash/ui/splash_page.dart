@@ -86,56 +86,31 @@ class _SplashPageState extends ConsumerState<SplashPage>
 
   @override
   Widget build(BuildContext context) {
-    final textStyle =
-        Theme.of(context).textTheme.displayMedium?.copyWith(
-          color: AppColors.textStrong,
-          fontSize: 46,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.2,
-          shadows: const [
-            Shadow(
-              color: Color(0x22000000),
-              blurRadius: 16,
-              offset: Offset(0, 6),
-            ),
-          ],
-        ) ??
-        const TextStyle(
-          color: AppColors.textStrong,
-          fontSize: 46,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.2,
-          shadows: [
-            Shadow(
-              color: Color(0x22000000),
-              blurRadius: 16,
-              offset: Offset(0, 6),
-            ),
-          ],
-        );
-
     return PopScope(
       canPop: false,
       child: Scaffold(
         backgroundColor: AppColors.bg,
-        body: SafeArea(
-          child: Center(
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, _) {
-                final opacity = (_fadeIn.value * (1 - (_fadeOut.value * 0.25)))
-                    .clamp(0.0, 1.0);
-                final shimmerT = _shimmer.value;
-                final shimmerCenter = -1.2 + (shimmerT * 2.4);
-                return Opacity(
-                  opacity: opacity,
-                  child: Transform.scale(
-                    scale: _scale.value,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Text('Yeedoy', style: textStyle),
-                        ShaderMask(
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final shortestSide = constraints.biggest.shortestSide;
+            final logoSize = (shortestSide * 0.68).clamp(184.0, 280.0);
+            return SafeArea(
+              child: Center(
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, _) {
+                    final opacity =
+                        (_fadeIn.value * (1 - (_fadeOut.value * 0.25))).clamp(
+                          0.0,
+                          1.0,
+                        );
+                    final shimmerT = _shimmer.value;
+                    final shimmerCenter = -1.2 + (shimmerT * 2.4);
+                    return Opacity(
+                      opacity: opacity,
+                      child: Transform.scale(
+                        scale: _scale.value,
+                        child: ShaderMask(
                           blendMode: BlendMode.srcATop,
                           shaderCallback: (bounds) {
                             return LinearGradient(
@@ -143,23 +118,29 @@ class _SplashPageState extends ConsumerState<SplashPage>
                               end: Alignment(shimmerCenter + 0.8, 0),
                               colors: const [
                                 Color(0x00FFFFFF),
-                                Color(0x33FFFFFF),
-                                Color(0xB3FFFFFF),
-                                Color(0x33FFFFFF),
+                                Color(0x22FFFFFF),
+                                Color(0x88FFFFFF),
+                                Color(0x22FFFFFF),
                                 Color(0x00FFFFFF),
                               ],
                               stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
                             ).createShader(bounds);
                           },
-                          child: Text('Yeedoy', style: textStyle),
+                          child: Image.asset(
+                            'assets/brand/yeedoy-splash-logo.png',
+                            width: logoSize,
+                            height: logoSize,
+                            fit: BoxFit.contain,
+                            filterQuality: FilterQuality.high,
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

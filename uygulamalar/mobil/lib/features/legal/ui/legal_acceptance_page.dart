@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../notifications/data/notification_preferences_repository.dart';
 import '../../shared/ui/components/app_scaffold.dart';
 import '../legal_catalog.dart';
 import '../legal_linking.dart';
@@ -220,8 +221,23 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
 
     setState(() => _saving = true);
     try {
+      // Adım 1: Zorunlu yasal/policy kabulü — bu başarısız olursa devam edilmez.
       await ref.read(legalRepositoryProvider).acceptPolicyVersions(versions);
       ref.invalidate(legalAcceptanceSnapshotProvider);
+
+      // Adım 2: İsteğe bağlı pazarlama e-posta izni.
+      //
+      // Karar: _marketingOptIn true ise update_my_marketing_email_opt_in_v1(true)
+      // çağrılır. false ise kullanıcı otomatik opt-in YAPILMAZ — yani RPC
+      // çağrılmaz. Varsayılan backend değeri false'tur (migration DEFAULT false).
+      //
+      // Bu adım opsiyoneldir: hata alınırsa zorunlu kabul akışı engellenmez,
+      // kullanıcı uyarılır ve bildirim ayarlarından değiştirebileceği söylenir.
+      if (_marketingOptIn) {
+        await _saveMarketingOptIn(enabled: true);
+      }
+      // _marketingOptIn false ise RPC çağrılmaz — backend zaten default false.
+
       if (!mounted) return;
       context.go(widget.fromPath ?? '/discover');
     } catch (error) {
@@ -233,6 +249,34 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
       if (mounted) {
         setState(() => _saving = false);
       }
+    }
+  }
+
+  /// Pazarlama e-posta iznini Supabase'e kaydeder.
+  ///
+  /// Hata durumunda zorunlu kabul akışını bloke etmez — yalnızca
+  /// kullanıcıya bildirim ayarlarından düzelteceğini söyleyen
+  /// bir SnackBar gösterir.
+  ///
+  /// business_follows.is_subscribed_email'e HİÇBİR ZAMAN dokunulmaz.
+  Future<void> _saveMarketingOptIn({required bool enabled}) async {
+    try {
+      await ref
+          .read(notificationPreferencesRepositoryProvider)
+          .updateMyMarketingEmailOptIn(enabled: enabled);
+    } catch (_) {
+      // Pazarlama izni kaydı başarısız — zorunlu akışı bloke etme.
+      // Kullanıcıya bilgi ver.
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Pazarlama e-posta tercihiniz kaydedilemedi. '
+            'Bildirim ayarlarından tekrar değiştirebilirsiniz.',
+          ),
+          duration: Duration(seconds: 4),
+        ),
+      );
     }
   }
 

@@ -1,22 +1,21 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import {
+  approveClaim as approveClaimCanonical,
+  rejectClaim as rejectClaimCanonical,
+} from '@/app/yonetici/itirazlar/claims/itiraz-islemleri';
 
+// /admin/claims is the secret-subdomain (ops.yeedoy.com) mirror of the
+// canonical /yonetici/itirazlar/claims queue. The decision logic (admin
+// check, RPC call, claimant e-mail notification) lives in one place —
+// itiraz-islemleri.ts — so both surfaces stay in sync automatically.
 export async function approveClaim(claimId: string) {
-  const supabase = await createSupabaseServerClient();
-  await (supabase as any)
-    .from('business_ownership_claims')
-    .update({ status: 'approved' })
-    .eq('id', claimId);
+  await approveClaimCanonical(claimId);
   revalidatePath('/admin/claims');
 }
 
-export async function rejectClaim(claimId: string) {
-  const supabase = await createSupabaseServerClient();
-  await (supabase as any)
-    .from('business_ownership_claims')
-    .update({ status: 'rejected' })
-    .eq('id', claimId);
+export async function rejectClaim(claimId: string, note?: string | null) {
+  await rejectClaimCanonical(claimId, note);
   revalidatePath('/admin/claims');
 }

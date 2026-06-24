@@ -80,15 +80,6 @@ class BusinessCardModel {
             .toList(growable: false),
       );
 
-  factory BusinessCardModel.fromSponsoredMap(Map<String, dynamic> m) =>
-      BusinessCardModel(
-        id: (m['business_id'] ?? m['id']) as String,
-        name: (m['business_name'] ?? m['name']) as String,
-        category: (m['category'] ?? '') as String,
-        city: m['city'] as String?,
-        district: m['district'] as String?,
-      );
-
   BusinessCardModel copyWith({
     String? id,
     String? name,

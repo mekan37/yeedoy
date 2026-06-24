@@ -17,12 +17,12 @@ self.addEventListener('message', (event) => {
     messaging.onBackgroundMessage((payload) => {
       const title = payload.notification?.title ?? 'Yeedoy';
       const body = payload.notification?.body ?? '';
-      const icon = payload.notification?.icon ?? '/favicon.ico';
+      const icon = payload.notification?.icon ?? '/android-chrome-192x192.png';
       const url = payload.data?.url ?? '/';
       self.registration.showNotification(title, {
         body,
         icon,
-        badge: '/favicon.ico',
+        badge: '/favicon-32x32.png',
         data: { url },
         tag: payload.data?.tag ?? 'yeedoy-push',
       });

@@ -21,19 +21,20 @@ class AdConfig {
   );
 
   static String get nativeUnitId {
-    final configured = switch (defaultTargetPlatform) {
-      TargetPlatform.android => nativeUnitIdAndroid.trim(),
-      TargetPlatform.iOS => nativeUnitIdIos.trim(),
-      _ => '',
-    };
-    if (configured.isNotEmpty) return configured;
-    if (kDebugMode) {
+    if (!kReleaseMode) {
       return switch (defaultTargetPlatform) {
         TargetPlatform.android => 'ca-app-pub-3940256099942544/2247696110',
         TargetPlatform.iOS => 'ca-app-pub-3940256099942544/3986624511',
         _ => '',
       };
     }
+
+    final configured = switch (defaultTargetPlatform) {
+      TargetPlatform.android => nativeUnitIdAndroid.trim(),
+      TargetPlatform.iOS => nativeUnitIdIos.trim(),
+      _ => '',
+    };
+    if (configured.isNotEmpty) return configured;
     return '';
   }
 

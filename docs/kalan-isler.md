@@ -204,14 +204,17 @@
 - **Önerilen agent:** nextjs-developer
 - **Kabul kriteri:** Owner panelinde menü analizi tetiklenip sonuçlar gösterilebiliyor
 
-### Admin Sponsorluk Modülü (3 Stub Sayfa)
-- **Durum:** 🟡 Kısmen — sayfalar var, gerçek veri/aksiyon bağlantısı doğrulanmalı
-- **Kanıt:** `app/admin/sponsorships/page.tsx` (235 satır), `sponsorship-leads/page.tsx` (173 satır), `sponsorship-packages/page.tsx` (139 satır) mevcut; migration `20260601_sponsorship_vitrin_package` var — ancak içeriklerinin "stub" mu "MVP" mi olduğu kod-seviyesinde ayrıca doğrulanmalı
-- **Etki:** Düşük-orta — admin ops manuel kalmaya devam edebilir
-- **Bağımlılık:** —
-- **Önerilen branch:** `feature/web-admin-sponsorship-mvp-audit` (gerekirse)
-- **Önerilen agent:** nextjs-developer
-- **Kabul kriteri:** 3 sayfanın da gerçek RPC/veri bağlantısıyla çalıştığı doğrulanır veya eksikler tamamlanır
+### Admin Sponsorluk Modülü (3 Stub Sayfa) — ⛔ MVP-dışı / P2
+- **Durum:** ⛔ MVP-dışı (P2) — sponsorlu görünürlük final stratejik karar raporuna
+  göre (`docs/research/2026-yeedoy-stratejik-karar-raporu.md` §16) MVP'de kapalıdır.
+  TR (`/yonetici/sponsorluklar` vb.) ve EN (`/admin/sponsorships`, `sponsorship-leads`,
+  `sponsorship-packages`) route'ları redirect stub'a indirildi; admin nav'dan link
+  kaldırıldı. Bu madde MVP kapsamında **yapılmayacaktır**; ileride P2 olarak ele alınır.
+- **Kanıt:** EN/TR sayfalar artık `redirect('/admin/dashboard')` / `'/yonetici/gosterge-panosu'`
+  döndürüyor. DB tarafı (sponsorship tabloları/RPC'leri, `20260601_sponsorship_vitrin_package`
+  migration'ı) dokunulmadan bırakıldı — bkz. `2026-yeedoy-db-scope-cleanup-risk-report.md`.
+- **Etki:** Yok (MVP) — admin ops manuel kalmaya devam eder.
+- **Bağımlılık:** Ürün kararı (P2 sponsorluk stratejisi).
 
 ### Mobil — Zincir İşletmeler
 - **Durum:** Açık — implementasyon başlanmamış
@@ -242,12 +245,12 @@
 
 ### Test Kapsamı Boşlukları
 - **Durum:** Açık
-- **Kanıt:** Personel 7 test dosyası (data/domain katmanı testsiz); Web 8 unit test dosyası (`src/lib/*` çoğu testsiz), 7 E2E spec (owner flow/2FA/taste-twin/admin flow yok); Mobil sadece offline-queue smoke testi var
+- **Kanıt:** Web 8 unit test dosyası (`src/lib/*` çoğu testsiz), 7 E2E spec (owner flow/2FA/taste-twin/admin flow yok); Mobil sadece offline-queue smoke testi var. (Not: `uygulamalar/personel` 2026-06-24'te üründen kaldırıldı; o uygulamaya ait test kapsamı maddesi de bu nedenle düştü.)
 - **Etki:** Orta — regresyon riski yüksek
 - **Bağımlılık:** —
-- **Önerilen branch:** `test/web-owner-flow-e2e`, `test/personel-data-domain-coverage`
+- **Önerilen branch:** `test/web-owner-flow-e2e`
 - **Önerilen agent:** test-automator (qa-expert sistemde — en yakın: `qa-expert`)
-- **Kabul kriteri:** Owner flow + 2FA + admin flow için en az birer E2E spec eklendi; personel data/domain katmanı için birim test kapsamı oluşturuldu
+- **Kabul kriteri:** Owner flow + 2FA + admin flow için en az birer E2E spec eklendi
 
 ---
 

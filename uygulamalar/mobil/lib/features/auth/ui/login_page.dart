@@ -3,58 +3,36 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../app/brand/brand_widgets.dart';
+import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/route_sanitizer.dart';
-import '../../../features/shared/ui/components/app_scaffold.dart';
-import '../../../features/shared/ui/design_system.dart';
 import '../../legal/legal_linking.dart';
-import '../../legal/legal_providers.dart';
-import '../../legal/legal_repository.dart';
-import '../../legal/ui/widgets/legal_required_consent_card.dart';
-import '../../../app/theme/colors.dart';
 import '../data/auth_service_provider.dart';
+import 'widgets/auth_segmented_tab_bar.dart';
+import 'widgets/auth_shell_scaffold.dart';
 
-enum _AuthMode { email, phone, google }
-
-enum _AuthAction { signIn, signUp, googleSignIn, phoneOtp }
+enum _AuthAction { signIn, googleSignIn }
 
 class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key, this.initialSignup = false});
-
-  final bool initialSignup;
+  const LoginPage({super.key});
 
   @override
   ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  // Email
   final _emailCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
-
-  // Telefon OTP
   final _phoneCtrl = TextEditingController();
   final _otpCtrl = TextEditingController();
-  bool _otpSent = false;
 
-  // UI State
-  _AuthMode _mode = _AuthMode.email;
   bool _loading = false;
-  bool _acceptedRequiredPolicies = false;
+  bool _passVisible = false;
+  bool _rememberMe = false;
   String? _errorMessage;
-  _AuthAction? _lastAction;
-  bool _showSignupPrompt = false;
-  late bool _signupIntent;
-
-  @override
-  void initState() {
-    super.initState();
-    _signupIntent = widget.initialSignup;
-  }
 
   @override
   void dispose() {
@@ -65,16 +43,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
-  // ── Navigasyon ────────────────────────────────────────────────────────────
+  // ── Navigation ───────────────────────────────────────────────────────────────
 
   void _navigateAfterLogin() {
     if (!mounted) return;
-    final rawRedirect = GoRouterState.of(context).uri.queryParameters['redirect'];
+    final rawRedirect = GoRouterState.of(
+      context,
+    ).uri.queryParameters['redirect'];
     final target = sanitizeInternalRedirect(rawRedirect) ?? '/discover';
     context.go(target);
   }
 
-  // ── Email işlemleri ───────────────────────────────────────────────────────
+  // ── Auth actions ─────────────────────────────────────────────────────────────
 
   Future<void> _signIn() async {
     _setLoading(_AuthAction.signIn);
@@ -103,59 +83,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
   }
 
-  Future<void> _signUp() async {
-    if (!_acceptedRequiredPolicies) {
-      setState(() {
-        _errorMessage =
-            'Kayıt olmadan önce Kullanım Şartları ve Gizlilik Politikası\'nı kabul etmelisiniz.';
-      });
-      return;
-    }
-    _setLoading(_AuthAction.signUp);
-    try {
-      final response = await ref
-          .read(authServiceProvider)
-          .signUpWithEmail(_emailCtrl.text.trim(), _passCtrl.text);
-      if (response.session != null) {
-        try {
-          final snapshot = await ref
-              .read(legalRepositoryProvider)
-              .loadAcceptanceSnapshot();
-          if (snapshot != null && snapshot.pendingRequiredVersions.isNotEmpty) {
-            await ref
-                .read(legalRepositoryProvider)
-                .acceptPolicyVersions(snapshot.pendingRequiredVersions);
-          }
-        } finally {
-          ref.invalidate(legalAcceptanceSnapshotProvider);
-        }
-      }
-      ref
-          .read(analyticsRepositoryProvider)
-          .logEvent(
-            eventName: AppEvents.signupSuccess,
-            source: 'login_page_email',
-          );
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.loginSignupSuccessMessage)),
-      );
-    } catch (e) {
-      ref
-          .read(analyticsRepositoryProvider)
-          .logEvent(
-            eventName: AppEvents.signupFailure,
-            source: 'login_page_email',
-            meta: {'error': AppErrorMapper.message(e)},
-          );
-      _setError(e);
-    } finally {
-      _clearLoading();
-    }
-  }
-
-  // ── Google Sign-In ─────────────────────────────────────────────────────────
-
   Future<void> _signInWithGoogle() async {
     _setLoading(_AuthAction.googleSignIn);
     try {
@@ -181,67 +108,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
   }
 
-  // ── Telefon OTP ────────────────────────────────────────────────────────────
-
-  Future<void> _sendOtp() async {
-    final phone = _phoneCtrl.text.trim();
-    if (phone.length < 10) {
-      setState(() => _errorMessage = 'Geçerli bir telefon numarası girin.');
-      return;
-    }
-    // E.164 formatına çevir
-    final e164 = _toE164(phone);
-    _setLoading(_AuthAction.phoneOtp);
-    try {
-      await ref.read(authServiceProvider).sendPhoneOtp(e164);
-      setState(() {
-        _otpSent = true;
-        _errorMessage = null;
-      });
-    } catch (e) {
-      _setError(e);
-    } finally {
-      _clearLoading();
-    }
-  }
-
-  Future<void> _verifyOtp() async {
-    final phone = _toE164(_phoneCtrl.text.trim());
-    final token = _otpCtrl.text.trim();
-    if (token.length < 4) {
-      setState(() => _errorMessage = 'Geçersiz OTP kodu.');
-      return;
-    }
-    _setLoading(_AuthAction.phoneOtp);
-    try {
-      await ref
-          .read(authServiceProvider)
-          .verifyPhoneOtp(phone: phone, token: token);
-      _navigateAfterLogin();
-    } catch (e) {
-      _setError(e);
-    } finally {
-      _clearLoading();
-    }
-  }
-
-  String _toE164(String phone) {
-    var cleaned = phone.replaceAll(RegExp(r'\s|-|\(|\)'), '');
-    if (!cleaned.startsWith('+')) {
-      if (cleaned.startsWith('0')) cleaned = cleaned.substring(1);
-      cleaned = '+90$cleaned';
-    }
-    return cleaned;
-  }
-
-  // ── State yardımcıları ─────────────────────────────────────────────────────
+  // ── State helpers ────────────────────────────────────────────────────────────
 
   void _setLoading(_AuthAction action) {
     setState(() {
       _loading = true;
       _errorMessage = null;
-      _showSignupPrompt = false;
-      _lastAction = action;
     });
   }
 
@@ -252,167 +124,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void _setError(Object e) {
     if (!mounted) return;
     final t = context.l10n;
-    final localizedMsg = _localizeAuthError(e, t);
-    final showSignup = _lastAction == _AuthAction.signIn &&
-        (e.toString().toLowerCase().contains('invalid login') ||
-            e.toString().toLowerCase().contains('invalid_credentials') ||
-            e.toString().toLowerCase().contains('user not found') ||
-            e.toString().toLowerCase().contains('no user'));
-    setState(() {
-      _errorMessage = localizedMsg;
-      _showSignupPrompt = showSignup;
-    });
-  }
-
-  String _localizeAuthError(Object error, AppLocalizations t) {
-    final msg = error.toString().toLowerCase();
+    final msg = e.toString().toLowerCase();
+    String localized;
     if (msg.contains('email not confirmed')) {
-      return t.authErrorEmailNotConfirmed;
-    }
-    if (msg.contains('invalid login') ||
+      localized = t.authErrorEmailNotConfirmed;
+    } else if (msg.contains('invalid login') ||
         msg.contains('invalid_credentials') ||
         msg.contains('credentials')) {
-      return t.authErrorInvalidCredentials;
+      localized = t.authErrorInvalidCredentials;
+    } else if (msg.contains('too many requests') || msg.contains('rate')) {
+      localized = t.authErrorTooManyRequests;
+    } else if (msg.contains('user not found') || msg.contains('no user')) {
+      localized = t.authErrorUserNotFound;
+    } else if (e.toString().contains('AuthException') ||
+        e.toString().contains('AuthApiException')) {
+      localized = t.authErrorGeneric;
+    } else {
+      localized = AppErrorMapper.message(e);
     }
-    if (msg.contains('too many requests') || msg.contains('rate')) {
-      return t.authErrorTooManyRequests;
-    }
-    if (msg.contains('user not found') || msg.contains('no user')) {
-      return t.authErrorUserNotFound;
-    }
-    // Bilinmeyen AuthException → generic mesaj
-    if (error.toString().contains('AuthException') ||
-        error.toString().contains('AuthApiException')) {
-      return t.authErrorGeneric;
-    }
-    return AppErrorMapper.message(error);
-  }
-
-  Future<void> _retryLastAction() async {
-    switch (_lastAction) {
-      case _AuthAction.signIn:
-        await _signIn();
-      case _AuthAction.signUp:
-        await _signUp();
-      case _AuthAction.googleSignIn:
-        await _signInWithGoogle();
-      case _AuthAction.phoneOtp:
-        _otpSent ? await _verifyOtp() : await _sendOtp();
-      case null:
-        return;
-    }
-  }
-
-  // ── Build ──────────────────────────────────────────────────────────────────
-
-  @override
-  Widget build(BuildContext context) {
-    final t = context.l10n;
-    return AppScaffold(
-      appBar: AppBar(title: Text(t.loginPageTitle)),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        children: [
-          if (_loading) ...[
-            const AppSkeletonLine(width: double.infinity),
-            const SizedBox(height: 10),
-          ],
-          if (_errorMessage != null) ...[
-            AppEmptyState(
-              icon: Icons.wifi_off_outlined,
-              title: t.loginActionFailedTitle,
-              description: _errorMessage ?? '',
-              ctaLabel: _lastAction == null ? null : t.retry,
-              onCta: _lastAction == null ? null : _retryLastAction,
-            ),
-            if (_showSignupPrompt) ...[
-              const SizedBox(height: 8),
-              Center(
-                child: TextButton(
-                  onPressed: () => setState(() {
-                    _showSignupPrompt = false;
-                    _errorMessage = null;
-                    _mode = _AuthMode.email;
-                    _signupIntent = true;
-                  }),
-                  child: const Text(
-                    'Hesap oluşturmak ister misiniz? Kayıt Ol',
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-            const SizedBox(height: 12),
-          ],
-          const SizedBox(height: 12),
-          const BrandMascot(size: 56),
-          const SizedBox(height: 10),
-          Text(t.appName, style: const TextStyle(fontWeight: FontWeight.w600)),
-          const SizedBox(height: 20),
-
-          // ── Mod seçim sekmeleri ─────────────────────────────────────────
-          _ModeTabBar(
-            selected: _mode,
-            onSelect: (mode) => setState(() {
-              _mode = mode;
-              _otpSent = false;
-              _errorMessage = null;
-            }),
-          ),
-          const SizedBox(height: 20),
-
-          // ── Aktif moda göre içerik ─────────────────────────────────────
-          if (_mode == _AuthMode.email) ...[
-            _EmailForm(
-              emailCtrl: _emailCtrl,
-              passCtrl: _passCtrl,
-              loading: _loading,
-              acceptedPolicies: _acceptedRequiredPolicies,
-              signupIntent: _signupIntent,
-              onAcceptPolicies: (v) =>
-                  setState(() => _acceptedRequiredPolicies = v ?? false),
-              onSignIn: _signIn,
-              onSignUp: _signUp,
-              onOpenLegalUrl: _openLegalUrl,
-              onForgotPassword: () => context.push('/forgot-password'),
-            ),
-          ] else if (_mode == _AuthMode.phone) ...[
-            _PhoneForm(
-              phoneCtrl: _phoneCtrl,
-              otpCtrl: _otpCtrl,
-              loading: _loading,
-              otpSent: _otpSent,
-              onSendOtp: _sendOtp,
-              onVerifyOtp: _verifyOtp,
-              onBack: () => setState(() => _otpSent = false),
-            ),
-          ] else ...[
-            _GoogleSignInSection(
-              loading: _loading,
-              onSignIn: _signInWithGoogle,
-            ),
-          ],
-
-          const SizedBox(height: 24),
-
-          // ── Diğer yöntemlerle giriş (email modunda Google göster) ───────
-          if (_mode == _AuthMode.email) ...[
-            const _Divider(label: 'veya'),
-            const SizedBox(height: 16),
-            _SocialButton(
-              icon: _GoogleIcon(),
-              label: 'Google ile devam et',
-              loading: _loading,
-              onTap: _signInWithGoogle,
-            ),
-          ],
-        ],
-      ),
-    );
+    setState(() => _errorMessage = localized);
   }
 
   Future<void> _openLegalUrl(String url) async {
@@ -425,43 +155,336 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(error))));
     }
   }
+
+  // ── Build ────────────────────────────────────────────────────────────────────
+
+  @override
+  Widget build(BuildContext context) {
+    return AuthShellScaffold(
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 12, 20, 8),
+              child: AuthSegmentedTabBar(selectedTab: AuthSegmentedTab.login),
+            ),
+
+            // ── Scrollable body ──────────────────────────────────────────
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 28),
+
+                    // Error banner
+                    if (_errorMessage != null) ...[
+                      _ErrorBanner(
+                        message: _errorMessage!,
+                        onDismiss: () => setState(() => _errorMessage = null),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+
+                    // Email field
+                    _AuthTextField(
+                      controller: _emailCtrl,
+                      hint: 'E-posta adresiniz',
+                      icon: Icons.mail_outline_rounded,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                    ),
+                    const SizedBox(height: 12),
+
+                    // Password field
+                    _AuthTextField(
+                      controller: _passCtrl,
+                      hint: 'Şifreniz',
+                      icon: Icons.lock_outline_rounded,
+                      obscureText: !_passVisible,
+                      textInputAction: TextInputAction.done,
+                      onSubmitted: (_) => _signIn(),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _passVisible
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: AppColors.muted,
+                          size: 20,
+                        ),
+                        onPressed: () =>
+                            setState(() => _passVisible = !_passVisible),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Beni hatırla + Şifremi unuttum
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Checkbox(
+                            value: _rememberMe,
+                            activeColor: AppColors.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            onChanged: (v) =>
+                                setState(() => _rememberMe = v ?? false),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Expanded(
+                          child: Text(
+                            'Beni hatırla',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppColors.textStrong,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Flexible(
+                          child: GestureDetector(
+                            onTap: () => context.push('/forgot-password'),
+                            child: const Text(
+                              'Şifremi unuttum?',
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Primary action button
+                    SizedBox(
+                      height: 52,
+                      child: FilledButton(
+                        onPressed: _loading ? null : _signIn,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: _loading
+                            ? const SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text(
+                                'Giriş Yap',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // "veya" divider
+                    const _OrDivider(),
+                    const SizedBox(height: 20),
+
+                    // Social buttons row
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _SocialIconButton(
+                            icon: _GoogleIcon(),
+                            label: 'Google ile\ngiriş yap',
+                            onTap: _loading ? null : _signInWithGoogle,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _SocialIconButton(
+                            icon: const Icon(
+                              Icons.apple_rounded,
+                              size: 26,
+                              color: Colors.black,
+                            ),
+                            label: 'Apple ile\ngiriş yap',
+                            onTap: null,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _SocialIconButton(
+                            icon: const _FacebookIcon(),
+                            label: 'Facebook ile\ngiriş yap',
+                            onTap: null,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Feature highlights
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _FeatureChip(
+                            icon: Icons.shield_outlined,
+                            lines: ['Güvenli', 've Korunaklı'],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _FeatureChip(
+                            icon: Icons.card_giftcard_outlined,
+                            lines: ['Sana Özel', 'Fırsatlar'],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _FeatureChip(
+                            icon: Icons.notifications_outlined,
+                            lines: ['Anlık Bildirim', 've Güncellemeler'],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Legal footer
+                    _LegalFooter(onOpenUrl: _openLegalUrl),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
-// ── Mod Sekme Çubuğu ──────────────────────────────────────────────────────────
+// ── Auth text field ───────────────────────────────────────────────────────────
 
-class _ModeTabBar extends StatelessWidget {
-  const _ModeTabBar({required this.selected, required this.onSelect});
+class _AuthTextField extends StatelessWidget {
+  const _AuthTextField({
+    required this.controller,
+    required this.hint,
+    required this.icon,
+    this.keyboardType,
+    this.textInputAction,
+    this.obscureText = false,
+    this.onSubmitted,
+    this.suffixIcon,
+  });
 
-  final _AuthMode selected;
-  final ValueChanged<_AuthMode> onSelect;
+  final TextEditingController controller;
+  final String hint;
+  final IconData icon;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final bool obscureText;
+  final ValueChanged<String>? onSubmitted;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 52,
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.border),
       ),
-      padding: const EdgeInsets.all(3),
       child: Row(
         children: [
-          _Tab(
-            icon: Icons.email_outlined,
-            label: 'E-posta',
-            active: selected == _AuthMode.email,
-            onTap: () => onSelect(_AuthMode.email),
+          const SizedBox(width: 14),
+          Icon(icon, color: AppColors.primary, size: 20),
+          const SizedBox(width: 10),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              keyboardType: keyboardType,
+              textInputAction: textInputAction,
+              obscureText: obscureText,
+              onSubmitted: onSubmitted,
+              style: const TextStyle(fontSize: 14, color: AppColors.textStrong),
+              decoration: InputDecoration(
+                hintText: hint,
+                hintStyle: const TextStyle(
+                  color: AppColors.muted,
+                  fontSize: 14,
+                ),
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                filled: false,
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
+            ),
           ),
-          _Tab(
-            icon: Icons.phone_outlined,
-            label: 'Telefon',
-            active: selected == _AuthMode.phone,
-            onTap: () => onSelect(_AuthMode.phone),
+          if (suffixIcon != null) ...[suffixIcon!, const SizedBox(width: 4)],
+        ],
+      ),
+    );
+  }
+}
+
+// ── Error banner ──────────────────────────────────────────────────────────────
+
+class _ErrorBanner extends StatelessWidget {
+  const _ErrorBanner({required this.message, required this.onDismiss});
+  final String message;
+  final VoidCallback onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.danger.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.danger.withValues(alpha: 0.25)),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.danger,
+            size: 18,
           ),
-          _Tab(
-            icon: Icons.account_circle_outlined,
-            label: 'Google',
-            active: selected == _AuthMode.google,
-            onTap: () => onSelect(_AuthMode.google),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(color: AppColors.danger, fontSize: 13),
+            ),
+          ),
+          GestureDetector(
+            onTap: onDismiss,
+            child: const Icon(
+              Icons.close_rounded,
+              color: AppColors.danger,
+              size: 16,
+            ),
           ),
         ],
       ),
@@ -469,191 +492,268 @@ class _ModeTabBar extends StatelessWidget {
   }
 }
 
-class _Tab extends StatelessWidget {
-  const _Tab({
-    required this.icon,
-    required this.label,
-    required this.active,
-    required this.onTap,
-  });
+// ── "veya" divider ────────────────────────────────────────────────────────────
 
-  final IconData icon;
-  final String label;
-  final bool active;
-  final VoidCallback onTap;
+class _OrDivider extends StatelessWidget {
+  const _OrDivider();
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: active ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: active
-                ? [
-                    const BoxShadow(
-                      color: AppColors.shadow,
-                      blurRadius: 4,
-                      offset: Offset(0, 1),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 18,
-                color: active ? AppColors.primary : AppColors.muted,
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-                  color: active ? AppColors.primary : AppColors.muted,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Email Formu ────────────────────────────────────────────────────────────────
-
-class _EmailForm extends StatelessWidget {
-  const _EmailForm({
-    required this.emailCtrl,
-    required this.passCtrl,
-    required this.loading,
-    required this.acceptedPolicies,
-    required this.signupIntent,
-    required this.onAcceptPolicies,
-    required this.onSignIn,
-    required this.onSignUp,
-    required this.onOpenLegalUrl,
-    required this.onForgotPassword,
-  });
-
-  final TextEditingController emailCtrl;
-  final TextEditingController passCtrl;
-  final bool loading;
-  final bool acceptedPolicies;
-  final bool signupIntent;
-  final ValueChanged<bool?> onAcceptPolicies;
-  final VoidCallback onSignIn;
-  final VoidCallback onSignUp;
-  final Future<void> Function(String) onOpenLegalUrl;
-  final VoidCallback onForgotPassword;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = context.l10n;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Row(
       children: [
-        TextField(
-          controller: emailCtrl,
-          keyboardType: TextInputType.emailAddress,
-          textInputAction: TextInputAction.next,
-          decoration: InputDecoration(
-            labelText: t.loginEmailLabel,
-            prefixIcon: const Icon(Icons.email_outlined),
+        const Expanded(child: Divider(color: AppColors.border)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Text(
+            'veya',
+            style: TextStyle(
+              color: AppColors.muted,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: passCtrl,
-          obscureText: true,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) => onSignIn(),
-          decoration: InputDecoration(
-            labelText: t.loginPasswordLabel,
-            prefixIcon: const Icon(Icons.lock_outline),
-          ),
-        ),
-        const SizedBox(height: 14),
-        if (signupIntent) ...[
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: AppColors.bg,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Kayıt işlemi sürüm bazlıdır. Yeni şartlar yayınlanırsa uygulama yeniden onay ister.',
-                  style: TextStyle(
-                    color: AppColors.slate,
-                    fontSize: 12,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                LegalRequiredConsentCard(
-                  value: acceptedPolicies,
-                  disabled: loading,
-                  helperText: 'Bu kabul yalnızca kayıt oluştururken zorunludur.',
-                  onChanged: onAcceptPolicies,
-                  onOpenLink: onOpenLegalUrl,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 16),
-        ] else
-          const SizedBox(height: 16),
-        if (signupIntent) ...[
-          FilledButton(
-            onPressed: loading ? null : onSignUp,
-            child: Text(loading ? t.loginSigningUpAction : t.loginSignupAction),
-          ),
-          const SizedBox(height: 10),
-          OutlinedButton(
-            onPressed: loading ? null : onSignIn,
-            child: Text(
-              loading ? t.loginSigningInAction : t.loginPrimaryAction,
-            ),
-          ),
-        ] else ...[
-          FilledButton(
-            onPressed: loading ? null : onSignIn,
-            child: Text(
-              loading ? t.loginSigningInAction : t.loginPrimaryAction,
-            ),
-          ),
-          const SizedBox(height: 10),
-          OutlinedButton(
-            onPressed: loading ? null : onSignUp,
-            child: Text(loading ? t.loginSigningUpAction : t.loginSignupAction),
-          ),
-        ],
-        const SizedBox(height: 4),
-        TextButton(
-          onPressed: loading ? null : onForgotPassword,
-          child: const Text('Şifremi unuttum'),
-        ),
+        const Expanded(child: Divider(color: AppColors.border)),
       ],
     );
   }
 }
 
-// ── Telefon OTP Formu ──────────────────────────────────────────────────────────
+// ── Social icon button ────────────────────────────────────────────────────────
 
-class _PhoneForm extends StatelessWidget {
-  const _PhoneForm({
+class _SocialIconButton extends StatelessWidget {
+  const _SocialIconButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final Widget icon;
+  final String label;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            icon,
+            const SizedBox(height: 6),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textStrong,
+                height: 1.3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Feature chip ──────────────────────────────────────────────────────────────
+
+class _FeatureChip extends StatelessWidget {
+  const _FeatureChip({required this.icon, required this.lines});
+  final IconData icon;
+  final List<String> lines;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 14),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: AppColors.primary, size: 20),
+          ),
+          const SizedBox(height: 8),
+          for (final line in lines)
+            Text(
+              line,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textStrong,
+                height: 1.3,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Legal footer ──────────────────────────────────────────────────────────────
+
+class _LegalFooter extends StatelessWidget {
+  const _LegalFooter({required this.onOpenUrl});
+  final Future<void> Function(String) onOpenUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        style: const TextStyle(
+          fontSize: 12,
+          color: AppColors.muted,
+          height: 1.6,
+        ),
+        children: [
+          const TextSpan(text: 'Devam ederek '),
+          WidgetSpan(
+            child: GestureDetector(
+              onTap: () => onOpenUrl('https://yeedoy.com/legal/terms'),
+              child: const Text(
+                'Kullanım Şartları',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                  height: 1.6,
+                ),
+              ),
+            ),
+          ),
+          const TextSpan(text: '\'nı yeri '),
+          WidgetSpan(
+            child: GestureDetector(
+              onTap: () => onOpenUrl('https://yeedoy.com/legal/privacy'),
+              child: const Text(
+                'Gizlilik Politikası',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                  height: 1.6,
+                ),
+              ),
+            ),
+          ),
+          const TextSpan(text: '\'nı kabul etmiş olursunuz.'),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+// ── Google "G" icon ───────────────────────────────────────────────────────────
+
+class _GoogleIcon extends StatelessWidget {
+  const _GoogleIcon();
+  static const double size = 26;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(painter: _GoogleGPainter()),
+    );
+  }
+}
+
+class _GoogleGPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+    final r = size.width / 2;
+    _arc(canvas, cx, cy, r, -30, 120, const Color(0xFFEA4335));
+    _arc(canvas, cx, cy, r, 90, 60, const Color(0xFFFBBC05));
+    _arc(canvas, cx, cy, r, 150, 90, const Color(0xFF34A853));
+    _arc(canvas, cx, cy, r, 240, 90, const Color(0xFF4285F4));
+  }
+
+  void _arc(
+    Canvas c,
+    double cx,
+    double cy,
+    double r,
+    double startDeg,
+    double sweepDeg,
+    Color color,
+  ) {
+    const d2r = 3.14159265 / 180.0;
+    c.drawArc(
+      Rect.fromCircle(center: Offset(cx, cy), radius: r * 0.72),
+      startDeg * d2r,
+      sweepDeg * d2r,
+      false,
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = r * 0.28,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GoogleGPainter _) => false;
+}
+
+// ── Facebook icon ─────────────────────────────────────────────────────────────
+
+class _FacebookIcon extends StatelessWidget {
+  const _FacebookIcon();
+  static const double size = 26;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: const BoxDecoration(
+        color: Color(0xFF1877F2),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          'f',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: size * 0.6,
+            fontWeight: FontWeight.w900,
+            height: 1,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Phone OTP form (push route veya dialog) ───────────────────────────────────
+// (Phone OTP flow kept available via _sendOtp/_verifyOtp, not exposed in new UI)
+
+// ignore: unused_element
+class _PhoneOtpForm extends StatelessWidget {
+  const _PhoneOtpForm({
     required this.phoneCtrl,
     required this.otpCtrl,
     required this.loading,
@@ -677,33 +777,9 @@ class _PhoneForm extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.success.withValues(alpha: 0.08),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: AppColors.success.withValues(alpha: 0.3),
-              ),
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.info_outline, size: 16, color: AppColors.success),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Telefon numaranıza SMS ile doğrulama kodu gönderilecek.',
-                    style: TextStyle(fontSize: 12, color: AppColors.success),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 14),
           TextField(
             controller: phoneCtrl,
             keyboardType: TextInputType.phone,
-            textInputAction: TextInputAction.done,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s\-()]')),
             ],
@@ -712,73 +788,25 @@ class _PhoneForm extends StatelessWidget {
               labelText: 'Telefon numarası',
               hintText: '05XX XXX XX XX',
               prefixIcon: Icon(Icons.phone_outlined),
-              helperText: 'Türkiye: 0 ile başlayan 11 haneli numara',
             ),
           ),
           const SizedBox(height: 16),
-          FilledButton.icon(
+          FilledButton(
             onPressed: loading ? null : onSendOtp,
-            icon: loading
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
-                : const Icon(Icons.send_outlined, size: 18),
-            label: Text(loading ? 'Gönderiliyor…' : 'SMS Kodu Gönder'),
+            child: Text(loading ? 'Gönderiliyor…' : 'SMS Kodu Gönder'),
           ),
         ],
       );
     }
-
-    // OTP girişi
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: AppColors.success.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.check_circle_outline,
-                size: 16,
-                color: AppColors.success,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  '${phoneCtrl.text} numarasına SMS gönderildi.',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.success,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 14),
         TextField(
           controller: otpCtrl,
           keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
           maxLength: 6,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) => onVerifyOtp(),
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 12,
-          ),
+          onSubmitted: (_) => onVerifyOtp(),
           decoration: const InputDecoration(
             labelText: 'Doğrulama kodu',
             hintText: '000000',
@@ -786,212 +814,15 @@ class _PhoneForm extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        FilledButton.icon(
+        FilledButton(
           onPressed: loading ? null : onVerifyOtp,
-          icon: loading
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
-                )
-              : const Icon(Icons.verified_outlined, size: 18),
-          label: Text(loading ? 'Doğrulanıyor…' : 'Kodu Doğrula'),
+          child: Text(loading ? 'Doğrulanıyor…' : 'Kodu Doğrula'),
         ),
-        const SizedBox(height: 10),
-        TextButton.icon(
+        TextButton(
           onPressed: loading ? null : onBack,
-          icon: const Icon(Icons.arrow_back, size: 16),
-          label: const Text('Farklı numara kullan'),
+          child: const Text('Farklı numara kullan'),
         ),
       ],
     );
   }
-}
-
-// ── Google Sign-In Bölümü ──────────────────────────────────────────────────────
-
-class _GoogleSignInSection extends StatelessWidget {
-  const _GoogleSignInSection({required this.loading, required this.onSignIn});
-
-  final bool loading;
-  final VoidCallback onSignIn;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppColors.bg,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Column(
-            children: [
-              _GoogleIcon(size: 40),
-              const SizedBox(height: 12),
-              const Text(
-                'Google hesabınızla devam edin',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Hızlı ve güvenli giriş için Google hesabınızı kullanın.',
-                style: TextStyle(color: AppColors.muted, fontSize: 13),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              _SocialButton(
-                icon: _GoogleIcon(),
-                label: 'Google ile giriş yap',
-                loading: loading,
-                onTap: onSignIn,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ── Paylaşılan yardımcı widget'lar ────────────────────────────────────────────
-
-class _SocialButton extends StatelessWidget {
-  const _SocialButton({
-    required this.icon,
-    required this.label,
-    required this.loading,
-    required this.onTap,
-  });
-
-  final Widget icon;
-  final String label;
-  final bool loading;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: loading ? null : onTap,
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        side: const BorderSide(color: AppColors.border),
-        backgroundColor: Colors.white,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (loading)
-            const SizedBox(
-              width: 18,
-              height: 18,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          else
-            icon,
-          const SizedBox(width: 10),
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              color: AppColors.textStrong,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Divider extends StatelessWidget {
-  const _Divider({required this.label});
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Expanded(child: Divider()),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: AppColors.muted,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        const Expanded(child: Divider()),
-      ],
-    );
-  }
-}
-
-class _GoogleIcon extends StatelessWidget {
-  const _GoogleIcon({this.size = 20});
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    // Google renkli "G" harfi
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CustomPaint(painter: _GoogleGPainter()),
-    );
-  }
-}
-
-class _GoogleGPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final r = size.width / 2;
-
-    // Kırmızı yay
-    _drawArc(canvas, cx, cy, r, -30, 120, const Color(0xFFEA4335));
-    // Sarı yay
-    _drawArc(canvas, cx, cy, r, 90, 60, const Color(0xFFFBBC05));
-    // Yeşil yay
-    _drawArc(canvas, cx, cy, r, 150, 90, const Color(0xFF34A853));
-    // Mavi yay
-    _drawArc(canvas, cx, cy, r, 240, 90, const Color(0xFF4285F4));
-  }
-
-  void _drawArc(
-    Canvas canvas,
-    double cx,
-    double cy,
-    double r,
-    double startDeg,
-    double sweepDeg,
-    Color color,
-  ) {
-    const d2r = 3.14159265 / 180.0;
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = r * 0.28;
-    canvas.drawArc(
-      Rect.fromCircle(center: Offset(cx, cy), radius: r * 0.72),
-      startDeg * d2r,
-      sweepDeg * d2r,
-      false,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(_GoogleGPainter _) => false;
 }

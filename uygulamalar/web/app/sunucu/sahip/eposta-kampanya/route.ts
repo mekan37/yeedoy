@@ -4,6 +4,8 @@ import { rateLimit } from '@/src/lib/oran-siniri';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { getOptedInEmails } from '@/src/lib/email/get-opted-in-emails';
 import { sendEmailCampaign } from '@/src/lib/email/resend-client';
+import { generateUnsubscribeToken } from '@/src/lib/email/unsubscribe-token';
+import { logger } from '@/src/lib/kayitci';
 import { z } from 'zod';
 
 const bodySchema = z.object({
@@ -66,8 +68,43 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   }
 
-  // Opted-in recipients only (is_subscribed_email consent filter via service role)
-  const recipients = await getOptedInEmails(businessId);
+  // Opted-in recipients only — çift filtre: is_subscribed_email + marketing_email_opt_in (T18)
+  const baseRecipients = await getOptedInEmails(businessId);
+
+  // UNSUBSCRIBE_HMAC_SECRET zorunlu kontrolü — fail-closed (6563 md.9/3).
+  // Her ticari e-postada çalışan abonelik iptal mekanizması zorunludur.
+  // Secret eksikse kampanya linksiz gönderilemez; burada durdurulur.
+  if (!process.env.UNSUBSCRIBE_HMAC_SECRET?.trim()) {
+    logger.warn('eposta-kampanya: UNSUBSCRIBE_HMAC_SECRET yapılandırılmamış — kampanya iptal (6563 md.9/3)');
+    await supabaseAny
+      .from('email_campaigns')
+      .update({ status: 'failed', sent_count: 0, sent_at: new Date().toISOString() })
+      .eq('id', kampanya.id);
+    return NextResponse.json(
+      { error: 'internal_error', detail: 'unsubscribe_secret_not_configured' },
+      { status: 500 },
+    );
+  }
+
+  // Her alıcı için işletme bazlı "biz" token üret (6563 md.9/3 — kişiye özgü iptal linki).
+  // Token üretimi başarısız olursa kampanya fail-closed olarak durdurulur.
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://yeedoy.com';
+  const recipients: Array<{ email: string; displayName: string; userId: string; unsubscribeUrl: string }> = [];
+  for (const r of baseRecipients) {
+    try {
+      const token = generateUnsubscribeToken(r.userId, businessId, 'biz');
+      recipients.push({ ...r, unsubscribeUrl: `${siteUrl}/abonelik-iptal?token=${encodeURIComponent(token)}` });
+    } catch (err) {
+      logger.warn('eposta-kampanya: token üretimi başarısız — kampanya iptal edildi', {
+        message: err instanceof Error ? err.message : 'unknown',
+      });
+      await supabaseAny
+        .from('email_campaigns')
+        .update({ status: 'failed', sent_count: 0, sent_at: new Date().toISOString() })
+        .eq('id', kampanya.id);
+      return NextResponse.json({ error: 'internal_error' }, { status: 500 });
+    }
+  }
 
   // Attempt Resend delivery (fail-safe — returns provider_not_configured: true if key missing)
   const emailResult = await sendEmailCampaign(recipients, {

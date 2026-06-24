@@ -54,7 +54,6 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/growth/ab_experiments.dart';
 import '../../../core/growth/funnel_tracker.dart';
 import '../../../core/perf/firebase_perf_trace.dart';
-import '../../monetization/domain/sponsored_businesses_provider.dart';
 import '../../ads/data/native_ad_controller.dart';
 import '../../ads/ui/native_ad_card.dart';
 import '../../profile/domain/profile_progress_provider.dart';
@@ -67,6 +66,7 @@ import '../../../core/services/assistant_shortcuts_service.dart';
 import 'categories_config.dart';
 import 'components/category_quick_filters.dart';
 import 'components/discovery_search_bar.dart';
+import 'components/search_filter_sheet.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
@@ -100,7 +100,6 @@ class DiscoveryPage extends ConsumerWidget {
       length: 3,
       child: Column(
         children: [
-          const SafeArea(bottom: false, child: _DiscoveryTopBar()),
           _DiscoveryPillTabBar(t: t),
           Expanded(
             child: TabBarView(

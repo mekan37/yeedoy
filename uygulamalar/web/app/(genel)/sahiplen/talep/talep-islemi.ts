@@ -20,34 +20,26 @@ export async function submitOwnerClaim(formData: FormData) {
     redirect(`/giris?redirect=${encodeURIComponent(`/sahiplen/talep?id=${businessId}`)}`);
   }
 
-  // Duplicate talep kontrolü
-  const { data: existing } = await (supabase as any)
-    .from('owner_claims')
-    .select('id, status')
-    .eq('user_id', user.id)
-    .eq('business_id', businessId)
-    .maybeSingle();
-
-  if (existing) {
-    if (existing.status === 'approved') redirect('/sahip/gosterge-panosu');
-    redirect('/sahip/gosterge-panosu?bilgi=talep_bekliyor');
-  }
-
-  // Yeni talep oluştur
-  const { error } = await (supabase as any)
-    .from('owner_claims')
-    .insert({
-      business_id: businessId,
-      user_id:     user.id,
-      status:      'pending',
-      full_name:   fullName,
-      phone,
-      note:        note || null,
-      auto_moderated: false,
-    });
+  const { data, error } = await (supabase as any).rpc('submit_owner_claim_v1', {
+    p_business_id: businessId,
+    p_full_name: fullName,
+    p_phone: phone,
+    p_evidence_url: null,
+    p_note: note || null,
+  });
 
   if (error) {
     redirect(`/sahiplen/talep?id=${businessId}&hata=kayit_hatasi`);
+  }
+
+  const result = data as { ok?: boolean; error?: string } | null;
+  if (!result?.ok) {
+    const code = result?.error ?? 'kayit_hatasi';
+    const safeCode =
+      code === 'rate_limited_7d' || code === 'already_submitted'
+        ? 'talep_bekliyor'
+        : 'kayit_hatasi';
+    redirect(`/sahiplen/talep?id=${businessId}&hata=${safeCode}`);
   }
 
   // Panele yönlendir — "onay bekleniyor" banner görünecek

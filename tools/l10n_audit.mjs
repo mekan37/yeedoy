@@ -3,17 +3,13 @@ import path from 'node:path';
 
 const repoRoot = process.cwd();
 const arbFiles = [
-  'apps/mobile_flutter/lib/l10n/app_en.arb',
-  'apps/mobile_flutter/lib/l10n/app_tr.arb',
-  'apps/panel_flutter_web/lib/l10n/app_en.arb',
-  'apps/panel_flutter_web/lib/l10n/app_tr.arb',
+  'uygulamalar/mobil/lib/l10n/app_en.arb',
+  'uygulamalar/mobil/lib/l10n/app_tr.arb',
 ];
 
 const dartFiles = [
-  'apps/mobile_flutter/lib/l10n/app_localizations_en.dart',
-  'apps/mobile_flutter/lib/l10n/app_localizations_tr.dart',
-  'apps/panel_flutter_web/lib/l10n/app_localizations_en.dart',
-  'apps/panel_flutter_web/lib/l10n/app_localizations_tr.dart',
+  'uygulamalar/mobil/lib/l10n/app_localizations_en.dart',
+  'uygulamalar/mobil/lib/l10n/app_localizations_tr.dart',
 ];
 
 const mojibakeMarkers = ['Ã', 'Ä', 'Å', 'Â', 'Ãƒ', 'Ã¢', 'â€¢', 'â€™', 'â€“', 'â€”', 'â€œ', 'â€', 'â€¦'];

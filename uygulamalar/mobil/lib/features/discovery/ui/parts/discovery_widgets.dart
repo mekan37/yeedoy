@@ -1,14 +1,5 @@
 part of '../discovery_page.dart';
 
-/// Thin wrapper kept for backward compat within this `part of` file.
-/// Delegates to the shared [AppTopBar] — see `AppShell.hideAppBar`.
-class _DiscoveryTopBar extends StatelessWidget {
-  const _DiscoveryTopBar();
-
-  @override
-  Widget build(BuildContext context) => const AppTopBar();
-}
-
 /// Compact pill/segment style replacement for the default Material [TabBar]
 /// used to switch between Önerilenler / Kampanyalar / Yemekler.
 class _DiscoveryPillTabBar extends StatelessWidget {

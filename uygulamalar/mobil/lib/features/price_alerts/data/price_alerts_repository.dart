@@ -132,6 +132,30 @@ class PriceAlertsRepository {
     return map;
   }
 
+  Future<void> toggleAlert(String alertId, {required bool active}) async {
+    try {
+      await client
+          .from('price_alerts')
+          .update({'is_active': active})
+          .eq('id', alertId)
+          .eq('user_id', client.auth.currentUser!.id);
+    } catch (e) {
+      throw Exception(AppErrorMapper.message(e));
+    }
+  }
+
+  Future<void> deleteAlert(String alertId) async {
+    try {
+      await client
+          .from('price_alerts')
+          .delete()
+          .eq('id', alertId)
+          .eq('user_id', client.auth.currentUser!.id);
+    } catch (e) {
+      throw Exception(AppErrorMapper.message(e));
+    }
+  }
+
   Future<Map<String, AlertMeta>> fetchAlertMeta(List<String> ids) async {
     if (ids.isEmpty) return const {};
     final res = await client

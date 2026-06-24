@@ -15,12 +15,16 @@ export type EmailSendResult = {
  * API key and recipient email addresses are never logged.
  */
 export async function sendEmailCampaign(
-  recipients: Array<{ email: string; displayName: string }>,
+  recipients: Array<{ email: string; displayName: string; unsubscribeUrl?: string }>,
   campaign: {
     subject: string;
     htmlBody: string;
     fromName: string;
     fromEmail: string;
+    /** Her alıcı için ayrı URL üretilmişse recipients[].unsubscribeUrl kullanılır.
+     *  Tek global URL verilmişse tüm alıcılara bu URL eklenir.
+     *  İkisi de yoksa footer eklenmez. */
+    unsubscribeUrl?: string;
   },
 ): Promise<EmailSendResult> {
   const apiKey = process.env.RESEND_API_KEY?.trim();
@@ -42,7 +46,7 @@ export async function sendEmailCampaign(
   // Send in batches of BATCH_SIZE (50) using Resend single-email endpoint sequentially
   for (let i = 0; i < recipients.length; i += BATCH_SIZE) {
     const batch = recipients.slice(i, i + BATCH_SIZE);
-    const { success, failure } = await sendBatch(batch, campaign.subject, campaign.htmlBody, from, apiKey);
+    const { success, failure } = await sendBatch(batch, campaign.subject, campaign.htmlBody, from, apiKey, campaign.unsubscribeUrl);
     totalSuccess += success;
     totalFailure += failure;
   }
@@ -60,14 +64,17 @@ export async function sendEmailCampaign(
 // ---------------------------------------------------------------------------
 
 async function sendBatch(
-  recipients: Array<{ email: string; displayName: string }>,
+  recipients: Array<{ email: string; displayName: string; unsubscribeUrl?: string }>,
   subject: string,
   htmlBody: string,
   from: string,
   apiKey: string,
+  globalUnsubscribeUrl?: string,
 ): Promise<{ success: number; failure: number }> {
   const results = await Promise.allSettled(
-    recipients.map((r) => sendSingleEmail(r, subject, htmlBody, from, apiKey)),
+    recipients.map((r) =>
+      sendSingleEmail(r, subject, htmlBody, from, apiKey, r.unsubscribeUrl ?? globalUnsubscribeUrl),
+    ),
   );
 
   let success = 0;
@@ -90,7 +97,18 @@ async function sendSingleEmail(
   htmlBody: string,
   from: string,
   apiKey: string,
+  unsubscribeUrl?: string,
 ): Promise<boolean> {
+  // Unsubscribe footer (her e-postada bulunması 6563 md.9/3 gereği)
+  const footer = unsubscribeUrl
+    ? `<p style="margin-top:32px;font-size:11px;color:#888;text-align:center;line-height:1.6;">` +
+      `Bu e-postayı almak istemiyorsanız, ` +
+      `<a href="${unsubscribeUrl}" style="color:#7F1D1D;">aboneliğinizi iptal edebilirsiniz</a>.` +
+      `</p>`
+    : '';
+
+  const fullHtml = htmlBody + footer;
+
   try {
     const res = await fetch(RESEND_API_URL, {
       method: 'POST',
@@ -102,7 +120,7 @@ async function sendSingleEmail(
         from,
         to: recipient.email,
         subject,
-        html: htmlBody,
+        html: fullHtml,
       }),
     });
 

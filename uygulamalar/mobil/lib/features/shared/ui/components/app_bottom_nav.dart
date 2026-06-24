@@ -4,65 +4,33 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../app/theme/colors.dart';
 import '../../../../core/i18n/app_localizations.dart';
-import '../../../contribute/ui/contribute_entry.dart';
 
 class AppBottomNav extends ConsumerWidget {
   const AppBottomNav({super.key});
 
+  // Returns -1 when no standard tab is active (e.g. /contribute).
   int _indexFromLocation(Uri uri) {
     final path = uri.path;
-    final mapViewSelected =
-        path.startsWith('/discover') && uri.queryParameters['view'] == 'map';
-    if (mapViewSelected) return 1;
+    if (path.startsWith('/discover') && uri.queryParameters['view'] == 'map') {
+      return 1;
+    }
     if (path.startsWith('/favorites')) return 2;
     if (path.startsWith('/profile')) return 3;
-    return 0;
+    if (path.startsWith('/discover')) return 0;
+    return -1;
   }
 
   void _goBranch(BuildContext context, int index) {
     switch (index) {
       case 0:
         context.go('/discover');
-        break;
       case 1:
         context.go('/discover?view=map');
-        break;
       case 2:
         context.go('/favorites');
-        break;
       case 3:
         context.go('/profile');
-        break;
     }
-  }
-
-  void _openQrAction(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      builder: (sheetContext) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  t.qrAction,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textStrong,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                const Center(child: ContributeFab()),
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -75,15 +43,21 @@ class AppBottomNav extends ConsumerWidget {
 
     return SafeArea(
       top: false,
-      child: Container(
-        height: 84,
-        decoration: const BoxDecoration(
-          color: AppColors.card,
-          border: Border(top: BorderSide(color: AppColors.border)),
-        ),
+      child: SizedBox(
+        height: 76,
         child: Stack(
-          alignment: Alignment.topCenter,
+          clipBehavior: Clip.none,
           children: [
+            // Bar background
+            Positioned.fill(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.card,
+                  border: Border(top: BorderSide(color: AppColors.border)),
+                ),
+              ),
+            ),
+            // 4 nav items with empty center slot
             Row(
               children: [
                 Expanded(
@@ -104,7 +78,8 @@ class AppBottomNav extends ConsumerWidget {
                     onTap: () => _goBranch(context, 1),
                   ),
                 ),
-                const SizedBox(width: 72),
+                // Empty space for the center button
+                const Expanded(child: SizedBox()),
                 Expanded(
                   child: _NavItem(
                     label: t.favorites,
@@ -125,21 +100,33 @@ class AppBottomNav extends ConsumerWidget {
                 ),
               ],
             ),
+            // Floating center QR button
             Positioned(
-              top: 6,
-              child: Material(
-                color: AppColors.primary,
-                shape: const CircleBorder(),
-                elevation: 6,
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: () => _openQrAction(context),
-                  child: const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Icon(
+              top: -22,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: GestureDetector(
+                  onTap: () => context.go('/contribute'),
+                  child: Container(
+                    width: 58,
+                    height: 58,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.card, width: 3),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.35),
+                          blurRadius: 14,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
                       Icons.qr_code_scanner_rounded,
                       color: Colors.white,
-                      size: 28,
+                      size: 26,
                     ),
                   ),
                 ),
@@ -151,6 +138,8 @@ class AppBottomNav extends ConsumerWidget {
     );
   }
 }
+
+// ── Standard nav item ─────────────────────────────────────────────────────────
 
 class _NavItem extends StatelessWidget {
   const _NavItem({
@@ -173,17 +162,17 @@ class _NavItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(top: 14),
+        padding: const EdgeInsets.only(top: 12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(selected ? selectedIcon : icon, color: color, size: 22),
-            const SizedBox(height: 4),
+            const SizedBox(height: 3),
             Text(
               label,
               style: TextStyle(
                 color: color,
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -193,4 +182,3 @@ class _NavItem extends StatelessWidget {
     );
   }
 }
-

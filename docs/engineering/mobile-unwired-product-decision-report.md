@@ -1,5 +1,7 @@
 # Yeedoy Mobil — Bağlı Olmayan Kod Ürün Karar Raporu
 
+> **DEPRECATED / HISTORICAL CONTEXT:** Bu dosya tarihsel analizdir. Güncel scope kararı için bkz. `docs/product/2026-yeedoy-final-scope-source-of-truth.md`.
+
 > **ÇELİŞKİ NOTU (2026-06-23):** Bu rapor "bağlı olmayan kod" merceğiyle yazıldı ve
 > masa_siparisi (POS), sadakat ve heroes/leaderboard özelliklerini "KEEP" /
 > "KEEP_AND_CONNECT" olarak işaretliyor. **Final Stratejik Karar Raporu

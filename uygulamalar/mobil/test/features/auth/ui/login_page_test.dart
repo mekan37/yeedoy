@@ -113,10 +113,7 @@ ThemeData _theme() => ThemeData(
   ],
 );
 
-Future<_FakeAuthService> _pumpLogin(
-  WidgetTester tester, {
-  bool initialSignup = false,
-}) async {
+Future<_FakeAuthService> _pumpLogin(WidgetTester tester) async {
   // Use a phone-like portrait surface so the full form fits without scrolling.
   tester.view.physicalSize = const Size(1080, 2400);
   tester.view.devicePixelRatio = 3.0;
@@ -129,14 +126,15 @@ Future<_FakeAuthService> _pumpLogin(
   final router = GoRouter(
     initialLocation: '/login',
     routes: [
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => LoginPage(initialSignup: initialSignup),
-      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
       GoRoute(path: '/discover', builder: (context, state) => const SizedBox()),
       GoRoute(
         path: '/forgot-password',
         builder: (context, state) => const SizedBox(),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => const Text('Register route'),
       ),
     ],
   );
@@ -182,42 +180,28 @@ void main() {
     expect(find.byType(FilledButton), findsOneWidget);
   });
 
-  testWidgets('LoginPage shows three mode tabs', (tester) async {
+  testWidgets('LoginPage shows login and register tabs', (tester) async {
     await _pumpLogin(tester);
 
-    expect(find.text('E-posta'), findsOneWidget);
-    expect(find.text('Telefon'), findsOneWidget);
-    expect(find.text('Google'), findsOneWidget);
+    expect(find.text('Giriş Yap'), findsWidgets);
+    expect(find.text('Kayıt Ol'), findsOneWidget);
   });
 
-  testWidgets('LoginPage can render signup as the primary action', (
-    tester,
-  ) async {
-    await _pumpLogin(tester, initialSignup: true);
-
-    expect(
-      find.widgetWithText(FilledButton, 'Login / Sign up'),
-      findsOneWidget,
-    );
-  });
-
-  testWidgets('Tapping Telefon tab switches to phone form', (tester) async {
-    await _pumpLogin(tester);
-
-    await tester.tap(find.text('Telefon'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('SMS Kodu Gönder'), findsOneWidget);
-  });
-
-  testWidgets('Tapping E-posta tab after switching restores email form', (
+  testWidgets('Tapping register tab navigates to register route', (
     tester,
   ) async {
     await _pumpLogin(tester);
 
-    await tester.tap(find.text('Telefon'));
+    await tester.tap(find.text('Kayıt Ol'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('E-posta'));
+
+    expect(find.text('Register route'), findsOneWidget);
+  });
+
+  testWidgets('Login tab keeps email form visible', (tester) async {
+    await _pumpLogin(tester);
+
+    await tester.tap(find.text('Giriş Yap').first);
     await tester.pumpAndSettle();
 
     expect(find.byType(FilledButton), findsOneWidget);
@@ -256,7 +240,7 @@ void main() {
     await _pumpLogin(tester);
 
     // 'Şifremi unuttum' is hard-coded (not l10n'd); ensure visible first
-    final forgotBtn = find.text('Şifremi unuttum');
+    final forgotBtn = find.text('Şifremi unuttum?');
     await tester.ensureVisible(forgotBtn);
     await tester.pumpAndSettle();
     await tester.tap(forgotBtn);

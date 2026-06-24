@@ -23,8 +23,6 @@ import '../../favorites/domain/favorites_controller.dart';
 import '../../favorites/domain/favorite_status_provider.dart';
 import '../../profile/domain/creator_profile_provider.dart';
 import '../../shared/ui/category_chip.dart';
-import '../../notifications/ui/components/notifications_bell.dart';
-import '../../taste_twin/domain/taste_twin_controllers.dart';
 import '../../../features/shared/ui/components/vertical_business_card.dart';
 
 class FavoritesPage extends ConsumerStatefulWidget {
@@ -1127,52 +1125,29 @@ class _CreatorBadgesRow extends StatelessWidget {
   }
 }
 
-class _FavoritesHeader extends ConsumerWidget {
+class _FavoritesHeader extends StatelessWidget {
   const _FavoritesHeader();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final user = ref.watch(userProvider);
-    String? displayName;
-    if (user != null) {
-      final profileAsync = ref.watch(publicProfileProvider(user.id));
-      final name = profileAsync.asData?.value.displayName.trim() ?? '';
-      if (name.isNotEmpty) displayName = name;
-    }
-    final greeting = displayName != null
-        ? t.discoveryGreetingHello(displayName)
-        : t.discoveryGreetingHelloAnon;
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  greeting,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  t.favorites,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
+          Text(
+            'Merhaba! 👋',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppColors.muted,
             ),
           ),
-          IconButton(
-            tooltip: t.drawerInbox,
-            onPressed: () => context.go('/inbox'),
-            icon: const NotificationsBell(),
+          const SizedBox(height: 4),
+          Text(
+            t.favorites,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w900,
+            ),
           ),
         ],
       ),

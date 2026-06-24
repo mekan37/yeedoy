@@ -6,6 +6,8 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 export type OptedInRecipient = {
   email: string;
   displayName: string;
+  /** Supabase auth user UUID — token üretimi için gerekli, e-posta gönderiminde kullanılmaz. */
+  userId: string;
 };
 
 /**
@@ -13,6 +15,14 @@ export type OptedInRecipient = {
  * Uses service role to access auth.users and business_follows with consent filter.
  * Returns empty array if service role key not configured.
  * Never logs email addresses — only counts.
+ *
+ * Çift filtre (her ikisi de zorunlu — T18):
+ *   1. business_follows.is_subscribed_email = true  (işletme bazlı abonelik)
+ *   2. user_profiles.marketing_email_opt_in = true   (global platform izni)
+ *
+ * Bağımlılık: user_profiles.marketing_email_opt_in sütunu migration
+ * 20260620000001_user_profiles_marketing_email_opt_in.sql ile ekleniyor.
+ * Bu migration üretimde uygulanmadan önce bu fonksiyon çağrılmamalıdır.
  */
 export async function getOptedInEmails(
   businessId: string,
@@ -28,12 +38,17 @@ export async function getOptedInEmails(
   try {
     const client = createClient(SUPABASE_URL, serviceRoleKey);
 
-    // Step 1: Fetch user_ids who opted in to email marketing for this business
+    // Step 1: Fetch user_ids who opted in to email marketing for this business.
+    // Çift filtre (6563 md.9/3 + KVKK md.11/2-ç):
+    //   - is_subscribed_email = true  → işletme bazlı abonelik
+    //   - marketing_email_opt_in = true → global platform pazarlama izni
+    // user_profiles!inner ile inner join — global izni olmayan kullanıcılar otomatik dışlanır.
     const { data: follows, error: followsError } = await client
       .from('business_follows')
-      .select('user_id, user_profiles:user_id(display_name)')
+      .select('user_id, user_profiles:user_id!inner(display_name, marketing_email_opt_in)')
       .eq('business_id', businessId)
       .eq('is_subscribed_email', true)
+      .eq('user_profiles.marketing_email_opt_in', true)
       .limit(limit);
 
     if (followsError) {
@@ -46,7 +61,9 @@ export async function getOptedInEmails(
       return [];
     }
 
-    const userIds = follows.map((f: { user_id: string }) => f.user_id);
+    // Inner join sayesinde marketing_email_opt_in = false olan kullanıcılar
+    // follows listesinde yer almaz. user_id listesi yalnızca çift filtreyi geçenleri içerir.
+    const userIds = (follows as Array<{ user_id: string }>).map((f) => f.user_id);
 
     // Step 2: Fetch auth emails via auth.admin — service role required
     // listUsers paginates 1000/page; for MVP limit is 200 so one page suffices
@@ -67,11 +84,19 @@ export async function getOptedInEmails(
     }
 
     // Build displayName lookup from joined user_profiles
-    // Supabase returns the join as array — cast via unknown to handle type mismatch
-    type FollowRow = { user_id: string; user_profiles: { display_name: string } | null };
+    // Supabase returns the join as a single object (inner join 1:1) —
+    // cast via unknown to handle type mismatch.
+    // marketing_email_opt_in PostgREST filter ile zaten uygulandı; burada tekrar
+    // kontrol etmeye gerek yok ancak defensive check olarak kalıyor.
+    type FollowRow = {
+      user_id: string;
+      user_profiles: { display_name: string; marketing_email_opt_in: boolean } | null;
+    };
     const displayNameMap = new Map<string, string>();
     for (const f of follows as unknown as FollowRow[]) {
-      const name = f.user_profiles?.display_name ?? 'Değerli Müşteri';
+      // Inner join garantisi: user_profiles null gelmemeli; null ise skip.
+      if (!f.user_profiles) continue;
+      const name = f.user_profiles.display_name ?? 'Değerli Müşteri';
       displayNameMap.set(f.user_id, name);
     }
 
@@ -83,6 +108,7 @@ export async function getOptedInEmails(
       recipients.push({
         email,
         displayName: displayNameMap.get(userId) ?? 'Değerli Müşteri',
+        userId,
       });
     }
 

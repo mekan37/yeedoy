@@ -57,7 +57,6 @@ class _InboxPageState extends ConsumerState<InboxPage> {
       child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const SafeArea(bottom: false, child: AppTopBar()),
             _buildHeader(t),
             _buildFilterBar(),
             if (notificationsDenied)

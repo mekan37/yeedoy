@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:yeedoy_shared_ui_components/brand_assets.dart';
 
 import '../../core/constants/app_strings.dart';
-import 'brand_assets.dart';
 
 class BrandWordmark extends StatelessWidget {
   const BrandWordmark({super.key, this.height = 28, this.inverse = false});

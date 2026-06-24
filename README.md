@@ -1,8 +1,8 @@
 # Yeedoy Monorepo
 
-**Yeedoy** — Restoran ve yemek keşif platformu. Kullanıcılar yemek keşfeder, menüleri inceler ve yorum bırakır; işletme sahipleri menü ve operasyonlarını yönetir; personel siparişleri ve müşteri hizmetlerini takip eder.
+**Yeedoy** — Restoran ve yemek keşif platformu. Kullanıcılar yemek keşfeder, menüleri inceler ve yorum bırakır; işletme sahipleri menü ve operasyonlarını web panelinden yönetir.
 
-*A food and restaurant discovery platform. Consumers discover and review venues; business owners manage menus and operations; staff track orders and loyalty.*
+*A food and restaurant discovery platform. Consumers discover and review venues; business owners manage menus and operations through the web panel.*
 
 ---
 
@@ -17,10 +17,6 @@
 │  Consumer discovery,        Public menus, QR Studio,            │
 │  reviews, favorites,        owner/admin operations,             │
 │  offline queue, AI OCR      branding, analytics                 │
-│                                                                 │
-│  uygulamalar/personel                                           │
-│  Flutter (web/Android)      Staff tablet / KDS, orders,         │
-│                             reviews, loyalty, menu mgmt         │
 │                                                                 │
 │  packages/                                                      │
 │  shared_ui_components       Shared Flutter design primitives    │
@@ -45,7 +41,6 @@
 |---|---|---|---|---|
 | `uygulamalar/mobil` | Dart / Flutter (iOS + Android) | Riverpod 3.x | GoRouter 17.x | Supabase Flutter 2.x, Firebase, Google ML Kit, google_mobile_ads |
 | `uygulamalar/web` | TypeScript / Next.js 15 | Zustand 5, TanStack Query 5 | Next.js App Router | Supabase SSR, Radix UI, Tailwind CSS 3, Zod 4, Playwright |
-| `uygulamalar/personel` | Dart / Flutter (web + Android) | Riverpod 3.x | GoRouter 17.x | Supabase Flutter 2.x, Firebase, mobile_scanner, local_auth |
 | `supabase/functions` | TypeScript / Deno | — | — | Supabase client, OpenRouter, Resend, FCM |
 
 ---
@@ -71,8 +66,6 @@ yeedoy/
 │   │   └── src/
 │   │       ├── lib/        Server helpers, data fetchers, i18n
 │   │       └── ui/         Client components and sections
-│   └── personel/           Flutter staff tablet app (KDS, orders, loyalty)
-│       └── lib/features/   kds, masa_siparisleri, menu_yonetimi, yorumlar…
 ├── packages/
 │   ├── shared_ui_components/   AppTokens, AppColors, AppDarkColors, brand assets
 │   ├── shared_models/          Pure-Dart models shared across Flutter apps
@@ -216,23 +209,7 @@ SUPABASE_SERVICE_ROLE_KEY=<from supabase status>
 
 Public routes are under `app/(genel)/`. Owner routes are under `app/sahip/`. Admin routes are under `app/yonetici/`.
 
-### 4. Personel (Staff) App
-
-```bash
-cd uygulamalar/personel
-
-flutter pub get
-
-# Run as Flutter web app
-flutter run -d chrome
-
-# Run on Android
-flutter run -d <device-id>
-```
-
-Create `uygulamalar/personel/.env` with the same `SUPABASE_URL` and `SUPABASE_ANON_KEY` values.
-
-### 5. Edge Functions (Local)
+### 4. Edge Functions (Local)
 
 ```bash
 # Serve a single function
@@ -268,7 +245,7 @@ supabase functions deploy ai-menu-analyze --project-ref <project-ref>
 supabase secrets set OPENROUTER_API_KEY=<key>
 ```
 
-### 6. Run Everything Together
+### 5. Run Everything Together
 
 ```bash
 # Terminal 1
@@ -279,9 +256,6 @@ cd uygulamalar/web && npm run dev
 
 # Terminal 3
 cd uygulamalar/mobil && flutter run
-
-# Terminal 4 (if working on staff app)
-cd uygulamalar/personel && flutter run -d chrome
 ```
 
 ---
@@ -314,7 +288,7 @@ All workflows are in `.github/workflows/`.
 | Web Quality | `web_quality.yml` | PR or push to `main` touching `uygulamalar/web/**` or `packages/ui_tokens/**` | `npm ci` → typecheck → lint → unit tests → Playwright E2E → `npm run build` → `npm audit` → RLS coverage check |
 | Web Release Smoke | `web_release_smoke.yml` | Manual (`workflow_dispatch`) | Playwright smoke against production Supabase with configurable business UUID and language |
 
-The `panel_quality.yml` workflow is archived and never runs; it references a Flutter web panel that was replaced by `uygulamalar/web`.
+The former `personel_quality.yml` workflow has been removed along with the `uygulamalar/personel` app (decommissioned — owner/admin operations now live entirely in `uygulamalar/web`).
 
 ---
 
@@ -397,7 +371,6 @@ These cross-app rules are enforced by CI tools and code review:
 
 - Mobile app (`uygulamalar/mobil`) handles: discovery, menus, reviews, favorites, profile, contributions, offline queue, push notifications
 - Web app (`uygulamalar/web`) handles: public SEO menu rendering, QR Studio, branding, owner/admin operations, onboarding, analytics
-- Staff app (`uygulamalar/personel`) handles: KDS, table orders, menu management, reviews, loyalty, QR scanning
 - Do not add owner/admin CRUD surfaces to the mobile app
 - Do not move public SEO menu rendering out of Next.js
 - New Supabase writes must go through a repository layer, not directly from UI code
@@ -415,7 +388,7 @@ Work on feature branches. Open pull requests against `main`. CI runs automatical
 
 Run only the surface you modified:
 
-**Flutter mobile or personel:**
+**Flutter mobile:**
 ```bash
 # From the app directory
 flutter analyze

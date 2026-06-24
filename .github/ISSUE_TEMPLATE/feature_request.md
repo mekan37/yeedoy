@@ -22,7 +22,6 @@ assignees: ''
 <!-- Hangi app'ler etkilenir? -->
 - [ ] uygulamalar/mobil
 - [ ] uygulamalar/web
-- [ ] uygulamalar/personel
 - [ ] supabase/migrations
 - [ ] supabase/functions
 - [ ] packages/*

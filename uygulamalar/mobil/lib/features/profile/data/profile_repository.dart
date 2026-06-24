@@ -28,7 +28,7 @@ class ProfileRepository {
     try {
       final row = await _supabase
           .from('user_profiles')
-          .select('user_id,display_name,social_links')
+          .select('user_id,display_name,social_links,language_code')
           .eq('user_id', uid)
           .single();
       final data = (row as Map).cast<String, dynamic>();
@@ -54,6 +54,7 @@ class ProfileRepository {
         firstName: firstName,
         lastName: lastName,
         displayName: displayName.isEmpty ? null : displayName,
+        languageCode: data['language_code']?.toString(),
         socialLinks: socialLinks,
       );
     } on PostgrestException catch (e) {
@@ -89,6 +90,23 @@ class ProfileRepository {
       'user_id': uid,
       'display_name': displayName.isEmpty ? 'Kullanici' : displayName,
       'social_links': normalizedLinks.isEmpty ? null : normalizedLinks,
+    }, onConflict: 'user_id');
+  }
+
+  Future<void> updateLanguageCode(String? languageCode) async {
+    final uid = _supabase.auth.currentUser?.id;
+    if (uid == null) return;
+
+    final existing = await _supabase
+        .from('user_profiles')
+        .select('display_name')
+        .eq('user_id', uid)
+        .maybeSingle();
+
+    await _supabase.from('user_profiles').upsert({
+      'user_id': uid,
+      'display_name': (existing?['display_name'] as String?) ?? 'Kullanici',
+      'language_code': languageCode,
     }, onConflict: 'user_id');
   }
 

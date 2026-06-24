@@ -3,6 +3,14 @@
 > **Audit Tarihi:** 2026-06-06 | **Denetleyen:** Deployment Engineer
 > **Kapsam:** Push (FCM), Email (Resend), SMS (Netgsm/İleti Merkezi TBD)
 > **Yöntem:** Kod incelemesi, GitHub secrets kontrolü, `.env.local` incelemesi, TS/lint doğrulama
+>
+> **⚠️ Scope Notu (2026-06-24):** Buradaki "delivery" **mesaj teslimatı** (push/e-posta/SMS
+> bildirim altyapısı) anlamındadır; **sipariş/yemek teslimatı (delivery) DEĞİLDİR** — sipariş
+> teslimatı final stratejik karar raporuna göre kapsam dışıdır. Ayrıca owner pazarlama
+> kampanyası UI'ı (push/e-posta/SMS gönderimi) MVP'de pasiftir ve ilgili route'lar redirect
+> stub'a indirilmiştir; bu belgede tarif edilen altyapı (edge function'lar, FCM/Resend
+> entegrasyonu) genel bildirim altyapısı olarak korunur. Bkz.
+> `docs/engineering/2026-yeedoy-nonproduct-leftovers-audit.md`.
 
 Bu belge, üç delivery kanalı için ayrı ayrı tutulan plan dosyalarının (`runtime-delivery-env-status.md`, `push-delivery-integration-plan.md`, `email-delivery-integration-plan.md`, `sms-delivery-integration-plan.md`) birleştirilmiş kanonik halidir; dördü de bu dosyaya taşındı ve silindi.
 

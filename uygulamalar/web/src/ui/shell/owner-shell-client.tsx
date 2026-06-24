@@ -19,10 +19,8 @@ const ownerNavSections: NavSection[] = [
     title: 'Büyüme',
     items: [
       { href: '/owner/analytics', label: 'Analitik', icon: <ChartIcon /> },
-      { href: '/owner/growth', label: 'Büyüme', icon: <TrendingIcon /> },
       { href: '/owner/reviews', label: 'Yorumlar', icon: <StarIcon /> },
       { href: '/owner/qr', label: 'QR Kodlar', icon: <QrIcon /> },
-      { href: '/owner/marketing', label: 'Pazarlama', icon: <MegaphoneIcon /> },
     ],
   },
   {

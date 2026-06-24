@@ -2,7 +2,9 @@
 
 ## 1. Executive Summary
 
-Yeedoy monorepo, Flutter mobil (iOS/Android), Flutter personel (web/Android), Next.js web (public + admin + owner), ve Supabase backend (PostgreSQL + Edge Functions + Realtime) olmak üzere dört runtime katmanından oluşur. Version control stratejisi, bu karmaşık mimariyi koordine ederken kod kalitesini, birleştirme çatışmalarını az tutmak ve üretim dağıtımlarını hızlandırmayı hedefler. Trunk-based development (ana branch yapısı) GitHub Actions CI/CD otomasyonu ile birleştiğinde, risky değişikliklerin (database migration, auth, RLS, public route) ayrı PR'larda yönetilmesini sağlar.
+Yeedoy monorepo, Flutter mobil (iOS/Android), Next.js web (public + admin + owner), ve Supabase backend (PostgreSQL + Edge Functions + Realtime) olmak üzere üç runtime katmanından oluşur. Version control stratejisi, bu karmaşık mimariyi koordine ederken kod kalitesini, birleştirme çatışmalarını az tutmak ve üretim dağıtımlarını hızlandırmayı hedefler. Trunk-based development (ana branch yapısı) GitHub Actions CI/CD otomasyonu ile birleştiğinde, risky değişikliklerin (database migration, auth, RLS, public route) ayrı PR'larda yönetilmesini sağlar.
+
+> **Not (2026-06-24):** `uygulamalar/personel` Flutter uygulaması ürün kapsamından tamamen kaldırıldı. Bu dokümandaki Personel'e özgü branch/scope/CI referansları artık geçersizdir; sadece tarihsel bağlam için bırakılmıştır.
 
 ---
 
@@ -91,16 +93,6 @@ perf/web-[optimization]
 - `fix/web-report-csv-auth-bypass`
 - `refactor/web-admin-table-components-consolidation`
 - `perf/web-menu-image-lazy-load`
-
-### Personel (`uygulamalar/personel`)
-```
-feature/personel-[short-desc]
-fix/personel-[issue]
-refactor/personel-[scope]
-```
-**Örnekler:**
-- `feature/personel-kds-item-filter`
-- `fix/personel-order-hold-state-sync`
 
 ### Supabase Migrations
 ```
@@ -281,7 +273,6 @@ Template `.github/pull_request_template.md` dosyasında mevcuttur. Mevcut (günc
 <!-- Hangi app'ler ve modüller etkilendi? -->
 - [ ] uygulamalar/mobil
 - [ ] uygulamalar/web
-- [ ] uygulamalar/personel
 - [ ] supabase/migrations
 - [ ] supabase/functions
 - [ ] packages/*
@@ -324,7 +315,6 @@ Template `.github/pull_request_template.md` dosyasında mevcuttur. Mevcut (günc
 ## Davranış Değişiklikleri
 - [ ] Public route davranışı değişti (SEO, cache, auth)
 - [ ] Owner/admin panel davranışı değişti
-- [ ] Personel/KDS/sipariş akışı etkilendi
 - [ ] Auth/session akışı değişti
 - [ ] API schema değişti (breaking?)
 
@@ -376,11 +366,10 @@ Hangi yüzey değiştiyse, hangi komutlar MUTLAKA çalışmalı:
 |---|---|---|---|
 | `uygulamalar/mobil/**` | `flutter analyze` | `flutter test` | ✅ Yes |
 | `uygulamalar/web/**` | `npm typecheck` + `npm lint` | `npm build`, `npm audit` | ✅ Yes |
-| `uygulamalar/personel/**` | `flutter analyze` | `flutter test` | ✅ Yes |
 | `supabase/migrations/**` | `supabase db push --local` | `supabase db diff` | ✅ Yes (manual) |
 | `supabase/functions/**` | `supabase functions serve` (smoke) | `npm run build` | ✅ Yes (smoke) |
-| `packages/shared_ui_components/**` | `flutter analyze` (mobil + personel) | — | ✅ Yes |
-| `packages/shared_models/**` | `flutter analyze` (mobil + personel) | — | ✅ Yes |
+| `packages/shared_ui_components/**` | `flutter analyze` (mobil) | — | ✅ Yes |
+| `packages/shared_models/**` | `flutter analyze` (mobil) | — | ✅ Yes |
 | `packages/l10n_assets/**` | `npm run l10n:audit` | — | ✅ Yes |
 | `.github/workflows/**` | YAML lint (local) | `workflow_dispatch` test | 🚧 No |
 | `docs/**` | Link check (manual) | — | ❌ No |
@@ -393,13 +382,6 @@ cd uygulamalar/mobil
 flutter pub get
 flutter analyze
 flutter test test
-```
-
-**Flutter Personel:**
-```bash
-cd uygulamalar/personel
-flutter pub get
-flutter analyze
 ```
 
 **Next.js Web:**
@@ -1222,7 +1204,6 @@ Mevcut aktif workflow'lar:
 | `edge_function_smoke.yml` | Edge functions smoke test | PR migrations, push to main | ✅ Active (2026-05-25) |
 | `web_release_smoke.yml` | Web full build + test | Manual dispatch | ✅ Manual (release öncesi) |
 | `mobile_readiness.yml` | Mobile release readiness | Manual dispatch | ✅ Manual (release öncesi) |
-| `panel_quality.yml` | ~~Flutter web~~ | — | 🗄️ Archived (Next.js'e geçiş) |
 
 **Check adları** (branch protection için gerekli — gerçek check-run isimleri, 2026-06-08 doğrulandı):
 - `web_quality`

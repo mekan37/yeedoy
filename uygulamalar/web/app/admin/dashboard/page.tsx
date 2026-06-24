@@ -16,8 +16,8 @@ export default async function AdminDashboardPage() {
     supabase.from('businesses').select('id', { count: 'exact', head: true }),
     supabase.from('user_profiles').select('id', { count: 'exact', head: true }),
     supabase.from('menus').select('id', { count: 'exact', head: true }),
-    supabase
-      .from('business_ownership_claims')
+    (supabase as any)
+      .from('owner_claims')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'pending'),
   ]);

@@ -25,21 +25,15 @@ const adminNavSections: NavSection[] = [
       { href: '/admin/trash', label: 'Silinmiş Menüler', icon: <TrashIcon /> },
       { href: '/admin/incidents', label: 'Olaylar', icon: <AlertIcon /> },
       { href: '/admin/locations', label: 'Konumlar', icon: <MapPinIcon /> },
-      { href: '/admin/table-feedback', label: 'Masa Geri Bildirimleri', icon: <MessageIcon /> },
     ],
   },
   {
     title: 'Büyüme ve Gelir',
     items: [
       { href: '/admin/analytics', label: 'Analitik', icon: <ChartIcon /> },
-      { href: '/admin/growth', label: 'Büyüme', icon: <TrendingIcon /> },
       { href: '/admin/suggestions', label: 'Öneriler', icon: <LightbulbIcon /> },
       { href: '/admin/price-suggestions', label: 'Fiyat Önerileri', icon: <TagIcon /> },
       { href: '/admin/group-requests', label: 'Grup İstekleri', icon: <LayersIcon /> },
-      { href: '/admin/sponsorships', label: 'Sponsorluklar', icon: <DollarSignIcon /> },
-      { href: '/admin/sponsorship-packages', label: 'Sponsor Paketleri', icon: <PackageIcon /> },
-      { href: '/admin/sponsorship-leads', label: 'Sponsor Adayları', icon: <UserPlusIcon /> },
-      { href: '/admin/b2b-exports', label: 'B2B Dışa Aktarma', icon: <DownloadIcon /> },
     ],
   },
   {

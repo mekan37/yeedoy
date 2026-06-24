@@ -1,35 +1,22 @@
-// Wordmark SVG orijinal boyutu: 1677 × 361 (tam "Yeedoy" yazısı)
-// Y mark SVG orijinal boyutu: 821 × 834 (sadece Y işareti)
-// size prop → yükseklik (px), genişlik aspect ratio'ya göre hesaplanır
+import Image from 'next/image';
 
 type YeedoyLogoProps = {
   /** Logo yüksekliği px cinsinden */
   size?: number;
-  /** true = tam wordmark "Yeedoy", false = sadece Y işareti */
+  /** true = tam wordmark "Yeedoy", false = kare marka işareti */
   showText?: boolean;
   className?: string;
-  /** Açık arkaplan için varsayılan (#111827). Koyu bg için "white" ver. */
+  /** Açık arkaplan için varsayılan. Koyu bg için "white" ver. */
   textColor?: string;
 };
 
-const WORDMARK_W = 1677;
-const WORDMARK_H = 361;
-const MARK_W = 821;
-const MARK_H = 834;
-
-// Wordmark path'leri
-const WORDMARK_MAIN =
-  'M356 51L301 61L218 132L168 205L158 253L159 208L175 173L133 118L132 101L141 94L137 85L99 66L12 65L58 99L132 219L141 258L141 313L131 337L114 350L152 350L170 337L173 297L161 274L169 231L170 270L176 235L180 270L181 231L185 270L189 233L194 275L183 296L189 343L204 350L239 349L222 337L212 311L216 224L287 135L323 73Z M1666 62L1636 62L1608 72L1539 126L1481 198L1468 245L1469 211L1480 186L1436 143L1420 110L1389 99L1318 100L1363 122L1443 220L1452 256L1452 313L1444 335L1426 350L1462 350L1479 339L1483 299L1471 273L1477 231L1478 271L1484 239L1488 271L1489 231L1493 271L1497 234L1502 274L1491 295L1495 339L1511 350L1546 349L1528 336L1519 313L1523 228L1595 142L1628 88Z M360 119L342 150L342 328L338 339L324 350L518 349L529 309L505 329L472 339L401 340L386 330L383 244L411 229L479 230L490 226L500 213L476 219L410 215L384 221L383 148L393 126L415 117L488 120L509 127L527 142L522 112L518 108L387 108Z M596 116L582 129L574 148L574 327L570 339L556 350L751 348L760 309L728 333L696 340L638 341L618 331L614 318L616 242L642 229L711 230L732 213L706 219L641 215L614 220L614 151L620 131L647 117L724 121L744 129L758 143L752 109L619 108Z M792 109L803 114L810 127L810 331L805 341L793 350L925 350L961 345L998 331L1016 319L1036 299L1056 260L1060 240L1060 211L1047 168L1031 146L1016 133L984 117L941 108Z M852 118L915 117L945 121L978 137L1002 166L1016 215L1013 260L994 303L966 329L937 340L921 340L957 321L983 291L997 254L998 219L977 241L925 255L900 268L878 292L868 326L892 301L926 284L890 314L874 340L862 339L854 332L851 324Z M1220 108L1191 113L1167 122L1143 137L1126 153L1111 174L1101 197L1097 215L1097 244L1102 266L1111 286L1125 306L1142 322L1166 337L1184 344L1208 349L1236 350L1282 339L1306 326L1326 309L1341 290L1352 267L1357 247L1358 219L1346 178L1333 158L1313 138L1297 127L1264 113Z M1215 120L1246 123L1274 138L1289 153L1301 171L1311 195L1316 219L1315 260L1308 285L1300 301L1281 322L1257 335L1242 338L1212 336L1192 328L1178 318L1163 302L1154 288L1145 268L1139 244L1139 200L1146 175L1156 156L1180 132L1191 126Z';
-
-const WORDMARK_ACCENT =
-  'M264 10L255 14L244 22L245 24L242 29L240 38L241 43L244 49L253 58L256 64L256 74L251 85L232 105L253 92L260 86L272 71L274 65L274 55L272 48L269 47L259 36L261 36L259 36L257 33L257 22Z M1572 17L1560 23L1552 31L1547 40L1548 55L1551 60L1560 69L1563 76L1563 82L1560 92L1556 98L1538 116L1538 118L1564 100L1576 88L1582 76L1582 65L1573 51L1566 46L1563 38L1564 30Z';
-
-// Y işareti path'leri (showText=false için)
-const MARK_MAIN =
-  'M10 91L116 169L298 498L313 727L292 788L253 823L344 821L376 794L386 690L360 626L372 515L376 619L391 516L398 615L399 515L416 615L419 517L429 621L402 685L410 791L444 821L526 823L488 788L467 725L480 495L734 141L810 90L686 113L520 242L391 406L351 535L358 453L397 366L302 234L311 142L226 93Z';
-
-const MARK_ACCENT =
-  'M629 10L621 12L598 25L586 37L576 55L575 74L579 86L594 104L600 116L600 137L594 152L584 166L564 186L543 203L551 201L551 199L573 187L604 165L624 146L636 128L640 109L637 94L632 86L615 69L609 57L609 40L618 22Z';
+function wordmarkSrc(textColor?: string) {
+  const normalized = textColor?.toLowerCase();
+  if (normalized === 'white' || normalized === '#fff' || normalized === '#ffffff') {
+    return '/logos/yeedoy-wordmark-white.svg';
+  }
+  return '/logos/yeedoy-wordmark.svg';
+}
 
 export function YeedoyLogo({
   size = 40,
@@ -37,56 +24,25 @@ export function YeedoyLogo({
   className,
   textColor,
 }: YeedoyLogoProps) {
-  const isWhite = textColor === 'white' || textColor === '#fff' || textColor === '#ffffff';
+  const src = showText ? wordmarkSrc(textColor) : '/logos/yeedoy-mark.svg';
+  const width = showText ? Math.round(size * (1811 / 566)) : size;
 
-  const mainFill   = isWhite ? 'white' : '#7F1D1D';
-  const accentFill = isWhite ? 'rgba(255,255,255,0.75)' : '#DC2626';
-
-  if (!showText) {
-    // Sadece Y işareti
-    const w = size;
-    const h = Math.round(size * (MARK_H / MARK_W));
-    return (
-      <span
-        className={className}
-        style={{ display: 'inline-flex', alignItems: 'center' }}
-        aria-label="Yeedoy"
-      >
-        <svg
-          width={w}
-          height={h}
-          viewBox={`0 0 ${MARK_W} ${MARK_H}`}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path d={MARK_MAIN}   fill={mainFill}   fillRule="evenodd" />
-          <path d={MARK_ACCENT} fill={accentFill} fillRule="evenodd" />
-        </svg>
-      </span>
-    );
-  }
-
-  // Tam wordmark — "Yeedoy" yazısının tüm harfleri SVG içinde
-  const h = size;
-  const w = Math.round(size * (WORDMARK_W / WORDMARK_H));
   return (
     <span
       className={className}
-      style={{ display: 'inline-flex', alignItems: 'center' }}
+      style={{ display: 'inline-flex', alignItems: 'center', width, height: size }}
       aria-label="Yeedoy"
     >
-      <svg
-        width={w}
-        height={h}
-        viewBox={`0 0 ${WORDMARK_W} ${WORDMARK_H}`}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      <Image
+        src={src}
+        alt=""
+        width={width}
+        height={size}
+        priority={size >= 34}
+        unoptimized
+        style={{ width, height: size, objectFit: 'contain' }}
         aria-hidden="true"
-      >
-        <path d={WORDMARK_MAIN}   fill={mainFill}   fillRule="evenodd" />
-        <path d={WORDMARK_ACCENT} fill={accentFill} fillRule="evenodd" />
-      </svg>
+      />
     </span>
   );
 }

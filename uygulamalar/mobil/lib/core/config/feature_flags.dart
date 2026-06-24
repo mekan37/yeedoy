@@ -7,6 +7,7 @@ class FeatureFlags {
 
   static const bool enablePhotoFeed = false;
   static const bool enableLabs = false;
+  static const bool enableQrAutoCheckin = false;
 }
 
 class FeatureFlagDef {
@@ -36,6 +37,12 @@ const featureFlagDefs = <FeatureFlagDef>[
     description: 'Deneysel ozellikleri ac/kapat.',
     defaultValue: FeatureFlags.enableLabs,
   ),
+  FeatureFlagDef(
+    flag: 'enableQrAutoCheckin',
+    label: 'QR Auto Check-in',
+    description: 'QR menu acilisinda otomatik check-in yazimini ac/kapat.',
+    defaultValue: FeatureFlags.enableQrAutoCheckin,
+  ),
 ];
 
 class FeatureFlagsState {
@@ -58,14 +65,19 @@ class FeatureFlagsState {
     return _value('enableLabs', FeatureFlags.enableLabs);
   }
 
+  bool get enableQrAutoCheckin {
+    return _value('enableQrAutoCheckin', FeatureFlags.enableQrAutoCheckin);
+  }
+
   bool get hasExperimentalNavigation {
     return enablePhotoFeed || enableLabs;
   }
 }
 
-final featureFlagsProvider = NotifierProvider<FeatureFlagsController, FeatureFlagsState>(
-  FeatureFlagsController.new,
-);
+final featureFlagsProvider =
+    NotifierProvider<FeatureFlagsController, FeatureFlagsState>(
+      FeatureFlagsController.new,
+    );
 
 class FeatureFlagsController extends Notifier<FeatureFlagsState> {
   @override

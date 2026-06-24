@@ -3985,6 +3985,42 @@ abstract class AppLocalizations {
   /// **'Mekan'**
   String get budgetComboCategoryVenue;
 
+  /// Auto metadata for smartRecoTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Akıllı Öneri'**
+  String get smartRecoTitle;
+
+  /// Auto metadata for smartRecoSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Bütçene ve kişi sayısına göre en iyi seçenekler'**
+  String get smartRecoSubtitle;
+
+  /// Auto metadata for smartRecoEmptyTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygun işletme bulunamadı'**
+  String get smartRecoEmptyTitle;
+
+  /// Auto metadata for smartRecoEmptyDesc
+  ///
+  /// In tr, this message translates to:
+  /// **'Bütçeni artırarak veya kişi sayısını azaltarak tekrar dene'**
+  String get smartRecoEmptyDesc;
+
+  /// Auto metadata for smartRecoShuffleLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Şansını Dene!'**
+  String get smartRecoShuffleLabel;
+
+  /// Auto metadata for smartRecoShuffleDesc
+  ///
+  /// In tr, this message translates to:
+  /// **'Farklı öneriler göster'**
+  String get smartRecoShuffleDesc;
+
   /// Auto metadata for budgetComboResultsTitle
   ///
   /// In tr, this message translates to:

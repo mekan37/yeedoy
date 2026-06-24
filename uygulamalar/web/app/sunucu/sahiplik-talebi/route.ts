@@ -9,6 +9,7 @@ const schema = z.object({
   phone: z.string().min(1).max(30).transform((s) => s.trim()),
   note: z.string().max(1000).nullish().transform((s) => s?.trim() || null),
   evidenceUrl: z.string().url().nullish().transform((s) => s?.trim() || null),
+  evidencePath: z.string().max(500).nullish().transform((s) => s?.trim() || null),
 });
 
 function ownerClaimErrorMessage(code: unknown): { message: string; status: number } {
@@ -51,7 +52,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Geçersiz veri.' }, { status: 400 });
   }
 
-  const { businessId, fullName, phone, note, evidenceUrl } = parsed.data;
+  const { businessId, fullName, phone, note, evidenceUrl, evidencePath } = parsed.data;
+
+  // Storage path kullanıcının kendi UUID prefix'i dışına işaret edemez —
+  // client'tan gelen serbest metin alanı, ownership iddiası DB seviyesinde
+  // doğrulanmıyor; burada savunma katmanı olarak kontrol ediliyor.
+  const safeEvidencePath =
+    evidencePath && evidencePath.startsWith(`${user.id}/`) ? evidencePath : null;
 
   const supabaseAny = supabase as unknown as {
     rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
@@ -75,6 +82,7 @@ export async function POST(request: NextRequest) {
     p_phone: phone,
     p_evidence_url: evidenceUrl,
     p_note: note,
+    p_evidence_storage_path: safeEvidencePath,
   });
 
   if (error) {

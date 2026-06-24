@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/components/panel-empty-state';
+import { attachEvidenceSignedUrls } from '@/src/lib/storage/claim-evidence-signed-urls';
 import { ClaimsTable } from './claims-table';
 
 export const metadata: Metadata = {
@@ -15,17 +16,18 @@ export default async function AdminClaimsPage() {
 
   // Use any[] since this table may not be in the typed schema yet
   const { data: claims } = await (supabase as any)
-    .from('business_ownership_claims')
+    .from('owner_claims')
     .select(
-      'id, status, created_at, ' +
+      'id, status, created_at, evidence_storage_path, ' +
       'businesses(id, name, slug), ' +
-      'user_profiles(id, display_name, email)',
+      'user_profiles(user_id, display_name)',
     )
     .order('created_at', { ascending: true })
     .limit(100);
 
-  const pending = (claims ?? []).filter((c: any) => c.status === 'pending');
-  const recent = (claims ?? []).filter((c: any) => c.status !== 'pending').slice(0, 20);
+  const enrichedClaims = await attachEvidenceSignedUrls(supabase, claims ?? []);
+  const pending = enrichedClaims.filter((c) => c.status === 'pending');
+  const recent = enrichedClaims.filter((c) => c.status !== 'pending').slice(0, 20);
 
   return (
     <div className="flex flex-col">
@@ -47,7 +49,7 @@ export default async function AdminClaimsPage() {
                 description="Tüm talepler işlendi."
               />
             ) : (
-              <ClaimsTable claims={pending} />
+              <ClaimsTable claims={pending as any} />
             )}
           </PanelSectionCard>
 
@@ -56,7 +58,7 @@ export default async function AdminClaimsPage() {
               title="Son İşlenenler"
               description="En son onaylanan / reddedilen talepler"
             >
-              <ClaimsTable claims={recent} compact />
+              <ClaimsTable claims={recent as any} compact />
             </PanelSectionCard>
           )}
         </div>

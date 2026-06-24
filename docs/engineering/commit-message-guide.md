@@ -59,7 +59,6 @@ type(scope): açıklama [issue]
 **App'lar:**
 - `mobile` — `uygulamalar/mobil`
 - `web` — `uygulamalar/web`
-- `personel` — `uygulamalar/personel`
 
 **Backend:**
 - `supabase` — SQL migrations, genel
@@ -231,7 +230,6 @@ Body'yi aşağıdaki durumlarda yaz:
    Etkilenen callerlar:
    - mobile: lib/features/reviews/data/reviews_deposu.dart
    - web: src/lib/reviews.ts
-   - personel: lib/features/reviews/data/reviews_deposu.dart
    
    Tüm callerlar update edildi (backward compat).
    ```

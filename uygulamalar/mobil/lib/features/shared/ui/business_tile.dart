@@ -4,7 +4,6 @@ import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../business/domain/meal_card_provider_option.dart';
 import '../../../features/shared/ui/design_system.dart';
-import '../../../features/sponsorluk/ui/sponsored_badge.dart';
 import 'components/open_price_badge.dart';
 import 'widgets/meal_card_badge.dart';
 
@@ -22,7 +21,6 @@ class BusinessTile extends StatelessWidget {
     this.trailingAction,
     this.onWhyTap,
     this.mealCardProviders = const [],
-    this.isSponsored = false,
     this.isOpenNow,
     this.medianPriceCents,
     this.priceLevel,
@@ -39,9 +37,6 @@ class BusinessTile extends StatelessWidget {
   final Widget? trailingAction;
   final VoidCallback? onWhyTap;
   final List<MealCardProviderOption> mealCardProviders;
-
-  /// When true, renders a [SponsoredBadge] beneath the business name row.
-  final bool isSponsored;
 
   /// Open/closed status from the RPC response. Null means unknown — badge is
   /// hidden. False means closed, true means open.
@@ -181,10 +176,6 @@ class BusinessTile extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 6),
-                if (isSponsored) ...[
-                  const SponsoredBadge(),
-                  const SizedBox(height: 4),
-                ],
                 if (isOpenNow != null || priceLevelSymbol(priceLevel, medianPriceCents) != null) ...[
                   OpenPriceBadgeRow(
                     isOpenNow: isOpenNow,

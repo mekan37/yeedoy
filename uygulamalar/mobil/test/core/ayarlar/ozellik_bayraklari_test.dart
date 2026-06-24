@@ -7,6 +7,8 @@ void main() {
       final state = FeatureFlagsState.empty();
       expect(state.enablePhotoFeed, FeatureFlags.enablePhotoFeed);
       expect(state.enableLabs, FeatureFlags.enableLabs);
+      expect(state.enableQrAutoCheckin, FeatureFlags.enableQrAutoCheckin);
+      expect(state.enableQrAutoCheckin, isFalse);
       expect(state.hasExperimentalNavigation, isFalse);
     });
 
@@ -15,10 +17,12 @@ void main() {
         localFlags: {
           'enablePhotoFeed': true,
           'enableLabs': false,
+          'enableQrAutoCheckin': true,
         },
       );
       expect(state.enablePhotoFeed, isTrue);
       expect(state.enableLabs, isFalse);
+      expect(state.enableQrAutoCheckin, isTrue);
       expect(state.hasExperimentalNavigation, isTrue);
     });
   });

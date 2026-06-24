@@ -5,7 +5,6 @@
 <!-- Hangi app'ler ve modüller etkilendi? -->
 - [ ] uygulamalar/mobil
 - [ ] uygulamalar/web
-- [ ] uygulamalar/personel
 - [ ] supabase/migrations
 - [ ] supabase/functions
 - [ ] packages/*
@@ -48,7 +47,6 @@
 ## Davranış Değişiklikleri
 - [ ] Public route davranışı değişti (SEO, cache, auth)
 - [ ] Owner/admin panel davranışı değişti
-- [ ] Personel/KDS/sipariş akışı etkilendi
 - [ ] Auth/session akışı değişti
 - [ ] API schema değişti (breaking?)
 

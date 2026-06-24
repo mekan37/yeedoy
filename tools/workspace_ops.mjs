@@ -50,51 +50,28 @@ function run(command, args, options = {}) {
 
 function cleanWorkspace() {
   [
-    "apps/web_next/.next",
-    "apps/web_next/node_modules/.cache",
-    "apps/mobile_flutter/build",
-    "apps/mobile_flutter/.dart_tool",
-    "apps/panel_flutter_web/build",
-    "apps/panel_flutter_web/.dart_tool",
+    "uygulamalar/web/.next",
+    "uygulamalar/web/node_modules/.cache",
+    "uygulamalar/mobil/build",
+    "uygulamalar/mobil/.dart_tool",
   ].forEach(removeIfExists);
 }
 
-function buildOwner() {
-  run(
-    flutterCmd,
-    ["build", "web", "--release", "--target", "lib/main_web_owner.dart", "--base-href", "/owner/"],
-    { cwd: abs("apps/panel_flutter_web") },
-  );
-  removeIfExists("deploy/owner");
-  ensureDir("deploy/owner");
-  copyDir("apps/panel_flutter_web/build/web", "deploy/owner");
-}
-
-function buildAdmin() {
-  run(
-    flutterCmd,
-    ["build", "web", "--release", "--target", "lib/main_web_admin.dart", "--base-href", "/admin/"],
-    { cwd: abs("apps/panel_flutter_web") },
-  );
-  removeIfExists("deploy/admin");
-  ensureDir("deploy/admin");
-  copyDir("apps/panel_flutter_web/build/web", "deploy/admin");
-}
 
 function buildNext() {
-  run(npmCmd, ["--prefix", "apps/web_next", "run", "build"]);
+  run(npmCmd, ["--prefix", "uygulamalar/web", "run", "build"]);
   removeIfExists("deploy/next");
   ensureDir("deploy/next");
-  copyDir("apps/web_next/.next", "deploy/next/.next");
-  if (existsSync(abs("apps/web_next/public"))) {
-    copyDir("apps/web_next/public", "deploy/next/public");
+  copyDir("uygulamalar/web/.next", "deploy/next/.next");
+  if (existsSync(abs("uygulamalar/web/public"))) {
+    copyDir("uygulamalar/web/public", "deploy/next/public");
   }
-  copyFile("apps/web_next/package.json", "deploy/next/package.json");
-  copyFile("apps/web_next/next.config.mjs", "deploy/next/next.config.mjs");
+  copyFile("uygulamalar/web/package.json", "deploy/next/package.json");
+  copyFile("uygulamalar/web/next.config.mjs", "deploy/next/next.config.mjs");
 }
 
 function printUsage() {
-  console.log("Usage: node tools/workspace_ops.mjs <clean|build-owner|build-admin|build-next|build-all>");
+  console.log("Usage: node tools/workspace_ops.mjs <clean|build-next>");
 }
 
 const command = process.argv[2];
@@ -103,18 +80,7 @@ switch (command) {
   case "clean":
     cleanWorkspace();
     break;
-  case "build-owner":
-    buildOwner();
-    break;
-  case "build-admin":
-    buildAdmin();
-    break;
   case "build-next":
-    buildNext();
-    break;
-  case "build-all":
-    buildOwner();
-    buildAdmin();
     buildNext();
     break;
   default:

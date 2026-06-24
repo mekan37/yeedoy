@@ -8,6 +8,8 @@ interface Claim {
   id: string;
   status: string;
   created_at: string;
+  evidence_storage_path?: string | null;
+  evidence_signed_url?: string | null;
   businesses: { id: string; name: string; slug: string | null } | null;
   user_profiles: { user_id: string; display_name: string | null; email?: string | null } | null;
 }
@@ -32,6 +34,7 @@ export function ClaimsTable({ claims, compact }: Props) {
             <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
             <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">Talep Eden</th>
             <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+            <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">Kanıt</th>
             <th className="py-2 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
             {!compact && <th className="py-2 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem</th>}
           </tr>
@@ -55,7 +58,7 @@ function ClaimRow({ claim, compact }: { claim: Claim; compact?: boolean }) {
   if (done) {
     return (
       <tr>
-        <td colSpan={5} className="py-2 text-xs text-muted italic">İşlendi</td>
+        <td colSpan={6} className="py-2 text-xs text-muted italic">İşlendi</td>
       </tr>
     );
   }
@@ -85,6 +88,20 @@ function ClaimRow({ claim, compact }: { claim: Claim; compact?: boolean }) {
         <p className="text-xs text-muted">{claim.user_profiles?.email ?? '—'}</p>
       </td>
       <td className="py-2.5 pr-4 text-xs text-muted">{date}</td>
+      <td className="py-2.5 pr-4 text-xs">
+        {claim.evidence_signed_url ? (
+          <a
+            href={claim.evidence_signed_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-[700] text-[color:var(--yd-color-primary)] hover:underline"
+          >
+            Belgeyi Görüntüle
+          </a>
+        ) : (
+          <span className="text-muted">—</span>
+        )}
+      </td>
       <td className="py-2.5">
         <span className={`rounded-full px-2 py-0.5 text-[11px] font-[800] ${statusConfig.className}`}>
           {statusConfig.label}

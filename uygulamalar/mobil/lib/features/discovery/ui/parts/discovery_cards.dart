@@ -358,22 +358,6 @@ class _SerendipityCard extends StatelessWidget {
   }
 }
 
-class _SponsoredSkeleton extends StatelessWidget {
-  const _SponsoredSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        AppSkeletonCard(),
-        SizedBox(height: 10),
-        AppSkeletonCard(),
-        SizedBox(height: 6),
-      ],
-    );
-  }
-}
-
 class _TodayPickCard extends StatelessWidget {
   const _TodayPickCard({required this.item, required this.onRetry});
 

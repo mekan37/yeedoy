@@ -31,7 +31,7 @@ If junction breaks on fresh clone, recreate with: `New-Item -ItemType Junction -
 
 ## Known render warns
 
-None — all 27 components render cleanly.
+- `[FONT_DANGLING] "flexing"` — `@font-face` için `/fonts/flexing-black.ttf` bulunamadı. `runtimeFontPrefixes`'e kayıtlı olduğu için runtime-loaded; bundle'a dahil değil. Validator uyarısı non-blocking, ihmal edilebilir.
 
 ## Authored previews (6 components)
 

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/analytics/analytics_repository.dart';
+import '../../../core/assets/category_assets.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
@@ -61,10 +62,11 @@ class _SmartRecommendationPageState
       budgetMaxCents: _selectedRange.maxCents,
     );
 
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        const SafeArea(bottom: false, child: AppTopBar()),
+    return Material(
+      color: AppColors.bg,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
           child: Column(
@@ -99,6 +101,7 @@ class _SmartRecommendationPageState
         _ResultsSection(query: query),
         const SizedBox(height: 24),
       ],
+    ),
     );
   }
 }
@@ -291,7 +294,12 @@ class _SmartBusinessCard extends ConsumerWidget {
                               width: 100,
                               height: 80,
                             )
-                          : Container(color: AppColors.cardAlt),
+                          : Image.asset(
+                              CategoryAssets.resolve(item.cuisine),
+                              width: 100,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     if (item.discountPct != null)
                       Positioned(
@@ -443,7 +451,7 @@ class _ShuffleTile extends ConsumerWidget {
             source: 'smart_reco',
           );
           ref.read(smartRecoRepositoryProvider).clearReadCache();
-          ref.refresh(smartRecoProvider(query));
+          ref.invalidate(smartRecoProvider(query));
         },
         borderRadius: BorderRadius.circular(16),
         child: Padding(

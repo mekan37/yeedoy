@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import { attachEvidenceSignedUrls } from '@/src/lib/storage/claim-evidence-signed-urls';
 import { ClaimsTable } from './itiraz-tablosu';
 
 export const metadata: Metadata = {
@@ -16,15 +17,16 @@ export default async function AdminClaimsPage() {
   const { data: claims } = await (supabase as any)
     .from('owner_claims')
     .select(
-      'id, status, created_at, ' +
+      'id, status, created_at, evidence_storage_path, ' +
       'businesses(id, name, slug), ' +
       'user_profiles(user_id, display_name)',
     )
     .order('created_at', { ascending: true })
     .limit(100);
 
-  const pending = (claims ?? []).filter((c: any) => c.status === 'pending');
-  const recent = (claims ?? []).filter((c: any) => c.status !== 'pending').slice(0, 20);
+  const enrichedClaims = await attachEvidenceSignedUrls(supabase, claims ?? []);
+  const pending = enrichedClaims.filter((c) => c.status === 'pending');
+  const recent = enrichedClaims.filter((c) => c.status !== 'pending').slice(0, 20);
 
   return (
     <div className="flex flex-col">
@@ -46,7 +48,7 @@ export default async function AdminClaimsPage() {
                 description="Tüm talepler işlendi."
               />
             ) : (
-              <ClaimsTable claims={pending} />
+              <ClaimsTable claims={pending as any} />
             )}
           </PanelBolumKarti>
 
@@ -55,7 +57,7 @@ export default async function AdminClaimsPage() {
               title="Son İşlenenler"
               description="En son onaylanan / reddedilen talepler"
             >
-              <ClaimsTable claims={recent} compact />
+              <ClaimsTable claims={recent as any} compact />
             </PanelBolumKarti>
           )}
         </div>

@@ -144,7 +144,6 @@ class _DiscoveryMapPageState extends ConsumerState<_DiscoveryMapPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _DiscoveryTopBar(),
                 _DiscoveryGreetingHeader(subtitle: t.mapGreetingSubtitle),
                 Container(
                   decoration: BoxDecoration(
