@@ -8,10 +8,8 @@ import '../../../core/location/user_location_controller.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
-import '../domain/creator_profile_provider.dart';
 import '../domain/favorite_collections_count_provider.dart';
 import '../domain/moat_signals_provider.dart';
-import '../domain/profile_progress_provider.dart';
 import '../domain/profile_stats_provider.dart';
 import '../domain/reputation_provider.dart';
 import '../domain/user_moat_signals.dart';
@@ -39,16 +37,12 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
     final t = AppLocalizations.of(context);
     final user = ref.watch(userProvider);
     final reputationAsync = ref.watch(myReputationScoreProvider);
-    final progressAsync = ref.watch(myProfileProgressProvider);
-    final creatorAsync = ref.watch(creatorProfileProvider);
     final moatSignalsAsync = ref.watch(myMoatSignalsProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
         ref.invalidate(myProfileStatsProvider);
         ref.invalidate(myReputationScoreProvider);
-        ref.invalidate(myProfileProgressProvider);
-        ref.invalidate(creatorProfileProvider);
         ref.invalidate(myMoatSignalsProvider);
       },
       child: ListView(
@@ -71,23 +65,8 @@ class _ProfileTabState extends ConsumerState<_ProfileTab> {
             ),
             const SizedBox(height: 12),
           ],
-          // ── İçerik Üretici Rozeti ────────────────────────────────────
-          creatorAsync.when(
-            loading: () => const SizedBox.shrink(),
-            error: (_, _) => const SizedBox.shrink(),
-            data: (creator) => _CreatorBadgeCard(
-              isCreator: creator.isCreator,
-              enabled: user != null,
-              onChanged: (v) =>
-                  ref.read(creatorProfileControllerProvider).setIsCreator(v),
-            ),
-          ),
-          const SizedBox(height: 12),
-          // ── Güven & İlerleme ─────────────────────────────────────────
-          _CommunityTrustCard(
-            reputationAsync: reputationAsync,
-            progressAsync: progressAsync,
-          ),
+          // ── Güven ─────────────────────────────────────────────────────
+          _CommunityTrustCard(reputationAsync: reputationAsync),
           const SizedBox(height: 12),
           // ── Katkı Profili ────────────────────────────────────────────
           moatSignalsAsync.when(
@@ -178,7 +157,6 @@ class _CardRow extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.trailing,
-    this.bottom,
   });
 
   final IconData icon;
@@ -187,7 +165,6 @@ class _CardRow extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? trailing;
-  final Widget? bottom;
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +214,6 @@ class _CardRow extends StatelessWidget {
                 ?trailing,
               ],
             ),
-            if (bottom != null) ...[const SizedBox(height: 10), bottom!],
           ],
         ),
       ),
@@ -261,76 +237,16 @@ Widget _statusBadge(String label, Color color) => Container(
   ),
 );
 
-// ── İçerik Üretici Rozeti ─────────────────────────────────────────────────────
-
-class _CreatorBadgeCard extends StatelessWidget {
-  const _CreatorBadgeCard({
-    required this.isCreator,
-    required this.enabled,
-    required this.onChanged,
-  });
-
-  final bool isCreator;
-  final bool enabled;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return _SectionCardShell(
-      children: [
-        _CardHeader(
-          icon: Icons.workspace_premium_rounded,
-          iconColor: const Color(0xFFD97706),
-          iconBg: const Color(0xFFFEF3C7),
-          title: 'İçerik Üretici Rozeti',
-          trailing: Switch(
-            value: isCreator,
-            onChanged: enabled ? onChanged : null,
-            activeThumbColor: AppColors.primary,
-            activeTrackColor: AppColors.primary.withValues(alpha: 0.35),
-          ),
-        ),
-        const Divider(height: 1, color: AppColors.border),
-        _CardRow(
-          icon: isCreator ? Icons.verified_rounded : Icons.info_outline_rounded,
-          iconColor:
-              isCreator ? AppColors.success : AppColors.muted,
-          iconBg:
-              isCreator
-                  ? AppColors.success.withValues(alpha: 0.1)
-                  : AppColors.border.withValues(alpha: 0.5),
-          title: isCreator ? 'Rozet Aktif' : 'Rozet Kapalı',
-          subtitle: isCreator
-              ? 'Toplulukta içerik üreticisi olarak görünüyorsun'
-              : 'Etkinleştirerek profilinde öne çık',
-          trailing: _statusBadge(
-            isCreator ? 'Aktif' : 'Kapalı',
-            isCreator ? AppColors.success : AppColors.muted,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ── Güven & İlerleme ──────────────────────────────────────────────────────────
+// ── Güven ─────────────────────────────────────────────────────────────────────
 
 class _CommunityTrustCard extends StatelessWidget {
-  const _CommunityTrustCard({
-    required this.reputationAsync,
-    required this.progressAsync,
-  });
+  const _CommunityTrustCard({required this.reputationAsync});
 
   final AsyncValue<int> reputationAsync;
-  final AsyncValue<dynamic> progressAsync;
 
   @override
   Widget build(BuildContext context) {
     final score = reputationAsync.asData?.value ?? 0;
-    final progress = progressAsync.asData?.value;
-    final xpRatio = progress == null || progress.nextLevelXp == 0
-        ? 0.0
-        : (progress.xpInLevel / progress.nextLevelXp).clamp(0.0, 1.0);
 
     return _SectionCardShell(
       children: [
@@ -338,7 +254,7 @@ class _CommunityTrustCard extends StatelessWidget {
           icon: Icons.shield_outlined,
           iconColor: AppColors.info,
           iconBg: AppColors.info.withValues(alpha: 0.1),
-          title: 'Güven & İlerleme',
+          title: 'Güven',
           trailing: IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -367,27 +283,6 @@ class _CommunityTrustCard extends StatelessWidget {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : _statusBadge('%$score', AppColors.info),
-        ),
-        const Divider(height: 1, color: AppColors.border),
-        _CardRow(
-          icon: Icons.star_rounded,
-          iconColor: const Color(0xFFD97706),
-          iconBg: const Color(0xFFFEF3C7),
-          title: progress == null
-              ? 'Seviye —'
-              : 'Seviye ${progress.level}',
-          subtitle: progress == null
-              ? 'Hesaplanıyor…'
-              : '${progress.totalXp} XP toplam  •  ${progress.xpInLevel}/${progress.nextLevelXp} sonraki seviye',
-          bottom: ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: LinearProgressIndicator(
-              value: xpRatio,
-              minHeight: 6,
-              backgroundColor: AppColors.border,
-              color: const Color(0xFFD97706),
-            ),
-          ),
         ),
       ],
     );
