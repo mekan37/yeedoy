@@ -28,10 +28,7 @@ const ownerNavSections: NavSection[] = [
     items: [
       { href: '/owner/team', label: 'Ekip', icon: <UsersIcon /> },
       { href: '/owner/price-suggestions', label: 'Fiyat Önerileri', icon: <TagIcon /> },
-      { href: '/owner/requests', label: 'Grup İstekleri', icon: <GroupIcon /> },
-      { href: '/owner/suspended', label: 'Askıya Alma', icon: <GiftIcon /> },
       { href: '/owner/activity', label: 'Aktivite', icon: <ActivityIcon /> },
-      { href: '/owner/ai-analysis', label: 'AI Analizi', icon: <BrainIcon /> },
       { href: '/owner/trash', label: 'Çöp Kutusu', icon: <TrashIcon /> },
       { href: '/owner/settings', label: 'Ayarlar', icon: <SettingsIcon /> },
     ],

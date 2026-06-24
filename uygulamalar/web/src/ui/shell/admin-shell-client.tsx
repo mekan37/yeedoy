@@ -33,7 +33,6 @@ const adminNavSections: NavSection[] = [
       { href: '/admin/analytics', label: 'Analitik', icon: <ChartIcon /> },
       { href: '/admin/suggestions', label: 'Öneriler', icon: <LightbulbIcon /> },
       { href: '/admin/price-suggestions', label: 'Fiyat Önerileri', icon: <TagIcon /> },
-      { href: '/admin/group-requests', label: 'Grup İstekleri', icon: <LayersIcon /> },
     ],
   },
   {
