@@ -10,7 +10,6 @@ import '../../../core/analytics/app_events.dart';
 import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/errors/app_error_mapper.dart';
-import '../../../features/shared/ui/achievements/achievement_visuals.dart';
 import '../domain/inbox_models.dart';
 import '../domain/inbox_provider.dart';
 import '../domain/push_notification_service.dart';
@@ -240,8 +239,6 @@ Widget _buildInboxTile({
 }
 
 String _messageForInboxItem(BuildContext context, InboxItem item) {
-  final t = AppLocalizations.of(context);
-
   if (item.type == 'favorite_price_changed') {
     final prevCents = (item.meta['previous_price_cents'] as num?)?.toInt();
     final newCents = (item.meta['matched_price_cents'] as num?)?.toInt();
@@ -253,16 +250,7 @@ String _messageForInboxItem(BuildContext context, InboxItem item) {
     return item.message;
   }
 
-  if (item.type != 'achievement_unlocked') return item.message;
-  final xp = (item.meta['xp'] as num?)?.toInt();
-  final level = (item.meta['level'] as num?)?.toInt();
-  final leveledUp = item.meta['leveled_up'] == true;
-  final parts = <String>[item.message];
-  if (xp != null && xp > 0) parts.add(t.inboxXpGain(xp));
-  if (level != null && level > 0) {
-    parts.add(leveledUp ? t.inboxNewLevel(level) : t.inboxLevel(level));
-  }
-  return parts.join(' • ');
+  return item.message;
 }
 
 
@@ -438,11 +426,6 @@ _InboxVisual _visualFor(InboxItem item) {
         icon: Icons.flag_outlined,
         color: AppColors.warning,
       );
-    case 'achievement_unlocked':
-      final achievementId =
-          (item.meta['achievement_id'] ?? item.meta['id'] ?? '').toString();
-      final visual = appAchievementVisualForId(achievementId);
-      return _InboxVisual(icon: visual.icon, color: visual.color);
     case 'nearby_trending':
       return const _InboxVisual(
         icon: Icons.local_fire_department_outlined,

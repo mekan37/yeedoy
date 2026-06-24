@@ -56,8 +56,6 @@ import '../../../core/growth/funnel_tracker.dart';
 import '../../../core/perf/firebase_perf_trace.dart';
 import '../../ads/data/native_ad_controller.dart';
 import '../../ads/ui/native_ad_card.dart';
-import '../../profile/domain/profile_progress_provider.dart';
-import '../../profile/domain/profile_progress.dart';
 import '../../contribute/ui/contribute_entry.dart';
 import '../../business/domain/meal_card_providers_provider.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';

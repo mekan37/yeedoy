@@ -450,8 +450,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                               layout: _categoryLayout,
                             ),
                             const SizedBox(height: 12),
-                            const _V4GrowthHubCard(),
-                            const SizedBox(height: 14),
                             if (flags.hasExperimentalNavigation) ...[
                               const _DiscoveryLabsHubCard(),
                               const SizedBox(height: 12),
