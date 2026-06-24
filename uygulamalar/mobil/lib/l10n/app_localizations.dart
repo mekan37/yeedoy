@@ -722,6 +722,12 @@ abstract class AppLocalizations {
   /// **'Merhaba 👋'**
   String get discoveryGreetingHelloAnon;
 
+  /// Short greeting shown above page titles on favorites/profile home headers
+  ///
+  /// In tr, this message translates to:
+  /// **'Merhaba! 👋'**
+  String get homeGreetingHelloExclaim;
+
   /// Auto metadata for discoveryGreetingSubtitle
   ///
   /// In tr, this message translates to:

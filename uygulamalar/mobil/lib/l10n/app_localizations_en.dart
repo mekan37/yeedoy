@@ -348,6 +348,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoveryGreetingHelloAnon => 'Hi 👋';
 
   @override
+  String get homeGreetingHelloExclaim => 'Hi! 👋';
+
+  @override
   String get discoveryGreetingSubtitle => 'What do you feel like eating today?';
 
   @override

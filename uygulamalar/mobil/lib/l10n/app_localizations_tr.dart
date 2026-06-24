@@ -348,6 +348,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get discoveryGreetingHelloAnon => 'Merhaba 👋';
 
   @override
+  String get homeGreetingHelloExclaim => 'Merhaba! 👋';
+
+  @override
   String get discoveryGreetingSubtitle => 'Bugün ne yemek istersin?';
 
   @override

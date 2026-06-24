@@ -1137,7 +1137,7 @@ class _FavoritesHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Merhaba! 👋',
+            t.homeGreetingHelloExclaim,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.muted,
             ),

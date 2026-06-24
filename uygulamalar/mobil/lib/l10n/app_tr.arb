@@ -474,6 +474,10 @@
   "@discoveryGreetingHelloAnon": {
     "description": "Auto metadata for discoveryGreetingHelloAnon"
   },
+  "homeGreetingHelloExclaim": "Merhaba! 👋",
+  "@homeGreetingHelloExclaim": {
+    "description": "Short greeting shown above page titles on favorites/profile home headers"
+  },
   "discoveryGreetingSubtitle": "Bugün ne yemek istersin?",
   "@discoveryGreetingSubtitle": {
     "description": "Auto metadata for discoveryGreetingSubtitle"
