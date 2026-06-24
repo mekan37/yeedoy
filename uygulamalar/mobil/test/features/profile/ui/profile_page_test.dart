@@ -105,23 +105,36 @@ void main() {
         await _pumpProfilePage(tester);
 
         expect(find.text(t.profileHomeTitle), findsOneWidget);
-        expect(find.text(t.discoveryGreetingHelloAnon), findsOneWidget);
+        // The page renders a static greeting "Merhaba! 👋" (not the
+        // discoveryGreetingHelloAnon l10n key) above profileHomeTitle.
+        expect(find.text('Merhaba! 👋'), findsOneWidget);
 
+        // Quick actions grid: Favorilerim, Yorumlarım, Bildirim Kutusu, Profil Ayarları.
         expect(find.text(t.profileQuickActionsTitle), findsOneWidget);
         expect(find.text(t.profileQuickActionFavorites), findsOneWidget);
-        expect(find.text(t.profileQuickActionPriceAlerts), findsOneWidget);
-        expect(find.text(t.profileQuickActionFeed), findsOneWidget);
+        expect(find.text('Yorumlarım'), findsOneWidget);
+        expect(find.text(t.drawerInbox), findsOneWidget);
+        // profileSettings label appears twice: once in the quick actions
+        // grid, once in the account list below.
         expect(find.text(t.profileSettings), findsNWidgets(2));
 
+        // Account list: section title + literal-string rows (Adreslerim,
+        // Bildirim Tercihleri, Yardım ve Destek) — no "Hesap Güvenliği" row
+        // in the current design.
         expect(find.text(t.profileAccountSectionTitle), findsOneWidget);
-        expect(find.text(t.profileAccountSecurityTitle), findsOneWidget);
-        expect(find.text(t.profileAccountSecuritySubtitle), findsOneWidget);
+        expect(find.text('Adreslerim'), findsOneWidget);
+        expect(find.text('Bildirim Tercihleri'), findsOneWidget);
+        expect(find.text('Yardım ve Destek'), findsOneWidget);
 
-        // Badges banner is hidden for guests (myProfileProgressProvider is null).
+        // Badges banner concept no longer exists on this page; nothing to
+        // assert here other than the absence of legacy l10n strings.
         expect(find.text(t.profileBadgesBannerTitle), findsNothing);
 
-        // Location row is hidden when there is no device location.
-        expect(find.byIcon(Icons.location_on_outlined), findsNothing);
+        // Location row (above the stats row) is hidden when there is no
+        // device location. The "Adreslerim" account-list row also uses the
+        // location_on_outlined icon, so we assert there is exactly one
+        // instance (the account-list row) rather than asserting absence.
+        expect(find.byIcon(Icons.location_on_outlined), findsOneWidget);
       },
     );
 
