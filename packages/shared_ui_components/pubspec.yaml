@@ -14,6 +14,12 @@ flutter:
   assets:
     - assets/brand/yeedoy-icon.svg
     - assets/brand/yeedoy-mark-transparent.svg
+    - assets/brand/yeedoy-splash-logo.svg
     - assets/brand/yeedoy-wordmark.svg
+    - assets/brand/yeedoy-wordmark-dark.svg
+    - assets/brand/yeedoy-wordmark-red.svg
+    - assets/brand/yeedoy-wordmark-white.svg
     - assets/brand/yeedoy-icon.png
     - assets/brand/yeedoy-mark-transparent.png
+    - assets/brand/yeedoy-splash-logo.png
+    - assets/brand/yeedoy-wordmark.png
