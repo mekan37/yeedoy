@@ -1,37 +1,7 @@
-import { z } from 'zod';
 import { NextResponse } from 'next/server';
-import { rateLimit } from '@/src/lib/oran-siniri';
-import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
-const schema = z.object({
-  businessId: z.string().uuid(),
-  name: z.string().min(2).max(60).transform((s) => s.trim()),
-  stampsNeeded: z.number().int().min(3).max(20),
-  rewardDesc: z.string().min(3).max(100).transform((s) => s.trim()),
-});
-
-export async function POST(request: Request) {
-  const body = await request.json().catch(() => null);
-  const parsed = schema.safeParse(body);
-  if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
-
-  const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-
-  const rl = rateLimit(`sadakat:${user.id}`, 5, 3_600_000); // 5/hour
-  if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-
-  const { data, error } = await supabaseAny.rpc('create_loyalty_program_v1', {
-    p_business_id: parsed.data.businessId,
-    p_name: parsed.data.name,
-    p_stamps_needed: parsed.data.stampsNeeded,
-    p_reward_desc: parsed.data.rewardDesc,
-  });
-
-  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
-  if (!data?.ok) return NextResponse.json({ error: data?.error }, { status: 403 });
-
-  return NextResponse.json({ ok: true, programId: data.program_id });
+// MVP scope dışı: sadakat programı (loyalty) kapsam dışı bırakıldı
+// (docs/engineering/2026-yeedoy-final-forbidden-scope-sweep.md). Kill-switch.
+export async function POST() {
+  return NextResponse.json({ error: 'feature_disabled' }, { status: 410 });
 }

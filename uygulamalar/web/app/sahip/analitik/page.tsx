@@ -52,7 +52,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     ? await getYogunSaatler(businessIds[0])
     : [];
 
-  const [menuViewsRes, qrScansRes, whatsappRes, siparisRes, gunlukOlaylar] = await Promise.all([
+  const [menuViewsRes, qrScansRes, whatsappRes, gunlukOlaylar] = await Promise.all([
     businessIds.length > 0
       ? supabase
           .from('analytics_events')
@@ -77,14 +77,6 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
           .eq('event_name', 'whatsapp_click')
           .gte('created_at', since)
       : Promise.resolve({ count: 0 }),
-    // Sipariş geliri — son aralik
-    businessIds.length > 0
-      ? (supabase as any)
-          .from('table_order_items')
-          .select('price, quantity, created_at')
-          .in('business_id', businessIds)
-          .gte('created_at', since)
-      : Promise.resolve({ data: [] }),
     // Günlük event sayıları (trend grafiği için)
     businessIds.length > 0
       ? (supabase as any)
@@ -95,10 +87,6 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
           .limit(5000)
       : Promise.resolve({ data: [] }),
   ]);
-
-  // Sipariş geliri hesapla
-  const siparisItems = (siparisRes.data ?? []) as Array<{ price: number; quantity: number; created_at: string }>;
-  const toplamGelir = siparisItems.reduce((s, r) => s + (r.price ?? 0) * (r.quantity ?? 1), 0);
 
   // Günlük trend verisi
   const olaylar = (gunlukOlaylar.data ?? []) as Array<{ created_at: string; event_name: string }>;
@@ -137,7 +125,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     { title: 'Menü Görüntüleme',  value: menuViewsRes.count ?? 0,  subtitle: etiket, icon: <EyeIcon /> },
     { title: 'QR Tarama',         value: qrScansRes.count ?? 0,    subtitle: etiket, icon: <QrIcon /> },
     { title: 'WhatsApp Tıklama',  value: whatsappRes.count ?? 0,   subtitle: etiket, icon: <PhoneIcon /> },
-    { title: 'Toplam Gelir',      value: `₺${toplamGelir.toFixed(0)}`, subtitle: etiket, icon: <TLIcon /> },
+    { title: 'İşletme Sayısı',    value: businessIds.length,       subtitle: etiket, icon: <BuildingIcon /> },
   ];
 
   return (
@@ -254,14 +242,6 @@ function BuildingIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><path d="M9 22V12h6v10" />
-    </svg>
-  );
-}
-
-function TLIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="7" y1="5" x2="17" y2="5" /><line x1="7" y1="12" x2="14" y2="12" /><path d="M9 5v14" /><path d="M14 12v4a2 2 0 0 0 2 2h1" />
     </svg>
   );
 }

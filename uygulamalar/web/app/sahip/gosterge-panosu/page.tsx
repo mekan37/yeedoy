@@ -47,13 +47,13 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const since7d = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
   const since30d = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
-  const [menusRes, ordersRes, reviewsRes, views7d, views30d] = await Promise.all([
+  const [menusRes, qrScans30dRes, reviewsRes, views7d, views30d] = await Promise.all([
     bizIds.length > 0
       ? (supabase as any).from('menus').select('id', { count: 'exact', head: true }).in('business_id', bizIds) as Promise<{ count: number | null }>
       : Promise.resolve({ count: 0 }),
     bizIds.length > 0
-      ? (supabase as any).from('table_orders').select('id, total_amount, created_at', { count: 'exact' }).in('business_id', bizIds).gte('created_at', since30d).order('created_at')
-      : Promise.resolve({ data: [], count: 0 }),
+      ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'qr_scan').gte('created_at', since30d)
+      : Promise.resolve({ count: 0 }),
     bizIds.length > 0
       ? (supabase as any).from('business_reviews').select('id', { count: 'exact', head: true }).in('business_id', bizIds).gte('created_at', since7d)
       : Promise.resolve({ count: 0 }),
@@ -67,19 +67,19 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
 
   const businessCount = bizIds.length;
   const menuCount = menusRes.count ?? 0;
-  const orderList = (ordersRes as any).data ?? [];
-  const totalRevenue30d = orderList.reduce((s: number, o: any) => s + (o.total_amount ?? 0), 0);
+  const qrScanCount30d = qrScans30dRes.count ?? 0;
   const reviewCount7d = reviewsRes.count ?? 0;
   const viewCount7d = views7d.count ?? 0;
   const viewCount30d = views30d.count ?? 0;
 
-  // Daily revenue for last 14 days sparkline
+  // Daily QR scan counts for last 14 days sparkline
   const since14d = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
-  const { data: revenueByDay } = bizIds.length > 0
+  const { data: qrScansByDay } = bizIds.length > 0
     ? await (supabase as any)
-        .from('table_orders')
-        .select('created_at, total_amount')
+        .from('analytics_events')
+        .select('created_at')
         .in('business_id', bizIds)
+        .eq('event_name', 'qr_scan')
         .gte('created_at', since14d)
     : { data: [] };
 
@@ -89,9 +89,9 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
     const d = new Date(Date.now() - i * 86400000);
     dailyMap[d.toISOString().slice(0, 10)] = 0;
   }
-  for (const o of (revenueByDay ?? [])) {
-    const day = (o.created_at as string).slice(0, 10);
-    if (day in dailyMap) dailyMap[day] = (dailyMap[day] ?? 0) + (o.total_amount ?? 0);
+  for (const e of (qrScansByDay ?? [])) {
+    const day = (e.created_at as string).slice(0, 10);
+    if (day in dailyMap) dailyMap[day] = (dailyMap[day] ?? 0) + 1;
   }
   const dailyValues = Object.values(dailyMap);
   const sparkPath = sparklinePath(dailyValues, 300, 60);
@@ -117,8 +117,6 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   }
   const viewDays = Object.entries(viewMap);
   const maxViews = Math.max(...viewDays.map(([, v]) => v), 1);
-
-  const pendingOrderCount = orderList.filter((o: any) => o.status === 'pending').length;
 
   return (
     <div className="flex flex-col">
@@ -167,17 +165,17 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <MetricCard title="İşletmeler" value={businessCount} icon={<BuildingIcon />} />
             <MetricCard title="Menüler" value={menuCount} icon={<MenuIcon />} />
-            <MetricCard title="Son 30 Gün Gelir" value={`₺${Math.round(totalRevenue30d).toLocaleString('tr-TR')}`} icon={<TLIcon />} />
+            <MetricCard title="Son 30 Gün QR Tarama" value={qrScanCount30d} icon={<QrIcon />} />
             <MetricCard title="Son 7 Gün Yorum" value={reviewCount7d} icon={<StarIcon />} />
           </div>
 
-          {/* Revenue sparkline + view bar chart side by side */}
+          {/* QR scan sparkline + view bar chart side by side */}
           <div className="grid gap-4 lg:grid-cols-2">
-            {/* Revenue trend */}
-            <PanelBolumKarti title="Gelir Trendi (Son 14 Gün)">
+            {/* QR scan trend */}
+            <PanelBolumKarti title="QR Tarama Trendi (Son 14 Gün)">
               <div className="flex flex-col gap-2">
-                <p className="text-2xl font-[900] text-primary">₺{Math.round(totalRevenue30d).toLocaleString('tr-TR')}</p>
-                <p className="text-xs text-muted">Son 30 gün toplam sipariş geliri</p>
+                <p className="text-2xl font-[900] text-primary">{qrScanCount30d.toLocaleString('tr-TR')}</p>
+                <p className="text-xs text-muted">Son 30 gün toplam QR taraması</p>
                 {sparkPath ? (
                   <svg viewBox="0 0 300 60" className="mt-2 w-full overflow-visible" preserveAspectRatio="none">
                     <defs>
@@ -190,7 +188,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
                     <path d={sparkPath} fill="none" stroke="var(--yd-color-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 ) : (
-                  <p className="mt-4 text-sm text-muted">Sipariş verisi yok</p>
+                  <p className="mt-4 text-sm text-muted">QR tarama verisi yok</p>
                 )}
               </div>
             </PanelBolumKarti>
@@ -225,10 +223,10 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
           <PanelBolumKarti title="Hızlı Erişim">
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {[
-                { href: '/sahip/siparisler', label: `Siparişler ${pendingOrderCount > 0 ? `(${pendingOrderCount} bekliyor)` : ''}`, color: pendingOrderCount > 0 ? 'text-orange-600' : '' },
                 { href: '/sahip/yorumlar', label: `Yorumlar (${reviewCount7d} yeni)`, color: reviewCount7d > 0 ? 'text-blue-600' : '' },
                 { href: '/sahip/analitik', label: 'Analitik', color: '' },
                 { href: '/sahip/envanter', label: 'Envanter', color: '' },
+                { href: '/sahip/menuler', label: 'Menüler', color: '' },
               ].map(a => (
                 <a
                   key={a.href}
@@ -266,11 +264,10 @@ function MenuIcon() {
   );
 }
 
-function TLIcon() {
+function QrIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="2" x2="12" y2="22" />
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
     </svg>
   );
 }
