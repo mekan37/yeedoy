@@ -1,92 +1,129 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { AppSectionHeader } from '@/src/ui/bilesenler/uygulama-bolum-basligi';
-import { BusinessTile } from '@/src/ui/bilesenler/isletme-karti';
+import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 
-export const revalidate = 300;
-
-type Props = { params: Promise<{ slug: string }> };
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const supabase = await createSupabaseServerClient();
-  const { data } = await (supabase as any).from('business_chains').select('name, description').eq('slug', slug).single() as { data: { name: string; description: string | null } | null };
-  return {
-    title: data ? `${data.name} | Yeedoy` : 'Zincir | Yeedoy',
-    description: data?.description ?? undefined,
-  };
+interface ChainBranch {
+  chain_id: string;
+  chain_name: string;
+  chain_description: string | null;
+  business_id: string;
+  business_name: string;
+  branch_label: string | null;
+  city: string;
+  district: string;
+  address: string | null;
+  is_open_now: boolean | null;
+  distance_km: number | null;
+  avg_price_cents: number | null;
+  chain_avg_price_cents: number | null;
+  price_delta_pct: number | null;
 }
 
-export default async function ChainPage({ params }: Props) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnySupabase = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createSupabaseServerClient();
+  const { data } = await (supabase as unknown as AnySupabase).rpc('get_chain_overview_v2', {
+    p_chain_id: slug,
+    p_limit: 1,
+  });
+  const name = (data as ChainBranch[] | null)?.[0]?.chain_name ?? 'Zincir';
+  return { title: `${name} | Yeedoy` };
+}
+
+export default async function ZincirPage(
+  { params }: { params: Promise<{ slug: string }> }
+) {
   const { slug } = await params;
   const supabase = await createSupabaseServerClient();
 
-  type Chain = { id: string; name: string; description: string | null; logo_url: string | null };
-  type BizRow = { id: string; name: string; slug: string; city: string | null; category: string | null; is_verified: boolean };
+  const { data, error } = await (supabase as unknown as AnySupabase).rpc('get_chain_overview_v2', {
+    p_chain_id: slug,
+    p_limit: 50,
+  });
 
-  let chain: Chain | null = null;
-  let branches: BizRow[] = [];
-
-  try {
-    const { data, error } = await (supabase as any)
-      .from('business_chains').select('id, name, description, logo_url').eq('slug', slug).single() as { data: Chain | null; error: any };
-    if (error?.code === '42P01' || !data) notFound();
-    chain = data;
-    const { data: bizData } = await (supabase as any)
-      .from('businesses').select('id, name, slug, city, category, is_verified').eq('chain_id', chain!.id).eq('is_active', true).order('name') as { data: BizRow[] | null };
-    branches = bizData ?? [];
-  } catch {
+  if (error || !data || (data as ChainBranch[]).length === 0) {
     notFound();
   }
 
+  const branches = data as ChainBranch[];
+  const chainName = branches[0].chain_name;
+  const chainDescription = branches[0].chain_description;
+
   return (
-    <main className="min-h-screen bg-bg">
-      <div className="mx-auto max-w-3xl px-4 pb-16 py-10">
-
-        {/* Back */}
-        <Link href="/kesif"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-primary">
-          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-          Keşfete Dön
-        </Link>
-
-        {/* Chain header */}
-        <div className="mb-8 flex items-center gap-5">
-          {chain?.logo_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={chain.logo_url} alt={chain.name} className="h-20 w-20 shrink-0 rounded-[18px] border border-border object-cover shadow-yd1" loading="eager" />
-          ) : (
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[18px] text-3xl font-[900] text-white shadow-yd1"
-              style={{ background: 'var(--yd-gradient-primary)' }}>
-              {chain?.name[0]}
-            </div>
+    <div className="min-h-screen bg-bg">
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        {/* Header */}
+        <div className="mb-6">
+          <p className="text-xs font-[700] uppercase tracking-wide text-muted mb-1">Zincir İşletme</p>
+          <h1 className="text-2xl font-[900] text-textStrong">{chainName}</h1>
+          {chainDescription && (
+            <p className="mt-2 text-sm text-muted">{chainDescription}</p>
           )}
-          <div className="min-w-0">
-            <h1 className="font-display text-3xl font-[900] text-textStrong">{chain?.name}</h1>
-            {chain?.description && <p className="mt-1 text-sm leading-relaxed text-muted">{chain.description}</p>}
-          </div>
+          <p className="mt-1 text-sm text-muted">{branches.length} şube</p>
         </div>
 
-        {/* Branches */}
-        <AppSectionHeader title={`${branches.length} Şube`} className="mb-4" />
-
-        {branches.length === 0 ? (
-          <div className="rounded-[20px] border border-border bg-card p-10 text-center text-muted">
-            Bu zincire ait şube bulunamadı.
-          </div>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {branches.map((biz) => (
-              <BusinessTile key={biz.id} slug={biz.slug} name={biz.name}
-                subtitle={biz.city ?? undefined} category={biz.category ?? undefined}
-                isVerified={biz.is_verified} />
-            ))}
-          </div>
-        )}
+        {/* Şube listesi */}
+        <div className="flex flex-col gap-3">
+          {branches.map((branch) => (
+            <div
+              key={branch.business_id}
+              className="rounded-xl border border-border bg-card p-4 flex flex-col gap-2"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-base font-[800] text-textStrong">
+                      {branch.business_name}
+                    </span>
+                    {branch.branch_label && (
+                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-[700] text-primary">
+                        {branch.branch_label}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted mt-0.5">
+                    {branch.district}, {branch.city}
+                  </p>
+                  {branch.address && (
+                    <p className="text-xs text-muted mt-0.5">{branch.address}</p>
+                  )}
+                </div>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  {branch.is_open_now !== null && (
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-[700] ${
+                        branch.is_open_now
+                          ? 'bg-green-50 text-green-700'
+                          : 'bg-red-50 text-red-600'
+                      }`}
+                    >
+                      {branch.is_open_now ? 'Açık' : 'Kapalı'}
+                    </span>
+                  )}
+                  {branch.price_delta_pct !== null &&
+                    Math.abs(Number(branch.price_delta_pct)) >= 1 && (
+                      <span
+                        className={`text-[11px] font-[700] ${
+                          Number(branch.price_delta_pct) > 0
+                            ? 'text-red-500'
+                            : 'text-green-600'
+                        }`}
+                      >
+                        {Number(branch.price_delta_pct) > 0 ? '+' : ''}
+                        {Math.round(Number(branch.price_delta_pct))}% fiyat
+                      </span>
+                    )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
-
