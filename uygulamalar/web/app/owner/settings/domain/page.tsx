@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/components/panel-empty-state';
+import { DomainVerifyCard } from '@/src/ui/bilesenler/domain-verify-card';
 
 export const metadata: Metadata = {
   title: 'Özel Domain | Owner Panel',
@@ -38,25 +39,18 @@ export default async function OwnerSettingsDomainPage() {
           <div className="flex flex-col gap-4">
             {list.map((b) => (
               <PanelSectionCard key={b.id} title={b.name}>
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <p className="text-xs font-[700] uppercase tracking-wide text-muted mb-1">Mevcut Domain</p>
-                    {b.custom_domain ? (
-                      <div className="flex items-center gap-2">
-                        <span className="rounded-lg border border-green-200 bg-green-50 px-3 py-1.5 text-sm font-[700] text-green-700">
-                          {b.custom_domain}
-                        </span>
-                        <span className="rounded-full bg-green-50 px-2 py-0.5 text-[11px] font-[800] text-green-700">
-                          Aktif
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-sm text-muted">Özel domain tanımlanmamış</span>
-                    )}
-                  </div>
-                  <div className="rounded-lg border border-border bg-zinc-50 px-4 py-3 text-xs text-muted">
-                    Domain ekleme ve doğrulama özellikleri yakında aktif olacak. Ekibimizle iletişime geçin.
-                  </div>
+                <div className="flex flex-col gap-4">
+                  {b.custom_domain && (
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-lg border border-green-200 bg-green-50 px-3 py-1.5 text-sm font-[700] text-green-700">
+                        {b.custom_domain}
+                      </span>
+                      <span className="rounded-full bg-green-50 px-2 py-0.5 text-[11px] font-[800] text-green-700">
+                        Aktif
+                      </span>
+                    </div>
+                  )}
+                  <DomainVerifyCard businessId={b.id} currentDomain={b.custom_domain} />
                 </div>
               </PanelSectionCard>
             ))}
