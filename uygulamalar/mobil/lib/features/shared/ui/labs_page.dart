@@ -19,13 +19,6 @@ class LabsPage extends ConsumerWidget {
     final entries = <_LabsEntry>[
       if (flags.enablePhotoFeed)
         _LabsEntry(
-          title: t.drawerFeed,
-          subtitle: t.drawerExperimental,
-          route: '/feed',
-          icon: Icons.dynamic_feed_outlined,
-        ),
-      if (flags.enablePhotoFeed)
-        _LabsEntry(
           title: t.drawerGourmets,
           subtitle: t.drawerExperimental,
           route: '/gourmets',
