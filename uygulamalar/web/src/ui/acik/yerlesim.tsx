@@ -211,6 +211,7 @@ export function PublicFooter() {
             <Link href="/yasal/terms" className="hover:text-primary">Kullanım Şartları</Link>
             <Link href="/gizlilik" className="hover:text-primary">Gizlilik Politikası</Link>
             <Link href="/yardim" className="hover:text-primary">Yardım</Link>
+            <Link href="/destek" className="hover:text-primary">Destek</Link>
           </div>
         </div>
       </Container>

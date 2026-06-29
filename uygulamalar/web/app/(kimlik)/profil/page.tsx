@@ -40,10 +40,11 @@ const NAV_LINKS = [
   { href: '/takip', label: 'Takip Ettiklerim', icon: 'users' },
   { href: '/ortak-listeler', label: 'Kolaborasyon Listeleri', icon: 'list' },
   { href: '/grup-istekleri', label: 'Grup Talepleri', icon: 'people' },
-  { href: '/oneriler', label: 'Önerilerim', icon: 'lightbulb' },
+  { href: '/onerilerim', label: 'Önerilerim', icon: 'lightbulb' },
   { href: '/gelen-kutusu', label: 'Bildirimler', icon: 'bell' },
   { href: '/diyet-profili', label: 'Diyet Tercihlerim', icon: 'leaf' },
   { href: '/bildirim-ayarlari', label: 'Bildirim Ayarları', icon: 'bell' },
+  { href: '/hesap-sil', label: 'Hesabımı Sil', icon: 'trash' },
 ];
 
 const FEED_LINKS = [
