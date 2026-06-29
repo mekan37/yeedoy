@@ -453,6 +453,17 @@ class _ProfileAccountList extends StatelessWidget {
               const Divider(height: 1, color: AppColors.border),
               ListTile(
                 leading: const Icon(
+                  Icons.restaurant_menu_outlined,
+                  color: AppColors.primary,
+                ),
+                title: const Text('Diyet Profilim'),
+                subtitle: const Text('Beslenme tercih ve alerjilerini belirt'),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => context.push('/diet-profile'),
+              ),
+              const Divider(height: 1, color: AppColors.border),
+              ListTile(
+                leading: const Icon(
                   Icons.notifications_outlined,
                   color: AppColors.primary,
                 ),
