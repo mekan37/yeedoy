@@ -53,6 +53,8 @@ import '../../reviews/domain/reviews_provider.dart';
 import '../../reviews/ui/review_create_form.dart';
 import '../../menus/data/offline_verify_queue.dart';
 import '../../menus/ui/widgets/price_suggestion_sheet.dart';
+import '../data/business_chain_repository.dart';
+import '../domain/chain_info.dart';
 
 part 'sections/business_detail_sections.dart';
 part 'parts/business_models.dart';
@@ -309,6 +311,16 @@ final _businessTrustProvider =
       );
     });
 
+final _chainInfoProvider =
+    FutureProvider.autoDispose.family<ChainInfo?, String>((
+      ref,
+      businessId,
+    ) async {
+      return ref
+          .watch(businessChainRepositoryProvider)
+          .fetchChainInfo(businessId);
+    });
+
 class BusinessPage extends ConsumerStatefulWidget {
   const BusinessPage({super.key, required this.businessId});
   final String businessId;
@@ -469,6 +481,66 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
           );
         },
       ),
+    );
+  }
+}
+
+class _ChainBand extends ConsumerWidget {
+  const _ChainBand({required this.businessId});
+  final String businessId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final chainAsync = ref.watch(_chainInfoProvider(businessId));
+    return chainAsync.when(
+      data: (info) {
+        if (info == null) return const SizedBox.shrink();
+        final tokens = AppTokens.of(context);
+        return GestureDetector(
+          onTap: () => context.push('/chain/${info.chainId}'),
+          child: Container(
+            margin: EdgeInsets.only(bottom: tokens.space12),
+            padding: EdgeInsets.symmetric(
+              horizontal: tokens.space16,
+              vertical: tokens.space12,
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.primary.withValues(alpha: 0.18),
+              ),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.store_mall_directory_outlined,
+                  size: 18,
+                  color: AppColors.primary,
+                ),
+                SizedBox(width: tokens.space8),
+                Expanded(
+                  child: Text(
+                    'Bu işletme ${info.chainName} zincirinin parçasıdır',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right,
+                  size: 16,
+                  color: AppColors.primary,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (e, _) => const SizedBox.shrink(),
     );
   }
 }

@@ -125,6 +125,7 @@ class _BusinessGeneralTab extends ConsumerWidget {
       child: ListView(
         padding: padding,
         children: [
+          _ChainBand(businessId: business.id),
           _BusinessFeaturedSection(business: business),
           _BusinessPopularDishesSection(business: business),
           _BusinessLocationHoursSection(
