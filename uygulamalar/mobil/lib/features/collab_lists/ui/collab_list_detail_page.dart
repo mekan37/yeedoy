@@ -193,6 +193,18 @@ class _DetailBody extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
           ],
+          if (items.isNotEmpty) ...[
+            OutlinedButton.icon(
+              onPressed: () => context.push('/grup-oy/${detail.list.inviteToken}'),
+              icon: const Icon(Icons.how_to_vote_outlined, size: 18),
+              label: const Text('Grup Oyuna Geç'),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppColors.primary,
+                side: const BorderSide(color: AppColors.primary),
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
           if (items.isEmpty)
             Center(
               child: AppEmptyState(
