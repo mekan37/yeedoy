@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import AkilliAkisIstemcisi from '@/src/ui/bolumler/akilli-akis-istemcisi';
+import type { SmartFeedEvent } from '@/src/ui/bolumler/akilli-akis-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'Yeedoy',
+  title: 'Akıllı Akış | Yeedoy',
   robots: { index: false, follow: false },
 };
 
-// MVP scope dışı: sosyal/akıllı akış final stratejik karar raporuna göre
-// (docs/research/2026-yeedoy-stratejik-karar-raporu.md §7 P2) kapsam dışıdır.
-// Sayfa silinmedi, sadece erişilemez hale getirildi.
-export default function SmartFeedPage(): never {
-  redirect('/kesif');
+export default async function AkilliAkisPage() {
+  const supabase = await createSupabaseServerClient();
+  const { data } = (await (supabase as any).rpc('get_smart_feed_v2', {
+    p_limit: 20,
+    p_offset: 0,
+  })) as { data: SmartFeedEvent[] | null };
+  return <AkilliAkisIstemcisi initialItems={data ?? []} />;
 }
