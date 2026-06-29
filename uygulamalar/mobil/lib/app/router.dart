@@ -42,6 +42,7 @@ import '../features/support/ui/faq_page.dart';
 import '../features/location/ui/location_picker_page.dart';
 import '../features/contribute/ui/contribute_page.dart';
 import '../features/reviews/ui/business_reviews_page.dart';
+import '../features/reviews/ui/my_reviews_page.dart';
 import '../features/reviews/ui/review_create_page.dart';
 import '../features/smart_feed/ui/smart_feed_page.dart';
 import '../features/splash/ui/splash_page.dart';
@@ -115,6 +116,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path.startsWith('/following') ||
           path.startsWith('/taste-twin') ||
           path.startsWith('/my-suspended') ||
+          path.startsWith('/my-reviews') ||
           path.startsWith('/group-requests') ||
           path.startsWith('/collab-lists');
 
@@ -142,8 +144,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       }
 
       final photoFeedRoute =
-          path == '/feed' ||
-          path.startsWith('/feed/') ||
           path == '/gourmets' ||
           path.startsWith('/gourmets/') ||
           path == '/following' ||
@@ -487,6 +487,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/dev-tools',
         builder: (c, s) => const DeveloperToolsPage(),
+      ),
+      GoRoute(
+        path: '/my-reviews',
+        builder: (c, s) => const MyReviewsPage(),
       ),
       GoRoute(
         path: '/my-suggestions',

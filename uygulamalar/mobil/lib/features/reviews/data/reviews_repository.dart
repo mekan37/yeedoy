@@ -10,6 +10,7 @@ import '../../../core/storage/offline_mutation_idempotency.dart';
 import '../../../core/storage/offline_submission_queue.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../domain/my_review_entry.dart';
 import '../domain/review.dart';
 import '../domain/review_catalog.dart';
 import '../domain/review_rating_summary.dart';
@@ -237,6 +238,22 @@ class ReviewsRepository {
       result[map['review_id'] as String] = map;
     }
     return result;
+  }
+
+  /// Fetches reviews written by [userId], joined with the business name.
+  Future<List<MyReviewEntry>> fetchMyReviews(String userId) async {
+    final res = await client
+        .from('reviews')
+        .select(
+          'id, business_id, rating, title, content, status, created_at, '
+          'businesses(name)',
+        )
+        .eq('user_id', userId)
+        .order('created_at', ascending: false)
+        .limit(50);
+    return (res as List)
+        .map((e) => MyReviewEntry.fromMap(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<Set<String>> listMyVotedReviewIds({

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/reviews_repository.dart';
+import '../domain/my_review_entry.dart';
 import '../domain/review.dart';
 import '../domain/review_rating_summary.dart';
 
@@ -29,5 +30,11 @@ final businessReviewPhotosProvider =
 final reviewRepliesBatchProvider = FutureProvider.autoDispose.family<
     Map<String, Map<String, dynamic>>, List<String>>((ref, reviewIds) async {
   return ref.read(reviewsRepositoryProvider).fetchReplyBatch(reviewIds);
+});
+
+/// Fetches all reviews written by the given user ID.
+final myReviewsProvider =
+    FutureProvider.autoDispose.family<List<MyReviewEntry>, String>((ref, userId) async {
+  return ref.read(reviewsRepositoryProvider).fetchMyReviews(userId);
 });
 

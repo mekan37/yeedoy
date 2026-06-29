@@ -369,7 +369,15 @@ class _ProfileQuickActionsGrid extends StatelessWidget {
               child: _QuickActionTile(
                 icon: Icons.chat_bubble_outline_rounded,
                 label: 'Yorumlarım',
-                onTap: () {/* TODO: navigate to reviews */},
+                onTap: () => context.push('/my-reviews'),
+              ),
+            ),
+            SizedBox(width: tokens.space8),
+            Expanded(
+              child: _QuickActionTile(
+                icon: Icons.dynamic_feed_outlined,
+                label: 'Akıllı Akış',
+                onTap: () => context.go('/feed'),
               ),
             ),
             SizedBox(width: tokens.space8),
