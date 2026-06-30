@@ -267,10 +267,17 @@ class _BusinessMenuTab extends StatelessWidget {
   }
 }
 
-class _BusinessReviewsTab extends StatelessWidget {
+class _BusinessReviewsTab extends StatefulWidget {
   const _BusinessReviewsTab({required this.businessId});
 
   final String businessId;
+
+  @override
+  State<_BusinessReviewsTab> createState() => _BusinessReviewsTabState();
+}
+
+class _BusinessReviewsTabState extends State<_BusinessReviewsTab> {
+  bool _showForm = false;
 
   @override
   Widget build(BuildContext context) {
@@ -286,22 +293,55 @@ class _BusinessReviewsTab extends StatelessWidget {
       child: ListView(
         padding: padding,
         children: [
-          Text(
-            t.reviewCreateHeroTitle,
-            style: const TextStyle(
-              fontWeight: FontWeight.w900,
-              color: AppColors.textStrong,
-              fontSize: 16,
-            ),
+          // Yorum yaz butonu veya açık form
+          AnimatedSize(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeInOut,
+            alignment: Alignment.topCenter,
+            child: _showForm
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              t.reviewCreateHeroTitle,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.textStrong,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () =>
+                                setState(() => _showForm = false),
+                            icon: const Icon(Icons.keyboard_arrow_up),
+                            tooltip: t.cancel,
+                            visualDensity: VisualDensity.compact,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: tokens.space8),
+                      ReviewCreateForm(businessId: widget.businessId),
+                    ],
+                  )
+                : OutlinedButton.icon(
+                    onPressed: () => setState(() => _showForm = true),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(48),
+                    ),
+                    icon: const Icon(Icons.rate_review_outlined),
+                    label: Text(t.writeReview),
+                  ),
           ),
-          SizedBox(height: tokens.space8),
-          ReviewCreateForm(businessId: businessId),
           SizedBox(height: tokens.space20),
-          BusinessReviewsSection(businessId: businessId),
+          BusinessReviewsSection(businessId: widget.businessId),
           SizedBox(height: tokens.space16),
-          BusinessReviewPhotosSection(businessId: businessId),
+          BusinessReviewPhotosSection(businessId: widget.businessId),
           SizedBox(height: tokens.space16),
-          BusinessFrequentTagsSection(businessId: businessId),
+          BusinessFrequentTagsSection(businessId: widget.businessId),
         ],
       ),
     );
