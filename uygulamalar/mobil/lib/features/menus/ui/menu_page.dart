@@ -20,7 +20,6 @@ import '../../../core/network/supabase_provider.dart';
 import '../../../core/perf/firebase_perf_trace.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
-import '../../../features/shared/ui/components/community_score_explainer_sheet.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
 import '../../../features/shared/ui/components/weather_hint_bar.dart';
 import '../../auth/domain/auth_providers.dart';
@@ -461,11 +460,6 @@ class _MenuPageState extends ConsumerState<MenuPage>
                         ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 12),
-                  const CommunityScoreGuideCard(
-                    kind: CommunityScoreKind.dataTrust,
-                    margin: EdgeInsets.zero,
                   ),
                   const SizedBox(height: 20),
                   _MenuCategoryTabs(sections: orderedSections),

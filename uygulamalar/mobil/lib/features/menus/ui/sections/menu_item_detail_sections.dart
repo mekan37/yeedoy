@@ -447,38 +447,20 @@ class _PriceStatusCard extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              // Fiyat güncelle
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton.icon(
-                    onPressed: () => showCommunityScoreExplainerSheet(
-                      context,
-                      kind: CommunityScoreKind.dataTrust,
-                    ),
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppColors.muted,
-                      visualDensity: VisualDensity.compact,
-                    ),
-                    icon: const Icon(Icons.info_outline, size: 14),
-                    label: Text(
-                      t.communityScoreExplainAction,
-                      style: const TextStyle(fontSize: 12),
-                    ),
+              const SizedBox(height: 4),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: onUpdate,
+                  style: TextButton.styleFrom(
+                    visualDensity: VisualDensity.compact,
                   ),
-                  TextButton.icon(
-                    onPressed: onUpdate,
-                    style: TextButton.styleFrom(
-                      visualDensity: VisualDensity.compact,
-                    ),
-                    icon: const Icon(Icons.edit_outlined, size: 14),
-                    label: Text(
-                      t.suggestNewPrice,
-                      style: const TextStyle(fontSize: 12),
-                    ),
+                  icon: const Icon(Icons.edit_outlined, size: 14),
+                  label: Text(
+                    t.suggestNewPrice,
+                    style: const TextStyle(fontSize: 12),
                   ),
-                ],
+                ),
               ),
             ],
           );
@@ -1277,13 +1259,25 @@ class _DataTrustBar extends StatelessWidget {
         Row(
           children: [
             Icon(Icons.shield_outlined, size: 14, color: barColor),
-            const SizedBox(width: 6),
+            const SizedBox(width: 5),
             Text(
               isTr ? 'Veri güveni' : 'Data trust',
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textStrong,
+              ),
+            ),
+            const SizedBox(width: 2),
+            GestureDetector(
+              onTap: () => showCommunityScoreExplainerSheet(
+                context,
+                kind: CommunityScoreKind.dataTrust,
+              ),
+              child: const Icon(
+                Icons.help_outline_rounded,
+                size: 13,
+                color: AppColors.muted,
               ),
             ),
             const Spacer(),
