@@ -529,38 +529,43 @@ class BusinessPerksSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
     final perksAsync = ref.watch(businessPerksProvider(businessId));
-    final hasPerks = perksAsync.asData?.value.isNotEmpty ?? false;
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return perksAsync.when(
+      loading: () => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
+      data: (perks) {
+        if (perks.isEmpty) return const SizedBox.shrink();
+        return AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Text(
-                  t.activeCampaigns,
-                  style: const TextStyle(fontWeight: FontWeight.w900),
-                ),
-              ),
-              if (hasPerks)
-                TextButton(
-                  onPressed: () => context.push(
-                    Uri(
-                      path: '/perks/$businessId',
-                      queryParameters: {'name': businessName},
-                    ).toString(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      t.activeCampaigns,
+                      style: const TextStyle(fontWeight: FontWeight.w900),
+                    ),
                   ),
-                  child: const Text('Tümünü gör'),
-                ),
+                  TextButton(
+                    onPressed: () => context.push(
+                      Uri(
+                        path: '/perks/$businessId',
+                        queryParameters: {'name': businessName},
+                      ).toString(),
+                    ),
+                    child: const Text('Tümünü gör'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              _PerksSummaryLine(businessId: businessId),
+              _AmenitiesSummaryLine(businessId: businessId),
+              _CheckinsSummaryLine(businessId: businessId),
+              _NewItemsSummaryLine(businessId: businessId),
             ],
           ),
-          const SizedBox(height: 8),
-          _PerksSummaryLine(businessId: businessId),
-          _AmenitiesSummaryLine(businessId: businessId),
-          _CheckinsSummaryLine(businessId: businessId),
-          _NewItemsSummaryLine(businessId: businessId),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -134,7 +134,6 @@ class _BusinessGeneralTab extends ConsumerWidget {
           ),
           _BusinessRecentReviewsSection(businessId: business.id),
           _BusinessPresenceBadge(businessId: business.id),
-          const WeatherHintBar(compact: true),
           SizedBox(height: tokens.space16),
           trustAsync.when(
             loading: () => const AppSkeletonCard(),
@@ -206,7 +205,9 @@ class _BusinessGeneralTab extends ConsumerWidget {
                         : trust.lastPriceVerifiedPeople,
                   ),
                   SizedBox(height: tokens.space16),
-                  _PriceHistorySection(points: trust.priceChanges3m),
+                  if (trust.priceChanges3m.isNotEmpty &&
+                      trust.priceChanges3m.any((v) => v > 0))
+                    _PriceHistorySection(points: trust.priceChanges3m),
                 ],
               );
             },

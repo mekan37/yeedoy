@@ -25,7 +25,6 @@ import '../../../features/shared/ui/components/community_score_explainer_sheet.d
 import '../domain/business_detail_controller.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
-import '../../../features/shared/ui/components/weather_hint_bar.dart';
 import '../../shared/ui/widgets/report_bottom_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../discovery/data/discovery_repository.dart';
