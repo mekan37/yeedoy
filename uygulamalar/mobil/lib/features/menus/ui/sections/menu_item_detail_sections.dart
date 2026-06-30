@@ -355,19 +355,17 @@ class _PriceStatusCard extends ConsumerWidget {
               _formatPriceFromCents(context, priceCents) ??
               _formatPrice(context, item.price);
           final badge = _statusBadge(status.status, t);
-          final isRecent =
-              status.lastVerifiedAt != null &&
-              DateTime.now().difference(status.lastVerifiedAt!).inHours <= 48;
           final benchmark = benchmarkAsync?.asData?.value;
           final isTr = t.localeName.startsWith('tr');
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Başlık satırı
               Row(
                 children: [
                   Text(
                     t.price,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w900,
                       color: AppColors.textStrong,
                     ),
@@ -379,12 +377,13 @@ class _PriceStatusCard extends ConsumerWidget {
                     priceText,
                     style: const TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize: 16,
+                      fontSize: 18,
                       color: AppColors.textStrong,
                     ),
                   ),
                 ],
               ),
+              // Bağlam chip'leri
               if (benchmark != null && priceCents != null && priceCents > 0) ...[
                 const SizedBox(height: 8),
                 _PriceBenchmarkChip(
@@ -394,112 +393,92 @@ class _PriceStatusCard extends ConsumerWidget {
                 ),
               ],
               if (item.timeWindows.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                _TimeWindowInsightChip(
-                  windows: item.timeWindows,
-                  isTr: isTr,
-                ),
-              ],
-              if (status.okVotes >= 3) ...[
-                const SizedBox(height: 8),
-                AppChip(
-                  label: isTr
-                      ? '✓ ${status.okVotes} kişi doğruladı'
-                      : '✓ Verified by ${status.okVotes} people',
-                  color: AppColors.success,
-                  filled: true,
-                ),
-              ],
-              const SizedBox(height: 8),
-              Text(
-                t.last30DaysVotes(status.okVotes, status.badVotes),
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
-              ),
-              if (status.lastVerifiedAt != null) ...[
-                const SizedBox(height: 4),
-                Text(
-                  t.lastVerificationDate(_fmtDate(status.lastVerifiedAt!)),
-                  style: const TextStyle(color: AppColors.muted, fontSize: 12),
-                ),
-              ],
-              if (isRecent) ...[
                 const SizedBox(height: 6),
-                AppChip(
-                  label: t.priceVerifiedInLast48h,
-                  color: AppColors.success,
-                  filled: true,
-                ),
+                _TimeWindowInsightChip(windows: item.timeWindows, isTr: isTr),
               ],
-              const SizedBox(height: 6),
-              Text(
-                t.uniqueVerifiersIn48h(status.verifiedSources48h),
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
-              ),
-              if (status.safeToTrust) ...[
-                const SizedBox(height: 6),
-                AppChip(
-                  label: t.strongConsensusPriceSafe,
-                  color: AppColors.info,
-                  filled: true,
-                ),
-              ],
-              const SizedBox(height: 4),
-              Text(
-                t.priceConfidenceScore(
-                  (status.confidenceScore * 100).clamp(0, 100).round(),
-                ),
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                t.priceConfidenceDataTrustHint,
-                style: const TextStyle(color: AppColors.muted, fontSize: 12),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton.icon(
-                  onPressed: () => showCommunityScoreExplainerSheet(
-                    context,
-                    kind: CommunityScoreKind.dataTrust,
-                  ),
-                  icon: const Icon(Icons.info_outline, size: 16),
-                  label: Text(t.communityScoreExplainAction),
-                ),
-              ),
               const SizedBox(height: 12),
+              const Divider(height: 1),
+              const SizedBox(height: 12),
+              // Veri güveni — gerçek confidenceScore'a bağlı
+              _DataTrustBar(score: status.confidenceScore, isTr: isTr),
+              const SizedBox(height: 8),
+              // Kompakt meta: son güncelleme · doğrulayıcı · oylar
+              _PriceMetaRow(status: status, isTr: isTr),
+              const SizedBox(height: 12),
+              // Oy butonları
               Row(
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () => onVote(1),
+                      style: status.myVote == 1
+                          ? OutlinedButton.styleFrom(
+                              foregroundColor: AppColors.success,
+                              side: const BorderSide(color: AppColors.success),
+                            )
+                          : null,
                       icon: Icon(
-                        Icons.thumb_up_alt_outlined,
-                        color: status.myVote == 1 ? AppColors.success : null,
+                        status.myVote == 1
+                            ? Icons.thumb_up_alt
+                            : Icons.thumb_up_alt_outlined,
+                        size: 16,
                       ),
                       label: Text(t.seenCorrect),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 8),
                   Expanded(
-                    child: FilledButton.icon(
+                    child: OutlinedButton.icon(
                       onPressed: () => onVote(-1),
+                      style: status.myVote == -1
+                          ? OutlinedButton.styleFrom(
+                              foregroundColor: AppColors.danger,
+                              side: const BorderSide(color: AppColors.danger),
+                            )
+                          : null,
                       icon: Icon(
-                        Icons.thumb_down_alt_outlined,
-                        color: status.myVote == -1 ? AppColors.danger : null,
+                        status.myVote == -1
+                            ? Icons.thumb_down_alt
+                            : Icons.thumb_down_alt_outlined,
+                        size: 16,
                       ),
                       label: Text(t.seenIncorrect),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerRight,
-                child: OutlinedButton.icon(
-                  onPressed: onUpdate,
-                  icon: const Icon(Icons.edit_outlined),
-                  label: Text(t.suggestNewPrice),
-                ),
+              const SizedBox(height: 8),
+              // Fiyat güncelle
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton.icon(
+                    onPressed: () => showCommunityScoreExplainerSheet(
+                      context,
+                      kind: CommunityScoreKind.dataTrust,
+                    ),
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.muted,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    icon: const Icon(Icons.info_outline, size: 14),
+                    label: Text(
+                      t.communityScoreExplainAction,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: onUpdate,
+                    style: TextButton.styleFrom(
+                      visualDensity: VisualDensity.compact,
+                    ),
+                    icon: const Icon(Icons.edit_outlined, size: 14),
+                    label: Text(
+                      t.suggestNewPrice,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ],
               ),
             ],
           );
@@ -1272,6 +1251,107 @@ class _TimeWindowInsightChip extends StatelessWidget {
       label: chipText,
       color: active != null ? AppColors.success : AppColors.info,
       filled: active != null,
+    );
+  }
+}
+
+class _DataTrustBar extends StatelessWidget {
+  const _DataTrustBar({required this.score, required this.isTr});
+  final double score;
+  final bool isTr;
+
+  @override
+  Widget build(BuildContext context) {
+    final pct = (score * 100).clamp(0, 100).round();
+    final Color barColor;
+    if (score >= 0.7) {
+      barColor = AppColors.success;
+    } else if (score >= 0.4) {
+      barColor = AppColors.warning;
+    } else {
+      barColor = AppColors.danger;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.shield_outlined, size: 14, color: barColor),
+            const SizedBox(width: 6),
+            Text(
+              isTr ? 'Veri güveni' : 'Data trust',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textStrong,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              '%$pct',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w800,
+                color: barColor,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 5),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(999),
+          child: LinearProgressIndicator(
+            value: score.clamp(0.0, 1.0),
+            minHeight: 5,
+            backgroundColor: AppColors.cardAlt,
+            valueColor: AlwaysStoppedAnimation<Color>(barColor),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _PriceMetaRow extends StatelessWidget {
+  const _PriceMetaRow({required this.status, required this.isTr});
+  final MenuItemPriceStatus status;
+  final bool isTr;
+
+  @override
+  Widget build(BuildContext context) {
+    final parts = <String>[];
+    if (status.lastVerifiedAt != null) {
+      final diff = DateTime.now().difference(status.lastVerifiedAt!);
+      final String timeStr;
+      if (diff.inHours < 24) {
+        timeStr = isTr ? 'Bugün' : 'Today';
+      } else if (diff.inDays == 1) {
+        timeStr = isTr ? 'Dün' : 'Yesterday';
+      } else if (diff.inDays < 30) {
+        timeStr = isTr ? '${diff.inDays} gün önce' : '${diff.inDays}d ago';
+      } else {
+        final m = (diff.inDays / 30).floor();
+        timeStr = isTr ? '$m ay önce' : '${m}mo ago';
+      }
+      parts.add(isTr ? 'Son güncelleme: $timeStr' : 'Updated: $timeStr');
+    }
+    if (status.verifiedSources48h > 0) {
+      parts.add(
+        isTr
+            ? '${status.verifiedSources48h} doğrulayıcı'
+            : '${status.verifiedSources48h} verifier${status.verifiedSources48h > 1 ? 's' : ''}',
+      );
+    }
+    final totalVotes = status.okVotes + status.badVotes;
+    if (totalVotes > 0) {
+      parts.add(
+        isTr ? '$totalVotes oylama' : '$totalVotes vote${totalVotes > 1 ? 's' : ''}',
+      );
+    }
+    if (parts.isEmpty) return const SizedBox.shrink();
+    return Text(
+      parts.join(' · '),
+      style: const TextStyle(color: AppColors.muted, fontSize: 12),
     );
   }
 }
