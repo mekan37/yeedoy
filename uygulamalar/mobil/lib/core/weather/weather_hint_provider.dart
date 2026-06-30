@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
@@ -24,12 +25,14 @@ class WeatherHintData {
     this.weatherCode,
     this.temperatureC,
     this.precipitationMm,
+    this.hintIndex = 0,
   });
 
   final WeatherHintKind kind;
   final int? weatherCode;
   final double? temperatureC;
   final double? precipitationMm;
+  final int hintIndex;
 }
 
 class WeatherHintRepository {
@@ -71,11 +74,13 @@ class WeatherHintRepository {
         temperature: temperature,
       );
       if (kind == null) return null;
+      final hints = hintsForKind(kind);
       final next = WeatherHintData(
         kind: kind,
         weatherCode: code,
         temperatureC: temperature,
         precipitationMm: precipitation,
+        hintIndex: Random().nextInt(hints.length),
       );
       _lastFetch = now;
       _lastData = next;
@@ -154,15 +159,42 @@ WeatherHintKind? _kindFor({
   return null;
 }
 
-String _backendHintForKind(WeatherHintKind kind) {
+List<String> hintsForKind(WeatherHintKind kind) {
   switch (kind) {
     case WeatherHintKind.rainy:
-      return 'Sicak bir sey iyi gider';
+      return [
+        'Sıcak bir şey iyi gider',
+        'Çorba ve sıcak içecek günü',
+        'İçeride kalmak için mükemmel',
+        'Ev yemekleri bugün daha cazip',
+      ];
     case WeatherHintKind.snowy:
-      return 'Sicak corba iyi gider';
+      return [
+        'Sıcak çorba iyi gider',
+        'Sıcak bir ortam seni bekliyor',
+        'Kış yemekleri için harika gün',
+        'Içeride ısınmak güzel',
+      ];
     case WeatherHintKind.hot:
-      return 'Serin bir sey iyi gider';
+      return [
+        'Serin bir şey iyi gider',
+        'Salata ve soğuk içecek vakti',
+        'Gölgeli dış mekan arayın',
+        'Hafif yemekler bugün daha iyi',
+        'Klimalı bir yer bulun',
+      ];
     case WeatherHintKind.clear:
-      return 'Dis mekan keyifli';
+      return [
+        'Dış mekan keyifli',
+        'Teras masaları sizi bekliyor',
+        'Güneşli masalar boş kalmaz',
+        'Piknik modu acik',
+        'Dışarıda yemek için ideal hava',
+        'Balkonda kahve zamanı',
+      ];
   }
 }
+
+// ignore: unused_element
+String _backendHintForKind(WeatherHintKind kind) =>
+    hintsForKind(kind).first;

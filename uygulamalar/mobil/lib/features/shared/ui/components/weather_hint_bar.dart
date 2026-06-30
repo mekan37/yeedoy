@@ -21,14 +21,11 @@ class WeatherHintBar extends ConsumerWidget {
         final t = context.l10n;
         final icon = _iconFor(data.weatherCode);
         final headline = _headlineText(t, data.kind);
-        final hint = _hintText(t, data.kind);
+        final hint = _hintForData(data);
         final tempText = data.temperatureC == null
             ? ''
-            : ' ${data.temperatureC!.round()}\u00B0C';
-        final separator = ' \u2022 ';
-        final text = compact
-            ? '$headline$separator$hint'
-            : '$headline$tempText$separator$hint';
+            : ' \u00B7 ${data.temperatureC!.round()}\u00B0C';
+        final text = '$headline$tempText \u00B7 $hint';
 
         return Container(
           padding: EdgeInsets.symmetric(
@@ -77,17 +74,9 @@ String _headlineText(AppLocalizations t, WeatherHintKind kind) {
   }
 }
 
-String _hintText(AppLocalizations t, WeatherHintKind kind) {
-  switch (kind) {
-    case WeatherHintKind.rainy:
-      return t.weatherHintRainy;
-    case WeatherHintKind.snowy:
-      return t.weatherHintSnowy;
-    case WeatherHintKind.hot:
-      return t.weatherHintHot;
-    case WeatherHintKind.clear:
-      return t.weatherHintClear;
-  }
+String _hintForData(WeatherHintData data) {
+  final hints = hintsForKind(data.kind);
+  return hints[data.hintIndex.clamp(0, hints.length - 1)];
 }
 
 IconData _iconFor(int? code) {
