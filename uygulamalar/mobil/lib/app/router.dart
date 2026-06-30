@@ -41,6 +41,7 @@ import '../features/support/ui/live_support_page.dart';
 import '../features/support/ui/help_support_page.dart';
 import '../features/support/ui/faq_page.dart';
 import '../features/location/ui/location_picker_page.dart';
+import '../features/location/ui/business_location_page.dart';
 import '../features/contribute/ui/contribute_page.dart';
 import '../features/reviews/ui/business_reviews_page.dart';
 import '../features/reviews/ui/my_reviews_page.dart';
@@ -101,7 +102,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path.startsWith('/admin/') ||
           path == '/owner' ||
           path.startsWith('/owner/');
-      if (adminOrOwnerPath) {
+      // /owner/location/:businessId — mobil-native sayfa; panel-web'e yönlendirilmez.
+      final isMobileOwnerPage = path.startsWith('/owner/location/');
+      if (adminOrOwnerPath && !isMobileOwnerPage) {
         final from = Uri.encodeComponent(state.uri.toString());
         return '/panel-web?from=$from';
       }
@@ -119,7 +122,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path.startsWith('/my-suspended') ||
           path.startsWith('/my-reviews') ||
           path.startsWith('/group-requests') ||
-          path.startsWith('/collab-lists');
+          path.startsWith('/collab-lists') ||
+          path.startsWith('/owner/location/');
 
       if (!loggedIn && requiresAuth) {
         final redirect = Uri.encodeComponent(state.uri.toString());
@@ -582,6 +586,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (c, s) {
           final id = sanitizeUuid(s.pathParameters['id']) ?? '';
           return CollabListDetailPage(listId: id);
+        },
+      ),
+      GoRoute(
+        path: '/owner/location/:businessId',
+        pageBuilder: (c, s) {
+          final businessId = sanitizeUuid(s.pathParameters['businessId']);
+          if (businessId == null) {
+            return buildFadeSlidePage(state: s, child: const DiscoveryPage());
+          }
+          return buildFadeSlidePage(
+            state: s,
+            child: BusinessLocationPage(businessId: businessId),
+          );
         },
       ),
     ],
