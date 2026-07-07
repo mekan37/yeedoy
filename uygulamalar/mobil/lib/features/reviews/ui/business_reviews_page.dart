@@ -361,7 +361,6 @@ class _ReviewCard extends ConsumerWidget {
                   const Spacer(),
                   _AuthorBadgePill(
                     title: review.authorBadgeTitle!,
-                    colorHex: review.authorBadgeColor ?? '#9CA3AF',
                     tier: review.authorBadgeTier ?? 'bronze',
                   ),
                 ],
@@ -849,12 +848,10 @@ class _CriteriaDisplay extends StatelessWidget {
 class _AuthorBadgePill extends StatelessWidget {
   const _AuthorBadgePill({
     required this.title,
-    required this.colorHex,
     required this.tier,
   });
 
   final String title;
-  final String colorHex;
   final String tier;
 
   Color get _tierColor {
