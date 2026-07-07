@@ -14,6 +14,7 @@ final myProfileStatsProvider = FutureProvider.autoDispose<ProfileStats>((
       favoritesCount: 0,
       contributionScore: 0,
       visitsCount: 0,
+      followersCount: 0,
     );
   }
   return ref.read(profileRepositoryProvider).fetchMyStats();

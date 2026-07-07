@@ -28,7 +28,7 @@ class ProfileRepository {
     try {
       final row = await _supabase
           .from('user_profiles')
-          .select('user_id,display_name,social_links,language_code')
+          .select('user_id,display_name,social_links,language_code,birth_date,gender')
           .eq('user_id', uid)
           .single();
       final data = (row as Map).cast<String, dynamic>();
@@ -56,6 +56,10 @@ class ProfileRepository {
         displayName: displayName.isEmpty ? null : displayName,
         languageCode: data['language_code']?.toString(),
         socialLinks: socialLinks,
+        birthDate: data['birth_date'] != null
+            ? DateTime.tryParse(data['birth_date'].toString())
+            : null,
+        gender: data['gender']?.toString(),
       );
     } on PostgrestException catch (e) {
       // No row found => return null, anything else rethrow.
@@ -93,6 +97,54 @@ class ProfileRepository {
     }, onConflict: 'user_id');
   }
 
+  /// Sadece social_links kolonunu günceller; diğer alanları dokunmaz.
+  Future<void> updateSocialLinks(Map<String, String> links) async {
+    final uid = _supabase.auth.currentUser?.id;
+    if (uid == null) return;
+    final existing = await _supabase
+        .from('user_profiles')
+        .select('display_name')
+        .eq('user_id', uid)
+        .maybeSingle();
+    await _supabase.from('user_profiles').upsert({
+      'user_id': uid,
+      'display_name': (existing?['display_name'] as String?) ?? 'Kullanici',
+      'social_links': links.isEmpty ? null : links,
+    }, onConflict: 'user_id');
+  }
+
+  /// Sadece birth_date kolonunu günceller; diğer alanları dokunmaz.
+  Future<void> updateBirthDate(DateTime? birthDate) async {
+    final uid = _supabase.auth.currentUser?.id;
+    if (uid == null) return;
+    final existing = await _supabase
+        .from('user_profiles')
+        .select('display_name')
+        .eq('user_id', uid)
+        .maybeSingle();
+    await _supabase.from('user_profiles').upsert({
+      'user_id': uid,
+      'display_name': (existing?['display_name'] as String?) ?? 'Kullanici',
+      'birth_date': birthDate?.toIso8601String().substring(0, 10),
+    }, onConflict: 'user_id');
+  }
+
+  /// Sadece gender kolonunu günceller; diğer alanları dokunmaz.
+  Future<void> updateGender(String? gender) async {
+    final uid = _supabase.auth.currentUser?.id;
+    if (uid == null) return;
+    final existing = await _supabase
+        .from('user_profiles')
+        .select('display_name')
+        .eq('user_id', uid)
+        .maybeSingle();
+    await _supabase.from('user_profiles').upsert({
+      'user_id': uid,
+      'display_name': (existing?['display_name'] as String?) ?? 'Kullanici',
+      'gender': gender,
+    }, onConflict: 'user_id');
+  }
+
   Future<void> updateLanguageCode(String? languageCode) async {
     final uid = _supabase.auth.currentUser?.id;
     if (uid == null) return;
@@ -124,6 +176,7 @@ class ProfileRepository {
       favoritesCount: 0,
       contributionScore: 0,
       visitsCount: 0,
+      followersCount: 0,
     );
   }
 

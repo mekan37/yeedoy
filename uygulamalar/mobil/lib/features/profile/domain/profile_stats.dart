@@ -5,6 +5,7 @@ class ProfileStats {
     required this.favoritesCount,
     required this.contributionScore,
     required this.visitsCount,
+    required this.followersCount,
   });
 
   final int reviewsCount;
@@ -12,6 +13,7 @@ class ProfileStats {
   final int favoritesCount;
   final int contributionScore;
   final int visitsCount;
+  final int followersCount;
 
   factory ProfileStats.fromMap(Map<String, dynamic> m) => ProfileStats(
     reviewsCount: (m['reviews_count'] as num?)?.toInt() ?? 0,
@@ -19,5 +21,6 @@ class ProfileStats {
     favoritesCount: (m['favorites_count'] as num?)?.toInt() ?? 0,
     contributionScore: (m['contribution_score'] as num?)?.toInt() ?? 0,
     visitsCount: (m['visits_count'] as num?)?.toInt() ?? 0,
+    followersCount: (m['followers_count'] as num?)?.toInt() ?? 0,
   );
 }

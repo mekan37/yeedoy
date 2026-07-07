@@ -12,6 +12,7 @@ class Achievement {
     required this.condition,
     required this.currentValue,
     required this.targetValue,
+    required this.tier,
   });
 
   final String id;
@@ -26,6 +27,7 @@ class Achievement {
   final Map<String, dynamic> condition;
   final int? currentValue;
   final int? targetValue;
+  final String tier; // 'bronze' | 'silver' | 'gold' | 'special'
 
   factory Achievement.fromMap(Map<String, dynamic> map) {
     final id = (map['id'] ?? '').toString();
@@ -36,7 +38,11 @@ class Achievement {
       'chance_hunter_10',
       'weekend_wanderer_8',
       'deep_menu_diver_30',
+      'chance_hunter_3',
+      'silent_quality_10',
     };
+    final condition =
+        (map['condition'] as Map?)?.cast<String, dynamic>() ?? const {};
     return Achievement(
       id: id,
       title: (map['title'] ?? '').toString(),
@@ -47,10 +53,10 @@ class Achievement {
       isHidden: map['is_hidden'] == true || hiddenIds.contains(id),
       unlocked: map['unlocked'] == true,
       unlockedAt: DateTime.tryParse((map['unlocked_at'] ?? '').toString()),
-      condition:
-          (map['condition'] as Map?)?.cast<String, dynamic>() ?? const {},
+      condition: condition,
       currentValue: (map['current_value'] as num?)?.toInt(),
       targetValue: (map['target_value'] as num?)?.toInt(),
+      tier: (condition['tier'] as String?) ?? 'bronze',
     );
   }
 }
