@@ -52,7 +52,9 @@ import '../../reviews/domain/reviews_provider.dart';
 import '../../reviews/ui/review_create_form.dart';
 import '../../menus/data/offline_verify_queue.dart';
 import '../../menus/ui/widgets/price_suggestion_sheet.dart';
+import '../data/business_badges_repository.dart';
 import '../data/business_chain_repository.dart';
+import '../domain/business_badge.dart';
 import '../domain/chain_info.dart';
 
 part 'sections/business_detail_sections.dart';

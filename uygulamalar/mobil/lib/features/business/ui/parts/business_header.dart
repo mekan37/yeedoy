@@ -243,8 +243,56 @@ class _BusinessInfoPanel extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
+          if (business.address?.trim().isNotEmpty == true) ...[
+            SizedBox(height: tokens.space4),
+            Row(
+              children: [
+                const Icon(
+                  Icons.location_on_outlined,
+                  size: 14,
+                  color: AppColors.muted,
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    business.address!.trim(),
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 13,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ],
           _BusinessInfoRow(business: business),
           _BusinessBadgeChipRow(business: business),
+          Consumer(
+            builder: (context, ref, _) {
+              final badgesAsync =
+                  ref.watch(businessBadgesProvider(business.id));
+              return badgesAsync.maybeWhen(
+                data: (badges) {
+                  if (badges.isEmpty) return const SizedBox.shrink();
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      top: AppTokens.of(context).space8,
+                    ),
+                    child: Wrap(
+                      spacing: AppTokens.of(context).space4,
+                      runSpacing: AppTokens.of(context).space4,
+                      children: badges
+                          .map((b) => _BusinessBadgeChip(badge: b))
+                          .toList(),
+                    ),
+                  );
+                },
+                orElse: () => const SizedBox.shrink(),
+              );
+            },
+          ),
           _BusinessDescription(description: business.description),
         ],
       ),
@@ -534,25 +582,50 @@ class _BusinessInfoRow extends ConsumerWidget {
     if (distanceKm == null && priceInfo == null) return const SizedBox.shrink();
 
     final tokens = AppTokens.of(context);
-    final parts = <String>[];
+    const textStyle = TextStyle(color: AppColors.muted, fontSize: 12);
+    const separator = Text(' · ', style: textStyle);
+
+    final List<Widget> rowParts = [];
 
     if (distanceKm != null) {
       final distText = distanceKm < 1
           ? '${(distanceKm * 1000).round()} m'
           : '${distanceKm.toStringAsFixed(1)} km';
-      parts.add('📍 $distText');
-      if (walkMinutes != null) parts.add('~$walkMinutes dk yürüme');
+      rowParts.add(
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.location_on_rounded,
+              size: 14,
+              color: AppColors.muted,
+            ),
+            const SizedBox(width: 3),
+            Text(distText, style: textStyle),
+          ],
+        ),
+      );
+      if (walkMinutes != null) {
+        rowParts.add(Text('~$walkMinutes dk yürüme', style: textStyle));
+      }
     }
 
     if (priceInfo != null) {
-      parts.add('${priceInfo.$1} ${priceInfo.$2}');
+      rowParts.add(Text('${priceInfo.$1} ${priceInfo.$2}', style: textStyle));
+    }
+
+    final separated = <Widget>[];
+    for (int i = 0; i < rowParts.length; i++) {
+      if (i > 0) separated.add(separator);
+      separated.add(rowParts[i]);
     }
 
     return Padding(
       padding: EdgeInsets.only(top: tokens.space8),
-      child: Text(
-        parts.join(' · '),
-        style: const TextStyle(color: AppColors.muted, fontSize: 12),
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: separated,
       ),
     );
   }
@@ -564,6 +637,50 @@ class _BusinessInfoRow extends ConsumerWidget {
       case 'premium': return ('₺₺₺', 'Üst Düzey');
       default: return null;
     }
+  }
+}
+
+class _BusinessBadgeChip extends StatelessWidget {
+  const _BusinessBadgeChip({required this.badge});
+  final BusinessBadge badge;
+
+  Color get _tierColor {
+    switch (badge.tier) {
+      case 'gold':
+        return const Color(0xFFFFD700);
+      case 'silver':
+        return const Color(0xFFE8E8E8);
+      case 'special':
+        return const Color(0xFF9C27B0);
+      default:
+        return const Color(0xFFCD7F32);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tierColor = _tierColor;
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppTokens.of(context).space8,
+        vertical: AppTokens.of(context).space4,
+      ),
+      decoration: BoxDecoration(
+        color: tierColor.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(AppTokens.of(context).radius12),
+        border: Border.all(
+          color: tierColor.withValues(alpha: 0.4),
+          width: 0.5,
+        ),
+      ),
+      child: Text(
+        badge.title,
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: tierColor,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
   }
 }
 
@@ -585,14 +702,12 @@ class _TopStatCard extends StatelessWidget {
     required this.value,
     required this.subtitle,
     required this.icon,
-    this.circleValue,
   });
 
   final String title;
   final String value;
   final String subtitle;
   final IconData icon;
-  final double? circleValue;
 
   @override
   Widget build(BuildContext context) {
@@ -604,15 +719,9 @@ class _TopStatCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          if (circleValue != null)
-            TrustScoreIndicator(
-              score: (circleValue! * 100).round(),
-              size: 52,
-              showLabel: false,
-            )
-          else
-            Icon(icon, color: AppColors.primary, size: 22),
+          Icon(icon, color: AppColors.primary, size: 22),
           const SizedBox(height: 10),
           Text(
             value + subtitle,
