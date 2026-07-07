@@ -6,8 +6,10 @@ import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/location/user_location_controller.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../../shared/ui/achievements/achievement_visuals.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
+import '../domain/achievements_provider.dart';
 import '../domain/moat_signals_provider.dart';
 import '../domain/profile_stats_provider.dart';
 import '../domain/reputation_provider.dart';
@@ -582,6 +584,8 @@ class _ProfileHeroCard extends StatelessWidget {
           const _ProfileLocationRow(),
           SizedBox(height: tokens.space12),
           const _ProfileStatsRow(),
+          const SizedBox(height: 8),
+          const _TopBadgesStrip(),
         ],
       ),
     );
@@ -789,5 +793,43 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
+// ── Top Badges Strip ──────────────────────────────────────────────────────────
 
+class _TopBadgesStrip extends ConsumerWidget {
+  const _TopBadgesStrip();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final achievementsAsync = ref.watch(myAchievementsProvider);
+
+    return achievementsAsync.when(
+      loading: () => const SizedBox(height: 72),
+      error: (_, _) => const SizedBox.shrink(),
+      data: (achievements) {
+        final top = achievements
+            .where((a) => a.unlocked)
+            .toList()
+          ..sort((a, b) => b.xp.compareTo(a.xp));
+        final display = top.take(3).toList();
+
+        if (display.isEmpty) return const SizedBox.shrink();
+
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: AppTokens.of(context).space8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: display.map((a) => Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppTokens.of(context).space8),
+              child: AchievementMedalWidget(
+                achievement: a,
+                size: 48,
+                showLabel: true,
+              ),
+            )).toList(),
+          ),
+        );
+      },
+    );
+  }
+}
 
