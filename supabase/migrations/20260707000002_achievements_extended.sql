@@ -54,46 +54,38 @@ ON CONFLICT (id) DO UPDATE SET
 -- 2. Backfill tier into existing badges (only where tier not yet set)
 -- ───────────────────────────────────────────────
 
+-- Mevcut (pre-existing) rozet satırlarına tier ekle. Yeni eklenenler zaten INSERT'te tier alıyor.
 -- Bronze
-UPDATE public.achievements
-SET condition = condition || '{"tier":"bronze"}'::jsonb
-WHERE id IN (
+update public.achievements
+set condition = condition || '{"tier":"bronze"}'::jsonb
+where id in (
   'first_review', 'first_rating', 'first_discovery',
-  'price_hunter_5', 'observer_3',
-  'lens_3', 'price_detective_5', 'explorer_5', 'reviewer_5',
-  'weekend_wanderer_8'
+  'price_hunter_5', 'observer_3', 'weekend_wanderer_8'
 )
-  AND NOT (condition ? 'tier');
+  and not (condition ? 'tier');
 
 -- Silver
-UPDATE public.achievements
-SET condition = condition || '{"tier":"silver"}'::jsonb
-WHERE id IN (
-  'traveler_10', 'helpful_10', 'district_15',
-  'night_gourmet_10', 'viewfinder_15', 'budget_expert_20',
-  'social_5', 'gourmet_pen_20',
-  'district_gourmet_top10', 'detective_10'
+update public.achievements
+set condition = condition || '{"tier":"silver"}'::jsonb
+where id in (
+  'traveler_10', 'district_gourmet_top10', 'detective_10'
 )
-  AND NOT (condition ? 'tier');
+  and not (condition ? 'tier');
 
 -- Gold
-UPDATE public.achievements
-SET condition = condition || '{"tier":"gold"}'::jsonb
-WHERE id IN (
-  'city_50', 'legend_reviewer_50', 'quality_voice',
-  'price_champion_50', 'accuracy_90', 'photo_master_50',
-  'community_star_20', 'trusted_contributor',
-  'pizza_master_10', 'deep_menu_diver_30',
+update public.achievements
+set condition = condition || '{"tier":"gold"}'::jsonb
+where id in (
+  'trusted_contributor', 'pizza_master_10', 'deep_menu_diver_30',
   'combo_price_streak_3', 'combo_district_master_5', 'combo_full_contributor'
 )
-  AND NOT (condition ? 'tier');
+  and not (condition ? 'tier');
 
 -- Special
-UPDATE public.achievements
-SET condition = condition || '{"tier":"special"}'::jsonb
-WHERE id IN (
+update public.achievements
+set condition = condition || '{"tier":"special"}'::jsonb
+where id in (
   'silent_follower_20', 'menu_archivist_1',
-  'chance_hunter_10', 'night_gourmet_5',
-  'chance_hunter_3', 'silent_quality_10'
+  'chance_hunter_10', 'night_gourmet_5'
 )
-  AND NOT (condition ? 'tier');
+  and not (condition ? 'tier');
