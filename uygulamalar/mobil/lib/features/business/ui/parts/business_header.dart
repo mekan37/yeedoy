@@ -204,6 +204,35 @@ class _BusinessInfoPanel extends StatelessWidget {
                   ),
                 ),
               ),
+              Consumer(
+                builder: (context, ref, _) {
+                  final hasBadges = ref
+                      .watch(businessBadgesProvider(business.id))
+                      .maybeWhen(
+                        data: (badges) => badges.isNotEmpty,
+                        orElse: () => false,
+                      );
+                  if (!hasBadges) return const SizedBox.shrink();
+                  return IconButton(
+                    icon: const Icon(
+                      Icons.verified_outlined,
+                      color: AppColors.muted,
+                    ),
+                    tooltip: 'Başarım Sertifikası',
+                    onPressed: () => showModalBottomSheet<void>(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (_) => Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: BusinessBadgeCertificate(
+                          businessId: business.id,
+                          businessName: business.name,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
               IconButton(
                 tooltip: t.report,
                 onPressed: () => _openReportSheet(context, business.id),
@@ -644,16 +673,21 @@ class _BusinessBadgeChip extends StatelessWidget {
   const _BusinessBadgeChip({required this.badge});
   final BusinessBadge badge;
 
+  static const _goldColor = Color(0xFFFFD700);
+  static const _silverColor = Color(0xFFE8E8E8);
+  static const _specialColor = Color(0xFF9C27B0);
+  static const _bronzeColor = Color(0xFFCD7F32);
+
   Color get _tierColor {
     switch (badge.tier) {
       case 'gold':
-        return const Color(0xFFFFD700);
+        return _goldColor;
       case 'silver':
-        return const Color(0xFFE8E8E8);
+        return _silverColor;
       case 'special':
-        return const Color(0xFF9C27B0);
+        return _specialColor;
       default:
-        return const Color(0xFFCD7F32);
+        return _bronzeColor;
     }
   }
 

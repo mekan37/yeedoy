@@ -21,17 +21,13 @@ class BusinessBadgesRepository {
   final SupabaseClient _supabase;
 
   Future<List<BusinessBadge>> fetchBadges(String businessId) async {
-    try {
-      final response = await _supabase.rpc(
-        'get_business_badges_v1',
-        params: {'p_business_id': businessId},
-      ) as List;
-      return response
-          .cast<Map<String, dynamic>>()
-          .map(BusinessBadge.fromMap)
-          .toList();
-    } catch (_) {
-      return [];
-    }
+    final response = await _supabase.rpc(
+      'get_business_badges_v1',
+      params: {'p_business_id': businessId},
+    ) as List;
+    return response
+        .cast<Map<String, dynamic>>()
+        .map(BusinessBadge.fromMap)
+        .toList();
   }
 }
