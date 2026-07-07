@@ -128,10 +128,11 @@ LinearGradient medalGradient(String tier) {
         end: Alignment.bottomRight,
       );
     default:
+      assert(false, 'medalGradient: unknown tier "$tier"');
       return const LinearGradient(
-        colors: [Color(0xFFCD7F32), Color(0xFF8B4513), Color(0xFFCD7F32)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
+        colors: [Color(0xFFCD7F32), Color(0xFF8B4513), Color(0xFFCD7F32)],
       );
   }
 }
@@ -187,7 +188,7 @@ class AchievementMedalWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
       ],
