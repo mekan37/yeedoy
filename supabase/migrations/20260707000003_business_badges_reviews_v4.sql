@@ -96,23 +96,25 @@ begin
   where business_id = p_business_id
     and checked_in_at >= now() - interval '30 days';
 
-  -- Haftalık rank % (bu işletmenin son 7 günde toplam ziyaretteki payı)
-  select
-    case when total_visits > 0
-      then this_biz_visits::numeric / total_visits
-      else 0 end
-  into v_week_rank_pct
-  from (
-    select
-      sum(case when business_id = p_business_id then cnt else 0 end) as this_biz_visits,
-      sum(cnt) as total_visits
-    from (
-      select business_id, count(*) as cnt
-      from public.visits
-      where checked_in_at >= now() - interval '7 days'
-      group by business_id
-    ) sub
-  ) agg;
+  -- Haftalık percentile rank: bu işletme son 7 günde tüm işletmeler arasında kaçıncı %'de?
+  -- percent_rank() = 0..1; >=0.9 → top 10%
+  select coalesce(
+    (
+      select pct_rank
+      from (
+        select business_id,
+               percent_rank() over (order by cnt) as pct_rank
+        from (
+          select business_id, count(*) as cnt
+          from public.visits
+          where checked_in_at >= now() - interval '7 days'
+          group by business_id
+        ) weekly_counts
+      ) ranked
+      where business_id = p_business_id
+    ),
+    0
+  ) into v_week_rank_pct;
 
   -- ── Badge koşulları ──────────────────────────────────────────────────────
 
@@ -229,7 +231,7 @@ as $$
       coalesce(r.helpful_count, 0)::integer          as helpful_count,
       r.created_at,
       coalesce(r.status, 'published')                as status,
-      coalesce(r.helpful_count, 0)::numeric          as quality_score,
+      coalesce(r.quality_score, 0)::numeric           as quality_score,
       -- Inline verified_visit check using composite index (avoids N+1 per-row call)
       exists (
         select 1
@@ -294,7 +296,7 @@ as $$
 $$;
 
 revoke all on function public.get_business_reviews_v4(uuid, text, integer, integer, integer, boolean) from public;
-grant execute on function public.get_business_reviews_v4(uuid, text, integer, integer, integer, boolean) to anon, authenticated;
+grant execute on function public.get_business_reviews_v4(uuid, text, integer, integer, integer, boolean) to anon, authenticated, service_role;
 comment on function public.get_business_reviews_v4 is
   'v4: author top badge JOIN eklendi. Called by: reviews_repository.dart';
 
@@ -304,6 +306,6 @@ comment on function public.get_business_reviews_v4 is
 -- ═══════════════════════════════════════════════════════════════════════════
 
 comment on function public.get_business_reviews_v3(uuid, text, integer, integer) is
-  'DEPRECATED 2026-07-07: use get_business_reviews_v4. Will be removed after client migration.
+  'DEPRECATED 2026-07-07: use get_business_reviews_v4. Remove after 2026-10-07.
    Business reviews with multi-criterion ratings and verified_visit flag.
    p_sort: newest | helpful | verified.';
