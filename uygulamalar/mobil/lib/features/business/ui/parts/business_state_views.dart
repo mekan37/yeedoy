@@ -518,7 +518,7 @@ Future<void> _trackBusinessPageView({
       await supabase.from('visits').insert({
         'user_id': userId,
         'business_id': businessId,
-        'checked_in_at': DateTime.now().toIso8601String(),
+        'checked_in_at': DateTime.now().toUtc().toIso8601String(),
       });
     }
   } catch (_) {
