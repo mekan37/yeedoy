@@ -357,6 +357,14 @@ class _ReviewCard extends ConsumerWidget {
                           ),
                         ),
                       ),
+                if (review.authorBadgeTitle != null) ...[
+                  const Spacer(),
+                  _AuthorBadgePill(
+                    title: review.authorBadgeTitle!,
+                    colorHex: review.authorBadgeColor ?? '#9CA3AF',
+                    tier: review.authorBadgeTier ?? 'bronze',
+                  ),
+                ],
               ],
             ),
             if (ownerReply != null) ...[
@@ -833,6 +841,52 @@ class _CriteriaDisplay extends StatelessWidget {
             ],
           ),
       ],
+    );
+  }
+}
+
+/// Small pill showing the author's highest XP badge next to the helpful button.
+class _AuthorBadgePill extends StatelessWidget {
+  const _AuthorBadgePill({
+    required this.title,
+    required this.colorHex,
+    required this.tier,
+  });
+
+  final String title;
+  final String colorHex;
+  final String tier;
+
+  Color get _tierColor {
+    switch (tier) {
+      case 'gold':
+        return const Color(0xFFFFD700);
+      case 'silver':
+        return const Color(0xFFE8E8E8);
+      case 'special':
+        return const Color(0xFF9C27B0);
+      default:
+        return const Color(0xFFCD7F32); // bronze
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final color = _tierColor;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: color.withValues(alpha: 0.5), width: 0.5),
+      ),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }

@@ -40,7 +40,7 @@ class ReviewsRepository {
     int offset = 0,
   }) async {
     final res = await client.rpc(
-      'get_business_reviews_v3',
+      'get_business_reviews_v4',
       params: {
         'p_business_id': businessId,
         'p_sort': sort,
@@ -240,13 +240,13 @@ class ReviewsRepository {
     return result;
   }
 
-  /// Fetches reviews written by [userId], joined with the business name.
+  /// Fetches reviews written by [userId], joined with business name + location + image.
   Future<List<MyReviewEntry>> fetchMyReviews(String userId) async {
     final res = await client
         .from('reviews')
         .select(
-          'id, business_id, rating, title, content, status, created_at, '
-          'businesses(name)',
+          'id, business_id, rating, title, content, status, created_at, helpful_count, '
+          'businesses(name, district, city, image_url)',
         )
         .eq('user_id', userId)
         .order('created_at', ascending: false)

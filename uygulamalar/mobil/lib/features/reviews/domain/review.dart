@@ -14,6 +14,10 @@ class Review {
     this.qualityScore = 0,
     this.verifiedVisit = false,
     Map<ReviewRatingCriterion, int?>? criteriaRatings,
+    this.authorBadgeId,
+    this.authorBadgeTitle,
+    this.authorBadgeColor,
+    this.authorBadgeTier,
   }) : criteriaRatings = criteriaRatings ?? ReviewCatalog.emptySelection();
 
   final String id;
@@ -30,6 +34,12 @@ class Review {
   /// as writing the review. Computed server-side by _review_verified_visit().
   final bool verifiedVisit;
   final Map<ReviewRatingCriterion, int?> criteriaRatings;
+
+  /// Author's highest XP badge fields (nullable — badge may not exist).
+  final String? authorBadgeId;
+  final String? authorBadgeTitle;
+  final String? authorBadgeColor;
+  final String? authorBadgeTier;
 
   bool get hasCriteriaRatings =>
       criteriaRatings.values.any((v) => v != null);
@@ -50,5 +60,9 @@ class Review {
     qualityScore: (m['quality_score'] as num?)?.toDouble() ?? 0,
     verifiedVisit: (m['verified_visit'] as bool?) ?? false,
     criteriaRatings: ReviewCatalog.parseReviewRatings(m),
+    authorBadgeId: m['author_badge_id'] as String?,
+    authorBadgeTitle: m['author_badge_title'] as String?,
+    authorBadgeColor: m['author_badge_color'] as String?,
+    authorBadgeTier: m['author_badge_tier'] as String?,
   );
 }
