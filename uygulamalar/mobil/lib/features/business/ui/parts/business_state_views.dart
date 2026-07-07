@@ -509,4 +509,19 @@ Future<void> _trackBusinessPageView({
         source: 'business_page',
         clientId: clientId,
       );
+
+  // Ziyaret kaydı — auth kullanıcısı için insert
+  try {
+    final supabase = ref.read(supabaseProvider);
+    final userId = supabase.auth.currentUser?.id;
+    if (userId != null) {
+      await supabase.from('visits').insert({
+        'user_id': userId,
+        'business_id': businessId,
+        'checked_in_at': DateTime.now().toIso8601String(),
+      });
+    }
+  } catch (_) {
+    // Ziyaret kaydı başarısız olursa sessizce geç
+  }
 }
