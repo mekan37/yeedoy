@@ -4,7 +4,7 @@ interface Props {
   badges: BusinessBadge[];
 }
 
-const tierColors: Record<string, string> = {
+const tierColors: Record<BusinessBadge['tier'], string> = {
   gold: '#FFD700',
   silver: '#9E9E9E',
   special: '#9C27B0',
