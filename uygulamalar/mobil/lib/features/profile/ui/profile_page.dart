@@ -8,12 +8,12 @@ import '../../../core/location/user_location_controller.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../shared/ui/components/community_score_explainer_sheet.dart';
 import '../../auth/domain/auth_providers.dart';
-import '../domain/favorite_collections_count_provider.dart';
 import '../domain/moat_signals_provider.dart';
 import '../domain/profile_stats_provider.dart';
 import '../domain/reputation_provider.dart';
 import '../domain/user_moat_signals.dart';
 import 'components/profile_identity_card.dart';
+import '../../../core/utils/greeting_utils.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key, this.initialTab = 0});
@@ -442,17 +442,6 @@ class _ProfileAccountList extends StatelessWidget {
               const Divider(height: 1, color: AppColors.border),
               ListTile(
                 leading: const Icon(
-                  Icons.location_on_outlined,
-                  color: AppColors.primary,
-                ),
-                title: const Text('Adreslerim'),
-                subtitle: const Text('Kayıtlı adreslerini yönet'),
-                trailing: const Icon(Icons.chevron_right_rounded),
-                onTap: () => context.push('/account-security'),
-              ),
-              const Divider(height: 1, color: AppColors.border),
-              ListTile(
-                leading: const Icon(
                   Icons.restaurant_menu_outlined,
                   color: AppColors.primary,
                 ),
@@ -529,93 +518,42 @@ class _ProfileStatsRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
     final tokens = AppTokens.of(context);
     final statsAsync = ref.watch(myProfileStatsProvider);
-    final collectionsAsync = ref.watch(myFavoriteCollectionsCountProvider);
+    final stats = statsAsync.asData?.value;
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.card,
         borderRadius: BorderRadius.circular(tokens.radius12),
         border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
       ),
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(
-              child: _StatCellIcon(
-                icon: Icons.favorite_rounded,
-                iconColor: const Color(0xFFE53935),
-                value: statsAsync.asData?.value.favoritesCount,
-                label: t.profileStatFavoritesShort,
-              ),
-            ),
-            VerticalDivider(
-              width: 1,
-              color: AppColors.border.withValues(alpha: 0.5),
-            ),
-            Expanded(
-              child: _StatCellIcon(
-                icon: Icons.chat_bubble_rounded,
-                iconColor: const Color(0xFF1E88E5),
-                value: statsAsync.asData?.value.reviewsCount,
-                label: t.profileStatReviewsShort,
-              ),
-            ),
-            VerticalDivider(
-              width: 1,
-              color: AppColors.border.withValues(alpha: 0.5),
-            ),
-            Expanded(
-              child: _StatCellIcon(
-                icon: Icons.format_list_bulleted_rounded,
-                iconColor: const Color(0xFF43A047),
-                value: collectionsAsync.asData?.value,
-                label: t.profileStatListsShort,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _StatCellIcon extends StatelessWidget {
-  const _StatCellIcon({
-    required this.icon,
-    required this.iconColor,
-    required this.value,
-    required this.label,
-  });
-
-  final IconData icon;
-  final Color iconColor;
-  final int? value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 14),
-      child: Column(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(icon, color: iconColor, size: 20),
-          const SizedBox(height: 4),
-          Text(
-            value?.toString() ?? '—',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w900,
-              color: AppColors.textStrong,
-            ),
+          _ClickableStatCell(
+            label: 'Yorum',
+            value: stats?.reviewsCount.toString() ?? '—',
+            onTap: () => context.push('/my-reviews'),
           ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+          _ClickableStatCell(
+            label: 'Favori',
+            value: stats?.favoritesCount.toString() ?? '—',
+            onTap: () => context.push('/favorites'),
+          ),
+          _ClickableStatCell(
+            label: 'Ziyaret',
+            value: stats?.visitsCount.toString() ?? '—',
+            onTap: () => context.push('/my-visits'),
+          ),
+          _ClickableStatCell(
+            label: 'Katkı',
+            value: stats?.contributionScore.toString() ?? '—',
+          ),
+          _ClickableStatCell(
+            label: 'Takipçi',
+            value: stats?.followersCount.toString() ?? '—',
           ),
         ],
       ),
@@ -666,7 +604,7 @@ class _ProfileHomeHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  t.homeGreetingHelloExclaim,
+                  timeBasedGreeting(),
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.muted,
                   ),
@@ -780,6 +718,43 @@ class _MoatSignalsCard extends StatelessWidget {
   }
 }
 
+
+class _ClickableStatCell extends StatelessWidget {
+  const _ClickableStatCell({
+    required this.label,
+    required this.value,
+    this.onTap,
+  });
+
+  final String label;
+  final String value;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(4),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              value,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class _InfoCard extends StatelessWidget {
   const _InfoCard({
