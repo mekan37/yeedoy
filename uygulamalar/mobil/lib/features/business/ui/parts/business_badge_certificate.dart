@@ -63,12 +63,15 @@ class _CertificateViewState extends State<_CertificateView> {
     if (_sharing) return;
     setState(() => _sharing = true);
     try {
-      final boundary = _repaintKey.currentContext!.findRenderObject()
-          as RenderRepaintBoundary;
+      final ctx = _repaintKey.currentContext;
+      if (ctx == null) return;
+      final boundary = ctx.findRenderObject() as RenderRepaintBoundary?;
+      if (boundary == null) return;
       final image = await boundary.toImage(pixelRatio: 3.0);
       final byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
-      final pngBytes = byteData!.buffer.asUint8List();
+      if (byteData == null) throw StateError('PNG encoding returned null');
+      final pngBytes = byteData.buffer.asUint8List();
 
       final dir = await getTemporaryDirectory();
       final file = File('${dir.path}/yeedoy_badge_certificate.png');
@@ -80,6 +83,12 @@ class _CertificateViewState extends State<_CertificateView> {
           text: '${widget.businessName} — Yeedoy Başarım Sertifikası 🏆',
         ),
       );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Paylaşım başarısız oldu.')),
+        );
+      }
     } finally {
       if (mounted) setState(() => _sharing = false);
     }
