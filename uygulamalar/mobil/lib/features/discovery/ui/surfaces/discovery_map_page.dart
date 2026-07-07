@@ -19,8 +19,44 @@ class _DiscoveryMapPageState extends ConsumerState<_DiscoveryMapPage> {
   String? _selectedBusinessId;
   bool _recentering = false;
 
+  /// PMTiles vector tile provider — null until async init completes.
+  PmTilesVectorTileProvider? _tileProvider;
+
+  /// Debounce timer for viewport-based business fetch.
+  Timer? _debounceTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _initTileProvider();
+  }
+
+  Future<void> _initTileProvider() async {
+    final url = dotenv.env['YEEDOY_PMTILES_URL'] ??
+        'https://maps.yeedoy.com/turkiye.pmtiles';
+    try {
+      final provider = await PmTilesVectorTileProvider.fromSource(url);
+      if (mounted) setState(() => _tileProvider = provider);
+    } catch (_) {
+      // PMTiles yüklenemezse harita boş arka planla devam eder.
+    }
+  }
+
+  void _onMapMoved(MapCamera camera) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      unawaited(
+        ref.read(discoverySearchProvider.notifier).setUserLocation(
+              lat: camera.center.latitude,
+              lng: camera.center.longitude,
+            ),
+      );
+    });
+  }
+
   @override
   void dispose() {
+    _debounceTimer?.cancel();
     _searchCtrl.dispose();
     super.dispose();
   }
@@ -97,6 +133,7 @@ class _DiscoveryMapPageState extends ConsumerState<_DiscoveryMapPage> {
 
     final markerItems = st.items
         .where((b) => b.lat != null && b.lng != null)
+        .take(100)
         .toList();
 
     BusinessCardModel? selected;
@@ -174,6 +211,9 @@ class _DiscoveryMapPageState extends ConsumerState<_DiscoveryMapPage> {
                         icon: const Icon(Icons.tune_rounded),
                       ),
                       border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      filled: false,
                       contentPadding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),
@@ -253,12 +293,23 @@ class _DiscoveryMapPageState extends ConsumerState<_DiscoveryMapPage> {
                 options: MapOptions(
                   initialCenter: center,
                   initialZoom: 14,
+                  onMapEvent: (event) {
+                    if (event is MapEventMoveEnd) {
+                      _onMapMoved(event.camera);
+                    }
+                  },
                 ),
                 children: [
-                  TileLayer(
-                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.yeedoy.app',
-                  ),
+                  if (_tileProvider != null)
+                    VectorTileLayer(
+                      tileProviders: TileProviders(
+                        {'protomaps': _tileProvider!},
+                      ),
+                      theme: ProtomapsThemes.lightV4(),
+                      memoryTileDataCacheMaxSize: 200,
+                    )
+                  else
+                    const ColoredBox(color: Color(0xFFE8E4DC)),
                   MarkerLayer(markers: markers),
                 ],
               ),

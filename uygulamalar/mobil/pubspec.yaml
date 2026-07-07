@@ -55,6 +55,8 @@ dependencies:
   home_widget: ^0.6.0
   package_info_plus: ^8.3.0
   flutter_map: ^7.0.2
+  vector_map_tiles: ^8.0.0
+  vector_map_tiles_pmtiles: ^1.5.0
   latlong2: ^0.9.1
   flutter_svg: ^2.0.10+1
   path_provider: ^2.1.5
