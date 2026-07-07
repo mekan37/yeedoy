@@ -49,12 +49,15 @@ dependencies:
   firebase_performance: ^0.11.1+4
   google_sign_in: ^6.2.2
   font_awesome_flutter: ^11.0.0
+  google_fonts: ^6.2.1
   intl: ^0.20.2
   google_mobile_ads: ^7.0.0
   home_widget: ^0.6.0
   package_info_plus: ^8.3.0
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
+  flutter_svg: ^2.0.10+1
+  path_provider: ^2.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -77,18 +80,13 @@ flutter:
   generate: true
 
   uses-material-design: true
-  fonts:
-    - family: Sora
-      fonts:
-        - asset: assets/fonts/Sora-Regular.ttf
-        - asset: assets/fonts/Sora-SemiBold.ttf
-        - asset: assets/fonts/Sora-Bold.ttf
   assets:
     - .env
     - assets/brand/
     - assets/images/
     - assets/images/categories/
     - assets/meal_cards/
+    - assets/allergens/
     - assets/json/karaliste.txt
     - assets/json/yemek.v4.json
 

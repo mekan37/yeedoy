@@ -56,6 +56,7 @@ import '../data/business_badges_repository.dart';
 import '../data/business_chain_repository.dart';
 import '../domain/business_badge.dart';
 import '../domain/chain_info.dart';
+import 'parts/business_badge_certificate.dart';
 
 part 'sections/business_detail_sections.dart';
 part 'parts/business_models.dart';
