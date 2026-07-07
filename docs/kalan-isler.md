@@ -252,6 +252,24 @@
 - **Önerilen agent:** test-automator (qa-expert sistemde — en yakın: `qa-expert`)
 - **Kabul kriteri:** Owner flow + 2FA + admin flow için en az birer E2E spec eklendi
 
+### Geocoding / Koordinat Backfill
+
+**Öncelik:** Orta  
+**Bağlam:** Haritada sadece gerçek lat/lng olan işletmeler gösterilmektedir. Koordinatsız işletmelerin haritada görünebilmesi için geocoding backfill gereklidir.
+
+**Yapılacaklar:**
+- [ ] `businesses` tablosundaki `lat IS NULL OR lng IS NULL` kayıtlarını say
+- [ ] Google Geocoding API veya Nominatim ile adres → koordinat dönüşümü
+- [ ] Toplu backfill scripti yaz (ör. `tools/geocode-backfill.mjs`)
+- [ ] Backfill sonrası `lat/lng` ve `geog` kolonlarını güncelle (migration gerekmez, UPDATE yeterli)
+- [ ] Yeni işletme eklendiğinde otomatik geocoding için trigger veya edge function değerlendir
+
+- **Etki:** Orta — koordinatsız işletmeler haritada görünmüyor
+- **Bağımlılık:** Provider seçimi (Google Geocoding API veya Nominatim)
+- **Önerilen branch:** `chore/geocode-backfill`
+- **Önerilen agent:** postgres-pro + data-engineer
+- **Kabul kriteri:** `lat IS NULL OR lng IS NULL` olan işletme sayısı raporu çıktı; backfill scripti çalıştırıldı; harita sayfasında koordinatı doldurulan işletmeler marker olarak görünüyor
+
 ---
 
 ## P5 — Fikir Havuzu / Daha Sonra
