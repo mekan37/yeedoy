@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:yeedoy/features/profile/domain/achievement.dart';
 
 class AppAchievementVisual {
   const AppAchievementVisual({required this.icon, required this.color});
@@ -104,4 +105,92 @@ Color _hexToColor(String? raw) {
   final value = int.tryParse('FF$text', radix: 16);
   if (value == null) return const Color(0xFF9CA3AF);
   return Color(value);
+}
+
+LinearGradient medalGradient(String tier) {
+  switch (tier) {
+    case 'gold':
+      return const LinearGradient(
+        colors: [Color(0xFFFFD700), Color(0xFFB8860B), Color(0xFFFFD700)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      );
+    case 'silver':
+      return const LinearGradient(
+        colors: [Color(0xFFE8E8E8), Color(0xFF9E9E9E), Color(0xFFE8E8E8)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      );
+    case 'special':
+      return const LinearGradient(
+        colors: [Color(0xFF9C27B0), Color(0xFF4A148C), Color(0xFF9C27B0)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      );
+    default:
+      return const LinearGradient(
+        colors: [Color(0xFFCD7F32), Color(0xFF8B4513), Color(0xFFCD7F32)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      );
+  }
+}
+
+class AchievementMedalWidget extends StatelessWidget {
+  const AchievementMedalWidget({
+    super.key,
+    required this.achievement,
+    this.size = 56.0,
+    this.showLabel = false,
+  });
+
+  final Achievement achievement;
+  final double size;
+  final bool showLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final gradient = medalGradient(achievement.tier);
+    final visual = _achievementVisualById[achievement.id];
+    final iconWidget = visual != null
+        ? FaIcon(visual.icon, size: size * 0.55, color: Colors.white)
+        : Icon(Icons.emoji_events, size: size * 0.55, color: Colors.white);
+
+    final medal = Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: gradient,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Center(child: iconWidget),
+    );
+
+    if (!showLabel) return medal;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        medal,
+        const SizedBox(height: 4),
+        SizedBox(
+          width: size + 8,
+          child: Text(
+            achievement.title,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
+    );
+  }
 }
