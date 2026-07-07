@@ -27,12 +27,10 @@ as $$
     (select count(*)::int from public.visits
        where user_id = (select id from uid))                                      as visits_count,
     (
-      select coalesce(
-        (select count(*)::int * 10 from my_reviews)
-        + (select count(*)::int * 5 from public.visits where user_id = (select id from uid))
-        + (select count(*)::int * 3 from public.favorites where user_id = (select id from uid)),
-        0
-      )
+      (select count(*)::int from my_reviews) * 5
+      + (select coalesce(sum(helpful_count), 0)::int from my_reviews) * 2
+      + (select count(*)::int from public.favorites where user_id = (select id from uid))
+      + (select count(*)::int from public.visits   where user_id = (select id from uid)) * 1
     )                                                                             as contribution_score,
     (select coalesce(sum(followers_count), 0)::int
        from public.favorite_collections
