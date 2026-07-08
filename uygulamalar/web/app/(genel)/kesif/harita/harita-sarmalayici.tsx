@@ -6,7 +6,10 @@ import type { HaritaIsletme } from '@/src/lib/veri/harita-okuma';
 // dynamic() with ssr:false must live in a Client Component.
 // This thin wrapper is imported by the Server Component page.
 const HaritaIstemcisi = dynamic(
-  () => import('@/src/ui/acik/harita-istemcisi').then((m) => ({ default: m.HaritaIstemcisi })),
+  () =>
+    import('@/src/ui/acik/harita-istemcisi').then((m) => ({
+      default: m.HaritaIstemcisi,
+    })),
   {
     ssr: false,
     loading: () => (
@@ -18,5 +21,5 @@ const HaritaIstemcisi = dynamic(
 );
 
 export function HaritaSarmalayici({ businesses }: { businesses: HaritaIsletme[] }) {
-  return <HaritaIstemcisi businesses={businesses} />;
+  return <HaritaIstemcisi initialBusinesses={businesses} />;
 }

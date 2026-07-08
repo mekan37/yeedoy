@@ -1,132 +1,162 @@
 'use client';
 
-import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import { useEffect, useRef, useCallback } from 'react';
+import maplibregl, { addProtocol, removeProtocol } from 'maplibre-gl';
+import { Protocol } from 'pmtiles';
+import { layers, namedTheme } from 'protomaps-themes-base';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import type { HaritaIsletme } from '@/src/lib/veri/harita-okuma';
-import { getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
 
-// NOTE: This component is already behind a dynamic() ssr:false boundary
-// in the harita-sarmalayici. Do not use it in Server Components directly.
+const PMTILES_URL =
+  process.env.NEXT_PUBLIC_YEEDOY_PMTILES_URL ??
+  'https://maps.yeedoy.com/turkiye.pmtiles';
 
-// Türkiye ortası — koordinatlı işletme yoksa varsayılan merkez
-const TURKEY_CENTER: [number, number] = [39.2, 35.3];
-const TURKEY_ZOOM = 6;
+// Türkiye merkezi — Ankara
+const DEFAULT_CENTER: [number, number] = [32.8597, 39.9334];
+const DEFAULT_ZOOM = 6;
+const FETCH_DEBOUNCE_MS = 500;
+const MAX_MARKERS = 150;
 
-function computeCenter(businesses: HaritaIsletme[]): [number, number] {
-  if (businesses.length === 0) return TURKEY_CENTER;
-  const latSum = businesses.reduce((s, b) => s + b.lat, 0);
-  const lngSum = businesses.reduce((s, b) => s + b.lng, 0);
-  return [latSum / businesses.length, lngSum / businesses.length];
+interface Props {
+  initialBusinesses: HaritaIsletme[];
 }
 
-function computeZoom(businesses: HaritaIsletme[]): number {
-  if (businesses.length === 0) return TURKEY_ZOOM;
-  // Tek şehirdeyse yaklaştır, çok şehirdeyse uzaklaştır
-  const cities = new Set(businesses.map((b) => b.city));
-  if (cities.size <= 1) return 13;
-  if (cities.size <= 3) return 10;
-  return TURKEY_ZOOM;
-}
+export function HaritaIstemcisi({ initialBusinesses }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+  const markersRef = useRef<maplibregl.Marker[]>([]);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-export function HaritaIstemcisi({ businesses }: { businesses: HaritaIsletme[] }) {
-  const center = computeCenter(businesses);
-  const zoom = computeZoom(businesses);
+  const clearMarkers = useCallback(() => {
+    markersRef.current.forEach((m) => m.remove());
+    markersRef.current = [];
+  }, []);
 
-  if (businesses.length === 0) {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-cardAlt">
-        <span className="text-3xl" aria-hidden="true">🗺</span>
-        <p className="text-sm font-[900] text-textStrong">Haritada gösterilecek işletme bulunamadı</p>
-        <p className="text-xs text-muted">Koordinat verisi olan işletmeler burada görünür</p>
-      </div>
+  const addMarkers = useCallback(
+    (businesses: HaritaIsletme[]) => {
+      if (!mapRef.current) return;
+      clearMarkers();
+
+      const limited = businesses.slice(0, MAX_MARKERS);
+      limited.forEach((b) => {
+        const el = document.createElement('div');
+        el.className = 'yeedoy-marker';
+        el.style.cssText = `
+          width:28px;height:28px;border-radius:50%;
+          background:#7F1D1D;border:2px solid white;
+          box-shadow:0 1px 4px rgba(0,0,0,.3);
+          cursor:pointer;display:flex;align-items:center;justify-content:center;
+        `;
+        el.innerHTML =
+          '<span style="color:white;font-size:12px;font-weight:700">Y</span>';
+
+        const popup = new maplibregl.Popup({ offset: 18 }).setHTML(
+          `<div style="font-family:sans-serif;min-width:140px;">
+            <p style="margin:0 0 2px;font-weight:600;font-size:13px">${b.name}</p>
+            <p style="margin:0;font-size:11px;color:#6B7280">${b.category}</p>
+            ${b.avg_rating ? `<p style="margin:4px 0 0;font-size:11px">⭐ ${b.avg_rating.toFixed(1)}</p>` : ''}
+            <a href="/b/${b.slug}" style="display:block;margin-top:6px;font-size:11px;color:#7F1D1D;text-decoration:none;font-weight:600">Detaylar →</a>
+          </div>`,
+        );
+
+        const marker = new maplibregl.Marker({ element: el })
+          .setLngLat([b.lng, b.lat])
+          .setPopup(popup)
+          .addTo(mapRef.current!);
+
+        markersRef.current.push(marker);
+      });
+    },
+    [clearMarkers],
+  );
+
+  const fetchAndUpdate = useCallback(async () => {
+    if (!mapRef.current) return;
+    const center = mapRef.current.getCenter();
+    try {
+      const res = await fetch(
+        `/api/harita-isletmeler?lat=${center.lat}&lng=${center.lng}&radius=50`,
+      );
+      if (!res.ok) return;
+      const data: HaritaIsletme[] = await res.json();
+      addMarkers(data);
+    } catch {
+      // sessizce geç
+    }
+  }, [addMarkers]);
+
+  const onMoveEnd = useCallback(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(fetchAndUpdate, FETCH_DEBOUNCE_MS);
+  }, [fetchAndUpdate]);
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+
+    // PMTiles protokolünü kaydet
+    const protocol = new Protocol();
+    addProtocol('pmtiles', protocol.tile as maplibregl.AddProtocolAction);
+
+    const mapStyle: maplibregl.StyleSpecification = {
+      version: 8,
+      glyphs:
+        'https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf',
+      sprite:
+        'https://protomaps.github.io/basemaps-assets/sprites/v4/light',
+      sources: {
+        protomaps: {
+          type: 'vector',
+          url: `pmtiles://${PMTILES_URL}`,
+          attribution: '© OpenStreetMap',
+        },
+      },
+      layers: layers(
+        'protomaps',
+        namedTheme('light'),
+      ) as maplibregl.LayerSpecification[],
+    };
+
+    const map = new maplibregl.Map({
+      container: containerRef.current,
+      style: mapStyle,
+      center: DEFAULT_CENTER,
+      zoom: DEFAULT_ZOOM,
+      minZoom: 4,
+      maxZoom: 18,
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    map.addControl(
+      new maplibregl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: false,
+      }),
+      'top-right',
     );
-  }
+
+    map.on('load', () => {
+      addMarkers(initialBusinesses);
+    });
+
+    map.on('moveend', onMoveEnd);
+
+    mapRef.current = map;
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      clearMarkers();
+      removeProtocol('pmtiles');
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [initialBusinesses, addMarkers, onMoveEnd, clearMarkers]);
 
   return (
-    <MapContainer
-      center={center}
-      zoom={zoom}
-      scrollWheelZoom
-      style={{ height: '100%', width: '100%', minHeight: 480 }}
-      aria-label="Türkiye işletme haritası"
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        maxZoom={19}
-      />
-      {businesses.map((biz) => {
-        const { level: priceLevel } = getPriceLevelFromBusiness(biz.priceLevel, biz.medianPriceCents);
-        const openLabel =
-          biz.isOpenNow === true ? 'Açık' : biz.isOpenNow === false ? 'Kapalı' : null;
-        const openColor =
-          biz.isOpenNow === true ? '#16a34a' : biz.isOpenNow === false ? '#dc2626' : '#64748b';
-
-        return (
-          <CircleMarker
-            key={biz.id}
-            center={[biz.lat, biz.lng]}
-            radius={10}
-            pathOptions={{
-              fillColor: '#7f1d1d',
-              fillOpacity: 0.92,
-              color: '#fff',
-              weight: 2,
-            }}
-          >
-            <Popup maxWidth={240}>
-              <div style={{ fontFamily: 'system-ui', lineHeight: 1.4, padding: '2px 0' }}>
-                <p style={{ fontWeight: 900, fontSize: 14, margin: '0 0 2px' }}>
-                  {biz.name}
-                </p>
-                <p style={{ fontSize: 12, color: '#64748b', margin: '0 0 6px' }}>
-                  {[biz.category, biz.district ?? biz.city].filter(Boolean).join(' · ')}
-                </p>
-                {/* Rozet satırı: açık/kapalı + fiyat seviyesi */}
-                {(openLabel || priceLevel) ? (
-                  <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
-                    {openLabel ? (
-                      <span
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 900,
-                          color: '#fff',
-                          background: openColor,
-                          borderRadius: 6,
-                          padding: '2px 7px',
-                        }}
-                      >
-                        {openLabel}
-                      </span>
-                    ) : null}
-                    {priceLevel ? (
-                      <span
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 900,
-                          color: '#334155',
-                          background: '#f1f5f9',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: 6,
-                          padding: '2px 7px',
-                        }}
-                      >
-                        {priceLevel}
-                      </span>
-                    ) : null}
-                  </div>
-                ) : null}
-                <a
-                  href={`/isletme/${biz.slug}`}
-                  style={{ fontWeight: 900, fontSize: 13, color: '#7f1d1d', textDecoration: 'none' }}
-                >
-                  Detay →
-                </a>
-              </div>
-            </Popup>
-          </CircleMarker>
-        );
-      })}
-    </MapContainer>
+    <div
+      ref={containerRef}
+      style={{ width: '100%', height: '100%', minHeight: '500px' }}
+    />
   );
 }
+
+export default HaritaIstemcisi;
