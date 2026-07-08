@@ -1,6 +1,6 @@
 # Yeedoy — Kalan İşler
 
-> **Son Güncelleme:** 2026-06-09 (city alias search altyapısı eklendi — bkz. `feature/city-alias-search` branch)
+> **Son Güncelleme:** 2026-07-08 (kod audit — tamamlananlar işaretlendi, eskiler kaldırıldı)
 > **Kural:** Bu dosya tek kanonik açık iş listesidir. Yeni iş eklenince buraya yazılır. `docs/eksik-listesi.md` bu dosyaya birleştirilip silindi.
 > **Şablon:** Her madde `Durum / Kanıt / Etki / Bağımlılık / Önerilen branch / Önerilen agent / Kabul kriteri` alanlarını kullanır.
 
@@ -8,31 +8,21 @@
 
 ## P0 — Release Blocker (Bunlar olmadan store yayını yapılamaz)
 
-### Firebase Init Crash Fix
-- **Durum:** ✅ Çözüldü — her iki katman da main'de doğrulandı + ek savunma katmanı eklendi
-- **Kanıt:** Doğrulama (2026-06-08, `fix/mobile-p0-release-blockers` branch'inden): bu maddenin önceki notu **yanlıştı** — manifest düzeltmesinin yalnızca unmerged `store/android-screenshot-set` branch'inde (`33cb1a8`) olduğu iddiası geçersiz. Gerçek durum: (1) Dart guard commit `4f8772f` (`fix(mobile): guard firebase initialization against duplicate app`) main'de — `git merge-base --is-ancestor 4f8772f main` → YES; (2) AndroidManifest `FirebaseInitProvider` `tools:node="remove"` düzeltmesi commit `517be7b` (`fix(mobile): disable duplicate firebase auto initialization`) main'de — `git merge-base --is-ancestor 517be7b main` → YES, `uygulamalar/mobil/android/app/src/main/AndroidManifest.xml:93-100` doğrulandı. **Ek olarak** bu oturumda commit `ebc6a98` ile `lib/main.dart`'a savunma katmanı eklendi: `Firebase.initializeApp()` + `MobileAds.instance.initialize()` artık `try/catch` içinde, başarısızlık durumunda `firebaseReady=false` ile devam ediyor (Crashlytics çağrıları `if (firebaseReady)` ile korunuyor) — böylece dokümante edilmemiş bir init hatası bile artık açılışta crash'e yol açamaz.
-- **Etki:** Android screenshot capture ve emulator testleri bu fixe bağlıydı — artık engel değil
-- **Bağımlılık:** Yok — her iki katman main'de, ek savunma katmanı `fix/mobile-p0-release-blockers` branch'inde (PR bekliyor)
-- **Önerilen branch:** `fix/mobile-p0-release-blockers` (mevcut — review + merge)
-- **Önerilen agent:** mobile-developer (flutter-expert sistemde yok, en yakın uzman)
-- **Kabul kriteri:** ✅ `Firebase.apps.isEmpty` guard main'de (`4f8772f`) · ✅ `FirebaseInitProvider` manifest'ten kaldırılmış (`517be7b`) · ✅ `flutter analyze lib/main.dart` → "No issues found!" · ✅ try/catch savunma katmanı eklendi (`ebc6a98`) — emulator runtime testi store/screenshot işiyle birlikte ayrıca yapılmalı (statik doğrulama tamamlandı, runtime smoke test P1'e taşındı, bkz. aşağıda)
-
 ### Android Release AAB Artifact Doğrulaması
 - **Durum:** 🟡 Pipeline 3 gerçek bug'dan arındırıldı, derleme imzalama adımına kadar ilerliyor — ancak GitHub secret **değerleri** birbiriyle uyuşmuyor (kod değil, config/secret sorunu — repo sahibi tarafından çözülmeli)
 - **Kanıt:** `fix/mobile-p0-release-blockers` branch'inde 3 ayrı, gerçek, önceden var olan bug bulundu ve düzeltildi (her biri CI run loglarından teşhis edildi, varsayım yapılmadı):
-  1. **Geçersiz `if: secrets.X != ''` job-seviyesi syntax** (`ebc6a98`, `a5d31a0`) — GitHub Actions job-level `if:` koşullarında `secrets` context kullanılamıyor (sadece `github/needs/vars/inputs`); bu HTTP 422 ile **tüm dispatch'leri bloke ediyordu** ve **her push'ta repo genelinde hayalet "failure" run kayıtları** oluşturuyordu (`gh run list` ile doğrulandı — bu run'ların hiçbirinde gerçek job çalışmamış). Step-output gate (`steps.check.outputs.configured`) ile yeniden yazıldı.
-  2. **Step sıralama / working-directory hatası** (`a5d31a0`) — "Check release signing secrets" adımı "Checkout"tan önce çalışıyor ama `defaults.run.working-directory: uygulamalar/mobil` kullanıyordu (checkout öncesi yok). Checkout ilk adıma taşındı + `working-directory: .` eklendi.
-  3. **Keystore `storeFile` yol çözümleme uyuşmazlığı** (`5628d7f`) — `android/app/build.gradle.kts` içinde `file(storeFilePath)` Gradle tarafından `android/app/` dizinine göre çözümleniyordu, ama "Decode Android keystore" adımı dosyayı `android/keystore/`'a yazıyor ve `key.properties.example` "relative to android/ directory" diyor. Sonuç: Gradle `android/app/android/keystore/...` arıyordu (yanlış, var olmayan yol). `file()` → `rootProject.file()` + CI default path `'android/keystore/...'` → `'keystore/...'` olarak düzeltildi (her ikisi `android/`'a göre tutarlı).
-  - **Doğrulama run'ları:** Run 1 (`27130708095`) → step-ordering hatasıyla 8s'de fail · Run 2 (`27130751947`) → keystore path hatasıyla `bundleRelease` adımında 1m23s'de fail · **Run 3 (`27130981247`, tüm 3 fix uygulanmış halde, https://github.com/mekan37/yeedoy/actions/runs/27130981247) → keystore artık DOĞRU okunuyor, build 11m9s sürdü ve `:app:signReleaseBundle` adımında şu hatayla fail oldu: `Failed to read key *** from store ".../android/keystore/yeedoy-release.keystore": No key with alias '***' found in keystore`.**
-  - **Bu son hata kod/pipeline hatası DEĞİL** — `ANDROID_KEYSTORE_BASE64` secret'ının decode ettiği keystore dosyası ile `ANDROID_RELEASE_KEY_ALIAS` secret'ının değeri birbiriyle uyuşmuyor (ya yanlış keystore yüklenmiş ya da alias adı yanlış yazılmış). Secret değerlerini görme/değiştirme yetkim yok ve olmamalı.
-- **Etki:** Play Store submit şu an mümkün değil — ama artık net, tek bir engel var: secret değer uyuşmazlığı (config sorunu, kod sorunu değil)
-- **Bağımlılık (yeni — repo sahibi/yetkili tarafından yapılmalı):**
-  1. Yerelde `ANDROID_KEYSTORE_BASE64` secret'ının kaynağı olan `.keystore`/`.jks` dosyasını `keytool -list -v -keystore <dosya>` ile aç, içindeki gerçek alias adını/adlarını gör
-  2. `ANDROID_RELEASE_KEY_ALIAS` secret değerini bu gerçek alias ile eşleştir (`gh secret set ANDROID_RELEASE_KEY_ALIAS`) — ya da yanlış keystore yüklendiyse doğru `.keystore` dosyasını yeniden base64 encode edip `ANDROID_KEYSTORE_BASE64`'ü güncelle
+  1. **Geçersiz `if: secrets.X != ''` job-seviyesi syntax** (`ebc6a98`, `a5d31a0`) — GitHub Actions job-level `if:` koşullarında `secrets` context kullanılamıyor; HTTP 422 ile tüm dispatch'leri bloke ediyordu. Step-output gate (`steps.check.outputs.configured`) ile yeniden yazıldı.
+  2. **Step sıralama / working-directory hatası** (`a5d31a0`) — "Check release signing secrets" adımı "Checkout"tan önce çalışıyordu. Checkout ilk adıma taşındı.
+  3. **Keystore `storeFile` yol çözümleme uyuşmazlığı** (`5628d7f`) — `file()` → `rootProject.file()` + CI default path düzeltildi.
+  - **Son hata:** `ANDROID_KEYSTORE_BASE64` ile `ANDROID_RELEASE_KEY_ALIAS` uyuşmuyor (config sorunu, kod sorunu değil).
+- **Etki:** Play Store submit şu an mümkün değil
+- **Bağımlılık (repo sahibi/yetkili tarafından yapılmalı):**
+  1. `.keystore` dosyasını `keytool -list -v -keystore <dosya>` ile aç, alias adını gör
+  2. `ANDROID_RELEASE_KEY_ALIAS` secret değerini düzelt (`gh secret set ANDROID_RELEASE_KEY_ALIAS`)
   3. `gh workflow run mobile_release.yml --ref fix/mobile-p0-release-blockers` ile yeniden tetikle
-- **Önerilen branch:** `fix/mobile-p0-release-blockers` (mevcut — pipeline fix'leri burada, review + merge edilebilir; secret düzeltmesi sonrası tekrar doğrulama gerekir)
-- **Önerilen agent:** devops-engineer (pipeline) + repo sahibi (secret değerleri)
-- **Kabul kriteri:** 🟡 Kısmi — ✅ pipeline 3 bug'dan arındı ve imzalama adımına kadar başarıyla ilerliyor · ❌ signed AAB henüz üretilemedi (secret uyuşmazlığı nedeniyle) · ⏳ secret düzeltmesi sonrası: CI'da signed release AAB derlenmeli, `mobile-android-aab-<run_number>` artifact'i yüklenmeli, `apksigner verify` ile imza doğrulanmalı
+- **Önerilen branch:** `fix/mobile-p0-release-blockers` (pipeline fix'leri hazır — secret düzeltmesi sonrası test)
+- **Önerilen agent:** devops-engineer + repo sahibi
+- **Kabul kriteri:** CI'da signed release AAB derlendi · `apksigner verify` ile imza doğrulandı
 
 ---
 
@@ -40,30 +30,30 @@
 
 ### Android Store Screenshots (0/8 main'de — 8/8 unmerged branch'te hazır)
 - **Durum:** 🟡 Çözüme çok yakın — unmerged branch'te tamamlanmış halde duruyor
-- **Kanıt:** `store/android-screenshot-set` branch'i (commit `33cb1a8 store: add android store screenshot set (8/8)`) 8 adet 1280×2856px Android ekran görüntüsü içeriyor (`store-assets/screenshots/android/android_01..08_*.png`, demo mode 09:41/batarya 100%/wifi 4 bar). main'de bu dosyalar henüz yok (`git ls-files store-assets/` boş döndü)
+- **Kanıt:** `store/android-screenshot-set` branch'i (commit `33cb1a8`) 8 adet 1280×2856px Android ekran görüntüsü içeriyor. main'de henüz yok.
 - **Etki:** Play Store Store Listing yükleme bu görsellere bağlı
-- **Bağımlılık:** P0 Firebase fix branch'i ile aynı commit — ikisi birlikte merge edilmeli
+- **Bağımlılık:** P0 AAB branch'i ile birlikte merge edilmeli
 - **Önerilen branch:** `store/android-screenshot-set` (mevcut — review + merge)
 - **Önerilen agent:** mobile-developer
-- **Kabul kriteri:** 8 PNG dosyası main'de `store-assets/screenshots/android/` altında; `docs/release/store-screenshot-capture-guide.md` senaryolarıyla eşleşiyor
+- **Kabul kriteri:** 8 PNG dosyası main'de `store-assets/screenshots/android/` altında
 
 ### iOS Store Screenshots (0/8)
 - **Durum:** Açık — macOS + Xcode gerekiyor
-- **Kanıt:** `store-assets/screenshots/ios/` dizini boş (sadece klasör var)
+- **Kanıt:** `store-assets/screenshots/ios/` dizini boş
 - **Etki:** App Store Connect'e yükleme bu görsellere bağlı
 - **Bağımlılık:** macOS cihaz erişimi
 - **Önerilen branch:** `store/ios-screenshots`
 - **Önerilen agent:** mobile-developer
-- **Kabul kriteri:** iPhone 14 Plus (1284×2778) + iPhone 8 Plus (1242×2208) için 8'er ekran görüntüsü `store-assets/screenshots/ios/` altında
+- **Kabul kriteri:** iPhone 14 Plus (1284×2778) + iPhone 8 Plus (1242×2208) için 8'er ekran görüntüsü
 
 ### Play Console Data Safety Manuel Giriş
 - **Durum:** Açık — taslak hazır
-- **Kanıt:** `docs/release/store-data-safety-iarc.md` (taşındı) detaylı taslak içeriyor; ATT (`NSUserTrackingUsageDescription`) repo'da uygulanmış durumda
+- **Kanıt:** `docs/release/store-data-safety-iarc.md` detaylı taslak içeriyor
 - **Etki:** Play Console'da form doldurulmadan yayın yapılamaz
 - **Bağımlılık:** Play Console erişimi
 - **Önerilen branch:** — (kod değişikliği yok, manuel form)
 - **Önerilen agent:** project-manager
-- **Kabul kriteri:** Play Console → App content → Data safety formu taslağa göre doldurulup gönderildi (~30-60 dk)
+- **Kabul kriteri:** Play Console → App content → Data safety formu taslağa göre doldurulup gönderildi
 
 ### Play Console IARC Derecelendirme Formu
 - **Durum:** Açık
@@ -72,11 +62,10 @@
 - **Bağımlılık:** Play Console erişimi
 - **Önerilen branch:** —
 - **Önerilen agent:** project-manager
-- **Kabul kriteri:** IARC formu gönderildi, derecelendirme sertifikası alındı (~15-30 dk)
+- **Kabul kriteri:** IARC formu gönderildi, derecelendirme sertifikası alındı
 
 ### Internal Testing / Beta Testers
-- **Durum:** Açık
-- **Kanıt:** Henüz tester davet edilmedi
+- **Durum:** Açık — henüz tester davet edilmedi
 - **Etki:** Crash/feedback verisi olmadan public release riskli
 - **Bağımlılık:** Signed AAB (P0) + ekran görüntüleri (P1)
 - **Önerilen branch:** —
@@ -85,60 +74,31 @@
 
 ### Release Notes Final Kontrol
 - **Durum:** 🟡 Taslak hazır, son gözden geçirme gerekiyor
-- **Kanıt:** `docs/release/mobile-release-readiness.md` içinde TR + EN release notes şablonları kullanıma hazır halde mevcut
+- **Kanıt:** `docs/release/mobile-release-readiness.md` TR + EN release notes şablonları kullanıma hazır
 - **Etki:** Düşük — taslak zaten kullanılabilir durumda
-- **Bağımlılık:** Yok
-- **Önerilen branch:** —
 - **Önerilen agent:** content-marketer
-- **Kabul kriteri:** TR/EN release notes son kez okunup onaylandı, store listing'e yapıştırıldı
+- **Kabul kriteri:** TR/EN release notes onaylandı, store listing'e yapıştırıldı
 
 ### Store Asset Upload Checklist
 - **Durum:** Açık — kısmen tamamlandı
-- **Kanıt:** Hazır olanlar: `store-assets/icon/yeedoy-master-icon-1024.png` ✅, `store-assets/icon/yeedoy-play-icon-512.png` ✅, `store-assets/feature/yeedoy-feature-graphic-1200x500.png` ✅ (`git ls-files` ile doğrulandı). Eksik: 8× Android screenshot main'de yok (ama unmerged branch'te hazır — yukarı bkz.), 8× iOS screenshot hiç yok
+- **Kanıt:** Hazır: `store-assets/icon/yeedoy-master-icon-1024.png` ✅, `store-assets/icon/yeedoy-play-icon-512.png` ✅, `store-assets/feature/yeedoy-feature-graphic-1200x500.png` ✅. Eksik: Android screenshots main'de yok (unmerged branch'te hazır), iOS screenshots hiç yok.
 - **Etki:** Store listing tamamlanamaz
-- **Bağımlılık:** P0/P1 screenshot maddeleri
-- **Önerilen branch:** —
-- **Önerilen agent:** project-manager
-- **Kabul kriteri:** Tüm asset checklist maddeleri ✅ — icon, feature graphic, 8 Android + 8 iOS screenshot store-assets/ altında
-
-### City Alias / Search Normalizasyonu
-- **Durum:** ✅ Altyapı hazır — `feature/city-alias-search` branch'inde migration'lar yazıldı, commit bekleniyor
-- **Kanıt:** 3 migration dosyası oluşturuldu (2026-06-09):
-  - `supabase/migrations/20260609000001_city_search_aliases.sql` — `city_search_aliases` tablosu + 9 alias seed + RLS (anon SELECT, admin write)
-  - `supabase/migrations/20260609000002_normalize_tr_location.sql` — `normalize_tr_location_text()` helper fonksiyon
-  - `supabase/migrations/20260609000003_update_search_rpcs_city_alias.sql` — `search_businesses_v1` ve `search_nearby_businesses_v3` alias CTE güncelleme
-- **Etki:** PR #94 (chore/normalize-business-location-data) production'a alınmadan önce bu migration'lar uygulanmalı; aksi halde "İzmit"/"Adapazarı"/"Afyon"/"Antakya" aramaları boş sonuç döner
-- **Bağımlılık:** PR #94 (`chore/normalize-business-location-data`) ile bağımlılık sırası:
-  1. `feature/city-alias-search` → merge et ve Supabase'e uygula (20260609000001, 000002, 000003)
-  2. `chore/normalize-business-location-data` (PR #94) → merge et ve Supabase'e uygula
-  3. Production arama testleri: "İzmit", "Adapazarı", "Afyon", "Antakya" için sonuç döndüğünü doğrula
-- **Önerilen branch:** `feature/city-alias-search` (mevcut — review + merge)
-- **Önerilen agent:** postgres-pro
-- **Kabul kriteri:** `SELECT * FROM city_search_aliases` 9 satır döner · `normalize_tr_location_text('İzmit') = 'izmit'` · `search_businesses_v1(p_query=>'...', p_city=>'İzmit')` Kocaeli/İzmit işletmelerini döndürür · PR #94 sonrası arama sonuçları bozmaz
+- **Bağımlılık:** Screenshot maddeleri
+- **Kabul kriteri:** Tüm asset checklist ✅ — icon, feature graphic, 8 Android + 8 iOS screenshot
 
 ---
 
 ## P2 — Runtime Env / Dış Entegrasyonlar
 
-> Detaylı entegrasyon durumu için bkz. `docs/delivery/delivery-integration-status.md` (push/email/sms tek tabloda)
-
-### Firebase FCM Runtime Env
-- **Durum:** ✅ HAZIR — GitHub secrets ✅, local .env.local ✅ (2026-06-06 doğrulandı)
-- **Kanıt:** `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` — `gh secret list` ile doğrulandı; PR #52 (commit `8d3e6dd`) FCM delivery kodu deploy edildi
-- **Etki:** Düşük — sadece Vercel production env var ekleme kaldı
-- **Bağımlılık:** Yok
-- **Önerilen branch:** —
-- **Önerilen agent:** devops-engineer
-- **Kabul kriteri:** Production'da test kampanyası `providerNotConfigured: false` döner
+> Detaylı entegrasyon durumu için bkz. `docs/delivery/delivery-integration-status.md`
 
 ### Resend Email Runtime Env
 - **Durum:** 🟡 KISMEN HAZIR — kod hazır, `RESEND_API_KEY` runtime'a eklenmedi
-- **Kanıt:** `gh secret list` ile `RESEND_API_KEY` GitHub secrets'ta yok; local `.env.local`'de de yok; `resend-client.ts` fail-safe `provider_not_configured: true` döndürüyor (PR #54, commit `b8826bc`)
+- **Kanıt:** `gh secret list` ile `RESEND_API_KEY` GitHub secrets'ta yok; `resend-client.ts` fail-safe `provider_not_configured: true` döndürüyor (PR #54, commit `b8826bc`)
 - **Etki:** Orta — owner email kampanyaları gönderilemiyor
 - **Bağımlılık:** Resend hesabı + API key
-- **Önerilen branch:** —
 - **Önerilen agent:** devops-engineer
-- **Kabul kriteri:** `RESEND_API_KEY` (+ opsiyonel `RESEND_FROM_EMAIL`, `SUPABASE_SERVICE_ROLE_KEY`) eklendi; test kampanyası `provider_not_configured: false` ve `sent_to > 0` döner
+- **Kabul kriteri:** `RESEND_API_KEY` eklendi; test kampanyası `provider_not_configured: false` ve `sent_to > 0` döner
 
 ### SMS Entegrasyonu (6 Blocker)
 - **Durum:** 🔴 BLOCKER — route deploy edildi ama tüm altyapı eksik
@@ -147,50 +107,53 @@
 - **Bağımlılık:** Provider seçimi (Netgsm/İleti Merkezi/Twilio), KVKK consent + opt-out altyapısı
 - **Önerilen branch:** `migration/supabase-sms-campaign-infra` → `feature/web-sms-campaign-delivery`
 - **Önerilen agent:** postgres-pro (migration) → nextjs-developer (route)
-- **Kabul kriteri:** Migration uygulandı, opt-out handler çalışıyor, provider seçildi ve KVKK/IYS onayı alındı, test SMS'i `provider_not_configured: false` ile gönderildi
+- **Kabul kriteri:** Migration uygulandı, opt-out handler çalışıyor, provider seçildi ve KVKK/IYS onayı alındı
 
 ---
 
-## P3 — Mobil Teknik Borçlar
+## P3.5 — Güvenlik Restore İşleri
 
-### Profil Sosyal Bağlantı Kaydetme
-- **Durum:** ✅ Tamamlandı (PR #65, #69)
-- **Kanıt:** Migration `20260603000011_user_profiles_social_links.sql` mevcut (PR #69, commit `2727c72`); `features/profile/data/profile_repository.dart:80` artık `'social_links': normalizedLinks.isEmpty ? null : normalizedLinks` payload'a yazıyor (PR #70/#65, commit `20bd1d5`)
-- **Etki:** —
-- **Bağımlılık:** —
-- **Önerilen branch:** —
-- **Önerilen agent:** —
-- **Kabul kriteri:** ✅ Karşılandı — kullanıcı sosyal linklerini kaydedebiliyor, DB'ye yazılıyor
+### Reviews Edge Guard Restore
 
-### estimate_email_segment_v1 — follower_id Kullanımı
-- **Durum:** ✅ PR #55 ile düzeltildi
-- **Kanıt:** Migration `20260603000010_fix_estimate_email_segment_v1.sql` — `follower_id` kullanımı kaldırıldı, `bf.business_id` + `is_subscribed_email` filtresi + `is_admin()/is_owner_of_business()` yetki kontrolü eklendi (PR #55, commit `964d1ac`)
-- **Etki:** —
-- **Bağımlılık:** —
-- **Önerilen branch:** —
-- **Önerilen agent:** —
-- **Kabul kriteri:** ✅ Karşılandı
+**Öncelik:** Yüksek (edge functions deploy edilince yapılmalı)
+**Bağlam:** `20260630000001_disable_reviews_edge_guard_trigger.sql` ile `trg_reviews_edge_guard_v1` trigger'ının içi no-op yapıldı çünkü `consume_edge_guard_event_v1` edge function deploy edilmemişti ve her yorum INSERT'i blokluyordu. Şu an anti-spam trigger devre dışı — yorum spam riski aktif.
 
-### business_automations RLS
-- **Durum:** ✅ PR #50 ile düzeltildi
-- **Kanıt:** Migration mevcut, PR #50 (commit `f3723cb`) merge edildi
-- **Etki:** —
-- **Bağımlılık:** —
-- **Önerilen branch:** —
-- **Önerilen agent:** —
-- **Kabul kriteri:** ✅ Karşılandı
+**Yapılacaklar:**
+- [ ] `anti-spam-guard` ve `write-gatekeeper` edge functions'ı deploy et
+- [ ] `consume_edge_guard_event_v1` RPC'sinin çalıştığını doğrula
+- [ ] `20260708000002_restore_reviews_edge_guard.sql` migration'ı yaz ve uygula:
+  ```sql
+  CREATE OR REPLACE FUNCTION public.enforce_reviews_edge_guard_v1()
+  RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
+  AS $$
+  BEGIN
+    PERFORM public.consume_edge_guard_event_v1(
+      p_user_id   => NEW.user_id,
+      p_action    => 'review_insert',
+      p_entity_id => NEW.business_id
+    );
+    RETURN NEW;
+  END;
+  $$;
+  COMMENT ON FUNCTION public.enforce_reviews_edge_guard_v1() IS
+    'Edge guard aktif (20260708000002). anti-spam-guard edge function gerektirir.';
+  ```
+- [ ] Trigger'ın `BEFORE INSERT ON reviews` üzerinde aktif olduğunu doğrula
+- [ ] Yorum gönderim akışını uçtan uca test et
+
+**Bağımlılık:** `anti-spam-guard` edge function kaynak kodu + deploy erişimi
+**Önerilen branch:** `fix/restore-reviews-edge-guard`
+**Önerilen agent:** postgres-pro + devops-engineer
+**Kabul kriteri:** Edge function deploy edildi · trigger no-op değil, gerçek guard çalışıyor · rate-limit aşıldığında yorum INSERT'i reddediliyor
 
 ---
 
 ## P4 — Web/Admin/Owner Geliştirme Backlog
 
-> `docs/eksik-listesi.md` bu bölüme birleştirildi ve silindi. Aşağıdaki maddeler doğrulama sırasında hâlâ açık olduğu teyit edilenlerdir (eski dosyadaki bazı maddeler — Taste Twin, Inbox toplu okundu, owner QR — artık tamamlanmış olduğu için listeye alınmadı, bkz. `docs/doc-audit-2026-06.md` "Doğrulanamayanlar" bölümü).
-
 ### Custom Domain Doğrulama (Owner)
 - **Durum:** Açık — backend hazır, UI bağlı değil
 - **Kanıt:** `verify-domain` edge function yazılmış (119 satır); `owner/settings/domain` UI↔backend bağlantısı yok
 - **Etki:** Orta — özel domain isteyen işletmeler için blocker
-- **Bağımlılık:** Yok
 - **Önerilen branch:** `feature/web-owner-domain-verification-ui`
 - **Önerilen agent:** nextjs-developer
 - **Kabul kriteri:** Owner panelinden domain ekleyip `verify-domain` fonksiyonu üzerinden doğrulama yapılabiliyor
@@ -199,7 +162,6 @@
 - **Durum:** Açık — backend hazır, panel entegrasyonu yok
 - **Kanıt:** `ai-menu-analyze` edge function yazılmış (345 satır); `owner/ai-analysis` route'unda entegrasyon yok
 - **Etki:** Orta — owner'lar için değer katacak özellik kullanılmıyor
-- **Bağımlılık:** Yok
 - **Önerilen branch:** `feature/web-owner-ai-menu-analysis-ui`
 - **Önerilen agent:** nextjs-developer
 - **Kabul kriteri:** Owner panelinde menü analizi tetiklenip sonuçlar gösterilebiliyor
@@ -207,72 +169,59 @@
 ### Admin Sponsorluk Modülü (3 Stub Sayfa) — ⛔ MVP-dışı / P2
 - **Durum:** ⛔ MVP-dışı (P2) — sponsorlu görünürlük final stratejik karar raporuna
   göre (`docs/research/2026-yeedoy-stratejik-karar-raporu.md` §16) MVP'de kapalıdır.
-  TR (`/yonetici/sponsorluklar` vb.) ve EN (`/admin/sponsorships`, `sponsorship-leads`,
-  `sponsorship-packages`) route'ları redirect stub'a indirildi; admin nav'dan link
-  kaldırıldı. Bu madde MVP kapsamında **yapılmayacaktır**; ileride P2 olarak ele alınır.
-- **Kanıt:** EN/TR sayfalar artık `redirect('/admin/dashboard')` / `'/yonetici/gosterge-panosu'`
-  döndürüyor. DB tarafı (sponsorship tabloları/RPC'leri, `20260601_sponsorship_vitrin_package`
-  migration'ı) dokunulmadan bırakıldı — bkz. `2026-yeedoy-db-scope-cleanup-risk-report.md`.
+  TR/EN route'ları redirect stub'a indirildi; admin nav'dan link kaldırıldı.
+  Bu madde MVP kapsamında **yapılmayacaktır**; ileride P2 olarak ele alınır.
+- **Kanıt:** Sayfalar `redirect('/admin/dashboard')` döndürüyor. DB tarafı (sponsorship tabloları/RPC'leri) dokunulmadan bırakıldı.
 - **Etki:** Yok (MVP) — admin ops manuel kalmaya devam eder.
 - **Bağımlılık:** Ürün kararı (P2 sponsorluk stratejisi).
 
 ### Mobil — Zincir İşletmeler
-- **Durum:** Açık — implementasyon başlanmamış
-- **Kanıt:** `features/chains/` klasöründe 1 dosya
+- **Durum:** Açık — iskelet mevcut, tamamlanmamış
+- **Kanıt:** `features/chains/ui/chain_page.dart` mevcut (1 dosya); data layer `features/business/data/business_chain_repository.dart` altında; domain providers eksik. `get_business_chain_info_v1` migration'ı (`20260629000001`) uygulanmış. Router'da `/chain/:id` rotası var.
 - **Etki:** Düşük — ileri seviye özellik
 - **Bağımlılık:** —
 - **Önerilen branch:** `feature/mobile-business-chains`
 - **Önerilen agent:** mobile-developer
-- **Kabul kriteri:** Zincir işletme listesi + detay sayfası temel akışla çalışıyor
+- **Kabul kriteri:** Zincir işletme listesi + detay sayfası temel akışla çalışıyor; domain providers tamamlandı
 
 ### Mobil — Grup Oy
-- **Durum:** Açık — implementasyon başlanmamış
-- **Kanıt:** `features/grup_oy/` klasöründe 1 dosya
-- **Etki:** Düşük — P5 fikir havuzundaki "Collab lists v2" ile ilişkili olabilir
+- **Durum:** Açık — iskelet mevcut, tamamlanmamış
+- **Kanıt:** `features/grup_oy/ui/oy_ver_sayfasi.dart` (1 dosya); data/domain layer yok
+- **Etki:** Düşük — P5 fikir havuzundaki "Collab lists v2" ile birleştirilebilir
 - **Bağımlılık:** Collab Lists altyapısı (`20260422000006_collab_lists.sql`) ile birleştirilebilir
 - **Önerilen branch:** `feature/mobile-group-vote`
 - **Önerilen agent:** mobile-developer
 - **Kabul kriteri:** Grup oylama akışı temel senaryoyla uçtan uca çalışıyor
 
-### Boş Edge Function Placeholder'ları
-- **Durum:** Açık — 0 satır placeholder
-- **Kanıt:** `supabase/functions/wp-upload/` ve `supabase/functions/wp-upload-user/` boş dizinler
-- **Etki:** Düşük — kafa karışıklığı dışında risk yok
-- **Bağımlılık:** —
-- **Önerilen branch:** `chore/supabase-remove-empty-edge-functions`
-- **Önerilen agent:** postgres-pro
-- **Kabul kriteri:** Placeholder'lar silindi veya gerçek implementasyonla dolduruldu
-
 ### Test Kapsamı Boşlukları
 - **Durum:** Açık
 - **Kanıt:** Web 8 unit test dosyası (`src/lib/*` çoğu testsiz), 7 E2E spec (owner flow/2FA/taste-twin/admin flow yok); Mobil sadece offline-queue smoke testi var. (Not: `uygulamalar/personel` 2026-06-24'te üründen kaldırıldı; o uygulamaya ait test kapsamı maddesi de bu nedenle düştü.)
 - **Etki:** Orta — regresyon riski yüksek
-- **Bağımlılık:** —
 - **Önerilen branch:** `test/web-owner-flow-e2e`
-- **Önerilen agent:** test-automator (qa-expert sistemde — en yakın: `qa-expert`)
+- **Önerilen agent:** qa-expert
 - **Kabul kriteri:** Owner flow + 2FA + admin flow için en az birer E2E spec eklendi
 
 ### PMTiles — S7 Mobil Performans İzleme
 - **Durum:** Açık — production yayın sonrası izlenecek
-- **Kanıt:** `vector_map_tiles 8.0.0` + `vector_map_tiles_pmtiles 1.5.0` entegre edildi; S7 gibi düşük güçlü cihazlarda vektör tile rendering GPU/bellek baskısı yaratabilir
+- **Kanıt:** `vector_map_tiles 8.0.0` + `vector_map_tiles_pmtiles 1.5.0` entegre edildi (`uygulamalar/mobil/pubspec.yaml`); S7 gibi düşük güçlü cihazlarda vektör tile rendering GPU/bellek baskısı yaratabilir
 - **Etki:** Orta — S7'de harita akıcılığı sorunları kullanıcı deneyimini etkiler
 - **Bağımlılık:** Production kullanıcı metrikleri (Firebase Performance)
 - **Önerilen branch:** `fix/mobile-map-s7-perf` (gerekirse)
 - **Önerilen agent:** mobile-developer
-- **Kabul kriteri:** S7 benzeri düşük güçlü cihazda harita 60fps veya >40fps render ediyor; bellek artışı 50MB altında. Sorun çıkarsa Cloudflare Worker XYZ proxy fallback'e geç (bkz. `docs/engineering/pmtiles-map-integration.md` — Rollback Planı)
+- **Kabul kriteri:** S7 benzeri düşük güçlü cihazda harita 60fps veya >40fps render ediyor; bellek artışı 50MB altında
 
 ### PMTiles — Leaflet Bağımlılığı Temizliği (Web)
-- **Durum:** Açık — PMTiles entegrasyonu sonrası ertelenmiş teknik borç
-- **Kanıt:** `leaflet`, `react-leaflet`, `@types/leaflet` `package.json`'da mevcut; `src/components/maps/` altında 6 Leaflet bileşeni (KonumGoruntuleyici, LeafletMap, LocationPickerMap, LocationPickerMapClient, BusinessMap, OsmHarita) kullanımda. Bu bileşenler harita önizlemesi/konum seçici için kullanılmakta; PMTiles keşif haritasına dahil değil
+- **Durum:** Açık — PMTiles/MapLibre GL entegrasyonu sonrası ertelenmiş teknik borç
+- **Kanıt:** `leaflet ^1.9.4`, `react-leaflet ^5.0.0`, `@types/leaflet ^1.9.21` `uygulamalar/web/package.json`'da mevcut; `src/components/maps/` altında 6 Leaflet bileşeni (KonumGoruntuleyici, LeafletMap, LocationPickerMap, LocationPickerMapClient, BusinessMap, OsmHarita) kullanımda. Keşif haritası MapLibre GL'e taşındı ama bu 6 bileşen hâlâ Leaflet kullanıyor.
 - **Etki:** Düşük — bundle boyutunu etkiler; işlevselliği bozmaz
-- **Bağımlılık:** Bu 6 bileşenin PMTiles/MapLibre GL ile yeniden yazılması veya kaldırılması
+- **Bağımlılık:** 6 bileşenin MapLibre GL ile yeniden yazılması veya kaldırılması
 - **Önerilen branch:** `chore/web-leaflet-cleanup`
 - **Önerilen agent:** nextjs-developer
-- **Kabul kriteri:** `leaflet`, `react-leaflet`, `@types/leaflet` `package.json`'dan kaldırıldı; tüm Leaflet bileşenleri MapLibre GL eşdeğeriyle değiştirildi veya silinip kullanım noktaları güncellendi; `npm run typecheck` + `npm run lint` temiz geçiyor
+- **Kabul kriteri:** `leaflet`, `react-leaflet`, `@types/leaflet` `package.json`'dan kaldırıldı; `npm run typecheck` + `npm run lint` temiz
 
 ### Geocoding / Koordinat Backfill
 
-**Öncelik:** Orta  
+**Öncelik:** Orta
 **Bağlam:** Haritada sadece gerçek lat/lng olan işletmeler gösterilmektedir. Koordinatsız işletmelerin haritada görünebilmesi için geocoding backfill gereklidir.
 
 **Yapılacaklar:**
@@ -290,48 +239,87 @@
 
 ---
 
-## P3.5 — Güvenlik Restore İşleri
+## P5 — Fikir Havuzu / Daha Sonra
 
-### Reviews Edge Guard Restore
-
-**Öncelik:** Yüksek (edge functions deploy edilince yapılmalı)
-**Bağlam:** `20260630000001_disable_reviews_edge_guard_trigger.sql` ile `trg_reviews_edge_guard_v1` trigger'ının içi no-op yapıldı çünkü `consume_edge_guard_event_v1` edge function deploy edilmemişti ve her yorum INSERT'i blokluyordu. Şu an anti-spam trigger devre dışı — yorum spam riski aktif.
-
-**Yapılacaklar:**
-- [ ] `anti-spam-guard` ve `write-gatekeeper` edge functions'ı deploy et
-- [ ] `consume_edge_guard_event_v1` RPC'sinin çalıştığını doğrula (edge_rate_limit_events tablosuna yaz/oku)
-- [ ] `20260708000002_restore_reviews_edge_guard.sql` migration'ı yaz ve uygula:
-  ```sql
-  CREATE OR REPLACE FUNCTION public.enforce_reviews_edge_guard_v1()
-  RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
-  AS $$
-  BEGIN
-    -- Edge guard aktif: consume_edge_guard_event_v1 çağrısı spam kontrolü yapar.
-    PERFORM public.consume_edge_guard_event_v1(
-      p_user_id   => NEW.user_id,
-      p_action    => 'review_insert',
-      p_entity_id => NEW.business_id
-    );
-    RETURN NEW;
-  END;
-  $$;
-  COMMENT ON FUNCTION public.enforce_reviews_edge_guard_v1() IS
-    'Edge guard aktif (20260708000002). anti-spam-guard edge function gerektirir.';
-  ```
-- [ ] Trigger'ın `BEFORE INSERT ON reviews` üzerinde aktif olduğunu doğrula
-- [ ] Yorum gönderim akışını uçtan uca test et (gerçek spam senaryosu dahil)
-
-**Bağımlılık:** `anti-spam-guard` edge function kaynak kodu + deploy erişimi
-**Önerilen branch:** `fix/restore-reviews-edge-guard`
-**Önerilen agent:** postgres-pro + devops-engineer
-**Kabul kriteri:** Edge function deploy edildi · trigger no-op değil, gerçek guard çalışıyor · rate-limit aşıldığında yorum INSERT'i reddediliyor · normal kullanıcı yorumu başarıyla kaydediliyor
+- Fiyat Endeksi medya lansmanı (bkz. `docs/archive/fiyat-endeksi-medya-raporu.md`)
+- Search Console submit (tamamlandı, ek optimizasyon yapılabilir)
+- A/B test alt yapısı
+- 2FA / hesap güvenliği — TOTP enroll/verify aktif ✅ (PR #84). Stub redirect ✅ (PR #85). AAL2 middleware rollout planı ✅ (PR #86). Soft banner (Faz 1) ✅ (PR #87). Test planı + TwoFactorBanner unit testleri ✅ (PR #88). Sıradaki: admin high-risk AAL2 middleware (Faz 2) → owner high-risk AAL2 middleware (Faz 3) → E2E smoke testleri
+- Collab lists v2 (mobil "Grup Oy" özelliğiyle birleştirilebilir — bkz. P4)
 
 ---
 
-## P5 — Fikir Havuzu / Daha Sonra
+## Tamamlananlar
 
-- Fiyat Endeksi medya lansmanı (bkz. `docs/archive/fiyat-endeksi-medya-raporu.md` — link doğrulandı, kırık değil)
-- Search Console submit (tamamlandı, ek optimizasyon yapılabilir)
-- A/B test alt yapısı
-- 2FA / hesap güvenliği — TOTP enroll/verify aktif ✅ (PR #84). Eski stub redirect tamamlandı ✅ (PR #85). AAL2 middleware rollout planı hazır ✅ (PR #86). Soft banner (Faz 1) tamamlandı ✅ (PR #87). Test planı + TwoFactorBanner unit testleri ✅ (PR #88, bkz. `docs/security/account-security.md`). Sıradaki: admin high-risk AAL2 middleware (Faz 2) → owner high-risk AAL2 middleware (Faz 3) → E2E smoke testleri
-- Collab lists v2 (mobil "Grup Oy" özelliğiyle birleştirilebilir — bkz. P4)
+> Bu bölüm, daha önce açık olan veya bu audit sırasında doğrulanan tamamlanmış maddeleri içerir.
+
+### Firebase Init Crash Fix ✅
+- **Kanıt:** Dart guard `4f8772f` main'de; AndroidManifest `FirebaseInitProvider` kaldırması `517be7b` main'de; `try/catch` savunma katmanı `ebc6a98` eklendi.
+
+### City Alias / Search Normalizasyonu ✅
+- **Kanıt:** 3 migration main'de mevcut: `20260609000001_city_search_aliases.sql`, `20260609000002_normalize_tr_location.sql`, `20260609000003_update_search_rpcs_city_alias.sql`; hata düzeltmesi `20260609000004_fix_normalize_tr_location_combining_dot.sql` de uygulandı. `search_businesses_v1` ve `search_nearby_businesses_v3` alias CTE güncellendi.
+
+### Firebase FCM Runtime Env ✅
+- **Kanıt:** `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` — `gh secret list` ile doğrulandı; PR #52 FCM delivery kodu deploy edildi.
+
+### Profil Sosyal Bağlantı Kaydetme ✅
+- **Kanıt:** Migration `20260603000011_user_profiles_social_links.sql` mevcut; `features/profile/data/profile_repository.dart:80` payload'a yazıyor.
+
+### estimate_email_segment_v1 — follower_id Düzeltmesi ✅
+- **Kanıt:** Migration `20260603000010_fix_estimate_email_segment_v1.sql` uygulandı.
+
+### business_automations RLS ✅
+- **Kanıt:** Migration mevcut, PR #50 merge edildi.
+
+### PMTiles / MapLibre GL Web Harita Entegrasyonu ✅
+- **Kanıt:** `uygulamalar/web/src/ui/acik/harita-istemcisi.tsx` mevcut; `maplibre-gl: ^5.24.0` ve `pmtiles: ^4.4.1` `package.json`'da; `app/(genel)/kesif/harita/harita-sarmalayici.tsx` route'u bağlı.
+
+### vector_map_tiles Mobil Harita Entegrasyonu ✅
+- **Kanıt:** `vector_map_tiles: ^8.0.0` ve `vector_map_tiles_pmtiles: ^1.5.0` `uygulamalar/mobil/pubspec.yaml`'da mevcut.
+
+### WebP Görseller ✅
+- **Kanıt:** `uygulamalar/web/public/` altında `hero-gorsel.webp`, `giris-gorsel.webp`, `burger.webp`, `cafe.webp`, `doner.webp`, `kahvalti.webp` ve diğer WebP dosyalar mevcut.
+
+### Rate Limiting Harita API ✅
+- **Kanıt:** `uygulamalar/web/app/api/harita-isletmeler/route.ts` içinde `rateLimit('harita:{identity}', 60, 60_000)` kullanımda.
+
+### Profil Stat Kartları Tıklanabilir ✅
+- **Kanıt:** `_ClickableStatCell` sınıfı `uygulamalar/mobil/lib/features/profile/ui/profile_page.dart` içinde mevcut.
+
+### Ziyaret Takibi ✅
+- **Kanıt:** `_trackBusinessPageView` metodu `uygulamalar/mobil/lib/features/business/ui/parts/business_state_views.dart` içinde mevcut.
+
+### Collab Lists Mobil ✅
+- **Kanıt:** `lib/features/collab_lists/` altında `data/`, `domain/`, `ui/` tam yapı; migration `20260422000006_collab_lists.sql` uygulandı; router'da `/collab-lists`, `/collab-lists/join`, `/collab-lists/:id` rotaları mevcut.
+
+### Weekly Leaderboard ✅
+- **Kanıt:** `20260422000004_weekly_leaderboard.sql` — `get_weekly_contributor_leaderboard_v1` RPC uygulandı; `features/heroes/` altında UI mevcut.
+
+### Verified Visit Badge ✅
+- **Kanıt:** `20260422000001_verified_visit_badge.sql` uygulandı; `features/reviews/domain/review.dart` içinde `verifiedVisit` alanı; `business_reviews_page.dart` içinde badge gösterimi mevcut.
+
+### Feedback API (Web) ✅
+- **Kanıt:** `uygulamalar/web/app/api/feedback/route.ts` mevcut; migration `20260422000002_menu_feedback.sql` uygulandı.
+
+### Rozet / Achievements Sistemi ✅
+- **Kanıt:** `20260707000002_achievements_extended.sql` uygulandı; `lib/features/profile/ui/components/achievements_grid.dart` ve `lib/features/profile/domain/achievements_provider.dart` mevcut.
+
+### get_business_badges_v1 + get_business_reviews_v4 ✅
+- **Kanıt:** `20260707000003_business_badges_reviews_v4.sql` migration'ı uygulandı.
+
+### submit_business_suggestion_v1 + Anon Rate Limit ✅
+- **Kanıt:** `20260703000001_business_suggestions_anon_insert.sql` — `submit_business_suggestion_v1` RPC oluşturuldu; `20260708000001_business_suggestions_anon_ratelimit.sql` — rate limit guard eklendi.
+
+### Deprecated RPC'ler (Hatırlatma: Deadline 2026-08-01 / 2026-09-01)
+
+| Fonksiyon | Yerine | Son Tarih |
+|---|---|---|
+| `approve_business_suggestion` | `admin_approve_business_suggestion_v1` | 2026-08-01 |
+| `approve_owner_claim` | `admin_decide_owner_claim_v1` | 2026-08-01 |
+| `reject_business_suggestion` | `admin_reject_business_suggestion_v1` | 2026-08-01 |
+| `create_owner_claim` | `submit_owner_claim_v1` | 2026-08-01 |
+| `get_top_businesses` | `get_top_businesses_period_v1` | 2026-08-01 |
+| `search_nearby_businesses_v1` | `search_nearby_businesses_v3` | 2026-09-01 |
+| `search_nearby_businesses_v2` | `search_nearby_businesses_v3` | 2026-09-01 |
+| `admin_list_business_suggestions_v1` | `admin_list_business_suggestions_v3` | 2026-09-01 |
+| `nearby_businesses_v2` | `search_nearby_businesses_v3` | 2026-09-01 |
