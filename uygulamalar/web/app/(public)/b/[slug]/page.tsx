@@ -7,6 +7,8 @@ import { AppSectionHeader } from '@/src/ui/components/app-section-header';
 import { buildMenuImageUrl } from '@/src/lib/media-url';
 import { fetchBusinessBadges } from '@/src/lib/businessBadges';
 import { BusinessBadges } from '@/src/ui/BusinessBadges';
+import { getMyCheckInToday } from '@/src/lib/veri/check-in-okuma';
+import { CheckInButton } from '@/src/ui/acik/check-in-button';
 
 export const revalidate = 120;
 
@@ -79,13 +81,14 @@ export default async function BusinessPage({ params }: Props) {
 
   if (!biz || !biz.is_active) notFound();
 
-  const [menusRes, reviewsRes, statsRes, hoursRes, photosRes, badges] = await Promise.all([
+  const [menusRes, reviewsRes, statsRes, hoursRes, photosRes, badges, checkedInToday] = await Promise.all([
     (supabase as any).from('menus').select('id, title, slug, status').eq('business_id', biz.id).eq('status', 'published').order('created_at', { ascending: true }).limit(10) as Promise<{ data: MenuRow[] | null }>,
     (supabase as any).from('business_reviews').select('id, rating, body, content, created_at, verified_visit, user_profiles!user_id(display_name)').eq('business_id', biz.id).eq('is_visible', true).order('created_at', { ascending: false }).limit(5) as Promise<{ data: Review[] | null }>,
     (supabase as any).from('business_reviews').select('rating', { count: 'exact' }).eq('business_id', biz.id).eq('is_visible', true) as Promise<{ data: { rating: number }[] | null; count: number | null }>,
     (supabase as any).rpc('get_business_hours_v1', { p_business_id: biz.id }) as Promise<{ data: HoursRpcResult }>,
     (supabase as any).from('menu_item_photos').select('url, url_thumb').eq('business_id', biz.id).eq('status', 'approved').eq('is_hidden', false).order('up_votes', { ascending: false }).limit(9) as Promise<{ data: Array<{ url: string; url_thumb: string | null }> | null }>,
     fetchBusinessBadges(biz.id),
+    getMyCheckInToday(biz.id),
   ]);
 
   const menus = menusRes.data ?? [];
@@ -204,6 +207,7 @@ export default async function BusinessPage({ params }: Props) {
             className="inline-flex min-h-[44px] items-center gap-1.5 rounded-2xl border border-border bg-card px-4 text-sm font-[700] text-muted transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
             Tüm yorumlar →
           </Link>
+          <CheckInButton businessId={biz.id} initialCheckedIn={checkedInToday} />
         </div>
 
         {/* Description */}
