@@ -194,6 +194,56 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
   const renk = avatarRenk(isim);
   const avatarUrl = yorum.user_profiles?.avatar_url;
 
+  const [showReplyForm, setShowReplyForm] = useState(false);
+  const [replyText, setReplyText] = useState('');
+  const [ownerReply, setOwnerReply] = useState(yorum.owner_reply);
+  const [submitting, setSubmitting] = useState(false);
+  const [replyError, setReplyError] = useState<string | null>(null);
+
+  const handleYanitlaClick = useCallback(async () => {
+    const sb = createSupabaseBrowserClient();
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
+      return;
+    }
+    setReplyText(ownerReply ?? '');
+    setReplyError(null);
+    setShowReplyForm(true);
+  }, [ownerReply]);
+
+  const submitReply = useCallback(async () => {
+    const text = replyText.trim();
+    if (!text) return;
+    setSubmitting(true);
+    setReplyError(null);
+    try {
+      const res = await fetch('/sunucu/sahip/yorumlar/yanit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewId: yorum.id, reply: text }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        if (res.status === 401) {
+          window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
+          return;
+        }
+        throw new Error(
+          res.status === 404
+            ? 'Bu işletmenin sahibi değilsiniz veya yorum bulunamadı.'
+            : (json.error ?? 'Bir hata oluştu.'),
+        );
+      }
+      setOwnerReply(text);
+      setShowReplyForm(false);
+    } catch (e: any) {
+      setReplyError(e.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }, [yorum.id, replyText]);
+
   return (
     <article className="border-b border-border pb-5 last:border-0 last:pb-0">
       {/* User row */}
@@ -223,19 +273,67 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
         <p className="mt-2 text-sm leading-6 text-textStrong line-clamp-4">{yorum.content}</p>
       )}
 
+      {/* Owner reply (mevcut yanıt gösterimi) */}
+      {ownerReply && !showReplyForm && (
+        <div className="mt-3 rounded-[14px] border border-border bg-primary/5 px-4 py-3">
+          <p className="mb-1 text-[11px] font-[800] uppercase tracking-wider text-primary">İşletme Yanıtı</p>
+          <p className="text-sm leading-6 text-textStrong">{ownerReply}</p>
+        </div>
+      )}
+
       {/* Actions */}
       <div className="mt-3 flex items-center gap-3">
         <HelpfulVoteButton reviewId={yorum.id} initialCount={yorum.helpful_count} />
-        <button
-          type="button"
-          className="inline-flex h-8 items-center gap-1.5 rounded-xl border border-border bg-bg px-3 text-xs font-[800] text-muted transition-colors hover:border-primary/30 hover:text-primary"
-        >
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
-          Yanıtla
-        </button>
+        {!showReplyForm && (
+          <button
+            type="button"
+            onClick={handleYanitlaClick}
+            className="inline-flex h-8 items-center gap-1.5 rounded-xl border border-border bg-bg px-3 text-xs font-[800] text-muted transition-colors hover:border-primary/30 hover:text-primary"
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+            {ownerReply ? 'Yanıtı Düzenle' : 'Yanıtla'}
+          </button>
+        )}
       </div>
+
+      {/* Inline reply form */}
+      {showReplyForm && (
+        <div className="mt-3">
+          <textarea
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            rows={3}
+            maxLength={2000}
+            placeholder="Yanıtınızı yazın… (maks. 2000 karakter)"
+            className="w-full resize-none rounded-[14px] border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder-muted focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/10"
+          />
+          {replyError && (
+            <p className="mt-1 text-xs font-[800] text-danger">{replyError}</p>
+          )}
+          <div className="mt-2 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={submitReply}
+              disabled={submitting || !replyText.trim()}
+              className="inline-flex h-8 items-center rounded-xl px-4 text-xs font-[800] text-white disabled:opacity-60"
+              style={{ background: 'var(--yd-gradient-primary)' }}
+            >
+              {submitting ? 'Kaydediliyor…' : 'Yanıtı Kaydet'}
+            </button>
+            <button
+              type="button"
+              onClick={() => { setShowReplyForm(false); setReplyError(null); }}
+              disabled={submitting}
+              className="inline-flex h-8 items-center rounded-xl border border-border bg-bg px-3 text-xs font-[800] text-muted hover:text-textStrong disabled:opacity-60"
+            >
+              İptal
+            </button>
+            <span className="ml-auto text-[11px] text-muted">{replyText.length}/2000</span>
+          </div>
+        </div>
+      )}
     </article>
   );
 }
