@@ -22,16 +22,16 @@ export const metadata: Metadata = (() => {
 })();
 
 const KATEGORI_CIPS = [
-  { id: 'döner',    label: 'Döner',    img: '/category-images/doner.png' },
-  { id: 'pide',     label: 'Pide',     img: '/category-images/pide.png' },
-  { id: 'burger',   label: 'Burger',   img: '/category-images/burger.png' },
-  { id: 'pizza',    label: 'Pizza',    img: '/category-images/pizza.png' },
-  { id: 'kebap',    label: 'Kebap',    img: '/category-images/kebap.png' },
-  { id: 'lahmacun', label: 'Lahmacun', img: '/category-images/lahmacun.png' },
+  { id: 'döner',    label: 'Döner',    img: '/category-images/doner.webp' },
+  { id: 'pide',     label: 'Pide',     img: '/category-images/pide.webp' },
+  { id: 'burger',   label: 'Burger',   img: '/category-images/burger.webp' },
+  { id: 'pizza',    label: 'Pizza',    img: '/category-images/pizza.webp' },
+  { id: 'kebap',    label: 'Kebap',    img: '/category-images/kebap.webp' },
+  { id: 'lahmacun', label: 'Lahmacun', img: '/category-images/lahmacun.webp' },
   { id: 'kahvaltı', label: 'Kahvaltı', img: '/category-images/kahvalti.webp' },
-  { id: 'tatlı',   label: 'Tatlı',    img: '/category-images/tatli.png' },
-  { id: 'çorba',   label: 'Çorba',    img: '/category-images/corba.png' },
-  { id: 'mantı',   label: 'Mantı',    img: '/category-images/manti.png' },
+  { id: 'tatlı',   label: 'Tatlı',    img: '/category-images/tatli.webp' },
+  { id: 'çorba',   label: 'Çorba',    img: '/category-images/corba.webp' },
+  { id: 'mantı',   label: 'Mantı',    img: '/category-images/manti.webp' },
   { id: 'kafe',    label: 'Kafe',     img: '/category-images/cafe.webp' },
 ];
 
@@ -140,7 +140,7 @@ export default function DiscoverPage() {
                 </Link>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/promo-burgerkola.png" alt="" aria-hidden="true" className="absolute -bottom-2 right-0 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
+              <img src="/promo-burgerkola.webp" alt="" aria-hidden="true" className="absolute -bottom-2 right-0 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
             </div>
             <div
               className="relative flex min-h-[148px] items-center overflow-hidden rounded-2xl p-5"
@@ -154,7 +154,7 @@ export default function DiscoverPage() {
                 </Link>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/promo-salata.png" alt="" aria-hidden="true" className="absolute -bottom-2 -right-4 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
+              <img src="/promo-salata.webp" alt="" aria-hidden="true" className="absolute -bottom-2 -right-4 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
             </div>
           </div>
 

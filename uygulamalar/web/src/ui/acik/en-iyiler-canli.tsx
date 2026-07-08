@@ -50,7 +50,7 @@ const RANK_COLORS: Record<number, { bg: string; text: string }> = {
 const FALLBACK_CAT: Record<string, string> = {
   kafe: '/category-images/cafe.webp',
   kahvaltı: '/category-images/kahvalti.webp',
-  'tatlıcı': '/category-images/tatli.png',
+  'tatlıcı': '/category-images/tatli.webp',
 };
 
 function coverFallback(cat: string | null) {

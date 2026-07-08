@@ -35,7 +35,7 @@ const MIN_PUAN = [
 const FALLBACK_CAT: Record<string, string> = {
   kafe: '/category-images/cafe.webp',
   kahvaltı: '/category-images/kahvalti.webp',
-  'tatlıcı': '/category-images/tatli.png',
+  'tatlıcı': '/category-images/tatli.webp',
   'balık / et': '/category-images/restoran.webp',
   mekan: '/category-images/restoran.webp',
 };

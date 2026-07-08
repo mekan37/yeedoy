@@ -255,7 +255,7 @@ export function SifreSifirlamaFormu() {
         <div className="pointer-events-none absolute bottom-[-60px] left-[-60px] h-[300px] w-[300px] rounded-full bg-primary/[0.04]" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/giris-gorsel.png"
+          src="/giris-gorsel.webp"
           alt="Yeedoy mobil uygulama"
           className="relative z-10 w-[380px] max-w-[80%] drop-shadow-2xl xl:w-[440px]"
           draggable={false}
