@@ -4,6 +4,8 @@ import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
 import { BusinessEditForm } from './business-edit-form';
+import { MealCardEditor } from './meal-card-editor';
+import type { MealCardProvider } from './meal-card-editor';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -35,6 +37,29 @@ export default async function BusinessDetailPage({ params }: Props) {
     .single() as { data: FullBiz | null };
 
   if (!business) notFound();
+
+  type MealCardProviderRow = { id: string; key: string; name: string; asset_name: string; sort_order: number };
+  type SelectedMealCardRow = { key: string };
+
+  const [allProvidersResult, selectedProvidersResult] = await Promise.all([
+    (supabase as any)
+      .from('meal_card_providers')
+      .select('id, key, name, asset_name, sort_order')
+      .eq('is_active', true)
+      .order('sort_order') as Promise<{ data: MealCardProviderRow[] | null }>,
+    (supabase as any)
+      .rpc('get_business_meal_card_providers_v1', { p_business_id: id }) as Promise<{ data: SelectedMealCardRow[] | null }>,
+  ]);
+
+  const allProviders: MealCardProvider[] = (allProvidersResult.data ?? []).map((row) => ({
+    id: row.id,
+    key: row.key,
+    name: row.name,
+    assetName: row.asset_name,
+    sortOrder: row.sort_order,
+  }));
+
+  const selectedKeys: string[] = (selectedProvidersResult.data ?? []).map((row) => row.key);
 
   return (
     <div className="flex flex-col">
@@ -88,6 +113,14 @@ export default async function BusinessDetailPage({ params }: Props) {
                   </div>
                 )}
               </dl>
+            </PanelSectionCard>
+
+            <PanelSectionCard title="Yemek Kartları">
+              <MealCardEditor
+                businessId={id}
+                allProviders={allProviders}
+                selectedKeys={selectedKeys}
+              />
             </PanelSectionCard>
 
             <PanelSectionCard title="Sipariş Linkleri">

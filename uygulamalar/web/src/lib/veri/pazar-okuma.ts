@@ -20,7 +20,7 @@ type MarketplaceBusinessDetail = AcikIsletmeKarti & {
 };
 
 const businessSelect =
-  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at,price_level';
+  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at';
 
 const fallbackBusinesses: AcikIsletmeKarti[] = [];
 
@@ -121,12 +121,17 @@ export async function getMarketplaceBusinesses(params: MarketplaceSearchParams =
 
   const { data, error, count } = await query as { data: any[] | null; error: any; count: number | null };
   if (error) {
-    logger.error('getMarketplaceBusinesses failed', { params, error });
+    logger.warn('getMarketplaceBusinesses fallback', { params });
     return getFallbackBusinesses(params);
   }
 
   const rows = (data ?? []).map(normalizeBusiness);
-  const enriched = await enrichBusinessCards(rows);
+  let enriched = rows;
+  try {
+    enriched = await enrichBusinessCards(rows);
+  } catch (enrichErr) {
+    logger.warn('enrichBusinessCards failed, returning raw rows', { enrichErr });
+  }
   const total = count ?? 0;
   return {
     data: enriched,
@@ -204,7 +209,7 @@ export async function getMarketplaceBusinessBySlug(slug: string) {
   }
 
   if (error) {
-    logger.error('getMarketplaceBusinessBySlug failed', { slug, error: serializeSupabaseError(error) });
+    logger.warn('getMarketplaceBusinessBySlug fallback', { slug });
     return getFallbackBusinessDetail(slug);
   }
   if (!data) return getFallbackBusinessDetail(slug);
@@ -256,6 +261,7 @@ export async function getBusinessMenuHref(businessId: string, fallbackSlug: stri
 export async function getBusinessReviews(businessId: string, limit = 5): Promise<AcikYorumKarti[]> {
   const supabase = createSupabasePublicClient();
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  let rows: any[] | null = null;
   try {
     const { data, error } = await supabaseAny.rpc('get_business_reviews_v3', {
       p_business_id: businessId,
@@ -263,27 +269,51 @@ export async function getBusinessReviews(businessId: string, limit = 5): Promise
       p_limit: limit,
       p_offset: 0,
     }) as { data: any[] | null; error: any };
-    if (!error && data) {
-      return data.map(normalizeReview);
-    }
+    if (!error && data) rows = data;
   } catch {
-    // fall through to table fallback
+    // fall through
   }
 
-  const { data } = await supabaseAny
-    .from('business_reviews')
-    .select('id,rating,body,content,created_at,verified_visit,user_profiles!user_id(display_name)')
-    .eq('business_id', businessId)
-    .eq('is_visible', true)
-    .order('created_at', { ascending: false })
-    .limit(limit) as { data: any[] | null };
-  return (data ?? []).map(normalizeReview);
+  if (!rows) {
+    const { data } = await supabaseAny
+      .from('business_reviews')
+      .select('id,rating,content,created_at,helpful_count,user_profiles!user_id(display_name)')
+      .eq('business_id', businessId)
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false })
+      .limit(limit) as { data: any[] | null };
+    rows = data ?? [];
+  }
+
+  // Enrich with author names from user_profiles (RPC doesn't join)
+  const userIds = [...new Set(rows.filter((r) => r.user_id).map((r) => r.user_id as string))];
+  const nameMap = new Map<string, string>();
+  if (userIds.length > 0) {
+    try {
+      const { data: profiles } = await supabaseAny
+        .from('user_profiles')
+        .select('user_id,display_name')
+        .in('user_id', userIds) as { data: Array<{ user_id: string; display_name: string | null }> | null };
+      for (const p of profiles ?? []) {
+        if (p.display_name) nameMap.set(p.user_id, p.display_name);
+      }
+    } catch {
+      // author adı olmadan devam
+    }
+  }
+
+  return rows.map((row) => normalizeReview(row, nameMap));
 }
 
-function normalizeReview(row: any): AcikYorumKarti {
+function normalizeReview(row: any, nameMap?: Map<string, string>): AcikYorumKarti {
+  const author =
+    (row.user_id && nameMap?.get(row.user_id)) ??
+    row.author_name ??
+    row.user_profiles?.display_name ??
+    'Anonim Gurme';
   return {
     id: row.id,
-    author: row.author_name ?? row.user_profiles?.display_name ?? 'Anonim Gurme',
+    author,
     rating: Number(row.rating ?? row.overall_rating ?? 0),
     content: row.content ?? row.body ?? null,
     createdAt: row.created_at ?? new Date().toISOString(),
@@ -298,25 +328,24 @@ async function enrichBusinessCards(businesses: AcikIsletmeKarti[]) {
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const ids = businesses.map((business) => business.id);
 
-  const [ratings, prices] = await Promise.all([
-    supabaseAny
+  let reviewData: Array<{ business_id: string; rating: number }> | null = null;
+  try {
+    const result = await supabaseAny
       .from('business_reviews')
       .select('business_id,rating')
       .in('business_id', ids)
-      .eq('is_visible', true) as Promise<{ data: Array<{ business_id: string; rating: number }> | null }>,
-    supabaseAny
-      .from('regional_price_index')
-      .select('business_id,median_price_cents')
-      .in('business_id', ids) as Promise<{ data: Array<{ business_id: string; median_price_cents: number }> | null }>,
-  ]).catch(() => [{ data: null }, { data: null }] as const);
+      .eq('status', 'approved');
+    reviewData = result.data;
+  } catch {
+    // enrichment hatası — raw rows döndür
+  }
 
   const ratingBuckets = new Map<string, number[]>();
-  for (const row of ratings.data ?? []) {
+  for (const row of reviewData ?? []) {
     const list = ratingBuckets.get(row.business_id) ?? [];
     list.push(Number(row.rating));
     ratingBuckets.set(row.business_id, list);
   }
-  const priceByBusiness = new Map((prices.data ?? []).map((row) => [row.business_id, row.median_price_cents]));
 
   return businesses.map((business) => {
     const list = ratingBuckets.get(business.id) ?? [];
@@ -324,7 +353,6 @@ async function enrichBusinessCards(businesses: AcikIsletmeKarti[]) {
       ...business,
       avgRating: business.avgRating ?? (list.length > 0 ? list.reduce((sum, value) => sum + value, 0) / list.length : null),
       reviewCount: business.reviewCount ?? (list.length > 0 ? list.length : null),
-      medianPriceCents: business.medianPriceCents ?? priceByBusiness.get(business.id) ?? null,
     };
   });
 }

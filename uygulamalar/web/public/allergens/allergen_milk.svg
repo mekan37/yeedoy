@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Sut</title>
+  <defs>
+    <linearGradient id="carton" x1="29" y1="14" x2="94" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.48" stop-color="#F4FBFF"/>
+      <stop offset="1" stop-color="#CFE8F8"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="34" y1="57" x2="94" y2="89" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7AD7FF"/>
+      <stop offset="1" stop-color="#2E93E6"/>
+    </linearGradient>
+  </defs>
+  <path d="M39 17h50l11 17v77c0 5-4 9-9 9H37c-5 0-9-4-9-9V34l11-17Z" fill="url(#carton)"/>
+  <path d="M39 17h50l11 17H28l11-17Z" fill="#EAF7FF"/>
+  <path d="M64 17v17" stroke="#B8D7EA" stroke-width="4"/>
+  <path d="M28 56h72v34H28z" fill="url(#blue)"/>
+  <path d="M42 71c8 10 14 10 22 0 8 10 14 10 22 0" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+  <path d="M28 34h72v77c0 5-4 9-9 9H37c-5 0-9-4-9-9V34Z" stroke="#8ABEDC" stroke-width="4"/>
+  <path d="M42 27h18" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+</svg>

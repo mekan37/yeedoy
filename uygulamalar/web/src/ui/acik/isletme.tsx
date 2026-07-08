@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Flame } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { Badge, ButtonLink, Card, SectionHeader } from '@/src/ui/acik/ortak';
 import { FavoriteButton, ReportBusinessButton, ShareButton } from '@/src/ui/acik/eylem-istemcisi';
@@ -47,7 +48,7 @@ export function IsletmeBasligi({ business }: { business: AcikIsletmeDetayi }) {
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:justify-end">
-            <FavoriteButton className="bg-white/95" />
+            <FavoriteButton className="bg-white/95" businessId={business.id} />
             <ShareButton title={business.name} className="bg-white/95" />
           </div>
         </div>
@@ -335,8 +336,8 @@ export function KalabalikGostergesi({ count }: { count: number }) {
       {count === 0 ? (
         <span className="text-sm font-[900] text-muted">Şu an sessiz görünüyor</span>
       ) : (
-        <span className={busy ? 'text-sm font-[900] text-warning' : 'text-sm font-[900] text-textStrong'}>
-          {busy ? '🔥 ' : ''}Son 2 saatte {count} kişi burada
+        <span className={busy ? 'inline-flex items-center gap-1 text-sm font-[900] text-warning' : 'text-sm font-[900] text-textStrong'}>
+          {busy && <Flame size={14} aria-hidden="true" />}Son 2 saatte {count} kişi burada
         </span>
       )}
     </div>

@@ -1,31 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
-import { Container } from '@/src/ui/acik/ortak';
-import {
-  BugunSpecials,
-  BolgeselFiyatEndeksi,
-  CategoryFilterChips,
-  DiscoveryResults,
-  FiyatAnomali,
-  FiyatSinyalleri,
-  HeroSearchSection,
-  KampanyaHikayeleri,
-} from '@/src/ui/acik/kesif';
-import { getMarketplaceBusinesses, getTopMarketplaceBusinesses } from '@/src/lib/veri/pazar-okuma';
+import { KesifCanli } from '@/src/ui/acik/kesif-canli';
 import { appConfig } from '@/src/lib/ayarlar';
-import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 
-export const revalidate = 60;
-
-type SearchParams = { q?: string; city?: string; category?: string; page?: string };
-
-export function generateMetadata(): Metadata {
+export const metadata: Metadata = (() => {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const canonical = `${siteUrl}/kesif`;
   return {
     title: 'Keşfet | Yeedoy',
-    description: 'Restoran, kafe ve public menüleri kategori, şehir, yorum ve fiyat sinyalleriyle keşfet.',
+    description: 'Restoran, kafe ve menüleri kategori, şehir ve yorumla anlık olarak keşfet.',
     alternates: { canonical },
     openGraph: {
       title: 'Keşfet | Yeedoy',
@@ -34,249 +19,181 @@ export function generateMetadata(): Metadata {
       images: [{ url: `${siteUrl}/sunucu/acik-grafik?title=Ke%C5%9Ffet`, width: 1200, height: 630, alt: 'Keşfet | Yeedoy' }],
     },
   };
-}
+})();
 
-export default async function DiscoverPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const params = await searchParams;
-  const q = params.q?.trim() ?? '';
-  const city = params.city?.trim() ?? '';
-  const category = params.category?.trim() ?? '';
-  const page = Math.max(1, Number.parseInt(params.page ?? '1', 10) || 1);
+const KATEGORI_CIPS = [
+  { id: 'döner',    label: 'Döner',    img: '/category-images/doner.png' },
+  { id: 'pide',     label: 'Pide',     img: '/category-images/pide.png' },
+  { id: 'burger',   label: 'Burger',   img: '/category-images/burger.png' },
+  { id: 'pizza',    label: 'Pizza',    img: '/category-images/pizza.png' },
+  { id: 'kebap',    label: 'Kebap',    img: '/category-images/kebap.png' },
+  { id: 'lahmacun', label: 'Lahmacun', img: '/category-images/lahmacun.png' },
+  { id: 'kahvaltı', label: 'Kahvaltı', img: '/category-images/kahvalti.webp' },
+  { id: 'tatlı',   label: 'Tatlı',    img: '/category-images/tatli.png' },
+  { id: 'çorba',   label: 'Çorba',    img: '/category-images/corba.png' },
+  { id: 'mantı',   label: 'Mantı',    img: '/category-images/manti.png' },
+  { id: 'kafe',    label: 'Kafe',     img: '/category-images/cafe.webp' },
+];
 
-  const isFiltered = Boolean(q || city || category);
-  const supabase = createSupabasePublicClient();
+const OZELLIKLER = [
+  {
+    icon: <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>,
+    title: 'Hızlı Keşfet',
+    desc: 'Yakınındaki mekanları keşfet',
+  },
+  {
+    icon: <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>,
+    title: 'Güvenilir Yorumlar',
+    desc: 'Gerçek kullanıcı yorumları',
+  },
+  {
+    icon: <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12" /><rect x="2" y="7" width="20" height="5" /><line x1="12" y1="22" x2="12" y2="7" /><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" /><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" /></svg>,
+    title: 'Özel Kampanyalar',
+    desc: 'Sana özel fırsatlar',
+  },
+  {
+    icon: <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>,
+    title: 'Favorilerini Kaydet',
+    desc: 'Beğendiğin mekanları kolayca bul',
+  },
+];
 
-  const [
-    { data, count, totalPages },
-    top,
-    specials,
-    priceSignals,
-    anomaliData,
-    cityData,
-    campaignData,
-  ] = await Promise.all([
-    getMarketplaceBusinesses({ q, city, category, page, pageSize: 18 }),
-    isFiltered ? Promise.resolve([]) : getTopMarketplaceBusinesses(6),
-
-    // Bugünün spesiyali
-    isFiltered
-      ? Promise.resolve([])
-      : (supabase as any)
-          .rpc('get_today_specials_v1', { p_limit: 6 })
-          .then((r: any) => (r?.data as any[]) ?? [])
-          .catch(() => []),
-
-    // Fiyat sinyalleri (en çok doğrulanan)
-    isFiltered
-      ? Promise.resolve([])
-      : (supabase as any)
-          .from('business_price_index_v1')
-          .select('business_id,business_name,slug,verified_count,city,category')
-          .order('verified_count', { ascending: false })
-          .limit(4)
-          .then((r: any) => (r?.data as any[]) ?? [])
-          .catch(() => []),
-
-    // Fiyat anomalisi — en uygun ve en pahalı
-    isFiltered
-      ? Promise.resolve([])
-      : (supabase as any)
-          .rpc('get_price_anomaly_businesses_v1', { p_limit: 4 })
-          .then((r: any) => (r?.data as any[]) ?? [])
-          .catch(() =>
-            // Fallback: regional_price_index ile business join
-            (supabase as any)
-              .from('regional_price_index')
-              .select('business_id,median_price_cents,city_avg_price_cents,diff_pct,business_name:businesses(name),slug:businesses(slug),category:businesses(category),city:businesses(city)')
-              .not('diff_pct', 'is', null)
-              .order('diff_pct', { ascending: true })
-              .limit(4)
-              .then((r: any) => {
-                const rows = (r?.data as any[]) ?? [];
-                return rows.map((row: any) => ({
-                  business_id: row.business_id,
-                  business_name: row.business_name?.name ?? null,
-                  slug: row.slug?.slug ?? null,
-                  city: row.city?.city ?? null,
-                  category: row.category?.category ?? null,
-                  median_price_cents: row.median_price_cents,
-                  city_avg_price_cents: row.city_avg_price_cents,
-                  diff_pct: row.diff_pct,
-                }));
-              })
-              .catch(() => []),
-          ),
-
-    // Bölgesel fiyat endeksi — şehre göre ortalama
-    isFiltered
-      ? Promise.resolve([])
-      : (supabase as any)
-          .from('regional_price_index')
-          .select('city:businesses(city),avg_price_cents:median_price_cents,business_count')
-          .not('median_price_cents', 'is', null)
-          .limit(50)
-          .then((r: any) => {
-            const rows = (r?.data as any[]) ?? [];
-            // Group by city and compute averages
-            const cityMap = new Map<string, { total: number; count: number; bizCount: number }>();
-            for (const row of rows) {
-              const c = row.city?.city ?? row.city ?? null;
-              if (!c) continue;
-              const entry = cityMap.get(c) ?? { total: 0, count: 0, bizCount: 0 };
-              entry.total += row.avg_price_cents ?? row.median_price_cents ?? 0;
-              entry.count += 1;
-              entry.bizCount += row.business_count ?? 1;
-              cityMap.set(c, entry);
-            }
-            return Array.from(cityMap.entries())
-              .map(([c, e]) => ({ city: c, avg_price_cents: Math.round(e.total / e.count), business_count: e.bizCount }))
-              .filter((x) => x.avg_price_cents > 0)
-              .sort((a, b) => a.avg_price_cents - b.avg_price_cents)
-              .slice(0, 6);
-          })
-          .catch(() => []),
-
-    // Kampanya hikayeleri
-    isFiltered
-      ? Promise.resolve([])
-      : (supabase as any)
-          .from('business_campaigns')
-          .select('id,business_id,title,description,discount_pct,valid_until,businesses(name,slug)')
-          .eq('is_active', true)
-          .gte('valid_until', new Date().toISOString())
-          .order('created_at', { ascending: false })
-          .limit(8)
-          .then((r: any) => {
-            const rows = (r?.data as any[]) ?? [];
-            return rows.map((row: any) => ({
-              id: row.id,
-              business_id: row.business_id,
-              business_name: row.businesses?.name ?? null,
-              business_slug: row.businesses?.slug ?? null,
-              title: row.title,
-              description: row.description,
-              discount_pct: row.discount_pct,
-              valid_until: row.valid_until,
-            }));
-          })
-          .catch(() => []),
-  ]);
-
+export default function DiscoverPage() {
   return (
     <PublicShell>
-      <main>
-        <HeroSearchSection q={q} city={city} action="/kesif" />
-        <section className="sticky top-16 z-30 border-b border-border bg-card shadow-sm">
-          <Container>
-            <div className="flex items-center gap-2 pb-0 pt-2">
-              <span className="inline-flex min-h-[32px] items-center rounded-xl bg-primary px-3 text-xs font-[900] text-white">Liste</span>
-              <Link href="/kesif/harita" className="inline-flex min-h-[32px] items-center rounded-xl px-3 text-xs font-[900] text-muted hover:bg-cardAlt">Harita</Link>
-            </div>
-            <CategoryFilterChips selected={category} city={city} q={q} basePath="/kesif" />
-          </Container>
-        </section>
+      <main className="min-h-screen bg-bg">
 
-        {/* Top işletmeler */}
-        {top.length > 0 ? (
-          <Container className="pb-4">
-            <DiscoveryResults businesses={top} count={top.length} page={1} totalPages={1} basePath="/kesif" />
-          </Container>
-        ) : null}
+        {/* ── Hero ─────────────────────────────────────────────────────────── */}
+        <div className="border-b border-border bg-bg px-4 py-7 sm:py-9">
+          <div className="mx-auto max-w-6xl px-0 sm:px-2">
+            <h1 className="text-2xl font-[900] leading-tight text-textStrong sm:text-3xl">
+              Keşfetmeye hazır mısın?
+            </h1>
+            <p className="mt-1.5 text-sm text-muted">
+              Yakınındaki en iyi lezzetleri anlık filtrelerle keşfet.
+            </p>
+          </div>
+        </div>
 
-        {/* Kampanya hikayeleri */}
-        {campaignData.length > 0 ? (
-          <Container className="pb-4">
-            <KampanyaHikayeleri campaigns={campaignData} />
-          </Container>
-        ) : null}
+        {/* ── Kategori cipsleri (hızlı navigasyon) ─────────────────────────── */}
+        <div className="border-b border-border bg-bg">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="flex items-end gap-4 overflow-x-auto py-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {KATEGORI_CIPS.map((cat) => (
+                <Link
+                  key={cat.id}
+                  href={`/kesif?category=${encodeURIComponent(cat.id)}`}
+                  className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                >
+                  <div className="flex h-[68px] w-[68px] items-center justify-center overflow-hidden rounded-[22px] bg-white shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={cat.img} alt={cat.label} width={68} height={68} className="h-full w-full object-cover" />
+                  </div>
+                  <span className="whitespace-nowrap text-[11px] font-[900] text-textStrong transition-colors group-hover:text-primary">
+                    {cat.label}
+                  </span>
+                </Link>
+              ))}
 
-        {/* Labs: Bütçe kombolar + Tat ikizi */}
-        {!isFiltered ? (
-          <Container className="pb-4">
-            <p className="mb-3 text-xs font-[700] uppercase tracking-wide text-muted">Keşif Araçları</p>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Link
-                href="/kombo-onerileri"
-                className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-yd1 transition-all hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-yd2"
+                href="/kesif"
+                className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
               >
                 <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] text-white"
-                  style={{ background: 'linear-gradient(135deg, #5C1515 0%, #7F1D1D 100%)' }}
-                  aria-hidden="true"
+                  className="flex h-[68px] w-[68px] items-center justify-center rounded-[22px] shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2"
+                  style={{ background: 'var(--yd-gradient-primary)' }}
                 >
-                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
-                    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
+                  <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current text-white" aria-hidden="true">
+                    <path d="M4 6h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 12h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 18h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z" />
                   </svg>
                 </div>
-                <div className="min-w-0">
-                  <p className="font-[900] text-textStrong">Bütçe-Dostu Kombolar</p>
-                  <p className="mt-0.5 text-xs text-muted">Kişi sayısı ve bütçene göre öneriler</p>
-                </div>
+                <span className="whitespace-nowrap text-[11px] font-[900] text-primary">Tümü</span>
               </Link>
 
               <Link
-                href="/tat-ikizi"
-                className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-yd1 transition-all hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-yd2"
+                href="/kesif/harita"
+                className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
               >
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] text-white"
-                  style={{ background: 'linear-gradient(135deg, #5C1515 0%, #7F1D1D 100%)' }}
-                  aria-hidden="true"
-                >
-                  <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current" aria-hidden="true">
-                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                <div className="flex h-[68px] w-[68px] items-center justify-center rounded-2xl bg-cardAlt shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2">
+                  <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current stroke-2 text-muted group-hover:text-primary" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" />
                   </svg>
                 </div>
-                <div className="min-w-0">
-                  <p className="font-[900] text-textStrong">Tat İkizin</p>
-                  <p className="mt-0.5 text-xs text-muted">Benzer damak tadındaki kullanıcıları bul</p>
-                </div>
+                <span className="whitespace-nowrap text-[11px] font-[900] text-muted group-hover:text-primary">Harita</span>
               </Link>
             </div>
-          </Container>
-        ) : null}
+          </div>
+        </div>
 
-        {/* Bugünün spesiyali */}
-        {specials.length > 0 ? (
-          <Container className="pb-4">
-            <BugunSpecials specials={specials} />
-          </Container>
-        ) : null}
+        {/* ── Promo banner'lar ─────────────────────────────────────────────── */}
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+          <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div
+              className="relative flex min-h-[148px] items-center overflow-hidden rounded-2xl p-5"
+              style={{ background: 'linear-gradient(135deg, #14532d 0%, #166534 100%)' }}
+            >
+              <div className="relative z-10 flex-1">
+                <p className="text-[15px] font-[900] leading-snug text-white">Lezzetli fırsatlar seni bekliyor!</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-white/70">En iyi kampanyaları kaçırma.</p>
+                <Link href="/kampanyalar" className="mt-4 inline-flex h-9 items-center rounded-xl bg-primary px-4 text-sm font-[900] text-white shadow-sm transition-all hover:brightness-110">
+                  Kampanyalara Git
+                </Link>
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/promo-burgerkola.png" alt="" aria-hidden="true" className="absolute -bottom-2 right-0 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
+            </div>
+            <div
+              className="relative flex min-h-[148px] items-center overflow-hidden rounded-2xl p-5"
+              style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}
+            >
+              <div className="relative z-10 flex-1">
+                <p className="text-[15px] font-[900] leading-snug text-textStrong">Bugün ne yesem?</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted">Senin için önerilerimiz var.</p>
+                <Link href="/oneri" className="mt-4 inline-flex h-9 items-center rounded-xl bg-success px-4 text-sm font-[900] text-white shadow-sm transition-all hover:brightness-110">
+                  Önerilere Bak
+                </Link>
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/promo-salata.png" alt="" aria-hidden="true" className="absolute -bottom-2 -right-4 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
+            </div>
+          </div>
 
-        {/* Fiyat anomalisi */}
-        {anomaliData.length > 0 ? (
-          <Container className="pb-4">
-            <FiyatAnomali items={anomaliData} />
-          </Container>
-        ) : null}
+          {/* ── Canlı filtreleme ─────────────────────────────────────────────── */}
+          <Suspense fallback={
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="overflow-hidden rounded-[20px] border border-border bg-card">
+                  <div className="w-full animate-pulse bg-border" style={{ aspectRatio: '4/3' }} />
+                  <div className="space-y-2 p-3">
+                    <div className="h-4 w-3/4 animate-pulse rounded bg-border" />
+                    <div className="h-3 w-1/2 animate-pulse rounded bg-border" />
+                    <div className="mt-3 h-8 animate-pulse rounded-lg bg-border" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          }>
+            <KesifCanli />
+          </Suspense>
+        </div>
 
-        {/* Bölgesel fiyat endeksi */}
-        {cityData.length > 0 ? (
-          <Container className="pb-4">
-            <BolgeselFiyatEndeksi cities={cityData} />
-          </Container>
-        ) : null}
+        {/* ── Alt özellikler ────────────────────────────────────────────────── */}
+        <div className="border-t border-border bg-bg px-4 py-8">
+          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 sm:px-6 md:grid-cols-4">
+            {OZELLIKLER.map((o) => (
+              <div key={o.title} className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  {o.icon}
+                </span>
+                <div>
+                  <p className="text-sm font-[800] text-textStrong">{o.title}</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted">{o.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-        {/* Fiyat sinyalleri */}
-        {priceSignals.length > 0 ? (
-          <Container className="pb-4">
-            <FiyatSinyalleri signals={priceSignals} />
-          </Container>
-        ) : null}
-
-        {/* Tüm işletmeler */}
-        <Container className="pb-12">
-          <DiscoveryResults
-            businesses={data}
-            count={count}
-            q={q}
-            city={city}
-            category={category}
-            page={page}
-            totalPages={totalPages}
-            basePath="/kesif"
-          />
-        </Container>
       </main>
     </PublicShell>
   );

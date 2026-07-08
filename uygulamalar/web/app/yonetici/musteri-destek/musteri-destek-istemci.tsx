@@ -198,7 +198,7 @@ export function MusteriDestekListesi({
               </button>
 
               {selected === ticket.id && (
-                <div className="flex flex-col gap-0 border-t border-border bg-zinc-50 dark:bg-zinc-900/30">
+                <div className="flex flex-col gap-0 border-t border-border bg-zinc-50">
                   {/* Message thread */}
                   <div className="flex flex-col gap-3 px-5 py-4">
                     <p className="text-[10px] font-[800] uppercase tracking-wide text-muted">Mesaj Geçmişi</p>
@@ -210,7 +210,7 @@ export function MusteriDestekListesi({
                       <div className="flex flex-col gap-2">
                         {ticketMessages.map(msg => (
                           <div key={msg.id} className={`flex ${msg.sender === 'agent' ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-[70%] rounded-xl px-3 py-2 text-sm ${msg.sender === 'agent' ? 'bg-primary text-white' : 'bg-white border border-border text-textStrong dark:bg-zinc-800'}`}>
+                            <div className={`max-w-[70%] rounded-xl px-3 py-2 text-sm ${msg.sender === 'agent' ? 'bg-primary text-white' : 'bg-white border border-border text-textStrong'}`}>
                               <p>{msg.message}</p>
                               <p className={`mt-1 text-[10px] ${msg.sender === 'agent' ? 'text-white/70' : 'text-muted'}`}>
                                 {msg.sender === 'agent' ? 'Destek Ekibi' : (ticket.user_profiles?.display_name ?? 'Kullanıcı')} · {new Date(msg.created_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
@@ -233,7 +233,7 @@ export function MusteriDestekListesi({
                             Şablon Seç ▾
                           </button>
                           {templateOpen && (
-                            <div className="absolute right-0 top-full z-10 mt-1 w-72 rounded-xl border border-border bg-white shadow-lg dark:bg-zinc-900">
+                            <div className="absolute right-0 top-full z-10 mt-1 w-72 rounded-xl border border-border bg-white shadow-lg">
                               {Object.entries(RESPONSE_TEMPLATES).map(([cat, tmps]) => (
                                 <div key={cat} className="border-b border-border last:border-0">
                                   <p className="px-3 pt-2 text-[9px] font-[800] uppercase tracking-wide text-muted">{
@@ -257,7 +257,7 @@ export function MusteriDestekListesi({
                         onChange={e => setReply(e.target.value)}
                         placeholder="Müşteriye yanıt yazın…"
                         rows={3}
-                        className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none dark:bg-zinc-800"
+                        className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none"
                       />
                       <div className="flex flex-wrap gap-2">
                         <button

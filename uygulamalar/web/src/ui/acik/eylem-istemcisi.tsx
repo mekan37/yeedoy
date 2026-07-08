@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { Icon } from '@/src/ui/acik/simgeler';
@@ -145,25 +145,62 @@ export function FavoriteButton({
   initialActive?: boolean;
 }) {
   const [active, setActive] = useState(initialActive);
+  const [loading, setLoading] = useState(false);
+
+  // Mount'ta gerçek durumu kontrol et (sayfa her zaman false ile başlar)
+  useEffect(() => {
+    if (!businessId) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const sb = createSupabaseBrowserClient();
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session || cancelled) return;
+        const { data } = await (sb as any)
+          .from('favorites')
+          .select('id')
+          .eq('user_id', session.user.id)
+          .eq('business_id', businessId)
+          .maybeSingle();
+        if (!cancelled) setActive(!!data);
+      } catch { /* sessiz hata */ }
+    })();
+    return () => { cancelled = true; };
+  }, [businessId]);
 
   async function handleToggle(event: React.MouseEvent) {
     event.preventDefault();
-    const next = !active;
-    setActive(next); // optimistic
-    toast(next ? 'Favorilere eklendi' : 'Favorilerden çıkarıldı', next ? 'success' : 'default');
+    if (loading) return;
     if (!businessId) return;
+
+    const sb = createSupabaseBrowserClient();
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
+      return;
+    }
+
+    const next = !active;
+    setActive(next);
+    setLoading(true);
+    toast(next ? 'Favorilere eklendi' : 'Favorilerden çıkarıldı', next ? 'success' : 'default');
+
     try {
-      const supabase = createSupabaseBrowserClient();
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { setActive(!next); return; }
       if (next) {
-        await (supabase as any).from('favorites').upsert({ user_id: session.user.id, business_id: businessId }, { onConflict: 'user_id,business_id' });
+        await (sb as any).from('favorites').upsert(
+          { user_id: session.user.id, business_id: businessId },
+          { onConflict: 'user_id,business_id', ignoreDuplicates: true },
+        );
       } else {
-        await (supabase as any).from('favorites').delete().eq('user_id', session.user.id).eq('business_id', businessId);
+        await (sb as any).from('favorites').delete()
+          .eq('user_id', session.user.id)
+          .eq('business_id', businessId);
       }
     } catch {
-      setActive(!next); // revert on error
+      setActive(!next);
       toast('Favori güncellenemedi', 'danger');
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -172,9 +209,10 @@ export function FavoriteButton({
       type="button"
       aria-pressed={active}
       onClick={handleToggle}
+      disabled={loading}
       className={clsx(
         'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-3.5 text-sm font-[900] transition-colors',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-70',
         active
           ? 'border-primary/30 bg-[var(--yd-color-primary-soft)] text-primary'
           : 'border-border bg-card text-textStrong hover:border-primary/30',
@@ -285,14 +323,45 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
   );
 }
 
-export function HelpfulVoteButton() {
-  const [count, setCount] = useState(0);
+export function HelpfulVoteButton({
+  reviewId,
+  initialCount = 0,
+}: {
+  reviewId?: string;
+  initialCount?: number;
+}) {
+  const storageKey = reviewId ? `yd_helpful_${reviewId}` : null;
+  const [voted, setVoted] = useState(false);
+  const [count, setCount] = useState(initialCount);
+
+  // Sayfa yüklenince localStorage'dan önceki oyu kontrol et
+  useEffect(() => {
+    if (!storageKey) return;
+    if (localStorage.getItem(storageKey) === '1') setVoted(true);
+  }, [storageKey]);
+
+  function handleVote() {
+    if (voted) return;
+    setVoted(true);
+    setCount((c) => c + 1);
+    if (storageKey) localStorage.setItem(storageKey, '1');
+  }
+
   return (
     <button
       type="button"
-      onClick={() => setCount((value) => value + 1)}
-      className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-3 text-xs font-[900] text-textStrong hover:border-primary/30"
+      onClick={handleVote}
+      disabled={voted}
+      className={`inline-flex min-h-11 items-center gap-1.5 rounded-2xl border px-3 text-xs font-[900] transition-colors ${
+        voted
+          ? 'border-primary/30 bg-primary/[0.06] text-primary cursor-default'
+          : 'border-border bg-card text-textStrong hover:border-primary/30'
+      }`}
+      aria-label={voted ? 'Faydalı oyunuz kaydedildi' : 'Faydalı bul'}
     >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill={voted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M7 10v12M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" />
+      </svg>
       Faydalı{count > 0 ? ` (${count})` : ''}
     </button>
   );

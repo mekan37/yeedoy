@@ -126,7 +126,7 @@ function RateLimitDashboard({ keys }: { keys: ApiKey[] }) {
       <div className="overflow-hidden rounded-xl border border-border">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-zinc-50 dark:bg-zinc-900/40 text-left">
+            <tr className="border-b border-border bg-zinc-50 text-left">
               <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kapsam</th>
               <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İstek/Dakika</th>
               <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İstek/Saat</th>
@@ -139,7 +139,7 @@ function RateLimitDashboard({ keys }: { keys: ApiKey[] }) {
               const keyCount = activeKeys.filter(k => k.scope === scope || k.scope.includes(scope.split(':')[0])).length;
               return (
                 <tr key={scope} className="hover:bg-black/[0.02]">
-                  <td className="px-4 py-3"><code className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-[700] text-primary dark:bg-zinc-800">{scope}</code></td>
+                  <td className="px-4 py-3"><code className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-[700] text-primary">{scope}</code></td>
                   <td className="px-4 py-3 font-[800] text-textStrong">{limits.rpm.toLocaleString('tr-TR')}</td>
                   <td className="px-4 py-3 font-[800] text-textStrong">{limits.rph.toLocaleString('tr-TR')}</td>
                   <td className="px-4 py-3 text-xs text-muted">{limits.description}</td>

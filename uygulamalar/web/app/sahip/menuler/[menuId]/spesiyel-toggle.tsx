@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Star } from 'lucide-react';
 
 interface SpesiyelToggleProps {
   menuItemId: string;
@@ -44,7 +45,7 @@ export function SpesiyelToggle({ menuItemId, itemName, isSpecial: initial, speci
     return (
       <div className="flex items-center gap-2">
         <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[11px] font-[800] text-amber-700">
-          ⭐ Bugünün Spesiyali
+          <Star size={11} aria-hidden="true" /> Bugünün Spesiyali
         </span>
         <button
           onClick={() => toggle(false)}
@@ -66,7 +67,7 @@ export function SpesiyelToggle({ menuItemId, itemName, isSpecial: initial, speci
           disabled={loading}
           className="text-[11px] font-[700] text-primary underline-offset-2 hover:underline disabled:opacity-50"
         >
-          ⭐ Spesiyel İşaretle
+          <Star size={11} aria-hidden="true" /> Spesiyel İşaretle
         </button>
         {error && <span className="text-[11px] text-danger">{error}</span>}
       </div>

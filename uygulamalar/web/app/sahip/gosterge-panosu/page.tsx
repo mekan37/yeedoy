@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Clock } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
@@ -131,7 +132,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
           {(hasPendingClaim || bilgi === 'talep_alindi' || bilgi === 'talep_bekliyor') && (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
               <div className="flex items-start gap-3">
-                <span className="text-xl">⏳</span>
+                <Clock size={20} className="shrink-0 text-amber-700" aria-hidden="true" />
                 <div>
                   <p className="font-[900] text-amber-900">
                     {bilgi === 'talep_alindi' ? 'Talebiniz alındı!' : 'Onay bekleniyor'}

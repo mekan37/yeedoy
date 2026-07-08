@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { clsx } from 'clsx';
+import type { ReactNode } from 'react';
+import { Utensils, Coffee, Music, Search, BarChart2, Map, Target, UtensilsCrossed } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { Badge, ButtonLink, Card, EmptyState, SectionHeader, Skeleton } from '@/src/ui/acik/ortak';
 import { FavoriteButton } from '@/src/ui/acik/eylem-istemcisi';
@@ -8,17 +10,17 @@ import { Icon } from '@/src/ui/acik/simgeler';
 import type { AcikIsletmeKarti } from '@/src/ui/acik/tipler';
 import { getPriceLevel, getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
 
-export const MARKETPLACE_CATEGORIES = [
-  { id: '', label: 'Tümü', icon: '🍽' },
-  { id: 'Restoran', label: 'Restoran', icon: '🍽' },
-  { id: 'Kafe', label: 'Kafe', icon: '☕' },
-  { id: 'Fast Food', label: 'Fast Food', icon: '🍔' },
-  { id: 'Dönerci', label: 'Döner', icon: '🥙' },
-  { id: 'Pizza', label: 'Pizza', icon: '🍕' },
-  { id: 'Burger', label: 'Burger', icon: '🍔' },
-  { id: 'Pide / Lahmacun', label: 'Pide', icon: '🥖' },
-  { id: 'Pastane', label: 'Pastane', icon: '🍰' },
-  { id: 'Kahvaltı', label: 'Kahvaltı', icon: '🍳' },
+export const MARKETPLACE_CATEGORIES: { id: string; label: string; icon: ReactNode }[] = [
+  { id: '', label: 'Tümü', icon: <Utensils size={18} aria-hidden="true" /> },
+  { id: 'Restoran', label: 'Restoran', icon: <Utensils size={18} aria-hidden="true" /> },
+  { id: 'Kafe', label: 'Kafe', icon: <Coffee size={18} aria-hidden="true" /> },
+  { id: 'Fast Food', label: 'Fast Food', icon: <UtensilsCrossed size={18} aria-hidden="true" /> },
+  { id: 'Dönerci', label: 'Döner', icon: <Utensils size={18} aria-hidden="true" /> },
+  { id: 'Pizza', label: 'Pizza', icon: <Utensils size={18} aria-hidden="true" /> },
+  { id: 'Burger', label: 'Burger', icon: <UtensilsCrossed size={18} aria-hidden="true" /> },
+  { id: 'Pide / Lahmacun', label: 'Pide', icon: <Utensils size={18} aria-hidden="true" /> },
+  { id: 'Pastane', label: 'Pastane', icon: <UtensilsCrossed size={18} aria-hidden="true" /> },
+  { id: 'Kahvaltı', label: 'Kahvaltı', icon: <Coffee size={18} aria-hidden="true" /> },
 ];
 
 export function HeroSearchSection({ q = '', city = '', action = '/kesif' }: { q?: string; city?: string; action?: string }) {
@@ -98,7 +100,7 @@ export function CategoryFilterChips({ selected = '', city = '', q = '', basePath
               active ? 'bg-primary text-white shadow-[var(--yd-shadow-primary)]' : 'bg-bg text-textStrong hover:bg-cardAlt',
             )}
           >
-            <span className="text-xl" aria-hidden="true">{category.icon}</span>
+            <span className="flex items-center justify-center">{category.icon}</span>
             {category.label}
           </Link>
         );
@@ -135,7 +137,7 @@ export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
           {business.isOpenNow != null ? <Badge tone={business.isOpenNow ? 'success' : 'neutral'}>{business.isOpenNow ? 'Açık' : 'Kapalı'}</Badge> : null}
         </div>
         <div className="absolute right-3 top-3">
-          <FavoriteButton label="Favori" className="min-h-10 rounded-full bg-card/95 px-3 backdrop-blur" />
+          <FavoriteButton label="Favori" className="min-h-10 rounded-full bg-card/95 px-3 backdrop-blur" businessId={business.id} />
         </div>
       </div>
       <div className="p-4">
@@ -266,7 +268,7 @@ export function FiyatSinyalleri({ signals }: { signals: FiyatSinyalItem[] }) {
 
   return (
     <section>
-      <SectionHeader eyebrow="Fiyat şeffaflığı" title="🔍 Son Doğrulanan Fiyatlar" className="mb-5" />
+      <SectionHeader eyebrow="Fiyat şeffaflığı" title={<span className="inline-flex items-center gap-2"><Search size={20} aria-hidden="true" /> Son Doğrulanan Fiyatlar</span>} className="mb-5" />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {signals.map((signal, index) => {
           const slug = signal.slug || signal.business_id;
@@ -332,7 +334,7 @@ export function FiyatAnomali({ items }: { items: FiyatAnomaliItem[] }) {
 
   return (
     <section>
-      <SectionHeader eyebrow="Fiyat sinyali" title="📊 Bölge Ortalamasına Göre" className="mb-5" />
+      <SectionHeader eyebrow="Fiyat sinyali" title={<span className="inline-flex items-center gap-2"><BarChart2 size={20} aria-hidden="true" /> Bölge Ortalamasına Göre</span>} className="mb-5" />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item, idx) => {
           const slug = item.slug || item.business_id;
@@ -379,7 +381,7 @@ export function BolgeselFiyatEndeksi({ cities }: { cities: BolgeFiyatItem[] }) {
 
   return (
     <section>
-      <SectionHeader eyebrow="Bölgesel karşılaştırma" title="🗺 Şehre Göre Ortalama Fiyat" className="mb-5" />
+      <SectionHeader eyebrow="Bölgesel karşılaştırma" title={<span className="inline-flex items-center gap-2"><Map size={20} aria-hidden="true" /> Şehre Göre Ortalama Fiyat</span>} className="mb-5" />
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {cities.map((city, idx) => (
           <Card
@@ -429,7 +431,7 @@ export function KampanyaHikayeleri({ campaigns }: { campaigns: KampanyaItem[] })
 
   return (
     <section>
-      <SectionHeader eyebrow="Aktif kampanyalar" title="🎯 Bu Hafta Fırsatlar" className="mb-5" />
+      <SectionHeader eyebrow="Aktif kampanyalar" title={<span className="inline-flex items-center gap-2"><Target size={20} aria-hidden="true" /> Bu Hafta Fırsatlar</span>} className="mb-5" />
       <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {campaigns.map((camp, idx) => {
           const slug = camp.business_slug || camp.business_id;
@@ -460,6 +462,149 @@ export function KampanyaHikayeleri({ campaigns }: { campaigns: KampanyaItem[] })
   );
 }
 
+// ─── Keşfet Sayfası Yeni Carousel Bileşenleri ───────────────────────────────
+
+export function KesifKaruselKarti({
+  business,
+  badge,
+}: {
+  business: AcikIsletmeKarti;
+  badge?: string;
+}) {
+  const slug = business.slug || business.publicSlug || business.id;
+  const cover = buildMenuImageUrl(business.coverUrl || business.logoUrl, { width: 500, quality: 80 });
+  const { level: priceLevel } = getPriceLevelFromBusiness(business.priceLevel, business.medianPriceCents);
+
+  return (
+    <Link
+      href={`/isletme/${slug}`}
+      className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+    >
+      {/* Görsel */}
+      <div className="relative h-36 overflow-hidden bg-cardAlt">
+        {cover ? (
+          <Image
+            src={cover}
+            alt={business.name}
+            fill
+            sizes="220px"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-4xl" aria-hidden="true">🍽</div>
+        )}
+        {/* Üst sol rozet */}
+        {badge ? (
+          <span className="absolute left-2 top-2 rounded-lg bg-primary px-2 py-1 text-[11px] font-[900] text-white shadow-sm">
+            {badge}
+          </span>
+        ) : business.isOpenNow != null ? (
+          <span
+            className={`absolute left-2 top-2 rounded-lg px-2 py-1 text-[11px] font-[900] shadow-sm ${
+              business.isOpenNow ? 'bg-success text-white' : 'bg-card/90 text-muted'
+            }`}
+          >
+            {business.isOpenNow ? 'Açık' : 'Kapalı'}
+          </span>
+        ) : null}
+        {/* Favori butonu */}
+        <div
+          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-muted shadow-sm backdrop-blur"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="h-4 w-4 fill-none stroke-current stroke-2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </div>
+      </div>
+
+      {/* İçerik */}
+      <div className="flex flex-1 flex-col p-3">
+        <p className="line-clamp-1 text-sm font-[900] leading-tight text-textStrong group-hover:text-primary">
+          {business.name}
+        </p>
+        <p className="mt-0.5 line-clamp-1 text-xs text-muted">
+          {[business.category, business.district || business.city].filter(Boolean).join(' · ')}
+        </p>
+
+        {/* Puan */}
+        <div className="mt-2 flex items-center gap-1">
+          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-amber-400" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+          <span className="text-xs font-[800] text-textStrong">{business.avgRating?.toFixed(1) ?? '—'}</span>
+          {business.reviewCount ? (
+            <span className="text-xs text-muted">({business.reviewCount.toLocaleString('tr-TR')})</span>
+          ) : null}
+        </div>
+
+        {/* Mesafe + Fiyat */}
+        <div className="mt-1.5 flex items-center justify-between text-xs text-muted">
+          {business.distanceKm ? (
+            <span className="flex items-center gap-1">
+              <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+              {business.distanceKm.toFixed(1)} km
+            </span>
+          ) : (
+            <span />
+          )}
+          {priceLevel ? (
+            <span className="font-[800] text-textStrong">{priceLevel}</span>
+          ) : null}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+const OZEL_ROZETLER = ['%20 İndirim', 'Popüler', 'Yeni', '%15 İndirim', 'Trend', 'Hızlı'];
+
+export function KesifKaruselBolumu({
+  baslik,
+  tumunuGorHref,
+  businesses,
+  showBadges = false,
+}: {
+  baslik: string;
+  tumunuGorHref: string;
+  businesses: AcikIsletmeKarti[];
+  showBadges?: boolean;
+}) {
+  if (businesses.length === 0) return null;
+  return (
+    <div className="mb-8">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-[900] text-textStrong">{baslik}</h2>
+        <Link
+          href={tumunuGorHref}
+          className="flex items-center gap-1 text-sm font-[800] text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        >
+          Tümünü Gör
+          <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </Link>
+      </div>
+      <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {businesses.map((biz, i) => (
+          <KesifKaruselKarti
+            key={biz.id}
+            business={biz}
+            badge={showBadges ? OZEL_ROZETLER[i % OZEL_ROZETLER.length] : undefined}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function BugunSpecials({ specials }: { specials: BugunSpecialItem[] }) {
   if (!specials || specials.length === 0) return null;
 
@@ -471,7 +616,7 @@ export function BugunSpecials({ specials }: { specials: BugunSpecialItem[] }) {
 
   return (
     <section>
-      <SectionHeader eyebrow="Bugün öne çıkan" title="✨ Bugünün Spesiyali" className="mb-5" />
+      <SectionHeader eyebrow="Bugün öne çıkan" title="Bugünün Spesiyali" className="mb-5" />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {specials.map((special, index) => {
           const slug = special.business_slug || special.business_id;

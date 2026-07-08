@@ -87,7 +87,7 @@ export async function deleteSection(sectionId: string, menuId: string): Promise<
   return null;
 }
 
-export async function upsertItem(fd: FormData): Promise<ActionResult> {
+export async function upsertItem(fd: FormData): Promise<{ error: string } | { itemId: string }> {
   const menuId = String(fd.get('menuId') ?? '');
   const sectionId = String(fd.get('sectionId') ?? '');
   const itemId = fd.get('itemId') ? String(fd.get('itemId')) : null;
@@ -124,15 +124,99 @@ export async function upsertItem(fd: FormData): Promise<ActionResult> {
     }
   }
 
-  const payload = { name, description, image_url: imageUrl, price_cents, currency: 'TRY', is_available, section_id: sectionId };
+  const caloriesRaw = fd.get('calories') ? Number(fd.get('calories')) : null;
+  const portionSizeRaw = fd.get('portion_size') ? Number(fd.get('portion_size')) : null;
+  const portionUnit = (fd.get('portion_unit') as string) || null;
 
-  let error: any;
+  const payload = {
+    name,
+    description,
+    image_url: imageUrl,
+    price_cents,
+    currency: 'TRY',
+    is_available,
+    section_id: sectionId,
+    calories_min: caloriesRaw,
+    calories_max: caloriesRaw,
+    portion_size: portionSizeRaw,
+    portion_unit: portionUnit,
+    calorie_source: caloriesRaw !== null ? 'owner' : 'unknown',
+  };
+
+  let resolvedItemId: string;
+
   if (itemId) {
-    ({ error } = await (context.supabase as any).from('menu_items').update(payload).eq('id', itemId).eq('section_id', sectionId));
+    const { error: updateErr } = await (context.supabase as any)
+      .from('menu_items')
+      .update(payload)
+      .eq('id', itemId)
+      .eq('section_id', sectionId) as { error: { message: string } | null };
+    if (updateErr) return { error: updateErr.message };
+    resolvedItemId = itemId;
   } else {
-    const { count } = await (context.supabase as any).from('menu_items').select('id', { count: 'exact', head: true }).eq('section_id', sectionId) as { count: number | null };
-    ({ error } = await (context.supabase as any).from('menu_items').insert({ ...payload, business_id: context.businessId, sort_order: (count ?? 0) }));
+    const { count } = await (context.supabase as any)
+      .from('menu_items')
+      .select('id', { count: 'exact', head: true })
+      .eq('section_id', sectionId) as { count: number | null };
+    const { data: newItem, error: insertErr } = await (context.supabase as any)
+      .from('menu_items')
+      .insert({ ...payload, business_id: context.businessId, sort_order: (count ?? 0) })
+      .select('id')
+      .single() as { data: { id: string } | null; error: { message: string } | null };
+    if (insertErr) return { error: insertErr.message };
+    resolvedItemId = newItem?.id ?? '';
   }
+
+  revalidateMenuEditor(menuId);
+  return { itemId: resolvedItemId };
+}
+
+export async function upsertItemAllergens(
+  itemId: string,
+  menuId: string,
+  allergenCodes: string[],
+): Promise<{ error: string } | null> {
+  const context = await getOwnedMenuContext(menuId);
+  if (!context.ok) return { error: context.error };
+
+  const p_allergens = allergenCodes.map((code) => ({
+    allergen: code,
+    risk_level: 'contains',
+    detected_by: 'manual',
+  }));
+
+  const { error } = await (context.supabase as any).rpc('owner_upsert_menu_item_allergens_v1', {
+    p_item_id: itemId,
+    p_allergens,
+  }) as { error: { message: string } | null };
+
+  if (error) return { error: error.message };
+  revalidateMenuEditor(menuId);
+  return null;
+}
+
+export async function upsertItemIngredients(
+  itemId: string,
+  menuId: string,
+  ingredientNames: string[],
+): Promise<{ error: string } | null> {
+  const context = await getOwnedMenuContext(menuId);
+  if (!context.ok) return { error: context.error };
+
+  const p_ingredients = ingredientNames.map((name, i) => ({
+    name,
+    confidence: 'certain',
+    category: 'other',
+    sort_order: i,
+  }));
+
+  const { error } = await (context.supabase as any).rpc('owner_upsert_menu_item_ingredients_v1', {
+    p_item_id: itemId,
+    p_ingredients,
+    p_diet: { is_vegan: null, is_vegetarian: null, is_gluten_free: null, is_dairy_free: null },
+    p_detected_by: 'manual',
+  }) as { error: { message: string } | null };
+
   if (error) return { error: error.message };
   revalidateMenuEditor(menuId);
   return null;

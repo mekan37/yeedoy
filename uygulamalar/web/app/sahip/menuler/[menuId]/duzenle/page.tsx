@@ -30,6 +30,34 @@ export default async function MenuEditorPage({ params }: Props) {
 
   const { menu, business: biz, sections, items } = detail;
 
+  // Batch-fetch allergens for all items in this menu
+  const allItemIds = items.map((item) => item.id);
+  const allergenMap: Record<string, string[]> = {};
+  if (allItemIds.length > 0) {
+    const { data: allergenRows } = await (supabase as any)
+      .from('menu_item_allergens')
+      .select('item_id, allergen')
+      .in('item_id', allItemIds) as { data: Array<{ item_id: string; allergen: string }> | null };
+    for (const row of allergenRows ?? []) {
+      if (!allergenMap[row.item_id]) allergenMap[row.item_id] = [];
+      allergenMap[row.item_id].push(row.allergen);
+    }
+  }
+
+  // Batch-fetch ingredients for all items in this menu
+  const ingredientMap: Record<string, string[]> = {};
+  if (allItemIds.length > 0) {
+    const { data: ingredientRows } = await (supabase as any)
+      .from('menu_item_ingredients')
+      .select('item_id, name')
+      .in('item_id', allItemIds)
+      .order('sort_order') as { data: Array<{ item_id: string; name: string }> | null };
+    for (const row of ingredientRows ?? []) {
+      if (!ingredientMap[row.item_id]) ingredientMap[row.item_id] = [];
+      ingredientMap[row.item_id].push(row.name);
+    }
+  }
+
   const STATUS_MAP: Record<string, { label: string; className: string }> = {
     draft:     { label: 'Taslak',   className: 'bg-amber-50 text-amber-700' },
     published: { label: 'Yayında',  className: 'bg-green-50 text-green-700' },
@@ -77,7 +105,12 @@ export default async function MenuEditorPage({ params }: Props) {
             is_available: item.is_available,
             section_id: item.section_id,
             sort_order: item.sort_order,
+            calories_min: item.calories_min ?? null,
+            portion_size: item.portion_size ?? null,
+            portion_unit: item.portion_unit ?? null,
           }))}
+          allergenMap={allergenMap}
+          ingredientMap={ingredientMap}
         />
       </PanelIcerikYuzeyi>
     </div>

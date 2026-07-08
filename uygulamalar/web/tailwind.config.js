@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -43,7 +42,8 @@ module.exports = {
         yd3: 'var(--yd-shadow-3)',
       },
       fontFamily: {
-        sans: ['var(--yd-font-family)'],
+        sans: ['var(--font-inter)', 'var(--yd-font-family)'],
+        display: ['var(--font-outfit)', 'var(--yd-font-display)'],
       },
       transitionDuration: {
         fast: 'var(--yd-duration-fast)',

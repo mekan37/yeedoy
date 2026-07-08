@@ -1,21 +1,21 @@
 import '@/src/styles/globals.css';
 import type { Metadata } from 'next';
-import { Sora, Playfair_Display } from 'next/font/google';
+import { Outfit, Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { appConfig } from '@/src/lib/config';
 import { AppProviders } from '@/src/lib/providers';
 
-const sora = Sora({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-sora',
+  variable: '--font-outfit',
   display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900'],
 });
 
-const playfair = Playfair_Display({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-inter',
   display: 'swap',
-  weight: ['400', '700', '900'],
 });
 
 export const metadata: Metadata = {
@@ -38,26 +38,16 @@ export const metadata: Metadata = {
   },
 };
 
-// Inline script — runs synchronously before paint to avoid flash
-const themeScript = `(function(){
-  try {
-    var s = localStorage.getItem('yd-theme');
-    var dark = s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    if (dark) document.documentElement.classList.add('dark');
-    else if (s === 'light') document.documentElement.classList.add('light');
-  } catch(e) {}
-})()`;
-
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="tr" suppressHydrationWarning>
-      {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="tr">
+      <head />
       <body
-        className={`${sora.variable} ${playfair.variable} bg-bg text-text`}
-        style={{ ['--yd-font-family' as any]: 'var(--font-sora), "Segoe UI", sans-serif' }}
+        className={`${outfit.variable} ${inter.variable} bg-bg text-text`}
+        style={{
+          ['--yd-font-family' as any]: 'var(--font-inter), "Segoe UI", sans-serif',
+          ['--yd-font-display' as any]: 'var(--font-outfit), sans-serif',
+        }}
       >
         <AppProviders>{children}</AppProviders>
       </body>

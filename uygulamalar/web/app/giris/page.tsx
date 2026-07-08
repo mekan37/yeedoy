@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { GirisFormu } from '@/src/ui/bolumler/giris-formu';
+import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
 import { appConfig } from '@/src/lib/ayarlar';
 
@@ -15,11 +16,11 @@ export const metadata: Metadata = {
 };
 
 type LoginPageProps = {
-  searchParams: Promise<{ redirect?: string }>;
+  searchParams: Promise<{ redirect?: string; tab?: string }>;
 };
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { redirect: redirectParam } = await searchParams;
+  const { redirect: redirectParam, tab } = await searchParams;
   // null = no explicit redirect → server will resolve by role after login
   const redirectTo = redirectParam ? getExplicitRedirect(redirectParam) : null;
   const panelBase = appConfig.panelUrl();
@@ -27,7 +28,15 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     ? `${panelBase.replace(/\/$/, '')}/isletme-giris?redirect=${encodeURIComponent('/sahip/isletmeler')}`
     : null;
 
-  return <GirisFormu redirectTo={redirectTo} panelLoginUrl={panelLoginUrl} />;
+  return (
+    <PublicShell footer={false}>
+      <GirisFormu
+        redirectTo={redirectTo}
+        panelLoginUrl={panelLoginUrl}
+        initialTab={tab === 'kayit' ? 'kayit' : 'giris'}
+      />
+    </PublicShell>
+  );
 }
 
 function getExplicitRedirect(input: string): string {

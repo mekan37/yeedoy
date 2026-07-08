@@ -38,7 +38,7 @@ export function YorumKarti({ review }: { review: AcikYorumKarti }) {
       </div>
       {review.content ? <p className="mt-4 text-sm leading-6 text-textStrong">&ldquo;{review.content}&rdquo;</p> : null}
       <div className="mt-4 flex flex-wrap gap-2">
-        <HelpfulVoteButton />
+        <HelpfulVoteButton reviewId={review.id} initialCount={review.helpfulCount ?? 0} />
         <YorumuRaporlaButonu />
       </div>
     </Card>

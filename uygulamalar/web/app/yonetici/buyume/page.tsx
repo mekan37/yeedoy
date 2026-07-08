@@ -141,7 +141,7 @@ function AcquisitionChannelChart({ organic, qrScan, direct, referral, total }: {
           <div key={ch.label} className="flex items-center gap-3">
             <span className="w-6 text-base">{ch.icon}</span>
             <span className="w-36 shrink-0 text-sm font-[700] text-textStrong">{ch.label}</span>
-            <div className="flex h-7 flex-1 overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800">
+            <div className="flex h-7 flex-1 overflow-hidden rounded-xl bg-zinc-100">
               <div
                 className={`flex items-center justify-end pr-2 text-[10px] font-[800] text-white ${ch.color}`}
                 style={{ width: `${Math.max((ch.value / max) * 100, 2)}%` }}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Yer fistigi</title>
+  <defs>
+    <radialGradient id="peanut" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(45 30) rotate(61) scale(86 47)">
+      <stop stop-color="#FFD58A"/>
+      <stop offset="0.56" stop-color="#D9953E"/>
+      <stop offset="1" stop-color="#9F5C22"/>
+    </radialGradient>
+  </defs>
+  <path d="M48 13c18-1 31 13 31 30 0 5-1 9-3 13 12 5 20 16 20 30 0 18-14 31-32 31-17 0-31-13-31-30 0-5 1-10 4-14-13-4-22-16-22-30 0-17 14-30 33-30Z" fill="url(#peanut)"/>
+  <path d="M48 13c18-1 31 13 31 30 0 5-1 9-3 13 12 5 20 16 20 30 0 18-14 31-32 31-17 0-31-13-31-30 0-5 1-10 4-14-13-4-22-16-22-30 0-17 14-30 33-30Z" stroke="#844716" stroke-width="4" opacity="0.35"/>
+  <path d="M35 31c8-8 20-8 28 0M47 58c9-4 18-3 26 2M50 91c7 6 17 6 25 0" stroke="#F8C574" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+  <circle cx="43" cy="43" r="4" fill="#A66224" opacity="0.5"/>
+  <circle cx="64" cy="78" r="4" fill="#A66224" opacity="0.45"/>
+</svg>

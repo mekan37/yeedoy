@@ -98,7 +98,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 {[
                   { href: '/en-iyiler', label: 'En İyi İşletmeler', desc: 'Puan ve yorum sıralaması' },
                   { href: '/kesif', label: 'İşletme Keşfi', desc: 'Kategori ve konuma göre' },
-                  { href: '/liderler', label: 'Haftalık Kahramanlar', desc: 'En aktif gurmeler' },
+                  { href: '/liderler', label: 'Haftalık Kahramanlar', desc: 'En aktif kullanıcılar' },
                 ].map((item) => (
                   <Link
                     key={item.href}

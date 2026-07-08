@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
+import { Leaf, Wheat, Milk } from 'lucide-react';
 
 type DietProfile = {
   is_vegan: boolean;
@@ -12,7 +13,7 @@ type DietProfile = {
 
 type ToggleItem = {
   key: 'is_vegan' | 'is_vegetarian' | 'is_gluten_free' | 'is_dairy_free';
-  emoji: string;
+  icon: ReactNode;
   label: string;
   description: string;
 };
@@ -20,25 +21,25 @@ type ToggleItem = {
 const TOGGLE_ITEMS: ToggleItem[] = [
   {
     key: 'is_vegan',
-    emoji: '🌱',
+    icon: <Leaf size={24} aria-hidden="true" />,
     label: 'Vegan',
     description: 'Hayvansal hiçbir ürün içermeyen menüler',
   },
   {
     key: 'is_vegetarian',
-    emoji: '🥗',
+    icon: <Leaf size={24} aria-hidden="true" />,
     label: 'Vejetaryen',
     description: 'Et içermeyen, bitkisel ağırlıklı seçenekler',
   },
   {
     key: 'is_gluten_free',
-    emoji: '🌾',
+    icon: <Wheat size={24} aria-hidden="true" />,
     label: 'Glütensiz',
     description: 'Buğday, arpa ve çavdar içermeyen ürünler',
   },
   {
     key: 'is_dairy_free',
-    emoji: '🥛',
+    icon: <Milk size={24} aria-hidden="true" />,
     label: 'Sütsüz',
     description: 'Süt ve süt türevleri içermeyen seçenekler',
   },
@@ -83,7 +84,7 @@ export function DiyetProfilFormu({ dietProfile }: { dietProfile: DietProfile }) 
 
   return (
     <form onSubmit={handleSave} className="flex flex-col gap-4">
-      {TOGGLE_ITEMS.map(({ key, emoji, label, description }) => {
+      {TOGGLE_ITEMS.map(({ key, icon, label, description }) => {
         const active = values[key];
         return (
           <button
@@ -100,7 +101,7 @@ export function DiyetProfilFormu({ dietProfile }: { dietProfile: DietProfile }) 
                 : 'border-border bg-card hover:border-primary/20',
             ].join(' ')}
           >
-            <span className="text-2xl leading-none" aria-hidden="true">{emoji}</span>
+            <span className="flex items-center justify-center text-primary">{icon}</span>
             <div className="min-w-0 flex-1">
               <p className={`font-[900] leading-tight ${active ? 'text-primary' : 'text-textStrong'}`}>
                 {label}

@@ -16,7 +16,7 @@ export function SectionHeader({
   className,
 }: {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   subtitle?: string;
   actionHref?: string;
   actionLabel?: string;

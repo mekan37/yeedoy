@@ -70,9 +70,9 @@ export default async function FollowingPage() {
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
             <p className="text-3xl mb-3">🧑‍🍳</p>
             <p className="font-[700] text-textStrong mb-2">Henüz kimseyi takip etmiyorsunuz</p>
-            <p className="text-sm text-muted mb-6">Değerlendirme yapan gurmeleri takip ederek onların keşiflerini görün.</p>
-            <Link href="/gurmeler" className="inline-flex min-h-[44px] items-center rounded-2xl px-5 text-sm font-[800] text-white" style={{ background: 'var(--yd-gradient-primary)' }}>
-              Gurmeleri Keşfet
+            <p className="text-sm text-muted mb-6">İşletmeleri keşfet ve favori mekanlarını takip et.</p>
+            <Link href="/kesif" className="inline-flex min-h-[44px] items-center rounded-2xl px-5 text-sm font-[800] text-white" style={{ background: 'var(--yd-gradient-primary)' }}>
+              İşletmeleri Keşfet
             </Link>
           </div>
         ) : (

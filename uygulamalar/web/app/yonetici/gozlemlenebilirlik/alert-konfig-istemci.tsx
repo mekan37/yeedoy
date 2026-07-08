@@ -59,7 +59,7 @@ export function AlertKonfigIstemci() {
       <div className="overflow-hidden rounded-xl border border-border">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-zinc-50 dark:bg-zinc-900/40 text-left">
+            <tr className="border-b border-border bg-zinc-50 text-left">
               <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kural</th>
               <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Eşik</th>
               <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Önem</th>

@@ -116,7 +116,7 @@ export function OzelRaporOlusturucu() {
       </div>
 
       {/* Schedule info */}
-      <div className="rounded-xl border border-border bg-zinc-50 px-4 py-3 dark:bg-zinc-900/30">
+      <div className="rounded-xl border border-border bg-zinc-50 px-4 py-3">
         <p className="text-xs font-[700] text-muted">Zamanlanmış Rapor</p>
         <p className="mt-0.5 text-xs text-muted">Raporları belirli aralıklarla otomatik oluşturmak için <span className="font-[700] text-primary">Gözlemlenebilirlik → Alert Konfigürasyonu</span> bölümünden webhook ayarlayın. Aylık finansal raporlar otomatik e-posta ile gönderilebilir.</p>
       </div>

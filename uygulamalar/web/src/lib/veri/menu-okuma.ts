@@ -32,6 +32,7 @@ export type BusinessMediaBundle = {
 export type MenuItemRecord = MenuItem & {
   tagList: string[];
   allergens: string[];   // list of AllergenType codes ('gluten', 'milk', ...)
+  ingredients: string[]; // ingredient names in sort_order
   dietary: {
     calories: number | null;
     isVegan: boolean;
@@ -74,6 +75,7 @@ function normalizeMenuItems(
   baseItems: MenuItem[],
   dietaryRows: MenuItemDietary[],
   allergenRows: Array<{ item_id: string; allergen: string }>,
+  ingredientRows: Array<{ item_id: string; name: string }>,
 ) {
   const dietaryById = new Map(dietaryRows.map((row) => [row.id, row]));
   const allergensByItem = new Map<string, string[]>();
@@ -82,6 +84,12 @@ function normalizeMenuItems(
     list.push(row.allergen);
     allergensByItem.set(row.item_id, list);
   }
+  const ingredientsByItem = new Map<string, string[]>();
+  for (const row of ingredientRows) {
+    const list = ingredientsByItem.get(row.item_id) ?? [];
+    list.push(row.name);
+    ingredientsByItem.set(row.item_id, list);
+  }
 
   return baseItems.map((item) => {
     const dietary = dietaryById.get(item.id);
@@ -89,6 +97,7 @@ function normalizeMenuItems(
       ...item,
       tagList: parseTagList(item.tags),
       allergens: allergensByItem.get(item.id) ?? [],
+      ingredients: ingredientsByItem.get(item.id) ?? [],
       dietary: {
         calories: dietary?.calories ?? null,
         isVegan: Boolean(dietary?.is_vegan),
@@ -389,7 +398,20 @@ const getMenuItemsCached = unstable_cache(
       }
     }
 
-    return normalizeMenuItems((itemsResponse.data ?? []) as MenuItem[], dietaryRows, allergenRows);
+    // Batch-fetch ingredients for all items in this menu
+    let ingredientRows: Array<{ item_id: string; name: string }> = [];
+    if (itemIds.length > 0) {
+      const ingredientResponse = await supabase
+        .from('menu_item_ingredients')
+        .select('item_id,name')
+        .in('item_id', itemIds)
+        .order('sort_order');
+      if (!ingredientResponse.error) {
+        ingredientRows = (ingredientResponse.data ?? []) as Array<{ item_id: string; name: string }>;
+      }
+    }
+
+    return normalizeMenuItems((itemsResponse.data ?? []) as MenuItem[], dietaryRows, allergenRows, ingredientRows);
   },
   ['public-menu-items'],
   { revalidate: 120 },

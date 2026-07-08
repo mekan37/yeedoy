@@ -107,6 +107,13 @@ export type Database = {
         sort_order: number;
         menu_id: string | null;
       }>;
+      menu_item_ingredients: Table<{
+        item_id: string;
+        name: string;
+        confidence: string | null;
+        category: string | null;
+        sort_order: number;
+      }>;
       menu_items: Table<{
         id: string;
         section_id: string;
@@ -122,6 +129,11 @@ export type Database = {
         image_url: string | null;
         tags: Json;
         sort_order: number;
+        calories_min: number | null;
+        calories_max: number | null;
+        portion_size: number | null;
+        portion_unit: string | null;
+        calorie_source: string | null;
       }>;
       menu_sections: Table<{
         id: string;

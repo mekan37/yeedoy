@@ -182,7 +182,7 @@ function SystemHealthScore({ events1h, events24h, rateLimitCount }: {
       </div>
       <div className="grid gap-2 sm:grid-cols-2">
         {checks.map(c => (
-          <div key={c.label} className={`flex items-start gap-3 rounded-xl border p-3 ${c.status === 'ok' ? 'border-green-200 bg-green-50' : c.status === 'warning' ? 'border-yellow-200 bg-yellow-50' : 'border-red-200 bg-red-50'} dark:bg-transparent`}>
+          <div key={c.label} className={`flex items-start gap-3 rounded-xl border p-3 ${c.status === 'ok' ? 'border-green-200 bg-green-50' : c.status === 'warning' ? 'border-yellow-200 bg-yellow-50' : 'border-red-200 bg-red-50'}`}>
             <span className="mt-0.5 text-base">{c.status === 'ok' ? '✅' : c.status === 'warning' ? '⚠️' : '🔴'}</span>
             <div>
               <p className="text-sm font-[800] text-textStrong">{c.label}</p>

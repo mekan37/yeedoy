@@ -104,7 +104,7 @@ export function DsarYonetimi({ requests, requestTypeLabels }: {
                 </button>
 
                 {selected === req.id && (
-                  <div className="bg-zinc-50 px-5 py-3 dark:bg-zinc-900/30">
+                  <div className="bg-zinc-50 px-5 py-3">
                     <p className="mb-2 text-xs font-[700] text-muted">Durum Güncelle</p>
                     <div className="flex flex-wrap gap-2">
                       {STATUS_OPTIONS.map(opt => (

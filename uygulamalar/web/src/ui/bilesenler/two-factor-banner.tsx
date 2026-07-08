@@ -16,18 +16,18 @@ export function TwoFactorBanner({ hasTwoFactor }: TwoFactorBannerProps) {
     <div
       role="alert"
       aria-label="iki-faktor-dogrulama-uyarisi"
-      className="flex items-center justify-between gap-4 border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-900 dark:border-amber-800/40 dark:bg-amber-950/30 dark:text-amber-200"
+      className="flex items-center justify-between gap-4 border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-900"
     >
       <div className="flex min-w-0 items-center gap-2">
         <svg
           viewBox="0 0 24 24"
-          className="h-4 w-4 shrink-0 fill-amber-500 dark:fill-amber-400"
+          className="h-4 w-4 shrink-0 fill-amber-500"
           aria-hidden="true"
         >
           <path d="M12 1L2 20h20L12 1zm0 3.5L19.7 19H4.3L12 4.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z" />
         </svg>
         <span className="font-[700]">Hesabın daha güvenli olabilir</span>
-        <span className="hidden sm:inline text-amber-700 dark:text-amber-300">
+        <span className="hidden sm:inline text-amber-700">
           — 2FA etkinleştirerek hesabını koru.
         </span>
       </div>

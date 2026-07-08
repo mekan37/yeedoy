@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import { Trophy, BarChart2 } from 'lucide-react';
 
 interface ABTest {
   id: string; name: string; description: string; enabled: boolean;
@@ -127,9 +128,9 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
 
       {/* Create Button */}
       <div className="flex items-center justify-between">
-        <div className="flex gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-zinc-800">
+        <div className="flex gap-1 rounded-xl bg-zinc-100 p-1">
           {(['active', 'all'] as const).map(t => (
-            <button key={t} onClick={() => setTab(t)} className={`rounded-lg px-4 py-1.5 text-sm font-[700] transition-colors ${tab === t ? 'bg-white text-textStrong shadow dark:bg-zinc-700' : 'text-muted'}`}>
+            <button key={t} onClick={() => setTab(t)} className={`rounded-lg px-4 py-1.5 text-sm font-[700] transition-colors ${tab === t ? 'bg-white text-textStrong shadow' : 'text-muted'}`}>
               {t === 'active' ? `Aktif (${tests.filter(t => t.enabled).length})` : `Tümü (${tests.length})`}
             </button>
           ))}
@@ -209,7 +210,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border text-left bg-zinc-50 dark:bg-zinc-900/40">
+              <tr className="border-b border-border text-left bg-zinc-50">
                 <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Test Adı</th>
                 <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Açıklama</th>
                 <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Yayılım</th>
@@ -280,7 +281,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
 
                     {/* Expanded: variant results */}
                     {isExpanded && (
-                      <tr key={`${test.id}-detail`} className="bg-zinc-50 dark:bg-zinc-900/20">
+                      <tr key={`${test.id}-detail`} className="bg-zinc-50">
                         <td colSpan={7} className="px-5 py-4">
                           <div className="flex flex-col gap-4">
                             <p className="text-[10px] font-[800] uppercase tracking-wide text-muted">Varyant Sonuçları</p>
@@ -289,7 +290,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                               <div className={`rounded-xl border p-4 ${sig?.winner === 'a' ? 'border-green-300 bg-green-50' : 'border-border bg-surface'}`}>
                                 <div className="flex items-center justify-between mb-2">
                                   <span className="text-xs font-[800] text-textStrong">Varyant A (Kontrol)</span>
-                                  {sig?.winner === 'a' && <span className="rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-[800] text-white">🏆 KAZANAN</span>}
+                                  {sig?.winner === 'a' && <span className="inline-flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-[800] text-white"><Trophy size={9} aria-hidden="true" /> KAZANAN</span>}
                                 </div>
                                 <div className="grid grid-cols-3 gap-2 text-center">
                                   <div>
@@ -316,7 +317,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                               <div className={`rounded-xl border p-4 ${sig?.winner === 'b' ? 'border-green-300 bg-green-50' : 'border-border bg-surface'}`}>
                                 <div className="flex items-center justify-between mb-2">
                                   <span className="text-xs font-[800] text-textStrong">Varyant B (Deney)</span>
-                                  {sig?.winner === 'b' && <span className="rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-[800] text-white">🏆 KAZANAN</span>}
+                                  {sig?.winner === 'b' && <span className="inline-flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-[800] text-white"><Trophy size={9} aria-hidden="true" /> KAZANAN</span>}
                                 </div>
                                 <div className="grid grid-cols-3 gap-2 text-center">
                                   <div>
@@ -343,7 +344,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                             {/* Statistical significance */}
                             {sig && (
                               <div className={`rounded-xl p-3 ${sig.color}`}>
-                                <p className="text-xs font-[800]">📊 {sig.label}</p>
+                                <p className="inline-flex items-center gap-1 text-xs font-[800]"><BarChart2 size={12} aria-hidden="true" /> {sig.label}</p>
                                 <p className="mt-0.5 text-[10px] opacity-80">
                                   Toplam görüntülenme: {(ia + ib).toLocaleString('tr-TR')} · Test süresi: {durationDays} gün
                                 </p>

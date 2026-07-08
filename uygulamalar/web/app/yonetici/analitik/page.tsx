@@ -125,17 +125,17 @@ function DailyNewUsersSpark({ newUsers30d, newUsers7d }: { supabase: null; newUs
 
   return (
     <div className="grid gap-4 sm:grid-cols-3">
-      <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900/40">
+      <div className="rounded-xl bg-zinc-50 p-4">
         <p className="text-xs font-[700] uppercase tracking-wide text-muted">Son 7 Gün</p>
         <p className="mt-1 text-2xl font-[900] text-textStrong">{newUsers7d.toLocaleString('tr-TR')}</p>
         <p className="text-xs text-muted">Ort. {avg7d}/gün</p>
       </div>
-      <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900/40">
+      <div className="rounded-xl bg-zinc-50 p-4">
         <p className="text-xs font-[700] uppercase tracking-wide text-muted">Son 30 Gün</p>
         <p className="mt-1 text-2xl font-[900] text-textStrong">{newUsers30d.toLocaleString('tr-TR')}</p>
         <p className="text-xs text-muted">Ort. {avg30d}/gün</p>
       </div>
-      <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900/40">
+      <div className="rounded-xl bg-zinc-50 p-4">
         <p className="text-xs font-[700] uppercase tracking-wide text-muted">Büyüme Hızı</p>
         <p className={`mt-1 text-2xl font-[900] ${growthPct >= 0 ? 'text-green-600' : 'text-red-600'}`}>
           {growthPct >= 0 ? '+' : ''}{growthPct}%
@@ -162,7 +162,7 @@ function RetentionGrid({ views7d, views30d, totalUsers, newUsers30d }: { views7d
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {metrics.map(m => (
-        <div key={m.label} className={`rounded-xl border p-4 ${m.good ? 'border-green-200 bg-green-50 dark:bg-green-950/20' : 'border-orange-200 bg-orange-50 dark:bg-orange-950/20'}`}>
+        <div key={m.label} className={`rounded-xl border p-4 ${m.good ? 'border-green-200 bg-green-50' : 'border-orange-200 bg-orange-50'}`}>
           <p className="text-xs font-[700] uppercase tracking-wide text-muted">{m.label}</p>
           <p className={`mt-1 text-2xl font-[900] ${m.good ? 'text-green-700' : 'text-orange-600'}`}>{m.value}</p>
           <p className="mt-0.5 text-xs text-muted">{m.desc}</p>

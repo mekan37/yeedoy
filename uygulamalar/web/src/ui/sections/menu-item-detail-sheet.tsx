@@ -2,6 +2,24 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, type ReactNode } from 'react';
+import { Flame } from 'lucide-react';
+
+const ALLERGEN_LIST = [
+  { code: 'gluten',         labelTr: 'Gluten',                      labelEn: 'Gluten'          },
+  { code: 'crustaceans',    labelTr: 'Kabuklu Deniz Ürünleri',      labelEn: 'Crustaceans'     },
+  { code: 'egg',            labelTr: 'Yumurta',                     labelEn: 'Egg'             },
+  { code: 'fish',           labelTr: 'Balık',                       labelEn: 'Fish'            },
+  { code: 'peanuts',        labelTr: 'Yer Fıstığı',                 labelEn: 'Peanuts'         },
+  { code: 'soy',            labelTr: 'Soya',                        labelEn: 'Soy'             },
+  { code: 'milk',           labelTr: 'Süt',                         labelEn: 'Milk'            },
+  { code: 'treenuts',       labelTr: 'Sert Kabuklu Yemişler',       labelEn: 'Tree nuts'       },
+  { code: 'celery',         labelTr: 'Kereviz',                     labelEn: 'Celery'          },
+  { code: 'mustard',        labelTr: 'Hardal',                      labelEn: 'Mustard'         },
+  { code: 'sesame',         labelTr: 'Susam',                       labelEn: 'Sesame'          },
+  { code: 'sulfur_dioxide', labelTr: 'Kükürt Dioksit / Sülfitler',  labelEn: 'Sulphur dioxide' },
+  { code: 'lupin',          labelTr: 'Acı Bakla',                   labelEn: 'Lupin'           },
+  { code: 'molluscs',       labelTr: 'Yumuşakçalar',                labelEn: 'Molluscs'        },
+] as const;
 import type { BrandTheme, BrandThemeDefinition } from '@/src/lib/brand-theme';
 import { formatCurrency } from '@/src/lib/format';
 import type { AppLang, MenuCopy } from '@/src/lib/i18n';
@@ -106,6 +124,7 @@ export function MenuItemDetailSheet({
 
         <div className="space-y-5 p-5">
           <div className="grid gap-4 md:grid-cols-[1fr_0.9fr]">
+
             <div className="space-y-4">
               {item.image_url ? (
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[28px] bg-cardAlt">
@@ -214,6 +233,73 @@ export function MenuItemDetailSheet({
               ) : null}
             </div>
           </div>
+
+          {(item.calories_min != null || item.ingredients.length > 0) && (
+            <div className="rounded-2xl border border-border bg-bg p-4 space-y-3">
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted">
+                {lang === 'tr' ? 'Şeffaf Menü' : 'Transparent Menu'}
+              </p>
+
+              {item.calories_min != null && (
+                <div className="flex items-center gap-2">
+                  <Flame size={16} className="text-primary shrink-0" aria-hidden="true" />
+                  <span className="text-sm font-[800] text-textStrong">
+                    {item.calories_min} kcal
+                  </span>
+                  {item.portion_size != null && item.portion_unit && (
+                    <span className="text-xs text-muted">
+                      / {item.portion_size} {item.portion_unit}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {item.ingredients.length > 0 && (
+                <div>
+                  <p className="mb-2 text-xs font-[700] text-muted">
+                    {lang === 'tr' ? 'İçindekiler' : 'Ingredients'}
+                  </p>
+                  <p className="text-sm text-textStrong leading-relaxed">
+                    {item.ingredients.join(', ')}
+                  </p>
+                </div>
+              )}
+
+              <p className="text-[10px] text-muted">
+                {lang === 'tr'
+                  ? 'Değerler tahmini olabilir. Alerji durumunuz için personelle iletişime geçin.'
+                  : 'Values may be approximate. Please inform staff of your allergies.'}
+              </p>
+            </div>
+          )}
+
+          {item.allergens.length > 0 && (
+            <div className="rounded-2xl border border-border bg-bg p-4">
+              <p className="mb-3 text-xs font-black uppercase tracking-widest text-muted">
+                {lang === 'tr' ? 'Alerjenler' : 'Allergens'}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {item.allergens.map((code) => {
+                  const info = ALLERGEN_LIST.find((a) => a.code === code);
+                  return (
+                    <span
+                      key={code}
+                      className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs font-[700] text-textStrong"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0" />
+                      <span>{lang === 'tr' ? info?.labelTr : (info?.labelEn ?? code)}</span>
+                    </span>
+                  );
+                })}
+              </div>
+              <p className="mt-2 text-[10px] text-muted">
+                {lang === 'tr'
+                  ? 'Alerji bilgileriniz için lütfen personelle iletişime geçin.'
+                  : 'Please inform staff of your allergies before ordering.'}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

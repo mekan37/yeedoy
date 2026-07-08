@@ -45,7 +45,7 @@ const NAV_LINKS = [
 
 const FEED_LINKS = [
   { href: '/smart-feed', label: 'Akıllı Besleme', description: 'Tercihlerine göre kişisel öneriler' },
-  { href: '/taste-twin', label: 'Taste Twin', description: 'Benzer zevkteki gurmeleri keşfet' },
+  { href: '/taste-twin', label: 'Taste Twin', description: 'Benzer zevkteki kullanıcıları keşfet' },
   { href: '/price-alerts', label: 'Fiyat Alarmları', description: 'Takip ettiğin fiyat değişimleri' },
 ];
 

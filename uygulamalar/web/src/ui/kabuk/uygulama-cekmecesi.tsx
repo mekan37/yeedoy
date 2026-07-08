@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Search, Trophy, Bell, User, Lightbulb, Heart, Inbox, FileText } from 'lucide-react';
 import { useWebKabukStore } from '@/src/lib/web-kabuk-deposu';
 import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
 import { ThemeToggle } from '@/src/ui/bilesenler/tema-degistirici';
@@ -19,29 +20,29 @@ interface AppDrawerProps {
   unreadCount: number;
 }
 
-const NAV_SECTIONS: { title: string; items: { href: string; label: string; icon: string }[] }[] = [
+const NAV_SECTIONS: { title: string; items: { href: string; label: string; icon: ReactNode }[] }[] = [
   {
     title: 'Keşfet',
     items: [
-      { href: '/kesif',       label: 'Keşfet',    icon: '🔍' },
-      { href: '/arama',       label: 'Arama',     icon: '🔎' },
-      { href: '/en-iyiler',   label: 'En İyiler', icon: '🏆' },
+      { href: '/kesif',       label: 'Keşfet',    icon: <Search size={16} aria-hidden="true" /> },
+      { href: '/arama',       label: 'Arama',     icon: <Search size={16} aria-hidden="true" /> },
+      { href: '/en-iyiler',   label: 'En İyiler', icon: <Trophy size={16} aria-hidden="true" /> },
     ],
   },
   {
     title: 'Özellikler',
     items: [
-      { href: '/fiyat-uyarilari', label: 'Fiyat Uyarıları',       icon: '🔔' },
+      { href: '/fiyat-uyarilari', label: 'Fiyat Uyarıları', icon: <Bell size={16} aria-hidden="true" /> },
     ],
   },
 ];
 
-const ACCOUNT_ITEMS: { href: string; label: string; icon: string; showBadge: boolean; requiresAuth: boolean }[] = [
-  { href: '/favoriler',       label: 'Favorilerim',  icon: '❤️', showBadge: false, requiresAuth: true  },
-  { href: '/profil',          label: 'Profil',       icon: '👤', showBadge: false, requiresAuth: true  },
-  { href: '/gelen-kutusu',    label: 'Gelen Kutusu', icon: '📥', showBadge: true,  requiresAuth: true  },
-  { href: '/oneriler',        label: 'Önerilerim',   icon: '💡', showBadge: false, requiresAuth: true  },
-  { href: '/yasal',           label: 'Yasal',        icon: '📄', showBadge: false, requiresAuth: false },
+const ACCOUNT_ITEMS: { href: string; label: string; icon: ReactNode; showBadge: boolean; requiresAuth: boolean }[] = [
+  { href: '/favoriler',       label: 'Favorilerim',  icon: <Heart size={16} aria-hidden="true" />,     showBadge: false, requiresAuth: true  },
+  { href: '/profil',          label: 'Profil',       icon: <User size={16} aria-hidden="true" />,      showBadge: false, requiresAuth: true  },
+  { href: '/gelen-kutusu',    label: 'Gelen Kutusu', icon: <Inbox size={16} aria-hidden="true" />,     showBadge: true,  requiresAuth: true  },
+  { href: '/oneriler',        label: 'Önerilerim',   icon: <Lightbulb size={16} aria-hidden="true" />, showBadge: false, requiresAuth: true  },
+  { href: '/yasal',           label: 'Yasal',        icon: <FileText size={16} aria-hidden="true" />,  showBadge: false, requiresAuth: false },
 ];
 
 export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
@@ -211,7 +212,7 @@ function DrawerTile({
   onClose,
 }: {
   href: string;
-  icon: string;
+  icon: ReactNode;
   label: string;
   badge?: number;
   onClose: () => void;
@@ -222,7 +223,7 @@ function DrawerTile({
       onClick={onClose}
       className="flex items-center gap-3 rounded-xl px-2 py-2.5 text-sm font-[700] text-text hover:bg-card"
     >
-      <span className="shrink-0 text-base leading-none">{icon}</span>
+      <span className="shrink-0 text-muted">{icon}</span>
       <span className="flex-1">{label}</span>
       {badge !== undefined && (
         <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-[900] text-white">

@@ -5,8 +5,8 @@
    * - apps/mobile_flutter/lib/app/theme/app_tokens.dart
    * - apps/mobile_flutter/lib/app/theme/app_typography.dart
    */
-  --yd-font-family: 'Sora', 'Segoe UI', sans-serif;
-  --yd-font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --yd-font-family: 'Inter', 'Segoe UI', sans-serif;
+  --yd-font-display: 'Outfit', sans-serif;
 
   --yd-color-primary: #7f1d1d;
   --yd-color-primary-soft: #f9e7e7;
@@ -111,79 +111,3 @@
   --starOff: var(--yd-color-star-off-rgb);
 }
 
-/* ── Dark Mode ────────────────────────────────────────────────────────────── */
-/* Applies when <html class="dark"> OR OS prefers dark and no override is set. */
-/* Synced with AppDarkColors in packages/shared_ui_components                  */
-@media (prefers-color-scheme: dark) {
-  html:not(.light) {
-    /* Surfaces */
-    --yd-color-bg: #0d0f13;
-    --yd-color-bg-rgb: 13 15 19;
-    --yd-color-card: #161a22;
-    --yd-color-card-rgb: 22 26 34;
-    --yd-color-card-alt: #1c2030;
-    --yd-color-card-alt-rgb: 28 32 48;
-
-    /* Borders */
-    --yd-color-border: #2a3040;
-    --yd-color-border-rgb: 42 48 64;
-    --yd-color-border-strong: #3a4555;
-
-    /* Text */
-    --yd-color-text: #c8d0e0;
-    --yd-color-text-rgb: 200 208 224;
-    --yd-color-text-strong: #f0f4fc;
-    --yd-color-text-strong-rgb: 240 244 252;
-    --yd-color-muted: #6b7a96;
-    --yd-color-muted-rgb: 107 122 150;
-
-    /* Primary soft overlay — darker surface in dark mode */
-    --yd-color-primary-soft: rgba(127, 29, 29, 0.18);
-
-    /* Shadows — stronger contrast on dark */
-    --yd-shadow-1: 0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
-    --yd-shadow-2: 0 4px 12px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.30);
-    --yd-shadow-3: 0 12px 32px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.40);
-    --yd-shadow-4: 0 24px 48px rgba(0,0,0,0.65), 0 8px 24px rgba(0,0,0,0.50);
-    --yd-shadow-primary: 0 4px 16px rgba(127,29,29,0.40), 0 2px 6px rgba(127,29,29,0.28);
-    --yd-shadow-primary-lg: 0 8px 24px rgba(127,29,29,0.50), 0 4px 12px rgba(127,29,29,0.36);
-
-    /* Legacy aliases */
-    --bg: var(--yd-color-bg-rgb);
-    --card: var(--yd-color-card-rgb);
-    --border: var(--yd-color-border-rgb);
-    --text: var(--yd-color-text-rgb);
-    --muted: var(--yd-color-muted-rgb);
-  }
-}
-
-/* Explicit .dark class — user override or JS-set (takes precedence over media) */
-html.dark {
-  --yd-color-bg: #0d0f13;
-  --yd-color-bg-rgb: 13 15 19;
-  --yd-color-card: #161a22;
-  --yd-color-card-rgb: 22 26 34;
-  --yd-color-card-alt: #1c2030;
-  --yd-color-card-alt-rgb: 28 32 48;
-  --yd-color-border: #2a3040;
-  --yd-color-border-rgb: 42 48 64;
-  --yd-color-border-strong: #3a4555;
-  --yd-color-text: #c8d0e0;
-  --yd-color-text-rgb: 200 208 224;
-  --yd-color-text-strong: #f0f4fc;
-  --yd-color-text-strong-rgb: 240 244 252;
-  --yd-color-muted: #6b7a96;
-  --yd-color-muted-rgb: 107 122 150;
-  --yd-color-primary-soft: rgba(127, 29, 29, 0.18);
-  --yd-shadow-1: 0 1px 3px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
-  --yd-shadow-2: 0 4px 12px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.30);
-  --yd-shadow-3: 0 12px 32px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.40);
-  --yd-shadow-4: 0 24px 48px rgba(0,0,0,0.65), 0 8px 24px rgba(0,0,0,0.50);
-  --yd-shadow-primary: 0 4px 16px rgba(127,29,29,0.40), 0 2px 6px rgba(127,29,29,0.28);
-  --yd-shadow-primary-lg: 0 8px 24px rgba(127,29,29,0.50), 0 4px 12px rgba(127,29,29,0.36);
-  --bg: var(--yd-color-bg-rgb);
-  --card: var(--yd-color-card-rgb);
-  --border: var(--yd-color-border-rgb);
-  --text: var(--yd-color-text-rgb);
-  --muted: var(--yd-color-muted-rgb);
-}

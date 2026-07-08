@@ -78,7 +78,7 @@ export default async function KvkkGdprPage() {
                 KVKK Madde 11 ve GDPR Article 15-22 kapsamındaki veri konusu talepleri.
                 Her talep oluşturma tarihinden itibaren <strong>30 gün</strong> içinde yanıtlanmalıdır.
               </p>
-              <div className="rounded-xl border border-border bg-zinc-50 p-4 dark:bg-zinc-900/30">
+              <div className="rounded-xl border border-border bg-zinc-50 p-4">
                 <p className="text-xs font-[800] text-muted mb-2">Uyum Durumu Özeti</p>
                 <div className="grid gap-2 sm:grid-cols-2">
                   {[
@@ -89,7 +89,7 @@ export default async function KvkkGdprPage() {
                     { label: 'DSAR 30-Gün SLA', status: 'compliant', desc: 'Manuel süreç; otomatik uyarı yok' },
                     { label: 'Veri İşleme Kaydı', status: 'partial', desc: 'Audit log mevcut; veri işleme sicili eksik' },
                   ].map(item => (
-                    <div key={item.label} className={`flex items-start gap-3 rounded-lg border p-3 ${item.status === 'compliant' ? 'border-green-200 bg-green-50' : 'border-yellow-200 bg-yellow-50'} dark:bg-transparent`}>
+                    <div key={item.label} className={`flex items-start gap-3 rounded-lg border p-3 ${item.status === 'compliant' ? 'border-green-200 bg-green-50' : 'border-yellow-200 bg-yellow-50'}`}>
                       <span>{item.status === 'compliant' ? '✅' : '⚠️'}</span>
                       <div>
                         <p className="text-sm font-[800] text-textStrong">{item.label}</p>

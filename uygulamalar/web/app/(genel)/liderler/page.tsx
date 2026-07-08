@@ -31,11 +31,14 @@ type LeaderEntry = LeaderboardRow & {
   is_gourmet: boolean;
 };
 
-function rankBadge(rank: number): string {
-  if (rank === 1) return '🥇';
-  if (rank === 2) return '🥈';
-  if (rank === 3) return '🥉';
-  return `#${rank}`;
+function RankBadge({ rank }: { rank: number }) {
+  const colors: Record<number, string> = { 1: '#FFD700', 2: '#9E9E9E', 3: '#CD7F32' };
+  const color = colors[rank];
+  return (
+    <span className="text-sm font-black" style={color ? { color } : {}}>
+      #{rank}
+    </span>
+  );
 }
 
 function ScorePill({ label, value }: { label: string; value: number }) {
@@ -106,18 +109,14 @@ export default async function LiderlerPage() {
           <ol className="flex flex-col gap-3">
             {entries.map((entry, i) => {
               const rank = i + 1;
-              const badge = rankBadge(rank);
-              const isNumeric = rank > 3;
               const initials = entry.display_name.charAt(0).toUpperCase();
 
               return (
                 <li key={entry.user_id}>
                   <div className="rounded-xl border border-border bg-card p-4 flex items-center gap-4">
                     {/* Sıra */}
-                    <span
-                      className={`w-9 shrink-0 text-center font-[900] ${isNumeric ? 'text-base text-muted' : 'text-xl'}`}
-                    >
-                      {badge}
+                    <span className="w-9 shrink-0 text-center">
+                      <RankBadge rank={rank} />
                     </span>
 
                     {/* Avatar */}
@@ -142,8 +141,8 @@ export default async function LiderlerPage() {
                           {entry.display_name}
                         </span>
                         {entry.is_gourmet && (
-                          <span className="shrink-0 rounded-full bg-amber-50 border border-amber-200 px-1.5 py-0.5 text-[10px] font-[700] text-amber-700">
-                            Gurme
+                          <span className="shrink-0 rounded-full bg-primary/5 border border-primary/20 px-1.5 py-0.5 text-[10px] font-[700] text-primary">
+                            Aktif
                           </span>
                         )}
                       </div>

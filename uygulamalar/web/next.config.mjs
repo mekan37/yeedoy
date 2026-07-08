@@ -32,6 +32,27 @@ const imageRemotePatterns = [
     protocol: 'http',
     hostname: '127.0.0.1',
   },
+  // İşletme cover/logo URL'leri harici kaynaklara (OSM, FSQ, Unsplash, vb.) işaret edebilir
+  {
+    protocol: 'https',
+    hostname: 'images.unsplash.com',
+  },
+  {
+    protocol: 'https',
+    hostname: '*.unsplash.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'fastly.4sqi.net',
+  },
+  {
+    protocol: 'https',
+    hostname: '*.googleusercontent.com',
+  },
+  {
+    protocol: 'https',
+    hostname: 'lh3.googleusercontent.com',
+  },
 ];
 
 /** @type {import('next').NextConfig} */
@@ -65,13 +86,19 @@ const nextConfig = {
       try { return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').hostname; } catch { return '*.supabase.co'; }
     })();
 
+    const isDev = process.env.NODE_ENV === 'development';
+
     const ContentSecurityPolicy = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://vercel-scripts.com https://va.vercel-scripts.com",
+      // 'unsafe-eval' is required by Next.js React Fast Refresh in development only.
+      // Production builds do not use eval and this directive is omitted there.
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://vercel-scripts.com https://va.vercel-scripts.com`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https: http:",
-      `connect-src 'self' https://${supabaseHost} wss://${supabaseHost} https://*.supabase.co wss://*.supabase.co https://fonts.googleapis.com`,
+      // In development, also allow the local WebSocket HMR connection.
+      `connect-src 'self'${isDev ? ' ws://localhost:* ws://127.0.0.1:*' : ''} https://${supabaseHost} wss://${supabaseHost} https://*.supabase.co wss://*.supabase.co https://fonts.googleapis.com`,
+      "frame-src https://www.openstreetmap.org",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

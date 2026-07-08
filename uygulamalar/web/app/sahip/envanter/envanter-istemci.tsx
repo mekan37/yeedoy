@@ -174,7 +174,7 @@ export function EnvanterIstemci({
 
       {/* Bulk replenish panel */}
       {bulkReplenish && (
-        <div className="flex items-center gap-3 border-b border-border bg-blue-50 px-5 py-3 dark:bg-blue-900/10">
+        <div className="flex items-center gap-3 border-b border-border bg-blue-50 px-5 py-3">
           <p className="text-xs font-[700] text-blue-700">
             {selected.size > 0 ? `${selected.size} seçili ürünü` : 'Düşük stoktaki ürünleri'} stok hedefine getir:
           </p>

@@ -78,10 +78,10 @@ export function EtkinlikYoneticisi({
     <div className="flex flex-col gap-4">
       {/* Controls */}
       <div className="flex items-center justify-between">
-        <div className="flex gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-zinc-800">
+        <div className="flex gap-1 rounded-xl bg-zinc-100 p-1">
           {(['upcoming', 'past'] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
-              className={`rounded-lg px-4 py-1.5 text-sm font-[700] transition-colors ${tab === t ? 'bg-white text-textStrong shadow dark:bg-zinc-700' : 'text-muted'}`}>
+              className={`rounded-lg px-4 py-1.5 text-sm font-[700] transition-colors ${tab === t ? 'bg-white text-textStrong shadow' : 'text-muted'}`}>
               {t === 'upcoming' ? `Yaklaşan (${upcoming.length})` : `Geçmiş (${past.length})`}
             </button>
           ))}
@@ -153,7 +153,7 @@ export function EtkinlikYoneticisi({
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border bg-zinc-50 dark:bg-zinc-900/40 text-left">
+              <tr className="border-b border-border bg-zinc-50 text-left">
                 <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Etkinlik</th>
                 <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
                 <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kapasite</th>

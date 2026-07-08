@@ -32,7 +32,7 @@ export default async function AdminSuggestionsPage({ searchParams }: Props) {
   try {
     let query = (supabase as any)
       .from('business_suggestions')
-      .select('id, name, city, category, status, note, created_at')
+      .select('id, name, city, category, status, notes, created_at')
       .order('created_at', { ascending: false })
       .limit(100);
 
@@ -107,7 +107,7 @@ export default async function AdminSuggestionsPage({ searchParams }: Props) {
                         <td className="px-5 py-3 font-[700] text-textStrong">{s.name}</td>
                         <td className="px-5 py-3 text-muted">{s.city ?? '—'}</td>
                         <td className="px-5 py-3 text-muted">{s.category ?? '—'}</td>
-                        <td className="px-5 py-3 text-muted max-w-[200px] truncate">{s.note ?? '—'}</td>
+                        <td className="px-5 py-3 text-muted max-w-[200px] truncate">{s.notes ?? '—'}</td>
                         <td className="px-5 py-3">
                           <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
                             {statusInfo.label}

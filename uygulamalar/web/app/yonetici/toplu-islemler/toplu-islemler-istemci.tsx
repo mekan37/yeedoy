@@ -171,10 +171,10 @@ export function TopluIslemlerIstemci({
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 rounded-xl bg-zinc-100 p-1 dark:bg-zinc-800">
+      <div className="flex gap-1 rounded-xl bg-zinc-100 p-1">
         {TABS.map(t => (
           <button key={t.key} onClick={() => setTab(t.key)}
-            className={`flex-1 rounded-lg py-1.5 text-xs font-[700] transition-colors ${tab === t.key ? 'bg-white text-textStrong shadow dark:bg-zinc-700' : 'text-muted'}`}>
+            className={`flex-1 rounded-lg py-1.5 text-xs font-[700] transition-colors ${tab === t.key ? 'bg-white text-textStrong shadow' : 'text-muted'}`}>
             {t.label}{t.count > 0 ? ` (${t.count})` : ''}
           </button>
         ))}
@@ -183,7 +183,7 @@ export function TopluIslemlerIstemci({
       {/* Businesses Tab */}
       {tab === 'businesses' && (
         <div className="rounded-xl border border-border overflow-hidden">
-          <div className="flex items-center justify-between border-b border-border bg-zinc-50 px-4 py-2 dark:bg-zinc-900/30">
+          <div className="flex items-center justify-between border-b border-border bg-zinc-50 px-4 py-2">
             <div className="flex items-center gap-3">
               <input type="checkbox"
                 checked={selectedBiz.size === pendingBusinesses.length && pendingBusinesses.length > 0}
@@ -235,7 +235,7 @@ export function TopluIslemlerIstemci({
       {/* Reviews Tab */}
       {tab === 'reviews' && (
         <div className="rounded-xl border border-border overflow-hidden">
-          <div className="flex items-center justify-between border-b border-border bg-zinc-50 px-4 py-2 dark:bg-zinc-900/30">
+          <div className="flex items-center justify-between border-b border-border bg-zinc-50 px-4 py-2">
             <div className="flex items-center gap-3">
               <input type="checkbox"
                 checked={selectedRev.size === flaggedReviews.length && flaggedReviews.length > 0}
@@ -280,7 +280,7 @@ export function TopluIslemlerIstemci({
       {/* Users Tab */}
       {tab === 'users' && (
         <div className="rounded-xl border border-border overflow-hidden">
-          <div className="flex items-center justify-between border-b border-border bg-zinc-50 px-4 py-2 dark:bg-zinc-900/30">
+          <div className="flex items-center justify-between border-b border-border bg-zinc-50 px-4 py-2">
             <div className="flex items-center gap-3">
               <input type="checkbox"
                 checked={selectedUsers.size === suspiciousUsers.length && suspiciousUsers.length > 0}
@@ -350,7 +350,7 @@ export function TopluIslemlerIstemci({
           ) : (
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border text-left bg-zinc-50 dark:bg-zinc-900/40">
+                <tr className="border-b border-border text-left bg-zinc-50">
                   <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem Tipi</th>
                   <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem</th>
                   <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Sayı</th>

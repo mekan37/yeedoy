@@ -50,3 +50,22 @@ export async function updateBusiness(
   revalidatePath('/owner/businesses');
   return null;
 }
+
+export async function updateMealCardProviders(
+  businessId: string,
+  keys: string[],
+): Promise<{ error: string } | null> {
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum bulunamadı' };
+
+  const { error } = await (supabase as any).rpc(
+    'owner_update_business_meal_card_providers_v1',
+    { p_business_id: businessId, p_provider_keys: keys },
+  ) as { error: { message: string } | null };
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/owner/businesses/${businessId}`);
+  return null;
+}

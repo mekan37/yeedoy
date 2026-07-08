@@ -1,20 +1,26 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { AcikMenuIstemcisi } from '@/src/ui/bolumler/acik-menu-istemcisi';
-import { getBrandThemeDefinition, getBrandThemeOptions, type BrandTheme } from '@/src/lib/marka-temasi';
+import { MenuDuzen } from '@/src/ui/bolumler/menu-sayfasi/menu-duzen';
+import { type BrandTheme } from '@/src/lib/marka-temasi';
 import { getPublicMenuPageData, getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
-import { getBusinessHoursInfo } from '@/src/lib/veri/menu-okuma';
+import { getBusinessHoursInfo, type BusinessHoursInfo } from '@/src/lib/veri/menu-okuma';
 import { appConfig } from '@/src/lib/ayarlar';
 import { formatBusinessLocation } from '@/src/lib/bicimlendirme';
-import { getImageBlurDataUrl } from '@/src/lib/gorsel-yer-tutucu';
-import { copy } from '@/src/lib/ceviri';
 import { appendMediaVersion, buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import {
   buildBusinessMenuHref,
   resolveBusinessMenuPathKeyFromRecord,
 } from '@/src/lib/menu-baglantilari';
 import { isUuid, normalizeDisplayParams } from '@/src/lib/yol-normalizasyonu';
+
+function getTodayHours(weekly: BusinessHoursInfo['weekly']): string | null {
+  const today = new Date().getDay();
+  const entry = weekly.find((h) => h.day_of_week === today && !h.is_closed);
+  if (!entry) return null;
+  const fmt = (t: string) => t.slice(0, 5);
+  return `${fmt(entry.open_time)} - ${fmt(entry.close_time)}`;
+}
 
 export const revalidate = 300;
 
@@ -203,12 +209,6 @@ export async function renderPublicMenuRoute(input: {
       field: 'name',
       fallback: data.business.name,
     }) ?? data.business.name;
-  const themeDefinition = getBrandThemeDefinition(normalized.theme);
-  const themeOptions = getBrandThemeOptions().map((option) => ({
-    id: option.id,
-    label: option.label[normalized.lang],
-  }));
-  const blurDataUrl = getImageBlurDataUrl(themeDefinition);
 
   const _schemaDow = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as const;
   const openingHoursSpecification = hoursInfo.weekly
@@ -285,11 +285,13 @@ export async function renderPublicMenuRoute(input: {
 
   const heroPreloadUrl = buildMenuImageUrl(
     appendMediaVersion(data.presentation.backgroundUrl || data.media.coverUrl, data.presentation.updatedAt),
-    { width: 1400, quality: 85 },
+    { width: 800, quality: 85 },
   );
 
+  const todayHours = getTodayHours(hoursInfo.weekly);
+
   return (
-    <main className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 sm:py-6">
+    <>
       {heroPreloadUrl ? (
         // eslint-disable-next-line @next/next/no-head-element
         <link rel="preload" as="image" href={heroPreloadUrl} fetchPriority="high" />
@@ -298,31 +300,27 @@ export async function renderPublicMenuRoute(input: {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <AcikMenuIstemcisi
-        lang={normalized.lang}
-        labels={copy[normalized.lang]}
-        brandTheme={normalized.theme}
-        themeDefinition={themeDefinition}
-        themeOptions={themeOptions}
-        blurDataUrl={blurDataUrl}
+      <MenuDuzen
         data={data}
-        isPreview={Boolean(input.preview)}
-        selectedCategoryId={input.selectedCategoryId}
         isOpenNow={isOpenNow}
+        todayHours={todayHours}
+        businessName={businessName}
       />
-      {/* Loop 4 MVP: QR menü CTA — B2B viral */}
-      <div className="mt-10 border-t border-gray-100 pt-6 text-center text-xs text-gray-400">
-        Bu işletme{' '}
-        <span className="font-[700] text-gray-600">Yeedoy QR Menü</span>{' '}
-        kullanıyor.{' '}
-        <Link
-          href="/sahip/baslangic"
-          className="font-[700] text-primary hover:underline"
-        >
-          Siz de ücretsiz QR menü alın →
-        </Link>
+      {/* QR menü CTA — B2B viral */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mt-8 border-t border-border pt-6 pb-8 text-center text-xs text-muted">
+          Bu işletme{' '}
+          <span className="font-[700] text-textStrong">Yeedoy QR Menü</span>{' '}
+          kullanıyor.{' '}
+          <Link
+            href="/sahip/baslangic"
+            className="font-[700] text-primary hover:underline"
+          >
+            Siz de ücretsiz QR menü alın →
+          </Link>
+        </div>
       </div>
-    </main>
+    </>
   );
 }
 

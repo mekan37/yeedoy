@@ -1,344 +1,478 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
-import { discoverBusinesses, getTopBusinesses } from '@/src/lib/db/discovery-read';
-import { homeCopy } from '@/src/lib/i18n';
-import { YeedoyLogo } from '@/src/ui/brand/yeedoy-logo';
-import { BusinessTile } from '@/src/ui/components/business-tile';
-import { AppSectionHeader } from '@/src/ui/components/app-section-header';
-import { ThemeToggle } from '@/src/ui/components/theme-toggle';
-import { FeaturedCard } from '@/src/ui/components/featured-card';
+import { Search, Shield, BarChart2, CheckCircle, ChevronRight, Star, ArrowRight } from 'lucide-react';
+import { PublicShell } from '@/src/ui/acik/yerlesim';
+import { Container } from '@/src/ui/acik/ortak';
+import { AnlikArama } from '@/src/ui/acik/anlik-arama';
+import { getTopMarketplaceBusinesses } from '@/src/lib/veri/pazar-okuma';
+import { createSupabasePublicClient } from '@/src/lib/taban/acik';
+import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import type { AcikIsletmeKarti } from '@/src/ui/acik/tipler';
+import { KonumIzniIstemcisi } from '@/src/ui/acik/konum-izni';
+import { YakindakiIsletmeler } from '@/src/ui/acik/yakin-isletmeler';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Yeedoy — Şehrinin Menüsünü Keşfet',
-  description: 'Yeedoy ile yakınındaki restoranları, kafeleri ve menüleri keşfet. Gerçek kullanıcı yorumları ve güncel fiyatlar.',
+  title: 'Yeedoy — Lezzetleri Keşfet, Fiyatları Karşılaştır',
+  description:
+    'Yakınındaki restoranları, kafeleri ve menüleri keşfet. Gerçek kullanıcı yorumları, güncel fiyatlar ve toplulukça doğrulanmış bilgilerle en iyi lezzet deneyimini yaşa.',
 };
 
-const CATEGORIES = [
-  { id: 'Restoran', label: 'Restoran' },
-  { id: 'Kafe', label: 'Kafe' },
-  { id: 'Fast Food', label: 'Fast Food' },
-  { id: 'Dönerci', label: 'Döner' },
-  { id: 'Pizza', label: 'Pizza' },
-  { id: 'Burger', label: 'Burger' },
-  { id: 'Pide / Lahmacun', label: 'Pide' },
-  { id: 'Balık', label: 'Balık' },
-  { id: 'Pastane', label: 'Pastane' },
-  { id: 'Kahvaltı', label: 'Kahvaltı' },
+const HOMEPAGE_CATEGORIES = [
+  { id: 'döner',           label: 'Döner',      img: '/category-images/doner.png' },
+  { id: 'pide',            label: 'Pide',        img: '/category-images/pide.png' },
+  { id: 'burger',          label: 'Burger',      img: '/category-images/burger.png' },
+  { id: 'pizza',           label: 'Pizza',       img: '/category-images/pizza.png' },
+  { id: 'kebap',           label: 'Kebap',       img: '/category-images/kebap.png' },
+  { id: 'lahmacun',        label: 'Lahmacun',    img: '/category-images/lahmacun.png' },
+  { id: 'kahvaltı',        label: 'Kahvaltı',    img: '/category-images/kahvalti.webp' },
+  { id: 'tatlı',           label: 'Tatlı',       img: '/category-images/tatli.png' },
+  { id: 'çorba',           label: 'Çorba',       img: '/category-images/corba.png' },
+  { id: 'mantı',           label: 'Mantı',       img: '/category-images/manti.png' },
+  { id: 'kafe',            label: 'Kafe',        img: '/category-images/cafe.webp' },
 ];
 
-type HomePageProps = {
-  searchParams: Promise<{ q?: string; city?: string; category?: string; page?: string }>;
+const POPULAR_SEARCHES = [
+  'Adana Kebap',
+  'Pide',
+  'Kahvaltı',
+  'Tatlı',
+  'Dürüm',
+  'Kahve',
+];
+
+const TESTIMONIALS = [
+  {
+    name: 'Mehmet A.',
+    time: '2 gün önce',
+    text: 'Fiyat geçmişi özelliği sayesinde gitmeden önce fiyatları görebiliyorum. Harika bir uygulama!',
+  },
+  {
+    name: 'Ece Y.',
+    time: '1 hafta önce',
+    text: 'Topluluğun katkıları sayesinde bilgiler hep güncel. Güvenle tercih ediyorum.',
+  },
+  {
+    name: 'Ahmet K.',
+    time: '3 gün önce',
+    text: 'Kampanyalar kısmı gerçekten çok faydalı, indirimleri kaçırmıyorum.',
+  },
+];
+
+const CATEGORY_IMAGES: Record<string, string> = {
+  kafe: '/category-images/cafe.webp',
+  cafe: '/category-images/cafe.webp',
+  restoran: '/category-images/restoran.webp',
+  restaurant: '/category-images/restoran.webp',
+  dönerci: '/category-images/doner.png',
+  döner: '/category-images/doner.png',
+  doner: '/category-images/doner.png',
+  burger: '/category-images/burger.png',
+  pizza: '/category-images/pizza.png',
+  kebap: '/category-images/kebap.png',
+  kebab: '/category-images/kebap.png',
+  pide: '/category-images/pide.png',
+  lahmacun: '/category-images/lahmacun.png',
+  'pide / lahmacun': '/category-images/pide.png',
+  kahvaltı: '/category-images/kahvalti.webp',
+  breakfast: '/category-images/kahvalti.webp',
+  tatlı: '/category-images/tatli.png',
+  pastane: '/category-images/tatlici.webp',
+  'tatlı / pastane': '/category-images/tatli.png',
+  çorba: '/category-images/corba.png',
+  mantı: '/category-images/manti.png',
 };
 
-export default async function HomePage({ searchParams }: HomePageProps) {
-  const params = await searchParams;
-  const q = params.q?.trim() ?? '';
-  const city = params.city?.trim() ?? '';
-  const category = params.category?.trim() ?? '';
-  const page = Math.max(1, parseInt(params.page ?? '1', 10));
-  const hasFilters = Boolean(q || city || category);
+function categoryFallbackImage(category?: string | null): string {
+  if (!category) return '/category-images/restoran.webp';
+  const key = category.toLowerCase().trim();
+  return CATEGORY_IMAGES[key] ?? '/category-images/restoran.webp';
+}
 
-  const [{ data: businesses, count, totalPages }, topBusinesses, supabase] = await Promise.all([
-    discoverBusinesses({ q, city, category, page, pageSize: 12 }),
-    getTopBusinesses(6),
-    createSupabaseServerClient(),
-  ]);
-
-  // Try to get business count for social proof
-  let totalBizCount = 0;
-  try {
-    const { count: c } = await (supabase as any)
-      .from('businesses')
-      .select('id', { count: 'exact', head: true })
-      .eq('is_active', true) as { count: number | null };
-    totalBizCount = c ?? 0;
-  } catch { /* no-op */ }
-
-  const featured = topBusinesses
-    .filter((biz) => !businesses.some((item) => item.id === biz.id))
-    .slice(0, 4);
-
-  function buildHref(overrides: Partial<{ q: string; city: string; category: string; page: number }>) {
-    const sp = new URLSearchParams();
-    const merged = { q, city, category, page, ...overrides };
-    if (merged.q) sp.set('q', merged.q);
-    if (merged.city) sp.set('city', merged.city);
-    if (merged.category) sp.set('category', merged.category);
-    if (merged.page > 1) sp.set('page', String(merged.page));
-    const qs = sp.toString();
-    return `/${qs ? `?${qs}` : ''}`;
-  }
-
-  function catHref(cat: string) {
-    const sp = new URLSearchParams();
-    if (cat !== category) sp.set('category', cat);
-    if (city) sp.set('city', city);
-    const qs = sp.toString();
-    return `/${qs ? `?${qs}` : ''}`;
-  }
-
+function PriceLevelBadge({ priceLevel }: { priceLevel?: string | null }) {
+  const map: Record<string, string> = { budget: '₺', mid: '₺₺', premium: '₺₺₺' };
+  const label = priceLevel ? (map[priceLevel] ?? null) : null;
+  if (!label) return null;
   return (
-    <main className="min-h-screen bg-bg text-text">
-
-      {/* ── Navbar ─────────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-20 border-b border-border bg-card/95 backdrop-blur">
-        <div className="mx-auto flex min-h-16 w-full max-w-5xl items-center justify-between gap-3 px-4">
-          <Link href="/" aria-label="Yeedoy ana sayfa" className="inline-flex min-h-11 items-center">
-            <YeedoyLogo size={34} />
-          </Link>
-          <nav className="flex items-center gap-1.5 text-sm font-[800]">
-            <Link href="/discover"
-              className="hidden min-h-11 items-center rounded-full px-3 text-textStrong transition-colors hover:bg-cardAlt sm:inline-flex">
-              {homeCopy.nav.discover}
-            </Link>
-            <Link href="/top"
-              className="hidden min-h-11 items-center rounded-full px-3 text-textStrong transition-colors hover:bg-cardAlt sm:inline-flex">
-              {homeCopy.nav.top}
-            </Link>
-            <ThemeToggle />
-            <Link href="/login"
-              className="inline-flex min-h-11 items-center rounded-full border border-border bg-cardAlt px-4 text-textStrong transition-all hover:border-primary/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
-              {homeCopy.nav.panel}
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-border">
-        {/* Background gradient */}
-        <div className="absolute inset-0 -z-10"
-          style={{ background: 'radial-gradient(ellipse at 20% 0%, rgba(127,29,29,0.10) 0%, transparent 55%), radial-gradient(ellipse at 80% 100%, rgba(220,38,38,0.06) 0%, transparent 55%), var(--yd-color-card-alt)' }} />
-
-        <div className="mx-auto max-w-5xl px-4 pb-8 pt-10 sm:pb-12 sm:pt-14">
-          {/* Kicker */}
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-[var(--yd-color-primary-soft)] px-3 py-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-            <span className="text-xs font-[900] uppercase tracking-wide text-primary">
-              Türkiye&apos;nin menü platformu
-            </span>
-          </div>
-
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-2xl">
-              <h1 className="font-display text-4xl font-[900] leading-[1.05] text-textStrong sm:text-5xl lg:text-6xl">
-                Yakınındaki{' '}
-                <span style={{ background: 'var(--yd-gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                  restoranları
-                </span>
-                {' '}ve menüleri keşfet
-              </h1>
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-                {homeCopy.hero.body}
-              </p>
-
-              {/* Social proof */}
-              {totalBizCount > 0 && (
-                <div className="mt-5 flex flex-wrap items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-[900] text-textStrong">{totalBizCount.toLocaleString('tr-TR')}+</span>
-                    <span className="text-sm text-muted">işletme</span>
-                  </div>
-                  <div className="h-4 w-px bg-border" />
-                  <div className="flex items-center gap-2">
-                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-amber-400" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    <span className="text-sm font-[800] text-textStrong">Gerçek kullanıcı yorumları</span>
-                  </div>
-                  <div className="h-4 w-px bg-border" />
-                  <div className="flex items-center gap-2">
-                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current text-success" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    <span className="text-sm font-[800] text-textStrong">Güncel fiyatlar</span>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* CTA buttons */}
-            <div className="flex shrink-0 flex-col gap-2 sm:flex-row lg:flex-col">
-              <Link href="/discover"
-                className="inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-6 text-base font-[900] text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                style={{ background: 'var(--yd-gradient-primary)', boxShadow: 'var(--yd-shadow-primary-lg)' }}>
-                <SearchIcon />
-                Keşfetmeye Başla
-              </Link>
-              <Link href="/suggest"
-                className="inline-flex min-h-[52px] items-center justify-center rounded-2xl border border-border bg-card px-6 text-base font-[900] text-textStrong transition-all hover:border-primary/35 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
-                {homeCopy.hero.suggest}
-              </Link>
-            </div>
-          </div>
-
-          {/* Search form */}
-          <form method="GET" action="/" className="mt-8 grid gap-2 sm:grid-cols-[1fr_160px_auto]">
-            <div className="relative">
-              <span className="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-muted">
-                <SearchIcon size={16} />
-              </span>
-              <input type="text" name="q" defaultValue={q} placeholder={homeCopy.filters.search}
-                className="w-full rounded-2xl border border-border bg-card py-3 pl-9 pr-4 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30" />
-            </div>
-            <input type="text" name="city" defaultValue={city} placeholder={homeCopy.filters.city}
-              className="rounded-2xl border border-border bg-card px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30" />
-            <button type="submit"
-              className="min-h-[52px] rounded-2xl px-6 text-sm font-[900] text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-              style={{ background: 'var(--yd-gradient-primary)', boxShadow: 'var(--yd-shadow-primary)' }}>
-              {homeCopy.filters.submit}
-            </button>
-          </form>
-
-          {/* Category quick filters */}
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {CATEGORIES.map((cat) => (
-              <Link key={cat.id} href={catHref(cat.id)}
-                className={`inline-flex shrink-0 min-h-[40px] items-center rounded-full border px-3.5 py-1 text-sm font-[800] whitespace-nowrap transition-all duration-[150ms] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 ${category === cat.id ? 'bg-[var(--yd-color-primary-soft)] border-primary/40 text-primary' : 'bg-card border-border text-textStrong hover:border-primary/30'}`}>
-                {cat.label}
-              </Link>
-            ))}
-            {hasFilters && (
-              <Link href="/"
-                className="inline-flex shrink-0 min-h-[40px] items-center rounded-full border border-dashed border-border px-3.5 py-1 text-sm text-muted transition-colors hover:text-textStrong">
-                Temizle ×
-              </Link>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Featured strip ─────────────────────────────────────────────────── */}
-      {!hasFilters && topBusinesses.length > 0 && (
-        <section className="border-b border-border bg-cardAlt py-7">
-          <div className="mx-auto max-w-5xl px-4">
-            <div className="mb-4 flex items-center justify-between">
-              <AppSectionHeader title="Bu Haftanın Favorileri" />
-              <Link href="/top" className="text-sm font-[700] text-primary hover:underline">
-                Tümünü gör →
-              </Link>
-            </div>
-            <div className="flex gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {topBusinesses.slice(0, 8).map((biz, i) => (
-                <FeaturedCard
-                  key={biz.id}
-                  slug={biz.slug ?? biz.id}
-                  name={biz.name}
-                  category={biz.category}
-                  city={biz.city}
-                  rank={i + 1}
-                  logoUrl={biz.logo_url}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── Body ───────────────────────────────────────────────────────────── */}
-      <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 py-7 lg:grid-cols-[1fr_320px]">
-
-        {/* Main list */}
-        <section>
-          <AppSectionHeader
-            title={category ? `${category} İşletmeleri` : homeCopy.sections.businesses}
-            subtitle={count > 0 ? homeCopy.results.count(count) : homeCopy.results.empty}
-            className="mb-5"
-          />
-
-          {businesses.length > 0 ? (
-            <div className="flex flex-col gap-3">
-              {businesses.map((business) => (
-                <BusinessTile key={business.id}
-                  slug={business.slug ?? business.id}
-                  name={business.name}
-                  category={business.category}
-                  subtitle={[business.city, business.description].filter(Boolean).join(' · ')}
-                  isVerified={business.is_verified} />
-              ))}
-            </div>
-          ) : (
-            <div className="rounded-[20px] border border-border bg-card px-5 py-14 text-center">
-              <p className="font-[900] text-textStrong">{homeCopy.empty.title}</p>
-              <p className="mt-2 text-sm text-muted">{homeCopy.empty.body}</p>
-              {hasFilters && (
-                <Link href="/" className="mt-4 inline-block text-sm font-[700] text-primary hover:underline">
-                  Filtreleri temizle →
-                </Link>
-              )}
-            </div>
-          )}
-
-          {totalPages > 1 && (
-            <div className="mt-6 flex items-center justify-center gap-2">
-              {page > 1 && (
-                <Link href={buildHref({ page: page - 1 })}
-                  className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-4 text-sm font-[800] text-textStrong transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
-                  {homeCopy.pagination.previous}
-                </Link>
-              )}
-              <span className="px-2 text-sm font-[800] text-muted">{page} / {totalPages}</span>
-              {page < totalPages && (
-                <Link href={buildHref({ page: page + 1 })}
-                  className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-4 text-sm font-[800] text-textStrong transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
-                  {homeCopy.pagination.next}
-                </Link>
-              )}
-            </div>
-          )}
-        </section>
-
-        {/* Sidebar */}
-        <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
-          {/* Top businesses */}
-          <section>
-            <AppSectionHeader title={homeCopy.sections.top} className="mb-4" />
-            <div className="space-y-3">
-              {(featured.length > 0 ? featured : topBusinesses.slice(0, 4)).map((business) => (
-                <BusinessTile key={business.id}
-                  slug={business.slug ?? business.id}
-                  name={business.name}
-                  category={business.category}
-                  subtitle={business.city}
-                  isVerified={business.is_verified}
-                  badgeText={homeCopy.badges.popular}
-                  className="p-2.5" />
-              ))}
-            </div>
-            <Link href="/top" className="mt-3 inline-flex text-sm font-[700] text-primary hover:underline">
-              Tüm listeye bak →
-            </Link>
-          </section>
-
-          {/* Panel CTA */}
-          <section className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
-            <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--yd-color-primary-soft)]">
-              <svg viewBox="0 0 24 24" className="h-5 w-5 text-primary fill-none stroke-current" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            </div>
-            <p className="mt-3 font-[900] text-textStrong">{homeCopy.panel.title}</p>
-            <p className="mt-1.5 text-sm leading-6 text-muted">{homeCopy.panel.body}</p>
-            <div className="mt-4 flex flex-col gap-2">
-              <Link href="/login"
-                className="inline-flex min-h-11 items-center justify-center rounded-2xl px-4 text-sm font-[900] text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                style={{ background: 'var(--yd-gradient-primary)', boxShadow: 'var(--yd-shadow-primary)' }}>
-                {homeCopy.panel.login}
-              </Link>
-              <Link href="/owner/onboarding"
-                className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-border bg-card px-4 text-sm font-[900] text-textStrong transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
-                {homeCopy.panel.owner}
-              </Link>
-            </div>
-          </section>
-        </aside>
-      </div>
-    </main>
+    <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[10px] font-[800] text-muted">
+      {label}
+    </span>
   );
 }
 
-function SearchIcon({ size = 18 }: { size?: number }) {
+function BusinessCard({ biz }: { biz: AcikIsletmeKarti }) {
+  const slug = biz.publicSlug ?? biz.slug;
+  const rating = biz.avgRating;
+  const coverSrc = buildMenuImageUrl(biz.coverUrl ?? biz.logoUrl, { width: 600, quality: 80 })
+    ?? categoryFallbackImage(biz.category);
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="11" cy="11" r="8"/>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
+    <Link
+      href={`/m/${slug}`}
+      className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2"
+    >
+      {/* Cover — 16:10 like mobile */}
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={coverSrc}
+          alt={biz.name}
+          className="h-full w-full object-cover transition-transform group-hover:scale-105"
+        />
+        {/* Rating badge — top-left white pill */}
+        {rating != null && (
+          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-xl bg-white/92 px-2 py-1 text-xs font-[800] shadow-sm backdrop-blur">
+            <Star size={11} className="fill-amber-400 text-amber-400" aria-hidden="true" />
+            <span className="text-textStrong">{rating.toFixed(1)}</span>
+          </div>
+        )}
+        {/* Open/Closed — top-right */}
+        {biz.isOpenNow != null && (
+          <div className={`absolute right-2 top-2 rounded-xl px-2 py-1 text-[10px] font-[900] backdrop-blur ${biz.isOpenNow ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
+            {biz.isOpenNow ? 'Açık' : 'Kapalı'}
+          </div>
+        )}
+      </div>
+      {/* Info */}
+      <div className="flex flex-1 flex-col gap-1 p-3">
+        <p className="line-clamp-1 text-sm font-[900] text-textStrong">{biz.name}</p>
+        <p className="line-clamp-1 text-xs text-muted">
+          {[biz.category, biz.city].filter(Boolean).join(' · ')}
+        </p>
+        <div className="mt-auto flex items-center gap-2 pt-1">
+          <PriceLevelBadge priceLevel={biz.priceLevel} />
+          {biz.isVerified && (
+            <span className="flex items-center gap-1 text-[10px] font-[800] text-primary">
+              <CheckCircle size={11} aria-hidden="true" /> Doğrulandı
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export default async function HomePage() {
+  const topBusinesses = await getTopMarketplaceBusinesses(6).catch(() => [] as AcikIsletmeKarti[]);
+
+  const supabase = createSupabasePublicClient();
+  const campaigns = await (supabase as any)
+    .from('business_campaigns')
+    .select('id,title,discount_pct,businesses(name,slug)')
+    .eq('is_active', true)
+    .gte('valid_until', new Date().toISOString())
+    .order('discount_pct', { ascending: false })
+    .limit(3)
+    .then((r: any) => (r?.data as any[]) ?? [])
+    .catch(() => []);
+
+  const featuredBusinesses = topBusinesses.slice(0, 4);
+
+  return (
+    <PublicShell>
+      <main>
+        {/* ── Hero ───────────────────────────────────────────────────────── */}
+        <section
+          className="relative overflow-hidden border-b border-border"
+          style={{
+            background:
+              'radial-gradient(ellipse at 18% 0%, rgba(127,29,29,0.10) 0%, transparent 55%), radial-gradient(ellipse at 82% 100%, rgba(127,29,29,0.06) 0%, transparent 55%), var(--yd-color-card-alt)',
+          }}
+        >
+          <Container className="grid gap-8 py-8 lg:grid-cols-[1fr_420px] lg:gap-16 lg:py-12">
+            {/* Left */}
+            <div className="flex flex-col justify-center">
+              {/* Badge */}
+              <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span className="text-xs font-[900] uppercase tracking-wide text-primary">
+                  Türkiye&apos;nin lezzet haritası
+                </span>
+              </div>
+
+              <h1 className="text-3xl font-[900] leading-[1.07] text-textStrong sm:text-4xl lg:text-[44px]">
+                Lezzetleri keşfet,{' '}
+                <span
+                  style={{
+                    background: 'var(--yd-gradient-primary)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  menü fiyatlarını
+                </span>{' '}
+                karşılaştır, fırsatları kaçırma!
+              </h1>
+
+              <p className="mt-4 max-w-lg text-base leading-7 text-muted">
+                Yakınındaki restoranların güncel menülerini, fiyat geçmişlerini gör ve topluluğumuzla en doğru bilgilere ulaş.
+              </p>
+
+              {/* Search */}
+              <div className="relative z-20 mt-7">
+                <AnlikArama />
+              </div>
+
+              {/* Popular */}
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="text-xs font-[800] text-muted">Popüler:</span>
+                {POPULAR_SEARCHES.map((term) => (
+                  <Link
+                    key={term}
+                    href={`/kesif?q=${encodeURIComponent(term)}`}
+                    className="rounded-full border border-border bg-card px-3 py-1 text-xs font-[800] text-textStrong transition-colors hover:border-primary/35 hover:text-primary"
+                  >
+                    {term}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Right — hero görsel (telefon + yemek, transparan PNG) */}
+            <div className="hidden lg:flex lg:items-end lg:justify-center">
+              <Image
+                src="/hero-gorsel.png"
+                alt="Yeedoy mobil uygulama ve yemek görseli"
+                width={720}
+                height={640}
+                priority
+                className="max-h-[480px] w-auto object-contain drop-shadow-2xl"
+              />
+            </div>
+          </Container>
+
+          {/* ── Kategori satırı — hero içinde ──────────────────────────────── */}
+          <div className="border-t border-border/50">
+            <Container className="py-4">
+              <div className="flex gap-4 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {HOMEPAGE_CATEGORIES.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    href={`/kesif?category=${encodeURIComponent(cat.id)}`}
+                    className="group flex shrink-0 flex-col items-center gap-1.5"
+                  >
+                    <div className="flex h-[68px] w-[68px] items-center justify-center overflow-hidden rounded-[22px] bg-white shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={cat.img}
+                        alt={cat.label}
+                        width={68}
+                        height={68}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <span className="whitespace-nowrap text-[11px] font-[900] text-textStrong group-hover:text-primary">
+                      {cat.label}
+                    </span>
+                  </Link>
+                ))}
+                {/* Tüm kategoriler */}
+                <Link
+                  href="/kesif"
+                  className="group flex shrink-0 flex-col items-center gap-1.5"
+                >
+                  <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[22px] shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2" style={{ background: 'var(--yd-gradient-primary)' }}>
+                    <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current text-white" aria-hidden="true">
+                      <path d="M4 6h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 12h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 18h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"/>
+                    </svg>
+                  </div>
+                  <span className="whitespace-nowrap text-[11px] font-[900] text-primary">Tüm Kategoriler</span>
+                </Link>
+              </div>
+            </Container>
+          </div>
+        </section>
+
+        {/* ── Main body ───────────────────────────────────────────────────── */}
+        <Container className="py-8">
+          <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
+
+            {/* ── Left column ─────────────────────────────────────────────── */}
+            <div className="space-y-8">
+
+              {/* Featured businesses — yatay scroll strip */}
+              <section>
+                <div className="mb-4 flex items-center justify-between">
+                  <h2 className="text-xl font-[900] text-textStrong">Senin için öne çıkanlar</h2>
+                  <Link href="/kesif" className="flex items-center gap-1 text-sm font-[800] text-primary hover:underline">
+                    Tümünü gör <ChevronRight size={14} aria-hidden="true" />
+                  </Link>
+                </div>
+                {featuredBusinesses.length > 0 ? (
+                  <div className="flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    {featuredBusinesses.map((biz) => (
+                      <div key={biz.id} className="w-64 shrink-0">
+                        <BusinessCard biz={biz} />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex gap-4 overflow-x-auto pb-2">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="h-52 w-64 shrink-0 rounded-[28px] bg-cardAlt" />
+                    ))}
+                  </div>
+                )}
+              </section>
+
+              {/* Campaign banner — mobil _DiscoveryCampaignPromoCard stili */}
+              <Link
+                href="/kampanyalar"
+                className="group flex items-center gap-4 rounded-[20px] p-4 transition-all hover:brightness-[0.96]"
+                style={{ background: '#F9E7E7' }}
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="font-[900] text-textStrong">Lezzetli fırsatları kaçırma! 🎉</p>
+                  <p className="mt-1 text-sm text-muted">Sana özel indirimleri keşfet.</p>
+                </div>
+                <div className="relative shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/category-images/tatli.png"
+                    alt=""
+                    width={72}
+                    height={72}
+                    className="h-[72px] w-[72px] rounded-2xl object-cover"
+                  />
+                  <div className="absolute -bottom-2 -right-2 flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white shadow-md transition-transform group-hover:scale-110">
+                    <ArrowRight size={14} aria-hidden="true" />
+                  </div>
+                </div>
+              </Link>
+
+              {/* Testimonials */}
+              <section>
+                <h2 className="mb-4 text-xl font-[900] text-textStrong">Kullanıcılarımız ne diyor?</h2>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  {TESTIMONIALS.map((t) => (
+                    <div
+                      key={t.name}
+                      className="rounded-[20px] border border-border bg-card p-4 shadow-yd1"
+                    >
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-[900] text-primary">
+                          {t.name.slice(0, 1)}
+                        </div>
+                        <div>
+                          <p className="text-sm font-[900] text-textStrong">{t.name}</p>
+                          <p className="text-xs text-muted">{t.time}</p>
+                        </div>
+                      </div>
+                      <div className="mb-2 flex gap-0.5" aria-label="5 üzerinden 5 yıldız">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star key={s} size={12} className="fill-amber-400 text-amber-400" aria-hidden="true" />
+                        ))}
+                      </div>
+                      <p className="text-sm leading-6 text-muted">{t.text}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 text-right">
+                  <Link href="/en-iyiler" className="text-sm font-[800] text-primary hover:underline">
+                    Tüm yorumları gör →
+                  </Link>
+                </div>
+              </section>
+            </div>
+
+            {/* ── Right sidebar ───────────────────────────────────────────── */}
+            <aside className="space-y-5 lg:sticky lg:top-20 lg:self-start">
+
+              {/* Trust section */}
+              <section>
+                <h2 className="mb-4 text-lg font-[900] text-textStrong">Fiyatlar ve bilgiler güvenilir mi?</h2>
+                <div className="space-y-3">
+
+                  {/* Veri güveni — kırmızı/primary */}
+                  <div className="rounded-[20px] border border-border bg-card p-4 shadow-yd1">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] bg-primary/10">
+                        <Shield size={18} className="text-primary" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <p className="font-[900] text-textStrong">Veri güveni</p>
+                        <p className="mt-1 text-xs leading-5 text-muted">
+                          Menü ve fiyat bilgileri topluluğumuzun katkılarıyla şeffaf ve güncel kalır.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Toplulukça Doğrulandı — yeşil/success */}
+                  <div className="rounded-[20px] border border-border bg-card p-4 shadow-yd1">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] bg-success/10">
+                        <CheckCircle size={18} className="text-success" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <p className="font-[900] text-textStrong">Toplulukça Doğrulandı</p>
+                        <p className="mt-1 text-xs leading-5 text-muted">
+                          Binlerce kullanıcı tarafından her gün doğrulanmaktadır.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Price history */}
+                  <div className="rounded-[20px] border border-border bg-card p-4 shadow-yd1">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] bg-primary/10">
+                        <BarChart2 size={18} className="text-primary" aria-hidden="true" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between">
+                          <p className="font-[900] text-textStrong">Fiyat Geçmişi</p>
+                          <span className="text-xs font-[800] text-success">+0% (3 Ay)</span>
+                        </div>
+                        <p className="mt-1 text-xs text-muted">Son 3 ay ortalama değişim</p>
+                        <svg viewBox="0 0 120 28" className="mt-3 w-full text-primary" aria-hidden="true">
+                          <polyline
+                            points="0,22 20,18 40,20 60,14 80,16 100,10 120,12"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* How it works */}
+              <section className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
+                <h2 className="mb-4 font-[900] text-textStrong">Nasıl çalışır?</h2>
+                <div className="space-y-4">
+                  {[
+                    { icon: <Search size={18} aria-hidden="true" />, step: '1', title: 'Keşfet', desc: 'Yakınındaki mekanları ara ve keşfet.' },
+                    { icon: <BarChart2 size={18} aria-hidden="true" />, step: '2', title: 'Karşılaştır', desc: 'Menüleri ve fiyatları karşılaştır.' },
+                    { icon: <CheckCircle size={18} aria-hidden="true" />, step: '3', title: 'Katkı Yap', desc: 'Doğrula, yorum yap, fiyatları güncel tut.' },
+                  ].map(({ icon, step, title, desc }) => (
+                    <div key={step} className="flex items-start gap-3">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[14px] bg-primary/10 text-primary">
+                        {icon}
+                      </div>
+                      <div>
+                        <p className="font-[900] text-textStrong">{step} {title}</p>
+                        <p className="mt-0.5 text-xs text-muted">{desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+            </aside>
+          </div>
+        </Container>
+
+        {/* ── Yakındaki işletmeler — konum bazlı, client component ──────── */}
+        <YakindakiIsletmeler />
+      </main>
+      <KonumIzniIstemcisi />
+    </PublicShell>
   );
 }

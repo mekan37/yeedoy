@@ -587,6 +587,8 @@ export function PublicMenuClient({
                           }}
                           className="accent-primary"
                         />
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0 opacity-70" />
                         <span className="text-xs font-semibold text-text">
                           {lang === 'tr' ? labelTr : labelEn}
                         </span>
@@ -1146,12 +1148,12 @@ function Badge({ children }: { children: ReactNode }) {
 }
 
 // Top-5 allergens shown as icons on item cards (M6)
-const TOP5_ALLERGENS: Array<{ code: string; emoji: string; labelTr: string; labelEn: string }> = [
-  { code: 'gluten',   emoji: '🌾', labelTr: 'Gluten',       labelEn: 'Gluten' },
-  { code: 'milk',     emoji: '🥛', labelTr: 'Süt',          labelEn: 'Milk' },
-  { code: 'egg',      emoji: '🥚', labelTr: 'Yumurta',      labelEn: 'Egg' },
-  { code: 'peanuts',  emoji: '🥜', labelTr: 'Yer Fıstığı',  labelEn: 'Peanuts' },
-  { code: 'treenuts', emoji: '🌰', labelTr: 'Kuruyemiş',    labelEn: 'Tree nuts' },
+const TOP5_ALLERGENS: Array<{ code: string; labelTr: string; labelEn: string }> = [
+  { code: 'gluten',   labelTr: 'Gluten',       labelEn: 'Gluten'    },
+  { code: 'milk',     labelTr: 'Süt',          labelEn: 'Milk'      },
+  { code: 'egg',      labelTr: 'Yumurta',      labelEn: 'Egg'       },
+  { code: 'peanuts',  labelTr: 'Yer Fıstığı',  labelEn: 'Peanuts'   },
+  { code: 'treenuts', labelTr: 'Kuruyemiş',    labelEn: 'Tree nuts' },
 ];
 
 function AllergenIconRow({ allergens, lang }: { allergens: string[]; lang: AppLang }) {
@@ -1164,14 +1166,16 @@ function AllergenIconRow({ allergens, lang }: { allergens: string[]; lang: AppLa
         {lang === 'tr' ? 'Alerjen:' : 'Contains:'}
       </span>
       {present.map((a) => (
-        <span
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
           key={a.code}
+          src={`/allergens/allergen_${a.code}.svg`}
+          alt={lang === 'tr' ? a.labelTr : a.labelEn}
           title={lang === 'tr' ? a.labelTr : a.labelEn}
-          aria-label={lang === 'tr' ? a.labelTr : a.labelEn}
-          className="cursor-default text-base leading-none"
-        >
-          {a.emoji}
-        </span>
+          width={18}
+          height={18}
+          className="shrink-0"
+        />
       ))}
     </div>
   );

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Lupin</title>
+  <defs>
+    <linearGradient id="petal" x1="35" y1="16" x2="94" y2="107" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8B4FE"/>
+      <stop offset="0.55" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="green" x1="49" y1="62" x2="76" y2="119" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#72D65D"/>
+      <stop offset="1" stop-color="#2C7A32"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 37c13-15 30-20 43-13-1 16-14 28-34 31 18 2 30 13 32 29-15 8-32 2-42-15-9 17-27 23-42 15 2-16 14-27 32-29-20-3-33-15-34-31 14-7 32-2 45 13Z" fill="url(#petal)"/>
+  <circle cx="64" cy="58" r="12" fill="#FFD767"/>
+  <path d="M64 70c-3 16-3 31 0 45" stroke="url(#green)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M59 91c-12-5-23-3-31 7 11 7 23 4 31-7ZM69 88c12-6 24-4 32 5-10 8-23 6-32-5Z" fill="url(#green)"/>
+  <path d="M44 31c7 4 13 10 17 20M85 30c-7 4-13 11-17 21" stroke="#F0D9FF" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+</svg>
