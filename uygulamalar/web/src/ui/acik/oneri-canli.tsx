@@ -120,7 +120,7 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
 
       {/* İçerik */}
       <div className="flex flex-1 flex-col gap-1.5 p-3">
-        <Link href={`/m/${biz.slug}`} className="line-clamp-1 text-sm font-[900] text-textStrong hover:text-primary">
+        <Link href={`/b/${biz.slug}`} className="line-clamp-1 text-sm font-[900] text-textStrong hover:text-primary">
           {biz.name}
         </Link>
         <p className="line-clamp-1 text-[11px] font-[700] text-muted">
