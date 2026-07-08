@@ -29,7 +29,9 @@
   "github.gitAuthentication": false,
   "git.autofetch": false,
   "git.terminalAuthentication": false,
-  "git.useIntegratedAskPass": false
-  
+  "git.useIntegratedAskPass": false,
+  "dart.analysisExcludedFolders": [
+    "node_modules"
+  ]
 }
 
