@@ -89,9 +89,9 @@ const style: maplibregl.StyleSpecification = {
 
 ```yaml
 # pubspec.yaml
-flutter_map: ^7.0.2      # mevcut
-vector_map_tiles: ^8.x.x
-vector_map_tiles_pmtiles: ^8.x.x
+flutter_map: ^7.0.2                   # mevcut
+vector_map_tiles: ^8.0.0
+vector_map_tiles_pmtiles: ^1.5.0
 ```
 
 ### Env Değişkeni

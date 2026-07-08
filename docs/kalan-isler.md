@@ -252,6 +252,24 @@
 - **Önerilen agent:** test-automator (qa-expert sistemde — en yakın: `qa-expert`)
 - **Kabul kriteri:** Owner flow + 2FA + admin flow için en az birer E2E spec eklendi
 
+### PMTiles — S7 Mobil Performans İzleme
+- **Durum:** Açık — production yayın sonrası izlenecek
+- **Kanıt:** `vector_map_tiles 8.0.0` + `vector_map_tiles_pmtiles 1.5.0` entegre edildi; S7 gibi düşük güçlü cihazlarda vektör tile rendering GPU/bellek baskısı yaratabilir
+- **Etki:** Orta — S7'de harita akıcılığı sorunları kullanıcı deneyimini etkiler
+- **Bağımlılık:** Production kullanıcı metrikleri (Firebase Performance)
+- **Önerilen branch:** `fix/mobile-map-s7-perf` (gerekirse)
+- **Önerilen agent:** mobile-developer
+- **Kabul kriteri:** S7 benzeri düşük güçlü cihazda harita 60fps veya >40fps render ediyor; bellek artışı 50MB altında. Sorun çıkarsa Cloudflare Worker XYZ proxy fallback'e geç (bkz. `docs/engineering/pmtiles-map-integration.md` — Rollback Planı)
+
+### PMTiles — Leaflet Bağımlılığı Temizliği (Web)
+- **Durum:** Açık — PMTiles entegrasyonu sonrası ertelenmiş teknik borç
+- **Kanıt:** `leaflet`, `react-leaflet`, `@types/leaflet` `package.json`'da mevcut; `src/components/maps/` altında 6 Leaflet bileşeni (KonumGoruntuleyici, LeafletMap, LocationPickerMap, LocationPickerMapClient, BusinessMap, OsmHarita) kullanımda. Bu bileşenler harita önizlemesi/konum seçici için kullanılmakta; PMTiles keşif haritasına dahil değil
+- **Etki:** Düşük — bundle boyutunu etkiler; işlevselliği bozmaz
+- **Bağımlılık:** Bu 6 bileşenin PMTiles/MapLibre GL ile yeniden yazılması veya kaldırılması
+- **Önerilen branch:** `chore/web-leaflet-cleanup`
+- **Önerilen agent:** nextjs-developer
+- **Kabul kriteri:** `leaflet`, `react-leaflet`, `@types/leaflet` `package.json`'dan kaldırıldı; tüm Leaflet bileşenleri MapLibre GL eşdeğeriyle değiştirildi veya silinip kullanım noktaları güncellendi; `npm run typecheck` + `npm run lint` temiz geçiyor
+
 ### Geocoding / Koordinat Backfill
 
 **Öncelik:** Orta  
