@@ -357,13 +357,19 @@ export function IsletmeOnerFormu() {
     ].filter(Boolean).join('\n');
 
     const sb = createSupabaseBrowserClient();
-    const { error: err } = await (sb as any).from('business_suggestions').insert({
-      name: form.name.trim(), category: form.category,
-      city: form.city || null, district: form.district || null,
-      address: form.address || null, phone: form.phone || null,
-      website: form.website || null, notes: ekBilgiler || null, status: 'pending',
+    // Rate-limited RPC (submit_business_suggestion_v1) — 20260708000001 migration.
+    // Direct anon INSERT policy kaldırıldı; artık sadece RPC üzerinden gönderim yapılır.
+    const { error: err } = await (sb as any).rpc('submit_business_suggestion_v1', {
+      p_name:     form.name.trim(),
+      p_category: form.category,
+      p_city:     form.city     || null,
+      p_district: form.district || null,
+      p_address:  form.address  || null,
+      p_phone:    form.phone    || null,
+      p_website:  form.website  || null,
+      p_notes:    ekBilgiler    || null,
     });
-    if (err && err.code !== '42P01') throw err;
+    if (err) throw err;
     setSubmitted(true);
   }
 

@@ -290,6 +290,44 @@
 
 ---
 
+## P3.5 — Güvenlik Restore İşleri
+
+### Reviews Edge Guard Restore
+
+**Öncelik:** Yüksek (edge functions deploy edilince yapılmalı)
+**Bağlam:** `20260630000001_disable_reviews_edge_guard_trigger.sql` ile `trg_reviews_edge_guard_v1` trigger'ının içi no-op yapıldı çünkü `consume_edge_guard_event_v1` edge function deploy edilmemişti ve her yorum INSERT'i blokluyordu. Şu an anti-spam trigger devre dışı — yorum spam riski aktif.
+
+**Yapılacaklar:**
+- [ ] `anti-spam-guard` ve `write-gatekeeper` edge functions'ı deploy et
+- [ ] `consume_edge_guard_event_v1` RPC'sinin çalıştığını doğrula (edge_rate_limit_events tablosuna yaz/oku)
+- [ ] `20260708000002_restore_reviews_edge_guard.sql` migration'ı yaz ve uygula:
+  ```sql
+  CREATE OR REPLACE FUNCTION public.enforce_reviews_edge_guard_v1()
+  RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
+  AS $$
+  BEGIN
+    -- Edge guard aktif: consume_edge_guard_event_v1 çağrısı spam kontrolü yapar.
+    PERFORM public.consume_edge_guard_event_v1(
+      p_user_id   => NEW.user_id,
+      p_action    => 'review_insert',
+      p_entity_id => NEW.business_id
+    );
+    RETURN NEW;
+  END;
+  $$;
+  COMMENT ON FUNCTION public.enforce_reviews_edge_guard_v1() IS
+    'Edge guard aktif (20260708000002). anti-spam-guard edge function gerektirir.';
+  ```
+- [ ] Trigger'ın `BEFORE INSERT ON reviews` üzerinde aktif olduğunu doğrula
+- [ ] Yorum gönderim akışını uçtan uca test et (gerçek spam senaryosu dahil)
+
+**Bağımlılık:** `anti-spam-guard` edge function kaynak kodu + deploy erişimi
+**Önerilen branch:** `fix/restore-reviews-edge-guard`
+**Önerilen agent:** postgres-pro + devops-engineer
+**Kabul kriteri:** Edge function deploy edildi · trigger no-op değil, gerçek guard çalışıyor · rate-limit aşıldığında yorum INSERT'i reddediliyor · normal kullanıcı yorumu başarıyla kaydediliyor
+
+---
+
 ## P5 — Fikir Havuzu / Daha Sonra
 
 - Fiyat Endeksi medya lansmanı (bkz. `docs/archive/fiyat-endeksi-medya-raporu.md` — link doğrulandı, kırık değil)
