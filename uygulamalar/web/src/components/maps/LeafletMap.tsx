@@ -1,31 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import { useEffect, useRef } from 'react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { ensurePmtilesProtocol, buildPmtilesStyle, makeYeedoyMarkerEl } from '@/src/lib/harita-paylasim';
 import type { BusinessLocation } from '@/src/lib/types/business';
-
-// Fix Leaflet default icon paths broken by webpack/Next.js asset hashing.
-// We use our custom SVG marker from /icons/map-marker.svg instead.
-const markerIcon = L.icon({
-  iconUrl: '/icons/map-marker.svg',
-  iconSize: [32, 40],
-  iconAnchor: [16, 40],
-  popupAnchor: [0, -40],
-});
-
-/**
- * Inner component that recenters the map whenever lat/lng props change.
- * Must be rendered inside <MapContainer>.
- */
-function RecenterOnChange({ lat, lng }: { lat: number; lng: number }) {
-  const map = useMap();
-  useEffect(() => {
-    map.setView([lat, lng]);
-  }, [lat, lng, map]);
-  return null;
-}
 
 export interface LeafletMapProps {
   location: BusinessLocation;
@@ -36,30 +15,48 @@ export interface LeafletMapProps {
 
 export default function LeafletMap({ location, name, address, className }: LeafletMapProps) {
   const { lat, lng } = location;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+    ensurePmtilesProtocol();
+
+    const map = new maplibregl.Map({
+      container: containerRef.current,
+      style: buildPmtilesStyle(),
+      center: [lng, lat],
+      zoom: 15,
+      scrollZoom: false,
+      dragRotate: false,
+    });
+
+    map.on('load', () => {
+      const popup = new maplibregl.Popup({ offset: 20 }).setHTML(
+        `<div style="font-family:sans-serif;min-width:120px;">
+          <p style="margin:0 0 2px;font-weight:700;font-size:13px">${name}</p>
+          ${address ? `<p style="margin:0;font-size:11px;color:#6B7280">${address}</p>` : ''}
+        </div>`,
+      );
+      new maplibregl.Marker({ element: makeYeedoyMarkerEl() })
+        .setLngLat([lng, lat])
+        .setPopup(popup)
+        .addTo(map);
+    });
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [lat, lng, name, address]);
 
   return (
-    <MapContainer
-      center={[lat, lng]}
-      zoom={15}
-      scrollWheelZoom={false}
+    <div
+      ref={containerRef}
       className={className ?? 'h-48 w-full rounded-xl'}
-      style={{ zIndex: 0 }}
       aria-label={`${name} konumu`}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        maxZoom={19}
-      />
-      <Marker position={[lat, lng]} icon={markerIcon}>
-        <Popup>
-          <strong style={{ display: 'block', marginBottom: 2, fontSize: 13 }}>{name}</strong>
-          {address && (
-            <span style={{ fontSize: 12, color: '#64748b' }}>{address}</span>
-          )}
-        </Popup>
-      </Marker>
-      <RecenterOnChange lat={lat} lng={lng} />
-    </MapContainer>
+    />
   );
 }

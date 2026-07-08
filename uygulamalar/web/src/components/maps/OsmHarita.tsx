@@ -1,3 +1,10 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { ensurePmtilesProtocol, buildPmtilesStyle, makeYeedoyMarkerEl } from '@/src/lib/harita-paylasim';
+
 export function OsmHarita({
   lat,
   lng,
@@ -9,21 +16,42 @@ export function OsmHarita({
   name: string;
   className?: string;
 }) {
-  const delta = 0.012;
-  const bbox = `${lng - delta},${lat - delta},${lng + delta},${lat + delta}`;
-  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&marker=${lat},${lng}&layer=mapnik`;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+    ensurePmtilesProtocol();
+
+    const map = new maplibregl.Map({
+      container: containerRef.current,
+      style: buildPmtilesStyle(),
+      center: [lng, lat],
+      zoom: 15,
+      interactive: false,
+    });
+
+    map.on('load', () => {
+      new maplibregl.Marker({ element: makeYeedoyMarkerEl() })
+        .setLngLat([lng, lat])
+        .setPopup(new maplibregl.Popup({ offset: 20 }).setText(name))
+        .addTo(map);
+    });
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [lat, lng, name]);
 
   return (
-    <iframe
-      title={`${name} konumu`}
-      src={src}
+    <div
+      ref={containerRef}
       className={className}
-      width="100%"
-      height="100%"
-      loading="lazy"
-      referrerPolicy="no-referrer"
+      style={{ width: '100%', height: '100%' }}
       aria-label={`${name} haritası`}
-      style={{ border: 0 }}
     />
   );
 }

@@ -1,47 +1,60 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-const pinIcon = L.icon({
-  iconUrl: '/icons/map-marker.svg',
-  iconSize: [32, 40],
-  iconAnchor: [16, 40],
-  popupAnchor: [0, -40],
-});
-
-// Konum değişince haritayı kaydıran iç bileşen
-function MapUpdater({ center }: { center: [number, number] }) {
-  const map = useMap();
-  const prev = useRef<[number, number] | null>(null);
-  useEffect(() => {
-    if (!prev.current || prev.current[0] !== center[0] || prev.current[1] !== center[1]) {
-      map.flyTo(center, 13, { duration: 0.8 });
-      prev.current = center;
-    }
-  }, [center, map]);
-  return null;
-}
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import { ensurePmtilesProtocol, buildPmtilesStyle, makeYeedoyMarkerEl } from '@/src/lib/harita-paylasim';
 
 export default function KonumGoruntuleyici({ center }: { center: [number, number] }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+  const markerRef = useRef<maplibregl.Marker | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+    ensurePmtilesProtocol();
+
+    const map = new maplibregl.Map({
+      container: containerRef.current,
+      style: buildPmtilesStyle(),
+      center: [center[1], center[0]],
+      zoom: 13,
+      scrollZoom: false,
+      dragRotate: false,
+    });
+
+    map.on('load', () => {
+      const marker = new maplibregl.Marker({ element: makeYeedoyMarkerEl() })
+        .setLngLat([center[1], center[0]])
+        .addTo(map);
+      markerRef.current = marker;
+    });
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+      markerRef.current = null;
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Merkez değişince flyTo ile güncelle
+  useEffect(() => {
+    const map = mapRef.current;
+    const marker = markerRef.current;
+    if (!map || !marker) return;
+    const lngLat: [number, number] = [center[1], center[0]];
+    map.flyTo({ center: lngLat, zoom: 13, duration: 800 });
+    marker.setLngLat(lngLat);
+  }, [center]);
+
   return (
-    <MapContainer
-      center={center}
-      zoom={13}
-      scrollWheelZoom={false}
-      zoomControl={false}
-      style={{ height: '100%', width: '100%', zIndex: 0 }}
+    <div
+      ref={containerRef}
+      style={{ height: '100%', width: '100%' }}
       aria-label="Konum haritası"
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        maxZoom={19}
-      />
-      <MapUpdater center={center} />
-      <Marker position={center} icon={pinIcon} />
-    </MapContainer>
+    />
   );
 }

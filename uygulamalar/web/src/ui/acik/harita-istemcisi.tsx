@@ -1,15 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
-import maplibregl, { addProtocol, removeProtocol } from 'maplibre-gl';
-import { Protocol } from 'pmtiles';
-import { layers, namedTheme } from 'protomaps-themes-base';
+import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { ensurePmtilesProtocol, buildPmtilesStyle } from '@/src/lib/harita-paylasim';
 import type { HaritaIsletme } from '@/src/lib/veri/harita-okuma';
-
-const PMTILES_URL =
-  process.env.NEXT_PUBLIC_YEEDOY_PMTILES_URL ??
-  'https://maps.yeedoy.com/turkiye.pmtiles';
 
 // Türkiye merkezi — Ankara
 const DEFAULT_CENTER: [number, number] = [32.8597, 39.9334];
@@ -93,32 +88,11 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
-    // PMTiles protokolünü kaydet
-    const protocol = new Protocol();
-    addProtocol('pmtiles', protocol.tile as maplibregl.AddProtocolAction);
-
-    const mapStyle: maplibregl.StyleSpecification = {
-      version: 8,
-      glyphs:
-        'https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf',
-      sprite:
-        'https://protomaps.github.io/basemaps-assets/sprites/v4/light',
-      sources: {
-        protomaps: {
-          type: 'vector',
-          url: `pmtiles://${PMTILES_URL}`,
-          attribution: '© OpenStreetMap',
-        },
-      },
-      layers: layers(
-        'protomaps',
-        namedTheme('light'),
-      ) as maplibregl.LayerSpecification[],
-    };
+    ensurePmtilesProtocol();
 
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: mapStyle,
+      style: buildPmtilesStyle(),
       center: DEFAULT_CENTER,
       zoom: DEFAULT_ZOOM,
       minZoom: 4,
@@ -145,7 +119,6 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
       clearMarkers();
-      removeProtocol('pmtiles');
       map.remove();
       mapRef.current = null;
     };
