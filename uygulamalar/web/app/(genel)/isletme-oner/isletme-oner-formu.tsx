@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { LocationPickerMapClient } from '@/src/components/maps/LocationPickerMapClient';
 
 // ── Sabitler ─────────────────────────────────────────────────────────────────
 
@@ -314,7 +315,7 @@ function ilkAnlamliKelime(s: string): string {
 export function IsletmeOnerFormu() {
   const [form, setForm] = useState({
     name: '', category: '', city: '', district: '', neighborhood: '',
-    address: '', mapsLink: '', phone: '', website: '', social: '', reason: '', notes: '',
+    address: '', phone: '', website: '', social: '', reason: '', notes: '',
   });
   const [onay1, setOnay1]         = useState(false);
   const [onay2, setOnay2]         = useState(false);
@@ -323,6 +324,8 @@ export function IsletmeOnerFormu() {
   const [error, setError]         = useState<string | null>(null);
   const [dragOver, setDragOver]   = useState(false);
   const [photos, setPhotos]       = useState<string[]>([]);
+  const [pickedLat, setPickedLat] = useState<number | null>(null);
+  const [pickedLng, setPickedLng] = useState<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   // Modal state
@@ -341,7 +344,8 @@ export function IsletmeOnerFormu() {
   }
 
   function resetForm() {
-    setForm({ name:'', category:'', city:'', district:'', neighborhood:'', address:'', mapsLink:'', phone:'', website:'', social:'', reason:'', notes:'' });
+    setForm({ name:'', category:'', city:'', district:'', neighborhood:'', address:'', phone:'', website:'', social:'', reason:'', notes:'' });
+    setPickedLat(null); setPickedLng(null);
     setOnay1(false); setOnay2(false); setPhotos([]); setError(null); setSubmitted(false);
     setEslesenIsletmeler([]); setEslesenGoster(false);
   }
@@ -349,7 +353,7 @@ export function IsletmeOnerFormu() {
   async function supabaseInsert() {
     const ekBilgiler = [
       form.neighborhood && `Mahalle: ${form.neighborhood}`,
-      form.mapsLink     && `Harita: ${form.mapsLink}`,
+      (pickedLat !== null && pickedLng !== null) && `Konum: ${pickedLat.toFixed(6)},${pickedLng.toFixed(6)}`,
       form.social       && `Sosyal: ${form.social}`,
       form.reason       && `Neden: ${form.reason}`,
       photos.length     && `Fotoğraflar: ${photos.join(', ')}`,
@@ -565,13 +569,20 @@ export function IsletmeOnerFormu() {
                   </InputAlan>
 
                   {/* Harita */}
-                  <InputAlan label="Harita Konumu / Google Maps Linki">
-                    <div className="relative">
-                      <span className="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-muted" aria-hidden="true">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                      </span>
-                      <input type="url" value={form.mapsLink} onChange={setField('mapsLink')} placeholder="https://maps.google.com/..." className={`${inputCls} pl-9`} />
+                  <InputAlan label="Harita Konumu (İsteğe Bağlı)">
+                    <div className="overflow-hidden rounded-xl border border-border">
+                      <LocationPickerMapClient
+                        onChange={(lat, lng) => { setPickedLat(lat); setPickedLng(lng); }}
+                      />
                     </div>
+                    {pickedLat !== null && pickedLng !== null && (
+                      <p className="mt-1.5 flex items-center gap-1.5 text-[12px] font-[700] text-[color:var(--yd-color-success,#16a34a)]">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Konum seçildi: {pickedLat.toFixed(5)}, {pickedLng.toFixed(5)}
+                      </p>
+                    )}
                   </InputAlan>
 
                   {/* Telefon + Web */}

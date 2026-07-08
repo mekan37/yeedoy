@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
@@ -49,6 +52,8 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
   String? _reason;
   final _emailCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
+  double? _pickedLat;
+  double? _pickedLng;
 
   bool _loading = false;
   bool _checkingDuplicates = false;
@@ -124,6 +129,11 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
       final notesParts = <String>[];
       if (_notesCtrl.text.trim().isNotEmpty) notesParts.add(_notesCtrl.text.trim());
       if (_reason != null) notesParts.add('Öneri Nedeni: $_reason');
+      if (_pickedLat != null && _pickedLng != null) {
+        notesParts.add(
+          'Konum: ${_pickedLat!.toStringAsFixed(6)},${_pickedLng!.toStringAsFixed(6)}',
+        );
+      }
       if (_emailCtrl.text.trim().isNotEmpty) {
         notesParts.add('İletişim E-posta: ${_emailCtrl.text.trim()}');
       }
@@ -328,6 +338,25 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                   _AddressBox(
                     ctrl: _addressCtrl,
                     onChanged: (_) => _scheduleDuplicateCheck(),
+                  ),
+                  const SizedBox(height: 8),
+                  _LocationPickerCard(
+                    lat: _pickedLat,
+                    lng: _pickedLng,
+                    onTap: () async {
+                      final result = await showModalBottomSheet<(double, double)?>(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (_) => const _LocationPickerSheet(),
+                      );
+                      if (result != null && mounted) {
+                        setState(() {
+                          _pickedLat = result.$1;
+                          _pickedLng = result.$2;
+                        });
+                      }
+                    },
                   ),
                   const SizedBox(height: 8),
                   _NotesBox(ctrl: _notesCtrl),
@@ -1143,6 +1172,304 @@ class _HelpStep extends StatelessWidget {
                 Text(
                   body,
                   style: const TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Konum seçici kart ─────────────────────────────────────────────────────────
+
+class _LocationPickerCard extends StatelessWidget {
+  const _LocationPickerCard({
+    required this.lat,
+    required this.lng,
+    required this.onTap,
+  });
+
+  final double? lat;
+  final double? lng;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasLocation = lat != null && lng != null;
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: hasLocation
+                ? AppColors.primary.withValues(alpha: 0.5)
+                : AppColors.border,
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              hasLocation
+                  ? Icons.location_on_rounded
+                  : Icons.add_location_alt_outlined,
+              color: hasLocation ? AppColors.primary : AppColors.muted,
+              size: 18,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                hasLocation
+                    ? '${lat!.toStringAsFixed(5)}, ${lng!.toStringAsFixed(5)}'
+                    : 'Haritadan Konum Seç (İsteğe Bağlı)',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: hasLocation ? AppColors.textStrong : AppColors.muted,
+                ),
+              ),
+            ),
+            if (hasLocation)
+              const Icon(
+                Icons.check_circle_rounded,
+                color: AppColors.primary,
+                size: 16,
+              )
+            else
+              const Icon(
+                Icons.chevron_right_rounded,
+                color: AppColors.muted,
+                size: 18,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Konum seçici bottom sheet ─────────────────────────────────────────────────
+
+class _LocationPickerSheet extends StatefulWidget {
+  const _LocationPickerSheet();
+
+  @override
+  State<_LocationPickerSheet> createState() => _LocationPickerSheetState();
+}
+
+class _LocationPickerSheetState extends State<_LocationPickerSheet> {
+  final _mapController = MapController();
+  LatLng? _selected;
+  bool _gettingGps = false;
+
+  static const _kDefaultCenter = LatLng(37.0, 35.3213);
+
+  Future<void> _useGps() async {
+    setState(() => _gettingGps = true);
+    try {
+      var perm = await Geolocator.checkPermission();
+      if (perm == LocationPermission.denied) {
+        perm = await Geolocator.requestPermission();
+      }
+      if (perm == LocationPermission.denied ||
+          perm == LocationPermission.deniedForever) {
+        return;
+      }
+      final pos = await Geolocator.getCurrentPosition(
+        locationSettings:
+            const LocationSettings(accuracy: LocationAccuracy.high),
+      );
+      final point = LatLng(pos.latitude, pos.longitude);
+      setState(() => _selected = point);
+      try {
+        _mapController.move(point, 15);
+      } catch (_) {}
+    } catch (_) {
+      // Konum alınamazsa sessizce yok say
+    } finally {
+      if (mounted) setState(() => _gettingGps = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 0.88;
+    final bottomPad = MediaQuery.of(context).padding.bottom;
+
+    return Container(
+      height: height,
+      decoration: const BoxDecoration(
+        color: AppColors.bg,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      child: Column(
+        children: [
+          // Tutamaç
+          Container(
+            width: 40,
+            height: 4,
+            margin: const EdgeInsets.symmetric(vertical: 12),
+            decoration: BoxDecoration(
+              color: AppColors.border,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+
+          // Başlık satırı
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 8, 8),
+            child: Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Konum Seç',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: _gettingGps ? null : _useGps,
+                  tooltip: 'Mevcut konumum',
+                  icon: Icon(
+                    _gettingGps
+                        ? Icons.hourglass_top_rounded
+                        : Icons.my_location_rounded,
+                    color: AppColors.primary,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close_rounded, color: AppColors.muted),
+                ),
+              ],
+            ),
+          ),
+
+          // İpucu
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Text(
+              'Haritaya dokunarak işletmenin konumunu işaretleyin.',
+              style: TextStyle(fontSize: 12, color: AppColors.muted),
+            ),
+          ),
+
+          // Harita
+          Expanded(
+            child: FlutterMap(
+              mapController: _mapController,
+              options: MapOptions(
+                initialCenter: _selected ?? _kDefaultCenter,
+                initialZoom: 13.0,
+                onTap: (_, point) => setState(() => _selected = point),
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate:
+                      'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.yeedoy.app',
+                ),
+                if (_selected != null)
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: _selected!,
+                        width: 48,
+                        height: 56,
+                        alignment: Alignment.bottomCenter,
+                        child: const Icon(
+                          Icons.location_on_rounded,
+                          color: AppColors.primary,
+                          size: 48,
+                          shadows: [
+                            Shadow(blurRadius: 12, color: Color(0x33000000)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+
+          // Alt panel
+          Container(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 12 + bottomPad),
+            decoration: const BoxDecoration(
+              color: AppColors.card,
+              border: Border(top: BorderSide(color: AppColors.border)),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_selected != null) ...[
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
+                    ),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    decoration: BoxDecoration(
+                      color: AppColors.cardAlt,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: AppColors.border),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.pin_drop_rounded,
+                          color: AppColors.primary,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${_selected!.latitude.toStringAsFixed(6)}, '
+                          '${_selected!.longitude.toStringAsFixed(6)}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textStrong,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: FilledButton(
+                    onPressed: _selected == null
+                        ? null
+                        : () => Navigator.of(context).pop(
+                              (_selected!.latitude, _selected!.longitude),
+                            ),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      disabledBackgroundColor:
+                          AppColors.primary.withValues(alpha: 0.4),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text(
+                      _selected == null
+                          ? 'Haritadan Konum Seçin'
+                          : 'Bu Konumu Kullan',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
