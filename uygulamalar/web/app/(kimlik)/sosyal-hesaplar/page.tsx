@@ -84,7 +84,6 @@ export default function SosyalHesaplarPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return;
       setUserId(user.id);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (supabase as any)
         .from('user_profiles')
         .select('social_links')
@@ -111,7 +110,6 @@ export default function SosyalHesaplarPage() {
         if (val) cleaned[key] = val;
       }
       const supabase = createSupabaseBrowserClient();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await (supabase as any)
         .from('user_profiles')
         .update({ social_links: cleaned, updated_at: new Date().toISOString() })

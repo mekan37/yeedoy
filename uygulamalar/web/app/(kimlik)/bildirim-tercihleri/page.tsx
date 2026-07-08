@@ -119,7 +119,6 @@ export default function BildirimTercihlerPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return;
       setUserId(user.id);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (supabase as any)
         .from('notification_preferences')
         .select('notification_type, enabled')
@@ -144,7 +143,6 @@ export default function BildirimTercihlerPage() {
     setSaving(key);
     try {
       const supabase = createSupabaseBrowserClient();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await (supabase as any).from('notification_preferences').upsert(
         {
           user_id: userId,

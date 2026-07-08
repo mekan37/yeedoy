@@ -19,7 +19,6 @@ interface ChainBranch {
   price_delta_pct: number | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnySupabase = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
 
 export async function generateMetadata(
