@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
 
@@ -119,7 +120,8 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 shape: const CircleBorder(),
                 elevation: 1,
                 child: IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () =>
+                      context.canPop() ? context.pop() : context.go('/discover'),
                   icon: const Icon(
                     Icons.arrow_back_ios_new_rounded,
                     size: 18,
@@ -138,15 +140,18 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   ),
                 ),
               ),
-              Material(
-                color: AppColors.primarySoft,
-                shape: const CircleBorder(),
-                child: const Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Icon(
-                    Icons.headset_mic_outlined,
-                    color: AppColors.primary,
-                    size: 20,
+              GestureDetector(
+                onTap: () => context.push('/live-support'),
+                child: Material(
+                  color: AppColors.primarySoft,
+                  shape: const CircleBorder(),
+                  child: const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Icon(
+                      Icons.headset_mic_outlined,
+                      color: AppColors.primary,
+                      size: 20,
+                    ),
                   ),
                 ),
               ),
@@ -187,6 +192,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   hintText: 'Sorununuzu yazın, çözüme birlikte ulaşalım...',
                   hintStyle: TextStyle(color: AppColors.muted, fontSize: 13),
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  filled: false,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -231,7 +239,11 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 badgeLabel: '24 Saat İçinde Yanıt',
                 badgeColor: const Color(0xFF3B82F6),
                 badgeBg: const Color(0xFFDBEAFE),
-                onTap: () {},
+                onTap: () => launchUrl(Uri(
+                  scheme: 'mailto',
+                  path: 'destek@yeedoy.com',
+                  queryParameters: {'subject': 'Yeedoy Destek Talebi'},
+                )),
               ),
             ),
             const SizedBox(width: 8),
@@ -255,7 +267,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 badgeLabel: 'Rehbere Git',
                 badgeColor: const Color(0xFFF59E0B),
                 badgeBg: const Color(0xFFFEF3C7),
-                onTap: () {},
+                onTap: () => context.push('/faq'),
               ),
             ),
           ],
@@ -286,7 +298,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => context.push('/faq'),
                 style: TextButton.styleFrom(
                   foregroundColor: AppColors.primary,
                   padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -361,7 +373,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
               border: Border.all(color: AppColors.border),
             ),
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-            child: const IntrinsicHeight(
+            child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -370,6 +382,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                       icon: Icons.person_outline_rounded,
                       title: 'Hesap İşlemleri',
                       subtitle: 'Hesap, giriş, şifre ve profil işlemleri',
+                      onTap: () => context.push('/faq'),
                     ),
                   ),
                   Expanded(
@@ -377,6 +390,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                       icon: Icons.star_outline_rounded,
                       title: 'Katkı ve Puanlar',
                       subtitle: 'Katkı yapma, puan kazanma ve ödüller',
+                      onTap: () => context.push('/faq'),
                     ),
                   ),
                   Expanded(
@@ -384,6 +398,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                       icon: Icons.smartphone_outlined,
                       title: 'Uygulama Kullanımı',
                       subtitle: 'Uygulama özellikleri ve kullanımı',
+                      onTap: () => context.push('/faq'),
                     ),
                   ),
                   Expanded(
@@ -391,6 +406,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                       icon: Icons.shield_outlined,
                       title: 'Yasal & Gizlilik',
                       subtitle: 'Gizlilik, güvenlik ve yasal konular',
+                      onTap: () => context.push('/faq'),
                     ),
                   ),
                 ],
@@ -450,12 +466,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 children: const [
                   _ContactRow(
                     icon: Icons.mail_outline_rounded,
-                    text: 'destek@fiyatnerede.com',
-                  ),
-                  SizedBox(height: 6),
-                  _ContactRow(
-                    icon: Icons.phone_outlined,
-                    text: '0850 123 45 67',
+                    text: 'destek@yeedoy.com',
                   ),
                   SizedBox(height: 6),
                   _ContactRow(
@@ -723,16 +734,18 @@ class _HelpCenterTile extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subtitle,
+    required this.onTap,
   });
 
   final IconData icon;
   final String title;
   final String subtitle;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Column(

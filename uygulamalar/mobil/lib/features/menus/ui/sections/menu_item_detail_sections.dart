@@ -1,5 +1,94 @@
 part of '../menu_item_page.dart';
 
+// 14 EU alerjen kodu → Türkçe etiket eşleştirme tablosu
+// İkon: assets/allergens/allergen_{code}.svg
+const _kAllergenLabel = {
+  'gluten':         'Gluten',
+  'crustaceans':    'Kabuklu Deniz Ürünleri',
+  'egg':            'Yumurta',
+  'fish':           'Balık',
+  'peanuts':        'Yer Fıstığı',
+  'soy':            'Soya',
+  'milk':           'Süt',
+  'treenuts':       'Sert Kabuklu Yemişler',
+  'celery':         'Kereviz',
+  'mustard':        'Hardal',
+  'sesame':         'Susam',
+  'sulfur_dioxide': 'Kükürt Dioksit',
+  'lupin':          'Acı Bakla',
+  'molluscs':       'Yumuşakçalar',
+};
+
+class _AllergenSection extends StatelessWidget {
+  const _AllergenSection({required this.allergens});
+  final List<String> allergens;
+
+  @override
+  Widget build(BuildContext context) {
+    if (allergens.isEmpty) return const SizedBox.shrink();
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Alerjenler', style: context.sectionTitleStyle),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final code in allergens) _AllergenChip(code: code),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Alerji durumunuz için personele bilgi veriniz.',
+            style: context.captionStyle,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AllergenChip extends StatelessWidget {
+  const _AllergenChip({required this.code});
+  final String code;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = _kAllergenLabel[code] ?? code;
+    final assetPath = 'assets/allergens/allergen_$code.svg';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            assetPath,
+            width: 16,
+            height: 16,
+            colorFilter: const ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              color: AppColors.primary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _PriceHistorySection extends StatelessWidget {
   const _PriceHistorySection({
     required this.historyAsync,
@@ -1208,31 +1297,33 @@ class _TimeWindowInsightChip extends StatelessWidget {
     if (window.discountPct != null && window.discountPct! > 0) {
       chipText = active != null
           ? (isTr
-              ? '⏱ Şu an: $label • %${window.discountPct} indirimli ($timeRange)'
-              : '⏱ Now: $label • ${window.discountPct}% off ($timeRange)')
+              ? 'Şu an: $label • %${window.discountPct} indirimli ($timeRange)'
+              : 'Now: $label • ${window.discountPct}% off ($timeRange)')
           : (isTr
-              ? '⏱ $label daha uygun ($timeRange) • %${window.discountPct} indirim'
-              : '⏱ $label is cheaper ($timeRange) • ${window.discountPct}% off');
+              ? '$label daha uygun ($timeRange) • %${window.discountPct} indirim'
+              : '$label is cheaper ($timeRange) • ${window.discountPct}% off');
     } else if (window.priceCents != null) {
       final priceText =
           '${(window.priceCents! / 100).toStringAsFixed(window.priceCents! % 100 == 0 ? 0 : 2)}₺';
       chipText = active != null
           ? (isTr
-              ? '⏱ Şu an: $label $priceText ($timeRange)'
-              : '⏱ Now: $label $priceText ($timeRange)')
+              ? 'Şu an: $label $priceText ($timeRange)'
+              : 'Now: $label $priceText ($timeRange)')
           : (isTr
-              ? '⏱ $label fiyatı $priceText ($timeRange)'
-              : '⏱ $label price $priceText ($timeRange)');
+              ? '$label fiyatı $priceText ($timeRange)'
+              : '$label price $priceText ($timeRange)');
     } else {
       chipText = active != null
-          ? (isTr ? '⏱ Şu an: $label ($timeRange)' : '⏱ Now: $label ($timeRange)')
-          : (isTr ? '⏱ $label ($timeRange)' : '⏱ $label ($timeRange)');
+          ? (isTr ? 'Şu an: $label ($timeRange)' : 'Now: $label ($timeRange)')
+          : (isTr ? '$label ($timeRange)' : '$label ($timeRange)');
     }
 
+    final chipColor = active != null ? AppColors.success : AppColors.info;
     return AppChip(
       label: chipText,
-      color: active != null ? AppColors.success : AppColors.info,
+      color: chipColor,
       filled: active != null,
+      leading: Icon(Icons.schedule_rounded, size: 14, color: chipColor),
     );
   }
 }
@@ -1346,6 +1437,90 @@ class _PriceMetaRow extends StatelessWidget {
     return Text(
       parts.join(' · '),
       style: const TextStyle(color: AppColors.muted, fontSize: 12),
+    );
+  }
+}
+
+class _TransparentMenuSection extends StatelessWidget {
+  const _TransparentMenuSection({
+    required this.caloriesMin,
+    required this.portionSize,
+    required this.ingredients,
+  });
+
+  final int? caloriesMin;
+  final String? portionSize;
+  final List<String> ingredients;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasCalories = caloriesMin != null;
+    final hasIngredients = ingredients.isNotEmpty;
+    if (!hasCalories && !hasIngredients) return const SizedBox.shrink();
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Şeffaf Menü', style: context.sectionTitleStyle),
+          if (hasCalories) ...[
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const Icon(Icons.local_fire_department_rounded, size: 16, color: AppColors.primary),
+                const SizedBox(width: 8),
+                Text(
+                  '$caloriesMin kcal',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                if (portionSize != null && portionSize!.isNotEmpty) ...[
+                  const SizedBox(width: 6),
+                  Text(
+                    '/ $portionSize',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: AppColors.muted,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
+          if (hasIngredients) ...[
+            const SizedBox(height: 12),
+            const Text(
+              'İçindekiler',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.muted,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              ingredients.join(', '),
+              style: const TextStyle(
+                fontSize: 13,
+                color: AppColors.textStrong,
+                height: 1.5,
+              ),
+            ),
+          ],
+          const SizedBox(height: 10),
+          const Text(
+            'Değerler tahmini olabilir. Alerji durumunuz için lütfen personele bilgi veriniz.',
+            style: TextStyle(
+              fontSize: 11,
+              color: AppColors.muted,
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

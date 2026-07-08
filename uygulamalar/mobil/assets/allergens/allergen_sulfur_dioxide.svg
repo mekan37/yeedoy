@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Sulfur dioksit</title>
+  <defs>
+    <radialGradient id="cloud" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(48 42) rotate(45) scale(75 55)">
+      <stop stop-color="#FFF39A"/>
+      <stop offset="0.58" stop-color="#F6C545"/>
+      <stop offset="1" stop-color="#D78918"/>
+    </radialGradient>
+  </defs>
+  <path d="M43 96c-17 0-30-11-30-26 0-13 9-23 22-26 5-15 18-25 35-25 19 0 34 13 37 31 10 5 16 14 16 25 0 15-13 26-30 26H43Z" fill="url(#cloud)"/>
+  <path d="M43 96c-17 0-30-11-30-26 0-13 9-23 22-26 5-15 18-25 35-25 19 0 34 13 37 31 10 5 16 14 16 25 0 15-13 26-30 26H43Z" stroke="#B46D11" stroke-width="4" opacity="0.3"/>
+  <path d="M37 53c6-12 17-19 31-19 9 0 17 3 23 9" stroke="#FFF5B9" stroke-width="6" stroke-linecap="round" opacity="0.75"/>
+  <path d="M41 75c5 6 12 9 21 9 8 0 15-3 21-9M33 63h20M76 63h20" stroke="#8B4B10" stroke-width="5" stroke-linecap="round" opacity="0.45"/>
+  <circle cx="61" cy="62" r="4" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="70" cy="72" r="3" fill="#FFFFFF" opacity="0.65"/>
+</svg>

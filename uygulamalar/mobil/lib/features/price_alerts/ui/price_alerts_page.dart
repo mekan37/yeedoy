@@ -6,6 +6,7 @@ import '../../../core/assets/category_assets.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../../../core/utils/greeting_utils.dart';
 import '../data/price_alerts_repository.dart';
 import '../domain/price_alert_models.dart';
 import '../domain/price_alerts_provider.dart';
@@ -35,9 +36,12 @@ class _PriceAlertsPageState extends ConsumerState<PriceAlertsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Merhaba! 👋',
-                      style: TextStyle(fontSize: 13, color: AppColors.muted),
+                    Text(
+                      timeBasedGreeting(),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: AppColors.muted,
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(

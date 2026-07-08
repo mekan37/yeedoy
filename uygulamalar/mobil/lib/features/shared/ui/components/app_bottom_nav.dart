@@ -102,15 +102,15 @@ class AppBottomNav extends ConsumerWidget {
             ),
             // Floating center QR button
             Positioned(
-              top: -22,
+              top: -26,
               left: 0,
               right: 0,
               child: Center(
                 child: GestureDetector(
                   onTap: () => context.go('/contribute'),
                   child: Container(
-                    width: 58,
-                    height: 58,
+                    width: 68,
+                    height: 68,
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       shape: BoxShape.circle,
@@ -126,7 +126,7 @@ class AppBottomNav extends ConsumerWidget {
                     child: const Icon(
                       Icons.qr_code_scanner_rounded,
                       color: Colors.white,
-                      size: 26,
+                      size: 32,
                     ),
                   ),
                 ),
@@ -166,13 +166,13 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(selected ? selectedIcon : icon, color: color, size: 22),
-            const SizedBox(height: 3),
+            Icon(selected ? selectedIcon : icon, color: color, size: 26),
+            const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
                 color: color,
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: FontWeight.w700,
               ),
             ),

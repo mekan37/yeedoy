@@ -7,7 +7,8 @@ import '../../../app/theme/colors.dart';
 import '../../../core/i18n/locale_controller.dart';
 import '../../../core/media/app_image_cache_manager.dart';
 import '../../../core/media/app_network_image.dart';
-import '../../../core/storage/theme_prefs.dart';
+import 'package:flutter/services.dart';
+import '../../auth/data/auth_service_provider.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../../legal/legal_repository.dart';
 import '../data/profile_model.dart';
@@ -61,6 +62,52 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
         ref.invalidate(_myProfileProvider);
         ref.invalidate(publicProfileProvider);
       }),
+    );
+  }
+
+  static String _formatDate(DateTime dt) =>
+      '${dt.day.toString().padLeft(2, '0')}.${dt.month.toString().padLeft(2, '0')}.${dt.year}';
+
+  static String _genderLabel(String? g) => switch (g) {
+        'male' => 'Erkek',
+        'female' => 'Kadın',
+        'other' => 'Diğer',
+        'prefer_not_to_say' => 'Belirtmek İstemiyorum',
+        _ => 'Ekle',
+      };
+
+  void _showPhoneSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => _EditPhoneSheet(ref: ref),
+    );
+  }
+
+  void _showBirthDateSheet(BuildContext context, DateTime? current) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => _EditBirthDateSheet(
+        ref: ref,
+        current: current,
+        onSaved: () => ref.invalidate(_myProfileProvider),
+      ),
+    );
+  }
+
+  void _showGenderSheet(BuildContext context, String? current) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => _EditGenderSheet(
+        ref: ref,
+        current: current,
+        onSaved: () => ref.invalidate(_myProfileProvider),
+      ),
     );
   }
 
@@ -159,8 +206,9 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
     final displayName = profile != null
         ? '${profile.firstName} ${profile.lastName}'.trim()
         : (pubProfile?.displayName ?? '');
-    final themeMode = ref.watch(themeModeProvider).asData?.value ?? ThemeMode.system;
     final langCode = profile?.languageCode;
+    final birthDate = profile?.birthDate;
+    final gender = profile?.gender;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F5F7),
@@ -395,21 +443,21 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                   valueColor: (user?.phone?.isEmpty != false)
                       ? AppColors.primary
                       : null,
-                  onTap: () {},
+                  onTap: () => _showPhoneSheet(context),
                 ),
                 _InfoRow(
                   icon: Icons.calendar_today_outlined,
                   title: 'Doğum Tarihi',
-                  value: 'Ekle',
-                  valueColor: AppColors.primary,
-                  onTap: () {},
+                  value: birthDate != null ? _formatDate(birthDate) : 'Ekle',
+                  valueColor: birthDate == null ? AppColors.primary : null,
+                  onTap: () => _showBirthDateSheet(context, birthDate),
                 ),
                 _InfoRow(
                   icon: Icons.people_outline_rounded,
                   title: 'Cinsiyet',
-                  value: 'Ekle',
-                  valueColor: AppColors.primary,
-                  onTap: () {},
+                  value: _genderLabel(gender),
+                  valueColor: gender == null ? AppColors.primary : null,
+                  onTap: () => _showGenderSheet(context, gender),
                   isLast: true,
                 ),
               ],
@@ -446,14 +494,6 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                   value: _langLabel(langCode),
                   trailing: _ActionBadge('Değiştir'),
                   onTap: () => _showLanguageSheet(context, langCode),
-                ),
-                _InfoRow(
-                  icon: Icons.dark_mode_outlined,
-                  title: 'Tema',
-                  value: _themeLabel(themeMode),
-                  trailing: _ActionBadge('Değiştir'),
-                  onTap: () => _showThemeSheet(context, themeMode),
-                  isLast: true,
                 ),
               ],
             ),
@@ -549,55 +589,12 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
     );
   }
 
-  void _showThemeSheet(BuildContext context, ThemeMode current) {
-    showModalBottomSheet(
-      context: context,
-      showDragHandle: true,
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
-              child: Text(
-                'Tema',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
-              ),
-            ),
-            for (final (mode, label) in [
-              (ThemeMode.system, 'Sistem Varsayılanı'),
-              (ThemeMode.light, 'Açık Mod'),
-              (ThemeMode.dark, 'Koyu Mod'),
-            ])
-              ListTile(
-                title: Text(label),
-                trailing: current == mode
-                    ? const Icon(Icons.check_rounded, color: AppColors.primary)
-                    : null,
-                onTap: () async {
-                  Navigator.of(context).pop();
-                  await ref
-                      .read(themeModeProvider.notifier)
-                      .setMode(mode);
-                },
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
   static String _langLabel(String? code) => switch (code) {
         'tr' => 'Türkçe',
         'en' => 'English',
         _ => 'Sistem Varsayılanı',
       };
 
-  static String _themeLabel(ThemeMode mode) => switch (mode) {
-        ThemeMode.light => 'Açık Mod',
-        ThemeMode.dark => 'Koyu Mod',
-        ThemeMode.system => 'Sistem Varsayılanı',
-      };
 }
 
 // ── Helper widgets ────────────────────────────────────────────────────────────
@@ -876,6 +873,408 @@ class _EditNameSheetState extends ConsumerState<_EditNameSheet> {
                   ),
                 ),
         ),
+      ),
+    );
+  }
+}
+
+// ── Telefon düzenleme sheet ───────────────────────────────────────────────────
+
+class _EditPhoneSheet extends StatefulWidget {
+  const _EditPhoneSheet({required this.ref});
+  final WidgetRef ref;
+
+  @override
+  State<_EditPhoneSheet> createState() => _EditPhoneSheetState();
+}
+
+class _EditPhoneSheetState extends State<_EditPhoneSheet> {
+  final _phoneCtrl = TextEditingController();
+  final _otpCtrl = TextEditingController();
+  bool _otpSent = false;
+  bool _loading = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _phoneCtrl.dispose();
+    _otpCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendOtp() async {
+    final phone = _phoneCtrl.text.trim();
+    if (phone.length < 10) {
+      setState(() => _error = 'Geçerli bir telefon numarası girin (ör: +905XXXXXXXXX).');
+      return;
+    }
+    setState(() { _loading = true; _error = null; });
+    try {
+      await widget.ref.read(authServiceProvider).requestPhoneChange(phone);
+      if (mounted) setState(() { _otpSent = true; _loading = false; });
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _error = 'OTP gönderilemedi. Telefon numarasını ve SMS ayarlarını kontrol edin.';
+          _loading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _verifyOtp() async {
+    final code = _otpCtrl.text.trim();
+    if (code.length != 6) {
+      setState(() => _error = '6 haneli kodu girin.');
+      return;
+    }
+    setState(() { _loading = true; _error = null; });
+    try {
+      await widget.ref.read(authServiceProvider).verifyPhoneChange(
+        phone: _phoneCtrl.text.trim(),
+        token: code,
+      );
+      if (mounted) Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) {
+        setState(() {
+          _error = 'Kod hatalı veya süresi dolmuş.';
+          _loading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+          20, 8, 20, 24 + MediaQuery.of(context).viewInsets.bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Telefon Numarası',
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            _otpSent
+                ? 'Telefon numaranıza gönderilen 6 haneli kodu girin.'
+                : 'Yeni telefon numaranızı E.164 formatında girin (ör: +905XXXXXXXXX).',
+            style: const TextStyle(fontSize: 13, color: AppColors.muted),
+          ),
+          const SizedBox(height: 16),
+          if (_error != null) ...[
+            Text(_error!, style: const TextStyle(color: AppColors.danger, fontSize: 13)),
+            const SizedBox(height: 8),
+          ],
+          if (!_otpSent) ...[
+            TextField(
+              controller: _phoneCtrl,
+              keyboardType: TextInputType.phone,
+              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[+\d]'))],
+              decoration: const InputDecoration(
+                labelText: 'Telefon Numarası',
+                hintText: '+905XXXXXXXXX',
+                prefixIcon: Icon(Icons.phone_outlined),
+              ),
+            ),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: _loading ? null : _sendOtp,
+              child: Text(_loading ? 'Gönderiliyor…' : 'Doğrulama Kodu Gönder'),
+            ),
+          ] else ...[
+            TextField(
+              controller: _otpCtrl,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              textAlign: TextAlign.center,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 8),
+              decoration: const InputDecoration(
+                counterText: '',
+                hintText: '000000',
+                hintStyle: TextStyle(color: AppColors.muted, letterSpacing: 8),
+              ),
+            ),
+            const SizedBox(height: 16),
+            FilledButton(
+              onPressed: _loading ? null : _verifyOtp,
+              child: Text(_loading ? 'Doğrulanıyor…' : 'Onayla'),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => setState(() { _otpSent = false; _error = null; _otpCtrl.clear(); }),
+              child: const Text('Numarayı Değiştir'),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+// ── Doğum tarihi sheet ────────────────────────────────────────────────────────
+
+class _EditBirthDateSheet extends StatefulWidget {
+  const _EditBirthDateSheet({
+    required this.ref,
+    required this.current,
+    required this.onSaved,
+  });
+  final WidgetRef ref;
+  final DateTime? current;
+  final VoidCallback onSaved;
+
+  @override
+  State<_EditBirthDateSheet> createState() => _EditBirthDateSheetState();
+}
+
+class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
+  late DateTime? _selected;
+  bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.current;
+  }
+
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selected ?? DateTime(now.year - 25),
+      firstDate: DateTime(1920),
+      lastDate: DateTime(now.year - 5),
+      helpText: 'Doğum tarihinizi seçin',
+    );
+    if (picked != null && mounted) setState(() => _selected = picked);
+  }
+
+  Future<void> _clearDate() async {
+    setState(() { _saving = true; _selected = null; });
+    try {
+      await widget.ref.read(profileRepositoryProvider).updateBirthDate(null);
+      widget.onSaved();
+      if (!mounted) return;
+      Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  Future<void> _save() async {
+    setState(() => _saving = true);
+    try {
+      await widget.ref.read(profileRepositoryProvider).updateBirthDate(_selected);
+      widget.onSaved();
+      if (mounted) Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Kaydedilemedi.')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final label = _selected != null
+        ? '${_selected!.day.toString().padLeft(2, '0')}.${_selected!.month.toString().padLeft(2, '0')}.${_selected!.year}'
+        : 'Seçilmedi';
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Doğum Tarihi',
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+          ),
+          const SizedBox(height: 16),
+          GestureDetector(
+            onTap: _pickDate,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.calendar_today_outlined,
+                      color: AppColors.primary, size: 20),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: _selected != null
+                            ? AppColors.textStrong
+                            : AppColors.muted,
+                      ),
+                    ),
+                  ),
+                  const Icon(Icons.chevron_right_rounded,
+                      color: AppColors.muted, size: 20),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          FilledButton(
+            onPressed: (_saving || _selected == null) ? null : _save,
+            child: Text(_saving ? 'Kaydediliyor…' : 'Kaydet'),
+          ),
+          if (widget.current != null) ...[
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: _saving ? null : _clearDate,
+              child: const Text('Tarihi Kaldır',
+                  style: TextStyle(color: AppColors.muted)),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+// ── Cinsiyet sheet ────────────────────────────────────────────────────────────
+
+class _EditGenderSheet extends StatefulWidget {
+  const _EditGenderSheet({
+    required this.ref,
+    required this.current,
+    required this.onSaved,
+  });
+  final WidgetRef ref;
+  final String? current;
+  final VoidCallback onSaved;
+
+  @override
+  State<_EditGenderSheet> createState() => _EditGenderSheetState();
+}
+
+class _EditGenderSheetState extends State<_EditGenderSheet> {
+  late String? _selected;
+  bool _saving = false;
+
+  static const _options = [
+    ('male', 'Erkek', Icons.male_rounded),
+    ('female', 'Kadın', Icons.female_rounded),
+    ('other', 'Diğer', Icons.transgender_rounded),
+    ('prefer_not_to_say', 'Belirtmek İstemiyorum', Icons.do_not_disturb_alt_rounded),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.current;
+  }
+
+  Future<void> _save() async {
+    setState(() => _saving = true);
+    try {
+      await widget.ref.read(profileRepositoryProvider).updateGender(_selected);
+      widget.onSaved();
+      if (mounted) Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Kaydedilemedi.')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Text(
+            'Cinsiyet',
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Bu bilgi yalnızca size özel içerik önerileri için kullanılır.',
+            style: TextStyle(fontSize: 12, color: AppColors.muted),
+          ),
+          const SizedBox(height: 16),
+          ...List.generate(_options.length, (i) {
+            final (value, label, icon) = _options[i];
+            final isSelected = _selected == value;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: InkWell(
+                onTap: () => setState(() => _selected = value),
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 14),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? AppColors.primarySoft
+                        : const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: isSelected ? AppColors.primary : AppColors.border,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(icon,
+                          color: isSelected
+                              ? AppColors.primary
+                              : AppColors.muted,
+                          size: 20),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          label,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: isSelected
+                                ? AppColors.primary
+                                : AppColors.textStrong,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      if (isSelected)
+                        const Icon(Icons.check_rounded,
+                            color: AppColors.primary, size: 18),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+          const SizedBox(height: 8),
+          FilledButton(
+            onPressed: (_saving || _selected == null) ? null : _save,
+            child: Text(_saving ? 'Kaydediliyor…' : 'Kaydet'),
+          ),
+        ],
       ),
     );
   }

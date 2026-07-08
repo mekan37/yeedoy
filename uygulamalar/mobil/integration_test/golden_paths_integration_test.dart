@@ -11,7 +11,6 @@ import 'package:yeedoy/core/config/feature_flags.dart';
 import 'package:yeedoy/features/auth/domain/auth_providers.dart';
 import 'package:yeedoy/features/auth/ui/login_page.dart';
 import 'package:yeedoy/features/business/ui/business_page.dart';
-import 'package:yeedoy/features/devtools/ui/developer_tools_page.dart';
 import 'package:yeedoy/features/discovery/ui/discovery_page.dart';
 import 'package:yeedoy/features/heroes/ui/heroes_page.dart';
 import 'package:yeedoy/features/legal/ui/legal_page.dart';
@@ -190,33 +189,6 @@ void main() {
       expect(find.byType(PublicMenuSharePage), findsOneWidget);
     });
 
-    testWidgets('developer tools simulates push payload routes', (tester) async {
-      final container = await _pumpApp(tester, seenOnboarding: true);
-      addTearDown(container.dispose);
-      final router = container.read(appRouterProvider);
-
-      await tester.pump(const Duration(milliseconds: 2200));
-      await _pumpUntilFound(tester, find.byType(DiscoveryPage));
-
-      router.go('/dev-tools');
-      await _pumpUntilFound(tester, find.byType(DeveloperToolsPage));
-      expect(find.byType(DeveloperToolsPage), findsOneWidget);
-
-      final actionButton = find.widgetWithText(
-        OutlinedButton,
-        'Run price change sample',
-      );
-      await tester.scrollUntilVisible(
-        actionButton,
-        240,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.ensureVisible(actionButton);
-      await tester.pumpAndSettle();
-      await tester.tap(actionButton);
-      await _pumpUntilFound(tester, find.byType(MenuItemPage));
-      expect(find.byType(MenuItemPage), findsOneWidget);
-    });
   });
 }
 

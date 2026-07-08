@@ -6,6 +6,7 @@ import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart
 
 import '../../../app/theme/colors.dart';
 import '../../../core/linking/yeedoy_route_resolver.dart';
+import '../../../core/utils/greeting_utils.dart';
 import '../../../features/profile/domain/contribution_history.dart';
 import '../../../features/profile/domain/contribution_history_provider.dart';
 import '../../../features/profile/domain/profile_stats_provider.dart';
@@ -78,16 +79,16 @@ class _ContributePageState extends ConsumerState<ContributePage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Merhaba! 👋',
-                  style: TextStyle(fontSize: 13, color: AppColors.muted),
+                  timeBasedGreeting(),
+                  style: const TextStyle(fontSize: 13, color: AppColors.muted),
                 ),
-                SizedBox(height: 2),
-                Text(
+                const SizedBox(height: 2),
+                const Text(
                   'Katkı Yap',
                   style: TextStyle(
                     fontSize: 28,
@@ -95,8 +96,8 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                     color: AppColors.textStrong,
                   ),
                 ),
-                SizedBox(height: 4),
-                Text(
+                const SizedBox(height: 4),
+                const Text(
                   'Topluluğa katkı sağlayarak menüleri ve fiyatları güncel tut.',
                   style: TextStyle(
                     fontSize: 13,

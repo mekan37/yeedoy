@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/utils/greeting_utils.dart';
 import '../domain/my_suggestions_controller.dart';
 import '../domain/suggestion.dart';
 
@@ -131,13 +132,13 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  'Merhaba! 👋',
-                  style: TextStyle(fontSize: 13, color: AppColors.muted),
+                  timeBasedGreeting(),
+                  style: const TextStyle(fontSize: 13, color: AppColors.muted),
                 ),
-                SizedBox(height: 2),
-                Text(
+                const SizedBox(height: 2),
+                const Text(
                   'Önerimlerim',
                   style: TextStyle(
                     fontSize: 28,
@@ -145,8 +146,8 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
                     color: AppColors.textStrong,
                   ),
                 ),
-                SizedBox(height: 4),
-                Text(
+                const SizedBox(height: 4),
+                const Text(
                   'İşletmelere gönderdiğin fiyat önerilerini buradan takip edebilirsin.',
                   style: TextStyle(
                     fontSize: 13,

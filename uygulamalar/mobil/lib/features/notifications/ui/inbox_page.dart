@@ -14,6 +14,7 @@ import '../domain/inbox_models.dart';
 import '../domain/inbox_provider.dart';
 import '../domain/push_notification_service.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../../../core/utils/greeting_utils.dart';
 
 enum _InboxFilter { all, unread, business }
 
@@ -113,9 +114,9 @@ class _InboxPageState extends ConsumerState<InboxPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Merhaba! 👋',
-            style: TextStyle(fontSize: 12, color: AppColors.muted),
+          Text(
+            timeBasedGreeting(),
+            style: const TextStyle(fontSize: 12, color: AppColors.muted),
           ),
           const SizedBox(height: 2),
           Text(

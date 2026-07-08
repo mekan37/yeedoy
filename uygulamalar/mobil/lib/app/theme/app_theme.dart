@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yeedoy_shared_ui_components/yeedoy_shared_ui_components.dart'
-    show AppDarkColors;
-
+import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
 import 'app_text.dart';
 import 'app_tokens.dart';
@@ -31,14 +29,13 @@ AppTokens _buildTokens() => AppTokens(
 ThemeData buildAppTheme() {
   final base = ThemeData(
     useMaterial3: true,
-    fontFamily: 'Sora',
     colorScheme: ColorScheme.fromSeed(
       seedColor: AppColors.primary,
       brightness: Brightness.light,
       primary: AppColors.primary,
       onPrimary: AppColors.onPrimary,
       surface: AppColors.card,
-      surfaceContainerHighest: AppColors.cardAlt,
+      surfaceContainerHighest: AppColors.card,
       outline: AppColors.borderStrong,
     ),
     scaffoldBackgroundColor: AppColors.bg,
@@ -47,10 +44,10 @@ ThemeData buildAppTheme() {
   return base.copyWith(
     materialTapTargetSize: MaterialTapTargetSize.padded,
     visualDensity: VisualDensity.standard,
-    textTheme: buildAppTextTheme(base.textTheme),
+    textTheme: buildAppTextTheme(GoogleFonts.interTextTheme(base.textTheme)),
     extensions: [_buildTokens()],
     cardTheme: const CardThemeData(
-      color: AppColors.cardAlt,
+      color: AppColors.card,
       surfaceTintColor: Colors.transparent,
       elevation: 0.5,
       shadowColor: AppColors.shadow,
@@ -169,7 +166,7 @@ ThemeData buildAppTheme() {
     ),
     chipTheme: ChipThemeData(
       selectedColor: AppColors.primarySoft,
-      backgroundColor: AppColors.cardAlt,
+      backgroundColor: AppColors.card,
       side: const BorderSide(color: AppColors.border),
       labelStyle: const TextStyle(
         fontWeight: FontWeight.w700,
@@ -182,9 +179,16 @@ ThemeData buildAppTheme() {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
     ),
+    dialogTheme: const DialogThemeData(
+      backgroundColor: AppColors.card,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.cardAlt,
+      fillColor: AppColors.card,
       hintStyle: const TextStyle(color: AppColors.muted),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -204,183 +208,3 @@ ThemeData buildAppTheme() {
   );
 }
 
-/// Dark variant — mirrors [buildAppTheme] structure using [AppDarkColors].
-ThemeData buildDarkAppTheme() {
-  final base = ThemeData(
-    useMaterial3: true,
-    fontFamily: 'Sora',
-    brightness: Brightness.dark,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: AppDarkColors.primary,
-      brightness: Brightness.dark,
-      primary: AppDarkColors.primary,
-      onPrimary: AppDarkColors.onPrimary,
-      surface: AppDarkColors.card,
-      surfaceContainerHighest: AppDarkColors.cardAlt,
-      outline: AppDarkColors.borderStrong,
-    ),
-    scaffoldBackgroundColor: AppDarkColors.bg,
-  );
-
-  return base.copyWith(
-    materialTapTargetSize: MaterialTapTargetSize.padded,
-    visualDensity: VisualDensity.standard,
-    textTheme: buildAppTextTheme(base.textTheme).apply(
-      bodyColor: AppDarkColors.text,
-      displayColor: AppDarkColors.textStrong,
-    ),
-    extensions: [_buildTokens()],
-    cardTheme: CardThemeData(
-      color: AppDarkColors.cardAlt,
-      surfaceTintColor: Colors.transparent,
-      elevation: 0.5,
-      shadowColor: AppDarkColors.shadow,
-      shape: RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-        side: BorderSide(color: AppDarkColors.border),
-      ),
-    ),
-    appBarTheme: AppBarTheme(
-      backgroundColor: AppDarkColors.header,
-      elevation: 0,
-      surfaceTintColor: Colors.transparent,
-      foregroundColor: AppDarkColors.onPrimary,
-      centerTitle: false,
-      shape: Border(
-        bottom: BorderSide(color: AppDarkColors.borderStrong, width: 0.5),
-      ),
-    ),
-    navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: AppDarkColors.card,
-      indicatorColor: AppDarkColors.primarySoft,
-      labelTextStyle: WidgetStateProperty.resolveWith(
-        (states) => TextStyle(
-          fontWeight: FontWeight.w800,
-          color: states.contains(WidgetState.selected)
-              ? AppDarkColors.primary
-              : AppDarkColors.muted,
-        ),
-      ),
-      iconTheme: WidgetStateProperty.resolveWith(
-        (states) => IconThemeData(
-          color: states.contains(WidgetState.selected)
-              ? AppDarkColors.primary
-              : AppDarkColors.muted,
-        ),
-      ),
-    ),
-    tabBarTheme: TabBarThemeData(
-      labelColor: AppDarkColors.onPrimary,
-      unselectedLabelColor: AppDarkColors.muted,
-      indicatorSize: TabBarIndicatorSize.label,
-      labelPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-      dividerColor: Colors.transparent,
-      overlayColor: WidgetStateProperty.all(Colors.transparent),
-      labelStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
-      unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-      indicator: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppDarkColors.primary, AppDarkColors.primaryStrong],
-        ),
-        borderRadius: BorderRadius.circular(18.r),
-        boxShadow: [
-          BoxShadow(
-            color: AppDarkColors.primaryStrong.withValues(alpha: 0.30),
-            blurRadius: 6,
-            offset: const Offset(0, 1.5),
-          ),
-        ],
-      ),
-    ),
-    drawerTheme: DrawerThemeData(
-      backgroundColor: AppDarkColors.bg,
-      surfaceTintColor: Colors.transparent,
-    ),
-    dividerTheme: DividerThemeData(
-      color: AppDarkColors.border,
-      thickness: 0.5,
-      space: 0.5,
-    ),
-    bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: AppDarkColors.card,
-      surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.black.withValues(alpha: 0.20),
-      elevation: 48,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-    ),
-    filledButtonTheme: FilledButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(AppDarkColors.primary),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-        padding: WidgetStateProperty.all(
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        ),
-        shape: WidgetStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-        ),
-      ),
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-      style: ButtonStyle(
-        foregroundColor: WidgetStateProperty.all(AppDarkColors.textStrong),
-        side: WidgetStateProperty.all(
-          BorderSide(color: AppDarkColors.borderStrong),
-        ),
-        shape: WidgetStateProperty.all(
-          const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-        ),
-        padding: WidgetStateProperty.all(
-          const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        ),
-      ),
-    ),
-    iconButtonTheme: IconButtonThemeData(
-      style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(const Size(44, 44)),
-        padding: WidgetStateProperty.all(const EdgeInsets.all(10)),
-      ),
-    ),
-    chipTheme: ChipThemeData(
-      selectedColor: AppDarkColors.primarySoft,
-      backgroundColor: AppDarkColors.cardAlt,
-      side: BorderSide(color: AppDarkColors.border),
-      labelStyle: TextStyle(
-        fontWeight: FontWeight.w700,
-        color: AppDarkColors.text,
-      ),
-      secondaryLabelStyle: TextStyle(
-        fontWeight: FontWeight.w800,
-        color: AppDarkColors.text,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppDarkColors.cardAlt,
-      hintStyle: TextStyle(color: AppDarkColors.muted),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: AppDarkColors.border),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: AppDarkColors.border),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: AppDarkColors.primaryStrong.withValues(alpha: 0.9),
-        ),
-      ),
-    ),
-  );
-}

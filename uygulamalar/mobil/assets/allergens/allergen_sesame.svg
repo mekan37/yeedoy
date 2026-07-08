@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Susam</title>
+  <defs>
+    <radialGradient id="seed" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(53 42) rotate(49) scale(24 13)">
+      <stop stop-color="#FFF4C4"/>
+      <stop offset="1" stop-color="#D49B43"/>
+    </radialGradient>
+  </defs>
+  <rect x="18" y="28" width="92" height="72" rx="36" fill="#F4C56E"/>
+  <rect x="18" y="28" width="92" height="72" rx="36" stroke="#BD7B2F" stroke-width="4" opacity="0.35"/>
+  <path d="M31 48c12-12 30-17 50-14" stroke="#FFE8A3" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+  <g transform="rotate(-18 64 64)">
+    <ellipse cx="40" cy="55" rx="12" ry="7" fill="url(#seed)"/>
+    <ellipse cx="65" cy="48" rx="12" ry="7" fill="url(#seed)"/>
+    <ellipse cx="88" cy="58" rx="12" ry="7" fill="url(#seed)"/>
+    <ellipse cx="50" cy="78" rx="12" ry="7" fill="url(#seed)"/>
+    <ellipse cx="77" cy="80" rx="12" ry="7" fill="url(#seed)"/>
+  </g>
+</svg>

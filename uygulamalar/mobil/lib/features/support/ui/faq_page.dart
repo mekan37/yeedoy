@@ -309,6 +309,8 @@ class _FaqPageState extends State<FaqPage> {
                   hintStyle:
                       TextStyle(color: AppColors.muted, fontSize: 13),
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
                 ),
@@ -342,7 +344,7 @@ class _FaqPageState extends State<FaqPage> {
           ),
         ),
         SizedBox(
-          height: 90,
+          height: 104,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 12),

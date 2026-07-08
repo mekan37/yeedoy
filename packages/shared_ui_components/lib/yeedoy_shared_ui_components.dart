@@ -1,5 +1,4 @@
 export 'src/colors.dart';
-export 'src/dark_colors.dart';
 export 'src/brand_assets.dart';
 export 'src/yeedoy_logo.dart';
 export 'src/app_tokens.dart';

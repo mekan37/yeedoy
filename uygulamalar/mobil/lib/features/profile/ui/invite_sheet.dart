@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
+import '../data/referral_repository.dart';
+import '../domain/referral_provider.dart';
 
-void showInviteSheet(BuildContext context, {required String referralCode}) {
+void showInviteSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -13,26 +16,21 @@ void showInviteSheet(BuildContext context, {required String referralCode}) {
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
-    builder: (ctx) => _InviteSheet(referralCode: referralCode),
+    builder: (ctx) => const _InviteSheet(),
   );
 }
 
-class _InviteSheet extends StatelessWidget {
-  const _InviteSheet({required this.referralCode});
-
-  final String referralCode;
-
-  String get _inviteLink => 'yeedoy.app.link/${referralCode.toLowerCase()}';
-  String get _shareText =>
-      'Yeedoy\'da harika restoranlar keşfediyorum! Sen de katıl, '
-      'davet kodum ile 25 TL indirim kazan: https://$_inviteLink';
+class _InviteSheet extends ConsumerWidget {
+  const _InviteSheet();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final statsAsync = ref.watch(referralStatsProvider);
+
     return DraggableScrollableSheet(
       expand: false,
-      initialChildSize: 0.92,
-      minChildSize: 0.6,
+      initialChildSize: 0.88,
+      minChildSize: 0.55,
       maxChildSize: 0.95,
       builder: (_, controller) => Column(
         children: [
@@ -92,69 +90,95 @@ class _InviteSheet extends StatelessWidget {
             ),
           ),
           const Text(
-            'Davet ettiğin her arkadaş için ödül kazan!',
+            'Topluluk büyüdükçe içerikler daha zenginleşir.',
             style: TextStyle(fontSize: 13, color: AppColors.muted),
           ),
           const SizedBox(height: 4),
-          // ── Scrollable content ───────────────────────────────────────────
+          // ── Content ──────────────────────────────────────────────────────
           Expanded(
-            child: ListView(
-              controller: controller,
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-              children: [
-                _IllustrationCard(),
-                const SizedBox(height: 12),
-                _RewardCard(),
-                const SizedBox(height: 20),
-                _CodeSection(referralCode: referralCode),
-                const SizedBox(height: 12),
-                _LinkSection(inviteLink: _inviteLink),
-                const SizedBox(height: 20),
-                _ShareOptions(inviteLink: _inviteLink, shareText: _shareText),
-                const SizedBox(height: 12),
-                _StatsBar(),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 52,
-                  child: FilledButton.icon(
-                    onPressed: () => SharePlus.instance.share(
-                      ShareParams(text: _shareText),
-                    ),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    icon: const Icon(Icons.send_rounded, color: Colors.white, size: 18),
-                    label: const Text(
-                      'Davet Gönder',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+            child: statsAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, _) => const Center(
+                child: Text(
+                  'Davet bilgileri yüklenemedi.',
+                  style: TextStyle(color: AppColors.muted),
                 ),
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text(
-                    'Daha sonra',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ],
+              ),
+              data: (stats) => _InviteContent(stats: stats, scrollController: controller),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+// ── Main content ──────────────────────────────────────────────────────────────
+
+class _InviteContent extends StatelessWidget {
+  const _InviteContent({required this.stats, required this.scrollController});
+
+  final ReferralStats stats;
+  final ScrollController scrollController;
+
+  String get _inviteLink => 'https://yeedoy.app/davet/${stats.referralCode.toLowerCase()}';
+  String get _shareText =>
+      'Seni Yeedoy\'a davet ediyorum! Yakınındaki restoranları keşfet, '
+      'menü ve fiyatlarını karşılaştır. Davet kodum: ${stats.referralCode} — $_inviteLink';
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      controller: scrollController,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      children: [
+        _IllustrationCard(),
+        const SizedBox(height: 12),
+        _CommunityCard(invitedCount: stats.invitedCount),
+        const SizedBox(height: 20),
+        _CodeSection(referralCode: stats.referralCode),
+        const SizedBox(height: 12),
+        _LinkSection(inviteLink: _inviteLink),
+        const SizedBox(height: 20),
+        _ShareOptions(inviteLink: _inviteLink, shareText: _shareText),
+        const SizedBox(height: 20),
+        SizedBox(
+          width: double.infinity,
+          height: 52,
+          child: FilledButton.icon(
+            onPressed: () => SharePlus.instance.share(
+              ShareParams(text: _shareText),
+            ),
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            icon: const Icon(Icons.send_rounded, color: Colors.white, size: 18),
+            label: const Text(
+              'Davet Gönder',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text(
+            'Daha sonra',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -165,7 +189,7 @@ class _IllustrationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 110,
       decoration: BoxDecoration(
         color: AppColors.primarySoft,
         borderRadius: BorderRadius.circular(16),
@@ -173,7 +197,6 @@ class _IllustrationCard extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // sparkle decorations
           const Positioned(
             top: 14,
             left: 40,
@@ -194,14 +217,17 @@ class _IllustrationCard extends StatelessWidget {
             right: 40,
             child: Icon(Icons.add, size: 10, color: AppColors.primary),
           ),
-          // Main row
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _PersonCircle(),
-              const SizedBox(width: 16),
-              _GiftCircle(),
-              const SizedBox(width: 16),
+              const SizedBox(width: 12),
+              _ArrowIcon(),
+              const SizedBox(width: 12),
+              _PersonCircle(),
+              const SizedBox(width: 12),
+              _ArrowIcon(),
+              const SizedBox(width: 12),
               _PersonCircle(),
             ],
           ),
@@ -215,8 +241,8 @@ class _PersonCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 64,
-      height: 64,
+      width: 52,
+      height: 52,
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.15),
         shape: BoxShape.circle,
@@ -224,38 +250,29 @@ class _PersonCircle extends StatelessWidget {
       child: Icon(
         Icons.person_rounded,
         color: AppColors.primary.withValues(alpha: 0.6),
-        size: 32,
+        size: 26,
       ),
     );
   }
 }
 
-class _GiftCircle extends StatelessWidget {
+class _ArrowIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 72,
-      height: 72,
-      decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.2),
-          width: 2,
-        ),
-      ),
-      child: const Icon(
-        Icons.card_giftcard_rounded,
-        color: AppColors.primary,
-        size: 34,
-      ),
+    return Icon(
+      Icons.chevron_right_rounded,
+      color: AppColors.primary.withValues(alpha: 0.4),
+      size: 22,
     );
   }
 }
 
-// ── Reward card ───────────────────────────────────────────────────────────────
+// ── Community card (replaces fake RewardCard) ─────────────────────────────────
 
-class _RewardCard extends StatelessWidget {
+class _CommunityCard extends StatelessWidget {
+  const _CommunityCard({required this.invitedCount});
+  final int invitedCount;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -268,10 +285,10 @@ class _RewardCard extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: _RewardSide(
-                icon: Icons.star_rounded,
-                label: 'Sen kazan:',
-                value: '50 puan',
+              child: _StatSide(
+                icon: Icons.group_rounded,
+                label: 'Davet ettiğin',
+                value: '$invitedCount kişi',
               ),
             ),
             VerticalDivider(
@@ -279,11 +296,11 @@ class _RewardCard extends StatelessWidget {
               thickness: 1,
               width: 32,
             ),
-            Expanded(
-              child: _RewardSide(
-                icon: Icons.local_offer_rounded,
-                label: 'Arkadaşın kazan:',
-                value: '25 TL indirim',
+            const Expanded(
+              child: _StatSide(
+                icon: Icons.restaurant_menu_rounded,
+                label: 'Topluluk',
+                value: 'Yeedoy',
               ),
             ),
           ],
@@ -293,8 +310,8 @@ class _RewardCard extends StatelessWidget {
   }
 }
 
-class _RewardSide extends StatelessWidget {
-  const _RewardSide({
+class _StatSide extends StatelessWidget {
+  const _StatSide({
     required this.icon,
     required this.label,
     required this.value,
@@ -325,10 +342,7 @@ class _RewardSide extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: AppColors.muted,
-                ),
+                style: const TextStyle(fontSize: 11, color: AppColors.muted),
               ),
               Text(
                 value,
@@ -358,7 +372,7 @@ class _CodeSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Referans Kodun',
+          'Davet Kodun',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w800,
@@ -380,16 +394,16 @@ class _CodeSection extends StatelessWidget {
                   referralCode,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
-                    letterSpacing: 1.5,
+                    letterSpacing: 3,
                   ),
                 ),
               ),
               const SizedBox(width: 8),
               _CopyButton(
-                onTap: () => _copy(context, referralCode, 'Referans kodu kopyalandı'),
+                onTap: () => _copy(context, referralCode, 'Kod kopyalandı'),
               ),
             ],
           ),
@@ -434,19 +448,12 @@ class _LinkSection extends StatelessWidget {
                 child: Text(
                   inviteLink,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.muted,
-                  ),
+                  style: const TextStyle(fontSize: 13, color: AppColors.muted),
                 ),
               ),
               const SizedBox(width: 8),
               _CopyButton(
-                onTap: () => _copy(
-                  context,
-                  'https://$inviteLink',
-                  'Davet linki kopyalandı',
-                ),
+                onTap: () => _copy(context, inviteLink, 'Link kopyalandı'),
               ),
             ],
           ),
@@ -469,7 +476,7 @@ class _ShareOptions extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Paylaşım Seçenekleri',
+          'Paylaş',
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w800,
@@ -520,7 +527,7 @@ class _ShareOptions extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: _ShareButton(
-                label: 'Bağlantıyı\nKopyala',
+                label: 'Kopyala',
                 iconWidget: _CircleIcon(
                   color: AppColors.primarySoft,
                   child: const Icon(
@@ -529,11 +536,7 @@ class _ShareOptions extends StatelessWidget {
                     size: 22,
                   ),
                 ),
-                onTap: () => _copy(
-                  context,
-                  'https://$inviteLink',
-                  'Davet linki kopyalandı',
-                ),
+                onTap: () => _copy(context, inviteLink, 'Link kopyalandı'),
               ),
             ),
           ],
@@ -599,47 +602,6 @@ class _CircleIcon extends StatelessWidget {
       height: 44,
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: child,
-    );
-  }
-}
-
-// ── Stats bar ─────────────────────────────────────────────────────────────────
-
-class _StatsBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.group_rounded, color: AppColors.primary, size: 20),
-          const SizedBox(width: 8),
-          const Expanded(
-            child: Text(
-              '3 arkadaş katıldı',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textStrong,
-              ),
-            ),
-          ),
-          const Icon(Icons.star_outline_rounded, color: AppColors.primary, size: 20),
-          const SizedBox(width: 8),
-          const Text(
-            '150 puan kazandın',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textStrong,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

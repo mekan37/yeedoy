@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Kereviz</title>
+  <defs>
+    <linearGradient id="stalk" x1="37" y1="31" x2="87" y2="117" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B9F27D"/>
+      <stop offset="0.65" stop-color="#63B93E"/>
+      <stop offset="1" stop-color="#2F792E"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="23" y1="10" x2="105" y2="61" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9AF05D"/>
+      <stop offset="1" stop-color="#228C38"/>
+    </linearGradient>
+  </defs>
+  <path d="M50 37c-20-2-31-13-30-27 18-3 31 6 36 22 7-16 23-25 40-20 0 16-14 28-34 29 12-8 29-8 42 3-7 16-25 20-43 10-3 16-5 36-2 59H42c-1-29 2-54 8-76Z" fill="url(#leaf)"/>
+  <path d="M44 41h17c-3 24-3 48 1 72H45c-5-23-5-48-1-72Z" fill="url(#stalk)"/>
+  <path d="M63 42h17c-5 23-4 48 3 71H66c-7-23-8-48-3-71Z" fill="url(#stalk)"/>
+  <path d="M52 49c-3 19-3 39 0 58M71 49c-2 19-1 38 4 58" stroke="#D7FFA9" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+  <path d="M39 30c-8-5-13-11-14-18M78 32c7-6 12-12 14-19" stroke="#D7FFA9" stroke-width="4" stroke-linecap="round" opacity="0.55"/>
+</svg>

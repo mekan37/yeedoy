@@ -1818,7 +1818,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                 const SizedBox(height: 12),
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.cardAlt,
+                    color: AppColors.card,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: AppColors.border),
                   ),
@@ -1851,6 +1851,8 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                         icon: const Icon(Icons.tune_rounded),
                       ),
                       border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
                       contentPadding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                   ),

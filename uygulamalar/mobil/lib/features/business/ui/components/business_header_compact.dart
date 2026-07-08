@@ -107,7 +107,7 @@ class _InfoPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.cardAlt,
+        color: AppColors.card,
         borderRadius: BorderRadius.circular(999),
         border: Border.all(color: AppColors.border),
       ),

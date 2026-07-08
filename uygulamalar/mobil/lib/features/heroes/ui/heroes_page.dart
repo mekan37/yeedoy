@@ -157,12 +157,13 @@ class _WeeklyLeaderboardTile extends ConsumerWidget {
         ? profile.displayName
         : (isTr ? 'Kullanıcı' : 'User');
 
-    final medal = switch (rank) {
-      1 => '🥇',
-      2 => '🥈',
-      3 => '🥉',
-      _ => '#$rank',
+    final Color rankColor = switch (rank) {
+      1 => const Color(0xFFFFD700),
+      2 => const Color(0xFF9E9E9E),
+      3 => const Color(0xFFCD7F32),
+      _ => AppColors.muted,
     };
+    final String rankLabel = rank <= 3 ? '$rank' : '#$rank';
 
     return Card(
       child: Padding(
@@ -172,8 +173,12 @@ class _WeeklyLeaderboardTile extends ConsumerWidget {
             SizedBox(
               width: 28,
               child: Text(
-                medal,
-                style: const TextStyle(fontSize: 18),
+                rankLabel,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  color: rankColor,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),

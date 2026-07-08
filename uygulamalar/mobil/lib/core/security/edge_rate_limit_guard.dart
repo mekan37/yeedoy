@@ -30,6 +30,11 @@ Future<void> enforceEdgeRateLimit(
     if (raw.contains('429')) {
       throw Exception('rate_limited_user');
     }
+    // Edge function not deployed (404) or unreachable → pass through.
+    // Rate limiting is best-effort; missing function must not block writes.
+    if (raw.contains('404') || raw.contains('FunctionException')) {
+      return;
+    }
     rethrow;
   }
 }

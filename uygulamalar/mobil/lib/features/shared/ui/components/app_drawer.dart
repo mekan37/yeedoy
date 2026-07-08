@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../app/theme/colors.dart';
-import '../../../../core/config/app_config.dart';
 import '../../../../core/config/feature_flags.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/location/user_location_controller.dart';
@@ -15,8 +13,11 @@ import '../../../../core/media/app_network_image.dart';
 import '../../../auth/domain/auth_providers.dart';
 import '../../../notifications/domain/inbox_provider.dart';
 import '../../../taste_twin/domain/taste_twin_controllers.dart';
+import '../../../discovery/domain/discovery_search_notifier.dart';
+import '../../../discovery/ui/components/search_filter_sheet.dart';
 import '../../../profile/ui/invite_sheet.dart';
 import 'location_picker_sheet.dart';
+import '../../../../core/utils/greeting_utils.dart';
 
 class AppDrawer extends ConsumerWidget {
   const AppDrawer({super.key});
@@ -72,17 +73,15 @@ class AppDrawer extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Merhaba!',
-                          style: TextStyle(
+                          timeBasedGreeting(),
+                          style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 16,
                             color: AppColors.textStrong,
                           ),
                         ),
                         Text(
-                          displayName != null
-                              ? '$displayName 👋'
-                              : t.loginSignupAction,
+                          displayName ?? t.loginSignupAction,
                           style: TextStyle(
                             fontSize: 13,
                             color: AppColors.muted,
@@ -154,11 +153,11 @@ class AppDrawer extends ConsumerWidget {
             _SectionHeader('Keşfet'),
             const SizedBox(height: 6),
             _DrawerItem(
-              icon: Icons.home_rounded,
-              label: t.home,
-              path: '/',
+              icon: Icons.explore_rounded,
+              label: 'Keşfet',
+              path: '/discover',
               currentPath: currentPath,
-              onTap: () => go('/'),
+              onTap: () => go('/discover'),
             ),
             _DrawerItem(
               icon: Icons.notifications_outlined,
@@ -226,9 +225,19 @@ class AppDrawer extends ConsumerWidget {
             _DrawerItem(
               icon: Icons.search_outlined,
               label: 'Arama & Filtreleme',
-              path: '/discover',
-              currentPath: currentPath,
-              onTap: () => go('/discover'),
+              onTap: () {
+                close();
+                if (currentPath != '/discover') context.go('/discover');
+                showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (ctx) => SearchFilterSheet(
+                    initialState: ref.read(discoverySearchProvider),
+                    initialQuery: '',
+                  ),
+                );
+              },
             ),
             _DrawerItem(
               icon: Icons.shield_outlined,
@@ -244,24 +253,13 @@ class AppDrawer extends ConsumerWidget {
               currentPath: currentPath,
               onTap: () => go('/profile'),
             ),
-            if (kDebugMode || AppConfig.devToolsEnabled)
-              _DrawerItem(
-                icon: Icons.developer_mode_outlined,
-                label: 'Developer Tools',
-                path: '/dev-tools',
-                currentPath: currentPath,
-                onTap: () => go('/dev-tools'),
-              ),
-
             const SizedBox(height: 20),
 
             // ── Invite card ──────────────────────────────────────────────
             GestureDetector(
               onTap: () {
                 close();
-                final code = (user?.email?.split('@').first ?? 'YEEDOY')
-                    .toUpperCase();
-                showInviteSheet(context, referralCode: code);
+                showInviteSheet(context);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(

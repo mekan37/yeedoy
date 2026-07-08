@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,6 +44,7 @@ import '../features/location/ui/business_location_page.dart';
 import '../features/contribute/ui/contribute_page.dart';
 import '../features/reviews/ui/business_reviews_page.dart';
 import '../features/reviews/ui/my_reviews_page.dart';
+import '../features/profile/ui/my_visits_page.dart';
 import '../features/reviews/ui/review_create_page.dart';
 import '../features/smart_feed/ui/smart_feed_page.dart';
 import '../features/splash/ui/splash_page.dart';
@@ -60,13 +60,11 @@ import '../features/legal/ui/data_deletion_page.dart';
 import '../features/legal/ui/legal_page.dart';
 import '../features/legal/ui/legal_acceptance_page.dart';
 import '../features/legal/legal_providers.dart';
-import '../features/devtools/ui/developer_tools_page.dart';
 import '../features/grup_oy/ui/oy_ver_sayfasi.dart';
 import '../features/sadakat/ui/sadakat_kartlarim_sayfasi.dart';
 import '../features/shared/ui/labs_page.dart';
 import '../features/yemek_gunlugu/ui/yemek_gunlugu_sayfasi.dart';
 import '../core/i18n/app_localizations.dart';
-import '../core/config/app_config.dart';
 
 bool _bootSplashHandled = false;
 
@@ -178,11 +176,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path == '/chain' ||
           path.startsWith('/chain/');
       if (!flags.enableLabs && labsRoute) {
-        return '/discover';
-      }
-      final devToolsRoute =
-          path == '/dev-tools' || path.startsWith('/dev-tools/');
-      if (devToolsRoute && !(kDebugMode || AppConfig.devToolsEnabled)) {
         return '/discover';
       }
       return null;
@@ -495,12 +488,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (c, s) => const SuggestBusinessPage(),
       ),
       GoRoute(
-        path: '/dev-tools',
-        builder: (c, s) => const DeveloperToolsPage(),
-      ),
-      GoRoute(
         path: '/my-reviews',
         builder: (c, s) => const MyReviewsPage(),
+      ),
+      GoRoute(
+        path: '/my-visits',
+        builder: (c, s) => const MyVisitsPage(),
       ),
       GoRoute(
         path: '/my-suggestions',

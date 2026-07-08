@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Hardal</title>
+  <defs>
+    <linearGradient id="jar" x1="37" y1="26" x2="93" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE680"/>
+      <stop offset="0.65" stop-color="#E7A927"/>
+      <stop offset="1" stop-color="#C57A16"/>
+    </linearGradient>
+  </defs>
+  <path d="M45 21h38l4 17H41l4-17Z" fill="#6FC2FF"/>
+  <path d="M43 37h43c6 0 11 5 11 11v57c0 7-5 12-12 12H43c-7 0-12-5-12-12V48c0-6 5-11 12-11Z" fill="url(#jar)"/>
+  <path d="M35 62c13 7 25 7 38 0 8-4 15-4 24 0v28c-13-7-25-7-38 0-8 4-15 4-24 0V62Z" fill="#FFD447"/>
+  <path d="M45 21h38l4 17H41l4-17ZM43 37h43c6 0 11 5 11 11v57c0 7-5 12-12 12H43c-7 0-12-5-12-12V48c0-6 5-11 12-11Z" stroke="#9B6517" stroke-width="4" opacity="0.32"/>
+  <circle cx="52" cy="76" r="4" fill="#A76616" opacity="0.55"/>
+  <circle cx="72" cy="72" r="4" fill="#A76616" opacity="0.5"/>
+  <circle cx="84" cy="86" r="4" fill="#A76616" opacity="0.45"/>
+  <path d="M46 48h21" stroke="#FFF1A1" stroke-width="6" stroke-linecap="round" opacity="0.85"/>
+</svg>

@@ -10,7 +10,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../core/network/connectivity_restore_service.dart';
 import '../core/privacy/consent_guard.dart';
 import '../core/privacy/data/consent_provider.dart';
-import '../core/storage/theme_prefs.dart';
 import '../features/auth/domain/auth_providers.dart';
 import '../features/notifications/domain/push_notification_lifecycle_provider.dart';
 import '../features/notifications/domain/push_notification_service.dart';
@@ -27,9 +26,6 @@ class YeedoyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
     final locale = ref.watch(localeControllerProvider).asData?.value;
-    final themeMode =
-        ref.watch(themeModeProvider).asData?.value ?? ThemeMode.system;
-
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -54,8 +50,6 @@ class YeedoyApp extends ConsumerWidget {
             return const Locale('tr');
           },
           theme: buildAppTheme(),
-          darkTheme: buildDarkAppTheme(),
-          themeMode: themeMode,
           builder: (context, child) {
             final media = MediaQuery.of(context);
             return _GlobalPushIntentListener(

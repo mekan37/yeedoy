@@ -6,7 +6,7 @@ class NearbyCampaign {
     required this.city,
     required this.district,
     required this.caption,
-    required this.mediaThumbUrl,
+    this.mediaThumbUrl,
     required this.expiresAt,
     this.distanceKm,
     this.discountPercent,
@@ -21,7 +21,7 @@ class NearbyCampaign {
   final String? city;
   final String? district;
   final String? caption;
-  final String mediaThumbUrl;
+  final String? mediaThumbUrl;
   final DateTime expiresAt;
   final double? distanceKm;
   final int? discountPercent;
@@ -37,8 +37,10 @@ class NearbyCampaign {
       city: map['city']?.toString(),
       district: map['district']?.toString(),
       caption: map['caption']?.toString(),
-      mediaThumbUrl: (map['media_thumb_url'] ?? map['media_url'] ?? '')
-          .toString(),
+      mediaThumbUrl: (() {
+        final v = (map['media_thumb_url'] ?? map['media_url'])?.toString().trim();
+        return (v == null || v.isEmpty) ? null : v;
+      })(),
       expiresAt:
           DateTime.tryParse((map['expires_at'] ?? '').toString()) ??
           DateTime.now(),

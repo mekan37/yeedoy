@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../app/theme/colors.dart';
-import '../../../core/network/supabase_provider.dart';
-import '../data/profile_model.dart';
 import '../data/profile_repository.dart';
 
 // ── Platform definitions ──────────────────────────────────────────────────────
@@ -128,13 +126,9 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
   }
 
   Future<void> _saveLinks(Map<String, String> updated) async {
-    final uid = ref.read(supabaseProvider).auth.currentUser?.id;
-    if (uid == null) return;
     setState(() => _links = updated);
     try {
-      await ref.read(profileRepositoryProvider).upsertMyProfile(
-        Profile(id: uid, firstName: '', lastName: '', socialLinks: updated),
-      );
+      await ref.read(profileRepositoryProvider).updateSocialLinks(updated);
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

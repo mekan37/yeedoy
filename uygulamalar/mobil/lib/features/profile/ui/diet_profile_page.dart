@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
-import '../../shared/ui/components/app_scaffold.dart';
-import '../../shared/ui/components/app_appbar.dart';
-import '../../../features/shared/ui/design_system.dart';
 import '../domain/diet_profile.dart';
 import '../domain/diet_profile_controller.dart';
 
-// ── Page ─────────────────────────────────────────────────────────────────────
+// ── Enums ─────────────────────────────────────────────────────────────────────
+
+enum _DietType {
+  balanced,
+  vegetarian,
+  vegan,
+  glutenFree,
+  ketogenic,
+  mediterranean,
+}
+
+enum _Goal { loseWeight, gainWeight, maintain, healthyEating }
+
+// ── Allergens ─────────────────────────────────────────────────────────────────
+
+const _kAllAllergens = [
+  'Süt ve süt ürünleri',
+  'Fındık',
+  'Yumurta',
+  'Deniz ürünleri',
+  'Glüten',
+  'Soya',
+  'Susam',
+  'Buğday',
+];
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 class DietProfilePage extends ConsumerStatefulWidget {
   const DietProfilePage({super.key});
@@ -18,63 +42,52 @@ class DietProfilePage extends ConsumerStatefulWidget {
 }
 
 class _DietProfilePageState extends ConsumerState<DietProfilePage> {
-  DietProfile? _local;
+  _DietType _dietType = _DietType.balanced;
+  _Goal? _goal;
+  final Set<String> _allergens = {};
   bool _saving = false;
+  bool _saved = false;
   String? _error;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _syncFromProvider());
-  }
+  // Tracks whether we've already applied server data to local state.
+  // Prevents overwriting user edits on subsequent rebuilds.
+  bool _initialized = false;
 
-  void _syncFromProvider() {
-    ref.read(dietProfileProvider).whenData((p) {
-      if (mounted) {
-        setState(() {
-          _local = p ??
-              DietProfile(
-                vegan: false,
-                vegetarian: false,
-                glutenFree: false,
-                lactoseFree: false,
-                halal: false,
-              );
-        });
-      }
-    });
-  }
-
-  void _toggle(_BoolField field) {
-    final p = _local;
-    if (p == null) return;
+  void _initFromProfile(DietProfile? profile) {
+    if (_initialized) return;
+    _initialized = true;
+    if (profile == null) return; // no saved profile → keep UI defaults
     setState(() {
-      _local = switch (field) {
-        _BoolField.vegan => p.copyWith(vegan: !p.vegan),
-        _BoolField.vegetarian => p.copyWith(vegetarian: !p.vegetarian),
-        _BoolField.glutenFree => p.copyWith(glutenFree: !p.glutenFree),
-        _BoolField.lactoseFree => p.copyWith(lactoseFree: !p.lactoseFree),
-        _BoolField.halal => p.copyWith(halal: !p.halal),
-      };
+      if (profile.vegan) {
+        _dietType = _DietType.vegan;
+      } else if (profile.vegetarian) {
+        _dietType = _DietType.vegetarian;
+      } else if (profile.glutenFree) {
+        _dietType = _DietType.glutenFree;
+      } else {
+        _dietType = _DietType.balanced;
+      }
+      if (profile.lactoseFree) _allergens.add('Süt ve süt ürünleri');
+      if (profile.halal) _allergens.add('Helal');
     });
   }
 
   Future<void> _save() async {
-    final profile = _local;
-    if (profile == null) return;
     setState(() {
       _saving = true;
       _error = null;
+      _saved = false;
     });
     try {
-      await ref.read(dietProfileProvider.notifier).save(profile);
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Diyet profilin kaydedildi.'),
-          behavior: SnackBarBehavior.floating,
-        ),
+      final profile = DietProfile(
+        vegan: _dietType == _DietType.vegan,
+        vegetarian: _dietType == _DietType.vegetarian,
+        glutenFree: _dietType == _DietType.glutenFree,
+        lactoseFree: _allergens.contains('Süt ve süt ürünleri'),
+        halal: _allergens.contains('Helal'),
       );
+      await ref.read(dietProfileProvider.notifier).save(profile);
+      if (mounted) setState(() => _saved = true);
     } catch (_) {
       if (mounted) setState(() => _error = 'Kaydedilirken bir hata oluştu.');
     } finally {
@@ -82,380 +95,593 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
     }
   }
 
+  void _showAllergenPicker() {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => _AllergenPickerSheet(
+        selected: Set.from(_allergens),
+        onConfirm: (updated) => setState(() {
+          _allergens
+            ..clear()
+            ..addAll(updated);
+        }),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileAsync = ref.watch(dietProfileProvider);
-    final tokens = AppTokens.of(context);
 
-    ref.listen(dietProfileProvider, (_, next) {
-      next.whenData((p) {
-        if (_local == null && p != null && mounted) {
-          setState(() => _local = p);
-        }
+    // As soon as provider data arrives (or is already cached), init local state.
+    // addPostFrameCallback avoids calling setState during build.
+    if (!_initialized) {
+      profileAsync.whenData((p) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _initFromProfile(p);
+        });
       });
-    });
+    }
 
-    return AppScaffold(
-      appBar: AppAppBar(
-        title: const Text('Diyet Profilim'),
-        showProfileAction: false,
-      ),
-      body: profileAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => _ErrorBody(onRetry: _syncFromProvider),
-        data: (_) {
-          final local = _local;
-          if (local == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return _Body(
-            profile: local,
-            saving: _saving,
-            error: _error,
-            tokens: tokens,
-            onToggle: _toggle,
-            onSave: _save,
-          );
-        },
+    // Show full-screen loader while waiting for first data load.
+    if (!_initialized && profileAsync.isLoading) {
+      return const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: CircularProgressIndicator(color: AppColors.primary),
+        ),
+      );
+    }
+
+    // Show error state if provider failed and we have no local data yet.
+    if (!_initialized && profileAsync.hasError) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              _buildHeader(context),
+              const Expanded(
+                child: Center(
+                  child: Text(
+                    'Profil yüklenemedi. Lütfen tekrar deneyin.',
+                    style: TextStyle(color: AppColors.muted),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(context),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                children: [
+                  _buildHeroCard(),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle(
+                    'Diyet tercihin',
+                    'Sana en uygun beslenme şeklini seç veya birden fazlasını işaretle.',
+                  ),
+                  const SizedBox(height: 12),
+                  _buildDietGrid(),
+                  const SizedBox(height: 8),
+                  _buildOtherDietRow(),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle(
+                    'Hedefin',
+                    'Sana daha doğru öneriler sunabilmemiz için hedefini belirt.',
+                  ),
+                  const SizedBox(height: 12),
+                  _buildGoalRow(),
+                  const SizedBox(height: 24),
+                  _buildAllergenSection(),
+                  if (_saved) ...[
+                    const SizedBox(height: 20),
+                    _buildSavedBanner(),
+                  ],
+                  if (_error != null) ...[
+                    const SizedBox(height: 16),
+                    _buildErrorBanner(_error!),
+                  ],
+                ],
+              ),
+            ),
+            _buildSaveButton(),
+          ],
+        ),
       ),
     );
   }
-}
 
-// ── Body ─────────────────────────────────────────────────────────────────────
+  // ── Header ───────────────────────────────────────────────────────────────────
 
-class _Body extends StatelessWidget {
-  const _Body({
-    required this.profile,
-    required this.saving,
-    required this.error,
-    required this.tokens,
-    required this.onToggle,
-    required this.onSave,
-  });
-
-  final DietProfile profile;
-  final bool saving;
-  final String? error;
-  final AppTokens tokens;
-  final void Function(_BoolField) onToggle;
-  final VoidCallback onSave;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.symmetric(
-        horizontal: tokens.space16,
-        vertical: tokens.space16,
-      ),
-      children: [
-        _InfoHeader(tokens: tokens),
-        SizedBox(height: tokens.space20),
-        _Section(
-          title: 'Beslenme Tercihleri',
-          icon: Icons.eco_outlined,
-          iconColor: const Color(0xFF15803D),
-          iconBg: const Color(0xFFDCFCE7),
-          description:
-              'Yemek keşfinde sana uygun seçenekler gösterilsin diye '
-              'beslenme tarzını seç.',
-          tokens: tokens,
-          chips: [
-            _Chip(
-              label: 'Vegan',
-              icon: Icons.spa_outlined,
-              selected: profile.vegan,
-              onTap: () => onToggle(_BoolField.vegan),
-            ),
-            _Chip(
-              label: 'Vejetaryen',
-              icon: Icons.local_florist_outlined,
-              selected: profile.vegetarian,
-              onTap: () => onToggle(_BoolField.vegetarian),
-            ),
-            _Chip(
-              label: 'Helal',
-              icon: Icons.verified_outlined,
-              selected: profile.halal,
-              onTap: () => onToggle(_BoolField.halal),
-            ),
-          ],
-        ),
-        SizedBox(height: tokens.space16),
-        _Section(
-          title: 'Alerjiler ve Hassasiyetler',
-          icon: Icons.warning_amber_outlined,
-          iconColor: const Color(0xFFD97706),
-          iconBg: const Color(0xFFFEF3C7),
-          description:
-              'Menülerde içerik uyarıları görmek için hassasiyetlerini belirt.',
-          tokens: tokens,
-          chips: [
-            _Chip(
-              label: 'Glutensiz',
-              icon: Icons.grain_outlined,
-              selected: profile.glutenFree,
-              onTap: () => onToggle(_BoolField.glutenFree),
-            ),
-            _Chip(
-              label: 'Laktozsuz',
-              icon: Icons.no_drinks_outlined,
-              selected: profile.lactoseFree,
-              onTap: () => onToggle(_BoolField.lactoseFree),
-            ),
-          ],
-        ),
-        if (error != null) ...[
-          SizedBox(height: tokens.space16),
-          _ErrorBanner(message: error!),
-        ],
-        SizedBox(height: tokens.space24),
-        _SaveBtn(saving: saving, onSave: onSave, tokens: tokens),
-        SizedBox(height: tokens.space16),
-      ],
-    );
-  }
-}
-
-// ── Sub-widgets ───────────────────────────────────────────────────────────────
-
-class _InfoHeader extends StatelessWidget {
-  const _InfoHeader({required this.tokens});
-  final AppTokens tokens;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(tokens.space16),
-      decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        borderRadius: BorderRadius.circular(tokens.radius16),
-      ),
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: Row(
         children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.12),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.restaurant_menu_outlined,
-              color: AppColors.primary,
-              size: 22,
+          _IconBtn(
+            icon: Icons.arrow_back_ios_new_rounded,
+            onTap: () =>
+                context.canPop() ? context.pop() : context.go('/profile'),
+          ),
+          const Expanded(
+            child: Text(
+              'Diyet Profili',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textStrong,
+              ),
             ),
           ),
-          SizedBox(width: tokens.space12),
+          _IconBtn(
+            icon: Icons.help_outline_rounded,
+            onTap: () => _showHelpSheet(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showHelpSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              'Diyet Profili Nedir?',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textStrong,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Diyet profilin, yemek önerilerini ve menü filtrelerini kişiselleştirmek için kullanılır. '
+              'Tercihlerini kaydederek sana en uygun işletmeleri ve yemekleri önerebiliriz.',
+              style: TextStyle(fontSize: 14, color: AppColors.muted, height: 1.5),
+            ),
+            SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── Hero card ─────────────────────────────────────────────────────────────────
+
+  Widget _buildHeroCard() {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: AppColors.primarySoft,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Diyet Profilin', style: context.sectionTitleStyle),
-                SizedBox(height: tokens.space4),
-                Text(
-                  'Tercihlerini kaydet, sana özel menü ve işletme '
-                  'önerileri görelim.',
-                  style: context.captionStyle,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Section extends StatelessWidget {
-  const _Section({
-    required this.title,
-    required this.icon,
-    required this.iconColor,
-    required this.iconBg,
-    required this.description,
-    required this.tokens,
-    required this.chips,
-  });
-
-  final String title;
-  final IconData icon;
-  final Color iconColor;
-  final Color iconBg;
-  final String description;
-  final AppTokens tokens;
-  final List<_Chip> chips;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(tokens.radius16),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              tokens.space16,
-              tokens.space16,
-              tokens.space16,
-              tokens.space16,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    color: iconBg,
-                    shape: BoxShape.circle,
+                const Text(
+                  'Sana özel lezzetler',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.primary,
                   ),
-                  child: Icon(icon, color: iconColor, size: 20),
                 ),
-                SizedBox(width: tokens.space12),
-                Text(title, style: context.sectionTitleStyle),
+                const SizedBox(height: 6),
+                const Text(
+                  'Diyet tercihlerine göre sana uygun mekanları ve yemekleri önerelim.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.muted,
+                    height: 1.4,
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: const [
+                    _HeroFeature(icon: Icons.eco_outlined, label: 'Kişiselleştirilmiş\nöneriler'),
+                    SizedBox(width: 12),
+                    _HeroFeature(icon: Icons.favorite_outline_rounded, label: 'Daha sağlıklı\nseçimler'),
+                    SizedBox(width: 12),
+                    _HeroFeature(icon: Icons.star_outline_rounded, label: 'Zamanını\ntasarruf et'),
+                  ],
+                ),
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.border),
-          Padding(
-            padding: EdgeInsets.all(tokens.space16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(description, style: context.captionStyle),
-                SizedBox(height: tokens.space12),
-                Wrap(
-                  spacing: tokens.space8,
-                  runSpacing: tokens.space8,
-                  children: chips,
-                ),
-              ],
-            ),
-          ),
+          const SizedBox(width: 12),
+          const _FoodIllustration(),
         ],
       ),
     );
   }
-}
 
-class _Chip extends StatelessWidget {
-  const _Chip({
-    required this.label,
-    required this.icon,
-    required this.selected,
-    required this.onTap,
-  });
+  // ── Section title ─────────────────────────────────────────────────────────────
 
-  final String label;
-  final IconData icon;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 160),
-        curve: Curves.easeInOut,
-        constraints: const BoxConstraints(minHeight: 44),
-        padding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: selected ? AppColors.primary : AppColors.card,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: selected ? AppColors.primary : AppColors.borderStrong,
-            width: selected ? 1.5 : 1.0,
+  Widget _buildSectionTitle(String title, String subtitle) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: AppColors.textStrong,
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        const SizedBox(height: 4),
+        Text(
+          subtitle,
+          style: const TextStyle(
+            fontSize: 12,
+            color: AppColors.muted,
+            height: 1.4,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ── Diet type grid ────────────────────────────────────────────────────────────
+
+  Widget _buildDietGrid() {
+    final options = [
+      _DietOption(
+        type: _DietType.balanced,
+        label: 'Dengeli Beslenme',
+        desc: 'Tüm besin gruplarını dengeli tüketiyorum.',
+        icon: Icons.restaurant_outlined,
+        iconColor: AppColors.primary,
+        iconBg: AppColors.primarySoft,
+      ),
+      _DietOption(
+        type: _DietType.vegetarian,
+        label: 'Vejetaryen',
+        desc: 'Et ve et ürünleri tüketmiyorum.',
+        icon: Icons.eco_outlined,
+        iconColor: const Color(0xFF15803D),
+        iconBg: const Color(0xFFDCFCE7),
+      ),
+      _DietOption(
+        type: _DietType.vegan,
+        label: 'Vegan',
+        desc: 'Hiçbir hayvansal ürün tüketmiyorum.',
+        icon: Icons.spa_outlined,
+        iconColor: const Color(0xFF0F766E),
+        iconBg: const Color(0xFFCCFBF1),
+      ),
+      _DietOption(
+        type: _DietType.glutenFree,
+        label: 'Glutensiz',
+        desc: 'Glüten içeren besinleri tüketmiyorum.',
+        icon: Icons.grain_outlined,
+        iconColor: const Color(0xFFD97706),
+        iconBg: const Color(0xFFFEF3C7),
+      ),
+      _DietOption(
+        type: _DietType.ketogenic,
+        label: 'Ketojenik',
+        desc: 'Düşük karbonhidrat, yüksek yağ.',
+        icon: Icons.local_fire_department_outlined,
+        iconColor: const Color(0xFF15803D),
+        iconBg: const Color(0xFFDCFCE7),
+      ),
+      _DietOption(
+        type: _DietType.mediterranean,
+        label: 'Akdeniz Diyeti',
+        desc: 'Zeytinyağı, sebze ve balık odaklı besleniyorum.',
+        icon: Icons.waves_outlined,
+        iconColor: const Color(0xFF7C3AED),
+        iconBg: const Color(0xFFEDE9FE),
+      ),
+    ];
+
+    final List<Widget> rows = [];
+    for (int i = 0; i < options.length; i += 2) {
+      final left = options[i];
+      final right = i + 1 < options.length ? options[i + 1] : null;
+      rows.add(
+        Row(
           children: [
-            Icon(
-              icon,
-              size: 16,
-              color: selected ? AppColors.onPrimary : AppColors.muted,
+            Expanded(child: _DietCard(option: left, selected: _dietType == left.type, onTap: () => setState(() => _dietType = left.type))),
+            const SizedBox(width: 8),
+            Expanded(
+              child: right != null
+                  ? _DietCard(option: right, selected: _dietType == right.type, onTap: () => setState(() => _dietType = right.type))
+                  : const SizedBox.shrink(),
             ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color:
-                    selected ? AppColors.onPrimary : AppColors.textStrong,
+          ],
+        ),
+      );
+      if (i + 2 < options.length) rows.add(const SizedBox(height: 8));
+    }
+
+    return Column(children: rows);
+  }
+
+  Widget _buildOtherDietRow() {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.primary),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.add_rounded, color: AppColors.primary, size: 18),
+            ),
+            const SizedBox(width: 12),
+            const Expanded(
+              child: Text(
+                'Diğer diyet tercihlerim var',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textStrong,
+                ),
               ),
             ),
+            const Icon(Icons.chevron_right_rounded, color: AppColors.muted, size: 20),
           ],
         ),
       ),
     );
   }
-}
 
-class _SaveBtn extends StatelessWidget {
-  const _SaveBtn({
-    required this.saving,
-    required this.onSave,
-    required this.tokens,
-  });
+  // ── Goal row ──────────────────────────────────────────────────────────────────
 
-  final bool saving;
-  final VoidCallback onSave;
-  final AppTokens tokens;
+  Widget _buildGoalRow() {
+    final goals = [
+      _GoalOption(goal: _Goal.loseWeight, label: 'Kilo vermek', icon: Icons.trending_down_rounded),
+      _GoalOption(goal: _Goal.gainWeight, label: 'Kilo almak', icon: Icons.trending_up_rounded),
+      _GoalOption(goal: _Goal.maintain, label: 'Kilo korumak', icon: Icons.remove_rounded),
+      _GoalOption(goal: _Goal.healthyEating, label: 'Daha sağlıklı beslenmek', icon: Icons.favorite_outline_rounded),
+    ];
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 52,
-      child: FilledButton(
-        onPressed: saving ? null : onSave,
-        style: FilledButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.onPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(tokens.radius12),
-          ),
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 15,
-          ),
-        ),
-        child: saving
-            ? const SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                  color: AppColors.onPrimary,
+    return Row(
+      children: goals.map((g) {
+        final selected = _goal == g.goal;
+        return Expanded(
+          child: GestureDetector(
+            onTap: () => setState(() => _goal = g.goal),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              margin: EdgeInsets.only(left: goals.indexOf(g) == 0 ? 0 : 6),
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 6),
+              decoration: BoxDecoration(
+                color: selected ? AppColors.primarySoft : Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: selected ? AppColors.primary : const Color(0xFFE5E7EB),
+                  width: selected ? 1.5 : 1,
                 ),
-              )
-            : const Text('Kaydet'),
+              ),
+              child: Column(
+                children: [
+                  Icon(
+                    g.icon,
+                    size: 22,
+                    color: selected ? AppColors.primary : AppColors.muted,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    g.label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: selected ? AppColors.primary : AppColors.textStrong,
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  // ── Allergen section ──────────────────────────────────────────────────────────
+
+  Widget _buildAllergenSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Expanded(
+              child: Text(
+                'Alerjiler ve hassasiyetler',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textStrong,
+                ),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: _showAllergenPicker,
+              icon: const Icon(Icons.add_rounded, size: 16),
+              label: const Text('Ekle'),
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.primary,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                textStyle: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 2),
+        const Text(
+          'Alerjinin veya hassasiyetin olan besinleri seç.',
+          style: TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
+        ),
+        const SizedBox(height: 12),
+        if (_allergens.isEmpty)
+          GestureDetector(
+            onTap: _showAllergenPicker,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8F9FA),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFFE5E7EB),
+                  style: BorderStyle.solid,
+                ),
+              ),
+              child: const Center(
+                child: Text(
+                  'Alerji veya hassasiyet ekle',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.muted,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          )
+        else
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _allergens.map((a) => _AllergenChip(
+              label: a,
+              onRemove: () => setState(() => _allergens.remove(a)),
+            )).toList(),
+          ),
+      ],
+    );
+  }
+
+  // ── Saved banner ──────────────────────────────────────────────────────────────
+
+  Widget _buildSavedBanner() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF0FDF4),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFBBF7D0)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+              color: Color(0xFFDCFCE7),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.verified_outlined,
+              color: Color(0xFF16A34A),
+              size: 22,
+            ),
+          ),
+          const SizedBox(width: 12),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Profilin kaydedildi',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 13,
+                    color: Color(0xFF15803D),
+                  ),
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Tercihlerine göre sana özel öneriler sunacağız.',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF16A34A),
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF16A34A),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              textStyle: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Düzenle'),
+                SizedBox(width: 2),
+                Icon(Icons.chevron_right_rounded, size: 16),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
-}
 
-class _ErrorBanner extends StatelessWidget {
-  const _ErrorBanner({required this.message});
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildErrorBanner(String message) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.danger.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: AppColors.danger.withValues(alpha: 0.25),
-        ),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.danger.withValues(alpha: 0.25)),
       ),
       child: Row(
         children: [
@@ -475,28 +701,135 @@ class _ErrorBanner extends StatelessWidget {
       ),
     );
   }
+
+  // ── Save button ───────────────────────────────────────────────────────────────
+
+  Widget _buildSaveButton() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+      child: SizedBox(
+        width: double.infinity,
+        height: 54,
+        child: ElevatedButton.icon(
+          onPressed: _saving ? null : _save,
+          icon: _saving
+              ? const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const Icon(Icons.assignment_outlined, size: 20),
+          label: const Text('Profili Kaydet'),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF7F1D1D),
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: const Color(0xFF7F1D1D).withValues(alpha: 0.5),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _ErrorBody extends StatelessWidget {
-  const _ErrorBody({required this.onRetry});
-  final VoidCallback onRetry;
+// ── Small helper widgets ──────────────────────────────────────────────────────
+
+class _IconBtn extends StatelessWidget {
+  const _IconBtn({required this.icon, required this.onTap});
+  final IconData icon;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.wifi_off_outlined, size: 48, color: AppColors.muted),
-          const SizedBox(height: 12),
-          const Text(
-            'Diyet profili yüklenemedi.',
-            style: TextStyle(color: AppColors.muted, fontSize: 14),
+    return Material(
+      color: const Color(0xFFF4F5F7),
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Icon(icon, size: 18, color: AppColors.textStrong),
+        ),
+      ),
+    );
+  }
+}
+
+class _HeroFeature extends StatelessWidget {
+  const _HeroFeature({required this.icon, required this.label});
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon, size: 20, color: AppColors.primary),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 10,
+            color: AppColors.muted,
+            height: 1.3,
           ),
-          const SizedBox(height: 16),
-          OutlinedButton(
-            onPressed: onRetry,
-            child: const Text('Tekrar Dene'),
+        ),
+      ],
+    );
+  }
+}
+
+class _FoodIllustration extends StatelessWidget {
+  const _FoodIllustration();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 90,
+      height: 90,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Container(
+              width: 76,
+              height: 76,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.7),
+                shape: BoxShape.circle,
+              ),
+              child: const Center(
+                child: Icon(Icons.eco_rounded, size: 38, color: AppColors.primary),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.check_rounded, color: Colors.white, size: 18),
+            ),
           ),
         ],
       ),
@@ -504,6 +837,269 @@ class _ErrorBody extends StatelessWidget {
   }
 }
 
-// ── Internal enum ─────────────────────────────────────────────────────────────
+// ── Diet option data ──────────────────────────────────────────────────────────
 
-enum _BoolField { vegan, vegetarian, glutenFree, lactoseFree, halal }
+class _DietOption {
+  const _DietOption({
+    required this.type,
+    required this.label,
+    required this.desc,
+    required this.icon,
+    required this.iconColor,
+    required this.iconBg,
+  });
+
+  final _DietType type;
+  final String label;
+  final String desc;
+  final IconData icon;
+  final Color iconColor;
+  final Color iconBg;
+}
+
+class _DietCard extends StatelessWidget {
+  const _DietCard({
+    required this.option,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final _DietOption option;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 160),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: selected ? AppColors.primary : const Color(0xFFE5E7EB),
+            width: selected ? 1.5 : 1,
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: option.iconBg,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(option.icon, color: option.iconColor, size: 18),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    option.label,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    option.desc,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: AppColors.muted,
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 4),
+            Icon(
+              selected ? Icons.check_circle_rounded : Icons.circle_outlined,
+              size: 18,
+              color: selected ? AppColors.primary : const Color(0xFFD1D5DB),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Goal option data ──────────────────────────────────────────────────────────
+
+class _GoalOption {
+  const _GoalOption({
+    required this.goal,
+    required this.label,
+    required this.icon,
+  });
+
+  final _Goal goal;
+  final String label;
+  final IconData icon;
+}
+
+// ── Allergen chip ─────────────────────────────────────────────────────────────
+
+class _AllergenChip extends StatelessWidget {
+  const _AllergenChip({required this.label, required this.onRemove});
+  final String label;
+  final VoidCallback onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4F5F7),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textStrong,
+            ),
+          ),
+          const SizedBox(width: 6),
+          GestureDetector(
+            onTap: onRemove,
+            child: const Icon(Icons.close_rounded, size: 14, color: AppColors.muted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Allergen picker sheet ─────────────────────────────────────────────────────
+
+class _AllergenPickerSheet extends StatefulWidget {
+  const _AllergenPickerSheet({
+    required this.selected,
+    required this.onConfirm,
+  });
+
+  final Set<String> selected;
+  final ValueChanged<Set<String>> onConfirm;
+
+  @override
+  State<_AllergenPickerSheet> createState() => _AllergenPickerSheetState();
+}
+
+class _AllergenPickerSheetState extends State<_AllergenPickerSheet> {
+  late final Set<String> _local;
+
+  @override
+  void initState() {
+    super.initState();
+    _local = Set.from(widget.selected);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 10, bottom: 6),
+            width: 36,
+            height: 4,
+            decoration: BoxDecoration(
+              color: const Color(0xFFD1D5DB),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 8, 16, 4),
+            child: Text(
+              'Alerji veya hassasiyet seç',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textStrong,
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: Text(
+              'Birden fazla seçebilirsin.',
+              style: TextStyle(fontSize: 12, color: AppColors.muted),
+            ),
+          ),
+          const Divider(height: 1),
+          for (final allergen in _kAllAllergens)
+            ListTile(
+              title: Text(
+                allergen,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: _local.contains(allergen)
+                      ? FontWeight.w800
+                      : FontWeight.w500,
+                  color: _local.contains(allergen)
+                      ? AppColors.primary
+                      : AppColors.textStrong,
+                ),
+              ),
+              trailing: _local.contains(allergen)
+                  ? const Icon(Icons.check_rounded,
+                      color: AppColors.primary, size: 18)
+                  : null,
+              onTap: () => setState(() {
+                if (_local.contains(allergen)) {
+                  _local.remove(allergen);
+                } else {
+                  _local.add(allergen);
+                }
+              }),
+            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  widget.onConfirm(Set.from(_local));
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                child: const Text('Uygula'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

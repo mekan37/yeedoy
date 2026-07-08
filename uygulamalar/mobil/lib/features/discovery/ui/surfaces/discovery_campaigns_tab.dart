@@ -194,7 +194,7 @@ class _CampaignsSearchFieldState extends ConsumerState<_CampaignsSearchField> {
         hintText: t.campaignsSearchPlaceholder,
         prefixIcon: const Icon(Icons.search),
         filled: true,
-        fillColor: AppColors.cardAlt,
+        fillColor: AppColors.card,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
@@ -261,16 +261,20 @@ class _CampaignHeroCard extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final tokens = AppTokens.of(context);
     return Material(
-      color: AppColors.primarySoft,
+      color: AppColors.card,
       borderRadius: BorderRadius.circular(tokens.radius20),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => context.go('/b/${item.businessId}'),
         child: Stack(
           children: [
-            Positioned.fill(
-              child: AppNetworkImage(url: item.mediaThumbUrl, fit: BoxFit.cover),
-            ),
+            if (item.mediaThumbUrl != null)
+              Positioned.fill(
+                child: AppNetworkImage(
+                  url: item.mediaThumbUrl!,
+                  fit: BoxFit.cover,
+                ),
+              ),
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -300,13 +304,24 @@ class _CampaignHeroCard extends StatelessWidget {
                       color: AppColors.onPrimary,
                       borderRadius: BorderRadius.circular(999),
                     ),
-                    child: Text(
-                      '⭐ ${t.campaignsFeaturedBadge}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.primary,
-                        fontSize: 12,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.star_rounded,
+                          size: 14,
+                          color: AppColors.primary,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          t.campaignsFeaturedBadge,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.primary,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Column(
@@ -396,12 +411,23 @@ class _CampaignCard extends ConsumerWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: AppNetworkImage(
-                  url: item.mediaThumbUrl,
-                  width: 72,
-                  height: 72,
-                  fit: BoxFit.cover,
-                ),
+                child: item.mediaThumbUrl != null
+                    ? AppNetworkImage(
+                        url: item.mediaThumbUrl!,
+                        width: 72,
+                        height: 72,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        width: 72,
+                        height: 72,
+                        color: AppColors.primarySoft,
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.local_offer_rounded,
+                          color: AppColors.primary,
+                        ),
+                      ),
               ),
               if (item.discountPercent != null)
                 Positioned(

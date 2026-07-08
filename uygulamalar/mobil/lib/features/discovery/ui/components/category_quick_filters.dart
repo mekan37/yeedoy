@@ -193,7 +193,7 @@ class _RoundedCategoryChip extends StatelessWidget {
               errorBuilder: (_, _, _) => Container(
                 width: 52,
                 height: 52,
-                color: AppColors.cardAlt,
+                color: AppColors.card,
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.restaurant_menu_outlined,

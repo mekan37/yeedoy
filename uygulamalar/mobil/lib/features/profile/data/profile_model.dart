@@ -9,6 +9,8 @@ class Profile {
     this.privacyMode = NamePrivacyMode.full,
     this.languageCode,
     this.socialLinks = const {},
+    this.birthDate,
+    this.gender,
   });
 
   final String id;
@@ -18,6 +20,8 @@ class Profile {
   final NamePrivacyMode privacyMode;
   final String? languageCode;
   final Map<String, String> socialLinks;
+  final DateTime? birthDate;
+  final String? gender;
 
   Profile copyWith({
     String? id,
@@ -27,6 +31,8 @@ class Profile {
     NamePrivacyMode? privacyMode,
     String? languageCode,
     Map<String, String>? socialLinks,
+    DateTime? birthDate,
+    String? gender,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -36,6 +42,8 @@ class Profile {
       privacyMode: privacyMode ?? this.privacyMode,
       languageCode: languageCode ?? this.languageCode,
       socialLinks: socialLinks ?? this.socialLinks,
+      birthDate: birthDate ?? this.birthDate,
+      gender: gender ?? this.gender,
     );
   }
 
@@ -66,6 +74,10 @@ class Profile {
       privacyMode: parsePrivacy(map['privacy_mode']?.toString()),
       languageCode: _normalizeLanguageCode(map['language_code']?.toString()),
       socialLinks: socialLinks,
+      birthDate: map['birth_date'] != null
+          ? DateTime.tryParse(map['birth_date'].toString())
+          : null,
+      gender: map['gender']?.toString(),
     );
   }
 
@@ -80,6 +92,9 @@ class Profile {
       'privacy_mode': privacyToDb(privacyMode),
       if (languageCode != null) 'language_code': languageCode,
       'social_links': socialLinks,
+      if (birthDate != null)
+        'birth_date': birthDate!.toIso8601String().substring(0, 10),
+      if (gender != null) 'gender': gender,
     };
   }
 }

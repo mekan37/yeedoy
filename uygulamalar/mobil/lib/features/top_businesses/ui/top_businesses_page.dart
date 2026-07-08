@@ -9,6 +9,7 @@ import '../../../core/i18n/app_localizations.dart';
 import '../../../features/notifications/ui/components/notifications_bell.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../../../core/utils/greeting_utils.dart';
 import 'widgets/top_business_ranked_tile.dart';
 import '../domain/top_businesses_page_controller.dart';
 
@@ -138,9 +139,9 @@ class _TopBusinessesHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Merhaba! 👋',
-                style: TextStyle(
+              Text(
+                timeBasedGreeting(),
+                style: const TextStyle(
                   color: AppColors.muted,
                   fontSize: 12,
                   fontWeight: FontWeight.w700,

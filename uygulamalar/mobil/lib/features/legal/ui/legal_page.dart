@@ -105,7 +105,8 @@ class LegalPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () =>
+                        context.canPop() ? context.pop() : context.go('/discover'),
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       color: AppColors.textStrong,

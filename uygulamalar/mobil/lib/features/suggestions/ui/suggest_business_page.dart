@@ -8,6 +8,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/storage/offline_submission_queue.dart';
+import '../../auth/domain/auth_providers.dart';
 import '../data/suggestions_repository.dart';
 
 // ── Category & reason constants ───────────────────────────────────────────────
@@ -71,10 +72,36 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
     super.dispose();
   }
 
+  // ── Help ──────────────────────────────────────────────────────────────────
+
+  void _showHelp() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => const _HelpSheet(),
+    );
+  }
+
   // ── Submit ────────────────────────────────────────────────────────────────
 
   Future<void> _submit() async {
     final t = AppLocalizations.of(context);
+
+    final user = ref.read(userProvider);
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Öneri göndermek için giriş yapmanız gerekiyor.'),
+        ),
+      );
+      context.go('/login?redirect=/suggest-business');
+      return;
+    }
+
     if (_nameCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('İşletme adı zorunludur.')),
@@ -226,7 +253,8 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () =>
+                        context.canPop() ? context.pop() : context.go('/discover'),
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       color: AppColors.textStrong,
@@ -245,7 +273,7 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _showHelp,
                     icon: Container(
                       width: 36,
                       height: 36,
@@ -975,6 +1003,152 @@ class _OptionalSectionTitle extends StatelessWidget {
           style: const TextStyle(fontSize: 13, color: AppColors.muted),
         ),
       ],
+    );
+  }
+}
+
+// ── Help sheet ────────────────────────────────────────────────────────────────
+
+class _HelpSheet extends StatelessWidget {
+  const _HelpSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.border,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Row(
+              children: [
+                Icon(Icons.help_outline_rounded, color: AppColors.primary, size: 22),
+                SizedBox(width: 8),
+                Text(
+                  'Öneri Süreci Nasıl İşler?',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            _HelpStep(
+              number: '1',
+              title: 'Öneriyi gönderiyorsunuz',
+              body: 'İşletme adı ve kategori zorunlu. Adres, not ve öneri nedeninizi eklerseniz değerlendirme daha hızlı olur.',
+            ),
+            _HelpStep(
+              number: '2',
+              title: 'Ekibimiz inceliyor',
+              body: 'Gönderdiğiniz öneri yönetim paneline düşer. Ekibimiz tekrar eden ya da uygunsuz önerileri ayıklar.',
+            ),
+            _HelpStep(
+              number: '3',
+              title: 'İşletme platforma eklenir',
+              body: 'Onaylanan işletme Yeedoy\'a eklenir. Öneri durumunu "Önerilerim" ekranından takip edebilirsiniz.',
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE8F0FE),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.info_outline_rounded, color: AppColors.info, size: 16),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Giriş yapmış olmanız gerekiyor. Önerilerinizi takip etmek için hesabınıza giriş yapın.',
+                      style: TextStyle(fontSize: 12, color: AppColors.info, height: 1.4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _HelpStep extends StatelessWidget {
+  const _HelpStep({
+    required this.number,
+    required this.title,
+    required this.body,
+  });
+
+  final String number;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                number,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  body,
+                  style: const TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -11,6 +11,7 @@ class AppChip extends StatelessWidget {
     this.filled = false,
     this.compact = false,
     this.semanticLabel,
+    this.leading,
   });
 
   final String label;
@@ -18,6 +19,7 @@ class AppChip extends StatelessWidget {
   final bool filled;
   final bool compact;
   final String? semanticLabel;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,14 @@ class AppChip extends StatelessWidget {
     final useColor = color ?? AppColors.textStrong;
     final hPad = compact ? tokens.space8 : tokens.space12;
     final vPad = compact ? 3.0 : 6.0;
+    final textWidget = Text(
+      label,
+      style: TextStyle(
+        color: useColor,
+        fontSize: compact ? 11 : 12,
+        fontWeight: FontWeight.w800,
+      ),
+    );
     return Semantics(
       label: semanticLabel ?? label,
       child: Container(
@@ -39,16 +49,17 @@ class AppChip extends StatelessWidget {
             color: filled ? useColor.withValues(alpha: 0.35) : AppColors.border,
           ),
         ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: useColor,
-              fontSize: compact ? 11 : 12,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
+        child: leading == null
+            ? Center(child: textWidget)
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  leading!,
+                  const SizedBox(width: 4),
+                  textWidget,
+                ],
+              ),
       ),
     );
   }

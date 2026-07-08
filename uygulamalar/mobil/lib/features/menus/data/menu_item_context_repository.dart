@@ -33,12 +33,55 @@ class MenuItemContextRepository {
       if (age < _ttl) return cached.data;
     }
     try {
-      final res = await client.rpc('get_menu_item_context_v1', params: {
-        'p_menu_item_id': menuItemId,
-      });
-      final context = MenuItemContext.fromMap((res as Map).cast<String, dynamic>());
-      _cache[menuItemId] = _CacheEntry(data: context, fetchedAt: DateTime.now());
-      return context;
+      final results = await Future.wait<dynamic>([
+        client.rpc('get_menu_item_context_v1', params: {
+          'p_menu_item_id': menuItemId,
+        }),
+        client
+            .from('menu_item_allergens')
+            .select('allergen')
+            .eq('item_id', menuItemId),
+        client
+            .from('menu_items')
+            .select('calories_min, portion_size, portion_unit')
+            .eq('id', menuItemId)
+            .maybeSingle(),
+        client
+            .from('menu_item_ingredients')
+            .select('name')
+            .eq('item_id', menuItemId)
+            .order('sort_order'),
+      ]);
+      final context = MenuItemContext.fromMap(
+        (results[0] as Map).cast<String, dynamic>(),
+      );
+      final allergens = (results[1] as List)
+          .map((r) => (r as Map<dynamic, dynamic>)['allergen'] as String)
+          .toList();
+      final nutritionRow = results[2] as Map<dynamic, dynamic>?;
+      final caloriesMin = nutritionRow?['calories_min'] as int?;
+      final portionSizeRaw = nutritionRow?['portion_size'] as int?;
+      final portionUnitRaw =
+          (nutritionRow?['portion_unit'] as String? ?? '').trim();
+      final portionSize = portionSizeRaw != null
+          ? portionUnitRaw.isNotEmpty
+                ? '$portionSizeRaw $portionUnitRaw'
+                : '$portionSizeRaw'
+          : null;
+      final ingredients = (results[3] as List)
+          .map((r) => (r as Map<dynamic, dynamic>)['name'] as String)
+          .toList();
+      final enriched = context.copyWith(
+        allergens: allergens,
+        caloriesMin: caloriesMin,
+        portionSize: portionSize,
+        ingredients: ingredients,
+      );
+      _cache[menuItemId] = _CacheEntry(
+        data: enriched,
+        fetchedAt: DateTime.now(),
+      );
+      return enriched;
     } catch (e) {
       throw Exception(AppErrorMapper.message(e));
     }

@@ -73,6 +73,14 @@ class _MenuItemBodyState extends ConsumerState<_MenuItemBody> {
     final variantsAsync = ref.watch(
       _menuItemVariantsProvider(widget.menuItemId),
     );
+    final menuItemCtx = ref
+        .watch(menuItemContextProvider(widget.menuItemId))
+        .asData
+        ?.value;
+    final allergens = menuItemCtx?.allergens ?? const <String>[];
+    final caloriesMin = menuItemCtx?.caloriesMin;
+    final portionSize = menuItemCtx?.portionSize;
+    final ingredients = menuItemCtx?.ingredients ?? const <String>[];
     final isLoggedIn = ref.watch(userProvider.select((user) => user != null));
     final cityAsync = ref.watch(_businessCityProvider(widget.businessId));
 
@@ -196,6 +204,18 @@ class _MenuItemBodyState extends ConsumerState<_MenuItemBody> {
                       ],
                     ),
                   ),
+                  if (caloriesMin != null || ingredients.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    _TransparentMenuSection(
+                      caloriesMin: caloriesMin,
+                      portionSize: portionSize,
+                      ingredients: ingredients,
+                    ),
+                  ],
+                  if (allergens.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    _AllergenSection(allergens: allergens),
+                  ],
                   const SizedBox(height: 14),
                   _PriceStatusCard(
                     item: item,

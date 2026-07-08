@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Soya</title>
+  <defs>
+    <linearGradient id="pod" x1="21" y1="39" x2="106" y2="92" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A8E46F"/>
+      <stop offset="0.62" stop-color="#55B33F"/>
+      <stop offset="1" stop-color="#287A2F"/>
+    </linearGradient>
+    <radialGradient id="bean" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(46 61) scale(18)">
+      <stop stop-color="#F4FFD4"/>
+      <stop offset="1" stop-color="#B9D969"/>
+    </radialGradient>
+  </defs>
+  <path d="M20 69c9-26 35-40 63-35 16 3 26 12 30 24-13 24-39 37-67 32-16-3-24-9-26-21Z" fill="url(#pod)"/>
+  <path d="M27 66c19 6 46 9 79-8" stroke="#D9F5A8" stroke-width="6" stroke-linecap="round" opacity="0.72"/>
+  <circle cx="45" cy="64" r="13" fill="url(#bean)"/>
+  <circle cx="66" cy="66" r="13" fill="url(#bean)"/>
+  <circle cx="87" cy="62" r="12" fill="url(#bean)"/>
+  <path d="M20 69c9-26 35-40 63-35 16 3 26 12 30 24-13 24-39 37-67 32-16-3-24-9-26-21Z" stroke="#27702D" stroke-width="4" opacity="0.35"/>
+</svg>

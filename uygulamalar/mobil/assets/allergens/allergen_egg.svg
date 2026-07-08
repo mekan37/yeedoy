@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Yumurta</title>
+  <defs>
+    <radialGradient id="shell" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(47 35) rotate(53) scale(77 57)">
+      <stop stop-color="#FFF8DF"/>
+      <stop offset="0.58" stop-color="#F8E8B8"/>
+      <stop offset="1" stop-color="#E7C989"/>
+    </radialGradient>
+    <radialGradient id="yolk" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(60 60) rotate(54) scale(30)">
+      <stop stop-color="#FFE16B"/>
+      <stop offset="0.7" stop-color="#F7B928"/>
+      <stop offset="1" stop-color="#E89017"/>
+    </radialGradient>
+  </defs>
+  <path d="M64 13c19 0 37 25 37 57 0 27-16 46-37 46S27 97 27 70c0-32 18-57 37-57Z" fill="url(#shell)"/>
+  <path d="M64 13c19 0 37 25 37 57 0 27-16 46-37 46S27 97 27 70c0-32 18-57 37-57Z" stroke="#D8B36A" stroke-width="4"/>
+  <circle cx="66" cy="70" r="23" fill="url(#yolk)"/>
+  <path d="M47 31c8-8 19-10 30-6" stroke="#FFFDF2" stroke-width="7" stroke-linecap="round" opacity="0.9"/>
+  <circle cx="56" cy="60" r="6" fill="#FFF0A1" opacity="0.85"/>
+</svg>

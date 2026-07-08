@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/location/location_mapping.dart';
@@ -81,7 +82,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
         );
     if (mounted) {
       setState(() => _saving = false);
-      Navigator.of(context).pop();
+      context.canPop() ? context.pop() : context.go('/discover');
     }
   }
 
@@ -151,16 +152,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
           children: [
             Expanded(
               child: citiesAsync.when(
-                loading: () => _buildBody(
-                  context,
-                  cities: [],
-                  allRows: [],
-                ),
-                error: (e, st) => _buildBody(
-                  context,
-                  cities: [],
-                  allRows: [],
-                ),
+                loading: () => _buildBody(context, cities: [], allRows: []),
+                error: (e, st) => _buildBody(context, cities: [], allRows: []),
                 data: (rows) {
                   final allRows = rows
                       .map((r) => (
@@ -176,11 +169,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                   }
                   final cities = cityMap.values.toList()..sort();
 
-                  return _buildBody(
-                    context,
-                    cities: cities,
-                    allRows: allRows,
-                  );
+                  return _buildBody(context, cities: cities, allRows: allRows);
                 },
               ),
             ),
@@ -210,17 +199,21 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
       children: [
         _buildTopBar(context),
         _buildSubtitle(),
+        const SizedBox(height: 4),
         _buildInfoCard(),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         _buildSectionLabel('İl Seçin'),
+        const SizedBox(height: 8),
         _buildDropdown(
           icon: Icons.location_on_outlined,
           value: _city ?? 'Seçiniz',
           onTap: cities.isEmpty ? null : () => _pickCity(cities),
         ),
+        const SizedBox(height: 6),
         _buildHint('Bulunduğunuz şehirdeki işletmeleri ve fiyatları göreceksiniz.'),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         _buildSectionLabel('İlçe Seçin'),
+        const SizedBox(height: 8),
         _buildDropdown(
           icon: Icons.map_outlined,
           value: _district ?? 'Seçiniz',
@@ -229,9 +222,11 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
               : () => _pickDistrict(districts),
           disabled: _city == null,
         ),
+        const SizedBox(height: 6),
         _buildHint('Daha doğru sonuçlar için ilçenizi seçin.'),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         _buildSectionLabelOptional('Mahalle'),
+        const SizedBox(height: 8),
         _buildDropdown(
           icon: Icons.home_outlined,
           value: _neighborhood ?? 'Seçiniz (isteğe bağlı)',
@@ -241,6 +236,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
           disabled: _district == null || neighborhoods.isEmpty,
           isOptional: true,
         ),
+        const SizedBox(height: 6),
         _buildHint('Mahalle seçerek çok daha yerel sonuçlar alabilirsiniz.'),
         const SizedBox(height: 20),
         _buildSelectedCard(),
@@ -251,22 +247,28 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     );
   }
 
-  // ── Top bar ─────────────────────────────────────────────────────────────────
+  // ── Top bar ──────────────────────────────────────────────────────────────────
 
   Widget _buildTopBar(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 10, 8, 6),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
       child: Row(
         children: [
+          // Back button — rounded rectangle
           Material(
             color: const Color(0xFFF4F5F7),
-            shape: const CircleBorder(),
-            child: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: 18,
-                color: AppColors.textStrong,
+            borderRadius: BorderRadius.circular(12),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () =>
+                  context.canPop() ? context.pop() : context.go('/discover'),
+              child: const Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  size: 18,
+                  color: AppColors.textStrong,
+                ),
               ),
             ),
           ),
@@ -281,24 +283,29 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
               ),
             ),
           ),
+          // Bell button — rounded rectangle with red dot
           Stack(
             clipBehavior: Clip.none,
             children: [
               Material(
                 color: const Color(0xFFF4F5F7),
-                shape: const CircleBorder(),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.notifications_outlined,
-                    size: 22,
-                    color: AppColors.textStrong,
+                borderRadius: BorderRadius.circular(12),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () {},
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(
+                      Icons.notifications_outlined,
+                      size: 22,
+                      color: AppColors.textStrong,
+                    ),
                   ),
                 ),
               ),
               Positioned(
-                right: 8,
-                top: 8,
+                right: 6,
+                top: 6,
                 child: Container(
                   width: 8,
                   height: 8,
@@ -317,7 +324,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
 
   Widget _buildSubtitle() {
     return const Padding(
-      padding: EdgeInsets.fromLTRB(20, 4, 20, 16),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
       child: Text(
         'Size özel öneriler ve fiyat alarmları için konumunuzu seçin.',
         textAlign: TextAlign.center,
@@ -335,63 +342,61 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   Widget _buildInfoCard() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: GestureDetector(
-        onTap: () {},
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF8F9FA),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  color: AppColors.primarySoft,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.location_on_rounded,
-                  color: AppColors.primary,
-                  size: 20,
-                ),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
+        decoration: BoxDecoration(
+          color: AppColors.primarySoft,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
               ),
-              const SizedBox(width: 12),
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Neden konum seçmeliyim?',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 13,
-                        color: AppColors.textStrong,
-                      ),
-                    ),
-                    SizedBox(height: 3),
-                    Text(
-                      'Bulunduğunuz konuma göre işletmeleri, fiyatları ve fırsatları en doğru şekilde gösteriyoruz.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: AppColors.muted,
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Icon(
-                Icons.chevron_right_rounded,
+              child: const Icon(
+                Icons.location_on_rounded,
                 color: AppColors.primary,
-                size: 20,
+                size: 22,
               ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 12),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Neden konum seçmeliyim?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Bulunduğunuz konuma göre işletmeleri, fiyatları ve fırsatları en doğru şekilde gösteriyoruz.',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.primary,
+              size: 22,
+            ),
+          ],
         ),
       ),
     );
@@ -401,12 +406,12 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
 
   Widget _buildSectionLabel(String label) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Text(
         label,
         style: const TextStyle(
           fontWeight: FontWeight.w800,
-          fontSize: 15,
+          fontSize: 16,
           color: AppColors.textStrong,
         ),
       ),
@@ -415,19 +420,19 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
 
   Widget _buildSectionLabelOptional(String label) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: RichText(
-        text: TextSpan(
+        text: const TextSpan(
           children: [
             TextSpan(
-              text: label,
-              style: const TextStyle(
+              text: 'Mahalle',
+              style: TextStyle(
                 fontWeight: FontWeight.w800,
-                fontSize: 15,
+                fontSize: 16,
                 color: AppColors.textStrong,
               ),
             ),
-            const TextSpan(
+            TextSpan(
               text: '  (isteğe bağlı)',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -450,23 +455,23 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     bool disabled = false,
     bool isOptional = false,
   }) {
+    final isPlaceholder =
+        disabled || (isOptional && value == 'Seçiniz (isteğe bağlı)');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GestureDetector(
         onTap: disabled ? null : onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: disabled ? const Color(0xFFE5E7EB) : const Color(0xFFE5E7EB),
-            ),
+            border: Border.all(color: const Color(0xFFE5E7EB)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.04),
-                blurRadius: 4,
-                offset: const Offset(0, 1),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
@@ -483,10 +488,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                   value,
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: (disabled || (isOptional && value == 'Seçiniz (isteğe bağlı)'))
-                        ? AppColors.muted
-                        : AppColors.textStrong,
+                    fontWeight: isPlaceholder ? FontWeight.w500 : FontWeight.w700,
+                    color: isPlaceholder ? AppColors.muted : AppColors.textStrong,
                   ),
                 ),
               ),
@@ -504,7 +507,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
 
   Widget _buildHint(String text) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -513,7 +516,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 12, color: AppColors.muted),
+              style: const TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
             ),
           ),
         ],
@@ -528,10 +531,10 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: const Color(0xFFF8F9FA),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(color: const Color(0xFFE5E7EB)),
         ),
         child: Column(
@@ -541,16 +544,16 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
               'Seçilen Konumunuz',
               style: TextStyle(
                 fontWeight: FontWeight.w800,
-                fontSize: 13,
+                fontSize: 14,
                 color: AppColors.textStrong,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 42,
+                  height: 42,
                   decoration: const BoxDecoration(
                     color: AppColors.primarySoft,
                     shape: BoxShape.circle,
@@ -558,7 +561,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                   child: const Icon(
                     Icons.location_on_rounded,
                     color: AppColors.primary,
-                    size: 20,
+                    size: 22,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -567,15 +570,11 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        hasLoc
-                            ? '$_city / $_district'
-                            : 'Henüz konum seçilmedi',
+                        hasLoc ? '$_city / $_district' : 'Henüz konum seçilmedi',
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
-                          color: hasLoc
-                              ? AppColors.textStrong
-                              : AppColors.muted,
+                          color: hasLoc ? AppColors.textStrong : AppColors.muted,
                         ),
                       ),
                       if (_neighborhood != null) ...[
@@ -606,6 +605,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: AppColors.primary),
                           foregroundColor: AppColors.primary,
+                          backgroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 8),
                           textStyle: const TextStyle(
@@ -639,7 +639,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
             'Konum Ayarları',
             style: TextStyle(
               fontWeight: FontWeight.w800,
-              fontSize: 15,
+              fontSize: 16,
               color: AppColors.textStrong,
             ),
           ),
@@ -653,8 +653,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.04),
-                  blurRadius: 4,
-                  offset: const Offset(0, 1),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -664,7 +664,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                 const Icon(
                   Icons.location_searching_rounded,
                   color: AppColors.muted,
-                  size: 20,
+                  size: 22,
                 ),
                 const SizedBox(width: 12),
                 const Expanded(
@@ -679,7 +679,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                           color: AppColors.textStrong,
                         ),
                       ),
-                      SizedBox(height: 3),
+                      SizedBox(height: 4),
                       Text(
                         'Fiyat alarmları ve fırsat bildirimleri için konum erişimi sağlanır.',
                         style: TextStyle(
@@ -711,18 +711,19 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   Widget _buildSaveButton() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
       child: SizedBox(
         width: double.infinity,
-        height: 52,
+        height: 54,
         child: ElevatedButton(
           onPressed: _saving ? null : _save,
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
+            disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.5),
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(28),
             ),
             textStyle: const TextStyle(
               fontSize: 16,
@@ -811,9 +812,7 @@ class _PickerSheetState extends State<_PickerSheet> {
   Widget build(BuildContext context) {
     final filtered = _filtered;
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.75,
@@ -821,7 +820,6 @@ class _PickerSheetState extends State<_PickerSheet> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 6),
               width: 36,
@@ -831,7 +829,6 @@ class _PickerSheetState extends State<_PickerSheet> {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            // Title
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
               child: Text(
@@ -843,7 +840,6 @@ class _PickerSheetState extends State<_PickerSheet> {
                 ),
               ),
             ),
-            // Search
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
               child: Container(
@@ -867,6 +863,9 @@ class _PickerSheetState extends State<_PickerSheet> {
                           hintStyle:
                               TextStyle(color: AppColors.muted, fontSize: 13),
                           border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          filled: false,
                           isDense: true,
                           contentPadding: EdgeInsets.zero,
                         ),
@@ -879,7 +878,6 @@ class _PickerSheetState extends State<_PickerSheet> {
               ),
             ),
             const Divider(height: 1),
-            // List
             Flexible(
               child: ListView.builder(
                 padding: const EdgeInsets.only(bottom: 16),
@@ -892,9 +890,8 @@ class _PickerSheetState extends State<_PickerSheet> {
                     title: Text(
                       item,
                       style: TextStyle(
-                        fontWeight: isSelected
-                            ? FontWeight.w800
-                            : FontWeight.w500,
+                        fontWeight:
+                            isSelected ? FontWeight.w800 : FontWeight.w500,
                         fontSize: 14,
                         color: isSelected
                             ? AppColors.primary

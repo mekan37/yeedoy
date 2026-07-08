@@ -24,6 +24,7 @@ import '../../favorites/domain/favorite_status_provider.dart';
 import '../../profile/domain/creator_profile_provider.dart';
 import '../../shared/ui/category_chip.dart';
 import '../../../features/shared/ui/components/vertical_business_card.dart';
+import '../../../core/utils/greeting_utils.dart';
 
 class FavoritesPage extends ConsumerStatefulWidget {
   const FavoritesPage({
@@ -240,8 +241,13 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
                   ),
                   const SizedBox(width: 8),
                   CategoryChip(
-                    label: '📍 ${t.nearbyShort}',
+                    label: t.nearbyShort,
                     selected: _nearbySort,
+                    leading: Icon(
+                      Icons.location_on_rounded,
+                      size: 14,
+                      color: _nearbySort ? AppColors.primary : AppColors.muted,
+                    ),
                     onTap: () {
                       final next = !_nearbySort;
                       setState(() => _nearbySort = next);
@@ -251,9 +257,13 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
                   const SizedBox(width: 8),
                   for (final c in categories) ...[
                     CategoryChip(
-                      label:
-                          '${_categoryEmoji(c)} ${_localizedCategoryLabel(context, c)}',
+                      label: _localizedCategoryLabel(context, c),
                       selected: category == c,
+                      leading: Icon(
+                        _categoryIcon(c),
+                        size: 14,
+                        color: category == c ? AppColors.primary : AppColors.muted,
+                      ),
                       onTap: () => setState(() => category = c),
                     ),
                     const SizedBox(width: 8),
@@ -339,15 +349,15 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
     );
   }
 
-  String _categoryEmoji(String c) {
+  IconData _categoryIcon(String c) {
     return switch (c) {
-      'Kafe' => '☕',
-      'Restoran' => '🍽️',
-      'Tatlıcı' => '🍰',
-      'Kahvaltı' => '🍳',
-      'Balık / Et' => '🍖',
-      'Mekan' => '📍',
-      _ => '🍴',
+      'Kafe' => Icons.local_cafe_rounded,
+      'Restoran' => Icons.restaurant_rounded,
+      'Tatlıcı' => Icons.cake_rounded,
+      'Kahvaltı' => Icons.free_breakfast_rounded,
+      'Balık / Et' => Icons.set_meal_rounded,
+      'Mekan' => Icons.location_on_rounded,
+      _ => Icons.restaurant_rounded,
     };
   }
 
@@ -1137,7 +1147,7 @@ class _FavoritesHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            t.homeGreetingHelloExclaim,
+            timeBasedGreeting(),
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.muted,
             ),

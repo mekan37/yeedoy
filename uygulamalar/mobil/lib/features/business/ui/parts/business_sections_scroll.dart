@@ -126,7 +126,6 @@ class _BusinessGeneralTab extends ConsumerWidget {
         padding: padding,
         children: [
           _ChainBand(businessId: business.id),
-          _BusinessFeaturedSection(business: business),
           _BusinessPopularDishesSection(business: business),
           _BusinessLocationHoursSection(
             business: business,
@@ -155,48 +154,111 @@ class _BusinessGeneralTab extends ConsumerWidget {
               );
               return Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _TopStatCard(
-                          title: t.communityScoreDataTrustLabel,
-                          value: '${trust.trustScore}',
-                          subtitle: '%',
-                          icon: Icons.shield_rounded,
-                          circleValue: trust.trustScore / 100,
-                        ),
+                  // Compact data trust bar
+                  GestureDetector(
+                    onTap: () => showCommunityScoreExplainerSheet(
+                      context,
+                      kind: CommunityScoreKind.dataTrust,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: _TopStatCard(
-                          title: t.lastUpdated,
-                          value: _relativeTimeLabel(
-                            context,
-                            trust.menuUpdatedAt,
+                      decoration: BoxDecoration(
+                        color: AppColors.card,
+                        borderRadius: BorderRadius.circular(tokens.radius12),
+                        border: Border.all(color: AppColors.border),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.shield_rounded,
+                            color: AppColors.primary,
+                            size: 16,
                           ),
-                          subtitle: '',
-                          icon: Icons.history_toggle_off_rounded,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: _TopStatCard(
-                          title: t.avgCost,
-                          value: _formatPriceWithCurrency(
-                            context,
-                            topPriceCents,
-                            '?',
+                          const SizedBox(width: 6),
+                          Text(
+                            t.communityScoreDataTrustLabel,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textStrong,
+                            ),
                           ),
-                          subtitle: '',
-                          icon: Icons.payments_outlined,
-                        ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.help_outline_rounded,
+                            size: 14,
+                            color: AppColors.muted,
+                          ),
+                          const Spacer(),
+                          Text(
+                            '%${trust.trustScore}',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w900,
+                              color: trust.trustScore >= 70
+                                  ? AppColors.success
+                                  : trust.trustScore >= 40
+                                      ? AppColors.warning
+                                      : AppColors.danger,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: 64,
+                            child: LinearProgressIndicator(
+                              value: trust.trustScore / 100,
+                              backgroundColor:
+                                  AppColors.border,
+                              valueColor: AlwaysStoppedAnimation(
+                                trust.trustScore >= 70
+                                    ? AppColors.success
+                                    : trust.trustScore >= 40
+                                        ? AppColors.warning
+                                        : AppColors.danger,
+                              ),
+                              minHeight: 6,
+                              borderRadius:
+                                  BorderRadius.circular(4),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                  SizedBox(height: tokens.space16),
-                  const CommunityScoreGuideCard(
-                    kind: CommunityScoreKind.dataTrust,
-                    margin: EdgeInsets.zero,
+                  SizedBox(height: tokens.space12),
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: _TopStatCard(
+                            title: t.lastUpdated,
+                            value: _relativeTimeLabel(
+                              context,
+                              trust.menuUpdatedAt,
+                            ),
+                            subtitle: '',
+                            icon: Icons.history_toggle_off_rounded,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _TopStatCard(
+                            title: t.avgCost,
+                            value: _formatPriceWithCurrency(
+                              context,
+                              topPriceCents,
+                              '?',
+                            ),
+                            subtitle: '',
+                            icon: Icons.payments_outlined,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: tokens.space16),
                   _CommunityVerifiedCard(
@@ -235,7 +297,6 @@ class _BusinessMenuTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokens = AppTokens.of(context);
-    final t = AppLocalizations.of(context);
     final padding = EdgeInsets.fromLTRB(
       tokens.space16,
       tokens.space12,
@@ -252,15 +313,6 @@ class _BusinessMenuTab extends StatelessWidget {
           ),
           SizedBox(height: tokens.space16),
           BusinessMealCardsSection(businessId: businessId),
-          SizedBox(height: tokens.space16),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton.icon(
-              onPressed: () => _openReportSheet(context, businessId),
-              icon: const Icon(Icons.add_a_photo_outlined),
-              label: Text(t.contributeMenuPhoto),
-            ),
-          ),
         ],
       ),
     );
@@ -352,160 +404,7 @@ class _BusinessReviewsTabState extends State<_BusinessReviewsTab> {
 /// `'kids_area'`) to a presentational Material icon. The label shown to the
 /// user is always `amenity.label` from the database — this only selects the
 /// glyph.
-IconData _amenityIconFor(String key) {
-  switch (key) {
-    case 'kids_area':
-      return Icons.child_care_outlined;
-    case 'parking':
-      return Icons.local_parking_outlined;
-    case 'wifi':
-      return Icons.wifi;
-    case 'pet_friendly':
-      return Icons.pets_outlined;
-    case 'smoking_area':
-      return Icons.smoking_rooms_outlined;
-    case 'outdoor_seating':
-      return Icons.deck_outlined;
-    case 'alcohol':
-      return Icons.local_bar_outlined;
-    case 'delivery':
-      return Icons.delivery_dining_outlined;
-    case 'takeaway':
-      return Icons.takeout_dining_outlined;
-    default:
-      return Icons.check_circle_outline;
-  }
-}
 
-class _FeaturedCard extends StatelessWidget {
-  const _FeaturedCard({
-    required this.icon,
-    required this.title,
-    this.subtitle = '',
-  });
-
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  @override
-  Widget build(BuildContext context) {
-    final tokens = AppTokens.of(context);
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: 100, maxWidth: 140),
-      child: Container(
-        padding: EdgeInsets.all(tokens.space12),
-        decoration: BoxDecoration(
-          color: AppColors.card,
-          borderRadius: BorderRadius.circular(tokens.radius16),
-          border: Border.all(color: AppColors.border),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: const BoxDecoration(
-                color: AppColors.primarySoft,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Icon(icon, color: AppColors.primary, size: 18),
-              ),
-            ),
-            SizedBox(height: tokens.space8),
-            Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            if (subtitle.isNotEmpty) ...[
-              const SizedBox(height: 2),
-              Text(
-                subtitle,
-                style: const TextStyle(color: AppColors.muted, fontSize: 11),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BusinessFeaturedSection extends ConsumerWidget {
-  const _BusinessFeaturedSection({required this.business});
-
-  final Business business;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context);
-    final tokens = AppTokens.of(context);
-    final amenitiesAsync = ref.watch(businessAmenitiesProvider(business.id));
-    final trustAsync = ref.watch(_businessTrustProvider(business.id));
-
-    final cards = <Widget>[];
-
-    if (business.avgRating > 0) {
-      cards.add(
-        _FeaturedCard(
-          icon: Icons.star_rounded,
-          title: business.avgRating.toStringAsFixed(1),
-          subtitle: t.featuredRatingLabel,
-        ),
-      );
-    }
-
-    final amenities = amenitiesAsync.value ?? const [];
-    for (final amenity in amenities) {
-      if (amenity.key == 'kids_area') {
-        cards.add(
-          _FeaturedCard(
-            icon: _amenityIconFor(amenity.key),
-            title: amenity.label,
-          ),
-        );
-        break;
-      }
-    }
-
-    if (trustAsync.value?.menuSource == 'owner') {
-      cards.add(
-        _FeaturedCard(
-          icon: Icons.verified_outlined,
-          title: t.businessBadgeMenuVerified,
-          subtitle: t.featuredMenuVerifiedSubtitle,
-        ),
-      );
-    }
-
-    if (cards.isEmpty) return const SizedBox.shrink();
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: tokens.space16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            t.featuredSectionTitle,
-            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
-          ),
-          SizedBox(height: tokens.space8),
-          Wrap(
-            spacing: tokens.space8,
-            runSpacing: tokens.space8,
-            children: cards,
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _PopularDishCard extends StatelessWidget {
   const _PopularDishCard({required this.item, required this.fallbackCategory});
@@ -711,14 +610,8 @@ class _BusinessLocationHoursSection extends ConsumerWidget {
               children: [
                 Expanded(
                   child: _LocationHoursCard(
-                    icon: Icons.location_on_outlined,
-                    text: business.address?.trim().isNotEmpty == true
-                        ? business.address!
-                        : _locText(
-                            context,
-                            business.district,
-                            business.city,
-                          ),
+                    icon: Icons.location_on_rounded,
+                    text: 'Haritada Aç',
                     onTap: () => unawaited(
                       _openDirections(
                         businessName: business.name,

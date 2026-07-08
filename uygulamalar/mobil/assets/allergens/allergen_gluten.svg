@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Gluten</title>
+  <defs>
+    <linearGradient id="stem" x1="63" y1="17" x2="70" y2="115" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#86B94C"/>
+      <stop offset="1" stop-color="#4E7E28"/>
+    </linearGradient>
+    <linearGradient id="grain" x1="33" y1="24" x2="95" y2="102" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE47C"/>
+      <stop offset="0.65" stop-color="#DFA637"/>
+      <stop offset="1" stop-color="#B8791E"/>
+    </linearGradient>
+  </defs>
+  <path d="M66 18c-3 27-2 63 1 94" stroke="url(#stem)" stroke-width="7" stroke-linecap="round"/>
+  <path d="M63 29c-17 0-27 10-29 25 16 1 27-8 29-25Z" fill="url(#grain)"/>
+  <path d="M68 31c17 1 26 12 27 27-16 0-26-10-27-27Z" fill="url(#grain)"/>
+  <path d="M63 54c-18 0-29 10-31 26 17 1 29-8 31-26Z" fill="url(#grain)"/>
+  <path d="M69 57c18 1 28 12 29 28-17-1-28-11-29-28Z" fill="url(#grain)"/>
+  <path d="M65 81c-15 2-24 11-25 25 15-1 24-10 25-25Z" fill="url(#grain)"/>
+  <path d="M70 83c15 2 23 12 23 26-14-2-22-11-23-26Z" fill="url(#grain)"/>
+  <path d="M42 41c5-4 10-6 15-6M77 43c5 2 9 5 12 10M40 67c6-4 12-6 18-6" stroke="#FFF1A8" stroke-width="4" stroke-linecap="round" opacity="0.75"/>
+</svg>

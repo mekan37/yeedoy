@@ -92,6 +92,26 @@ class AuthService {
     await client.auth.updateUser(UserAttributes(email: newEmail));
   }
 
+  // ── Telefon numarası değiştirme ───────────────────────────────────────────
+
+  /// Telefon numarasını değiştirmek için OTP gönderir.
+  /// Supabase → Authentication → Providers → Phone etkin olmalı.
+  Future<void> requestPhoneChange(String phone) async {
+    await client.auth.updateUser(UserAttributes(phone: phone));
+  }
+
+  /// Telefon numarası değişikliğini OTP kodu ile doğrular.
+  Future<void> verifyPhoneChange({
+    required String phone,
+    required String token,
+  }) async {
+    await client.auth.verifyOTP(
+      phone: phone,
+      token: token,
+      type: OtpType.phoneChange,
+    );
+  }
+
   // ── Çıkış ─────────────────────────────────────────────────────────────────
 
   Future<void> signOut() async {

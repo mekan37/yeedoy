@@ -44,7 +44,7 @@ class _DiscoveryShimmerState extends State<_DiscoveryShimmer>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final Color base = isDark
-        ? const Color(0xFF232638) // slightly lighter than AppDarkColors.card
+        ? const Color(0xFF232638) // slightly lighter dark card surface
         : const Color(0xFFEEECEB); // warm near-white, matches card surface
     final Color highlight = isDark
         ? const Color(0xFF2E3248) // elevated dark surface highlight

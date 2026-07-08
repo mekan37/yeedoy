@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../app/theme/colors.dart';
-import '../../../core/config/app_config.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/locale_controller.dart';
 import '../../legal/legal_providers.dart';
 import '../../legal/legal_repository.dart';
 import '../data/profile_repository.dart';
+import '../../../core/utils/greeting_utils.dart';
 
 class ProfileSettingsPage extends ConsumerStatefulWidget {
   const ProfileSettingsPage({super.key});
@@ -163,9 +162,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Merhaba! 👋',
-                                style: TextStyle(
+                              Text(
+                                timeBasedGreeting(),
+                                style: const TextStyle(
                                   fontSize: 13,
                                   color: AppColors.muted,
                                 ),
@@ -417,23 +416,6 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                       ),
                     ],
                   ),
-
-                  if (kDebugMode || AppConfig.devToolsEnabled) ...[
-                    const SizedBox(height: 12),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ListTile(
-                        tileColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: AppColors.border),
-                        ),
-                        leading: const Icon(Icons.developer_mode_outlined),
-                        title: const Text('Developer Tools'),
-                        onTap: () => context.push('/dev-tools'),
-                      ),
-                    ),
-                  ],
 
                   const SizedBox(height: 24),
                   Center(

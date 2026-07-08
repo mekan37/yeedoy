@@ -17,9 +17,7 @@ class _DiscoveryGreetingHeader extends ConsumerWidget {
       if (name.isNotEmpty) displayName = name;
     }
 
-    final greeting = displayName != null
-        ? t.discoveryGreetingHello(displayName)
-        : t.discoveryGreetingHelloAnon;
+    final greeting = timeBasedGreeting(displayName);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -57,7 +55,7 @@ class _DiscoveryPromoBanner extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final tokens = AppTokens.of(context);
     return Material(
-      color: AppColors.primarySoft,
+      color: AppColors.card,
       borderRadius: BorderRadius.circular(tokens.radius20),
       child: InkWell(
         onTap: onTap,

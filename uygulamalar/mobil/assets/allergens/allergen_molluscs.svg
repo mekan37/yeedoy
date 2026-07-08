@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <title>Yumusakca</title>
+  <defs>
+    <radialGradient id="shell" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(58 44) rotate(61) scale(69 55)">
+      <stop stop-color="#FFE9D6"/>
+      <stop offset="0.55" stop-color="#F1A36D"/>
+      <stop offset="1" stop-color="#A9563E"/>
+    </radialGradient>
+  </defs>
+  <path d="M23 94c2-39 25-72 57-80 24 23 31 58 16 88-21 8-49 5-73-8Z" fill="url(#shell)"/>
+  <path d="M27 91c18-7 39-30 53-75M46 99c13-14 26-40 34-83M66 101c6-19 12-56 14-85M87 96c0-21-2-55-7-80" stroke="#8D4735" stroke-width="4" stroke-linecap="round" opacity="0.45"/>
+  <path d="M34 87c11 5 25 8 42 7" stroke="#FFE1C8" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+  <path d="M23 94c2-39 25-72 57-80 24 23 31 58 16 88-21 8-49 5-73-8Z" stroke="#8D4735" stroke-width="4" opacity="0.28"/>
+</svg>

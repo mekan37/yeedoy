@@ -331,7 +331,7 @@ class _MenuFilterChip extends StatelessWidget {
           vertical: tokens.space8,
         ),
         decoration: BoxDecoration(
-          color: active ? AppColors.primary : AppColors.cardAlt,
+          color: active ? AppColors.primary : AppColors.card,
           borderRadius: BorderRadius.circular(tokens.radius24),
           border: Border.all(
             color: active ? AppColors.primary : AppColors.border,
