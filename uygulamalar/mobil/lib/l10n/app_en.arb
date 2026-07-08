@@ -5316,5 +5316,13 @@
   "directions": "Directions",
   "@directions": {"description": "Bottom action bar directions button"},
   "viewMenu": "View Menu",
-  "@viewMenu": {"description": "Bottom action bar view menu button"}
+  "@viewMenu": {"description": "Bottom action bar view menu button"},
+  "checkInButton": "I'm Really Here",
+  "@checkInButton": {"description": "Check-in button label on business detail page"},
+  "checkedInToday": "Visited today",
+  "@checkedInToday": {"description": "Check-in confirmation badge shown when user has already checked in today"},
+  "checkInSuccess": "Visit recorded!",
+  "@checkInSuccess": {"description": "Snackbar message shown after successful check-in"},
+  "checkInAlreadyDone": "You already checked in today.",
+  "@checkInAlreadyDone": {"description": "Snackbar message when user tries to check in again on the same day"}
 }

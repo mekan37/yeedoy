@@ -126,6 +126,8 @@ class _BusinessGeneralTab extends ConsumerWidget {
         padding: padding,
         children: [
           _ChainBand(businessId: business.id),
+          CheckInButton(businessId: business.id),
+          SizedBox(height: tokens.space16),
           _BusinessPopularDishesSection(business: business),
           _BusinessLocationHoursSection(
             business: business,

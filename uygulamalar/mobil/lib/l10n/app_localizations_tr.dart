@@ -4056,4 +4056,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get viewMenu => 'Menüyü Gör';
+
+  @override
+  String get checkInButton => 'Gerçekten Buradayım';
+
+  @override
+  String get checkedInToday => 'Bugün ziyaret edildi';
+
+  @override
+  String get checkInSuccess => 'Ziyaretiniz kaydedildi!';
+
+  @override
+  String get checkInAlreadyDone => 'Bugün zaten ziyaret kaydettiniz.';
 }

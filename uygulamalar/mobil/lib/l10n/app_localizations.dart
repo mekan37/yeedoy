@@ -7376,6 +7376,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Menüyü Gör'**
   String get viewMenu;
+
+  /// Check-in button label on business detail page
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerçekten Buradayım'**
+  String get checkInButton;
+
+  /// Check-in confirmation badge shown when user has already checked in today
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün ziyaret edildi'**
+  String get checkedInToday;
+
+  /// Snackbar message shown after successful check-in
+  ///
+  /// In tr, this message translates to:
+  /// **'Ziyaretiniz kaydedildi!'**
+  String get checkInSuccess;
+
+  /// Snackbar message when user tries to check in again on the same day
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün zaten ziyaret kaydettiniz.'**
+  String get checkInAlreadyDone;
 }
 
 class _AppLocalizationsDelegate

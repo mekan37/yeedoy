@@ -4076,4 +4076,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewMenu => 'View Menu';
+
+  @override
+  String get checkInButton => 'I\'m Really Here';
+
+  @override
+  String get checkedInToday => 'Visited today';
+
+  @override
+  String get checkInSuccess => 'Visit recorded!';
+
+  @override
+  String get checkInAlreadyDone => 'You already checked in today.';
 }

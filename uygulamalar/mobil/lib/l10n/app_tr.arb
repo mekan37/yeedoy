@@ -5283,5 +5283,13 @@
   "directions": "Yol Tarifi",
   "@directions": {"description": "Bottom action bar directions button"},
   "viewMenu": "Menüyü Gör",
-  "@viewMenu": {"description": "Bottom action bar view menu button"}
+  "@viewMenu": {"description": "Bottom action bar view menu button"},
+  "checkInButton": "Gerçekten Buradayım",
+  "@checkInButton": {"description": "Check-in button label on business detail page"},
+  "checkedInToday": "Bugün ziyaret edildi",
+  "@checkedInToday": {"description": "Check-in confirmation badge shown when user has already checked in today"},
+  "checkInSuccess": "Ziyaretiniz kaydedildi!",
+  "@checkInSuccess": {"description": "Snackbar message shown after successful check-in"},
+  "checkInAlreadyDone": "Bugün zaten ziyaret kaydettiniz.",
+  "@checkInAlreadyDone": {"description": "Snackbar message when user tries to check in again on the same day"}
 }

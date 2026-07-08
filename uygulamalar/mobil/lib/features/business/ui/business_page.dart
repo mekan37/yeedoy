@@ -40,6 +40,7 @@ import '../domain/business_amenities_provider.dart';
 import '../domain/meal_card_providers_provider.dart';
 import '../data/check_in_repository.dart';
 import '../domain/business_checkins_provider.dart';
+import '../domain/check_in_provider.dart';
 import '../domain/business_new_items_provider.dart';
 import '../domain/business_trending_provider.dart';
 import '../domain/business_trending_item.dart';
@@ -64,6 +65,7 @@ part 'parts/business_sections_scroll.dart';
 part 'parts/business_header.dart';
 part 'parts/business_menu_preview.dart';
 part 'parts/business_state_views.dart';
+part 'parts/check_in_button.dart';
 
 final _businessProvider = FutureProvider.family<Business, String>((ref, id) {
   return ref.watch(discoveryRepositoryProvider).fetchBusiness(id);

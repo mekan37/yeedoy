@@ -7,6 +7,8 @@ final checkInRepositoryProvider = Provider<CheckInRepository>((ref) {
   return CheckInRepository(ref.watch(supabaseProvider));
 });
 
+enum CheckInResult { success, alreadyCheckedIn, notAuthenticated, error }
+
 class CheckInRepository {
   CheckInRepository(this._client);
 
@@ -29,5 +31,28 @@ class CheckInRepository {
         'p_client_id': clientId,
       },
     );
+  }
+
+  /// Bugün bu işletmeye check-in yapılmış mı kontrol eder.
+  Future<bool> hasCheckedInToday(String businessId) async {
+    final res = await _client.rpc(
+      'get_my_checkin_today_v1',
+      params: {'p_business_id': businessId},
+    );
+    return (res as Map<String, dynamic>)['checked_in'] as bool? ?? false;
+  }
+
+  /// "Gerçekten Buradayım" check-in'i kaydet.
+  Future<CheckInResult> submitCheckIn(String businessId) async {
+    final res = await _client.rpc(
+      'submit_checkin_v1',
+      params: {'p_business_id': businessId},
+    );
+    final map = res as Map<String, dynamic>;
+    if (map['ok'] == true) return CheckInResult.success;
+    final err = (map['error'] as String? ?? '').trim();
+    if (err == 'already_checked_in_today') return CheckInResult.alreadyCheckedIn;
+    if (err == 'not_authenticated') return CheckInResult.notAuthenticated;
+    return CheckInResult.error;
   }
 }
