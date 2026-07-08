@@ -86,11 +86,7 @@ export function EmailCampaignForm({ businessId, businessName }: Props) {
           {state.providerNotConfigured ? (
             <>
               E-posta servisi henüz yapılandırılmamış. Kampanya kaydedildi ancak e-posta
-              gönderilmedi.{' '}
-              <span className="font-[400]">
-                Aktif etmek için <code className="font-mono text-xs">RESEND_API_KEY</code> ortam
-                degiskenini ekleyin.
-              </span>
+              gönderilmedi.
             </>
           ) : state.sentTo > 0 ? (
             `Kampanya gonderildi. ${state.sentTo} kisiye ulasti.`

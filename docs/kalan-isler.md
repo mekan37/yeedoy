@@ -92,23 +92,6 @@
 
 > Detaylı entegrasyon durumu için bkz. `docs/delivery/delivery-integration-status.md`
 
-### Resend Email Runtime Env
-- **Durum:** 🟡 KISMEN HAZIR — kod hazır, `RESEND_API_KEY` runtime'a eklenmedi
-- **Kanıt:** `gh secret list` ile `RESEND_API_KEY` GitHub secrets'ta yok; `resend-client.ts` fail-safe `provider_not_configured: true` döndürüyor (PR #54, commit `b8826bc`)
-- **Etki:** Orta — owner email kampanyaları gönderilemiyor
-- **Bağımlılık:** Resend hesabı + API key
-- **Önerilen agent:** devops-engineer
-- **Kabul kriteri:** `RESEND_API_KEY` eklendi; test kampanyası `provider_not_configured: false` ve `sent_to > 0` döner
-
-### SMS Entegrasyonu (6 Blocker)
-- **Durum:** 🔴 BLOCKER — route deploy edildi ama tüm altyapı eksik
-- **Kanıt:** `app/sunucu/sahip/sms-kampanya/route.ts:72` mevcut; migration yok, `user_profiles.phone` / `business_follows.is_subscribed_sms` / `sms_campaigns` tabloları yok; `SMS_API_KEY`/`SMS_PROVIDER` env var'ları tanımlı değil
-- **Etki:** Yüksek — KVKK/IYS uyumsuz gönderim riski olmadan hiçbir SMS özelliği çalışmaz
-- **Bağımlılık:** Provider seçimi (Netgsm/İleti Merkezi/Twilio), KVKK consent + opt-out altyapısı
-- **Önerilen branch:** `migration/supabase-sms-campaign-infra` → `feature/web-sms-campaign-delivery`
-- **Önerilen agent:** postgres-pro (migration) → nextjs-developer (route)
-- **Kabul kriteri:** Migration uygulandı, opt-out handler çalışıyor, provider seçildi ve KVKK/IYS onayı alındı
-
 ---
 
 ## P3.5 — Güvenlik Restore İşleri

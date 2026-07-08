@@ -51,7 +51,6 @@ class _NotificationPreferencesPageState
   // Channel toggles
   bool _appNotifs = true;
   bool _emailNotifs = true;
-  bool _smsNotifs = false;
 
   // Categories
   final List<_Category> _categories = [
@@ -116,22 +115,16 @@ class _NotificationPreferencesPageState
       title: 'E-posta Bildirimleri',
       subtitle: 'E-posta adresinize bildirim gönderilsin',
     ),
-    _Channel(
-      icon: Icons.sms_outlined,
-      title: 'SMS Bildirimleri',
-      subtitle: 'Telefon numaranıza SMS gönderilsin',
-    ),
   ];
 
   bool _channelValue(int index) {
-    return [_appNotifs, _emailNotifs, _smsNotifs][index];
+    return [_appNotifs, _emailNotifs][index];
   }
 
   void _setChannel(int index, bool value) {
     setState(() {
       if (index == 0) _appNotifs = value;
       if (index == 1) _emailNotifs = value;
-      if (index == 2) _smsNotifs = value;
     });
   }
 

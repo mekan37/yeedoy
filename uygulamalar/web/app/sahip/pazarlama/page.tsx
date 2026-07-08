@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// MVP scope dışı: pazarlama otomasyonu (push/e-posta/SMS/sadakat) final stratejik
+// MVP scope dışı: pazarlama otomasyonu (push/e-posta/sadakat) final stratejik
 // karar raporuna göre (docs/research/2026-yeedoy-stratejik-karar-raporu.md §9)
 // MVP'de pasif tutulmalıdır. Sayfa silinmedi, sadece erişilemez hale getirildi.
 export default function OwnerMarketingPage(): never {
