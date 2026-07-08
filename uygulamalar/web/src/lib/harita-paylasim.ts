@@ -15,12 +15,14 @@ export function ensurePmtilesProtocol(): void {
   _registered = true;
 }
 
+// jsDelivr CDN — GitHub Pages'e göre daha güvenilir, CORS sorunu yok.
+const ASSETS_CDN = 'https://cdn.jsdelivr.net/gh/protomaps/basemaps-assets@main';
+
 export function buildPmtilesStyle(): StyleSpecification {
   return {
     version: 8,
-    glyphs:
-      'https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf',
-    sprite: 'https://protomaps.github.io/basemaps-assets/sprites/v4/light',
+    glyphs: `${ASSETS_CDN}/fonts/{fontstack}/{range}.pbf`,
+    sprite: `${ASSETS_CDN}/sprites/v4/light`,
     sources: {
       protomaps: {
         type: 'vector',
