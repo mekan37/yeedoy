@@ -340,10 +340,46 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
 
 // ── Yorumlar sidebar: Yorum Yap form ─────────────────────────────────────────
 
+type KriterPuanlar = { taste: number; service: number; price: number; cleanliness: number; atmosphere: number };
+
+const KRITERLER: Array<{ key: keyof KriterPuanlar; label: string }> = [
+  { key: 'taste', label: 'Lezzet' },
+  { key: 'service', label: 'Servis' },
+  { key: 'price', label: 'Fiyat/Değer' },
+  { key: 'cleanliness', label: 'Temizlik' },
+  { key: 'atmosphere', label: 'Ortam' },
+];
+
+function MiniKriterSecici({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
+  const [hover, setHover] = useState(0);
+  return (
+    <div className="flex items-center gap-2">
+      <span className="w-24 shrink-0 text-xs font-[800] text-textStrong">{label}</span>
+      <div className="flex gap-0.5">
+        {[1, 2, 3, 4, 5].map((n) => (
+          <button
+            key={n}
+            type="button"
+            onClick={() => onChange(value === n ? 0 : n)}
+            onMouseEnter={() => setHover(n)}
+            onMouseLeave={() => setHover(0)}
+            className="transition-transform hover:scale-110 focus:outline-none"
+            aria-label={`${label}: ${n} yıldız`}
+          >
+            <span className={(hover || value) >= n ? 'text-amber-400' : 'text-border'}>★</span>
+          </button>
+        ))}
+      </div>
+      {value > 0 && <span className="text-[11px] font-[800] text-amber-600">{value}/5</span>}
+    </div>
+  );
+}
+
 function YorumYapForm({ businessId, businessSlug }: { businessId: string; businessSlug: string }) {
   const router = useRouter();
   const [yildiz, setYildiz] = useState(0);
   const [metin, setMetin] = useState('');
+  const [kriterler, setKriterler] = useState<KriterPuanlar>({ taste: 0, service: 0, price: 0, cleanliness: 0, atmosphere: 0 });
   const [gizli, setGizli] = useState(false);
   const [gonderiliyor, setGonderiliyor] = useState(false);
   const [basarili, setBasarili] = useState(false);
@@ -366,18 +402,24 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         rating: yildiz,
         content: metin.trim() || null,
         is_anonymous: gizli,
+        taste_rating: kriterler.taste || null,
+        service_speed_rating: kriterler.service || null,
+        price_performance_rating: kriterler.price || null,
+        cleanliness_rating: kriterler.cleanliness || null,
+        atmosphere_rating: kriterler.atmosphere || null,
       });
       if (error) throw error;
       setBasarili(true);
       setYildiz(0);
       setMetin('');
+      setKriterler({ taste: 0, service: 0, price: 0, cleanliness: 0, atmosphere: 0 });
       router.refresh();
     } catch (e: any) {
       setHata(e?.message ?? 'Bir hata oluştu, lütfen tekrar deneyin.');
     } finally {
       setGonderiliyor(false);
     }
-  }, [yildiz, metin, gizli, businessId, router]);
+  }, [yildiz, metin, kriterler, gizli, businessId, router]);
 
   if (basarili) {
     return (
@@ -414,6 +456,21 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         className="mt-4 w-full resize-none rounded-[14px] border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder-muted focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/10"
       />
       <p className="mt-1 text-right text-[11px] text-muted">{metin.length}/500</p>
+
+      {/* Alt kriterler */}
+      <div className="mt-4 rounded-[14px] border border-border bg-bg p-3">
+        <p className="mb-3 text-[11px] font-[900] uppercase tracking-wide text-muted">Detaylı Puanlama (isteğe bağlı)</p>
+        <div className="grid gap-2.5">
+          {KRITERLER.map(({ key, label }) => (
+            <MiniKriterSecici
+              key={key}
+              label={label}
+              value={kriterler[key]}
+              onChange={(v) => setKriterler((prev) => ({ ...prev, [key]: v }))}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Photo upload placeholder */}
       <button
