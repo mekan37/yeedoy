@@ -102,17 +102,18 @@
 - **Kabul kriteri:** Tüm asset checklist maddeleri ✅ — icon, feature graphic, 8 Android + 8 iOS screenshot store-assets/ altında
 
 ### City Alias / Search Normalizasyonu
-- **Durum:** ✅ Altyapı hazır — `feature/city-alias-search` branch'inde migration'lar yazıldı, commit bekleniyor
+- **Durum:** ✅ Altyapı hazır — PR #95 main'e merge edildi; production apply PR #94 location normalization öncesinde yapılmalı
 - **Kanıt:** 3 migration dosyası oluşturuldu (2026-06-09):
   - `supabase/migrations/20260609000001_city_search_aliases.sql` — `city_search_aliases` tablosu + 9 alias seed + RLS (anon SELECT, admin write)
   - `supabase/migrations/20260609000002_normalize_tr_location.sql` — `normalize_tr_location_text()` helper fonksiyon
   - `supabase/migrations/20260609000003_update_search_rpcs_city_alias.sql` — `search_businesses_v1` ve `search_nearby_businesses_v3` alias CTE güncelleme
 - **Etki:** PR #94 (chore/normalize-business-location-data) production'a alınmadan önce bu migration'lar uygulanmalı; aksi halde "İzmit"/"Adapazarı"/"Afyon"/"Antakya" aramaları boş sonuç döner
 - **Bağımlılık:** PR #94 (`chore/normalize-business-location-data`) ile bağımlılık sırası:
-  1. `feature/city-alias-search` → merge et ve Supabase'e uygula (20260609000001, 000002, 000003)
-  2. `chore/normalize-business-location-data` (PR #94) → merge et ve Supabase'e uygula
-  3. Production arama testleri: "İzmit", "Adapazarı", "Afyon", "Antakya" için sonuç döndüğünü doğrula
-- **Önerilen branch:** `feature/city-alias-search` (mevcut — review + merge)
+  1. `feature/city-alias-search` / PR #95 → main'e merge edildi; Supabase'e uygula (20260609000001, 000002, 000003)
+  2. `fix/city-alias-normalize-combining-dot` → merge et ve Supabase'e uygula (20260609000004)
+  3. `chore/normalize-business-location-data` (PR #94) → merge et ve Supabase'e uygula
+  4. Production arama testleri: "İzmit", "Adapazarı", "Afyon", "Antakya" için sonuç döndüğünü doğrula
+- **Önerilen branch:** `fix/city-alias-normalize-combining-dot`, ardından `chore/normalize-business-location-data`
 - **Önerilen agent:** postgres-pro
 - **Kabul kriteri:** `SELECT * FROM city_search_aliases` 9 satır döner · `normalize_tr_location_text('İzmit') = 'izmit'` · `search_businesses_v1(p_query=>'...', p_city=>'İzmit')` Kocaeli/İzmit işletmelerini döndürür · PR #94 sonrası arama sonuçları bozmaz
 
