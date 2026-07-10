@@ -17,11 +17,11 @@ type MarketplaceBusinessDetail = AcikIsletmeKarti & {
   lat?: number | null;
   lng?: number | null;
   hours?: Array<{ label: string; value: string; active?: boolean }>;
-  acceptsReservations?: boolean;
-  reservationPhone?: string | null;
-  reservationMinParty?: number;
-  reservationMaxParty?: number;
-  reservationNote?: string | null;
+  acceptsReservations: boolean;
+  reservationPhone: string | null;
+  reservationMinParty: number;
+  reservationMaxParty: number;
+  reservationNote: string | null;
 };
 
 const businessSelect =
@@ -47,6 +47,11 @@ function getFallbackBusinessDetail(slug: string): MarketplaceBusinessDetail | nu
       { label: 'Cumartesi', value: '10:00 - 23:00' },
       { label: 'Pazar', value: '10:00 - 21:00' },
     ],
+    acceptsReservations: false,
+    reservationPhone: null,
+    reservationMinParty: 1,
+    reservationMaxParty: 20,
+    reservationNote: null,
   };
 }
 
@@ -228,11 +233,11 @@ export async function getMarketplaceBusinessBySlug(slug: string) {
     lng: data.lng ?? null,
     menuHref: menu,
     hours,
-    acceptsReservations: (data.accepts_reservations as boolean) ?? false,
-    reservationPhone: (data.reservation_phone as string | null) ?? null,
-    reservationMinParty: (data.reservation_min_party as number) ?? 1,
-    reservationMaxParty: (data.reservation_max_party as number) ?? 20,
-    reservationNote: (data.reservation_note as string | null) ?? null,
+    acceptsReservations: data.accepts_reservations === true,
+    reservationPhone: typeof data.reservation_phone === 'string' ? data.reservation_phone : null,
+    reservationMinParty: typeof data.reservation_min_party === 'number' && data.reservation_min_party > 0 ? data.reservation_min_party : 1,
+    reservationMaxParty: typeof data.reservation_max_party === 'number' && data.reservation_max_party > 0 ? data.reservation_max_party : 20,
+    reservationNote: typeof data.reservation_note === 'string' ? data.reservation_note : null,
   };
 }
 

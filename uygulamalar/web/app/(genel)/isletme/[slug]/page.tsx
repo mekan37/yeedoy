@@ -536,11 +536,11 @@ export default async function BusinessPage({ params }: Props) {
               checkinCount={checkinCount}
               todayHours={todayHours}
               medianPriceCents={business.medianPriceCents ?? null}
-              acceptsReservations={business.acceptsReservations ?? false}
-              reservationPhone={business.reservationPhone ?? null}
-              reservationMinParty={business.reservationMinParty ?? 1}
-              reservationMaxParty={business.reservationMaxParty ?? 20}
-              reservationNote={business.reservationNote ?? null}
+              acceptsReservations={business.acceptsReservations}
+              reservationPhone={business.reservationPhone}
+              reservationMinParty={business.reservationMinParty}
+              reservationMaxParty={business.reservationMaxParty}
+              reservationNote={business.reservationNote}
             />
           </div>
         </div>
