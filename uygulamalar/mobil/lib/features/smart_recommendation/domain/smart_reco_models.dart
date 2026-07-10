@@ -4,6 +4,8 @@ class SmartRecoQuery {
     required this.district,
     required this.partySize,
     required this.budgetMaxCents,
+    this.lat,
+    this.lng,
     this.limit = 10,
   });
 
@@ -11,6 +13,8 @@ class SmartRecoQuery {
   final String district;
   final int partySize;
   final int budgetMaxCents;
+  final double? lat;
+  final double? lng;
   final int limit;
 
   @override
@@ -21,11 +25,13 @@ class SmartRecoQuery {
           district == other.district &&
           partySize == other.partySize &&
           budgetMaxCents == other.budgetMaxCents &&
+          lat == other.lat &&
+          lng == other.lng &&
           limit == other.limit;
 
   @override
   int get hashCode =>
-      Object.hash(city, district, partySize, budgetMaxCents, limit);
+      Object.hash(city, district, partySize, budgetMaxCents, lat, lng, limit);
 }
 
 class SmartRecommendation {

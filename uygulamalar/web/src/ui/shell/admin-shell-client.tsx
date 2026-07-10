@@ -11,6 +11,7 @@ const adminNavSections: NavSection[] = [
     items: [
       { href: '/admin/dashboard', label: 'Genel Bakış', icon: <HomeIcon />, exact: true },
       { href: '/admin/businesses', label: 'İşletmeler', icon: <BuildingIcon /> },
+      { href: '/admin/chains', label: 'Zincirler', icon: <LayersIcon /> },
       { href: '/admin/search', label: 'Arama', icon: <SearchIcon /> },
       { href: '/admin/queue', label: 'İnceleme Kuyruğu', icon: <FlagIcon /> },
       { href: '/admin/claims', label: 'Sahiplenme Kuyruğu', icon: <InboxIcon /> },

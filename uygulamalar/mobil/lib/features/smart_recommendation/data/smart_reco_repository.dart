@@ -37,11 +37,13 @@ class SmartRecoRepository {
       if (fresh != null) return fresh;
     }
     try {
-      final data = await client.rpc('get_smart_recommendations_v1', params: {
+      final data = await client.rpc('get_smart_recommendations_v2', params: {
         'p_city': query.city,
         'p_district': query.district,
         'p_party_size': query.partySize,
         'p_budget_max_cents': query.budgetMaxCents,
+        if (query.lat != null) 'p_lat': query.lat,
+        if (query.lng != null) 'p_lng': query.lng,
         'p_limit': query.limit,
       });
       final list = (data as List?)?.cast<Map<String, dynamic>>() ?? const [];

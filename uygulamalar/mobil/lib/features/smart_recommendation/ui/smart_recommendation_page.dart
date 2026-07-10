@@ -9,6 +9,7 @@ import '../../../core/analytics/app_events.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/location/user_location_controller.dart';
+import '../../../features/discovery/domain/discovery_search_notifier.dart';
 import '../../../core/media/app_network_image.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../domain/smart_reco_models.dart';
@@ -55,11 +56,17 @@ class _SmartRecommendationPageState
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final loc = ref.watch(userLocationProvider);
+    final userLat =
+        ref.watch(discoverySearchProvider.select((s) => s.userLat));
+    final userLng =
+        ref.watch(discoverySearchProvider.select((s) => s.userLng));
     final query = SmartRecoQuery(
       city: loc.city ?? '',
       district: loc.district ?? '',
       partySize: _partySize,
       budgetMaxCents: _selectedRange.maxCents,
+      lat: userLat,
+      lng: userLng,
     );
 
     return Material(

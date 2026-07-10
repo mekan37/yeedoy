@@ -146,6 +146,7 @@ export function IsletmeKonumBolumu({ business }: { business: AcikIsletmeDetayi }
           <BusinessMap
             location={{ lat: business.lat, lng: business.lng }}
             name={business.name}
+            logo_url={business.logoUrl}
             address={business.address}
             className="mt-2 h-48 w-full overflow-hidden rounded-xl"
           />

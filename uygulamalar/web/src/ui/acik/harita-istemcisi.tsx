@@ -1,16 +1,487 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState, type ChangeEvent } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { ensurePmtilesProtocol, buildPmtilesStyle } from '@/src/lib/harita-paylasim';
+import { ensurePmtilesProtocol, buildPmtilesStyle, buildRichMarkerEl } from '@/src/lib/harita-paylasim';
 import type { HaritaIsletme } from '@/src/lib/veri/harita-okuma';
 
-// Türkiye merkezi — Ankara
+interface IsletmeDetay {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  logo_url: string | null;
+  cover_url: string | null;
+  category: string | null;
+  city: string | null;
+  district: string | null;
+  address: string | null;
+  phone: string | null;
+  is_verified: boolean;
+  avg_rating: number | null;
+  reviews_count: number | null;
+}
+
 const DEFAULT_CENTER: [number, number] = [32.8597, 39.9334];
 const DEFAULT_ZOOM = 6;
 const FETCH_DEBOUNCE_MS = 500;
 const MAX_MARKERS = 150;
+
+
+// ── Harita arama kutusu ──────────────────────────────────────────────────────
+
+function HaritaArama({
+  onSec,
+}: {
+  onSec: (isletme: HaritaIsletme) => void;
+}) {
+  const [sorgu, setSorgu] = useState('');
+  const [sonuclar, setSonuclar] = useState<HaritaIsletme[]>([]);
+  const [yukleniyor, setYukleniyor] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    const trimmed = sorgu.trim();
+    if (!trimmed) { setSonuclar([]); return; }
+    setYukleniyor(true);
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/harita-arama?q=${encodeURIComponent(trimmed)}`);
+        if (res.ok) setSonuclar(await res.json());
+      } catch { /* sessiz */ }
+      finally { setYukleniyor(false); }
+    }, 300);
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+  }, [sorgu]);
+
+  const temizle = () => { setSorgu(''); setSonuclar([]); };
+
+  const ilkHarfEl = (name: string, size = 28) => (
+    <div style={{
+      width: size, height: size, borderRadius: '50%',
+      background: '#7F1D1D', flexShrink: 0,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden',
+    }}>
+      <span style={{ color: 'white', fontSize: size * 0.44, fontWeight: 800, fontFamily: 'system-ui,sans-serif' }}>
+        {(name.charAt(0) || '?').toUpperCase()}
+      </span>
+    </div>
+  );
+
+  return (
+    <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 10, width: 280 }}>
+      {/* Giriş satırı */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 6,
+        background: 'white', borderRadius: 10,
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+        padding: '0 10px',
+      }}>
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, opacity: 0.45 }}>
+          <circle cx="8.5" cy="8.5" r="5.5" stroke="#111" strokeWidth="2"/>
+          <path d="M13 13l3.5 3.5" stroke="#111" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+        <input
+          type="text"
+          placeholder="İşletme ara…"
+          value={sorgu}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setSorgu(e.target.value)}
+          style={{
+            border: 'none', outline: 'none',
+            padding: '11px 4px', fontSize: 13, flex: 1,
+            background: 'transparent', fontFamily: 'system-ui,sans-serif',
+            color: '#111',
+          }}
+        />
+        {sorgu && (
+          <button
+            onClick={temizle}
+            aria-label="Temizle"
+            style={{
+              border: 'none', background: 'none', cursor: 'pointer',
+              color: '#9CA3AF', fontSize: 18, lineHeight: 1,
+              padding: 2, flexShrink: 0,
+            }}
+          >×</button>
+        )}
+        {yukleniyor && (
+          <div style={{
+            width: 14, height: 14, border: '2px solid #7F1D1D',
+            borderTopColor: 'transparent', borderRadius: '50%',
+            animation: 'spin 0.7s linear infinite', flexShrink: 0,
+          }} />
+        )}
+      </div>
+
+      {/* Sonuç listesi */}
+      {sonuclar.length > 0 && (
+        <div style={{
+          background: 'white', borderRadius: 10,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          marginTop: 4, overflow: 'hidden',
+        }}>
+          {sonuclar.map((b, i) => (
+            <button
+              key={b.id}
+              onClick={() => { onSec(b); temizle(); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                width: '100%', padding: '9px 12px',
+                border: 'none', background: 'none', cursor: 'pointer',
+                textAlign: 'left',
+                borderBottom: i < sonuclar.length - 1 ? '1px solid #F3F4F6' : 'none',
+              }}
+            >
+              {b.logo_url ? (
+                <div style={{ width: 28, height: 28, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={b.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+              ) : ilkHarfEl(b.name)}
+              <div style={{ overflow: 'hidden' }}>
+                <div style={{
+                  fontWeight: 700, fontSize: 13, color: '#111',
+                  fontFamily: 'system-ui,sans-serif',
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                }}>
+                  {b.name}
+                </div>
+                {b.category && (
+                  <div style={{ fontSize: 11, color: '#9CA3AF', fontFamily: 'system-ui,sans-serif' }}>
+                    {b.category}
+                  </div>
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Sonuç yok */}
+      {sorgu.trim() && !yukleniyor && sonuclar.length === 0 && (
+        <div style={{
+          background: 'white', borderRadius: 10,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+          marginTop: 4, padding: '12px 14px',
+          fontSize: 13, color: '#9CA3AF', fontFamily: 'system-ui,sans-serif',
+        }}>
+          Sonuç bulunamadı
+        </div>
+      )}
+
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+}
+
+// ── Yan panel ────────────────────────────────────────────────────────────────
+
+const PANEL_FONT = 'system-ui,-apple-system,sans-serif';
+
+function StarRating({ rating }: { rating: number }) {
+  const full = Math.floor(rating);
+  const half = rating - full >= 0.3;
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <span key={i} style={{ color: i <= full ? '#F59E0B' : half && i === full + 1 ? '#F59E0B' : '#D1D5DB', fontSize: 13 }}>
+          {i <= full ? '★' : half && i === full + 1 ? '⯨' : '☆'}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, color: '#6B7280' }}>
+      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+    </svg>
+  );
+}
+
+function LocationIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, color: '#6B7280' }}>
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </svg>
+  );
+}
+
+function SkeletonLine({ width = '100%', height = 14, mb = 8 }: { width?: string | number; height?: number; mb?: number }) {
+  return (
+    <div style={{
+      width, height, borderRadius: 6, background: 'linear-gradient(90deg,#F3F4F6 25%,#E5E7EB 50%,#F3F4F6 75%)',
+      backgroundSize: '200% 100%', animation: 'shimmer 1.4s ease-in-out infinite',
+      marginBottom: mb,
+    }} />
+  );
+}
+
+function IsletmePaneli({
+  isletme,
+  onKapat,
+}: {
+  isletme: HaritaIsletme;
+  onKapat: () => void;
+}) {
+  const [detay, setDetay] = useState<IsletmeDetay | null>(null);
+  const [yukleniyor, setYukleniyor] = useState(true);
+  const ilkHarf = (isletme.name.charAt(0) || '?').toUpperCase();
+
+  useEffect(() => {
+    setDetay(null);
+    setYukleniyor(true);
+    fetch(`/api/isletme-ozet?id=${encodeURIComponent(isletme.id)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: IsletmeDetay | null) => { setDetay(d); })
+      .catch(() => {})
+      .finally(() => setYukleniyor(false));
+  }, [isletme.id]);
+
+  const coverUrl = detay?.cover_url ?? isletme.cover_url;
+  const logoUrl = detay?.logo_url ?? isletme.logo_url;
+  const name = detay?.name ?? isletme.name;
+  const slug = detay?.slug ?? isletme.slug;
+  const category = detay?.category ?? isletme.category;
+  const isVerified = detay?.is_verified ?? isletme.is_verified;
+  const avgRating = detay?.avg_rating ?? isletme.avg_rating;
+
+  const locationParts = [detay?.district, detay?.city].filter(Boolean);
+  const locationStr = locationParts.length > 0 ? locationParts.join(', ') : null;
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        width: 'min(320px, 100%)',
+        height: '100%',
+        background: 'white',
+        boxShadow: '-2px 0 32px rgba(0,0,0,0.15)',
+        zIndex: 20,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        fontFamily: PANEL_FONT,
+      }}
+    >
+      {/* ── Hero ── */}
+      <div style={{ position: 'relative', height: 160, flexShrink: 0, background: '#F9FAFB' }}>
+        {coverUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={coverUrl} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <div style={{
+            width: '100%', height: '100%',
+            background: 'linear-gradient(135deg,#7F1D1D 0%,#991B1B 60%,#B91C1C 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <span style={{ color: 'white', fontSize: 72, fontWeight: 900, opacity: 0.18, fontFamily: PANEL_FONT }}>
+              {ilkHarf}
+            </span>
+          </div>
+        )}
+
+        {/* Gradient overlay for bottom fade */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: 60,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.25), transparent)',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Kapat */}
+        <button
+          onClick={onKapat}
+          aria-label="Kapat"
+          style={{
+            position: 'absolute', top: 10, right: 10,
+            width: 30, height: 30, borderRadius: '50%',
+            background: 'rgba(0,0,0,0.45)', border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'white', fontSize: 18, lineHeight: 1,
+            backdropFilter: 'blur(4px)',
+          }}
+        >
+          ×
+        </button>
+      </div>
+
+      {/* ── Identity strip ── */}
+      <div style={{ position: 'relative', zIndex: 1, padding: '0 16px', marginTop: -28, marginBottom: 12, flexShrink: 0, display: 'flex', alignItems: 'flex-end', gap: 10 }}>
+        {/* Logo */}
+        <div style={{
+          width: 56, height: 56, borderRadius: '50%',
+          border: '3px solid white', overflow: 'hidden',
+          background: '#7F1D1D', flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.22)',
+        }}>
+          {logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={logoUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <span style={{ color: 'white', fontSize: 22, fontWeight: 800, fontFamily: PANEL_FONT }}>
+              {ilkHarf}
+            </span>
+          )}
+        </div>
+
+        {/* Verified badge */}
+        {isVerified && (
+          <div style={{ paddingBottom: 4 }}>
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 3,
+              background: '#DBEAFE', color: '#1D4ED8',
+              fontSize: 10, fontWeight: 700, padding: '3px 7px',
+              borderRadius: 20, fontFamily: PANEL_FONT, letterSpacing: '0.01em',
+            }}>
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0L7.5 4.5H12L8.25 7.25L9.75 12L6 9.25L2.25 12L3.75 7.25L0 4.5H4.5L6 0Z"/></svg>
+              Onaylı
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* ── Scrollable content ── */}
+      <div style={{ flex: 1, overflow: 'auto', padding: '0 16px' }}>
+
+        {/* Name + category */}
+        <h2 style={{ margin: '0 0 2px', fontSize: 18, fontWeight: 800, color: '#111', lineHeight: 1.3, fontFamily: PANEL_FONT }}>
+          {name}
+        </h2>
+        {category && (
+          <p style={{ margin: '0 0 12px', fontSize: 12, color: '#9CA3AF', fontFamily: PANEL_FONT, letterSpacing: '0.02em', textTransform: 'uppercase', fontWeight: 600 }}>
+            {category}
+          </p>
+        )}
+
+        {/* Stats row */}
+        {(avgRating != null || (detay?.reviews_count != null)) && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            marginBottom: 14, padding: '8px 12px',
+            background: '#FFF7ED', borderRadius: 10,
+            border: '1px solid #FED7AA',
+          }}>
+            {avgRating != null && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+                <StarRating rating={avgRating} />
+                <span style={{ fontWeight: 800, fontSize: 14, color: '#92400E', fontFamily: PANEL_FONT }}>
+                  {avgRating.toFixed(1)}
+                </span>
+              </div>
+            )}
+            {detay?.reviews_count != null && detay.reviews_count > 0 && (
+              <span style={{ fontSize: 12, color: '#92400E', fontFamily: PANEL_FONT, opacity: 0.75 }}>
+                {detay.reviews_count.toLocaleString('tr-TR')} yorum
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Loading skeleton */}
+        {yukleniyor && !detay && (
+          <div style={{ marginBottom: 12 }}>
+            <SkeletonLine width="70%" />
+            <SkeletonLine width="50%" />
+            <SkeletonLine width="85%" />
+          </div>
+        )}
+
+        {/* Description */}
+        {detay?.description && (
+          <p style={{
+            margin: '0 0 14px', fontSize: 13, color: '#4B5563',
+            fontFamily: PANEL_FONT, lineHeight: 1.55,
+            display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const,
+            overflow: 'hidden',
+          }}>
+            {detay.description}
+          </p>
+        )}
+
+        {/* Divider */}
+        {detay && (detay.address || detay.phone || locationStr) && (
+          <div style={{ height: 1, background: '#F3F4F6', marginBottom: 14 }} />
+        )}
+
+        {/* Location chips: city/district */}
+        {locationStr && (
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 10 }}>
+            <div style={{ marginTop: 1 }}><LocationIcon /></div>
+            <span style={{ fontSize: 13, color: '#374151', fontFamily: PANEL_FONT, lineHeight: 1.45 }}>
+              {locationStr}
+            </span>
+          </div>
+        )}
+
+        {/* Address */}
+        {detay?.address && (
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 10 }}>
+            <div style={{ marginTop: 2 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, color: '#6B7280' }}>
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: 13, color: '#374151', fontFamily: PANEL_FONT, lineHeight: 1.45 }}>
+              {detay.address}
+            </span>
+          </div>
+        )}
+
+        {/* Phone */}
+        {detay?.phone && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <PhoneIcon />
+            <a
+              href={`tel:${detay.phone}`}
+              style={{ fontSize: 13, color: '#7F1D1D', fontFamily: PANEL_FONT, textDecoration: 'none', fontWeight: 600 }}
+            >
+              {detay.phone}
+            </a>
+          </div>
+        )}
+
+        <div style={{ height: 8 }} />
+      </div>
+
+      {/* ── CTA ── */}
+      <div style={{ padding: '12px 16px 20px', flexShrink: 0, borderTop: '1px solid #F3F4F6', background: 'white' }}>
+        <a
+          href={`/b/${slug}`}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+            background: '#7F1D1D', color: 'white',
+            padding: '12px', borderRadius: 12,
+            textDecoration: 'none', fontWeight: 700, fontSize: 14,
+            fontFamily: PANEL_FONT, transition: 'background 0.15s',
+          }}
+        >
+          Detayları Gör
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <style>{`
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ── Ana bileşen ───────────────────────────────────────────────────────────────
 
 interface Props {
   initialBusinesses: HaritaIsletme[];
@@ -21,6 +492,22 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [selected, setSelected] = useState<HaritaIsletme | null>(null);
+
+  // Ref: addMarkers'ı her render'da yeniden oluşturmadan click state'ini günceller
+  const onClickRef = useRef((_b: HaritaIsletme) => {});
+  onClickRef.current = (b) => setSelected(b);
+
+  const handleSearchSelect = useCallback((isletme: HaritaIsletme) => {
+    setSelected(isletme);
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center: [isletme.lng, isletme.lat],
+        zoom: 16,
+        duration: 1000,
+      });
+    }
+  }, []);
 
   const clearMarkers = useCallback(() => {
     markersRef.current.forEach((m) => m.remove());
@@ -31,34 +518,15 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
     (businesses: HaritaIsletme[]) => {
       if (!mapRef.current) return;
       clearMarkers();
-
-      const limited = businesses.slice(0, MAX_MARKERS);
-      limited.forEach((b) => {
-        const el = document.createElement('div');
-        el.className = 'yeedoy-marker';
-        el.style.cssText = `
-          width:28px;height:28px;border-radius:50%;
-          background:#7F1D1D;border:2px solid white;
-          box-shadow:0 1px 4px rgba(0,0,0,.3);
-          cursor:pointer;display:flex;align-items:center;justify-content:center;
-        `;
-        el.innerHTML =
-          '<span style="color:white;font-size:12px;font-weight:700">Y</span>';
-
-        const popup = new maplibregl.Popup({ offset: 18 }).setHTML(
-          `<div style="font-family:sans-serif;min-width:140px;">
-            <p style="margin:0 0 2px;font-weight:600;font-size:13px">${b.name}</p>
-            <p style="margin:0;font-size:11px;color:#6B7280">${b.category}</p>
-            ${b.avg_rating ? `<p style="margin:4px 0 0;font-size:11px">⭐ ${b.avg_rating.toFixed(1)}</p>` : ''}
-            <a href="/b/${b.slug}" style="display:block;margin-top:6px;font-size:11px;color:#7F1D1D;text-decoration:none;font-weight:600">Detaylar →</a>
-          </div>`,
-        );
-
-        const marker = new maplibregl.Marker({ element: el })
+      businesses.slice(0, MAX_MARKERS).forEach((b) => {
+        const el = buildRichMarkerEl(b.name, b.logo_url);
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          onClickRef.current(b);
+        });
+        const marker = new maplibregl.Marker({ element: el, anchor: 'bottom' })
           .setLngLat([b.lng, b.lat])
-          .setPopup(popup)
           .addTo(mapRef.current!);
-
         markersRef.current.push(marker);
       });
     },
@@ -110,6 +578,20 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
 
     map.on('load', () => {
       addMarkers(initialBusinesses);
+
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            map.flyTo({
+              center: [pos.coords.longitude, pos.coords.latitude],
+              zoom: 13,
+              duration: 1200,
+            });
+          },
+          () => {},
+          { timeout: 8000, maximumAge: 300_000 },
+        );
+      }
     });
 
     map.on('moveend', onMoveEnd);
@@ -125,10 +607,13 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
   }, [initialBusinesses, addMarkers, onMoveEnd, clearMarkers]);
 
   return (
-    <div
-      ref={containerRef}
-      style={{ width: '100%', height: '100%', minHeight: '500px' }}
-    />
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '500px' }}>
+      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+      <HaritaArama onSec={handleSearchSelect} />
+      {selected && (
+        <IsletmePaneli isletme={selected} onKapat={() => setSelected(null)} />
+      )}
+    </div>
   );
 }
 

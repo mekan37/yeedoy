@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { ensurePmtilesProtocol, buildPmtilesStyle, makeYeedoyMarkerEl } from '@/src/lib/harita-paylasim';
+import { ensurePmtilesProtocol, buildPmtilesStyle, buildRichMarkerEl } from '@/src/lib/harita-paylasim';
 
 export function OsmHarita({
   lat,
@@ -32,9 +32,8 @@ export function OsmHarita({
     });
 
     map.on('load', () => {
-      new maplibregl.Marker({ element: makeYeedoyMarkerEl() })
+      new maplibregl.Marker({ element: buildRichMarkerEl(name), anchor: 'bottom' })
         .setLngLat([lng, lat])
-        .setPopup(new maplibregl.Popup({ offset: 20 }).setText(name))
         .addTo(map);
     });
 

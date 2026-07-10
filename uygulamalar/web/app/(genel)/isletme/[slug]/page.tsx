@@ -133,7 +133,13 @@ export default async function BusinessPage({ params }: Props) {
     cleanliness_rating: number | null;
   };
 
-  const [, menuData, checkinCount, , , mealCards, similar, detayliYorumlarRaw, reviewStatsRaw] =
+  type ChainInfoRow = {
+    chain_id: string; chain_name: string; chain_slug: string | null;
+    chain_logo_url: string | null; chain_is_verified: boolean;
+    branch_label: string | null; is_template_branch: boolean; branch_count: number;
+  };
+
+  const [, menuData, checkinCount, , , mealCards, similar, detayliYorumlarRaw, reviewStatsRaw, chainInfoRaw] =
     await Promise.all([
       getBusinessReviews(business.id, 6),
       getPublicMenuPageData({ businessSlugOrId: business.slug }).catch(() => null),
@@ -174,6 +180,11 @@ export default async function BusinessPage({ params }: Props) {
         .eq('business_id', business.id)
         .eq('status', 'approved')
         .limit(500) as Promise<{ data: ReviewStatRow[] | null; error: any }>,
+      // Zincir bilgisi
+      (createSupabasePublicClient() as any)
+        .rpc('get_business_chain_info_v1', { p_business_id: business.id })
+        .then((r: any) => (r?.data as ChainInfoRow[]) ?? [])
+        .catch(() => [] as ChainInfoRow[]),
     ]);
 
   // Profilleri ayrı sorgula (FK constraint olmadığından join kullanılamaz)
@@ -196,6 +207,7 @@ export default async function BusinessPage({ params }: Props) {
     user_profiles: r.user_id ? (profilesMap[r.user_id] ?? null) : null,
   }));
   const reviewStats: ReviewStatRow[] = reviewStatsRaw?.data ?? [];
+  const chainInfo: ChainInfoRow | null = (chainInfoRaw as ChainInfoRow[])[0] ?? null;
 
   // Yıldız dağılımı
   const yildizDagitimi: Record<string, number> = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 };
@@ -421,6 +433,18 @@ export default async function BusinessPage({ params }: Props) {
                     <Icon name="check" size={12} /> Doğrulanmış
                   </span>
                 )}
+                {chainInfo && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-[800] text-amber-800 border border-amber-200/60">
+                    <ZincirIkonu />
+                    {chainInfo.chain_name}
+                    {chainInfo.branch_count > 1 && (
+                      <span className="font-[700] text-amber-600">· {chainInfo.branch_count} şube</span>
+                    )}
+                    {chainInfo.chain_is_verified && (
+                      <Icon name="check" size={11} className="text-amber-600" />
+                    )}
+                  </span>
+                )}
                 {checkinCount > 0 && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-[800] text-orange-700">
                     🔥 {checkinCount} kişi şu an burada
@@ -517,5 +541,15 @@ export default async function BusinessPage({ params }: Props) {
         </div>
       </main>
     </PublicShell>
+  );
+}
+
+function ZincirIkonu() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
+    </svg>
   );
 }

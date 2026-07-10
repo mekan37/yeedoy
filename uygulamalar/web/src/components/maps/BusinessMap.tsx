@@ -18,25 +18,18 @@ const LeafletMap = dynamic(() => import('./LeafletMap'), {
 export interface BusinessMapProps {
   location: BusinessLocation;
   name: string;
+  logo_url?: string | null;
   address?: string | null;
   className?: string;
 }
 
-/**
- * Public-facing business location map.
- *
- * Usage:
- *   <BusinessMap location={{ lat: 41.015, lng: 28.979 }} name="Restoran Adı" address="Adres" />
- *
- * Renders nothing when lat/lng are absent.
- * Leaflet (~40 KB gzip) is lazy-loaded — no impact on initial page SSR.
- */
-export function BusinessMap({ location, name, address, className }: BusinessMapProps) {
+export function BusinessMap({ location, name, logo_url, address, className }: BusinessMapProps) {
   if (!location?.lat || !location?.lng) return null;
   return (
     <LeafletMap
       location={location}
       name={name}
+      logo_url={logo_url}
       address={address}
       className={className}
     />

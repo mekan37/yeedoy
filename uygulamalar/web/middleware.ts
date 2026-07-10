@@ -48,10 +48,15 @@ const SAHIP_PREFIX = '/sahip';        // alias for /owner panel pages
 const ADMIN_API_PREFIX = '/api/admin';
 const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici'; // Turkish alias for /api/admin/*
 const LOGIN_PATH = '/login';
+// Owner panel has a dedicated login page — excluded from the owner guard.
+const OWNER_LOGIN_PATH = '/owner/login';
 
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
-  const isOwnerRoute = pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX);
+  // Exclude the owner login page itself from protection (infinite redirect loop otherwise)
+  const isOwnerRoute =
+    (pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX)) &&
+    pathname !== OWNER_LOGIN_PATH;
   const isAdminRoute =
     pathname.startsWith(ADMIN_PREFIX) || pathname.startsWith(YONETICI_PREFIX);
   // /api/admin/* and /sunucu/yonetici/* sit outside the panel prefix — guard
@@ -85,14 +90,13 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
 
   if (!user) {
     const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = LOGIN_PATH;
+    // Owner routes go to the owner-specific login page; admin/api routes use generic login.
+    loginUrl.pathname = isOwnerRoute ? OWNER_LOGIN_PATH : LOGIN_PATH;
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Admin routes (panel pages + API routes) require admin role check.
-  // Uses is_admin() RPC which reads from admin_users table (SECURITY DEFINER).
-  // user_profiles.role / user_profiles.id do not exist in production schema.
+  // Admin routes require admin role.
   if (isAdminRoute || isAdminApiRoute) {
     const { data: isAdmin, error: adminCheckError } = await supabase.rpc('is_admin');
 
@@ -108,6 +112,28 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
     }
 
     if (!isAdmin) {
+      const forbiddenUrl = request.nextUrl.clone();
+      forbiddenUrl.pathname = '/forbidden';
+      return NextResponse.redirect(forbiddenUrl);
+    }
+  }
+
+  // Owner routes require at least one approved owner_claim.
+  if (isOwnerRoute) {
+    const { data: isOwner, error: ownerCheckError } = await supabase.rpc('is_owner');
+
+    if (ownerCheckError) {
+      console.error(
+        '[middleware] is_owner rpc error',
+        `code=${ownerCheckError.code}`,
+        `pathname=${request.nextUrl.pathname}`,
+      );
+      const forbiddenUrl = request.nextUrl.clone();
+      forbiddenUrl.pathname = '/forbidden';
+      return NextResponse.redirect(forbiddenUrl);
+    }
+
+    if (!isOwner) {
       const forbiddenUrl = request.nextUrl.clone();
       forbiddenUrl.pathname = '/forbidden';
       return NextResponse.redirect(forbiddenUrl);

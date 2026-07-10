@@ -96,8 +96,10 @@ const nextConfig = {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https: http:",
+      // blob: worker — MapLibre GL creates its WebGL worker via blob URL
+      "worker-src blob:",
       // In development, also allow the local WebSocket HMR connection.
-      `connect-src 'self'${isDev ? ' ws://localhost:* ws://127.0.0.1:*' : ''} https://${supabaseHost} wss://${supabaseHost} https://*.supabase.co wss://*.supabase.co https://fonts.googleapis.com`,
+      `connect-src 'self'${isDev ? ' ws://localhost:* ws://127.0.0.1:*' : ''} https://${supabaseHost} wss://${supabaseHost} https://*.supabase.co wss://*.supabase.co https://fonts.googleapis.com https://maps.yeedoy.com https://cdn.jsdelivr.net`,
       "frame-src https://www.openstreetmap.org",
       "frame-ancestors 'none'",
       "base-uri 'self'",
