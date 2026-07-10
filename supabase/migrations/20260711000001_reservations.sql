@@ -15,6 +15,9 @@ ALTER TABLE public.businesses
 -- Part B: Create reservations table
 -- ============================================================
 
+-- Fix 1B: Sequence for race-condition-safe reservation_no generation
+CREATE SEQUENCE IF NOT EXISTS public.reservation_no_seq;
+
 CREATE TABLE IF NOT EXISTS public.reservations (
   id                 UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id        UUID         NOT NULL REFERENCES public.businesses(id) ON DELETE CASCADE,
@@ -34,7 +37,9 @@ CREATE TABLE IF NOT EXISTS public.reservations (
   owner_note         TEXT,
   reservation_no     TEXT         NOT NULL,
   created_at         TIMESTAMPTZ  NOT NULL DEFAULT now(),
-  updated_at         TIMESTAMPTZ  NOT NULL DEFAULT now()
+  updated_at         TIMESTAMPTZ  NOT NULL DEFAULT now(),
+  -- Fix 1A: UNIQUE constraint to enforce no duplicate reservation numbers
+  CONSTRAINT reservations_reservation_no_unique UNIQUE (reservation_no)
 );
 
 -- Indexes
@@ -47,11 +52,17 @@ CREATE INDEX IF NOT EXISTS reservations_business_date_idx
 CREATE INDEX IF NOT EXISTS reservations_business_status_idx
   ON public.reservations (business_id, status);
 
+-- Fix 6: Partial index on user_id for user-facing reservation queries
+CREATE INDEX IF NOT EXISTS reservations_user_id_idx
+  ON public.reservations (user_id) WHERE user_id IS NOT NULL;
+
 -- Row Level Security
 ALTER TABLE public.reservations ENABLE ROW LEVEL SECURITY;
 
 -- Policy 1: Authenticated users can SELECT their own reservations
 --            OR reservations for businesses they own
+-- Fix 4: DROP before CREATE for idempotency
+DROP POLICY IF EXISTS "reservations_select_policy" ON public.reservations;
 CREATE POLICY "reservations_select_policy"
   ON public.reservations
   FOR SELECT
@@ -67,6 +78,8 @@ CREATE POLICY "reservations_select_policy"
   );
 
 -- Policy 2: Owners can do ALL operations on their businesses' reservations
+-- Fix 4: DROP before CREATE for idempotency
+DROP POLICY IF EXISTS "reservations_owner_all_policy" ON public.reservations;
 CREATE POLICY "reservations_owner_all_policy"
   ON public.reservations
   FOR ALL
@@ -99,6 +112,8 @@ BEGIN
 END;
 $$;
 
+-- Fix 5: DROP before CREATE for idempotency
+DROP TRIGGER IF EXISTS tg_reservations_updated_at ON public.reservations;
 CREATE TRIGGER tg_reservations_updated_at
   BEFORE UPDATE ON public.reservations
   FOR EACH ROW EXECUTE FUNCTION public.tg_reservations_updated_at();
@@ -125,16 +140,20 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-  v_accepts       BOOLEAN;
-  v_min_party     INT;
-  v_max_party     INT;
-  v_year_count    INT;
+  v_accepts        BOOLEAN;
+  v_min_party      INT;
+  v_max_party      INT;
+  -- Fix 2: advance hours and window days variables
+  v_advance_hours  INT;
+  v_window_days    INT;
   v_reservation_no TEXT;
-  v_new_id        UUID;
+  v_new_id         UUID;
 BEGIN
   -- 1. Look up business
-  SELECT accepts_reservations, reservation_min_party, reservation_max_party
-    INTO v_accepts, v_min_party, v_max_party
+  -- Fix 2: also fetch reservation_advance_hours and reservation_window_days
+  SELECT accepts_reservations, reservation_min_party, reservation_max_party,
+         reservation_advance_hours, reservation_window_days
+    INTO v_accepts, v_min_party, v_max_party, v_advance_hours, v_window_days
     FROM public.businesses
    WHERE id = p_business_id AND is_active = true;
 
@@ -154,6 +173,24 @@ BEGIN
       USING ERRCODE = 'P0003';
   END IF;
 
+  -- Fix 2: Validate minimum advance booking hours
+  IF (p_date::timestamp + p_time) < (now() + (v_advance_hours || ' hours')::interval) THEN
+    RAISE EXCEPTION 'validation_error: En az % saat önceden rezervasyon yapılmalıdır', v_advance_hours
+      USING ERRCODE = 'P0003';
+  END IF;
+
+  -- Fix 3: Past-date guard
+  IF p_date < CURRENT_DATE THEN
+    RAISE EXCEPTION 'validation_error: Geçmiş bir tarih için rezervasyon yapılamaz'
+      USING ERRCODE = 'P0003';
+  END IF;
+
+  -- Fix 2: Validate maximum booking window days
+  IF p_date > (CURRENT_DATE + v_window_days) THEN
+    RAISE EXCEPTION 'validation_error: Rezervasyon en fazla % gün ileriye alınabilir', v_window_days
+      USING ERRCODE = 'P0003';
+  END IF;
+
   -- 5. Validate guest_name and guest_phone
   IF length(trim(p_guest_name)) < 2 THEN
     RAISE EXCEPTION 'validation_error: Misafir adı en az 2 karakter olmalıdır' USING ERRCODE = 'P0003';
@@ -163,14 +200,11 @@ BEGIN
     RAISE EXCEPTION 'validation_error: Telefon numarası en az 10 karakter olmalıdır' USING ERRCODE = 'P0003';
   END IF;
 
-  -- 6. Generate reservation_no: RZV-YYYY-XXXX
-  SELECT COUNT(*) INTO v_year_count
-    FROM public.reservations
-   WHERE date_part('year', created_at) = date_part('year', now());
+  -- Fix 1C: Generate reservation_no via sequence (race-condition-safe, replaces COUNT approach)
+  v_reservation_no := 'RZV-' || to_char(now(), 'YYYY') || '-'
+                      || lpad(nextval('public.reservation_no_seq')::text, 4, '0');
 
-  v_reservation_no := 'RZV-' || to_char(now(), 'YYYY') || '-' || lpad((v_year_count + 1)::text, 4, '0');
-
-  -- 7. Insert and return
+  -- 6. Insert and return
   INSERT INTO public.reservations (
     business_id,
     user_id,
@@ -236,6 +270,8 @@ AS $$
 DECLARE
   v_total   INT;
   v_rows    JSONB;
+  -- Fix 7: clamped limit variable
+  v_limit   INT;
 BEGIN
   -- 1. Auth check
   IF auth.uid() IS NULL THEN
@@ -251,6 +287,9 @@ BEGIN
   ) THEN
     RAISE EXCEPTION 'unauthorized: Bu işletmenin sahibi değilsiniz' USING ERRCODE = 'P0002';
   END IF;
+
+  -- Fix 7: Clamp p_limit to [1, 200]
+  v_limit := LEAST(GREATEST(p_limit, 1), 200);
 
   -- 3. Count total matching rows
   SELECT COUNT(*)
@@ -288,7 +327,7 @@ BEGIN
        AND (p_date_from IS NULL OR r.reservation_date >= p_date_from)
        AND (p_date_to   IS NULL OR r.reservation_date <= p_date_to)
      ORDER BY r.reservation_date, r.reservation_time
-     LIMIT p_limit OFFSET p_offset
+     LIMIT v_limit OFFSET p_offset
     ) sub;
 
   RETURN jsonb_build_object('rows', v_rows, 'total', v_total);
@@ -344,9 +383,10 @@ BEGIN
   END IF;
 
   -- 4. Update
+  -- Fix 8: Use p_owner_note directly (not COALESCE) so explicit NULL clears the note
   UPDATE public.reservations
      SET status     = p_status,
-         owner_note = COALESCE(p_owner_note, owner_note)
+         owner_note = p_owner_note
    WHERE id          = p_id
      AND business_id = p_business_id;
 
