@@ -12,6 +12,7 @@ import { Icon } from '@/src/ui/acik/simgeler';
 import { AdresKopyalaButonu } from '@/src/ui/acik/isletme-istemci';
 import { OsmHarita } from '@/src/components/maps/OsmHarita';
 import type { AcikIsletmeKarti, AcikMenuUrunKarti } from '@/src/ui/acik/tipler';
+import { ReservasyonFormu } from './rezervasyon-formu';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -890,6 +891,23 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
                         <span className="text-xs font-[700] text-textStrong">{mc.name}</span>
                       </div>
                     ))}
+                  </div>
+                </section>
+              )}
+
+              {/* Rezervasyon */}
+              {acceptsReservations && (
+                <section>
+                  <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                    <h2 className="mb-4 text-base font-black text-textStrong">Rezervasyon Yap</h2>
+                    <ReservasyonFormu
+                      businessId={businessId}
+                      businessName={businessName}
+                      minParty={reservationMinParty}
+                      maxParty={reservationMaxParty}
+                      reservationNote={reservationNote}
+                      reservationPhone={reservationPhone}
+                    />
                   </div>
                 </section>
               )}
