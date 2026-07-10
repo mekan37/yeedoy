@@ -17,10 +17,15 @@ type MarketplaceBusinessDetail = AcikIsletmeKarti & {
   lat?: number | null;
   lng?: number | null;
   hours?: Array<{ label: string; value: string; active?: boolean }>;
+  acceptsReservations?: boolean;
+  reservationPhone?: string | null;
+  reservationMinParty?: number;
+  reservationMaxParty?: number;
+  reservationNote?: string | null;
 };
 
 const businessSelect =
-  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at';
+  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at,accepts_reservations,reservation_phone,reservation_min_party,reservation_max_party,reservation_note';
 
 const fallbackBusinesses: AcikIsletmeKarti[] = [];
 
@@ -223,6 +228,11 @@ export async function getMarketplaceBusinessBySlug(slug: string) {
     lng: data.lng ?? null,
     menuHref: menu,
     hours,
+    acceptsReservations: (data.accepts_reservations as boolean) ?? false,
+    reservationPhone: (data.reservation_phone as string | null) ?? null,
+    reservationMinParty: (data.reservation_min_party as number) ?? 1,
+    reservationMaxParty: (data.reservation_max_party as number) ?? 20,
+    reservationNote: (data.reservation_note as string | null) ?? null,
   };
 }
 

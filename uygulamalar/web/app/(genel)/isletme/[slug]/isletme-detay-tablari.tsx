@@ -82,6 +82,11 @@ export type IsletmeDetayTablariProps = {
   checkinCount: number;
   todayHours: { label: string; value: string } | null;
   medianPriceCents: number | null;
+  acceptsReservations: boolean;
+  reservationPhone: string | null;
+  reservationMinParty: number;
+  reservationMaxParty: number;
+  reservationNote: string | null;
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -801,6 +806,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
     businessUrl, coverUrl, popularItems, menuItems, mealCards, galleryPhotos,
     yorumlar, yorumlarToplam, yildizDagitimi, altPuanOrt, oneriYuzdesi, oneriKisi,
     anahrarKelimeler, similar, checkinCount, todayHours, medianPriceCents,
+    acceptsReservations, reservationPhone, reservationMinParty, reservationMaxParty, reservationNote,
   } = props;
 
   const [aktifTab, setAktifTab] = useState<DetayTab>('genel');
