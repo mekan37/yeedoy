@@ -1,7 +1,9 @@
 'use server';
 
 import { z } from 'zod';
+import { headers } from 'next/headers';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { rateLimit } from '@/src/lib/rate-limit';
 
 const schema = z.object({
   business_id: z.string().uuid(),
@@ -18,6 +20,17 @@ export async function submitReservation(
   _prev: { error?: string; success?: boolean; reservationNo?: string } | null,
   formData: FormData,
 ): Promise<{ error?: string; success?: boolean; reservationNo?: string }> {
+  const h = await headers();
+  const ip =
+    h.get('cf-connecting-ip') ??
+    h.get('x-real-ip') ??
+    h.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    'unknown';
+  const rl = rateLimit(`reservation:${ip}`, 5, 60_000);
+  if (!rl.ok) {
+    return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };
+  }
+
   const parsed = schema.safeParse({
     business_id: formData.get('business_id'),
     guest_name: formData.get('guest_name'),
@@ -52,7 +65,7 @@ export async function submitReservation(
   if (error) {
     const msg = error.message ?? '';
     if (msg.includes('validation_error:')) {
-      return { error: msg.replace('validation_error: ', '') };
+      return { error: msg.replace(/^validation_error:\s*/, '') };
     }
     return { error: 'Rezervasyon oluşturulamadı. Lütfen tekrar deneyin.' };
   }

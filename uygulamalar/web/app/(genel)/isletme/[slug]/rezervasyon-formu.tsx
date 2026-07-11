@@ -29,7 +29,7 @@ export function ReservasyonFormu({
 
   if (state?.success) {
     return (
-      <div className="rounded-2xl border border-green-200 bg-green-50 p-6 text-center">
+      <div role="status" className="rounded-2xl border border-green-200 bg-green-50 p-6 text-center">
         <div className="mb-3 text-3xl text-green-600">&#10003;</div>
         <p className="text-base font-bold text-green-800">Rezervasyonunuz alındı!</p>
         <p className="mt-1 text-sm text-green-700">
@@ -52,8 +52,9 @@ export function ReservasyonFormu({
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-xs font-bold text-textMuted">Ad Soyad *</label>
+          <label htmlFor="guest_name" className="mb-1 block text-xs font-bold text-textMuted">Ad Soyad *</label>
           <input
+            id="guest_name"
             name="guest_name"
             required
             minLength={2}
@@ -63,8 +64,9 @@ export function ReservasyonFormu({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-bold text-textMuted">Telefon *</label>
+          <label htmlFor="guest_phone" className="mb-1 block text-xs font-bold text-textMuted">Telefon *</label>
           <input
+            id="guest_phone"
             name="guest_phone"
             type="tel"
             required
@@ -75,8 +77,9 @@ export function ReservasyonFormu({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-bold text-textMuted">Tarih *</label>
+          <label htmlFor="reservation_date" className="mb-1 block text-xs font-bold text-textMuted">Tarih *</label>
           <input
+            id="reservation_date"
             name="reservation_date"
             type="date"
             required
@@ -85,8 +88,9 @@ export function ReservasyonFormu({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-bold text-textMuted">Saat *</label>
+          <label htmlFor="reservation_time" className="mb-1 block text-xs font-bold text-textMuted">Saat *</label>
           <input
+            id="reservation_time"
             name="reservation_time"
             type="time"
             required
@@ -94,10 +98,11 @@ export function ReservasyonFormu({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-bold text-textMuted">
+          <label htmlFor="party_size" className="mb-1 block text-xs font-bold text-textMuted">
             Kişi Sayısı * ({minParty}–{maxParty})
           </label>
           <input
+            id="party_size"
             name="party_size"
             type="number"
             required
@@ -108,8 +113,9 @@ export function ReservasyonFormu({
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-bold text-textMuted">E-posta</label>
+          <label htmlFor="guest_email" className="mb-1 block text-xs font-bold text-textMuted">E-posta</label>
           <input
+            id="guest_email"
             name="guest_email"
             type="email"
             placeholder="ornek@email.com"
@@ -119,8 +125,9 @@ export function ReservasyonFormu({
       </div>
 
       <div>
-        <label className="mb-1 block text-xs font-bold text-textMuted">Özel İstek</label>
+        <label htmlFor="special_request" className="mb-1 block text-xs font-bold text-textMuted">Özel İstek</label>
         <textarea
+          id="special_request"
           name="special_request"
           rows={2}
           maxLength={500}
@@ -136,7 +143,7 @@ export function ReservasyonFormu({
       )}
 
       {state?.error && (
-        <p className="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600">
+        <p role="alert" className="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-600">
           {state.error}
         </p>
       )}
