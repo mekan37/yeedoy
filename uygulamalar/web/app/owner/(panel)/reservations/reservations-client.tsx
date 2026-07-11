@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { updateReservationStatus } from './actions';
 
 // ── DB type (from owner_list_reservations_v1) ─────────────────────────────────
 
@@ -131,7 +132,7 @@ type TabKey = typeof TABS[number]['key'];
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
-export function ReservationsClient({ initialReservations, total }: Props) {
+export function ReservationsClient({ businessId, initialReservations, total }: Props) {
   const [all, setAll] = useState<Reservation[]>(() => initialReservations.map(toReservation));
   const [selectedId, setSelectedId] = useState<string | undefined>(
     initialReservations.length > 0 ? initialReservations[0].id : undefined,
@@ -159,8 +160,20 @@ export function ReservationsClient({ initialReservations, total }: Props) {
       .filter((r) => channel === 'all' || r.channel === channel);
   }, [all, tab, search, channel]);
 
-  function handleCancel(id: string) {
-    setAll((prev) => prev.map((r) => r.id === id ? { ...r, status: 'İptal Edildi' as Status } : r));
+  async function handleCancel(id: string) {
+    // Optimistic update
+    setAll((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, status: 'İptal Edildi' as Status } : r)),
+    );
+    // Persist to DB
+    const result = await updateReservationStatus(id, businessId, 'cancelled');
+    if (result.error) {
+      // Revert optimistic update on failure
+      setAll((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status: 'Bekliyor' as Status } : r)),
+      );
+      console.error('Rezervasyon iptal edilemedi:', result.error);
+    }
   }
 
   // Stats — compare reservation date string to today's formatted date

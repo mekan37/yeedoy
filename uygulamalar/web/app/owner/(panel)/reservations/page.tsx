@@ -23,11 +23,16 @@ export default async function OwnerReservationsPage() {
 
   if (!claim) redirect('/owner/dashboard');
 
-  const { data: result } = await (supabase as any).rpc('owner_list_reservations_v1', {
+  const { data: result, error: rpcError } = await (supabase as any).rpc('owner_list_reservations_v1', {
     p_business_id: claim.business_id,
     p_limit: 50,
     p_offset: 0,
   });
+
+  if (rpcError) {
+    console.error('[owner/reservations] RPC error:', rpcError.message);
+    // Still render the page with empty data rather than crashing
+  }
 
   return (
     <ReservationsClient

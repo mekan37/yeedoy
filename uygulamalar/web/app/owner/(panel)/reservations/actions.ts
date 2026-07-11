@@ -20,7 +20,13 @@ export async function updateReservationStatus(
     p_owner_note: ownerNote ?? null,
   });
 
-  if (error) return { error: error.message ?? 'Güncelleme başarısız.' };
+  if (error) {
+    const msg = error.message ?? '';
+    if (msg.includes('not_found:') || msg.includes('unauthorized:') || msg.includes('validation_error:')) {
+      return { error: msg.replace(/^(not_found|unauthorized|validation_error):\s*/, '') };
+    }
+    return { error: 'Güncelleme başarısız. Lütfen tekrar deneyin.' };
+  }
   revalidatePath('/owner/reservations');
   return {};
 }
