@@ -60,4 +60,18 @@ class AppColors {
 
   static const star = AppPalette.star;
   static const starOff = AppPalette.starOff;
+
+  // Warning (amber) semantic surfaces
+  static const warningIcon = Color(0xFFD97706); // amber-600 — icon on amber bg
+  static const warningBg = Color(0xFFFEF3C7);   // amber-50  — subtle background
+  // warningBorder → use AppColors.warning (0xFFF59E0B)
+
+  // Danger surface
+  static const dangerBg = Color(0xFFFEE2E2);    // red-100   — subtle error background
+
+  // Success surface
+  static const successBg = Color(0xFFDCFCE7);   // green-100 — subtle success background
+
+  // Utility
+  static const transparent = Color(0x00000000);
 }

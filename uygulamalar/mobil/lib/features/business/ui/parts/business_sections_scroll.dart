@@ -423,18 +423,15 @@ class _ReservationSection extends StatelessWidget {
               ],
             ),
             SizedBox(height: tokens.space8),
-            const Text(
+            Text(
               'Masanızı önceden ayırtın, bekleme olmadan gelin.',
-              style: TextStyle(fontSize: 13, color: AppColors.muted),
+              style: context.captionStyle,
             ),
             if (business.reservationNote != null) ...[
               SizedBox(height: tokens.space8),
               Text(
                 business.reservationNote!,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.muted,
-                ),
+                style: context.captionStyle,
               ),
             ],
             SizedBox(height: tokens.space16),
@@ -445,16 +442,15 @@ class _ReservationSection extends StatelessWidget {
                 onPressed: () => showReservationSheet(context, business),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  foregroundColor: AppColors.onPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(tokens.radius12),
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'Rezervasyon Yap',
-                  style: TextStyle(
+                  style: context.appText.labelLarge!.copyWith(
                     fontWeight: FontWeight.w900,
-                    fontSize: 15,
                   ),
                 ),
               ),
@@ -464,10 +460,7 @@ class _ReservationSection extends StatelessWidget {
               Center(
                 child: Text(
                   'Tel: ${business.reservationPhone}',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.muted,
-                  ),
+                  style: context.captionStyle,
                 ),
               ),
             ],

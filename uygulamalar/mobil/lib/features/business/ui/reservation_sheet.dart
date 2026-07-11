@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/app_tokens.dart';
+import '../../../app/theme/app_typography.dart';
 import '../../../app/theme/colors.dart';
 import '../data/reservation_repository.dart';
 import '../domain/business.dart';
@@ -142,7 +143,7 @@ void showReservationSheet(BuildContext context, Business business) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.transparent,
+    backgroundColor: AppColors.transparent,
     builder: (_) => _ReservationSheet(business: business),
   );
 }
@@ -218,21 +219,14 @@ class _ReservationSheet extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Rezervasyon Yap',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.textStrong,
-                  ),
+                  style: context.sectionTitleStyle,
                 ),
                 const SizedBox(height: 2),
                 Text(
                   business.name,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.muted,
-                  ),
+                  style: context.subtitleStyle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -376,8 +370,7 @@ class _ReservationSheet extends ConsumerWidget {
               const SizedBox(width: 16),
               Text(
                 '${state.partySize}',
-                style: const TextStyle(
-                  fontSize: 20,
+                style: context.appText.titleLarge?.copyWith(
                   fontWeight: FontWeight.w900,
                   color: AppColors.textStrong,
                 ),
@@ -394,7 +387,7 @@ class _ReservationSheet extends ConsumerWidget {
               Expanded(
                 child: Text(
                   '(${business.reservationMinParty}–${business.reservationMaxParty} kişi)',
-                  style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                  style: context.captionStyle,
                 ),
               ),
             ],
@@ -421,9 +414,9 @@ class _ReservationSheet extends ConsumerWidget {
           SizedBox(height: tok.space12),
           _InfoBox(
             text: business.reservationNote!,
-            backgroundColor: const Color(0xFFFEF3C7),
-            borderColor: const Color(0xFFF59E0B),
-            iconColor: const Color(0xFFD97706),
+            backgroundColor: AppColors.warningBg,
+            borderColor: AppColors.warning,
+            iconColor: AppColors.warningIcon,
             icon: Icons.info_outline,
           ),
         ],
@@ -433,7 +426,7 @@ class _ReservationSheet extends ConsumerWidget {
           SizedBox(height: tok.space12),
           _InfoBox(
             text: state.error!,
-            backgroundColor: const Color(0xFFFEE2E2),
+            backgroundColor: AppColors.dangerBg,
             borderColor: AppColors.danger,
             iconColor: AppColors.danger,
             icon: Icons.error_outline,
@@ -482,9 +475,11 @@ class _ReservationSheet extends ConsumerWidget {
                         AlwaysStoppedAnimation<Color>(AppColors.onPrimary),
                   ),
                 )
-              : const Text(
+              : Text(
                   'Rezervasyon Yap',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                  style: context.appText.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
         ),
       ),
@@ -517,7 +512,7 @@ class _ReservationSheet extends ConsumerWidget {
                   width: 72,
                   height: 72,
                   decoration: const BoxDecoration(
-                    color: Color(0xFFDCFCE7),
+                    color: AppColors.successBg,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
@@ -527,19 +522,15 @@ class _ReservationSheet extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: tok.space16),
-                const Text(
+                Text(
                   'Rezervasyon Talebiniz Alındı!',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.textStrong,
-                  ),
+                  style: context.sectionTitleStyle,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: tok.space8),
-                const Text(
+                Text(
                   'İşletme en kısa sürede sizinle iletişime geçecektir.',
-                  style: TextStyle(fontSize: 14, color: AppColors.muted),
+                  style: context.subtitleStyle,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: tok.space20),
@@ -558,15 +549,14 @@ class _ReservationSheet extends ConsumerWidget {
                   ),
                   child: Column(
                     children: [
-                      const Text(
+                      Text(
                         'Rezervasyon No',
-                        style: TextStyle(fontSize: 12, color: AppColors.muted),
+                        style: context.captionStyle,
                       ),
                       const SizedBox(height: 6),
                       Text(
                         reservationNo,
-                        style: const TextStyle(
-                          fontSize: 24,
+                        style: context.appText.headlineMedium?.copyWith(
                           fontWeight: FontWeight.w900,
                           color: AppColors.primary,
                           letterSpacing: 2,
@@ -636,11 +626,7 @@ class _FormField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: AppColors.muted,
-          ),
+          style: context.captionStyle,
         ),
         const SizedBox(height: 6),
         child,
@@ -661,12 +647,16 @@ class _DateTimeDisplay extends StatelessWidget {
   final String hint;
   final IconData icon;
 
+  // 52px = standard input row height (icon 18 + vertical padding 17×2)
+  static const double _inputHeight = 52.0;
+
   @override
   Widget build(BuildContext context) {
+    final tok = AppTokens.of(context);
     final hasValue = value != null;
     return Container(
-      height: 52,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      height: _inputHeight,
+      padding: EdgeInsets.symmetric(horizontal: tok.space12),
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(16),
@@ -757,7 +747,7 @@ class _InfoBox extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: TextStyle(fontSize: 13, color: iconColor),
+              style: context.captionStyle.copyWith(color: iconColor),
             ),
           ),
         ],

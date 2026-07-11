@@ -197,7 +197,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
       </div>
 
       {/* Stats row */}
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard icon={<CalendarStatIcon />} color="text-blue-500" bg="bg-blue-50"
           label="Bugünkü Rezervasyon" value={today.length} sub={`Toplam ${todayPeople} kişi`} />
         <StatCard icon={<ClockIcon />} color="text-amber-500" bg="bg-amber-50"
@@ -206,8 +206,6 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
           label="Onaylanan" value={confirmed.length} sub={`Toplam ${confirmedPeople} kişi`} />
         <StatCard icon={<XCircleIcon />} color="text-red-500" bg="bg-red-50"
           label="İptal Edilen" value={cancelled.length} sub={`Toplam ${cancelledPeople} kişi`} />
-        <StatCard icon={<WalletIcon />} color="text-purple-500" bg="bg-purple-50"
-          label="Bu Ayın Cirosu" value="₺48.750" sub="Rezervasyonlardan" />
       </div>
 
       {/* Tabs */}
@@ -600,7 +598,4 @@ function CheckCircleIcon({ className = 'h-5 w-5' }: { className?: string }) {
 }
 function XCircleIcon({ className = 'h-5 w-5' }: { className?: string }) {
   return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>;
-}
-function WalletIcon({ className = 'h-5 w-5' }: { className?: string }) {
-  return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>;
 }
