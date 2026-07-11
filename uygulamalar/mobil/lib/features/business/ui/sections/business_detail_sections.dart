@@ -496,14 +496,14 @@ class BusinessMealCardsSection extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Geçerli Yemek Kartları',
-                style: TextStyle(fontWeight: FontWeight.w900),
+                style: context.sectionTitleStyle,
               ),
               const SizedBox(height: 6),
-              const Text(
+              Text(
                 'Bu işletmede kabul edilen kartlar aşağıda listelenir.',
-                style: TextStyle(color: AppColors.muted, fontSize: 12),
+                style: context.captionStyle,
               ),
               const SizedBox(height: 10),
               MealCardBadgeRow(providers: providers),

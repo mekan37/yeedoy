@@ -1,5 +1,25 @@
 part of '../business_page.dart';
 
+final _businessDeliveryUrlsProvider = FutureProvider.autoDispose
+    .family<({String? yemeksepeti, String? trendyolgo, String? getir}), String>(
+  (ref, businessId) async {
+    final client = ref.watch(supabaseProvider);
+    final res = await client
+        .from('businesses')
+        .select(
+          'order_yemeksepeti_url, order_trendyolgo_url, order_getir_url',
+        )
+        .eq('id', businessId)
+        .single();
+    final m = (res as Map).cast<String, dynamic>();
+    return (
+      yemeksepeti: m['order_yemeksepeti_url'] as String?,
+      trendyolgo: m['order_trendyolgo_url'] as String?,
+      getir: m['order_getir_url'] as String?,
+    );
+  },
+);
+
 /// Constrains content to the same max-width breakpoints used across the
 /// fixed header and all three tabs (1040px wide / 720px medium / full narrow).
 class _ConstrainedContent extends StatelessWidget {
@@ -277,11 +297,182 @@ class _BusinessGeneralTab extends ConsumerWidget {
             },
           ),
           SizedBox(height: tokens.space16),
+          _BusinessDeliverySection(businessId: business.id),
+          _ReservationSection(business: business),
           BusinessPerksSection(
             businessId: business.id,
             businessName: business.name,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BusinessDeliverySection extends ConsumerWidget {
+  const _BusinessDeliverySection({required this.businessId});
+
+  final String businessId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final urlsAsync = ref.watch(_businessDeliveryUrlsProvider(businessId));
+    return urlsAsync.maybeWhen(
+      data: (urls) {
+        final platforms = <({String asset, String label, String url})>[
+          if (urls.yemeksepeti != null)
+            (
+              asset: 'assets/images/delivery/yemeksepeti.png',
+              label: 'Yemeksepeti',
+              url: urls.yemeksepeti!,
+            ),
+          if (urls.trendyolgo != null)
+            (
+              asset: 'assets/images/delivery/trendyolgo.png',
+              label: 'Trendyol Go',
+              url: urls.trendyolgo!,
+            ),
+          if (urls.getir != null)
+            (
+              asset: 'assets/images/delivery/getiryemek.png',
+              label: 'Getir Yemek',
+              url: urls.getir!,
+            ),
+        ];
+        if (platforms.isEmpty) return const SizedBox.shrink();
+        final tokens = AppTokens.of(context);
+        return AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Online Sipariş', style: context.sectionTitleStyle),
+              SizedBox(height: tokens.space12),
+              ...platforms.map(
+                (p) => Padding(
+                  padding: EdgeInsets.only(bottom: tokens.space8),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(tokens.radius12),
+                    onTap: () => launchUrl(
+                      Uri.parse(p.url),
+                      mode: LaunchMode.externalApplication,
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: tokens.space12,
+                        vertical: 10.0,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.border),
+                        borderRadius: BorderRadius.circular(tokens.radius12),
+                        color: AppColors.bg,
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            p.asset,
+                            height: 28,
+                            fit: BoxFit.contain,
+                          ),
+                          const Spacer(),
+                          const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 13,
+                            color: AppColors.muted,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      orElse: () => const SizedBox.shrink(),
+    );
+  }
+}
+
+class _ReservationSection extends StatelessWidget {
+  const _ReservationSection({required this.business});
+
+  final Business business;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!business.acceptsReservations) return const SizedBox.shrink();
+
+    final tokens = AppTokens.of(context);
+
+    return Padding(
+      padding: EdgeInsets.only(top: tokens.space16),
+      child: AppCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.calendar_today_outlined,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
+                SizedBox(width: tokens.space8),
+                Text('Rezervasyon', style: context.sectionTitleStyle),
+              ],
+            ),
+            SizedBox(height: tokens.space8),
+            const Text(
+              'Masanızı önceden ayırtın, bekleme olmadan gelin.',
+              style: TextStyle(fontSize: 13, color: AppColors.muted),
+            ),
+            if (business.reservationNote != null) ...[
+              SizedBox(height: tokens.space8),
+              Text(
+                business.reservationNote!,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.muted,
+                ),
+              ),
+            ],
+            SizedBox(height: tokens.space16),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: () => showReservationSheet(context, business),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(tokens.radius12),
+                  ),
+                ),
+                child: const Text(
+                  'Rezervasyon Yap',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+            if (business.reservationPhone != null) ...[
+              SizedBox(height: tokens.space8),
+              Center(
+                child: Text(
+                  'Tel: ${business.reservationPhone}',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.muted,
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
