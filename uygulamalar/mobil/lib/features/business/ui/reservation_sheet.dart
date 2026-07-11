@@ -122,7 +122,11 @@ class _ReservationController extends Notifier<_ReservationFormState> {
         successNo: result.reservationNo,
       );
     } catch (e) {
-      state = state.copyWith(pending: false, error: e.toString());
+      final msg = e.toString();
+      final cleanMsg = msg.startsWith('Exception: ')
+          ? msg.substring('Exception: '.length)
+          : msg;
+      state = state.copyWith(pending: false, error: cleanMsg);
     }
   }
 }
@@ -139,9 +143,7 @@ void showReservationSheet(BuildContext context, Business business) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => ProviderScope(
-      child: _ReservationSheet(business: business),
-    ),
+    builder: (_) => _ReservationSheet(business: business),
   );
 }
 
