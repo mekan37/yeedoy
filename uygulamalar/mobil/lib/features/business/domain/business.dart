@@ -22,6 +22,11 @@ class Business {
     this.description,
     this.isVerified = false,
     this.priceLevel,
+    this.acceptsReservations = false,
+    this.reservationPhone,
+    this.reservationMinParty = 1,
+    this.reservationMaxParty = 20,
+    this.reservationNote,
   });
 
   final String id;
@@ -47,6 +52,11 @@ class Business {
   final String? description;
   final bool isVerified;
   final String? priceLevel;
+  final bool acceptsReservations;
+  final String? reservationPhone;
+  final int reservationMinParty;
+  final int reservationMaxParty;
+  final String? reservationNote;
 
   factory Business.fromMap(Map<String, dynamic> m) => Business(
     id: m['id'] as String,
@@ -73,6 +83,11 @@ class Business {
     description: m['description'] as String?,
     isVerified: (m['is_verified'] as bool?) ?? false,
     priceLevel: m['price_level'] as String?,
+    acceptsReservations: (m['accepts_reservations'] as bool?) ?? false,
+    reservationPhone: m['reservation_phone'] as String?,
+    reservationMinParty: (m['reservation_min_party'] as num?)?.toInt() ?? 1,
+    reservationMaxParty: (m['reservation_max_party'] as num?)?.toInt() ?? 20,
+    reservationNote: m['reservation_note'] as String?,
   );
 
   Map<String, dynamic> toMap() => {
@@ -98,5 +113,10 @@ class Business {
     'description': description,
     'is_verified': isVerified,
     'price_level': priceLevel,
+    'accepts_reservations': acceptsReservations,
+    'reservation_phone': reservationPhone,
+    'reservation_min_party': reservationMinParty,
+    'reservation_max_party': reservationMaxParty,
+    'reservation_note': reservationNote,
   };
 }
