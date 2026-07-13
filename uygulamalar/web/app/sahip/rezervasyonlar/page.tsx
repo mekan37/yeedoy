@@ -30,7 +30,7 @@ export default async function OwnerReservationsPage() {
   });
 
   if (rpcError) {
-    console.error('[owner/reservations] RPC error:', rpcError.message);
+    console.error('[sahip/rezervasyonlar] RPC error:', rpcError.message);
     // Still render the page with empty data rather than crashing
   }
 

@@ -66,8 +66,8 @@ const MOCK: Notification[] = [
     body: 'Yarın 19:00 için yeni bir rezervasyon aldınız.',
     tag: 'Rezervasyon', time: '2 saat önce', dateStr: '6 Haziran 2025 · 08:42', isRead: false,
     actions: [
-      { label: 'Rezervasyonu Görüntüle', primary: true, icon: 'calendar', href: '/owner/reservations' },
-      { label: 'Tüm Rezervasyonlar', icon: 'list', href: '/owner/reservations' },
+      { label: 'Rezervasyonu Görüntüle', primary: true, icon: 'calendar', href: '/sahip/rezervasyonlar' },
+      { label: 'Tüm Rezervasyonlar', icon: 'list', href: '/sahip/rezervasyonlar' },
     ],
   },
   {
@@ -447,7 +447,7 @@ export function NotificationsClient() {
           <p className="text-[12px] text-[#64748b]">Hangi bildirimleri alacağınızı ve nasıl alınacağını ayarlar sayfasından düzenleyebilirsiniz.</p>
         </div>
         <Link
-          href="/owner/settings"
+          href="/sahip/ayarlar"
           className="shrink-0 flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-4 py-2 text-[12px] font-[800] text-[#1a1a2e] transition hover:bg-amber-50"
         >
           <SettingsIcon className="h-4 w-4" />
