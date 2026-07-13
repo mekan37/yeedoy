@@ -43,6 +43,6 @@ export async function updateReservationStatus(
     }
     return { error: 'Güncelleme başarısız. Lütfen tekrar deneyin.' };
   }
-  revalidatePath('/owner/reservations');
+  revalidatePath('/sahip/rezervasyonlar');
   return {};
 }

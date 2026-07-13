@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
-import { PhotosClient } from './photos-client';
-import type { PhotoItem } from './photos-client';
+import { PhotosClient } from './fotograflar-istemcisi';
+import type { PhotoItem } from './fotograflar-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'Fotoğraflar | Owner Panel',
+  title: 'Fotoğraflar | Sahip Paneli',
   robots: { index: false, follow: false },
 };
 
@@ -55,7 +55,7 @@ export default async function OwnerPhotosPage() {
   return (
     <div className="flex flex-col">
       <PanelPageHeader
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Fotoğraflar"
         description={
           descParts.length > 0
