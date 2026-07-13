@@ -75,7 +75,7 @@ export default async function MenuEditorPage({ params }: Props) {
           <div className="flex items-center gap-2">
             <span className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${statusInfo.className}`}>{statusInfo.label}</span>
             <Link
-              href={`/karekod/${biz.id}?lang=tr&theme=bold`}
+              href={`/sahip/karekod/${biz.id}?lang=tr&theme=bold`}
               className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong transition-colors hover:bg-bg"
             >
               QR Studio
