@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { PanelActionButton } from '@/src/ui/components/panel-action-button';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import { menuCevirisiniKaydet } from './ceviri-islemleri';
 import {
   DESTEKLENEN_DILLER,
@@ -112,7 +112,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
               onClick={() => setAktifDil(locale)}
               className={`rounded-lg px-4 py-1.5 text-sm font-[800] transition-all duration-150 ${
                 aktifDil === locale
-                  ? 'bg-[#7f1d1d] text-white shadow-sm'
+                  ? 'bg-primary text-white shadow-sm'
                   : 'text-textStrong hover:bg-black/[0.05]'
               }`}
             >
@@ -124,7 +124,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
 
       {/* Menü grupları */}
       {menuGruplari.map(({ menuTitle, items }) => (
-        <PanelSectionCard
+        <PanelBolumKarti
           key={menuTitle}
           title={menuTitle}
           description={`${items.length} ürün — ${DIL_ETIKETLERI[aktifDil]} çevirisi`}
@@ -141,7 +141,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
               return (
                 <div
                   key={satir.itemId}
-                  className="rounded-xl border border-border bg-background p-4"
+                  className="rounded-xl border border-border bg-bg p-4"
                 >
                   {/* Ürün başlığı */}
                   <div className="mb-3 flex items-start justify-between gap-2">
@@ -183,7 +183,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                           handleChange(satir.itemId, aktifDil, 'name', e.target.value)
                         }
                         placeholder={`${satir.itemNameTr} (${DIL_ETIKETLERI[aktifDil]})`}
-                        className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-[#7f1d1d] focus:outline-none focus:ring-1 focus:ring-[#7f1d1d]/30"
+                        className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
                       />
                     </div>
 
@@ -198,7 +198,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                         }
                         placeholder={satir.itemDescTr ?? ''}
                         rows={2}
-                        className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-[#7f1d1d] focus:outline-none focus:ring-1 focus:ring-[#7f1d1d]/30"
+                        className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
                       />
                     </div>
 
@@ -226,7 +226,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
               );
             })}
           </div>
-        </PanelSectionCard>
+        </PanelBolumKarti>
       ))}
     </div>
   );

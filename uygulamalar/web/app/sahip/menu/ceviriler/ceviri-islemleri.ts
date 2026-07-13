@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { logger } from '@/src/lib/kayitci';
 import {
@@ -165,7 +165,7 @@ export async function menuCevirisiniKaydet(
     return { success: false, hata: error.message };
   }
 
-  revalidatePath('/owner/menu/translations');
+  revalidatePath('/sahip/menu/ceviriler');
 
   return { success: true };
 }
