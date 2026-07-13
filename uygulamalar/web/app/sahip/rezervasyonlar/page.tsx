@@ -21,7 +21,7 @@ export default async function OwnerReservationsPage() {
     .limit(1)
     .maybeSingle();
 
-  if (!claim) redirect('/sahip/dashboard');
+  if (!claim) redirect('/sahip/gosterge-panosu');
 
   const { data: result, error: rpcError } = await (supabase as any).rpc('owner_list_reservations_v1', {
     p_business_id: claim.business_id,
