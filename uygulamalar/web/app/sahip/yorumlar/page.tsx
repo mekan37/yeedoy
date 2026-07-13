@@ -4,7 +4,8 @@ import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
-import { YorumSatiri } from './yorum-satiri';
+import { YorumlarIstemcisi } from './yorumlar-istemcisi';
+import type { YorumSatiriVeri } from './yorumlar-istemcisi';
 
 export const metadata: Metadata = {
   title: 'Yorumlar | Sahip Paneli',
@@ -25,7 +26,7 @@ export default async function OwnerReviewsPage() {
   const { data: reviews } = businessIds.length > 0
     ? await (supabase as any)
         .from('reviews')
-        .select('id, business_id, user_id, rating, content, status, created_at, owner_reply, owner_replied_at')
+        .select('id, business_id, user_id, rating, title, content, helpful_count, status, created_at, owner_reply, owner_replied_at')
         .in('business_id', businessIds)
         .order('created_at', { ascending: false })
         .limit(100)
@@ -36,7 +37,9 @@ export default async function OwnerReviewsPage() {
     business_id: string;
     user_id: string | null;
     rating: number;
+    title: string | null;
     content: string | null;
+    helpful_count: number;
     status: string;
     created_at: string;
     owner_reply: string | null;
@@ -57,6 +60,21 @@ export default async function OwnerReviewsPage() {
   );
 
   const unreplied = list.filter((r) => !r.owner_reply).length;
+  const showBusinessName = businessIds.length > 1;
+
+  const reviewRows: YorumSatiriVeri[] = list.map((r) => ({
+    id: r.id,
+    businessId: r.business_id,
+    rating: r.rating,
+    title: r.title,
+    content: r.content,
+    helpfulCount: r.helpful_count,
+    status: r.status,
+    createdAt: r.created_at,
+    displayName: r.user_id ? (profileMap.get(r.user_id) ?? null) : null,
+    ownerReply: r.owner_reply,
+    ownerRepliedAt: r.owner_replied_at,
+  }));
 
   return (
     <div className="flex flex-col">
@@ -78,22 +96,11 @@ export default async function OwnerReviewsPage() {
           />
         ) : (
           <PanelBolumKarti noPadding>
-            <ul className="divide-y divide-border">
-              {list.map((r) => (
-                <YorumSatiri
-                  key={r.id}
-                  reviewId={r.id}
-                  businessName={businessIds.length > 1 ? (businessMap[r.business_id] ?? '') : ''}
-                  rating={r.rating}
-                  content={r.content}
-                  displayName={r.user_id ? (profileMap.get(r.user_id) ?? null) : null}
-                  createdAt={r.created_at}
-                  isVisible={r.status === 'approved'}
-                  ownerReply={r.owner_reply}
-                  ownerRepliedAt={r.owner_replied_at}
-                />
-              ))}
-            </ul>
+            <YorumlarIstemcisi
+              reviews={reviewRows}
+              businessMap={businessMap}
+              showBusinessName={showBusinessName}
+            />
           </PanelBolumKarti>
         )}
       </PanelIcerikYuzeyi>

@@ -35,9 +35,9 @@ const MOCK: Notification[] = [
     quote: '"Kahveleri harika! Özellikle flat white favori oldu. Ortam çok sıcak ve çalışanlar ilgili. Kesinlikle tekrar geleceğim."',
     reviewer: { name: 'Seda K.', initials: 'SK', rating: 5, time: '2 dakika önce' },
     actions: [
-      { label: 'Yorumu Görüntüle', primary: true, icon: 'review', href: '/owner/reviews' },
-      { label: 'Yoruma Yanıt Ver', icon: 'reply', href: '/owner/reviews' },
-      { label: 'Tüm Yorumları Görüntüle', icon: 'list', href: '/owner/reviews' },
+      { label: 'Yorumu Görüntüle', primary: true, icon: 'review', href: '/sahip/yorumlar' },
+      { label: 'Yoruma Yanıt Ver', icon: 'reply', href: '/sahip/yorumlar' },
+      { label: 'Tüm Yorumları Görüntüle', icon: 'list', href: '/sahip/yorumlar' },
     ],
   },
   {
