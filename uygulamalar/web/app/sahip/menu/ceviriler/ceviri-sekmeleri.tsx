@@ -1,30 +1,48 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+type Sekme = 'otomatik' | 'manuel';
 
 interface CeviriSekmeleriProps {
   otomatikIcerik: ReactNode;
   manuelIcerik: ReactNode;
+  varsayilanSekme?: Sekme;
 }
 
-type Sekme = 'otomatik' | 'manuel';
+export function CeviriSekmeleri({
+  otomatikIcerik,
+  manuelIcerik,
+  varsayilanSekme = 'otomatik',
+}: CeviriSekmeleriProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [aktifSekme, setAktifSekme] = useState<Sekme>(varsayilanSekme);
 
-export function CeviriSekmeleri({ otomatikIcerik, manuelIcerik }: CeviriSekmeleriProps) {
-  const [aktifSekme, setAktifSekme] = useState<Sekme>('otomatik');
+  function sekmeSec(sekme: Sekme) {
+    setAktifSekme(sekme);
+    // URL'deki sekme parametresini senkron tut — işletme seçici formu
+    // (tam sayfa GET navigasyonu) bu değeri gizli alan olarak taşıyıp
+    // aktif sekmenin kaybolmasını önler.
+    const params = new URLSearchParams(searchParams.toString());
+    if (sekme === 'otomatik') {
+      params.delete('sekme');
+    } else {
+      params.set('sekme', sekme);
+    }
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }
 
   return (
     <div className="flex flex-col gap-5">
       <div className="flex gap-1 self-start rounded-xl border border-border bg-card p-1">
-        <SekmeButonu
-          aktif={aktifSekme === 'otomatik'}
-          onClick={() => setAktifSekme('otomatik')}
-        >
+        <SekmeButonu aktif={aktifSekme === 'otomatik'} onClick={() => sekmeSec('otomatik')}>
           Otomatik Çeviri
         </SekmeButonu>
-        <SekmeButonu
-          aktif={aktifSekme === 'manuel'}
-          onClick={() => setAktifSekme('manuel')}
-        >
+        <SekmeButonu aktif={aktifSekme === 'manuel'} onClick={() => sekmeSec('manuel')}>
           Manuel Düzenle
         </SekmeButonu>
       </div>

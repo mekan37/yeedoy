@@ -30,11 +30,12 @@ const ENTITY_LABELS: Record<string, string> = {
 };
 
 interface PageProps {
-  searchParams: Promise<{ isletme?: string; menu?: string }>;
+  searchParams: Promise<{ isletme?: string; menu?: string; sekme?: string }>;
 }
 
 export default async function OwnerMenuTranslationsPage({ searchParams }: PageProps) {
-  const { isletme: isletmeId, menu: menuIdParam } = await searchParams;
+  const { isletme: isletmeId, menu: menuIdParam, sekme: sekmeParam } = await searchParams;
+  const aktifSekmeBaslangic: 'otomatik' | 'manuel' = sekmeParam === 'manuel' ? 'manuel' : 'otomatik';
 
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -160,6 +161,7 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
             </label>
             <form method="GET">
               {menuIdParam && <input type="hidden" name="menu" value={menuIdParam} />}
+              <input type="hidden" name="sekme" value={aktifSekmeBaslangic} />
               <select
                 name="isletme"
                 defaultValue={secilenIsletme.id}
@@ -230,7 +232,11 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
         description="Otomatik çeviri veya manuel düzenleme ile menünüzü dillere kazandırın"
       />
       <PanelIcerikYuzeyi className="pt-6">
-        <CeviriSekmeleri otomatikIcerik={otomatikIcerik} manuelIcerik={manuelIcerik} />
+        <CeviriSekmeleri
+          otomatikIcerik={otomatikIcerik}
+          manuelIcerik={manuelIcerik}
+          varsayilanSekme={aktifSekmeBaslangic}
+        />
       </PanelIcerikYuzeyi>
     </div>
   );
