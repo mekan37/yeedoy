@@ -63,7 +63,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
       fd.append('type', type);
       fd.append('file', compressed);
 
-      const response = await fetch('/api/owner/business-branding', { method: 'POST', body: fd });
+      const response = await fetch('/sunucu/sahip/marka-yonetimi', { method: 'POST', body: fd });
       const data = await response.json().catch(() => null) as { error?: string; url?: string } | null;
 
       if (!response.ok) {
