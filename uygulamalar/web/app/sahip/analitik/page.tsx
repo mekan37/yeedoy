@@ -5,8 +5,15 @@ import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { getYogunSaatler } from '@/src/lib/veri/owner/mesgul-saatler';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
-import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
 import { YogunSaatlerKarti } from '@/src/ui/bilesenler/yogun-saatler-karti';
+import { AnalitikIstemcisi } from './analitik-istemcisi';
+import type {
+  GunlukNokta,
+  TrafikKaynagi,
+  IsiHaritasiSatiri,
+  SaatlikNokta,
+  MenuQrGunu,
+} from './analitik-istemcisi';
 
 export const metadata: Metadata = {
   title: 'Analitik | Sahip Paneli',
@@ -25,6 +32,35 @@ function parseAralik(raw: string | undefined): Aralik {
   return '30g';
 }
 
+// Gerçek `source` değerleri → görünen etiketler
+const KAYNAK_ETIKETLERI: Record<string, string> = {
+  web_next_public: 'Doğrudan',
+  menu_page: 'Menü',
+  discover: 'Keşfet',
+  discover_search: 'Keşfet',
+  discover_list: 'Keşfet',
+};
+const KAYNAK_RENKLERI = [
+  'var(--yd-color-primary)',
+  'var(--yd-color-primary-strong)',
+  'var(--yd-color-danger)',
+  'var(--yd-color-warning)',
+  'var(--yd-color-info)',
+];
+
+// JS getDay() → görünen sütun sırası: [Pzt,Sal,Çar,Per,Cum,Cmt,Paz] → getDay()=[1,2,3,4,5,6,0]
+const GUN_SIRASI = [1, 2, 3, 4, 5, 6, 0];
+
+function isiHaritasiSatiriOlustur(metrik: string, hamGunBazli: number[]): IsiHaritasiSatiri {
+  const sayilar = GUN_SIRASI.map((d) => hamGunBazli[d] ?? 0);
+  const max = Math.max(...sayilar, 1);
+  const normlar = sayilar.map((c) => Math.round((c / max) * 100));
+  return { metrik, sayilar, normlar };
+}
+
+const GORUNTULEME_OLAYLARI = ['menu_view', 'business_impression', 'menu_link_opened', 'business_page_view'];
+const ARAMA_OLAYLARI = ['discovery_impression', 'business_impression'];
+
 // ─── Sayfa ────────────────────────────────────────────────────────────────────
 
 interface Props {
@@ -35,6 +71,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const params = await searchParams;
   const aralik = parseAralik(params.aralik);
   const etiket = aralikEtiket[aralik];
+  const gunSayisi = aralikGun[aralik];
 
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -45,88 +82,212 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
 
   const businessIds = businesses.map((b: { id: string }) => b.id);
 
-  const since = new Date(Date.now() - aralikGun[aralik] * 24 * 60 * 60 * 1000).toISOString();
+  if (businessIds.length === 0) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Owner" title="Analitik" description="İşletme performans analitiği" />
+        <PanelIcerikYuzeyi className="pt-6">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-bg py-20 text-center">
+            <p className="text-base font-[800] text-textStrong">İşletme bulunamadı</p>
+            <p className="mt-1 text-sm text-muted">İstatistikleri görmek için önce bir işletme ekleyin.</p>
+          </div>
+        </PanelIcerikYuzeyi>
+      </div>
+    );
+  }
 
-  // Yoğun saatler: ilk işletme için RPC çağrısı (tek business_id alıyor)
-  const yogunSaatler = businessIds.length > 0
-    ? await getYogunSaatler(businessIds[0])
-    : [];
+  const su = Date.now();
+  const suankiBaslangic = new Date(su - gunSayisi * 86400000).toISOString();
+  const oncekiBaslangic = new Date(su - 2 * gunSayisi * 86400000).toISOString();
+  const suankiBaslangicMs = su - gunSayisi * 86400000;
 
-  const [menuViewsRes, qrScansRes, whatsappRes, gunlukOlaylar] = await Promise.all([
-    businessIds.length > 0
-      ? supabase
-          .from('analytics_events')
-          .select('id', { count: 'exact', head: true })
-          .in('business_id', businessIds)
-          .eq('event_name', 'menu_view')
-          .gte('created_at', since)
-      : Promise.resolve({ count: 0 }),
-    businessIds.length > 0
-      ? supabase
-          .from('analytics_events')
-          .select('id', { count: 'exact', head: true })
-          .in('business_id', businessIds)
-          .eq('event_name', 'qr_scan')
-          .gte('created_at', since)
-      : Promise.resolve({ count: 0 }),
-    businessIds.length > 0
-      ? supabase
-          .from('analytics_events')
-          .select('id', { count: 'exact', head: true })
-          .in('business_id', businessIds)
-          .eq('event_name', 'whatsapp_click')
-          .gte('created_at', since)
-      : Promise.resolve({ count: 0 }),
-    // Günlük event sayıları (trend grafiği için)
-    businessIds.length > 0
-      ? (supabase as any)
-          .from('analytics_events')
-          .select('created_at, event_name')
-          .in('business_id', businessIds)
-          .gte('created_at', since)
-          .limit(5000)
-      : Promise.resolve({ data: [] }),
+  // ── Paralel sorgular ────────────────────────────────────────────────────────
+  const [
+    gorunumlerSimdi, gorunumlerOnceki,
+    favorilerSimdi, favorilerOnceki,
+    yorumlarSimdi, yorumlarOnceki,
+    aramalarSimdi, aramalarOnceki,
+    qrSimdi, qrOnceki,
+    whatsappSimdi, whatsappOnceki,
+    // Grafikler/kırılımlar için ham event satırları (bu dönem + önceki dönem)
+    hamOlaylarRes,
+    // Isı haritası için favori ve yorum satırları (bu dönem)
+    favoriSatirlariRes,
+    yorumSatirlariRes,
+  ] = await Promise.all([
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).in('event_name', GORUNTULEME_OLAYLARI).gte('created_at', suankiBaslangic),
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).in('event_name', GORUNTULEME_OLAYLARI)
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('favorites').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).gte('created_at', suankiBaslangic),
+    supabase.from('favorites').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('business_reviews').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('status', 'approved').gte('created_at', suankiBaslangic),
+    supabase.from('business_reviews').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('status', 'approved')
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).in('event_name', ARAMA_OLAYLARI).gte('created_at', suankiBaslangic),
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).in('event_name', ARAMA_OLAYLARI)
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'qr_scan').gte('created_at', suankiBaslangic),
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'qr_scan')
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'whatsapp_click').gte('created_at', suankiBaslangic),
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'whatsapp_click')
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    (supabase as any).from('analytics_events')
+      .select('created_at, event_name, source')
+      .in('business_id', businessIds)
+      .gte('created_at', oncekiBaslangic)
+      .limit(100000),
+
+    supabase.from('favorites')
+      .select('created_at')
+      .in('business_id', businessIds)
+      .gte('created_at', suankiBaslangic)
+      .limit(50000),
+
+    supabase.from('business_reviews')
+      .select('created_at')
+      .in('business_id', businessIds)
+      .eq('status', 'approved')
+      .gte('created_at', suankiBaslangic)
+      .limit(50000),
   ]);
 
-  // Günlük trend verisi
-  const olaylar = (gunlukOlaylar.data ?? []) as Array<{ created_at: string; event_name: string }>;
-  const gunSayisi = aralikGun[aralik];
+  // Yoğun saatler: ilk işletme için RPC çağrısı (tek business_id alıyor)
+  const yogunSaatler = await getYogunSaatler(businessIds[0]);
 
+  type HamOlay = { created_at: string; event_name: string; source: string | null };
+  type TarihSatiri = { created_at: string };
+
+  const tumHamOlaylar: HamOlay[] = hamOlaylarRes.data ?? [];
+  const guncelOlaylar = tumHamOlaylar.filter((e) => new Date(e.created_at).getTime() >= suankiBaslangicMs);
+  const oncekiOlaylar = tumHamOlaylar.filter((e) => new Date(e.created_at).getTime() < suankiBaslangicMs);
+
+  // ── Günlük görüntülenme trendi (bu dönem vs önceki dönem) ────────────────────
+  const gorunumOlaySeti = new Set(GORUNTULEME_OLAYLARI);
+  const guncelGunHaritasi: Record<string, number> = {};
+  const oncekiGunHaritasi: Record<string, number> = {};
+
+  for (const e of guncelOlaylar) {
+    if (gorunumOlaySeti.has(e.event_name)) {
+      const k = e.created_at.split('T')[0];
+      guncelGunHaritasi[k] = (guncelGunHaritasi[k] ?? 0) + 1;
+    }
+  }
+  for (const e of oncekiOlaylar) {
+    if (gorunumOlaySeti.has(e.event_name)) {
+      const k = e.created_at.split('T')[0];
+      oncekiGunHaritasi[k] = (oncekiGunHaritasi[k] ?? 0) + 1;
+    }
+  }
+
+  const gunlukTrend: GunlukNokta[] = Array.from({ length: gunSayisi }, (_, i) => {
+    const d = new Date(su - (gunSayisi - 1 - i) * 86400000);
+    const guncelAnahtar = d.toISOString().split('T')[0];
+    const oncekiAnahtar = new Date(d.getTime() - gunSayisi * 86400000).toISOString().split('T')[0];
+    return {
+      label: d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' }),
+      guncel: guncelGunHaritasi[guncelAnahtar] ?? 0,
+      onceki: oncekiGunHaritasi[oncekiAnahtar] ?? 0,
+    };
+  });
+
+  // ── Trafik kaynağı kırılımı (bu dönem) ────────────────────────────────────────
+  const kaynakHaritasi: Record<string, number> = {};
+  for (const e of guncelOlaylar) {
+    const etiketAdi = KAYNAK_ETIKETLERI[e.source ?? ''] ?? 'Diğer';
+    kaynakHaritasi[etiketAdi] = (kaynakHaritasi[etiketAdi] ?? 0) + 1;
+  }
+  const kaynakToplam = Object.values(kaynakHaritasi).reduce((a, b) => a + b, 0);
+  const trafikKaynaklari: TrafikKaynagi[] = Object.entries(kaynakHaritasi)
+    .sort((a, b) => b[1] - a[1])
+    .map(([ad, sayi], i) => ({
+      ad,
+      deger: kaynakToplam > 0 ? Math.round((sayi / kaynakToplam) * 1000) / 10 : 0,
+      renk: KAYNAK_RENKLERI[Math.min(i, KAYNAK_RENKLERI.length - 1)],
+    }));
+
+  // ── Haftanın günü ısı haritası (görüntülenme/favori/yorum/arama) ─────────────
+  const gunBazliGoruntuleme: number[] = Array(7).fill(0);
+  const gunBazliArama: number[] = Array(7).fill(0);
+  const gunBazliFavori: number[] = Array(7).fill(0);
+  const gunBazliYorum: number[] = Array(7).fill(0);
+
+  for (const e of guncelOlaylar) {
+    const d = new Date(e.created_at).getDay();
+    if (['menu_view', 'menu_link_opened'].includes(e.event_name)) gunBazliGoruntuleme[d]++;
+    if (['discovery_impression', 'business_impression'].includes(e.event_name)) gunBazliArama[d]++;
+  }
+  for (const f of (favoriSatirlariRes.data ?? []) as TarihSatiri[]) {
+    gunBazliFavori[new Date(f.created_at).getDay()]++;
+  }
+  for (const r of (yorumSatirlariRes.data ?? []) as TarihSatiri[]) {
+    gunBazliYorum[new Date(r.created_at).getDay()]++;
+  }
+
+  const isiHaritasi: IsiHaritasiSatiri[] = [
+    isiHaritasiSatiriOlustur('Görüntülenme', gunBazliGoruntuleme),
+    isiHaritasiSatiriOlustur('Favori', gunBazliFavori),
+    isiHaritasiSatiriOlustur('Yorum', gunBazliYorum),
+    isiHaritasiSatiriOlustur('Arama', gunBazliArama),
+  ];
+
+  // ── Görüntülenme bazlı saatlik dağılım (bu dönem) ─────────────────────────────
+  const saatHaritasi = Array<number>(24).fill(0);
+  for (const e of guncelOlaylar) {
+    if (gorunumOlaySeti.has(e.event_name)) {
+      saatHaritasi[new Date(e.created_at).getHours()]++;
+    }
+  }
+  const saatlikGoruntuleme: SaatlikNokta[] = saatHaritasi.map((v, i) => ({
+    saat: i.toString().padStart(2, '0'),
+    sayi: v,
+  }));
+
+  // ── Menü/QR günlük trend + tüm olayların saatlik dağılımı (sahip'in mevcut özelliği) ─
   const gunlukMenu: Record<string, number> = {};
   const gunlukQr: Record<string, number> = {};
   const saatlikDagilim: Record<string, number> = {};
 
-  for (const o of olaylar) {
+  for (const o of guncelOlaylar) {
     const d = new Date(o.created_at);
-    const gun = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    const saat = String(d.getHours()).padStart(2,'0');
+    const gun = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const saat = String(d.getHours()).padStart(2, '0');
     if (o.event_name === 'menu_view') gunlukMenu[gun] = (gunlukMenu[gun] ?? 0) + 1;
     if (o.event_name === 'qr_scan') gunlukQr[gun] = (gunlukQr[gun] ?? 0) + 1;
     saatlikDagilim[saat] = (saatlikDagilim[saat] ?? 0) + 1;
   }
 
-  // Son N günün listesi
-  const gunListesi: { label: string; menu: number; qr: number }[] = [];
+  const menuQrGunleri: MenuQrGunu[] = [];
   for (let i = Math.min(gunSayisi - 1, 13); i >= 0; i--) {
-    const d = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
-    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    const label = i === 0 ? 'Bugün' : `${d.getDate()}/${d.getMonth()+1}`;
-    gunListesi.push({ label, menu: gunlukMenu[key] ?? 0, qr: gunlukQr[key] ?? 0 });
+    const d = new Date(su - i * 86400000);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const label = i === 0 ? 'Bugün' : `${d.getDate()}/${d.getMonth() + 1}`;
+    menuQrGunleri.push({ label, menu: gunlukMenu[key] ?? 0, qr: gunlukQr[key] ?? 0 });
   }
 
-  // Saatlik dağılım 0-23
-  const saatlerVeri: { saat: string; sayi: number }[] = [];
+  const saatlikDagilimVerisi: SaatlikNokta[] = [];
   for (let h = 0; h < 24; h++) {
     const k = String(h).padStart(2, '0');
-    saatlerVeri.push({ saat: `${h}:00`, sayi: saatlikDagilim[k] ?? 0 });
+    saatlikDagilimVerisi.push({ saat: `${h}:00`, sayi: saatlikDagilim[k] ?? 0 });
   }
-
-  const metrics = [
-    { title: 'Menü Görüntüleme',  value: menuViewsRes.count ?? 0,  subtitle: etiket, icon: <EyeIcon /> },
-    { title: 'QR Tarama',         value: qrScansRes.count ?? 0,    subtitle: etiket, icon: <QrIcon /> },
-    { title: 'WhatsApp Tıklama',  value: whatsappRes.count ?? 0,   subtitle: etiket, icon: <PhoneIcon /> },
-    { title: 'İşletme Sayısı',    value: businessIds.length,       subtitle: etiket, icon: <BuildingIcon /> },
-  ];
 
   return (
     <div className="flex flex-col">
@@ -137,42 +298,37 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
         actions={<AralikSecici aktif={aralik} />}
       />
       <PanelIcerikYuzeyi className="pt-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {metrics.map((m) => (
-            <MetricCard
-              key={m.title}
-              title={m.title}
-              value={m.value.toLocaleString('tr-TR')}
-              subtitle={m.subtitle}
-              icon={m.icon}
-            />
-          ))}
-        </div>
-
-        {/* Günlük trend grafiği */}
-        {gunListesi.length > 0 && (
-          <PanelBolumKarti title="Günlük Trend" className="mt-6">
-            <TrendGrafik gunler={gunListesi} />
-          </PanelBolumKarti>
-        )}
-
-        {/* Saatlik dağılım */}
-        {olaylar.length > 0 && (
-          <PanelBolumKarti title="Saatlik Dağılım" className="mt-6">
-            <SaatlikDagilimGrafik saatler={saatlerVeri} />
-          </PanelBolumKarti>
-        )}
+        <AnalitikIstemcisi
+          etiket={etiket}
+          gorunumler={gorunumlerSimdi.count ?? 0}
+          gorunumlerOnceki={gorunumlerOnceki.count ?? 0}
+          favoriler={favorilerSimdi.count ?? 0}
+          favorilerOnceki={favorilerOnceki.count ?? 0}
+          yorumlar={yorumlarSimdi.count ?? 0}
+          yorumlarOnceki={yorumlarOnceki.count ?? 0}
+          aramalar={aramalarSimdi.count ?? 0}
+          aramalarOnceki={aramalarOnceki.count ?? 0}
+          qrTaramalari={qrSimdi.count ?? 0}
+          qrTaramalariOnceki={qrOnceki.count ?? 0}
+          whatsappTiklamalari={whatsappSimdi.count ?? 0}
+          whatsappTiklamalariOnceki={whatsappOnceki.count ?? 0}
+          isletmeSayisi={businessIds.length}
+          gunlukTrend={gunlukTrend}
+          trafikKaynaklari={trafikKaynaklari}
+          isiHaritasi={isiHaritasi}
+          saatlikGoruntuleme={saatlikGoruntuleme}
+          menuQrGunleri={menuQrGunleri}
+          saatlikDagilim={saatlikDagilimVerisi}
+        />
 
         {/* Yoğun Saatler — get_business_busy_hours_v1 (son 28 gün) */}
-        {businessIds.length > 0 && (
-          <PanelBolumKarti
-            title="Yoğun Saatler"
-            description="İlk işletmenize ait saat bazlı yoğunluk analizi"
-            className="mt-6"
-          >
-            <YogunSaatlerKarti veriler={yogunSaatler} />
-          </PanelBolumKarti>
-        )}
+        <PanelBolumKarti
+          title="Yoğun Saatler"
+          description="İlk işletmenize ait saat bazlı yoğunluk analizi"
+          className="mt-6"
+        >
+          <YogunSaatlerKarti veriler={yogunSaatler} />
+        </PanelBolumKarti>
       </PanelIcerikYuzeyi>
     </div>
   );
@@ -182,7 +338,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
 
 function AralikSecici({ aktif }: { aktif: Aralik }) {
   const secenekler: { aralik: Aralik; etiket: string }[] = [
-    { aralik: '7g',  etiket: '7 gün' },
+    { aralik: '7g', etiket: '7 gün' },
     { aralik: '30g', etiket: '30 gün' },
     { aralik: '90g', etiket: '90 gün' },
   ];
@@ -207,141 +363,6 @@ function AralikSecici({ aktif }: { aktif: Aralik }) {
           </Link>
         );
       })}
-    </div>
-  );
-}
-
-// ─── İkonlar ─────────────────────────────────────────────────────────────────
-
-function EyeIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function QrIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.7a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  );
-}
-
-function BuildingIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><path d="M9 22V12h6v10" />
-    </svg>
-  );
-}
-
-// ─── Trend Grafik (SVG inline) ────────────────────────────────────────────────
-
-function TrendGrafik({ gunler }: { gunler: { label: string; menu: number; qr: number }[] }) {
-  const W = 600;
-  const H = 160;
-  const pad = { l: 40, r: 16, t: 16, b: 32 };
-  const innerW = W - pad.l - pad.r;
-  const innerH = H - pad.t - pad.b;
-
-  const maxVal = Math.max(...gunler.flatMap(g => [g.menu, g.qr]), 1);
-  const scaleY = (v: number) => innerH - (v / maxVal) * innerH;
-  const stepX = innerW / Math.max(gunler.length - 1, 1);
-
-  const menuPath = gunler.map((g, i) =>
-    `${i === 0 ? 'M' : 'L'}${pad.l + i * stepX},${pad.t + scaleY(g.menu)}`
-  ).join(' ');
-  const qrPath = gunler.map((g, i) =>
-    `${i === 0 ? 'M' : 'L'}${pad.l + i * stepX},${pad.t + scaleY(g.qr)}`
-  ).join(' ');
-
-  return (
-    <div className="overflow-x-auto">
-      <div className="flex items-center gap-4 mb-2">
-        <span className="flex items-center gap-1.5 text-xs font-[700] text-primary">
-          <span className="h-2 w-4 rounded-full bg-primary inline-block" /> Menü Görüntüleme
-        </span>
-        <span className="flex items-center gap-1.5 text-xs font-[700] text-info">
-          <span className="h-2 w-4 rounded-full bg-info inline-block" /> QR Tarama
-        </span>
-      </div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full max-w-2xl" style={{ minWidth: 320 }}>
-        {/* Grid lines */}
-        {[0, 0.25, 0.5, 0.75, 1].map(t => (
-          <line key={t} x1={pad.l} y1={pad.t + scaleY(maxVal * t)} x2={pad.l + innerW} y2={pad.t + scaleY(maxVal * t)}
-            stroke="var(--yd-color-border)" strokeWidth="1" strokeDasharray="4 4" />
-        ))}
-        {/* Lines */}
-        <path d={menuPath} fill="none" stroke="var(--yd-color-primary)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-        <path d={qrPath} fill="none" stroke="var(--yd-color-info)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-        {/* Dots */}
-        {gunler.map((g, i) => (
-          <g key={i}>
-            <circle cx={pad.l + i * stepX} cy={pad.t + scaleY(g.menu)} r="3" fill="var(--yd-color-primary)" />
-            <circle cx={pad.l + i * stepX} cy={pad.t + scaleY(g.qr)} r="3" fill="var(--yd-color-info)" />
-          </g>
-        ))}
-        {/* X axis labels */}
-        {gunler.filter((_, i) => i % Math.max(1, Math.floor(gunler.length / 7)) === 0 || i === gunler.length - 1).map((g, fi, arr) => {
-          const i = gunler.indexOf(g);
-          return (
-            <text key={fi} x={pad.l + i * stepX} y={H - 6} textAnchor="middle"
-              fontSize="10" fill="var(--yd-color-muted)" fontFamily="inherit">
-              {g.label}
-            </text>
-          );
-        })}
-      </svg>
-    </div>
-  );
-}
-
-// ─── Saatlik Dağılım Grafik ───────────────────────────────────────────────────
-
-function SaatlikDagilimGrafik({ saatler }: { saatler: { saat: string; sayi: number }[] }) {
-  const maxVal = Math.max(...saatler.map(s => s.sayi), 1);
-  const barWidth = Math.floor(100 / saatler.length);
-
-  return (
-    <div>
-      <p className="mb-2 text-xs text-muted">Yoğun saatler — tüm etkinlikler</p>
-      <div className="flex items-end gap-0.5 h-24">
-        {saatler.map(({ saat, sayi }) => {
-          const pct = (sayi / maxVal) * 100;
-          const isHigh = pct > 70;
-          return (
-            <div
-              key={saat}
-              className="relative flex-1 group cursor-default"
-              style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
-              title={`${saat}: ${sayi} etkinlik`}
-            >
-              <div
-                className={`rounded-t transition-all ${isHigh ? 'bg-primary' : 'bg-primary/40'}`}
-                style={{ height: `${Math.max(pct, 2)}%` }}
-              />
-            </div>
-          );
-        })}
-      </div>
-      <div className="flex justify-between mt-1">
-        <span className="text-[10px] text-muted">0:00</span>
-        <span className="text-[10px] text-muted">6:00</span>
-        <span className="text-[10px] text-muted">12:00</span>
-        <span className="text-[10px] text-muted">18:00</span>
-        <span className="text-[10px] text-muted">23:00</span>
-      </div>
     </div>
   );
 }
