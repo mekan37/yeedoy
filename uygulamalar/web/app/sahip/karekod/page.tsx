@@ -47,7 +47,7 @@ export default async function OwnerQrPage() {
                     )}
                   </div>
                   <Link
-                    href={`/karekod/${b.id}`}
+                    href={`/sahip/karekod/${b.id}`}
                     className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-[800] text-white transition-opacity hover:opacity-90"
                   >
                     <QrIcon />

@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState, useEffect, useRef, useState, useCallback } from 'react';
-import { upsertQrCode, deleteQrCode } from './actions';
+import { upsertQrCode, deleteQrCode } from './karekod-islemleri';
 
 export interface QrCode {
   id: string;
@@ -242,7 +242,7 @@ export function QrPageClient({ businessId, businessSlug, siteUrl, initialCodes, 
               <p className="flex-1 text-xs text-textStrong">
                 QR kodlarınız dinamik çalışır. Menünüzdeki yaptığınız değişiklikler anında QR kodlarınıza yansır.
               </p>
-              <a href="/owner/qr" className="shrink-0 text-xs font-[800] text-primary hover:underline">
+              <a href={`/sahip/karekod/${businessId}`} className="shrink-0 text-xs font-[800] text-primary hover:underline">
                 Nasıl Çalışır?
               </a>
             </div>

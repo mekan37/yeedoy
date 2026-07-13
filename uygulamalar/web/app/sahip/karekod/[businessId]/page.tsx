@@ -1,34 +1,29 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
-import { PanelContentSurface } from '@/src/ui/layout/panel-section-card';
-import { QrPageClient, type QrCode, type QrStats } from './qr-client';
+import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
+import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
+import { QrPageClient, type QrCode, type QrStats } from './karekod-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'QR Menü & QR Kod | Owner Panel',
+  title: 'QR Tasarım Kiti | Sahip Paneli',
   robots: { index: false, follow: false },
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ?? 'http://localhost:3000';
 
-export default async function OwnerQrPage() {
+type Props = { params: Promise<{ businessId: string }> };
+
+export default async function OwnerQrPage({ params }: Props) {
+  const { businessId } = await params;
   const supabase = await createSupabaseServerClient();
 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const { data: claim } = await (supabase as any)
-    .from('owner_claims')
-    .select('business_id')
-    .eq('user_id', user.id)
-    .eq('status', 'approved')
-    .limit(1)
-    .maybeSingle() as { data: { business_id: string } | null };
-
-  if (!claim) redirect('/owner/dashboard');
-
-  const businessId = claim.business_id;
+  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  if (!canManageBusiness) notFound();
 
   const { data: biz } = await (supabase as any)
     .from('businesses')
@@ -50,12 +45,12 @@ export default async function OwnerQrPage() {
 
   return (
     <div className="flex flex-col">
-      <PanelPageHeader
+      <PanelSayfaBasligi
         eyebrow="Owner"
         title="QR Menü & QR Kod"
         description="Dijital menünüzü yönetin ve QR kodlarınızı oluşturup indirin."
       />
-      <PanelContentSurface className="pt-4">
+      <PanelIcerikYuzeyi className="pt-4">
         <QrPageClient
           businessId={businessId}
           businessSlug={biz?.slug ?? null}
@@ -63,7 +58,7 @@ export default async function OwnerQrPage() {
           initialCodes={codes}
           stats={stats}
         />
-      </PanelContentSurface>
+      </PanelIcerikYuzeyi>
     </div>
   );
 }

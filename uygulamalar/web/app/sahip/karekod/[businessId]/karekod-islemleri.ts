@@ -4,8 +4,6 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
-const REVALIDATE = '/owner/qr';
-
 const QrSchema = z.object({
   business_id: z.string().uuid(),
   name:        z.string().min(1).max(100),
@@ -49,7 +47,7 @@ export async function upsertQrCode(
   }) as { error: { message: string } | null };
 
   if (error) return { error: error.message };
-  revalidatePath(REVALIDATE);
+  revalidatePath(`/sahip/karekod/${d.business_id}`);
   return null;
 }
 
@@ -64,6 +62,6 @@ export async function deleteQrCode(
   }) as { error: { message: string } | null };
 
   if (error) return { error: error.message };
-  revalidatePath(REVALIDATE);
+  revalidatePath(`/sahip/karekod/${businessId}`);
   return null;
 }
