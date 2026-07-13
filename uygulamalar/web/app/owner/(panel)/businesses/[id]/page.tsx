@@ -7,9 +7,9 @@ import { canManageBusiness } from '@/src/lib/qr-access';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
 import { BusinessEditForm } from './business-edit-form';
-import { BrandingEditor } from './branding-editor';
-import { MealCardEditor } from './meal-card-editor';
-import type { MealCardProvider } from './meal-card-editor';
+import { BrandingEditor } from '@/app/sahip/isletmeler/[id]/marka-editoru';
+import { MealCardEditor } from '@/app/sahip/isletmeler/[id]/yemek-karti-editoru';
+import type { MealCardProvider } from '@/app/sahip/isletmeler/[id]/yemek-karti-editoru';
 
 type Props = { params: Promise<{ id: string }> };
 

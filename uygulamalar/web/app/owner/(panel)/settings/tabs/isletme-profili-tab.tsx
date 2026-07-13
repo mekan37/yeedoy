@@ -3,7 +3,7 @@
 import { useActionState, useState, type ReactNode } from 'react';
 import { PanelActionButton } from '@/src/ui/components/panel-action-button';
 import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { BrandingEditor } from '../../businesses/[id]/branding-editor';
+import { BrandingEditor } from '@/app/sahip/isletmeler/[id]/marka-editoru';
 import { updateBusinessProfile, updateContactInfo } from '../actions';
 import type { ActionState } from '../actions';
 import { HoursForm, type WeeklyHourRow } from '../hours/hours-form';

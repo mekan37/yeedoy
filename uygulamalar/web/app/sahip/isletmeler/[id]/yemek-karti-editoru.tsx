@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { PanelActionButton } from '@/src/ui/components/panel-action-button';
-import { updateMealCardProviders } from './actions';
+import { updateMealCardProviders } from './isletme-islemleri';
 
 export interface MealCardProvider {
   id: string;
