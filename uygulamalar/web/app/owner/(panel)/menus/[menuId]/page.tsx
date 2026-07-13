@@ -43,14 +43,15 @@ export default async function OwnerMenuDetailPage({ params }: Props) {
 
   if (!menu) notFound();
 
-  // Verify owner owns this business
-  const { data: biz } = await (supabase as any)
-    .from('businesses')
-    .select('id, name')
-    .eq('id', menu.business_id)
-    .eq('owner_id', user!.id)
-    .single();
-
+  // Verify ownership via owner_claims (businesses table has no owner_id column)
+  const { data: claim } = await (supabase as any)
+    .from('owner_claims')
+    .select('businesses(id, name)')
+    .eq('user_id', user!.id)
+    .eq('business_id', menu.business_id)
+    .eq('status', 'approved')
+    .maybeSingle() as { data: { businesses: { id: string; name: string } } | null };
+  const biz = claim?.businesses ?? null;
   if (!biz) notFound();
 
   // Load sections

@@ -53,10 +53,11 @@ const OWNER_LOGIN_PATH = '/owner/login';
 
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
-  // Exclude the owner login page itself from protection (infinite redirect loop otherwise)
+  // Exclude public owner pages from the auth guard
+  const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/owner'];
   const isOwnerRoute =
     (pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX)) &&
-    pathname !== OWNER_LOGIN_PATH;
+    !OWNER_PUBLIC_PATHS.includes(pathname);
   const isAdminRoute =
     pathname.startsWith(ADMIN_PREFIX) || pathname.startsWith(YONETICI_PREFIX);
   // /api/admin/* and /sunucu/yonetici/* sit outside the panel prefix — guard
@@ -86,7 +87,13 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
     },
   });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // Expired / already-used refresh token — treat as unauthenticated.
+  }
 
   if (!user) {
     const loginUrl = request.nextUrl.clone();

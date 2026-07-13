@@ -11,7 +11,7 @@ const updateMenuSchema = z.object({
   status: z.enum(['draft', 'published', 'archived']).optional(),
 });
 
-type RouteContext = { params: Promise<{ id: string }> };
+type RouteContext = { params: Promise<{ menuId: string }> };
 
 async function resolveOwnership(
   supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
@@ -46,7 +46,7 @@ async function resolveOwnership(
 }
 
 export async function PATCH(request: Request, context: RouteContext) {
-  const { id } = await context.params;
+  const { menuId } = await context.params;
 
   const identity = getRequestIdentity({
     ip: request.headers.get('x-forwarded-for'),
@@ -79,7 +79,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: 'no_fields_to_update' }, { status: 400 });
   }
 
-  const ownership = await resolveOwnership(supabase, id, user.id);
+  const ownership = await resolveOwnership(supabase, menuId, user.id);
   if (!ownership.ok) {
     return ownership.response;
   }
@@ -87,13 +87,13 @@ export async function PATCH(request: Request, context: RouteContext) {
   const { data: updated, error } = await (supabase as any)
     .from('menus')
     .update(parsed.data)
-    .eq('id', id)
+    .eq('id', menuId)
     .select('id, title, status, updated_at')
     .single();
 
   if (error) {
     logger.warn('Owner menu update failed', {
-      menuId: id,
+      menuId,
       error: (error as { message: string }).message,
     });
     return NextResponse.json({ error: 'update_failed' }, { status: 500 });
@@ -103,7 +103,7 @@ export async function PATCH(request: Request, context: RouteContext) {
 }
 
 export async function DELETE(request: Request, context: RouteContext) {
-  const { id } = await context.params;
+  const { menuId } = await context.params;
 
   const identity = getRequestIdentity({
     ip: request.headers.get('x-forwarded-for'),
@@ -123,7 +123,7 @@ export async function DELETE(request: Request, context: RouteContext) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const ownership = await resolveOwnership(supabase, id, user.id);
+  const ownership = await resolveOwnership(supabase, menuId, user.id);
   if (!ownership.ok) {
     return ownership.response;
   }
@@ -132,13 +132,13 @@ export async function DELETE(request: Request, context: RouteContext) {
   const { data: archived, error } = await (supabase as any)
     .from('menus')
     .update({ status: 'archived' })
-    .eq('id', id)
+    .eq('id', menuId)
     .select('id, status')
     .single();
 
   if (error) {
     logger.warn('Owner menu delete (archive) failed', {
-      menuId: id,
+      menuId,
       error: (error as { message: string }).message,
     });
     return NextResponse.json({ error: 'delete_failed' }, { status: 500 });
