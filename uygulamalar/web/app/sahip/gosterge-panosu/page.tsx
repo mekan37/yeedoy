@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Clock } from 'lucide-react';
+import Image from 'next/image';
+import { Clock, Megaphone, BarChart3, BadgeCheck } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 export const metadata: Metadata = {
   title: 'Genel Bakış | Sahip Paneli',
@@ -24,6 +26,36 @@ function sparklinePath(values: number[], w = 300, h = 60): string {
   });
   return `M${pts.join(' L')}`;
 }
+
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 60) return `${m} dk önce`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} saat önce`;
+  return `${Math.floor(h / 24)} gün önce`;
+}
+
+type PrimaryBusiness = {
+  id: string;
+  name: string;
+  category: string | null;
+  logo_url: string | null;
+  cover_url: string | null;
+  is_verified: boolean | null;
+  slug: string | null;
+  is_active: boolean | null;
+};
+
+type RecentReviewRow = {
+  id: string;
+  rating: number;
+  content: string | null;
+  created_at: string;
+  owner_reply: string | null;
+  user_id: string | null;
+  user_profiles?: { display_name: string; avatar_url: string | null } | null;
+};
 
 type DashboardProps = { searchParams: Promise<{ bilgi?: string }> };
 
@@ -48,7 +80,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const since7d = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
   const since30d = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
-  const [menusRes, qrScans30dRes, reviewsRes, views7d, views30d] = await Promise.all([
+  const [menusRes, qrScans30dRes, reviewsRes, views7d, views30d, bizListRes] = await Promise.all([
     bizIds.length > 0
       ? (supabase as any).from('menus').select('id', { count: 'exact', head: true }).in('business_id', bizIds) as Promise<{ count: number | null }>
       : Promise.resolve({ count: 0 }),
@@ -64,6 +96,14 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
     bizIds.length > 0
       ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'menu_view').gte('created_at', since30d)
       : Promise.resolve({ count: 0 }),
+    // İlk işletme (alfabetik) — görsel bölüm için
+    bizIds.length > 0
+      ? (supabase as any)
+          .from('businesses')
+          .select('id, name, category, logo_url, cover_url, is_verified, slug, is_active')
+          .in('id', bizIds)
+          .order('name', { ascending: true }) as Promise<{ data: PrimaryBusiness[] | null }>
+      : Promise.resolve({ data: [] as PrimaryBusiness[] }),
   ]);
 
   const businessCount = bizIds.length;
@@ -72,6 +112,46 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const reviewCount7d = reviewsRes.count ?? 0;
   const viewCount7d = views7d.count ?? 0;
   const viewCount30d = views30d.count ?? 0;
+
+  // Çoklu işletmeli sahipler için görsel bölüm ilk işletmeye (alfabetik) ait gösterilir.
+  const primaryBiz: PrimaryBusiness | null = (bizListRes.data ?? [])[0] ?? null;
+
+  const [bizStatsRes, recentReviewsRes] = await Promise.all([
+    primaryBiz
+      ? (supabase as any).from('businesses_with_stats').select('avg_rating, reviews_count').eq('id', primaryBiz.id).maybeSingle()
+      : Promise.resolve({ data: null }),
+    primaryBiz
+      ? (supabase as any)
+          .from('reviews')
+          .select('id, rating, content, created_at, owner_reply, user_id')
+          .eq('business_id', primaryBiz.id)
+          .eq('status', 'approved')
+          .order('created_at', { ascending: false })
+          .limit(3) as Promise<{ data: RecentReviewRow[] | null }>
+      : Promise.resolve({ data: [] as RecentReviewRow[] }),
+  ]);
+
+  const avgRating: number | null = bizStatsRes?.data?.avg_rating ?? null;
+  const totalReviews: number = bizStatsRes?.data?.reviews_count ?? 0;
+
+  const recentReviews: RecentReviewRow[] = recentReviewsRes?.data ?? [];
+  if (recentReviews.length > 0) {
+    const reviewUserIds = [...new Set(recentReviews.map((r) => r.user_id).filter(Boolean))] as string[];
+    if (reviewUserIds.length > 0) {
+      const { data: reviewerProfiles } = await (supabase as any)
+        .from('user_profiles')
+        .select('user_id, display_name, avatar_url')
+        .in('user_id', reviewUserIds);
+      const profileMap: Record<string, { display_name: string; avatar_url: string | null }> = {};
+      for (const p of reviewerProfiles ?? []) profileMap[p.user_id] = p;
+      for (const r of recentReviews) {
+        if (r.user_id) r.user_profiles = profileMap[r.user_id] ?? null;
+      }
+    }
+  }
+
+  const coverUrl = primaryBiz ? buildMenuImageUrl(primaryBiz.cover_url, { width: 800, quality: 80 }) : null;
+  const logoUrl = primaryBiz?.logo_url ? buildMenuImageUrl(primaryBiz.logo_url, { width: 80, quality: 80 }) : null;
 
   // Daily QR scan counts for last 14 days sparkline
   const since14d = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
@@ -118,6 +198,14 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   }
   const viewDays = Object.entries(viewMap);
   const maxViews = Math.max(...viewDays.map(([, v]) => v), 1);
+
+  const QUICK_ACTIONS = [
+    { href: '/sahip/menuler', icon: <MenuIcon />, title: 'Menü Düzenle', sub: 'Menünüzü güncelleyin' },
+    { href: '/sahip/isletmeler', icon: <BuildingIcon />, title: 'İşletme Bilgileri', sub: 'Bilgilerinizi düzenleyin' },
+    { href: '/sahip/pazarlama/kampanyalar', icon: <Megaphone size={18} />, title: 'Kampanya Oluştur', sub: 'Yeni kampanya ekleyin' },
+    { href: '/sahip/karekod', icon: <QrIcon />, title: 'QR Kodu İndir', sub: 'QR menünüzü indirin' },
+    { href: '/sahip/analitik', icon: <BarChart3 size={18} />, title: 'İstatistikleri Gör', sub: 'Detaylı raporları inceleyin' },
+  ];
 
   return (
     <div className="flex flex-col">
@@ -220,27 +308,192 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
             </PanelBolumKarti>
           </div>
 
+          {/* ── Görsel bölüm: seçili/ilk işletme önizlemesi + son aktiviteler ── */}
+          {primaryBiz && (
+            <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
+              {/* Son Aktiviteler (son 3 yorum önizlemesi + yanıtla linki) */}
+              <PanelBolumKarti
+                title="Son Aktiviteler"
+                actions={
+                  <Link href="/sahip/yorumlar" className="text-xs font-[800] text-primary hover:underline">
+                    Tümünü Gör →
+                  </Link>
+                }
+              >
+                {recentReviews.length === 0 ? (
+                  <p className="text-sm text-muted">Henüz yorum yok</p>
+                ) : (
+                  <div className="divide-y divide-border">
+                    {recentReviews.map((r) => (
+                      <div key={r.id} className="py-3 first:pt-0 last:pb-0">
+                        <div className="mb-1.5 flex items-center gap-3">
+                          <ReviewerAvatar profile={r.user_profiles ?? null} />
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-[800] text-textStrong">
+                              {r.user_profiles?.display_name ?? 'Kullanıcı'}
+                            </p>
+                            <div className="flex items-center gap-2">
+                              <ReviewStars rating={r.rating} />
+                              <span className="text-[11px] font-[600] text-muted">{timeAgo(r.created_at)}</span>
+                              {!r.owner_reply && (
+                                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-[800] text-primary">Yeni</span>
+                              )}
+                            </div>
+                          </div>
+                          <Link
+                            href="/sahip/yorumlar"
+                            className="shrink-0 rounded-lg border border-border px-2.5 py-1 text-[11px] font-[800] text-textStrong hover:bg-bg"
+                          >
+                            ↩ Yanıtla
+                          </Link>
+                        </div>
+                        {r.content && (
+                          <p className="line-clamp-2 text-sm leading-relaxed text-muted">{r.content}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </PanelBolumKarti>
+
+              {/* İşletme önizlemesi (cover/logo/yıldız puanı) */}
+              <PanelBolumKarti noPadding className="overflow-hidden">
+                <div className="relative h-[160px] bg-gradient-to-br from-primary/80 to-primary">
+                  {coverUrl && (
+                    <Image src={coverUrl} alt={primaryBiz.name} fill sizes="340px" className="object-cover" />
+                  )}
+                  {logoUrl && (
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
+                      <Image
+                        src={logoUrl}
+                        alt={primaryBiz.name}
+                        width={60}
+                        height={60}
+                        className="rounded-full border-4 border-card object-cover shadow-md"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="px-5 pb-5 pt-10 text-center">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <p className="text-[15px] font-[900] text-textStrong">{primaryBiz.name}</p>
+                    {primaryBiz.is_verified && (
+                      <BadgeCheck size={16} className="text-blue-600" aria-hidden="true" />
+                    )}
+                  </div>
+                  {primaryBiz.category && (
+                    <p className="mt-0.5 text-xs font-[600] text-muted">{primaryBiz.category}</p>
+                  )}
+                  <div className="mt-2 flex items-center justify-center gap-3 text-xs text-muted">
+                    {avgRating != null && (
+                      <span className="flex items-center gap-1 font-[800] text-textStrong">
+                        <span className="text-amber-500">★</span>
+                        {avgRating.toFixed(1)}
+                        <span className="font-[600] text-muted">({totalReviews})</span>
+                      </span>
+                    )}
+                    <span className="h-3 w-px bg-border" />
+                    <span className={`font-[800] ${primaryBiz.is_active ? 'text-green-600' : 'text-muted'}`}>
+                      {primaryBiz.is_active ? 'Açık' : 'Kapalı'}
+                    </span>
+                  </div>
+                  {businessCount > 1 && (
+                    <p className="mt-2 text-[11px] text-muted">
+                      +{businessCount - 1} işletme daha ·{' '}
+                      <Link href="/sahip/isletmeler" className="font-[700] text-primary hover:underline">
+                        Tümünü gör
+                      </Link>
+                    </p>
+                  )}
+                  <div className="mt-4 flex gap-2">
+                    <Link
+                      href={`/sahip/isletmeler/${primaryBiz.id}`}
+                      className="flex-1 rounded-xl border border-border py-2 text-xs font-[800] text-textStrong transition-colors hover:bg-bg"
+                    >
+                      Sayfayı Düzenle
+                    </Link>
+                    {primaryBiz.slug && (
+                      <Link
+                        href={`/isletme/${primaryBiz.slug}`}
+                        target="_blank"
+                        className="btn-primary flex-1 rounded-xl py-2 text-xs font-[900] text-white transition-opacity hover:opacity-90"
+                      >
+                        Sayfayı Görüntüle
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </PanelBolumKarti>
+            </div>
+          )}
+
           {/* Quick actions */}
-          <PanelBolumKarti title="Hızlı Erişim">
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {[
-                { href: '/sahip/yorumlar', label: `Yorumlar (${reviewCount7d} yeni)`, color: reviewCount7d > 0 ? 'text-blue-600' : '' },
-                { href: '/sahip/analitik', label: 'Analitik', color: '' },
-                { href: '/sahip/envanter', label: 'Envanter', color: '' },
-                { href: '/sahip/menuler', label: 'Menüler', color: '' },
-              ].map(a => (
-                <a
-                  key={a.href}
-                  href={a.href}
-                  className={`flex items-center justify-center rounded-xl border border-border p-3 text-center text-sm font-[700] hover:border-primary hover:text-primary transition-colors ${a.color}`}
+          <PanelBolumKarti title="Hızlı İşlemler">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+              {QUICK_ACTIONS.map((qa) => (
+                <Link
+                  key={qa.href}
+                  href={qa.href}
+                  className="flex flex-col items-center gap-2 rounded-2xl border border-border bg-card p-4 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  {a.label}
-                </a>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    {qa.icon}
+                  </div>
+                  <p className="text-xs font-[800] text-textStrong">{qa.title}</p>
+                  <p className="text-[10px] font-[600] leading-tight text-muted">{qa.sub}</p>
+                </Link>
               ))}
             </div>
           </PanelBolumKarti>
+
+          {/* ── Premium banner ── */}
+          {primaryBiz && (
+            <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 p-5 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-[20px]">
+                  🎁
+                </div>
+                <div>
+                  <p className="text-sm font-[900] text-textStrong">Premium&apos;a Geçin</p>
+                  <p className="text-xs font-[600] text-muted">Daha fazla müşteriye ulaşın, öne çıkan işletmeler arasında yer alın.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="btn-primary shrink-0 flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-[900] text-white transition-opacity hover:opacity-90"
+              >
+                Premium&apos;a Geç <span>›</span>
+              </button>
+            </div>
+          )}
         </div>
       </PanelIcerikYuzeyi>
+    </div>
+  );
+}
+
+function ReviewerAvatar({ profile }: { profile: { display_name: string; avatar_url: string | null } | null }) {
+  const name = profile?.display_name ?? 'K';
+  if (profile?.avatar_url) {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={profile.avatar_url} alt={name} className="h-9 w-9 shrink-0 rounded-full border border-border object-cover" />;
+  }
+  return (
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-bg text-[13px] font-[900] text-textStrong">
+      {name.charAt(0).toUpperCase()}
+    </div>
+  );
+}
+
+function ReviewStars({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-0.5">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <svg key={s} width="11" height="11" viewBox="0 0 24 24" fill={s <= rating ? '#f59e0b' : 'none'} stroke="#f59e0b" strokeWidth="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+      ))}
     </div>
   );
 }
