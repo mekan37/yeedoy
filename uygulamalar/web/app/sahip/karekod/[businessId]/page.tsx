@@ -27,9 +27,9 @@ export default async function OwnerQrPage({ params }: Props) {
 
   const { data: biz } = await (supabase as any)
     .from('businesses')
-    .select('slug')
+    .select('name, slug')
     .eq('id', businessId)
-    .maybeSingle() as { data: { slug: string | null } | null };
+    .maybeSingle() as { data: { name: string; slug: string | null } | null };
 
   const { data: result } = await (supabase as any).rpc('owner_list_qr_codes_v1', {
     p_business_id: businessId,
@@ -46,7 +46,7 @@ export default async function OwnerQrPage({ params }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow={biz?.name ?? 'Owner'}
         title="QR Menü & QR Kod"
         description="Dijital menünüzü yönetin ve QR kodlarınızı oluşturup indirin."
       />
