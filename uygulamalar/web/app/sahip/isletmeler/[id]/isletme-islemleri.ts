@@ -95,12 +95,14 @@ export async function updateMealCardProviders(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const { error } = await (supabase as any).rpc(
+  const { data, error } = await (supabase as any).rpc(
     'owner_update_business_meal_card_providers_v1',
     { p_business_id: businessId, p_provider_keys: keys },
-  ) as { error: { message: string } | null };
+  ) as { data: { ok: boolean; message?: string } | null; error: { message: string } | null };
 
-  if (error) return { error: error.message };
+  if (error || data?.ok === false) {
+    return { error: data?.message ?? error?.message ?? 'Kaydedilemedi' };
+  }
 
   revalidatePath(`/sahip/isletmeler/${businessId}`);
   return null;
