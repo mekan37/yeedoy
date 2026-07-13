@@ -56,8 +56,8 @@ const MOCK: Notification[] = [
     body: 'Dünkü performans raporunuz hazır. Hemen görüntüleyebilirsiniz.',
     tag: 'Sistem', time: '1 saat önce', dateStr: '6 Haziran 2025 · 09:42', isRead: false,
     actions: [
-      { label: 'Raporu Görüntüle', primary: true, icon: 'chart', href: '/owner/analytics' },
-      { label: 'İstatistikler', icon: 'list', href: '/owner/analytics' },
+      { label: 'Raporu Görüntüle', primary: true, icon: 'chart', href: '/sahip/analitik' },
+      { label: 'İstatistikler', icon: 'list', href: '/sahip/analitik' },
     ],
   },
   {
@@ -76,7 +76,7 @@ const MOCK: Notification[] = [
     body: 'Bir kullanıcı işletmenizi favorilerine ekledi.',
     tag: 'Sistem', time: '4 saat önce', dateStr: '6 Haziran 2025 · 06:42', isRead: true,
     actions: [
-      { label: 'İstatistikleri Görüntüle', primary: true, icon: 'chart', href: '/owner/analytics' },
+      { label: 'İstatistikleri Görüntüle', primary: true, icon: 'chart', href: '/sahip/analitik' },
     ],
   },
   {

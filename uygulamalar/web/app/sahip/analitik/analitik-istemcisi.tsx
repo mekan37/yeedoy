@@ -41,8 +41,8 @@ function pct(cur: number, prev: number): number | null {
 function fmt(n: number) { return n.toLocaleString('tr-TR'); }
 function isiRengi(v: number) {
   if (v >= 90) return 'var(--yd-color-primary)';
-  if (v >= 70) return 'var(--yd-color-primary-strong)';
-  if (v >= 50) return 'var(--yd-color-danger)';
+  if (v >= 70) return 'var(--yd-color-danger)';
+  if (v >= 50) return 'var(--yd-color-primary-strong)';
   if (v >= 30) return '#f87171';
   if (v >= 10) return '#fca5a5';
   return '#fef2f2';
@@ -108,7 +108,7 @@ function BarTooltip({ active, payload, label }: any) {
   return (
     <div className="rounded-xl border border-border bg-card p-3 shadow-lg text-[12px]">
       <p className="font-[800] text-textStrong">{label}:00</p>
-      <p className="font-[600]" style={{ color: 'var(--yd-color-danger)' }}>{fmt(payload[0].value)} görüntülenme</p>
+      <p className="font-[600]" style={{ color: 'var(--yd-color-primary-strong)' }}>{fmt(payload[0].value)} görüntülenme</p>
     </div>
   );
 }
@@ -168,8 +168,8 @@ export function AnalitikIstemcisi({
         <div className="xl:col-span-2">
           <PanelBolumKarti title="Görüntülenme Grafiği" description={`${etiket} — günlük trend, önceki dönemle karşılaştırma`}>
             <div className="mb-3 flex items-center gap-4 text-[11px] font-[700]">
-              <span className="flex items-center gap-1.5" style={{ color: 'var(--yd-color-danger)' }}>
-                <span className="h-0.5 w-5 rounded" style={{ background: 'var(--yd-color-danger)' }} />Bu Dönem
+              <span className="flex items-center gap-1.5" style={{ color: 'var(--yd-color-primary-strong)' }}>
+                <span className="h-0.5 w-5 rounded" style={{ background: 'var(--yd-color-primary-strong)' }} />Bu Dönem
               </span>
               <span className="flex items-center gap-1.5 text-muted">
                 <span className="h-px w-5 rounded" style={{ borderTop: '1.5px dashed var(--yd-color-muted)', display: 'block' }} />Önceki Dönem
@@ -184,8 +184,8 @@ export function AnalitikIstemcisi({
                   <YAxis tick={{ fontSize: 10, fill: 'var(--yd-color-muted)', fontWeight: 600 }}
                     tickLine={false} axisLine={false} allowDecimals={false} />
                   <Tooltip content={<CizgiTooltip />} />
-                  <Line type="monotone" dataKey="guncel" stroke="var(--yd-color-danger)" strokeWidth={2}
-                    dot={false} activeDot={{ r: 5, fill: 'var(--yd-color-danger)' }} />
+                  <Line type="monotone" dataKey="guncel" stroke="var(--yd-color-primary-strong)" strokeWidth={2}
+                    dot={false} activeDot={{ r: 5, fill: 'var(--yd-color-primary-strong)' }} />
                   <Line type="monotone" dataKey="onceki" stroke="var(--yd-color-muted)" strokeWidth={1.5}
                     strokeDasharray="5 4" dot={false} activeDot={{ r: 4, fill: 'var(--yd-color-muted)' }} />
                 </LineChart>
@@ -245,7 +245,7 @@ export function AnalitikIstemcisi({
             </div>
             <div className="mt-4 flex items-center gap-2">
               <span className="text-[10px] font-[600] text-muted">Az</span>
-              {['#fef2f2', '#fca5a5', '#f87171', 'var(--yd-color-danger)', 'var(--yd-color-primary-strong)', 'var(--yd-color-primary)'].map((c) => (
+              {['#fef2f2', '#fca5a5', '#f87171', 'var(--yd-color-primary-strong)', 'var(--yd-color-danger)', 'var(--yd-color-primary)'].map((c) => (
                 <span key={c} className="h-3 flex-1 rounded" style={{ background: c }} />
               ))}
               <span className="text-[10px] font-[600] text-muted">Çok</span>
@@ -272,7 +272,7 @@ export function AnalitikIstemcisi({
                   <YAxis tick={{ fontSize: 10, fill: 'var(--yd-color-muted)', fontWeight: 600 }}
                     tickLine={false} axisLine={false} allowDecimals={false} />
                   <Tooltip content={<BarTooltip />} cursor={{ fill: 'var(--yd-color-card-alt)' }} />
-                  <Bar dataKey="v" fill="var(--yd-color-danger)" radius={[4, 4, 0, 0]} maxBarSize={18} />
+                  <Bar dataKey="v" fill="var(--yd-color-primary-strong)" radius={[4, 4, 0, 0]} maxBarSize={18} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
