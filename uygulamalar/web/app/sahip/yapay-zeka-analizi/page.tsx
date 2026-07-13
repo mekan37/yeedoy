@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
 import { YapayZekaAnalizKarti } from './yapay-zeka-analiz-karti';
-import type { Isletme } from './yapay-zeka-analiz-islemi';
+import type { Isletme } from './yapay-zeka-analiz-islemleri';
 
 export const metadata: Metadata = {
   title: 'Yapay Zeka Menü Analizi | Sahip Paneli',

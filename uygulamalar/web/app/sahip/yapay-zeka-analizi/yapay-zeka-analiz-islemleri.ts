@@ -83,6 +83,14 @@ export async function analizBaslat(
   // menu_ocr_jobs kaydı oluştur. status alanı 'queued' | 'processing' |
   // 'completed' | 'failed' değerlerini kabul eder (bkz. menu_ocr_jobs CHECK
   // constraint) — yeni kayıt 'queued' ile başlar.
+  //
+  // BİLİNEN SORUN: file_url kolonu migration'da NOT NULL
+  // (supabase/migrations/_archive/20260411000001_ai_menu_analysis_v1.sql).
+  // 'ham_metin' girişinde file_url=null gönderiliyor; bu durumda insert
+  // DB constraint hatasıyla başarısız olur. Owner'ın orijinal
+  // /api/owner/ai-analyze route.ts'inde de aynı sorun vardı — bu taşıma
+  // sırasında miras alındı, düzeltmek migration değişikliği gerektirir
+  // (kapsam dışı bırakıldı).
   const { data: job, error: jobError } = await (supabase as any)
     .from('menu_ocr_jobs')
     .insert({

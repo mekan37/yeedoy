@@ -5,7 +5,7 @@ import {
   analizBaslat,
   type AnalizOgesi,
   type Isletme,
-} from './yapay-zeka-analiz-islemi';
+} from './yapay-zeka-analiz-islemleri';
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
