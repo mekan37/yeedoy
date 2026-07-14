@@ -36,7 +36,7 @@ export default async function OwnerSettingsPage() {
   const { data: authData, error: authError } = await supabase.auth.getUser();
 
   if (authError || !authData.user) {
-    redirect('/owner/login?redirect=/sahip/ayarlar');
+    redirect('/giris?redirect=/sahip/ayarlar');
   }
 
   const user = authData.user;

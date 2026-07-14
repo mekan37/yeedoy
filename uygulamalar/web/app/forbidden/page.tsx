@@ -157,7 +157,7 @@ export default async function ForbiddenPage() {
 
               {/* Switch account link */}
               <Link
-                href="/owner/login"
+                href="/giris"
                 className="mt-4 flex items-center gap-2 text-sm font-[700] text-[#dc2626] hover:underline"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

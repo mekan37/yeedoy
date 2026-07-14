@@ -18,7 +18,7 @@ export default async function SahipKampanyalarSayfasi() {
   const { data: authData, error: authError } = await supabase.auth.getUser();
 
   if (authError || !authData.user) {
-    redirect('/owner/login?redirect=/sahip/pazarlama/kampanyalar');
+    redirect('/giris?redirect=/sahip/pazarlama/kampanyalar');
   }
 
   const user = authData.user;
