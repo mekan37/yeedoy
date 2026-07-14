@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { CampaignForm } from './campaign-form';
-import type { Campaign, CampaignType, CampaignStatus } from './campaign-form';
-import { deleteCampaign } from './actions';
+import { KampanyaFormu } from './kampanya-formu';
+import type { Kampanya, KampanyaTuru, KampanyaDurumu } from './kampanya-formu';
+import { silKampanya } from './kampanya-eylemleri';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -18,33 +18,33 @@ interface Stats {
 
 interface Props {
   businessId: string;
-  initialCampaigns: Campaign[];
+  initialCampaigns: Kampanya[];
   initialTotal: number;
   stats: Stats;
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────
 
-const TYPE_LABELS: Record<CampaignType, string> = {
+const TYPE_LABELS: Record<KampanyaTuru, string> = {
   discount: 'İndirim', special_offer: 'Özel Teklif',
   loyalty: 'Sadakat', announcement: 'Duyuru',
 };
-const TYPE_COLORS: Record<CampaignType, string> = {
+const TYPE_COLORS: Record<KampanyaTuru, string> = {
   discount:      'bg-red-50 text-red-700',
   special_offer: 'bg-green-50 text-green-700',
   loyalty:       'bg-purple-50 text-purple-700',
   announcement:  'bg-amber-50 text-amber-700',
 };
-const STATUS_LABELS: Record<CampaignStatus, string> = {
+const STATUS_LABELS: Record<KampanyaDurumu, string> = {
   draft: 'Taslak', planned: 'Planlanan', active: 'Aktif', completed: 'Tamamlandı',
 };
-const STATUS_COLORS: Record<CampaignStatus, string> = {
+const STATUS_COLORS: Record<KampanyaDurumu, string> = {
   draft:     'bg-zinc-100 text-zinc-600',
   planned:   'bg-blue-50 text-blue-700',
   active:    'bg-green-50 text-green-700',
   completed: 'bg-zinc-100 text-zinc-500',
 };
-const TABS: { key: CampaignStatus | 'all'; label: string }[] = [
+const TABS: { key: KampanyaDurumu | 'all'; label: string }[] = [
   { key: 'all',       label: 'Tümü'       },
   { key: 'active',    label: 'Aktif'      },
   { key: 'planned',   label: 'Planlanan'  },
@@ -60,13 +60,13 @@ const TYPE_INFO = [
 
 // ── Component ──────────────────────────────────────────────────────────────
 
-export function CampaignListClient({ businessId, initialCampaigns, initialTotal, stats }: Props) {
-  const [campaigns, setCampaigns] = useState<Campaign[]>(initialCampaigns);
+export function KampanyaListesi({ businessId, initialCampaigns, initialTotal, stats }: Props) {
+  const [campaigns, setCampaigns] = useState<Kampanya[]>(initialCampaigns);
   const [total] = useState(initialTotal);
-  const [activeTab, setActiveTab] = useState<CampaignStatus | 'all'>('all');
+  const [activeTab, setActiveTab] = useState<KampanyaDurumu | 'all'>('all');
   const [search, setSearch] = useState('');
   const [formOpen, setFormOpen] = useState(false);
-  const [editing, setEditing] = useState<Campaign | null>(null);
+  const [editing, setEditing] = useState<Kampanya | null>(null);
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
@@ -87,12 +87,12 @@ export function CampaignListClient({ businessId, initialCampaigns, initialTotal,
   function handleDelete(id: string) {
     if (!confirm('Bu kampanyayı silmek istediğinizden emin misiniz?')) return;
     startTransition(async () => {
-      await deleteCampaign(id, businessId);
+      await silKampanya(id, businessId);
       setCampaigns((prev) => prev.filter((c) => c.id !== id));
     });
   }
 
-  function openEdit(c: Campaign) {
+  function openEdit(c: Kampanya) {
     setEditing(c);
     setFormOpen(true);
     setMenuOpenId(null);
@@ -297,7 +297,7 @@ export function CampaignListClient({ businessId, initialCampaigns, initialTotal,
 
       {/* ── Form modal ────────────────────────────────────────────────── */}
       {formOpen && (
-        <CampaignForm
+        <KampanyaFormu
           businessId={businessId}
           campaign={editing}
           onClose={closeForm}

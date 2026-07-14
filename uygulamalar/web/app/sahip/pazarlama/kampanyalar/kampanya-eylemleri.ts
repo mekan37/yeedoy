@@ -4,9 +4,9 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
-const REVALIDATE = '/owner/marketing/campaigns';
+const REVALIDATE = '/sahip/pazarlama/kampanyalar';
 
-const CampaignSchema = z.object({
+const KampanyaSchema = z.object({
   business_id:      z.string().uuid(),
   title:            z.string().min(1).max(120),
   type:             z.enum(['discount', 'special_offer', 'loyalty', 'announcement']),
@@ -18,7 +18,14 @@ const CampaignSchema = z.object({
   id:               z.string().uuid().optional().nullable(),
 });
 
-export async function upsertCampaign(
+/** `<input type="datetime-local">` değeri ("YYYY-MM-DDTHH:mm") tam ISO 8601'e çevrilir. */
+function datetimeLocalToIso(value: FormDataEntryValue | null): string | null {
+  if (!value || typeof value !== 'string') return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+export async function kaydetKampanya(
   _prev: { error: string } | null,
   formData: FormData,
 ): Promise<{ error: string } | null> {
@@ -29,26 +36,26 @@ export async function upsertCampaign(
     status:           formData.get('status'),
     description:      formData.get('description') || undefined,
     discount_percent: formData.get('discount_percent') || null,
-    starts_at:        formData.get('starts_at') || null,
-    ends_at:          formData.get('ends_at') || null,
+    starts_at:        datetimeLocalToIso(formData.get('starts_at')),
+    ends_at:          datetimeLocalToIso(formData.get('ends_at')),
     id:               formData.get('id') || null,
   };
 
-  const parsed = CampaignSchema.safeParse(raw);
+  const parsed = KampanyaSchema.safeParse(raw);
   if (!parsed.success) return { error: 'Geçersiz form verisi' };
 
   const d = parsed.data;
   const supabase = await createSupabaseServerClient();
   const { error } = await (supabase as any).rpc('owner_upsert_campaign_v1', {
-    p_business_id:     d.business_id,
-    p_title:           d.title,
-    p_type:            d.type,
-    p_status:          d.status,
-    p_description:     d.description ?? null,
+    p_business_id:      d.business_id,
+    p_title:            d.title,
+    p_type:             d.type,
+    p_status:           d.status,
+    p_description:      d.description ?? null,
     p_discount_percent: d.discount_percent ?? null,
-    p_starts_at:       d.starts_at ?? null,
-    p_ends_at:         d.ends_at ?? null,
-    p_id:              d.id ?? null,
+    p_starts_at:        d.starts_at ?? null,
+    p_ends_at:          d.ends_at ?? null,
+    p_id:               d.id ?? null,
   }) as { error: { message: string } | null };
 
   if (error) return { error: error.message };
@@ -56,7 +63,7 @@ export async function upsertCampaign(
   return null;
 }
 
-export async function deleteCampaign(
+export async function silKampanya(
   id: string,
   businessId: string,
 ): Promise<{ error: string } | null> {

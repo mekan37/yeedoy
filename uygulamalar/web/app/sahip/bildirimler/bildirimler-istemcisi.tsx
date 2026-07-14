@@ -46,8 +46,8 @@ const MOCK: Notification[] = [
     body: '"Hafta içi kahve %20 indirim" kampanyanız yayına alındı.',
     tag: 'Kampanya', time: '15 dakika önce', dateStr: '6 Haziran 2025 · 10:29', isRead: false,
     actions: [
-      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/owner/marketing/campaigns' },
-      { label: 'Tüm Kampanyalar', icon: 'list', href: '/owner/marketing/campaigns' },
+      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/sahip/pazarlama/kampanyalar' },
+      { label: 'Tüm Kampanyalar', icon: 'list', href: '/sahip/pazarlama/kampanyalar' },
     ],
   },
   {
@@ -85,7 +85,7 @@ const MOCK: Notification[] = [
     body: '"Tatlılarda %15 İndirim" kampanyanız iyi performans gösteriyor!',
     tag: 'Kampanya', time: '1 gün önce', dateStr: '5 Haziran 2025 · 10:42', isRead: true,
     actions: [
-      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/owner/marketing/campaigns' },
+      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/sahip/pazarlama/kampanyalar' },
     ],
   },
   {

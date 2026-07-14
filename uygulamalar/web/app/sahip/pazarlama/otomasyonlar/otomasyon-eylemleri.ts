@@ -3,14 +3,33 @@
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { withAuth } from '@/src/lib/sunucu-eylem-kimlik-dogrulama';
+import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+
+const GECERLI_SABLON_ID = new Set([
+  'birthday_message',
+  'post_visit_thankyou',
+  'inactive_winback',
+  'loyalty_milestone',
+  'review_request',
+  'new_menu_announcement',
+]);
 
 export async function toggleOtomasyon(
   businessId: string,
   templateId: string,
   enable: boolean,
 ): Promise<{ error?: string }> {
-  return withAuth(async () => {
+  if (!GECERLI_SABLON_ID.has(templateId)) {
+    return { error: 'invalid_template' };
+  }
+
+  return withAuth(async (userId) => {
     const supabase = await createSupabaseServerClient();
+
+    const owned = await hasOwnerBusiness(supabase as any, userId, businessId);
+    if (!owned) {
+      return { error: 'forbidden' };
+    }
 
     if (enable) {
       const { error } = await (supabase as any)
