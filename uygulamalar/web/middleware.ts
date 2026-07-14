@@ -50,10 +50,19 @@ const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici'; // Turkish alias for /api/adm
 const LOGIN_PATH = '/login';
 // /giris is the canonical login page (public + owner) — excluded from the owner guard.
 const OWNER_LOGIN_PATH = '/giris';
+// Request header flagging the public /sahip landing page to downstream
+// server components (see app/sahip/layout.tsx).
+const PUBLIC_LANDING_HEADER = 'x-yeedoy-public-landing';
 
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
-  // Exclude public owner pages from the auth guard
+  // Exclude public owner pages from the auth guard.
+  // SECURITY: this list is matched with exact equality (`.includes(pathname)`)
+  // below, NOT `startsWith` — `/sahip` itself is the public owner landing
+  // page, but every path under it (e.g. `/sahip/gosterge-panosu`) must stay
+  // behind the auth guard via the separate `startsWith(SAHIP_PREFIX)` check
+  // two lines down. Do NOT refactor this to a `startsWith` match — doing so
+  // would make the entire authenticated owner panel publicly accessible.
   const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/owner', SAHIP_PREFIX];
   const isOwnerRoute =
     (pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX)) &&
@@ -65,7 +74,17 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
   const isAdminApiRoute =
     pathname.startsWith(ADMIN_API_PREFIX) || pathname.startsWith(SUNUCU_YONETICI_PREFIX);
 
-  if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
+  // /sahip exact (public landing page) still needs to flow through so we can
+  // flag it for downstream server components (see app/sahip/layout.tsx),
+  // which skip the authenticated-only MFA check for anonymous visitors.
+  if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) {
+    if (pathname === SAHIP_PREFIX) {
+      const headers = new Headers(request.headers);
+      headers.set(PUBLIC_LANDING_HEADER, '1');
+      return NextResponse.next({ request: { headers } });
+    }
+    return null;
+  }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
