@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useTransition } from 'react';
+import { buildMenuImageUrl } from '@/src/lib/media-url';
 import {
   createSection,
   updateSection,
@@ -12,6 +13,7 @@ import {
   updateMenuTitle,
   upsertItemAllergens,
   upsertItemIngredients,
+  type AllergenEntry,
 } from './menu-islemleri';
 
 const ALLERGEN_LIST = [
@@ -31,6 +33,32 @@ const ALLERGEN_LIST = [
   { code: 'molluscs',       labelTr: 'Yumuşakçalar'                },
 ] as const;
 
+const DIETARY_FLAGS = [
+  { key: 'diet_vegan',       label: 'Vegan',      icon: '🌱', detectedTags: ['vegan'] },
+  { key: 'diet_vegetarian',  label: 'Vejetaryen', icon: '🥗', detectedTags: ['vegetarian', 'vejetaryen'] },
+  { key: 'diet_glutenfree',  label: 'Glutensiz',  icon: '🌾', detectedTags: ['glutensiz', 'gluten_free'] },
+  { key: 'diet_lactosefree', label: 'Laktossuz',  icon: '🥛', detectedTags: ['laktossuz', 'lactose_free'] },
+  { key: 'diet_halal',       label: 'Helal',      icon: '☪️', detectedTags: ['halal'] },
+];
+
+const DIETARY_TAG_VALUES = new Set(DIETARY_FLAGS.flatMap((f) => f.detectedTags));
+
+function getDietaryFromTags(tags: string[] | null): Record<string, boolean> {
+  const set = new Set((tags ?? []).map((t) => t.toLowerCase()));
+  return Object.fromEntries(
+    DIETARY_FLAGS.map((f) => [f.key, f.detectedTags.some((t) => set.has(t))]),
+  );
+}
+
+function getCustomTags(tags: string[] | null) {
+  return (tags ?? []).filter((t) => !DIETARY_TAG_VALUES.has(t.toLowerCase())).join(', ');
+}
+
+function getDietaryBadges(tags: string[] | null) {
+  const d = getDietaryFromTags(tags);
+  return DIETARY_FLAGS.filter((f) => d[f.key]);
+}
+
 type Section = { id: string; title: string; sort_order: number };
 type Item = {
   id: string;
@@ -42,7 +70,9 @@ type Item = {
   is_available: boolean;
   section_id: string;
   sort_order: number;
+  tags: string[] | null;
   calories_min: number | null;
+  calories_max: number | null;
   portion_size: number | null;
   portion_unit: string | null;
 };
@@ -93,9 +123,14 @@ function ImageUrlField({
   const [url, setUrl] = useState(initialUrl ?? '');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
 
   async function upload(file: File | null) {
     if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setUploadError('Sadece görsel dosyası yükleyebilirsiniz.');
+      return;
+    }
     setUploading(true);
     setUploadError(null);
 
@@ -125,11 +160,26 @@ function ImageUrlField({
     }
   }
 
+  // Önizleme Supabase transform kullanır: yeniden boyutlandırma + kalite + otomatik WebP
+  const previewSrc = buildMenuImageUrl(url, { width: 400, quality: 80 }) ?? url;
+
   return (
-    <div className="grid gap-3 rounded-xl border border-border bg-bg p-3 sm:grid-cols-[96px_1fr]">
+    <div
+      onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+      onDragLeave={() => setIsDragOver(false)}
+      onDrop={(e) => {
+        e.preventDefault();
+        setIsDragOver(false);
+        const file = e.dataTransfer.files[0];
+        if (file) upload(file);
+      }}
+      className={`grid gap-3 rounded-xl border p-3 sm:grid-cols-[96px_1fr] transition-colors ${
+        isDragOver ? 'border-primary bg-primary/5' : 'border-border bg-bg'
+      }`}
+    >
       <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl border border-border bg-card text-[11px] font-[800] text-muted">
         {url ? (
-          <Image src={url} alt="" fill sizes="96px" className="object-cover" unoptimized />
+          <Image src={previewSrc} alt="" fill sizes="96px" className="object-cover" unoptimized />
         ) : (
           'Görsel yok'
         )}
@@ -141,7 +191,7 @@ function ImageUrlField({
           type="url"
           value={url}
           onChange={(event) => setUrl(event.target.value)}
-          placeholder="https://..."
+          placeholder="https://... veya görseli sürükleyip bırakın"
           className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
         />
         <div className="flex flex-wrap items-center gap-2">
@@ -192,12 +242,15 @@ function ItemForm({
     description: string | null;
     image_url: string | null;
     price_cents: number;
+    currency: string;
     is_available: boolean;
+    tags: string[] | null;
     calories_min: number | null;
+    calories_max: number | null;
     portion_size: number | null;
     portion_unit: string | null;
   };
-  initialAllergens: string[];
+  initialAllergens: AllergenEntry[];
   initialIngredients: string[];
   submitLabel: string;
   onSuccess: () => void;
@@ -205,18 +258,21 @@ function ItemForm({
 }) {
   const [isPending, startTransition] = useTransition();
   const [formError, setFormError] = useState<string | null>(null);
-  const [selectedAllergens, setSelectedAllergens] = useState<Set<string>>(
-    new Set(initialAllergens),
+  const [dietaryState, setDietaryState] = useState<Record<string, boolean>>(
+    getDietaryFromTags(initialValues?.tags ?? null),
+  );
+  const [allergenState, setAllergenState] = useState<Record<string, 'contains' | 'may_contain' | null>>(
+    Object.fromEntries(initialAllergens.map((a) => [a.allergen, a.risk_level])),
   );
   const [ingredients, setIngredients] = useState<string[]>(initialIngredients);
   const [ingredientInput, setIngredientInput] = useState('');
 
   function toggleAllergen(code: string) {
-    setSelectedAllergens((prev) => {
-      const next = new Set(prev);
-      if (next.has(code)) next.delete(code);
-      else next.add(code);
-      return next;
+    setAllergenState((prev) => {
+      const cur = prev[code] ?? null;
+      const next: 'contains' | 'may_contain' | null =
+        cur === null ? 'contains' : cur === 'contains' ? 'may_contain' : null;
+      return { ...prev, [code]: next };
     });
   }
 
@@ -244,9 +300,11 @@ function ItemForm({
       }
       const resolvedId = result.itemId;
       if (resolvedId) {
-        const allergenResult = await upsertItemAllergens(resolvedId, menuId, [
-          ...selectedAllergens,
-        ]);
+        const allergenEntries: AllergenEntry[] = Object.entries(allergenState)
+          .filter(([, level]) => level !== null)
+          .map(([allergen, level]) => ({ allergen, risk_level: level as 'contains' | 'may_contain' }));
+
+        const allergenResult = await upsertItemAllergens(resolvedId, menuId, allergenEntries);
         if (allergenResult?.error) {
           setFormError(allergenResult.error);
           return;
@@ -263,14 +321,14 @@ function ItemForm({
 
   return (
     <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
+      <Input
+        label="Ürün Adı"
+        name="name"
+        defaultValue={initialValues?.name ?? ''}
+        required
+        placeholder="Ürün adı"
+      />
       <div className="grid grid-cols-2 gap-3">
-        <Input
-          label="Ürün Adı"
-          name="name"
-          defaultValue={initialValues?.name ?? ''}
-          required
-          placeholder="Ürün adı"
-        />
         <Input
           label="Fiyat (₺)"
           name="price"
@@ -279,6 +337,18 @@ function ItemForm({
           required
           placeholder="0.00"
         />
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-[700] text-muted">Para Birimi</label>
+          <select
+            name="currency"
+            defaultValue={initialValues?.currency ?? 'TRY'}
+            className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+          >
+            <option value="TRY">TRY (₺)</option>
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+          </select>
+        </div>
       </div>
       <Input
         label="Açıklama (opsiyonel)"
@@ -301,22 +371,73 @@ function ItemForm({
         Satışta
       </label>
 
+      {/* Diyet & Etiketler */}
+      <div className="flex flex-col gap-2 rounded-2xl border border-border bg-bg p-3">
+        <p className="text-xs font-[700] text-muted">Diyet & Etiketler</p>
+        {DIETARY_FLAGS.map((flag) => (
+          <input
+            key={flag.key}
+            type="checkbox"
+            name={flag.key}
+            checked={dietaryState[flag.key] ?? false}
+            onChange={() => {}}
+            className="hidden"
+          />
+        ))}
+        <div className="flex flex-wrap gap-2">
+          {DIETARY_FLAGS.map((flag) => (
+            <button
+              key={flag.key}
+              type="button"
+              onClick={() => setDietaryState((p) => ({ ...p, [flag.key]: !p[flag.key] }))}
+              className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-[700] transition-colors ${
+                dietaryState[flag.key]
+                  ? 'border-primary bg-primary/10 text-textStrong'
+                  : 'border-border bg-card text-muted hover:bg-bg'
+              }`}
+            >
+              <span>{flag.icon}</span>{flag.label}
+            </button>
+          ))}
+        </div>
+        <Input
+          label="Ek Etiketler (virgülle ayırın)"
+          name="custom_tags"
+          defaultValue={getCustomTags(initialValues?.tags ?? null)}
+          placeholder="organik, ev yapımı, spesyalite…"
+        />
+      </div>
+
       {/* Şeffaf Menü Bilgileri */}
       <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg p-3">
         <p className="text-xs font-[700] text-muted">Şeffaf Menü Bilgileri (İsteğe Bağlı)</p>
 
-        {/* Kalori */}
-        <div className="flex flex-col gap-1">
-          <label className="text-xs font-[700] text-muted">Enerji Değeri (kcal)</label>
-          <input
-            name="calories"
-            type="number"
-            defaultValue={initialValues?.calories_min ?? ''}
-            min="0"
-            max="9999"
-            placeholder="örn: 450"
-            className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
-          />
+        {/* Kalori aralığı */}
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-[700] text-muted">Min Kalori (kcal)</label>
+            <input
+              name="calories_min"
+              type="number"
+              defaultValue={initialValues?.calories_min ?? ''}
+              min="0"
+              max="9999"
+              placeholder="örn: 320"
+              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-[700] text-muted">Max Kalori (kcal)</label>
+            <input
+              name="calories_max"
+              type="number"
+              defaultValue={initialValues?.calories_max ?? ''}
+              min="0"
+              max="9999"
+              placeholder="örn: 420"
+              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            />
+          </div>
         </div>
 
         {/* Porsiyon */}
@@ -398,24 +519,32 @@ function ItemForm({
 
       {/* Allerjen seçici */}
       <div className="flex flex-col gap-2">
-        <p className="text-xs font-[700] text-muted">Alerjenler (Tarım Bakanlığı zorunlu)</p>
+        <p className="text-xs font-[700] text-muted">Alerjenler (Tarım Bakanlığı zorunlu — AB 14)</p>
+        <p className="text-[11px] text-muted">
+          Dokunarak döngü: <span className="font-[700] text-primary">İçerir</span>
+          {' → '}<span className="font-[700] text-orange-500">İz İçerebilir</span>{' → '}Yok
+        </p>
         <div className="grid grid-cols-2 gap-1.5">
           {ALLERGEN_LIST.map(({ code, labelTr }) => {
-            const active = selectedAllergens.has(code);
+            const state = allergenState[code] ?? null;
             return (
               <button
                 key={code}
                 type="button"
                 onClick={() => toggleAllergen(code)}
                 className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-[700] text-left cursor-pointer transition-colors ${
-                  active
+                  state === 'contains'
                     ? 'border-primary bg-primary/10 text-textStrong'
-                    : 'border-border bg-card text-muted hover:bg-bg'
+                    : state === 'may_contain'
+                      ? 'border-orange-400 bg-orange-50 text-orange-700'
+                      : 'border-border bg-card text-muted hover:bg-bg'
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0" />
-                <span>{labelTr}</span>
+                <span className="flex-1">{labelTr}</span>
+                {state === 'contains' && <span className="text-[9px] font-[900]">✓</span>}
+                {state === 'may_contain' && <span className="text-[9px] font-[900]">~</span>}
               </button>
             );
           })}
@@ -460,7 +589,7 @@ export function MenuEditorClient({
   initialStatus: 'draft' | 'published' | 'archived';
   sections: Section[];
   items: Item[];
-  allergenMap: Record<string, string[]>;
+  allergenMap: Record<string, AllergenEntry[]>;
   ingredientMap: Record<string, string[]>;
 }) {
   const [isPending, startTransition] = useTransition();
@@ -644,8 +773,11 @@ export function MenuEditorClient({
                       description: item.description,
                       image_url: item.image_url,
                       price_cents: item.price_cents,
+                      currency: item.currency,
                       is_available: item.is_available,
+                      tags: item.tags,
                       calories_min: item.calories_min,
+                      calories_max: item.calories_max,
                       portion_size: item.portion_size,
                       portion_unit: item.portion_unit,
                     }}
@@ -659,7 +791,7 @@ export function MenuEditorClient({
                   <div className="flex items-center gap-4 px-5 py-3">
                     {item.image_url ? (
                       <Image
-                        src={item.image_url}
+                        src={buildMenuImageUrl(item.image_url, { width: 96, quality: 70 }) ?? item.image_url}
                         alt={item.name}
                         width={48}
                         height={48}
@@ -672,13 +804,16 @@ export function MenuEditorClient({
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-1.5">
                         <span className="font-[600] text-textStrong">{item.name}</span>
                         {!item.is_available && (
                           <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-[700] text-zinc-500">
                             Stok Dışı
                           </span>
                         )}
+                        {getDietaryBadges(item.tags).map((d) => (
+                          <span key={d.key} title={d.label} className="text-[13px] leading-none">{d.icon}</span>
+                        ))}
                         {(allergenMap[item.id]?.length ?? 0) > 0 && (
                           <span className="rounded-full border border-border bg-bg px-1.5 py-0.5 text-[10px] font-[700] text-muted">
                             {allergenMap[item.id].length} alerjen
@@ -688,6 +823,13 @@ export function MenuEditorClient({
                       {item.description && (
                         <p className="mt-0.5 text-[12px] text-muted truncate max-w-xs">
                           {item.description}
+                        </p>
+                      )}
+                      {(item.calories_min || item.calories_max) && (
+                        <p className="mt-0.5 text-[11px] text-muted">
+                          {item.calories_min && item.calories_max && item.calories_min !== item.calories_max
+                            ? `${item.calories_min}–${item.calories_max} kcal`
+                            : `${item.calories_min ?? item.calories_max} kcal`}
                         </p>
                       )}
                     </div>

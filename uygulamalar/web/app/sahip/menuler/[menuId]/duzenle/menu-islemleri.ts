@@ -96,6 +96,7 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   const imageUrl = String(fd.get('imageUrl') ?? '').trim() || null;
   const priceRaw = parseFloat(String(fd.get('price') ?? '0'));
   const price_cents = Math.round(priceRaw * 100);
+  const currency = String(fd.get('currency') ?? 'TRY').trim() || 'TRY';
   const is_available = fd.get('is_available') === 'on';
 
   if (!name) return { error: 'Ürün adı boş olamaz' };
@@ -124,7 +125,20 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
     }
   }
 
-  const caloriesRaw = fd.get('calories') ? Number(fd.get('calories')) : null;
+  // Diyet bayrakları + serbest etiketler → tags
+  const dietaryTags: string[] = [];
+  if (fd.get('diet_vegan') === 'on') dietaryTags.push('vegan');
+  if (fd.get('diet_vegetarian') === 'on') dietaryTags.push('vegetarian');
+  if (fd.get('diet_glutenfree') === 'on') dietaryTags.push('glutensiz');
+  if (fd.get('diet_lactosefree') === 'on') dietaryTags.push('laktossuz');
+  if (fd.get('diet_halal') === 'on') dietaryTags.push('halal');
+  const customTagInput = String(fd.get('custom_tags') ?? '').trim();
+  const customTags = customTagInput ? customTagInput.split(',').map((t) => t.trim()).filter(Boolean) : [];
+  const allTags = [...new Set([...dietaryTags, ...customTags])];
+  const tags = allTags.length > 0 ? allTags : null;
+
+  const calories_min = fd.get('calories_min') ? parseInt(String(fd.get('calories_min'))) || null : null;
+  const calories_max = fd.get('calories_max') ? parseInt(String(fd.get('calories_max'))) || null : null;
   const portionSizeRaw = fd.get('portion_size') ? Number(fd.get('portion_size')) : null;
   const portionUnit = (fd.get('portion_unit') as string) || null;
 
@@ -133,14 +147,15 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
     description,
     image_url: imageUrl,
     price_cents,
-    currency: 'TRY',
+    currency,
     is_available,
     section_id: sectionId,
-    calories_min: caloriesRaw,
-    calories_max: caloriesRaw,
+    tags,
+    calories_min,
+    calories_max,
     portion_size: portionSizeRaw,
     portion_unit: portionUnit,
-    calorie_source: caloriesRaw !== null ? 'owner' : 'unknown',
+    calorie_source: (calories_min !== null || calories_max !== null) ? 'owner' : 'unknown',
   };
 
   let resolvedItemId: string;
@@ -171,17 +186,19 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   return { itemId: resolvedItemId };
 }
 
+export type AllergenEntry = { allergen: string; risk_level: 'contains' | 'may_contain' };
+
 export async function upsertItemAllergens(
   itemId: string,
   menuId: string,
-  allergenCodes: string[],
+  allergens: AllergenEntry[],
 ): Promise<{ error: string } | null> {
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const p_allergens = allergenCodes.map((code) => ({
-    allergen: code,
-    risk_level: 'contains',
+  const p_allergens = allergens.map((entry) => ({
+    allergen: entry.allergen,
+    risk_level: entry.risk_level,
     detected_by: 'manual',
   }));
 

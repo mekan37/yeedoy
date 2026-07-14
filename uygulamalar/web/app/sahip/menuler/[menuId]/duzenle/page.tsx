@@ -30,17 +30,19 @@ export default async function MenuEditorPage({ params }: Props) {
 
   const { menu, business: biz, sections, items } = detail;
 
-  // Batch-fetch allergens for all items in this menu
+  // Batch-fetch allergens (with risk level) for all items in this menu
   const allItemIds = items.map((item) => item.id);
-  const allergenMap: Record<string, string[]> = {};
+  const allergenMap: Record<string, { allergen: string; risk_level: 'contains' | 'may_contain' }[]> = {};
   if (allItemIds.length > 0) {
     const { data: allergenRows } = await (supabase as any)
       .from('menu_item_allergens')
-      .select('item_id, allergen')
-      .in('item_id', allItemIds) as { data: Array<{ item_id: string; allergen: string }> | null };
+      .select('item_id, allergen, risk_level')
+      .in('item_id', allItemIds) as {
+        data: Array<{ item_id: string; allergen: string; risk_level: 'contains' | 'may_contain' }> | null;
+      };
     for (const row of allergenRows ?? []) {
       if (!allergenMap[row.item_id]) allergenMap[row.item_id] = [];
-      allergenMap[row.item_id].push(row.allergen);
+      allergenMap[row.item_id].push({ allergen: row.allergen, risk_level: row.risk_level });
     }
   }
 
@@ -105,7 +107,9 @@ export default async function MenuEditorPage({ params }: Props) {
             is_available: item.is_available,
             section_id: item.section_id,
             sort_order: item.sort_order,
+            tags: (item.tags as string[] | null) ?? null,
             calories_min: item.calories_min ?? null,
+            calories_max: item.calories_max ?? null,
             portion_size: item.portion_size ?? null,
             portion_unit: item.portion_unit ?? null,
           }))}
