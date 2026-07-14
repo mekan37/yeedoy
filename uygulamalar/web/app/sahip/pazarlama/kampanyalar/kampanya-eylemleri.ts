@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { rateLimit } from '@/src/lib/rate-limit';
 
 const REVALIDATE = '/sahip/pazarlama/kampanyalar';
 
@@ -18,6 +19,11 @@ const KampanyaSchema = z.object({
   id:               z.string().uuid().optional().nullable(),
 });
 
+const SilKampanyaSchema = z.object({
+  id:         z.string().uuid(),
+  businessId: z.string().uuid(),
+});
+
 /** `<input type="datetime-local">` değeri ("YYYY-MM-DDTHH:mm") tam ISO 8601'e çevrilir. */
 function datetimeLocalToIso(value: FormDataEntryValue | null): string | null {
   if (!value || typeof value !== 'string') return null;
@@ -29,6 +35,13 @@ export async function kaydetKampanya(
   _prev: { error: string } | null,
   formData: FormData,
 ): Promise<{ error: string } | null> {
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const rl = rateLimit(`owner-campaign-upsert:${user.id}`, 20, 60_000);
+  if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };
+
   const raw = {
     business_id:      formData.get('business_id'),
     title:            formData.get('title'),
@@ -45,7 +58,6 @@ export async function kaydetKampanya(
   if (!parsed.success) return { error: 'Geçersiz form verisi' };
 
   const d = parsed.data;
-  const supabase = await createSupabaseServerClient();
   const { error } = await (supabase as any).rpc('owner_upsert_campaign_v1', {
     p_business_id:      d.business_id,
     p_title:            d.title,
@@ -68,9 +80,19 @@ export async function silKampanya(
   businessId: string,
 ): Promise<{ error: string } | null> {
   const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum açmanız gerekiyor.' };
+
+  const rl = rateLimit(`owner-campaign-delete:${user.id}`, 20, 60_000);
+  if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };
+
+  const parsed = SilKampanyaSchema.safeParse({ id, businessId });
+  if (!parsed.success) return { error: 'Geçersiz istek parametreleri.' };
+
+  const d = parsed.data;
   const { error } = await (supabase as any).rpc('owner_delete_campaign_v1', {
-    p_id:          id,
-    p_business_id: businessId,
+    p_id:          d.id,
+    p_business_id: d.businessId,
   }) as { error: { message: string } | null };
 
   if (error) return { error: error.message };

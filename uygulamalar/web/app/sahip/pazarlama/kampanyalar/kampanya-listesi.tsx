@@ -68,6 +68,7 @@ export function KampanyaListesi({ businessId, initialCampaigns, initialTotal, st
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Kampanya | null>(null);
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
   // Client-side filter (full list loaded server-side up to 100)
@@ -87,7 +88,12 @@ export function KampanyaListesi({ businessId, initialCampaigns, initialTotal, st
   function handleDelete(id: string) {
     if (!confirm('Bu kampanyayı silmek istediğinizden emin misiniz?')) return;
     startTransition(async () => {
-      await silKampanya(id, businessId);
+      const result = await silKampanya(id, businessId);
+      if (result?.error) {
+        setDeleteError(result.error);
+        return;
+      }
+      setDeleteError(null);
       setCampaigns((prev) => prev.filter((c) => c.id !== id));
     });
   }
@@ -105,6 +111,16 @@ export function KampanyaListesi({ businessId, initialCampaigns, initialTotal, st
 
   return (
     <>
+      {/* ── Silme hatası ──────────────────────────────────────────────── */}
+      {deleteError && (
+        <div
+          role="alert"
+          className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-[700] text-red-800"
+        >
+          {deleteError}
+        </div>
+      )}
+
       {/* ── Toolbar ───────────────────────────────────────────────────── */}
       <div className="flex justify-end">
         <button
