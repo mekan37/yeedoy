@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { rateLimit } from '@/src/lib/rate-limit';
 import { createSupabaseServiceClient } from '@/src/lib/supabase/service';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export type ActionState = { error: string } | { success: true } | null;
 
@@ -198,9 +198,9 @@ function revalidateBusinessPaths(
   businessId: string,
   business: BusinessMutationResult['data'],
 ) {
-  revalidatePath('/owner/settings');
-  revalidatePath('/owner/businesses');
-  revalidatePath(`/owner/businesses/${businessId}`);
+  revalidatePath('/sahip/ayarlar');
+  revalidatePath('/sahip/isletmeler');
+  revalidatePath(`/sahip/isletmeler/${businessId}`);
 
   const publicSlugs = new Set(
     [business?.slug, business?.public_slug].filter(
@@ -349,7 +349,7 @@ export async function updateReservationSettings(
   }
 
   revalidateBusinessPaths(authorization.businessId, result.data);
-  revalidatePath('/owner/reservations');
+  revalidatePath('/sahip/rezervasyonlar');
   return { success: true };
 }
 
@@ -436,6 +436,6 @@ export async function deactivateBusiness(
   }
 
   revalidateBusinessPaths(authorization.businessId, result.data);
-  revalidatePath('/owner/dashboard');
+  revalidatePath('/sahip/gosterge-panosu');
   return null;
 }

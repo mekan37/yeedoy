@@ -1,17 +1,17 @@
 'use client';
 
 import { useActionState, useState, type ReactNode } from 'react';
-import { PanelActionButton } from '@/src/ui/components/panel-action-button';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
+import Link from 'next/link';
+import { ChevronRight, Clock, Globe2 } from 'lucide-react';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { BrandingEditor } from '@/app/sahip/isletmeler/[id]/marka-editoru';
-import { updateBusinessProfile, updateContactInfo } from '../actions';
-import type { ActionState } from '../actions';
-import { HoursForm, type WeeklyHourRow } from '../hours/hours-form';
-import type { BusinessData } from '../settings-client';
+import { updateBusinessProfile, updateContactInfo } from '../ayarlar-islemleri';
+import type { ActionState } from '../ayarlar-islemleri';
+import type { BusinessData } from '../ayarlar-istemcisi';
 
-interface IsletmeProfilTabProps {
+interface IsletmeProfiliSekmesiProps {
   business: BusinessData;
-  hours: WeeklyHourRow[];
 }
 
 const INPUT_CLASS =
@@ -36,7 +36,7 @@ const SOCIAL_FIELDS = [
   },
 ] as const;
 
-export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
+export function IsletmeProfiliSekmesi({ business }: IsletmeProfiliSekmesiProps) {
   const [profileState, profileAction, profilePending] = useActionState(
     updateBusinessProfile.bind(null, business.id),
     null,
@@ -57,7 +57,7 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
   return (
     <div className="space-y-6">
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.9fr)]">
-        <PanelSectionCard
+        <PanelBolumKarti
           title="İşletme Bilgileri"
           description="İşletmenizin temel bilgilerini düzenleyin."
         >
@@ -179,7 +179,7 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
               </PanelActionButton>
             </div>
           </form>
-        </PanelSectionCard>
+        </PanelBolumKarti>
 
         <section aria-labelledby="business-branding-heading" className="min-w-0">
           <div className="mb-3 px-1">
@@ -200,14 +200,41 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
       </div>
 
       <div className="grid items-start gap-6 lg:grid-cols-2">
-        <PanelSectionCard
-          title="Çalışma Saatleri"
-          description="Haftalık açılış ve kapanış saatlerinizi düzenleyin."
+        <PanelBolumKarti
+          title="Diğer Ayarlar"
+          description="Çalışma saatleri ve özel domain ayrı sayfalarda yönetilir."
+          noPadding
         >
-          <HoursForm businessId={business.id} hours={hours.length > 0 ? hours : null} />
-        </PanelSectionCard>
+          <nav aria-label="Diğer işletme ayarları" className="divide-y divide-border">
+            <Link
+              href="/sahip/ayarlar/saatler"
+              className="flex min-h-11 items-center gap-3 px-5 py-3 text-sm font-[700] text-textStrong transition-colors hover:bg-cardAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
+            >
+              <Clock aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
+              <span className="min-w-0 flex-1">
+                Çalışma Saatleri
+                <span className="mt-0.5 block text-xs font-[500] text-muted">
+                  Günlük açılış/kapanış saatlerini ayarlayın
+                </span>
+              </span>
+              <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
+            </Link>
+            <div className="flex min-h-11 cursor-not-allowed items-center gap-3 px-5 py-3 opacity-60">
+              <Globe2 aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
+              <span className="min-w-0 flex-1 text-sm font-[700] text-textStrong">
+                Özel Domain
+                <span className="mt-0.5 block text-xs font-[500] text-muted">
+                  İşletmenize özel alan adı bağlayın
+                </span>
+              </span>
+              <span className="rounded-full bg-muted/15 px-2 py-0.5 text-[10px] font-[800] uppercase tracking-wider text-muted">
+                Yakında
+              </span>
+            </div>
+          </nav>
+        </PanelBolumKarti>
 
-        <PanelSectionCard
+        <PanelBolumKarti
           title="İletişim Bilgileri"
           description="Müşterilerin size ulaşabileceği bağlantıları yönetin."
         >
@@ -273,7 +300,7 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
               </PanelActionButton>
             </div>
           </form>
-        </PanelSectionCard>
+        </PanelBolumKarti>
       </div>
     </div>
   );

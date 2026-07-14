@@ -2,14 +2,14 @@
 
 import { useActionState, useState } from 'react';
 import { Eye, EyeOff, KeyRound, ShieldCheck } from 'lucide-react';
-import { PanelActionButton } from '@/src/ui/components/panel-action-button';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { updatePassword } from '../actions';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { updatePassword } from '../ayarlar-islemleri';
 
 const INPUT_CLASS =
   'min-h-11 w-full rounded-xl border border-border bg-bg px-3 pr-12 text-sm text-textStrong outline-none transition-colors placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20';
 
-export function GizlilikGuvenlikTab() {
+export function GizlilikGuvenlikSekmesi() {
   const [state, action, isPending] = useActionState(updatePassword, null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -17,7 +17,7 @@ export function GizlilikGuvenlikTab() {
   const showFeedback = Boolean(state) && !formChanged && !isPending;
 
   return (
-    <PanelSectionCard
+    <PanelBolumKarti
       title="Şifre Güvenliği"
       description="Hesabınız için en az 8 karakterli, benzersiz bir şifre kullanın."
     >
@@ -82,7 +82,7 @@ export function GizlilikGuvenlikTab() {
           </PanelActionButton>
         </div>
       </form>
-    </PanelSectionCard>
+    </PanelBolumKarti>
   );
 }
 

@@ -1,13 +1,12 @@
 'use client';
 
 import { useRef, useState, type KeyboardEvent } from 'react';
-import type { WeeklyHourRow } from './hours/hours-form';
-import { BildirimAyarlariTab } from './tabs/bildirim-ayarlari-tab';
-import { GizlilikGuvenlikTab } from './tabs/gizlilik-guvenlik-tab';
-import { HesapAyarlariTab } from './tabs/hesap-ayarlari-tab';
-import { IsletmeProfilTab } from './tabs/isletme-profili-tab';
-import { RezervasyonAyarlariTab } from './tabs/rezervasyon-ayarlari-tab';
-import { SettingsRightSidebar } from './settings-right-sidebar';
+import { BildirimAyarlariSekmesi } from './sekmeler/bildirim-ayarlari-sekmesi';
+import { GizlilikGuvenlikSekmesi } from './sekmeler/gizlilik-guvenlik-sekmesi';
+import { HesapAyarlariSekmesi } from './sekmeler/hesap-ayarlari-sekmesi';
+import { IsletmeProfiliSekmesi } from './sekmeler/isletme-profili-sekmesi';
+import { RezervasyonAyarlariSekmesi } from './sekmeler/rezervasyon-ayarlari-sekmesi';
+import { AyarlarSagMenu } from './ayarlar-sag-menu';
 
 export type SettingsTab =
   | 'profile'
@@ -55,13 +54,12 @@ const TABS: ReadonlyArray<{ id: SettingsTab; label: string }> = [
   { id: 'privacy', label: 'Gizlilik & Güvenlik' },
 ];
 
-interface SettingsClientProps {
+interface AyarlarIstemcisiProps {
   user: UserData;
   business: BusinessData;
-  hours: WeeklyHourRow[];
 }
 
-export function SettingsClient({ user, business, hours }: SettingsClientProps) {
+export function AyarlarIstemcisi({ user, business }: AyarlarIstemcisiProps) {
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -129,19 +127,19 @@ export function SettingsClient({ user, business, hours }: SettingsClientProps) {
           className="pt-5 outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
         >
           {activeTab === 'profile' && (
-            <IsletmeProfilTab business={business} hours={hours} />
+            <IsletmeProfiliSekmesi business={business} />
           )}
-          {activeTab === 'account' && <HesapAyarlariTab user={user} />}
-          {activeTab === 'notifications' && <BildirimAyarlariTab />}
+          {activeTab === 'account' && <HesapAyarlariSekmesi user={user} />}
+          {activeTab === 'notifications' && <BildirimAyarlariSekmesi />}
           {activeTab === 'reservations' && (
-            <RezervasyonAyarlariTab business={business} />
+            <RezervasyonAyarlariSekmesi business={business} />
           )}
-          {activeTab === 'privacy' && <GizlilikGuvenlikTab />}
+          {activeTab === 'privacy' && <GizlilikGuvenlikSekmesi />}
         </div>
       </div>
 
       <aside aria-label="Ayarlar yan bilgileri" className="min-w-0 xl:sticky xl:top-6">
-        <SettingsRightSidebar user={user} business={business} />
+        <AyarlarSagMenu user={user} business={business} />
       </aside>
     </div>
   );

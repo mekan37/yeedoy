@@ -1,7 +1,7 @@
 'use client';
 
 import { Bell, CalendarCheck, MessageSquareText, Tag, TrendingUp } from 'lucide-react';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 
 const NOTIFICATION_ITEMS = [
   {
@@ -30,9 +30,9 @@ const NOTIFICATION_ITEMS = [
   },
 ] as const;
 
-export function BildirimAyarlariTab() {
+export function BildirimAyarlariSekmesi() {
   return (
-    <PanelSectionCard
+    <PanelBolumKarti
       title="Bildirim Tercihleri"
       description="Hesabınızla ilgili bildirim kanallarının mevcut durumu."
     >
@@ -75,6 +75,6 @@ export function BildirimAyarlariTab() {
           );
         })}
       </div>
-    </PanelSectionCard>
+    </PanelBolumKarti>
   );
 }

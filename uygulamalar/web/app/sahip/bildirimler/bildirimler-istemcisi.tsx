@@ -94,7 +94,7 @@ const MOCK: Notification[] = [
     body: 'Hesabınıza yeni bir cihazdan giriş yapıldı.',
     tag: 'Önemli', time: '2 gün önce', dateStr: '4 Haziran 2025 · 10:42', isRead: true,
     actions: [
-      { label: 'Güvenlik Ayarları', primary: true, icon: 'shield', href: '/owner/settings' },
+      { label: 'Güvenlik Ayarları', primary: true, icon: 'shield', href: '/sahip/ayarlar' },
     ],
   },
 ];

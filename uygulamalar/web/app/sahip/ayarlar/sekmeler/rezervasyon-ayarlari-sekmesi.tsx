@@ -1,10 +1,10 @@
 'use client';
 
 import { useActionState, useState } from 'react';
-import { PanelActionButton } from '@/src/ui/components/panel-action-button';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { updateReservationSettings } from '../actions';
-import type { BusinessData } from '../settings-client';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { updateReservationSettings } from '../ayarlar-islemleri';
+import type { BusinessData } from '../ayarlar-istemcisi';
 
 const INPUT_CLASS =
   'min-h-11 w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-textStrong outline-none transition-colors placeholder:text-muted focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60';
@@ -24,7 +24,7 @@ function getPartyDefaults(business: BusinessData) {
   return { minimum, maximum: Math.max(minimum, maximumCandidate) };
 }
 
-export function RezervasyonAyarlariTab({ business }: { business: BusinessData }) {
+export function RezervasyonAyarlariSekmesi({ business }: { business: BusinessData }) {
   const [state, formAction, isPending] = useActionState(
     updateReservationSettings.bind(null, business.id),
     null,
@@ -35,7 +35,7 @@ export function RezervasyonAyarlariTab({ business }: { business: BusinessData })
   const showFeedback = Boolean(state) && !formChanged && !isPending;
 
   return (
-    <PanelSectionCard
+    <PanelBolumKarti
       title="Rezervasyon Ayarları"
       description="Rezervasyon kabul durumunu ve müşterilere gösterilecek bilgileri yönetin."
     >
@@ -173,6 +173,6 @@ export function RezervasyonAyarlariTab({ business }: { business: BusinessData })
           </PanelActionButton>
         </div>
       </form>
-    </PanelSectionCard>
+    </PanelBolumKarti>
   );
 }
