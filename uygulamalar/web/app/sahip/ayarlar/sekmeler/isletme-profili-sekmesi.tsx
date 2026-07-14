@@ -219,18 +219,19 @@ export function IsletmeProfiliSekmesi({ business }: IsletmeProfiliSekmesiProps) 
               </span>
               <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
             </Link>
-            <div className="flex min-h-11 cursor-not-allowed items-center gap-3 px-5 py-3 opacity-60">
+            <Link
+              href="/sahip/ayarlar/alan-adi"
+              className="flex min-h-11 items-center gap-3 px-5 py-3 text-sm font-[700] text-textStrong transition-colors hover:bg-cardAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
+            >
               <Globe2 aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
-              <span className="min-w-0 flex-1 text-sm font-[700] text-textStrong">
+              <span className="min-w-0 flex-1">
                 Özel Domain
                 <span className="mt-0.5 block text-xs font-[500] text-muted">
                   İşletmenize özel alan adı bağlayın
                 </span>
               </span>
-              <span className="rounded-full bg-muted/15 px-2 py-0.5 text-[10px] font-[800] uppercase tracking-wider text-muted">
-                Yakında
-              </span>
-            </div>
+              <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
+            </Link>
           </nav>
         </PanelBolumKarti>
 

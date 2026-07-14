@@ -90,13 +90,7 @@ export function AyarlarSagMenu({ user, business }: AyarlarSagMenuProps) {
           <QuickActionLink href="/sahip/isletmeler" label="İşletme bilgilerine git" icon={Building2} />
           <QuickActionLink href="/sahip/menuler" label="Menüleri yönet" icon={LayoutGrid} />
           <QuickActionLink href="/sahip/ayarlar/saatler" label="Çalışma saatlerini düzenle" icon={Clock} />
-          <QuickActionLink
-            href="/sahip/ayarlar/alan-adi"
-            label="Özel domain"
-            icon={Globe2}
-            disabled
-            badge="Yakında"
-          />
+          <QuickActionLink href="/sahip/ayarlar/alan-adi" label="Özel domain" icon={Globe2} />
         </nav>
       </PanelBolumKarti>
 
@@ -209,30 +203,12 @@ function QuickActionLink({
   label,
   icon: Icon,
   external = false,
-  disabled = false,
-  badge,
 }: {
   href: string;
   label: string;
   icon: LucideIcon;
   external?: boolean;
-  disabled?: boolean;
-  badge?: string;
 }) {
-  if (disabled) {
-    return (
-      <div className="flex min-h-11 items-center gap-3 px-5 py-2.5 opacity-60 cursor-not-allowed">
-        <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
-        <span className="min-w-0 flex-1 text-xs font-[700] text-textStrong">{label}</span>
-        {badge ? (
-          <span className="rounded-full bg-muted/15 px-2 py-0.5 text-[10px] font-[800] uppercase tracking-wider text-muted">
-            {badge}
-          </span>
-        ) : null}
-      </div>
-    );
-  }
-
   return (
     <Link
       href={href}
