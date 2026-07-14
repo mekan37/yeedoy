@@ -405,7 +405,7 @@ export function NotificationsClient() {
                       </div>
                       <p className="text-[11px] text-[#94a3b8]">Kafe · Yenimahalle, Ankara</p>
                     </div>
-                    <Link href="/owner/businesses" className="shrink-0 text-[12px] font-[800] text-[#dc2626] hover:underline">
+                    <Link href="/sahip/isletmeler" className="shrink-0 text-[12px] font-[800] text-[#dc2626] hover:underline">
                       İşletmeye Git
                     </Link>
                   </div>
