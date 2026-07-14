@@ -6,6 +6,7 @@ import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { createOwnerMenu, createExternalMenu } from './menu-islemleri';
+import { ActivateMenuButton } from './menu-aktif-yap-dugmesi';
 
 export const metadata: Metadata = {
   title: 'Menüler | Sahip Paneli',
@@ -60,7 +61,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
       <PanelSayfaBasligi
         eyebrow="Owner"
         title="Menüler"
-        description="İşletmelerinize ait tüm menüler"
+        description="İşletmelerinize ait tüm menüler — her işletme için tek seferde yalnızca bir menü yayında olabilir"
       />
       <PanelIcerikYuzeyi className="pt-6">
         <PanelBolumKarti
@@ -191,11 +192,8 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
           <PanelBolumKarti noPadding>
             <ul className="divide-y divide-border">
               {list.map((m) => (
-                <li key={m.id}>
-                  <Link
-                    href={`/sahip/menuler/${m.id}`}
-                    className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-black/[0.02]"
-                  >
+                <li key={m.id} className="flex items-center gap-3 px-5 py-4 transition-colors hover:bg-black/[0.02]">
+                  <Link href={`/sahip/menuler/${m.id}`} className="flex min-w-0 flex-1 items-center gap-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted">
                       {m.kind === 'qr' ? <QrIcon /> : m.kind === 'external' ? <LinkIcon /> : <MenuIcon />}
                     </div>
@@ -211,7 +209,9 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
                         )}
                       </p>
                     </div>
+                  </Link>
 
+                  <div className="flex shrink-0 items-center gap-2">
                     <span
                       className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
                         m.status === 'published'
@@ -224,8 +224,14 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
                       {m.status === 'published' ? 'Yayında' : m.status === 'archived' ? 'Arşiv' : 'Taslak'}
                     </span>
 
-                    <ChevronIcon />
-                  </Link>
+                    {m.status !== 'published' && (
+                      <ActivateMenuButton menuId={m.id} businessId={m.business_id} />
+                    )}
+
+                    <Link href={`/sahip/menuler/${m.id}`} aria-label="Menü detayına git">
+                      <ChevronIcon />
+                    </Link>
+                  </div>
                 </li>
               ))}
             </ul>

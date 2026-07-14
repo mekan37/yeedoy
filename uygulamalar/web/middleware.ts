@@ -7,7 +7,7 @@ import { isBusinessMenuPathKey, isUuid } from '@/src/lib/business-path';
 import { resolveLang } from '@/src/lib/i18n';
 
 // ── Subdomain → panel rewrite ─────────────────────────────────────────────────
-// isletme.yeedoy.com  →  /owner/[path]
+// isletme.yeedoy.com  →  /sahip/[path]
 // ops.yeedoy.com      →  /admin/[path]   (secret subdomain, no public links)
 //
 // Configured via env vars so the admin hostname never appears in source code:
@@ -28,8 +28,8 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
 
   if (!isOwnerHost && !isAdminHost) return null;
 
-  const prefix = isOwnerHost ? '/owner' : '/admin';
-  // Root → /owner or /admin, sub-paths → /owner/path
+  const prefix = isOwnerHost ? '/sahip' : '/admin';
+  // Root → /sahip or /admin, sub-paths → /sahip/path
   const suffix = pathname === '/' ? '' : pathname;
   const url = request.nextUrl.clone();
   url.pathname = `${prefix}${suffix}`;
@@ -38,7 +38,6 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
 }
 
 // ── Protected panel route guard ───────────────────────────────────────────────
-const OWNER_PREFIX = '/owner';
 const ADMIN_PREFIX = '/admin';
 // Turkish-language aliases for the same panels
 const YONETICI_PREFIX = '/yonetici';  // alias for /admin panel pages
@@ -63,10 +62,9 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
   // behind the auth guard via the separate `startsWith(SAHIP_PREFIX)` check
   // two lines down. Do NOT refactor this to a `startsWith` match — doing so
   // would make the entire authenticated owner panel publicly accessible.
-  const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/owner', SAHIP_PREFIX];
+  const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, SAHIP_PREFIX];
   const isOwnerRoute =
-    (pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX)) &&
-    !OWNER_PUBLIC_PATHS.includes(pathname);
+    pathname.startsWith(SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(pathname);
   const isAdminRoute =
     pathname.startsWith(ADMIN_PREFIX) || pathname.startsWith(YONETICI_PREFIX);
   // /api/admin/* and /sunucu/yonetici/* sit outside the panel prefix — guard

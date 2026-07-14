@@ -48,6 +48,29 @@ export async function updateMenuTitle(menuId: string, title: string): Promise<Ac
 export async function publishMenu(menuId: string, status: 'draft' | 'published' | 'archived'): Promise<ActionResult> {
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
+
+  if (status === 'published') {
+    // Bir işletmenin aynı anda yalnızca tek bir "published" menüsü olabilir.
+    // Bu invaryantı editörden yayınlarken de korumak için, ham status update
+    // yerine atomik set_active_menu_v1 RPC'sini çağırıyoruz — aynı işletmenin
+    // önceden yayınlanmış diğer menüleri tek transaction içinde taslağa çekilir.
+    // Menü listesindeki "Aktif Yap" butonu da aynı RPC'yi kullanır (bkz.
+    // app/sahip/menuler/menu-islemleri.ts activateMenu).
+    const { error } = await (context.supabase as any).rpc('set_active_menu_v1', {
+      p_menu_id: menuId,
+      p_business_id: context.businessId,
+    });
+    if (error) {
+      if (error.code === 'P0002') return { error: 'Bu menü için yetkiniz yok' };
+      if (error.code === 'P0001') return { error: 'Menü bulunamadı' };
+      return { error: error.message };
+    }
+    revalidateMenuEditor(menuId);
+    return null;
+  }
+
+  // 'draft' / 'archived': tekil menüyü yayından kaldırmak invaryantı bozmaz,
+  // düz update yeterli.
   const { error } = await (context.supabase as any).from('menus').update({ status }).eq('id', menuId);
   if (error) return { error: error.message };
   revalidateMenuEditor(menuId);
