@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
@@ -67,8 +68,18 @@ interface SahipKabukIstemcisiProps {
   bannerSlot?: ReactNode;
 }
 
+// Public landing page (/sahip exact) — rendered without the authenticated
+// panel chrome (sidebar/topbar), since logged-out visitors land here directly.
+const PUBLIC_LANDING_PATH = '/sahip';
+
 export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcisiProps) {
+  const pathname = usePathname();
   const user = useCurrentUser();
+
+  if (pathname === PUBLIC_LANDING_PATH) {
+    return <AppProviders>{children}</AppProviders>;
+  }
+
   return (
     <AppProviders>
       <PanelShell
