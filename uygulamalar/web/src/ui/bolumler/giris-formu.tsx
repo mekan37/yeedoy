@@ -198,6 +198,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             <div className="mb-7 flex border-b border-border">
               <Link
                 href="/giris"
+                aria-current={mode === 'giris' ? 'page' : undefined}
                 className={`relative pb-3 pr-6 text-sm font-[800] transition-colors ${
                   mode === 'giris' ? 'text-primary' : 'text-muted hover:text-textStrong'
                 }`}
@@ -207,6 +208,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               </Link>
               <Link
                 href="/giris?tab=kayit"
+                aria-current={mode === 'kayit' ? 'page' : undefined}
                 className={`relative pb-3 pl-6 text-sm font-[800] transition-colors ${
                   mode === 'kayit' ? 'text-primary' : 'text-muted hover:text-textStrong'
                 }`}
