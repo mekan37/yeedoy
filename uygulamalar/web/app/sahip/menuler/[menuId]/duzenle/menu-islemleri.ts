@@ -137,8 +137,11 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   const allTags = [...new Set([...dietaryTags, ...customTags])];
   const tags = allTags.length > 0 ? allTags : null;
 
-  const calories_min = fd.get('calories_min') ? parseInt(String(fd.get('calories_min'))) || null : null;
-  const calories_max = fd.get('calories_max') ? parseInt(String(fd.get('calories_max'))) || null : null;
+  const caloriesMinParsed = fd.get('calories_min') ? parseInt(String(fd.get('calories_min')), 10) : NaN;
+  const caloriesMaxParsed = fd.get('calories_max') ? parseInt(String(fd.get('calories_max')), 10) : NaN;
+  // Number.isNaN check (not `|| null`) so a legitimately entered 0 is preserved as a valid value.
+  const calories_min = Number.isNaN(caloriesMinParsed) ? null : caloriesMinParsed;
+  const calories_max = Number.isNaN(caloriesMaxParsed) ? null : caloriesMaxParsed;
   const portionSizeRaw = fd.get('portion_size') ? Number(fd.get('portion_size')) : null;
   const portionUnit = (fd.get('portion_unit') as string) || null;
 
@@ -188,6 +191,13 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
 
 export type AllergenEntry = { allergen: string; risk_level: 'contains' | 'may_contain' };
 
+// NOTE: owner_upsert_menu_item_allergens_v1 does a full delete-then-reinsert of the
+// item's menu_item_allergens rows on every save (see supabase/migrations/20260414000002_menu_item_allergens.sql).
+// There are confirmed pre-existing rows in prod with allergen codes from the old owner-panel
+// code set (e.g. 'nuts', 'shellfish', 'eggs', 'sulphites') that don't match the current
+// ALLERGEN_LIST codes used here. If an owner opens and re-saves an item carrying one of those
+// stale codes, only the codes present in ALLERGEN_LIST survive — anything else is silently
+// wiped with no recovery path. Flag for data-cleanup/backfill before relying on this further.
 export async function upsertItemAllergens(
   itemId: string,
   menuId: string,
@@ -212,6 +222,10 @@ export async function upsertItemAllergens(
   return null;
 }
 
+// NOTE: same delete-then-reinsert risk class as upsertItemAllergens above —
+// owner_upsert_menu_item_ingredients_v1 fully replaces menu_item_ingredients (and
+// menu_item_diet_tags) for the item on every save. Any ingredient rows not resubmitted
+// here (e.g. from a stale/AI-detected source not surfaced in this form) are lost.
 export async function upsertItemIngredients(
   itemId: string,
   menuId: string,
