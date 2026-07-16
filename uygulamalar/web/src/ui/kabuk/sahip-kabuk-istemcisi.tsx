@@ -10,8 +10,10 @@ import { KullaniciFoteri } from './kullanici-foteri';
 import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
-import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { getOwnerBusinesses, getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+
+const ONBOARDING_NAV_HREF = '/sahip/baslangic';
 
 const ownerNavSections: NavSection[] = [
   {
@@ -73,6 +75,31 @@ function useCurrentUser() {
   return user;
 }
 
+// Başlangıç Rehberi'ndeki 4 adım (işletme/menü/QR/ekip) tamamlanınca true
+// döner — nav'dan "Başlangıç Rehberi" öğesi kaldırılır. null = henüz
+// bilinmiyor (yükleniyor), bu sırada öğe görünür kalır.
+function useOnboardingComplete() {
+  const [complete, setComplete] = useState<boolean | null>(null);
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+    void supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session?.user) return;
+      const bizIds = await getOwnerBusinessIds(supabase as any, data.session.user.id);
+      if (bizIds.length === 0) {
+        setComplete(false);
+        return;
+      }
+      const [menuRes, qrRes, teamRes] = await Promise.all([
+        (supabase as any).from('menus').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('status', 'published'),
+        (supabase as any).from('business_qr_codes').select('id', { count: 'exact', head: true }).in('business_id', bizIds),
+        (supabase as any).from('business_team_memberships').select('id', { count: 'exact', head: true }).in('business_id', bizIds).is('revoked_at', null),
+      ]);
+      setComplete((menuRes.count ?? 0) > 0 && (qrRes.count ?? 0) > 0 && (teamRes.count ?? 0) > 0);
+    });
+  }, []);
+  return complete;
+}
+
 interface PrimaryBusiness {
   id: string;
   name: string;
@@ -113,15 +140,23 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
   const pathname = usePathname();
   const user = useCurrentUser();
   const business = useCurrentBusiness();
+  const onboardingComplete = useOnboardingComplete();
 
   if (pathname === PUBLIC_LANDING_PATH) {
     return <AppProviders>{children}</AppProviders>;
   }
 
+  const navSections = onboardingComplete
+    ? ownerNavSections.map((section) => ({
+        ...section,
+        items: section.items.filter((item) => item.href !== ONBOARDING_NAV_HREF),
+      }))
+    : ownerNavSections;
+
   return (
     <AppProviders>
       <PanelShell
-        navSections={ownerNavSections}
+        navSections={navSections}
         logoSlot={<OwnerLogo />}
         sidebarTop={business ? <SelectedBusinessCard business={business} /> : undefined}
         topbarTitle="Owner Panel"
