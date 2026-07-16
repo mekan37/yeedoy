@@ -7,6 +7,7 @@ import { HesapAyarlariSekmesi } from './sekmeler/hesap-ayarlari-sekmesi';
 import { IsletmeProfiliSekmesi } from './sekmeler/isletme-profili-sekmesi';
 import { RezervasyonAyarlariSekmesi } from './sekmeler/rezervasyon-ayarlari-sekmesi';
 import { AyarlarSagMenu } from './ayarlar-sag-menu';
+import type { WeeklyHourRow } from './saatler/saatler-formu';
 
 export type SettingsTab =
   | 'profile'
@@ -57,9 +58,10 @@ const TABS: ReadonlyArray<{ id: SettingsTab; label: string }> = [
 interface AyarlarIstemcisiProps {
   user: UserData;
   business: BusinessData;
+  hours: WeeklyHourRow[];
 }
 
-export function AyarlarIstemcisi({ user, business }: AyarlarIstemcisiProps) {
+export function AyarlarIstemcisi({ user, business, hours }: AyarlarIstemcisiProps) {
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -127,7 +129,7 @@ export function AyarlarIstemcisi({ user, business }: AyarlarIstemcisiProps) {
           className="pt-5 outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
         >
           {activeTab === 'profile' && (
-            <IsletmeProfiliSekmesi business={business} />
+            <IsletmeProfiliSekmesi business={business} hours={hours} />
           )}
           {activeTab === 'account' && <HesapAyarlariSekmesi user={user} />}
           {activeTab === 'notifications' && <BildirimAyarlariSekmesi />}

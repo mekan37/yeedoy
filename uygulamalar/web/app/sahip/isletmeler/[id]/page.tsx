@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
@@ -26,7 +27,7 @@ export default async function BusinessDetailPage({ params }: Props) {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  type FullBiz = { id: string; name: string; slug: string | null; category: string; description: string | null; phone: string | null; address: string | null; city: string | null; district: string | null; neighborhood: string | null; lat: number | null; lng: number | null; is_active: boolean; logo_url: string | null; cover_url: string | null; reservation_url: string | null; order_yemeksepeti_url: string | null; order_trendyolgo_url: string | null; order_getir_url: string | null };
+  type FullBiz = { id: string; name: string; slug: string | null; category: string; description: string | null; phone: string | null; address: string | null; city: string | null; district: string | null; neighborhood: string | null; lat: number | null; lng: number | null; is_active: boolean; is_verified: boolean; logo_url: string | null; cover_url: string | null; reservation_url: string | null; order_yemeksepeti_url: string | null; order_trendyolgo_url: string | null; order_getir_url: string | null };
   const canManageBusiness = await hasOwnerBusiness(supabase as any, user!.id, id);
   if (!canManageBusiness) notFound();
 
@@ -34,7 +35,7 @@ export default async function BusinessDetailPage({ params }: Props) {
     .from('businesses')
     .select(
       'id, name, slug, category, description, phone, address, city, district, ' +
-      'neighborhood, lat, lng, is_active, logo_url, cover_url, ' +
+      'neighborhood, lat, lng, is_active, is_verified, logo_url, cover_url, ' +
       'reservation_url, order_yemeksepeti_url, order_trendyolgo_url, order_getir_url',
     )
     .eq('id', id)
@@ -66,7 +67,22 @@ export default async function BusinessDetailPage({ params }: Props) {
       <PanelSayfaBasligi
         eyebrow="İşletmeler"
         title={business.name}
-        description={business.category}
+        description={[
+          business.category,
+          business.is_verified ? '✓ Doğrulanmış' : null,
+        ].filter(Boolean).join(' · ')}
+        actions={
+          business.slug ? (
+            <Link
+              href={`/m/${business.slug}`}
+              target="_blank"
+              className="flex h-9 items-center gap-2 rounded-xl border border-border px-4 text-sm font-[800] text-textStrong transition hover:bg-bg"
+            >
+              <ExternalIcon />
+              Menüyü Gör
+            </Link>
+          ) : undefined
+        }
       />
       <PanelIcerikYuzeyi className="pt-6">
         <div className="flex flex-col gap-5">
@@ -157,6 +173,16 @@ export default async function BusinessDetailPage({ params }: Props) {
         </div>
       </PanelIcerikYuzeyi>
     </div>
+  );
+}
+
+function ExternalIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
   );
 }
 

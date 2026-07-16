@@ -2,16 +2,18 @@
 
 import { useActionState, useState, type ReactNode } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Clock, Globe2 } from 'lucide-react';
+import { Globe2 } from 'lucide-react';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { BrandingEditor } from '@/app/sahip/isletmeler/[id]/marka-editoru';
+import { HoursForm, type WeeklyHourRow } from '../saatler/saatler-formu';
 import { updateBusinessProfile, updateContactInfo } from '../ayarlar-islemleri';
 import type { ActionState } from '../ayarlar-islemleri';
 import type { BusinessData } from '../ayarlar-istemcisi';
 
 interface IsletmeProfiliSekmesiProps {
   business: BusinessData;
+  hours: WeeklyHourRow[];
 }
 
 const INPUT_CLASS =
@@ -36,7 +38,7 @@ const SOCIAL_FIELDS = [
   },
 ] as const;
 
-export function IsletmeProfiliSekmesi({ business }: IsletmeProfiliSekmesiProps) {
+export function IsletmeProfiliSekmesi({ business, hours }: IsletmeProfiliSekmesiProps) {
   const [profileState, profileAction, profilePending] = useActionState(
     updateBusinessProfile.bind(null, business.id),
     null,
@@ -201,38 +203,19 @@ export function IsletmeProfiliSekmesi({ business }: IsletmeProfiliSekmesiProps) 
 
       <div className="grid items-start gap-6 lg:grid-cols-2">
         <PanelBolumKarti
-          title="Diğer Ayarlar"
-          description="Çalışma saatleri ve özel domain ayrı sayfalarda yönetilir."
-          noPadding
+          title="Çalışma Saatleri"
+          description="Haftalık açılış ve kapanış saatlerinizi düzenleyin."
         >
-          <nav aria-label="Diğer işletme ayarları" className="divide-y divide-border">
-            <Link
-              href="/sahip/ayarlar/saatler"
-              className="flex min-h-11 items-center gap-3 px-5 py-3 text-sm font-[700] text-textStrong transition-colors hover:bg-cardAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
-            >
-              <Clock aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
-              <span className="min-w-0 flex-1">
-                Çalışma Saatleri
-                <span className="mt-0.5 block text-xs font-[500] text-muted">
-                  Günlük açılış/kapanış saatlerini ayarlayın
-                </span>
-              </span>
-              <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
-            </Link>
+          <HoursForm businessId={business.id} hours={hours.length > 0 ? hours : null} />
+          <div className="mt-5 border-t border-border pt-4">
             <Link
               href="/sahip/ayarlar/alan-adi"
-              className="flex min-h-11 items-center gap-3 px-5 py-3 text-sm font-[700] text-textStrong transition-colors hover:bg-cardAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
+              className="inline-flex min-h-11 items-center gap-2 text-sm font-[700] text-primary hover:underline"
             >
-              <Globe2 aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
-              <span className="min-w-0 flex-1">
-                Özel Domain
-                <span className="mt-0.5 block text-xs font-[500] text-muted">
-                  İşletmenize özel alan adı bağlayın
-                </span>
-              </span>
-              <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
+              <Globe2 aria-hidden="true" className="h-4 w-4 shrink-0" />
+              Özel Domain Ayarları →
             </Link>
-          </nav>
+          </div>
         </PanelBolumKarti>
 
         <PanelBolumKarti

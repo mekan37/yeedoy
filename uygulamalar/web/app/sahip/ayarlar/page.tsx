@@ -6,6 +6,7 @@ import { logger } from '@/src/lib/kayitci';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { AyarlarIstemcisi, type BusinessData } from './ayarlar-istemcisi';
+import type { WeeklyHourRow } from './saatler/saatler-formu';
 
 export const metadata: Metadata = {
   title: 'Ayarlar | Sahip Paneli',
@@ -20,8 +21,12 @@ type UserProfile = {
   display_name: string | null;
 };
 
+type HoursResult = {
+  weekly?: WeeklyHourRow[];
+};
+
 function throwSettingsLoadError(
-  source: 'claim' | 'business' | 'profile',
+  source: 'claim' | 'business' | 'profile' | 'hours',
   error: { code?: string; message?: string },
 ): never {
   logger.error('Owner settings data load failed', {
@@ -56,7 +61,7 @@ export default async function OwnerSettingsPage() {
   const service = createSupabaseServiceClient();
   if (!service) redirect('/sahip/gosterge-panosu');
 
-  const [businessResult, profileResult] = await Promise.all([
+  const [businessResult, profileResult, hoursResult] = await Promise.all([
     (service as any)
       .from('businesses')
       .select(
@@ -72,9 +77,13 @@ export default async function OwnerSettingsPage() {
       .select('display_name')
       .eq('user_id', user.id)
       .maybeSingle(),
+    (supabase as any).rpc('get_business_hours_v1', {
+      p_business_id: businessId,
+    }),
   ]) as [
     { data: BusinessData | null; error: { code?: string; message?: string } | null },
     { data: UserProfile | null; error: { code?: string; message?: string } | null },
+    { data: HoursResult | null; error: { code?: string; message?: string } | null },
   ];
 
   if (businessResult.error) throwSettingsLoadError('business', businessResult.error);
@@ -82,6 +91,7 @@ export default async function OwnerSettingsPage() {
     throwSettingsLoadError('business', { code: 'BUSINESS_NOT_FOUND' });
   }
   if (profileResult.error) throwSettingsLoadError('profile', profileResult.error);
+  if (hoursResult.error) throwSettingsLoadError('hours', hoursResult.error);
 
   const displayName =
     profileResult.data?.display_name?.trim() ||
@@ -103,6 +113,7 @@ export default async function OwnerSettingsPage() {
             displayName,
           }}
           business={businessResult.data}
+          hours={hoursResult.data?.weekly ?? []}
         />
       </PanelIcerikYuzeyi>
     </div>

@@ -150,12 +150,13 @@ export function AnalitikIstemcisi({
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
         {metrikler.map((m) => {
           const p = m.prev !== undefined ? pct(m.value, m.prev) : null;
+          const subtitle = m.prev !== undefined ? `${etiket} · Önceki dönem: ${fmt(m.prev)}` : etiket;
           return (
             <MetricCard
               key={m.title}
               title={m.title}
               value={fmt(m.value)}
-              subtitle={etiket}
+              subtitle={subtitle}
               icon={m.icon}
               trend={p !== null ? { value: p } : undefined}
             />

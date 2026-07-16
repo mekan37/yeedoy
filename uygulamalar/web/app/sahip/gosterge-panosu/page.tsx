@@ -66,6 +66,14 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
 
   const bizIds = await getOwnerBusinessIds(supabase as any, user!.id);
 
+  const { data: profile } = await (supabase as any)
+    .from('user_profiles')
+    .select('display_name')
+    .eq('user_id', user!.id)
+    .maybeSingle();
+  const displayName: string = profile?.display_name ?? user!.email?.split('@')[0] ?? 'Kullanıcı';
+  const firstName = displayName.split(' ')[0] ?? displayName;
+
   // Bekleyen talep var mı?
   const hasPendingClaim = bizIds.length === 0 && await (async () => {
     const { data } = await (supabase as any)
@@ -78,9 +86,13 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   })();
 
   const since7d = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const since14d = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
   const since30d = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
-  const [menusRes, qrScans30dRes, reviewsRes, views7d, views30d, bizListRes] = await Promise.all([
+  const [
+    menusRes, qrScans30dRes, qrScans7dRes, reviewsRes, reviewsPrevRes,
+    favCurrRes, favPrevRes, views7d, views30d, bizListRes,
+  ] = await Promise.all([
     bizIds.length > 0
       ? (supabase as any).from('menus').select('id', { count: 'exact', head: true }).in('business_id', bizIds) as Promise<{ count: number | null }>
       : Promise.resolve({ count: 0 }),
@@ -88,7 +100,19 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
       ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'qr_scan').gte('created_at', since30d)
       : Promise.resolve({ count: 0 }),
     bizIds.length > 0
+      ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'qr_scan').gte('created_at', since7d)
+      : Promise.resolve({ count: 0 }),
+    bizIds.length > 0
       ? (supabase as any).from('business_reviews').select('id', { count: 'exact', head: true }).in('business_id', bizIds).gte('created_at', since7d)
+      : Promise.resolve({ count: 0 }),
+    bizIds.length > 0
+      ? (supabase as any).from('business_reviews').select('id', { count: 'exact', head: true }).in('business_id', bizIds).gte('created_at', since14d).lt('created_at', since7d)
+      : Promise.resolve({ count: 0 }),
+    bizIds.length > 0
+      ? (supabase as any).from('favorites').select('id', { count: 'exact', head: true }).in('business_id', bizIds).gte('created_at', since7d)
+      : Promise.resolve({ count: 0 }),
+    bizIds.length > 0
+      ? (supabase as any).from('favorites').select('id', { count: 'exact', head: true }).in('business_id', bizIds).gte('created_at', since14d).lt('created_at', since7d)
       : Promise.resolve({ count: 0 }),
     bizIds.length > 0
       ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'menu_view').gte('created_at', since7d)
@@ -109,9 +133,21 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const businessCount = bizIds.length;
   const menuCount = menusRes.count ?? 0;
   const qrScanCount30d = qrScans30dRes.count ?? 0;
+  const qrScanCount7d = qrScans7dRes.count ?? 0;
   const reviewCount7d = reviewsRes.count ?? 0;
+  const reviewCount7dPrev = reviewsPrevRes.count ?? 0;
+  const favCount7d = favCurrRes.count ?? 0;
+  const favCount7dPrev = favPrevRes.count ?? 0;
   const viewCount7d = views7d.count ?? 0;
   const viewCount30d = views30d.count ?? 0;
+  const engagementCount7d = qrScanCount7d + viewCount7d;
+
+  function pctChange(curr: number, prev: number): number | null {
+    if (prev === 0) return curr > 0 ? 100 : null;
+    return Math.round(((curr - prev) / prev) * 100);
+  }
+  const reviewPct = pctChange(reviewCount7d, reviewCount7dPrev);
+  const favPct = pctChange(favCount7d, favCount7dPrev);
 
   // Çoklu işletmeli sahipler için görsel bölüm ilk işletmeye (alfabetik) ait gösterilir.
   const primaryBiz: PrimaryBusiness | null = (bizListRes.data ?? [])[0] ?? null;
@@ -154,7 +190,6 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const logoUrl = primaryBiz?.logo_url ? buildMenuImageUrl(primaryBiz.logo_url, { width: 80, quality: 80 }) : null;
 
   // Daily QR scan counts for last 14 days sparkline
-  const since14d = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
   const { data: qrScansByDay } = bizIds.length > 0
     ? await (supabase as any)
         .from('analytics_events')
@@ -211,7 +246,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
     <div className="flex flex-col">
       <PanelSayfaBasligi
         eyebrow="Owner"
-        title="Genel Bakış"
+        title={`Merhaba ${firstName}! 👋`}
         description="İşletmelerinizin özet durumu ve performans metrikleri"
       />
       <PanelIcerikYuzeyi className="pt-6">
@@ -251,11 +286,30 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
             </div>
           )}
           {/* KPI Grid */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
             <MetricCard title="İşletmeler" value={businessCount} icon={<BuildingIcon />} />
             <MetricCard title="Menüler" value={menuCount} icon={<MenuIcon />} />
+            <MetricCard
+              title="Görüntülenme"
+              value={engagementCount7d}
+              subtitle="Son 7 gün"
+              icon={<EyeStatIcon />}
+            />
+            <MetricCard
+              title="Favori Eklenme"
+              value={favCount7d}
+              subtitle="Önceki 7 güne göre"
+              icon={<HeartStatIcon />}
+              trend={favPct !== null ? { value: favPct } : undefined}
+            />
+            <MetricCard
+              title="Son 7 Gün Yorum"
+              value={reviewCount7d}
+              subtitle="Önceki 7 güne göre"
+              icon={<StarIcon />}
+              trend={reviewPct !== null ? { value: reviewPct } : undefined}
+            />
             <MetricCard title="Son 30 Gün QR Tarama" value={qrScanCount30d} icon={<QrIcon />} />
-            <MetricCard title="Son 7 Gün Yorum" value={reviewCount7d} icon={<StarIcon />} />
           </div>
 
           {/* QR scan sparkline + view bar chart side by side */}
@@ -354,6 +408,12 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
                     ))}
                   </div>
                 )}
+                <Link
+                  href="/sahip/etkinlik"
+                  className="mt-3 flex items-center gap-1 text-xs font-[800] text-primary hover:underline"
+                >
+                  Tüm Aktiviteler →
+                </Link>
               </PanelBolumKarti>
 
               {/* İşletme önizlemesi (cover/logo/yıldız puanı) */}
@@ -530,6 +590,23 @@ function StarIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+function EyeStatIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function HeartStatIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     </svg>
   );
 }

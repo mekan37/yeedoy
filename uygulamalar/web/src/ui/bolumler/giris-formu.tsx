@@ -9,6 +9,9 @@ import { hataMesaji } from './giris-yardimci';
 
 type Mode = 'giris' | 'kayit';
 
+const BUSINESS_CATEGORIES = ['Kafe', 'Restoran', 'Fast Food', 'Pastane & Fırın', 'Pizza', 'Burger', 'Döner & Kebap', 'Deniz Ürünleri', 'Vejeteryan & Vegan', 'Dünya Mutfağı', 'Tatlı & Dondurma', 'Bar & Meyhane', 'Kahvaltı Salonu', 'Diğer'];
+const BUSINESS_CITIES = ['Adana', 'Ankara', 'Antalya', 'Bursa', 'Diyarbakır', 'Eskişehir', 'Gaziantep', 'İstanbul', 'İzmir', 'Kayseri', 'Konya', 'Mersin', 'Samsun', 'Trabzon', 'Şanlıurfa'];
+
 const COUNTRY_CODES = [
   { code: '+90', flag: '🇹🇷', label: 'TR' },
   { code: '+1',  flag: '🇺🇸', label: 'US' },
@@ -45,6 +48,10 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
   const [birthDate, setBirthDate] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [isBusinessOwner, setIsBusinessOwner] = useState(false);
+  const [businessName, setBusinessName] = useState('');
+  const [businessCategory, setBusinessCategory] = useState('');
+  const [businessCity, setBusinessCity] = useState('');
 
   const [error, setError]     = useState('');
   const [success, setSuccess] = useState('');
@@ -137,6 +144,9 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               last_name: lastName.trim(),
               ...(phone.trim() && { phone: `${countryCode}${phone.trim()}` }),
               ...(birthDate    && { birth_date: birthDate }),
+              ...(isBusinessOwner && businessName.trim() && { business_name: businessName.trim() }),
+              ...(isBusinessOwner && businessCategory     && { business_category: businessCategory }),
+              ...(isBusinessOwner && businessCity         && { city: businessCity }),
             },
           },
         });
@@ -393,6 +403,61 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       className="h-12 w-full rounded-xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                     />
                   </div>
+                </div>
+              )}
+
+              {/* Kayıt — İşletme sahibi bilgileri (opsiyonel) */}
+              {mode === 'kayit' && (
+                <div className="rounded-xl border border-border bg-cardAlt px-4 py-3.5">
+                  <label className="flex cursor-pointer items-center gap-2.5 text-sm font-[700] text-textStrong">
+                    <input
+                      type="checkbox" checked={isBusinessOwner}
+                      onChange={(e) => setIsBusinessOwner(e.target.checked)}
+                      className="h-4 w-4 shrink-0 cursor-pointer accent-primary"
+                    />
+                    Bir işletme sahibiyim
+                  </label>
+                  {isBusinessOwner && (
+                    <div className="mt-3 flex flex-col gap-3">
+                      <div>
+                        <label className="mb-1.5 block text-sm font-[700] text-textStrong">İşletme Adı</label>
+                        <input
+                          type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)}
+                          placeholder="İşletme adınızı girin" maxLength={120}
+                          className="h-12 w-full rounded-xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="mb-1.5 block text-sm font-[700] text-textStrong">Kategori</label>
+                          <select
+                            value={businessCategory} onChange={(e) => setBusinessCategory(e.target.value)}
+                            className="h-12 w-full cursor-pointer appearance-none rounded-xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                          >
+                            <option value="">Kategori seçin</option>
+                            {BUSINESS_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="mb-1.5 block text-sm font-[700] text-textStrong">Şehir</label>
+                          <select
+                            value={businessCity} onChange={(e) => setBusinessCity(e.target.value)}
+                            className="h-12 w-full cursor-pointer appearance-none rounded-xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                          >
+                            <option value="">Şehir seçin</option>
+                            {BUSINESS_CITIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                          </select>
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted">
+                        Kayıt sonrası işletmenizi{' '}
+                        <Link href="/sahiplen/ara" className="font-[700] text-primary hover:underline">
+                          sahiplenme sayfasından
+                        </Link>{' '}
+                        talep edebilirsiniz.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
