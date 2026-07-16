@@ -85,7 +85,9 @@ export default async function OwnerPriceReportPage() {
             >
               {rows.length === 0 ? (
                 <p className="px-5 py-4 text-sm text-muted">
-                  Bu işletme için yeterli fiyat verisi yok. Menü ürünlerinize fiyat eklendiğinde rapor oluşacak.
+                  Bölgenizde henüz karşılaştırma yapılabilecek başka bir işletme bulunmuyor.
+                  Bu rapor, aynı şehir veya ilçedeki işletmelerin aynı isimli ürünlerini karşılaştırır —
+                  daha fazla işletme menüsünü yayınladıkça burada otomatik olarak veri görünmeye başlayacak.
                 </p>
               ) : (
                 <div className="overflow-x-auto">
