@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
@@ -83,124 +84,124 @@ export default async function OwnerBusinessesPage() {
             }
           />
         ) : (
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {list.map((b) => {
                 const stats = statsMap[b.id];
                 const avgRating = stats?.avg_rating ?? null;
                 const reviewsCount = stats?.reviews_count ?? 0;
+                const coverUrl = b.cover_url ? buildMenuImageUrl(b.cover_url, { width: 600, quality: 75 }) : null;
+                const logoUrl = b.logo_url ? buildMenuImageUrl(b.logo_url, { width: 80, quality: 80 }) : null;
+                const eksikBilgi = [
+                  (!b.lat || !b.lng) ? 'Konum eksik' : null,
+                  !(b.logo_url && b.cover_url) ? 'Görsel eksik' : null,
+                ].filter(Boolean).join(' · ');
+
                 return (
                   <PanelBolumKarti key={b.id} noPadding className="overflow-hidden">
-                    <Link
-                      href={`/sahip/isletmeler/${b.id}`}
-                      className="group block transition-colors hover:bg-black/[0.02]"
-                    >
-                      <div
-                        className="relative min-h-[150px] bg-[linear-gradient(135deg,_#171717,_#525252)]"
-                        style={b.cover_url ? {
-                          backgroundImage: `linear-gradient(90deg, rgba(0,0,0,.62), rgba(0,0,0,.14)), url("${buildMenuImageUrl(b.cover_url, { width: 900, quality: 80 }) ?? ''}")`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                        } : undefined}
-                      >
-                        <div className="absolute right-3 top-3">
-                          <span
-                            className={`rounded-full px-2.5 py-1 text-[11px] font-[800] backdrop-blur-sm ${
-                              b.is_active
-                                ? 'bg-green-500/90 text-white'
-                                : 'bg-black/40 text-white/80'
-                            }`}
-                          >
-                            {b.is_active ? 'Aktif' : 'Pasif'}
-                          </span>
-                        </div>
-                        <div className="absolute inset-x-0 bottom-0 flex items-end gap-3 p-4 text-white">
-                          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/25 bg-white/15 text-2xl font-[900] shadow-yd2 backdrop-blur">
-                            {b.logo_url ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={buildMenuImageUrl(b.logo_url, { width: 160, quality: 84 }) ?? ''}
-                                alt={b.name}
-                                className="h-full w-full object-cover"
-                              />
-                            ) : (
-                              b.name.charAt(0).toUpperCase()
-                            )}
-                          </div>
-                          <div className="min-w-0 pb-1">
-                            <div className="flex items-center gap-1.5">
-                              <p className="truncate text-lg font-[900]">{b.name}</p>
-                              {b.is_verified && (
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                                  <polyline points="22 4 12 14.01 9 11.01" />
-                                </svg>
-                              )}
+                    {/* Kapak */}
+                    <div className="relative h-[140px] bg-gradient-to-br from-primary/80 to-primary">
+                      {coverUrl && (
+                        <Image
+                          src={coverUrl}
+                          alt={b.name}
+                          fill
+                          sizes="(max-width:640px) 100vw, (max-width:1280px) 50vw, 33vw"
+                          className="object-cover"
+                        />
+                      )}
+                      <div className="absolute right-3 top-3">
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-[11px] font-[800] backdrop-blur-sm ${
+                            b.is_active ? 'bg-green-500/90 text-white' : 'bg-black/40 text-white/80'
+                          }`}
+                        >
+                          {b.is_active ? 'Aktif' : 'Pasif'}
+                        </span>
+                      </div>
+                      <div className="absolute bottom-0 left-5 translate-y-1/2">
+                        <div className="h-14 w-14 overflow-hidden rounded-2xl border-[3px] border-card bg-card shadow-md">
+                          {logoUrl ? (
+                            <Image src={logoUrl} alt={b.name} width={56} height={56} className="h-full w-full object-cover" />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center bg-bg text-xl font-[900] text-primary">
+                              {b.name.charAt(0).toUpperCase()}
                             </div>
-                            <p className="truncate text-xs font-[700] text-white/75">
-                              {[b.category, b.district, b.city].filter(Boolean).join(' · ') || 'İşletme profili'}
-                            </p>
-                          </div>
+                          )}
                         </div>
+                      </div>
+                    </div>
+
+                    {/* Gövde */}
+                    <div className="px-5 pb-5 pt-10">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <p className="truncate text-[15px] font-[900] text-textStrong">{b.name}</p>
+                          {b.is_verified && (
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-blue-600">
+                              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                              <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                          )}
+                        </div>
+                        {b.category && (
+                          <p className="mt-0.5 truncate text-xs font-[600] text-muted">{b.category}</p>
+                        )}
                       </div>
 
-                      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5">
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
-                          {avgRating != null ? (
-                            <span className="flex items-center gap-1 font-[800] text-amber-500">
-                              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="0">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                              </svg>
-                              <span className="text-textStrong">{avgRating.toFixed(1)}</span>
-                              <span className="font-[600] text-muted">({reviewsCount})</span>
-                            </span>
-                          ) : (
-                            <span className="font-[600] text-muted">Henüz yorum yok</span>
-                          )}
-                          {b.slug && (
-                            <>
-                              <span className="h-3 w-px bg-border" />
-                              <span className="truncate font-[600] text-muted">{`yeedoy.com/${b.slug}`}</span>
-                            </>
-                          )}
-                          {(!b.lat || !b.lng) && (
-                            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-[800] text-amber-700">
-                              Konum eksik
-                            </span>
-                          )}
-                          {!(b.logo_url && b.cover_url) && (
-                            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-[800] text-zinc-600">
-                              Görsel eksik
-                            </span>
-                          )}
-                        </div>
-                        <ChevronIcon />
+                      {/* İstatistik satırı */}
+                      <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted">
+                        {avgRating != null ? (
+                          <span className="flex items-center gap-1 font-[800] text-amber-500">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="0">
+                              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                            </svg>
+                            <span className="text-textStrong">{avgRating.toFixed(1)}</span>
+                            <span className="font-[600] text-muted">({reviewsCount})</span>
+                          </span>
+                        ) : (
+                          <span className="font-[600] text-muted">Henüz yorum yok</span>
+                        )}
+                        {b.slug && (
+                          <>
+                            <span className="h-3 w-px bg-border" />
+                            <span className="truncate font-[600] text-muted">{`yeedoy.com/${b.slug}`}</span>
+                          </>
+                        )}
+                        {eksikBilgi && (
+                          <>
+                            <span className="h-3 w-px bg-border" />
+                            <span className="font-[600] text-amber-700">{eksikBilgi}</span>
+                          </>
+                        )}
                       </div>
-                    </Link>
-                    <div className="flex gap-2 border-t border-border px-4 py-2.5">
-                      <Link
-                        href={`/sahip/isletmeler/${b.id}`}
-                        className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border py-2 text-xs font-[800] text-textStrong transition hover:bg-bg"
-                      >
-                        <EditIcon />
-                        Düzenle
-                      </Link>
-                      <Link
-                        href="/sahip/menuler"
-                        className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border py-2 text-xs font-[800] text-textStrong transition hover:bg-bg"
-                      >
-                        <MenuShortcutIcon />
-                        Menü
-                      </Link>
-                      {b.slug && (
+
+                      {/* Aksiyonlar */}
+                      <div className="mt-4 flex gap-2">
                         <Link
-                          href={`/m/${b.slug}`}
-                          target="_blank"
-                          title="Menüyü Görüntüle"
-                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border text-muted transition hover:border-primary/40 hover:text-primary"
+                          href={`/sahip/isletmeler/${b.id}`}
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border py-2 text-xs font-[800] text-textStrong transition hover:bg-bg"
                         >
-                          <ExternalIcon />
+                          <EditIcon />
+                          Düzenle
                         </Link>
-                      )}
+                        <Link
+                          href="/sahip/menuler"
+                          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border py-2 text-xs font-[800] text-textStrong transition hover:bg-bg"
+                        >
+                          <MenuShortcutIcon />
+                          Menü
+                        </Link>
+                        {b.slug && (
+                          <Link
+                            href={`/m/${b.slug}`}
+                            target="_blank"
+                            title="Menüyü Görüntüle"
+                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border text-muted transition hover:border-primary/40 hover:text-primary"
+                          >
+                            <ExternalIcon />
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </PanelBolumKarti>
                 );
@@ -208,10 +209,10 @@ export default async function OwnerBusinessesPage() {
 
               <Link
                 href="/sahip/isletmeler/yeni"
-                className="flex min-h-[260px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-border bg-bg text-center transition hover:border-primary/40 hover:bg-primary/[0.04]"
+                className="group flex min-h-[260px] flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-border bg-bg text-center transition hover:border-primary/40 hover:bg-primary/[0.04]"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card text-primary">
-                  <PlusIcon />
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-card text-primary transition group-hover:bg-primary/10">
+                  <PlusIcon size={20} />
                 </div>
                 <div>
                   <p className="text-sm font-[800] text-textStrong">Yeni İşletme Ekle</p>
@@ -234,19 +235,11 @@ function BuildingIcon() {
   );
 }
 
-function PlusIcon() {
+function PlusIcon({ size = 14 }: { size?: number }) {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <line x1="12" y1="5" x2="12" y2="19" />
       <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  );
-}
-
-function ChevronIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
-      <polyline points="9 18 15 12 9 6" />
     </svg>
   );
 }
