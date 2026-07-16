@@ -143,8 +143,8 @@ export default async function OwnerBusinessesPage() {
                         </div>
                       </div>
 
-                      <div className="flex flex-col gap-3 px-4 py-3">
-                        <div className="flex items-center gap-4 text-xs text-muted">
+                      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5">
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-muted">
                           {avgRating != null ? (
                             <span className="flex items-center gap-1 font-[800] text-amber-500">
                               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="0">
@@ -162,25 +162,21 @@ export default async function OwnerBusinessesPage() {
                               <span className="truncate font-[600] text-muted">{`yeedoy.com/${b.slug}`}</span>
                             </>
                           )}
-                        </div>
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <div className="flex flex-wrap gap-2">
-                            <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
-                              b.lat && b.lng ? 'bg-primary/[0.08] text-primary' : 'bg-amber-50 text-amber-700'
-                            }`}>
-                              {b.lat && b.lng ? 'Konum var' : 'Konum eksik'}
+                          {(!b.lat || !b.lng) && (
+                            <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-[800] text-amber-700">
+                              Konum eksik
                             </span>
-                            <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
-                              b.logo_url && b.cover_url ? 'bg-blue-50 text-blue-700' : 'bg-zinc-100 text-zinc-600'
-                            }`}>
-                              {b.logo_url && b.cover_url ? 'Görseller hazır' : 'Görsel eksik'}
+                          )}
+                          {!(b.logo_url && b.cover_url) && (
+                            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-[800] text-zinc-600">
+                              Görsel eksik
                             </span>
-                          </div>
-                          <ChevronIcon />
+                          )}
                         </div>
+                        <ChevronIcon />
                       </div>
                     </Link>
-                    <div className="flex gap-2 border-t border-border px-4 py-3">
+                    <div className="flex gap-2 border-t border-border px-4 py-2.5">
                       <Link
                         href={`/sahip/isletmeler/${b.id}`}
                         className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-border py-2 text-xs font-[800] text-textStrong transition hover:bg-bg"
