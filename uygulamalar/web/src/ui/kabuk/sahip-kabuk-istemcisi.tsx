@@ -125,7 +125,9 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
         logoSlot={<OwnerLogo />}
         sidebarTop={business ? <SelectedBusinessCard business={business} /> : undefined}
         topbarTitle="Owner Panel"
-        topbarCenter={business ? <BusinessSwitcherButton business={business} /> : undefined}
+        hideTopbarBadge
+        hideThemeToggle
+        topbarLeft={business ? <BusinessSwitcherButton business={business} /> : undefined}
         sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
         topbarActions={
           <>
@@ -149,18 +151,19 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
             </Link>
             {user ? (
               <div className="flex items-center gap-2 border-l border-border pl-2">
-                <div className="hidden text-right sm:block">
-                  <p className="text-[13px] font-[800] leading-tight text-textStrong">
-                    {user.displayName ?? user.email}
-                  </p>
-                  <p className="text-[11px] font-[600] text-muted">İşletme Sahibi</p>
-                </div>
                 <UserDropdown
                   displayName={user.displayName}
                   email={user.email}
                   avatarUrl={user.avatarUrl}
                   variant="topbar"
                 />
+                <div className="hidden text-right sm:block">
+                  <p className="text-[13px] font-[800] leading-tight text-textStrong">
+                    {user.displayName ?? user.email}
+                  </p>
+                  <p className="text-[11px] font-[600] text-muted">İşletme Sahibi</p>
+                </div>
+                <LogoutIconButton />
               </div>
             ) : undefined}
           </>
@@ -204,7 +207,10 @@ function SelectedBusinessCard({ business }: { business: PrimaryBusiness }) {
 function BusinessSwitcherButton({ business }: { business: PrimaryBusiness }) {
   const logoUrl = business.logo_url ? buildMenuImageUrl(business.logo_url, { width: 48, quality: 84 }) : null;
   return (
-    <div className="flex items-center gap-2 rounded-xl border border-border bg-bg px-3 py-1.5 text-[13px] font-[800] text-textStrong">
+    <button
+      type="button"
+      className="flex items-center gap-2 rounded-xl border border-border bg-bg px-3 py-1.5 text-[13px] font-[800] text-textStrong transition-colors hover:bg-cardAlt"
+    >
       <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card text-[11px] font-[900]">
         {logoUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -219,7 +225,44 @@ function BusinessSwitcherButton({ business }: { business: PrimaryBusiness }) {
           Onaylı İşletme
         </span>
       )}
-    </div>
+      <ChevronDownIcon />
+    </button>
+  );
+}
+
+function LogoutIconButton() {
+  async function handleLogout() {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    window.location.assign('/giris');
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => void handleLogout()}
+      title="Çıkış Yap"
+      className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg text-muted transition-colors hover:bg-red-50 hover:text-red-600"
+    >
+      <LogoutIcon />
+    </button>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+function LogoutIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
   );
 }
 

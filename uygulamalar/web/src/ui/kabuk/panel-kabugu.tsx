@@ -11,8 +11,12 @@ interface PanelShellProps {
   logoSlot?: ReactNode;
   sidebarTop?: ReactNode;
   topbarTitle?: string;
+  hideTopbarBadge?: boolean;
+  topbarLeft?: ReactNode;
   topbarCenter?: ReactNode;
   topbarActions?: ReactNode;
+  /** true ise topbar'daki açık/koyu tema anahtarı gizlenir. */
+  hideThemeToggle?: boolean;
   sidebarFooter?: ReactNode;
   bannerSlot?: ReactNode;
   children: ReactNode;
@@ -25,8 +29,11 @@ export function PanelShell({
   logoSlot,
   sidebarTop,
   topbarTitle,
+  hideTopbarBadge,
+  topbarLeft,
   topbarCenter,
   topbarActions,
+  hideThemeToggle,
   sidebarFooter,
   bannerSlot,
   children,
@@ -61,6 +68,8 @@ export function PanelShell({
       <div className="flex flex-1 flex-col overflow-hidden">
         <PanelTopbar
           title={topbarTitle}
+          hideBadge={hideTopbarBadge}
+          leftSlot={topbarLeft}
           centerSlot={topbarCenter}
           toggleButton={
             <TopbarIconButton label="Menüyü aç/kapat" onClick={toggleSidebar}>
@@ -70,7 +79,7 @@ export function PanelShell({
           actions={
             <>
               {topbarActions}
-              <ThemeToggle className="min-h-9 min-w-9 rounded-lg" />
+              {!hideThemeToggle && <ThemeToggle className="min-h-9 min-w-9 rounded-lg" />}
             </>
           }
         />
