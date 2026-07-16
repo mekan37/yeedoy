@@ -1,12 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState, useTransition } from 'react';
 import { buildMenuImageUrl } from '@/src/lib/media-url';
 import {
   createSection,
-  updateSection,
-  deleteSection,
   upsertItem,
   deleteItem,
   publishMenu,
@@ -14,7 +13,7 @@ import {
   upsertItemAllergens,
   upsertItemIngredients,
   type AllergenEntry,
-} from './menu-islemleri';
+} from '../menu-islemleri';
 
 const ALLERGEN_LIST = [
   { code: 'gluten',         labelTr: 'Gluten'                      },
@@ -78,7 +77,7 @@ type Item = {
   updated_at: string;
 };
 
-const CATEGORY_BADGE_COLORS = [
+export const CATEGORY_BADGE_COLORS = [
   'bg-blue-50 text-blue-700',
   'bg-green-50 text-green-700',
   'bg-purple-50 text-purple-700',
@@ -87,7 +86,7 @@ const CATEGORY_BADGE_COLORS = [
   'bg-teal-50 text-teal-700',
 ];
 
-function categoryBadgeColor(sectionIndex: number) {
+export function categoryBadgeColor(sectionIndex: number) {
   return CATEGORY_BADGE_COLORS[sectionIndex % CATEGORY_BADGE_COLORS.length];
 }
 
@@ -727,11 +726,17 @@ function ClockIcon() {
 function SearchIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>;
 }
-function PencilIcon() {
+export function PencilIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /></svg>;
 }
-function TrashIcon() {
+export function TrashIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6m5 0V4h4v2" /></svg>;
+}
+export function TagIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24L4 3v5.59a2 2 0 0 0 .59 1.41l9.58 9.59a2 2 0 0 0 2.82 0l3.6-3.6a2 2 0 0 0 0-2.82Z" /><circle cx="8.5" cy="8.5" r="1.5" /></svg>;
+}
+export function ChevronRightIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>;
 }
 
 type SortKey = 'name_asc' | 'price_asc' | 'price_desc' | 'updated_desc';
@@ -760,7 +765,6 @@ export function MenuEditorClient({
 }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
   const [addItemOpen, setAddItemOpen] = useState(false);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [showNewSection, setShowNewSection] = useState(false);
@@ -802,6 +806,7 @@ export function MenuEditorClient({
     });
 
   const addItemDefaultSectionId = (effectiveActiveTab !== 'all' ? effectiveActiveTab : sections[0]?.id) ?? '';
+  const previewItem = filteredItems[0] ?? items[0] ?? null;
 
   async function run(action: () => Promise<{ error: string } | null>) {
     setError(null);
@@ -1125,98 +1130,88 @@ export function MenuEditorClient({
             )}
           </div>
 
-          {/* Sağ: kategori yönetimi */}
+          {/* Sağ: kategori yönetimi + canlı önizleme */}
           <div className="flex flex-col gap-4">
             <div className="rounded-2xl border border-border bg-card p-4">
               <p className="mb-3 text-sm font-[800] text-textStrong">Kategori Yönetimi</p>
-              <div className="flex flex-col gap-1.5">
-                {sections.map((section) => (
-                  <div key={section.id}>
-                    {editingSectionId === section.id ? (
-                      <form
-                        className="flex items-center gap-1.5 py-1"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          const fd = new FormData(e.currentTarget);
-                          const title = String(fd.get('title') ?? '');
-                          run(() => updateSection(section.id, menuId, title));
-                          setEditingSectionId(null);
-                        }}
-                      >
-                        <input
-                          name="title"
-                          defaultValue={section.title}
-                          required
-                          autoFocus
-                          className="flex-1 rounded-lg border border-border bg-bg px-2.5 py-1.5 text-xs text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        />
-                        <button type="submit" className="cursor-pointer rounded-lg bg-primary px-2 py-1.5 text-[11px] font-[700] text-white">Kaydet</button>
-                        <button type="button" onClick={() => setEditingSectionId(null)} className="cursor-pointer rounded-lg border border-border px-2 py-1.5 text-[11px] font-[700] text-textStrong">İptal</button>
-                      </form>
-                    ) : (
-                      <div className="flex items-center justify-between gap-2 rounded-xl px-2 py-2 hover:bg-bg">
-                        <button onClick={() => setActiveTab(section.id)} className="min-w-0 flex-1 cursor-pointer text-left">
-                          <span className="block truncate text-sm font-[600] text-textStrong">{section.title}</span>
-                          <span className="text-[11px] text-muted">{items.filter((i) => i.section_id === section.id).length} ürün</span>
-                        </button>
-                        <div className="flex shrink-0 items-center gap-1">
-                          <button
-                            onClick={() => setEditingSectionId(section.id)}
-                            className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-border text-muted hover:bg-card"
-                            aria-label={`${section.title} düzenle`}
-                          >
-                            <PencilIcon />
-                          </button>
-                          <button
-                            onClick={() => {
-                              if (confirm(`"${section.title}" bölümünü sil?`)) run(() => deleteSection(section.id, menuId));
-                            }}
-                            className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
-                            aria-label={`${section.title} sil`}
-                          >
-                            <TrashIcon />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-3 border-t border-border pt-3">
-                {showNewSection ? (
-                  <form
-                    className="flex flex-col gap-2"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      const fd = new FormData(e.currentTarget);
-                      const title = String(fd.get('title') ?? '');
-                      run(() => createSection(menuId, title, sections.length));
-                      setShowNewSection(false);
-                    }}
-                  >
-                    <input
-                      name="title"
-                      required
-                      autoFocus
-                      placeholder="Ör: Tatlılar"
-                      className="rounded-lg border border-border bg-bg px-2.5 py-1.5 text-xs text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    />
-                    <div className="flex gap-1.5">
-                      <button type="submit" disabled={isPending} className="flex-1 cursor-pointer rounded-lg bg-primary px-2 py-1.5 text-[11px] font-[700] text-white disabled:opacity-60">Oluştur</button>
-                      <button type="button" onClick={() => setShowNewSection(false)} className="cursor-pointer rounded-lg border border-border px-2 py-1.5 text-[11px] font-[700] text-textStrong">İptal</button>
-                    </div>
-                  </form>
-                ) : (
-                  <button
-                    onClick={() => setShowNewSection(true)}
-                    className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-dashed border-border px-3 py-2 text-xs font-[700] text-muted transition-colors hover:border-primary/40 hover:text-primary"
-                  >
-                    <span className="text-sm">+</span> Yeni Kategori
-                  </button>
+              <div className="flex flex-col gap-1">
+                {sections.map((section, i) => {
+                  const count = items.filter((it) => it.section_id === section.id).length;
+                  const isActive = effectiveActiveTab === section.id;
+                  return (
+                    <button
+                      key={section.id}
+                      onClick={() => setActiveTab(section.id)}
+                      className={`flex cursor-pointer items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors hover:bg-bg ${isActive ? 'bg-bg' : ''}`}
+                    >
+                      <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${categoryBadgeColor(i)}`}>
+                        <TagIcon />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-[700] text-textStrong">{section.title}</span>
+                        <span className="text-[11px] text-muted">{count} ürün</span>
+                      </span>
+                      <span className="shrink-0 text-muted"><ChevronRightIcon /></span>
+                    </button>
+                  );
+                })}
+                {sections.length === 0 && (
+                  <p className="px-2 py-1 text-xs text-muted">Henüz kategori yok.</p>
                 )}
               </div>
+
+              <Link
+                href={`/sahip/menuler/${menuId}/kategoriler`}
+                className="mt-3 flex w-full cursor-pointer items-center justify-center rounded-xl border border-border bg-bg px-3 py-2 text-xs font-[700] text-textStrong transition-colors hover:bg-card"
+              >
+                Tüm Kategorileri Yönet
+              </Link>
             </div>
+
+            {previewItem && (
+              <div className="rounded-2xl border border-border bg-card p-4">
+                <p className="text-sm font-[800] text-textStrong">Canlı Önizleme</p>
+                <p className="mb-3 text-[11px] text-muted">Müşterileriniz ürünü bu şekilde görür.</p>
+                <div className="overflow-hidden rounded-xl border border-border">
+                  <div className="relative h-32 w-full bg-bg">
+                    {previewItem.image_url ? (
+                      <Image
+                        src={buildMenuImageUrl(previewItem.image_url, { width: 400, quality: 75 }) ?? previewItem.image_url}
+                        alt={previewItem.name}
+                        fill
+                        sizes="300px"
+                        className="object-cover"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-[11px] font-[700] text-muted">Görsel yok</div>
+                    )}
+                    <span
+                      className={`absolute right-2 top-2 rounded-full px-2 py-0.5 text-[10px] font-[800] text-white ${
+                        previewItem.is_available ? 'bg-green-600' : 'bg-zinc-500'
+                      }`}
+                    >
+                      {previewItem.is_available ? 'Aktif' : 'Stok Dışı'}
+                    </span>
+                  </div>
+                  <div className="flex items-start justify-between gap-2 p-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-[700] text-textStrong">{previewItem.name}</p>
+                      {previewItem.description && (
+                        <p className="truncate text-[11px] text-muted">{previewItem.description}</p>
+                      )}
+                    </div>
+                    <span className="shrink-0 text-sm font-[800] text-textStrong">{formatPrice(previewItem.price_cents)}</span>
+                  </div>
+                </div>
+                <Link
+                  href={`/sahip/menuler/${menuId}`}
+                  className="mt-3 flex w-full cursor-pointer items-center justify-center rounded-xl border border-border bg-bg px-3 py-2 text-xs font-[700] text-textStrong transition-colors hover:bg-card"
+                >
+                  Önizlemeyi Görüntüle
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

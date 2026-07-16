@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getMenuWithSections } from '@/src/lib/veri/owner/sahip-menuler';
@@ -74,16 +73,7 @@ export default async function MenuEditorPage({ params }: Props) {
         title={menu.title}
         description={`Menü editörü — ${sections.length} bölüm, ${items.length} ürün`}
         actions={
-          <div className="flex items-center gap-2">
-            <span className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${statusInfo.className}`}>{statusInfo.label}</span>
-            <Link
-              href={`/sahip/karekod/${biz.id}?lang=tr&theme=bold`}
-              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong transition-colors hover:bg-bg"
-            >
-              QR Studio
-            </Link>
-            <Link href={`/sahip/menuler/${menuId}`} className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong hover:bg-bg transition-colors cursor-pointer">← Önizleme</Link>
-          </div>
+          <span className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${statusInfo.className}`}>{statusInfo.label}</span>
         }
       />
       <PanelIcerikYuzeyi className="pt-6">
