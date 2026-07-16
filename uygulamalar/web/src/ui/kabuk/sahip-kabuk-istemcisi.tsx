@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
@@ -124,6 +125,7 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
         logoSlot={<OwnerLogo />}
         sidebarTop={business ? <SelectedBusinessCard business={business} /> : undefined}
         topbarTitle="Owner Panel"
+        topbarCenter={business ? <BusinessSwitcherButton business={business} /> : undefined}
         sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
         topbarActions={
           <>
@@ -138,13 +140,28 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
                 <ExternalLinkIcon />
               </a>
             )}
+            <Link
+              href="/sahip/bildirimler"
+              aria-label="Bildirimler"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-bg hover:text-textStrong"
+            >
+              <TopbarBellIcon />
+            </Link>
             {user ? (
-              <UserDropdown
-                displayName={user.displayName}
-                email={user.email}
-                avatarUrl={user.avatarUrl}
-                variant="topbar"
-              />
+              <div className="flex items-center gap-2 border-l border-border pl-2">
+                <div className="hidden text-right sm:block">
+                  <p className="text-[13px] font-[800] leading-tight text-textStrong">
+                    {user.displayName ?? user.email}
+                  </p>
+                  <p className="text-[11px] font-[600] text-muted">İşletme Sahibi</p>
+                </div>
+                <UserDropdown
+                  displayName={user.displayName}
+                  email={user.email}
+                  avatarUrl={user.avatarUrl}
+                  variant="topbar"
+                />
+              </div>
             ) : undefined}
           </>
         }
@@ -181,6 +198,37 @@ function SelectedBusinessCard({ business }: { business: PrimaryBusiness }) {
         )}
       </div>
     </div>
+  );
+}
+
+function BusinessSwitcherButton({ business }: { business: PrimaryBusiness }) {
+  const logoUrl = business.logo_url ? buildMenuImageUrl(business.logo_url, { width: 48, quality: 84 }) : null;
+  return (
+    <div className="flex items-center gap-2 rounded-xl border border-border bg-bg px-3 py-1.5 text-[13px] font-[800] text-textStrong">
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card text-[11px] font-[900]">
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={logoUrl} alt={business.name} className="h-full w-full object-cover" />
+        ) : (
+          business.name.charAt(0).toUpperCase()
+        )}
+      </div>
+      <span className="max-w-[160px] truncate">{business.name}</span>
+      {business.is_verified && (
+        <span className="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-[800] text-green-700">
+          Onaylı İşletme
+        </span>
+      )}
+    </div>
+  );
+}
+
+function TopbarBellIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
   );
 }
 
