@@ -13,6 +13,8 @@ import type {
   IsiHaritasiSatiri,
   SaatlikNokta,
   MenuQrGunu,
+  EylemSatiri,
+  PopulerSaatSatiri,
 } from './analitik-istemcisi';
 
 export const metadata: Metadata = {
@@ -109,6 +111,9 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     aramalarSimdi, aramalarOnceki,
     qrSimdi, qrOnceki,
     whatsappSimdi, whatsappOnceki,
+    profilZiyaretiSimdi, profilZiyaretiOnceki,
+    telefonSimdi, telefonOnceki,
+    yolTarifiSimdi, yolTarifiOnceki,
     // Grafikler/kırılımlar için ham event satırları (bu dönem + önceki dönem)
     hamOlaylarRes,
     // Isı haritası için favori ve yorum satırları (bu dönem)
@@ -139,15 +144,33 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
       .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
 
     supabase.from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'qr_scan').gte('created_at', suankiBaslangic),
+      .in('business_id', businessIds).eq('event_name', 'qr_scanned').gte('created_at', suankiBaslangic),
     supabase.from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'qr_scan')
+      .in('business_id', businessIds).eq('event_name', 'qr_scanned')
       .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
 
     supabase.from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'whatsapp_click').gte('created_at', suankiBaslangic),
+      .in('business_id', businessIds).eq('event_name', 'business_whatsapp_click').gte('created_at', suankiBaslangic),
     supabase.from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'whatsapp_click')
+      .in('business_id', businessIds).eq('event_name', 'business_whatsapp_click')
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'business_page_view').gte('created_at', suankiBaslangic),
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'business_page_view')
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'business_phone_click').gte('created_at', suankiBaslangic),
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'business_phone_click')
+      .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
+
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'business_directions_click').gte('created_at', suankiBaslangic),
+    supabase.from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).eq('event_name', 'business_directions_click')
       .gte('created_at', oncekiBaslangic).lt('created_at', suankiBaslangic),
 
     (supabase as any).from('analytics_events')
@@ -271,7 +294,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     const gun = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     const saat = String(d.getHours()).padStart(2, '0');
     if (o.event_name === 'menu_view') gunlukMenu[gun] = (gunlukMenu[gun] ?? 0) + 1;
-    if (o.event_name === 'qr_scan') gunlukQr[gun] = (gunlukQr[gun] ?? 0) + 1;
+    if (o.event_name === 'qr_scanned') gunlukQr[gun] = (gunlukQr[gun] ?? 0) + 1;
     saatlikDagilim[saat] = (saatlikDagilim[saat] ?? 0) + 1;
   }
 
@@ -288,6 +311,45 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     const k = String(h).padStart(2, '0');
     saatlikDagilimVerisi.push({ saat: `${h}:00`, sayi: saatlikDagilim[k] ?? 0 });
   }
+
+  // ── Eylemler: seçili event türleri için bu dönem/önceki dönem sayımı ─────────
+  const EYLEM_TANIMLARI: { key: string; etiket: string }[] = [
+    { key: 'menu_view', etiket: 'Menü Görüntüleme' },
+    { key: 'business_reservation_click', etiket: 'Rezervasyon Tıklama' },
+    { key: 'business_order_click', etiket: 'Sipariş Tıklama' },
+    { key: 'menu_shared', etiket: 'Menü Paylaşımı' },
+  ];
+  const eylemler: EylemSatiri[] = EYLEM_TANIMLARI.map(({ key, etiket }) => ({
+    etiket,
+    sayi: guncelOlaylar.filter((e) => e.event_name === key).length,
+    onceki: oncekiOlaylar.filter((e) => e.event_name === key).length,
+  }));
+
+  // ── Popüler Saatler: gün (Pzt-Paz) × 4 saatlik blok yoğunluk ızgarası ────────
+  const BLOK_SAATLERI = [0, 4, 8, 12, 16, 20];
+  const blokGunHaritasi: number[][] = BLOK_SAATLERI.map(() => Array(7).fill(0));
+  for (const e of guncelOlaylar) {
+    const d = new Date(e.created_at);
+    const blokIndex = Math.min(Math.floor(d.getHours() / 4), BLOK_SAATLERI.length - 1);
+    blokGunHaritasi[blokIndex][d.getDay()]++;
+  }
+  const populerSaatlerMax = Math.max(...blokGunHaritasi.flat(), 1);
+  const populerSaatler: PopulerSaatSatiri[] = BLOK_SAATLERI.map((saat, bi) => ({
+    saat: `${String(saat).padStart(2, '0')}:00`,
+    degerler: GUN_SIRASI.map((gunIdx) => {
+      const sayi = blokGunHaritasi[bi][gunIdx];
+      return { sayi, oran: Math.round((sayi / populerSaatlerMax) * 100) };
+    }),
+  }));
+
+  // ── En iyi gün / en yoğun saat (mevcut ısı haritası + saatlik dağılımdan türetilir) ─
+  const GUN_ADLARI = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+  const gunToplamlari = GUN_SIRASI.map((_, ci) => isiHaritasi.reduce((sum, row) => sum + row.sayilar[ci], 0));
+  const enIyiGunIndex = gunToplamlari.reduce((best, v, i) => (v > gunToplamlari[best] ? i : best), 0);
+  const enIyiGun = gunToplamlari[enIyiGunIndex] > 0 ? GUN_ADLARI[enIyiGunIndex] : null;
+
+  const enYogunSaatIndex = saatlikDagilimVerisi.reduce((best, s, i) => (s.sayi > saatlikDagilimVerisi[best].sayi ? i : best), 0);
+  const enYogunSaat = saatlikDagilimVerisi[enYogunSaatIndex].sayi > 0 ? saatlikDagilimVerisi[enYogunSaatIndex].saat : null;
 
   return (
     <div className="flex flex-col">
@@ -312,6 +374,12 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
           qrTaramalariOnceki={qrOnceki.count ?? 0}
           whatsappTiklamalari={whatsappSimdi.count ?? 0}
           whatsappTiklamalariOnceki={whatsappOnceki.count ?? 0}
+          profilZiyaretleri={profilZiyaretiSimdi.count ?? 0}
+          profilZiyaretleriOnceki={profilZiyaretiOnceki.count ?? 0}
+          telefonAramalari={telefonSimdi.count ?? 0}
+          telefonAramalariOnceki={telefonOnceki.count ?? 0}
+          yolTarifiIstekleri={yolTarifiSimdi.count ?? 0}
+          yolTarifiIstekleriOnceki={yolTarifiOnceki.count ?? 0}
           isletmeSayisi={businessIds.length}
           gunlukTrend={gunlukTrend}
           trafikKaynaklari={trafikKaynaklari}
@@ -319,6 +387,10 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
           saatlikGoruntuleme={saatlikGoruntuleme}
           menuQrGunleri={menuQrGunleri}
           saatlikDagilim={saatlikDagilimVerisi}
+          eylemler={eylemler}
+          populerSaatler={populerSaatler}
+          enIyiGun={enIyiGun}
+          enYogunSaat={enYogunSaat}
         />
 
         {/* Yoğun Saatler — get_business_busy_hours_v1 (son 28 gün) */}

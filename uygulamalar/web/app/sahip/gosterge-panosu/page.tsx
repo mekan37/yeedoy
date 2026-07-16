@@ -94,7 +94,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
     favCurrRes, favPrevRes, bizListRes,
   ] = await Promise.all([
     bizIds.length > 0
-      ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'qr_scan').gte('created_at', since7d)
+      ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'qr_scanned').gte('created_at', since7d)
       : Promise.resolve({ count: 0 }),
     bizIds.length > 0
       ? (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('event_name', 'menu_view').gte('created_at', since7d)
@@ -177,13 +177,13 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const coverUrl = primaryBiz ? buildMenuImageUrl(primaryBiz.cover_url, { width: 800, quality: 80 }) : null;
   const logoUrl = primaryBiz?.logo_url ? buildMenuImageUrl(primaryBiz.logo_url, { width: 80, quality: 80 }) : null;
 
-  // Görüntülenme grafiği: son 7 gün, qr_scan + menu_view birleşik günlük toplamı
+  // Görüntülenme grafiği: son 7 gün, qr_scanned + menu_view birleşik günlük toplamı
   const { data: engagementByDay } = bizIds.length > 0
     ? await (supabase as any)
         .from('analytics_events')
         .select('created_at')
         .in('business_id', bizIds)
-        .in('event_name', ['qr_scan', 'menu_view'])
+        .in('event_name', ['qr_scanned', 'menu_view'])
         .gte('created_at', since7d)
     : { data: [] };
 
