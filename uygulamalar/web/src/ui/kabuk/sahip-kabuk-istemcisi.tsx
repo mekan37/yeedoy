@@ -9,6 +9,8 @@ import { KullaniciFoteri } from './kullanici-foteri';
 import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 const ownerNavSections: NavSection[] = [
   {
@@ -70,6 +72,33 @@ function useCurrentUser() {
   return user;
 }
 
+interface PrimaryBusiness {
+  id: string;
+  name: string;
+  category: string | null;
+  logo_url: string | null;
+  is_verified: boolean | null;
+  slug: string | null;
+}
+
+function useCurrentBusiness() {
+  const [business, setBusiness] = useState<PrimaryBusiness | null>(null);
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+    void supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session?.user) return;
+      const businesses = await getOwnerBusinesses<PrimaryBusiness>(
+        supabase as any,
+        data.session.user.id,
+        'id, name, category, logo_url, is_verified, slug',
+      );
+      const primary = [...businesses].sort((a, b) => a.name.localeCompare(b.name, 'tr'))[0] ?? null;
+      setBusiness(primary);
+    });
+  }, []);
+  return business;
+}
+
 interface SahipKabukIstemcisiProps {
   children: ReactNode;
   bannerSlot?: ReactNode;
@@ -82,6 +111,7 @@ const PUBLIC_LANDING_PATH = '/sahip';
 export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcisiProps) {
   const pathname = usePathname();
   const user = useCurrentUser();
+  const business = useCurrentBusiness();
 
   if (pathname === PUBLIC_LANDING_PATH) {
     return <AppProviders>{children}</AppProviders>;
@@ -92,23 +122,75 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
       <PanelShell
         navSections={ownerNavSections}
         logoSlot={<OwnerLogo />}
+        sidebarTop={business ? <SelectedBusinessCard business={business} /> : undefined}
         topbarTitle="Owner Panel"
         sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
         topbarActions={
-          user ? (
-            <UserDropdown
-              displayName={user.displayName}
-              email={user.email}
-              avatarUrl={user.avatarUrl}
-              variant="topbar"
-            />
-          ) : undefined
+          <>
+            {business?.slug && (
+              <a
+                href={`/isletme/${business.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs font-[800] text-textStrong transition-colors hover:bg-bg sm:flex"
+              >
+                İşletme Sayfasını Gör
+                <ExternalLinkIcon />
+              </a>
+            )}
+            {user ? (
+              <UserDropdown
+                displayName={user.displayName}
+                email={user.email}
+                avatarUrl={user.avatarUrl}
+                variant="topbar"
+              />
+            ) : undefined}
+          </>
         }
         bannerSlot={bannerSlot}
       >
         {children}
       </PanelShell>
     </AppProviders>
+  );
+}
+
+function SelectedBusinessCard({ business }: { business: PrimaryBusiness }) {
+  const logoUrl = business.logo_url ? buildMenuImageUrl(business.logo_url, { width: 88, quality: 84 }) : null;
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-bg text-sm font-[900] text-textStrong">
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={logoUrl} alt={business.name} className="h-full w-full object-cover" />
+        ) : (
+          business.name.charAt(0).toUpperCase()
+        )}
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-[13px] font-[800] text-textStrong">{business.name}</p>
+        {business.category && (
+          <p className="truncate text-[11px] font-[600] text-muted">{business.category}</p>
+        )}
+        {business.is_verified && (
+          <span className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-[800] text-green-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
+            Onaylı İşletme
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
   );
 }
 

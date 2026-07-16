@@ -26,10 +26,12 @@ interface PanelSidebarProps {
   sections: NavSection[];
   collapsed: boolean;
   logoSlot?: ReactNode;
+  /** Opsiyonel: logo ile nav arasında gösterilir (örn. seçili işletme kartı). Collapsed modda gizlenir. */
+  topSlot?: ReactNode;
   footerSlot?: ReactNode;
 }
 
-export function PanelSidebar({ sections, collapsed, logoSlot, footerSlot }: PanelSidebarProps) {
+export function PanelSidebar({ sections, collapsed, logoSlot, topSlot, footerSlot }: PanelSidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -48,6 +50,11 @@ export function PanelSidebar({ sections, collapsed, logoSlot, footerSlot }: Pane
       >
         {logoSlot}
       </div>
+
+      {/* Opsiyonel üst slot — örn. seçili işletme kartı */}
+      {topSlot && !collapsed && (
+        <div className="border-b border-border px-4 py-3">{topSlot}</div>
+      )}
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto overflow-x-hidden py-3">

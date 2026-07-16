@@ -9,6 +9,7 @@ import { ThemeToggle } from '@/src/ui/bilesenler/tema-degistirici';
 interface PanelShellProps {
   navSections: NavSection[];
   logoSlot?: ReactNode;
+  sidebarTop?: ReactNode;
   topbarTitle?: string;
   topbarCenter?: ReactNode;
   topbarActions?: ReactNode;
@@ -22,6 +23,7 @@ const COLLAPSE_BREAKPOINT = 1280;
 export function PanelShell({
   navSections,
   logoSlot,
+  sidebarTop,
   topbarTitle,
   topbarCenter,
   topbarActions,
@@ -51,6 +53,7 @@ export function PanelShell({
         sections={navSections}
         collapsed={sidebarCollapsed}
         logoSlot={logoSlot}
+        topSlot={sidebarTop}
         footerSlot={sidebarFooter}
       />
 
