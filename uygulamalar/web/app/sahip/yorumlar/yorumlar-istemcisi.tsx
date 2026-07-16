@@ -15,6 +15,7 @@ export interface YorumSatiriVeri {
   status: string;
   createdAt: string;
   displayName: string | null;
+  avatarUrl: string | null;
   ownerReply: string | null;
   ownerRepliedAt: string | null;
 }
@@ -51,6 +52,7 @@ export function YorumlarIstemcisi({ reviews, businessMap, showBusinessName }: Pr
           title={r.title}
           content={r.content}
           displayName={r.displayName}
+          avatarUrl={r.avatarUrl}
           createdAt={r.createdAt}
           isVisible={r.status === 'approved'}
           status={r.status}

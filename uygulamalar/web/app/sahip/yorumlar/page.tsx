@@ -64,13 +64,13 @@ export default async function OwnerReviewsPage({ searchParams }: Props) {
   const { data: profiles } = userIds.length > 0
     ? await (supabase as any)
         .from('user_profiles')
-        .select('user_id, display_name')
+        .select('user_id, display_name, avatar_url')
         .in('user_id', userIds)
     : { data: [] };
 
   const profileMap = new Map(
-    ((profiles ?? []) as Array<{ user_id: string; display_name: string | null }>)
-      .map((profile) => [profile.user_id, profile.display_name] as const),
+    ((profiles ?? []) as Array<{ user_id: string; display_name: string | null; avatar_url: string | null }>)
+      .map((profile) => [profile.user_id, profile] as const),
   );
 
   const showBusinessName = businessIds.length > 1;
@@ -84,7 +84,8 @@ export default async function OwnerReviewsPage({ searchParams }: Props) {
     helpfulCount: r.helpful_count,
     status: r.status,
     createdAt: r.created_at,
-    displayName: r.user_id ? (profileMap.get(r.user_id) ?? null) : null,
+    displayName: r.user_id ? (profileMap.get(r.user_id)?.display_name ?? null) : null,
+    avatarUrl: r.user_id ? (profileMap.get(r.user_id)?.avatar_url ?? null) : null,
     ownerReply: r.owner_reply,
     ownerRepliedAt: r.owner_replied_at,
   }));
