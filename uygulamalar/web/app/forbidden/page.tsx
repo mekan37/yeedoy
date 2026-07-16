@@ -42,7 +42,7 @@ export default async function ForbiddenPage() {
               <YeedoyLogo size={32} />
             </Link>
             <Link
-              href="/owner/dashboard"
+              href="/sahip/gosterge-panosu"
               className="flex items-center gap-1.5 rounded-full border border-[#e5e7eb] px-3 py-1 text-xs font-[700] text-[#374151] transition hover:border-[#dc2626]/30 hover:text-[#dc2626]"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -157,7 +157,7 @@ export default async function ForbiddenPage() {
 
               {/* Switch account link */}
               <Link
-                href="/owner/login"
+                href="/giris"
                 className="mt-4 flex items-center gap-2 text-sm font-[700] text-[#dc2626] hover:underline"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

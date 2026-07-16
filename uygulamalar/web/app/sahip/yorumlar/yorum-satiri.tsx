@@ -3,14 +3,25 @@
 import { useState, useRef } from 'react';
 import { clsx } from 'clsx';
 
+const STATUS_LABELS: Record<string, { label: string; color: string }> = {
+  approved: { label: 'Onaylı', color: 'bg-emerald-50 text-emerald-700' },
+  pending: { label: 'Bekleyen', color: 'bg-amber-50 text-amber-700' },
+  rejected: { label: 'Reddedilen', color: 'bg-zinc-100 text-zinc-500' },
+};
+
 interface YorumSatiriProps {
   reviewId: string;
   businessName: string;
   rating: number;
+  title?: string | null;
   content: string | null;
   displayName: string | null;
+  avatarUrl: string | null;
   createdAt: string;
   isVisible: boolean;
+  status: string;
+  helpfulCount: number;
+  isNew?: boolean;
   ownerReply: string | null;
   ownerRepliedAt: string | null;
 }
@@ -19,10 +30,15 @@ export function YorumSatiri({
   reviewId,
   businessName,
   rating,
+  title,
   content,
   displayName,
+  avatarUrl,
   createdAt,
   isVisible,
+  status,
+  helpfulCount,
+  isNew,
   ownerReply: initialReply,
   ownerRepliedAt: initialRepliedAt,
 }: YorumSatiriProps) {
@@ -34,6 +50,8 @@ export function YorumSatiri({
   const [error, setError] = useState<string | null>(null);
   const [showTemplates, setShowTemplates] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const statusInfo = STATUS_LABELS[status] ?? STATUS_LABELS['pending'];
 
   const REPLY_TEMPLATES = [
     { label: '🙏 Teşekkür', text: 'Değerli yorumunuz için çok teşekkür ederiz! Sizi ağırlamaktan büyük mutluluk duyduk. Tekrar görüşmek dileğiyle, iyi günler!' },
@@ -96,29 +114,52 @@ export function YorumSatiri({
     <li className="px-5 py-4">
       {/* Yorum başlığı */}
       <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <StarRating rating={rating} />
-            <span className="text-xs font-[700] text-textStrong">
-              {displayName ?? 'Anonim'}
-            </span>
-            {businessName && (
-              <span className="text-xs text-muted">· {businessName}</span>
+        <div className="flex min-w-0 flex-1 gap-3">
+          <ReviewerAvatar avatarUrl={avatarUrl} displayName={displayName} />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-[700] text-textStrong">
+                {displayName ?? 'Anonim'}
+              </span>
+              {businessName && (
+                <span className="text-xs text-muted">· {businessName}</span>
+              )}
+            </div>
+            <div className="mt-0.5">
+              <StarRating rating={rating} />
+            </div>
+            {title && (
+              <p className="mt-1 text-sm font-[700] text-textStrong">{title}</p>
             )}
+            {content && (
+              <p className="mt-1.5 text-sm leading-relaxed text-text">{content}</p>
+            )}
+
+            {/* Rozetler: yeni / durum / görünürlük / faydalı sayısı */}
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              {isNew && (
+                <span className="inline-flex items-center rounded-full bg-primary px-2 py-0.5 text-[11px] font-[800] text-white">
+                  Yeni
+                </span>
+              )}
+              <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-[700] ${statusInfo.color}`}>
+                {statusInfo.label}
+              </span>
+              {isVisible === false && (
+                <span className="inline-flex items-center rounded-full bg-border px-2 py-0.5 text-[11px] font-[700] text-muted">
+                  Gizli
+                </span>
+              )}
+              {helpfulCount > 0 && (
+                <span className="text-[11px] text-muted">{helpfulCount} kişi faydalı buldu</span>
+              )}
+            </div>
           </div>
-          {content && (
-            <p className="mt-1.5 text-sm leading-relaxed text-text">{content}</p>
-          )}
         </div>
         <div className="shrink-0 text-right">
           <p className="text-xs text-muted">
             {new Date(createdAt).toLocaleDateString('tr-TR')}
           </p>
-          {isVisible === false && (
-            <span className="mt-1 inline-block rounded-full bg-border px-2 py-0.5 text-[11px] font-[700] text-muted">
-              Gizli
-            </span>
-          )}
         </div>
       </div>
 
@@ -218,6 +259,25 @@ export function YorumSatiri({
         </div>
       ) : null}
     </li>
+  );
+}
+
+function ReviewerAvatar({ avatarUrl, displayName }: { avatarUrl: string | null; displayName: string | null }) {
+  const initial = (displayName ?? 'K').charAt(0).toUpperCase();
+  if (avatarUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={avatarUrl}
+        alt={displayName ?? 'Kullanıcı'}
+        className="h-9 w-9 shrink-0 rounded-full border border-border object-cover"
+      />
+    );
+  }
+  return (
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-bg text-[13px] font-[900] text-textStrong">
+      {initial}
+    </div>
   );
 }
 

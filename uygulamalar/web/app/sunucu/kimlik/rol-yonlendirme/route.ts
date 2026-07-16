@@ -31,5 +31,19 @@ export async function resolveRoleBasedRedirect(
     return '/sahip/gosterge-panosu';
   }
 
+  // İşletme sahibi olmayan ama davet/doğrudan hesap oluşturma ile ekip üyesi
+  // olarak eklenmiş kullanıcılar (bkz. app/sahip/ekip/ekip-islemleri.ts) da
+  // sahip paneline yönlendirilir.
+  const { data: memberships } = await supabase
+    .from('business_team_memberships')
+    .select('id')
+    .eq('user_id', userId)
+    .is('revoked_at', null)
+    .limit(1) as { data: Array<{ id: string }> | null };
+
+  if (memberships && memberships.length > 0) {
+    return '/sahip/gosterge-panosu';
+  }
+
   return '/';
 }

@@ -31,6 +31,7 @@ export function HoursForm({
 }) {
   const [isPending, startTransition] = useTransition();
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Index weekly rows by day_of_week for O(1) lookup
   const byDow = new Map<number, WeeklyHourRow>(
@@ -41,10 +42,19 @@ export function HoursForm({
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     setSaved(false);
+    setError(null);
     startTransition(async () => {
-      await saveHours(businessId, fd);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      try {
+        await saveHours(businessId, fd);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      } catch (saveError) {
+        setError(
+          saveError instanceof Error
+            ? saveError.message
+            : 'Çalışma saatleri kaydedilemedi. Lütfen tekrar deneyin.',
+        );
+      }
     });
   }
 
@@ -58,39 +68,70 @@ export function HoursForm({
           return (
             <div key={key} className="grid grid-cols-[120px_1fr_1fr] items-center gap-3">
               <span className="text-sm font-[700] text-textStrong">{label}</span>
-              <TimeInput name={`${key}_open`} defaultValue={openVal} placeholder="09:00" />
-              <TimeInput name={`${key}_close`} defaultValue={closeVal} placeholder="22:00" />
+              <TimeInput
+                id={`hours-${key}-open`}
+                name={`${key}_open`}
+                label={`${label} açılış saati`}
+                defaultValue={openVal}
+                placeholder="09:00"
+              />
+              <TimeInput
+                id={`hours-${key}-close`}
+                name={`${key}_close`}
+                label={`${label} kapanış saati`}
+                defaultValue={closeVal}
+                placeholder="22:00"
+              />
             </div>
           );
         })}
       </div>
 
-      <div className="mt-5 flex items-center gap-3">
+      <div className="mt-5 flex flex-wrap items-center gap-3">
         <PanelActionButton type="submit" variant="primary" loading={isPending}>
           Kaydet
         </PanelActionButton>
-        {saved && <p className="text-sm font-[700] text-green-600">Kaydedildi</p>}
+        {error && (
+          <p role="alert" className="text-sm font-[700] text-danger">
+            {error}
+          </p>
+        )}
+        {saved && (
+          <p role="status" aria-live="polite" className="text-sm font-[700] text-green-600">
+            Kaydedildi
+          </p>
+        )}
       </div>
     </form>
   );
 }
 
 function TimeInput({
+  id,
   name,
+  label,
   defaultValue,
   placeholder,
 }: {
+  id: string;
   name: string;
+  label: string;
   defaultValue: string;
   placeholder: string;
 }) {
   return (
-    <input
-      type="time"
-      name={name}
-      defaultValue={defaultValue}
-      placeholder={placeholder}
-      className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
-    />
+    <div className="min-w-0">
+      <label htmlFor={id} className="sr-only">
+        {label}
+      </label>
+      <input
+        id={id}
+        type="time"
+        name={name}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        className="w-full min-w-0 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+      />
+    </div>
   );
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getMenuWithSections } from '@/src/lib/veri/owner/sahip-menuler';
@@ -30,17 +29,19 @@ export default async function MenuEditorPage({ params }: Props) {
 
   const { menu, business: biz, sections, items } = detail;
 
-  // Batch-fetch allergens for all items in this menu
+  // Batch-fetch allergens (with risk level) for all items in this menu
   const allItemIds = items.map((item) => item.id);
-  const allergenMap: Record<string, string[]> = {};
+  const allergenMap: Record<string, { allergen: string; risk_level: 'contains' | 'may_contain' }[]> = {};
   if (allItemIds.length > 0) {
     const { data: allergenRows } = await (supabase as any)
       .from('menu_item_allergens')
-      .select('item_id, allergen')
-      .in('item_id', allItemIds) as { data: Array<{ item_id: string; allergen: string }> | null };
+      .select('item_id, allergen, risk_level')
+      .in('item_id', allItemIds) as {
+        data: Array<{ item_id: string; allergen: string; risk_level: 'contains' | 'may_contain' }> | null;
+      };
     for (const row of allergenRows ?? []) {
       if (!allergenMap[row.item_id]) allergenMap[row.item_id] = [];
-      allergenMap[row.item_id].push(row.allergen);
+      allergenMap[row.item_id].push({ allergen: row.allergen, risk_level: row.risk_level });
     }
   }
 
@@ -72,16 +73,7 @@ export default async function MenuEditorPage({ params }: Props) {
         title={menu.title}
         description={`Menü editörü — ${sections.length} bölüm, ${items.length} ürün`}
         actions={
-          <div className="flex items-center gap-2">
-            <span className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${statusInfo.className}`}>{statusInfo.label}</span>
-            <Link
-              href={`/karekod/${biz.id}?lang=tr&theme=bold`}
-              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong transition-colors hover:bg-bg"
-            >
-              QR Studio
-            </Link>
-            <Link href={`/sahip/menuler/${menuId}`} className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong hover:bg-bg transition-colors cursor-pointer">← Önizleme</Link>
-          </div>
+          <span className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${statusInfo.className}`}>{statusInfo.label}</span>
         }
       />
       <PanelIcerikYuzeyi className="pt-6">
@@ -105,12 +97,16 @@ export default async function MenuEditorPage({ params }: Props) {
             is_available: item.is_available,
             section_id: item.section_id,
             sort_order: item.sort_order,
+            tags: (item.tags as string[] | null) ?? null,
             calories_min: item.calories_min ?? null,
+            calories_max: item.calories_max ?? null,
             portion_size: item.portion_size ?? null,
             portion_unit: item.portion_unit ?? null,
+            updated_at: item.updated_at,
           }))}
           allergenMap={allergenMap}
           ingredientMap={ingredientMap}
+          menuUpdatedAt={menu.updated_at}
         />
       </PanelIcerikYuzeyi>
     </div>

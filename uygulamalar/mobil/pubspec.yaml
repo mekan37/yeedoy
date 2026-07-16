@@ -87,6 +87,7 @@ flutter:
     - assets/brand/
     - assets/images/
     - assets/images/categories/
+    - assets/images/delivery/
     - assets/meal_cards/
     - assets/allergens/
     - assets/json/karaliste.txt

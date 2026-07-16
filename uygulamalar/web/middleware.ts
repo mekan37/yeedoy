@@ -7,7 +7,7 @@ import { isBusinessMenuPathKey, isUuid } from '@/src/lib/business-path';
 import { resolveLang } from '@/src/lib/i18n';
 
 // ── Subdomain → panel rewrite ─────────────────────────────────────────────────
-// isletme.yeedoy.com  →  /owner/[path]
+// isletme.yeedoy.com  →  /sahip/[path]
 // ops.yeedoy.com      →  /admin/[path]   (secret subdomain, no public links)
 //
 // Configured via env vars so the admin hostname never appears in source code:
@@ -28,8 +28,8 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
 
   if (!isOwnerHost && !isAdminHost) return null;
 
-  const prefix = isOwnerHost ? '/owner' : '/admin';
-  // Root → /owner or /admin, sub-paths → /owner/path
+  const prefix = isOwnerHost ? '/sahip' : '/admin';
+  // Root → /sahip or /admin, sub-paths → /sahip/path
   const suffix = pathname === '/' ? '' : pathname;
   const url = request.nextUrl.clone();
   url.pathname = `${prefix}${suffix}`;
@@ -38,7 +38,6 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
 }
 
 // ── Protected panel route guard ───────────────────────────────────────────────
-const OWNER_PREFIX = '/owner';
 const ADMIN_PREFIX = '/admin';
 // Turkish-language aliases for the same panels
 const YONETICI_PREFIX = '/yonetici';  // alias for /admin panel pages
@@ -48,15 +47,24 @@ const SAHIP_PREFIX = '/sahip';        // alias for /owner panel pages
 const ADMIN_API_PREFIX = '/api/admin';
 const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici'; // Turkish alias for /api/admin/*
 const LOGIN_PATH = '/login';
-// Owner panel has a dedicated login page — excluded from the owner guard.
-const OWNER_LOGIN_PATH = '/owner/login';
+// /giris is the canonical login page (public + owner) — excluded from the owner guard.
+const OWNER_LOGIN_PATH = '/giris';
+// Request header flagging the public /sahip landing page to downstream
+// server components (see app/sahip/layout.tsx).
+const PUBLIC_LANDING_HEADER = 'x-yeedoy-public-landing';
 
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
-  // Exclude the owner login page itself from protection (infinite redirect loop otherwise)
+  // Exclude public owner pages from the auth guard.
+  // SECURITY: this list is matched with exact equality (`.includes(pathname)`)
+  // below, NOT `startsWith` — `/sahip` itself is the public owner landing
+  // page, but every path under it (e.g. `/sahip/gosterge-panosu`) must stay
+  // behind the auth guard via the separate `startsWith(SAHIP_PREFIX)` check
+  // two lines down. Do NOT refactor this to a `startsWith` match — doing so
+  // would make the entire authenticated owner panel publicly accessible.
+  const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, SAHIP_PREFIX];
   const isOwnerRoute =
-    (pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX)) &&
-    pathname !== OWNER_LOGIN_PATH;
+    pathname.startsWith(SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(pathname);
   const isAdminRoute =
     pathname.startsWith(ADMIN_PREFIX) || pathname.startsWith(YONETICI_PREFIX);
   // /api/admin/* and /sunucu/yonetici/* sit outside the panel prefix — guard
@@ -64,7 +72,17 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
   const isAdminApiRoute =
     pathname.startsWith(ADMIN_API_PREFIX) || pathname.startsWith(SUNUCU_YONETICI_PREFIX);
 
-  if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
+  // /sahip exact (public landing page) still needs to flow through so we can
+  // flag it for downstream server components (see app/sahip/layout.tsx),
+  // which skip the authenticated-only MFA check for anonymous visitors.
+  if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) {
+    if (pathname === SAHIP_PREFIX) {
+      const headers = new Headers(request.headers);
+      headers.set(PUBLIC_LANDING_HEADER, '1');
+      return NextResponse.next({ request: { headers } });
+    }
+    return null;
+  }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -86,7 +104,13 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
     },
   });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  let user = null;
+  try {
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch {
+    // Expired / already-used refresh token — treat as unauthenticated.
+  }
 
   if (!user) {
     const loginUrl = request.nextUrl.clone();

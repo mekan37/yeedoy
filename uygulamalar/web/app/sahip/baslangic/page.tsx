@@ -16,6 +16,7 @@ export default async function OwnerOnboardingPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const businessIds = await getOwnerBusinessIds(supabase as any, user!.id);
+  const hasBusiness = businessIds.length > 0;
 
   const { data: submissions } = await (supabase as any)
     .from('business_submissions')
@@ -23,9 +24,24 @@ export default async function OwnerOnboardingPage() {
     .eq('submitted_by', user!.id)
     .limit(1);
 
-  const hasBusiness = businessIds.length > 0;
   const hasSubmission = (submissions ?? []).length > 0;
   const submissionPending = hasSubmission && submissions[0]?.status === 'new';
+
+  const [publishedMenuRes, qrCodeRes, teamRes] = await Promise.all([
+    hasBusiness
+      ? (supabase as any).from('menus').select('id', { count: 'exact', head: true }).in('business_id', businessIds).eq('status', 'published')
+      : Promise.resolve({ count: 0 }),
+    hasBusiness
+      ? (supabase as any).from('business_qr_codes').select('id', { count: 'exact', head: true }).in('business_id', businessIds)
+      : Promise.resolve({ count: 0 }),
+    hasBusiness
+      ? (supabase as any).from('business_team_memberships').select('id', { count: 'exact', head: true }).in('business_id', businessIds).is('revoked_at', null)
+      : Promise.resolve({ count: 0 }),
+  ]);
+
+  const hasPublishedMenu = (publishedMenuRes.count ?? 0) > 0;
+  const hasQrCode = (qrCodeRes.count ?? 0) > 0;
+  const hasTeamMember = (teamRes.count ?? 0) > 0;
 
   const steps = [
     {
@@ -59,12 +75,14 @@ export default async function OwnerOnboardingPage() {
     {
       num: 2,
       title: 'İlk Menünüzü Oluşturun',
-      description: 'İşletmeniz onaylandıktan sonra menü ve ürünlerinizi ekleyebilirsiniz.',
-      done: false,
+      description: hasPublishedMenu
+        ? 'Yayında bir menünüz var.'
+        : 'İşletmeniz onaylandıktan sonra menü ve ürünlerinizi ekleyip yayına alın.',
+      done: hasPublishedMenu,
       pending: false,
       action: hasBusiness ? (
         <Link href="/sahip/menuler">
-          <PanelActionButton variant="primary" icon={<MenuIcon />}>
+          <PanelActionButton variant={hasPublishedMenu ? 'secondary' : 'primary'} icon={<MenuIcon />}>
             Menülere Git
           </PanelActionButton>
         </Link>
@@ -73,34 +91,76 @@ export default async function OwnerOnboardingPage() {
     {
       num: 3,
       title: 'QR Kodunuzu Alın',
-      description: 'Menünüzü yayınladıktan sonra masalarınıza QR kod ekleyebilirsiniz.',
-      done: false,
+      description: hasQrCode
+        ? 'En az bir QR kodunuz oluşturuldu.'
+        : 'Menünüzü yayınladıktan sonra masalarınıza QR kod ekleyebilirsiniz.',
+      done: hasQrCode,
       pending: false,
-      action: null,
+      action: hasBusiness ? (
+        <Link href="/sahip/karekod">
+          <PanelActionButton variant={hasQrCode ? 'secondary' : 'primary'} icon={<QrIcon />}>
+            QR Kod Oluştur
+          </PanelActionButton>
+        </Link>
+      ) : null,
     },
     {
       num: 4,
       title: 'Ekibinizi Davet Edin',
-      description: 'Yönetici, editör veya personel rolüyle ekip üyesi ekleyin.',
-      done: false,
+      description: hasTeamMember
+        ? 'Ekibinize en az bir üye eklediniz.'
+        : 'Yönetici, editör veya personel rolüyle ekip üyesi ekleyin.',
+      done: hasTeamMember,
       pending: false,
       action: hasBusiness ? (
         <Link href="/sahip/ekip">
-          <PanelActionButton variant="secondary">Ekip Yönetimi</PanelActionButton>
+          <PanelActionButton variant={hasTeamMember ? 'secondary' : 'primary'}>Ekip Yönetimi</PanelActionButton>
         </Link>
       ) : null,
     },
   ];
+
+  const completedCount = steps.filter((s) => s.done).length;
+  const allDone = completedCount === steps.length;
 
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
         eyebrow="Owner"
         title="Başlangıç Rehberi"
-        description="Platforma başlamak için adım adım rehber"
+        description={
+          allDone
+            ? 'Tüm adımları tamamladınız — bu sayfa artık menüden kalkacak.'
+            : `Platforma başlamak için adım adım rehber — ${completedCount}/${steps.length} tamamlandı`
+        }
       />
       <PanelIcerikYuzeyi className="pt-6">
         <div className="flex flex-col gap-4">
+          {allDone && (
+            <div className="flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-5 py-4">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-500 text-white">
+                <CheckIcon />
+              </div>
+              <div>
+                <p className="font-[900] text-green-900">Tebrikler, kurulum tamam!</p>
+                <p className="mt-0.5 text-sm text-green-800">
+                  Tüm başlangıç adımlarını tamamladınız. Bu rehber artık sol menüde görünmeyecek.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* İlerleme çubuğu */}
+          <div className="flex items-center gap-3">
+            <div className="h-2 flex-1 overflow-hidden rounded-full bg-bg">
+              <div
+                className="h-full rounded-full bg-primary transition-all"
+                style={{ width: `${(completedCount / steps.length) * 100}%` }}
+              />
+            </div>
+            <span className="shrink-0 text-xs font-[800] text-muted">{completedCount}/{steps.length}</span>
+          </div>
+
           {steps.map((step) => (
             <PanelBolumKarti key={step.num}>
               <div className="flex items-start gap-4">
@@ -166,3 +226,10 @@ function MenuIcon() {
   );
 }
 
+function QrIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+    </svg>
+  );
+}

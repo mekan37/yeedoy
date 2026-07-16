@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
@@ -8,6 +10,10 @@ import { KullaniciFoteri } from './kullanici-foteri';
 import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { getOwnerBusinesses, getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+
+const ONBOARDING_NAV_HREF = '/sahip/baslangic';
 
 const ownerNavSections: NavSection[] = [
   {
@@ -17,6 +23,8 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/isletmeler', label: 'İşletmeler', icon: <BuildingIcon /> },
       { href: '/sahip/menuler', label: 'Menüler', icon: <MenuIcon /> },
       { href: '/sahip/baslangic', label: 'Başlangıç Rehberi', icon: <RocketIcon /> },
+      { href: '/sahip/rezervasyonlar', label: 'Rezervasyonlar', icon: <CalendarIcon /> },
+      { href: '/sahip/fotograflar', label: 'Fotoğraflar', icon: <ImageIcon /> },
     ],
   },
   {
@@ -26,6 +34,8 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/fiyat-raporu', label: 'Fiyat Raporu', icon: <PriceIcon /> },
       { href: '/sahip/yorumlar', label: 'Yorumlar', icon: <StarIcon /> },
       { href: '/sahip/karekod', label: 'QR Kodlar', icon: <QrIcon /> },
+      { href: '/sahip/pazarlama/kampanyalar', label: 'Kampanyalar', icon: <MegaphoneIcon /> },
+      { href: '/sahip/yapay-zeka-analizi', label: 'Yapay Zeka Analizi', icon: <SparklesIcon /> },
     ],
   },
   {
@@ -35,6 +45,8 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/fiyat-onerileri', label: 'Fiyat Önerileri', icon: <TagIcon /> },
       { href: '/sahip/istekler', label: 'Grup İstekleri', icon: <GroupIcon /> },
       { href: '/sahip/etkinlik', label: 'Aktivite', icon: <ActivityIcon /> },
+      { href: '/sahip/bildirimler', label: 'Bildirimler', icon: <BellIcon /> },
+      { href: '/sahip/denetim-kaydi', label: 'Denetim Kaydı', icon: <ClipboardIcon /> },
       { href: '/sahip/cop-kutusu', label: 'Çöp Kutusu', icon: <TrashIcon /> },
       { href: '/sahip/ayarlar', label: 'Ayarlar', icon: <SettingsIcon /> },
     ],
@@ -62,35 +74,248 @@ function useCurrentUser() {
   return user;
 }
 
+// Başlangıç Rehberi'ndeki 4 adım (işletme/menü/QR/ekip) tamamlanınca true
+// döner — nav'dan "Başlangıç Rehberi" öğesi kaldırılır. null = henüz
+// bilinmiyor (yükleniyor), bu sırada öğe görünür kalır.
+function useOnboardingComplete() {
+  const [complete, setComplete] = useState<boolean | null>(null);
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+    void supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session?.user) return;
+      const bizIds = await getOwnerBusinessIds(supabase as any, data.session.user.id);
+      if (bizIds.length === 0) {
+        setComplete(false);
+        return;
+      }
+      const [menuRes, qrRes, teamRes] = await Promise.all([
+        (supabase as any).from('menus').select('id', { count: 'exact', head: true }).in('business_id', bizIds).eq('status', 'published'),
+        (supabase as any).from('business_qr_codes').select('id', { count: 'exact', head: true }).in('business_id', bizIds),
+        (supabase as any).from('business_team_memberships').select('id', { count: 'exact', head: true }).in('business_id', bizIds).is('revoked_at', null),
+      ]);
+      setComplete((menuRes.count ?? 0) > 0 && (qrRes.count ?? 0) > 0 && (teamRes.count ?? 0) > 0);
+    });
+  }, []);
+  return complete;
+}
+
+interface PrimaryBusiness {
+  id: string;
+  name: string;
+  category: string | null;
+  logo_url: string | null;
+  is_verified: boolean | null;
+  slug: string | null;
+}
+
+function useCurrentBusiness() {
+  const [business, setBusiness] = useState<PrimaryBusiness | null>(null);
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+    void supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session?.user) return;
+      const businesses = await getOwnerBusinesses<PrimaryBusiness>(
+        supabase as any,
+        data.session.user.id,
+        'id, name, category, logo_url, is_verified, slug',
+      );
+      const primary = [...businesses].sort((a, b) => a.name.localeCompare(b.name, 'tr'))[0] ?? null;
+      setBusiness(primary);
+    });
+  }, []);
+  return business;
+}
+
 interface SahipKabukIstemcisiProps {
   children: ReactNode;
   bannerSlot?: ReactNode;
 }
 
+// Public landing page (/sahip exact) — rendered without the authenticated
+// panel chrome (sidebar/topbar), since logged-out visitors land here directly.
+const PUBLIC_LANDING_PATH = '/sahip';
+
 export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcisiProps) {
+  const pathname = usePathname();
   const user = useCurrentUser();
+  const business = useCurrentBusiness();
+  const onboardingComplete = useOnboardingComplete();
+
+  if (pathname === PUBLIC_LANDING_PATH) {
+    return <AppProviders>{children}</AppProviders>;
+  }
+
+  const navSections = onboardingComplete
+    ? ownerNavSections.map((section) => ({
+        ...section,
+        items: section.items.filter((item) => item.href !== ONBOARDING_NAV_HREF),
+      }))
+    : ownerNavSections;
+
   return (
     <AppProviders>
       <PanelShell
-        navSections={ownerNavSections}
+        navSections={navSections}
         logoSlot={<OwnerLogo />}
+        sidebarTop={business ? <SelectedBusinessCard business={business} /> : undefined}
         topbarTitle="Owner Panel"
+        hideTopbarBadge
+        hideThemeToggle
+        topbarLeft={business ? <BusinessSwitcherButton business={business} /> : undefined}
         sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
         topbarActions={
-          user ? (
-            <UserDropdown
-              displayName={user.displayName}
-              email={user.email}
-              avatarUrl={user.avatarUrl}
-              variant="topbar"
-            />
-          ) : undefined
+          <>
+            {business?.slug && (
+              <a
+                href={`/isletme/${business.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden items-center gap-1.5 rounded-xl border border-border px-3 py-1.5 text-xs font-[800] text-textStrong transition-colors hover:bg-bg sm:flex"
+              >
+                İşletme Sayfasını Gör
+                <ExternalLinkIcon />
+              </a>
+            )}
+            <Link
+              href="/sahip/bildirimler"
+              aria-label="Bildirimler"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-bg hover:text-textStrong"
+            >
+              <TopbarBellIcon />
+            </Link>
+            {user ? (
+              <div className="flex items-center gap-2 border-l border-border pl-2">
+                <UserDropdown
+                  displayName={user.displayName}
+                  email={user.email}
+                  avatarUrl={user.avatarUrl}
+                  variant="topbar"
+                />
+                <div className="hidden text-right sm:block">
+                  <p className="text-[13px] font-[800] leading-tight text-textStrong">
+                    {user.displayName ?? user.email}
+                  </p>
+                  <p className="text-[11px] font-[600] text-muted">İşletme Sahibi</p>
+                </div>
+                <LogoutIconButton />
+              </div>
+            ) : undefined}
+          </>
         }
         bannerSlot={bannerSlot}
       >
         {children}
       </PanelShell>
     </AppProviders>
+  );
+}
+
+function SelectedBusinessCard({ business }: { business: PrimaryBusiness }) {
+  const logoUrl = business.logo_url ? buildMenuImageUrl(business.logo_url, { width: 88, quality: 84 }) : null;
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-bg text-sm font-[900] text-textStrong">
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={logoUrl} alt={business.name} className="h-full w-full object-cover" />
+        ) : (
+          business.name.charAt(0).toUpperCase()
+        )}
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-[13px] font-[800] text-textStrong">{business.name}</p>
+        {business.category && (
+          <p className="truncate text-[11px] font-[600] text-muted">{business.category}</p>
+        )}
+        {business.is_verified && (
+          <span className="mt-0.5 inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-[800] text-green-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-600" />
+            Onaylı İşletme
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function BusinessSwitcherButton({ business }: { business: PrimaryBusiness }) {
+  const logoUrl = business.logo_url ? buildMenuImageUrl(business.logo_url, { width: 48, quality: 84 }) : null;
+  return (
+    <button
+      type="button"
+      className="flex items-center gap-2 rounded-xl border border-border bg-bg px-3 py-1.5 text-[13px] font-[800] text-textStrong transition-colors hover:bg-cardAlt"
+    >
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card text-[11px] font-[900]">
+        {logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={logoUrl} alt={business.name} className="h-full w-full object-cover" />
+        ) : (
+          business.name.charAt(0).toUpperCase()
+        )}
+      </div>
+      <span className="max-w-[160px] truncate">{business.name}</span>
+      {business.is_verified && (
+        <span className="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-[800] text-green-700">
+          Onaylı İşletme
+        </span>
+      )}
+      <ChevronDownIcon />
+    </button>
+  );
+}
+
+function LogoutIconButton() {
+  async function handleLogout() {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    window.location.assign('/giris');
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => void handleLogout()}
+      title="Çıkış Yap"
+      className="ml-1 flex h-8 w-8 items-center justify-center rounded-lg text-muted transition-colors hover:bg-red-50 hover:text-red-600"
+    >
+      <LogoutIcon />
+    </button>
+  );
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+function LogoutIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
+function TopbarBellIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
   );
 }
 
@@ -250,6 +475,62 @@ function TrashIcon() {
       <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
       <path d="M10 11v6M14 11v6" />
       <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+    </svg>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  );
+}
+
+function ImageIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <circle cx="8.5" cy="8.5" r="1.5" />
+      <polyline points="21 15 16 10 5 21" />
+    </svg>
+  );
+}
+
+function BellIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  );
+}
+
+function MegaphoneIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m3 11 18-5v12L3 13v-2z" />
+      <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+    </svg>
+  );
+}
+
+function ClipboardIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+    </svg>
+  );
+}
+
+function SparklesIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" />
     </svg>
   );
 }
