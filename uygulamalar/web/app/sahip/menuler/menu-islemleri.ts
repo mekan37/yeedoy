@@ -9,31 +9,27 @@ import { rateLimit } from '@/src/lib/oran-siniri';
 
 type MenuActionResult = { error: string } | null;
 
-export async function createOwnerMenu(formData: FormData) {
-  const businessId = String(formData.get('businessId') ?? '');
-  const title = String(formData.get('title') ?? '').trim();
-
-  if (!businessId || !title) {
-    redirect('/sahip/menuler?hata=missing_fields');
-  }
+// Menü oluşturma modalı için — sayfa yenilemeden sonucu (menuId veya hata)
+// döndürür, çağıran taraf editöre yönlendirir.
+export async function createMenuAction(
+  businessId: string,
+  title: string,
+): Promise<{ menuId: string } | { error: string }> {
+  const trimmedTitle = title.trim();
+  if (!businessId || !trimmedTitle) return { error: 'İşletme ve menü adı zorunlu.' };
 
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect(`/giris?redirect=${encodeURIComponent('/sahip/menuler')}`);
-  }
+  if (!user) return { error: 'Oturum bulunamadı.' };
 
   const isOwner = await hasOwnerBusiness(supabase as any, user.id, businessId);
-  if (!isOwner) {
-    redirect('/sahip/menuler?hata=forbidden');
-  }
+  if (!isOwner) return { error: 'Bu işletme için menü oluşturma yetkiniz yok.' };
 
   const { data, error } = await (supabase as any)
     .from('menus')
     .insert({
       business_id: businessId,
-      title,
+      title: trimmedTitle,
       status: 'draft',
       created_by: user.id,
       source: 'owner',
@@ -43,11 +39,10 @@ export async function createOwnerMenu(formData: FormData) {
     .select('id')
     .single() as { data: { id: string } | null; error: { message: string } | null };
 
-  if (error || !data) {
-    redirect('/sahip/menuler?hata=create_failed');
-  }
+  if (error || !data) return { error: 'Menü oluşturulamadı. Lütfen tekrar deneyin.' };
 
-  redirect(`/sahip/menuler/${data.id}/duzenle`);
+  revalidatePath('/sahip/menuler');
+  return { menuId: data.id };
 }
 
 export async function createExternalMenu(formData: FormData) {
