@@ -112,9 +112,11 @@ export default async function MenuEditorPage({ params }: Props) {
             calories_max: item.calories_max ?? null,
             portion_size: item.portion_size ?? null,
             portion_unit: item.portion_unit ?? null,
+            updated_at: item.updated_at,
           }))}
           allergenMap={allergenMap}
           ingredientMap={ingredientMap}
+          menuUpdatedAt={menu.updated_at}
         />
       </PanelIcerikYuzeyi>
     </div>

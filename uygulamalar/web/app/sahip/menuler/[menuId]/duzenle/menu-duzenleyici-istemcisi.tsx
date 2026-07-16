@@ -75,10 +75,32 @@ type Item = {
   calories_max: number | null;
   portion_size: number | null;
   portion_unit: string | null;
+  updated_at: string;
 };
+
+const CATEGORY_BADGE_COLORS = [
+  'bg-blue-50 text-blue-700',
+  'bg-green-50 text-green-700',
+  'bg-purple-50 text-purple-700',
+  'bg-orange-50 text-orange-700',
+  'bg-pink-50 text-pink-700',
+  'bg-teal-50 text-teal-700',
+];
+
+function categoryBadgeColor(sectionIndex: number) {
+  return CATEGORY_BADGE_COLORS[sectionIndex % CATEGORY_BADGE_COLORS.length];
+}
 
 function formatPrice(cents: number) {
   return (cents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺';
+}
+
+function formatDateTr(iso: string) {
+  return new Date(iso).toLocaleString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function formatDateShortTr(iso: string) {
+  return new Date(iso).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 function Input({
@@ -270,7 +292,8 @@ function ImageUrlField({
 
 function ItemForm({
   menuId,
-  sectionId,
+  sections,
+  initialSectionId,
   businessId,
   itemId,
   initialValues,
@@ -281,7 +304,8 @@ function ItemForm({
   onCancel,
 }: {
   menuId: string;
-  sectionId: string;
+  sections: Section[];
+  initialSectionId: string;
   businessId: string;
   itemId?: string;
   initialValues?: {
@@ -335,7 +359,6 @@ function ItemForm({
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     fd.append('menuId', menuId);
-    fd.append('sectionId', sectionId);
     if (itemId) fd.append('itemId', itemId);
 
     setFormError(null);
@@ -381,6 +404,19 @@ function ItemForm({
               required
               placeholder="Ürün adı"
             />
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-[700] text-muted">Kategori</label>
+              <select
+                name="sectionId"
+                defaultValue={initialSectionId}
+                required
+                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+              >
+                {sections.map((section) => (
+                  <option key={section.id} value={section.id}>{section.title}</option>
+                ))}
+              </select>
+            </div>
             <div className="grid grid-cols-2 gap-3">
               <Input
                 label="Fiyat (₺)"
@@ -648,6 +684,59 @@ function ItemForm({
   );
 }
 
+function StatCard({
+  icon,
+  iconBg,
+  label,
+  value,
+  subtitle,
+}: {
+  icon: React.ReactNode;
+  iconBg: string;
+  label: string;
+  value: string;
+  subtitle?: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4">
+      <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${iconBg}`}>{icon}</span>
+      <div className="min-w-0">
+        <p className="text-[11px] font-[700] uppercase tracking-wide text-muted">{label}</p>
+        <p className="mt-0.5 truncate text-lg font-[900] text-textStrong">{value}</p>
+        {subtitle && <p className="text-[11px] text-muted">{subtitle}</p>}
+      </div>
+    </div>
+  );
+}
+
+function GridIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></svg>;
+}
+function BoxIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8v13H3V8" /><path d="M1 3h22v5H1z" /><path d="M10 12h4" /></svg>;
+}
+function CheckCircleIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>;
+}
+function PauseCircleIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="10" y1="9" x2="10" y2="15" /><line x1="14" y1="9" x2="14" y2="15" /></svg>;
+}
+function ClockIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>;
+}
+function SearchIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>;
+}
+function PencilIcon() {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /></svg>;
+}
+function TrashIcon() {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6m5 0V4h4v2" /></svg>;
+}
+
+type SortKey = 'name_asc' | 'price_asc' | 'price_desc' | 'updated_desc';
+type StatusFilter = 'all' | 'active' | 'inactive';
+
 export function MenuEditorClient({
   menuId,
   businessId,
@@ -657,6 +746,7 @@ export function MenuEditorClient({
   items: initItems,
   allergenMap,
   ingredientMap,
+  menuUpdatedAt,
 }: {
   menuId: string;
   businessId: string;
@@ -666,23 +756,52 @@ export function MenuEditorClient({
   items: Item[];
   allergenMap: Record<string, AllergenEntry[]>;
   ingredientMap: Record<string, string[]>;
+  menuUpdatedAt: string;
 }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
-  const [addItemSectionId, setAddItemSectionId] = useState<string | null>(null);
+  const [addItemOpen, setAddItemOpen] = useState(false);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
   const [showNewSection, setShowNewSection] = useState(false);
   const [showTitleEdit, setShowTitleEdit] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('all');
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [sortBy, setSortBy] = useState<SortKey>('name_asc');
 
   const sections = initSections;
   const items = initItems;
 
-  function itemsFor(sectionId: string) {
-    return items
-      .filter((i) => i.section_id === sectionId)
-      .sort((a, b) => a.sort_order - b.sort_order);
-  }
+  const sectionIndexMap = new Map(sections.map((s, i) => [s.id, i]));
+  const sectionTitleMap = new Map(sections.map((s) => [s.id, s.title]));
+  const effectiveActiveTab = activeTab !== 'all' && !sectionIndexMap.has(activeTab) ? 'all' : activeTab;
+
+  const totalItems = items.length;
+  const activeCount = items.filter((i) => i.is_available).length;
+  const inactiveCount = totalItems - activeCount;
+  const activePct = totalItems > 0 ? Math.round((activeCount / totalItems) * 100) : 0;
+  const inactivePct = totalItems > 0 ? 100 - activePct : 0;
+  const lastUpdatedIso = items.reduce((max, i) => (i.updated_at > max ? i.updated_at : max), menuUpdatedAt);
+
+  const filteredItems = items
+    .filter((i) => effectiveActiveTab === 'all' || i.section_id === effectiveActiveTab)
+    .filter((i) => statusFilter === 'all' || (statusFilter === 'active' ? i.is_available : !i.is_available))
+    .filter((i) => {
+      const q = search.trim().toLowerCase();
+      if (!q) return true;
+      return i.name.toLowerCase().includes(q) || (i.description ?? '').toLowerCase().includes(q);
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'price_asc': return a.price_cents - b.price_cents;
+        case 'price_desc': return b.price_cents - a.price_cents;
+        case 'updated_desc': return b.updated_at.localeCompare(a.updated_at);
+        default: return a.name.localeCompare(b.name, 'tr');
+      }
+    });
+
+  const addItemDefaultSectionId = (effectiveActiveTab !== 'all' ? effectiveActiveTab : sections[0]?.id) ?? '';
 
   async function run(action: () => Promise<{ error: string } | null>) {
     setError(null);
@@ -773,239 +892,386 @@ export function MenuEditorClient({
         <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
       )}
 
-      {/* Bölümler */}
-      {sections.map((section) => (
-        <div key={section.id} className="rounded-2xl border border-border bg-card">
-          {/* Bölüm başlığı */}
-          <div className="flex items-center justify-between border-b border-border px-5 py-3">
-            {editingSectionId === section.id ? (
-              <form
-                className="flex flex-1 items-center gap-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const fd = new FormData(e.currentTarget);
-                  const title = String(fd.get('title') ?? '');
-                  run(() => updateSection(section.id, menuId, title));
-                  setEditingSectionId(null);
-                }}
-              >
-                <input
-                  name="title"
-                  defaultValue={section.title}
-                  required
-                  className="flex-1 rounded-xl border border-border bg-bg px-3 py-1.5 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
-                />
-                <button
-                  type="submit"
-                  className="rounded-xl bg-primary px-3 py-1.5 text-xs font-[700] text-white cursor-pointer"
-                >
-                  Kaydet
+      {/* İstatistikler */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <StatCard icon={<GridIcon />} iconBg="bg-blue-50 text-blue-600" label="Toplam Bölüm" value={String(sections.length)} />
+        <StatCard icon={<BoxIcon />} iconBg="bg-purple-50 text-purple-600" label="Toplam Ürün" value={String(totalItems)} />
+        <StatCard
+          icon={<CheckCircleIcon />}
+          iconBg="bg-green-50 text-green-600"
+          label="Aktif Ürün"
+          value={String(activeCount)}
+          subtitle={totalItems > 0 ? `%${activePct} aktif` : undefined}
+        />
+        <StatCard
+          icon={<PauseCircleIcon />}
+          iconBg="bg-orange-50 text-orange-600"
+          label="Stok Dışı"
+          value={String(inactiveCount)}
+          subtitle={totalItems > 0 ? `%${inactivePct}` : undefined}
+        />
+        <StatCard icon={<ClockIcon />} iconBg="bg-zinc-100 text-zinc-600" label="Son Güncelleme" value={formatDateShortTr(lastUpdatedIso)} />
+      </div>
+
+      {sections.length === 0 ? (
+        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-border bg-card px-6 py-14 text-center">
+          <p className="text-sm font-[700] text-textStrong">Henüz bölüm yok</p>
+          <p className="max-w-sm text-xs text-muted">
+            Ürün ekleyebilmek için önce en az bir bölüm (ör. Başlangıçlar, Ana Yemekler) oluşturun.
+          </p>
+          {showNewSection ? (
+            <form
+              className="flex w-full max-w-xs flex-col gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const fd = new FormData(e.currentTarget);
+                const title = String(fd.get('title') ?? '');
+                run(() => createSection(menuId, title, sections.length));
+                setShowNewSection(false);
+              }}
+            >
+              <input
+                name="title"
+                required
+                autoFocus
+                placeholder="Ör: Başlangıçlar"
+                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+              <div className="flex gap-2">
+                <button type="submit" disabled={isPending} className="flex-1 cursor-pointer rounded-xl bg-primary px-3 py-2 text-sm font-[700] text-white disabled:opacity-60">
+                  Bölüm Oluştur
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setEditingSectionId(null)}
-                  className="rounded-xl border border-border px-3 py-1.5 text-xs font-[700] text-textStrong cursor-pointer"
-                >
+                <button type="button" onClick={() => setShowNewSection(false)} className="cursor-pointer rounded-xl border border-border px-3 py-2 text-sm font-[700] text-textStrong">
                   İptal
                 </button>
-              </form>
+              </div>
+            </form>
+          ) : (
+            <button onClick={() => setShowNewSection(true)} className="cursor-pointer rounded-xl bg-primary px-4 py-2 text-sm font-[700] text-white">
+              + Yeni Bölüm Ekle
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+          {/* Sol: sekmeler + araç çubuğu + ürün tablosu */}
+          <div className="flex min-w-0 flex-col gap-4">
+            {/* Kategori sekmeleri */}
+            <div className="flex items-center gap-1 overflow-x-auto border-b border-border">
+              <button
+                onClick={() => setActiveTab('all')}
+                className={`shrink-0 cursor-pointer border-b-2 px-3 py-2.5 text-sm font-[700] transition-colors ${
+                  effectiveActiveTab === 'all' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-textStrong'
+                }`}
+              >
+                Tümü <span className="text-muted">({totalItems})</span>
+              </button>
+              {sections.map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => setActiveTab(section.id)}
+                  className={`shrink-0 cursor-pointer border-b-2 px-3 py-2.5 text-sm font-[700] transition-colors ${
+                    effectiveActiveTab === section.id ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-textStrong'
+                  }`}
+                >
+                  {section.title} <span className="text-muted">({items.filter((i) => i.section_id === section.id).length})</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Araç çubuğu */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="relative min-w-[180px] flex-1">
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"><SearchIcon /></span>
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Ürün ara…"
+                  className="w-full rounded-xl border border-border bg-card py-2 pl-9 pr-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+                className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+              >
+                <option value="all">Tüm Durumlar</option>
+                <option value="active">Aktif</option>
+                <option value="inactive">Stok Dışı</option>
+              </select>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortKey)}
+                className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+              >
+                <option value="name_asc">İsme göre (A-Z)</option>
+                <option value="price_asc">Fiyat (Artan)</option>
+                <option value="price_desc">Fiyat (Azalan)</option>
+                <option value="updated_desc">Son güncellenen</option>
+              </select>
+              <button
+                onClick={() => setAddItemOpen(true)}
+                className="btn-primary ml-auto cursor-pointer rounded-xl px-4 py-2 text-sm font-[700] text-white shadow-sm transition hover:opacity-90"
+              >
+                + Yeni Ürün Ekle
+              </button>
+            </div>
+
+            {/* Ürün tablosu */}
+            {filteredItems.length === 0 ? (
+              <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-border bg-card px-6 py-14 text-center">
+                <p className="text-sm font-[700] text-textStrong">
+                  {totalItems === 0 ? 'Henüz ürün eklenmedi' : 'Filtrelere uyan ürün yok'}
+                </p>
+                <p className="max-w-sm text-xs text-muted">
+                  {totalItems === 0
+                    ? 'İlk ürününüzü ekleyerek menünüzü oluşturmaya başlayın.'
+                    : 'Arama veya filtreleri değiştirmeyi deneyin.'}
+                </p>
+              </div>
             ) : (
-              <>
-                <span className="font-[800] text-textStrong">{section.title}</span>
-                <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => setEditingSectionId(section.id)}
-                    className="rounded-lg border border-border px-2.5 py-1 text-[11px] font-[700] text-muted hover:bg-bg cursor-pointer"
-                  >
-                    Düzenle
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (confirm(`"${section.title}" bölümünü sil?`))
-                        run(() => deleteSection(section.id, menuId));
-                    }}
-                    className="rounded-lg border border-red-200 px-2.5 py-1 text-[11px] font-[700] text-red-600 hover:bg-red-50 cursor-pointer"
-                  >
-                    Sil
-                  </button>
+              <div className="overflow-hidden rounded-2xl border border-border bg-card">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-border bg-bg text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        <th className="px-4 py-3">Ürün</th>
+                        <th className="px-4 py-3">Kategori</th>
+                        <th className="px-4 py-3">Fiyat</th>
+                        <th className="px-4 py-3">Durum</th>
+                        <th className="px-4 py-3">Son Güncelleme</th>
+                        <th className="px-4 py-3 text-right">İşlemler</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border">
+                      {filteredItems.map((item) => (
+                        <tr key={item.id} className="align-middle hover:bg-bg/60">
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              {item.image_url ? (
+                                <Image
+                                  src={buildMenuImageUrl(item.image_url, { width: 96, quality: 70 }) ?? item.image_url}
+                                  alt={item.name}
+                                  width={40}
+                                  height={40}
+                                  className="h-10 w-10 shrink-0 rounded-lg object-cover"
+                                  unoptimized
+                                />
+                              ) : (
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-dashed border-border bg-bg text-[9px] font-[800] text-muted">
+                                  Görsel
+                                </div>
+                              )}
+                              <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <span className="font-[700] text-textStrong">{item.name}</span>
+                                  {getDietaryBadges(item.tags).map((d) => (
+                                    <span key={d.key} title={d.label} className="text-[12px] leading-none">{d.icon}</span>
+                                  ))}
+                                  {(allergenMap[item.id]?.length ?? 0) > 0 && (
+                                    <span className="rounded-full border border-border bg-bg px-1.5 py-0.5 text-[9px] font-[700] text-muted">
+                                      {allergenMap[item.id].length} alerjen
+                                    </span>
+                                  )}
+                                </div>
+                                {item.description && (
+                                  <p className="max-w-xs truncate text-[12px] text-muted">{item.description}</p>
+                                )}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${categoryBadgeColor(sectionIndexMap.get(item.section_id) ?? 0)}`}>
+                              {sectionTitleMap.get(item.section_id) ?? '—'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 font-[700] text-textStrong">{formatPrice(item.price_cents)}</td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${
+                                item.is_available ? 'bg-green-50 text-green-700' : 'bg-zinc-100 text-zinc-500'
+                              }`}
+                            >
+                              {item.is_available ? 'Aktif' : 'Stok Dışı'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-[12px] text-muted">{formatDateShortTr(item.updated_at)}</td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center justify-end gap-1.5">
+                              <button
+                                onClick={() => setEditingItemId(item.id)}
+                                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-border text-muted hover:bg-bg"
+                                aria-label={`${item.name} düzenle`}
+                              >
+                                <PencilIcon />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  if (confirm(`"${item.name}" ürününü sil?`)) run(() => deleteItem(item.id, menuId));
+                                }}
+                                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
+                                aria-label={`${item.name} sil`}
+                              >
+                                <TrashIcon />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              </>
+              </div>
             )}
           </div>
 
-          {/* Ürünler */}
-          <div className="divide-y divide-border">
-            {itemsFor(section.id).map((item) => (
-              <div key={item.id}>
-                {editingItemId === item.id ? (
-                  <ItemFormModal title="Ürünü Düzenle" onClose={() => setEditingItemId(null)}>
-                    <ItemForm
-                      menuId={menuId}
-                      sectionId={section.id}
-                      businessId={businessId}
-                      itemId={item.id}
-                      initialValues={{
-                        name: item.name,
-                        description: item.description,
-                        image_url: item.image_url,
-                        price_cents: item.price_cents,
-                        currency: item.currency,
-                        is_available: item.is_available,
-                        tags: item.tags,
-                        calories_min: item.calories_min,
-                        calories_max: item.calories_max,
-                        portion_size: item.portion_size,
-                        portion_unit: item.portion_unit,
-                      }}
-                      initialAllergens={allergenMap[item.id] ?? []}
-                      initialIngredients={ingredientMap[item.id] ?? []}
-                      submitLabel="Kaydet"
-                      onSuccess={() => setEditingItemId(null)}
-                      onCancel={() => setEditingItemId(null)}
-                    />
-                  </ItemFormModal>
-                ) : null}
-                {(
-                  <div className="flex items-center gap-4 px-5 py-3">
-                    {item.image_url ? (
-                      <Image
-                        src={buildMenuImageUrl(item.image_url, { width: 96, quality: 70 }) ?? item.image_url}
-                        alt={item.name}
-                        width={48}
-                        height={48}
-                        className="h-12 w-12 shrink-0 rounded-xl object-cover"
-                        unoptimized
-                      />
+          {/* Sağ: kategori yönetimi */}
+          <div className="flex flex-col gap-4">
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="mb-3 text-sm font-[800] text-textStrong">Kategori Yönetimi</p>
+              <div className="flex flex-col gap-1.5">
+                {sections.map((section) => (
+                  <div key={section.id}>
+                    {editingSectionId === section.id ? (
+                      <form
+                        className="flex items-center gap-1.5 py-1"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          const fd = new FormData(e.currentTarget);
+                          const title = String(fd.get('title') ?? '');
+                          run(() => updateSection(section.id, menuId, title));
+                          setEditingSectionId(null);
+                        }}
+                      >
+                        <input
+                          name="title"
+                          defaultValue={section.title}
+                          required
+                          autoFocus
+                          className="flex-1 rounded-lg border border-border bg-bg px-2.5 py-1.5 text-xs text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        />
+                        <button type="submit" className="cursor-pointer rounded-lg bg-primary px-2 py-1.5 text-[11px] font-[700] text-white">Kaydet</button>
+                        <button type="button" onClick={() => setEditingSectionId(null)} className="cursor-pointer rounded-lg border border-border px-2 py-1.5 text-[11px] font-[700] text-textStrong">İptal</button>
+                      </form>
                     ) : (
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-dashed border-border bg-bg text-[10px] font-[800] text-muted">
-                        Görsel
+                      <div className="flex items-center justify-between gap-2 rounded-xl px-2 py-2 hover:bg-bg">
+                        <button onClick={() => setActiveTab(section.id)} className="min-w-0 flex-1 cursor-pointer text-left">
+                          <span className="block truncate text-sm font-[600] text-textStrong">{section.title}</span>
+                          <span className="text-[11px] text-muted">{items.filter((i) => i.section_id === section.id).length} ürün</span>
+                        </button>
+                        <div className="flex shrink-0 items-center gap-1">
+                          <button
+                            onClick={() => setEditingSectionId(section.id)}
+                            className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-border text-muted hover:bg-card"
+                            aria-label={`${section.title} düzenle`}
+                          >
+                            <PencilIcon />
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm(`"${section.title}" bölümünü sil?`)) run(() => deleteSection(section.id, menuId));
+                            }}
+                            className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-red-200 text-red-600 hover:bg-red-50"
+                            aria-label={`${section.title} sil`}
+                          >
+                            <TrashIcon />
+                          </button>
+                        </div>
                       </div>
                     )}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="font-[600] text-textStrong">{item.name}</span>
-                        {!item.is_available && (
-                          <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-[700] text-zinc-500">
-                            Stok Dışı
-                          </span>
-                        )}
-                        {getDietaryBadges(item.tags).map((d) => (
-                          <span key={d.key} title={d.label} className="text-[13px] leading-none">{d.icon}</span>
-                        ))}
-                        {(allergenMap[item.id]?.length ?? 0) > 0 && (
-                          <span className="rounded-full border border-border bg-bg px-1.5 py-0.5 text-[10px] font-[700] text-muted">
-                            {allergenMap[item.id].length} alerjen
-                          </span>
-                        )}
-                      </div>
-                      {item.description && (
-                        <p className="mt-0.5 text-[12px] text-muted truncate max-w-xs">
-                          {item.description}
-                        </p>
-                      )}
-                      {(item.calories_min || item.calories_max) && (
-                        <p className="mt-0.5 text-[11px] text-muted">
-                          {item.calories_min && item.calories_max && item.calories_min !== item.calories_max
-                            ? `${item.calories_min}–${item.calories_max} kcal`
-                            : `${item.calories_min ?? item.calories_max} kcal`}
-                        </p>
-                      )}
-                    </div>
-                    <span className="shrink-0 font-[700] text-textStrong">
-                      {formatPrice(item.price_cents)}
-                    </span>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <button
-                        onClick={() => setEditingItemId(item.id)}
-                        className="rounded-lg border border-border px-2.5 py-1 text-[11px] font-[700] text-muted hover:bg-bg cursor-pointer"
-                      >
-                        Düzenle
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (confirm(`"${item.name}" ürününü sil?`))
-                            run(() => deleteItem(item.id, menuId));
-                        }}
-                        className="rounded-lg border border-red-200 px-2.5 py-1 text-[11px] font-[700] text-red-600 hover:bg-red-50 cursor-pointer"
-                      >
-                        Sil
-                      </button>
-                    </div>
                   </div>
+                ))}
+              </div>
+
+              <div className="mt-3 border-t border-border pt-3">
+                {showNewSection ? (
+                  <form
+                    className="flex flex-col gap-2"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      const fd = new FormData(e.currentTarget);
+                      const title = String(fd.get('title') ?? '');
+                      run(() => createSection(menuId, title, sections.length));
+                      setShowNewSection(false);
+                    }}
+                  >
+                    <input
+                      name="title"
+                      required
+                      autoFocus
+                      placeholder="Ör: Tatlılar"
+                      className="rounded-lg border border-border bg-bg px-2.5 py-1.5 text-xs text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    />
+                    <div className="flex gap-1.5">
+                      <button type="submit" disabled={isPending} className="flex-1 cursor-pointer rounded-lg bg-primary px-2 py-1.5 text-[11px] font-[700] text-white disabled:opacity-60">Oluştur</button>
+                      <button type="button" onClick={() => setShowNewSection(false)} className="cursor-pointer rounded-lg border border-border px-2 py-1.5 text-[11px] font-[700] text-textStrong">İptal</button>
+                    </div>
+                  </form>
+                ) : (
+                  <button
+                    onClick={() => setShowNewSection(true)}
+                    className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-dashed border-border px-3 py-2 text-xs font-[700] text-muted transition-colors hover:border-primary/40 hover:text-primary"
+                  >
+                    <span className="text-sm">+</span> Yeni Kategori
+                  </button>
                 )}
               </div>
-            ))}
-          </div>
-
-          {/* Ürün ekle */}
-          {addItemSectionId === section.id && (
-            <ItemFormModal title="Yeni Ürün Ekle" onClose={() => setAddItemSectionId(null)}>
-              <ItemForm
-                menuId={menuId}
-                sectionId={section.id}
-                businessId={businessId}
-                initialAllergens={[]}
-                initialIngredients={[]}
-                submitLabel="Ürün Ekle"
-                onSuccess={() => setAddItemSectionId(null)}
-                onCancel={() => setAddItemSectionId(null)}
-              />
-            </ItemFormModal>
-          )}
-          <div className="border-t border-border px-5 py-3">
-            <button
-              onClick={() => setAddItemSectionId(section.id)}
-              className="text-sm font-[700] text-primary hover:underline cursor-pointer"
-            >
-              + Ürün Ekle
-            </button>
+            </div>
           </div>
         </div>
-      ))}
-
-      {/* Yeni bölüm formu */}
-      {showNewSection ? (
-        <form
-          className="rounded-2xl border border-dashed border-border bg-card p-5 flex flex-col gap-3"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const fd = new FormData(e.currentTarget);
-            const title = String(fd.get('title') ?? '');
-            run(() => createSection(menuId, title, sections.length));
-            setShowNewSection(false);
-          }}
-        >
-          <Input
-            label="Bölüm Adı"
-            name="title"
-            required
-            placeholder="Ör: Başlangıçlar, Ana Yemekler…"
-          />
-          <div className="flex gap-2">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-xl bg-primary px-3 py-2 text-sm font-[700] text-white disabled:opacity-60 cursor-pointer"
-            >
-              Bölüm Oluştur
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowNewSection(false)}
-              className="rounded-xl border border-border px-3 py-2 text-sm font-[700] text-textStrong cursor-pointer"
-            >
-              İptal
-            </button>
-          </div>
-        </form>
-      ) : (
-        <button
-          onClick={() => setShowNewSection(true)}
-          className="flex items-center justify-center gap-2 rounded-2xl border border-dashed border-border bg-card px-5 py-4 text-sm font-[700] text-muted hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
-        >
-          <span className="text-lg">+</span> Yeni Bölüm Ekle
-        </button>
       )}
+
+      {/* Ürün ekle modalı */}
+      {addItemOpen && sections.length > 0 && (
+        <ItemFormModal title="Yeni Ürün Ekle" onClose={() => setAddItemOpen(false)}>
+          <ItemForm
+            menuId={menuId}
+            sections={sections}
+            initialSectionId={addItemDefaultSectionId}
+            businessId={businessId}
+            initialAllergens={[]}
+            initialIngredients={[]}
+            submitLabel="Ürün Ekle"
+            onSuccess={() => setAddItemOpen(false)}
+            onCancel={() => setAddItemOpen(false)}
+          />
+        </ItemFormModal>
+      )}
+
+      {/* Ürün düzenleme modalı */}
+      {editingItemId && (() => {
+        const item = items.find((i) => i.id === editingItemId);
+        if (!item) return null;
+        return (
+          <ItemFormModal title="Ürünü Düzenle" onClose={() => setEditingItemId(null)}>
+            <ItemForm
+              menuId={menuId}
+              sections={sections}
+              initialSectionId={item.section_id}
+              businessId={businessId}
+              itemId={item.id}
+              initialValues={{
+                name: item.name,
+                description: item.description,
+                image_url: item.image_url,
+                price_cents: item.price_cents,
+                currency: item.currency,
+                is_available: item.is_available,
+                tags: item.tags,
+                calories_min: item.calories_min,
+                calories_max: item.calories_max,
+                portion_size: item.portion_size,
+                portion_unit: item.portion_unit,
+              }}
+              initialAllergens={allergenMap[item.id] ?? []}
+              initialIngredients={ingredientMap[item.id] ?? []}
+              submitLabel="Kaydet"
+              onSuccess={() => setEditingItemId(null)}
+              onCancel={() => setEditingItemId(null)}
+            />
+          </ItemFormModal>
+        );
+      })()}
     </div>
   );
 }

@@ -187,11 +187,28 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   let resolvedItemId: string;
 
   if (itemId) {
+    // Ürün farklı bir bölüme taşınmış olabilir (kategori değişikliği): mevcut
+    // section_id'yi WHERE'e sabitlemek yerine, önce ürünün bu menüye ait bir
+    // bölümde olduğunu doğruluyoruz, sonra sadece id ile update ediyoruz.
+    const { data: existingItem } = await (context.supabase as any)
+      .from('menu_items')
+      .select('id, section_id')
+      .eq('id', itemId)
+      .maybeSingle() as { data: { id: string; section_id: string } | null };
+    if (!existingItem) return { error: 'Ürün bulunamadı' };
+
+    const { data: currentSection } = await (context.supabase as any)
+      .from('menu_sections')
+      .select('id')
+      .eq('id', existingItem.section_id)
+      .eq('menu_id', menuId)
+      .maybeSingle() as { data: { id: string } | null };
+    if (!currentSection) return { error: 'Ürün bu menüye ait değil' };
+
     const { error: updateErr } = await (context.supabase as any)
       .from('menu_items')
       .update(payload)
-      .eq('id', itemId)
-      .eq('section_id', sectionId) as { error: { message: string } | null };
+      .eq('id', itemId) as { error: { message: string } | null };
     if (updateErr) return { error: updateErr.message };
     resolvedItemId = itemId;
   } else {
