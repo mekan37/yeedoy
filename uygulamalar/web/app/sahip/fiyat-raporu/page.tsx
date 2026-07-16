@@ -60,12 +60,18 @@ export default async function OwnerPriceReportPage() {
   const reports: Array<{ biz: typeof businesses[0]; rows: FiyatSatiri[] }> = [];
 
   for (const biz of businesses) {
-    const { data } = await (supabase as any).rpc('get_business_price_comparison_v1', {
-      p_business_id: biz.id,
-      p_limit: 20,
-    }).catch(() => ({ data: null }));
+    let data: FiyatSatiri[] | null = null;
+    try {
+      const result = await (supabase as any).rpc('get_business_price_comparison_v1', {
+        p_business_id: biz.id,
+        p_limit: 20,
+      });
+      data = result.data ?? null;
+    } catch {
+      data = null;
+    }
 
-    reports.push({ biz, rows: (data as FiyatSatiri[] | null) ?? [] });
+    reports.push({ biz, rows: data ?? [] });
   }
 
   return (
