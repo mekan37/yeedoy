@@ -13,4 +13,6 @@ export const appConfig = {
   panelUrl: () => process.env.NEXT_PUBLIC_PANEL_URL?.trim() || null,
   serviceRoleKey: () => process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || null,
   revalidateSecret: () => process.env.REVALIDATE_SECRET?.trim() || null,
+  resendApiKey: () => process.env.RESEND_API_KEY?.trim() || null,
+  emailFrom: () => process.env.EMAIL_FROM?.trim() || 'Yeedoy <bildirim@yeedoy.com>',
 };

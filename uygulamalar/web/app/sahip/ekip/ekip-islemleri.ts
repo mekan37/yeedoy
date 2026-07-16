@@ -1,9 +1,12 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { sendEmail } from '@/src/lib/eposta';
+import { appConfig } from '@/src/lib/ayarlar';
+import { ROLE_LABELS } from './ekip-sabitleri';
 
 const ROLE_VALUES = new Set(['manager', 'editor', 'staff', 'viewer']);
 
@@ -57,22 +60,84 @@ export async function removeTeamMember(businessId: string, membershipId: string)
   return null;
 }
 
-export async function addTeamMember(formData: FormData): Promise<void> {
+export type AddTeamMemberInput = {
+  businessId: string;
+  email: string;
+  fullName: string;
+  password: string;
+  role: string;
+};
+
+export type AddTeamMemberOutcome =
+  | { error: string }
+  | { ok: true; mode: 'created' | 'invited' | 'linked' };
+
+/**
+ * Tek giriş noktası: şifre verilmişse doğrudan giriş yapabilen bir hesap
+ * oluşturur (auth.admin.createUser, service-role); şifre boşsa yalnızca
+ * e-posta daveti oluşturur (kişi kendi kayıt olduğunda upsert_team_member_v1
+ * ile aynı e-postayı tekrar çağırıp veya claim_pending_team_invites_v1 ile
+ * girişte otomatik bağlanır — bkz. app/sunucu/kimlik/giris/route.ts).
+ */
+export async function addTeamMember(input: AddTeamMemberInput): Promise<AddTeamMemberOutcome> {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/giris?redirect=/sahip/ekip');
+  if (!user) return { error: 'Oturum bulunamadı' };
 
-  const businessId = String(formData.get('businessId') ?? '').trim();
-  const email = String(formData.get('email') ?? '').trim().toLowerCase();
-  const role = String(formData.get('role') ?? '').trim().toLowerCase();
+  const businessId = input.businessId.trim();
+  const email = input.email.trim().toLowerCase();
+  const fullName = input.fullName.trim();
+  const password = input.password;
+  const role = input.role.trim().toLowerCase();
 
-  if (!businessId || !email || !ROLE_VALUES.has(role)) {
-    redirect('/sahip/ekip?durum=gecersiz');
-  }
+  if (!businessId || !email) return { error: 'E-posta ve işletme zorunlu' };
+  if (!ROLE_VALUES.has(role)) return { error: 'Geçerli bir rol seçin' };
+  if (password && password.length < 8) return { error: 'Şifre en az 8 karakter olmalı' };
 
   const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, businessId);
-  if (!canManageBusiness) {
-    redirect('/sahip/ekip?durum=yetkisiz');
+  if (!canManageBusiness) return { error: 'Bu işletme için ekip yönetimi yetkiniz yok' };
+
+  const { data: business } = await (supabase as any)
+    .from('businesses')
+    .select('name')
+    .eq('id', businessId)
+    .maybeSingle() as { data: { name: string } | null };
+  const businessName = business?.name ?? 'İşletmeniz';
+
+  let mode: 'created' | 'invited' | 'linked' = 'invited';
+
+  if (password) {
+    const serviceClient = createSupabaseServiceClient();
+    if (!serviceClient) {
+      return { error: 'Sunucu yapılandırması eksik (SUPABASE_SERVICE_ROLE_KEY tanımlı değil) — şifresiz davet gönderebilirsiniz.' };
+    }
+
+    const { data: created, error: createErr } = await serviceClient.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+      user_metadata: fullName ? { full_name: fullName } : undefined,
+    });
+
+    if (createErr) {
+      const alreadyExists = /already.*registered|already.*exists/i.test(createErr.message ?? '');
+      if (!alreadyExists) return { error: createErr.message };
+      // E-posta zaten kayıtlı: yeni şifre atamıyoruz (mevcut hesabın şifresini
+      // sessizce değiştirmek güvenlik açısından yanlış olur) — sadece ekibe
+      // bağlıyoruz, kişi mevcut şifresiyle giriş yapmaya devam eder.
+      mode = 'linked';
+    } else {
+      mode = 'created';
+      if (created.user) {
+        try {
+          await (serviceClient as any)
+            .from('user_profiles')
+            .insert({ user_id: created.user.id, display_name: fullName || email.split('@')[0] });
+        } catch {
+          // profil satırı ikincil — başarısız olsa da hesap oluşturma işlemini engellemez
+        }
+      }
+    }
   }
 
   const { data, error } = await (supabase as any).rpc('upsert_team_member_v1', {
@@ -83,10 +148,37 @@ export async function addTeamMember(formData: FormData): Promise<void> {
   });
 
   if (error || data?.ok === false) {
-    const code = data?.code ?? error?.code ?? 'hata';
-    redirect(`/sahip/ekip?durum=${encodeURIComponent(code)}`);
+    return { error: error?.message ?? 'Ekip üyesi eklenemedi' };
   }
 
   revalidatePath('/sahip/ekip');
-  redirect('/sahip/ekip?durum=eklendi');
+
+  const roleLabel = ROLE_LABELS[role]?.label ?? role;
+  const loginUrl = `${appConfig.siteUrl()}/giris`;
+
+  if (mode === 'created') {
+    void sendEmail({
+      to: email,
+      subject: `${businessName} — Yeedoy Sahip Paneli hesabınız hazır`,
+      html: `<p>${businessName} işletmesi için Yeedoy Sahip Paneli'nde <strong>${roleLabel}</strong> rolüyle bir hesap oluşturuldu.</p>
+             <p>Giriş bilgilerinizi (e-posta ve şifre) işletme sahibinizden öğrenebilirsiniz.</p>
+             <p><a href="${loginUrl}">${loginUrl}</a> adresinden giriş yapabilirsiniz.</p>`,
+    });
+  } else if (mode === 'invited') {
+    void sendEmail({
+      to: email,
+      subject: `${businessName} sizi ekibine davet etti`,
+      html: `<p>${businessName} işletmesi sizi Yeedoy Sahip Paneli'nde <strong>${roleLabel}</strong> rolüyle ekibine davet etti.</p>
+             <p>Bu e-posta adresiyle <a href="${loginUrl}">${loginUrl}</a> üzerinden kayıt olun veya giriş yapın; daveti otomatik olarak hesabınıza bağlanacaktır.</p>`,
+    });
+  } else {
+    void sendEmail({
+      to: email,
+      subject: `${businessName} ekibine eklendiniz`,
+      html: `<p>${businessName} işletmesi sizi Yeedoy Sahip Paneli'nde <strong>${roleLabel}</strong> rolüyle ekibine ekledi.</p>
+             <p>Mevcut hesabınızla <a href="${loginUrl}">${loginUrl}</a> üzerinden giriş yapabilirsiniz.</p>`,
+    });
+  }
+
+  return { ok: true, mode };
 }

@@ -73,6 +73,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error?.message ?? 'auth_failed' }, { status: 401 });
   }
 
+  // Bekleyen ekip davetlerini bu girişte hesaba bağla — davet edilen kişi
+  // daha önce kayıt olmadıysa (bkz. app/sahip/ekip/ekip-islemleri.ts
+  // addTeamMember) üyelik "pending" kalır; bu çağrı olmadan asla "active"
+  // olmaz. Rol yönlendirmesinden ÖNCE çalışmalı ki aşağıdaki
+  // resolveRoleBasedRedirect az önce bağlanan üyeliği görebilsin.
+  try {
+    await supabase.rpc('claim_pending_team_invites_v1');
+  } catch {
+    // best-effort — giriş akışını asla engellemez
+  }
+
   const effectiveRedirect = parsed.data.redirectTo
     ? redirectTo
     : await resolveRoleBasedRedirect(supabase as any, data.session.user.id);

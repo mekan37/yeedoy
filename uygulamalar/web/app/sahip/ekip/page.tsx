@@ -2,29 +2,15 @@ import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
-import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
-import { addTeamMember } from './ekip-islemleri';
 import { EkipListesi, type EkipUyesi } from './ekip-listesi';
+import { UyeEkleModal } from './uye-ekle-modal';
 import { ROLE_LABELS, ROLE_DESCRIPTIONS, permissionsForRole } from './ekip-sabitleri';
 
 export const metadata: Metadata = {
   title: 'Ekip | Sahip Paneli',
   robots: { index: false, follow: false },
-};
-
-const STATUS_MESSAGES: Record<string, { text: string; className: string }> = {
-  eklendi: { text: 'Ekip üyesi eklendi veya davet güncellendi.', className: 'border-success/25 bg-success/[0.08] text-success' },
-  gecersiz: { text: 'E-posta, işletme veya rol bilgisi eksik.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  yetkisiz: { text: 'Bu işletme için ekip yönetimi yetkiniz yok.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  forbidden: { text: 'Bu işletme için ekip yönetimi yetkiniz yok.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  email_required: { text: 'Geçerli bir e-posta girin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  invalid_role: { text: 'Geçerli bir rol seçin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  hata: { text: 'Ekip üyesi eklenemedi. Tekrar deneyin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-};
-
-type Props = {
-  searchParams?: Promise<{ durum?: string }>;
 };
 
 type TeamMemberRpcRow = {
@@ -39,8 +25,7 @@ type TeamMemberRpcRow = {
   accepted_at: string | null;
 };
 
-export default async function OwnerTeamPage({ searchParams }: Props) {
-  const params = await searchParams;
+export default async function OwnerTeamPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -79,7 +64,6 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
     }),
   );
   const list = memberGroups.flat();
-  const statusMessage = params?.durum ? STATUS_MESSAGES[params.durum] : null;
 
   const activeCount = list.filter((m) => m.status === 'active').length;
   const pendingCount = list.filter((m) => m.status === 'pending').length;
@@ -94,22 +78,11 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
         description="İşletmenizdeki ekip üyelerini ve rollerini yönetin."
         actions={
           businesses.length > 0 ? (
-            <a
-              href="#davet-formu"
-              className="btn-primary inline-flex min-h-[40px] items-center justify-center rounded-xl px-4 text-sm font-[800] text-white"
-            >
-              + Üye Davet Et
-            </a>
+            <UyeEkleModal businesses={businesses} />
           ) : undefined
         }
       />
       <PanelIcerikYuzeyi className="pt-6">
-        {statusMessage && (
-          <div className={`mb-4 rounded-xl border px-4 py-3 text-sm font-[700] ${statusMessage.className}`}>
-            {statusMessage.text}
-          </div>
-        )}
-
         {/* İstatistikler */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <StatCard icon={<UsersIcon />} iconBg="bg-blue-50 text-blue-600" label="Toplam Üye" value={String(list.length)} subtitle={list.length > 0 ? `Aktif ${activeCount}` : undefined} />
@@ -131,62 +104,15 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
               <PanelEmptyState
                 icon={<UsersIcon />}
                 title="Ekip üyesi yok"
-                description="Sağdaki formdan ekip üyesi davet edebilirsiniz."
+                description="Üstteki 'Üye Ekle' butonundan ekip üyesi ekleyebilirsiniz."
               />
             ) : (
               <EkipListesi members={list} showBusinessColumn={businessIds.length > 1} />
             )}
           </div>
 
-          {/* Sağ: davet formu + rol tanımları */}
+          {/* Sağ: rol tanımları */}
           <div className="flex flex-col gap-4">
-            <div id="davet-formu" className="scroll-mt-6 rounded-2xl border border-border bg-card p-4">
-              <p className="mb-1 text-sm font-[800] text-textStrong">Davet Et</p>
-              <p className="mb-3 text-[11px] text-muted">Ekip arkadaşlarınızı e-posta ile davet edin.</p>
-              {businesses.length === 0 ? (
-                <p className="text-xs text-muted">Davet göndermek için önce işletme sahibi olmanız gerekiyor.</p>
-              ) : (
-                <form action={addTeamMember} className="flex flex-col gap-3">
-                  {businesses.length > 1 ? (
-                    <select
-                      name="businessId"
-                      required
-                      className="min-h-[40px] rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    >
-                      {businesses.map((business) => (
-                        <option key={business.id} value={business.id}>{business.name}</option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input type="hidden" name="businessId" value={businesses[0].id} />
-                  )}
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="E-posta adresi girin…"
-                    className="min-h-[40px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
-                  />
-                  <select
-                    name="role"
-                    defaultValue="staff"
-                    className="min-h-[40px] rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
-                  >
-                    <option value="manager">Yönetici</option>
-                    <option value="editor">Editör</option>
-                    <option value="staff">Personel</option>
-                    <option value="viewer">İzleyici</option>
-                  </select>
-                  <button
-                    type="submit"
-                    className="btn-primary inline-flex min-h-[40px] cursor-pointer items-center justify-center rounded-xl px-5 text-sm font-[900] text-white"
-                  >
-                    Davet Gönder
-                  </button>
-                </form>
-              )}
-            </div>
-
             <div className="rounded-2xl border border-border bg-card p-4">
               <p className="mb-3 text-sm font-[800] text-textStrong">Rol Tanımları</p>
               <div className="flex flex-col gap-3">
@@ -202,11 +128,6 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
             </div>
           </div>
         </div>
-
-        {/* Shift Scheduler */}
-        <PanelBolumKarti title="Vardiya Planı (Bu Hafta)" className="mt-6">
-          <ShiftScheduler members={list} />
-        </PanelBolumKarti>
       </PanelIcerikYuzeyi>
     </div>
   );
@@ -233,53 +154,6 @@ function StatCard({
         <p className="mt-0.5 truncate text-lg font-[900] text-textStrong">{value}</p>
         {subtitle && <p className="text-[11px] text-muted">{subtitle}</p>}
       </div>
-    </div>
-  );
-}
-
-const DAYS = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-const SHIFTS = ['Sabah (07-15)', 'Öğle (11-19)', 'Akşam (15-23)', 'Gece (23-07)'];
-
-function ShiftScheduler({ members }: { members: EkipUyesi[] }) {
-  if (members.length === 0) return (
-    <p className="py-6 text-center text-sm text-muted">Ekip üyesi eklendikten sonra vardiya planlayabilirsiniz.</p>
-  );
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full text-xs">
-        <thead>
-          <tr className="border-b border-border">
-            <th className="px-3 py-2 text-left text-[11px] font-[800] uppercase tracking-wide text-muted w-32">Personel</th>
-            {DAYS.map(d => (
-              <th key={d} className="px-2 py-2 text-center text-[11px] font-[800] uppercase tracking-wide text-muted">{d}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-border">
-          {members.filter((member) => member.role !== 'owner').slice(0, 8).map((m) => (
-            <tr key={m.key} className="hover:bg-black/[0.02]">
-              <td className="px-3 py-2 font-[700] text-textStrong">
-                <p className="truncate max-w-[120px]">{m.email ?? '—'}</p>
-                <p className="text-[10px] text-muted">{ROLE_LABELS[m.role]?.label ?? m.role}</p>
-              </td>
-              {DAYS.map((d) => (
-                <td key={d} className="px-1 py-1.5 text-center">
-                  <select
-                    className="w-full rounded border border-border bg-surface py-0.5 text-[10px] text-textStrong focus:border-primary focus:outline-none"
-                    defaultValue=""
-                    aria-label={`${m.email ?? ''} ${d} vardiyası`}
-                  >
-                    <option value="">—</option>
-                    {SHIFTS.map(s => <option key={s} value={s}>{s.split(' ')[0]}</option>)}
-                  </select>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="mt-3 text-xs text-muted">Not: Vardiya kayıt entegrasyonu yakında aktif olacak.</p>
     </div>
   );
 }
