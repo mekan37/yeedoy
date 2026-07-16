@@ -111,6 +111,53 @@ function Input({
   );
 }
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return <p className="mb-3 text-[10px] font-[800] uppercase tracking-wider text-muted">{children}</p>;
+}
+
+function SectionDivider() {
+  return <hr className="border-border" />;
+}
+
+function ItemFormModal({
+  title,
+  onClose,
+  children,
+}: {
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px]" onClick={onClose} />
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="flex max-h-[90vh] w-full max-w-2xl flex-col rounded-2xl bg-card shadow-lg">
+          <div className="flex shrink-0 items-center justify-between rounded-t-2xl border-b border-border px-6 py-4">
+            <h2 className="text-base font-[900] text-textStrong">{title}</h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl border border-border text-muted hover:bg-bg"
+            >
+              <XIcon />
+            </button>
+          </div>
+          {children}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function XIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M18 6 6 18M6 6l12 12" />
+    </svg>
+  );
+}
+
 function ImageUrlField({
   businessId,
   label,
@@ -320,258 +367,282 @@ function ItemForm({
   }
 
   return (
-    <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-      <Input
-        label="Ürün Adı"
-        name="name"
-        defaultValue={initialValues?.name ?? ''}
-        required
-        placeholder="Ürün adı"
-      />
-      <div className="grid grid-cols-2 gap-3">
-        <Input
-          label="Fiyat (₺)"
-          name="price"
-          type="number"
-          defaultValue={initialValues ? String(initialValues.price_cents / 100) : ''}
-          required
-          placeholder="0.00"
-        />
-        <div className="flex flex-col gap-1">
-          <label className="text-xs font-[700] text-muted">Para Birimi</label>
-          <select
-            name="currency"
-            defaultValue={initialValues?.currency ?? 'TRY'}
-            className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
-          >
-            <option value="TRY">TRY (₺)</option>
-            <option value="USD">USD ($)</option>
-            <option value="EUR">EUR (€)</option>
-          </select>
-        </div>
-      </div>
-      <div className="flex flex-col gap-1">
-        <label className="text-xs font-[700] text-muted">Açıklama (opsiyonel)</label>
-        <textarea
-          name="description"
-          defaultValue={initialValues?.description ?? ''}
-          placeholder="Kısa açıklama"
-          rows={2}
-          className="resize-y rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
-        />
-      </div>
-      <ImageUrlField
-        businessId={businessId}
-        label="Ürün görseli"
-        initialUrl={initialValues?.image_url ?? null}
-      />
-      <label className="flex items-center gap-2 text-sm text-textStrong cursor-pointer">
-        <input
-          type="checkbox"
-          name="is_available"
-          defaultChecked={initialValues?.is_available ?? true}
-          className="rounded"
-        />
-        Satışta
-      </label>
+    <form className="flex flex-1 flex-col overflow-hidden" onSubmit={handleSubmit}>
+      <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-6 py-5">
 
-      {/* Diyet & Etiketler */}
-      <div className="flex flex-col gap-2 rounded-2xl border border-border bg-bg p-3">
-        <p className="text-xs font-[700] text-muted">Diyet & Etiketler</p>
-        {DIETARY_FLAGS.map((flag) => (
-          <input
-            key={flag.key}
-            type="checkbox"
-            name={flag.key}
-            checked={dietaryState[flag.key] ?? false}
-            onChange={() => {}}
-            className="hidden"
-          />
-        ))}
-        <div className="flex flex-wrap gap-2">
-          {DIETARY_FLAGS.map((flag) => (
-            <button
-              key={flag.key}
-              type="button"
-              onClick={() => setDietaryState((p) => ({ ...p, [flag.key]: !p[flag.key] }))}
-              className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-[700] transition-colors ${
-                dietaryState[flag.key]
-                  ? 'border-primary bg-primary/10 text-textStrong'
-                  : 'border-border bg-card text-muted hover:bg-bg'
-              }`}
-            >
-              <span>{flag.icon}</span>{flag.label}
-            </button>
-          ))}
-        </div>
-        <Input
-          label="Ek Etiketler (virgülle ayırın)"
-          name="custom_tags"
-          defaultValue={getCustomTags(initialValues?.tags ?? null)}
-          placeholder="organik, ev yapımı, spesyalite…"
-        />
-      </div>
-
-      {/* Şeffaf Menü Bilgileri */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg p-3">
-        <p className="text-xs font-[700] text-muted">Şeffaf Menü Bilgileri (İsteğe Bağlı)</p>
-
-        {/* Kalori aralığı */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="flex flex-col gap-1">
-            <label className="text-xs font-[700] text-muted">Min Kalori (kcal)</label>
-            <input
-              name="calories_min"
-              type="number"
-              defaultValue={initialValues?.calories_min ?? ''}
-              min="0"
-              max="9999"
-              placeholder="örn: 320"
-              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+        {/* Temel Bilgiler */}
+        <section>
+          <SectionLabel>Temel Bilgiler</SectionLabel>
+          <div className="flex flex-col gap-3">
+            <Input
+              label="Ürün Adı"
+              name="name"
+              defaultValue={initialValues?.name ?? ''}
+              required
+              placeholder="Ürün adı"
             />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-xs font-[700] text-muted">Max Kalori (kcal)</label>
-            <input
-              name="calories_max"
-              type="number"
-              defaultValue={initialValues?.calories_max ?? ''}
-              min="0"
-              max="9999"
-              placeholder="örn: 420"
-              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
-            />
-          </div>
-        </div>
-
-        {/* Porsiyon */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="flex flex-col gap-1">
-            <label className="text-xs font-[700] text-muted">Porsiyon Miktarı</label>
-            <input
-              name="portion_size"
-              type="number"
-              defaultValue={initialValues?.portion_size ?? ''}
-              min="0"
-              placeholder="örn: 350"
-              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-xs font-[700] text-muted">Birim</label>
-            <select
-              name="portion_unit"
-              defaultValue={initialValues?.portion_unit ?? ''}
-              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
-            >
-              <option value="">Birim</option>
-              <option value="g">g</option>
-              <option value="ml">ml</option>
-              <option value="adet">adet</option>
-              <option value="dilim">dilim</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Malzemeler — tag-style input */}
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-[700] text-muted">Malzemeler</p>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={ingredientInput}
-              onChange={(e) => setIngredientInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  addIngredient();
-                }
-              }}
-              placeholder="örn: domates"
-              className="flex-1 rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
-            />
-            <button
-              type="button"
-              onClick={addIngredient}
-              className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-[700] text-textStrong hover:bg-bg cursor-pointer"
-            >
-              Ekle
-            </button>
-          </div>
-          {ingredients.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {ingredients.map((ing, i) => (
-                <span
-                  key={i}
-                  className="flex items-center gap-1 rounded-full border border-border bg-card px-2.5 py-1 text-xs font-[600] text-textStrong"
+            <div className="grid grid-cols-2 gap-3">
+              <Input
+                label="Fiyat (₺)"
+                name="price"
+                type="number"
+                defaultValue={initialValues ? String(initialValues.price_cents / 100) : ''}
+                required
+                placeholder="0.00"
+              />
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-[700] text-muted">Para Birimi</label>
+                <select
+                  name="currency"
+                  defaultValue={initialValues?.currency ?? 'TRY'}
+                  className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
-                  {ing}
-                  <button
-                    type="button"
-                    onClick={() => setIngredients((prev) => prev.filter((_, j) => j !== i))}
-                    className="ml-0.5 text-muted hover:text-textStrong cursor-pointer leading-none"
-                    aria-label={`${ing} malzemesini kaldır`}
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
+                  <option value="TRY">TRY (₺)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                </select>
+              </div>
             </div>
-          )}
-        </div>
-      </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-[700] text-muted">Açıklama (opsiyonel)</label>
+              <textarea
+                name="description"
+                defaultValue={initialValues?.description ?? ''}
+                placeholder="Kısa açıklama"
+                rows={2}
+                className="resize-y rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
+            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl border border-border px-3 py-2">
+              <input
+                type="checkbox"
+                name="is_available"
+                defaultChecked={initialValues?.is_available ?? true}
+                className="h-4 w-4 rounded accent-primary"
+              />
+              <span className="text-sm font-[700] text-textStrong">Satışta (aktif)</span>
+            </label>
+          </div>
+        </section>
 
-      {/* Allerjen seçici */}
-      <div className="flex flex-col gap-2">
-        <p className="text-xs font-[700] text-muted">Alerjenler (Tarım Bakanlığı zorunlu — AB 14)</p>
-        <p className="text-[11px] text-muted">
-          Dokunarak döngü: <span className="font-[700] text-primary">İçerir</span>
-          {' → '}<span className="font-[700] text-orange-500">İz İçerebilir</span>{' → '}Yok
-        </p>
-        <div className="grid grid-cols-2 gap-1.5">
-          {ALLERGEN_LIST.map(({ code, labelTr }) => {
-            const state = allergenState[code] ?? null;
-            return (
+        <SectionDivider />
+
+        {/* Görsel */}
+        <section>
+          <SectionLabel>Görsel</SectionLabel>
+          <ImageUrlField
+            businessId={businessId}
+            label="Ürün görseli"
+            initialUrl={initialValues?.image_url ?? null}
+          />
+        </section>
+
+        <SectionDivider />
+
+        {/* Diyet & Etiketler */}
+        <section>
+          <SectionLabel>Diyet & Etiketler</SectionLabel>
+          {DIETARY_FLAGS.map((flag) => (
+            <input
+              key={flag.key}
+              type="checkbox"
+              name={flag.key}
+              checked={dietaryState[flag.key] ?? false}
+              onChange={() => {}}
+              className="hidden"
+            />
+          ))}
+          <div className="flex flex-wrap gap-2">
+            {DIETARY_FLAGS.map((flag) => (
               <button
-                key={code}
+                key={flag.key}
                 type="button"
-                onClick={() => toggleAllergen(code)}
-                className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-[700] text-left cursor-pointer transition-colors ${
-                  state === 'contains'
+                onClick={() => setDietaryState((p) => ({ ...p, [flag.key]: !p[flag.key] }))}
+                className={`flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-[700] transition-colors ${
+                  dietaryState[flag.key]
                     ? 'border-primary bg-primary/10 text-textStrong'
-                    : state === 'may_contain'
-                      ? 'border-orange-400 bg-orange-50 text-orange-700'
-                      : 'border-border bg-card text-muted hover:bg-bg'
+                    : 'border-border bg-card text-muted hover:bg-bg'
                 }`}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0" />
-                <span className="flex-1">{labelTr}</span>
-                {state === 'contains' && <span className="text-[9px] font-[900]">✓</span>}
-                {state === 'may_contain' && <span className="text-[9px] font-[900]">~</span>}
+                <span>{flag.icon}</span>{flag.label}
               </button>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+          <div className="mt-3">
+            <Input
+              label="Ek Etiketler (virgülle ayırın)"
+              name="custom_tags"
+              defaultValue={getCustomTags(initialValues?.tags ?? null)}
+              placeholder="organik, ev yapımı, spesyalite…"
+            />
+          </div>
+        </section>
+
+        <SectionDivider />
+
+        {/* Alerjenler */}
+        <section>
+          <SectionLabel>Alerjenler — AB Zorunlu 14</SectionLabel>
+          <p className="mb-3 text-[11px] text-muted">
+            Dokunarak döngü: <span className="font-[700] text-primary">İçerir</span>
+            {' → '}<span className="font-[700] text-orange-500">İz İçerebilir</span>{' → '}Yok
+          </p>
+          <div className="grid grid-cols-2 gap-1.5">
+            {ALLERGEN_LIST.map(({ code, labelTr }) => {
+              const state = allergenState[code] ?? null;
+              return (
+                <button
+                  key={code}
+                  type="button"
+                  onClick={() => toggleAllergen(code)}
+                  className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs font-[700] transition-colors ${
+                    state === 'contains'
+                      ? 'border-primary bg-primary/10 text-textStrong'
+                      : state === 'may_contain'
+                        ? 'border-orange-400 bg-orange-50 text-orange-700'
+                        : 'border-border bg-card text-muted hover:bg-bg'
+                  }`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0" />
+                  <span className="flex-1">{labelTr}</span>
+                  {state === 'contains' && <span className="text-[9px] font-[900]">✓</span>}
+                  {state === 'may_contain' && <span className="text-[9px] font-[900]">~</span>}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <SectionDivider />
+
+        {/* Kalori, Porsiyon & Malzemeler */}
+        <section>
+          <SectionLabel>Kalori, Porsiyon & Malzemeler</SectionLabel>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-[700] text-muted">Min Kalori (kcal)</label>
+              <input
+                name="calories_min"
+                type="number"
+                defaultValue={initialValues?.calories_min ?? ''}
+                min="0"
+                max="9999"
+                placeholder="örn: 320"
+                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-[700] text-muted">Max Kalori (kcal)</label>
+              <input
+                name="calories_max"
+                type="number"
+                defaultValue={initialValues?.calories_max ?? ''}
+                min="0"
+                max="9999"
+                placeholder="örn: 420"
+                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-[700] text-muted">Porsiyon Miktarı</label>
+              <input
+                name="portion_size"
+                type="number"
+                defaultValue={initialValues?.portion_size ?? ''}
+                min="0"
+                placeholder="örn: 350"
+                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-[700] text-muted">Birim</label>
+              <select
+                name="portion_unit"
+                defaultValue={initialValues?.portion_unit ?? ''}
+                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+              >
+                <option value="">Birim</option>
+                <option value="g">g</option>
+                <option value="ml">ml</option>
+                <option value="adet">adet</option>
+                <option value="dilim">dilim</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Malzemeler — tag-style input (sahip'e özgü) */}
+          <div className="mt-3 flex flex-col gap-2">
+            <label className="text-xs font-[700] text-muted">Malzemeler</label>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={ingredientInput}
+                onChange={(e) => setIngredientInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addIngredient();
+                  }
+                }}
+                placeholder="örn: domates"
+                className="flex-1 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+              <button
+                type="button"
+                onClick={addIngredient}
+                className="cursor-pointer rounded-xl border border-border bg-bg px-3 py-2 text-xs font-[700] text-textStrong hover:bg-card"
+              >
+                Ekle
+              </button>
+            </div>
+            {ingredients.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {ingredients.map((ing, i) => (
+                  <span
+                    key={i}
+                    className="flex items-center gap-1 rounded-full border border-border bg-card px-2.5 py-1 text-xs font-[600] text-textStrong"
+                  >
+                    {ing}
+                    <button
+                      type="button"
+                      onClick={() => setIngredients((prev) => prev.filter((_, j) => j !== i))}
+                      className="ml-0.5 cursor-pointer leading-none text-muted hover:text-textStrong"
+                      aria-label={`${ing} malzemesini kaldır`}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
       </div>
 
-      {formError && <p className="text-xs font-[700] text-red-600">{formError}</p>}
-
-      <div className="flex gap-2">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="rounded-xl bg-primary px-3 py-2 text-xs font-[700] text-white disabled:opacity-60 cursor-pointer"
-        >
-          {isPending ? 'Kaydediliyor...' : submitLabel}
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="rounded-xl border border-border px-3 py-2 text-xs font-[700] text-textStrong cursor-pointer"
-        >
-          İptal
-        </button>
+      {/* Sabit alt buton çubuğu */}
+      <div className="shrink-0 rounded-b-2xl border-t border-border bg-card px-6 py-4">
+        {formError && (
+          <p className="mb-3 rounded-xl bg-red-50 px-3 py-2 text-xs font-[700] text-red-700">{formError}</p>
+        )}
+        <div className="flex items-center justify-end gap-3">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="cursor-pointer rounded-xl border border-border px-4 py-2 text-sm font-[700] text-textStrong hover:bg-bg"
+          >
+            İptal
+          </button>
+          <button
+            type="submit"
+            disabled={isPending}
+            className="btn-primary cursor-pointer rounded-xl px-5 py-2 text-sm font-[700] text-white shadow-sm transition hover:opacity-90 disabled:opacity-60"
+          >
+            {isPending ? 'Kaydediliyor…' : submitLabel}
+          </button>
+        </div>
       </div>
     </form>
   );
@@ -767,31 +838,34 @@ export function MenuEditorClient({
             {itemsFor(section.id).map((item) => (
               <div key={item.id}>
                 {editingItemId === item.id ? (
-                  <ItemForm
-                    menuId={menuId}
-                    sectionId={section.id}
-                    businessId={businessId}
-                    itemId={item.id}
-                    initialValues={{
-                      name: item.name,
-                      description: item.description,
-                      image_url: item.image_url,
-                      price_cents: item.price_cents,
-                      currency: item.currency,
-                      is_available: item.is_available,
-                      tags: item.tags,
-                      calories_min: item.calories_min,
-                      calories_max: item.calories_max,
-                      portion_size: item.portion_size,
-                      portion_unit: item.portion_unit,
-                    }}
-                    initialAllergens={allergenMap[item.id] ?? []}
-                    initialIngredients={ingredientMap[item.id] ?? []}
-                    submitLabel="Kaydet"
-                    onSuccess={() => setEditingItemId(null)}
-                    onCancel={() => setEditingItemId(null)}
-                  />
-                ) : (
+                  <ItemFormModal title="Ürünü Düzenle" onClose={() => setEditingItemId(null)}>
+                    <ItemForm
+                      menuId={menuId}
+                      sectionId={section.id}
+                      businessId={businessId}
+                      itemId={item.id}
+                      initialValues={{
+                        name: item.name,
+                        description: item.description,
+                        image_url: item.image_url,
+                        price_cents: item.price_cents,
+                        currency: item.currency,
+                        is_available: item.is_available,
+                        tags: item.tags,
+                        calories_min: item.calories_min,
+                        calories_max: item.calories_max,
+                        portion_size: item.portion_size,
+                        portion_unit: item.portion_unit,
+                      }}
+                      initialAllergens={allergenMap[item.id] ?? []}
+                      initialIngredients={ingredientMap[item.id] ?? []}
+                      submitLabel="Kaydet"
+                      onSuccess={() => setEditingItemId(null)}
+                      onCancel={() => setEditingItemId(null)}
+                    />
+                  </ItemFormModal>
+                ) : null}
+                {(
                   <div className="flex items-center gap-4 px-5 py-3">
                     {item.image_url ? (
                       <Image
@@ -864,8 +938,8 @@ export function MenuEditorClient({
           </div>
 
           {/* Ürün ekle */}
-          {addItemSectionId === section.id ? (
-            <div className="border-t border-border">
+          {addItemSectionId === section.id && (
+            <ItemFormModal title="Yeni Ürün Ekle" onClose={() => setAddItemSectionId(null)}>
               <ItemForm
                 menuId={menuId}
                 sectionId={section.id}
@@ -876,17 +950,16 @@ export function MenuEditorClient({
                 onSuccess={() => setAddItemSectionId(null)}
                 onCancel={() => setAddItemSectionId(null)}
               />
-            </div>
-          ) : (
-            <div className="border-t border-border px-5 py-3">
-              <button
-                onClick={() => setAddItemSectionId(section.id)}
-                className="text-sm font-[700] text-primary hover:underline cursor-pointer"
-              >
-                + Ürün Ekle
-              </button>
-            </div>
+            </ItemFormModal>
           )}
+          <div className="border-t border-border px-5 py-3">
+            <button
+              onClick={() => setAddItemSectionId(section.id)}
+              className="text-sm font-[700] text-primary hover:underline cursor-pointer"
+            >
+              + Ürün Ekle
+            </button>
+          </div>
         </div>
       ))}
 
