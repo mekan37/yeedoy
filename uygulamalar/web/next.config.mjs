@@ -107,7 +107,7 @@ const nextConfig = {
       { source: '/owner/team', destination: '/sahip/ekip', permanent: true },
       { source: '/owner/trash', destination: '/sahip/cop-kutusu', permanent: true },
       { source: '/owner/price-suggestions', destination: '/sahip/fiyat-onerileri', permanent: true },
-      { source: '/owner/growth', destination: '/sahip/buyume', permanent: true },
+      { source: '/owner/growth', destination: '/sahip/analitik', permanent: true },
       { source: '/owner/audit', destination: '/sahip/denetim-kaydi', permanent: true },
       { source: '/owner/activity', destination: '/sahip/etkinlik', permanent: true },
       { source: '/owner/requests', destination: '/sahip/istekler', permanent: true },
