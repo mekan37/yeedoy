@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
@@ -20,6 +21,12 @@ export default async function OwnerQrPage() {
     user!.id,
     'id, name, slug',
   );
+
+  // Tek işletmesi olan sahipler için işletme seçim adımını atla — owner'da olduğu gibi
+  // doğrudan QR Studio'ya iniyor. Birden fazla işletmesi olanlar seçim listesini görür.
+  if (list.length === 1) {
+    redirect(`/sahip/karekod/${list[0].id}`);
+  }
 
   return (
     <div className="flex flex-col">
