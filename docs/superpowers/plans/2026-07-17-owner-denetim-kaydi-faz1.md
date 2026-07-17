@@ -296,93 +296,88 @@ select cron.schedule(
 );
 ```
 
-- [ ] **Step 2: Docker Desktop'ın çalıştığını doğrula, sonra yerel Supabase stack'i başlat**
+> **Ortam notu (kullanıcı onayıyla değiştirildi):** Bu makinede Docker
+> Desktop/yerel Supabase stack'i kullanılamadı; kullanıcı doğrudan bağlı
+> **uzak/gerçek** Supabase projesine (`mcp__supabase__*` araçları,
+> proje: `dktdnbeougrmhkzplbap`) migration uygulanmasını onayladı.
+> Branching (`mcp__supabase__create_branch`) bu projede çalışmadı
+> ("Project reference is missing" hatası) — bu yüzden izole bir dev
+> branch YOK, doğrudan ana projeye uygulanıyor. Bu nedenle: (a) migration
+> içeriği zaten Step 1'de dosyaya yazıldı ve sadece yeni nesneler
+> ekliyor (mevcut hiçbir tabloyu/fonksiyonu değiştirmiyor/silmiyor —
+> düşük riskli), (b) test verisi mutlaka Step son adımında temizlenmeli.
 
-Bu CLI sürümünde (`supabase --version` → 2.72.7) `supabase db execute` komutu
-YOK (mevcut alt komutlar: `diff, dump, lint, pull, push, reset, start`) —
-bu yüzden tüm ad-hoc SQL doğrulamaları doğrudan `psql` ile yapılacak
-(`C:\Program Files\PostgreSQL\18\bin\psql` bu makinede mevcut).
+- [ ] **Step 2: Migration'ı uzak projeye uygula**
 
-Run: `docker info` (Docker Desktop kapalıysa açık bir hata verir — açık
-değilse Docker Desktop'ı başlatıp birkaç saniye bekle, tekrar dene)
+`mcp__supabase__apply_migration` aracını çağır:
+- `name`: `business_audit_log`
+- `query`: Step 1'de yazılan migration dosyasının TAM içeriği
 
-Run: `supabase start`
-Expected: Tüm servisler (API, DB, Studio) ayağa kalkar; çıktıda `DB URL`
-(yerelde standart olarak `postgresql://postgres:postgres@127.0.0.1:54322/postgres`)
-görünür. Bu bağlantı dizesini sonraki adımlarda ve Task 4'te kullan.
+Expected: Araç başarıyla döner, hata yok.
 
-Eğer zaten çalışıyorsa (`supabase status` ile kontrol et), başlatma adımını
-atla.
+- [ ] **Step 3: RLS ve grants'i doğrula (`mcp__supabase__execute_sql`)**
 
-- [ ] **Step 3: Migration'ı uygula**
-
-Run: `supabase db reset`
-Expected: Tüm migration'lar (bu yeni dosya dahil) hatasız uygulanır. Çıktının
-sonunda `Finished supabase db reset` benzeri bir mesaj görünür, hata yok.
-
-- [ ] **Step 4: RLS ve grants'i doğrula (`psql` ile)**
-
-Aşağıdaki doğrulama sorgularını çalıştır (Step 2'de not edilen `DB URL` ile):
-
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -c "
-  SELECT table_name, privilege_type
-    FROM information_schema.role_table_grants
-   WHERE table_name = 'business_audit_log' AND grantee = 'authenticated';
-"
+```sql
+SELECT table_name, privilege_type
+  FROM information_schema.role_table_grants
+ WHERE table_name = 'business_audit_log' AND grantee = 'authenticated';
 ```
 
 Expected: Sadece `SELECT` satırı döner — `INSERT`/`UPDATE`/`DELETE` yok.
 
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -c "
-  SELECT proname FROM pg_proc
-   WHERE proname IN ('log_business_action_v1', 'get_business_audit_log_v1', 'purge_expired_business_audit_log');
-"
+```sql
+SELECT proname FROM pg_proc
+ WHERE proname IN ('log_business_action_v1', 'get_business_audit_log_v1', 'purge_expired_business_audit_log');
 ```
 
 Expected: Üç fonksiyonun üçü de listelenir.
 
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -c "SELECT jobname, schedule FROM cron.job WHERE jobname = 'business-audit-log-retention';"
+```sql
+SELECT jobname, schedule FROM cron.job WHERE jobname = 'business-audit-log-retention';
 ```
 
-Expected: Bir satır döner, `schedule` = `0 3 * * *`.
+Expected: Bir satır döner, `schedule` = `0 3 * * *`. (Eğer `pg_cron`
+uzantısı bu projede zaten etkin değilse ve `CREATE EXTENSION` izin
+hatası verirse — Supabase Dashboard'da Database → Extensions'tan
+`pg_cron`'un etkin olup olmadığını kontrol et; zaten etkinse migration
+`create extension if not exists` sayesinde sorunsuz geçer.)
+
+- [ ] **Step 4: `mcp__supabase__get_advisors` ile güvenlik taraması**
+
+`type: "security"` ile çağır. Yeni `business_audit_log` tablosu/RLS
+policy'siyle ilgili bir "Critical"/"High" bulgu OLMAMALI (RLS zaten
+etkin ve policy tanımlı). Varsa bulguyu oku, gerekiyorsa migration'ı
+düzelt ve Step 2'yi tekrarla.
 
 - [ ] **Step 5: Test verisi oluştur (owner + işletme + approved claim)**
 
-`DB_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres"` olarak
-kullan (Step 2'de `supabase status` çıktısından doğrula):
+`mcp__supabase__execute_sql` ile:
 
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -v ON_ERROR_STOP=1 <<'SQL'
+```sql
 INSERT INTO auth.users (id, email) VALUES
-  ('11111111-1111-1111-1111-111111111111', 'test-owner@example.com')
+  ('11111111-1111-1111-1111-111111111111', 'test-owner-denetim-kaydi@example.com')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO public.businesses (id, name, owner_id) VALUES
-  ('22222222-2222-2222-2222-222222222222', 'Test Kafe', '11111111-1111-1111-1111-111111111111')
+  ('22222222-2222-2222-2222-222222222222', 'Test Kafe (Denetim Kaydı)', '11111111-1111-1111-1111-111111111111')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO public.owner_claims (business_id, user_id, status) VALUES
   ('22222222-2222-2222-2222-222222222222', '11111111-1111-1111-1111-111111111111', 'approved')
 ON CONFLICT DO NOTHING;
-SQL
 ```
 
-Expected: Üç `INSERT` de hatasız çalışır (çıktı `INSERT 0 1` veya conflict
-nedeniyle sessizce atlanır).
+Expected: Üç `INSERT` de hatasız çalışır.
 
 - [ ] **Step 6: Yetkili owner olarak yazma+okuma RPC'lerini test et**
 
-`auth.uid()`, Supabase'in `request.jwt.claims` GUC'undan okunur — yerel
-testte bunu `set_config(..., true)` ile simüle edip aynı oturumda
-`SET ROLE authenticated` ile RLS'in `authenticated` rolüne göre
-değerlendirilmesini sağlıyoruz (tek bir `psql` oturumu/heredoc'u içinde,
-çünkü `is_local=true` transaction/oturum kapsamlıdır):
+`auth.uid()` normalde gerçek bir JWT oturumundan okunur; `execute_sql` bir
+service-role/postgres bağlantısı olduğundan `auth.uid()` NULL döner ve
+RPC `unauthorized` fırlatır. Bunu aynı SQL çağrısı içinde `set_config`
+ile simüle et (tek `execute_sql` çağrısında, tüm ifadeler aynı oturumda
+çalışır):
 
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -v ON_ERROR_STOP=1 <<'SQL'
+```sql
 SELECT set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', true);
 SET ROLE authenticated;
 
@@ -398,17 +393,17 @@ SELECT public.get_business_audit_log_v1(
 );
 
 RESET ROLE;
-SQL
 ```
 
 Expected:
-- `log_business_action_v1` hatasız döner (boş sonuç satırı, VOID).
+- `log_business_action_v1` hatasız döner.
 - `get_business_audit_log_v1` çağrısı `{"rows": [{...,"actor_role": "owner", "action": "menu_item_updated", ...}], "total": 1}` şeklinde tek bir JSONB değeri döner.
 
 - [ ] **Step 7: Yetkisiz kullanıcı reddi testi**
 
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" <<'SQL'
+Ayrı bir `execute_sql` çağrısı olarak (hata beklenir, bu normal):
+
+```sql
 SELECT set_config('request.jwt.claims', '{"sub":"33333333-3333-3333-3333-333333333333","role":"authenticated"}', true);
 SET ROLE authenticated;
 
@@ -416,40 +411,34 @@ SELECT public.log_business_action_v1(
   '22222222-2222-2222-2222-222222222222'::uuid,
   'menu_item_updated', 'Yetkisiz deneme'
 );
-
-RESET ROLE;
-SQL
 ```
 
-Expected: `ERROR:  unauthorized: Bu işletme için yetkiniz yok` (bu komut
-için `ON_ERROR_STOP` KULLANMA — hatanın kendisi beklenen sonuçtur).
+Expected: `unauthorized: Bu işletme için yetkiniz yok` hatası döner (bu
+hata bekleniyor — araç hata gösterirse bu adım BAŞARILI demektir).
 
 - [ ] **Step 8: Immutability testi (UPDATE reddi)**
 
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" <<'SQL'
+```sql
 SELECT set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', true);
 SET ROLE authenticated;
 
 UPDATE public.business_audit_log SET description = 'değiştirildi' WHERE business_id = '22222222-2222-2222-2222-222222222222';
-
-RESET ROLE;
-SQL
 ```
 
-Expected: `ERROR:  permission denied for table business_audit_log` (yine
-`ON_ERROR_STOP` kullanma — hata beklenen sonuçtur).
+Expected: `permission denied for table business_audit_log` hatası
+(bekleniyor — hata görülmesi bu adımın başarılı olduğu anlamına gelir).
 
-- [ ] **Step 9: Test verisini temizle**
+- [ ] **Step 9: Test verisini MUTLAKA temizle (gerçek/paylaşılan proje!)**
 
-```bash
-psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -v ON_ERROR_STOP=1 <<'SQL'
+```sql
 DELETE FROM public.business_audit_log WHERE business_id = '22222222-2222-2222-2222-222222222222';
 DELETE FROM public.owner_claims WHERE business_id = '22222222-2222-2222-2222-222222222222';
 DELETE FROM public.businesses WHERE id = '22222222-2222-2222-2222-222222222222';
 DELETE FROM auth.users WHERE id IN ('11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333');
-SQL
 ```
+
+Bu adım atlanamaz — gerçek projede test kaydı bırakılmamalı. `execute_sql`
+ile çalıştır ve dört `DELETE`'in de hatasız döndüğünü doğrula.
 
 - [ ] **Step 10: Commit**
 
@@ -990,23 +979,25 @@ boş/az veriyle çalışır — bu kasıtlı."
 
 **Files:** (yok — sadece çalıştırma)
 
-- [ ] **Step 1: Yerel Supabase durumunu al**
+- [ ] **Step 1: Uzak proje URL + publishable (anon) key'i al**
 
-Run: `supabase status`
-Çıktıdan `API URL`, `anon key`, `service_role key` değerlerini not al.
+`mcp__supabase__get_project_url` ve `mcp__supabase__get_publishable_keys`
+araçlarını çağır (bu Task 1'de kullandığımız aynı uzak proje).
 
 - [ ] **Step 2: `.env.local` oluştur (yoksa)**
 
 `uygulamalar/web/.env.local` dosyası yoksa oluştur:
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=<supabase status'tan API URL>
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<supabase status'tan anon key>
-SUPABASE_SERVICE_ROLE_KEY=<supabase status'tan service_role key>
+NEXT_PUBLIC_SUPABASE_URL=<Step 1'den API URL>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<Step 1'den publishable/anon key>
 ```
 
-Bu değerler yerel geliştirme sabitleridir (secret değil — Supabase CLI'nin
-her yerel kurulumda ürettiği well-known demo anahtarlarıdır).
+**Service role key'i BURAYA yazma** — bu gerçek bir projenin gizli
+anahtarı, sadece public/anon key ile sınırlı kal (sayfa zaten normal
+kullanıcı oturumu simülasyonuyla çalışacak, service role gerekmiyor).
+`.env.local` zaten `.gitignore` içinde olmalı — commit etmeden önce
+`git status` ile bu dosyanın izlenmediğini doğrula.
 
 - [ ] **Step 3: Dev server'ı başlat**
 
@@ -1014,23 +1005,30 @@ Run: `cd uygulamalar/web && npm run dev`
 Expected: Sunucu ayağa kalkar, port'u not al (3000 doluysa otomatik başka
 porta geçer).
 
-- [ ] **Step 4: Test owner kullanıcısıyla giriş yapıp `/owner/audit` sayfasını aç**
+> **Ortam notu:** Bu proje uzak/gerçek bir Supabase projesine bağlı (yerel
+> Docker stack yok — bkz. Task 1 notu). Bu yüzden Task 4'te YENİ bir
+> gerçek test kullanıcısı/oturumu oluşturmuyoruz (paylaşılan projede auth
+> kullanıcısı yaratmak/login akışını tetiklemek gereksiz risk). Bunun
+> yerine sayfanın hatasız derlendiğini ve kimliksiz istekte beklenen
+> davranışı (login'e yönlendirme, 500 hatası DEĞİL) gösterdiğini
+> doğruluyoruz — bu, Task 1'in SQL-seviyesi doğrulamalarını (gerçek RPC
+> çağrıları, RLS, immutability) tamamlayan hafif bir derleme/render
+> kontrolüdür.
 
-Yerel Supabase Studio'dan (`supabase status` çıktısındaki Studio URL) bir
-test kullanıcısı + işletme + `owner_claims` (approved) kaydı oluştur
-(veya mevcut seed verisini kullan), owner login sayfasından giriş yap.
+- [ ] **Step 4: `/owner/audit` route'unun derlendiğini ve hata vermediğini doğrula**
 
-Kontrol et:
-- Sayfa hatasız açılıyor, "İşletme bulunamadı" veya "Denetim kaydı yok"
-  boş durumu (henüz log yoksa) doğru görünüyor
-- Filtre satırı (tarih x2, Üye, İşlem türü, Filtrele) render oluyor
-- Studio SQL editöründen manuel `SELECT public.log_business_action_v1(...)`
-  çağrısı yapıp sayfayı yenileyince yeni satırın tabloda göründüğünü
-  doğrula — kullanıcı adı/rol rozeti/işlem ikonu/açıklama doğru render
-  oluyor
-- Sayfalama: 15+ test satırı ekleyip sayfa 2'ye geçişi ve "Toplam N işlem"
-  metnini doğrula
-- Alt not ("12 ay boyunca saklanır...") görünüyor
+```bash
+curl -s -D - -o /dev/null --max-time 8 http://localhost:<port>/owner/audit
+```
+
+Expected: `307`/`308` (login'e yönlendirme) veya `200` — **500 DEĞİL**. Dev
+server log çıktısında bu route için bir derleme hatası (`Error:` satırı)
+olmamalı. 500 alınırsa dev server log'undaki stack trace'i oku — eğer
+hata `analytics` görevinde olduğu gibi sadece eksik env değişkeni
+(`NEXT_PUBLIC_SUPABASE_URL` vb.) kaynaklıysa bu ortam kısıtıdır, kod
+hatası değildir; farklı bir hata (ör. `page.tsx`/`audit-client.tsx`
+içinde bir runtime hatası, prop tipi uyuşmazlığı) ise gerçek bir bug'dır
+ve düzeltilmelidir.
 
 - [ ] **Step 5: Dev server'ı durdur**
 
