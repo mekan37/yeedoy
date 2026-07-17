@@ -93,9 +93,10 @@ export default async function OwnerDashboardPage() {
     statsRes,
   ] = await Promise.all([
     // Analytics daily breakdown
-    (supabase as any)
-      .rpc('list_owner_analytics_v1', { p_business_id: businessId, p_days: DAYS })
-      .catch(() => ({ data: null })),
+    Promise.resolve(
+      (supabase as any)
+        .rpc('list_owner_analytics_v1', { p_business_id: businessId, p_days: DAYS }),
+    ).catch(() => ({ data: null })),
     // Recent reviews (last 5)
     (supabase as any)
       .from('business_reviews')

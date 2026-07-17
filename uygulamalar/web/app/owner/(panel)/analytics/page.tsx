@@ -1,144 +1,224 @@
 import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
-import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { MetricCard } from '@/src/ui/components/metric-card';
+import {
+  buildHourBucketHeatmap,
+  findBestDay,
+  findBestHourRange,
+  reservationStatusBreakdown,
+} from '@/src/lib/veri/owner/analitik-yardimcilari';
+import { AnalyticsClient } from './analytics-client';
+import type { DailyPoint, TrafficSource, ActionMetric } from './analytics-client';
 
 export const metadata: Metadata = {
-  title: 'Analitik | Owner Panel',
+  title: 'İstatistikler | Owner Panel',
   robots: { index: false, follow: false },
 };
 
-export default async function OwnerAnalyticsPage() {
+type Props = { searchParams: Promise<{ period?: string }> };
+
+// Real source values → display labels
+const SOURCE_LABELS: Record<string, string> = {
+  web_next_public: 'Doğrudan',
+  menu_page:       'Menü',
+  discover:        'Keşfet',
+  discover_search: 'Keşfet',
+  discover_list:   'Keşfet',
+};
+const SRC_COLORS = ['#7f1d1d', '#dc2626', '#ef4444', '#fca5a5', '#fde8e8'];
+
+export default async function OwnerAnalyticsPage({ searchParams }: Props) {
+  const { period: periodParam } = await searchParams;
+  const period = ['7d', '30d', '90d'].includes(periodParam ?? '') ? (periodParam as string) : '30d';
+  const days = period === '7d' ? 7 : period === '90d' ? 90 : 30;
+
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
 
-  // Fetch owner's business IDs
-  const { data: businesses } = await (supabase as any)
-    .from('businesses')
-    .select('id, name')
-    .eq('owner_id', user!.id) as { data: Array<{ id: string; name: string }> | null };
+  const { data: claims } = await (supabase as any)
+    .from('owner_claims')
+    .select('business_id')
+    .eq('user_id', user.id)
+    .eq('status', 'approved') as { data: { business_id: string }[] | null };
 
-  const businessIds = (businesses ?? []).map((b) => b.id);
+  const businessIds = (claims ?? []).map((c) => c.business_id);
 
-  // Parallel event queries (last 30 days)
-  const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  if (businessIds.length === 0) {
+    return (
+      <div className="flex flex-col">
+        <PanelPageHeader eyebrow="Owner" title="İstatistikler" description="İşletme performans analitiği" />
+        <div className="px-6 pt-6">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[#e5e7eb] bg-[#fafafa] py-20 text-center">
+            <p className="text-base font-[800] text-[#1a1a2e]">İşletme bulunamadı</p>
+            <p className="mt-1 text-sm text-[#94a3b8]">İstatistikleri görmek için önce bir işletme ekleyin.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  const [menuViewsRes, qrScansRes, whatsappRes] = await Promise.all([
-    businessIds.length > 0
-      ? supabase
-          .from('analytics_events')
-          .select('id', { count: 'exact', head: true })
-          .in('business_id', businessIds)
-          .eq('event_name', 'menu_view')
-          .gte('created_at', since)
-      : Promise.resolve({ count: 0 }),
-    businessIds.length > 0
-      ? supabase
-          .from('analytics_events')
-          .select('id', { count: 'exact', head: true })
-          .in('business_id', businessIds)
-          .eq('event_name', 'qr_scan')
-          .gte('created_at', since)
-      : Promise.resolve({ count: 0 }),
-    businessIds.length > 0
-      ? supabase
-          .from('analytics_events')
-          .select('id', { count: 'exact', head: true })
-          .in('business_id', businessIds)
-          .eq('event_name', 'whatsapp_click')
-          .gte('created_at', since)
-      : Promise.resolve({ count: 0 }),
+  const now = Date.now();
+  const since     = new Date(now - days * 86400000).toISOString();
+  const sincePrev = new Date(now - 2 * days * 86400000).toISOString();
+
+  const VIEW_EVENTS = ['menu_view', 'business_impression', 'menu_link_opened', 'business_page_view'];
+
+  // ── Parallel queries ──────────────────────────────────────────────────────
+  const [
+    viewsCurr,   viewsPrev_,
+    favCurr,     favPrev_,
+    resPrev_,
+    resStatusRows,
+    // Full event rows for aggregation (line chart + traffic sources + hour heatmap)
+    rawEvents,
+  ] = await Promise.all([
+    // KPI counts
+    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).in('event_name', VIEW_EVENTS).gte('created_at', since),
+    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).in('event_name', VIEW_EVENTS)
+      .gte('created_at', sincePrev).lt('created_at', since),
+
+    (supabase as any).from('favorites').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).gte('created_at', since),
+    (supabase as any).from('favorites').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).gte('created_at', sincePrev).lt('created_at', since),
+
+    (supabase as any).from('reservations').select('id', { count: 'exact', head: true })
+      .in('business_id', businessIds).gte('created_at', sincePrev).lt('created_at', since),
+
+    (supabase as any).from('reservations').select('status')
+      .in('business_id', businessIds).gte('created_at', since).limit(10000),
+
+    (supabase as any).from('analytics_events')
+      .select('created_at, event_name, source')
+      .in('business_id', businessIds)
+      .gte('created_at', sincePrev)
+      .limit(100000),
   ]);
 
-  const metrics = [
-    {
-      title: 'Menü Görüntüleme',
-      value: menuViewsRes.count ?? 0,
-      subtitle: 'Son 30 gün',
-      icon: <EyeIcon />,
-    },
-    {
-      title: 'QR Tarama',
-      value: qrScansRes.count ?? 0,
-      subtitle: 'Son 30 gün',
-      icon: <QrIcon />,
-    },
-    {
-      title: 'WhatsApp Tıklama',
-      value: whatsappRes.count ?? 0,
-      subtitle: 'Son 30 gün',
-      icon: <PhoneIcon />,
-    },
-    {
-      title: 'İşletme Sayısı',
-      value: businesses?.length ?? 0,
-      subtitle: 'Toplam',
-      icon: <BuildingIcon />,
-    },
+  type RawEvent = { created_at: string; event_name: string; source: string | null };
+
+  const allRaw: RawEvent[] = rawEvents.data ?? [];
+
+  // Split into current and previous period
+  const sinceMs = now - days * 86400000;
+  const currRaw = allRaw.filter(e => new Date(e.created_at).getTime() >= sinceMs);
+  const prevRaw = allRaw.filter(e => new Date(e.created_at).getTime() <  sinceMs);
+
+  // ── Tekil olay adı sayımları (rawEvents'ten türetilir, ayrı sorgu yok) ────
+  const countEvent = (rows: RawEvent[], eventName: string) =>
+    rows.filter((e) => e.event_name === eventName).length;
+
+  const profileCurrCount  = countEvent(currRaw, 'business_page_view');
+  const profilePrevCount  = countEvent(prevRaw, 'business_page_view');
+  const phoneCurrCount    = countEvent(currRaw, 'business_phone_click');
+  const phonePrevCount    = countEvent(prevRaw, 'business_phone_click');
+  const dirCurrCount      = countEvent(currRaw, 'business_directions_click');
+  const dirPrevCount      = countEvent(prevRaw, 'business_directions_click');
+  const menuViewCurrCount = countEvent(currRaw, 'menu_view');
+  const menuViewPrevCount = countEvent(prevRaw, 'menu_view');
+  const qrCurrCount       = countEvent(currRaw, 'qr_scanned');
+  const qrPrevCount       = countEvent(prevRaw, 'qr_scanned');
+  const shareCurrCount    = countEvent(currRaw, 'menu_shared');
+  const sharePrevCount    = countEvent(prevRaw, 'menu_shared');
+
+  // ── Daily line chart data ─────────────────────────────────────────────────
+  const VIEW_SET = new Set(VIEW_EVENTS);
+  const currDayMap: Record<string, number> = {};
+  const prevDayMap: Record<string, number> = {};
+
+  for (const e of currRaw) {
+    if (VIEW_SET.has(e.event_name)) {
+      const k = e.created_at.split('T')[0];
+      currDayMap[k] = (currDayMap[k] ?? 0) + 1;
+    }
+  }
+  for (const e of prevRaw) {
+    if (VIEW_SET.has(e.event_name)) {
+      const k = e.created_at.split('T')[0];
+      prevDayMap[k] = (prevDayMap[k] ?? 0) + 1;
+    }
+  }
+
+  const dailyData: DailyPoint[] = Array.from({ length: days }, (_, i) => {
+    const d    = new Date(now - (days - 1 - i) * 86400000);
+    const curr = d.toISOString().split('T')[0];
+    const prev = new Date(d.getTime() - days * 86400000).toISOString().split('T')[0];
+    return {
+      label:    d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' }),
+      current:  currDayMap[curr] ?? 0,
+      previous: prevDayMap[prev] ?? 0,
+    };
+  });
+
+  // ── Traffic sources (current period) ─────────────────────────────────────
+  const labelMap: Record<string, number> = {};
+  for (const e of currRaw) {
+    const label = SOURCE_LABELS[e.source ?? ''] ?? 'Diğer';
+    labelMap[label] = (labelMap[label] ?? 0) + 1;
+  }
+  const srcTotal = Object.values(labelMap).reduce((a, b) => a + b, 0);
+  const trafficSources: TrafficSource[] = Object.entries(labelMap)
+    .sort((a, b) => b[1] - a[1])
+    .map(([name, count], i) => ({
+      name,
+      count,
+      value: srcTotal > 0 ? Math.round((count / srcTotal) * 1000) / 10 : 0,
+      color: SRC_COLORS[Math.min(i, SRC_COLORS.length - 1)],
+    }));
+
+  // ── Popüler saatler: gün × 4 saatlik blok ısı haritası ────────────────────
+  const hourBuckets = buildHourBucketHeatmap(
+    currRaw.filter((e) => VIEW_SET.has(e.event_name)),
+  );
+
+  // ── Eylemler listesi ───────────────────────────────────────────────────────
+  const actions: ActionMetric[] = [
+    { key: 'menuViews',    value: menuViewCurrCount, prev: menuViewPrevCount },
+    { key: 'qrScans',      value: qrCurrCount,       prev: qrPrevCount },
+    { key: 'menuShares',   value: shareCurrCount,    prev: sharePrevCount },
+    { key: 'reservations', value: (resStatusRows.data ?? []).length, prev: resPrev_.count ?? 0 },
   ];
+
+  const reservationStatus = reservationStatusBreakdown(
+    (resStatusRows.data ?? []) as { status: string }[],
+  );
+
+  const bestDay = findBestDay(dailyData);
+  const bestHourRange = findBestHourRange(hourBuckets);
+  const totalInteractions =
+    (viewsCurr.count ?? 0) + (favCurr.count ?? 0) + phoneCurrCount + dirCurrCount;
 
   return (
     <div className="flex flex-col">
       <PanelPageHeader
         eyebrow="Owner"
-        title="Analitik"
-        description="Son 30 gün performans özeti"
+        title="İstatistikler"
+        description="İşletme performans analitiği — gerçek veriler"
       />
-      <PanelContentSurface className="pt-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {metrics.map((m) => (
-            <MetricCard
-              key={m.title}
-              title={m.title}
-              value={m.value.toLocaleString('tr-TR')}
-              subtitle={m.subtitle}
-              icon={m.icon}
-            />
-          ))}
-        </div>
-
-        {businesses && businesses.length > 0 && (
-          <PanelSectionCard title="İşletmeler" className="mt-6">
-            <p className="text-sm text-muted">
-              Detaylı grafik görünümü yakında eklenecek.
-            </p>
-          </PanelSectionCard>
-        )}
-      </PanelContentSurface>
+      <AnalyticsClient
+        period={period}
+        views={viewsCurr.count ?? 0}
+        viewsPrev={viewsPrev_.count ?? 0}
+        profileVisits={profileCurrCount}
+        profileVisitsPrev={profilePrevCount}
+        phoneCalls={phoneCurrCount}
+        phoneCallsPrev={phonePrevCount}
+        directions={dirCurrCount}
+        directionsPrev={dirPrevCount}
+        favorites={favCurr.count ?? 0}
+        favoritesPrev={favPrev_.count ?? 0}
+        dailyData={dailyData}
+        trafficSources={trafficSources}
+        reservationStatus={reservationStatus}
+        hourBuckets={hourBuckets}
+        bestDay={bestDay}
+        bestHourRange={bestHourRange}
+        actions={actions}
+        totalInteractions={totalInteractions}
+      />
     </div>
-  );
-}
-
-function EyeIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function QrIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12.7a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.98-.98a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  );
-}
-
-function BuildingIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><path d="M9 22V12h6v10" />
-    </svg>
   );
 }

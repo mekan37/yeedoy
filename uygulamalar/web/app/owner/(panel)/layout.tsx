@@ -50,14 +50,19 @@ export default async function OwnerLayout({ children }: { children: ReactNode })
         slug: (biz.slug ?? null) as string | null,
       };
 
-      // Unread (unanswered) reviews count
-      const { count } = await (supabase as any)
-        .from('business_reviews')
-        .select('id', { count: 'exact', head: true })
-        .eq('business_id', biz.id)
-        .eq('status', 'approved')
-        .is('owner_reply', null);
-      reviewBadgeCount = count ?? 0;
+      // Yanıtsız yorum sayısı: onaylı yorumlar - cevap verilmişler
+      const [totalRes, repliedRes] = await Promise.all([
+        (supabase as any)
+          .from('reviews')
+          .select('id', { count: 'exact', head: true })
+          .eq('business_id', biz.id)
+          .eq('status', 'approved'),
+        (supabase as any)
+          .from('review_replies')
+          .select('id', { count: 'exact', head: true })
+          .eq('business_id', biz.id),
+      ]);
+      reviewBadgeCount = Math.max(0, (totalRes.count ?? 0) - (repliedRes.count ?? 0));
     }
 
     const profile = profileRes.data;

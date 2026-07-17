@@ -9,6 +9,7 @@ import { fetchBusinessBadges } from '@/src/lib/businessBadges';
 import { BusinessBadges } from '@/src/ui/BusinessBadges';
 import { getMyCheckInToday } from '@/src/lib/veri/check-in-okuma';
 import { CheckInButton } from '@/src/ui/acik/check-in-button';
+import { BusinessPageTracker, TrackedLink } from '@/src/ui/acik/business-page-tracker';
 
 export const revalidate = 120;
 
@@ -22,6 +23,9 @@ type Business = {
   whatsapp_number: string | null; instagram_handle: string | null;
   facebook_page: string | null; lat: number | null; lng: number | null;
   is_verified: boolean; is_active: boolean;
+  order_yemeksepeti_url: string | null;
+  order_trendyolgo_url: string | null;
+  order_getir_url: string | null;
 };
 
 type WeeklyHourRow = {
@@ -76,12 +80,14 @@ export default async function BusinessPage({ params }: Props) {
 
   const { data: biz } = await (supabase as any)
     .from('businesses')
-    .select('id, name, slug, description, logo_url, cover_url, category, city, district, address, phone, website, whatsapp_number, instagram_handle, facebook_page, lat, lng, is_verified, is_active')
+    .select('id, name, slug, description, logo_url, cover_url, category, city, district, address, phone, website, whatsapp_number, instagram_handle, facebook_page, lat, lng, is_verified, is_active, order_yemeksepeti_url, order_trendyolgo_url, order_getir_url')
     .eq('slug', slug).single() as { data: Business | null };
 
   if (!biz || !biz.is_active) notFound();
 
-  const [menusRes, reviewsRes, statsRes, hoursRes, photosRes, badges, checkedInToday] = await Promise.all([
+  type MealCardRow = { key: string; name: string; asset_name: string };
+
+  const [menusRes, reviewsRes, statsRes, hoursRes, photosRes, badges, checkedInToday, mealCardsRes] = await Promise.all([
     (supabase as any).from('menus').select('id, title, slug, status').eq('business_id', biz.id).eq('status', 'published').order('created_at', { ascending: true }).limit(10) as Promise<{ data: MenuRow[] | null }>,
     (supabase as any).from('business_reviews').select('id, rating, body, content, created_at, verified_visit, user_profiles!user_id(display_name)').eq('business_id', biz.id).eq('is_visible', true).order('created_at', { ascending: false }).limit(5) as Promise<{ data: Review[] | null }>,
     (supabase as any).from('business_reviews').select('rating', { count: 'exact' }).eq('business_id', biz.id).eq('is_visible', true) as Promise<{ data: { rating: number }[] | null; count: number | null }>,
@@ -89,6 +95,7 @@ export default async function BusinessPage({ params }: Props) {
     (supabase as any).from('menu_item_photos').select('url, url_thumb').eq('business_id', biz.id).eq('status', 'approved').eq('is_hidden', false).order('up_votes', { ascending: false }).limit(9) as Promise<{ data: Array<{ url: string; url_thumb: string | null }> | null }>,
     fetchBusinessBadges(biz.id),
     getMyCheckInToday(biz.id),
+    (supabase as any).rpc('get_business_meal_card_providers_v1', { p_business_id: biz.id }) as Promise<{ data: MealCardRow[] | null }>,
   ]);
 
   const menus = menusRes.data ?? [];
@@ -109,12 +116,14 @@ export default async function BusinessPage({ params }: Props) {
   const closeAt = todayRow && !todayRow.is_closed ? todayRow.close_time.slice(0, 5) : null;
 
   const photos = photosRes.data ?? [];
+  const mealCards = mealCardsRes.data ?? [];
 
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const hasContact = biz.phone || biz.whatsapp_number || biz.website || biz.instagram_handle || biz.address || (biz.lat && biz.lng);
 
   return (
     <main className="min-h-screen bg-bg">
+      <BusinessPageTracker businessId={biz.id} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Restaurant', name: biz.name,
         ...(biz.description ? { description: biz.description } : {}),
@@ -345,37 +354,41 @@ export default async function BusinessPage({ params }: Props) {
                 <ul className="space-y-2.5">
                   {biz.phone && (
                     <li>
-                      <a href={`tel:${biz.phone}`} className="flex items-center gap-2.5 text-sm text-textStrong hover:text-primary transition-colors">
+                      <TrackedLink eventName="phone_click" businessId={biz.id} source="business_page"
+                        href={`tel:${biz.phone}`} className="flex items-center gap-2.5 text-sm text-textStrong hover:text-primary transition-colors">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted"><PhoneIcon /></span>
                         {biz.phone}
-                      </a>
+                      </TrackedLink>
                     </li>
                   )}
                   {(biz.whatsapp_number ?? biz.phone) && (
                     <li>
-                      <a href={`https://wa.me/${(biz.whatsapp_number ?? biz.phone)?.replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer"
+                      <TrackedLink eventName="whatsapp_click" businessId={biz.id} source="business_page"
+                        href={`https://wa.me/${(biz.whatsapp_number ?? biz.phone)?.replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-2.5 text-sm text-textStrong hover:text-green-600 transition-colors">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted"><WhatsappIcon /></span>
                         WhatsApp
-                      </a>
+                      </TrackedLink>
                     </li>
                   )}
                   {biz.lat && biz.lng && (
                     <li>
-                      <a href={`https://maps.google.com/?q=${biz.lat},${biz.lng}`} target="_blank" rel="noopener noreferrer"
+                      <TrackedLink eventName="directions_click" businessId={biz.id} source="business_page"
+                        href={`https://maps.google.com/?q=${biz.lat},${biz.lng}`} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-2.5 text-sm text-textStrong hover:text-primary transition-colors">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted"><MapIcon /></span>
                         {biz.address ?? 'Haritada göster'}
-                      </a>
+                      </TrackedLink>
                     </li>
                   )}
                   {!biz.lat && biz.address && (
                     <li>
-                      <a href={`https://maps.google.com/?q=${encodeURIComponent(biz.address + ' ' + (biz.city ?? ''))}`} target="_blank" rel="noopener noreferrer"
+                      <TrackedLink eventName="directions_click" businessId={biz.id} source="business_page"
+                        href={`https://maps.google.com/?q=${encodeURIComponent(biz.address + ' ' + (biz.city ?? ''))}`} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-2.5 text-sm text-textStrong hover:text-primary transition-colors">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted"><MapIcon /></span>
                         {biz.address}
-                      </a>
+                      </TrackedLink>
                     </li>
                   )}
                   {biz.instagram_handle && (
@@ -397,6 +410,65 @@ export default async function BusinessPage({ params }: Props) {
                     </li>
                   )}
                 </ul>
+              </div>
+            )}
+
+            {/* Online sipariş */}
+            {(biz.order_yemeksepeti_url || biz.order_trendyolgo_url || biz.order_getir_url) && (
+              <div className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-[900] text-textStrong">
+                  <DeliveryIcon /> Online Sipariş
+                </h3>
+                <div className="flex flex-col gap-2">
+                  {biz.order_yemeksepeti_url && (
+                    <a href={biz.order_yemeksepeti_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 rounded-xl border border-border bg-bg px-3 py-2 transition hover:border-[#f01454]/40 hover:bg-[#fff0f5]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/delivery/yemeksepeti.png" alt="Yemeksepeti" className="h-5 w-auto max-w-[100px] object-contain" />
+                      <span className="ml-auto text-xs text-muted">Sipariş ver →</span>
+                    </a>
+                  )}
+                  {biz.order_trendyolgo_url && (
+                    <a href={biz.order_trendyolgo_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 rounded-xl border border-border bg-bg px-3 py-2 transition hover:border-orange-300 hover:bg-orange-50">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/delivery/trendyolgo.png" alt="Trendyol Go" className="h-7 w-auto max-w-[110px] object-contain" />
+                      <span className="ml-auto text-xs text-muted">Sipariş ver →</span>
+                    </a>
+                  )}
+                  {biz.order_getir_url && (
+                    <a href={biz.order_getir_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-3 rounded-xl border border-border bg-bg px-3 py-2 transition hover:border-purple-300 hover:bg-purple-50">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/delivery/getiryemek.png" alt="Getir Yemek" className="h-7 w-auto max-w-[110px] object-contain" />
+                      <span className="ml-auto text-xs text-muted">Sipariş ver →</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Meal cards */}
+            {mealCards.length > 0 && (
+              <div className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-[900] text-textStrong">
+                  <CreditCardIcon /> Geçerli Yemek Kartları
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {mealCards.map((card) => (
+                    <div key={card.key} className="flex items-center gap-1.5 rounded-lg border border-border bg-bg px-2.5 py-1.5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/meal-cards/meal_card_${card.key}.png`}
+                        alt={card.name}
+                        width={44}
+                        height={16}
+                        className="h-4 w-auto max-w-[44px] object-contain"
+                      />
+                      <span className="text-xs font-[700] text-textStrong">{card.name}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -450,4 +522,10 @@ function GlobeIcon() {
 }
 function QrIcon() {
   return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01"/></svg>;
+}
+function CreditCardIcon() {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>;
+}
+function DeliveryIcon() {
+  return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="12" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg>;
 }

@@ -36,7 +36,7 @@ export async function saveHours(businessId: string, fd: FormData): Promise<void>
     p_hours: hours,
   });
 
-  if (error) throw new Error(error.message ?? 'Saatler kaydedilemedi');
+  if (error) throw new Error('Çalışma saatleri kaydedilemedi. Lütfen tekrar deneyin.');
 
   revalidatePath('/owner/settings/hours');
 }

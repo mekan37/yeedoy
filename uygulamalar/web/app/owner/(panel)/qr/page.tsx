@@ -1,90 +1,69 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
-import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { redirect } from 'next/navigation';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelPageHeader } from '@/src/ui/layout/panel-page-header';
-import { PanelContentSurface, PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { PanelEmptyState } from '@/src/ui/components/panel-empty-state';
+import { PanelContentSurface } from '@/src/ui/layout/panel-section-card';
+import { QrPageClient, type QrCode, type QrStats } from './qr-client';
 
 export const metadata: Metadata = {
-  title: 'QR Design Kit | Owner Panel',
+  title: 'QR Menü & QR Kod | Owner Panel',
   robots: { index: false, follow: false },
 };
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ?? 'http://localhost:3000';
+
 export default async function OwnerQrPage() {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  const list = await getOwnerBusinesses<{ id: string; name: string; slug: string | null }>(
-    supabase as any,
-    user!.id,
-    'id, name, slug',
-  );
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/login');
+
+  const { data: claim } = await (supabase as any)
+    .from('owner_claims')
+    .select('business_id')
+    .eq('user_id', user.id)
+    .eq('status', 'approved')
+    .limit(1)
+    .maybeSingle() as { data: { business_id: string } | null };
+
+  if (!claim) redirect('/owner/dashboard');
+
+  const businessId = claim.business_id;
+
+  const { data: biz } = await (supabase as any)
+    .from('businesses')
+    .select('slug')
+    .eq('id', businessId)
+    .maybeSingle() as { data: { slug: string | null } | null };
+
+  const { data: result } = await (supabase as any).rpc('owner_list_qr_codes_v1', {
+    p_business_id: businessId,
+  }) as { data: { codes: QrCode[]; stats: QrStats } | null };
+
+  const codes: QrCode[] = result?.codes ?? [];
+  const stats: QrStats = result?.stats ?? {
+    total_codes: 0,
+    active_codes: 0,
+    total_scans: 0,
+    unique_visitors: 0,
+  };
 
   return (
     <div className="flex flex-col">
       <PanelPageHeader
         eyebrow="Owner"
-        title="QR Design Kit"
-        description="Generate, download and place QR codes for your businesses"
+        title="QR Menü & QR Kod"
+        description="Dijital menünüzü yönetin ve QR kodlarınızı oluşturup indirin."
       />
-      <PanelContentSurface className="pt-6">
-        {list.length === 0 ? (
-          <PanelEmptyState
-            icon={<QrIcon />}
-            title="No businesses found"
-            description="Add a business first to generate QR codes."
-          />
-        ) : (
-          <PanelSectionCard
-            title="Your businesses"
-            description="Select a business to open its QR Studio — generate PNG/SVG, copy links and customise branding"
-          >
-            <ul className="divide-y divide-border -mx-5 -mb-5">
-              {list.map((b) => (
-                <li key={b.id} className="flex items-center justify-between gap-4 px-5 py-4">
-                  <div>
-                    <p className="text-sm font-[800] text-textStrong">{b.name}</p>
-                    {b.slug && (
-                      <p className="text-xs text-muted">yeedoy.com/m/{b.slug}</p>
-                    )}
-                  </div>
-                  <Link
-                    href={`/karekod/${b.id}`}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-[800] text-white transition-opacity hover:opacity-90"
-                  >
-                    <QrIcon />
-                    QR Studio
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </PanelSectionCard>
-        )}
+      <PanelContentSurface className="pt-4">
+        <QrPageClient
+          businessId={businessId}
+          businessSlug={biz?.slug ?? null}
+          siteUrl={SITE_URL}
+          initialCodes={codes}
+          stats={stats}
+        />
       </PanelContentSurface>
     </div>
-  );
-}
-
-function QrIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="3" y="3" width="7" height="7" />
-      <rect x="14" y="3" width="7" height="7" />
-      <rect x="3" y="14" width="7" height="7" />
-      <path d="M14 14h.01M14 17h.01M17 14h.01M17 17h.01M20 14h.01M20 17h.01M20 20h.01" />
-    </svg>
   );
 }
