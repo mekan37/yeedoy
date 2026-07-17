@@ -31,8 +31,8 @@ Gerçek, üretimde çalışan event/tablo kaynakları:
 | Telefon Aramaları | `analytics_events.event_name = business_phone_click` |
 | Yol Tarifi İstekleri | `analytics_events.event_name = business_directions_click` (şu an `page.tsx`'te `directions={0}` hardcoded — bug, gerçek sorguyla değişecek) |
 | Favorilere Ekleme | `favorites` tablosu (mevcut) |
-| Yorum | `business_reviews` (status=approved) — KPI satırından kalkıyor ama ısı haritası satırında kalıyor |
-| Arama Görünümü | `discovery_impression`, `business_impression` — KPI satırından kalkıyor ama ısı haritası satırında kalıyor |
+| Yorum | `business_reviews` (status=approved) — KPI satırından ve ısı haritasından tamamen kalkıyor (Yorumlar sayfasında zaten görünür) |
+| Arama Görünümü | `discovery_impression`, `business_impression` — KPI satırından ve ısı haritasından tamamen kalkıyor, bu sayfada kapsam dışı |
 | QR Kod Tarama | `analytics_events.event_name = qr_scanned` |
 | Menü Paylaşımı | `analytics_events.event_name = menu_shared` |
 | Rezervasyon | `reservations` tablosu (`20260711000001_reservations.sql`, status kolonu: pending/confirmed/cancelled/completed vb.) |
@@ -54,9 +54,13 @@ Görüntülenme (mavi ikon/bg) · Profil Ziyaretleri (mor) · Telefon Aramaları
   `bg-[#fef2f2] text-[#dc2626]`), her kart kendi rengini geçer.
 - Üst/alt yüzde değişim rozeti (yeşil ↑ / kırmızı ↓) davranışı aynen kalır.
 - `AnalyticsClientProps`'tan `reviews`/`reviewsPrev`/`searches`/`searchesPrev`
-  KPI satırından kalkar (prop olarak kalabilir, sadece heatmap için kullanılır)
-  ve yerine `profileVisits`/`profileVisitsPrev`, `phoneCalls`/`phoneCallsPrev`
-  eklenir. `directions`/`directionsPrev` artık gerçek sorgudan gelir.
+  KPI satırından tamamen kalkar. Bölüm 5'te açıklandığı gibi eski
+  "Günlere Göre Performans" (metrik×gün) tablosu da tamamen kaldırıldığı
+  için bu iki metrik artık hiçbir grafikte gösterilmez — Yorum sayısı zaten
+  Yorumlar sayfasında görünür durumda, Arama/keşif metriği bu sayfada
+  kapsam dışına çıkar. Yerine `profileVisits`/`profileVisitsPrev`,
+  `phoneCalls`/`phoneCallsPrev` eklenir. `directions`/`directionsPrev`
+  artık gerçek sorgudan gelir.
 
 ### 2. Görüntülenme Grafiği (line chart)
 
