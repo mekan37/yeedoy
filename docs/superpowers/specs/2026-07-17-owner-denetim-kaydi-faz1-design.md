@@ -72,6 +72,7 @@ Bu proje **çok büyük** olduğu için iki faza bölündü:
 | `target_label` | text | İlgili Kayıt kolonunda gösterilecek kısa etiket (ör. `Menü Öğesi #M-1024`) — yazma anında çağıran taraf oluşturur |
 | `ip_address` | text | `request_ip_v1()` |
 | `user_agent` | text | `request_header_v1('user-agent')` |
+| `meta` | jsonb NOT NULL default `'{}'::jsonb` | `admin_audit_log` emsaliyle tutarlı serbest-form ek veri; RPC 1'in `p_meta` parametresi buraya yazılır |
 | `created_at` | timestamptz NOT NULL default now() | |
 
 İndeksler: `(business_id, created_at desc)`, `(business_id, actor_id, created_at desc)`,
@@ -115,30 +116,40 @@ log_business_action_v1(
 
 ### RPC 2 — Okuma: `get_business_audit_log_v1`
 
+**Düzeltme (plan aşamasında bulundu):** `team/page.tsx` ve `activity/page.tsx`
+zaten owner'ın **tüm işletmelerini** (`businessIds` dizisi) birlikte
+listeliyor — tek işletmeli bir `p_business_id` yerine bu sayfa da aynı
+kodeks emsalini takip etmeli, böylece birden fazla işletmesi olan owner
+tüm işletmelerinin audit log'unu tek yerde görür (`activity/page.tsx`'in
+zaten yapmaya çalıştığı ama kırık olan şey).
+
 ```
 get_business_audit_log_v1(
-  p_business_id uuid,
-  p_page int DEFAULT 1,
-  p_page_size int DEFAULT 10,
-  p_actor_id uuid DEFAULT NULL,
-  p_action text DEFAULT NULL,
-  p_date_from date DEFAULT NULL,
-  p_date_to date DEFAULT NULL
-) RETURNS TABLE(
-  id uuid, created_at timestamptz, actor_id uuid, actor_name text,
-  actor_avatar_url text, actor_role text, action text, description text,
-  target_table text, target_id uuid, target_label text, ip_address text,
-  total_count bigint
-)
+  p_business_ids uuid[],
+  p_actor_id     uuid DEFAULT NULL,
+  p_action       text DEFAULT NULL,
+  p_date_from    date DEFAULT NULL,
+  p_date_to      date DEFAULT NULL,
+  p_limit        int  DEFAULT 10,
+  p_offset       int  DEFAULT 0
+) RETURNS JSONB   -- { rows: [...], total: N } — owner_list_reservations_v1 ile
+                  -- aynı dönüş deseni (bkz. supabase/migrations/20260711000001_reservations.sql)
 ```
 
-- `SECURITY DEFINER`. Aynı yetki kontrolü (owner veya aktif ekip üyesi).
+- `SECURITY DEFINER`. `p_business_ids` içindeki her ID, çağıranın
+  gerçekten owner/aktif-ekip-üyesi olduğu bir işletmeyle kesiştirilir
+  (yetkisiz ID'ler sessizce filtrelenir, hata fırlatılmaz — savunma
+  amaçlı ikinci bir katman, çağıran taraf zaten sadece kendi işletmelerini
+  gönderir).
+- Her satırda `business_name` de döner (owner'ın birden fazla işletmesi
+  varsa "İşletme" kolonu gösterilir — `team/page.tsx`'teki
+  `businessIds.length > 1` deseniyle aynı).
 - `actor_name`/`actor_avatar_url` `user_profiles` (`display_name`,
-  `avatar_url`) ile join'lenir; kayıt yoksa e-posta/`Kullanıcı` fallback.
-- `total_count` her satırda `count(*) OVER()` ile tekrarlanır (sayfalama
-  toplamı için — sayfa bileşeninde ilk satırdan okunur).
+  `avatar_url`) ile join'lenir; kayıt yoksa `Kullanıcı` fallback.
+- `total` toplam eşleşen satır sayısı (sayfalama için).
 - Filtreler: `p_actor_id`, `p_action`, `p_date_from`/`p_date_to` hepsi
-  opsiyonel, `NULL` ise filtre uygulanmaz.
+  opsiyonel, `NULL` ise filtre uygulanmaz. `p_limit` `owner_list_reservations_v1`
+  gibi `[1,200]` aralığına clamp edilir.
 
 ### Retention cron job
 
