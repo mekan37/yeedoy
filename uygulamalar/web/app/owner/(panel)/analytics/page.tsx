@@ -68,13 +68,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const [
     viewsCurr,   viewsPrev_,
     favCurr,     favPrev_,
-    profileCurr, profilePrev_,
-    phoneCurr,   phonePrev_,
-    dirCurr,     dirPrev_,
-    menuViewCurr, menuViewPrev_,
-    qrCurr,       qrPrev_,
-    shareCurr,    sharePrev_,
-    resCurr,      resPrev_,
+    resPrev_,
     resStatusRows,
     // Full event rows for aggregation (line chart + traffic sources + hour heatmap)
     rawEvents,
@@ -91,44 +85,6 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     (supabase as any).from('favorites').select('id', { count: 'exact', head: true })
       .in('business_id', businessIds).gte('created_at', sincePrev).lt('created_at', since),
 
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'business_page_view').gte('created_at', since),
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'business_page_view')
-      .gte('created_at', sincePrev).lt('created_at', since),
-
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'business_phone_click').gte('created_at', since),
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'business_phone_click')
-      .gte('created_at', sincePrev).lt('created_at', since),
-
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'business_directions_click').gte('created_at', since),
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'business_directions_click')
-      .gte('created_at', sincePrev).lt('created_at', since),
-
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'menu_view').gte('created_at', since),
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'menu_view')
-      .gte('created_at', sincePrev).lt('created_at', since),
-
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'qr_scanned').gte('created_at', since),
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'qr_scanned')
-      .gte('created_at', sincePrev).lt('created_at', since),
-
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'menu_shared').gte('created_at', since),
-    (supabase as any).from('analytics_events').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).eq('event_name', 'menu_shared')
-      .gte('created_at', sincePrev).lt('created_at', since),
-
-    (supabase as any).from('reservations').select('id', { count: 'exact', head: true })
-      .in('business_id', businessIds).gte('created_at', since),
     (supabase as any).from('reservations').select('id', { count: 'exact', head: true })
       .in('business_id', businessIds).gte('created_at', sincePrev).lt('created_at', since),
 
@@ -150,6 +106,23 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const sinceMs = now - days * 86400000;
   const currRaw = allRaw.filter(e => new Date(e.created_at).getTime() >= sinceMs);
   const prevRaw = allRaw.filter(e => new Date(e.created_at).getTime() <  sinceMs);
+
+  // ── Tekil olay adı sayımları (rawEvents'ten türetilir, ayrı sorgu yok) ────
+  const countEvent = (rows: RawEvent[], eventName: string) =>
+    rows.filter((e) => e.event_name === eventName).length;
+
+  const profileCurrCount  = countEvent(currRaw, 'business_page_view');
+  const profilePrevCount  = countEvent(prevRaw, 'business_page_view');
+  const phoneCurrCount    = countEvent(currRaw, 'business_phone_click');
+  const phonePrevCount    = countEvent(prevRaw, 'business_phone_click');
+  const dirCurrCount      = countEvent(currRaw, 'business_directions_click');
+  const dirPrevCount      = countEvent(prevRaw, 'business_directions_click');
+  const menuViewCurrCount = countEvent(currRaw, 'menu_view');
+  const menuViewPrevCount = countEvent(prevRaw, 'menu_view');
+  const qrCurrCount       = countEvent(currRaw, 'qr_scanned');
+  const qrPrevCount       = countEvent(prevRaw, 'qr_scanned');
+  const shareCurrCount    = countEvent(currRaw, 'menu_shared');
+  const sharePrevCount    = countEvent(prevRaw, 'menu_shared');
 
   // ── Daily line chart data ─────────────────────────────────────────────────
   const VIEW_SET = new Set(VIEW_EVENTS);
@@ -203,10 +176,10 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
 
   // ── Eylemler listesi ───────────────────────────────────────────────────────
   const actions: ActionMetric[] = [
-    { key: 'menuViews',    value: menuViewCurr.count ?? 0, prev: menuViewPrev_.count ?? 0 },
-    { key: 'qrScans',      value: qrCurr.count ?? 0,       prev: qrPrev_.count ?? 0 },
-    { key: 'menuShares',   value: shareCurr.count ?? 0,    prev: sharePrev_.count ?? 0 },
-    { key: 'reservations', value: resCurr.count ?? 0,      prev: resPrev_.count ?? 0 },
+    { key: 'menuViews',    value: menuViewCurrCount, prev: menuViewPrevCount },
+    { key: 'qrScans',      value: qrCurrCount,       prev: qrPrevCount },
+    { key: 'menuShares',   value: shareCurrCount,    prev: sharePrevCount },
+    { key: 'reservations', value: (resStatusRows.data ?? []).length, prev: resPrev_.count ?? 0 },
   ];
 
   const reservationStatus = reservationStatusBreakdown(
@@ -216,7 +189,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const bestDay = findBestDay(dailyData);
   const bestHourRange = findBestHourRange(hourBuckets);
   const totalInteractions =
-    (viewsCurr.count ?? 0) + (favCurr.count ?? 0) + (phoneCurr.count ?? 0) + (dirCurr.count ?? 0);
+    (viewsCurr.count ?? 0) + (favCurr.count ?? 0) + phoneCurrCount + dirCurrCount;
 
   return (
     <div className="flex flex-col">
@@ -229,12 +202,12 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
         period={period}
         views={viewsCurr.count ?? 0}
         viewsPrev={viewsPrev_.count ?? 0}
-        profileVisits={profileCurr.count ?? 0}
-        profileVisitsPrev={profilePrev_.count ?? 0}
-        phoneCalls={phoneCurr.count ?? 0}
-        phoneCallsPrev={phonePrev_.count ?? 0}
-        directions={dirCurr.count ?? 0}
-        directionsPrev={dirPrev_.count ?? 0}
+        profileVisits={profileCurrCount}
+        profileVisitsPrev={profilePrevCount}
+        phoneCalls={phoneCurrCount}
+        phoneCallsPrev={phonePrevCount}
+        directions={dirCurrCount}
+        directionsPrev={dirPrevCount}
         favorites={favCurr.count ?? 0}
         favoritesPrev={favPrev_.count ?? 0}
         dailyData={dailyData}
