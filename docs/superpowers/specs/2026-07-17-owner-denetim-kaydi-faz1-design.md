@@ -30,14 +30,20 @@ filtreleriyle listeleyen, sayfalanmış bir tablo.
   `app/owner/(panel)/team/page.tsx`'te tanımlı: `manager→Yönetici,
   editor→Editör, staff→Personel, viewer→İzleyici` — bu eşleme aynen
   kullanılacak, yeni bir etiketleme icat edilmeyecek.
-- `request_ip_v1()` ve `request_header_v1()` fonksiyonları mevcut ve
-  `admin_audit_log` akışında hâlâ kullanılıyor
-  (`20260619000001_remove_ip_metadata_from_policy_acceptances.sql`
-  yorumunda açıkça korunduğu belirtiliyor — 2026-06-19 KVKK kararı
-  **sadece** `user_policy_acceptances`/`business_policy_acceptances`
-  tablolarından IP/UA otomatik doldurmayı kaldırdı, audit log akışına
-  kasıtlı olarak dokunmadı). Yeni tabloda IP/UA yakalamak için bu mevcut
-  helper'lar tekrar kullanılacak — yeni bir mekanizma icat edilmeyecek.
+- **Revizyon (2026-07-18, kullanıcı kararı):** İlk taslakta `business_audit_log`
+  tablosunda `ip_address`/`user_agent` kolonları ve bunları
+  `request_ip_v1()`/`request_header_v1()` ile dolduran bir yazma akışı
+  planlanmıştı (bu iki helper `admin_audit_log` akışında hâlâ kullanılıyor,
+  bkz. `20260619000001_remove_ip_metadata_from_policy_acceptances.sql` —
+  2026-06-19 KVKK kararı sadece `user_policy_acceptances`/`business_policy_acceptances`
+  tablolarını etkiledi, audit log akışına dokunmadı). Kullanıcı bu Denetim
+  Kaydı sayfası için IP/UA takibi **istemediğini** belirtti — bu spec ve
+  ilgili migration/RPC/sayfa artık IP/UA kolonu **içermiyor** (aşağıdaki
+  veri modeli ve sayfa tasarımı bölümleri bu karara göre güncellendi).
+  `20260717135736_business_audit_log.sql` migration'ı zaten bu kolonlarla
+  remote'a uygulandığı için, kaldırma ayrı bir `ALTER TABLE ... DROP COLUMN`
+  migration'ı ile yapılacak (mevcut migration dosyası geriye dönük
+  değiştirilmiyor — bkz. Faz 1.1 planı).
 - `pg_cron` bu projede zaten kullanılıyor
   (`20260424000003_scheduled_menu_activation.sql` örneği) — retention
   temizleme job'u aynı deseni takip edecek.
@@ -70,8 +76,6 @@ Bu proje **çok büyük** olduğu için iki faza bölündü:
 | `target_table` | text | ör. `menu_items`, `businesses`, `campaigns` |
 | `target_id` | uuid | |
 | `target_label` | text | İlgili Kayıt kolonunda gösterilecek kısa etiket (ör. `Menü Öğesi #M-1024`) — yazma anında çağıran taraf oluşturur |
-| `ip_address` | text | `request_ip_v1()` |
-| `user_agent` | text | `request_header_v1('user-agent')` |
 | `meta` | jsonb NOT NULL default `'{}'::jsonb` | `admin_audit_log` emsaliyle tutarlı serbest-form ek veri; RPC 1'in `p_meta` parametresi buraya yazılır |
 | `created_at` | timestamptz NOT NULL default now() | |
 
@@ -109,8 +113,7 @@ log_business_action_v1(
   üyesi değilse `unauthorized` (`P0002`) fırlatır.
 - `actor_role`'ü işletmedeki `owner_claims`/`business_team_memberships`
   kaydından türetir.
-- `ip_address`/`user_agent`'ı `request_ip_v1()`/`request_header_v1('user-agent')`
-  ile doldurur.
+- IP/user-agent yakalamaz (kullanıcı kararı — bkz. yukarıdaki Revizyon notu).
 - Faz 2'de tüm mutasyon noktalarından çağrılacak. Faz 1'de sadece
   fonksiyon var olur, henüz hiçbir yerden çağrılmaz (kasıtlı — Faz 2 işi).
 
@@ -207,7 +210,8 @@ analitik sayfasındaki "Detaylı Raporu İndir" ile aynı
 Kolonlar: Tarih & Saat, Kullanıcı (avatar + ad + rol rozeti — `team/page.tsx`
 `ROLE_LABELS` renk/etiket eşlemesi birebir kullanılır), İşlem (eylem
 türüne göre renkli ikon + Türkçe etiket), Açıklama, İlgili Kayıt
-(`target_label`, yoksa `—`), IP Adresi (yoksa `—`). Satır sonu "⋮" — Faz
+(`target_label`, yoksa `—`). **IP Adresi kolonu yok** (kullanıcı kararı —
+IP/UA hiç takip edilmiyor). Satır sonu "⋮" — Faz
 1'de işlevsiz/dekoratif (disabled), gerçek bir aksiyon yok.
 
 Boş durum: mevcut `PanelEmptyState` + `ShieldIcon` deseni korunur (Faz 1
