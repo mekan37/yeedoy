@@ -28,7 +28,7 @@ const ownerNavSections: NavSection[] = [
     items: [
       { href: '/owner/team', label: 'Ekip', icon: <UsersIcon /> },
       { href: '/owner/price-suggestions', label: 'Fiyat Önerileri', icon: <TagIcon /> },
-      { href: '/owner/activity', label: 'Aktivite', icon: <ActivityIcon /> },
+      { href: '/owner/audit', label: 'Denetim Kaydı', icon: <ActivityIcon /> },
       { href: '/owner/trash', label: 'Çöp Kutusu', icon: <TrashIcon /> },
       { href: '/owner/settings', label: 'Ayarlar', icon: <SettingsIcon /> },
     ],
