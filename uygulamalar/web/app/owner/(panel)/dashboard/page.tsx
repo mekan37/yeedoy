@@ -322,8 +322,8 @@ export default async function OwnerDashboardPage() {
               ))}
             </div>
           )}
-          <Link href="/owner/activity" className="mt-4 flex items-center gap-1 text-[12px] font-[800] text-[#dc2626] hover:underline">
-            Tüm Aktiviteler →
+          <Link href="/owner/audit" className="mt-4 flex items-center gap-1 text-[12px] font-[800] text-[#dc2626] hover:underline">
+            Tüm Denetim Kayıtları →
           </Link>
         </div>
       </div>
