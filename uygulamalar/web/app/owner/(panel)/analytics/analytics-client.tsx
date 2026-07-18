@@ -4,27 +4,34 @@ import { useRouter } from 'next/navigation';
 import {
   ResponsiveContainer,
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  BarChart, Bar,
   PieChart, Pie, Cell,
 } from 'recharts';
+import type { HourBucketRow, ReservationStatusRow } from '@/src/lib/veri/owner/analitik-yardimcilari';
 
 // ── Types (exported — page.tsx uses them) ────────────────────────────────────
 export type DailyPoint    = { label: string; current: number; previous: number };
-export type TrafficSource = { name: string; value: number; color: string };
-export type HeatmapRow    = { metric: string; counts: number[]; norms: number[] };
-export type HourlyPoint   = { h: string; v: number };
+export type TrafficSource = { name: string; value: number; color: string; count: number };
+export type ActionMetric  = {
+  key: 'menuViews' | 'qrScans' | 'menuShares' | 'reservations';
+  value: number;
+  prev: number;
+};
 
 export interface AnalyticsClientProps {
   period: string;
-  views: number;      viewsPrev: number;
-  favorites: number;  favoritesPrev: number;
-  reviews: number;    reviewsPrev: number;
-  directions: number; directionsPrev: number;
-  searches: number;   searchesPrev: number;
-  dailyData:      DailyPoint[];
-  trafficSources: TrafficSource[];
-  heatmapRows:    HeatmapRow[];
-  hourlyData:     HourlyPoint[];
+  views: number;             viewsPrev: number;
+  profileVisits: number;     profileVisitsPrev: number;
+  phoneCalls: number;        phoneCallsPrev: number;
+  directions: number;        directionsPrev: number;
+  favorites: number;         favoritesPrev: number;
+  dailyData:         DailyPoint[];
+  trafficSources:    TrafficSource[];
+  reservationStatus: ReservationStatusRow[];
+  hourBuckets:       HourBucketRow[];
+  bestDay:           string | null;
+  bestHourRange:     string | null;
+  actions:           ActionMetric[];
+  totalInteractions: number;
 }
 
 const PERIOD_OPTIONS = [
@@ -48,16 +55,40 @@ function heatColor(v: number) {
   return '#fef2f2';
 }
 
+const RESERVATION_STATUS_COLORS: Record<string, string> = {
+  confirmed: '#16a34a',
+  pending:   '#f59e0b',
+  completed: '#2563eb',
+  cancelled: '#dc2626',
+};
+
+const ACTION_META: Record<ActionMetric['key'], { label: string; iconBg: string; iconColor: string }> = {
+  menuViews:    { label: 'Menü Görüntüleme', iconBg: '#eff6ff', iconColor: '#2563eb' },
+  qrScans:      { label: 'QR Kod Tarama',     iconBg: '#f5f3ff', iconColor: '#7c3aed' },
+  menuShares:   { label: 'Menü Paylaşımı',    iconBg: '#ecfdf5', iconColor: '#059669' },
+  reservations: { label: 'Rezervasyon',       iconBg: '#fff7ed', iconColor: '#ea580c' },
+};
+
+function actionIcon(key: ActionMetric['key']) {
+  switch (key) {
+    case 'menuViews':    return <EyeIcon />;
+    case 'qrScans':      return <QrIcon />;
+    case 'menuShares':   return <ShareIcon />;
+    case 'reservations': return <CalendarIcon />;
+  }
+}
+
 // ── KPI Card ─────────────────────────────────────────────────────────────────
-function KpiCard({ label, value, prev, icon }: {
+function KpiCard({ label, value, prev, icon, iconBg, iconColor }: {
   label: string; value: number; prev: number; icon: React.ReactNode;
+  iconBg: string; iconColor: string;
 }) {
   const p = pct(value, prev);
   const up = p !== null && p >= 0;
   return (
     <div className="flex flex-col gap-3 rounded-2xl border border-[#f0f0f0] bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
       <div className="flex items-center justify-between">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#fef2f2] text-[#dc2626]">{icon}</span>
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: iconBg, color: iconColor }}>{icon}</span>
         {p !== null ? (
           <span className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-[800] ${
             up ? 'bg-[#dcfce7] text-[#16a34a]' : 'bg-[#fee2e2] text-[#dc2626]'
@@ -104,9 +135,10 @@ function DonutCard({ title, subtitle, data }: {
       </SectionCard>
     );
   }
+  const total = data.reduce((sum, d) => sum + d.count, 0);
   return (
     <SectionCard title={title} subtitle={subtitle}>
-      <div style={{ height: 180 }}>
+      <div className="relative" style={{ height: 180 }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie data={data} cx="50%" cy="50%" innerRadius={52} outerRadius={80} paddingAngle={2} dataKey="value">
@@ -115,6 +147,10 @@ function DonutCard({ title, subtitle, data }: {
             <Tooltip formatter={(v) => [`${v}%`, '']} />
           </PieChart>
         </ResponsiveContainer>
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+          <p className="text-[11px] font-[700] text-[#94a3b8]">Toplam</p>
+          <p className="text-[20px] font-[900] text-[#1a1a2e]">{fmt(total)}</p>
+        </div>
       </div>
       <div className="mt-3 flex flex-col gap-1.5">
         {data.map((d) => (
@@ -123,10 +159,138 @@ function DonutCard({ title, subtitle, data }: {
               <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: d.color }} />
               <span className="text-[12px] font-[600] text-[#475569]">{d.name}</span>
             </div>
-            <span className="text-[12px] font-[800] text-[#1a1a2e]">{d.value}%</span>
+            <span className="text-[12px] font-[800] text-[#1a1a2e]">%{d.value} · {fmt(d.count)}</span>
           </div>
         ))}
       </div>
+    </SectionCard>
+  );
+}
+
+// ── Reservation status card (handles empty) ──────────────────────────────────
+function ReservationStatusCard({ rows }: { rows: ReservationStatusRow[] }) {
+  const total = rows.reduce((sum, r) => sum + r.count, 0);
+  if (total === 0) {
+    return (
+      <SectionCard title="Rezervasyon Durumu" subtitle="Dönem içindeki dağılım">
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <NoDataIcon />
+          <p className="mt-3 text-[13px] font-[700] text-[#94a3b8]">Henüz veri yok</p>
+        </div>
+      </SectionCard>
+    );
+  }
+  return (
+    <SectionCard title="Rezervasyon Durumu" subtitle="Dönem içindeki dağılım">
+      <div className="flex flex-col gap-3">
+        {rows.map((r) => (
+          <div key={r.status} className="flex flex-col gap-1">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: RESERVATION_STATUS_COLORS[r.status] }} />
+                <span className="text-[12px] font-[600] text-[#475569]">{r.label}</span>
+              </div>
+              <span className="text-[12px] font-[800] text-[#1a1a2e]">{fmt(r.count)}</span>
+            </div>
+            <div className="h-1.5 w-full rounded-full bg-[#f1f5f9]">
+              <div className="h-1.5 rounded-full" style={{ width: `${r.pct}%`, background: RESERVATION_STATUS_COLORS[r.status] }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </SectionCard>
+  );
+}
+
+// ── Hour heatmap card (gün × 4 saatlik blok) ─────────────────────────────────
+function HourHeatmapCard({ rows }: { rows: HourBucketRow[] }) {
+  const allZero = rows.every((r) => r.counts.every((c) => c === 0));
+  return (
+    <SectionCard title="Popüler Saatler" subtitle="Gün ve saate göre görüntülenme yoğunluğu">
+      {allZero ? (
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <NoDataIcon />
+          <p className="mt-3 text-[13px] font-[700] text-[#94a3b8]">Henüz veri yok</p>
+        </div>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[11px]">
+              <thead>
+                <tr>
+                  <th className="w-[60px] pb-2 text-left font-[700] text-[#94a3b8]" />
+                  {['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'].map((d) => (
+                    <th key={d} className="pb-2 text-center font-[800] text-[#475569]">{d}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row) => (
+                  <tr key={row.bucketLabel}>
+                    <td className="py-1.5 pr-3 font-[700] text-[#475569] whitespace-nowrap">{row.bucketLabel}</td>
+                    {row.counts.map((count, ci) => (
+                      <td key={ci} className="py-1 px-1 text-center">
+                        <div className="mx-auto flex h-8 w-full min-w-[32px] items-center justify-center rounded-lg text-[10px] font-[900]"
+                          style={{
+                            background: heatColor(row.norms[ci]),
+                            color: row.norms[ci] >= 50 ? '#fff' : '#7f1d1d',
+                            minWidth: 32,
+                          }}>
+                          {count}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-4 flex items-center gap-2">
+            <span className="text-[10px] font-[600] text-[#94a3b8]">Az</span>
+            {['#fef2f2', '#fca5a5', '#f87171', '#dc2626', '#b91c1c', '#7f1d1d'].map((c) => (
+              <span key={c} className="h-3 flex-1 rounded" style={{ background: c }} />
+            ))}
+            <span className="text-[10px] font-[600] text-[#94a3b8]">Çok</span>
+          </div>
+        </>
+      )}
+    </SectionCard>
+  );
+}
+
+// ── Actions card ───────────────────────────────────────────────────────────
+function ActionsCard({ actions }: { actions: ActionMetric[] }) {
+  return (
+    <SectionCard title="Eylemler" subtitle="Dönem içindeki etkileşimler">
+      <div className="flex flex-col gap-3">
+        {actions.map((a) => {
+          const meta = ACTION_META[a.key];
+          const p = pct(a.value, a.prev);
+          const up = p !== null && p >= 0;
+          return (
+            <div key={a.key} className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: meta.iconBg, color: meta.iconColor }}>
+                  {actionIcon(a.key)}
+                </span>
+                <span className="text-[12px] font-[700] text-[#475569]">{meta.label}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[13px] font-[900] text-[#1a1a2e]">{fmt(a.value)}</span>
+                {p !== null && (
+                  <span className={`text-[10px] font-[800] ${up ? 'text-[#16a34a]' : 'text-[#dc2626]'}`}>
+                    {up ? '↑' : '↓'} %{Math.abs(p)}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <button disabled title="Yakında aktif olacak"
+        className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#e5e7eb] bg-[#fafafa] px-4 py-2.5 text-[12px] font-[800] text-[#94a3b8] opacity-60 cursor-not-allowed">
+        Tüm Eylemleri Görüntüle
+      </button>
     </SectionCard>
   );
 }
@@ -145,28 +309,23 @@ function LineTooltip({ active, payload, label }: any) {
     </div>
   );
 }
-function BarTooltip({ active, payload, label }: any) {
-  if (!active || !payload?.length) return null;
-  return (
-    <div className="rounded-xl border border-[#f0f0f0] bg-white p-3 shadow-lg text-[12px]">
-      <p className="font-[800] text-[#1a1a2e]">{label}:00</p>
-      <p className="font-[600] text-[#dc2626]">{fmt(payload[0].value)} görüntülenme</p>
-    </div>
-  );
-}
 
 // ── Main ─────────────────────────────────────────────────────────────────────
 export function AnalyticsClient({
   period,
   views, viewsPrev,
-  favorites, favoritesPrev,
-  reviews, reviewsPrev,
+  profileVisits, profileVisitsPrev,
+  phoneCalls, phoneCallsPrev,
   directions, directionsPrev,
-  searches, searchesPrev,
+  favorites, favoritesPrev,
   dailyData,
   trafficSources,
-  heatmapRows,
-  hourlyData,
+  reservationStatus,
+  hourBuckets,
+  bestDay,
+  bestHourRange,
+  actions,
+  totalInteractions,
 }: AnalyticsClientProps) {
   const router = useRouter();
 
@@ -175,7 +334,6 @@ export function AnalyticsClient({
   const periodLabel = PERIOD_OPTIONS.find((o) => o.key === period)?.label ?? 'Son 30 Gün';
   const compLabel   = period === '7d' ? '7' : period === '90d' ? '90' : '30';
   const xInterval   = dailyData.length > 14 ? Math.floor(dailyData.length / 6) - 1 : 0;
-  const totalMetrics = views + favorites + reviews + directions;
 
   return (
     <div className="flex flex-col gap-5 px-6 pb-8 pt-2">
@@ -197,11 +355,16 @@ export function AnalyticsClient({
 
       {/* KPI Row */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
-        <KpiCard label="Görüntülenme"   value={views}      prev={viewsPrev}      icon={<EyeIcon />} />
-        <KpiCard label="Favori"         value={favorites}  prev={favoritesPrev}  icon={<HeartIcon />} />
-        <KpiCard label="Yorum"          value={reviews}    prev={reviewsPrev}    icon={<StarIcon />} />
-        <KpiCard label="Yol Tarifi"     value={directions} prev={directionsPrev} icon={<MapIcon />} />
-        <KpiCard label="Arama Görünümü" value={searches}   prev={searchesPrev}   icon={<SearchIcon />} />
+        <KpiCard label="Görüntülenme" value={views} prev={viewsPrev}
+          icon={<EyeIcon />} iconBg="#eff6ff" iconColor="#2563eb" />
+        <KpiCard label="Profil Ziyaretleri" value={profileVisits} prev={profileVisitsPrev}
+          icon={<CursorIcon />} iconBg="#f5f3ff" iconColor="#7c3aed" />
+        <KpiCard label="Telefon Aramaları" value={phoneCalls} prev={phoneCallsPrev}
+          icon={<PhoneIcon />} iconBg="#ecfdf5" iconColor="#059669" />
+        <KpiCard label="Yol Tarifi İstekleri" value={directions} prev={directionsPrev}
+          icon={<MapIcon />} iconBg="#fff7ed" iconColor="#ea580c" />
+        <KpiCard label="Favorilere Ekleme" value={favorites} prev={favoritesPrev}
+          icon={<HeartIcon />} iconBg="#fdf2f8" iconColor="#db2777" />
       </div>
 
       {/* Row 2: Line chart + Traffic sources */}
@@ -237,87 +400,21 @@ export function AnalyticsClient({
         <DonutCard title="Ziyaretçi Kaynakları" subtitle="Kaynak bazlı trafik dağılımı" data={trafficSources} />
       </div>
 
-      {/* Row 3: Heatmap */}
-      <SectionCard title="Günlere Göre Performans" subtitle="Haftalık metrik yoğunluğu (gerçek veri)">
-        {heatmapRows.length === 0 || heatmapRows.every(r => r.counts.every(c => c === 0)) ? (
-          <div className="flex flex-col items-center justify-center py-10 text-center">
-            <NoDataIcon />
-            <p className="mt-3 text-[13px] font-[700] text-[#94a3b8]">Henüz veri yok</p>
-          </div>
-        ) : (
-          <>
-            <div className="overflow-x-auto">
-              <table className="w-full text-[11px]">
-                <thead>
-                  <tr>
-                    <th className="w-[110px] pb-2 text-left font-[700] text-[#94a3b8]" />
-                    {['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'].map((d) => (
-                      <th key={d} className="pb-2 text-center font-[800] text-[#475569]">{d}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {heatmapRows.map((row) => (
-                    <tr key={row.metric}>
-                      <td className="py-1.5 pr-3 font-[700] text-[#475569] whitespace-nowrap">{row.metric}</td>
-                      {row.counts.map((count, ci) => (
-                        <td key={ci} className="py-1 px-1 text-center">
-                          <div className="mx-auto flex h-8 w-full min-w-[36px] items-center justify-center rounded-lg text-[10px] font-[900]"
-                            style={{
-                              background: heatColor(row.norms[ci]),
-                              color: row.norms[ci] >= 50 ? '#fff' : '#7f1d1d',
-                              minWidth: 36,
-                            }}>
-                            {count}
-                          </div>
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="text-[10px] font-[600] text-[#94a3b8]">Az</span>
-              {['#fef2f2', '#fca5a5', '#f87171', '#dc2626', '#b91c1c', '#7f1d1d'].map((c) => (
-                <span key={c} className="h-3 flex-1 rounded" style={{ background: c }} />
-              ))}
-              <span className="text-[10px] font-[600] text-[#94a3b8]">Çok</span>
-            </div>
-          </>
-        )}
-      </SectionCard>
-
-      {/* Row 4: Bar chart */}
-      <SectionCard title="Popüler Saatler" subtitle="Saatlik görüntülenme dağılımı (gerçek veri)">
-        {hourlyData.every(h => h.v === 0) ? (
-          <div className="flex flex-col items-center justify-center py-10 text-center">
-            <NoDataIcon />
-            <p className="mt-3 text-[13px] font-[700] text-[#94a3b8]">Henüz veri yok</p>
-          </div>
-        ) : (
-          <div style={{ height: 220 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={hourlyData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
-                <XAxis dataKey="h" tick={{ fontSize: 9, fill: '#94a3b8', fontWeight: 600 }}
-                  tickLine={false} axisLine={false} interval={2} />
-                <YAxis tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }}
-                  tickLine={false} axisLine={false} allowDecimals={false} />
-                <Tooltip content={<BarTooltip />} cursor={{ fill: '#fef2f2' }} />
-                <Bar dataKey="v" fill="#dc2626" radius={[4, 4, 0, 0]} maxBarSize={18} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        )}
-      </SectionCard>
+      {/* Row 3: Rezervasyon Durumu | Popüler Saatler | Eylemler */}
+      <div className="grid gap-4 xl:grid-cols-3">
+        <ReservationStatusCard rows={reservationStatus} />
+        <HourHeatmapCard rows={hourBuckets} />
+        <ActionsCard actions={actions} />
+      </div>
 
       {/* Summary bar */}
-      <div className="flex items-center justify-between rounded-2xl border border-[#f0f0f0] bg-white px-6 py-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#f0f0f0] bg-white px-6 py-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
         <div>
           <p className="text-[14px] font-[900] text-[#1a1a2e]">Performans Özeti</p>
           <p className="mt-0.5 text-[12px] font-[600] text-[#94a3b8]">
-            {periodLabel} toplam: {fmt(totalMetrics)} etkileşim
+            {periodLabel} toplam: {fmt(totalInteractions)} etkileşim
+            {bestDay && ` · En iyi gün: ${bestDay}`}
+            {bestHourRange && ` · En yoğun saat: ${bestHourRange}`}
           </p>
         </div>
         <button disabled title="Yakında aktif olacak"
@@ -337,14 +434,23 @@ function EyeIcon() {
 function HeartIcon() {
   return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>;
 }
-function StarIcon() {
-  return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>;
-}
 function MapIcon() {
   return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>;
 }
-function SearchIcon() {
-  return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>;
+function CursorIcon() {
+  return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" /></svg>;
+}
+function PhoneIcon() {
+  return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>;
+}
+function QrIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><line x1="14" y1="14" x2="14" y2="21" /><line x1="21" y1="14" x2="21" y2="14.01" /><line x1="14" y1="17.5" x2="17.5" y2="17.5" /><line x1="17.5" y1="14" x2="17.5" y2="21" /><line x1="21" y1="17.5" x2="21" y2="21" /></svg>;
+}
+function ShareIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" /></svg>;
+}
+function CalendarIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>;
 }
 function DownloadIcon() {
   return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>;
