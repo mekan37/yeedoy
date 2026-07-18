@@ -827,6 +827,15 @@ git commit -m "fix(web): forbidden ve login sayfalarındaki owner referansları 
 
 - [ ] **Step 2: Owner→sahip redirect'lerini ekle**
 
+> **Revizyon (2026-07-18):** Bu plan yazıldığında `/owner/audit` ve
+> `/owner/activity` iki ayrı sayfa sanılıp ikisine de ayrı Türkçe hedef
+> atanmıştı. `/owner/activity` sayfası aslında bozuktu (var olmayan
+> kolonları sorguluyordu) ve sidebar'da hiçbir linki yoktu — Denetim
+> Kaydı işi (`docs/superpowers/plans/2026-07-18-owner-denetim-kaydi-faz1-no-ip.md`)
+> kapsamında silindi, tek sayfa `/owner/audit` altında birleştirildi.
+> Bu yüzden aşağıdaki listede `/owner/activity` redirect'i YOK — sadece
+> `/owner/audit → /sahip/denetim-kaydi` kaldı.
+
 `redirects()` fonksiyonunun döndürdüğü array'e şu girdileri ekle (mevcut girdilerin altına):
 
 ```js
@@ -859,7 +868,6 @@ git commit -m "fix(web): forbidden ve login sayfalarındaki owner referansları 
       { source: '/owner/price-suggestions', destination: '/sahip/fiyat-onerileri', permanent: true },
       { source: '/owner/growth', destination: '/sahip/buyume', permanent: true },
       { source: '/owner/audit', destination: '/sahip/denetim-kaydi', permanent: true },
-      { source: '/owner/activity', destination: '/sahip/etkinlik', permanent: true },
       { source: '/owner/requests', destination: '/sahip/istekler', permanent: true },
       { source: '/owner/suspended', destination: '/sahip/askiya-alinanlar', permanent: true },
       { source: '/owner/pricing', destination: '/sahip/fiyatlandirma', permanent: true },
