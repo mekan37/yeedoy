@@ -7,12 +7,18 @@ import {
 } from '@/src/lib/veri/owner/analitik-yardimcilari';
 
 // 2026-07-13 Pazartesi, 2026-07-19 Pazar (Pzt=index0, Paz=index6)
-const MONDAY_9AM   = new Date(2026, 6, 13, 9, 0, 0).toISOString();
-const MONDAY_9AM_2 = new Date(2026, 6, 13, 9, 15, 0).toISOString();
-const MONDAY_9AM_3 = new Date(2026, 6, 13, 9, 30, 0).toISOString();
-const MONDAY_9PM   = new Date(2026, 6, 13, 21, 0, 0).toISOString();
-const MONDAY_9PM_2 = new Date(2026, 6, 13, 21, 30, 0).toISOString();
-const SUNDAY_1AM   = new Date(2026, 6, 19, 1, 0, 0).toISOString();
+// Europe/Istanbul UTC+3 sabit (DST yok) olduğu için tüm zamanlar açık UTC ISO string olarak
+// -3 saat kaydırılmış şekilde yazılıyor; böylece test, çalıştırılan makinenin/CI'ın yerel saat
+// dilimine bağlı olmadan Istanbul yerel saatiyle deterministik biçimde eşleşiyor.
+const MONDAY_9AM   = '2026-07-13T06:00:00.000Z'; // Pzt 09:00 İstanbul
+const MONDAY_9AM_2 = '2026-07-13T06:15:00.000Z'; // Pzt 09:15 İstanbul
+const MONDAY_9AM_3 = '2026-07-13T06:30:00.000Z'; // Pzt 09:30 İstanbul
+const MONDAY_9PM   = '2026-07-13T18:00:00.000Z'; // Pzt 21:00 İstanbul
+const MONDAY_9PM_2 = '2026-07-13T18:30:00.000Z'; // Pzt 21:30 İstanbul
+const SUNDAY_1AM   = '2026-07-18T22:00:00.000Z'; // Paz 01:00 İstanbul (Cmt 22:00 UTC)
+// Gün sınırı bug'ı: Pazartesi 22:30 UTC == Salı 01:30 İstanbul (+3) — UTC ile hesaplanırsa
+// yanlışlıkla Pazartesi sütununa düşerdi, doğrusu Salı sütunudur.
+const MONDAY_DAY_BOUNDARY = '2026-07-13T22:30:00.000Z'; // Sal 01:30 İstanbul
 
 describe('buildHourBucketHeatmap', () => {
   it('gün×saat bloğuna göre doğru grid üretir (6 satır × 7 sütun)', () => {
@@ -50,6 +56,20 @@ describe('buildHourBucketHeatmap', () => {
       expect(row.counts).toEqual([0, 0, 0, 0, 0, 0, 0]);
       expect(row.norms).toEqual([0, 0, 0, 0, 0, 0, 0]);
     }
+  });
+
+  it('gün sınırını UTC yerine İstanbul saatine göre hesaplar (timezone bug regresyonu)', () => {
+    // 2026-07-13T22:30:00.000Z → UTC'de Pazartesi 22:30, ama İstanbul'da (+3) Salı 01:30.
+    // Sunucu process'i UTC'de çalışıyorsa eski kod bunu yanlışlıkla Pazartesi sütununa
+    // (index 0) koyardı; doğrusu Salı sütunudur (index 1).
+    const rows = buildHourBucketHeatmap([{ created_at: MONDAY_DAY_BOUNDARY }]);
+
+    // 00:00 bloğu (saat 0-3), Salı sütunu (index 1) → 1 olay
+    expect(rows[0].counts[1]).toBe(1);
+    // Pazartesi sütununa (index 0) hiç düşmedi
+    expect(rows[0].counts[0]).toBe(0);
+    // Toplamda tek bir olay var
+    expect(rows.reduce((sum, r) => sum + r.counts.reduce((a, b) => a + b, 0), 0)).toBe(1);
   });
 });
 

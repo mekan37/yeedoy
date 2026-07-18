@@ -27,14 +27,44 @@ const HOUR_BUCKETS = [
   { label: '20:00', start: 20, end: 24 },
 ];
 
+const ISTANBUL_TZ = 'Europe/Istanbul';
+
+const ISTANBUL_WEEKDAY_MAP: Record<string, number> = {
+  Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6,
+};
+
+/**
+ * `created_at` (Postgres timestamptz, UTC ISO string) için Europe/Istanbul yerel saat ve
+ * haftanın gününü döndürür. Sunucu process'inin çalıştığı zaman dilimine (ör. Vercel'de UTC)
+ * bağımlı değildir — `Intl.DateTimeFormat` ile açıkça Istanbul saatine çevrilir.
+ * `weekday`, `Date.getDay()` ile aynı kuralı kullanır (0=Pazar..6=Cumartesi).
+ */
+function istanbulHourAndWeekday(isoString: string): { hour: number; weekday: number } {
+  const d = new Date(isoString);
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: ISTANBUL_TZ,
+    hour: 'numeric',
+    hour12: false,
+    weekday: 'short',
+  }).formatToParts(d);
+
+  const hourPart = parts.find((p) => p.type === 'hour')?.value ?? '0';
+  // Intl bazı locale/hour12 kombinasyonlarında gece yarısı için "24" döndürebilir — normalize et.
+  const hour = Number(hourPart) % 24;
+
+  const weekdayPart = parts.find((p) => p.type === 'weekday')?.value ?? '';
+  const weekday = ISTANBUL_WEEKDAY_MAP[weekdayPart] ?? 0;
+
+  return { hour, weekday };
+}
+
 /** Ham event zaman damgalarını gün(Pzt-Paz)×4-saatlik-blok ısı haritasına çevirir. */
 export function buildHourBucketHeatmap(rows: RawTimestampRow[]): HourBucketRow[] {
   const grid = HOUR_BUCKETS.map(() => Array(7).fill(0));
 
   for (const row of rows) {
-    const d = new Date(row.created_at);
-    const hour = d.getHours();
-    const dowIndex = DOW_ORDER.indexOf(d.getDay());
+    const { hour, weekday } = istanbulHourAndWeekday(row.created_at);
+    const dowIndex = DOW_ORDER.indexOf(weekday);
     const bucketIndex = HOUR_BUCKETS.findIndex((b) => hour >= b.start && hour < b.end);
     if (bucketIndex === -1 || dowIndex === -1) continue;
     grid[bucketIndex][dowIndex]++;
