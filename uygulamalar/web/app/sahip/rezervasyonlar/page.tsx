@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
-import { ReservationsClient } from './reservations-client';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { ReservationsClient } from './rezervasyonlar-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'Rezervasyonlar | Owner Panel',
+  title: 'Rezervasyonlar | Sahip Paneli',
   robots: { index: false, follow: false },
 };
 
@@ -21,7 +21,7 @@ export default async function OwnerReservationsPage() {
     .limit(1)
     .maybeSingle();
 
-  if (!claim) redirect('/owner/dashboard');
+  if (!claim) redirect('/sahip/gosterge-panosu');
 
   const { data: result, error: rpcError } = await (supabase as any).rpc('owner_list_reservations_v1', {
     p_business_id: claim.business_id,

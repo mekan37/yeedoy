@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { updateReservationStatus } from './actions';
+import { updateReservationStatus } from './rezervasyon-islemleri';
 
 // ── DB type (from owner_list_reservations_v1) ─────────────────────────────────
 
@@ -467,7 +467,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
           <p className="text-[13px] font-[800] text-[#1a1a2e]">Rezervasyonlarınızı kolayca yönetin</p>
           <p className="text-[12px] text-[#64748b]">Rezervasyonları anlık olarak takip edin, onaylayın veya iptal edin.</p>
         </div>
-        <Link href="/owner/settings" className="shrink-0 flex items-center gap-1.5 rounded-xl border border-blue-300 bg-white px-4 py-2 text-[12px] font-[800] text-[#1a1a2e] transition hover:bg-blue-50">
+        <Link href="/sahip/ayarlar" className="shrink-0 flex items-center gap-1.5 rounded-xl border border-blue-300 bg-white px-4 py-2 text-[12px] font-[800] text-[#1a1a2e] transition hover:bg-blue-50">
           <SettingsIcon className="h-4 w-4" /> Rezervasyon Ayarları →
         </Link>
       </div>

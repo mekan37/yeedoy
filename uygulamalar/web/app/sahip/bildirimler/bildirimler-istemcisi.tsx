@@ -35,9 +35,9 @@ const MOCK: Notification[] = [
     quote: '"Kahveleri harika! Özellikle flat white favori oldu. Ortam çok sıcak ve çalışanlar ilgili. Kesinlikle tekrar geleceğim."',
     reviewer: { name: 'Seda K.', initials: 'SK', rating: 5, time: '2 dakika önce' },
     actions: [
-      { label: 'Yorumu Görüntüle', primary: true, icon: 'review', href: '/owner/reviews' },
-      { label: 'Yoruma Yanıt Ver', icon: 'reply', href: '/owner/reviews' },
-      { label: 'Tüm Yorumları Görüntüle', icon: 'list', href: '/owner/reviews' },
+      { label: 'Yorumu Görüntüle', primary: true, icon: 'review', href: '/sahip/yorumlar' },
+      { label: 'Yoruma Yanıt Ver', icon: 'reply', href: '/sahip/yorumlar' },
+      { label: 'Tüm Yorumları Görüntüle', icon: 'list', href: '/sahip/yorumlar' },
     ],
   },
   {
@@ -46,8 +46,8 @@ const MOCK: Notification[] = [
     body: '"Hafta içi kahve %20 indirim" kampanyanız yayına alındı.',
     tag: 'Kampanya', time: '15 dakika önce', dateStr: '6 Haziran 2025 · 10:29', isRead: false,
     actions: [
-      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/owner/marketing/campaigns' },
-      { label: 'Tüm Kampanyalar', icon: 'list', href: '/owner/marketing/campaigns' },
+      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/sahip/pazarlama/kampanyalar' },
+      { label: 'Tüm Kampanyalar', icon: 'list', href: '/sahip/pazarlama/kampanyalar' },
     ],
   },
   {
@@ -56,8 +56,8 @@ const MOCK: Notification[] = [
     body: 'Dünkü performans raporunuz hazır. Hemen görüntüleyebilirsiniz.',
     tag: 'Sistem', time: '1 saat önce', dateStr: '6 Haziran 2025 · 09:42', isRead: false,
     actions: [
-      { label: 'Raporu Görüntüle', primary: true, icon: 'chart', href: '/owner/analytics' },
-      { label: 'İstatistikler', icon: 'list', href: '/owner/analytics' },
+      { label: 'Raporu Görüntüle', primary: true, icon: 'chart', href: '/sahip/analitik' },
+      { label: 'İstatistikler', icon: 'list', href: '/sahip/analitik' },
     ],
   },
   {
@@ -66,8 +66,8 @@ const MOCK: Notification[] = [
     body: 'Yarın 19:00 için yeni bir rezervasyon aldınız.',
     tag: 'Rezervasyon', time: '2 saat önce', dateStr: '6 Haziran 2025 · 08:42', isRead: false,
     actions: [
-      { label: 'Rezervasyonu Görüntüle', primary: true, icon: 'calendar', href: '/owner/reservations' },
-      { label: 'Tüm Rezervasyonlar', icon: 'list', href: '/owner/reservations' },
+      { label: 'Rezervasyonu Görüntüle', primary: true, icon: 'calendar', href: '/sahip/rezervasyonlar' },
+      { label: 'Tüm Rezervasyonlar', icon: 'list', href: '/sahip/rezervasyonlar' },
     ],
   },
   {
@@ -76,7 +76,7 @@ const MOCK: Notification[] = [
     body: 'Bir kullanıcı işletmenizi favorilerine ekledi.',
     tag: 'Sistem', time: '4 saat önce', dateStr: '6 Haziran 2025 · 06:42', isRead: true,
     actions: [
-      { label: 'İstatistikleri Görüntüle', primary: true, icon: 'chart', href: '/owner/analytics' },
+      { label: 'İstatistikleri Görüntüle', primary: true, icon: 'chart', href: '/sahip/analitik' },
     ],
   },
   {
@@ -85,7 +85,7 @@ const MOCK: Notification[] = [
     body: '"Tatlılarda %15 İndirim" kampanyanız iyi performans gösteriyor!',
     tag: 'Kampanya', time: '1 gün önce', dateStr: '5 Haziran 2025 · 10:42', isRead: true,
     actions: [
-      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/owner/marketing/campaigns' },
+      { label: 'Kampanyayı Görüntüle', primary: true, icon: 'campaign', href: '/sahip/pazarlama/kampanyalar' },
     ],
   },
   {
@@ -94,7 +94,7 @@ const MOCK: Notification[] = [
     body: 'Hesabınıza yeni bir cihazdan giriş yapıldı.',
     tag: 'Önemli', time: '2 gün önce', dateStr: '4 Haziran 2025 · 10:42', isRead: true,
     actions: [
-      { label: 'Güvenlik Ayarları', primary: true, icon: 'shield', href: '/owner/settings' },
+      { label: 'Güvenlik Ayarları', primary: true, icon: 'shield', href: '/sahip/ayarlar' },
     ],
   },
 ];
@@ -405,7 +405,7 @@ export function NotificationsClient() {
                       </div>
                       <p className="text-[11px] text-[#94a3b8]">Kafe · Yenimahalle, Ankara</p>
                     </div>
-                    <Link href="/owner/businesses" className="shrink-0 text-[12px] font-[800] text-[#dc2626] hover:underline">
+                    <Link href="/sahip/isletmeler" className="shrink-0 text-[12px] font-[800] text-[#dc2626] hover:underline">
                       İşletmeye Git
                     </Link>
                   </div>
@@ -447,7 +447,7 @@ export function NotificationsClient() {
           <p className="text-[12px] text-[#64748b]">Hangi bildirimleri alacağınızı ve nasıl alınacağını ayarlar sayfasından düzenleyebilirsiniz.</p>
         </div>
         <Link
-          href="/owner/settings"
+          href="/sahip/ayarlar"
           className="shrink-0 flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-4 py-2 text-[12px] font-[800] text-[#1a1a2e] transition hover:bg-amber-50"
         >
           <SettingsIcon className="h-4 w-4" />

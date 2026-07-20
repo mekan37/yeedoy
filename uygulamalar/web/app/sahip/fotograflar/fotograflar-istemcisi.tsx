@@ -98,7 +98,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
       fd.append('businessId', businessId);
       fd.append('file', compressed);
 
-      const res = await fetch('/api/owner/photos', { method: 'POST', body: fd });
+      const res = await fetch('/sunucu/sahip/fotograflar', { method: 'POST', body: fd });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         const msg = data.error === 'photo_limit_reached'
@@ -123,7 +123,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
 
   async function handleDelete(photoId: string) {
     setDeletingId(photoId);
-    const res = await fetch('/api/owner/photos', {
+    const res = await fetch('/sunucu/sahip/fotograflar', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: photoId }),

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { NotificationsClient } from './notifications-client';
+import { NotificationsClient } from './bildirimler-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'Bildirimler | Owner Panel',
+  title: 'Bildirimler | Sahip Paneli',
   robots: { index: false, follow: false },
 };
 

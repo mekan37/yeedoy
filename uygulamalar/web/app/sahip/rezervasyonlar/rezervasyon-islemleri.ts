@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
-import { rateLimit } from '@/src/lib/rate-limit';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { rateLimit } from '@/src/lib/oran-siniri';
 
 const UpdateStatusSchema = z.object({
   id:         z.string().uuid(),
@@ -43,6 +43,6 @@ export async function updateReservationStatus(
     }
     return { error: 'Güncelleme başarısız. Lütfen tekrar deneyin.' };
   }
-  revalidatePath('/owner/reservations');
+  revalidatePath('/sahip/rezervasyonlar');
   return {};
 }
