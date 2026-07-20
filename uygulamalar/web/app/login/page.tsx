@@ -23,7 +23,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const redirectTo = sanitizeInternalRedirect(redirectParam, '/');
   const panelBase = appConfig.panelUrl();
   const panelLoginUrl = panelBase
-    ? `${panelBase.replace(/\/$/, '')}/isletme-giris?redirect=${encodeURIComponent('/owner/businesses')}`
+    ? `${panelBase.replace(/\/$/, '')}/isletme-giris?redirect=${encodeURIComponent('/sahip/isletmeler')}`
     : null;
 
   return (

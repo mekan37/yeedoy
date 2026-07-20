@@ -48,8 +48,8 @@ const SAHIP_PREFIX = '/sahip';        // alias for /owner panel pages
 const ADMIN_API_PREFIX = '/api/admin';
 const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici'; // Turkish alias for /api/admin/*
 const LOGIN_PATH = '/login';
-// Owner panel has a dedicated login page — excluded from the owner guard.
-const OWNER_LOGIN_PATH = '/owner/login';
+// Owner routes redirect unauthenticated users to the canonical login page.
+const OWNER_LOGIN_PATH = '/giris';
 
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
