@@ -1,72 +1,142 @@
 import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
-import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
+import { DenetimKaydiIstemcisi } from './denetim-kaydi-istemcisi';
+import type { DenetimKaydiSatiri, UyeSecenegi } from './denetim-kaydi-istemcisi';
 
 export const metadata: Metadata = {
   title: 'Denetim Kaydı | Sahip Paneli',
   robots: { index: false, follow: false },
 };
 
-export default async function OwnerAuditPage() {
+const SAYFA_BOYUTU = 10;
+
+type Props = {
+  searchParams: Promise<{
+    page?: string;
+    actor?: string;
+    action?: string;
+    from?: string;
+    to?: string;
+  }>;
+};
+
+type IsletmeBirlestirmeSatiri = { business_id: string; businesses: { id: string; name: string } | null };
+
+export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) {
+  const { page: pageParam, actor, action, from, to } = await searchParams;
+  const page = Math.max(1, Number(pageParam) || 1);
+
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
 
-  const { data: logs } = await (supabase as any)
-    .from('admin_audit_log')
-    .select('id, action, resource_type, resource_id, created_at')
-    .eq('actor_id', user!.id)
-    .order('created_at', { ascending: false })
-    .limit(100) as { data: Array<{ id: string; action: string; resource_type: string | null; resource_id: string | null; created_at: string }> | null };
+  const [{ data: ownerBiz }, { data: teamBiz }, { data: ownProfile }] = await Promise.all([
+    (supabase as any)
+      .from('owner_claims')
+      .select('business_id, businesses(id, name)')
+      .eq('user_id', user.id)
+      .eq('status', 'approved'),
+    (supabase as any)
+      .from('business_team_memberships')
+      .select('business_id, businesses(id, name)')
+      .eq('user_id', user.id)
+      .not('accepted_at', 'is', null)
+      .is('revoked_at', null),
+    (supabase as any)
+      .from('user_profiles')
+      .select('user_id, display_name')
+      .eq('user_id', user.id)
+      .maybeSingle(),
+  ]);
 
-  const list = (logs ?? []) as Array<{ id: string; action: string; resource_type: string | null; resource_id: string | null; created_at: string }>;
+  const ownerRows = (ownerBiz ?? []) as IsletmeBirlestirmeSatiri[];
+  const teamRows = (teamBiz ?? []) as IsletmeBirlestirmeSatiri[];
+
+  const businessMap = new Map<string, string>();
+  for (const r of [...ownerRows, ...teamRows]) {
+    if (r.businesses) businessMap.set(r.businesses.id, r.businesses.name);
+  }
+  const businessIds = Array.from(businessMap.keys());
+
+  if (businessIds.length === 0) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Owner" title="Denetim Kaydı" description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz." />
+        <PanelIcerikYuzeyi className="pt-6">
+          <PanelEmptyState
+            icon={<ShieldIcon />}
+            title="İşletme bulunamadı"
+            description="Denetim kaydını görmek için önce bir işletmeye erişiminiz olmalı."
+          />
+        </PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
+  const { data: memberRows } = await (supabase as any)
+    .from('business_team_memberships')
+    .select('user_id, role, user_profiles(user_id, display_name)')
+    .in('business_id', businessIds)
+    .not('accepted_at', 'is', null)
+    .is('revoked_at', null);
+
+  type UyeBirlestirmeSatiri = { user_id: string; role: string; user_profiles: { user_id: string; display_name: string } | null };
+  const memberMap = new Map<string, UyeSecenegi>();
+
+  const ownDisplayName = (ownProfile as { display_name: string } | null)?.display_name ?? 'Ben';
+  memberMap.set(user.id, { user_id: user.id, display_name: ownDisplayName, role: 'owner' });
+
+  for (const m of (memberRows ?? []) as UyeBirlestirmeSatiri[]) {
+    if (!memberMap.has(m.user_id)) {
+      memberMap.set(m.user_id, {
+        user_id: m.user_id,
+        display_name: m.user_profiles?.display_name ?? 'Kullanıcı',
+        role: m.role,
+      });
+    }
+  }
+  const members = Array.from(memberMap.values());
+
+  const offset = (page - 1) * SAYFA_BOYUTU;
+  const { data: result } = await (supabase as any).rpc('get_business_audit_log_v1', {
+    p_business_ids: businessIds,
+    p_actor_id: actor || null,
+    p_action: action || null,
+    p_date_from: from || null,
+    p_date_to: to || null,
+    p_limit: SAYFA_BOYUTU,
+    p_offset: offset,
+  });
+
+  const logRows = (result?.rows ?? []) as DenetimKaydiSatiri[];
+  const total = (result?.total ?? 0) as number;
 
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
         eyebrow="Owner"
         title="Denetim Kaydı"
-        description="Hesabınıza ait eylem geçmişi"
+        description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz."
+        actions={
+          <>
+            <PanelActionButton variant="secondary" disabled title="Yakında aktif olacak">Dışa Aktar</PanelActionButton>
+            <PanelActionButton variant="primary" disabled title="Yakında aktif olacak">Denetim Raporu</PanelActionButton>
+          </>
+        }
       />
-      <PanelIcerikYuzeyi className="pt-6">
-        {list.length === 0 ? (
-          <PanelEmptyState
-            icon={<ShieldIcon />}
-            title="Denetim kaydı yok"
-            description="Hesabınıza ait henüz kayıtlı eylem bulunmuyor."
-          />
-        ) : (
-          <PanelBolumKarti noPadding>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Eylem</th>
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Kaynak</th>
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Hedef</th>
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Tarih</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {list.map((log) => (
-                    <tr key={log.id}>
-                      <td className="px-5 py-3 font-[700] text-textStrong">{log.action}</td>
-                      <td className="px-5 py-3 text-muted">{log.resource_type ?? '—'}</td>
-                      <td className="max-w-[180px] truncate px-5 py-3 text-muted">{log.resource_id ?? '—'}</td>
-                      <td className="px-5 py-3 text-muted">
-                        {new Date(log.created_at).toLocaleDateString('tr-TR', {
-                          day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit',
-                        })}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </PanelBolumKarti>
-        )}
-      </PanelIcerikYuzeyi>
+      <DenetimKaydiIstemcisi
+        logRows={logRows}
+        total={total}
+        page={page}
+        pageSize={SAYFA_BOYUTU}
+        members={members}
+        showBusinessColumn={businessIds.length > 1}
+        filters={{ actor: actor ?? '', action: action ?? '', from: from ?? '', to: to ?? '' }}
+      />
     </div>
   );
 }
@@ -78,4 +148,3 @@ function ShieldIcon() {
     </svg>
   );
 }
-
