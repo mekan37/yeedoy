@@ -34,7 +34,7 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/ekip', label: 'Ekip', icon: <UsersIcon /> },
       { href: '/sahip/fiyat-onerileri', label: 'Fiyat Önerileri', icon: <TagIcon /> },
       { href: '/sahip/istekler', label: 'Grup İstekleri', icon: <GroupIcon /> },
-      { href: '/sahip/etkinlik', label: 'Aktivite', icon: <ActivityIcon /> },
+      { href: '/sahip/etkinlik', label: 'Etkinlikler', icon: <ActivityIcon /> },
       { href: '/sahip/cop-kutusu', label: 'Çöp Kutusu', icon: <TrashIcon /> },
       { href: '/sahip/ayarlar', label: 'Ayarlar', icon: <SettingsIcon /> },
     ],
