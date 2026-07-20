@@ -226,7 +226,6 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
               {[
                 { href: '/sahip/yorumlar', label: `Yorumlar (${reviewCount7d} yeni)`, color: reviewCount7d > 0 ? 'text-blue-600' : '' },
                 { href: '/sahip/analitik', label: 'Analitik', color: '' },
-                { href: '/sahip/envanter', label: 'Envanter', color: '' },
                 { href: '/sahip/menuler', label: 'Menüler', color: '' },
               ].map(a => (
                 <a
