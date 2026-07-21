@@ -29,7 +29,7 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/fiyat-raporu', label: 'Fiyat Raporu', icon: <PriceIcon /> },
       { href: '/sahip/yorumlar', label: 'Yorumlar', icon: <StarIcon /> },
       { href: '/sahip/karekod', label: 'QR Kodlar', icon: <QrIcon /> },
-      { href: '/sahip/pazarlama', label: 'Pazarlama', icon: <MegaphoneIcon /> },
+      { href: '/sahip/pazarlama/kampanyalar', label: 'Pazarlama', icon: <MegaphoneIcon /> },
       { href: '/sahip/buyume', label: 'Büyüme', icon: <TrendingUpIcon /> },
       { href: '/sahip/yapay-zeka-analizi', label: 'Yapay Zeka Analizi', icon: <SparklesIcon /> },
     ],
