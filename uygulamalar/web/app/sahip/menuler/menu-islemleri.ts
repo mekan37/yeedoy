@@ -1,8 +1,12 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { rateLimit } from '@/src/lib/oran-siniri';
+
+type ActionResult = { error: string } | null;
 
 export async function createOwnerMenu(formData: FormData) {
   const businessId = String(formData.get('businessId') ?? '');
@@ -127,4 +131,45 @@ export async function updateExternalMenuUrl(formData: FormData) {
     .eq('id', menuId);
 
   redirect('/sahip/menuler?basari=url_updated');
+}
+
+/**
+ * Bir menüyü işletmenin "aktif" (halka açık /m/[slug] adresinde gösterilen) menüsü
+ * yapar. Aynı işletmenin diğer yayında olan menüleri otomatik olarak taslağa alınır
+ * (atomik geçiş `set_active_menu_v1` RPC'si içinde yapılır).
+ */
+export async function activateMenu(menuId: string, businessId: string): Promise<ActionResult> {
+  const supabase = await createSupabaseServerClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: 'Oturum açmanız gerekiyor.' };
+  }
+
+  const limitResult = rateLimit(`owner-menu-activate:${user.id}`, 20, 60_000);
+  if (!limitResult.ok) {
+    return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
+  }
+
+  const { error } = await (supabase as any).rpc('set_active_menu_v1', {
+    p_menu_id: menuId,
+    p_business_id: businessId,
+  }) as { error: { message: string } | null };
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  // Ziyaretçilerin gördüğü genel menü sayfalarını birkaç saniye içinde güncelle
+  const { data: biz } = await (supabase as any)
+    .from('businesses')
+    .select('slug, public_slug')
+    .eq('id', businessId)
+    .maybeSingle() as { data: { slug: string | null; public_slug: string | null } | null };
+
+  if (biz?.slug) revalidatePath(`/m/${biz.slug}`);
+  if (biz?.public_slug && biz.public_slug !== biz.slug) revalidatePath(`/m/${biz.public_slug}`);
+
+  revalidatePath('/sahip/menuler');
+
+  return null;
 }

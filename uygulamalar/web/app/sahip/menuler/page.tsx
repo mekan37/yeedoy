@@ -6,6 +6,7 @@ import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { createOwnerMenu, createExternalMenu } from './menu-islemleri';
+import { MenuAktivasyonButonu } from './menu-aktivasyon-butonu';
 
 export const metadata: Metadata = {
   title: 'Menüler | Sahip Paneli',
@@ -191,10 +192,10 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
           <PanelBolumKarti noPadding>
             <ul className="divide-y divide-border">
               {list.map((m) => (
-                <li key={m.id}>
+                <li key={m.id} className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-black/[0.02]">
                   <Link
                     href={`/sahip/menuler/${m.id}`}
-                    className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-black/[0.02]"
+                    className="flex min-w-0 flex-1 items-center gap-4"
                   >
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted">
                       {m.kind === 'qr' ? <QrIcon /> : m.kind === 'external' ? <LinkIcon /> : <MenuIcon />}
@@ -211,19 +212,27 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
                         )}
                       </p>
                     </div>
+                  </Link>
 
-                    <span
-                      className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
-                        m.status === 'published'
-                          ? 'bg-green-50 text-green-700'
-                          : m.status === 'archived'
-                            ? 'bg-zinc-100 text-zinc-500'
-                            : 'bg-amber-50 text-amber-700'
-                      }`}
-                    >
-                      {m.status === 'published' ? 'Yayında' : m.status === 'archived' ? 'Arşiv' : 'Taslak'}
-                    </span>
+                  <MenuAktivasyonButonu
+                    menuId={m.id}
+                    businessId={m.business_id}
+                    isActive={m.status === 'published'}
+                  />
 
+                  <span
+                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
+                      m.status === 'published'
+                        ? 'bg-green-50 text-green-700'
+                        : m.status === 'archived'
+                          ? 'bg-zinc-100 text-zinc-500'
+                          : 'bg-amber-50 text-amber-700'
+                    }`}
+                  >
+                    {m.status === 'published' ? 'Yayında' : m.status === 'archived' ? 'Arşiv' : 'Taslak'}
+                  </span>
+
+                  <Link href={`/sahip/menuler/${m.id}`} aria-label="Menü detayına git">
                     <ChevronIcon />
                   </Link>
                 </li>
