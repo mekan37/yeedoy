@@ -19,7 +19,7 @@ export interface LoyaltyProgram {
 /**
  * Fetches loyalty programs for the given business IDs.
  * RLS on loyalty_programs ensures only owned businesses are returned.
- * Called by: app/owner/marketing/loyalty/page.tsx
+ * Called by: app/sahip/pazarlama/sadakat/sadakat-form.tsx (via /sunucu/sahip/sadakat)
  */
 export async function getOwnerLoyaltyPrograms(
   supabase: SupabaseLike,
