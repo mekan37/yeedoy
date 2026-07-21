@@ -14,10 +14,22 @@ const KampanyaSemasi = z.object({
   status:           z.enum(['draft', 'planned', 'active', 'completed']),
   description:      z.string().max(500).optional(),
   discount_percent: z.coerce.number().int().min(1).max(100).optional().nullable(),
-  starts_at:        z.string().datetime().optional().nullable(),
-  ends_at:          z.string().datetime().optional().nullable(),
+  // Native <input type="datetime-local"> gönderir: "YYYY-MM-DDTHH:mm" (saat dilimi yok).
+  // Kesin ISO-8601 formatı burada zorunlu tutulmuyor; kampanyaKaydet içinde
+  // new Date(...).toISOString() ile dönüştürülüp doğrulanıyor.
+  starts_at:        z.string().optional().nullable(),
+  ends_at:          z.string().optional().nullable(),
   id:               z.string().uuid().optional().nullable(),
 });
+
+/** "YYYY-MM-DDTHH:mm" gibi tarayıcı formatını timestamptz için güvenli ISO string'e çevirir.
+ *  Boş/null değer için null, geçersiz tarih için undefined (hata sinyali) döner. */
+function tarihToIso(value: string | null | undefined): string | null | undefined {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return date.toISOString();
+}
 
 export async function kampanyaKaydet(
   _prev: { error: string } | null,
@@ -40,6 +52,12 @@ export async function kampanyaKaydet(
 
   const d = parsed.data;
 
+  const startsAtIso = tarihToIso(d.starts_at);
+  const endsAtIso = tarihToIso(d.ends_at);
+  if (startsAtIso === undefined || endsAtIso === undefined) {
+    return { error: 'Geçersiz tarih formatı' };
+  }
+
   return withAuth(async () => {
     const supabase = await createSupabaseServerClient();
     const { error } = await (supabase as any).rpc('owner_upsert_campaign_v1', {
@@ -49,8 +67,8 @@ export async function kampanyaKaydet(
       p_status:          d.status,
       p_description:     d.description ?? null,
       p_discount_percent: d.discount_percent ?? null,
-      p_starts_at:       d.starts_at ?? null,
-      p_ends_at:         d.ends_at ?? null,
+      p_starts_at:       startsAtIso,
+      p_ends_at:         endsAtIso,
       p_id:              d.id ?? null,
     }) as { error: { message: string } | null };
 

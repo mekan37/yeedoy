@@ -45,11 +45,6 @@ function toDatetimeLocal(iso: string | null | undefined): string {
   return iso.slice(0, 16);
 }
 
-function fromDatetimeLocal(val: string): string | null {
-  if (!val) return null;
-  return new Date(val).toISOString();
-}
-
 export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
   const [state, action, pending] = useActionState(kampanyaKaydet, null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -151,10 +146,6 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
                 type="datetime-local"
                 defaultValue={toDatetimeLocal(campaign?.starts_at)}
                 className={inputCls}
-                onChange={(e) => {
-                  const hidden = e.currentTarget.form?.elements.namedItem('starts_at_iso') as HTMLInputElement | null;
-                  if (hidden) hidden.value = fromDatetimeLocal(e.target.value) ?? '';
-                }}
               />
             </Field>
             <Field label="Bitiş">
@@ -163,10 +154,6 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
                 type="datetime-local"
                 defaultValue={toDatetimeLocal(campaign?.ends_at)}
                 className={inputCls}
-                onChange={(e) => {
-                  const hidden = e.currentTarget.form?.elements.namedItem('ends_at_iso') as HTMLInputElement | null;
-                  if (hidden) hidden.value = fromDatetimeLocal(e.target.value) ?? '';
-                }}
               />
             </Field>
           </div>
