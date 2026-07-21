@@ -14,10 +14,10 @@ import {
   UserRound,
   type LucideIcon,
 } from 'lucide-react';
-import { PanelActionButton } from '@/src/ui/components/panel-action-button';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { deactivateBusiness } from './actions';
-import type { BusinessData, UserData } from './settings-client';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { deactivateBusiness } from './ayarlar-islemleri';
+import type { BusinessData, UserData } from './ayarlar-istemcisi';
 
 interface SettingsRightSidebarProps {
   user: UserData;
@@ -51,7 +51,7 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
           return;
         }
 
-        window.location.assign('/owner/businesses');
+        window.location.assign('/sahip/isletmeler');
       } catch {
         setError('İşletme devre dışı bırakılamadı. Lütfen tekrar deneyin.');
       }
@@ -60,7 +60,7 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
 
   return (
     <div className="flex flex-col gap-4">
-      <PanelSectionCard title="Kullanıcı Bilgisi">
+      <PanelBolumKarti title="Kullanıcı Bilgisi">
         <div className="flex items-center gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-[900] text-primary">
             {initials || <UserRound aria-hidden="true" className="h-5 w-5" />}
@@ -73,9 +73,9 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
             <p className="mt-1 text-xs font-[700] text-primary">İşletme sahibi</p>
           </div>
         </div>
-      </PanelSectionCard>
+      </PanelBolumKarti>
 
-      <PanelSectionCard title="Hızlı İşlemler" noPadding>
+      <PanelBolumKarti title="Hızlı İşlemler" noPadding>
         <nav aria-label="Ayarlar hızlı işlemleri" className="divide-y divide-border">
           {business.slug ? (
             <QuickActionLink
@@ -85,13 +85,13 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
               external
             />
           ) : null}
-          <QuickActionLink href="/owner/qr" label="QR menüyü görüntüle" icon={QrCode} />
-          <QuickActionLink href="/owner/businesses" label="İşletme bilgilerine git" icon={Building2} />
-          <QuickActionLink href="/owner/menus" label="Menüleri yönet" icon={LayoutGrid} />
+          <QuickActionLink href="/sahip/karekod" label="QR menüyü görüntüle" icon={QrCode} />
+          <QuickActionLink href="/sahip/isletmeler" label="İşletme bilgilerine git" icon={Building2} />
+          <QuickActionLink href="/sahip/menuler" label="Menüleri yönet" icon={LayoutGrid} />
         </nav>
-      </PanelSectionCard>
+      </PanelBolumKarti>
 
-      <PanelSectionCard title="Entegrasyonlar" noPadding>
+      <PanelBolumKarti title="Entegrasyonlar" noPadding>
         <ul className="divide-y divide-border">
           {integrations.map((integration) => {
             const Icon = integration.icon;
@@ -119,9 +119,9 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
             );
           })}
         </ul>
-      </PanelSectionCard>
+      </PanelBolumKarti>
 
-      <PanelSectionCard title="Tehlikeli Bölge" className="border-danger/30">
+      <PanelBolumKarti title="Tehlikeli Bölge" className="border-danger/30">
         <div className="flex gap-3">
           <TriangleAlert aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-danger" />
           <div>
@@ -190,7 +190,7 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
             </div>
           </div>
         )}
-      </PanelSectionCard>
+      </PanelBolumKarti>
     </div>
   );
 }

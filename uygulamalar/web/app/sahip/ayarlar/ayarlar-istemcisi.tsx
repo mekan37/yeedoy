@@ -1,13 +1,13 @@
 'use client';
 
 import { useRef, useState, type KeyboardEvent } from 'react';
-import type { WeeklyHourRow } from './hours/hours-form';
-import { BildirimAyarlariTab } from './tabs/bildirim-ayarlari-tab';
-import { GizlilikGuvenlikTab } from './tabs/gizlilik-guvenlik-tab';
-import { HesapAyarlariTab } from './tabs/hesap-ayarlari-tab';
-import { IsletmeProfilTab } from './tabs/isletme-profili-tab';
-import { RezervasyonAyarlariTab } from './tabs/rezervasyon-ayarlari-tab';
-import { SettingsRightSidebar } from './settings-right-sidebar';
+import type { WeeklyHourRow } from './saatler/saatler-formu';
+import { BildirimAyarlariTab } from './sekmeler/bildirim-ayarlari-sekmesi';
+import { GizlilikGuvenlikTab } from './sekmeler/gizlilik-guvenlik-sekmesi';
+import { HesapAyarlariTab } from './sekmeler/hesap-ayarlari-sekmesi';
+import { IsletmeProfilTab } from './sekmeler/isletme-profili-sekmesi';
+import { RezervasyonAyarlariTab } from './sekmeler/rezervasyon-ayarlari-sekmesi';
+import { SettingsRightSidebar } from './ayarlar-sag-menu';
 
 export type SettingsTab =
   | 'profile'

@@ -2,12 +2,12 @@
 
 import { AtSign, UserRound } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import type { UserData } from '../settings-client';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import type { UserData } from '../ayarlar-istemcisi';
 
 export function HesapAyarlariTab({ user }: { user: UserData }) {
   return (
-    <PanelSectionCard
+    <PanelBolumKarti
       title="Hesap Bilgileri"
       description="Yeedoy hesabınızla ilişkilendirilmiş kullanıcı bilgileri."
     >
@@ -24,7 +24,7 @@ export function HesapAyarlariTab({ user }: { user: UserData }) {
           description="E-posta adresi bu ekrandan değiştirilemez."
         />
       </dl>
-    </PanelSectionCard>
+    </PanelBolumKarti>
   );
 }
 

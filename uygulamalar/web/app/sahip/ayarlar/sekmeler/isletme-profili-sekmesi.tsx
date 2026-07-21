@@ -1,13 +1,13 @@
 'use client';
 
 import { useActionState, useState, type ReactNode } from 'react';
-import { PanelActionButton } from '@/src/ui/components/panel-action-button';
-import { PanelSectionCard } from '@/src/ui/layout/panel-section-card';
-import { BrandingEditor } from '../../businesses/[id]/branding-editor';
-import { updateBusinessProfile, updateContactInfo } from '../actions';
-import type { ActionState } from '../actions';
-import { HoursForm, type WeeklyHourRow } from '../hours/hours-form';
-import type { BusinessData } from '../settings-client';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
+import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { BrandingEditor } from './isletme-gorselleri-editoru';
+import { updateBusinessProfile, updateContactInfo } from '../ayarlar-islemleri';
+import type { ActionState } from '../ayarlar-islemleri';
+import { HoursForm, type WeeklyHourRow } from '../saatler/saatler-formu';
+import type { BusinessData } from '../ayarlar-istemcisi';
 
 interface IsletmeProfilTabProps {
   business: BusinessData;
@@ -57,7 +57,7 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
   return (
     <div className="space-y-6">
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.9fr)]">
-        <PanelSectionCard
+        <PanelBolumKarti
           title="İşletme Bilgileri"
           description="İşletmenizin temel bilgilerini düzenleyin."
         >
@@ -179,7 +179,7 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
               </PanelActionButton>
             </div>
           </form>
-        </PanelSectionCard>
+        </PanelBolumKarti>
 
         <section aria-labelledby="business-branding-heading" className="min-w-0">
           <div className="mb-3 px-1">
@@ -200,14 +200,14 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
       </div>
 
       <div className="grid items-start gap-6 lg:grid-cols-2">
-        <PanelSectionCard
+        <PanelBolumKarti
           title="Çalışma Saatleri"
           description="Haftalık açılış ve kapanış saatlerinizi düzenleyin."
         >
           <HoursForm businessId={business.id} hours={hours.length > 0 ? hours : null} />
-        </PanelSectionCard>
+        </PanelBolumKarti>
 
-        <PanelSectionCard
+        <PanelBolumKarti
           title="İletişim Bilgileri"
           description="Müşterilerin size ulaşabileceği bağlantıları yönetin."
         >
@@ -273,7 +273,7 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
               </PanelActionButton>
             </div>
           </form>
-        </PanelSectionCard>
+        </PanelBolumKarti>
       </div>
     </div>
   );
