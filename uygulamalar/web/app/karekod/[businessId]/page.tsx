@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { KarekodUreticiIstemcisi } from '@/src/ui/bolumler/karekod-uretici';
 import { getBrandThemeDefinition, getBrandThemeOptions } from '@/src/lib/marka-temasi';
@@ -141,22 +142,32 @@ export default async function QrPage({ params, searchParams }: QrPageProps) {
   } as const;
 
   return (
-    <KarekodUreticiIstemcisi
-      lang={language}
-      baseCopy={copy[language]}
-      themeCatalog={themeCatalog}
-      themeOptions={themeOptions}
-      blurDataUrlByTheme={blurDataUrlByTheme}
-      businessId={businessId}
-      businessSlug={data.business.slug}
-      businessPublicSlug={data.business.public_slug}
-      businessName={businessName}
-      logoUrl={data.media.logoUrl}
-      canonicalUrl={canonicalUrl}
-      shortUrl={shortUrl}
-      initialPresentation={data.presentation}
-      mediaOptions={mediaOptions}
-    />
+    <>
+      <div className="mx-auto flex w-full max-w-[1400px] justify-end px-3 pt-4 sm:px-4">
+        <Link
+          href={`/karekod/${businessId}/kodlarim`}
+          className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2 text-xs font-black text-primary shadow-yd1 transition hover:opacity-90"
+        >
+          QR Kodlarım ve Analitik →
+        </Link>
+      </div>
+      <KarekodUreticiIstemcisi
+        lang={language}
+        baseCopy={copy[language]}
+        themeCatalog={themeCatalog}
+        themeOptions={themeOptions}
+        blurDataUrlByTheme={blurDataUrlByTheme}
+        businessId={businessId}
+        businessSlug={data.business.slug}
+        businessPublicSlug={data.business.public_slug}
+        businessName={businessName}
+        logoUrl={data.media.logoUrl}
+        canonicalUrl={canonicalUrl}
+        shortUrl={shortUrl}
+        initialPresentation={data.presentation}
+        mediaOptions={mediaOptions}
+      />
+    </>
   );
 }
 
