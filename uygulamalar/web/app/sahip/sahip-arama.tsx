@@ -83,7 +83,7 @@ export function OwnerLandingSearch() {
               <p className="font-[700] text-[#374151]">&ldquo;{query}&rdquo; için sonuç bulunamadı</p>
               <p className="mt-1 text-sm text-[#9ca3af]">İşletmenizi yeni olarak ekleyebilirsiniz.</p>
               <Link
-                href="/owner/businesses/new"
+                href="/sahiplen/yeni"
                 className="mt-4 inline-flex h-10 items-center gap-2 rounded-xl bg-[#dc2626] px-5 text-sm font-[800] text-white"
               >
                 Yeni İşletme Ekle
@@ -106,7 +106,7 @@ export function OwnerLandingSearch() {
                     </p>
                   </div>
                   <Link
-                    href={`/sahiplen/talep?businessId=${biz.id}`}
+                    href={`/sahiplen/talep?id=${biz.id}`}
                     className="flex-shrink-0 rounded-xl border border-[#dc2626] px-4 py-2 text-sm font-[800] text-[#dc2626] transition hover:bg-[#fef2f2]"
                   >
                     Sahiplen

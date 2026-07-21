@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { redirect } from 'next/navigation';
 import { YeedoyLogo } from '@/src/ui/brand/yeedoy-logo';
-import { OwnerLandingSearch } from './owner-landing-search';
+import { OwnerLandingSearch } from '../sahip/sahip-arama';
 
 export const metadata: Metadata = {
   title: 'İşletme Paneli | Yeedoy',
