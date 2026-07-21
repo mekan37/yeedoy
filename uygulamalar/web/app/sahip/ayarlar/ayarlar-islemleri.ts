@@ -55,6 +55,11 @@ const ProfileSchema = z.object({
   district: z.string().trim().max(80),
 });
 
+const BrandingSchema = z.object({
+  type: z.enum(['logo', 'cover']),
+  url: z.string().trim().url().max(2000),
+});
+
 const ContactSchema = z.object({
   website_url: OptionalUrlSchema,
   instagram_url: OptionalUrlSchema,
@@ -296,6 +301,38 @@ export async function updateContactInfo(
 
   if (result.error || !result.data) {
     return { error: 'İletişim bilgileri kaydedilemedi.' };
+  }
+
+  revalidateBusinessPaths(authorization.businessId, result.data);
+  return { success: true };
+}
+
+export async function updateBusinessBranding(
+  businessId: string,
+  type: 'logo' | 'cover',
+  url: string,
+): Promise<{ error: string } | { success: true }> {
+  const authorization = await authorizeBusinessWrite(businessId, 'branding');
+  if ('error' in authorization) return { error: authorization.error };
+
+  const parsed = BrandingSchema.safeParse({ type, url });
+  if (!parsed.success) {
+    return { error: 'Geçersiz görsel adresi.' };
+  }
+
+  const service = createSupabaseServiceClient();
+  if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
+
+  const column = parsed.data.type === 'logo' ? 'logo_url' : 'cover_url';
+  const result = (await (service as any)
+    .from('businesses')
+    .update({ [column]: parsed.data.url })
+    .eq('id', authorization.businessId)
+    .select('id, slug, public_slug')
+    .maybeSingle()) as BusinessMutationResult;
+
+  if (result.error || !result.data) {
+    return { error: 'Görsel kaydedilemedi.' };
   }
 
   revalidateBusinessPaths(authorization.businessId, result.data);

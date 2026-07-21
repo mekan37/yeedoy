@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { Camera, Image as ImageIcon, LoaderCircle, PenLine, Upload } from 'lucide-react';
+import { updateBusinessBranding } from '../ayarlar-islemleri';
 
 interface Props {
   businessId: string;
@@ -84,6 +85,12 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
 
       const url = result?.data?.url;
       if (!url) throw new Error('invalid_upload_response');
+
+      const persistResult = await updateBusinessBranding(businessId, type, url);
+      if ('error' in persistResult) {
+        setError(persistResult.error);
+        return;
+      }
 
       if (type === 'logo') { setLogoUrl(url); setLogoV((v) => v + 1); }
       else                 { setCoverUrl(url); setCoverV((v) => v + 1); }
