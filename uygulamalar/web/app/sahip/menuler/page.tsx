@@ -232,7 +232,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
                     {m.status === 'published' ? 'Yayında' : m.status === 'archived' ? 'Arşiv' : 'Taslak'}
                   </span>
 
-                  <Link href={`/sahip/menuler/${m.id}`} aria-label="Menü detayına git">
+                  <Link href={`/sahip/menuler/${m.id}`} aria-hidden="true" tabIndex={-1}>
                     <ChevronIcon />
                   </Link>
                 </li>
