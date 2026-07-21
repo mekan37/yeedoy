@@ -54,7 +54,7 @@ const OWNER_LOGIN_PATH = '/giris';
 async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
   // Exclude public owner pages from the auth guard
-  const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/owner'];
+  const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/owner', '/sahip'];
   const isOwnerRoute =
     (pathname.startsWith(OWNER_PREFIX) || pathname.startsWith(SAHIP_PREFIX)) &&
     !OWNER_PUBLIC_PATHS.includes(pathname);

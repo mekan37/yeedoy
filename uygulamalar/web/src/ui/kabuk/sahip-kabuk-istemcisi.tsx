@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
@@ -76,6 +77,13 @@ interface SahipKabukIstemcisiProps {
 
 export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcisiProps) {
   const user = useCurrentUser();
+  const pathname = usePathname();
+  const isLandingPage = pathname === '/sahip';
+
+  if (isLandingPage) {
+    return <AppProviders>{children}</AppProviders>;
+  }
+
   return (
     <AppProviders>
       <PanelShell
