@@ -60,6 +60,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const targetUrl = useCallback((qr: QrCode) => {
     if (qr.type === 'custom' && qr.target_url) return qr.target_url;
@@ -93,12 +94,19 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
   });
 
   const handleDelete = async (qr: QrCode) => {
+    if (!confirm(`"${qr.name}" QR kodunu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`)) return;
+    setMenuOpenId(null);
+    setDeleteError(null);
     setDeleting(qr.id);
-    await deleteQrCode(qr.id, businessId);
+    const result = await deleteQrCode(qr.id, businessId);
+    if (result?.error) {
+      setDeleteError(result.error);
+      setDeleting(null);
+      return;
+    }
     setCodes((prev) => prev.filter((c) => c.id !== qr.id));
     if (selected?.id === qr.id) setSelected(codes.find((c) => c.id !== qr.id) ?? null);
     setDeleting(null);
-    setMenuOpenId(null);
   };
 
   const downloadPng = () => {
@@ -119,6 +127,12 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
         <StatCard icon={<UserIcon />}   color="text-amber-500" label="Benzersiz Ziyaretçi" value={formatNum(stats.unique_visitors)} sub="Son 30 günde" />
         <StatCard icon={<HeartIcon />}  color="text-rose-500" label="Ortalama Etkileşim" value={stats.total_codes > 0 ? '%68.4' : '—'} sub="Menü görüntüleme oranı" />
       </div>
+
+      {deleteError && (
+        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm font-[700] text-red-600">
+          {deleteError}
+        </div>
+      )}
 
       {/* Ana 2 sütunlu düzen */}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_320px]">
