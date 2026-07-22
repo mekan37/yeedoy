@@ -3,6 +3,12 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import {
+  Flame, Hamburger, UtensilsCrossed, Cookie, HandPlatter, CupSoda, Cake,
+  Droplet, Pizza, Sandwich, Drumstick, Fish, Salad, Wheat, Soup, Croissant,
+  Beef, Utensils,
+  type LucideIcon,
+} from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
 import type { PublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
@@ -47,26 +53,26 @@ const ALLERGEN_EMOJI: Record<string, string> = {
   molluscs: '🐚',
 };
 
-function kategoriEmoji(name: string): string {
+function kategoriIkonu(name: string): LucideIcon {
   const n = name.toLowerCase();
-  if (n.includes('öne') || n.includes('popüler') || n.includes('özel')) return '🔥';
-  if (n.includes('burger')) return '🍔';
-  if (n.includes('menü') || n.includes('kombo')) return '🥘';
-  if (n.includes('aperatif') || n.includes('atıştır')) return '🫙';
-  if (n.includes('yan') || n.includes('garnitür')) return '🍟';
-  if (n.includes('içecek') || n.includes('drink') || n.includes('su')) return '🧃';
-  if (n.includes('tatlı') || n.includes('dessert')) return '🍰';
-  if (n.includes('sos') || n.includes('sauce')) return '🧄';
-  if (n.includes('pizza')) return '🍕';
-  if (n.includes('kebap') || n.includes('döner')) return '🥙';
-  if (n.includes('tavuk') || n.includes('chicken')) return '🍗';
-  if (n.includes('balık') || n.includes('fish')) return '🐟';
-  if (n.includes('salata')) return '🥗';
-  if (n.includes('makarna') || n.includes('pasta')) return '🍝';
-  if (n.includes('çorba')) return '🍲';
-  if (n.includes('pide') || n.includes('lahmacun')) return '🫓';
-  if (n.includes('izgara') || n.includes('et') || n.includes('pirzola')) return '🥩';
-  return '🍽️';
+  if (n.includes('öne') || n.includes('popüler') || n.includes('özel')) return Flame;
+  if (n.includes('burger')) return Hamburger;
+  if (n.includes('menü') || n.includes('kombo')) return UtensilsCrossed;
+  if (n.includes('aperatif') || n.includes('atıştır')) return Cookie;
+  if (n.includes('yan') || n.includes('garnitür')) return HandPlatter;
+  if (n.includes('içecek') || n.includes('drink') || n.includes('su')) return CupSoda;
+  if (n.includes('tatlı') || n.includes('dessert')) return Cake;
+  if (n.includes('sos') || n.includes('sauce')) return Droplet;
+  if (n.includes('pizza')) return Pizza;
+  if (n.includes('kebap') || n.includes('döner')) return Sandwich;
+  if (n.includes('tavuk') || n.includes('chicken')) return Drumstick;
+  if (n.includes('balık') || n.includes('fish')) return Fish;
+  if (n.includes('salata')) return Salad;
+  if (n.includes('makarna') || n.includes('pasta')) return Wheat;
+  if (n.includes('çorba')) return Soup;
+  if (n.includes('pide') || n.includes('lahmacun')) return Croissant;
+  if (n.includes('izgara') || n.includes('et') || n.includes('pirzola')) return Beef;
+  return Utensils;
 }
 
 function fiyat(cents: number | null): string {
@@ -148,10 +154,10 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
   ].filter((x): x is { label: string; url: string; emoji: string } => x !== null);
 
   const sidebarCats = [
-    { id: FEATURED_ID, name: 'Öne Çıkanlar', emoji: '🔥' },
+    { id: FEATURED_ID, name: 'Öne Çıkanlar', icon: Flame },
     ...categories.map((c) => {
       const name = catNameMap.get(c.id) ?? 'Kategori';
-      return { id: c.id, name, emoji: kategoriEmoji(name) };
+      return { id: c.id, name, icon: kategoriIkonu(name) };
     }),
   ];
 
@@ -336,7 +342,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                       : 'border-transparent text-textStrong hover:bg-surface hover:text-primary'
                   }`}
                 >
-                  <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
+                  <cat.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span className="truncate">{cat.name}</span>
                 </button>
               );
@@ -393,7 +399,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
             if (catItems.length === 0) return null;
 
             const catName = catNameMap.get(cat.id) ?? 'Kategori';
-            const emoji = kategoriEmoji(catName);
+            const CategoryIcon = kategoriIkonu(catName);
             const isCollapsed = collapsedMap[cat.id] ?? false;
             const showMore = showMoreMap[cat.id] ?? false;
             const visibleItems = showMore ? catItems : catItems.slice(0, INITIAL_SHOW);
@@ -406,7 +412,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                   className="mb-3 flex w-full items-center gap-2 text-left"
                   aria-expanded={!isCollapsed}
                 >
-                  <span aria-hidden="true" className="text-xl">{emoji}</span>
+                  <CategoryIcon aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" />
                   <h2 className="flex-1 text-lg font-[900] text-textStrong">{catName}</h2>
                   <svg
                     width="16" height="16" viewBox="0 0 24 24" fill="none"
