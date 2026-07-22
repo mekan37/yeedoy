@@ -13,6 +13,7 @@ const adminNavSections: NavSection[] = [
     items: [
       { href: '/yonetici/gosterge-panosu', label: 'Genel Bakış', icon: <HomeIcon />, exact: true },
       { href: '/yonetici/isletmeler', label: 'İşletmeler', icon: <BuildingIcon /> },
+      { href: '/yonetici/zincirler', label: 'Zincirler', icon: <LayersIcon /> },
       { href: '/yonetici/arama', label: 'Arama', icon: <SearchIcon /> },
       { href: '/yonetici/kuyruk', label: 'İnceleme Kuyruğu', icon: <FlagIcon /> },
       { href: '/yonetici/itirazlar/claims', label: 'Sahiplenme Kuyruğu', icon: <InboxIcon /> },
@@ -49,6 +50,7 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/kvkk-gdpr', label: 'KVKK / GDPR', icon: <ShieldCheckIcon /> },
       { href: '/yonetici/denetim-kaydi', label: 'Denetim Kaydı', icon: <ClipboardIcon /> },
       { href: '/yonetici/gecici-yuklemeler', label: 'Geçici Yüklemeler', icon: <UploadIcon /> },
+      { href: '/yonetici/toplu-islemler', label: 'Toplu İşlemler', icon: <ListChecksIcon /> },
     ],
   },
 ];
@@ -64,7 +66,7 @@ export function YoneticiKabukIstemcisi({ children, bannerSlot }: YoneticiKabukIs
       <PanelShell
         navSections={adminNavSections}
         logoSlot={<AdminLogo />}
-        topbarTitle="Yonetici Paneli"
+        topbarTitle="Yönetici Paneli"
         topbarCenter={<YoneticiUstArama />}
         sidebarFooter={<KullaniciFoteri />}
         bannerSlot={bannerSlot}
@@ -82,9 +84,9 @@ function AdminLogo() {
         className="flex h-8 w-8 items-center justify-center rounded-lg text-white text-sm font-[900]"
         style={{ background: 'linear-gradient(135deg, #1e1b4b, #4f46e5)' }}
       >
-        A
+        Y
       </div>
-      <span className="text-[15px] font-[900] text-textStrong">Admin</span>
+      <span className="text-[15px] font-[900] text-textStrong">Yönetici</span>
     </div>
   );
 }
@@ -366,6 +368,19 @@ function ShieldCheckIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       <polyline points="9 12 11 14 15 10" />
+    </svg>
+  );
+}
+
+function ListChecksIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 6h11" />
+      <path d="M9 12h11" />
+      <path d="M9 18h11" />
+      <path d="m3 6 1 1 2-2" />
+      <path d="m3 12 1 1 2-2" />
+      <path d="m3 18 1 1 2-2" />
     </svg>
   );
 }

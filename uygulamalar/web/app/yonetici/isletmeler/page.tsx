@@ -5,6 +5,7 @@ import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 
 export const metadata: Metadata = {
   title: 'İşletmeler | Yonetici Paneli',
@@ -98,6 +99,13 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
         eyebrow="Admin"
         title="İşletmeler"
         description={count != null ? `${count.toLocaleString('tr-TR')} işletme` : ''}
+        actions={
+          <Link href="/yonetici/isletmeler/yeni">
+            <PanelActionButton variant="primary" icon={<PlusIcon />}>
+              Yeni İşletme Ekle
+            </PanelActionButton>
+          </Link>
+        }
       />
       <PanelIcerikYuzeyi className="pt-6">
         <div className="mb-4 flex flex-wrap gap-2">
@@ -380,6 +388,14 @@ function BuildingIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="4" y="2" width="16" height="20" rx="2" ry="2" /><path d="M9 22V12h6v10" />
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
     </svg>
   );
 }
