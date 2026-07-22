@@ -2,6 +2,8 @@ import '@/src/styles/globals.css';
 import type { Metadata } from 'next';
 import { Outfit, Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { appConfig } from '@/src/lib/config';
 import { AppProviders } from '@/src/lib/providers';
 
@@ -50,6 +52,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         }}
       >
         <AppProviders>{children}</AppProviders>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
