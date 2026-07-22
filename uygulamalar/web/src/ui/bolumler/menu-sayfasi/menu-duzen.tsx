@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   Flame, Hamburger, UtensilsCrossed, Cookie, HandPlatter, CupSoda, Cake,
-  Droplet, Pizza, Sandwich, Drumstick, Fish, Salad, Wheat, Soup, Croissant,
+  Droplet, Pizza, Sandwich, Drumstick, Fish, Salad, Wheat, Soup,
   Beef, Utensils,
   type LucideIcon,
 } from 'lucide-react';
@@ -70,7 +70,7 @@ function kategoriIkonu(name: string): LucideIcon {
   if (n.includes('salata')) return Salad;
   if (n.includes('makarna') || n.includes('pasta')) return Wheat;
   if (n.includes('çorba')) return Soup;
-  if (n.includes('pide') || n.includes('lahmacun')) return Croissant;
+  if (n.includes('pide') || n.includes('lahmacun')) return UtensilsCrossed;
   if (n.includes('izgara') || n.includes('et') || n.includes('pirzola')) return Beef;
   return Utensils;
 }
