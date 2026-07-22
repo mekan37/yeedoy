@@ -27,7 +27,7 @@ type ChainRow = {
   created_at: string;
 };
 
-export default async function YoneticiZincilerPage({ searchParams }: Props) {
+export default async function AdminChainsPage({ searchParams }: Props) {
   const { q = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10));
 

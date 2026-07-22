@@ -33,7 +33,7 @@ type DetailRow = {
   is_active: boolean;
 };
 
-export default async function YoneticiZincirDetayPage({ params }: Props) {
+export default async function AdminChainDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createSupabaseServerClient();
 
