@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { clsx } from 'clsx';
+import { Trophy } from 'lucide-react';
 
 interface OyItem {
   id: string;
@@ -80,7 +81,7 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  {idx === 0 && score > 0 && <span className="text-lg">🏆</span>}
+                  {idx === 0 && score > 0 && <Trophy className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />}
                   <h3 className="font-[900] text-textStrong">{item.businessName}</h3>
                 </div>
                 {(item.category || item.location) && (

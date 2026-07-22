@@ -15,6 +15,7 @@ import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { appendMediaVersion, buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { getPresentationViewModel } from '@/src/lib/sunum-gorunumu';
 import type { PublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
+import { Search } from 'lucide-react';
 
 const ItemDetailSheet = dynamic(
   () => import('@/src/ui/bolumler/urun-detay-paneli').then((module) => module.MenuItemDetailSheet),
@@ -793,11 +794,11 @@ export function AcikMenuIstemcisi({
           {filteredItems.length === 0 ? (
             <div className="rounded-[28px] border border-dashed border-border bg-card p-10 text-center shadow-yd1">
               <div
-                className="mx-auto mb-5 flex size-20 items-center justify-center rounded-full text-3xl"
+                className="mx-auto mb-5 flex size-20 items-center justify-center rounded-full"
                 style={{ background: 'radial-gradient(circle, rgba(127,29,29,0.10), rgba(127,29,29,0.04))' }}
                 aria-hidden="true"
               >
-                🔍
+                <Search className="h-8 w-8 text-primary" aria-hidden="true" />
               </div>
               <h2 className="text-xl font-black tracking-tight text-textStrong">{labels.noResultsTitle}</h2>
               <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-muted">{labels.noResultsBody}</p>

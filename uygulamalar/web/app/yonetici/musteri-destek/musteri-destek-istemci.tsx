@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { Clock } from 'lucide-react';
 
 interface Ticket {
   id: string; subject: string; status: string; priority: string;
@@ -183,8 +184,8 @@ export function MusteriDestekListesi({
                       <span className="text-[10px] text-muted">{ticket.category}</span>
                     )}
                     {/* SLA badge */}
-                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-[700] ${sla.color}`}>
-                      ⏱ {sla.label}
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-[700] ${sla.color}`}>
+                      <Clock className="h-3 w-3" aria-hidden="true" /> {sla.label}
                     </span>
                   </div>
                   <p className="mt-1 truncate font-[700] text-textStrong">{ticket.subject}</p>

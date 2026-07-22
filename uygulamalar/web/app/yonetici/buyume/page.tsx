@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { Sprout, Smartphone, Link2, Users, type LucideIcon } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Büyüme | Yonetici Paneli',
@@ -124,11 +125,11 @@ export default async function AdminGrowthPage() {
 function AcquisitionChannelChart({ organic, qrScan, direct, referral, total }: {
   organic: number; qrScan: number; direct: number; referral: number; total: number;
 }) {
-  const channels = [
-    { label: 'Organik Arama', value: organic, color: 'bg-green-500', icon: '🌱' },
-    { label: 'QR Kod Tarama', value: qrScan,  color: 'bg-blue-500',  icon: '📱' },
-    { label: 'Direkt Giriş',  value: direct,  color: 'bg-purple-500', icon: '🔗' },
-    { label: 'Referral',      value: referral, color: 'bg-orange-500', icon: '👥' },
+  const channels: { label: string; value: number; color: string; icon: LucideIcon }[] = [
+    { label: 'Organik Arama', value: organic, color: 'bg-green-500', icon: Sprout },
+    { label: 'QR Kod Tarama', value: qrScan,  color: 'bg-blue-500',  icon: Smartphone },
+    { label: 'Direkt Giriş',  value: direct,  color: 'bg-purple-500', icon: Link2 },
+    { label: 'Referral',      value: referral, color: 'bg-orange-500', icon: Users },
   ];
   const max = Math.max(...channels.map(c => c.value), 1);
 
@@ -139,7 +140,7 @@ function AcquisitionChannelChart({ organic, qrScan, direct, referral, total }: {
         const pct = total > 0 ? Math.round((ch.value / total) * 100) : 0;
         return (
           <div key={ch.label} className="flex items-center gap-3">
-            <span className="w-6 text-base">{ch.icon}</span>
+            <span className="flex w-6 shrink-0 justify-center"><ch.icon className="h-4 w-4 text-muted" aria-hidden="true" /></span>
             <span className="w-36 shrink-0 text-sm font-[700] text-textStrong">{ch.label}</span>
             <div className="flex h-7 flex-1 overflow-hidden rounded-xl bg-zinc-100">
               <div

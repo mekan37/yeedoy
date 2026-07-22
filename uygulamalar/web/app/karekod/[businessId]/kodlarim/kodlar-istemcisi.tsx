@@ -268,7 +268,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {TIPS.map((tip) => (
                 <div key={tip.title} className="flex flex-col items-center gap-2 rounded-xl bg-bg p-3 text-center">
-                  <span className="text-2xl">{tip.emoji}</span>
+                  <tip.icon className="h-6 w-6 text-primary" />
                   <p className="text-xs font-[800] text-textStrong">{tip.title}</p>
                   <p className="text-[11px] leading-relaxed text-muted">{tip.desc}</p>
                 </div>
@@ -484,10 +484,10 @@ function StatCard({ icon, color, label, value, sub }: {
 // ── Yardımcılar ───────────────────────────────────────────────────────────────
 
 const TIPS = [
-  { emoji: '🪑', title: 'Masalarınıza Yerleştirin', desc: 'Müşterilerinizin kolayca görebileceği masaların üzerine yerleştirin.' },
-  { emoji: '🖼️', title: 'Dikey Stand Kullanın', desc: 'Daha iyi tarama deneyimi için dikey stand önerilir.' },
-  { emoji: '⛅', title: 'Hava Koşullarına Dikkat', desc: 'Açık alanda kullanılan QR kodların korumalı olmasına özen gösterin.' },
-  { emoji: '🔍', title: 'Temiz ve Okunaklı Tutun', desc: 'QR kodların temiz ve hasarsız olmasından emin olun.' },
+  { icon: TableIcon, title: 'Masalarınıza Yerleştirin', desc: 'Müşterilerinizin kolayca görebileceği masaların üzerine yerleştirin.' },
+  { icon: StandIcon, title: 'Dikey Stand Kullanın', desc: 'Daha iyi tarama deneyimi için dikey stand önerilir.' },
+  { icon: CloudIcon, title: 'Hava Koşullarına Dikkat', desc: 'Açık alanda kullanılan QR kodların korumalı olmasına özen gösterin.' },
+  { icon: SearchIcon, title: 'Temiz ve Okunaklı Tutun', desc: 'QR kodların temiz ve hasarsız olmasından emin olun.' },
 ];
 
 function typeColor(type: string) {
@@ -530,3 +530,6 @@ function InfoIcon({ className = 'h-4 w-4' }: { className?: string }) { return <s
 function MenuIcon() { return <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>; }
 function LangIcon() { return <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>; }
 function CalIcon() { return <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>; }
+function TableIcon({ className = 'h-6 w-6' }: { className?: string }) { return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7h18M5 7v13M19 7v13M9 20v-6h6v6"/></svg>; }
+function StandIcon({ className = 'h-6 w-6' }: { className?: string }) { return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="3" width="12" height="14" rx="1"/><path d="M9 21h6M12 17v4"/></svg>; }
+function CloudIcon({ className = 'h-6 w-6' }: { className?: string }) { return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.5 19H9a5 5 0 1 1 1.3-9.8A6 6 0 0 1 22 12.5 4.5 4.5 0 0 1 17.5 19z"/></svg>; }

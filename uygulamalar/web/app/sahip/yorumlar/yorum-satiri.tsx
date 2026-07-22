@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { clsx } from 'clsx';
+import { HeartHandshake, Smile, HandHelping, Star, type LucideIcon } from 'lucide-react';
 
 interface YorumSatiriProps {
   reviewId: string;
@@ -35,11 +36,11 @@ export function YorumSatiri({
   const [showTemplates, setShowTemplates] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const REPLY_TEMPLATES = [
-    { label: '🙏 Teşekkür', text: 'Değerli yorumunuz için çok teşekkür ederiz! Sizi ağırlamaktan büyük mutluluk duyduk. Tekrar görüşmek dileğiyle, iyi günler!' },
-    { label: '😊 Olumlu Yanıt', text: 'Güzel yorumunuz için teşekkürler! Ekibimizle paylaşacağız. Sizi tekrar görmek dileğiyle!' },
-    { label: '🙋 Özür & İyileştirme', text: 'Yaşadığınız deneyim için özür dileriz. Geri bildiriminizi dikkate alıp hizmetimizi geliştireceğiz. Tekrar fırsat vermenizi umuyoruz.' },
-    { label: '⭐ Detay Sorusu', text: 'Yorumunuz için teşekkürler! Daha iyi hizmet verebilmek için deneyiminizi biraz daha anlatabilir misiniz? İletişime geçebilirsiniz.' },
+  const REPLY_TEMPLATES: { icon: LucideIcon; label: string; text: string }[] = [
+    { icon: HeartHandshake, label: 'Teşekkür', text: 'Değerli yorumunuz için çok teşekkür ederiz! Sizi ağırlamaktan büyük mutluluk duyduk. Tekrar görüşmek dileğiyle, iyi günler!' },
+    { icon: Smile, label: 'Olumlu Yanıt', text: 'Güzel yorumunuz için teşekkürler! Ekibimizle paylaşacağız. Sizi tekrar görmek dileğiyle!' },
+    { icon: HandHelping, label: 'Özür & İyileştirme', text: 'Yaşadığınız deneyim için özür dileriz. Geri bildiriminizi dikkate alıp hizmetimizi geliştireceğiz. Tekrar fırsat vermenizi umuyoruz.' },
+    { icon: Star, label: 'Detay Sorusu', text: 'Yorumunuz için teşekkürler! Daha iyi hizmet verebilmek için deneyiminizi biraz daha anlatabilir misiniz? İletişime geçebilirsiniz.' },
   ];
 
   async function submitReply() {
@@ -166,8 +167,8 @@ export function YorumSatiri({
               <div className="mt-2 flex flex-wrap gap-2">
                 {REPLY_TEMPLATES.map(t => (
                   <button key={t.label} onClick={() => { setReply(t.text); setShowTemplates(false); textareaRef.current?.focus(); }}
-                    className="rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-[700] text-muted hover:border-primary hover:text-primary">
-                    {t.label}
+                    className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-[700] text-muted hover:border-primary hover:text-primary">
+                    <t.icon className="h-3.5 w-3.5" aria-hidden="true" /> {t.label}
                   </button>
                 ))}
               </div>

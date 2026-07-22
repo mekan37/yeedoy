@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Bell } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { AlarmToggle, AlarmSilButonu } from './alarm-islemleri';
 
@@ -46,7 +47,7 @@ export default async function PriceAlertsPage() {
 
         {list.length === 0 ? (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
-            <p className="text-3xl mb-3">🔔</p>
+            <Bell className="mx-auto mb-3 h-8 w-8 text-muted" aria-hidden="true" />
             <p className="font-[700] text-textStrong mb-2">Henüz fiyat alarmınız yok</p>
             <p className="text-sm text-muted mb-6">Bir ürün fiyatı hedef seviyenize düştüğünde bildirim alın.</p>
             <Link href="/kesif" className="inline-flex min-h-[44px] items-center rounded-2xl px-5 text-sm font-[800] text-white" style={{ background: 'var(--yd-gradient-primary)' }}>

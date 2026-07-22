@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import { MapPin, Star } from 'lucide-react';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
 
@@ -26,9 +27,9 @@ const SIRALAMA = [
 
 const MIN_PUAN = [
   { value: 0,   label: 'Tümü' },
-  { value: 3,   label: '3+ ⭐' },
+  { value: 3,   label: '3+' },
   { value: 3.5, label: '3.5+' },
-  { value: 4,   label: '4+ ⭐' },
+  { value: 4,   label: '4+' },
   { value: 4.5, label: '4.5+' },
 ];
 
@@ -342,13 +343,13 @@ export function KesifCanli() {
               )}
               {city && (
                 <span className="flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-[800] text-primary">
-                  📍 {city}
+                  <MapPin className="h-3 w-3" aria-hidden="true" /> {city}
                   <button onClick={() => setCity('')} className="ml-1 rounded-full hover:text-primary/60" aria-label="Şehri kaldır">×</button>
                 </span>
               )}
               {minRating > 0 && (
                 <span className="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-[800] text-amber-700">
-                  ⭐ {minRating}+
+                  <Star className="h-3 w-3" aria-hidden="true" /> {minRating}+
                   <button onClick={() => setMinRating(0)} className="ml-1" aria-label="Puan filtresini kaldır">×</button>
                 </span>
               )}

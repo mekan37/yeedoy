@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { Heart, Star, MapPin, ThumbsUp, Utensils } from 'lucide-react';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
@@ -164,14 +165,14 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
       {/* İstatistik satırı */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 rounded-2xl border border-border bg-card p-5 shadow-yd1">
         {[
-          { icon: '❤️', color: 'bg-red-100',    value: toplam,         label: 'Favori Mekan' },
-          { icon: '⭐', color: 'bg-amber-100',  value: yorumSayisi,    label: 'Değerlendirme' },
-          { icon: '📍', color: 'bg-green-100',  value: ziyaretSayisi,  label: 'Ziyaret Edildi' },
-          { icon: '👍', color: 'bg-blue-100',   value: helpfulSayisi,  label: 'Yorum Beğenisi' },
-        ].map(({ icon, color, value, label }) => (
+          { icon: Heart, color: 'bg-red-100',    value: toplam,         label: 'Favori Mekan' },
+          { icon: Star, color: 'bg-amber-100',  value: yorumSayisi,    label: 'Değerlendirme' },
+          { icon: MapPin, color: 'bg-green-100',  value: ziyaretSayisi,  label: 'Ziyaret Edildi' },
+          { icon: ThumbsUp, color: 'bg-blue-100',   value: helpfulSayisi,  label: 'Yorum Beğenisi' },
+        ].map(({ icon: StatIcon, color, value, label }) => (
           <div key={label} className="flex items-center gap-3">
-            <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-xl ${color}`}>
-              {icon}
+            <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${color}`}>
+              <StatIcon className="h-5 w-5" aria-hidden="true" />
             </div>
             <div>
               <p className="text-2xl font-[900] text-textStrong tabular-nums leading-none">{value}</p>
@@ -272,7 +273,7 @@ function FavoriKart({ fav, onRemove }: { fav: FavIsletme; onRemove: () => void }
           // eslint-disable-next-line @next/next/no-img-element
           <img src={img} alt={biz.name} className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-3xl text-muted">🍽️</div>
+          <div className="flex h-full w-full items-center justify-center text-muted"><Utensils className="h-8 w-8" aria-hidden="true" /></div>
         )}
       </Link>
 

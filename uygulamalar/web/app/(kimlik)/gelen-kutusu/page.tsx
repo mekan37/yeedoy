@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Star, Megaphone, TrendingUp, Gift, User, Receipt, Bell, type LucideIcon } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import {
   HepsiniOkunduButonu,
@@ -37,18 +38,18 @@ function formatRelativeTime(isoString: string): string {
 }
 
 // Bildirim tipi → Türkçe etiket + renk
-const TYPE_META: Record<string, { label: string; icon: string; color: string }> = {
-  review:     { label: 'Yorum', icon: '⭐', color: 'text-warning' },
-  campaign:   { label: 'Kampanya', icon: '📢', color: 'text-primary' },
-  price_alert:{ label: 'Fiyat Alarmı', icon: '📈', color: 'text-success' },
-  loyalty:    { label: 'Sadakat', icon: '🎁', color: 'text-info' },
-  follow:     { label: 'Takip', icon: '👤', color: 'text-slate' },
-  order:      { label: 'Sipariş', icon: '🧾', color: 'text-success' },
-  system:     { label: 'Sistem', icon: '🔔', color: 'text-muted' },
+const TYPE_META: Record<string, { label: string; icon: LucideIcon; color: string }> = {
+  review:     { label: 'Yorum', icon: Star, color: 'text-warning' },
+  campaign:   { label: 'Kampanya', icon: Megaphone, color: 'text-primary' },
+  price_alert:{ label: 'Fiyat Alarmı', icon: TrendingUp, color: 'text-success' },
+  loyalty:    { label: 'Sadakat', icon: Gift, color: 'text-info' },
+  follow:     { label: 'Takip', icon: User, color: 'text-slate' },
+  order:      { label: 'Sipariş', icon: Receipt, color: 'text-success' },
+  system:     { label: 'Sistem', icon: Bell, color: 'text-muted' },
 };
 
 function getTypeMeta(type: string) {
-  return TYPE_META[type] ?? { label: type, icon: '🔔', color: 'text-muted' };
+  return TYPE_META[type] ?? { label: type, icon: Bell, color: 'text-muted' };
 }
 
 function groupByDate(list: NotifRow[]) {
@@ -178,7 +179,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
                       : 'border border-border bg-card text-muted hover:border-primary/30'
                   }`}
                 >
-                  {meta.icon} {meta.label} ({cnt})
+                  <meta.icon className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" /> {meta.label} ({cnt})
                 </Link>
               );
             })}
@@ -228,7 +229,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex items-center gap-1.5">
-                                <span className={`text-sm ${meta.color}`}>{meta.icon}</span>
+                                <meta.icon className={`h-4 w-4 shrink-0 ${meta.color}`} aria-hidden="true" />
                                 <p className={`text-sm leading-snug ${n.is_read ? 'text-textStrong' : 'font-[700] text-textStrong'}`}>
                                   {n.title}
                                 </p>

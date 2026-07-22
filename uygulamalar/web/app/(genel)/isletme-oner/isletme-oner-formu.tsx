@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { LocationPickerMapClient } from '@/src/components/maps/LocationPickerMapClient';
+import { Store, Users, CheckCircle2, Lightbulb, type LucideIcon } from 'lucide-react';
 
 // ── Sabitler ─────────────────────────────────────────────────────────────────
 
@@ -467,7 +468,7 @@ export function IsletmeOnerFormu() {
         <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="flex items-center gap-2 text-2xl font-[900] text-textStrong sm:text-3xl">
-              İşletme Öner <span aria-hidden="true">🎯</span>
+              İşletme Öner
             </h1>
             <p className="mt-1 text-sm font-[700] text-muted">Beğendiğin bir işletmeyi bize öner, değerlendirelim.</p>
           </div>
@@ -491,14 +492,14 @@ export function IsletmeOnerFormu() {
                 Yeedoy topluluğunun gücü, senin gibi keşfetmeyi sevenlerin katkılarıyla büyüyor. Beğendiğin işletmeleri önererek hem şehrindeki yeni lezzetlerin keşfedilmesine yardımcı ol hem de diğer kullanıcıların deneyimini zenginleştir.
               </p>
               <div className="space-y-4">
-                {[
-                  { emoji: '🏪', bg: 'bg-rose-50', title: 'Şehrindeki yeni mekanları görünür kıl', desc: 'Haritada daha fazla kaliteli işletmenin yer almasını sağla.' },
-                  { emoji: '👥', bg: 'bg-indigo-50', title: 'Topluluğa katkı yap', desc: 'Kullanıcıların daha iyi seçimler yapmasına yardımcı ol.' },
-                  { emoji: '✅', bg: 'bg-emerald-50', title: 'Doğrulanan öneriler daha hızlı yayımlansın', desc: 'Doğru ve eksiksiz bilgilerle önerin daha hızlı değerlendirilir.' },
-                ].map((item) => (
+                {([
+                  { icon: Store, bg: 'bg-rose-50', color: 'text-rose-600', title: 'Şehrindeki yeni mekanları görünür kıl', desc: 'Haritada daha fazla kaliteli işletmenin yer almasını sağla.' },
+                  { icon: Users, bg: 'bg-indigo-50', color: 'text-indigo-600', title: 'Topluluğa katkı yap', desc: 'Kullanıcıların daha iyi seçimler yapmasına yardımcı ol.' },
+                  { icon: CheckCircle2, bg: 'bg-emerald-50', color: 'text-emerald-600', title: 'Doğrulanan öneriler daha hızlı yayımlansın', desc: 'Doğru ve eksiksiz bilgilerle önerin daha hızlı değerlendirilir.' },
+                ] as { icon: LucideIcon; bg: string; color: string; title: string; desc: string }[]).map((item) => (
                   <div key={item.title} className="flex items-start gap-3">
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg ${item.bg}`}>
-                      {item.emoji}
+                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.bg}`}>
+                      <item.icon className={`h-5 w-5 ${item.color}`} aria-hidden="true" />
                     </div>
                     <div>
                       <p className="text-sm font-[900] text-textStrong leading-tight">{item.title}</p>
@@ -510,7 +511,7 @@ export function IsletmeOnerFormu() {
             </div>
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-yd1">
               <div className="mb-2 flex items-center gap-2">
-                <span className="text-lg" aria-hidden="true">💡</span>
+                <Lightbulb className="h-5 w-5 text-amber-600" aria-hidden="true" />
                 <p className="text-sm font-[900] text-amber-800">Küçük bir ipucu</p>
               </div>
               <p className="text-[12px] font-[700] leading-relaxed text-amber-700">

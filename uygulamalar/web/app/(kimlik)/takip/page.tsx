@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Star } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { TakipteCikButonu } from './takipten-cik';
 
@@ -96,8 +97,8 @@ export default async function FollowingPage() {
                         <p className="mt-0.5 line-clamp-1 text-[12px] text-muted">{f.user_profiles.bio}</p>
                       )}
                       {f.recent_review && (
-                        <p className="mt-1 text-[11px] text-muted">
-                          Son: ⭐{f.recent_review.rating} — {f.recent_review.business_name}
+                        <p className="mt-1 flex items-center gap-1 text-[11px] text-muted">
+                          Son: <Star className="h-3 w-3 shrink-0" aria-hidden="true" />{f.recent_review.rating} — {f.recent_review.business_name}
                         </p>
                       )}
                       <p className="mt-0.5 text-[11px] text-muted">Takip: {joinedDate(f.created_at)}</p>

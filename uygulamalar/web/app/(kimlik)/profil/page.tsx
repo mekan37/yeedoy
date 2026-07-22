@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Heart, MessageCircle, MapPin, ThumbsUp, Users, Bell } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { FavoriKarusel, type FavoriIsletme } from './favori-karusel';
 import { AvatarYukleme } from './avatar-yukleme';
@@ -128,11 +129,11 @@ export default async function ProfilPage() {
   const sure = profile?.created_at ? uyeSuresi(profile.created_at) : null;
 
   const STAT_SATIRLARI = [
-    { value: stats.favorites_count,  label: 'Favori Mekan',    icon: '❤️' },
-    { value: stats.reviews_count,    label: 'Yorum',            icon: '💬' },
-    { value: stats.visits_count,     label: 'Ziyaret Edildi',   icon: '📍' },
-    { value: stats.helpful_received, label: 'Beğeni',           icon: '👍' },
-    { value: takipci,                label: 'Takipçi',          icon: '👥' },
+    { value: stats.favorites_count,  label: 'Favori Mekan',    icon: Heart },
+    { value: stats.reviews_count,    label: 'Yorum',            icon: MessageCircle },
+    { value: stats.visits_count,     label: 'Ziyaret Edildi',   icon: MapPin },
+    { value: stats.helpful_received, label: 'Beğeni',           icon: ThumbsUp },
+    { value: takipci,                label: 'Takipçi',          icon: Users },
   ];
 
   return (
@@ -276,10 +277,10 @@ export default async function ProfilPage() {
 
             {/* İstatistik satırı */}
             <div className="grid grid-cols-3 gap-3 sm:grid-cols-5">
-              {STAT_SATIRLARI.map(({ value, label, icon }) => (
+              {STAT_SATIRLARI.map(({ value, label, icon: StatIcon }) => (
                 <div key={label} className="flex flex-col items-center rounded-2xl border border-border bg-card py-4 shadow-yd1 transition hover:shadow-yd2">
-                  <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-full bg-cardAlt text-xl">
-                    {icon}
+                  <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-full bg-cardAlt">
+                    <StatIcon className="h-5 w-5" aria-hidden="true" />
                   </div>
                   <p className="text-xl font-[900] text-textStrong tabular-nums">{value}</p>
                   <p className="mt-0.5 text-[11px] font-[700] text-muted">{label}</p>
@@ -434,7 +435,7 @@ export default async function ProfilPage() {
 
                     <div className="flex items-center justify-between rounded-xl bg-cardAlt px-4 py-3">
                       <div className="flex items-center gap-2.5">
-                        <span className="text-lg" aria-hidden="true">🔔</span>
+                        <Bell className="h-5 w-5" aria-hidden="true" />
                         <span className="text-sm font-[800] text-textStrong">Takip Edilen</span>
                       </div>
                       <span className="text-xl font-[900] text-textStrong tabular-nums">{takip}</span>

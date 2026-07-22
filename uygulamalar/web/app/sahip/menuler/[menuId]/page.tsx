@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
+import { Star } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getMenuWithSections } from '@/src/lib/veri/owner/sahip-menuler';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
@@ -129,8 +130,8 @@ export default async function OwnerMenuDetailPage({ params }: Props) {
                                 </span>
                               )}
                               {item.is_today_special && item.special_date === today && (
-                                <span className="rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[10px] font-[800] text-amber-700">
-                                  ⭐ Spesiyel
+                                <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[10px] font-[800] text-amber-700">
+                                  <Star className="h-3 w-3" aria-hidden="true" /> Spesiyel
                                 </span>
                               )}
                             </div>
