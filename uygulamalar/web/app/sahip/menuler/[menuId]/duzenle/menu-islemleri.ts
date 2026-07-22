@@ -146,11 +146,17 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   let resolvedItemId: string;
 
   if (itemId) {
+    const { data: menuSections } = await (context.supabase as any)
+      .from('menu_sections')
+      .select('id')
+      .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+    const menuSectionIds = (menuSections ?? []).map((s) => s.id);
+
     const { error: updateErr } = await (context.supabase as any)
       .from('menu_items')
       .update(payload)
       .eq('id', itemId)
-      .eq('section_id', sectionId) as { error: { message: string } | null };
+      .in('section_id', menuSectionIds) as { error: { message: string } | null };
     if (updateErr) return { error: updateErr.message };
     resolvedItemId = itemId;
   } else {
