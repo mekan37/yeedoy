@@ -49,7 +49,6 @@ export async function submitReservation(
   const d = parsed.data;
   const supabase = await createSupabaseServerClient();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data, error } = await (supabase as any).rpc('create_reservation_v1', {
     p_business_id: d.business_id,
     p_guest_name: d.guest_name,

@@ -193,7 +193,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
                 {dragOver ? 'Bırakın' : 'Fotoğraf Yükle'}
               </p>
               <p className="mt-0.5 text-xs text-muted">
-                Sürükle & bırak veya tıkla — JPG, PNG, WebP — WebP'ye dönüştürülür
+                Sürükle & bırak veya tıkla — JPG, PNG, WebP — WebP&apos;ye dönüştürülür
               </p>
             </div>
             <span className="rounded-full bg-zinc-100 px-3 py-1 text-[11px] font-[700] text-muted">
