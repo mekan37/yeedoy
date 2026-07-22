@@ -25,18 +25,18 @@ export function generateMetadata(): Metadata {
 
 // ── Categories matching mobile discoveryHomeCategories ──────────────────────
 const CATEGORIES = [
-  { id: 'Restoran', label: 'Restoran', icon: '🍽' },
-  { id: 'Kafe', label: 'Kafe', icon: '☕' },
-  { id: 'Fast Food', label: 'Fast Food', icon: '🍔' },
-  { id: 'Dönerci', label: 'Döner', icon: '🌯' },
-  { id: 'Pizza', label: 'Pizza', icon: '🍕' },
-  { id: 'Burger', label: 'Burger', icon: '🍔' },
-  { id: 'Pide / Lahmacun', label: 'Pide', icon: '🫓' },
-  { id: 'Balık', label: 'Balık', icon: '🐟' },
-  { id: 'Pastane', label: 'Pastane', icon: '🎂' },
-  { id: 'Kahvaltı', label: 'Kahvaltı', icon: '🥞' },
-  { id: 'Tatlıcı', label: 'Tatlı', icon: '🍮' },
-  { id: 'Çorba', label: 'Çorba', icon: '🥣' },
+  { id: 'Restoran', label: 'Restoran' },
+  { id: 'Kafe', label: 'Kafe' },
+  { id: 'Fast Food', label: 'Fast Food' },
+  { id: 'Dönerci', label: 'Döner' },
+  { id: 'Pizza', label: 'Pizza' },
+  { id: 'Burger', label: 'Burger' },
+  { id: 'Pide / Lahmacun', label: 'Pide' },
+  { id: 'Balık', label: 'Balık' },
+  { id: 'Pastane', label: 'Pastane' },
+  { id: 'Kahvaltı', label: 'Kahvaltı' },
+  { id: 'Tatlıcı', label: 'Tatlı' },
+  { id: 'Çorba', label: 'Çorba' },
 ];
 
 const PAGE_SIZE = 20;

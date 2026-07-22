@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ClipboardList, Wallet, MapPin, Star, BarChart2, Link2, type LucideProps } from 'lucide-react';
+import type { ComponentType } from 'react';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
 
 export const metadata: Metadata = {
@@ -9,39 +11,39 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const OZELLIKLER = [
+const OZELLIKLER: { icon: ComponentType<LucideProps>; baslik: string; aciklama: string }[] = [
   {
-    icon: '📋',
+    icon: ClipboardList,
     baslik: 'Dijital Menü',
     aciklama:
       'QR kod ile erişilebilen, anında güncellenebilen dijital menü. Baskı masrafı yok, her zaman güncel.',
   },
   {
-    icon: '💰',
+    icon: Wallet,
     baslik: 'Canlı Fiyat Takibi',
     aciklama:
       'Topluluk tarafından doğrulanan fiyatlar. Müşteriler menünüzü görerek gelir — sürpriz yok.',
   },
   {
-    icon: '📍',
+    icon: MapPin,
     baslik: 'Konum Bazlı Keşif',
     aciklama:
       'Yakınındaki müşteriler sizi bulur. Kategori, fiyat ve kalite filtreleriyle doğru kitleye ulaşın.',
   },
   {
-    icon: '⭐',
+    icon: Star,
     baslik: 'Güvenilir Yorumlar',
     aciklama:
       'Gerçek ziyaretçilerden gelen doğrulanmış yorumlar. Puanınızı yükseltin, müşteri güvenini kazanın.',
   },
   {
-    icon: '📊',
+    icon: BarChart2,
     baslik: 'Analitik Panel',
     aciklama:
       'Menü görüntülenme, tıklama ve dönüşüm verilerinizi takip edin. Kararlarınızı veriye dayandırın.',
   },
   {
-    icon: '🔗',
+    icon: Link2,
     baslik: 'Kolay Entegrasyon',
     aciklama:
       'Mevcut QR menü linkinizi ekleyin ya da menünüzü sıfırdan oluşturun. Her iki yol da birkaç dakika.',
@@ -99,7 +101,7 @@ export default function IsletmeLandingPage() {
                 key={o.baslik}
                 className="rounded-2xl border border-border bg-bg p-5"
               >
-                <span className="text-2xl">{o.icon}</span>
+                <o.icon className="h-7 w-7 text-primary" aria-hidden="true" />
                 <h3 className="mt-3 text-base font-[900] text-textStrong">{o.baslik}</h3>
                 <p className="mt-1.5 text-sm leading-6 text-muted">{o.aciklama}</p>
               </div>

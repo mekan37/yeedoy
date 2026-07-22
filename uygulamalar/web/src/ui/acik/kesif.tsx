@@ -491,7 +491,9 @@ export function KesifKaruselKarti({
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-4xl" aria-hidden="true">🍽</div>
+          <div className="flex h-full items-center justify-center text-muted" aria-hidden="true">
+            <Utensils className="h-10 w-10" strokeWidth={1.5} />
+          </div>
         )}
         {/* Üst sol rozet */}
         {badge ? (

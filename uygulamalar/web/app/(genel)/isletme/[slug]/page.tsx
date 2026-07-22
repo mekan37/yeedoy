@@ -447,7 +447,8 @@ export default async function BusinessPage({ params }: Props) {
                 )}
                 {checkinCount > 0 && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-[800] text-orange-700">
-                    🔥 {checkinCount} kişi şu an burada
+                    <Icon name="flame" size={11} />
+                    {checkinCount} kişi şu an burada
                   </span>
                 )}
               </div>

@@ -1,7 +1,9 @@
 'use client';
 
 import { useMemo, useRef, useState } from 'react';
+import type { ComponentType } from 'react';
 import Link from 'next/link';
+import { Utensils, Coffee, Cake, Egg, Beer, Beef, type LucideProps } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
@@ -15,9 +17,9 @@ export type OneriIsletme = {
 
 // ── Sabitler ─────────────────────────────────────────────────────────────────
 
-const KAT_EMOJI: Record<string, string> = {
-  'Restoran': '🍽️', 'Kafe': '☕', 'Tatlıcı': '🍰',
-  'Kahvaltı': '🥞', 'Mekan': '🍺', 'Balık / Et': '🥩',
+const KAT_ICON: Record<string, ComponentType<LucideProps>> = {
+  'Restoran': Utensils, 'Kafe': Coffee, 'Tatlıcı': Cake,
+  'Kahvaltı': Egg, 'Mekan': Beer, 'Balık / Et': Beef,
 };
 
 const ETIKET_MAP: Record<string, { text: string; color: string }> = {
@@ -310,10 +312,12 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
             <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
               <h3 className="mb-3 text-sm font-[900] text-textStrong">Senin Zevklerine Göre</h3>
               <div className="space-y-3">
-                {kategoriDagilim.map(({ kat, pct, subtitle, color }) => (
+                {kategoriDagilim.map(({ kat, pct, subtitle, color }) => {
+                  const KatIcon = KAT_ICON[kat] ?? Utensils;
+                  return (
                   <div key={kat} className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/5 text-lg">
-                      {KAT_EMOJI[kat] ?? '🍽️'}
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/5 text-primary">
+                      <KatIcon size={18} aria-hidden="true" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-[900] text-textStrong leading-tight">{kat}</p>
@@ -326,7 +330,8 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
                       %{pct}
                     </span>
                   </div>
-                ))}
+                  );
+                })}
               </div>
               <Link href="/kesif" className="mt-4 flex items-center gap-1 text-xs font-[900] text-primary hover:underline">
                 Tüm tercihlerini gör

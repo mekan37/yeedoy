@@ -175,7 +175,7 @@ export default async function TopPage({ searchParams }: Props) {
                   >
                     {/* Rank */}
                     <span className={`w-8 shrink-0 text-center text-lg font-[900] ${rankColor}`}>
-                      {rank <= 3 ? (rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉') : `#${rank}`}
+                      #{rank}
                     </span>
 
                     {/* Logo */}

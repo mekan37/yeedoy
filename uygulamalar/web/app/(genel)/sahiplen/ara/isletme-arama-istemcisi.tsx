@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
+import { Utensils, Coffee, Beef, Cake, Croissant, Music, Store } from 'lucide-react';
 
 type BusinessResult = {
   id: string;
@@ -147,8 +148,8 @@ export function IsletmeAramaIstemcisi() {
                   href={`/sahiplen/talep?id=${b.id}`}
                   className="flex items-start gap-3 px-4 py-4 transition-colors hover:bg-cardAlt"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-cardAlt text-xl">
-                    {categoryEmoji(b.category)}
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-cardAlt text-muted">
+                    <CategoryIcon category={b.category} />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-[800] text-textStrong">{b.name}</p>
@@ -183,14 +184,15 @@ export function IsletmeAramaIstemcisi() {
   );
 }
 
-function categoryEmoji(cat: string) {
-  const map: Record<string, string> = {
-    Restoran: '🍽️',
-    Kafe: '☕',
-    'Balık / Et': '🥩',
-    Tatlıcı: '🍰',
-    Kahvaltı: '🥐',
-    Mekan: '🎵',
+function CategoryIcon({ category }: { category: string }) {
+  const map: Record<string, typeof Utensils> = {
+    Restoran: Utensils,
+    Kafe: Coffee,
+    'Balık / Et': Beef,
+    Tatlıcı: Cake,
+    Kahvaltı: Croissant,
+    Mekan: Music,
   };
-  return map[cat] ?? '🏪';
+  const Icon = map[category] ?? Store;
+  return <Icon className="h-5 w-5" strokeWidth={1.75} />;
 }

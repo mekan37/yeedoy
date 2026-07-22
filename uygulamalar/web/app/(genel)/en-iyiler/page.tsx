@@ -49,7 +49,7 @@ export default function EnIyilerPage() {
           {/* Başlık */}
           <div className="mb-6">
             <h1 className="text-2xl font-[900] text-textStrong sm:text-3xl">
-              En İyi İşletmeler 🥇
+              En İyi İşletmeler
             </h1>
             <p className="mt-1 text-sm font-[700] text-muted">
               Kullanıcıların değerlendirmelerine göre en iyi mekanlar — anlık filtreleme

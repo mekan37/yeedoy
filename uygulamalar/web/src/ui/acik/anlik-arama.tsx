@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Utensils } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
@@ -299,7 +300,9 @@ function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) 
           {imgSrc ? (
             <Image src={imgSrc} alt={biz.name} fill sizes="40px" className="object-cover" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-lg" aria-hidden="true">🍽️</div>
+            <div className="flex h-full w-full items-center justify-center text-muted" aria-hidden="true">
+              <Utensils size={18} />
+            </div>
           )}
         </div>
         <div className="flex-1 min-w-0">
@@ -356,7 +359,9 @@ function YemekSatiri({ item, onSelect }: { item: ItemResult; onSelect: () => voi
           {imgSrc ? (
             <Image src={imgSrc} alt={item.name} fill sizes="40px" className="object-cover" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-lg" aria-hidden="true">🍽️</div>
+            <div className="flex h-full w-full items-center justify-center text-muted" aria-hidden="true">
+              <Utensils size={18} />
+            </div>
           )}
         </div>
         <div className="flex-1 min-w-0">
