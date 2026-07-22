@@ -149,6 +149,7 @@ const nextConfig = {
       { source: '/admin/temp-uploads', destination: '/yonetici/gecici-yuklemeler', permanent: true },
       { source: '/admin/trash', destination: '/yonetici/cop-kutusu', permanent: true },
       { source: '/admin/users', destination: '/yonetici/kullanicilar', permanent: true },
+      { source: '/admin/users/:id', destination: '/yonetici/kullanicilar/:id', permanent: true },
       { source: '/admin/verified', destination: '/yonetici/isletmeler?status=verified', permanent: true },
     ];
   },
