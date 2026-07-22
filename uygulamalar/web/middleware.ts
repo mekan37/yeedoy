@@ -29,7 +29,7 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
   if (!isOwnerHost && !isAdminHost) return null;
 
   const prefix = isOwnerHost ? '/sahip' : '/yonetici';
-  // Root → /sahip or /admin, sub-paths → /sahip/path
+  // Root → /sahip or /yonetici, sub-paths → /sahip/path or /yonetici/path
   const suffix = pathname === '/' ? '' : pathname;
   const url = request.nextUrl.clone();
   url.pathname = `${prefix}${suffix}`;
@@ -41,10 +41,9 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
 // Turkish-language aliases for the same panels
 const YONETICI_PREFIX = '/yonetici';  // canonical Turkish path for the admin panel
 const SAHIP_PREFIX = '/sahip';        // owner panel pages (canonical Turkish path)
-// /api/admin/* and /sunucu/yonetici/* routes are NOT rewritten by subdomain
-// logic — guard them explicitly at the middleware level.
-const ADMIN_API_PREFIX = '/api/admin';
-const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici'; // Turkish alias for /api/admin/*
+// /sunucu/yonetici/* routes are NOT rewritten by subdomain logic — guard
+// them explicitly at the middleware level.
+const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici';
 const LOGIN_PATH = '/login';
 // Owner routes redirect unauthenticated users to the canonical login page.
 const OWNER_LOGIN_PATH = '/giris';
@@ -56,10 +55,9 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
   const isOwnerRoute =
     pathname.startsWith(SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(pathname);
   const isAdminRoute = pathname.startsWith(YONETICI_PREFIX);
-  // /api/admin/* and /sunucu/yonetici/* sit outside the panel prefix — guard
-  // them with the same admin-role logic.
-  const isAdminApiRoute =
-    pathname.startsWith(ADMIN_API_PREFIX) || pathname.startsWith(SUNUCU_YONETICI_PREFIX);
+  // /sunucu/yonetici/* sits outside the panel prefix — guard it with the
+  // same admin-role logic.
+  const isAdminApiRoute = pathname.startsWith(SUNUCU_YONETICI_PREFIX);
 
   if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
 
