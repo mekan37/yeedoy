@@ -50,11 +50,20 @@ begin
   where business_id = p_business_id;
 
   -- Kalite ve rating ortalaması
-  select
-    coalesce(avg(quality_score), 0),
-    coalesce(avg(rating), 0),
-    count(*) filter (where quality_score >= 0.75)
-  into v_avg_quality, v_avg_rating, v_quality_count
+  -- 2026-07-23 fix: reviews.quality_score diye bir kolon hiç olmadı — bu
+  -- fonksiyon (LANGUAGE plpgsql olduğu için CREATE sırasında değil, ancak
+  -- fiilen çağrıldığında) her zaman hata fırlatıyordu, yani quality_score'a
+  -- bağlı rozetler ("Kaliteli Yorum Mekanı", "Gurme Seçimi", "Sadık
+  -- Topluluk") hiçbir zaman gerçekten hesaplanamadı/verilemedi. Normalize
+  -- edilmiş bir kalite skoru için gerçek bir kaynak olmadığından,
+  -- v_avg_quality ve v_quality_count kasıtlı olarak 0 bırakıldı — bu üç
+  -- rozet koşulu hiç tetiklenmez, mevcut/tarihsel "hiç verilmedi" durumunu
+  -- korur, yeni bir ürün kararı icat etmez.
+  v_avg_quality := 0;
+  v_quality_count := 0;
+
+  select coalesce(avg(rating), 0)
+  into v_avg_rating
   from public.reviews
   where business_id = p_business_id and status = 'approved';
 
@@ -117,57 +126,73 @@ begin
   ) into v_week_rank_pct;
 
   -- ── Badge koşulları ──────────────────────────────────────────────────────
+  -- 2026-07-23 fix: "return next row(...)" geçersiz PL/pgSQL sözdizimiydi —
+  -- RETURNS TABLE(...) OUT parametreli bir fonksiyonda RETURN NEXT parametre
+  -- alamaz; OUT değişkenlerine atama yapıp boş RETURN NEXT çağrılması gerekir.
 
   if coalesce(v_week_rank_pct, 0) >= 0.9 then
-    return next row('biz_weekly_top', 'Haftanın Favorisi', '#B45309', 'gold');
+    badge_id := 'biz_weekly_top'; title := 'Haftanın Favorisi'; color := '#B45309'; tier := 'gold';
+    return next;
   end if;
 
   if coalesce(v_month_unique, 0) >= 200 then
-    return next row('biz_monthly_star', 'Aylık Yıldız', '#D97706', 'gold');
+    badge_id := 'biz_monthly_star'; title := 'Aylık Yıldız'; color := '#D97706'; tier := 'gold';
+    return next;
   end if;
 
   if coalesce(v_unique_users, 0) >= 50 then
-    return next row('biz_explorer_magnet', 'Keşifçi Mıknatısı', '#0284C7', 'silver');
+    badge_id := 'biz_explorer_magnet'; title := 'Keşifçi Mıknatısı'; color := '#0284C7'; tier := 'silver';
+    return next;
   end if;
 
   if coalesce(v_night_pct, 0) >= 0.4 and coalesce(v_visit_count, 0) >= 20 then
-    return next row('biz_night_hub', 'Gece Hayatı Merkezi', '#6D28D9', 'special');
+    badge_id := 'biz_night_hub'; title := 'Gece Hayatı Merkezi'; color := '#6D28D9'; tier := 'special';
+    return next;
   end if;
 
   if coalesce(v_avg_quality, 0) >= 0.75 and coalesce(v_quality_count, 0) >= 5 then
-    return next row('biz_quality_reviews', 'Kaliteli Yorum Mekanı', '#B45309', 'gold');
+    badge_id := 'biz_quality_reviews'; title := 'Kaliteli Yorum Mekanı'; color := '#B45309'; tier := 'gold';
+    return next;
   end if;
 
   if coalesce(v_quality_count, 0) >= 5 and coalesce(v_avg_rating, 0) >= 4.2 then
-    return next row('biz_gourmet_pick', 'Gurme Seçimi', '#D97706', 'gold');
+    badge_id := 'biz_gourmet_pick'; title := 'Gurme Seçimi'; color := '#D97706'; tier := 'gold';
+    return next;
   end if;
 
   if coalesce(v_photo_count, 0) >= 20 then
-    return next row('biz_photo_rich', 'Fotoğraf Zengini', '#0891B2', 'silver');
+    badge_id := 'biz_photo_rich'; title := 'Fotoğraf Zengini'; color := '#0891B2'; tier := 'silver';
+    return next;
   end if;
 
   if coalesce(v_menu_count, 0) >= 30 then
-    return next row('biz_rich_menu', 'Zengin Menü', '#0369A1', 'silver');
+    badge_id := 'biz_rich_menu'; title := 'Zengin Menü'; color := '#0369A1'; tier := 'silver';
+    return next;
   end if;
 
   if coalesce(v_price_count, 0) >= 10 then
-    return next row('biz_price_transparent', 'Fiyat Şeffaflığı', '#15803D', 'bronze');
+    badge_id := 'biz_price_transparent'; title := 'Fiyat Şeffaflığı'; color := '#15803D'; tier := 'bronze';
+    return next;
   end if;
 
   if coalesce(v_price_approval, 0) >= 0.8 and coalesce(v_price_count, 0) >= 5 then
-    return next row('biz_trusted_data', 'Güvenilir Veri', '#0E7490', 'silver');
+    badge_id := 'biz_trusted_data'; title := 'Güvenilir Veri'; color := '#0E7490'; tier := 'silver';
+    return next;
   end if;
 
   if coalesce(v_is_verified, false) then
-    return next row('biz_verified', 'Doğrulanmış Mekan', '#7C3AED', 'special');
+    badge_id := 'biz_verified'; title := 'Doğrulanmış Mekan'; color := '#7C3AED'; tier := 'special';
+    return next;
   end if;
 
   if coalesce(v_months_active, 0) >= 12 then
-    return next row('biz_veteran_1y', 'Köklü Mekan', '#92400E', 'gold');
+    badge_id := 'biz_veteran_1y'; title := 'Köklü Mekan'; color := '#92400E'; tier := 'gold';
+    return next;
   end if;
 
   if coalesce(v_months_active, 0) >= 24 and coalesce(v_quality_count, 0) >= 3 then
-    return next row('biz_loyal_community', 'Sadık Topluluk', '#78350F', 'gold');
+    badge_id := 'biz_loyal_community'; title := 'Sadık Topluluk'; color := '#78350F'; tier := 'gold';
+    return next;
   end if;
 end;
 $$;
@@ -231,7 +256,10 @@ as $$
       coalesce(r.helpful_count, 0)::integer          as helpful_count,
       r.created_at,
       coalesce(r.status, 'published')                as status,
-      coalesce(r.quality_score, 0)::numeric           as quality_score,
+      -- 2026-07-23 fix: reviews.quality_score diye bir kolon hiç olmadı;
+      -- 20260523000005_perf_rpc_query_fixes.sql'deki established convention
+      -- ile aynı — helpful_count quality_score yerine kullanılıyor.
+      coalesce(r.helpful_count, 0)::numeric           as quality_score,
       -- Inline verified_visit check using composite index (avoids N+1 per-row call)
       exists (
         select 1

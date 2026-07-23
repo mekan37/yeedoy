@@ -23,10 +23,34 @@ declare
   v_admin_id uuid := 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
   v_reviewer_id uuid := 'b0b0b0b0-b0b0-b0b0-b0b0-b0b0b0b0b0b0';
 begin
+  -- 2026-07-23 fix: bu iki sabit UUID, remote'da elle oluşturulmuş auth.users
+  -- kayıtlarını varsayıyordu (fresh reset'te yok, reviews_user_id_fkey
+  -- ihlaline yol açıyordu). Idempotent placeholder kullanıcılar ekleniyor.
+  insert into auth.users (
+    id, instance_id, aud, role, email, email_confirmed_at,
+    raw_app_meta_data, raw_user_meta_data, created_at, updated_at,
+    confirmation_token, recovery_token, email_change, email_change_token_new,
+    email_change_token_current, reauthentication_token
+  ) values
+    (v_admin_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+     'ornek-yeedoy-admin@seed.yeedoy.local', now(),
+     '{"provider":"email","providers":["email"]}', '{"email_verified":true}', now(), now(),
+     '', '', '', '', '', ''),
+    (v_reviewer_id, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated',
+     'ornek-yeedoy-reviewer@seed.yeedoy.local', now(),
+     '{"provider":"email","providers":["email"]}', '{"email_verified":true}', now(), now(),
+     '', '', '', '', '', '')
+  on conflict (id) do nothing;
+
+  -- 2026-07-23 fix: id sabitlendi (2e9be57b-62cd-4f5f-bb4b-0d665994765c) —
+  -- daha sonraki 20260615000003_ornek_yeedoy_hours.sql ve
+  -- 20260615000006_seed_top_business_demo_reviews.sql bu tam ID'yi
+  -- varsayıyor; rastgele üretilen bir id'yle her fresh reset'te uyuşmazdı.
   insert into public.businesses (
-    name, category, description, city, district, neighborhood,
+    id, name, category, description, city, district, neighborhood,
     lat, lng, is_active, source, slug, public_slug, cover_url, logo_url
   ) values (
+    '2e9be57b-62cd-4f5f-bb4b-0d665994765c',
     'Örnek Yeedoy', 'Restoran',
     'Yeedoy''in örnek menü, kampanya ve yorum verileriyle hazırlanmış tanıtım işletmesi.',
     'Ankara', 'Yenimahalle', 'Uğur Mumcu Mahallesi',
@@ -34,6 +58,7 @@ begin
     'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80',
     'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80'
   )
+  on conflict (id) do update set name = excluded.name
   returning id into v_business_id;
 
   insert into public.menus (business_id, title, status, source)

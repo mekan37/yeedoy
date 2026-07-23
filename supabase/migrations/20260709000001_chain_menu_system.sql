@@ -366,6 +366,9 @@ COMMENT ON FUNCTION public.get_chain_menu_v1 IS
   'Zincir template menüsünü şube override fiyatlarıyla döner. chain_id NULL değilse kullanılır.';
 
 -- 11. get_business_chain_info_v1 güncelle (daha fazla alan)
+-- 2026-07-23 fix: 20260629000001'deki eski sürüm sadece (chain_id, chain_name)
+-- dönüyordu; CREATE OR REPLACE dönüş tipi değiştiremediği için önce DROP gerekiyor.
+DROP FUNCTION IF EXISTS public.get_business_chain_info_v1(uuid);
 CREATE OR REPLACE FUNCTION public.get_business_chain_info_v1(p_business_id uuid)
 RETURNS TABLE(
   chain_id           uuid,

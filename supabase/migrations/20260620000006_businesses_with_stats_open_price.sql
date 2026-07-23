@@ -22,7 +22,7 @@ select
   b.lng,
   b.is_active,
   b.created_at,
-  coalesce(r.reviews_count, 0)                         as reviews_count,
+  coalesce(r.reviews_count, 0)::integer                as reviews_count,
   (coalesce(r.avg_rating, 0::numeric))::numeric(3, 2)  as avg_rating,
   b.is_verified,
 

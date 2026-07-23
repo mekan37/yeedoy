@@ -32,7 +32,7 @@ AS $$
     SELECT
       user_id,
       count(*)::integer AS verify_count
-    FROM price_verifications
+    FROM menu_item_price_votes
     WHERE created_at >= (SELECT ts FROM window_start)
     GROUP BY user_id
   ),

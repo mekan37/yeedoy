@@ -6,6 +6,19 @@
 -- The verified_visit flag is computed by _review_verified_visit() SECURITY DEFINER
 -- helper added in migration 20260422000001.
 
+-- review_ratings tablosu yoksa oluştur (migration güvenliği — 2026-07-23'te
+-- bulundu: bu tablo hiçbir migration'da INSERT edilmiyor, sadece LEFT JOIN
+-- ile okunuyor, ve 00000000000000_base_schema.sql'e hiç dahil edilmemiş
+-- olabilir; her review için opsiyonel alt-puanlar tutar).
+CREATE TABLE IF NOT EXISTS review_ratings (
+  review_id      uuid PRIMARY KEY REFERENCES reviews(id) ON DELETE CASCADE,
+  r_taste        integer,
+  r_service      integer,
+  r_price_value  integer,
+  r_cleanliness  integer,
+  r_atmosphere   integer
+);
+
 DROP FUNCTION IF EXISTS public.get_business_reviews_v3(uuid, text, integer, integer);
 CREATE OR REPLACE FUNCTION public.get_business_reviews_v3(
   p_business_id  uuid,

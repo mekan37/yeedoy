@@ -48,35 +48,14 @@ COMMENT ON FUNCTION public.get_dashboard_weekly_v1 IS
 
 
 -- ── 2. get_staff_performance_today_v1 ────────────────────────────────────────
--- Mevcut durum: personelPerformansProvider içinde RPC çağrısı yapılıyor ANCAK
--- bu RPC migration'da tanımlı DEĞİL — get_dashboard_stats_today_v1 içinde
--- personel_performans embedded geldiği için ayrı RPC gereksiz olabilir.
--- Referans: get_dashboard_stats_today_v1 zaten personel_performans alanını döndürüyor.
--- Bu stub gerekli OLMADIĞINDA buradan kaldırılabilir; mevcut personelPerformansProvider
--- get_dashboard_stats_today_v1 yanıtını kullanacak şekilde refactor edilmeli.
-CREATE OR REPLACE FUNCTION public.get_staff_performance_today_v1(
-  p_business_id uuid
-)
-RETURNS json
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public
-AS $$
-BEGIN
-  -- TODO: ya get_dashboard_stats_today_v1.personel_performans alanını döndür (sub-query)
-  -- ya da bu fonksiyonu kaldır ve Dart tarafında get_dashboard_stats_today_v1 yanıtını kullan.
-  RAISE EXCEPTION 'not_implemented: get_staff_performance_today_v1 henüz implement edilmedi'
-    USING ERRCODE = 'P0004';
-END;
-$$;
-
-REVOKE ALL ON FUNCTION public.get_staff_performance_today_v1(uuid) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.get_staff_performance_today_v1(uuid) TO authenticated;
-
-COMMENT ON FUNCTION public.get_staff_performance_today_v1 IS
-  'STUB — Personel performans günlük özet. '
-  'get_dashboard_stats_today_v1 içinde personel_performans zaten var; '
-  'Dart tarafı refactor edilince bu fonksiyon kaldırılabilir.';
+-- 2026-07-23 fix: bu stub kaldırıldı. get_staff_performance_today_v1 aslında
+-- 20260522000003_table_orders_processed_by.sql'de GERÇEK, çalışan bir
+-- implementasyona sahip (RETURNS TABLE(staff_id, siparis_sayisi, tamamlanan)).
+-- Bu stub onu "not_implemented" fırlatan bir json-dönen sürümle EZİYORDU —
+-- CREATE OR REPLACE dönüş tipi değiştiremediği için fresh reset'te patlıyordu,
+-- ama patlamasaydı bile gerçek özelliği kırardı. Bu dosyanın kendi yorumu da
+-- ("Bu stub gerekli OLMADIĞINDA buradan kaldırılabilir") bu belirsizliği
+-- zaten işaret ediyordu.
 
 
 -- ── 3. get_menu_items_with_counts_v1 ─────────────────────────────────────────

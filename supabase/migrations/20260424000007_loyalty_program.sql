@@ -1,5 +1,22 @@
 -- P1: Loyalty / Points Program
 
+-- public.profiles view'ı yoksa oluştur (migration güvenliği — 2026-07-23'te
+-- bulundu: bu view aslında 20260520000002_harden_public_views.sql'de
+-- tanımlanıyor ama bu migration ondan önce çalışıp kullanıyor; aynı tanım
+-- burada da idempotent olarak uygulanıyor, 20260520000002 sonra tekrar
+-- CREATE OR REPLACE ile üstüne yazacak, zararsız).
+create or replace view public.profiles
+with (security_invoker = true)
+as
+select
+  up.user_id as id,
+  up.display_name,
+  up.avatar_url,
+  up.bio,
+  up.is_gourmet,
+  null::character varying(255) as email
+from public.user_profiles up;
+
 -- Program definition per business
 create table if not exists public.loyalty_programs (
   business_id          uuid primary key references public.businesses(id) on delete cascade,

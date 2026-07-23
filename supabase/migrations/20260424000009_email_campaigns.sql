@@ -120,10 +120,8 @@ language sql stable security definer
 as $$
   select count(*)::int
   from public.business_follows bf
-  join public.profiles p on p.id = bf.follower_id
   where bf.business_id = p_business_id
     and bf.is_subscribed_email = true
-    and p.email is not null
     and (
       p_segment = 'all_followers'
       or (p_segment = 'new_30d'     and bf.created_at >= now() - interval '30 days')

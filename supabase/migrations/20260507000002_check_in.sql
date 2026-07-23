@@ -83,6 +83,13 @@ CREATE TABLE IF NOT EXISTS visits (
   checked_in_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- 2026-07-23 fix: 00000000000000_base_schema.sql'in squash edilmiş "visits"
+-- tanımı bu kolonları içermiyordu (id/user_id/business_id/created_at ile
+-- sınırlıydı) — CREATE TABLE IF NOT EXISTS yukarıda no-op olduğunda bu
+-- kolonlar hiç eklenmiyordu. ALTER ile garanti altına alınıyor.
+ALTER TABLE visits ADD COLUMN IF NOT EXISTS note TEXT;
+ALTER TABLE visits ADD COLUMN IF NOT EXISTS checked_in_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+
 CREATE INDEX IF NOT EXISTS idx_visits_user_business_date
   ON visits (user_id, business_id, checked_in_at);
 

@@ -11,21 +11,13 @@ create table if not exists business_automations (
 
 alter table business_automations enable row level security;
 
+-- 2026-07-23 fix: "business_owners" tablosu hiç var olmadı (proje genelinde
+-- sahiplik public.is_owner_of_business()/owner_claims üzerinden kontrol
+-- ediliyor) — zaten var olan, aynı işi yapan yardımcı fonksiyona geçildi.
+drop policy if exists "owner_manage_automations" on business_automations;
 create policy "owner_manage_automations" on business_automations
-  using (
-    exists (
-      select 1 from business_owners
-      where business_owners.business_id = business_automations.business_id
-        and business_owners.user_id = auth.uid()
-    )
-  )
-  with check (
-    exists (
-      select 1 from business_owners
-      where business_owners.business_id = business_automations.business_id
-        and business_owners.user_id = auth.uid()
-    )
-  );
+  using (public.is_owner_of_business(business_id))
+  with check (public.is_owner_of_business(business_id));
 
 create index if not exists idx_business_automations_business_id
   on business_automations (business_id);

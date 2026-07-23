@@ -1,5 +1,13 @@
 -- Bugünün Spesiyali — owner bir menü ürününü günlük öne çıkarır.
 -- special_date = CURRENT_DATE kontrolü ile sadece o gün görünür; ertesi gün otomatik sona erer.
+
+-- 2026-07-23 fix: cube/earthdistance extension'ları hiçbir migration'da
+-- CREATE EXTENSION ile kurulmuyordu (muhtemelen remote'da dashboard'dan
+-- elle etkinleştirilmişti) — bu yüzden fresh `supabase db reset`
+-- extensions.ll_to_earth/earth_distance kullanan ilk fonksiyonda patlıyordu.
+CREATE EXTENSION IF NOT EXISTS cube WITH SCHEMA extensions;
+CREATE EXTENSION IF NOT EXISTS earthdistance WITH SCHEMA extensions;
+
 ALTER TABLE menu_items
   ADD COLUMN IF NOT EXISTS is_today_special  BOOLEAN      NOT NULL DEFAULT FALSE,
   ADD COLUMN IF NOT EXISTS special_note      TEXT,

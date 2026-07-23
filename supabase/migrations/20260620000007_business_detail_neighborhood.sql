@@ -6,6 +6,9 @@
 -- businesses.neighborhood -> view -> RPC -> model zinciri tamamlanıyor.
 
 -- 1. businesses_with_stats_mv view'una neighborhood ekle
+-- 2026-07-23 fix: neighborhood, CREATE OR REPLACE VIEW'ın mevcut kolon
+-- sırasını/adlarını değiştiremediği için (yeni kolonlar sadece sona
+-- eklenebilir) listenin ortasından sonuna taşındı.
 create or replace view public.businesses_with_stats_mv
 with (security_invoker = true) as
 select
@@ -15,7 +18,6 @@ select
   b.address,
   b.city,
   b.district,
-  b.neighborhood,
   b.lat,
   b.lng,
   b.geog,
@@ -24,7 +26,8 @@ select
     when coalesce(s.approved_reviews_count, 0) = 0 then 0::double precision
     else s.approved_rating_sum::double precision / s.approved_reviews_count::double precision
   end                                                                  as avg_rating,
-  s.last_review_at
+  s.last_review_at,
+  b.neighborhood
 from public.businesses b
 left join public.business_stats s on s.business_id = b.id;
 

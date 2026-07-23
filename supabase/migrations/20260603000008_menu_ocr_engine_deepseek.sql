@@ -61,9 +61,11 @@ BEGIN
     CHECK (ocr_engine IN ('none', 'paddleocr', 'manual', 'deepseek-ocr'));
 
   -- Kolon açıklamasını güncelle
+  -- 2026-07-23 fix: orijinal yorum metninde tırnak kaçışı bozuktu (string
+  -- erken kapanıp ardından geçersiz token'lar bırakıyordu) — tek sürekli
+  -- string olarak düzeltildi.
   COMMENT ON COLUMN public.menu_ocr_jobs.ocr_engine IS
-    'OCR engine: none | paddleocr | manual | deepseek-ocr (Replicate/DeepSeek). '
-    ''deepseek-ocr'' 2026-06-03 eklendi — ai-menu-analyze edge function.';
+    'OCR engine: none | paddleocr | manual | deepseek-ocr (Replicate/DeepSeek). ''deepseek-ocr'' 2026-06-03 eklendi — ai-menu-analyze edge function.';
 
   RAISE NOTICE 'menu_ocr_jobs_ocr_engine_check constraint güncellendi: deepseek-ocr eklendi.';
 END;

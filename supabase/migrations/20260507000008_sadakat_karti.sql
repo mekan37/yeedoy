@@ -11,6 +11,31 @@ CREATE TABLE IF NOT EXISTS loyalty_programs (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- 2026-07-23 fix: 20260424000007_loyalty_program.sql bu tablodan bir "yalın"
+-- versiyon (business_id PRIMARY KEY, id kolonu yok) daha önce oluşturmuş
+-- olabilir — CREATE TABLE IF NOT EXISTS o durumda no-op olur ve id kolonu
+-- hiç eklenmez. loyalty (sadakat) özelliği MVP kapsamı dışı bırakıldığı için
+-- iki tasarımı tam uzlaştırmak yerine, loyalty_cards'ın FK'sinin çalışması
+-- için gereken minimum garanti ekleniyor.
+ALTER TABLE loyalty_programs ADD COLUMN IF NOT EXISTS id UUID DEFAULT gen_random_uuid();
+UPDATE loyalty_programs SET id = gen_random_uuid() WHERE id IS NULL;
+ALTER TABLE loyalty_programs ALTER COLUMN id SET NOT NULL;
+ALTER TABLE loyalty_programs ADD COLUMN IF NOT EXISTS name TEXT NOT NULL DEFAULT 'Sadakat Programı';
+ALTER TABLE loyalty_programs ADD COLUMN IF NOT EXISTS stamps_needed INT NOT NULL DEFAULT 10;
+ALTER TABLE loyalty_programs ADD COLUMN IF NOT EXISTS reward_desc TEXT NOT NULL DEFAULT '';
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conrelid = 'loyalty_programs'::regclass
+      AND contype = 'u'
+      AND conkey = ARRAY[(SELECT attnum FROM pg_attribute WHERE attrelid = 'loyalty_programs'::regclass AND attname = 'id')]
+  ) THEN
+    ALTER TABLE loyalty_programs ADD CONSTRAINT loyalty_programs_id_key UNIQUE (id);
+  END IF;
+END
+$$;
+
 CREATE TABLE IF NOT EXISTS loyalty_cards (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   program_id   UUID        NOT NULL REFERENCES loyalty_programs(id) ON DELETE CASCADE,
@@ -92,6 +117,11 @@ END;
 $$;
 
 -- Kullanıcı kartlarını görür
+-- 2026-07-23 fix: 20260424000007_loyalty_program.sql aynı isimle jsonb
+-- dönen farklı bir versiyon tanımlamıştı (rekabetçi/çakışan sadakat
+-- tasarımı, özellik MVP kapsamı dışı) — CREATE OR REPLACE dönüş tipi
+-- değiştiremediği için önce DROP gerekiyor.
+DROP FUNCTION IF EXISTS public.get_my_loyalty_cards_v1();
 CREATE OR REPLACE FUNCTION get_my_loyalty_cards_v1()
 RETURNS TABLE (
   card_id      UUID,

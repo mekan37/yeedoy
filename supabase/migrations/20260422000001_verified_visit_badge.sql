@@ -19,11 +19,11 @@ SET search_path = public
 AS $$
   SELECT EXISTS (
     SELECT 1
-    FROM crowd_checkins cc
+    FROM business_checkins cc
     WHERE cc.user_id       = p_user_id
       AND cc.business_id   = p_business_id
-      AND DATE(cc.checked_in_at AT TIME ZONE 'UTC')
-          = DATE(p_review_date    AT TIME ZONE 'UTC')
+      AND DATE(cc.created_at AT TIME ZONE 'UTC')
+          = DATE(p_review_date  AT TIME ZONE 'UTC')
   );
 $$;
 

@@ -40,8 +40,11 @@ BEGIN
   IF tg_op <> 'INSERT' THEN RETURN new; END IF;
 
   -- Only process approved reviews with non-empty body
+  -- 2026-07-23 fix: reviews tablosunda "body" diye bir kolon hiç olmadı,
+  -- gerçek adı "content" (bkz. 00000000000000_base_schema.sql) — bu trigger
+  -- her INSERT'te "record new has no field body" ile patlıyordu.
   IF new.status IS NOT NULL AND new.status <> 'approved' THEN RETURN new; END IF;
-  v_body := lower(coalesce(new.body, ''));
+  v_body := lower(coalesce(new.content, ''));
   IF char_length(v_body) < 5 THEN RETURN new; END IF;
 
   v_tags := ARRAY[]::text[];

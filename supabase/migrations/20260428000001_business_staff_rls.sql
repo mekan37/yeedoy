@@ -193,29 +193,45 @@ CREATE POLICY "menu_items_staff_read"
   USING (public.is_business_team_member(business_id, ARRAY['manager', 'editor', 'staff', 'viewer']));
 
 -- ── menu_item_translations ────────────────────────────────────────────────────
+-- 2026-07-23 fix: public.menu_item_translations was never created (the app
+-- ended up using the generic public.menu_translations entity_type/entity_id
+-- table instead — see 20260427000001_menu_section_translation_rpc.sql). This
+-- block is guarded so a fresh `supabase db reset` doesn't fail on a table
+-- that doesn't exist; if the table exists in some environment, behavior is
+-- unchanged.
 
--- manager + editor can upsert translations
-CREATE POLICY "menu_item_translations_staff_insert"
-  ON public.menu_item_translations
-  FOR INSERT
-  TO authenticated
-  WITH CHECK (EXISTS (
-    SELECT 1 FROM public.menu_items mi
-    WHERE  mi.id = menu_item_id
-      AND  public.is_business_team_member(mi.business_id, ARRAY['manager', 'editor'])
-  ));
+DO $$
+BEGIN
+  IF to_regclass('public.menu_item_translations') IS NOT NULL THEN
+    -- manager + editor can upsert translations
+    EXECUTE $policy$
+      CREATE POLICY "menu_item_translations_staff_insert"
+        ON public.menu_item_translations
+        FOR INSERT
+        TO authenticated
+        WITH CHECK (EXISTS (
+          SELECT 1 FROM public.menu_items mi
+          WHERE  mi.id = menu_item_id
+            AND  public.is_business_team_member(mi.business_id, ARRAY['manager', 'editor'])
+        ))
+    $policy$;
 
-CREATE POLICY "menu_item_translations_staff_update"
-  ON public.menu_item_translations
-  FOR UPDATE
-  TO authenticated
-  USING (EXISTS (
-    SELECT 1 FROM public.menu_items mi
-    WHERE  mi.id = menu_item_id
-      AND  public.is_business_team_member(mi.business_id, ARRAY['manager', 'editor'])
-  ))
-  WITH CHECK (EXISTS (
-    SELECT 1 FROM public.menu_items mi
-    WHERE  mi.id = menu_item_id
-      AND  public.is_business_team_member(mi.business_id, ARRAY['manager', 'editor'])
-  ));
+    EXECUTE $policy$
+      CREATE POLICY "menu_item_translations_staff_update"
+        ON public.menu_item_translations
+        FOR UPDATE
+        TO authenticated
+        USING (EXISTS (
+          SELECT 1 FROM public.menu_items mi
+          WHERE  mi.id = menu_item_id
+            AND  public.is_business_team_member(mi.business_id, ARRAY['manager', 'editor'])
+        ))
+        WITH CHECK (EXISTS (
+          SELECT 1 FROM public.menu_items mi
+          WHERE  mi.id = menu_item_id
+            AND  public.is_business_team_member(mi.business_id, ARRAY['manager', 'editor'])
+        ))
+    $policy$;
+  END IF;
+END
+$$;

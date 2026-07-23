@@ -70,7 +70,12 @@ CREATE INDEX IF NOT EXISTS idx_notifications_user_unread
   WHERE is_read = false;
 
 -- ── menu_feedback ─────────────────────────────────────────────────────────────
--- Created in 20260422000002; FK on menu_item_id needs support.
+-- 2026-07-23 fix: menu_feedback (bkz. 20260422000002) hiçbir zaman
+-- menu_item_id kolonuna sahip olmadı — sadece id/business_id/rating/
+-- category/message/created_at. Bu yorumun iddiası yanlıştı, o index kaldırıldı.
+-- business_id index'i zaten 20260422000002'de var (idx_menu_feedback_business_id,
+-- tek kolonlu); burada aynı isimle composite versiyon denenirse IF NOT EXISTS
+-- sessizce atlar, zararsız.
 DO $$
 BEGIN
   IF EXISTS (
@@ -78,10 +83,6 @@ BEGIN
     JOIN pg_namespace n ON n.oid = c.relnamespace
     WHERE n.nspname = 'public' AND c.relname = 'menu_feedback'
   ) THEN
-    EXECUTE $idx$
-      CREATE INDEX IF NOT EXISTS idx_menu_feedback_menu_item_id
-        ON public.menu_feedback (menu_item_id, created_at DESC)
-    $idx$;
     EXECUTE $idx$
       CREATE INDEX IF NOT EXISTS idx_menu_feedback_business_id
         ON public.menu_feedback (business_id, created_at DESC)

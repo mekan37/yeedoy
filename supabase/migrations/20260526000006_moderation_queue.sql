@@ -70,10 +70,17 @@ BEGIN
     WHEN 'menu_item'       THEN 'business'   -- map to closest existing type
     WHEN 'user'            THEN 'review'     -- map to review for now
     WHEN 'photo'           THEN 'menu_item_photo'
-    ELSE
-      RAISE EXCEPTION 'invalid_content_type: % desteklenmiyor', p_target_type
-        USING ERRCODE = 'P0003'
+    ELSE NULL
   END;
+
+  -- 2026-07-23 fix: bir CASE değer ifadesinin ELSE dalına doğrudan RAISE
+  -- EXCEPTION koymak geçersiz PL/pgSQL sözdizimidir (CASE...END bir SQL
+  -- değer ifadesidir, prosedürel bir dal değildir) — NULL dönüp ayrı bir
+  -- IF ile kontrol edilecek şekilde ayrıldı.
+  IF v_mapped_type IS NULL THEN
+    RAISE EXCEPTION 'invalid_content_type: % desteklenmiyor', p_target_type
+      USING ERRCODE = 'P0003';
+  END IF;
 
   -- Validate reason
   IF p_reason NOT IN ('spam', 'inappropriate', 'fake', 'copyright', 'other', 'harassment', 'misinformation') THEN
