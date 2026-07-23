@@ -73,6 +73,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error?.message ?? 'auth_failed' }, { status: 401 });
   }
 
+  // Bekleyen ekip davetlerini bu girişte hesaba bağla — best-effort, giriş
+  // akışını asla engellemez. Rol yönlendirmesinden ÖNCE çalışmalı ki az önce
+  // bağlanan üyelik görülebilsin.
+  try {
+    await (supabase as any).rpc('claim_pending_team_invites_v1');
+  } catch {
+    // best-effort
+  }
+
   const effectiveRedirect = parsed.data.redirectTo
     ? redirectTo
     : await resolveRoleBasedRedirect(supabase as any, data.session.user.id);
