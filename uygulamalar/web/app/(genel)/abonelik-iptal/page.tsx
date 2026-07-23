@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 import { verifyUnsubscribeToken } from '@/src/lib/email/unsubscribe-token';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 
 export const metadata: Metadata = {
   title: 'Abonelik İptali | Yeedoy',

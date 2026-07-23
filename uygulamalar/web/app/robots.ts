@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');

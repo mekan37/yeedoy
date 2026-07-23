@@ -1,6 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 import type { Database } from '@/src/lib/supabase/database.types';
 
 export async function createSupabaseServerClient() {

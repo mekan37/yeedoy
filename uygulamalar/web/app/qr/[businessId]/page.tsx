@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { QrGeneratorClient } from '@/src/ui/sections/qr-generator';
 import { getBrandThemeDefinition, getBrandThemeOptions } from '@/src/lib/brand-theme';
 import { getPublicMenuPageData, getTranslationValue } from '@/src/lib/public-menu-page';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 import { getImageBlurDataUrl } from '@/src/lib/image-placeholder';
 import { copy } from '@/src/lib/i18n';
 import { encodeBusinessCode } from '@/src/lib/short-code';

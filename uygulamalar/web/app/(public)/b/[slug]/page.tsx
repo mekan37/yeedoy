@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 import { AppSectionHeader } from '@/src/ui/components/app-section-header';
 import { buildMenuImageUrl } from '@/src/lib/media-url';
 import { fetchBusinessBadges } from '@/src/lib/businessBadges';

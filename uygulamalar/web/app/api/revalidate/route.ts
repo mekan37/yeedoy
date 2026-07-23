@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 
 const slugPattern = /^[a-z0-9_-]{1,80}$/;
 

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 
 export const revalidate = 3600;

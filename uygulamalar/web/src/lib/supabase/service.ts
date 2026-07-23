@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 import type { Database } from '@/src/lib/supabase/database.types';
 
 export function createSupabaseServiceClient() {

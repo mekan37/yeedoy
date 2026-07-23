@@ -2,9 +2,9 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import { appConfig } from '@/src/lib/config';
+import { appConfig } from '@/src/lib/ayarlar';
 import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
-import { sanitizeInternalRedirect } from '@/src/lib/safe-redirect';
+import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
 
 const panelHandoffSchema = z.object({
   access_token: z.string().min(20),
