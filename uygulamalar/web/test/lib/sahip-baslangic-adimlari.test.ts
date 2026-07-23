@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeOnboardingComplete } from '@/app/sahip/baslangic/baslangic-adimlari';
+import { computeOnboardingComplete } from '@/src/lib/veri/owner/sahip-baslangic-adimlari';
 
 describe('computeOnboardingComplete', () => {
   it('hiçbir adım tamamlanmadıysa false döner', () => {

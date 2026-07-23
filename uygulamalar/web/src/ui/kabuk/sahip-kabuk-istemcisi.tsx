@@ -9,7 +9,7 @@ import { KullaniciFoteri } from './kullanici-foteri';
 import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
-import { getOnboardingStatus } from '@/app/sahip/baslangic/baslangic-durumu';
+import { getOnboardingStatus } from '@/src/lib/veri/owner/sahip-baslangic-durumu';
 
 const ownerNavSections: NavSection[] = [
   {

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
-import { getOnboardingStatus } from './baslangic-durumu';
+import { getOnboardingStatus } from '@/src/lib/veri/owner/sahip-baslangic-durumu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
