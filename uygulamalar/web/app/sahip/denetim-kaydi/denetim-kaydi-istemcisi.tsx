@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import { ROLE_LABELS } from '@/app/sahip/ekip/ekip-sabitleri';
 
 export type DenetimKaydiSatiri = {
   id: string;
@@ -32,14 +33,6 @@ interface Props {
   showBusinessColumn: boolean;
   filters: { actor: string; action: string; from: string; to: string };
 }
-
-const ROLE_LABELS: Record<string, { label: string; className: string }> = {
-  owner: { label: 'İşletme Sahibi', className: 'bg-red-50 text-red-700' },
-  manager: { label: 'Yönetici', className: 'bg-purple-50 text-purple-700' },
-  editor: { label: 'Editör', className: 'bg-blue-50 text-blue-700' },
-  staff: { label: 'Personel', className: 'bg-zinc-100 text-zinc-600' },
-  viewer: { label: 'İzleyici', className: 'bg-zinc-50 text-zinc-500' },
-};
 
 const ACTION_META: Record<string, { label: string; className: string; icon: React.ComponentType<{ className?: string }> }> = {
   menu_item_updated: { label: 'Menü öğesi güncellendi', className: 'bg-blue-50 text-blue-600', icon: PencilIcon },
