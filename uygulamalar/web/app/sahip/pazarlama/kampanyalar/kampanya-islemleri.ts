@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { withAuth } from '@/src/lib/sunucu-eylem-kimlik-dogrulama';
+import { rateLimit } from '@/src/lib/oran-siniri';
 
 const REVALIDATE = '/sahip/pazarlama/kampanyalar';
 
@@ -58,7 +59,12 @@ export async function kampanyaKaydet(
     return { error: 'Geçersiz tarih formatı' };
   }
 
-  return withAuth(async () => {
+  return withAuth(async (userId) => {
+    const limitResult = rateLimit(`kampanya-kaydet:${userId}`, 20, 60_000);
+    if (!limitResult.ok) {
+      return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
+    }
+
     const supabase = await createSupabaseServerClient();
     const { error } = await (supabase as any).rpc('owner_upsert_campaign_v1', {
       p_business_id:     d.business_id,
@@ -82,7 +88,12 @@ export async function kampanyaSil(
   id: string,
   businessId: string,
 ): Promise<{ error: string } | null> {
-  return withAuth(async () => {
+  return withAuth(async (userId) => {
+    const limitResult = rateLimit(`kampanya-sil:${userId}`, 20, 60_000);
+    if (!limitResult.ok) {
+      return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
+    }
+
     const supabase = await createSupabaseServerClient();
     const { error } = await (supabase as any).rpc('owner_delete_campaign_v1', {
       p_id:          id,
