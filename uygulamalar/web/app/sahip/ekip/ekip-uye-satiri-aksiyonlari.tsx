@@ -42,6 +42,7 @@ export function EkipUyeSatiriAksiyonlari({
         value={role}
         disabled={isPending}
         onChange={(e) => handleRoleChange(e.target.value)}
+        aria-label={`${email} rolü`}
         className="min-h-[32px] rounded-lg border border-border bg-bg px-2 text-[11px] font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
       >
         {Object.entries(ROLE_LABELS).filter(([key]) => key !== 'owner').map(([key, cfg]) => (
@@ -53,6 +54,7 @@ export function EkipUyeSatiriAksiyonlari({
           type="button"
           disabled={isPending}
           onClick={handleRemove}
+          aria-label={`${email} kaldır`}
           className="text-[11px] font-[700] text-danger hover:underline disabled:opacity-50"
         >
           Kaldır
