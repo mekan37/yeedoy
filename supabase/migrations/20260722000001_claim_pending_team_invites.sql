@@ -16,7 +16,7 @@ BEGIN
     RAISE EXCEPTION 'unauthorized: Oturum açmanız gerekiyor' USING ERRCODE = 'P0002';
   END IF;
 
-  SELECT lower(email::text) INTO v_email FROM auth.users WHERE id = v_user_id;
+  SELECT lower(trim(email::text)) INTO v_email FROM auth.users WHERE id = v_user_id;
   IF v_email IS NULL THEN
     RETURN jsonb_build_object('ok', true, 'linked_count', 0);
   END IF;
@@ -28,7 +28,7 @@ BEGIN
         updated_at = now()
     WHERE user_id IS NULL
       AND revoked_at IS NULL
-      AND lower(coalesce(invite_email, '')) = v_email
+      AND lower(trim(coalesce(invite_email, ''))) = v_email
     RETURNING id
   )
   SELECT count(*) INTO v_linked_count FROM linked;
