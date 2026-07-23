@@ -31,6 +31,7 @@ async function getOwnedMenuContext(menuId: string): Promise<
 
 function revalidateMenuEditor(menuId: string) {
   revalidatePath(`/sahip/menuler/${menuId}/duzenle`);
+  revalidatePath(`/sahip/menuler/${menuId}/kategoriler`);
   revalidatePath(`/sahip/menuler/${menuId}`);
   revalidatePath('/sahip/menuler');
 }
