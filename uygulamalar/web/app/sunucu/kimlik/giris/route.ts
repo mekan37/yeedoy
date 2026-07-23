@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { appConfig } from '@/src/lib/ayarlar';
 import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
 import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { logger } from '@/src/lib/kayitci';
 import type { Database } from '@/src/lib/taban/veri-tanimlari';
 import { resolveRoleBasedRedirect } from '../rol-yonlendirme/route';
 
@@ -78,8 +79,9 @@ export async function POST(request: Request) {
   // bağlanan üyelik görülebilsin.
   try {
     await (supabase as any).rpc('claim_pending_team_invites_v1');
-  } catch {
-    // best-effort
+  } catch (claimError) {
+    // best-effort — giriş akışını asla engellemez, ama sessizce yutmak yerine logla
+    logger.warn('giris: claim_pending_team_invites_v1 başarısız', { userId: data.session.user.id, error: claimError });
   }
 
   const effectiveRedirect = parsed.data.redirectTo

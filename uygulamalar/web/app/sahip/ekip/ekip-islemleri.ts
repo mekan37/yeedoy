@@ -7,6 +7,7 @@ import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { sendEmail } from '@/src/lib/eposta';
 import { appConfig } from '@/src/lib/ayarlar';
+import { logger } from '@/src/lib/kayitci';
 import { ROLE_LABELS } from './ekip-sabitleri';
 
 const ROLE_VALUES = new Set(['manager', 'editor', 'staff', 'viewer']);
@@ -57,7 +58,8 @@ export async function addTeamMember(formData: FormData): Promise<void> {
     });
 
     if (createErr) {
-      const alreadyExists = /already.*registered|already.*exists/i.test(createErr.message ?? '');
+      const alreadyExists = createErr.code === 'email_exists' || createErr.code === 'user_already_exists'
+        || /already.*registered|already.*exists/i.test(createErr.message ?? '');
       if (!alreadyExists) redirect('/sahip/ekip?durum=hesap_hata');
       // E-posta zaten kayıtlı: mevcut hesabın şifresine dokunmuyoruz, sadece ekibe bağlıyoruz.
       mode = 'linked';
@@ -68,8 +70,9 @@ export async function addTeamMember(formData: FormData): Promise<void> {
           await (serviceClient as any)
             .from('user_profiles')
             .insert({ user_id: created.user.id, display_name: fullName || email.split('@')[0] });
-        } catch {
+        } catch (profileError) {
           // profil satırı ikincil — başarısız olsa da hesap oluşturmayı engellemez
+          logger.warn('addTeamMember: user_profiles satırı oluşturulamadı', { userId: created.user.id, error: profileError });
         }
       }
     }
