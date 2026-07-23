@@ -100,7 +100,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
               description="Ekip üyesi eklemek için önce işletme sahibi olmanız gerekiyor."
             />
           ) : (
-            <form action={addTeamMember} className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_180px_auto] md:items-end">
+            <form action={addTeamMember} className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_1fr_180px_auto] md:items-end">
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-[800] uppercase tracking-wide text-muted">İşletme</span>
                 <select
