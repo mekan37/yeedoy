@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { getOnboardingStatus } from './baslangic-durumu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
@@ -26,6 +27,14 @@ export default async function OwnerOnboardingPage() {
   const hasBusiness = businessIds.length > 0;
   const hasSubmission = (submissions ?? []).length > 0;
   const submissionPending = hasSubmission && submissions[0]?.status === 'new';
+
+  const onboarding = await getOnboardingStatus();
+  const doneCount = [
+    hasBusiness,
+    onboarding.hasPublishedMenu,
+    onboarding.hasQrCode,
+    onboarding.hasTeamMember,
+  ].filter(Boolean).length;
 
   const steps = [
     {
@@ -60,7 +69,7 @@ export default async function OwnerOnboardingPage() {
       num: 2,
       title: 'İlk Menünüzü Oluşturun',
       description: 'İşletmeniz onaylandıktan sonra menü ve ürünlerinizi ekleyebilirsiniz.',
-      done: false,
+      done: onboarding.hasPublishedMenu,
       pending: false,
       action: hasBusiness ? (
         <Link href="/sahip/menuler">
@@ -74,7 +83,7 @@ export default async function OwnerOnboardingPage() {
       num: 3,
       title: 'QR Kodunuzu Alın',
       description: 'Menünüzü yayınladıktan sonra masalarınıza QR kod ekleyebilirsiniz.',
-      done: false,
+      done: onboarding.hasQrCode,
       pending: false,
       action: null,
     },
@@ -82,7 +91,7 @@ export default async function OwnerOnboardingPage() {
       num: 4,
       title: 'Ekibinizi Davet Edin',
       description: 'Yönetici, editör veya personel rolüyle ekip üyesi ekleyin.',
-      done: false,
+      done: onboarding.hasTeamMember,
       pending: false,
       action: hasBusiness ? (
         <Link href="/sahip/ekip">
@@ -100,6 +109,20 @@ export default async function OwnerOnboardingPage() {
         description="Platforma başlamak için adım adım rehber"
       />
       <PanelIcerikYuzeyi className="pt-6">
+        <div className="mb-4 flex items-center justify-between">
+          <p className="text-sm font-[800] text-textStrong">{doneCount}/4 tamamlandı</p>
+          <div className="h-2 w-40 overflow-hidden rounded-full bg-border">
+            <div
+              className="h-full rounded-full bg-green-500 transition-all"
+              style={{ width: `${(doneCount / 4) * 100}%` }}
+            />
+          </div>
+        </div>
+        {onboarding.complete && (
+          <div className="mb-4 rounded-xl border border-success/25 bg-success/[0.08] px-4 py-3 text-sm font-[700] text-success">
+            Tebrikler! Başlangıç adımlarının tamamını tamamladınız.
+          </div>
+        )}
         <div className="flex flex-col gap-4">
           {steps.map((step) => (
             <PanelBolumKarti key={step.num}>

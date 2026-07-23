@@ -9,6 +9,7 @@ import { KullaniciFoteri } from './kullanici-foteri';
 import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { getOnboardingStatus } from '@/app/sahip/baslangic/baslangic-durumu';
 
 const ownerNavSections: NavSection[] = [
   {
@@ -70,6 +71,14 @@ function useCurrentUser() {
   return user;
 }
 
+function useOnboardingComplete() {
+  const [complete, setComplete] = useState<boolean | null>(null);
+  useEffect(() => {
+    void getOnboardingStatus().then((status) => setComplete(status.complete));
+  }, []);
+  return complete;
+}
+
 interface SahipKabukIstemcisiProps {
   children: ReactNode;
   bannerSlot?: ReactNode;
@@ -77,6 +86,7 @@ interface SahipKabukIstemcisiProps {
 
 export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcisiProps) {
   const user = useCurrentUser();
+  const onboardingComplete = useOnboardingComplete();
   const pathname = usePathname();
   const isLandingPage = pathname === '/sahip';
 
@@ -87,7 +97,12 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
   return (
     <AppProviders>
       <PanelShell
-        navSections={ownerNavSections}
+        navSections={onboardingComplete === true
+          ? ownerNavSections.map((section) => ({
+              ...section,
+              items: section.items.filter((item) => item.href !== '/sahip/baslangic'),
+            }))
+          : ownerNavSections}
         logoSlot={<OwnerLogo />}
         topbarTitle="Owner Panel"
         sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
