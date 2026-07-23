@@ -10,6 +10,7 @@ interface YorumSatiriProps {
   rating: number;
   content: string | null;
   displayName: string | null;
+  avatarUrl: string | null;
   createdAt: string;
   isVisible: boolean;
   ownerReply: string | null;
@@ -22,6 +23,7 @@ export function YorumSatiri({
   rating,
   content,
   displayName,
+  avatarUrl,
   createdAt,
   isVisible,
   ownerReply: initialReply,
@@ -97,19 +99,22 @@ export function YorumSatiri({
     <li className="px-5 py-4">
       {/* Yorum başlığı */}
       <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <StarRating rating={rating} />
-            <span className="text-xs font-[700] text-textStrong">
-              {displayName ?? 'Anonim'}
-            </span>
-            {businessName && (
-              <span className="text-xs text-muted">· {businessName}</span>
+        <div className="flex min-w-0 flex-1 items-start gap-3">
+          <ReviewerAvatar avatarUrl={avatarUrl} displayName={displayName} />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <StarRating rating={rating} />
+              <span className="text-xs font-[700] text-textStrong">
+                {displayName ?? 'Anonim'}
+              </span>
+              {businessName && (
+                <span className="text-xs text-muted">· {businessName}</span>
+              )}
+            </div>
+            {content && (
+              <p className="mt-1.5 text-sm leading-relaxed text-text">{content}</p>
             )}
           </div>
-          {content && (
-            <p className="mt-1.5 text-sm leading-relaxed text-text">{content}</p>
-          )}
         </div>
         <div className="shrink-0 text-right">
           <p className="text-xs text-muted">
@@ -219,6 +224,25 @@ export function YorumSatiri({
         </div>
       ) : null}
     </li>
+  );
+}
+
+function ReviewerAvatar({ avatarUrl, displayName }: { avatarUrl: string | null; displayName: string | null }) {
+  const initial = (displayName ?? 'K').charAt(0).toUpperCase();
+  if (avatarUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={avatarUrl}
+        alt={displayName ?? 'Kullanıcı'}
+        className="h-9 w-9 shrink-0 rounded-full border border-border object-cover"
+      />
+    );
+  }
+  return (
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-bg text-[13px] font-[900] text-textStrong">
+      {initial}
+    </div>
   );
 }
 
