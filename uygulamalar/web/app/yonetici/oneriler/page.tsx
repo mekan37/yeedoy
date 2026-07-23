@@ -45,7 +45,7 @@ export default async function AdminSuggestionsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Platform Önerileri"
         description="Kullanıcıların gönderdiği işletme önerileri"
       />

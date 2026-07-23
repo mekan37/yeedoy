@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 async function fireEvent(eventName: string, businessId: string, source: string) {
   try {
-    await fetch('/api/track', {
+    await fetch('/sunucu/izleme', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ eventName, businessId, source }),

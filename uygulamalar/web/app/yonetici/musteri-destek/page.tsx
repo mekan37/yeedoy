@@ -60,7 +60,7 @@ export default async function MusteriDestekPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Müşteri Destek"
         description="Destek talepleri ve kullanıcı sorunlarını yönet"
       />

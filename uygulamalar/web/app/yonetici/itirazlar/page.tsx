@@ -52,7 +52,7 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="İtirazlar"
         description={`${(count ?? 0).toLocaleString('tr-TR')} kayıt`}
       />

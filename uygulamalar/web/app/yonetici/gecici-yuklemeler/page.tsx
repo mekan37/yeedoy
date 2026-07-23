@@ -60,7 +60,7 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Geçici Yüklemeler"
         description={
           tableExists && count != null

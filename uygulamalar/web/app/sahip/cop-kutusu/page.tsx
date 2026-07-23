@@ -58,7 +58,7 @@ export default async function OwnerTrashPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Çöp Kutusu"
         description="Silinen menü ve içerikleri bu alandan geri yükleyebilirsiniz. Silinen içerikler 30 gün boyunca saklanır."
       />

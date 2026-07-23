@@ -33,7 +33,7 @@ export default async function AdminTrashPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Silinmiş Menüler"
         description={`${count ?? 0} silinmiş menü`}
       />

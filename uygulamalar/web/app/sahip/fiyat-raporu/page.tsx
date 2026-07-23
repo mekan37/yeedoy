@@ -48,7 +48,7 @@ export default async function OwnerPriceReportPage() {
   if (businesses.length === 0) {
     return (
       <div className="flex flex-col">
-        <PanelSayfaBasligi eyebrow="Owner" title="Fiyat Raporu" description="Rakip karşılaştırması" />
+        <PanelSayfaBasligi eyebrow="Sahip" title="Fiyat Raporu" description="Rakip karşılaştırması" />
         <PanelIcerikYuzeyi className="pt-6">
           <PanelEmptyState icon={<ChartIcon />} title="İşletme bulunamadı" description="Aktif işletmeniz bulunmuyor." />
         </PanelIcerikYuzeyi>
@@ -71,7 +71,7 @@ export default async function OwnerPriceReportPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Fiyat Raporu"
         description="Menü ürünlerinizin bölge ortalamasıyla karşılaştırması"
       />

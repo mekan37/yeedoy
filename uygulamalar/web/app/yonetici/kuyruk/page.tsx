@@ -43,7 +43,7 @@ export default async function AdminQueuePage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="İnceleme Kuyruğu"
         description="Bekleyen raporlar, başvurular ve öneriler"
       />

@@ -64,7 +64,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Fiş Başvuruları"
         description={sayfaAciklamasi}
       />

@@ -49,7 +49,7 @@ export default async function OwnerPricingPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Fiyat Önerileri"
         description={`${pending.length} bekleyen öneri`}
       />

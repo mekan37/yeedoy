@@ -31,7 +31,7 @@ export default async function FeatureFlagsPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Feature Flags"
         description={`${aktifSayi}/${liste.length} flag aktif`}
       />

@@ -19,7 +19,7 @@ export const rpcAnalyticsEventSchema = z.enum([
 ]);
 
 export const trackEventSchema = z.object({
-  eventName: z.enum(['page_view', 'category_view', 'item_view', 'item_click', 'qr_scanned']),
+  eventName: z.enum(['page_view', 'category_view', 'item_view', 'item_click', 'qr_scanned', 'business_page_view', 'directions_click', 'phone_click', 'whatsapp_click']),
   businessId: z.string().uuid(),
   menuId: z.string().uuid().nullable().optional(),
   source: z.string().trim().min(1).max(64).default('web_next_public'),
@@ -74,6 +74,26 @@ export function mapTrackEventToRpc(input: TrackEventInput) {
     case 'qr_scanned':
       return {
         eventName: 'qr_scanned' as const,
+        meta: normalizedMeta,
+      };
+    case 'business_page_view':
+      return {
+        eventName: 'business_page_view' as const,
+        meta: { ...normalizedMeta, event_alias: 'business_page_view' },
+      };
+    case 'directions_click':
+      return {
+        eventName: 'business_directions_click' as const,
+        meta: normalizedMeta,
+      };
+    case 'phone_click':
+      return {
+        eventName: 'business_phone_click' as const,
+        meta: normalizedMeta,
+      };
+    case 'whatsapp_click':
+      return {
+        eventName: 'business_whatsapp_click' as const,
         meta: normalizedMeta,
       };
   }

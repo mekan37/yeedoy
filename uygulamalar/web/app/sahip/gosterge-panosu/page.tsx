@@ -122,7 +122,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Genel Bakış"
         description="İşletmelerinizin özet durumu ve performans metrikleri"
       />

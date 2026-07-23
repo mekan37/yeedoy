@@ -65,7 +65,7 @@ export default async function AdminDashboardPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Genel Bakış"
         description="Platform geneli özet istatistikler"
       />

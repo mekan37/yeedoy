@@ -99,7 +99,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
     return (
       <div className="flex flex-col">
         <PanelSayfaBasligi
-          eyebrow="Admin"
+          eyebrow="Yönetici"
           title="Konumlar"
           description={`${ozet.toplam.toLocaleString('tr-TR')} işletme · veri kalitesi görünümü`}
         />
@@ -288,7 +288,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Konumlar"
         description={`${count.toLocaleString('tr-TR')} kayıt · ${sourceCount.toLocaleString('tr-TR')} işletmeden üretildi`}
       />

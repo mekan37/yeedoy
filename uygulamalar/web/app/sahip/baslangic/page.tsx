@@ -104,7 +104,7 @@ export default async function OwnerOnboardingPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Başlangıç Rehberi"
         description="Platforma başlamak için adım adım rehber"
       />

@@ -54,7 +54,7 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Yorumlar"
         description={count != null ? `${count.toLocaleString('tr-TR')} yorum` : ''}
       />

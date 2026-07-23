@@ -24,7 +24,7 @@ export default async function OwnerQrPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="QR Tasarım Kiti"
         description="İşletmeleriniz için QR kodu oluşturun, indirin ve masalara yerleştirin"
       />

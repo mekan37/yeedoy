@@ -65,7 +65,7 @@ export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) 
   if (businessIds.length === 0) {
     return (
       <div className="flex flex-col">
-        <PanelSayfaBasligi eyebrow="Owner" title="Denetim Kaydı" description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz." />
+        <PanelSayfaBasligi eyebrow="Sahip" title="Denetim Kaydı" description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz." />
         <PanelIcerikYuzeyi className="pt-6">
           <PanelEmptyState
             icon={<ShieldIcon />}
@@ -118,7 +118,7 @@ export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) 
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Denetim Kaydı"
         description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz."
         actions={

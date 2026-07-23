@@ -55,7 +55,7 @@ export default async function OwnerPhotosPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Fotoğraflar"
         description={
           descParts.length > 0

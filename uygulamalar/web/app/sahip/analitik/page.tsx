@@ -74,7 +74,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   if (businessIds.length === 0) {
     return (
       <div className="flex flex-col">
-        <PanelSayfaBasligi eyebrow="Owner" title="Analitik" description="İşletme performans analitiği" />
+        <PanelSayfaBasligi eyebrow="Sahip" title="Analitik" description="İşletme performans analitiği" />
         <PanelIcerikYuzeyi className="pt-6">
           <PanelEmptyState
             icon={<BuildingIcon />}
@@ -291,7 +291,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Analitik"
         description={`İşletme performans analitiği — ${etiket.toLowerCase()}`}
         actions={<AralikSecici aktif={aralik} />}

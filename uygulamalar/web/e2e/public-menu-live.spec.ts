@@ -20,7 +20,7 @@ test.describe.serial('live public menu smoke', () => {
   test('public menu, qr page and redirect flow work with live route keys', async ({ page }) => {
     const pageViewTrack = page.waitForResponse(
       (response) =>
-        response.url().includes('/api/track') &&
+        response.url().includes('/sunucu/izleme') &&
         response.request().method() === 'POST' &&
         response.status() === 200,
     );
@@ -44,7 +44,8 @@ test.describe.serial('live public menu smoke', () => {
 
     const qrResponse = await page.goto(`/karekod/${smoke.businessId}?lang=${smoke.lang}`);
     expect(qrResponse?.ok()).toBeTruthy();
-    await expect(page.getByRole('heading', { name: /sign in to open qr generation/i })).toBeVisible();
+    await expect(page).toHaveURL(/\/giris/);
+    await expect(page.getByRole('heading', { name: /hoş geldin/i })).toBeVisible();
 
     const shortPath = `/kod/${encodeBusinessCode(smoke.businessId)}?lang=${smoke.lang}&theme=bold`;
 
@@ -155,7 +156,7 @@ test.describe.serial('live public menu smoke', () => {
       expect(qrResponse?.ok()).toBeTruthy();
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 
-      await page.getByRole('button', { name: /template ve branding|template and branding/i }).click();
+      await page.getByRole('button', { name: /sablon ve marka/i }).click();
       await expect(page.getByTestId('media-field-logo').locator('img')).toBeVisible();
       await expect(page.getByTestId('media-field-background').locator('img')).toBeVisible();
 

@@ -53,7 +53,7 @@ export default async function FotografModerasyon_Page() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Fotoğraf Moderasyon"
         description="Kullanıcı yüklü fotoğrafları incele ve onayla veya reddet"
       />

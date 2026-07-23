@@ -55,7 +55,7 @@ export default async function AdminObservabilityPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Gözlemlenebilirlik"
         description="Platform sağlığı ve olay izleme"
       />

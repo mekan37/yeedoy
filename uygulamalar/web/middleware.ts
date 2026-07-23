@@ -226,7 +226,7 @@ export async function middleware(request: NextRequest) {
 
   if (
     !pathname.startsWith('/m/') &&
-    !pathname.startsWith('/api/track') &&
+    !pathname.startsWith('/sunucu/izleme') &&
     !pathname.startsWith('/api/media/upload') &&
     !pathname.startsWith('/api/presentation-settings') &&
     !pathname.startsWith('/qr/') &&
@@ -241,7 +241,7 @@ export async function middleware(request: NextRequest) {
     userAgent: request.headers.get('user-agent'),
   });
 
-  const policy = pathname.startsWith('/api/track')
+  const policy = pathname.startsWith('/sunucu/izleme')
     ? rateLimit(`middleware:track:${identity}`, 60, 60_000)
     : pathname.startsWith('/api/media/upload')
       ? rateLimit(`middleware:media-upload:${identity}`, 20, 60_000)

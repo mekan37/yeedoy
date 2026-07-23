@@ -153,7 +153,7 @@ export interface ModerationResult {
 
 // ─── Analytics / Track ───────────────────────────────────────────────────────
 
-/** POST /api/track */
+/** POST /sunucu/izleme */
 export type TrackEventName = 'page_view' | 'category_view' | 'item_view' | 'item_click' | 'qr_scanned';
 
 export interface TrackEventPayload {

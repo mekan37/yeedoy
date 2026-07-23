@@ -57,7 +57,7 @@ export default async function KvkkGdprPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="KVKK / GDPR Uyum"
         description="Veri konusu erişim talepleri (DSAR), onay yönetimi ve veri koruma"
       />

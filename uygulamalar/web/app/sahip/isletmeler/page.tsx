@@ -45,7 +45,7 @@ export default async function OwnerBusinessesPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="İşletmeler"
         description="Sahip olduğunuz işletmeleri yönetin"
         actions={

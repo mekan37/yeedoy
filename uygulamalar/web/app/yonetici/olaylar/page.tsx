@@ -64,7 +64,7 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Olay Merkezi"
         description={`${count.toLocaleString('tr-TR')} olay`}
       />

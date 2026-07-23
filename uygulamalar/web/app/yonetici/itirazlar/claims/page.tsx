@@ -31,7 +31,7 @@ export default async function AdminClaimsPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Sahiplenme Kuyruğu"
         description={`${pending.length} bekleyen talep`}
       />

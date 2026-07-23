@@ -47,7 +47,7 @@ export default async function AdminAnalyticsPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Platform Analitik"
         description="Platform geneli büyüme ve performans metrikleri"
       />

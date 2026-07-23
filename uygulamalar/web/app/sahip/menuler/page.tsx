@@ -59,7 +59,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Menüler"
         description="İşletmelerinize ait tüm menüler"
       />

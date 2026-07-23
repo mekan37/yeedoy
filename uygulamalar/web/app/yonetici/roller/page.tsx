@@ -52,7 +52,7 @@ export default async function AdminRolesPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Roller"
         description="Kullanıcı rol dağılımı ve ayrıcalıklı hesaplar"
       />

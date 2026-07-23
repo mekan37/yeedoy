@@ -81,7 +81,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Ekip"
         description="İşletme erişim üyeleri"
       />

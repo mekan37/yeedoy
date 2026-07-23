@@ -47,7 +47,7 @@ export default async function AdminChainsPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Zincirler"
         description={error ? 'Yüklenemedi' : rows.length === 0 && !q ? 'Henüz zincir yok' : `${rows.length} zincir${hasMore ? '+' : ''}`}
         actions={

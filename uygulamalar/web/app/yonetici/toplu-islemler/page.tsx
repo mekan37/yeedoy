@@ -53,7 +53,7 @@ export default async function TopluIslemlerPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Toplu İşlemler"
         description="İşletme onayları, yorum moderasyonu ve kullanıcı işlemlerini toplu yönet"
       />

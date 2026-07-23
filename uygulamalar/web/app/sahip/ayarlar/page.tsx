@@ -117,7 +117,7 @@ export default async function OwnerSettingsPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Ayarlar"
         description="İşletme hesabınızı ve tercihlerinizi yönetin."
       />

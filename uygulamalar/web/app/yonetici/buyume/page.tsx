@@ -43,7 +43,7 @@ export default async function AdminGrowthPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Büyüme"
         description="Platform büyüme metrikleri ve kullanıcı edinimi"
       />

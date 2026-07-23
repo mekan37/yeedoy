@@ -35,7 +35,7 @@ export default async function ApiAnahtarlariPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="API Anahtarları"
         description={`${aktifSayi} aktif anahtar · B2B entegrasyon yönetimi`}
       />

@@ -44,7 +44,7 @@ export default async function OwnerPriceSuggestionsPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Fiyat Önerileri"
         description="Menü ürünleriniz için gelen fiyat önerileri"
       />

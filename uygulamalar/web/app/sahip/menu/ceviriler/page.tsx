@@ -95,7 +95,7 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Menü Çevirileri"
         description="Menünüzün farklı dillerdeki çeviri durumu"
       />

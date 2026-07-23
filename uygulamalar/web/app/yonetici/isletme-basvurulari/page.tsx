@@ -46,7 +46,7 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="İşletme Talepleri"
         description={count != null ? `${count.toLocaleString('tr-TR')} talep` : ''}
       />

@@ -64,7 +64,7 @@ export default async function AdminAuditPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Denetim Kaydı"
         description={
           tableExists && count != null

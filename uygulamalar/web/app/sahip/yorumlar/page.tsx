@@ -61,7 +61,7 @@ export default async function OwnerReviewsPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Owner"
+        eyebrow="Sahip"
         title="Yorumlar"
         description={
           unreplied > 0

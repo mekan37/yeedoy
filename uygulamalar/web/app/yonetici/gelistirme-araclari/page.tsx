@@ -36,7 +36,7 @@ export default async function AdminDevToolsPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Geliştirici Araçları"
         description="Platform debug ve sistem bilgileri"
       />

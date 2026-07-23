@@ -80,7 +80,7 @@ export default async function FraudTespitiPage() {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Fraud Tespiti"
         description="Sahte yorum, bot hesap ve anormallik analizi"
       />

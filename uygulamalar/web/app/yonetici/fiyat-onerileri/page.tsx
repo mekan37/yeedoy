@@ -51,7 +51,7 @@ export default async function AdminPriceSuggestionsPage({ searchParams }: Props)
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Fiyat Önerileri"
         description={count != null ? `${count.toLocaleString('tr-TR')} öneri` : ''}
       />

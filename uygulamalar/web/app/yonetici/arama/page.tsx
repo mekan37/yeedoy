@@ -52,7 +52,7 @@ export default async function AdminSearchPage({ searchParams }: Props) {
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
-        eyebrow="Admin"
+        eyebrow="Yönetici"
         title="Arama"
         description={q ? `"${q}" için ${totalResults} sonuç` : 'Platform genelinde arama yapın'}
       />
