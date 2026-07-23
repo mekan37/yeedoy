@@ -5,18 +5,12 @@ import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { addTeamMember } from './ekip-islemleri';
+import { ROLE_LABELS } from './ekip-sabitleri';
+import { EkipUyeSatiriAksiyonlari } from './ekip-uye-satiri-aksiyonlari';
 
 export const metadata: Metadata = {
   title: 'Ekip | Sahip Paneli',
   robots: { index: false, follow: false },
-};
-
-const ROLE_LABELS: Record<string, { label: string; className: string }> = {
-  owner: { label: 'Sahip', className: 'bg-primary/10 text-primary' },
-  manager: { label: 'Yönetici', className: 'bg-purple-50 text-purple-700' },
-  editor: { label: 'Editör', className: 'bg-blue-50 text-blue-700' },
-  staff: { label: 'Personel', className: 'bg-zinc-100 text-zinc-600' },
-  viewer: { label: 'İzleyici', className: 'bg-zinc-50 text-zinc-500' },
 };
 
 const STATUS_MESSAGES: Record<string, { text: string; className: string }> = {
@@ -27,6 +21,9 @@ const STATUS_MESSAGES: Record<string, { text: string; className: string }> = {
   email_required: { text: 'Geçerli bir e-posta girin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
   invalid_role: { text: 'Geçerli bir rol seçin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
   hata: { text: 'Ekip üyesi eklenemedi. Tekrar deneyin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
+  sifre_kisa: { text: 'Şifre en az 8 karakter olmalı.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
+  servis_yok: { text: 'Sunucu yapılandırması eksik (SUPABASE_SERVICE_ROLE_KEY tanımlı değil) — şifresiz davet gönderebilirsiniz.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
+  hesap_hata: { text: 'Hesap oluşturulamadı. Tekrar deneyin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
 };
 
 type Props = {
@@ -103,7 +100,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
               description="Ekip üyesi eklemek için önce işletme sahibi olmanız gerekiyor."
             />
           ) : (
-            <form action={addTeamMember} className="grid gap-3 md:grid-cols-[1fr_1.2fr_180px_auto] md:items-end">
+            <form action={addTeamMember} className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_180px_auto] md:items-end">
               <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-[800] uppercase tracking-wide text-muted">İşletme</span>
                 <select
@@ -117,12 +114,31 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
                 </select>
               </label>
               <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-[800] uppercase tracking-wide text-muted">Ad Soyad (opsiyonel)</span>
+                <input
+                  name="fullName"
+                  type="text"
+                  placeholder="Ayşe Yılmaz"
+                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </label>
+              <label className="flex flex-col gap-1.5">
                 <span className="text-xs font-[800] uppercase tracking-wide text-muted">E-posta</span>
                 <input
                   name="email"
                   type="email"
                   required
                   placeholder="personel@ornek.com"
+                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </label>
+              <label className="flex flex-col gap-1.5">
+                <span className="text-xs font-[800] uppercase tracking-wide text-muted">Şifre (opsiyonel)</span>
+                <input
+                  name="password"
+                  type="password"
+                  minLength={8}
+                  placeholder="Boşsa davet gönderilir"
                   className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
                 />
               </label>
@@ -169,6 +185,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
                   <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Rol</th>
                   <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
                   <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Eklenme</th>
+                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Aksiyonlar</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -200,6 +217,18 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
                       <td className="px-5 py-3 text-xs text-muted">
                         {new Date(m.created_at).toLocaleDateString('tr-TR')}
                       </td>
+                      <td className="px-5 py-3">
+                        {m.source === 'team_membership' ? (
+                          <EkipUyeSatiriAksiyonlari
+                            businessId={m.business_id}
+                            email={m.email ?? ''}
+                            role={m.role}
+                            membershipId={m.membership_id}
+                          />
+                        ) : (
+                          <span className="text-[11px] text-muted">—</span>
+                        )}
+                      </td>
                     </tr>
                   );
                 })}
@@ -207,59 +236,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
             </table>
           </PanelBolumKarti>
         )}
-
-        {/* Shift Scheduler */}
-        <PanelBolumKarti title="Vardiya Planı (Bu Hafta)" className="mt-6">
-          <ShiftScheduler members={list} />
-        </PanelBolumKarti>
       </PanelIcerikYuzeyi>
-    </div>
-  );
-}
-
-const DAYS = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
-const SHIFTS = ['Sabah (07-15)', 'Öğle (11-19)', 'Akşam (15-23)', 'Gece (23-07)'];
-
-function ShiftScheduler({ members }: { members: TeamMember[] }) {
-  if (members.length === 0) return (
-    <p className="py-6 text-center text-sm text-muted">Ekip üyesi eklendikten sonra vardiya planlayabilirsiniz.</p>
-  );
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full text-xs">
-        <thead>
-          <tr className="border-b border-border">
-            <th className="px-3 py-2 text-left text-[11px] font-[800] uppercase tracking-wide text-muted w-32">Personel</th>
-            {DAYS.map(d => (
-              <th key={d} className="px-2 py-2 text-center text-[11px] font-[800] uppercase tracking-wide text-muted">{d}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-border">
-          {members.filter((member) => member.role !== 'owner').slice(0, 8).map((m) => (
-            <tr key={`${m.business_id}-${m.membership_id ?? m.user_id ?? m.email}`} className="hover:bg-black/[0.02]">
-              <td className="px-3 py-2 font-[700] text-textStrong">
-                <p className="truncate max-w-[120px]">{m.email ?? '—'}</p>
-                <p className="text-[10px] text-muted">{ROLE_LABELS[m.role]?.label ?? m.role}</p>
-              </td>
-              {DAYS.map((d, di) => (
-                <td key={d} className="px-1 py-1.5 text-center">
-                  <select
-                    className="w-full rounded border border-border bg-surface py-0.5 text-[10px] text-textStrong focus:border-primary focus:outline-none"
-                    defaultValue=""
-                    aria-label={`${m.email ?? ''} ${d} vardiyası`}
-                  >
-                    <option value="">—</option>
-                    {SHIFTS.map(s => <option key={s} value={s}>{s.split(' ')[0]}</option>)}
-                  </select>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="mt-3 text-xs text-muted">Not: Vardiya kayıt entegrasyonu yakında aktif olacak.</p>
     </div>
   );
 }
