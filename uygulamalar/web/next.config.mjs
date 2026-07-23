@@ -75,6 +75,10 @@ const nextConfig = {
       { source: '/isletme-kayit', destination: '/giris', permanent: true },
       // Flutter used /owner/qr/design, Next.js consolidates to /owner/qr
       { source: '/owner/qr/design', destination: '/owner/qr', permanent: true },
+      // QR Studio / short QR-scan links — İngilizce ikizler Türkçe kanoniğe taşındı.
+      // /q/:code fiziksel olarak basılmış QR kodlarında olabilir — SİLİNMEDİ, kalıcı yönlendirildi.
+      { source: '/qr/:businessId', destination: '/karekod/:businessId', permanent: true },
+      { source: '/q/:code', destination: '/kod/:code', permanent: true },
       // Flutter editor push-routes → Next.js segment-based editor paths
       // (matches /owner/menu/editor?menuId=xxx and similar)
       { source: '/owner/menu/editor', destination: '/owner/menus', permanent: true },

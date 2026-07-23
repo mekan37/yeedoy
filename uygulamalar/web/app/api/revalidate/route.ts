@@ -19,7 +19,7 @@ const bodySchema = z.object({
  *
  * Body: { secret: string, slug?: string, businessId?: uuid }
  * - slug       → revalidates /m/<slug>
- * - businessId → revalidates /m/<businessId> and /qr/<businessId>
+ * - businessId → revalidates /m/<businessId> and /karekod/<businessId>
  * - neither    → revalidates all /m/* pages (broad sweep)
  *
  * Returns: { ok: true, invalidated: string[] }
@@ -58,8 +58,8 @@ export async function POST(request: Request) {
 
   if (parsed.data.businessId) {
     revalidatePath(`/m/${parsed.data.businessId}`);
-    revalidatePath(`/qr/${parsed.data.businessId}`);
-    invalidated.push(`/m/${parsed.data.businessId}`, `/qr/${parsed.data.businessId}`);
+    revalidatePath(`/karekod/${parsed.data.businessId}`);
+    invalidated.push(`/m/${parsed.data.businessId}`, `/karekod/${parsed.data.businessId}`);
   }
 
   if (invalidated.length === 0) {

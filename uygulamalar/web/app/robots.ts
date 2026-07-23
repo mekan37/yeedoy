@@ -7,8 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/', '/m/', '/q/', '/kesif', '/en-iyiler', '/isletme/', '/arama'],
-        disallow: ['/login', '/qr/', '/api/', '/auth/', '/forbidden', '/admin/', '/owner/', '/sahip/', '/yonetici/'],
+        allow: ['/', '/m/', '/kod/', '/kesif', '/en-iyiler', '/isletme/', '/arama'],
+        disallow: ['/giris', '/karekod/', '/api/', '/auth/', '/forbidden', '/admin/', '/owner/', '/sahip/', '/yonetici/'],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

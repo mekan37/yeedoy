@@ -385,13 +385,13 @@ export function findTargetSizeComponents(report) {
       item.selector.includes('form.mt-6')
         ? 'src/ui/sections/login-form.tsx'
         : item.selector.includes('div.grid > div.space-y-4 > div.flex')
-          ? 'src/ui/sections/qr-generator.tsx'
+          ? 'src/ui/bolumler/karekod-uretici.tsx'
           : item.selector.includes('div.space-y-4 > div.rounded-[28px] > div.mt-4')
-            ? 'src/ui/sections/qr-generator.tsx'
+            ? 'src/ui/bolumler/karekod-uretici.tsx'
             : item.selector.includes('section.grid > div.space-y-4 > div.grid')
-              ? 'src/ui/sections/qr-generator.tsx'
+              ? 'src/ui/bolumler/karekod-uretici.tsx'
         : item.selector.includes('qr-studio')
-          ? 'src/ui/sections/qr-generator.tsx'
+          ? 'src/ui/bolumler/karekod-uretici.tsx'
           : item.selector.includes('media-picker') || item.selector.includes('rounded-[24px]')
             ? 'src/ui/sections/qr-branding-panel.tsx'
             : 'manual-review',
@@ -400,7 +400,7 @@ export function findTargetSizeComponents(report) {
 
 function renderPerfMarkdown({ timestamp, commit, buildLog, menuReports, loginReport, qrAuthReport }) {
   const menuBuild = extractBuildSize(buildLog, '/m/[slug]');
-  const qrBuild = extractBuildSize(buildLog, '/qr/[businessId]');
+  const qrBuild = extractBuildSize(buildLog, '/karekod/[businessId]');
 
   return `# Performans Raporu
 
@@ -410,7 +410,7 @@ Commit: ${commit}
 ## Build Ciktisi
 
 - \`/m/[slug]\` first load JS: ${menuBuild || 'n/a'}
-- \`/qr/[businessId]\` first load JS: ${qrBuild || 'n/a'}
+- \`/karekod/[businessId]\` first load JS: ${qrBuild || 'n/a'}
 
 ## Public Menu Lighthouse
 
@@ -447,7 +447,7 @@ ${findTargetSizeComponents(qrAuthReport)
 - Kapanan yuzeyler:
   Public menu senaryolari \`Accessibility 100\` ile temiz.
 - Kalan odak:
-  ${qrAuthReport?.targetSize.items.length ? '`src/ui/sections/qr-generator.tsx` ust tablar ve CTA stackleri' : 'kalan QR Studio target-size node yok'}
+  ${qrAuthReport?.targetSize.items.length ? '`src/ui/bolumler/karekod-uretici.tsx` ust tablar ve CTA stackleri' : 'kalan QR Studio target-size node yok'}
   ${loginReport?.targetSize.items.length ? '\n- `src/ui/sections/login-form.tsx` submit/link CTA satiri' : ''}
 
 ## Bundle Audit

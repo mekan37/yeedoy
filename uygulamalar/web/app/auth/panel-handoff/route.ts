@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
   const cookieStore = await cookies();
   const destination = sanitizeInternalRedirect(
-    `/qr/${parsed.data.business_id}?lang=${parsed.data.lang || 'tr'}&theme=${parsed.data.theme || 'bold'}`,
+    `/karekod/${parsed.data.business_id}?lang=${parsed.data.lang || 'tr'}&theme=${parsed.data.theme || 'bold'}`,
     '/',
   );
   const response = NextResponse.redirect(new URL(destination, appConfig.siteUrl()));

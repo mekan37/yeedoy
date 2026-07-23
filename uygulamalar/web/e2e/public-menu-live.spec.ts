@@ -34,7 +34,7 @@ test.describe.serial('live public menu smoke', () => {
     expect(resolvedBusinessPath).toBe(expectedBusinessPath);
     await expect(page.getByRole('link', { name: /qr/i })).toHaveAttribute(
       'href',
-      `/qr/${smoke.businessId}?lang=${smoke.lang}&theme=bold`,
+      `/karekod/${smoke.businessId}?lang=${smoke.lang}&theme=bold`,
     );
     await pageViewTrack;
 
@@ -42,11 +42,11 @@ test.describe.serial('live public menu smoke', () => {
       await expect(page).toHaveURL(new RegExp(`/m/${expectedBusinessPath}\\?lang=${smoke.lang}`));
     }
 
-    const qrResponse = await page.goto(`/qr/${smoke.businessId}?lang=${smoke.lang}`);
+    const qrResponse = await page.goto(`/karekod/${smoke.businessId}?lang=${smoke.lang}`);
     expect(qrResponse?.ok()).toBeTruthy();
     await expect(page.getByRole('heading', { name: /sign in to open qr generation/i })).toBeVisible();
 
-    const shortPath = `/q/${encodeBusinessCode(smoke.businessId)}?lang=${smoke.lang}&theme=bold`;
+    const shortPath = `/kod/${encodeBusinessCode(smoke.businessId)}?lang=${smoke.lang}&theme=bold`;
 
     await page.goto(shortPath);
     await page.waitForURL(new RegExp(`/m/${expectedBusinessPath}\\?`));
@@ -87,7 +87,7 @@ test.describe.serial('live public menu smoke', () => {
       });
 
       expect(handoff.ok).toBeTruthy();
-      expect(handoff.redirectTo).toBe(`/qr/${target.businessId}?lang=tr&theme=minimal`);
+      expect(handoff.redirectTo).toBe(`/karekod/${target.businessId}?lang=tr&theme=minimal`);
 
       const fixtureCover = createTinyPng('cover-fixture.png');
       const fixtureUpload = await uploadBrandingAsset({
@@ -151,7 +151,7 @@ test.describe.serial('live public menu smoke', () => {
         },
       });
 
-      const qrResponse = await page.goto(`/qr/${target.businessId}?lang=tr&theme=minimal`);
+      const qrResponse = await page.goto(`/karekod/${target.businessId}?lang=tr&theme=minimal`);
       expect(qrResponse?.ok()).toBeTruthy();
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 

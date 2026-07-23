@@ -34,7 +34,7 @@ try {
   await waitForServer(baseUrl);
 
   const ownerTarget = await discoverOwnerTarget(fallbackBusinessId);
-  const qrRequestedUrl = `${baseUrl}/qr/${ownerTarget.businessId}?lang=${lang}&theme=${theme}`;
+  const qrRequestedUrl = `${baseUrl}/karekod/${ownerTarget.businessId}?lang=${lang}&theme=${theme}`;
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'yeedoy-qr-lh-'));
   const context = await chromium.launchPersistentContext(userDataDir, {
     headless: true,
@@ -46,12 +46,12 @@ try {
 
     if (process.env.LH_OWNER_EMAIL?.trim() && process.env.LH_OWNER_PASSWORD?.trim()) {
       await page.goto(
-        `${baseUrl}/login?redirect=${encodeURIComponent(`/qr/${ownerTarget.businessId}?lang=${lang}&theme=${theme}`)}`,
+        `${baseUrl}/giris?redirect=${encodeURIComponent(`/karekod/${ownerTarget.businessId}?lang=${lang}&theme=${theme}`)}`,
         { waitUntil: 'networkidle' },
       );
-      await page.getByLabel('Email').fill(process.env.LH_OWNER_EMAIL.trim());
-      await page.getByLabel('Password').fill(process.env.LH_OWNER_PASSWORD.trim());
-      await page.getByRole('button', { name: 'Sign in' }).click();
+      await page.locator('input[type="email"]').fill(process.env.LH_OWNER_EMAIL.trim());
+      await page.locator('input[type="password"]').fill(process.env.LH_OWNER_PASSWORD.trim());
+      await page.getByRole('button', { name: 'Giriş Yap' }).click();
     } else {
       const session = await issueMagicLinkSession(ownerTarget.ownerEmail);
       await page.setContent(
@@ -67,19 +67,19 @@ try {
       );
     }
 
-    await page.waitForURL(`**/qr/${ownerTarget.businessId}**`, { timeout: 30_000 });
+    await page.waitForURL(`**/karekod/${ownerTarget.businessId}**`, { timeout: 30_000 });
     await page.getByText('QR Studio', { exact: true }).waitFor({ timeout: 30_000 });
 
     const report = await runLighthouseAudit({
       chromePort,
       slug: 'qr-auth',
-      label: '/qr/:businessId?theme=bold (authenticated)',
+      label: '/karekod/:businessId?theme=bold (authenticated)',
       requestedUrl: qrRequestedUrl,
       reportDir,
       disableStorageReset: true,
     });
 
-    if (!report.finalUrl.includes(`/qr/${ownerTarget.businessId}`)) {
+    if (!report.finalUrl.includes(`/karekod/${ownerTarget.businessId}`)) {
       throw new Error(`Authenticated QR Studio audit resolved to unexpected finalUrl: ${report.finalUrl}`);
     }
 

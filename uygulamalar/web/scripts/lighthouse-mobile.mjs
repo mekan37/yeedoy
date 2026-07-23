@@ -47,8 +47,8 @@ try {
     },
     {
       slug: 'login',
-      label: '/login?redirect=/qr/:businessId',
-      requestedUrl: `${baseUrl}/login?redirect=${encodeURIComponent(`/qr/${businessId}?lang=${lang}&theme=bold`)}`,
+      label: '/giris?redirect=/karekod/:businessId',
+      requestedUrl: `${baseUrl}/giris?redirect=${encodeURIComponent(`/karekod/${businessId}?lang=${lang}&theme=bold`)}`,
     },
   ];
 

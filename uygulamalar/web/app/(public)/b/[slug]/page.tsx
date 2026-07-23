@@ -474,7 +474,7 @@ export default async function BusinessPage({ params }: Props) {
 
             {/* QR shortcut */}
             {menus.length > 0 && (
-              <Link href={`/qr/${biz.id}`}
+              <Link href={`/karekod/${biz.id}`}
                 className="flex items-center gap-3 rounded-[20px] border border-border bg-cardAlt p-4 shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--yd-color-primary-soft)] text-primary">
                   <QrIcon />

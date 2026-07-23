@@ -230,6 +230,7 @@ export async function middleware(request: NextRequest) {
     !pathname.startsWith('/api/media/upload') &&
     !pathname.startsWith('/api/presentation-settings') &&
     !pathname.startsWith('/qr/') &&
+    !pathname.startsWith('/karekod/') &&
     pathname !== '/auth/panel-handoff'
   ) {
     return NextResponse.next();
@@ -266,7 +267,11 @@ export const config = {
 
 function normalizePublicRoute(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
-  if (!pathname.startsWith('/m/') && !pathname.startsWith('/qr/')) {
+  if (
+    !pathname.startsWith('/m/') &&
+    !pathname.startsWith('/qr/') &&
+    !pathname.startsWith('/karekod/')
+  ) {
     return null;
   }
 
@@ -276,7 +281,7 @@ function normalizePublicRoute(request: NextRequest) {
     return createNotFoundResponse();
   }
 
-  if (pathname.startsWith('/qr/')) {
+  if (pathname.startsWith('/qr/') || pathname.startsWith('/karekod/')) {
     if (!isUuid(businessPath)) {
       return createNotFoundResponse();
     }

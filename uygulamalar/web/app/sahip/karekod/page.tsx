@@ -36,7 +36,7 @@ export default async function OwnerQrPage() {
             description="QR kodu oluşturmak için önce bir işletme ekleyin."
           />
         ) : (
-          <PanelBolumKarti title="İşletmeleriniz" description="Açmak istediğiniz işletmenin QR Studio'sunu seçin">
+          <PanelBolumKarti title="İşletmeleriniz" description="Açmak istediğiniz işletmenin QR Stüdyosu'nu seçin">
             <ul className="divide-y divide-border -mx-5 -mb-5">
               {list.map((b) => (
                 <li key={b.id} className="flex items-center justify-between gap-4 px-5 py-4">
@@ -51,7 +51,7 @@ export default async function OwnerQrPage() {
                     className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-[800] text-white transition-opacity hover:opacity-90"
                   >
                     <QrIcon />
-                    QR Studio
+                    QR Stüdyosu
                   </Link>
                 </li>
               ))}

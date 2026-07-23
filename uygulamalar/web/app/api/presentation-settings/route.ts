@@ -1,6 +1,6 @@
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
-import { buildMenuHref } from '@/src/lib/menu-links';
+import { buildMenuHref } from '@/src/lib/menu-baglantilari';
 import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { canManageBusiness } from '@/src/lib/qr-access';
 import { logger } from '@/src/lib/logger';
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
   for (const path of menuPaths) {
     revalidatePath(path);
   }
-  revalidatePath(`/qr/${parsed.data.businessId}`);
+  revalidatePath(`/karekod/${parsed.data.businessId}`);
 
   return NextResponse.json({ ok: true, data });
 }
