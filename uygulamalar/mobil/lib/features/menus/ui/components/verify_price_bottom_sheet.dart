@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/colors.dart';
+import '../../../../core/errors/app_error_mapper.dart';
 import '../../../../core/i18n/app_localizations.dart';
+import '../../../../core/media/media_upload_repository.dart';
 import '../../../shared/ui/design_system.dart';
 
 typedef VerifyPriceSubmit =
     Future<void> Function({
       required bool isPriceCorrect,
       int? correctedPriceCents,
+      String? evidenceUrl,
     });
 
 enum VerifyPriceCtaPlacement { top, bottom }
 
-class VerifyPriceBottomSheet extends StatefulWidget {
+class VerifyPriceBottomSheet extends ConsumerStatefulWidget {
   const VerifyPriceBottomSheet({
     super.key,
     required this.itemName,
     required this.currentPriceLabel,
     required this.onSubmit,
+    required this.businessId,
+    required this.menuItemId,
     this.ctaPlacement = VerifyPriceCtaPlacement.bottom,
   });
 
   final String itemName;
   final String currentPriceLabel;
   final VerifyPriceSubmit onSubmit;
+  final String businessId;
+  final String menuItemId;
   final VerifyPriceCtaPlacement ctaPlacement;
 
   static Future<void> show(
@@ -31,6 +39,8 @@ class VerifyPriceBottomSheet extends StatefulWidget {
     required String itemName,
     required String currentPriceLabel,
     required VerifyPriceSubmit onSubmit,
+    required String businessId,
+    required String menuItemId,
     VerifyPriceCtaPlacement ctaPlacement = VerifyPriceCtaPlacement.bottom,
   }) {
     return showModalBottomSheet<void>(
@@ -41,19 +51,25 @@ class VerifyPriceBottomSheet extends StatefulWidget {
         itemName: itemName,
         currentPriceLabel: currentPriceLabel,
         onSubmit: onSubmit,
+        businessId: businessId,
+        menuItemId: menuItemId,
         ctaPlacement: ctaPlacement,
       ),
     );
   }
 
   @override
-  State<VerifyPriceBottomSheet> createState() => _VerifyPriceBottomSheetState();
+  ConsumerState<VerifyPriceBottomSheet> createState() =>
+      _VerifyPriceBottomSheetState();
 }
 
-class _VerifyPriceBottomSheetState extends State<VerifyPriceBottomSheet> {
+class _VerifyPriceBottomSheetState
+    extends ConsumerState<VerifyPriceBottomSheet> {
   final _priceController = TextEditingController();
   bool? _isCorrect;
   bool _submitting = false;
+  bool _uploadingEvidence = false;
+  String? _evidenceUrl;
 
   @override
   void dispose() {
@@ -129,6 +145,22 @@ class _VerifyPriceBottomSheetState extends State<VerifyPriceBottomSheet> {
                   hintText: t.verifyPriceCorrectPriceHint,
                 ),
               ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: (_submitting || _uploadingEvidence)
+                    ? null
+                    : _pickEvidence,
+                icon: _uploadingEvidence
+                    ? const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.photo_camera_outlined),
+                label: Text(
+                  _evidenceUrl == null ? t.addEvidencePhoto : t.evidenceAdded,
+                ),
+              ),
             ],
             if (widget.ctaPlacement == VerifyPriceCtaPlacement.bottom) ...[
               const SizedBox(height: 14),
@@ -169,11 +201,36 @@ class _VerifyPriceBottomSheetState extends State<VerifyPriceBottomSheet> {
       await widget.onSubmit(
         isPriceCorrect: _isCorrect!,
         correctedPriceCents: corrected,
+        evidenceUrl: _evidenceUrl,
       );
       if (!mounted) return;
       Navigator.of(context).pop();
     } finally {
       if (mounted) setState(() => _submitting = false);
+    }
+  }
+
+  Future<void> _pickEvidence() async {
+    setState(() => _uploadingEvidence = true);
+    try {
+      final upload = await ref
+          .read(mediaUploadRepositoryProvider)
+          .pickAndUploadImage(
+            title: 'price_proof_${widget.menuItemId}',
+            businessId: widget.businessId,
+            menuItemId: widget.menuItemId,
+            critical: true,
+          );
+      if (upload == null) return;
+      if (!mounted) return;
+      setState(() => _evidenceUrl = upload.urlLarge);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
+    } finally {
+      if (mounted) setState(() => _uploadingEvidence = false);
     }
   }
 

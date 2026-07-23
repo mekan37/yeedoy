@@ -668,8 +668,10 @@ class _MenuPageState extends ConsumerState<MenuPage>
       context,
       itemName: item.name,
       currentPriceLabel: _formatPriceLocalized(context, item.price),
+      businessId: widget.businessId,
+      menuItemId: item.id,
       ctaPlacement: _verifyPriceCtaPlacement,
-      onSubmit: ({required isPriceCorrect, correctedPriceCents}) async {
+      onSubmit: ({required isPriceCorrect, correctedPriceCents, evidenceUrl}) async {
         try {
           if (isPriceCorrect) {
             await ref
@@ -698,6 +700,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
                     suggestedPriceCents: correctedPriceCents,
                     currency: 'TRY',
                     note: 'menu_page_quick_verify',
+                    evidenceUrl: evidenceUrl,
                     businessId: widget.businessId,
                     menuId: widget.menuId,
                   );
