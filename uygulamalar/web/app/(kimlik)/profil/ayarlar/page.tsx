@@ -25,11 +25,11 @@ const CINSIYETLER = ['Belirtmek istemiyorum', 'Erkek', 'Kadın', 'Diğer'];
 
 const NAV_SIDEBAR = [
   { href: '/profil',          label: 'Profilim' },
-  { href: '/profil/settings', label: 'Profil Düzenle', active: true },
+  { href: '/profil/ayarlar', label: 'Profil Düzenle', active: true },
   { href: '/favoriler',       label: 'Favorilerim' },
   { href: '/onerilerim',      label: 'Önerilerim' },
   { href: '/gelen-kutusu',    label: 'Bildirimlerim' },
-  { href: '/profil/settings', label: 'Ayarlar' },
+  { href: '/profil/ayarlar', label: 'Ayarlar' },
   { href: '/yardim',          label: 'Yardım & Destek' },
 ];
 

@@ -71,8 +71,8 @@ const nextConfig = {
   async redirects() {
     return [
       // Turkish-language auth aliases used by the Flutter panel
-      { source: '/isletme-giris', destination: '/login', permanent: true },
-      { source: '/isletme-kayit', destination: '/login', permanent: true },
+      { source: '/isletme-giris', destination: '/giris', permanent: true },
+      { source: '/isletme-kayit', destination: '/giris', permanent: true },
       // Flutter used /owner/qr/design, Next.js consolidates to /owner/qr
       { source: '/owner/qr/design', destination: '/owner/qr', permanent: true },
       // Flutter editor push-routes → Next.js segment-based editor paths

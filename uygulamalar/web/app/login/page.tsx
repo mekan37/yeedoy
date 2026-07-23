@@ -1,34 +1,18 @@
 import type { Metadata } from 'next';
-import { LoginForm } from '@/src/ui/sections/login-form';
-import { sanitizeInternalRedirect } from '@/src/lib/safe-redirect';
-import { appConfig } from '@/src/lib/config';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'Login | Yeedoy QR Menu',
-  robots: {
-    index: false,
-    follow: false,
-  },
-  alternates: {
-    canonical: '/login',
-  },
+export const metadata: Metadata = { title: 'Yeedoy', robots: { index: false, follow: false } };
+
+type LoginRedirectPageProps = {
+  searchParams: Promise<{ redirect?: string; tab?: string }>;
 };
 
-type LoginPageProps = {
-  searchParams: Promise<{ redirect?: string }>;
-};
-
-export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const { redirect: redirectParam } = await searchParams;
-  const redirectTo = sanitizeInternalRedirect(redirectParam, '/');
-  const panelBase = appConfig.panelUrl();
-  const panelLoginUrl = panelBase
-    ? `${panelBase.replace(/\/$/, '')}/isletme-giris?redirect=${encodeURIComponent('/sahip/isletmeler')}`
-    : null;
-
-  return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl items-center px-4 py-12 sm:px-6">
-      <LoginForm redirectTo={redirectTo} panelLoginUrl={panelLoginUrl} />
-    </main>
-  );
+// Turkce karsiligi: /giris (canonical, middleware LOGIN_PATH artik /giris kullaniyor).
+export default async function LoginRedirectPage({ searchParams }: LoginRedirectPageProps): Promise<never> {
+  const params = await searchParams;
+  const query = new URLSearchParams();
+  if (params.redirect) query.set('redirect', params.redirect);
+  if (params.tab) query.set('tab', params.tab);
+  const qs = query.toString();
+  redirect(`/giris${qs ? `?${qs}` : ''}`);
 }

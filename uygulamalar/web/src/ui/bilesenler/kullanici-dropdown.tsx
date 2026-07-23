@@ -15,7 +15,7 @@ interface UserDropdownProps {
 
 const MENU_ITEMS = [
   { href: '/profil',          label: 'Profilim',        icon: <UserIcon /> },
-  { href: '/profil/settings', label: 'Ayarlar',         icon: <SettingsIcon /> },
+  { href: '/profil/ayarlar', label: 'Ayarlar',         icon: <SettingsIcon /> },
   { href: '/gelen-kutusu',    label: 'Bildirimler',     icon: <BellIcon /> },
   { href: '/fiyat-uyarilari', label: 'Fiyat Uyarıları', icon: <TagIcon /> },
 ];

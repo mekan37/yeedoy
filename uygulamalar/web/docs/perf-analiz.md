@@ -106,7 +106,7 @@ Analiz tipi: Statik kod analizi + mevcut Lighthouse raporları (2026-03-02)
 
 1. **`<Image unoptimized>` kaldırılması (menü görselleri için):** `acik-menu-istemcisi.tsx`'deki item görselleri `unoptimized` ve `buildMenuImageUrl()` birlikte kullanıyor. Supabase CDN zaten `width`/`quality` parametreleri ile dönüştürüyor, bu nedenle `unoptimized` kasıtlı. Ancak Next.js'in `srcset` üretiminden de yararlanmak için `buildMenuImageUrl`'ı kaldırıp `loader` prop'una geçilebilir — bu, AVIF/WebP format seçimini de kazandırır. Tahmini kazanç: ~%20-30 görsel boyut tasarrufu.
 
-2. **Server Component olarak split edilebilir sayfalar:** `(kimlik)` grubu içindeki bazı sayfalar tüm sayfayı `'use client'` ile işaretlemiş (`baslangic/page.tsx`, `profil/settings/page.tsx`). Bu sayfaların statik kısımları (başlıklar, açıklamalar) Server Component'e, interaktif kısımlar ayrı Client Component'e taşınabilir. Her sayfa için ~2-5 KB JS tasarrufu beklenir.
+2. **Server Component olarak split edilebilir sayfalar:** `(kimlik)` grubu içindeki bazı sayfalar tüm sayfayı `'use client'` ile işaretlemiş (`baslangic/page.tsx`, `profil/ayarlar/page.tsx`). Bu sayfaların statik kısımları (başlıklar, açıklamalar) Server Component'e, interaktif kısımlar ayrı Client Component'e taşınabilir. Her sayfa için ~2-5 KB JS tasarrufu beklenir.
 
 3. **`qrcode` kütüphanesi dynamic import:** `karekod-uretici.tsx` dosyası `qrcode` paketini statik import ile kullanıyor. Bu paket (~40 KB) karekod sayfasına gitmeyecek kullanıcılar için gereksiz yükleniyor. `dynamic(() => import('qrcode'))` ile sadece karekod sayfasında yüklenmesi sağlanabilir.
 

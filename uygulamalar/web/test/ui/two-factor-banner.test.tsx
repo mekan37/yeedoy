@@ -27,10 +27,10 @@ describe('TwoFactorBanner', () => {
     expect(screen.getByRole('link', { name: /2FA Aç/i })).toBeInTheDocument();
   });
 
-  it('2FA kapali oldugunda CTA linki /profil/security adresine isaret eder', () => {
+  it('2FA kapali oldugunda CTA linki /profil/guvenlik adresine isaret eder', () => {
     render(React.createElement(TwoFactorBanner, { hasTwoFactor: false }));
     const link = screen.getByRole('link', { name: /2FA Aç/i });
-    expect(link).toHaveAttribute('href', '/profil/security');
+    expect(link).toHaveAttribute('href', '/profil/guvenlik');
   });
 
   it('2FA acik oldugunda hicbir sey render edilmez', () => {

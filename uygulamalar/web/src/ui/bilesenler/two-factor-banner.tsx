@@ -32,7 +32,7 @@ export function TwoFactorBanner({ hasTwoFactor }: TwoFactorBannerProps) {
         </span>
       </div>
       <Link
-        href="/profil/security"
+        href="/profil/guvenlik"
         className="shrink-0 rounded-lg bg-amber-500 px-3 py-1.5 text-xs font-[800] text-white transition-colors hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
       >
         2FA Aç

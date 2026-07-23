@@ -43,7 +43,7 @@ export default function HesapSilPage() {
       <div className="mx-auto max-w-lg px-4 py-12">
         {/* Geri */}
         <Link
-          href="/profil/settings"
+          href="/profil/ayarlar"
           className="mb-8 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary"
         >
           <svg
@@ -192,7 +192,7 @@ export default function HesapSilPage() {
 
             <p className="mt-4 text-center text-xs text-muted">
               Vazgeçmek isterseniz{' '}
-              <Link href="/profil/settings" className="font-[700] text-primary hover:underline">
+              <Link href="/profil/ayarlar" className="font-[700] text-primary hover:underline">
                 Ayarlara Dön
               </Link>
             </p>

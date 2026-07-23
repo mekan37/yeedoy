@@ -104,7 +104,7 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
             }))
           : ownerNavSections}
         logoSlot={<OwnerLogo />}
-        topbarTitle="Owner Panel"
+        topbarTitle="Sahip Paneli"
         sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
         topbarActions={
           user ? (

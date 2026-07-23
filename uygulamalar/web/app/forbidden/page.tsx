@@ -271,8 +271,8 @@ export default async function ForbiddenPage() {
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 text-xs text-[#9ca3af]">
           <span>© 2024 Yeedoy. Tüm hakları saklıdır.</span>
           <div className="flex gap-5">
-            <Link href="/legal" className="hover:text-[#374151] transition">Kullanım Koşulları</Link>
-            <Link href="/legal" className="hover:text-[#374151] transition">Gizlilik Politikası</Link>
+            <Link href="/yasal" className="hover:text-[#374151] transition">Kullanım Koşulları</Link>
+            <Link href="/yasal" className="hover:text-[#374151] transition">Gizlilik Politikası</Link>
             <a href="#" className="hover:text-[#374151] transition">Yardım Merkezi</a>
           </div>
         </div>

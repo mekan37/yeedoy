@@ -44,7 +44,7 @@ const SAHIP_PREFIX = '/sahip';        // owner panel pages (canonical Turkish pa
 // /sunucu/yonetici/* routes are NOT rewritten by subdomain logic — guard
 // them explicitly at the middleware level.
 const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici';
-const LOGIN_PATH = '/login';
+const LOGIN_PATH = '/giris';
 // Owner routes redirect unauthenticated users to the canonical login page.
 const OWNER_LOGIN_PATH = '/giris';
 

@@ -16,7 +16,7 @@ type SettingLink = {
 
 const ACCOUNT_SETTINGS: SettingLink[] = [
   {
-    href: '/profil/settings',
+    href: '/profil/ayarlar',
     title: 'Profil Ayarları',
     description: 'Ad, biyografi, konum ve profil fotoğrafı',
   },
@@ -47,7 +47,7 @@ const NOTIFICATION_SETTINGS: SettingLink[] = [
 
 const SECURITY_SETTINGS: SettingLink[] = [
   {
-    href: '/profil/security',
+    href: '/profil/guvenlik',
     title: 'Hesap Güvenliği',
     description: 'İki faktörlü doğrulama ve aktif oturum yönetimi',
   },

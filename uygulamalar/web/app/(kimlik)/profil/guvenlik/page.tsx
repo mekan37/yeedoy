@@ -33,7 +33,7 @@ export default async function SecurityPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-lg px-4 py-12">
-        <Link href="/profil/settings" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary">← Ayarlara Dön</Link>
+        <Link href="/profil/ayarlar" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary">← Ayarlara Dön</Link>
         <h1 className="mb-8 text-2xl font-[900] text-textStrong">Hesap Güvenliği</h1>
 
         <div className="flex flex-col gap-4">
@@ -109,7 +109,7 @@ export default async function SecurityPage() {
             <h2 className="mb-1 font-[900] text-danger">Tehlikeli Bölge</h2>
             <p className="mb-4 text-sm text-muted">Bu işlemler geri alınamaz.</p>
             <Link
-              href="/profil/settings"
+              href="/profil/ayarlar"
               className="inline-flex min-h-[40px] items-center rounded-xl border border-danger/30 bg-card px-4 text-sm font-[700] text-danger hover:bg-danger/[0.08]"
             >
               Hesabı Sil

@@ -15,7 +15,7 @@ const NAV_SIDEBAR = [
   { href: '/favoriler',       label: 'Favorilerim', active: true },
   { href: '/onerilerim',      label: 'Yorumlarım' },
   { href: '/gelen-kutusu',    label: 'Bildirimlerim' },
-  { href: '/profil/settings', label: 'Ayarlar' },
+  { href: '/profil/ayarlar', label: 'Ayarlar' },
   { href: '/yardim',          label: 'Yardım & Destek' },
 ];
 
