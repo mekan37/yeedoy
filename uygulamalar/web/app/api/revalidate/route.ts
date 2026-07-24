@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { timingSafeEqual } from 'crypto';
 import { appConfig } from '@/src/lib/ayarlar';
 
 const slugPattern = /^[a-z0-9_-]{1,80}$/;
@@ -45,7 +46,12 @@ export async function POST(request: Request) {
     );
   }
 
-  if (parsed.data.secret !== expectedSecret) {
+  const secretBytes    = Buffer.from(parsed.data.secret);
+  const expectedBytes  = Buffer.from(expectedSecret);
+  const secretsMatch   =
+    secretBytes.length === expectedBytes.length &&
+    timingSafeEqual(secretBytes, expectedBytes);
+  if (!secretsMatch) {
     return NextResponse.json({ error: 'invalid_secret' }, { status: 401 });
   }
 

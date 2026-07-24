@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Replicate from 'replicate';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { rateLimit } from '@/src/lib/oran-siniri';
+import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 
 const MAX_SIZE_BYTES = 8 * 1024 * 1024; // 8 MB
 
@@ -174,11 +175,16 @@ async function deepseekOcr(dataUri: string, apiToken: string): Promise<ParsedRec
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
 export async function POST(request: Request) {
-  const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
-    userAgent: request.headers.get('user-agent'),
-  });
-  const limit = rateLimit(`makbuz_ocr:${identity}`, 5, 60_000);
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
+  const limit = rateLimit(`makbuz_ocr:${user.id}`, 5, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'Çok fazla istek. Lütfen bekleyin.' }, { status: 429 });
   }
