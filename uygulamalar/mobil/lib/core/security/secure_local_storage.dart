@@ -8,7 +8,7 @@ class SecureLocalStorage extends LocalStorage {
   final String persistSessionKey;
 
   static const _secureStorage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
   );
 
   late final SharedPreferencesLocalStorage _webFallback =

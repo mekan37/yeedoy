@@ -292,7 +292,7 @@ class UserLocationController extends Notifier<UserLocationState> {
     double lat,
     double lng,
   ) async {
-    final list = await placemarkFromCoordinates(lat, lng);
+    final list = await Geocoding().placemarkFromCoordinates(lat, lng);
     if (list.isEmpty) return null;
     final place = list.first;
     final city = (place.administrativeArea ?? place.subAdministrativeArea ?? '')
