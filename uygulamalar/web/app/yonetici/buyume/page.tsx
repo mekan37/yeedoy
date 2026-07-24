@@ -84,10 +84,10 @@ export default async function AdminGrowthPage() {
               <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-sm">
                 {Object.entries(sponsorship).map(([key, val]) => (
                   <div key={key}>
-                    <dt className="text-xs font-[700] uppercase tracking-wide text-muted">
+                    <dt className="text-xs font-bold uppercase tracking-wide text-muted">
                       {key.replace(/_/g, ' ')}
                     </dt>
-                    <dd className="mt-0.5 font-[800] text-textStrong">{String(val)}</dd>
+                    <dd className="mt-0.5 font-extrabold text-textStrong">{String(val)}</dd>
                   </div>
                 ))}
               </dl>
@@ -141,16 +141,16 @@ function AcquisitionChannelChart({ organic, qrScan, direct, referral, total }: {
         return (
           <div key={ch.label} className="flex items-center gap-3">
             <span className="flex w-6 shrink-0 justify-center"><ch.icon className="h-4 w-4 text-muted" aria-hidden="true" /></span>
-            <span className="w-36 shrink-0 text-sm font-[700] text-textStrong">{ch.label}</span>
+            <span className="w-36 shrink-0 text-sm font-bold text-textStrong">{ch.label}</span>
             <div className="flex h-7 flex-1 overflow-hidden rounded-xl bg-zinc-100">
               <div
-                className={`flex items-center justify-end pr-2 text-[10px] font-[800] text-white ${ch.color}`}
+                className={`flex items-center justify-end pr-2 text-[10px] font-extrabold text-white ${ch.color}`}
                 style={{ width: `${Math.max((ch.value / max) * 100, 2)}%` }}
               />
             </div>
-            <span className="w-20 shrink-0 text-right text-sm font-[800] text-textStrong">
+            <span className="w-20 shrink-0 text-right text-sm font-extrabold text-textStrong">
               {ch.value.toLocaleString('tr-TR')}
-              <span className="ml-1 text-xs font-[600] text-muted">%{pct}</span>
+              <span className="ml-1 text-xs font-semibold text-muted">%{pct}</span>
             </span>
           </div>
         );
@@ -180,8 +180,8 @@ function GrowthVelocity({ users7d, users30d, biz7d, biz30d, reviews7d, reviews30
     <div className="grid gap-4 sm:grid-cols-3">
       {items.map(item => (
         <div key={item.label} className="rounded-xl border border-border bg-surface p-4">
-          <p className="text-xs font-[700] uppercase tracking-wide text-muted">{item.label} Hızı</p>
-          <p className={`mt-1 text-2xl font-[900] ${item.velocity >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          <p className="text-xs font-bold uppercase tracking-wide text-muted">{item.label} Hızı</p>
+          <p className={`mt-1 text-2xl font-black ${item.velocity >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             {item.velocity >= 0 ? '+' : ''}{item.velocity}%
           </p>
           <p className="text-xs text-muted">Son 7g vs aylık ort.</p>

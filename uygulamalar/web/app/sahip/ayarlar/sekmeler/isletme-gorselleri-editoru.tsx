@@ -119,7 +119,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
       {/* ── Kapak ── */}
       <button
         type="button"
-        className="group relative block h-[190px] w-full overflow-hidden bg-gradient-to-br from-primary to-primaryStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+        className="group relative block h-[190px] w-full overflow-hidden bg-linear-to-br from-primary to-primaryStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
         onClick={() => coverInputRef.current?.click()}
         disabled={!!uploading}
         aria-label={coverUrl ? 'Kapak fotoğrafını değiştir' : 'Kapak fotoğrafı yükle'}
@@ -131,7 +131,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
         {!coverSrc && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-30">
             <ImageIcon aria-hidden="true" className="h-9 w-9" strokeWidth={1.5} />
-            <span className="text-xs font-[700] text-white">Kapak fotoğrafı yok</span>
+            <span className="text-xs font-bold text-white">Kapak fotoğrafı yok</span>
           </div>
         )}
         {/* Hover overlay */}
@@ -141,10 +141,10 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
               <LoaderCircle aria-hidden="true" className="h-7 w-7 animate-spin text-white" />
             ) : (
               <>
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/20 backdrop-blur-xs">
                   <Camera aria-hidden="true" className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-sm font-[800] text-white drop-shadow-sm">
+                <span className="text-sm font-extrabold text-white drop-shadow-xs">
                   {coverUrl ? 'Kapak Değiştir' : 'Kapak Yükle'}
                 </span>
               </>
@@ -161,7 +161,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
         <div className="relative -mt-8 shrink-0">
           <button
             type="button"
-            className="relative block h-16 w-16 overflow-hidden rounded-2xl border-[3px] border-card bg-white shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="relative block h-16 w-16 overflow-hidden rounded-2xl border-[3px] border-card bg-white shadow-md focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
             onClick={() => logoInputRef.current?.click()}
             disabled={!!uploading}
             aria-label={logoUrl ? 'Logoyu değiştir' : 'Logo yükle'}
@@ -170,7 +170,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
               // eslint-disable-next-line @next/next/no-img-element
               <img src={logoSrc} alt={businessName} className="h-full w-full object-cover" />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-cardAlt text-2xl font-[900] text-primaryStrong">
+              <div className="flex h-full w-full items-center justify-center bg-cardAlt text-2xl font-black text-primaryStrong">
                 {businessName.charAt(0).toUpperCase()}
               </div>
             )}
@@ -184,7 +184,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
             type="button"
             onClick={() => logoInputRef.current?.click()}
             disabled={!!uploading}
-            className="absolute -bottom-2 -right-3 flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-sm transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40"
+            className="absolute -bottom-2 -right-3 flex h-11 w-11 items-center justify-center rounded-full bg-primary text-white shadow-xs transition hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40"
             title="Logo Değiştir"
             aria-label="Logo değiştir"
           >
@@ -197,7 +197,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
         {/* Bilgi + butonlar */}
         <div className="flex flex-1 flex-wrap items-center gap-x-4 gap-y-2 pb-1 pt-3">
           <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-[800] uppercase tracking-wider text-muted">Logo & Kapak Fotoğrafı</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-wider text-muted">Logo & Kapak Fotoğrafı</p>
             <p className="mt-0.5 text-xs text-muted">Keşfet listelerinde, QR sayfasında ve mobil uygulamada görünür</p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
@@ -205,7 +205,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
               type="button"
               onClick={() => logoInputRef.current?.click()}
               disabled={!!uploading}
-              className="flex min-h-11 items-center gap-1.5 rounded-xl border border-border px-3 text-xs font-[800] text-textStrong transition hover:bg-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40"
+              className="flex min-h-11 items-center gap-1.5 rounded-xl border border-border px-3 text-xs font-extrabold text-textStrong transition hover:bg-bg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40"
             >
               <Upload aria-hidden="true" className="h-4 w-4" />
               Logo
@@ -214,7 +214,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
               type="button"
               onClick={() => coverInputRef.current?.click()}
               disabled={!!uploading}
-              className="flex min-h-11 items-center gap-1.5 rounded-xl bg-primary px-3 text-xs font-[800] text-white transition hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40"
+              className="flex min-h-11 items-center gap-1.5 rounded-xl bg-primary px-3 text-xs font-extrabold text-white transition hover:bg-primary/90 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-40"
             >
               <Upload aria-hidden="true" className="h-4 w-4" />
               Kapak
@@ -223,7 +223,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
         </div>
       </div>
       {error && (
-        <p role="alert" className="border-t border-border px-5 py-3 text-xs font-[700] text-danger">
+        <p role="alert" className="border-t border-border px-5 py-3 text-xs font-bold text-danger">
           {error}
         </p>
       )}

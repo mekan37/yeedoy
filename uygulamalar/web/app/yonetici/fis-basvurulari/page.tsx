@@ -90,7 +90,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                 type="submit"
                 name="status"
                 value={value}
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   status === value
                     ? 'bg-primary text-white'
                     : 'border border-border bg-card text-muted hover:text-textStrong'
@@ -98,12 +98,12 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
               >
                 {label}
                 {value === 'pending' && ozet.pending_count > 0 && (
-                  <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[9px] font-[900] text-white">
+                  <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[9px] font-black text-white">
                     {ozet.pending_count > 99 ? '99+' : ozet.pending_count}
                   </span>
                 )}
                 {value === 'needs_followup' && ozet.needs_followup_count > 0 && (
-                  <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[9px] font-[900] text-white">
+                  <span className="ml-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-[9px] font-black text-white">
                     {ozet.needs_followup_count > 99 ? '99+' : ozet.needs_followup_count}
                   </span>
                 )}
@@ -134,32 +134,32 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border text-left">
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                         Kullanıcı
                       </th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                         İşletme
                       </th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                         Eşleşme
                       </th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                         Durum
                       </th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                         Tarih
                       </th>
-                      <th className="px-5 py-3 text-center text-[11px] font-[800] uppercase tracking-wide text-muted">
+                      <th className="px-5 py-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-muted">
                         Fiş
                       </th>
-                      <th className="px-5 py-3 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">
+                      <th className="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-muted">
                         İşlem
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {list.map((row) => (
-                      <tr key={row.receipt_id} className="hover:bg-black/[0.02]">
+                      <tr key={row.receipt_id} className="hover:bg-black/2">
                         {/* Kullanıcı — maskelenmiş */}
                         <td className="px-5 py-3 font-mono text-xs text-muted">
                           {row.submitter_display}
@@ -167,7 +167,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
 
                         {/* İşletme */}
                         <td className="px-5 py-3">
-                          <p className="font-[700] text-textStrong">
+                          <p className="font-bold text-textStrong">
                             {row.business_name ?? '—'}
                           </p>
                           <p className="text-xs text-muted">
@@ -180,7 +180,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                         {/* Eşleşme sayısı */}
                         <td className="px-5 py-3">
                           <span
-                            className={`text-sm font-[800] ${
+                            className={`text-sm font-extrabold ${
                               row.matches_count === 0
                                 ? 'text-red-500'
                                 : 'text-textStrong'
@@ -193,7 +193,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                         {/* Durum badge */}
                         <td className="px-5 py-3">
                           <span
-                            className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                            className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                               REVIEW_STATUS_STYLES[row.review_status] ??
                               'bg-zinc-100 text-zinc-500'
                             }`}
@@ -219,7 +219,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                               href={row.image_url}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex min-h-8 items-center gap-1 rounded-lg border border-border px-2.5 text-xs font-[800] text-textStrong transition-colors hover:border-primary/30 hover:text-primary"
+                              className="inline-flex min-h-8 items-center gap-1 rounded-lg border border-border px-2.5 text-xs font-extrabold text-textStrong transition-colors hover:border-primary/30 hover:text-primary"
                             >
                               <FisIkonu boyut={14} />
                               Gör
@@ -238,7 +238,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                                 <input type="hidden" name="review_status" value="reviewed" />
                                 <button
                                   type="submit"
-                                  className="rounded-lg bg-green-50 px-2.5 py-1.5 text-[11px] font-[800] text-green-700 transition-colors hover:bg-green-100"
+                                  className="rounded-lg bg-green-50 px-2.5 py-1.5 text-[11px] font-extrabold text-green-700 transition-colors hover:bg-green-100"
                                 >
                                   İncele
                                 </button>
@@ -250,7 +250,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                                 <input type="hidden" name="review_status" value="needs_followup" />
                                 <button
                                   type="submit"
-                                  className="rounded-lg bg-blue-50 px-2.5 py-1.5 text-[11px] font-[800] text-blue-700 transition-colors hover:bg-blue-100"
+                                  className="rounded-lg bg-blue-50 px-2.5 py-1.5 text-[11px] font-extrabold text-blue-700 transition-colors hover:bg-blue-100"
                                 >
                                   Takip
                                 </button>
@@ -262,7 +262,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                                 <input type="hidden" name="review_status" value="pending" />
                                 <button
                                   type="submit"
-                                  className="rounded-lg bg-zinc-50 px-2.5 py-1.5 text-[11px] font-[800] text-zinc-500 transition-colors hover:bg-zinc-100"
+                                  className="rounded-lg bg-zinc-50 px-2.5 py-1.5 text-[11px] font-extrabold text-zinc-500 transition-colors hover:bg-zinc-100"
                                 >
                                   Sıfırla
                                 </button>
@@ -286,7 +286,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                     {pageNum > 1 && (
                       <Link
                         href={`?status=${status}&page=${pageNum - 1}`}
-                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                       >
                         Önceki
                       </Link>
@@ -294,7 +294,7 @@ export default async function FisBasvurulariSayfasi({ searchParams }: Props) {
                     {pageNum < totalPages && (
                       <Link
                         href={`?status=${status}&page=${pageNum + 1}`}
-                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                       >
                         Sonraki
                       </Link>
@@ -322,9 +322,9 @@ function OzetKarti({
   renk: string;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
-      <p className="text-[11px] font-[700] uppercase tracking-wide text-muted">{label}</p>
-      <p className={`mt-1 text-2xl font-[900] ${renk}`}>{deger}</p>
+    <div className="rounded-xl border border-border bg-card px-4 py-3 shadow-xs">
+      <p className="text-[11px] font-bold uppercase tracking-wide text-muted">{label}</p>
+      <p className={`mt-1 text-2xl font-black ${renk}`}>{deger}</p>
     </div>
   );
 }

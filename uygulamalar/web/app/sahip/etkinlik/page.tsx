@@ -59,20 +59,20 @@ export default async function OwnerEtkinlikPage() {
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Yaklaşan</p>
-              <p className="mt-1 text-2xl font-[900] text-blue-600">{upcoming.length}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Yaklaşan</p>
+              <p className="mt-1 text-2xl font-black text-blue-600">{upcoming.length}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Toplam Etkinlik</p>
-              <p className="mt-1 text-2xl font-[900] text-textStrong">{allEvents.length}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Toplam Etkinlik</p>
+              <p className="mt-1 text-2xl font-black text-textStrong">{allEvents.length}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Satılan Bilet</p>
-              <p className="mt-1 text-2xl font-[900] text-green-600">{totalTicketsSold.toLocaleString('tr-TR')}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Satılan Bilet</p>
+              <p className="mt-1 text-2xl font-black text-green-600">{totalTicketsSold.toLocaleString('tr-TR')}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Bilet Geliri</p>
-              <p className="mt-1 text-2xl font-[900] text-primary">₺{totalRevenue.toLocaleString('tr-TR')}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Bilet Geliri</p>
+              <p className="mt-1 text-2xl font-black text-primary">₺{totalRevenue.toLocaleString('tr-TR')}</p>
             </div>
           </div>
 

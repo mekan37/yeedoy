@@ -38,7 +38,7 @@ export default function EnIyilerPage() {
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
 
           {/* Ekmek kırıntısı */}
-          <nav className="mb-5 flex items-center gap-1.5 text-xs font-[700] text-muted" aria-label="Konum">
+          <nav className="mb-5 flex items-center gap-1.5 text-xs font-bold text-muted" aria-label="Konum">
             <Link href="/" className="hover:text-primary">Ana Sayfa</Link>
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
               <path d="M9 18l6-6-6-6" />
@@ -48,10 +48,10 @@ export default function EnIyilerPage() {
 
           {/* Başlık */}
           <div className="mb-6">
-            <h1 className="text-2xl font-[900] text-textStrong sm:text-3xl">
+            <h1 className="text-2xl font-black text-textStrong sm:text-3xl">
               En İyi İşletmeler
             </h1>
-            <p className="mt-1 text-sm font-[700] text-muted">
+            <p className="mt-1 text-sm font-bold text-muted">
               Kullanıcıların değerlendirmelerine göre en iyi mekanlar — anlık filtreleme
             </p>
           </div>
@@ -92,8 +92,8 @@ export default function EnIyilerPage() {
                 <div key={item.title} className="flex items-start gap-3">
                   <div className="mt-0.5 shrink-0 text-primary">{item.icon}</div>
                   <div>
-                    <p className="text-sm font-[900] text-textStrong">{item.title}</p>
-                    <p className="mt-0.5 text-xs font-[700] leading-5 text-muted">{item.desc}</p>
+                    <p className="text-sm font-black text-textStrong">{item.title}</p>
+                    <p className="mt-0.5 text-xs font-bold leading-5 text-muted">{item.desc}</p>
                   </div>
                 </div>
               ))}

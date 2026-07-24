@@ -106,8 +106,8 @@ export default async function KomboOnerileriPage({
 
         {/* Başlık */}
         <div className="mb-6">
-          <p className="mb-1 text-xs font-[700] uppercase tracking-wide text-muted">Keşif</p>
-          <h1 className="text-2xl font-[900] text-textStrong">Bütçe-Dostu Kombolar</h1>
+          <p className="mb-1 text-xs font-bold uppercase tracking-wide text-muted">Keşif</p>
+          <h1 className="text-2xl font-black text-textStrong">Bütçe-Dostu Kombolar</h1>
           <p className="mt-1 text-sm text-muted">Damak tadına ve bütçene uygun öneriler</p>
         </div>
 
@@ -119,7 +119,7 @@ export default async function KomboOnerileriPage({
         >
           <div className="flex flex-col gap-4">
             <div>
-              <label htmlFor="city" className="mb-1.5 block text-xs font-[700] text-muted">
+              <label htmlFor="city" className="mb-1.5 block text-xs font-bold text-muted">
                 Şehir (isteğe bağlı)
               </label>
               <input
@@ -128,20 +128,20 @@ export default async function KomboOnerileriPage({
                 name="city"
                 defaultValue={city}
                 placeholder="İstanbul, Ankara..."
-                className="w-full rounded-xl border border-border bg-bg px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="w-full rounded-xl border border-border bg-bg px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="kisi" className="mb-1.5 block text-xs font-[700] text-muted">
+                <label htmlFor="kisi" className="mb-1.5 block text-xs font-bold text-muted">
                   Kişi Sayısı
                 </label>
                 <select
                   id="kisi"
                   name="kisi"
                   defaultValue={String(kisi)}
-                  className="w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
                     <option key={n} value={String(n)}>
@@ -152,14 +152,14 @@ export default async function KomboOnerileriPage({
               </div>
 
               <div>
-                <label htmlFor="butce" className="mb-1.5 block text-xs font-[700] text-muted">
+                <label htmlFor="butce" className="mb-1.5 block text-xs font-bold text-muted">
                   Toplam Bütçe
                 </label>
                 <select
                   id="butce"
                   name="butce"
                   defaultValue={String(butce)}
-                  className="w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
                 >
                   {BUTCE_SECENEKLERI.map((b) => (
                     <option key={b.value} value={b.value}>
@@ -172,7 +172,7 @@ export default async function KomboOnerileriPage({
 
             <button
               type="submit"
-              className="min-h-[44px] w-full rounded-2xl text-sm font-[800] text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              className="min-h-[44px] w-full rounded-2xl text-sm font-extrabold text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               style={{
                 background: 'var(--yd-gradient-primary)',
                 boxShadow: 'var(--yd-shadow-primary)',
@@ -186,11 +186,11 @@ export default async function KomboOnerileriPage({
         {/* Sonuçlar */}
         {fetchError ? (
           <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
-            <p className="text-sm font-[700] text-red-700">{fetchError}</p>
+            <p className="text-sm font-bold text-red-700">{fetchError}</p>
           </div>
         ) : oneriList.length === 0 ? (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--yd-color-primary-soft)]">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-(--yd-color-primary-soft)">
               <svg
                 viewBox="0 0 24 24"
                 className="h-7 w-7 fill-none stroke-current text-primary"
@@ -204,7 +204,7 @@ export default async function KomboOnerileriPage({
                 <path d="M8 11h6M11 8v6" />
               </svg>
             </div>
-            <p className="mb-2 font-[900] text-textStrong">Bu kriterlere uygun öneri bulunamadı</p>
+            <p className="mb-2 font-black text-textStrong">Bu kriterlere uygun öneri bulunamadı</p>
             <p className="text-sm text-muted">Şehir veya bütçe aralığını değiştirip tekrar deneyin.</p>
           </div>
         ) : (
@@ -253,11 +253,11 @@ function OneriKarti({ item, kisi }: { item: Oneri; kisi: number }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <p className="truncate font-[900] text-textStrong">{item.business_name}</p>
+            <p className="truncate font-black text-textStrong">{item.business_name}</p>
             {item.cuisine && <p className="mt-0.5 text-xs text-muted">{item.cuisine}</p>}
           </div>
           {item.discount_pct != null && (
-            <span className="shrink-0 rounded-lg bg-red-50 px-2 py-0.5 text-[11px] font-[800] text-red-600">
+            <span className="shrink-0 rounded-lg bg-red-50 px-2 py-0.5 text-[11px] font-extrabold text-red-600">
               %{item.discount_pct} indirim
             </span>
           )}
@@ -267,7 +267,7 @@ function OneriKarti({ item, kisi }: { item: Oneri; kisi: number }) {
           {item.rating != null && (
             <span className="flex items-center gap-1">
               <span className="text-amber-400">★</span>
-              <span className="font-[700] text-textStrong">{item.rating.toFixed(1)}</span>
+              <span className="font-bold text-textStrong">{item.rating.toFixed(1)}</span>
               {item.review_count != null && <span>({item.review_count})</span>}
             </span>
           )}
@@ -283,7 +283,7 @@ function OneriKarti({ item, kisi }: { item: Oneri; kisi: number }) {
                 {fmtCents(item.original_total_cents)}
               </span>
             )}
-            <span className="rounded-xl bg-[var(--yd-color-primary-soft)] px-3 py-1 text-sm font-[900] text-primary">
+            <span className="rounded-xl bg-(--yd-color-primary-soft) px-3 py-1 text-sm font-black text-primary">
               {fmtCents(item.total_cents)}
             </span>
           </div>

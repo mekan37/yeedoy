@@ -55,7 +55,7 @@ export function DsarYonetimi({ requests, requestTypeLabels }: {
       <div className="flex gap-2 border-b border-border px-5 py-3">
         {['all', 'submitted', 'in_review', 'resolved'].map(f => (
           <button key={f} onClick={() => setFilter(f)}
-            className={`rounded-lg px-3 py-1 text-xs font-[700] transition-colors ${filter === f ? 'bg-primary text-white' : 'text-muted hover:text-textStrong'}`}>
+            className={`rounded-lg px-3 py-1 text-xs font-bold transition-colors ${filter === f ? 'bg-primary text-white' : 'text-muted hover:text-textStrong'}`}>
             {f === 'all' ? `Tümü (${requests.length})` :
              f === 'submitted' ? `Bekleyen (${requests.filter(r => r.status === 'submitted').length})` :
              STATUS_LABELS[f]?.label ?? f}
@@ -76,18 +76,18 @@ export function DsarYonetimi({ requests, requestTypeLabels }: {
               <div key={req.id}>
                 <button
                   onClick={() => setSelected(selected === req.id ? null : req.id)}
-                  className="flex w-full items-start gap-4 px-5 py-4 text-left hover:bg-black/[0.02]"
+                  className="flex w-full items-start gap-4 px-5 py-4 text-left hover:bg-black/2"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-[700] ${statusInfo.color}`}>
+                      <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${statusInfo.color}`}>
                         {statusInfo.label}
                       </span>
-                      <span className="text-xs font-[700] text-textStrong">
+                      <span className="text-xs font-bold text-textStrong">
                         {requestTypeLabels[req.request_type] ?? req.request_type}
                       </span>
                       {overdue && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-[700] text-red-600">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold text-red-600">
                           ⚠️ {days} gün — SLA aşıldı!
                         </span>
                       )}
@@ -105,17 +105,17 @@ export function DsarYonetimi({ requests, requestTypeLabels }: {
 
                 {selected === req.id && (
                   <div className="bg-zinc-50 px-5 py-3">
-                    <p className="mb-2 text-xs font-[700] text-muted">Durum Güncelle</p>
+                    <p className="mb-2 text-xs font-bold text-muted">Durum Güncelle</p>
                     <div className="flex flex-wrap gap-2">
                       {STATUS_OPTIONS.map(opt => (
                         <button key={opt.value} disabled={isPending || req.status === opt.value}
                           onClick={() => updateStatus(req.id, opt.value)}
-                          className={`rounded-lg px-3 py-1.5 text-xs font-[700] ${opt.color} disabled:opacity-40`}>
+                          className={`rounded-lg px-3 py-1.5 text-xs font-bold ${opt.color} disabled:opacity-40`}>
                           {opt.label}
                         </button>
                       ))}
                       <a href={req.user_profiles?.email ? `mailto:${req.user_profiles.email}?subject=DSAR Yanıtı — ${requestTypeLabels[req.request_type] ?? req.request_type}` : '#'}
-                        className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] text-muted hover:text-textStrong">
+                        className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-muted hover:text-textStrong">
                         E-posta Gönder
                       </a>
                     </div>

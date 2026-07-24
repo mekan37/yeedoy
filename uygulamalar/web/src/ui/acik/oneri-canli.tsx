@@ -99,11 +99,11 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
 
         {/* Rozet sol üst */}
         {tip === 'secilmis' ? (
-          <div className="absolute left-2 top-2 rounded-full bg-success px-2.5 py-1 text-[11px] font-[900] text-white shadow-sm">
+          <div className="absolute left-2 top-2 rounded-full bg-success px-2.5 py-1 text-[11px] font-black text-white shadow-xs">
             %{uyum} Uyum
           </div>
         ) : (
-          <div className="absolute left-2 top-2 rounded-full px-2.5 py-1 text-[11px] font-[900] text-white shadow-sm" style={{ background: '#7c3aed' }}>
+          <div className="absolute left-2 top-2 rounded-full px-2.5 py-1 text-[11px] font-black text-white shadow-xs" style={{ background: '#7c3aed' }}>
             Yeni
           </div>
         )}
@@ -112,7 +112,7 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
         <button
           type="button"
           aria-label="Favorilere ekle"
-          className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-muted shadow backdrop-blur transition-colors hover:text-primary"
+          className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-muted shadow-sm backdrop-blur-sm transition-colors hover:text-primary"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -122,16 +122,16 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
 
       {/* İçerik */}
       <div className="flex flex-1 flex-col gap-1.5 p-3">
-        <Link href={`/b/${biz.slug}`} className="line-clamp-1 text-sm font-[900] text-textStrong hover:text-primary">
+        <Link href={`/b/${biz.slug}`} className="line-clamp-1 text-sm font-black text-textStrong hover:text-primary">
           {biz.name}
         </Link>
-        <p className="line-clamp-1 text-[11px] font-[700] text-muted">
+        <p className="line-clamp-1 text-[11px] font-bold text-muted">
           {biz.category ?? '—'}
           {biz.district ? ` · ${biz.district}` : biz.city ? ` · ${biz.city}` : ''}
         </p>
 
         {biz.avgRating && biz.avgRating > 0 ? (
-          <div className="flex items-center gap-1.5 text-[11px] font-[800]">
+          <div className="flex items-center gap-1.5 text-[11px] font-extrabold">
             <span className="flex items-center gap-0.5 text-amber-500">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -147,7 +147,7 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
         {/* Insight etiketi */}
         <div className="mt-auto pt-1.5">
           <span
-            className="inline-block rounded-full px-2.5 py-1 text-[10px] font-[800]"
+            className="inline-block rounded-full px-2.5 py-1 text-[10px] font-extrabold"
             style={{ background: `${etiket.color}18`, color: etiket.color }}
           >
             {etiket.text}
@@ -176,7 +176,7 @@ function KarouselBolum({
     <section>
       <div className="mb-4 flex items-start justify-between gap-2">
         <div>
-          <h2 className="flex items-center gap-2 text-lg font-[900] text-textStrong">
+          <h2 className="flex items-center gap-2 text-lg font-black text-textStrong">
             {baslik}
             {tip === 'secilmis' && (
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="text-muted" aria-label="Nasıl hesaplanıyor?">
@@ -188,7 +188,7 @@ function KarouselBolum({
         </div>
         {/* Tümünü gör + ok butonları */}
         <div className="flex shrink-0 items-center gap-2">
-          <Link href="/kesif" className="text-sm font-[900] text-primary hover:underline whitespace-nowrap">
+          <Link href="/kesif" className="text-sm font-black text-primary hover:underline whitespace-nowrap">
             Tümünü Gör →
           </Link>
           <div className="flex gap-1">
@@ -220,7 +220,7 @@ function KarouselBolum({
       <div className="relative">
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
           {businesses.map((biz) => (
             <OneriKarti key={biz.id} biz={biz} tip={tip} />
@@ -277,18 +277,18 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
         {/* Başlık */}
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
-            <h1 className="flex items-center gap-2 text-2xl font-[900] text-textStrong sm:text-3xl">
+            <h1 className="flex items-center gap-2 text-2xl font-black text-textStrong sm:text-3xl">
               Akıllı Öneri
               <span className="text-amber-400" aria-hidden="true">✦</span>
             </h1>
-            <p className="mt-1 text-sm font-[700] text-muted">
+            <p className="mt-1 text-sm font-bold text-muted">
               Zevklerine ve alışkanlıklarına göre senin için seçtik!
             </p>
           </div>
           <button
             type="button"
             onClick={handleYenile}
-            className="flex shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-[800] text-textStrong shadow-yd1 transition-all hover:border-primary/40 hover:text-primary"
+            className="flex shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-extrabold text-textStrong shadow-yd1 transition-all hover:border-primary/40 hover:text-primary"
           >
             <svg
               width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -310,7 +310,7 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
 
             {/* Zevkler */}
             <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h3 className="mb-3 text-sm font-[900] text-textStrong">Senin Zevklerine Göre</h3>
+              <h3 className="mb-3 text-sm font-black text-textStrong">Senin Zevklerine Göre</h3>
               <div className="space-y-3">
                 {kategoriDagilim.map(({ kat, pct, subtitle, color }) => {
                   const KatIcon = KAT_ICON[kat] ?? Utensils;
@@ -320,11 +320,11 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
                       <KatIcon size={18} aria-hidden="true" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-[900] text-textStrong leading-tight">{kat}</p>
-                      <p className="text-[11px] font-[700] text-muted">{subtitle}</p>
+                      <p className="text-sm font-black text-textStrong leading-tight">{kat}</p>
+                      <p className="text-[11px] font-bold text-muted">{subtitle}</p>
                     </div>
                     <span
-                      className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-[900]"
+                      className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-black"
                       style={{ background: `${color}20`, color }}
                     >
                       %{pct}
@@ -333,7 +333,7 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
                   );
                 })}
               </div>
-              <Link href="/kesif" className="mt-4 flex items-center gap-1 text-xs font-[900] text-primary hover:underline">
+              <Link href="/kesif" className="mt-4 flex items-center gap-1 text-xs font-black text-primary hover:underline">
                 Tüm tercihlerini gör
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
                   <path d="m9 18 6-6-6-6"/>
@@ -343,20 +343,20 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
 
             {/* Son aktiviteler */}
             <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h3 className="mb-3 text-sm font-[900] text-textStrong">Son Aktivitelerin</h3>
+              <h3 className="mb-3 text-sm font-black text-textStrong">Son Aktivitelerin</h3>
               <div className="space-y-3">
                 {aktiviteler.map(({ biz, tip, zaman }) => (
                   <div key={biz.id} className="flex items-center gap-2.5">
                     <AktiviteIkon tip={tip.icon} />
                     <div className="min-w-0 flex-1">
-                      <p className="line-clamp-1 text-sm font-[900] text-textStrong">{biz.name}</p>
-                      <p className="text-[11px] font-[700] text-muted">{tip.label}</p>
+                      <p className="line-clamp-1 text-sm font-black text-textStrong">{biz.name}</p>
+                      <p className="text-[11px] font-bold text-muted">{tip.label}</p>
                     </div>
-                    <span className="shrink-0 text-[11px] font-[700] text-muted">{zaman}</span>
+                    <span className="shrink-0 text-[11px] font-bold text-muted">{zaman}</span>
                   </div>
                 ))}
               </div>
-              <Link href="/kesif" className="mt-4 flex items-center gap-1 text-xs font-[900] text-primary hover:underline">
+              <Link href="/kesif" className="mt-4 flex items-center gap-1 text-xs font-black text-primary hover:underline">
                 Tüm aktiviteleri gör
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
                   <path d="m9 18 6-6-6-6"/>
@@ -366,12 +366,12 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
 
             {/* Bugünkü puan */}
             <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h3 className="mb-3 text-sm font-[900] text-textStrong">Bugünkü Öneri Puanın</h3>
+              <h3 className="mb-3 text-sm font-black text-textStrong">Bugünkü Öneri Puanın</h3>
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-success/30 bg-success/10 text-xl font-[900] text-success">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-success/30 bg-success/10 text-xl font-black text-success">
                   88
                 </div>
-                <p className="text-sm font-[800] text-textStrong">⭐⭐ Harika seçimler yapıyorsun! 🎉</p>
+                <p className="text-sm font-extrabold text-textStrong">⭐⭐ Harika seçimler yapıyorsun! 🎉</p>
               </div>
               <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
                 <div
@@ -383,7 +383,7 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
                   aria-valuemax={100}
                 />
               </div>
-              <p className="mt-2 text-[11px] font-[700] text-muted">Dün: 88 · Geçen Hafta: 91</p>
+              <p className="mt-2 text-[11px] font-bold text-muted">Dün: 88 · Geçen Hafta: 91</p>
             </div>
           </aside>
 
@@ -406,8 +406,8 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
             {/* Durumuna göre */}
             <section>
               <div className="mb-4 flex items-start justify-between gap-2">
-                <h2 className="text-lg font-[900] text-textStrong">Durumuna Göre Öneriler</h2>
-                <Link href="/kesif" className="shrink-0 text-sm font-[900] text-primary hover:underline">
+                <h2 className="text-lg font-black text-textStrong">Durumuna Göre Öneriler</h2>
+                <Link href="/kesif" className="shrink-0 text-sm font-black text-primary hover:underline">
                   Tümünü Gör →
                 </Link>
               </div>
@@ -419,8 +419,8 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
                     className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-yd1 ${rh.bg} ${rh.border}`}
                   >
                     <span className="text-2xl" aria-hidden="true">{rh.emoji}</span>
-                    <p className={`text-sm font-[900] ${rh.tc}`}>{rh.title}</p>
-                    <p className="text-[11px] font-[700] text-muted">{rh.desc}</p>
+                    <p className={`text-sm font-black ${rh.tc}`}>{rh.title}</p>
+                    <p className="text-[11px] font-bold text-muted">{rh.desc}</p>
                   </Link>
                 ))}
               </div>
@@ -431,17 +431,17 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
               <div className="flex items-center gap-4">
                 <span className="text-2xl" aria-hidden="true">🎁</span>
                 <div>
-                  <p className="text-base font-[900] text-white">
+                  <p className="text-base font-black text-white">
                     Ne kadar çok keşfedersen, o kadar iyi öneririz!
                   </p>
-                  <p className="mt-0.5 text-sm font-[700] text-white/70">
+                  <p className="mt-0.5 text-sm font-bold text-white/70">
                     Yorum yap, favorilerine ekle, mekanları değerlendir.
                   </p>
                 </div>
               </div>
               <Link
                 href="/kesif"
-                className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-[900] text-primary shadow-sm transition-all hover:brightness-105 whitespace-nowrap"
+                className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-white px-5 text-sm font-black text-primary shadow-xs transition-all hover:brightness-105 whitespace-nowrap"
               >
                 Keşfetmeye Devam Et
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">

@@ -64,7 +64,7 @@ export default async function AdminReportsPage({ searchParams }: Props) {
                 type="submit"
                 name="status"
                 value={value}
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   status === value
                     ? 'bg-primary text-white'
                     : 'bg-card border border-border text-muted hover:text-textStrong'
@@ -79,7 +79,7 @@ export default async function AdminReportsPage({ searchParams }: Props) {
           <form method="get" className="flex gap-2">
             {['review', 'business', 'user', 'menu_item'].map(t => (
               <button key={t} type="submit" name="hedef" value={hedef === t ? '' : t}
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   hedef === t ? 'bg-info text-white' : 'bg-card border border-border text-muted hover:text-textStrong'
                 }`}
               >
@@ -91,7 +91,7 @@ export default async function AdminReportsPage({ searchParams }: Props) {
           {/* CSV export */}
           <a
             href={`/sunucu/yonetici/raporlar-csv?status=${status}&hedef=${hedef ?? ''}`}
-            className="ml-auto inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-[700] text-textStrong hover:border-primary/30 transition-colors"
+            className="ml-auto inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-bold text-textStrong hover:border-primary/30 transition-colors"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             CSV İndir
@@ -110,11 +110,11 @@ export default async function AdminReportsPage({ searchParams }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Hedef</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Neden</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Detay</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Hedef</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Neden</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Detay</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -122,13 +122,13 @@ export default async function AdminReportsPage({ searchParams }: Props) {
                   const statusInfo = STATUS_MAP[r.status] ?? STATUS_MAP['open'];
                   return (
                     <tr key={r.id}>
-                      <td className="px-5 py-3 font-[700] capitalize text-textStrong">{r.target_type}</td>
+                      <td className="px-5 py-3 font-bold capitalize text-textStrong">{r.target_type}</td>
                       <td className="px-5 py-3 text-muted">{r.reason}</td>
                       <td className="max-w-xs px-5 py-3">
                         <p className="line-clamp-2 text-xs text-muted">{r.details ?? '—'}</p>
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${statusInfo.className}`}>
                           {statusInfo.label}
                         </span>
                       </td>
@@ -146,13 +146,13 @@ export default async function AdminReportsPage({ searchParams }: Props) {
                 <div className="flex gap-2">
                   {pageNum > 1 && (
                     <a href={`?status=${status}&page=${pageNum - 1}`}
-                      className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
+                      className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">
                       ← Önceki
                     </a>
                   )}
                   {pageNum < totalPages && (
                     <a href={`?status=${status}&page=${pageNum + 1}`}
-                      className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
+                      className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">
                       Sonraki →
                     </a>
                   )}

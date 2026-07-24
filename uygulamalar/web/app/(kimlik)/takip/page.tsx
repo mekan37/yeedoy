@@ -61,18 +61,18 @@ export default async function FollowingPage() {
       <div className="mx-auto max-w-2xl px-4 py-12">
         <Link href="/profil" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary">← Profilime Dön</Link>
         <div className="mb-6 flex items-center gap-3">
-          <h1 className="text-2xl font-[900] text-textStrong">Takip Ettiklerim</h1>
+          <h1 className="text-2xl font-black text-textStrong">Takip Ettiklerim</h1>
           {list.length > 0 && (
-            <span className="rounded-full bg-border px-2 py-0.5 text-[11px] font-[700] text-muted">{list.length}</span>
+            <span className="rounded-full bg-border px-2 py-0.5 text-[11px] font-bold text-muted">{list.length}</span>
           )}
         </div>
 
         {list.length === 0 ? (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
             <p className="text-3xl mb-3">🧑‍🍳</p>
-            <p className="font-[700] text-textStrong mb-2">Henüz kimseyi takip etmiyorsunuz</p>
+            <p className="font-bold text-textStrong mb-2">Henüz kimseyi takip etmiyorsunuz</p>
             <p className="text-sm text-muted mb-6">İşletmeleri keşfet ve favori mekanlarını takip et.</p>
-            <Link href="/kesif" className="inline-flex min-h-[44px] items-center rounded-2xl px-5 text-sm font-[800] text-white" style={{ background: 'var(--yd-gradient-primary)' }}>
+            <Link href="/kesif" className="inline-flex min-h-[44px] items-center rounded-2xl px-5 text-sm font-extrabold text-white" style={{ background: 'var(--yd-gradient-primary)' }}>
               İşletmeleri Keşfet
             </Link>
           </div>
@@ -84,7 +84,7 @@ export default async function FollowingPage() {
                 <div key={f.followed_id} className="rounded-2xl border border-border bg-card p-4">
                   <div className="flex items-start gap-4">
                     {/* Avatar */}
-                    <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full border border-border bg-primary/10 flex items-center justify-center text-base font-[900] text-primary">
+                    <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full border border-border bg-primary/10 flex items-center justify-center text-base font-black text-primary">
                       {f.user_profiles?.avatar_url
                         ? <Image src={f.user_profiles.avatar_url} alt={name} width={44} height={44} className="h-full w-full object-cover" />
                         : name[0].toUpperCase()}
@@ -92,7 +92,7 @@ export default async function FollowingPage() {
 
                     {/* Info */}
                     <div className="min-w-0 flex-1">
-                      <p className="font-[900] text-textStrong">{name}</p>
+                      <p className="font-black text-textStrong">{name}</p>
                       {f.user_profiles?.bio && (
                         <p className="mt-0.5 line-clamp-1 text-[12px] text-muted">{f.user_profiles.bio}</p>
                       )}

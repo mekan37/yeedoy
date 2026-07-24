@@ -42,7 +42,7 @@ export function RolDegistirIstemci({
   // Don't allow editing super_admin role
   if (currentRole === 'super_admin') {
     return (
-      <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${info.className}`}>
+      <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${info.className}`}>
         {info.label}
       </span>
     );
@@ -53,7 +53,7 @@ export function RolDegistirIstemci({
       <button
         onClick={() => setOpen(!open)}
         disabled={isPending}
-        className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-[800] transition-opacity disabled:opacity-50 ${info.className}`}
+        className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-extrabold transition-opacity disabled:opacity-50 ${info.className}`}
       >
         {isPending ? '…' : info.label}
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -69,7 +69,7 @@ export function RolDegistirIstemci({
               <button
                 key={r.value}
                 onClick={() => changeRole(r.value)}
-                className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs font-[700] transition-colors hover:bg-black/[0.04] ${r.value === role ? 'text-primary' : 'text-textStrong'}`}
+                className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs font-bold transition-colors hover:bg-black/4 ${r.value === role ? 'text-primary' : 'text-textStrong'}`}
               >
                 {r.value === role && (
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>

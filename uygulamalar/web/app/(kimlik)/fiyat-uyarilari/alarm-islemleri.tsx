@@ -28,7 +28,7 @@ export function AlarmToggle({ alertId, isActive }: { alertId: string; isActive: 
       aria-checked={active}
       role="switch"
     >
-      <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${active ? 'translate-x-5' : 'translate-x-0.5'}`} />
+      <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${active ? 'translate-x-5' : 'translate-x-0.5'}`} />
     </button>
   );
 }
@@ -50,7 +50,7 @@ export function AlarmSilButonu({ alertId }: { alertId: string }) {
               router.refresh();
             });
           }}
-          className="rounded-lg bg-danger px-2.5 py-1 text-[11px] font-[900] text-white disabled:opacity-60"
+          className="rounded-lg bg-danger px-2.5 py-1 text-[11px] font-black text-white disabled:opacity-60"
         >
           {pending ? '…' : 'Sil'}
         </button>
@@ -63,7 +63,7 @@ export function AlarmSilButonu({ alertId }: { alertId: string }) {
     <button
       type="button"
       onClick={() => setConfirm(true)}
-      className="rounded-lg border border-border px-2.5 py-1 text-[11px] font-[700] text-muted hover:border-danger/40 hover:text-danger"
+      className="rounded-lg border border-border px-2.5 py-1 text-[11px] font-bold text-muted hover:border-danger/40 hover:text-danger"
     >
       Sil
     </button>

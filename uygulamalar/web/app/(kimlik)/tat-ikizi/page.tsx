@@ -81,22 +81,22 @@ export default async function TatIkiziPage() {
 
         {/* Başlık */}
         <div className="mb-6">
-          <p className="mb-1 text-xs font-[700] uppercase tracking-wide text-muted">Keşif</p>
-          <h1 className="text-2xl font-[900] text-textStrong">Tat İkizin</h1>
+          <p className="mb-1 text-xs font-bold uppercase tracking-wide text-muted">Keşif</p>
+          <h1 className="text-2xl font-black text-textStrong">Tat İkizin</h1>
           <p className="mt-1 text-sm text-muted">Benzer damak tadındaki Yeedoy kullanıcıları</p>
         </div>
 
         {/* Hata */}
         {fetchError && (
           <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
-            <p className="text-sm font-[700] text-red-700">{fetchError}</p>
+            <p className="text-sm font-bold text-red-700">{fetchError}</p>
           </div>
         )}
 
         {/* Boş durum */}
         {!fetchError && matches.length === 0 && (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
-            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--yd-color-primary-soft)]">
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-(--yd-color-primary-soft)">
               <svg
                 viewBox="0 0 24 24"
                 className="h-7 w-7 fill-none stroke-current text-primary"
@@ -111,7 +111,7 @@ export default async function TatIkiziPage() {
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
             </div>
-            <p className="mb-2 font-[900] text-textStrong">Henüz yeterli yorum yok</p>
+            <p className="mb-2 font-black text-textStrong">Henüz yeterli yorum yok</p>
             <p className="mb-6 text-sm text-muted">
               Daha fazla yorum yaptıkça tat ikilerin ortaya çıkar.
               <br />
@@ -119,7 +119,7 @@ export default async function TatIkiziPage() {
             </p>
             <Link
               href="/kesif"
-              className="inline-flex min-h-[44px] items-center rounded-2xl px-5 text-sm font-[800] text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              className="inline-flex min-h-[44px] items-center rounded-2xl px-5 text-sm font-extrabold text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               style={{
                 background: 'var(--yd-gradient-primary)',
                 boxShadow: 'var(--yd-shadow-primary)',
@@ -168,21 +168,21 @@ function TatIkiziKarti({ match, rank }: { match: TasteMatch; rank: number }) {
           />
         ) : (
           <div
-            className="flex h-12 w-12 items-center justify-center rounded-full text-sm font-[900] text-white"
+            className="flex h-12 w-12 items-center justify-center rounded-full text-sm font-black text-white"
             style={{ background: 'linear-gradient(135deg, #5C1515 0%, #7F1D1D 100%)' }}
             aria-hidden="true"
           >
             {initials}
           </div>
         )}
-        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-[900] text-white shadow">
+        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-black text-white shadow-sm">
           {rank}
         </span>
       </div>
 
       {/* Bilgi */}
       <div className="min-w-0 flex-1">
-        <p className="font-[900] text-textStrong">{displayName}</p>
+        <p className="font-black text-textStrong">{displayName}</p>
         <p className="mt-0.5 text-xs text-muted">{match.overlap} ortak yorum</p>
       </div>
 
@@ -201,7 +201,7 @@ function TatIkiziKarti({ match, rank }: { match: TasteMatch; rank: number }) {
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className="text-sm font-[900] text-primary">{pct}%</span>
+        <span className="text-sm font-black text-primary">{pct}%</span>
         <span className="block text-[10px] text-muted">uyum</span>
       </div>
     </div>

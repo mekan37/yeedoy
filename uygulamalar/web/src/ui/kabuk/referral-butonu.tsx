@@ -19,14 +19,14 @@ export function ReferralButonu() {
 
   return (
     <div className="mx-3 mb-3 rounded-xl border border-border bg-card/60 p-3">
-      <p className="text-[11px] font-[800] text-textStrong mb-2">Arkadaşını Davet Et</p>
+      <p className="text-[11px] font-extrabold text-textStrong mb-2">Arkadaşını Davet Et</p>
       <p className="text-[10px] text-muted mb-2 leading-relaxed">
         Referralın ücretsiz QR menü aldığında 1 ay sponsorluk kredisi kazan.
       </p>
       <div className="flex gap-1.5">
         <a
           href={`whatsapp://send?text=${encodeURIComponent(mesaj)}`}
-          className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#25D366] px-2 py-1.5 text-[10px] font-[800] text-white hover:opacity-90 transition-opacity"
+          className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#25D366] px-2 py-1.5 text-[10px] font-extrabold text-white hover:opacity-90 transition-opacity"
         >
           <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/>
@@ -36,7 +36,7 @@ export function ReferralButonu() {
         </a>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1 rounded-lg border border-border bg-card px-2 py-1.5 text-[10px] font-[800] text-muted hover:bg-border/40 transition-colors"
+          className="flex items-center gap-1 rounded-lg border border-border bg-card px-2 py-1.5 text-[10px] font-extrabold text-muted hover:bg-border/40 transition-colors"
         >
           {copied ? (
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

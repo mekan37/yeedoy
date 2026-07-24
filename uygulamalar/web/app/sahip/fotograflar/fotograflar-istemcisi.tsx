@@ -139,11 +139,11 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
       {/* İşletme seçici (birden fazla varsa) */}
       {businesses.length > 1 && (
         <div className="flex items-center gap-3">
-          <label className="text-xs font-[700] text-muted">İşletme</label>
+          <label className="text-xs font-bold text-muted">İşletme</label>
           <select
             value={businessId}
             onChange={(e) => setBusinessId(e.target.value)}
-            className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong focus:outline-none"
+            className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong focus:outline-hidden"
           >
             {businesses.map((b) => (
               <option key={b.id} value={b.id}>{b.name}</option>
@@ -179,37 +179,37 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
         {uploading ? (
           <div className="flex flex-col items-center gap-2">
             <SpinnerIcon large />
-            <p className="text-sm font-[700] text-[#7f1d1d]">Sıkıştırılıyor ve yükleniyor…</p>
+            <p className="text-sm font-bold text-[#7f1d1d]">Sıkıştırılıyor ve yükleniyor…</p>
           </div>
         ) : slotsLeft <= 0 ? (
           <div>
-            <p className="text-sm font-[800] text-textStrong">Limit doldu</p>
+            <p className="text-sm font-extrabold text-textStrong">Limit doldu</p>
             <p className="mt-0.5 text-xs text-muted">Bu işletme için maksimum {PHOTO_LIMIT} fotoğraf yüklenebilir.</p>
           </div>
         ) : (
           <>
             <div>
-              <p className="text-sm font-[800] text-textStrong">
+              <p className="text-sm font-extrabold text-textStrong">
                 {dragOver ? 'Bırakın' : 'Fotoğraf Yükle'}
               </p>
               <p className="mt-0.5 text-xs text-muted">
                 Sürükle & bırak veya tıkla — JPG, PNG, WebP — WebP&apos;ye dönüştürülür
               </p>
             </div>
-            <span className="rounded-full bg-zinc-100 px-3 py-1 text-[11px] font-[700] text-muted">
+            <span className="rounded-full bg-zinc-100 px-3 py-1 text-[11px] font-bold text-muted">
               {bizPhotoCount} / {PHOTO_LIMIT} fotoğraf
             </span>
           </>
         )}
         {uploadError && (
-          <p className="text-xs font-[700] text-red-500">{uploadError}</p>
+          <p className="text-xs font-bold text-red-500">{uploadError}</p>
         )}
       </div>
 
       {/* Fotoğraf sayısı + durum notu */}
       {photos.length > 0 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm font-[700] text-textStrong">{photos.length} fotoğraf</p>
+          <p className="text-sm font-bold text-textStrong">{photos.length} fotoğraf</p>
           <p className="text-xs text-muted">Yüklenen fotoğraflar WebP formatında incelemeye gönderilir</p>
         </div>
       )}
@@ -218,7 +218,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
       {photos.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-[#fafafa] py-16 text-center">
           <GalleryEmptyIcon />
-          <p className="mt-3 text-base font-[800] text-textStrong">Henüz fotoğraf yok</p>
+          <p className="mt-3 text-base font-extrabold text-textStrong">Henüz fotoğraf yok</p>
           <p className="mt-1 text-sm text-muted">Yukarıdan fotoğraf yükleyerek başlayın.</p>
         </div>
       ) : (
@@ -240,19 +240,19 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
 
                 {/* Durum rozeti */}
                 <div className="absolute left-2 top-2">
-                  <span className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-[800] text-white ${statusInfo.color}`}>
+                  <span className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white ${statusInfo.color}`}>
                     <span className="h-1.5 w-1.5 rounded-full bg-white/70" />
                     {statusInfo.label}
                   </span>
                 </div>
 
                 {/* Hover overlay + sil butonu */}
-                <div className="absolute inset-0 flex items-end justify-end bg-gradient-to-t from-black/60 via-transparent opacity-0 transition-opacity group-hover:opacity-100 p-2">
+                <div className="absolute inset-0 flex items-end justify-end bg-linear-to-t from-black/60 via-transparent opacity-0 transition-opacity group-hover:opacity-100 p-2">
                   <button
                     onClick={() => !isDeleting && handleDelete(photo.id)}
                     disabled={isDeleting}
                     title="Fotoğrafı sil"
-                    className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/90 text-red-600 shadow-sm backdrop-blur-sm transition hover:bg-red-500 hover:text-white disabled:opacity-60"
+                    className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/90 text-red-600 shadow-xs backdrop-blur-xs transition hover:bg-red-500 hover:text-white disabled:opacity-60"
                   >
                     {isDeleting ? <SpinnerIcon /> : <TrashIcon />}
                   </button>

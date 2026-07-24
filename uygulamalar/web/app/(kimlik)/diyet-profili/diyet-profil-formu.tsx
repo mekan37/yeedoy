@@ -94,15 +94,15 @@ export function DiyetProfilFormu({ dietProfile }: { dietProfile: DietProfile }) 
             onClick={() => toggle(key)}
             className={[
               'flex min-h-[64px] w-full items-center gap-4 rounded-2xl border px-5 py-4 text-left transition-all',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+              'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
               active
-                ? 'border-primary/35 bg-[var(--yd-color-primary-soft)] shadow-yd1'
+                ? 'border-primary/35 bg-(--yd-color-primary-soft) shadow-yd1'
                 : 'border-border bg-card hover:border-primary/20',
             ].join(' ')}
           >
             <span className="flex items-center justify-center text-primary">{icon}</span>
             <div className="min-w-0 flex-1">
-              <p className={`font-[900] leading-tight ${active ? 'text-primary' : 'text-textStrong'}`}>
+              <p className={`font-black leading-tight ${active ? 'text-primary' : 'text-textStrong'}`}>
                 {label}
               </p>
               <p className="mt-0.5 text-xs leading-snug text-muted">{description}</p>
@@ -117,7 +117,7 @@ export function DiyetProfilFormu({ dietProfile }: { dietProfile: DietProfile }) 
             >
               <span
                 className={[
-                  'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200',
+                  'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200',
                   active ? 'translate-x-5' : 'translate-x-0.5',
                 ].join(' ')}
               />
@@ -128,16 +128,16 @@ export function DiyetProfilFormu({ dietProfile }: { dietProfile: DietProfile }) 
 
       {/* Status messages */}
       {status === 'error' && errorMsg && (
-        <p className="text-sm font-[800] text-danger">{errorMsg}</p>
+        <p className="text-sm font-extrabold text-danger">{errorMsg}</p>
       )}
       {status === 'saved' && (
-        <p className="text-sm font-[800] text-success">Tercihleriniz kaydedildi</p>
+        <p className="text-sm font-extrabold text-success">Tercihleriniz kaydedildi</p>
       )}
 
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="mt-2 inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl px-5 text-sm font-[900] text-white disabled:opacity-60 disabled:cursor-not-allowed"
+        className="mt-2 inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl px-5 text-sm font-black text-white disabled:opacity-60 disabled:cursor-not-allowed"
         style={{ background: 'var(--yd-gradient-primary)' }}
       >
         {status === 'loading' ? 'Kaydediliyor…' : 'Kaydet'}

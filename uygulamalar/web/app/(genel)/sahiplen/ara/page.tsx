@@ -13,10 +13,10 @@ export default function SahiplenAraPage() {
     <PublicShell variant="owner">
       <main className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
         <div className="mb-8 text-center">
-          <p className="text-xs font-[800] uppercase tracking-[0.2em] text-primary">
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-primary">
             Adım 1 / 2
           </p>
-          <h1 className="mt-2 text-3xl font-[900] text-textStrong">
+          <h1 className="mt-2 text-3xl font-black text-textStrong">
             İşletmeni bul
           </h1>
           <p className="mt-2 text-muted">

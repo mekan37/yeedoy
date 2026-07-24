@@ -15,7 +15,7 @@ export function AvantajKullanButonu({ perkId, disabled }: { perkId: string; disa
   const [pending, startTransition] = useTransition();
 
   if (disabled || used) {
-    return <span className="rounded-full bg-border px-3 py-1 text-[11px] font-[700] text-muted">Kullanıldı</span>;
+    return <span className="rounded-full bg-border px-3 py-1 text-[11px] font-bold text-muted">Kullanıldı</span>;
   }
 
   if (confirm) {
@@ -31,14 +31,14 @@ export function AvantajKullanButonu({ perkId, disabled }: { perkId: string; disa
             });
           }}
           disabled={pending}
-          className="rounded-xl bg-primary px-3 py-1.5 text-[11px] font-[900] text-white disabled:opacity-60"
+          className="rounded-xl bg-primary px-3 py-1.5 text-[11px] font-black text-white disabled:opacity-60"
         >
           {pending ? '…' : 'Onayla'}
         </button>
         <button
           type="button"
           onClick={() => setConfirm(false)}
-          className="rounded-xl border border-border px-3 py-1.5 text-[11px] font-[700] text-muted"
+          className="rounded-xl border border-border px-3 py-1.5 text-[11px] font-bold text-muted"
         >
           İptal
         </button>
@@ -50,7 +50,7 @@ export function AvantajKullanButonu({ perkId, disabled }: { perkId: string; disa
     <button
       type="button"
       onClick={() => setConfirm(true)}
-      className="rounded-xl border border-primary/30 bg-[var(--yd-color-primary-soft)] px-3 py-1.5 text-[11px] font-[900] text-primary hover:bg-primary/15"
+      className="rounded-xl border border-primary/30 bg-(--yd-color-primary-soft) px-3 py-1.5 text-[11px] font-black text-primary hover:bg-primary/15"
     >
       Kullan
     </button>

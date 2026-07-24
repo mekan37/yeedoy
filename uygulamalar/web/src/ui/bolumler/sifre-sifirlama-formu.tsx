@@ -72,7 +72,7 @@ export function SifreSifirlamaFormu() {
           {/* Geri linki */}
           <Link
             href="/giris"
-            className="mb-6 inline-flex items-center gap-2 text-sm font-[700] text-muted transition-colors hover:text-textStrong"
+            className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-muted transition-colors hover:text-textStrong"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="m15 18-6-6 6-6" />
@@ -87,7 +87,7 @@ export function SifreSifirlamaFormu() {
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><polyline points="9 12 11 14 15 10" />
               </svg>
             </div>
-            <h1 className="text-[2rem] font-[900] leading-tight text-textStrong">
+            <h1 className="text-[2rem] font-black leading-tight text-textStrong">
               Yeni Şifre Belirle
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -97,7 +97,7 @@ export function SifreSifirlamaFormu() {
 
           {done ? (
             /* Başarı */
-            <div className="flex flex-col items-center gap-4 rounded-2xl border border-success/25 bg-success/[0.08] px-6 py-8 text-center">
+            <div className="flex flex-col items-center gap-4 rounded-2xl border border-success/25 bg-success/8 px-6 py-8 text-center">
               <span className="flex h-14 w-14 items-center justify-center rounded-full bg-success/15 text-success">
                 <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -105,7 +105,7 @@ export function SifreSifirlamaFormu() {
                 </svg>
               </span>
               <div>
-                <p className="text-base font-[900] text-success">Şifreniz güncellendi!</p>
+                <p className="text-base font-black text-success">Şifreniz güncellendi!</p>
                 <p className="mt-1 text-sm text-muted">Giriş sayfasına yönlendiriliyorsunuz…</p>
               </div>
             </div>
@@ -113,14 +113,14 @@ export function SifreSifirlamaFormu() {
           ) : !ready ? (
             /* Bağlantı bekleniyor */
             <div className="space-y-5">
-              <div className="flex flex-col items-center gap-4 rounded-2xl border border-warning/25 bg-warning/[0.08] px-6 py-8 text-center">
+              <div className="flex flex-col items-center gap-4 rounded-2xl border border-warning/25 bg-warning/8 px-6 py-8 text-center">
                 <span className="flex h-14 w-14 items-center justify-center rounded-full bg-warning/15 text-warning">
                   <svg viewBox="0 0 24 24" className="h-7 w-7 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
                   </svg>
                 </span>
                 <div>
-                  <p className="text-base font-[900] text-warning">Bağlantı bekleniyor</p>
+                  <p className="text-base font-black text-warning">Bağlantı bekleniyor</p>
                   <p className="mt-1 text-sm leading-relaxed text-muted">
                     E-postanızdaki sıfırlama bağlantısına tıklayarak bu sayfaya gelmeniz gerekiyor.
                   </p>
@@ -128,7 +128,7 @@ export function SifreSifirlamaFormu() {
               </div>
               <Link
                 href="/sifremi-unuttum"
-                className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary text-sm font-[900] text-white shadow-sm transition-all hover:opacity-90"
+                className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary text-sm font-black text-white shadow-xs transition-all hover:opacity-90"
               >
                 Yeni bağlantı gönder
               </Link>
@@ -140,7 +140,7 @@ export function SifreSifirlamaFormu() {
 
               {/* Yeni şifre */}
               <div>
-                <label className="mb-1.5 block text-sm font-[700] text-textStrong">Yeni Şifre</label>
+                <label className="mb-1.5 block text-sm font-bold text-textStrong">Yeni Şifre</label>
                 <div className="relative">
                   <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                     <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -153,7 +153,7 @@ export function SifreSifirlamaFormu() {
                     onChange={(e) => setPassword(e.target.value)}
                     required autoFocus autoComplete="new-password"
                     placeholder="En az 8 karakter"
-                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-11 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-11 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                   <button
                     type="button"
@@ -180,10 +180,10 @@ export function SifreSifirlamaFormu() {
                       ))}
                     </div>
                     <div className="mt-1.5 flex items-center justify-between">
-                      <p className={`text-xs font-[700] ${meta.text}`}>{meta.label}</p>
+                      <p className={`text-xs font-bold ${meta.text}`}>{meta.label}</p>
                       <div className="flex gap-2">
                         {CRITERIA.map((c, i) => (
-                          <span key={i} className={`text-[10px] font-[600] ${c.test(password) ? 'text-success' : 'text-border'}`}>
+                          <span key={i} className={`text-[10px] font-semibold ${c.test(password) ? 'text-success' : 'text-border'}`}>
                             {['8+', 'A-Z', 'a-z', '0-9', '#'][i]}
                           </span>
                         ))}
@@ -195,7 +195,7 @@ export function SifreSifirlamaFormu() {
 
               {/* Şifre tekrar */}
               <div>
-                <label className="mb-1.5 block text-sm font-[700] text-textStrong">Şifre Tekrar</label>
+                <label className="mb-1.5 block text-sm font-bold text-textStrong">Şifre Tekrar</label>
                 <div className="relative">
                   <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                     <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -208,7 +208,7 @@ export function SifreSifirlamaFormu() {
                     onChange={(e) => setConfirm(e.target.value)}
                     required autoComplete="new-password"
                     placeholder="Şifrenizi tekrar girin"
-                    className={`h-12 w-full rounded-2xl border bg-bg pl-10 pr-4 text-sm text-text outline-none transition focus:ring-2 focus:ring-primary/10 ${
+                    className={`h-12 w-full rounded-2xl border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:ring-2 focus:ring-primary/10 ${
                       confirm.length > 0
                         ? confirm === password
                           ? 'border-success focus:border-success'
@@ -228,7 +228,7 @@ export function SifreSifirlamaFormu() {
               </div>
 
               {error && (
-                <div role="alert" className="rounded-2xl border border-danger/25 bg-danger/[0.08] px-4 py-3 text-sm font-[700] text-danger">
+                <div role="alert" className="rounded-2xl border border-danger/25 bg-danger/8 px-4 py-3 text-sm font-bold text-danger">
                   {error}
                 </div>
               )}
@@ -236,7 +236,7 @@ export function SifreSifirlamaFormu() {
               <button
                 type="submit"
                 disabled={loading || strength < 3}
-                className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary text-sm font-[900] text-white shadow-sm transition-all hover:opacity-90 disabled:opacity-60"
+                className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary text-sm font-black text-white shadow-xs transition-all hover:opacity-90 disabled:opacity-60"
               >
                 {loading ? 'Güncelleniyor…' : 'Şifreyi Güncelle'}
               </button>
@@ -252,7 +252,7 @@ export function SifreSifirlamaFormu() {
         style={{ background: 'linear-gradient(135deg, #fff5f5 0%, #fef2f2 50%, #fff8f0 100%)' }}
       >
         <div className="pointer-events-none absolute right-[-80px] top-[-80px] h-[400px] w-[400px] rounded-full bg-primary/5" />
-        <div className="pointer-events-none absolute bottom-[-60px] left-[-60px] h-[300px] w-[300px] rounded-full bg-primary/[0.04]" />
+        <div className="pointer-events-none absolute bottom-[-60px] left-[-60px] h-[300px] w-[300px] rounded-full bg-primary/4" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/giris-gorsel.webp"

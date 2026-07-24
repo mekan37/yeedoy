@@ -31,8 +31,8 @@ export function AcikKapaliRozeti({ todayValue }: { todayValue?: string }) {
     <span
       className={
         status === 'acik'
-          ? 'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-[800] bg-success/[0.12] text-success border border-success/25'
-          : 'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-[800] bg-danger/[0.10] text-danger border border-danger/25'
+          ? 'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-extrabold bg-success/12 text-success border border-success/25'
+          : 'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-extrabold bg-danger/10 text-danger border border-danger/25'
       }
     >
       <span className={`h-1.5 w-1.5 rounded-full ${status === 'acik' ? 'bg-success' : 'bg-danger'}`} />
@@ -56,7 +56,7 @@ export function AdresKopyalaButonu({ address }: { address: string }) {
       type="button"
       onClick={handleCopy}
       aria-label="Adresi kopyala"
-      className="inline-flex min-h-9 items-center gap-1.5 rounded-2xl border border-border px-3 text-xs font-[800] text-muted hover:border-primary/30 hover:text-primary transition-colors"
+      className="inline-flex min-h-9 items-center gap-1.5 rounded-2xl border border-border px-3 text-xs font-extrabold text-muted hover:border-primary/30 hover:text-primary transition-colors"
     >
       {copied ? (
         <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

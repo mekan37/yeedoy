@@ -29,7 +29,7 @@ export function OtomasyonToggle({ templateId, businessId, enabled, disabled }: P
       aria-checked={optimisticEnabled}
       disabled={disabled || isPending}
       onClick={handleToggle}
-      className={`relative shrink-0 h-6 w-11 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-40 ${
+      className={`relative shrink-0 h-6 w-11 rounded-full transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-40 ${
         optimisticEnabled ? 'bg-primary' : 'bg-border'
       }`}
     >

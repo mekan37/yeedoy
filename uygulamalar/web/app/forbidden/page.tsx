@@ -43,7 +43,7 @@ export default async function ForbiddenPage() {
             </Link>
             <Link
               href="/sahip/gosterge-panosu"
-              className="flex items-center gap-1.5 rounded-full border border-[#e5e7eb] px-3 py-1 text-xs font-[700] text-[#374151] transition hover:border-[#dc2626]/30 hover:text-[#dc2626]"
+              className="flex items-center gap-1.5 rounded-full border border-[#e5e7eb] px-3 py-1 text-xs font-bold text-[#374151] transition hover:border-[#dc2626]/30 hover:text-[#dc2626]"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -59,12 +59,12 @@ export default async function ForbiddenPage() {
               {avatarUrl ? (
                 <Image src={avatarUrl} alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover ring-2 ring-[#f0f0f0]" />
               ) : (
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#7f1d1d] text-sm font-[900] text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#7f1d1d] text-sm font-black text-white">
                   {(displayName ?? 'K')[0].toUpperCase()}
                 </div>
               )}
               <div>
-                <p className="text-sm font-[800] text-[#111827]">{displayName ?? 'Kullanıcı'}</p>
+                <p className="text-sm font-extrabold text-[#111827]">{displayName ?? 'Kullanıcı'}</p>
                 <p className="text-xs text-[#6b7280]">İşletme Sahibi</p>
               </div>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -138,11 +138,11 @@ export default async function ForbiddenPage() {
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
-                <span className="text-sm font-[800] text-[#dc2626]">Yetki gerekli</span>
+                <span className="text-sm font-extrabold text-[#dc2626]">Yetki gerekli</span>
               </div>
 
               {/* Title */}
-              <h1 className="text-[30px] font-[900] leading-tight text-[#111827]">
+              <h1 className="text-[30px] font-black leading-tight text-[#111827]">
                 Bu sayfaya erişiminiz yok
               </h1>
               <p className="mt-3 max-w-sm text-sm leading-relaxed text-[#6b7280]">
@@ -158,7 +158,7 @@ export default async function ForbiddenPage() {
               {/* Switch account link */}
               <Link
                 href="/giris"
-                className="mt-4 flex items-center gap-2 text-sm font-[700] text-[#dc2626] hover:underline"
+                className="mt-4 flex items-center gap-2 text-sm font-bold text-[#dc2626] hover:underline"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -169,7 +169,7 @@ export default async function ForbiddenPage() {
 
               {/* Info box */}
               <div className="mt-8 flex w-full max-w-md items-start gap-3 rounded-2xl border border-[#d1fae5] bg-[#f0fdf4] px-5 py-4 text-left">
-                <div className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#86efac]">
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-[#86efac]">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="8" x2="12" y2="12" />
@@ -178,7 +178,7 @@ export default async function ForbiddenPage() {
                 </div>
                 <div>
                   <p className="text-sm text-[#374151]">
-                    <span className="font-[800] text-[#15803d]">Erişim talebi oluşturabilir</span>{' '}
+                    <span className="font-extrabold text-[#15803d]">Erişim talebi oluşturabilir</span>{' '}
                     veya işletme yöneticinle iletişime geçebilirsin.
                   </p>
                   <p className="mt-1 text-xs text-[#6b7280]">
@@ -190,7 +190,7 @@ export default async function ForbiddenPage() {
 
             {/* ── Right column ── */}
             <div className="px-8 py-14">
-              <h2 className="mb-6 text-base font-[900] text-[#111827]">Yaygın nedenler</h2>
+              <h2 className="mb-6 text-base font-black text-[#111827]">Yaygın nedenler</h2>
 
               <div className="flex flex-col gap-5">
                 {[
@@ -227,11 +227,11 @@ export default async function ForbiddenPage() {
                   },
                 ].map((item) => (
                   <div key={item.title} className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#fef2f2]">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#fef2f2]">
                       {item.icon}
                     </div>
                     <div>
-                      <p className="text-sm font-[800] text-[#111827]">{item.title}</p>
+                      <p className="text-sm font-extrabold text-[#111827]">{item.title}</p>
                       <p className="mt-0.5 text-xs leading-relaxed text-[#6b7280]">{item.desc}</p>
                     </div>
                   </div>
@@ -249,11 +249,11 @@ export default async function ForbiddenPage() {
                     <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
                   </svg>
                 </div>
-                <p className="text-sm font-[800] text-[#111827]">Yardıma mı ihtiyacınız var?</p>
+                <p className="text-sm font-extrabold text-[#111827]">Yardıma mı ihtiyacınız var?</p>
                 <p className="mt-1 text-xs leading-relaxed text-[#6b7280]">
                   Destek ekibimiz size en kısa sürede yardımcı olacaktır.
                 </p>
-                <a href="#" className="mt-3 inline-flex items-center gap-1 text-sm font-[800] text-[#dc2626] hover:underline">
+                <a href="#" className="mt-3 inline-flex items-center gap-1 text-sm font-extrabold text-[#dc2626] hover:underline">
                   Destek Merkezi&apos;ni Ziyaret Et
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" />

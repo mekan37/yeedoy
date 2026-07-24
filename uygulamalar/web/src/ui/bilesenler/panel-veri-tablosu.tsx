@@ -25,7 +25,7 @@ export function PanelDataTableHeader({ children, className }: PanelDataTableHead
   return (
     <th
       className={clsx(
-        'border-b border-border px-4 py-2.5 text-left text-xs font-[800] uppercase tracking-wide text-muted',
+        'border-b border-border px-4 py-2.5 text-left text-xs font-extrabold uppercase tracking-wide text-muted',
         className,
       )}
     >
@@ -44,7 +44,7 @@ export function PanelDataTableRow({ children, className }: PanelDataTableRowProp
     <tr
       className={clsx(
         'border-b border-border transition-colors duration-100 last:border-0',
-        'hover:bg-black/[0.025]',
+        'hover:bg-black/2.5',
         className,
       )}
     >

@@ -51,14 +51,14 @@ export function BildirimAyarlariTab() {
         {NOTIFICATION_ITEMS.map((item) => {
           const Icon = item.icon;
           return (
-            <div key={item.id} className="flex min-h-[4.75rem] items-center gap-3 py-3 first:pt-0 last:pb-0">
+            <div key={item.id} className="flex min-h-19 items-center gap-3 py-3 first:pt-0 last:pb-0">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-cardAlt text-muted">
                 <Icon aria-hidden="true" className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
                 <label
                   htmlFor={`notification-${item.id}`}
-                  className="text-sm font-[700] text-textStrong"
+                  className="text-sm font-bold text-textStrong"
                 >
                   {item.label}
                 </label>

@@ -64,7 +64,7 @@ export default async function AdminPriceSuggestionsPage({ searchParams }: Props)
             { value: 'all', label: 'Tümü' },
           ].map(({ value, label }) => (
             <button key={value} type="submit" name="status" value={value}
-              className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                 status === value ? 'bg-primary text-white' : 'border border-border bg-card text-muted hover:text-textStrong'
               }`}>
               {label}
@@ -79,29 +79,29 @@ export default async function AdminPriceSuggestionsPage({ searchParams }: Props)
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Ürün</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Mevcut</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Önerilen</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Güven</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Ürün</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Mevcut</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Önerilen</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Güven</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {list.map((s: any) => {
                   const statusInfo = STATUS_MAP[s.status] ?? STATUS_MAP['pending'];
                   return (
-                    <tr key={s.id} className="hover:bg-black/[0.01]">
+                    <tr key={s.id} className="hover:bg-black/1">
                       <td className="px-5 py-3">
-                        <p className="font-[700] text-textStrong">{s.menu_items?.name ?? '—'}</p>
+                        <p className="font-bold text-textStrong">{s.menu_items?.name ?? '—'}</p>
                         {s.note && <p className="text-xs text-muted italic">{s.note}</p>}
                       </td>
                       <td className="px-5 py-3 text-muted">{s.businesses?.name ?? '—'}</td>
                       <td className="px-5 py-3 text-muted">
                         {s.menu_items ? formatPrice(s.menu_items.price_cents, s.menu_items.currency) : '—'}
                       </td>
-                      <td className="px-5 py-3 font-[800] text-textStrong">
+                      <td className="px-5 py-3 font-extrabold text-textStrong">
                         {formatPrice(s.suggested_price_cents, s.currency)}
                       </td>
                       <td className="px-5 py-3">
@@ -117,11 +117,11 @@ export default async function AdminPriceSuggestionsPage({ searchParams }: Props)
                           </span>
                         </div>
                         {s.onsite_verified && (
-                          <span className="mt-0.5 block text-[10px] font-[700] text-green-600">Yerinde Doğrulandı</span>
+                          <span className="mt-0.5 block text-[10px] font-bold text-green-600">Yerinde Doğrulandı</span>
                         )}
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${statusInfo.className}`}>
                           {statusInfo.label}
                         </span>
                       </td>
@@ -137,8 +137,8 @@ export default async function AdminPriceSuggestionsPage({ searchParams }: Props)
               <div className="flex items-center justify-between border-t border-border px-5 py-3">
                 <span className="text-xs text-muted">Sayfa {pageNum} / {totalPages}</span>
                 <div className="flex gap-2">
-                  {pageNum > 1 && <a href={`?status=${status}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">← Önceki</a>}
-                  {pageNum < totalPages && <a href={`?status=${status}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">Sonraki →</a>}
+                  {pageNum > 1 && <a href={`?status=${status}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">← Önceki</a>}
+                  {pageNum < totalPages && <a href={`?status=${status}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">Sonraki →</a>}
                 </div>
               </div>
             )}

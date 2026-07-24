@@ -26,8 +26,8 @@ function fmtTL(cents: number) {
 
 function diffLabel(pct: number) {
   if (Math.abs(pct) < 5) return { text: 'Ortalamada', cls: 'text-muted', bg: 'bg-border/30' };
-  if (pct > 0) return { text: `%${Math.abs(pct).toFixed(0)} pahalı`, cls: 'text-danger', bg: 'bg-danger/[0.08] border border-danger/20' };
-  return { text: `%${Math.abs(pct).toFixed(0)} ucuz`, cls: 'text-success', bg: 'bg-success/[0.08] border border-success/20' };
+  if (pct > 0) return { text: `%${Math.abs(pct).toFixed(0)} pahalı`, cls: 'text-danger', bg: 'bg-danger/8 border border-danger/20' };
+  return { text: `%${Math.abs(pct).toFixed(0)} ucuz`, cls: 'text-success', bg: 'bg-success/8 border border-success/20' };
 }
 
 export default async function OwnerPriceReportPage() {
@@ -92,11 +92,11 @@ export default async function OwnerPriceReportPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-border bg-cardAlt">
-                        <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wider text-muted">Ürün</th>
-                        <th className="px-4 py-3 text-right text-xs font-[800] uppercase tracking-wider text-muted">Sizin Fiyatınız</th>
-                        <th className="px-4 py-3 text-right text-xs font-[800] uppercase tracking-wider text-muted">İlçe Ort.</th>
-                        <th className="px-4 py-3 text-right text-xs font-[800] uppercase tracking-wider text-muted">Şehir Ort.</th>
-                        <th className="px-4 py-3 text-center text-xs font-[800] uppercase tracking-wider text-muted">Durum</th>
+                        <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wider text-muted">Ürün</th>
+                        <th className="px-4 py-3 text-right text-xs font-extrabold uppercase tracking-wider text-muted">Sizin Fiyatınız</th>
+                        <th className="px-4 py-3 text-right text-xs font-extrabold uppercase tracking-wider text-muted">İlçe Ort.</th>
+                        <th className="px-4 py-3 text-right text-xs font-extrabold uppercase tracking-wider text-muted">Şehir Ort.</th>
+                        <th className="px-4 py-3 text-center text-xs font-extrabold uppercase tracking-wider text-muted">Durum</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border">
@@ -104,8 +104,8 @@ export default async function OwnerPriceReportPage() {
                         const diff = diffLabel(row.diff_pct);
                         return (
                           <tr key={row.menu_item_id} className="hover:bg-cardAlt/50 transition-colors">
-                            <td className="px-5 py-3 font-[700] text-textStrong">{row.item_name}</td>
-                            <td className="px-4 py-3 text-right font-[900] text-textStrong">
+                            <td className="px-5 py-3 font-bold text-textStrong">{row.item_name}</td>
+                            <td className="px-4 py-3 text-right font-black text-textStrong">
                               {fmtTL(row.business_price_cents)}
                             </td>
                             <td className="px-4 py-3 text-right text-muted">
@@ -118,7 +118,7 @@ export default async function OwnerPriceReportPage() {
                               )}
                             </td>
                             <td className="px-4 py-3 text-center">
-                              <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${diff.bg} ${diff.cls}`}>
+                              <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${diff.bg} ${diff.cls}`}>
                                 {diff.text}
                               </span>
                             </td>
@@ -136,7 +136,7 @@ export default async function OwnerPriceReportPage() {
         {/* Bilgi notu */}
         <div className="mt-4 rounded-xl border border-border bg-cardAlt p-4">
           <p className="text-xs text-muted">
-            <span className="font-[800]">Nasıl hesaplanır?</span>{' '}
+            <span className="font-extrabold">Nasıl hesaplanır?</span>{' '}
             Yeedoy topluluğu tarafından doğrulanan fiyatlar kullanılır. Aynı ürün adına sahip diğer işletmelerin ortalama fiyatıyla karşılaştırılır.
             Veri yetersizse satır gösterilmez.
           </p>

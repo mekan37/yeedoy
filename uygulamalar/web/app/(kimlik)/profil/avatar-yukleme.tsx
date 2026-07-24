@@ -74,14 +74,14 @@ export function AvatarYukleme({ userId, avatarUrl, displayName, initials, size =
             // eslint-disable-next-line @next/next/no-img-element
             <img src={preview} alt={displayName} className="h-full w-full object-cover" />
           ) : (
-            <div className={`flex h-full w-full items-center justify-center ${textSize} font-[900] text-primary`}>
+            <div className={`flex h-full w-full items-center justify-center ${textSize} font-black text-primary`}>
               {initials}
             </div>
           )}
         </div>
 
         {/* Kamera rozeti */}
-        <div className={`absolute bottom-0 right-0 flex h-6 w-6 items-center justify-center rounded-full shadow-sm transition ${isPending ? 'bg-muted' : 'bg-primary hover:brightness-110'}`}>
+        <div className={`absolute bottom-0 right-0 flex h-6 w-6 items-center justify-center rounded-full shadow-xs transition ${isPending ? 'bg-muted' : 'bg-primary hover:brightness-110'}`}>
           {isPending ? (
             <svg className="h-3 w-3 animate-spin text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3" />
@@ -107,7 +107,7 @@ export function AvatarYukleme({ userId, avatarUrl, displayName, initials, size =
       />
 
       {hata && (
-        <p className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-lg bg-danger/10 px-2 py-0.5 text-[10px] font-[700] text-danger">
+        <p className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-lg bg-danger/10 px-2 py-0.5 text-[10px] font-bold text-danger">
           {hata}
         </p>
       )}

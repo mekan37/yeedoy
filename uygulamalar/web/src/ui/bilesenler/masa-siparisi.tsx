@@ -67,7 +67,7 @@ export function MasaSimarisiPaneli({ businessId, sepet, onSepetGuncelle, formatF
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="btn-primary flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-[800] text-white shadow-yd3"
+          className="btn-primary flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold text-white shadow-yd3"
         >
           <BasketIcon />
           <span>{totalItems} ürün · {formatFiyat(totalCents, currency)}</span>
@@ -79,19 +79,19 @@ export function MasaSimarisiPaneli({ businessId, sepet, onSepetGuncelle, formatF
       {open && (
         <div className="animate-sheet-in w-[320px] rounded-[24px] border border-border bg-card shadow-yd4">
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
-            <span className="font-[900] text-textStrong">Garsona Bildir</span>
+            <span className="font-black text-textStrong">Garsona Bildir</span>
             <button onClick={() => setOpen(false)} className="text-muted hover:text-textStrong">✕</button>
           </div>
           <div className="max-h-48 overflow-y-auto px-4 py-3">
             {sepet.map((item) => (
               <div key={item.id} className="flex items-center justify-between py-1.5">
-                <span className="flex-1 text-sm font-[700] text-textStrong">{item.name}</span>
+                <span className="flex-1 text-sm font-bold text-textStrong">{item.name}</span>
                 <div className="flex items-center gap-1.5 ml-2">
                   <button
                     onClick={() => onSepetGuncelle(item.id, -1)}
                     className="flex h-6 w-6 items-center justify-center rounded-full border border-border text-muted hover:bg-cardAlt"
                   >−</button>
-                  <span className="w-5 text-center text-sm font-[800]">{item.qty}</span>
+                  <span className="w-5 text-center text-sm font-extrabold">{item.qty}</span>
                   <button
                     onClick={() => onSepetGuncelle(item.id, +1)}
                     className="flex h-6 w-6 items-center justify-center rounded-full border border-border text-muted hover:bg-cardAlt"
@@ -117,19 +117,19 @@ export function MasaSimarisiPaneli({ businessId, sepet, onSepetGuncelle, formatF
               className="input-yd w-full resize-none rounded-xl px-3 py-2 text-sm"
             />
             {result === 'success' && (
-              <p className="rounded-xl bg-success/[0.08] border border-success/20 px-3 py-2 text-xs font-[800] text-success">
+              <p className="rounded-xl bg-success/8 border border-success/20 px-3 py-2 text-xs font-extrabold text-success">
                 Sipariş iletildi! Garsonunuz yakında gelecek.
               </p>
             )}
             {result === 'error' && (
-              <p className="rounded-xl bg-danger/[0.08] border border-danger/20 px-3 py-2 text-xs font-[700] text-danger">
+              <p className="rounded-xl bg-danger/8 border border-danger/20 px-3 py-2 text-xs font-bold text-danger">
                 {errorMsg}
               </p>
             )}
             <button
               onClick={handleGonder}
               disabled={loading || !masaNo.trim() || result === 'success'}
-              className="btn-primary w-full rounded-xl py-2.5 text-sm font-[800] text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-primary w-full rounded-xl py-2.5 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? 'Gönderiliyor…' : 'Garsona Bildir'}
             </button>

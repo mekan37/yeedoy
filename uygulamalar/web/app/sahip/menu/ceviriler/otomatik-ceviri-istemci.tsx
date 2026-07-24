@@ -53,9 +53,9 @@ export function OtomatikCeviriPanel({ menuIds }: { menuIds: string[] }) {
 
       {/* Engine */}
       <div className="flex items-center gap-3">
-        <p className="text-xs font-[700] text-muted">Motor:</p>
+        <p className="text-xs font-bold text-muted">Motor:</p>
         {(['openai', 'deepl'] as const).map(e => (
-          <label key={e} className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-[700] ${engine === e ? 'border-primary bg-primary/5 text-primary' : 'border-border text-muted'}`}>
+          <label key={e} className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold ${engine === e ? 'border-primary bg-primary/5 text-primary' : 'border-border text-muted'}`}>
             <input type="radio" name="engine" value={e} checked={engine === e} onChange={() => setEngine(e)} className="hidden" />
             {e === 'openai' ? 'GPT-4o (OpenAI)' : 'DeepL'}
           </label>
@@ -64,13 +64,13 @@ export function OtomatikCeviriPanel({ menuIds }: { menuIds: string[] }) {
 
       {/* Languages */}
       <div>
-        <p className="mb-2 text-xs font-[700] text-muted">Hedef Diller</p>
+        <p className="mb-2 text-xs font-bold text-muted">Hedef Diller</p>
         <div className="flex flex-wrap gap-2">
           {TARGET_LANGS.map(lang => (
             <button
               key={lang.code}
               onClick={() => toggleLang(lang.code)}
-              className={`rounded-lg border px-3 py-1.5 text-xs font-[700] transition-colors ${selectedLangs.includes(lang.code) ? 'border-primary bg-primary text-white' : 'border-border text-muted hover:border-primary hover:text-primary'}`}
+              className={`rounded-lg border px-3 py-1.5 text-xs font-bold transition-colors ${selectedLangs.includes(lang.code) ? 'border-primary bg-primary text-white' : 'border-border text-muted hover:border-primary hover:text-primary'}`}
             >
               {lang.label}
             </button>
@@ -79,7 +79,7 @@ export function OtomatikCeviriPanel({ menuIds }: { menuIds: string[] }) {
       </div>
 
       {result && (
-        <div className={`rounded-lg px-4 py-3 text-sm font-[700] ${result.ok ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+        <div className={`rounded-lg px-4 py-3 text-sm font-bold ${result.ok ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
           {result.ok ? '✓' : '✕'} {result.message}
         </div>
       )}
@@ -87,7 +87,7 @@ export function OtomatikCeviriPanel({ menuIds }: { menuIds: string[] }) {
       <button
         disabled={isPending || menuIds.length === 0 || selectedLangs.length === 0}
         onClick={translate}
-        className="self-start rounded-xl bg-primary px-5 py-2.5 text-sm font-[800] text-white hover:bg-primary/90 disabled:opacity-50"
+        className="self-start rounded-xl bg-primary px-5 py-2.5 text-sm font-extrabold text-white hover:bg-primary/90 disabled:opacity-50"
       >
         {isPending ? 'Çeviriliyor…' : `Otomatik Çevir — ${selectedLangs.length} dil`}
       </button>

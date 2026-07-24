@@ -223,10 +223,10 @@ export default async function FiyatEndeksiPage() {
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="border-b border-border bg-card">
         <Container className="py-16 text-center">
-          <p className="mb-3 text-xs font-[800] uppercase tracking-widest text-primary">
+          <p className="mb-3 text-xs font-extrabold uppercase tracking-widest text-primary">
             Türkiye · Bağımsız · Topluluk Destekli
           </p>
-          <h1 className="mb-4 text-4xl font-[900] leading-tight tracking-tight text-textStrong sm:text-5xl">
+          <h1 className="mb-4 text-4xl font-black leading-tight tracking-tight text-textStrong sm:text-5xl">
             Türkiye Restoran
             <br />
             Fiyat Endeksi
@@ -239,14 +239,14 @@ export default async function FiyatEndeksiPage() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href="#endeks"
-              className="inline-flex min-h-[52px] items-center rounded-2xl px-6 text-sm font-[900] text-white shadow-[var(--yd-shadow-primary)] transition-all hover:-translate-y-px hover:brightness-105"
+              className="inline-flex min-h-[52px] items-center rounded-2xl px-6 text-sm font-black text-white shadow-(--yd-shadow-primary) transition-all hover:-translate-y-px hover:brightness-105"
               style={{ background: 'var(--yd-gradient-primary)' }}
             >
               Endeksi Gör
             </Link>
             <a
               href="mailto:veri@yeedoy.com"
-              className="inline-flex min-h-[52px] items-center rounded-2xl border border-border bg-card px-6 text-sm font-[900] text-textStrong transition-colors hover:border-primary/35"
+              className="inline-flex min-h-[52px] items-center rounded-2xl border border-border bg-card px-6 text-sm font-black text-textStrong transition-colors hover:border-primary/35"
             >
               Medya İletişimi
             </a>
@@ -303,10 +303,10 @@ export default async function FiyatEndeksiPage() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-cardAlt text-primary">
                   {card.icon}
                 </div>
-                <p className="mb-1 text-[10px] font-[800] uppercase tracking-widest text-muted">
+                <p className="mb-1 text-[10px] font-extrabold uppercase tracking-widest text-muted">
                   {card.eyebrow}
                 </p>
-                <p className="mb-2 text-base font-[900] text-textStrong">{card.title}</p>
+                <p className="mb-2 text-base font-black text-textStrong">{card.title}</p>
                 <p className="text-sm leading-relaxed text-muted">{card.body}</p>
               </div>
             ))}
@@ -326,10 +326,10 @@ export default async function FiyatEndeksiPage() {
           <div className="grid gap-5 sm:grid-cols-3">
             {HOW_STEPS.map((s) => (
               <div key={s.step} className="relative rounded-2xl border border-border bg-bg p-6">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-lg font-[900] text-primary">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-lg font-black text-primary">
                   {s.step}
                 </div>
-                <p className="mb-2 font-[900] text-textStrong">{s.title}</p>
+                <p className="mb-2 font-black text-textStrong">{s.title}</p>
                 <p className="text-sm leading-relaxed text-muted">{s.body}</p>
               </div>
             ))}
@@ -351,7 +351,7 @@ export default async function FiyatEndeksiPage() {
             <a
               href="/sunucu/fiyat-endeksi-raporu"
               download
-              className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-[700] text-textStrong transition-colors hover:bg-cardAlt"
+              className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-bold text-textStrong transition-colors hover:bg-cardAlt"
             >
               <svg
                 width="15"
@@ -377,19 +377,19 @@ export default async function FiyatEndeksiPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="px-5 py-3.5 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                    <th className="px-5 py-3.5 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                       Kategori
                     </th>
-                    <th className="px-5 py-3.5 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">
+                    <th className="px-5 py-3.5 text-right text-[11px] font-extrabold uppercase tracking-wide text-muted">
                       Medyan
                     </th>
-                    <th className="px-5 py-3.5 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">
+                    <th className="px-5 py-3.5 text-right text-[11px] font-extrabold uppercase tracking-wide text-muted">
                       Ortalama
                     </th>
-                    <th className="px-5 py-3.5 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">
+                    <th className="px-5 py-3.5 text-right text-[11px] font-extrabold uppercase tracking-wide text-muted">
                       Örnek
                     </th>
-                    <th className="px-5 py-3.5 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">
+                    <th className="px-5 py-3.5 text-right text-[11px] font-extrabold uppercase tracking-wide text-muted">
                       30 Gün
                     </th>
                   </tr>
@@ -397,8 +397,8 @@ export default async function FiyatEndeksiPage() {
                 <tbody className="divide-y divide-border">
                   {rows.map((row) => (
                     <tr key={row.category} className="transition-colors hover:bg-cardAlt/50">
-                      <td className="px-5 py-3.5 font-[700] text-textStrong">{row.category}</td>
-                      <td className="px-5 py-3.5 text-right font-[900] text-textStrong">
+                      <td className="px-5 py-3.5 font-bold text-textStrong">{row.category}</td>
+                      <td className="px-5 py-3.5 text-right font-black text-textStrong">
                         {formatTL(row.median_price_cents)}
                       </td>
                       <td className="px-5 py-3.5 text-right text-muted">
@@ -409,7 +409,7 @@ export default async function FiyatEndeksiPage() {
                       </td>
                       <td className="px-5 py-3.5 text-right">
                         <span
-                          className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                          className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                             row.updated_in_30d > 0
                               ? 'bg-success/10 text-success'
                               : 'bg-cardAlt text-muted'
@@ -439,11 +439,11 @@ export default async function FiyatEndeksiPage() {
                   <path d="M14 20 h12 M20 14 v12" opacity="0.4" />
                 </svg>
               </div>
-              <p className="text-lg font-[900] text-textStrong">Veri biriktirilıyor</p>
+              <p className="text-lg font-black text-textStrong">Veri biriktirilıyor</p>
               <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted">
                 Pilot çalışma devam ediyor. Yeedoy topluluğu menü fiyatlarını doğruladıkça bu
                 endeks güncellenecek.{' '}
-                <Link href="/kesif" className="font-[700] text-primary hover:underline">
+                <Link href="/kesif" className="font-bold text-primary hover:underline">
                   Bir işletme ziyaret et
                 </Link>{' '}
                 ve katkı sağla.
@@ -473,8 +473,8 @@ export default async function FiyatEndeksiPage() {
           <div className="grid gap-5 sm:grid-cols-3">
             {PRICE_LEVELS.map((pl) => (
               <div key={pl.symbol} className="rounded-2xl border border-border bg-bg p-6">
-                <p className="mb-2 text-2xl font-[900] text-primary">{pl.symbol}</p>
-                <p className="mb-2 font-[900] text-textStrong">{pl.label}</p>
+                <p className="mb-2 text-2xl font-black text-primary">{pl.symbol}</p>
+                <p className="mb-2 font-black text-textStrong">{pl.label}</p>
                 <p className="text-sm leading-relaxed text-muted">{pl.desc}</p>
               </div>
             ))}
@@ -503,14 +503,14 @@ export default async function FiyatEndeksiPage() {
                 className="flex flex-col rounded-2xl border border-border bg-card p-6"
               >
                 <div className="mb-3 flex items-start justify-between gap-3">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-[900] text-primary">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-black text-primary">
                     {i + 1}
                   </span>
                   <Badge tone="warning">Pilot Çalışma</Badge>
                 </div>
-                <p className="mb-2 font-[900] leading-snug text-textStrong">{story.title}</p>
+                <p className="mb-2 font-black leading-snug text-textStrong">{story.title}</p>
                 <p className="flex-1 text-sm leading-relaxed text-muted">{story.body}</p>
-                <p className="mt-4 text-[10px] font-[800] uppercase tracking-wide text-muted">
+                <p className="mt-4 text-[10px] font-extrabold uppercase tracking-wide text-muted">
                   {story.score}
                 </p>
               </div>
@@ -518,14 +518,14 @@ export default async function FiyatEndeksiPage() {
 
             {/* Altıncı kart — metodoloji linki */}
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border p-6 text-center">
-              <p className="mb-2 font-[900] text-textStrong">Daha fazla veri hikayesi</p>
+              <p className="mb-2 font-black text-textStrong">Daha fazla veri hikayesi</p>
               <p className="mb-4 text-sm text-muted">
                 Araştırmacı veya muhabirseniz ham veri ve metodoloji belgelerine erişim için
                 bize ulaşın.
               </p>
               <a
                 href="mailto:veri@yeedoy.com"
-                className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-4 text-sm font-[900] text-textStrong transition-colors hover:border-primary/35"
+                className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-4 text-sm font-black text-textStrong transition-colors hover:border-primary/35"
               >
                 veri@yeedoy.com
               </a>
@@ -548,22 +548,22 @@ export default async function FiyatEndeksiPage() {
                 key={block.eyebrow}
                 className="flex flex-col rounded-2xl border border-border bg-bg p-6"
               >
-                <p className="mb-1 text-[10px] font-[800] uppercase tracking-widest text-muted">
+                <p className="mb-1 text-[10px] font-extrabold uppercase tracking-widest text-muted">
                   {block.eyebrow}
                 </p>
-                <p className="mb-2 text-base font-[900] text-textStrong">{block.title}</p>
+                <p className="mb-2 text-base font-black text-textStrong">{block.title}</p>
                 <p className="mb-5 flex-1 text-sm leading-relaxed text-muted">{block.body}</p>
                 {block.ctaVariant === 'mail' ? (
                   <a
                     href={block.ctaHref}
-                    className="inline-flex min-h-11 items-center rounded-2xl border border-primary/25 bg-primary/10 px-4 text-sm font-[900] text-primary transition-colors hover:bg-primary/15"
+                    className="inline-flex min-h-11 items-center rounded-2xl border border-primary/25 bg-primary/10 px-4 text-sm font-black text-primary transition-colors hover:bg-primary/15"
                   >
                     {block.cta}
                   </a>
                 ) : (
                   <Link
                     href={block.ctaHref}
-                    className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-4 text-sm font-[900] text-textStrong transition-colors hover:border-primary/35"
+                    className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-4 text-sm font-black text-textStrong transition-colors hover:border-primary/35"
                   >
                     {block.cta} →
                   </Link>
@@ -604,7 +604,7 @@ export default async function FiyatEndeksiPage() {
           </div>
           <p className="mt-4 text-center text-xs text-muted">
             Yeedoy Türkiye Restoran Fiyat Endeksi — Haziran 2026 Pilot Raporu ·{' '}
-            <a href="mailto:veri@yeedoy.com" className="font-[700] text-primary hover:underline">
+            <a href="mailto:veri@yeedoy.com" className="font-bold text-primary hover:underline">
               veri@yeedoy.com
             </a>
           </p>
@@ -619,8 +619,8 @@ export default async function FiyatEndeksiPage() {
 function StatCard({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-5">
-      <p className="text-[11px] font-[800] uppercase tracking-wide text-muted">{label}</p>
-      <p className="mt-1 text-3xl font-[900] text-textStrong">{value}</p>
+      <p className="text-[11px] font-extrabold uppercase tracking-wide text-muted">{label}</p>
+      <p className="mt-1 text-3xl font-black text-textStrong">{value}</p>
       <p className="text-xs text-muted">{sub}</p>
     </div>
   );
@@ -629,7 +629,7 @@ function StatCard({ label, value, sub }: { label: string; value: string; sub: st
 function MetaBlock({ title, body }: { title: string; body: string }) {
   return (
     <div>
-      <p className="mb-1.5 text-sm font-[900] text-textStrong">{title}</p>
+      <p className="mb-1.5 text-sm font-black text-textStrong">{title}</p>
       <p className="text-sm leading-relaxed text-muted">{body}</p>
     </div>
   );

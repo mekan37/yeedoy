@@ -7,7 +7,7 @@ import { PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { updatePassword } from '../ayarlar-islemleri';
 
 const INPUT_CLASS =
-  'min-h-11 w-full rounded-xl border border-border bg-bg px-3 pr-12 text-sm text-textStrong outline-none transition-colors placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20';
+  'min-h-11 w-full rounded-xl border border-border bg-bg px-3 pr-12 text-sm text-textStrong outline-hidden transition-colors placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/20';
 
 export function GizlilikGuvenlikTab() {
   const [state, action, isPending] = useActionState(updatePassword, null);
@@ -26,7 +26,7 @@ export function GizlilikGuvenlikTab() {
           <ShieldCheck aria-hidden="true" className="h-5 w-5" />
         </span>
         <div>
-          <p className="text-sm font-[700] text-textStrong">Hesap erişiminizi koruyun</p>
+          <p className="text-sm font-bold text-textStrong">Hesap erişiminizi koruyun</p>
           <p className="mt-0.5 text-xs text-muted">
             Başka hizmetlerde kullandığınız bir şifreyi tekrar kullanmayın.
           </p>
@@ -59,12 +59,12 @@ export function GizlilikGuvenlikTab() {
 
         <div aria-live="polite" className="min-h-5">
           {state && showFeedback && 'error' in state ? (
-            <p role="alert" className="text-sm font-[700] text-danger">
+            <p role="alert" className="text-sm font-bold text-danger">
               {state.error}
             </p>
           ) : null}
           {state && showFeedback && 'success' in state ? (
-            <p role="status" className="text-sm font-[700] text-success">
+            <p role="status" className="text-sm font-bold text-success">
               Şifreniz güncellendi.
             </p>
           ) : null}
@@ -103,7 +103,7 @@ function PasswordField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-xs font-[700] text-muted">
+      <label htmlFor={id} className="mb-1.5 block text-xs font-bold text-muted">
         {label}
       </label>
       <div className="relative">
@@ -122,7 +122,7 @@ function PasswordField({
           onClick={onToggle}
           aria-label={visible ? `${label} alanını gizle` : `${label} alanını göster`}
           aria-pressed={visible}
-          className="absolute inset-y-0 right-0 flex min-h-11 w-11 items-center justify-center rounded-r-xl text-muted transition-colors hover:text-textStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
+          className="absolute inset-y-0 right-0 flex min-h-11 w-11 items-center justify-center rounded-r-xl text-muted transition-colors hover:text-textStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
         >
           {visible ? (
             <EyeOff aria-hidden="true" className="h-5 w-5" />

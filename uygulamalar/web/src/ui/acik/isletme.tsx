@@ -29,11 +29,11 @@ export function IsletmeBasligi({ business }: { business: AcikIsletmeDetayi }) {
         ) : (
           <div className="h-full w-full" style={{ background: 'linear-gradient(135deg, #5c1515 0%, #7f1d1d 48%, #dc2626 100%)' }} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/35 to-black/75" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/35 to-black/75" />
       </div>
       <div className="relative mx-auto max-w-6xl px-4 pb-8 pt-20 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
-          <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-[24px] border border-white/30 bg-white/15 text-4xl font-[900] text-white shadow-yd3 backdrop-blur">
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-[24px] border border-white/30 bg-white/15 text-4xl font-black text-white shadow-yd3 backdrop-blur-sm">
             {logo ? <Image src={logo} alt={`${business.name} logo`} width={96} height={96} className="h-full w-full object-cover" /> : business.name.charAt(0)}
           </div>
           <div className="min-w-0 flex-1">
@@ -42,7 +42,7 @@ export function IsletmeBasligi({ business }: { business: AcikIsletmeDetayi }) {
               {business.isOpenNow != null ? <IsletmeDurumRozeti open={business.isOpenNow} /> : null}
               {business.category ? <Badge>{business.category}</Badge> : null}
             </div>
-            <h1 className="max-w-4xl text-3xl font-[900] leading-tight text-white sm:text-5xl">{business.name}</h1>
+            <h1 className="max-w-4xl text-3xl font-black leading-tight text-white sm:text-5xl">{business.name}</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/78 sm:text-base">
               {[business.district, business.city, business.address].filter(Boolean).join(' · ') || business.description || 'Yeedoy public işletme sayfası'}
             </p>
@@ -63,12 +63,12 @@ export function IsletmeBilgiPaneli({ business }: { business: AcikIsletmeDetayi }
       <div className="grid gap-4 sm:grid-cols-3">
         <PuanOzet avgRating={business.avgRating} reviewCount={business.reviewCount} />
         <div>
-          <p className="text-xs font-[900] uppercase text-muted">Konum</p>
-          <p className="mt-1 text-sm font-[900] text-textStrong">{[business.district, business.city].filter(Boolean).join(', ') || 'Konum bilgisi bekleniyor'}</p>
+          <p className="text-xs font-black uppercase text-muted">Konum</p>
+          <p className="mt-1 text-sm font-black text-textStrong">{[business.district, business.city].filter(Boolean).join(', ') || 'Konum bilgisi bekleniyor'}</p>
         </div>
         <div>
-          <p className="text-xs font-[900] uppercase text-muted">Fiyat şeffaflığı</p>
-          <p className="mt-1 text-sm font-[900] text-textStrong">{business.recentPriceVerifiedCount ? `${business.recentPriceVerifiedCount} doğrulama` : 'Menü fiyatları listelenir'}</p>
+          <p className="text-xs font-black uppercase text-muted">Fiyat şeffaflığı</p>
+          <p className="mt-1 text-sm font-black text-textStrong">{business.recentPriceVerifiedCount ? `${business.recentPriceVerifiedCount} doğrulama` : 'Menü fiyatları listelenir'}</p>
         </div>
       </div>
       <div className="mt-5 flex flex-wrap gap-2">
@@ -91,11 +91,11 @@ export function DogrulanmisRozeti() {
 export function PuanOzet({ avgRating, reviewCount }: { avgRating?: number | null; reviewCount?: number | null }) {
   return (
     <div>
-      <p className="text-xs font-[900] uppercase text-muted">Puan</p>
-      <p className="mt-1 inline-flex items-center gap-1 text-sm font-[900] text-textStrong">
+      <p className="text-xs font-black uppercase text-muted">Puan</p>
+      <p className="mt-1 inline-flex items-center gap-1 text-sm font-black text-textStrong">
         <Icon name="star" size={15} className="text-warning" />
         {avgRating ? avgRating.toFixed(1) : 'Yeni'}
-        {reviewCount ? <span className="font-[700] text-muted">({reviewCount})</span> : null}
+        {reviewCount ? <span className="font-bold text-muted">({reviewCount})</span> : null}
       </p>
     </div>
   );
@@ -112,7 +112,7 @@ export function IsletmeSaatleriBolumu({ hours }: { hours?: AcikIsletmeDetayi['ho
       </div>
       <div className="grid gap-2">
         {hours.map((row) => (
-          <div key={row.label} className={row.active ? 'flex justify-between rounded-2xl bg-[var(--yd-color-primary-soft)] px-3 py-2 text-sm font-[900] text-primary' : 'flex justify-between px-3 py-2 text-sm text-muted'}>
+          <div key={row.label} className={row.active ? 'flex justify-between rounded-2xl bg-(--yd-color-primary-soft) px-3 py-2 text-sm font-black text-primary' : 'flex justify-between px-3 py-2 text-sm text-muted'}>
             <span>{row.label}</span>
             <span>{row.value}</span>
           </div>
@@ -152,7 +152,7 @@ export function IsletmeKonumBolumu({ business }: { business: AcikIsletmeDetayi }
           />
         ) : null}
         {mapsHref ? (
-          <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-border px-4 font-[900] text-textStrong hover:border-primary/30">
+          <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-border px-4 font-black text-textStrong hover:border-primary/30">
             <Icon name="pin" size={16} /> Haritada aç
           </a>
         ) : null}
@@ -165,7 +165,7 @@ export function SahiplenmeCagri({ businessSlug }: { businessSlug?: string }) {
   const href = businessSlug ? `/sahiplen?business=${encodeURIComponent(businessSlug)}` : '/sahiplen';
   return (
     <Card className="bg-cardAlt p-5">
-      <p className="font-[900] text-textStrong">Bu işletmenin sahibi misin?</p>
+      <p className="font-black text-textStrong">Bu işletmenin sahibi misin?</p>
       <p className="mt-2 text-sm leading-6 text-muted">Menü, marka ve QR yönetimi panelde kalır. Public sayfadan sadece güvenli sahiplenme yönlendirmesi yapılır.</p>
       <ButtonLink href={href} className="mt-4 min-h-11">Sahiplenme başlat</ButtonLink>
     </Card>
@@ -207,20 +207,20 @@ export function BolgeselFiyatEndeksi({ comparison }: { comparison: FiyatKarsilas
           const avgPrice = formatFiyat(item.city_avg_price_cents, item.currency);
           return (
             <div key={index} className="rounded-2xl border border-border px-4 py-3">
-              <p className="truncate text-sm font-[900] text-textStrong">{item.item_name ?? 'Ürün'}</p>
+              <p className="truncate text-sm font-black text-textStrong">{item.item_name ?? 'Ürün'}</p>
               <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
                 <div className="text-xs text-muted">
-                  {ourPrice ? <span className="mr-2 font-[900] text-textStrong">{ourPrice}</span> : null}
+                  {ourPrice ? <span className="mr-2 font-black text-textStrong">{ourPrice}</span> : null}
                   {avgPrice ? <span>Ort. {avgPrice}</span> : null}
                 </div>
                 {diff ? (
                   <span
                     className={
                       diff.tone === 'cheaper'
-                        ? 'text-xs font-[900] text-success'
+                        ? 'text-xs font-black text-success'
                         : diff.tone === 'expensive'
-                          ? 'text-xs font-[900] text-danger'
-                          : 'text-xs font-[900] text-muted'
+                          ? 'text-xs font-black text-danger'
+                          : 'text-xs font-black text-muted'
                     }
                   >
                     {diff.label}
@@ -294,10 +294,10 @@ export function FiyatGecmisiSparkline({ history, shareUrl }: { history: FiyatGec
           )}
         </svg>
         <div className="min-w-0 flex-1">
-          <p className="text-xl font-[900] text-textStrong">{fmtFiyat(lastVal)}</p>
+          <p className="text-xl font-black text-textStrong">{fmtFiyat(lastVal)}</p>
           <p className="text-xs text-muted">Güncel medyan fiyat</p>
           {pct !== 0 && (
-            <p className={`mt-1 text-xs font-[900] ${trend === 'up' ? 'text-danger' : 'text-success'}`}>
+            <p className={`mt-1 text-xs font-black ${trend === 'up' ? 'text-danger' : 'text-success'}`}>
               {trend === 'up' ? '↑' : '↓'} %{Math.abs(pct)} ({history.length} ay)
             </p>
           )}
@@ -312,7 +312,7 @@ export function FiyatGecmisiSparkline({ history, shareUrl }: { history: FiyatGec
           href={`whatsapp://send?text=${encodeURIComponent(
             `${trend === 'up' ? '🚨' : '✅'} Fiyat ${trend === 'up' ? `%${Math.abs(pct)} arttı` : `%${Math.abs(pct)} düştü'`} (${history.length} ay)\n${shareUrl}`
           )}`}
-          className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-[700] text-muted hover:bg-border/40 transition-colors"
+          className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-xs font-bold text-muted hover:bg-border/40 transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -335,9 +335,9 @@ export function KalabalikGostergesi({ count }: { count: number }) {
     <div className="flex items-center gap-2 rounded-[20px] border border-border bg-card px-4 py-3 shadow-yd1">
       <Icon name="user" size={16} className={busy ? 'text-warning' : 'text-muted'} />
       {count === 0 ? (
-        <span className="text-sm font-[900] text-muted">Şu an sessiz görünüyor</span>
+        <span className="text-sm font-black text-muted">Şu an sessiz görünüyor</span>
       ) : (
-        <span className={busy ? 'inline-flex items-center gap-1 text-sm font-[900] text-warning' : 'text-sm font-[900] text-textStrong'}>
+        <span className={busy ? 'inline-flex items-center gap-1 text-sm font-black text-warning' : 'text-sm font-black text-textStrong'}>
           {busy && <Flame size={14} aria-hidden="true" />}Son 2 saatte {count} kişi burada
         </span>
       )}
@@ -358,10 +358,10 @@ export function YeniUrunlerBolumu({ newItems }: { newItems?: Array<{ id: string;
       <div className="grid gap-3 sm:grid-cols-2">
         {newItems.map((item) => (
           <div key={item.id} className="flex items-center justify-between gap-3 rounded-2xl border border-border px-4 py-3">
-            <span className="min-w-0 flex-1 truncate text-sm font-[900] text-textStrong">{item.name}</span>
+            <span className="min-w-0 flex-1 truncate text-sm font-black text-textStrong">{item.name}</span>
             <div className="flex shrink-0 items-center gap-2">
               {formatFiyat(item.price_cents, item.currency) ? (
-                <span className="text-sm font-[900] text-primary">{formatFiyat(item.price_cents, item.currency)}</span>
+                <span className="text-sm font-black text-primary">{formatFiyat(item.price_cents, item.currency)}</span>
               ) : null}
               <Badge tone={item.is_available ? 'success' : 'neutral'}>{item.is_available ? 'Mevcut' : 'Yok'}</Badge>
             </div>

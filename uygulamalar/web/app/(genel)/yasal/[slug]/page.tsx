@@ -106,9 +106,9 @@ function renderMarkdown(text: string) {
   let key = 0;
   for (const line of lines) {
     if (line.startsWith('## ')) {
-      elements.push(<h2 key={key++} className="mt-6 mb-2 text-base font-[900] text-textStrong">{line.slice(3)}</h2>);
+      elements.push(<h2 key={key++} className="mt-6 mb-2 text-base font-black text-textStrong">{line.slice(3)}</h2>);
     } else if (line.startsWith('**') && line.endsWith('**')) {
-      elements.push(<p key={key++} className="font-[800] text-textStrong">{line.slice(2, -2)}</p>);
+      elements.push(<p key={key++} className="font-extrabold text-textStrong">{line.slice(2, -2)}</p>);
     } else if (line.trim()) {
       elements.push(<p key={key++} className="text-sm leading-7 text-text">{line}</p>);
     }
@@ -159,7 +159,7 @@ export default async function LegalDocPage({ params }: { params: Promise<{ slug:
           </Link>
         </div>
 
-        <h1 className="mb-8 text-3xl font-[900] text-textStrong">{title}</h1>
+        <h1 className="mb-8 text-3xl font-black text-textStrong">{title}</h1>
 
         <div className="space-y-1">
           {renderMarkdown(body)}

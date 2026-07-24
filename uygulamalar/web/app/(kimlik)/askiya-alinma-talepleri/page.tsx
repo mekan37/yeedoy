@@ -36,11 +36,11 @@ export default async function ClaimsPage() {
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-2xl px-4 py-12">
         <Link href="/profil" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary cursor-pointer">← Profile Dön</Link>
-        <h1 className="mb-6 text-2xl font-[900] text-textStrong">Süspanse Taleplerim</h1>
+        <h1 className="mb-6 text-2xl font-black text-textStrong">Süspanse Taleplerim</h1>
 
         {list.length === 0 ? (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
-            <p className="font-[700] text-textStrong">Talep bulunamadı</p>
+            <p className="font-bold text-textStrong">Talep bulunamadı</p>
             <p className="mt-2 text-sm text-muted">Süspanse talepleriniz burada listelenecek.</p>
           </div>
         ) : (
@@ -51,17 +51,17 @@ export default async function ClaimsPage() {
                 <div key={c.id} className="rounded-2xl border border-border bg-card p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-[700] text-textStrong">{c.businesses?.name ?? 'Bilinmeyen İşletme'}</p>
+                      <p className="font-bold text-textStrong">{c.businesses?.name ?? 'Bilinmeyen İşletme'}</p>
                       {c.reason && <p className="mt-0.5 text-sm text-muted">{c.reason}</p>}
                       <p className="mt-1 text-[12px] text-muted">
                         Talep: {new Date(c.created_at).toLocaleDateString('tr-TR')}
                         {c.resolved_at && ` · Çözüm: ${new Date(c.resolved_at).toLocaleDateString('tr-TR')}`}
                       </p>
                     </div>
-                    <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-[700] ${status.className}`}>{status.label}</span>
+                    <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${status.className}`}>{status.label}</span>
                   </div>
                   {c.businesses?.slug && (
-                    <Link href={`/m/${c.businesses.slug}`} className="mt-3 inline-flex text-[12px] font-[700] text-primary hover:underline cursor-pointer">Menüyü Gör →</Link>
+                    <Link href={`/m/${c.businesses.slug}`} className="mt-3 inline-flex text-[12px] font-bold text-primary hover:underline cursor-pointer">Menüyü Gör →</Link>
                   )}
                 </div>
               );

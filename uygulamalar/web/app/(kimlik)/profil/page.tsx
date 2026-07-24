@@ -152,14 +152,14 @@ export default async function ProfilPage() {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={profile.avatar_url} alt={displayName} className="h-full w-full object-cover" />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center text-xl font-[900] text-primary">{initials}</div>
+                    <div className="flex h-full w-full items-center justify-center text-xl font-black text-primary">{initials}</div>
                   )}
                 </div>
               </div>
-              <p className="mt-3 text-sm font-[900] text-textStrong truncate">{displayName}</p>
-              <p className="mt-0.5 text-xs font-[700] text-muted truncate">{user!.email}</p>
+              <p className="mt-3 text-sm font-black text-textStrong truncate">{displayName}</p>
+              <p className="mt-0.5 text-xs font-bold text-muted truncate">{user!.email}</p>
               {sure && (
-                <p className="mt-1.5 text-[11px] font-[700] text-muted">{sure} süredir üye</p>
+                <p className="mt-1.5 text-[11px] font-bold text-muted">{sure} süredir üye</p>
               )}
             </div>
 
@@ -167,13 +167,13 @@ export default async function ProfilPage() {
             <nav className="rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
               {NAV_ITEMS.map(({ href, label, icon }) => (
                 <Link key={href} href={href}
-                  className="flex items-center gap-3 px-4 py-3 text-sm font-[800] text-textStrong transition-colors hover:bg-cardAlt hover:text-primary border-b border-border last:border-0">
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-extrabold text-textStrong transition-colors hover:bg-cardAlt hover:text-primary border-b border-border last:border-0">
                   <span className="w-5 shrink-0 text-muted">{icon}</span>
                   {label}
                 </Link>
               ))}
               <button type="button"
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-[800] text-danger transition-colors hover:bg-danger/5">
+                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-extrabold text-danger transition-colors hover:bg-danger/5">
                 <span className="w-5 shrink-0"><LogoutIcon /></span>
                 Çıkış Yap
               </button>
@@ -183,11 +183,11 @@ export default async function ProfilPage() {
             <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 shadow-yd1">
               <div className="text-center mb-3">
                 <div className="mx-auto mb-2 text-3xl">🎁</div>
-                <p className="text-sm font-[900] text-textStrong">Arkadaşlarını Davet Et</p>
-                <p className="mt-1 text-[12px] font-[700] text-muted leading-snug">Arkadaşlarını davet et, birlikte keşfet!</p>
+                <p className="text-sm font-black text-textStrong">Arkadaşlarını Davet Et</p>
+                <p className="mt-1 text-[12px] font-bold text-muted leading-snug">Arkadaşlarını davet et, birlikte keşfet!</p>
               </div>
               <button type="button"
-                className="flex h-10 w-full items-center justify-center rounded-xl bg-primary text-sm font-[900] text-white transition hover:brightness-110">
+                className="flex h-10 w-full items-center justify-center rounded-xl bg-primary text-sm font-black text-white transition hover:brightness-110">
                 Davet Et →
               </button>
             </div>
@@ -213,8 +213,8 @@ export default async function ProfilPage() {
 
                   {/* Bilgi */}
                   <div className="min-w-0 flex-1">
-                    <h1 className="text-xl font-[900] text-textStrong">{displayName}</h1>
-                    <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] font-[700] text-muted">
+                    <h1 className="text-xl font-black text-textStrong">{displayName}</h1>
+                    <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] font-bold text-muted">
                       {profile?.city && (
                         <span className="flex items-center gap-1">
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -229,10 +229,10 @@ export default async function ProfilPage() {
                       )}
                     </div>
                     {profile?.bio && (
-                      <p className="mt-2 text-[13px] font-[700] leading-relaxed text-text">{profile.bio}</p>
+                      <p className="mt-2 text-[13px] font-bold leading-relaxed text-text">{profile.bio}</p>
                     )}
                     <Link href="/profil/ayarlar"
-                      className="mt-3 inline-flex items-center gap-1.5 rounded-xl border border-border bg-cardAlt px-4 py-2 text-sm font-[900] text-textStrong transition hover:border-primary/30 hover:text-primary shadow-yd1">
+                      className="mt-3 inline-flex items-center gap-1.5 rounded-xl border border-border bg-cardAlt px-4 py-2 text-sm font-black text-textStrong transition hover:border-primary/30 hover:text-primary shadow-yd1">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                       Profili Düzenle
                     </Link>
@@ -241,31 +241,31 @@ export default async function ProfilPage() {
 
                 {/* Sağ: Hakkımda kartı */}
                 <div className="w-full rounded-2xl border border-border bg-cardAlt p-4 shadow-yd1 sm:w-52 shrink-0 space-y-3">
-                  <p className="text-[11px] font-[900] uppercase tracking-wide text-muted">Hesap Bilgileri</p>
+                  <p className="text-[11px] font-black uppercase tracking-wide text-muted">Hesap Bilgileri</p>
 
-                  <div className="flex items-center gap-2 text-[12px] font-[700]">
+                  <div className="flex items-center gap-2 text-[12px] font-bold">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0 text-muted" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                     <span className="truncate text-text">{user!.email}</span>
                   </div>
 
                   {profile?.city && (
-                    <div className="flex items-center gap-2 text-[12px] font-[700]">
+                    <div className="flex items-center gap-2 text-[12px] font-bold">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0 text-muted" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                       <span className="text-text">{profile.city}</span>
                     </div>
                   )}
 
                   {memberSince && (
-                    <div className="flex items-center gap-2 text-[12px] font-[700]">
+                    <div className="flex items-center gap-2 text-[12px] font-bold">
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0 text-muted" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                       <span className="text-text">{sure} üye</span>
                     </div>
                   )}
 
                   <div className="pt-1 border-t border-border">
-                    <p className="text-[11px] font-[700] text-muted">
+                    <p className="text-[11px] font-bold text-muted">
                       {!profile?.bio ? (
-                        <Link href="/profil/ayarlar" className="text-primary hover:underline font-[900]">Biyografi ekle →</Link>
+                        <Link href="/profil/ayarlar" className="text-primary hover:underline font-black">Biyografi ekle →</Link>
                       ) : (
                         <span className="line-clamp-3 leading-snug text-text">{profile.bio}</span>
                       )}
@@ -282,8 +282,8 @@ export default async function ProfilPage() {
                   <div className="mb-1 flex h-10 w-10 items-center justify-center rounded-full bg-cardAlt">
                     <StatIcon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <p className="text-xl font-[900] text-textStrong tabular-nums">{value}</p>
-                  <p className="mt-0.5 text-[11px] font-[700] text-muted">{label}</p>
+                  <p className="text-xl font-black text-textStrong tabular-nums">{value}</p>
+                  <p className="mt-0.5 text-[11px] font-bold text-muted">{label}</p>
                 </div>
               ))}
             </div>
@@ -291,8 +291,8 @@ export default async function ProfilPage() {
             {/* Favori mekanlarım */}
             <div className="rounded-2xl border border-border bg-card p-5 shadow-yd1">
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-base font-[900] text-textStrong">Favori Mekanlarım</h2>
-                <Link href="/favoriler" className="text-[13px] font-[900] text-primary hover:underline">Tümünü Gör</Link>
+                <h2 className="text-base font-black text-textStrong">Favori Mekanlarım</h2>
+                <Link href="/favoriler" className="text-[13px] font-black text-primary hover:underline">Tümünü Gör</Link>
               </div>
               <FavoriKarusel isletmeler={favIsletmeler} />
             </div>
@@ -301,10 +301,10 @@ export default async function ProfilPage() {
             <div className="flex flex-col gap-5 lg:flex-row lg:items-start">
 
               {/* Son yorumlarım */}
-              <div className="flex-[3] rounded-2xl border border-border bg-card p-5 shadow-yd1">
+              <div className="flex-3 rounded-2xl border border-border bg-card p-5 shadow-yd1">
                 <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-base font-[900] text-textStrong">Son Yorumlarım</h2>
-                  <Link href="/onerilerim" className="text-[13px] font-[900] text-primary hover:underline">Tümünü Gör</Link>
+                  <h2 className="text-base font-black text-textStrong">Son Yorumlarım</h2>
+                  <Link href="/onerilerim" className="text-[13px] font-black text-primary hover:underline">Tümünü Gör</Link>
                 </div>
 
                 {yorumlar.length === 0 ? (
@@ -315,10 +315,10 @@ export default async function ProfilPage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm font-[900] text-textStrong">Henüz yorum yapmadın</p>
-                      <p className="mt-0.5 text-[12px] font-[700] text-muted">Gittiğin mekanları değerlendir, topluma katkıda bulun.</p>
+                      <p className="text-sm font-black text-textStrong">Henüz yorum yapmadın</p>
+                      <p className="mt-0.5 text-[12px] font-bold text-muted">Gittiğin mekanları değerlendir, topluma katkıda bulun.</p>
                     </div>
-                    <Link href="/kesif" className="mt-1 inline-flex h-9 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-[900] text-white transition hover:brightness-110">
+                    <Link href="/kesif" className="mt-1 inline-flex h-9 items-center gap-1.5 rounded-xl bg-primary px-4 text-sm font-black text-white transition hover:brightness-110">
                       Mekan Keşfet
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </Link>
@@ -341,7 +341,7 @@ export default async function ProfilPage() {
                           {/* Header */}
                           <div className="flex items-center gap-3 px-4 py-3 bg-card border-b border-border/60">
                             {/* Rating badge */}
-                            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-base font-[900] ${ratingColor}`}>
+                            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-base font-black ${ratingColor}`}>
                               {rating > 0 ? rating : '—'}
                             </div>
                             {/* Stars + date */}
@@ -353,14 +353,14 @@ export default async function ProfilPage() {
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                                   </svg>
                                 ))}
-                                <span className="ml-1.5 text-[11px] font-[700] text-muted">{formatZaman(y.created_at)}</span>
+                                <span className="ml-1.5 text-[11px] font-bold text-muted">{formatZaman(y.created_at)}</span>
                               </div>
                             </div>
                             {/* Business link */}
                             <Link href={bizHref} className="shrink-0 text-right group max-w-[130px]">
-                              <p className="text-[12px] font-[900] text-textStrong group-hover:text-primary transition-colors leading-tight line-clamp-1">{b?.name ?? 'İşletme'}</p>
+                              <p className="text-[12px] font-black text-textStrong group-hover:text-primary transition-colors leading-tight line-clamp-1">{b?.name ?? 'İşletme'}</p>
                               {(b?.category || b?.district) && (
-                                <p className="text-[10px] font-[700] text-muted leading-tight line-clamp-1">{[b?.category, b?.district].filter(Boolean).join(' · ')}</p>
+                                <p className="text-[10px] font-bold text-muted leading-tight line-clamp-1">{[b?.category, b?.district].filter(Boolean).join(' · ')}</p>
                               )}
                             </Link>
                           </div>
@@ -370,10 +370,10 @@ export default async function ProfilPage() {
                               <div className="w-0.5 shrink-0 rounded-full bg-primary/30 self-stretch" />
                               <div className="min-w-0 space-y-0.5">
                                 {y.title && (
-                                  <p className="text-[13px] font-[900] text-textStrong leading-snug">{y.title}</p>
+                                  <p className="text-[13px] font-black text-textStrong leading-snug">{y.title}</p>
                                 )}
                                 {y.content && (
-                                  <p className="text-[12px] font-[700] leading-relaxed text-text line-clamp-2">{y.content}</p>
+                                  <p className="text-[12px] font-bold leading-relaxed text-text line-clamp-2">{y.content}</p>
                                 )}
                               </div>
                             </div>
@@ -386,7 +386,7 @@ export default async function ProfilPage() {
 
                 {yorumlar.length > 0 && (
                   <Link href="/onerilerim"
-                    className="mt-4 flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-border bg-cardAlt text-sm font-[800] text-textStrong transition hover:border-primary/30 hover:text-primary">
+                    className="mt-4 flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-border bg-cardAlt text-sm font-extrabold text-textStrong transition hover:border-primary/30 hover:text-primary">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     Tüm yorumlarımı gör
                   </Link>
@@ -394,51 +394,51 @@ export default async function ProfilPage() {
               </div>
 
               {/* Sağ kolon */}
-              <div className="flex-[2] space-y-4">
+              <div className="flex-2 space-y-4">
 
                 {/* Katkı İstatistiklerim */}
                 <div className="rounded-2xl border border-border bg-card p-5 shadow-yd1">
-                  <h2 className="mb-4 text-base font-[900] text-textStrong">Katkı İstatistiklerim</h2>
+                  <h2 className="mb-4 text-base font-black text-textStrong">Katkı İstatistiklerim</h2>
 
                   <div className="space-y-3">
                     <div className="flex items-center justify-between rounded-xl bg-cardAlt px-4 py-3">
                       <div className="flex items-center gap-2.5">
                         <span className="text-lg" aria-hidden="true">💬</span>
-                        <span className="text-sm font-[800] text-textStrong">Yazılan Yorum</span>
+                        <span className="text-sm font-extrabold text-textStrong">Yazılan Yorum</span>
                       </div>
-                      <span className="text-xl font-[900] text-textStrong tabular-nums">{stats.reviews_count}</span>
+                      <span className="text-xl font-black text-textStrong tabular-nums">{stats.reviews_count}</span>
                     </div>
 
                     <div className="flex items-center justify-between rounded-xl bg-cardAlt px-4 py-3">
                       <div className="flex items-center gap-2.5">
                         <span className="text-lg" aria-hidden="true">👍</span>
-                        <span className="text-sm font-[800] text-textStrong">Beğenilen Yorum</span>
+                        <span className="text-sm font-extrabold text-textStrong">Beğenilen Yorum</span>
                       </div>
-                      <span className="text-xl font-[900] text-textStrong tabular-nums">{stats.helpful_received}</span>
+                      <span className="text-xl font-black text-textStrong tabular-nums">{stats.helpful_received}</span>
                     </div>
 
                     <div className="flex items-center justify-between rounded-xl bg-cardAlt px-4 py-3">
                       <div className="flex items-center gap-2.5">
                         <span className="text-lg" aria-hidden="true">❤️</span>
-                        <span className="text-sm font-[800] text-textStrong">Favori Mekan</span>
+                        <span className="text-sm font-extrabold text-textStrong">Favori Mekan</span>
                       </div>
-                      <span className="text-xl font-[900] text-textStrong tabular-nums">{stats.favorites_count}</span>
+                      <span className="text-xl font-black text-textStrong tabular-nums">{stats.favorites_count}</span>
                     </div>
 
                     <div className="flex items-center justify-between rounded-xl bg-cardAlt px-4 py-3">
                       <div className="flex items-center gap-2.5">
                         <span className="text-lg" aria-hidden="true">👥</span>
-                        <span className="text-sm font-[800] text-textStrong">Takipçi</span>
+                        <span className="text-sm font-extrabold text-textStrong">Takipçi</span>
                       </div>
-                      <span className="text-xl font-[900] text-textStrong tabular-nums">{takipci}</span>
+                      <span className="text-xl font-black text-textStrong tabular-nums">{takipci}</span>
                     </div>
 
                     <div className="flex items-center justify-between rounded-xl bg-cardAlt px-4 py-3">
                       <div className="flex items-center gap-2.5">
                         <Bell className="h-5 w-5" aria-hidden="true" />
-                        <span className="text-sm font-[800] text-textStrong">Takip Edilen</span>
+                        <span className="text-sm font-extrabold text-textStrong">Takip Edilen</span>
                       </div>
-                      <span className="text-xl font-[900] text-textStrong tabular-nums">{takip}</span>
+                      <span className="text-xl font-black text-textStrong tabular-nums">{takip}</span>
                     </div>
                   </div>
                 </div>
@@ -446,11 +446,11 @@ export default async function ProfilPage() {
                 {/* Hesap ayarları */}
                 <div className="rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
                   <div className="px-5 pt-4 pb-2">
-                    <h2 className="text-base font-[900] text-textStrong">Hesap Ayarları</h2>
+                    <h2 className="text-base font-black text-textStrong">Hesap Ayarları</h2>
                   </div>
                   {HESAP_AYARLARI.map(({ href, label }) => (
                     <Link key={href} href={href}
-                      className="flex items-center justify-between border-t border-border px-5 py-3.5 text-sm font-[700] text-textStrong transition hover:bg-cardAlt hover:text-primary">
+                      className="flex items-center justify-between border-t border-border px-5 py-3.5 text-sm font-bold text-textStrong transition hover:bg-cardAlt hover:text-primary">
                       {label}
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-muted" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
                     </Link>
@@ -464,22 +464,22 @@ export default async function ProfilPage() {
               <div className="flex items-center gap-3 flex-1">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-2xl">🎁</div>
                 <div>
-                  <p className="font-[900] text-emerald-900">Yeedoy Premium&apos;a Geç!</p>
-                  <p className="mt-0.5 text-[13px] font-[700] text-emerald-700">Özel kampanyalar, reklamsız deneyim ve daha fazlası seni bekliyor.</p>
+                  <p className="font-black text-emerald-900">Yeedoy Premium&apos;a Geç!</p>
+                  <p className="mt-0.5 text-[13px] font-bold text-emerald-700">Özel kampanyalar, reklamsız deneyim ve daha fazlası seni bekliyor.</p>
                 </div>
               </div>
               <button type="button"
-                className="flex h-11 items-center gap-2 rounded-xl bg-emerald-600 px-6 text-sm font-[900] text-white shadow-sm transition hover:bg-emerald-700 shrink-0">
+                className="flex h-11 items-center gap-2 rounded-xl bg-emerald-600 px-6 text-sm font-black text-white shadow-xs transition hover:bg-emerald-700 shrink-0">
                 Premium&apos;a Geç →
               </button>
             </div>
 
             {/* Mobil nav */}
             <nav className="lg:hidden rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
-              <p className="px-5 pt-4 pb-2 text-[11px] font-[900] uppercase tracking-wide text-muted">Hızlı Erişim</p>
+              <p className="px-5 pt-4 pb-2 text-[11px] font-black uppercase tracking-wide text-muted">Hızlı Erişim</p>
               {NAV_ITEMS.map(({ href, label, icon }) => (
                 <Link key={href} href={href}
-                  className="flex items-center gap-3 border-t border-border px-5 py-3.5 text-sm font-[800] text-textStrong transition hover:bg-cardAlt hover:text-primary">
+                  className="flex items-center gap-3 border-t border-border px-5 py-3.5 text-sm font-extrabold text-textStrong transition hover:bg-cardAlt hover:text-primary">
                   <span className="w-5 shrink-0 text-muted">{icon}</span>
                   {label}
                 </Link>

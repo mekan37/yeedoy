@@ -15,8 +15,8 @@ interface IsletmeProfilTabProps {
 }
 
 const INPUT_CLASS =
-  'min-h-11 w-full rounded-xl border border-border bg-bg px-3 text-sm text-textStrong outline-none transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20';
-const LABEL_CLASS = 'text-xs font-[700] text-muted';
+  'min-h-11 w-full rounded-xl border border-border bg-bg px-3 text-sm text-textStrong outline-hidden transition-colors placeholder:text-muted focus:border-primary focus:ring-2 focus:ring-primary/20';
+const LABEL_CLASS = 'text-xs font-bold text-muted';
 
 const SOCIAL_FIELDS = [
   {
@@ -183,7 +183,7 @@ export function IsletmeProfilTab({ business, hours }: IsletmeProfilTabProps) {
 
         <section aria-labelledby="business-branding-heading" className="min-w-0">
           <div className="mb-3 px-1">
-            <h2 id="business-branding-heading" className="text-[15px] font-[900] text-textStrong">
+            <h2 id="business-branding-heading" className="text-[15px] font-black text-textStrong">
               İşletme Görselleri
             </h2>
             <p className="mt-0.5 text-xs text-muted">
@@ -311,14 +311,14 @@ function ActionMessage({
 
   if ('error' in state) {
     return (
-      <p role="alert" className="rounded-xl bg-danger/10 px-3 py-2.5 text-sm font-[700] text-danger">
+      <p role="alert" className="rounded-xl bg-danger/10 px-3 py-2.5 text-sm font-bold text-danger">
         {state.error}
       </p>
     );
   }
 
   return (
-    <p role="status" aria-live="polite" className="rounded-xl bg-success/10 px-3 py-2.5 text-sm font-[700] text-success">
+    <p role="status" aria-live="polite" className="rounded-xl bg-success/10 px-3 py-2.5 text-sm font-bold text-success">
       {successMessage}
     </p>
   );

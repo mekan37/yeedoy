@@ -105,12 +105,12 @@ export function BusinessEditForm({ business }: Props) {
         <Field label="Getir Linki" name="orderGetirUrl" defaultValue={business.order_getir_url ?? ''} type="url" placeholder="https://..." />
       </div>
 
-      <div className="sticky bottom-0 z-10 -mx-5 flex items-center gap-3 border-t border-border bg-card/95 px-5 py-4 backdrop-blur">
+      <div className="sticky bottom-0 z-10 -mx-5 flex items-center gap-3 border-t border-border bg-card/95 px-5 py-4 backdrop-blur-sm">
         <PanelActionButton type="submit" variant="primary" loading={isPending}>
           Kaydet
         </PanelActionButton>
-        {saved && <p className="text-sm font-[700] text-green-600">Kaydedildi</p>}
-        {error && <p className="text-sm font-[700] text-[color:var(--yd-color-danger)]">{error}</p>}
+        {saved && <p className="text-sm font-bold text-green-600">Kaydedildi</p>}
+        {error && <p className="text-sm font-bold text-(--yd-color-danger)">{error}</p>}
       </div>
     </form>
   );
@@ -137,11 +137,11 @@ function BrandingPanel({
   return (
     <section className="overflow-hidden rounded-2xl border border-border bg-bg">
       <div
-        className="relative min-h-[220px] bg-[linear-gradient(135deg,_#171717,_#404040)]"
+        className="relative min-h-[220px] bg-[linear-gradient(135deg,#171717,#404040)]"
         style={coverPreview ? { backgroundImage: `linear-gradient(90deg, rgba(0,0,0,.62), rgba(0,0,0,.18)), url("${coverPreview}")`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
       >
         <div className="absolute inset-x-0 bottom-0 flex items-end gap-4 p-5 text-white">
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/30 bg-white/15 text-3xl font-[900] shadow-yd2 backdrop-blur">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/30 bg-white/15 text-3xl font-black shadow-yd2 backdrop-blur-sm">
             {logoPreview ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={logoPreview} alt={businessName} className="h-full w-full object-cover" />
@@ -150,8 +150,8 @@ function BrandingPanel({
             )}
           </div>
           <div className="min-w-0 pb-1">
-            <p className="truncate text-2xl font-[900]">{businessName}</p>
-            <p className="mt-1 text-sm font-[700] text-white/75">Logo ve kapak görseli QR menüde markanın ilk izlenimini belirler.</p>
+            <p className="truncate text-2xl font-black">{businessName}</p>
+            <p className="mt-1 text-sm font-bold text-white/75">Logo ve kapak görseli QR menüde markanın ilk izlenimini belirler.</p>
           </div>
         </div>
       </div>
@@ -214,16 +214,16 @@ function ImageControl({
 
   return (
     <div className="rounded-xl border border-border bg-card p-4">
-      <label className="mb-2 block text-xs font-[800] uppercase tracking-wide text-muted">{label}</label>
+      <label className="mb-2 block text-xs font-extrabold uppercase tracking-wide text-muted">{label}</label>
       <input type="hidden" name={type === 'logo' ? 'logoUrl' : 'coverUrl'} value={value} />
       <div className="flex flex-col gap-3">
         <input
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder="https://..."
-          className="min-h-[44px] w-full rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+          className="min-h-[44px] w-full rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
         />
-        <label className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl border border-border bg-bg px-4 text-sm font-[800] text-textStrong transition-colors hover:border-primary/30">
+        <label className="inline-flex min-h-[44px] cursor-pointer items-center justify-center rounded-xl border border-border bg-bg px-4 text-sm font-extrabold text-textStrong transition-colors hover:border-primary/30">
           {uploading ? 'Yükleniyor...' : 'Bilgisayardan Seç'}
           <input
             type="file"
@@ -232,7 +232,7 @@ function ImageControl({
             onChange={(event) => void upload(event.target.files?.[0] ?? null)}
           />
         </label>
-        {error && <p className="text-xs font-[700] text-[color:var(--yd-color-danger)]">{error}</p>}
+        {error && <p className="text-xs font-bold text-(--yd-color-danger)">{error}</p>}
       </div>
     </div>
   );
@@ -279,15 +279,15 @@ function LocationPicker({
     <section className="rounded-2xl border border-border bg-bg p-4">
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-xs font-[800] uppercase tracking-wide text-muted">Harita Konumu</p>
+          <p className="text-xs font-extrabold uppercase tracking-wide text-muted">Harita Konumu</p>
           <p className="mt-1 text-sm text-textStrong">{address || 'Haritada işaretleyerek konumu belirleyin.'}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={useCurrentLocation} className="min-h-[40px] rounded-xl border border-border bg-card px-3 text-xs font-[800] text-textStrong hover:border-primary/30">
+          <button type="button" onClick={useCurrentLocation} className="min-h-[40px] rounded-xl border border-border bg-card px-3 text-xs font-extrabold text-textStrong hover:border-primary/30">
             Mevcut Konumum
           </button>
           {mapUrl && (
-            <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[40px] items-center rounded-xl border border-border bg-card px-3 text-xs font-[800] text-textStrong hover:border-primary/30">
+            <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[40px] items-center rounded-xl border border-border bg-card px-3 text-xs font-extrabold text-textStrong hover:border-primary/30">
               Haritada Aç
             </a>
           )}
@@ -316,7 +316,7 @@ function LocationPicker({
           placeholder="28.978400"
         />
       </div>
-      {geoError && <p className="mt-2 text-xs font-[700] text-[color:var(--yd-color-danger)]">{geoError}</p>}
+      {geoError && <p className="mt-2 text-xs font-bold text-(--yd-color-danger)">{geoError}</p>}
       <p className="mt-2 text-[11px] text-muted">Haritaya tıkla veya işaretçiyi sürükle. Bu koordinat QR menüde yol tarifi ve keşif haritası için kullanılır.</p>
     </section>
   );
@@ -347,14 +347,14 @@ function Field({
 }) {
   const base =
     'w-full rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong ' +
-    'placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 ' +
+    'placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30 ' +
     'transition-shadow duration-150';
 
   return (
     <div>
-      <label className="mb-1 block text-xs font-[700] uppercase tracking-wide text-muted">
+      <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">
         {label}
-        {required && <span className="ml-1 text-[color:var(--yd-color-danger)]">*</span>}
+        {required && <span className="ml-1 text-(--yd-color-danger)">*</span>}
       </label>
       {multiline ? (
         <textarea

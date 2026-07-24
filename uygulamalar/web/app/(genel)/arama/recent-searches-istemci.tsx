@@ -57,7 +57,7 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
     <div className="mb-8">
       {/* Inline autocomplete search */}
       <div className="relative mb-6">
-        <p className="mb-2 text-xs font-[900] uppercase tracking-wide text-muted">Hızlı Arama</p>
+        <p className="mb-2 text-xs font-black uppercase tracking-wide text-muted">Hızlı Arama</p>
         <div className="relative">
           <input
             ref={inputRef}
@@ -66,7 +66,7 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
             placeholder="Ör: pizza, burger, kahvaltı..."
-            className="w-full rounded-2xl border border-border bg-card px-4 py-3 pr-12 text-sm font-[700] text-textStrong placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-2xl border border-border bg-card px-4 py-3 pr-12 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
           {inputVal && (
             <button
@@ -88,7 +88,7 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
                 <Link
                   key={s}
                   href={`/arama?q=${encodeURIComponent(s)}`}
-                  className="flex items-center gap-3 px-4 py-3 text-sm font-[700] text-textStrong hover:bg-cardAlt"
+                  className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-textStrong hover:bg-cardAlt"
                   onClick={() => addRecent(s)}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted">
@@ -105,7 +105,7 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
           <Link
             href={`/arama?q=${encodeURIComponent(inputVal)}`}
             onClick={() => addRecent(inputVal)}
-            className="mt-2 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-[800] text-white hover:bg-primary/90"
+            className="mt-2 inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-extrabold text-white hover:bg-primary/90"
           >
             &quot;{inputVal}&quot; için ara
           </Link>
@@ -116,10 +116,10 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
       {recent.length > 0 && (
         <section>
           <div className="mb-2 flex items-center justify-between">
-            <p className="text-xs font-[900] uppercase tracking-wide text-muted">Son Aramalarım</p>
+            <p className="text-xs font-black uppercase tracking-wide text-muted">Son Aramalarım</p>
             <button
               onClick={() => { clearRecent(); setRecent([]); }}
-              className="text-xs font-[700] text-muted hover:text-danger"
+              className="text-xs font-bold text-muted hover:text-danger"
             >
               Temizle
             </button>
@@ -129,7 +129,7 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
               <Link
                 key={r}
                 href={`/arama?q=${encodeURIComponent(r)}`}
-                className="inline-flex min-h-[36px] items-center gap-2 rounded-full border border-border bg-card px-3 text-sm font-[700] text-textStrong hover:border-primary/40 hover:text-primary"
+                className="inline-flex min-h-[36px] items-center gap-2 rounded-full border border-border bg-card px-3 text-sm font-bold text-textStrong hover:border-primary/40 hover:text-primary"
               >
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted">
                   <polyline points="1 4 1 10 7 10" />

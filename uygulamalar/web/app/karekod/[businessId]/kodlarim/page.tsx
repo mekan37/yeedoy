@@ -64,7 +64,7 @@ export default async function KodlarimPage({ params }: Props) {
         actions={
           <Link
             href={`/karekod/${businessId}`}
-            className="rounded-xl border border-border bg-bg px-3 py-2 text-xs font-[800] text-textStrong transition hover:bg-card"
+            className="rounded-xl border border-border bg-bg px-3 py-2 text-xs font-extrabold text-textStrong transition hover:bg-card"
           >
             ← QR Studio&apos;ya dön
           </Link>

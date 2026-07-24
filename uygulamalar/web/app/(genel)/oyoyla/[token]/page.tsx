@@ -62,8 +62,8 @@ export default async function OyVerPage({ params }: Props) {
     <main className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto max-w-lg">
         <div className="mb-6 text-center">
-          <p className="text-xs font-[800] uppercase tracking-widest text-primary">Grup Karar</p>
-          <h1 className="mt-1 text-2xl font-[900] text-textStrong">{list.name}</h1>
+          <p className="text-xs font-extrabold uppercase tracking-widest text-primary">Grup Karar</p>
+          <h1 className="mt-1 text-2xl font-black text-textStrong">{list.name}</h1>
           {list.description && <p className="mt-1 text-sm text-muted">{list.description}</p>}
         </div>
 

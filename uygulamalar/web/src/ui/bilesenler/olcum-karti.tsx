@@ -19,8 +19,8 @@ export function MetricCard({ title, value, subtitle, icon, trend, className }: M
   return (
     <div
       className={clsx(
-        'group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm',
-        'transition-all duration-200 hover:-translate-y-[2px] hover:shadow-md',
+        'group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-xs',
+        'transition-all duration-200 hover:translate-y-[-2px] hover:shadow-md',
         className,
       )}
     >
@@ -29,9 +29,9 @@ export function MetricCard({ title, value, subtitle, icon, trend, className }: M
 
       <div className="relative flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs font-[700] uppercase tracking-[0.06em] text-muted">{title}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.06em] text-muted">{title}</p>
           <p
-            className="mt-1 text-3xl font-[900] tabular-nums tracking-tight text-textStrong"
+            className="mt-1 text-3xl font-black tabular-nums tracking-tight text-textStrong"
             style={{ fontVariantNumeric: 'tabular-nums' }}
           >
             {value}
@@ -40,10 +40,10 @@ export function MetricCard({ title, value, subtitle, icon, trend, className }: M
           {trend && (
             <span
               className={clsx(
-                'mt-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-[800]',
+                'mt-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-extrabold',
                 trendPositive
                   ? 'bg-green-50 text-green-700'
-                  : 'bg-red-50 text-[color:var(--yd-color-danger)]',
+                  : 'bg-red-50 text-(--yd-color-danger)',
               )}
             >
               {trendPositive ? '▲' : '▼'}
@@ -54,7 +54,7 @@ export function MetricCard({ title, value, subtitle, icon, trend, className }: M
 
         {icon && (
           <div
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[color:var(--yd-color-primary)]"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-(--yd-color-primary)"
             style={{
               background: 'radial-gradient(circle at center, rgba(127,29,29,0.10), rgba(127,29,29,0.04))',
             }}

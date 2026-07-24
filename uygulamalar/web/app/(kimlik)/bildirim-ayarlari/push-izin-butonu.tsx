@@ -109,22 +109,22 @@ export function PushIzinButonu() {
 
   if (status === 'subscribed') {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-success/25 bg-success/[0.10] px-5 py-4">
+      <div className="flex items-center gap-3 rounded-2xl border border-success/25 bg-success/10 px-5 py-4">
         <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current text-success" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polyline points="20 6 9 17 4 12" />
         </svg>
-        <p className="text-sm font-[800] text-success">Push bildirimleri aktif ve kayıtlı</p>
+        <p className="text-sm font-extrabold text-success">Push bildirimleri aktif ve kayıtlı</p>
       </div>
     );
   }
 
   if (status === 'granted') {
     return (
-      <div className="flex items-center gap-3 rounded-2xl border border-success/25 bg-success/[0.10] px-5 py-4">
+      <div className="flex items-center gap-3 rounded-2xl border border-success/25 bg-success/10 px-5 py-4">
         <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-none stroke-current text-success" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polyline points="20 6 9 17 4 12" />
         </svg>
-        <p className="text-sm font-[800] text-success">
+        <p className="text-sm font-extrabold text-success">
           Bildirimler aktif{!firebaseConfigured && ' (VAPID yapılandırılmadı)'}
         </p>
       </div>
@@ -133,8 +133,8 @@ export function PushIzinButonu() {
 
   if (status === 'denied') {
     return (
-      <div className="rounded-2xl border border-warning/25 bg-warning/[0.10] px-5 py-4">
-        <p className="text-sm font-[800] text-textStrong">Bildirimler engellenmiş</p>
+      <div className="rounded-2xl border border-warning/25 bg-warning/10 px-5 py-4">
+        <p className="text-sm font-extrabold text-textStrong">Bildirimler engellenmiş</p>
         <p className="mt-1 text-xs leading-relaxed text-muted">
           Tarayıcı ayarlarınızdan bu site için bildirimlere izin verin. Adres çubuğundaki kilit simgesine tıklayarak erişebilirsiniz.
         </p>
@@ -147,7 +147,7 @@ export function PushIzinButonu() {
       type="button"
       disabled={requesting}
       onClick={requestPermission}
-      className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl px-5 text-sm font-[900] text-white disabled:opacity-60 disabled:cursor-not-allowed"
+      className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl px-5 text-sm font-black text-white disabled:opacity-60 disabled:cursor-not-allowed"
       style={{ background: 'var(--yd-gradient-primary)' }}
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

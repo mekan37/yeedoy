@@ -31,10 +31,10 @@ export default async function SahiplenYeniPage() {
         </div>
 
         <div className="mb-8">
-          <p className="text-xs font-[800] uppercase tracking-[0.2em] text-primary">
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-primary">
             İşletmem listede yok
           </p>
-          <h1 className="mt-2 text-3xl font-[900] text-textStrong">
+          <h1 className="mt-2 text-3xl font-black text-textStrong">
             Yeni İşletme Başvurusu
           </h1>
           <p className="mt-2 text-sm text-muted">

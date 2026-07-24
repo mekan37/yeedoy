@@ -55,7 +55,7 @@ export function PaylasimDugmesi({ url, title, text, className = '', compact = fa
         onClick={handleShare}
         aria-label="Paylaş"
         title={copied ? 'Kopyalandı!' : 'Paylaş'}
-        className={`inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-border bg-cardAlt text-muted transition-all hover:border-primary/30 hover:text-textStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 ${className}`}
+        className={`inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-border bg-cardAlt text-muted transition-all hover:border-primary/30 hover:text-textStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 ${className}`}
       >
         {copied ? <CheckIcon /> : <ShareIcon />}
       </button>
@@ -66,7 +66,7 @@ export function PaylasimDugmesi({ url, title, text, className = '', compact = fa
     <button
       type="button"
       onClick={handleShare}
-      className={`inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-cardAlt px-4 text-sm font-[800] text-textStrong transition-all hover:bg-textStrong/[0.06] hover:border-borderStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 ${className}`}
+      className={`inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-cardAlt px-4 text-sm font-extrabold text-textStrong transition-all hover:bg-textStrong/[0.06] hover:border-borderStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 ${className}`}
     >
       {copied ? (
         <>

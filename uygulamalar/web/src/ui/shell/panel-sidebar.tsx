@@ -50,7 +50,7 @@ export function PanelSidebar({ sections, collapsed, logoSlot, footerSlot }: Pane
         {sections.map((section, si) => (
           <div key={si} className="mb-1">
             {section.title && !collapsed && (
-              <p className="mb-1 px-5 text-[10px] font-[800] uppercase tracking-[0.06em] text-muted">
+              <p className="mb-1 px-5 text-[10px] font-extrabold uppercase tracking-[0.06em] text-muted">
                 {section.title}
               </p>
             )}
@@ -97,28 +97,28 @@ function SidebarItem({
         'group relative flex min-h-[44px] items-center gap-3 rounded-xl transition-all duration-150',
         collapsed ? 'mx-2 px-0 justify-center' : 'mx-2 px-3',
         active
-          ? 'bg-[color:var(--yd-color-primary-soft)] text-[color:var(--yd-color-primary)]'
-          : 'text-text hover:bg-black/[0.04] hover:text-textStrong',
+          ? 'bg-(--yd-color-primary-soft) text-(--yd-color-primary)'
+          : 'text-text hover:bg-black/4 hover:text-textStrong',
       )}
     >
       {/* Active indicator bar */}
       {active && !collapsed && (
-        <span className="absolute left-0 top-[8px] bottom-[8px] w-[3px] rounded-r-full bg-[color:var(--yd-color-primary)]" />
+        <span className="absolute left-0 top-[8px] bottom-[8px] w-[3px] rounded-r-full bg-(--yd-color-primary)" />
       )}
 
       <span
         className={clsx(
           'flex h-5 w-5 shrink-0 items-center justify-center text-[18px]',
           active
-            ? 'text-[color:var(--yd-color-primary)]'
-            : 'text-muted group-hover:text-[color:var(--yd-color-text-strong)]',
+            ? 'text-(--yd-color-primary)'
+            : 'text-muted group-hover:text-(--yd-color-text-strong)',
         )}
       >
         {item.icon}
       </span>
 
       {!collapsed && (
-        <span className="truncate text-sm font-[700]">{item.label}</span>
+        <span className="truncate text-sm font-bold">{item.label}</span>
       )}
     </Link>
   );

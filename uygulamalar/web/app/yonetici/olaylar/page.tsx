@@ -87,7 +87,7 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
                     type="submit"
                     name="status"
                     value={value}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                       status === value
                         ? 'bg-primary text-white'
                         : 'border border-border bg-card text-muted hover:text-textStrong'
@@ -114,7 +114,7 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
                     type="submit"
                     name="severity"
                     value={value}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                       severity === value
                         ? 'bg-primary text-white'
                         : 'border border-border bg-card text-muted hover:text-textStrong'
@@ -147,13 +147,13 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
                   </thead>
                   <tbody className="divide-y divide-border">
                     {list.map((inc) => (
-                      <tr key={inc.id} className="hover:bg-black/[0.02]">
-                        <td className="px-5 py-3 font-[700] text-textStrong">
+                      <tr key={inc.id} className="hover:bg-black/2">
+                        <td className="px-5 py-3 font-bold text-textStrong">
                           {inc.incident_type}
                         </td>
                         <td className="px-5 py-3">
                           <span
-                            className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                            className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                               inc.severity === 'critical'
                                 ? 'bg-red-100 text-red-700'
                                 : inc.severity === 'high'
@@ -168,7 +168,7 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
                         </td>
                         <td className="px-5 py-3">
                           <span
-                            className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                            className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                               inc.status === 'resolved' || inc.status === 'closed'
                                 ? 'bg-green-50 text-green-700'
                                 : inc.status === 'investigating'
@@ -200,7 +200,7 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
                       {pageNum > 1 && (
                         <a
                           href={pageHref(pageNum - 1)}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           ← Önceki
                         </a>
@@ -208,7 +208,7 @@ export default async function AdminIncidentsPage({ searchParams }: Props) {
                       {pageNum < totalPages && (
                         <a
                           href={pageHref(pageNum + 1)}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           Sonraki →
                         </a>
@@ -299,7 +299,7 @@ function SortableHeader({
   const marker = active ? (currentDir === 'asc' ? '↑' : '↓') : '↕';
 
   return (
-    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
       <a href={href} className="inline-flex items-center gap-1.5 hover:text-textStrong">
         <span>{label}</span>
         <span aria-hidden="true" className={active ? 'text-primary' : 'text-muted'}>

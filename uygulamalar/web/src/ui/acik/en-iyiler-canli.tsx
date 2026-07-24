@@ -83,14 +83,14 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
           className="object-cover transition-transform group-hover:scale-105"
         />
         <div
-          className="absolute left-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full text-xs font-[900] shadow-md"
+          className="absolute left-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full text-xs font-black shadow-md"
           style={{ background: rankStyle.bg, color: rankStyle.text }}
           aria-label={`${rank}. sıra`}
         >
           {rank}
         </div>
         <Link href={`/m/${biz.slug}`} tabIndex={-1}
-          className="absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-muted shadow-md backdrop-blur hover:text-primary"
+          className="absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-muted shadow-md backdrop-blur-sm hover:text-primary"
           aria-label={`${biz.name} menüsüne git`}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
@@ -100,7 +100,7 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
       <Link href={`/m/${biz.slug}`} className="flex flex-1 flex-col gap-2 p-3">
         <div>
           <div className="flex items-start gap-1.5">
-            <p className="line-clamp-1 flex-1 text-sm font-[900] text-textStrong">{biz.name}</p>
+            <p className="line-clamp-1 flex-1 text-sm font-black text-textStrong">{biz.name}</p>
             {biz.isVerified && (
               <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary" aria-label="Doğrulandı">
                 <svg width="8" height="8" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6l2.5 2.5L10 3.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -108,30 +108,30 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
             )}
           </div>
           {(biz.category || biz.city) && (
-            <p className="mt-0.5 line-clamp-1 text-[11px] font-[700] text-muted">
+            <p className="mt-0.5 line-clamp-1 text-[11px] font-bold text-muted">
               {[biz.category, biz.district ?? biz.city].filter(Boolean).join(' · ')}
             </p>
           )}
         </div>
         {biz.avgRating != null && biz.avgRating > 0 && (
           <div className="flex items-center gap-1.5">
-            <span className="flex items-center gap-1 text-xs font-[800] text-amber-600">
+            <span className="flex items-center gap-1 text-xs font-extrabold text-amber-600">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
               {biz.avgRating.toFixed(1)}
             </span>
             {biz.reviewsCount > 0 && (
-              <span className="text-[11px] font-[700] text-muted">({biz.reviewsCount.toLocaleString('tr-TR')})</span>
+              <span className="text-[11px] font-bold text-muted">({biz.reviewsCount.toLocaleString('tr-TR')})</span>
             )}
           </div>
         )}
         <div className="mt-auto flex items-center gap-1.5 border-t border-border pt-2">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0 text-muted" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-          <span className="text-[11px] font-[800] text-muted">
+          <span className="text-[11px] font-extrabold text-muted">
             {biz.reviewsCount > 0 ? `${biz.reviewsCount.toLocaleString('tr-TR')} yorum` : 'Henüz yorum yok'}
           </span>
           {biz.isVerified && (
             <><span className="text-border" aria-hidden="true">·</span>
-            <span className="text-[11px] font-[800] text-success">✓ Doğrulandı</span></>
+            <span className="text-[11px] font-extrabold text-success">✓ Doğrulandı</span></>
           )}
         </div>
       </Link>
@@ -206,13 +206,13 @@ export function EnIyilerCanli() {
   return (
     <div>
       {/* Kategori tab'ları */}
-      <nav className="mb-6 flex gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Kategori filtresi">
+      <nav className="mb-6 flex gap-1.5 overflow-x-auto pb-1 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden" aria-label="Kategori filtresi">
         {KAT_TABS.map((tab) => (
           <button
             key={tab.value}
             type="button"
             onClick={() => setCategory(tab.value)}
-            className={`flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-[800] transition-all ${
+            className={`flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-extrabold transition-all ${
               category === tab.value
                 ? 'bg-primary text-white shadow-yd1'
                 : 'border border-border bg-card text-textStrong hover:border-primary/35 hover:text-primary'
@@ -229,14 +229,14 @@ export function EnIyilerCanli() {
 
         {/* Sidebar */}
         <aside className="w-full space-y-5 rounded-2xl border border-border bg-card p-5 shadow-yd1 lg:w-56 lg:shrink-0 lg:sticky lg:top-20 lg:self-start">
-          <p className="text-sm font-[900] text-textStrong">Filtrele</p>
+          <p className="text-sm font-black text-textStrong">Filtrele</p>
 
           {/* Sıralama */}
           <div className="space-y-1.5">
-            <label className="text-xs font-[800] text-muted">Sıralama</label>
+            <label className="text-xs font-extrabold text-muted">Sıralama</label>
             <div className="relative">
               <select value={sort} onChange={(e) => setSort(e.target.value)}
-                className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-[800] text-textStrong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-extrabold text-textStrong focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20">
                 {SIRALAMA.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
               <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-muted" aria-hidden="true">
@@ -247,23 +247,23 @@ export function EnIyilerCanli() {
 
           {/* Şehir */}
           <div className="space-y-1.5">
-            <label className="text-xs font-[800] text-muted">Şehir</label>
+            <label className="text-xs font-extrabold text-muted">Şehir</label>
             <div className="relative">
               <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted" aria-hidden="true">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
               </span>
               <input type="text" value={city} onChange={(e) => setCity(e.target.value)}
                 placeholder="Ankara, İstanbul..."
-                className="w-full rounded-xl border border-border bg-surface py-2.5 pl-9 pr-3 text-sm font-[700] text-textStrong placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                className="w-full rounded-xl border border-border bg-surface py-2.5 pl-9 pr-3 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20" />
             </div>
           </div>
 
           {/* Kategori dropdown */}
           <div className="space-y-1.5">
-            <label className="text-xs font-[800] text-muted">Kategori</label>
+            <label className="text-xs font-extrabold text-muted">Kategori</label>
             <div className="relative">
               <select value={category} onChange={(e) => setCategory(e.target.value)}
-                className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-[800] text-textStrong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20">
+                className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-extrabold text-textStrong focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20">
                 <option value="">Tümü</option>
                 {KATEGORILER.map((k) => <option key={k} value={k}>{k}</option>)}
               </select>
@@ -275,11 +275,11 @@ export function EnIyilerCanli() {
 
           {/* Minimum Puan */}
           <div className="space-y-1.5">
-            <p className="text-xs font-[800] text-muted">Minimum Puan</p>
+            <p className="text-xs font-extrabold text-muted">Minimum Puan</p>
             <div className="flex flex-wrap gap-1.5">
               {MIN_PUAN.map((p) => (
                 <button key={p.value} type="button" onClick={() => setMinRating(p.value)}
-                  className={`rounded-lg border px-2.5 py-1.5 text-[11px] font-[900] transition-all ${
+                  className={`rounded-lg border px-2.5 py-1.5 text-[11px] font-black transition-all ${
                     minRating === p.value
                       ? 'border-primary bg-primary text-white'
                       : 'border-border bg-surface text-textStrong hover:border-primary/40 hover:text-primary'
@@ -293,12 +293,12 @@ export function EnIyilerCanli() {
           {/* Doğrulanmış */}
           <label className="flex cursor-pointer items-center gap-2.5">
             <input type="checkbox" checked={verified} onChange={(e) => setVerified(e.target.checked)} className="h-4 w-4 cursor-pointer rounded accent-primary" />
-            <span className="text-sm font-[700] text-textStrong">Sadece Doğrulanmış</span>
+            <span className="text-sm font-bold text-textStrong">Sadece Doğrulanmış</span>
           </label>
 
           {hasFilter && (
             <button type="button" onClick={temizle}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface py-2.5 text-xs font-[800] text-muted transition-colors hover:border-danger/40 hover:text-danger">
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface py-2.5 text-xs font-extrabold text-muted transition-colors hover:border-danger/40 hover:text-danger">
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
               Filtreleri Temizle
             </button>
@@ -308,7 +308,7 @@ export function EnIyilerCanli() {
         {/* Sağ içerik */}
         <div className="flex-1 min-w-0">
           {!loading && (
-            <p className="mb-4 text-xs font-[800] text-muted">{total} işletme listelendi</p>
+            <p className="mb-4 text-xs font-extrabold text-muted">{total} işletme listelendi</p>
           )}
 
           {loading ? (
@@ -317,10 +317,10 @@ export function EnIyilerCanli() {
             </ol>
           ) : results.length === 0 ? (
             <div className="rounded-2xl border border-border bg-card p-12 text-center">
-              <p className="text-base font-[900] text-textStrong">Sonuç bulunamadı</p>
-              <p className="mt-2 text-sm font-[700] text-muted">Farklı filtreler deneyin</p>
+              <p className="text-base font-black text-textStrong">Sonuç bulunamadı</p>
+              <p className="mt-2 text-sm font-bold text-muted">Farklı filtreler deneyin</p>
               {hasFilter && (
-                <button type="button" onClick={temizle} className="mt-4 text-sm font-[900] text-primary hover:underline">
+                <button type="button" onClick={temizle} className="mt-4 text-sm font-black text-primary hover:underline">
                   Filtreleri temizle →
                 </button>
               )}

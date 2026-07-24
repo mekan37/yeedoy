@@ -27,7 +27,7 @@ function SuccessScreen({ isMkt }: { isMkt: boolean }) {
             </svg>
           </div>
         </div>
-        <h1 className="mb-3 text-2xl font-[900] text-textStrong">Abonelik İptal Edildi</h1>
+        <h1 className="mb-3 text-2xl font-black text-textStrong">Abonelik İptal Edildi</h1>
         <p className="mb-2 text-sm leading-relaxed text-text">
           {isMkt
             ? 'Yeedoy pazarlama e-postalarından başarıyla çıktınız.'
@@ -42,7 +42,7 @@ function SuccessScreen({ isMkt }: { isMkt: boolean }) {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-[800] text-white hover:opacity-90"
+          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-extrabold text-white hover:opacity-90"
         >
           Ana Sayfaya Dön
         </Link>
@@ -62,7 +62,7 @@ function AlreadyUnsubscribedScreen({ isMkt }: { isMkt: boolean }) {
             </svg>
           </div>
         </div>
-        <h1 className="mb-3 text-2xl font-[900] text-textStrong">Zaten Abonelikten Çıktınız</h1>
+        <h1 className="mb-3 text-2xl font-black text-textStrong">Zaten Abonelikten Çıktınız</h1>
         <p className="mb-8 text-sm leading-relaxed text-muted">
           {isMkt
             ? 'Yeedoy pazarlama e-postaları zaten kapalı.'
@@ -70,7 +70,7 @@ function AlreadyUnsubscribedScreen({ isMkt }: { isMkt: boolean }) {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-[800] text-white hover:opacity-90"
+          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-extrabold text-white hover:opacity-90"
         >
           Ana Sayfaya Dön
         </Link>
@@ -90,7 +90,7 @@ function ExpiredScreen() {
             </svg>
           </div>
         </div>
-        <h1 className="mb-3 text-2xl font-[900] text-textStrong">Bağlantı Süresi Doldu</h1>
+        <h1 className="mb-3 text-2xl font-black text-textStrong">Bağlantı Süresi Doldu</h1>
         <p className="mb-2 text-sm leading-relaxed text-text">
           Bu iptal bağlantısının geçerlilik süresi dolmuş.
         </p>
@@ -103,7 +103,7 @@ function ExpiredScreen() {
         </p>
         <Link
           href="/giris"
-          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-[800] text-white hover:opacity-90"
+          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-extrabold text-white hover:opacity-90"
         >
           Giriş Yap
         </Link>
@@ -123,7 +123,7 @@ function InvalidScreen() {
             </svg>
           </div>
         </div>
-        <h1 className="mb-3 text-2xl font-[900] text-textStrong">Geçersiz Bağlantı</h1>
+        <h1 className="mb-3 text-2xl font-black text-textStrong">Geçersiz Bağlantı</h1>
         <p className="mb-8 text-sm leading-relaxed text-muted">
           Bu abonelik iptal bağlantısı geçerli değil. Lütfen e-postanızdaki orijinal linki
           kullanın ya da{' '}
@@ -134,7 +134,7 @@ function InvalidScreen() {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-[800] text-white hover:opacity-90"
+          className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-extrabold text-white hover:opacity-90"
         >
           Ana Sayfaya Dön
         </Link>
@@ -147,7 +147,7 @@ function NoSecretScreen() {
   return (
     <main className="min-h-screen bg-bg flex items-center justify-center px-4">
       <div className="mx-auto max-w-md text-center">
-        <h1 className="mb-3 text-2xl font-[900] text-textStrong">Hizmet Geçici Olarak Kullanılamıyor</h1>
+        <h1 className="mb-3 text-2xl font-black text-textStrong">Hizmet Geçici Olarak Kullanılamıyor</h1>
         <p className="mb-8 text-sm leading-relaxed text-muted">
           Abonelik iptali şu an için işlenemiyor. Lütfen daha sonra tekrar deneyin veya{' '}
           <a href="mailto:destek@yeedoy.com" className="text-primary hover:underline">

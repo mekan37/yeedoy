@@ -101,7 +101,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
     <div className="flex flex-col gap-6">
       {/* Dil sekmeleri */}
       <div className="flex items-center gap-2">
-        <span className="text-xs font-[800] uppercase tracking-wide text-muted">
+        <span className="text-xs font-extrabold uppercase tracking-wide text-muted">
           Hedef Dil:
         </span>
         <div className="flex gap-1 rounded-xl border border-border bg-card p-1">
@@ -110,10 +110,10 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
               key={locale}
               type="button"
               onClick={() => setAktifDil(locale)}
-              className={`rounded-lg px-4 py-1.5 text-sm font-[800] transition-all duration-150 ${
+              className={`rounded-lg px-4 py-1.5 text-sm font-extrabold transition-all duration-150 ${
                 aktifDil === locale
-                  ? 'bg-[#7f1d1d] text-white shadow-sm'
-                  : 'text-textStrong hover:bg-black/[0.05]'
+                  ? 'bg-[#7f1d1d] text-white shadow-xs'
+                  : 'text-textStrong hover:bg-black/5'
               }`}
             >
               {DIL_ETIKETLERI[locale]}
@@ -146,7 +146,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                   {/* Ürün başlığı */}
                   <div className="mb-3 flex items-start justify-between gap-2">
                     <div>
-                      <p className="text-sm font-[900] text-textStrong">
+                      <p className="text-sm font-black text-textStrong">
                         {satir.itemNameTr}
                       </p>
                       {satir.itemDescTr && (
@@ -154,17 +154,17 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                           {satir.itemDescTr}
                         </p>
                       )}
-                      <p className="mt-1 text-[11px] font-[700] text-muted opacity-70">
+                      <p className="mt-1 text-[11px] font-bold text-muted opacity-70">
                         {satir.sectionName}
                       </p>
                     </div>
                     {/* Çeviri durumu rozeti */}
                     {satir.translations[aktifDil]?.name ? (
-                      <span className="shrink-0 rounded-full bg-green-50 px-2.5 py-0.5 text-[11px] font-[800] text-green-700">
+                      <span className="shrink-0 rounded-full bg-green-50 px-2.5 py-0.5 text-[11px] font-extrabold text-green-700">
                         Çevrildi
                       </span>
                     ) : (
-                      <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-[800] text-amber-700">
+                      <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-extrabold text-amber-700">
                         Eksik
                       </span>
                     )}
@@ -173,7 +173,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                   {/* Çeviri alanları */}
                   <div className="flex flex-col gap-2">
                     <div>
-                      <label className="mb-1 block text-xs font-[800] text-muted">
+                      <label className="mb-1 block text-xs font-extrabold text-muted">
                         Ad ({DIL_ETIKETLERI[aktifDil]})
                       </label>
                       <input
@@ -183,12 +183,12 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                           handleChange(satir.itemId, aktifDil, 'name', e.target.value)
                         }
                         placeholder={`${satir.itemNameTr} (${DIL_ETIKETLERI[aktifDil]})`}
-                        className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-[#7f1d1d] focus:outline-none focus:ring-1 focus:ring-[#7f1d1d]/30"
+                        className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-[#7f1d1d] focus:outline-hidden focus:ring-1 focus:ring-[#7f1d1d]/30"
                       />
                     </div>
 
                     <div>
-                      <label className="mb-1 block text-xs font-[800] text-muted">
+                      <label className="mb-1 block text-xs font-extrabold text-muted">
                         Açıklama ({DIL_ETIKETLERI[aktifDil]}) — isteğe bağlı
                       </label>
                       <textarea
@@ -198,7 +198,7 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                         }
                         placeholder={satir.itemDescTr ?? ''}
                         rows={2}
-                        className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-[#7f1d1d] focus:outline-none focus:ring-1 focus:ring-[#7f1d1d]/30"
+                        className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted/60 focus:border-[#7f1d1d] focus:outline-hidden focus:ring-1 focus:ring-[#7f1d1d]/30"
                       />
                     </div>
 
@@ -206,10 +206,10 @@ export function CeviriEditor({ satirlar, businessId }: CeviriEditorProps) {
                     <div className="flex items-center justify-between gap-3 pt-1">
                       <div className="text-xs">
                         {state.success && (
-                          <span className="font-[800] text-green-600">Kaydedildi</span>
+                          <span className="font-extrabold text-green-600">Kaydedildi</span>
                         )}
                         {state.hata && (
-                          <span className="font-[800] text-red-600">{state.hata}</span>
+                          <span className="font-extrabold text-red-600">{state.hata}</span>
                         )}
                       </div>
                       <PanelActionButton

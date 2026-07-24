@@ -83,7 +83,7 @@ export async function PublicHeader({ variant = 'public' }: { variant?: 'public' 
           >
             <YeedoyLogo size={34} />
             {isOwner && (
-              <span className="hidden rounded-full border border-primary/25 bg-primary/10 px-2 py-0.5 text-[10px] font-[900] uppercase tracking-wider text-primary sm:inline">
+              <span className="hidden rounded-full border border-primary/25 bg-primary/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-primary sm:inline">
                 for Business
               </span>
             )}
@@ -104,7 +104,7 @@ export async function PublicHeader({ variant = 'public' }: { variant?: 'public' 
               <>
                 <Link
                   href="/sahip/gosterge-panosu"
-                  className="hidden rounded-xl bg-primary px-4 py-2 text-sm font-[900] text-white sm:inline-flex"
+                  className="hidden rounded-xl bg-primary px-4 py-2 text-sm font-black text-white sm:inline-flex"
                 >
                   Panele Git →
                 </Link>

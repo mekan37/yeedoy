@@ -62,16 +62,16 @@ export default async function FotografModerasyon_Page() {
           {/* Stats Row */}
           <div className="grid grid-cols-3 gap-4">
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Bekleyen</p>
-              <p className="mt-1 text-2xl font-[900] text-yellow-600">{totalPending ?? 0}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Bekleyen</p>
+              <p className="mt-1 text-2xl font-black text-yellow-600">{totalPending ?? 0}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Şikayet Edilen</p>
-              <p className="mt-1 text-2xl font-[900] text-red-600">{totalFlagged ?? 0}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Şikayet Edilen</p>
+              <p className="mt-1 text-2xl font-black text-red-600">{totalFlagged ?? 0}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Onaylanan (toplam)</p>
-              <p className="mt-1 text-2xl font-[900] text-green-600">{totalApproved ?? 0}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Onaylanan (toplam)</p>
+              <p className="mt-1 text-2xl font-black text-green-600">{totalApproved ?? 0}</p>
             </div>
           </div>
 

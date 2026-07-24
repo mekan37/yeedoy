@@ -26,14 +26,14 @@ export function TwoFactorBanner({ hasTwoFactor }: TwoFactorBannerProps) {
         >
           <path d="M12 1L2 20h20L12 1zm0 3.5L19.7 19H4.3L12 4.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z" />
         </svg>
-        <span className="font-[700]">Hesabın daha güvenli olabilir</span>
+        <span className="font-bold">Hesabın daha güvenli olabilir</span>
         <span className="hidden sm:inline text-amber-700">
           — 2FA etkinleştirerek hesabını koru.
         </span>
       </div>
       <Link
         href="/profil/guvenlik"
-        className="shrink-0 rounded-lg bg-amber-500 px-3 py-1.5 text-xs font-[800] text-white transition-colors hover:bg-amber-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+        className="shrink-0 rounded-lg bg-amber-500 px-3 py-1.5 text-xs font-extrabold text-white transition-colors hover:bg-amber-600 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-amber-400"
       >
         2FA Aç
       </Link>

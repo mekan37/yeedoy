@@ -73,11 +73,11 @@ export function KesifFiltreSidebar() {
 
   return (
     <div className="sticky top-24 rounded-2xl border border-border bg-card p-4 shadow-yd1">
-      <h2 className="mb-4 text-base font-[900] text-textStrong">Filtrele</h2>
+      <h2 className="mb-4 text-base font-black text-textStrong">Filtrele</h2>
 
       {/* Konum */}
       <div className="mb-5">
-        <p className="mb-2 text-sm font-[800] text-textStrong">Konum</p>
+        <p className="mb-2 text-sm font-extrabold text-textStrong">Konum</p>
         <div className="flex items-center gap-2 rounded-xl border border-border bg-bg px-3 py-2.5">
           <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-current stroke-2 text-muted" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
@@ -86,7 +86,7 @@ export function KesifFiltreSidebar() {
             type="text"
             value={konum}
             onChange={(e) => setKonum(e.target.value)}
-            className="min-w-0 flex-1 bg-transparent text-sm text-textStrong outline-none"
+            className="min-w-0 flex-1 bg-transparent text-sm text-textStrong outline-hidden"
           />
           <button type="button" aria-label="Konumumu kullan" className="shrink-0 text-muted hover:text-primary">
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -98,12 +98,12 @@ export function KesifFiltreSidebar() {
 
       {/* Sıralama */}
       <div className="mb-5">
-        <p className="mb-2 text-sm font-[800] text-textStrong">Sıralama</p>
+        <p className="mb-2 text-sm font-extrabold text-textStrong">Sıralama</p>
         <div className="relative">
           <select
             value={siralama}
             onChange={(e) => setSiralama(e.target.value)}
-            className="w-full appearance-none rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong outline-none focus:border-primary"
+            className="w-full appearance-none rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong outline-hidden focus:border-primary"
           >
             {SIRALAMA.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
@@ -115,7 +115,7 @@ export function KesifFiltreSidebar() {
 
       {/* Mutfak */}
       <div className="mb-5">
-        <p className="mb-2 text-sm font-[800] text-textStrong">Mutfak</p>
+        <p className="mb-2 text-sm font-extrabold text-textStrong">Mutfak</p>
         <div className="space-y-2">
           {gosterilen.map(m => (
             <label key={m} className="flex cursor-pointer items-center gap-2">
@@ -132,7 +132,7 @@ export function KesifFiltreSidebar() {
         <button
           type="button"
           onClick={() => setTumMutfak(v => !v)}
-          className="mt-2 text-sm font-[800] text-primary hover:underline"
+          className="mt-2 text-sm font-extrabold text-primary hover:underline"
         >
           {tumMutfak ? 'Daha az gör' : 'Tümünü Gör'}
         </button>
@@ -140,7 +140,7 @@ export function KesifFiltreSidebar() {
 
       {/* Fiyat Aralığı */}
       <div className="mb-5">
-        <p className="mb-2 text-sm font-[800] text-textStrong">Fiyat Aralığı</p>
+        <p className="mb-2 text-sm font-extrabold text-textStrong">Fiyat Aralığı</p>
         <input
           type="range"
           min="0"
@@ -149,7 +149,7 @@ export function KesifFiltreSidebar() {
           onChange={(e) => setMaxFiyat(Number(e.target.value))}
           className="w-full accent-primary"
         />
-        <div className="mt-2 flex justify-between text-xs font-[700] text-muted">
+        <div className="mt-2 flex justify-between text-xs font-bold text-muted">
           {FIYAT_ETIKET.map((l, i) => (
             <span key={l} className={i <= maxFiyat ? 'text-textStrong' : ''}>{l}</span>
           ))}
@@ -158,7 +158,7 @@ export function KesifFiltreSidebar() {
 
       {/* Açık / Kapalı */}
       <div className="mb-5">
-        <p className="mb-2 text-sm font-[800] text-textStrong">Açık / Kapalı</p>
+        <p className="mb-2 text-sm font-extrabold text-textStrong">Açık / Kapalı</p>
         <div className="space-y-2">
           <label className="flex cursor-pointer items-center gap-2">
             <input
@@ -183,7 +183,7 @@ export function KesifFiltreSidebar() {
 
       {/* Puan */}
       <div className="mb-6">
-        <p className="mb-2 text-sm font-[800] text-textStrong">Puan</p>
+        <p className="mb-2 text-sm font-extrabold text-textStrong">Puan</p>
         <div className="space-y-2">
           {PUAN_SECENEKLER.map(({ deger, dolu, yarim }) => (
             <label key={deger} className="flex cursor-pointer items-center gap-2">
@@ -206,7 +206,7 @@ export function KesifFiltreSidebar() {
       <button
         type="button"
         onClick={temizle}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-bg py-2.5 text-sm font-[800] text-textStrong transition-colors hover:bg-cardAlt"
+        className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-bg py-2.5 text-sm font-extrabold text-textStrong transition-colors hover:bg-cardAlt"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />

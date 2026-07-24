@@ -51,16 +51,16 @@ export function EnIyilerFiltreSidebar() {
 
   return (
     <aside className="w-full space-y-5 rounded-2xl border border-border bg-card p-5 shadow-yd1 lg:w-56 lg:shrink-0 lg:self-start lg:sticky lg:top-20">
-      <p className="text-sm font-[900] text-textStrong">Filtrele</p>
+      <p className="text-sm font-black text-textStrong">Filtrele</p>
 
       {/* Sırala */}
       <div className="space-y-1.5">
-        <label className="text-xs font-[800] text-muted">Sırala</label>
+        <label className="text-xs font-extrabold text-muted">Sırala</label>
         <div className="relative">
           <select
             value={sort}
             onChange={(e) => update('sort', e.target.value)}
-            className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-[800] text-textStrong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-extrabold text-textStrong focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           >
             <option value="rating">En Yüksek Puan</option>
             <option value="reviews">En Çok Yorum</option>
@@ -75,7 +75,7 @@ export function EnIyilerFiltreSidebar() {
 
       {/* Konum */}
       <div className="space-y-1.5">
-        <label className="text-xs font-[800] text-muted">Konum</label>
+        <label className="text-xs font-extrabold text-muted">Konum</label>
         <form onSubmit={handleCityChange}>
           <div className="relative">
             <span className="absolute inset-y-0 left-3 flex items-center text-muted" aria-hidden="true">
@@ -88,7 +88,7 @@ export function EnIyilerFiltreSidebar() {
               type="text"
               defaultValue={city}
               placeholder="Şehir filtrele"
-              className="w-full rounded-xl border border-border bg-surface py-2.5 pl-8 pr-3 text-sm font-[700] text-textStrong placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full rounded-xl border border-border bg-surface py-2.5 pl-8 pr-3 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
             />
           </div>
         </form>
@@ -96,12 +96,12 @@ export function EnIyilerFiltreSidebar() {
 
       {/* Kategori */}
       <div className="space-y-1.5">
-        <label className="text-xs font-[800] text-muted">Kategori</label>
+        <label className="text-xs font-extrabold text-muted">Kategori</label>
         <div className="relative">
           <select
             value={category}
             onChange={(e) => update('category', e.target.value)}
-            className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-[800] text-textStrong focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-extrabold text-textStrong focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           >
             <option value="">Tümü</option>
             {KATEGORILER.map((k) => (
@@ -121,7 +121,7 @@ export function EnIyilerFiltreSidebar() {
         <button
           type="button"
           onClick={() => router.push(pathname)}
-          className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface py-2.5 text-xs font-[800] text-muted transition-colors hover:border-danger/40 hover:text-danger"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-surface py-2.5 text-xs font-extrabold text-muted transition-colors hover:border-danger/40 hover:text-danger"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
             <path d="M18 6 6 18M6 6l12 12" />

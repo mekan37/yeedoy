@@ -53,10 +53,10 @@ export default async function FeatureFlagsPage() {
                 <div key={flag.key} className="flex items-center gap-4 px-5 py-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <code className="rounded bg-cardAlt px-2 py-0.5 text-xs font-[700] text-primary">
+                      <code className="rounded bg-cardAlt px-2 py-0.5 text-xs font-bold text-primary">
                         {flag.key}
                       </code>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                         flag.metadata?.environment === 'production'
                           ? 'bg-danger/10 text-danger'
                           : 'bg-info/10 text-info'

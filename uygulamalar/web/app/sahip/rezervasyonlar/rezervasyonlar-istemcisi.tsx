@@ -192,7 +192,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
     <div className="mx-auto max-w-[1300px] p-6">
       {/* Page header */}
       <div className="mb-6">
-        <h1 className="text-[26px] font-[900] text-[#1a1a2e]">Rezervasyonlar</h1>
+        <h1 className="text-[26px] font-black text-[#1a1a2e]">Rezervasyonlar</h1>
         <p className="mt-1 text-sm text-[#64748b]">Tüm rezervasyonlarınızı görüntüleyin, durumlarını yönetin ve detaylarını inceleyin.</p>
       </div>
 
@@ -217,12 +217,12 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`relative pb-3 pt-1 px-3 text-[13px] font-[800] transition-colors ${
+              className={`relative pb-3 pt-1 px-3 text-[13px] font-extrabold transition-colors ${
                 active ? 'text-[#dc2626]' : 'text-[#64748b] hover:text-[#1a1a2e]'
               }`}
             >
               {t.label}
-              <span className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-[900] ${
+              <span className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-black ${
                 active ? 'bg-[#dc2626] text-white' : 'bg-[#f1f5f9] text-[#64748b]'
               }`}>
                 {count}
@@ -237,7 +237,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1fr_340px]">
         {/* ── Left: table ──────────────────────────────────────────── */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-sm">
+          <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-xs">
             {/* Search + filters */}
             <div className="flex flex-wrap items-center gap-2 border-b border-[#f0f0f0] px-4 py-3">
               <div className="relative min-w-0 flex-1">
@@ -246,23 +246,23 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Misafir adı, telefon veya rezervasyon no ile ara..."
-                  className="w-full rounded-xl border border-[#e2e8f0] bg-[#f8fafc] py-2 pl-9 pr-3 text-sm text-[#1a1a2e] placeholder:text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#dc2626]/20"
+                  className="w-full rounded-xl border border-[#e2e8f0] bg-[#f8fafc] py-2 pl-9 pr-3 text-sm text-[#1a1a2e] placeholder:text-[#94a3b8] focus:outline-hidden focus:ring-2 focus:ring-[#dc2626]/20"
                 />
               </div>
-              <button className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-[700] text-[#475569] hover:bg-[#f1f5f9]">
+              <button className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-bold text-[#475569] hover:bg-[#f1f5f9]">
                 <CalendarSmIcon className="h-4 w-4" /> Tarih Seçin
               </button>
               <select
                 value={channel}
                 onChange={(e) => setChannel(e.target.value)}
-                className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-[700] text-[#475569] focus:outline-none focus:ring-2 focus:ring-[#dc2626]/20"
+                className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-bold text-[#475569] focus:outline-hidden focus:ring-2 focus:ring-[#dc2626]/20"
               >
                 <option value="all">Tüm Kanallar</option>
                 <option value="Yeedoy App">Yeedoy App</option>
                 <option value="Web Sitesi">Web Sitesi</option>
                 <option value="Telefon">Telefon</option>
               </select>
-              <button className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-[700] text-[#475569] hover:bg-[#f1f5f9]">
+              <button className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-bold text-[#475569] hover:bg-[#f1f5f9]">
                 <FilterIcon className="h-4 w-4" /> Filtrele
               </button>
             </div>
@@ -273,7 +273,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 <thead>
                   <tr className="border-b border-[#f0f0f0] bg-[#fafafa]">
                     {['Misafir', 'Tarih & Saat', 'Kişi', 'Durum', 'Kanal', 'Not', 'İşlemler'].map((h) => (
-                      <th key={h} className="px-4 py-3 text-left text-[11px] font-[800] uppercase tracking-wider text-[#94a3b8]">{h}</th>
+                      <th key={h} className="px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wider text-[#94a3b8]">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -294,21 +294,21 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                           <div className="flex items-center gap-3">
                             <GuestAvatar initials={r.guest.initials} color={r.guest.color} />
                             <div>
-                              <p className="text-[13px] font-[800] text-[#1a1a2e]">{r.guest.name}</p>
+                              <p className="text-[13px] font-extrabold text-[#1a1a2e]">{r.guest.name}</p>
                               <p className="text-[11px] text-[#94a3b8]">{r.guest.phone}</p>
                             </div>
                           </div>
                         </td>
                         {/* Tarih & Saat */}
                         <td className="px-4 py-3">
-                          <p className="text-[13px] font-[700] text-[#1a1a2e]">{r.dateStr}</p>
+                          <p className="text-[13px] font-bold text-[#1a1a2e]">{r.dateStr}</p>
                           <p className="text-[12px] text-[#64748b]">{r.time}</p>
                         </td>
                         {/* Kişi */}
-                        <td className="px-4 py-3 text-[13px] font-[700] text-[#1a1a2e]">{r.people} Kişi</td>
+                        <td className="px-4 py-3 text-[13px] font-bold text-[#1a1a2e]">{r.people} Kişi</td>
                         {/* Durum */}
                         <td className="px-4 py-3">
-                          <span className={`rounded-full px-2.5 py-1 text-[11px] font-[800] ${STATUS_STYLES[r.status]}`}>
+                          <span className={`rounded-full px-2.5 py-1 text-[11px] font-extrabold ${STATUS_STYLES[r.status]}`}>
                             {r.status}
                           </span>
                         </td>
@@ -316,7 +316,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-1.5">
                             <ChannelIcon channel={r.channel} />
-                            <span className="text-[12px] font-[700] text-[#475569]">{r.channel}</span>
+                            <span className="text-[12px] font-bold text-[#475569]">{r.channel}</span>
                           </div>
                         </td>
                         {/* Not */}
@@ -347,7 +347,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#94a3b8] hover:bg-[#f8fafc]">
                   <ChevLeftIcon className="h-3.5 w-3.5" />
                 </button>
-                <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#dc2626] bg-[#dc2626] text-[11px] font-[900] text-white">1</button>
+                <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#dc2626] bg-[#dc2626] text-[11px] font-black text-white">1</button>
                 <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#64748b] hover:bg-[#f8fafc]">
                   <ChevRightIcon className="h-3.5 w-3.5" />
                 </button>
@@ -359,11 +359,11 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
         {/* ── Right: Detail panel ────────────────────────────────── */}
         {selected && (
           <div className="flex flex-col gap-4">
-            <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-sm">
+            <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-xs">
               {/* Detail header */}
               <div className="flex items-center justify-between border-b border-[#f0f0f0] px-4 py-3">
-                <span className="text-[13px] font-[800] text-[#1a1a2e]">Rezervasyon Detayı</span>
-                <span className={`rounded-full px-2.5 py-1 text-[11px] font-[800] ${STATUS_STYLES[selected.status]}`}>
+                <span className="text-[13px] font-extrabold text-[#1a1a2e]">Rezervasyon Detayı</span>
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-extrabold ${STATUS_STYLES[selected.status]}`}>
                   {selected.status}
                 </span>
               </div>
@@ -373,7 +373,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 <div className="flex items-center gap-3">
                   <GuestAvatar initials={selected.guest.initials} color={selected.guest.color} size={48} />
                   <div>
-                    <p className="text-[15px] font-[900] text-[#1a1a2e]">{selected.guest.name}</p>
+                    <p className="text-[15px] font-black text-[#1a1a2e]">{selected.guest.name}</p>
                     <p className="text-[13px] text-[#64748b]">{selected.guest.phone}</p>
                   </div>
                 </div>
@@ -381,13 +381,13 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 {/* Quick actions */}
                 <div className="mt-4 grid grid-cols-3 gap-2">
                   <a href={`tel:${selected.guest.phone.replace(/\s/g,'')}`}
-                    className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-[800] text-[#475569] hover:bg-[#f8fafc] transition-colors">
+                    className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-extrabold text-[#475569] hover:bg-[#f8fafc] transition-colors">
                     <PhoneIcon className="h-4 w-4 text-[#64748b]" /> Ara
                   </a>
-                  <button className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-[800] text-[#475569] hover:bg-[#f8fafc] transition-colors">
+                  <button className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-extrabold text-[#475569] hover:bg-[#f8fafc] transition-colors">
                     <MessageIcon className="h-4 w-4 text-[#64748b]" /> Mesaj
                   </button>
-                  <button className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-[800] text-[#475569] hover:bg-[#f8fafc] transition-colors">
+                  <button className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-extrabold text-[#475569] hover:bg-[#f8fafc] transition-colors">
                     <MailIcon className="h-4 w-4 text-[#64748b]" /> E-posta
                   </button>
                 </div>
@@ -405,7 +405,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 {/* Note */}
                 {selected.note && (
                   <div className="mt-4 border-t border-[#f0f0f0] pt-4">
-                    <p className="mb-1.5 text-[11px] font-[800] uppercase tracking-wider text-[#94a3b8]">Not</p>
+                    <p className="mb-1.5 text-[11px] font-extrabold uppercase tracking-wider text-[#94a3b8]">Not</p>
                     <div className="flex items-start gap-2">
                       <NoteIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#94a3b8]" />
                       <p className="text-[13px] text-[#475569]">{selected.note}</p>
@@ -416,7 +416,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 {/* Table preference */}
                 {selected.tablePreference && (
                   <div className="mt-3">
-                    <p className="mb-1.5 text-[11px] font-[800] uppercase tracking-wider text-[#94a3b8]">Masa Tercihi</p>
+                    <p className="mb-1.5 text-[11px] font-extrabold uppercase tracking-wider text-[#94a3b8]">Masa Tercihi</p>
                     <div className="flex items-center gap-2">
                       <TableIcon className="h-4 w-4 text-[#94a3b8]" />
                       <p className="text-[13px] text-[#475569]">{selected.tablePreference}</p>
@@ -427,7 +427,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 {/* Special request */}
                 {selected.specialRequest && (
                   <div className="mt-3">
-                    <p className="mb-1.5 text-[11px] font-[800] uppercase tracking-wider text-[#94a3b8]">Özel İstek</p>
+                    <p className="mb-1.5 text-[11px] font-extrabold uppercase tracking-wider text-[#94a3b8]">Özel İstek</p>
                     <div className="flex items-center gap-2">
                       <StarSmIcon className="h-4 w-4 text-[#94a3b8]" />
                       <p className="text-[13px] text-[#475569]">{selected.specialRequest}</p>
@@ -437,18 +437,18 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
 
                 {/* Action buttons */}
                 <div className="mt-5 flex flex-col gap-2 border-t border-[#f0f0f0] pt-4">
-                  <button className="w-full rounded-xl bg-[#dc2626] py-2.5 text-[13px] font-[800] text-white transition hover:opacity-90">
+                  <button className="w-full rounded-xl bg-[#dc2626] py-2.5 text-[13px] font-extrabold text-white transition hover:opacity-90">
                     Rezervasyonu Düzenle
                   </button>
                   {selected.status !== 'İptal Edildi' && (
                     <button
                       onClick={() => handleCancel(selected.id)}
-                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fecaca] py-2.5 text-[13px] font-[800] text-[#dc2626] transition hover:bg-[#fff1f2]"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fecaca] py-2.5 text-[13px] font-extrabold text-[#dc2626] transition hover:bg-[#fff1f2]"
                     >
                       <XSmIcon className="h-4 w-4" /> Rezervasyonu İptal Et
                     </button>
                   )}
-                  <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#e2e8f0] py-2.5 text-[13px] font-[800] text-[#475569] transition hover:bg-[#f8fafc]">
+                  <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#e2e8f0] py-2.5 text-[13px] font-extrabold text-[#475569] transition hover:bg-[#f8fafc]">
                     <NoteIcon className="h-4 w-4" /> Not Ekle
                   </button>
                 </div>
@@ -464,10 +464,10 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
           <CalendarStatIcon className="h-5 w-5 text-blue-600" />
         </div>
         <div className="flex-1">
-          <p className="text-[13px] font-[800] text-[#1a1a2e]">Rezervasyonlarınızı kolayca yönetin</p>
+          <p className="text-[13px] font-extrabold text-[#1a1a2e]">Rezervasyonlarınızı kolayca yönetin</p>
           <p className="text-[12px] text-[#64748b]">Rezervasyonları anlık olarak takip edin, onaylayın veya iptal edin.</p>
         </div>
-        <Link href="/sahip/ayarlar" className="shrink-0 flex items-center gap-1.5 rounded-xl border border-blue-300 bg-white px-4 py-2 text-[12px] font-[800] text-[#1a1a2e] transition hover:bg-blue-50">
+        <Link href="/sahip/ayarlar" className="shrink-0 flex items-center gap-1.5 rounded-xl border border-blue-300 bg-white px-4 py-2 text-[12px] font-extrabold text-[#1a1a2e] transition hover:bg-blue-50">
           <SettingsIcon className="h-4 w-4" /> Rezervasyon Ayarları →
         </Link>
       </div>
@@ -480,7 +480,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
 function GuestAvatar({ initials, color, size = 38 }: { initials: string; color: string; size?: number }) {
   return (
     <div
-      className="flex shrink-0 items-center justify-center rounded-full font-[900] text-white"
+      className="flex shrink-0 items-center justify-center rounded-full font-black text-white"
       style={{ width: size, height: size, backgroundColor: color, fontSize: size * 0.34 }}
     >
       {initials}
@@ -492,14 +492,14 @@ function StatCard({ icon, color, bg, label, value, sub }: {
   icon: React.ReactNode; color: string; bg: string; label: string; value: string | number; sub: string;
 }) {
   return (
-    <div className="rounded-[20px] border border-[#f0f0f0] bg-white p-4 shadow-sm">
+    <div className="rounded-[20px] border border-[#f0f0f0] bg-white p-4 shadow-xs">
       <div className="mb-2 flex items-center gap-2">
         <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${bg} ${color}`}>
           {icon}
         </div>
-        <span className="text-[11px] font-[700] leading-tight text-[#64748b]">{label}</span>
+        <span className="text-[11px] font-bold leading-tight text-[#64748b]">{label}</span>
       </div>
-      <p className="text-xl font-[900] text-[#1a1a2e]">{value}</p>
+      <p className="text-xl font-black text-[#1a1a2e]">{value}</p>
       <p className="mt-0.5 text-[11px] text-[#94a3b8]">{sub}</p>
     </div>
   );
@@ -510,9 +510,9 @@ function DetailRow({ icon, label, value, mono }: { icon: React.ReactNode; label:
     <div className="flex items-start justify-between gap-3">
       <div className="flex items-center gap-1.5 shrink-0">
         <span className="text-[#94a3b8]">{icon}</span>
-        <span className="text-[12px] font-[700] text-[#94a3b8]">{label}</span>
+        <span className="text-[12px] font-bold text-[#94a3b8]">{label}</span>
       </div>
-      <span className={`text-right text-[12px] font-[800] text-[#1a1a2e] ${mono ? 'font-mono' : ''}`}>{value}</span>
+      <span className={`text-right text-[12px] font-extrabold text-[#1a1a2e] ${mono ? 'font-mono' : ''}`}>{value}</span>
     </div>
   );
 }
@@ -520,7 +520,7 @@ function DetailRow({ icon, label, value, mono }: { icon: React.ReactNode; label:
 function ChannelIcon({ channel }: { channel: Channel }) {
   if (channel === 'Yeedoy App') {
     return (
-      <span className="flex h-5 w-5 items-center justify-center rounded bg-[#dc2626] text-[9px] font-[900] text-white">Y</span>
+      <span className="flex h-5 w-5 items-center justify-center rounded bg-[#dc2626] text-[9px] font-black text-white">Y</span>
     );
   }
   if (channel === 'Web Sitesi') {

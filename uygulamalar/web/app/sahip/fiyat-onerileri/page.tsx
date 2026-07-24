@@ -61,11 +61,11 @@ export default async function OwnerPriceSuggestionsPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Ürün</th>
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Mevcut Fiyat</th>
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Önerilen Fiyat</th>
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Durum</th>
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                    <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Ürün</th>
+                    <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Mevcut Fiyat</th>
+                    <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Önerilen Fiyat</th>
+                    <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                    <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -73,17 +73,17 @@ export default async function OwnerPriceSuggestionsPage() {
                     const statusInfo = STATUS_MAP[s.status] ?? STATUS_MAP['pending'];
                     return (
                       <tr key={s.id}>
-                        <td className="px-5 py-3 font-[600] text-textStrong">
+                        <td className="px-5 py-3 font-semibold text-textStrong">
                           {s.menu_items?.name ?? s.menu_item_id}
                         </td>
                         <td className="px-5 py-3 text-muted">
                           {s.menu_items?.price_cents != null ? formatPrice(s.menu_items.price_cents) : '—'}
                         </td>
-                        <td className="px-5 py-3 font-[700] text-textStrong">
+                        <td className="px-5 py-3 font-bold text-textStrong">
                           {formatPrice(s.suggested_price_cents)}
                         </td>
                         <td className="px-5 py-3">
-                          <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${statusInfo.className}`}>
+                          <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${statusInfo.className}`}>
                             {statusInfo.label}
                           </span>
                         </td>

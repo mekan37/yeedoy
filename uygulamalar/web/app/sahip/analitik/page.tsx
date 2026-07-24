@@ -340,7 +340,7 @@ function AralikSecici({ aktif }: { aktif: Aralik }) {
             href={`/sahip/analitik?aralik=${aralik}`}
             aria-current={isActive ? 'page' : undefined}
             className={[
-              'min-h-[32px] rounded-lg px-3 text-xs font-[700] transition-all duration-150',
+              'min-h-[32px] rounded-lg px-3 text-xs font-bold transition-all duration-150',
               isActive
                 ? 'btn-primary text-white'
                 : 'text-muted hover:text-textStrong',

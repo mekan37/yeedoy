@@ -74,7 +74,7 @@ export default function HesapSilPage() {
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h1 className="text-xl font-[900] text-green-700">Hesabınız silindi</h1>
+            <h1 className="text-xl font-black text-green-700">Hesabınız silindi</h1>
             <p className="mt-2 text-sm text-green-600">Ana sayfaya yönlendiriliyorsunuz…</p>
           </div>
         )}
@@ -82,13 +82,13 @@ export default function HesapSilPage() {
         {/* Normal akış */}
         {phase !== 'done' && (
           <>
-            <h1 className="mb-2 text-2xl font-[900] text-textStrong">Hesabı Sil</h1>
+            <h1 className="mb-2 text-2xl font-black text-textStrong">Hesabı Sil</h1>
             <p className="mb-8 text-sm leading-relaxed text-muted">
               Hesabınızı ve tüm verilerinizi kalıcı olarak silmek için aşağıdaki adımları tamamlayın.
             </p>
 
             {/* Adım 1 — Uyarı */}
-            <section className="mb-6 rounded-[24px] border border-danger/25 bg-danger/[0.05] p-6">
+            <section className="mb-6 rounded-[24px] border border-danger/25 bg-danger/5 p-6">
               <div className="mb-3 flex items-center gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-danger/10">
                   <svg
@@ -99,7 +99,7 @@ export default function HesapSilPage() {
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
                   </svg>
                 </div>
-                <h2 className="text-base font-[900] text-danger">Bu işlem geri alınamaz</h2>
+                <h2 className="text-base font-black text-danger">Bu işlem geri alınamaz</h2>
               </div>
               <ul className="space-y-2 text-sm text-textStrong">
                 {[
@@ -128,9 +128,9 @@ export default function HesapSilPage() {
 
             {/* Adım 2 — Onay checkbox */}
             <section className="mb-6 rounded-[24px] border border-border bg-card p-6">
-              <h2 className="mb-4 text-sm font-[900] text-textStrong">Onaylayın</h2>
+              <h2 className="mb-4 text-sm font-black text-textStrong">Onaylayın</h2>
               <label className="flex cursor-pointer items-start gap-3">
-                <div className="relative mt-0.5 flex-shrink-0">
+                <div className="relative mt-0.5 shrink-0">
                   <input
                     type="checkbox"
                     checked={confirmed}
@@ -161,14 +161,14 @@ export default function HesapSilPage() {
                 </div>
                 <span className="text-sm leading-relaxed text-textStrong">
                   Hesabımın ve tüm verilerimin{' '}
-                  <strong className="font-[900]">kalıcı olarak silineceğini</strong> anlıyorum.
+                  <strong className="font-black">kalıcı olarak silineceğini</strong> anlıyorum.
                 </span>
               </label>
             </section>
 
             {/* Hata mesajı */}
             {phase === 'error' && errorMsg && (
-              <div className="mb-5 rounded-2xl border border-danger/25 bg-danger/[0.08] px-5 py-3.5 text-sm font-[700] text-danger">
+              <div className="mb-5 rounded-2xl border border-danger/25 bg-danger/8 px-5 py-3.5 text-sm font-bold text-danger">
                 {errorMsg}
               </div>
             )}
@@ -178,7 +178,7 @@ export default function HesapSilPage() {
               type="button"
               onClick={handleDelete}
               disabled={!confirmed || phase === 'deleting'}
-              className="flex w-full min-h-[52px] items-center justify-center rounded-2xl bg-danger text-sm font-[900] text-white transition-all hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger/40 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex w-full min-h-[52px] items-center justify-center rounded-2xl bg-danger text-sm font-black text-white transition-all hover:brightness-95 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-danger/40 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {phase === 'deleting' ? (
                 <span className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export default function HesapSilPage() {
 
             <p className="mt-4 text-center text-xs text-muted">
               Vazgeçmek isterseniz{' '}
-              <Link href="/profil/ayarlar" className="font-[700] text-primary hover:underline">
+              <Link href="/profil/ayarlar" className="font-bold text-primary hover:underline">
                 Ayarlara Dön
               </Link>
             </p>

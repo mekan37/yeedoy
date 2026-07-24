@@ -71,21 +71,21 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
         >
           <form action={createOwnerMenu} className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(220px,320px)_auto] md:items-end">
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-[800] text-muted">Menü adı</span>
+              <span className="text-xs font-extrabold text-muted">Menü adı</span>
               <input
                 name="title"
                 required
                 maxLength={200}
                 placeholder="Örn: Ana Menü"
-                className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+                className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
               />
             </label>
             <label className="flex flex-col gap-1">
-              <span className="text-xs font-[800] text-muted">İşletme</span>
+              <span className="text-xs font-extrabold text-muted">İşletme</span>
               <select
                 name="businessId"
                 required
-                className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+                className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
                 defaultValue={businesses[0]?.id ?? ''}
               >
                 {businesses.length === 0 ? (
@@ -100,18 +100,18 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
             <button
               type="submit"
               disabled={businesses.length === 0}
-              className="min-h-11 rounded-xl bg-primary px-4 text-sm font-[900] text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="min-h-11 rounded-xl bg-primary px-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               Oluştur
             </button>
           </form>
           {hata && createMenuErrors[hata] && (
-            <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-[700] text-red-700">
+            <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-700">
               {createMenuErrors[hata]}
             </p>
           )}
           {basari && successMessages[basari] && (
-            <p className="mt-3 rounded-xl bg-green-50 px-3 py-2 text-sm font-[700] text-green-700">
+            <p className="mt-3 rounded-xl bg-green-50 px-3 py-2 text-sm font-bold text-green-700">
               {successMessages[basari]}
             </p>
           )}
@@ -126,31 +126,31 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
           <form action={createExternalMenu} className="grid gap-3">
             <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(180px,240px)_minmax(160px,200px)]">
               <label className="flex flex-col gap-1">
-                <span className="text-xs font-[800] text-muted">Menü adı</span>
+                <span className="text-xs font-extrabold text-muted">Menü adı</span>
                 <input
                   name="title"
                   required
                   maxLength={200}
                   placeholder="Örn: QR Menü"
-                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-xs font-[800] text-muted">Tür</span>
+                <span className="text-xs font-extrabold text-muted">Tür</span>
                 <select
                   name="kind"
-                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
                 >
                   <option value="external">Dış Link</option>
                   <option value="qr">QR Kod</option>
                 </select>
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-xs font-[800] text-muted">İşletme</span>
+                <span className="text-xs font-extrabold text-muted">İşletme</span>
                 <select
                   name="businessId"
                   required
-                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
                   defaultValue={businesses[0]?.id ?? ''}
                 >
                   {businesses.map((b) => (
@@ -161,20 +161,20 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
             </div>
             <div className="flex gap-3">
               <label className="flex flex-1 flex-col gap-1">
-                <span className="text-xs font-[800] text-muted">URL</span>
+                <span className="text-xs font-extrabold text-muted">URL</span>
                 <input
                   name="externalUrl"
                   type="url"
                   required
                   placeholder="https://view.qrall.co/tr?..."
-                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
               </label>
               <div className="flex items-end">
                 <button
                   type="submit"
                   disabled={businesses.length === 0}
-                  className="min-h-11 rounded-xl bg-primary px-4 text-sm font-[900] text-white disabled:opacity-50"
+                  className="min-h-11 rounded-xl bg-primary px-4 text-sm font-black text-white disabled:opacity-50"
                 >
                   Ekle
                 </button>
@@ -192,7 +192,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
           <PanelBolumKarti noPadding>
             <ul className="divide-y divide-border">
               {list.map((m) => (
-                <li key={m.id} className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-black/[0.02]">
+                <li key={m.id} className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-black/2">
                   <Link
                     href={`/sahip/menuler/${m.id}`}
                     className="flex min-w-0 flex-1 items-center gap-4"
@@ -202,11 +202,11 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-[800] text-textStrong">{m.title}</p>
+                      <p className="truncate text-sm font-extrabold text-textStrong">{m.title}</p>
                       <p className="mt-0.5 text-xs text-muted">
                         {businessMap[m.business_id] ?? m.business_id}
                         {m.external_url && (
-                          <span className="ml-2 rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-[700] text-blue-600">
+                          <span className="ml-2 rounded bg-blue-50 px-1.5 py-0.5 text-[10px] font-bold text-blue-600">
                             {m.kind === 'qr' ? 'QR' : 'Dış Link'}
                           </span>
                         )}
@@ -221,7 +221,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
                   />
 
                   <span
-                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
+                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
                       m.status === 'published'
                         ? 'bg-green-50 text-green-700'
                         : m.status === 'archived'

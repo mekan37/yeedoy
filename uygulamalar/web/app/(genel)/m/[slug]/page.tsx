@@ -310,11 +310,11 @@ export async function renderPublicMenuRoute(input: {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mt-8 border-t border-border pt-6 pb-8 text-center text-xs text-muted">
           Bu işletme{' '}
-          <span className="font-[700] text-textStrong">Yeedoy QR Menü</span>{' '}
+          <span className="font-bold text-textStrong">Yeedoy QR Menü</span>{' '}
           kullanıyor.{' '}
           <Link
             href="/sahip/baslangic"
-            className="font-[700] text-primary hover:underline"
+            className="font-bold text-primary hover:underline"
           >
             Siz de ücretsiz QR menü alın →
           </Link>

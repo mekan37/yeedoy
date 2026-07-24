@@ -69,7 +69,7 @@ export default async function AdminSuggestionsPage({ searchParams }: Props) {
                 type="submit"
                 name="status"
                 value={value}
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   status === value
                     ? 'bg-primary text-white'
                     : 'bg-card border border-border text-muted hover:text-textStrong'
@@ -91,25 +91,25 @@ export default async function AdminSuggestionsPage({ searchParams }: Props) {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şehir</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kategori</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Not</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şehir</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kategori</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Not</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {list.map((s: any) => {
                     const statusInfo = STATUS_MAP[s.status] ?? STATUS_MAP['pending'];
                     return (
-                      <tr key={s.id} className="hover:bg-black/[0.01]">
-                        <td className="px-5 py-3 font-[700] text-textStrong">{s.name}</td>
+                      <tr key={s.id} className="hover:bg-black/1">
+                        <td className="px-5 py-3 font-bold text-textStrong">{s.name}</td>
                         <td className="px-5 py-3 text-muted">{s.city ?? '—'}</td>
                         <td className="px-5 py-3 text-muted">{s.category ?? '—'}</td>
                         <td className="px-5 py-3 text-muted max-w-[200px] truncate">{s.note ?? '—'}</td>
                         <td className="px-5 py-3">
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${statusInfo.className}`}>
                             {statusInfo.label}
                           </span>
                         </td>

@@ -90,11 +90,11 @@ export default async function AdminDashboardPage() {
                 <Link
                   key={e.href}
                   href={e.href}
-                  className="flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm font-[700] text-textStrong hover:border-primary/30 hover:bg-cardAlt/50 transition-colors"
+                  className="flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm font-bold text-textStrong hover:border-primary/30 hover:bg-cardAlt/50 transition-colors"
                 >
                   <span>{e.label}</span>
                   {e.count !== null && e.count > 0 && (
-                    <span className={`rounded-full bg-warning/15 px-2 py-0.5 text-[11px] font-[900] ${e.renk}`}>
+                    <span className={`rounded-full bg-warning/15 px-2 py-0.5 text-[11px] font-black ${e.renk}`}>
                       {e.count}
                     </span>
                   )}

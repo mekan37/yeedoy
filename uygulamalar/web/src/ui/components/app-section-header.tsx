@@ -18,7 +18,7 @@ export function AppSectionHeader({ title, subtitle, trailing, className = '' }: 
           style={{ width: 8, height: 20 }}
           aria-hidden="true"
         />
-        <h2 className="flex-1 text-xl font-[900] text-textStrong leading-tight">{title}</h2>
+        <h2 className="flex-1 text-xl font-black text-textStrong leading-tight">{title}</h2>
         {trailing && <div className="shrink-0">{trailing}</div>}
       </div>
       {subtitle && <div className="text-sm text-muted leading-snug pl-4">{subtitle}</div>}

@@ -413,7 +413,7 @@ export function AcikMenuIstemcisi({
                 ) : null}
               </div>
 
-              <div className="rounded-[28px] border border-white/12 bg-white/10 p-4 backdrop-blur">
+              <div className="rounded-[28px] border border-white/12 bg-white/10 p-4 backdrop-blur-sm">
                 <p className="text-[11px] font-black uppercase tracking-[0.24em] text-white/78">{labels.themePreview}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {themeOptions.map((theme) => (
@@ -528,7 +528,7 @@ export function AcikMenuIstemcisi({
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={labels.searchPlaceholder}
-              className="w-full rounded-2xl border border-border bg-bg px-4 py-2.5 text-sm text-text outline-none transition focus:border-primary"
+              className="w-full rounded-2xl border border-border bg-bg px-4 py-2.5 text-sm text-text outline-hidden transition focus:border-primary"
               aria-label={labels.searchPlaceholder}
             />
           </div>
@@ -655,7 +655,7 @@ export function AcikMenuIstemcisi({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={labels.searchPlaceholder}
-            className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-text outline-none transition focus:border-primary"
+            className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-text outline-hidden transition focus:border-primary"
             aria-label={labels.searchPlaceholder}
           />
         </div>
@@ -683,7 +683,7 @@ export function AcikMenuIstemcisi({
           style={{ backgroundImage: brand.featuredBackground }}
         >
           <div className="grid gap-5 p-4 sm:p-5 xl:grid-cols-[0.42fr_1fr]">
-            <div className="rounded-[26px] border border-border bg-card/90 p-5 backdrop-blur" style={{ backgroundImage: brand.featuredAccent }}>
+            <div className="rounded-[26px] border border-border bg-card/90 p-5 backdrop-blur-sm" style={{ backgroundImage: brand.featuredAccent }}>
               <p className="text-xs font-black uppercase tracking-[0.24em] text-muted">{labels.curatedSelection}</p>
               <h2 className="mt-2 text-2xl font-black text-textStrong">{businessName}</h2>
               <p className="mt-3 text-sm leading-7 text-text">
@@ -1208,7 +1208,7 @@ function StaticMapBlock({ lat, lng, label }: { lat: number; lng: number; label: 
 
 function MetricCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur">
+    <div className="rounded-[24px] border border-white/12 bg-white/10 px-4 py-4 backdrop-blur-sm">
       <p className="text-[11px] font-black uppercase tracking-[0.2em] text-white/72">{label}</p>
       <p className="mt-2 text-lg font-black text-white">{value}</p>
     </div>

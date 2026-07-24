@@ -46,21 +46,21 @@ export default async function AdminDevToolsPage() {
           <PanelBolumKarti title="Ortam">
             <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 text-sm">
               <div>
-                <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Node Env</dt>
+                <dt className="text-xs font-bold uppercase tracking-wide text-muted">Node Env</dt>
                 <dd className="mt-0.5 font-mono text-xs text-textStrong">{process.env.NODE_ENV}</dd>
               </div>
               <div>
-                <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Supabase URL</dt>
+                <dt className="text-xs font-bold uppercase tracking-wide text-muted">Supabase URL</dt>
                 <dd className="mt-0.5 font-mono text-xs text-textStrong">
                   {process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/https?:\/\//, '').split('.')[0] ?? '—'}...
                 </dd>
               </div>
               <div>
-                <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Geçici Yüklemeler</dt>
+                <dt className="text-xs font-bold uppercase tracking-wide text-muted">Geçici Yüklemeler</dt>
                 <dd className="mt-0.5 font-mono text-xs text-textStrong">{(tempUploadsCount ?? 0).toLocaleString('tr-TR')}</dd>
               </div>
               <div>
-                <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Rate Limit (bugün)</dt>
+                <dt className="text-xs font-bold uppercase tracking-wide text-muted">Rate Limit (bugün)</dt>
                 <dd className="mt-0.5 font-mono text-xs text-textStrong">{(rateLimitToday ?? 0).toLocaleString('tr-TR')}</dd>
               </div>
             </dl>
@@ -68,14 +68,14 @@ export default async function AdminDevToolsPage() {
 
           {/* Queue counts RPC output */}
           <PanelBolumKarti title="Kuyruk Sayıları (RPC)">
-            <pre className="overflow-auto rounded-lg bg-[color:var(--yd-color-bg)] p-4 text-xs font-mono text-textStrong">
+            <pre className="overflow-auto rounded-lg bg-(--yd-color-bg) p-4 text-xs font-mono text-textStrong">
               {JSON.stringify(queueCounts, null, 2)}
             </pre>
           </PanelBolumKarti>
 
           {/* SLA metrics */}
           <PanelBolumKarti title="SLA Metrikleri (RPC)">
-            <pre className="overflow-auto rounded-lg bg-[color:var(--yd-color-bg)] p-4 text-xs font-mono text-textStrong">
+            <pre className="overflow-auto rounded-lg bg-(--yd-color-bg) p-4 text-xs font-mono text-textStrong">
               {JSON.stringify(slaCounts, null, 2)}
             </pre>
           </PanelBolumKarti>
@@ -93,7 +93,7 @@ export default async function AdminDevToolsPage() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[color:var(--yd-color-primary)] hover:underline"
+                    className="text-(--yd-color-primary) hover:underline"
                   >
                     {label} ↗
                   </a>

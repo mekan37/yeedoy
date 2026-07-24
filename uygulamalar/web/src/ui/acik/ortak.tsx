@@ -26,11 +26,11 @@ export function SectionHeader({
     <div className={clsx('flex items-end justify-between gap-4', className)}>
       <div>
         {eyebrow ? <p className="yd-eyebrow mb-2">{eyebrow}</p> : null}
-        <h2 className="text-xl font-[900] leading-tight text-textStrong sm:text-2xl">{title}</h2>
+        <h2 className="text-xl font-black leading-tight text-textStrong sm:text-2xl">{title}</h2>
         {subtitle ? <p className="mt-1 text-sm leading-6 text-muted">{subtitle}</p> : null}
       </div>
       {actionHref && actionLabel ? (
-        <Link href={actionHref} className="hidden min-h-11 shrink-0 items-center rounded-2xl px-3 text-sm font-[900] text-primary hover:bg-[var(--yd-color-primary-soft)] sm:inline-flex">
+        <Link href={actionHref} className="hidden min-h-11 shrink-0 items-center rounded-2xl px-3 text-sm font-black text-primary hover:bg-(--yd-color-primary-soft) sm:inline-flex">
           {actionLabel}
         </Link>
       ) : null}
@@ -41,19 +41,19 @@ export function SectionHeader({
 export function Badge({ children, tone = 'neutral', className }: { children: ReactNode; tone?: 'neutral' | 'brand' | 'success' | 'warning' | 'danger'; className?: string }) {
   const tones = {
     neutral: 'border-border bg-cardAlt text-textStrong',
-    brand: 'border-primary/25 bg-[var(--yd-color-primary-soft)] text-primary',
-    success: 'border-success/25 bg-success/[0.12] text-success',
+    brand: 'border-primary/25 bg-(--yd-color-primary-soft) text-primary',
+    success: 'border-success/25 bg-success/12 text-success',
     warning: 'border-warning/25 bg-warning/[0.14] text-textStrong',
-    danger: 'border-danger/25 bg-danger/[0.10] text-danger',
+    danger: 'border-danger/25 bg-danger/10 text-danger',
   };
-  return <span className={clsx('inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-[900]', tones[tone], className)}>{children}</span>;
+  return <span className={clsx('inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-black', tones[tone], className)}>{children}</span>;
 }
 
 export function Card({ children, className, href }: { children: ReactNode; className?: string; href?: string }) {
   const classes = clsx('rounded-[20px] border border-border bg-card shadow-yd1', className);
   if (!href) return <div className={classes}>{children}</div>;
   return (
-    <Link href={href} className={clsx(classes, 'block transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-yd2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30')}>
+    <Link href={href} className={clsx(classes, 'block transition-all hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-yd2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30')}>
       {children}
     </Link>
   );
@@ -64,8 +64,8 @@ export function ButtonLink({ href, children, variant = 'primary', className }: {
     <Link
       href={href}
       className={clsx(
-        'inline-flex min-h-[52px] items-center justify-center rounded-2xl px-5 text-sm font-[900] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
-        variant === 'primary' && 'text-white shadow-[var(--yd-shadow-primary)] hover:-translate-y-px hover:brightness-105',
+        'inline-flex min-h-[52px] items-center justify-center rounded-2xl px-5 text-sm font-black focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
+        variant === 'primary' && 'text-white shadow-(--yd-shadow-primary) hover:-translate-y-px hover:brightness-105',
         variant === 'secondary' && 'border border-border bg-card text-textStrong hover:border-primary/35',
         variant === 'ghost' && 'text-textStrong hover:bg-cardAlt',
         className,
@@ -141,7 +141,7 @@ export function EmptyState({
       <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-cardAlt text-muted">
         {EMPTY_ICONS[variant]}
       </div>
-      <p className="mt-5 text-lg font-[900] text-textStrong">{title}</p>
+      <p className="mt-5 text-lg font-black text-textStrong">{title}</p>
       <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted">{body}</p>
       {actionHref && actionLabel ? <ButtonLink href={actionHref} variant="secondary" className="mt-6 min-h-11">{actionLabel}</ButtonLink> : null}
     </Card>
@@ -151,7 +151,7 @@ export function EmptyState({
 export function ErrorState({ title = 'Bir sorun oluştu', body = 'Sayfa verisi alınamadı.', retryHref }: { title?: string; body?: string; retryHref?: string }) {
   return (
     <Card className="border-danger/20 px-5 py-12 text-center">
-      <p className="font-[900] text-textStrong">{title}</p>
+      <p className="font-black text-textStrong">{title}</p>
       <p className="mt-2 text-sm text-muted">{body}</p>
       {retryHref ? <ButtonLink href={retryHref} className="mt-5 min-h-11">Tekrar dene</ButtonLink> : null}
     </Card>
@@ -159,7 +159,7 @@ export function ErrorState({ title = 'Bir sorun oluştu', body = 'Sayfa verisi a
 }
 
 export function LoadingState({ label = 'Yükleniyor' }: { label?: string }) {
-  return <div className="min-h-20 rounded-[20px] border border-border bg-card p-5 text-sm font-[900] text-muted">{label}...</div>;
+  return <div className="min-h-20 rounded-[20px] border border-border bg-card p-5 text-sm font-black text-muted">{label}...</div>;
 }
 
 export function Skeleton({ className = '' }: { className?: string }) {

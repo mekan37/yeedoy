@@ -66,9 +66,9 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
   return (
     <div className="flex flex-col gap-4">
       {winner && (
-        <div className="rounded-2xl border border-success/30 bg-success/[0.06] px-4 py-3 text-center">
-          <p className="text-xs font-[800] uppercase tracking-wide text-success">Şu anki önde gelen</p>
-          <p className="mt-1 text-lg font-[900] text-textStrong">{winner.businessName}</p>
+        <div className="rounded-2xl border border-success/30 bg-success/6 px-4 py-3 text-center">
+          <p className="text-xs font-extrabold uppercase tracking-wide text-success">Şu anki önde gelen</p>
+          <p className="mt-1 text-lg font-black text-textStrong">{winner.businessName}</p>
           <p className="text-xs text-muted">{winner.upVotes} evet · {winner.downVotes} hayır</p>
         </div>
       )}
@@ -82,7 +82,7 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   {idx === 0 && score > 0 && <Trophy className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />}
-                  <h3 className="font-[900] text-textStrong">{item.businessName}</h3>
+                  <h3 className="font-black text-textStrong">{item.businessName}</h3>
                 </div>
                 {(item.category || item.location) && (
                   <p className="mt-0.5 text-sm text-muted">
@@ -92,7 +92,7 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
                 <Link
                   href={`/m/${item.businessSlug}`}
                   target="_blank"
-                  className="mt-1 inline-block text-xs font-[700] text-primary hover:underline"
+                  className="mt-1 inline-block text-xs font-bold text-primary hover:underline"
                 >
                   Menüye bak →
                 </Link>
@@ -101,7 +101,7 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
               {/* Oy sayısı */}
               <div className="shrink-0 text-center">
                 <p className={clsx(
-                  'text-xl font-[900]',
+                  'text-xl font-black',
                   score > 0 ? 'text-success' : score < 0 ? 'text-danger' : 'text-muted',
                 )}>
                   {score > 0 ? '+' : ''}{score}
@@ -116,9 +116,9 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
                 onClick={() => castVote(item.id, 1)}
                 disabled={loading === item.id}
                 className={clsx(
-                  'flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 text-sm font-[800] transition-all',
+                  'flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 text-sm font-extrabold transition-all',
                   myVote === 1
-                    ? 'border-success/30 bg-success/[0.12] text-success'
+                    ? 'border-success/30 bg-success/12 text-success'
                     : 'border-border bg-cardAlt text-muted hover:border-success/30 hover:text-success',
                 )}
               >
@@ -128,9 +128,9 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
                 onClick={() => castVote(item.id, -1)}
                 disabled={loading === item.id}
                 className={clsx(
-                  'flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 text-sm font-[800] transition-all',
+                  'flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 text-sm font-extrabold transition-all',
                   myVote === -1
-                    ? 'border-danger/30 bg-danger/[0.10] text-danger'
+                    ? 'border-danger/30 bg-danger/10 text-danger'
                     : 'border-border bg-cardAlt text-muted hover:border-danger/30 hover:text-danger',
                 )}
               >

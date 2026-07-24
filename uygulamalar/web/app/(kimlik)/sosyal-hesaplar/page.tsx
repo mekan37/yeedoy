@@ -134,7 +134,7 @@ export default function SosyalHesaplarPage() {
           >
             ← Profilime Dön
           </Link>
-          <h1 className="text-xl font-[900] text-textStrong">Bağlı Sosyal Hesaplar</h1>
+          <h1 className="text-xl font-black text-textStrong">Bağlı Sosyal Hesaplar</h1>
           <p className="mt-1 text-sm text-muted">
             Sosyal medya profillerinizi ekleyerek sayfanızı zenginleştirin.
           </p>
@@ -151,7 +151,7 @@ export default function SosyalHesaplarPage() {
                 <div key={platform.key}>
                   <label
                     htmlFor={`social-${platform.key}`}
-                    className="mb-1.5 flex items-center gap-2 text-sm font-[900] text-textStrong"
+                    className="mb-1.5 flex items-center gap-2 text-sm font-black text-textStrong"
                   >
                     <PlatformDot color={platform.color} />
                     {platform.label}
@@ -164,7 +164,7 @@ export default function SosyalHesaplarPage() {
                       setLinks((prev) => ({ ...prev, [platform.key]: e.target.value }))
                     }
                     placeholder={platform.placeholder}
-                    className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                   />
                 </div>
               ))}
@@ -173,7 +173,7 @@ export default function SosyalHesaplarPage() {
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex min-h-[52px] items-center justify-center rounded-2xl text-sm font-[900] text-white disabled:opacity-60"
+              className="inline-flex min-h-[52px] items-center justify-center rounded-2xl text-sm font-black text-white disabled:opacity-60"
               style={{ background: 'var(--yd-gradient-primary)' }}
             >
               {saving ? 'Kaydediliyor…' : 'Kaydet'}

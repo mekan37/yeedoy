@@ -149,7 +149,7 @@ export function AnlikArama({ className = '' }: { className?: string }) {
           value={query}
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
-          className="h-[52px] w-full rounded-2xl border border-border bg-card pl-12 pr-12 text-sm font-[700] text-textStrong placeholder:text-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+          className="h-[52px] w-full rounded-2xl border border-border bg-card pl-12 pr-12 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 transition-all"
           role="combobox"
           aria-label="Ara"
           aria-expanded={showDropdown}
@@ -189,14 +189,14 @@ export function AnlikArama({ className = '' }: { className?: string }) {
           {/* Popüler aramalar — sorgu boşken */}
           {!query.trim() && (
             <div className="p-3">
-              <p className="mb-2 px-2 text-[11px] font-[900] uppercase tracking-widest text-muted">Popüler Aramalar</p>
+              <p className="mb-2 px-2 text-[11px] font-black uppercase tracking-widest text-muted">Popüler Aramalar</p>
               <div className="flex flex-wrap gap-1.5">
                 {POPULAR.map((term) => (
                   <button
                     key={term}
                     type="button"
                     onClick={() => { setQuery(term); setOpen(true); }}
-                    className="rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-[800] text-textStrong hover:border-primary hover:text-primary transition-colors"
+                    className="rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-extrabold text-textStrong hover:border-primary hover:text-primary transition-colors"
                   >
                     {term}
                   </button>
@@ -212,10 +212,10 @@ export function AnlikArama({ className = '' }: { className?: string }) {
               {results!.businesses.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between px-4 pb-1 pt-3">
-                    <span className="text-[11px] font-[900] uppercase tracking-widest text-muted">Restoranlar</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-muted">Restoranlar</span>
                     <Link
                       href={`/kesif?q=${encodeURIComponent(query)}`}
-                      className="text-[11px] font-[800] text-primary hover:underline"
+                      className="text-[11px] font-extrabold text-primary hover:underline"
                       onClick={() => setOpen(false)}
                     >
                       Tümünü gör →
@@ -233,7 +233,7 @@ export function AnlikArama({ className = '' }: { className?: string }) {
               {results!.items.length > 0 && (
                 <div className={results!.businesses.length > 0 ? 'border-t border-border' : ''}>
                   <div className="px-4 pb-1 pt-3">
-                    <span className="text-[11px] font-[900] uppercase tracking-widest text-muted">Menü Kalemleri</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-muted">Menü Kalemleri</span>
                   </div>
                   <ul>
                     {results!.items.map((item) => (
@@ -248,13 +248,13 @@ export function AnlikArama({ className = '' }: { className?: string }) {
           {/* Sonuç yok */}
           {query.trim() && !loading && results && !hasResults && (
             <div className="px-4 py-6 text-center">
-              <p className="text-sm font-[900] text-textStrong">Sonuç bulunamadı</p>
-              <p className="mt-1 text-xs font-[700] text-muted">
+              <p className="text-sm font-black text-textStrong">Sonuç bulunamadı</p>
+              <p className="mt-1 text-xs font-bold text-muted">
                 &ldquo;{query}&rdquo; için eşleşen işletme veya yemek yok
               </p>
               <Link
                 href={`/kesif?q=${encodeURIComponent(query)}`}
-                className="mt-3 inline-flex items-center gap-1 text-xs font-[900] text-primary hover:underline"
+                className="mt-3 inline-flex items-center gap-1 text-xs font-black text-primary hover:underline"
                 onClick={() => setOpen(false)}
               >
                 Gelişmiş aramayı dene →
@@ -267,7 +267,7 @@ export function AnlikArama({ className = '' }: { className?: string }) {
             <div className="border-t border-border px-4 py-2.5">
               <Link
                 href={`/kesif?q=${encodeURIComponent(query)}`}
-                className="flex items-center gap-2 text-xs font-[900] text-primary hover:underline"
+                className="flex items-center gap-2 text-xs font-black text-primary hover:underline"
                 onClick={() => setOpen(false)}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -307,7 +307,7 @@ function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) 
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
-            <p className="text-sm font-[900] text-textStrong truncate">{biz.name}</p>
+            <p className="text-sm font-black text-textStrong truncate">{biz.name}</p>
             {biz.isVerified && (
               <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-primary text-white" aria-label="Doğrulandı">
                 <svg width="8" height="8" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -316,7 +316,7 @@ function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) 
               </span>
             )}
           </div>
-          <div className="flex items-center gap-2 text-[11px] font-[700] text-muted">
+          <div className="flex items-center gap-2 text-[11px] font-bold text-muted">
             {biz.category && <span>{biz.category}</span>}
             {biz.district && <><span aria-hidden="true">·</span><span>{biz.district}</span></>}
             {biz.distanceKm != null && <><span aria-hidden="true">·</span><span>{biz.distanceKm} km</span></>}
@@ -324,7 +324,7 @@ function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) 
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1">
           {biz.avgRating != null && (
-            <span className="flex items-center gap-0.5 text-[11px] font-[800] text-amber-600">
+            <span className="flex items-center gap-0.5 text-[11px] font-extrabold text-amber-600">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
@@ -332,7 +332,7 @@ function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) 
             </span>
           )}
           {biz.isOpenNow != null && (
-            <span className={`text-[10px] font-[900] ${biz.isOpenNow ? 'text-success' : 'text-danger'}`}>
+            <span className={`text-[10px] font-black ${biz.isOpenNow ? 'text-success' : 'text-danger'}`}>
               {biz.isOpenNow ? 'Açık' : 'Kapalı'}
             </span>
           )}
@@ -365,11 +365,11 @@ function YemekSatiri({ item, onSelect }: { item: ItemResult; onSelect: () => voi
           )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-[900] text-textStrong truncate">{item.name}</p>
-          <p className="text-[11px] font-[700] text-muted truncate">{item.businessName}</p>
+          <p className="text-sm font-black text-textStrong truncate">{item.name}</p>
+          <p className="text-[11px] font-bold text-muted truncate">{item.businessName}</p>
         </div>
         {item.price_cents != null && (
-          <span className="shrink-0 text-sm font-[900] text-textStrong">{fiyat(item.price_cents)}</span>
+          <span className="shrink-0 text-sm font-black text-textStrong">{fiyat(item.price_cents)}</span>
         )}
       </Link>
     </li>

@@ -9,7 +9,7 @@ export function YorumlarBolumu({ reviews, businessSlug }: { reviews: AcikYorumKa
     <section>
       <div className="mb-4 flex items-center justify-between">
         <SectionHeader title="Yorumlar" subtitle={reviews.length > 0 ? 'Topluluk sinyali ve doğrulanmış ziyaretler' : undefined} />
-        <Link href={`/isletme/${businessSlug}/yorumlar`} className="text-sm font-[900] text-primary hover:underline">Tümü</Link>
+        <Link href={`/isletme/${businessSlug}/yorumlar`} className="text-sm font-black text-primary hover:underline">Tümü</Link>
       </div>
       {reviews.length > 0 ? (
         <div className="grid gap-3">
@@ -25,16 +25,16 @@ export function YorumKarti({ review }: { review: AcikYorumKarti }) {
     <Card className="p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="font-[900] text-textStrong">{review.author}</p>
+          <p className="font-black text-textStrong">{review.author}</p>
           <div className="mt-1 flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 text-sm font-[900] text-warning">
+            <span className="inline-flex items-center gap-1 text-sm font-black text-warning">
               <Icon name="star" size={14} />
               {review.rating.toFixed(1)}
             </span>
             {review.verifiedVisit ? <Badge tone="success">Doğrulanmış ziyaret</Badge> : null}
           </div>
         </div>
-        <p className="text-xs font-[800] text-muted">{new Date(review.createdAt).toLocaleDateString('tr-TR')}</p>
+        <p className="text-xs font-extrabold text-muted">{new Date(review.createdAt).toLocaleDateString('tr-TR')}</p>
       </div>
       {review.content ? <p className="mt-4 text-sm leading-6 text-textStrong">&ldquo;{review.content}&rdquo;</p> : null}
       <div className="mt-4 flex flex-wrap gap-2">
@@ -47,7 +47,7 @@ export function YorumKarti({ review }: { review: AcikYorumKarti }) {
 
 export function YorumuRaporlaButonu() {
   return (
-    <button type="button" className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-3 text-xs font-[900] text-muted hover:border-danger/30 hover:text-danger">
+    <button type="button" className="inline-flex min-h-11 items-center rounded-2xl border border-border bg-card px-3 text-xs font-black text-muted hover:border-danger/30 hover:text-danger">
       Rapor et
     </button>
   );

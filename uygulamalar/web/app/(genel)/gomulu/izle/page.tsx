@@ -32,7 +32,7 @@ function EmbedIcerigi() {
   if (!rawUrl) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 rounded-2xl border border-border bg-card p-8 text-center">
-        <p className="text-sm font-[900] text-textStrong">URL belirtilmedi</p>
+        <p className="text-sm font-black text-textStrong">URL belirtilmedi</p>
         <p className="text-xs text-muted">Gömülü içerik URL&apos;sini <code className="rounded bg-border px-1">?url=</code> parametresi ile verin.</p>
       </div>
     );
@@ -40,15 +40,15 @@ function EmbedIcerigi() {
 
   if (!embed) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 rounded-2xl border border-danger/20 bg-danger/[0.05] p-8 text-center">
-        <p className="text-sm font-[900] text-danger">Geçersiz URL</p>
+      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 rounded-2xl border border-danger/20 bg-danger/5 p-8 text-center">
+        <p className="text-sm font-black text-danger">Geçersiz URL</p>
         <p className="text-xs text-muted">Sadece HTTPS YouTube ve web adresleri desteklenir.</p>
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-xs">
       <div className="flex min-h-[52px] items-center gap-3 border-b border-border px-4">
         <span className="h-2.5 w-2.5 rounded-full bg-danger" />
         <span className="h-2.5 w-2.5 rounded-full bg-warning" />
@@ -58,7 +58,7 @@ function EmbedIcerigi() {
           href={rawUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-auto text-xs font-[900] text-primary hover:underline"
+          className="ml-auto text-xs font-black text-primary hover:underline"
         >
           Yeni sekmede aç ↗
         </a>
@@ -86,7 +86,7 @@ export default function GomoluIzlePage() {
         >
           ← Ana Sayfa
         </Link>
-        <h1 className="mb-6 text-2xl font-[900] text-textStrong">Gömülü İçerik</h1>
+        <h1 className="mb-6 text-2xl font-black text-textStrong">Gömülü İçerik</h1>
         <Suspense
           fallback={
             <div className="flex min-h-[400px] items-center justify-center rounded-2xl border border-border bg-card">

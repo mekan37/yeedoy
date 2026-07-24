@@ -129,7 +129,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
       </div>
 
       {deleteError && (
-        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm font-[700] text-red-600">
+        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
           {deleteError}
         </div>
       )}
@@ -140,10 +140,10 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
         <div className="flex flex-col gap-4">
           <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
             <div className="mb-4 flex items-center justify-between gap-3">
-              <h2 className="text-sm font-[900] text-textStrong">QR Kodlarım</h2>
+              <h2 className="text-sm font-black text-textStrong">QR Kodlarım</h2>
               <button
                 onClick={() => { setEditing(null); setFormOpen(true); }}
-                className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-[800] text-white transition hover:opacity-90"
+                className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white transition hover:opacity-90"
               >
                 <PlusIcon /> Yeni QR Kod
               </button>
@@ -157,13 +157,13 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="QR kod adı ara..."
-                  className="w-full rounded-xl border border-border bg-bg py-2 pl-9 pr-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  className="w-full rounded-xl border border-border bg-bg py-2 pl-9 pr-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/20"
                 />
               </div>
               <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value as typeof filter)}
-                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/20"
               >
                 <option value="all">Tümü</option>
                 <option value="active">Aktif</option>
@@ -175,7 +175,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
             {filtered.length === 0 ? (
               <div className="flex flex-col items-center gap-2 py-12 text-center">
                 <QrGridIcon className="h-10 w-10 text-muted/40" />
-                <p className="text-sm font-[700] text-textStrong">QR kod bulunamadı</p>
+                <p className="text-sm font-bold text-textStrong">QR kod bulunamadı</p>
                 <p className="text-xs text-muted">Yeni bir QR kod oluşturarak başlayın.</p>
               </div>
             ) : (
@@ -194,8 +194,8 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                     {/* Bilgi */}
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-sm font-[800] text-textStrong">{qr.name}</span>
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${qr.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+                        <span className="text-sm font-extrabold text-textStrong">{qr.name}</span>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${qr.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
                           {qr.is_active ? 'Aktif' : 'Pasif'}
                         </span>
                       </div>
@@ -212,11 +212,11 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                     {/* Tarama + işlemler */}
                     <div className="flex shrink-0 flex-col items-end gap-2" onClick={(e) => e.stopPropagation()}>
                       <span className="text-xs text-muted">Tarama</span>
-                      <span className="text-base font-[900] text-textStrong">{qr.scan_count.toLocaleString('tr-TR')}</span>
+                      <span className="text-base font-black text-textStrong">{qr.scan_count.toLocaleString('tr-TR')}</span>
                       <div className="relative flex items-center gap-1">
                         <button
                           onClick={() => setSelected(qr)}
-                          className="rounded-xl border border-border px-3 py-1.5 text-xs font-[800] text-textStrong transition hover:bg-bg"
+                          className="rounded-xl border border-border px-3 py-1.5 text-xs font-extrabold text-textStrong transition hover:bg-bg"
                         >
                           Görüntüle
                         </button>
@@ -230,14 +230,14 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                           <div className="absolute right-0 top-8 z-20 w-40 rounded-xl border border-border bg-card shadow-yd2">
                             <button
                               onClick={() => { setEditing(qr); setFormOpen(true); setMenuOpenId(null); }}
-                              className="flex w-full items-center gap-2 px-3 py-2.5 text-xs font-[700] text-textStrong hover:bg-bg"
+                              className="flex w-full items-center gap-2 px-3 py-2.5 text-xs font-bold text-textStrong hover:bg-bg"
                             >
                               <EditIcon /> Düzenle
                             </button>
                             <button
                               onClick={() => handleDelete(qr)}
                               disabled={deleting === qr.id}
-                              className="flex w-full items-center gap-2 px-3 py-2.5 text-xs font-[700] text-danger hover:bg-bg disabled:opacity-50"
+                              className="flex w-full items-center gap-2 px-3 py-2.5 text-xs font-bold text-danger hover:bg-bg disabled:opacity-50"
                             >
                               <TrashIcon /> Sil
                             </button>
@@ -256,7 +256,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
               <p className="flex-1 text-xs text-textStrong">
                 QR kodlarınız dinamik çalışır. Menünüzdeki yaptığınız değişiklikler anında QR kodlarınıza yansır.
               </p>
-              <a href={`/karekod/${businessId}`} className="shrink-0 text-xs font-[800] text-primary hover:underline">
+              <a href={`/karekod/${businessId}`} className="shrink-0 text-xs font-extrabold text-primary hover:underline">
                 QR Studio&apos;ya Git
               </a>
             </div>
@@ -264,12 +264,12 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
 
           {/* İpuçları */}
           <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-            <h3 className="mb-4 text-sm font-[900] text-textStrong">QR Kod Kullanım Önerileri</h3>
+            <h3 className="mb-4 text-sm font-black text-textStrong">QR Kod Kullanım Önerileri</h3>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {TIPS.map((tip) => (
                 <div key={tip.title} className="flex flex-col items-center gap-2 rounded-xl bg-bg p-3 text-center">
                   <tip.icon className="h-6 w-6 text-primary" />
-                  <p className="text-xs font-[800] text-textStrong">{tip.title}</p>
+                  <p className="text-xs font-extrabold text-textStrong">{tip.title}</p>
                   <p className="text-[11px] leading-relaxed text-muted">{tip.desc}</p>
                 </div>
               ))}
@@ -280,7 +280,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
         {/* Sağ: Önizleme */}
         <div className="flex flex-col gap-4">
           <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-            <h3 className="mb-4 text-sm font-[900] text-textStrong">QR Kod Önizleme</h3>
+            <h3 className="mb-4 text-sm font-black text-textStrong">QR Kod Önizleme</h3>
             <div className="flex items-center justify-center rounded-xl bg-bg p-4">
                 {qrDataUrl ? (
                   <img
@@ -294,7 +294,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                   </div>
                 )}
               </div>
-              <p className="mt-3 text-center text-sm font-[800] text-textStrong">
+              <p className="mt-3 text-center text-sm font-extrabold text-textStrong">
                 {selected?.name ?? 'Menü QR Kodu'}
               </p>
               <p className="mt-1 break-all text-center text-[11px] text-muted">
@@ -304,13 +304,13 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                 <button
                   onClick={downloadPng}
                   disabled={!qrDataUrl}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-border py-2.5 text-sm font-[800] text-textStrong transition hover:bg-bg disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-border py-2.5 text-sm font-extrabold text-textStrong transition hover:bg-bg disabled:opacity-50"
                 >
                   <DownloadIcon /> PNG İndir
                 </button>
                 <button
                   onClick={() => window.print()}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-border py-2.5 text-sm font-[800] text-textStrong transition hover:bg-bg"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-border py-2.5 text-sm font-extrabold text-textStrong transition hover:bg-bg"
                 >
                   <PrintIcon /> Yazdır
                 </button>
@@ -319,7 +319,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
 
           {/* QR Tipleri */}
           <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-            <h3 className="mb-3 text-sm font-[900] text-textStrong">QR Kod Tipleri</h3>
+            <h3 className="mb-3 text-sm font-black text-textStrong">QR Kod Tipleri</h3>
             <div className="flex flex-col gap-3">
               {Object.entries(TYPE_DESC).map(([type, desc]) => (
                 <div key={type} className="flex items-start gap-3">
@@ -327,7 +327,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                     <QrGridIcon className="h-4 w-4" />
                   </div>
                   <div>
-                    <p className="text-xs font-[800] text-textStrong">{TYPE_LABELS[type]}</p>
+                    <p className="text-xs font-extrabold text-textStrong">{TYPE_LABELS[type]}</p>
                     <p className="text-[11px] text-muted">{desc}</p>
                   </div>
                 </div>
@@ -389,10 +389,10 @@ function QrForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-xs" onClick={onClose} />
       <div className="relative z-10 w-full max-w-md rounded-t-2xl bg-card shadow-2xl border border-border sm:rounded-2xl">
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
-          <h2 className="text-base font-[900] text-textStrong">
+          <h2 className="text-base font-black text-textStrong">
             {qr ? 'QR Kodu Düzenle' : 'Yeni QR Kod'}
           </h2>
           <button type="button" onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-xl text-muted hover:bg-bg">
@@ -446,14 +446,14 @@ function QrForm({
           </Field>
 
           {state?.error && (
-            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-[700] text-red-600">{state.error}</p>
+            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">{state.error}</p>
           )}
 
           <div className="flex items-center justify-end gap-3 border-t border-border pt-4">
-            <button type="button" onClick={onClose} className="h-9 rounded-xl border border-border px-4 text-sm font-[800] text-textStrong hover:bg-bg">
+            <button type="button" onClick={onClose} className="h-9 rounded-xl border border-border px-4 text-sm font-extrabold text-textStrong hover:bg-bg">
               İptal
             </button>
-            <button type="submit" disabled={pending} className="flex h-9 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-[800] text-white hover:opacity-90 disabled:opacity-50">
+            <button type="submit" disabled={pending} className="flex h-9 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-extrabold text-white hover:opacity-90 disabled:opacity-50">
               {pending && <SpinIcon className="animate-spin" />}
               {qr ? 'Kaydet' : 'Oluştur'}
             </button>
@@ -473,9 +473,9 @@ function StatCard({ icon, color, label, value, sub }: {
     <div className="rounded-[20px] border border-border bg-card p-4 shadow-yd1">
       <div className="mb-2 flex items-center gap-2">
         <span className={`${color} opacity-80`}>{icon}</span>
-        <span className="text-xs font-[700] text-muted">{label}</span>
+        <span className="text-xs font-bold text-muted">{label}</span>
       </div>
-      <p className="text-xl font-[900] text-textStrong">{value}</p>
+      <p className="text-xl font-black text-textStrong">{value}</p>
       <p className="mt-0.5 text-[11px] text-muted">{sub}</p>
     </div>
   );
@@ -499,7 +499,7 @@ function typeColor(type: string) {
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-[700] text-muted">
+      <label className="mb-1.5 block text-xs font-bold text-muted">
         {label}{required && <span className="ml-1 text-danger">*</span>}
       </label>
       {children}
@@ -507,7 +507,7 @@ function Field({ label, required, children }: { label: string; required?: boolea
   );
 }
 
-const inputCls = 'w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow';
+const inputCls = 'w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/20 transition-shadow';
 
 // ── İkonlar ───────────────────────────────────────────────────────────────────
 

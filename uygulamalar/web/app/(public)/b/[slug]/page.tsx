@@ -157,11 +157,11 @@ export default async function BusinessPage({ params }: Props) {
         <div className="relative mx-auto max-w-3xl px-4 pb-8 pt-14 sm:px-8 sm:pt-20">
           <div className="flex items-end gap-4">
             {/* Logo */}
-            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[18px] border-2 border-white/30 bg-white/10 backdrop-blur shadow-yd3 sm:h-24 sm:w-24">
+            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[18px] border-2 border-white/30 bg-white/10 backdrop-blur-sm shadow-yd3 sm:h-24 sm:w-24">
               {biz.logo_url ? (
                 <Image src={biz.logo_url} alt={biz.name} fill sizes="96px" className="object-cover" />
               ) : (
-                <div className="flex h-full w-full items-center justify-center text-3xl font-[900] text-white">
+                <div className="flex h-full w-full items-center justify-center text-3xl font-black text-white">
                   {biz.name[0]}
                 </div>
               )}
@@ -171,29 +171,29 @@ export default async function BusinessPage({ params }: Props) {
               {/* Verified + open badges */}
               <div className="mb-2 flex flex-wrap items-center gap-2">
                 {biz.is_verified && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-green-500/90 px-2.5 py-0.5 text-[11px] font-[800] text-white backdrop-blur">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-green-500/90 px-2.5 py-0.5 text-[11px] font-extrabold text-white backdrop-blur-sm">
                     <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                     Doğrulanmış
                   </span>
                 )}
                 {hasHours && (
-                  <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${isOpen ? 'bg-green-500/90 text-white' : 'bg-black/50 text-white/80'}`}>
+                  <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${isOpen ? 'bg-green-500/90 text-white' : 'bg-black/50 text-white/80'}`}>
                     {isOpen ? `Açık · ${closeAt}'e kadar` : 'Şu an kapalı'}
                   </span>
                 )}
               </div>
 
-              <h1 className="font-display text-2xl font-[900] leading-tight text-white sm:text-3xl">{biz.name}</h1>
+              <h1 className="font-display text-2xl font-black leading-tight text-white sm:text-3xl">{biz.name}</h1>
 
               <div className="mt-1.5 flex flex-wrap items-center gap-2 text-white/80">
                 {biz.category && <span className="text-sm">{biz.category}</span>}
                 {biz.city && <><span className="text-white/40">·</span><span className="text-sm">{biz.district ? `${biz.district}, ${biz.city}` : biz.city}</span></>}
                 {avgRating !== null && (
                   <><span className="text-white/40">·</span>
-                  <span className="flex items-center gap-1 text-sm font-[800] text-amber-400">
+                  <span className="flex items-center gap-1 text-sm font-extrabold text-amber-400">
                     <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     {avgRating.toFixed(1)}
-                    <span className="font-[400] text-white/60">({reviewCount})</span>
+                    <span className="font-normal text-white/60">({reviewCount})</span>
                   </span></>
                 )}
               </div>
@@ -209,17 +209,17 @@ export default async function BusinessPage({ params }: Props) {
         <div className="mb-8 flex flex-wrap items-center gap-3">
           {menus.length > 0 && (
             <Link href={`/m/${menus[0].slug ?? menus[0].id}`}
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl px-5 text-sm font-[800] text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl px-5 text-sm font-extrabold text-white transition-all hover:-translate-y-px hover:brightness-105 active:scale-[0.97] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               style={{ background: 'var(--yd-gradient-primary)', boxShadow: 'var(--yd-shadow-primary)' }}>
               <MenuBookIcon /> Menüyü Gör
             </Link>
           )}
           <Link href={`/b/${biz.slug}/reviews/new`}
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-card px-5 text-sm font-[800] text-textStrong transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-card px-5 text-sm font-extrabold text-textStrong transition-colors hover:border-primary/40 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
             <StarIcon /> Yorum Yaz
           </Link>
           <Link href={`/b/${biz.slug}/reviews`}
-            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-2xl border border-border bg-card px-4 text-sm font-[700] text-muted transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+            className="inline-flex min-h-[44px] items-center gap-1.5 rounded-2xl border border-border bg-card px-4 text-sm font-bold text-muted transition-colors hover:text-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
             Tüm yorumlar →
           </Link>
           <CheckInButton businessId={biz.id} initialCheckedIn={checkedInToday} />
@@ -264,14 +264,14 @@ export default async function BusinessPage({ params }: Props) {
                 <div className="flex flex-col gap-2">
                   {menus.map((m) => (
                     <Link key={m.id} href={`/m/${m.slug ?? m.id}`}
-                      className="flex items-center justify-between rounded-[20px] border border-border bg-cardAlt px-5 py-4 shadow-yd1 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-yd2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
+                      className="flex items-center justify-between rounded-[20px] border border-border bg-cardAlt px-5 py-4 shadow-yd1 transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-yd2 cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
                       <div className="flex items-center gap-3">
                         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted">
                           <MenuBookIcon size={16} />
                         </span>
-                        <span className="font-[800] text-textStrong">{m.title}</span>
+                        <span className="font-extrabold text-textStrong">{m.title}</span>
                       </div>
-                      <span className="text-sm font-[700] text-primary">Görüntüle →</span>
+                      <span className="text-sm font-bold text-primary">Görüntüle →</span>
                     </Link>
                   ))}
                 </div>
@@ -283,13 +283,13 @@ export default async function BusinessPage({ params }: Props) {
               <div className="mb-4 flex items-center justify-between">
                 <AppSectionHeader title={`Yorumlar${reviewCount > 0 ? ` (${reviewCount})` : ''}`} />
                 {reviewCount > 5 && (
-                  <Link href={`/b/${biz.slug}/reviews`} className="text-sm font-[700] text-primary hover:underline">Tümünü gör →</Link>
+                  <Link href={`/b/${biz.slug}/reviews`} className="text-sm font-bold text-primary hover:underline">Tümünü gör →</Link>
                 )}
               </div>
               {reviews.length === 0 ? (
                 <div className="rounded-[20px] border border-border bg-card p-8 text-center">
                   <p className="text-muted mb-3">Henüz yorum yok.</p>
-                  <Link href={`/b/${biz.slug}/reviews/new`} className="text-sm font-[700] text-primary hover:underline">İlk yorumu sen yaz →</Link>
+                  <Link href={`/b/${biz.slug}/reviews/new`} className="text-sm font-bold text-primary hover:underline">İlk yorumu sen yaz →</Link>
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
@@ -300,9 +300,9 @@ export default async function BusinessPage({ params }: Props) {
                       <article key={r.id} className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-[800] text-textStrong text-sm">{author}</span>
+                            <span className="font-extrabold text-textStrong text-sm">{author}</span>
                             {r.verified_visit && (
-                              <span className="inline-flex items-center gap-1 rounded-full border border-success/25 bg-success/[0.12] px-2 py-0.5 text-[10px] font-[800] text-success">
+                              <span className="inline-flex items-center gap-1 rounded-full border border-success/25 bg-success/12 px-2 py-0.5 text-[10px] font-extrabold text-success">
                                 <svg viewBox="0 0 24 24" className="h-2.5 w-2.5 fill-current"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                                 Doğrulanmış
                               </span>
@@ -334,7 +334,7 @@ export default async function BusinessPage({ params }: Props) {
             {/* Hours card */}
             {hasHours && (
               <div className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-[900] text-textStrong">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-textStrong">
                   <ClockIcon /> Çalışma Saatleri
                 </h3>
                 <ul className="space-y-1.5">
@@ -346,7 +346,7 @@ export default async function BusinessPage({ params }: Props) {
                       ? `${fmtTime(row.open_time)} – ${fmtTime(row.close_time)}`
                       : 'Kapalı';
                     return (
-                      <li key={dow} className={`flex items-center justify-between text-xs ${isToday ? 'font-[800] text-textStrong' : 'text-muted'}`}>
+                      <li key={dow} className={`flex items-center justify-between text-xs ${isToday ? 'font-extrabold text-textStrong' : 'text-muted'}`}>
                         <span>{label}{isToday && ' (bugün)'}</span>
                         <span>{value}</span>
                       </li>
@@ -359,7 +359,7 @@ export default async function BusinessPage({ params }: Props) {
             {/* Contact card */}
             {hasContact && (
               <div className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-[900] text-textStrong">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-textStrong">
                   <ContactIcon /> İletişim
                 </h3>
                 <ul className="space-y-2.5">
@@ -427,7 +427,7 @@ export default async function BusinessPage({ params }: Props) {
             {/* Online sipariş */}
             {(biz.order_yemeksepeti_url || biz.order_trendyolgo_url || biz.order_getir_url) && (
               <div className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-[900] text-textStrong">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-textStrong">
                   <DeliveryIcon /> Online Sipariş
                 </h3>
                 <div className="flex flex-col gap-2">
@@ -459,7 +459,7 @@ export default async function BusinessPage({ params }: Props) {
             {/* Meal cards */}
             {mealCards.length > 0 && (
               <div className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-[900] text-textStrong">
+                <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-textStrong">
                   <CreditCardIcon /> Geçerli Yemek Kartları
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -472,7 +472,7 @@ export default async function BusinessPage({ params }: Props) {
                         height={16}
                         className="h-4 w-auto max-w-[44px] object-contain"
                       />
-                      <span className="text-xs font-[700] text-textStrong">{card.name}</span>
+                      <span className="text-xs font-bold text-textStrong">{card.name}</span>
                     </div>
                   ))}
                 </div>
@@ -482,12 +482,12 @@ export default async function BusinessPage({ params }: Props) {
             {/* QR shortcut */}
             {menus.length > 0 && (
               <Link href={`/karekod/${biz.id}`}
-                className="flex items-center gap-3 rounded-[20px] border border-border bg-cardAlt p-4 shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--yd-color-primary-soft)] text-primary">
+                className="flex items-center gap-3 rounded-[20px] border border-border bg-cardAlt p-4 shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--yd-color-primary-soft) text-primary">
                   <QrIcon />
                 </span>
                 <div>
-                  <p className="text-sm font-[800] text-textStrong">QR Kodu</p>
+                  <p className="text-sm font-extrabold text-textStrong">QR Kodu</p>
                   <p className="text-xs text-muted">Mobilde tara</p>
                 </div>
               </Link>

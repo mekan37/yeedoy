@@ -67,12 +67,12 @@ export default async function OwnerMenuDetailPage({ params }: Props) {
         description={`${sections.length} bölüm · ${items.length} ürün`}
         actions={
           <div className="flex items-center gap-2">
-            <span className={`rounded-full px-3 py-1 text-xs font-[800] ${statusInfo.className}`}>
+            <span className={`rounded-full px-3 py-1 text-xs font-extrabold ${statusInfo.className}`}>
               {statusInfo.label}
             </span>
             <a
               href={`/sunucu/sahip/menu-csv?menuId=${menuId}`}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-[700] text-muted hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-bold text-muted hover:border-primary hover:text-primary transition-colors"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
               CSV İndir
@@ -123,14 +123,14 @@ export default async function OwnerMenuDetailPage({ params }: Props) {
                           )}
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <p className="truncate text-sm font-[800] text-textStrong">{item.name}</p>
+                              <p className="truncate text-sm font-extrabold text-textStrong">{item.name}</p>
                               {!item.is_available && (
-                                <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-[700] text-zinc-500">
+                                <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-bold text-zinc-500">
                                   Mevcut Değil
                                 </span>
                               )}
                               {item.is_today_special && item.special_date === today && (
-                                <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[10px] font-[800] text-amber-700">
+                                <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[10px] font-extrabold text-amber-700">
                                   <Star className="h-3 w-3" aria-hidden="true" /> Spesiyel
                                 </span>
                               )}
@@ -140,7 +140,7 @@ export default async function OwnerMenuDetailPage({ params }: Props) {
                             )}
                           </div>
                           <div className="flex shrink-0 flex-col items-end gap-1">
-                            <span className="text-sm font-[900] text-textStrong">
+                            <span className="text-sm font-black text-textStrong">
                               {formatPrice(item.price_cents, item.currency)}
                             </span>
                             <SpesiyelToggle

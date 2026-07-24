@@ -56,14 +56,14 @@ export default async function EmbedViewerPage({ params }: Props) {
           />
         ) : (
           <div
-            className="h-12 w-12 shrink-0 rounded-xl flex items-center justify-center text-white text-xl font-[900]"
+            className="h-12 w-12 shrink-0 rounded-xl flex items-center justify-center text-white text-xl font-black"
             style={{ background: 'linear-gradient(135deg, #7f1d1d, #dc2626)' }}
           >
             {biz.name[0]}
           </div>
         )}
         <div>
-          <p className="font-[900] text-textStrong text-sm">{biz.name}</p>
+          <p className="font-black text-textStrong text-sm">{biz.name}</p>
           {(biz.city || biz.category) && (
             <p className="text-xs text-muted mt-0.5">
               {[biz.city, biz.category].filter(Boolean).join(' · ')}
@@ -78,7 +78,7 @@ export default async function EmbedViewerPage({ params }: Props) {
 
       {publishedMenus.length > 0 ? (
         <div>
-          <p className="text-[10px] font-[800] uppercase tracking-widest text-muted mb-2">Menüler</p>
+          <p className="text-[10px] font-extrabold uppercase tracking-widest text-muted mb-2">Menüler</p>
           <div className="flex flex-col gap-2">
             {publishedMenus.map((m) => (
               <a
@@ -86,7 +86,7 @@ export default async function EmbedViewerPage({ params }: Props) {
                 href={`/m/${m.slug ?? m.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between rounded-xl border border-border bg-bg px-3 py-2 text-sm font-[700] text-textStrong hover:border-primary/40 transition-colors no-underline"
+                className="flex items-center justify-between rounded-xl border border-border bg-bg px-3 py-2 text-sm font-bold text-textStrong hover:border-primary/40 transition-colors no-underline"
               >
                 {m.title}
                 <span className="text-primary text-xs ml-2">→</span>

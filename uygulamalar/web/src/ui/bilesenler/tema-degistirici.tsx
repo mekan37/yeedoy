@@ -61,7 +61,7 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
       type="button"
       onClick={toggle}
       aria-label={isDark ? 'Açık moda geç' : 'Karanlık moda geç'}
-      className={`inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-border bg-cardAlt text-muted transition-all duration-200 hover:border-primary/30 hover:text-textStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 ${className}`}
+      className={`inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-border bg-cardAlt text-muted transition-all duration-200 hover:border-primary/30 hover:text-textStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 ${className}`}
     >
       {isDark ? <SunIcon /> : <MoonIcon />}
     </button>

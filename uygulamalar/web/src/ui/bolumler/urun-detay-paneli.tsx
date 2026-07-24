@@ -87,7 +87,7 @@ export function MenuItemDetailSheet({
         aria-describedby="menu-item-sheet-description"
         className="animate-sheet-in relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-[32px] border border-border bg-card shadow-yd3 sm:rounded-[32px]"
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-5 py-4 backdrop-blur">
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-5 py-4 backdrop-blur-sm">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-muted">{labels.details}</p>
             <h2 id="menu-item-sheet-title" className="text-xl font-black text-textStrong">
@@ -108,7 +108,7 @@ export function MenuItemDetailSheet({
           <div className="grid gap-4 md:grid-cols-[1fr_0.9fr]">
             <div className="space-y-4">
               {item.image_url ? (
-                <div className="relative aspect-[16/10] overflow-hidden rounded-[28px] bg-cardAlt">
+                <div className="relative aspect-16/10 overflow-hidden rounded-[28px] bg-cardAlt">
                   <Image
                     src={buildMenuImageUrl(item.image_url, { width: 900, quality: 85 }) ?? item.image_url}
                     alt={title}
@@ -245,7 +245,7 @@ function PhotoCarousel({ photos, alt, blurDataUrl }: {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        <div className="relative aspect-[4/3] w-full cursor-pointer" onClick={() => setLightbox(true)}>
+        <div className="relative aspect-4/3 w-full cursor-pointer" onClick={() => setLightbox(true)}>
           <Image
             src={current.url_large ?? current.url}
             alt={`${alt} ${idx + 1}`}
@@ -256,7 +256,7 @@ function PhotoCarousel({ photos, alt, blurDataUrl }: {
             className="object-cover transition-opacity duration-300"
           />
           {/* Zoom hint */}
-          <div className="absolute bottom-2 right-2 rounded-lg bg-black/40 px-2 py-1 text-[10px] font-[700] text-white backdrop-blur opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute bottom-2 right-2 rounded-lg bg-black/40 px-2 py-1 text-[10px] font-bold text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
             Büyüt
           </div>
         </div>
@@ -266,14 +266,14 @@ function PhotoCarousel({ photos, alt, blurDataUrl }: {
           <>
             <button
               onClick={(e) => { e.stopPropagation(); prev(); }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white backdrop-blur hover:bg-black/60 transition-colors"
+              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white backdrop-blur-sm hover:bg-black/60 transition-colors"
               aria-label="Önceki fotoğraf"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); next(); }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white backdrop-blur hover:bg-black/60 transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-1.5 text-white backdrop-blur-sm hover:bg-black/60 transition-colors"
               aria-label="Sonraki fotoğraf"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
@@ -289,7 +289,7 @@ function PhotoCarousel({ photos, alt, blurDataUrl }: {
             <button
               key={p.id}
               onClick={() => setIdx(i)}
-              className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${i === idx ? 'border-primary shadow-sm' : 'border-transparent opacity-60 hover:opacity-90'}`}
+              className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${i === idx ? 'border-primary shadow-xs' : 'border-transparent opacity-60 hover:opacity-90'}`}
               aria-label={`Fotoğraf ${i + 1}`}
             >
               <Image src={p.url_thumb ?? p.url} alt="" fill unoptimized className="object-cover" />
@@ -301,7 +301,7 @@ function PhotoCarousel({ photos, alt, blurDataUrl }: {
       {/* Lightbox */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90"
+          className="fixed inset-0 z-200 flex items-center justify-center bg-black/90"
           onClick={() => setLightbox(false)}
         >
           <button
@@ -328,7 +328,7 @@ function PhotoCarousel({ photos, alt, blurDataUrl }: {
               <button onClick={(e) => { e.stopPropagation(); next(); }} className="absolute right-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
               </button>
-              <p className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/40 px-3 py-1 text-sm font-[700] text-white">
+              <p className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/40 px-3 py-1 text-sm font-bold text-white">
                 {idx + 1} / {photos.length}
               </p>
             </>
@@ -387,7 +387,7 @@ function PriceSparkline({ entries, lang, showCurrencySymbol }: {
       </svg>
       <div className="flex items-center justify-between text-xs text-muted">
         <span>{new Date(first.created_at).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { day: 'numeric', month: 'short' })}</span>
-        <span className={`font-[800] ${delta > 0 ? 'text-danger' : delta < 0 ? 'text-success' : 'text-muted'}`}>
+        <span className={`font-extrabold ${delta > 0 ? 'text-danger' : delta < 0 ? 'text-success' : 'text-muted'}`}>
           {delta !== 0 && (delta > 0 ? '+' : '')}
           {formatCurrency(delta, lang, currency, showCurrencySymbol)}
         </span>

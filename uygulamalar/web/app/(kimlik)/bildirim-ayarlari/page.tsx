@@ -69,13 +69,13 @@ export default async function BildirimAyarlariPage() {
         <Link href="/profil" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary">
           ← Profilime Dön
         </Link>
-        <h1 className="mb-2 text-2xl font-[900] text-textStrong">Bildirim Ayarları</h1>
+        <h1 className="mb-2 text-2xl font-black text-textStrong">Bildirim Ayarları</h1>
         <p className="mb-8 text-sm leading-relaxed text-muted">
           Push bildirimleri için önce izin verin, ardından hangi olaylardan haber almak istediğinizi seçin.
         </p>
 
         <section className="mb-8 rounded-2xl border border-border bg-card p-6">
-          <h2 className="mb-1 text-base font-[900] text-textStrong">Push İzni</h2>
+          <h2 className="mb-1 text-base font-black text-textStrong">Push İzni</h2>
           <p className="mb-4 text-sm text-muted">
             Tarayıcınızın bildirim iznini etkinleştirmek için aşağıdaki butona tıklayın.
           </p>
@@ -83,7 +83,7 @@ export default async function BildirimAyarlariPage() {
         </section>
 
         <section className="mb-8 rounded-2xl border border-border bg-card p-6">
-          <h2 className="mb-4 text-base font-[900] text-textStrong">Bildirim Türleri</h2>
+          <h2 className="mb-4 text-base font-black text-textStrong">Bildirim Türleri</h2>
           <BildirimTercihleri
             userId={user!.id}
             types={NOTIFICATION_TYPES as unknown as Array<{ key: string; label: string; description: string }>}
@@ -93,7 +93,7 @@ export default async function BildirimAyarlariPage() {
 
         {/* E-posta tercihleri — global pazarlama izni */}
         <section className="rounded-2xl border border-border bg-card p-6">
-          <h2 className="mb-1 text-base font-[900] text-textStrong">E-posta Tercihleri</h2>
+          <h2 className="mb-1 text-base font-black text-textStrong">E-posta Tercihleri</h2>
           <p className="mb-4 text-sm text-muted">
             Yeedoy&apos;dan gelen e-postaları yönetin.
           </p>

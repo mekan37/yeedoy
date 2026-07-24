@@ -118,21 +118,21 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border">
-                      <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Tip</th>
-                      <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Dil</th>
-                      <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Çeviri Adı</th>
-                      <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                      <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Tip</th>
+                      <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Dil</th>
+                      <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Çeviri Adı</th>
+                      <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {list.map((t: any) => (
                       <tr key={t.id}>
                         <td className="px-5 py-3">
-                          <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-[700] text-zinc-600">
+                          <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-bold text-zinc-600">
                             {ENTITY_LABELS[t.entity_type] ?? t.entity_type}
                           </span>
                         </td>
-                        <td className="px-5 py-3 font-[700] text-textStrong">
+                        <td className="px-5 py-3 font-bold text-textStrong">
                           {LOCALE_LABELS[t.locale] ?? t.locale}
                         </td>
                         <td className="max-w-[260px] truncate px-5 py-3 text-textStrong">{t.name ?? '—'}</td>
@@ -158,7 +158,7 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
                 <div className="flex flex-wrap items-start gap-4">
                   {businesses.length > 1 && (
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-[800] uppercase tracking-wide text-muted">
+                      <label className="text-xs font-extrabold uppercase tracking-wide text-muted">
                         İşletme
                       </label>
                       <form method="GET">
@@ -169,7 +169,7 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
                           name="isletme"
                           defaultValue={secilenIsletme.id}
                           onChange={(e) => (e.target.form as HTMLFormElement).submit()}
-                          className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-[700] text-textStrong focus:border-[#7f1d1d] focus:outline-none focus:ring-1 focus:ring-[#7f1d1d]/30"
+                          className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-bold text-textStrong focus:border-[#7f1d1d] focus:outline-hidden focus:ring-1 focus:ring-[#7f1d1d]/30"
                         >
                           {businesses.map((b) => (
                             <option key={b.id} value={b.id}>
@@ -188,16 +188,16 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
                           key={locale}
                           className="flex flex-col gap-1 rounded-xl border border-border bg-card px-4 py-3 min-w-[120px]"
                         >
-                          <p className="text-xs font-[800] uppercase tracking-wide text-muted">
+                          <p className="text-xs font-extrabold uppercase tracking-wide text-muted">
                             {DIL_ETIKETLERI[locale]}
                           </p>
-                          <p className="text-[22px] font-[900] text-textStrong leading-none">
+                          <p className="text-[22px] font-black text-textStrong leading-none">
                             {oran}%
                           </p>
                           <p className="text-xs text-muted">
                             {tamamlanan} / {toplam} ürün
                           </p>
-                          <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-black/[0.06]">
+                          <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-black/6">
                             <div
                               className="h-full rounded-full bg-[#7f1d1d] transition-all duration-300"
                               style={{ width: `${oran}%` }}
@@ -211,7 +211,7 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
 
                 {/* Hata durumu */}
                 {manuelSonuc && !manuelSonuc.success && (
-                  <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-[700] text-red-700">
+                  <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-bold text-red-700">
                     {manuelSonuc.hata}
                   </div>
                 )}

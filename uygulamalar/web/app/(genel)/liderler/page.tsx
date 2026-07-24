@@ -44,7 +44,7 @@ function RankBadge({ rank }: { rank: number }) {
 function ScorePill({ label, value }: { label: string; value: number }) {
   if (value === 0) return null;
   return (
-    <span className="rounded-full bg-cardAlt border border-border px-2 py-0.5 text-[11px] font-[700] text-muted">
+    <span className="rounded-full bg-cardAlt border border-border px-2 py-0.5 text-[11px] font-bold text-muted">
       {label} {value}
     </span>
   );
@@ -91,14 +91,14 @@ export default async function LiderlerPage() {
     <div className="min-h-screen bg-bg">
       <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="mb-6">
-          <p className="text-xs font-[700] uppercase tracking-wide text-muted mb-1">Topluluk</p>
-          <h1 className="text-2xl font-[900] text-textStrong">Haftalık Liderler</h1>
+          <p className="text-xs font-bold uppercase tracking-wide text-muted mb-1">Topluluk</p>
+          <h1 className="text-2xl font-black text-textStrong">Haftalık Liderler</h1>
           <p className="mt-1 text-sm text-muted">Bu haftanın en çok katkı yapan üyeleri</p>
         </div>
 
         {entries.length === 0 ? (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
-            <p className="text-base font-[700] text-textStrong mb-1">
+            <p className="text-base font-bold text-textStrong mb-1">
               Bu hafta henüz katkı yapılmadı
             </p>
             <p className="text-sm text-muted">
@@ -130,18 +130,18 @@ export default async function LiderlerPage() {
                           loading="lazy"
                         />
                       ) : (
-                        <span className="text-base font-[900] text-muted">{initials}</span>
+                        <span className="text-base font-black text-muted">{initials}</span>
                       )}
                     </div>
 
                     {/* Bilgi */}
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
-                        <span className="truncate font-[700] text-textStrong text-sm">
+                        <span className="truncate font-bold text-textStrong text-sm">
                           {entry.display_name}
                         </span>
                         {entry.is_gourmet && (
-                          <span className="shrink-0 rounded-full bg-primary/5 border border-primary/20 px-1.5 py-0.5 text-[10px] font-[700] text-primary">
+                          <span className="shrink-0 rounded-full bg-primary/5 border border-primary/20 px-1.5 py-0.5 text-[10px] font-bold text-primary">
                             Aktif
                           </span>
                         )}
@@ -155,10 +155,10 @@ export default async function LiderlerPage() {
 
                     {/* Puan */}
                     <div className="shrink-0 text-right">
-                      <span className="text-lg font-[900] text-primary">
+                      <span className="text-lg font-black text-primary">
                         {entry.weekly_score}
                       </span>
-                      <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">
+                      <p className="text-[10px] font-bold uppercase tracking-wide text-muted">
                         puan
                       </p>
                     </div>
@@ -171,21 +171,21 @@ export default async function LiderlerPage() {
 
         {/* Puan açıklaması */}
         <div className="mt-8 rounded-xl border border-border bg-cardAlt p-4">
-          <p className="text-xs font-[700] uppercase tracking-wide text-muted mb-2">
+          <p className="text-xs font-bold uppercase tracking-wide text-muted mb-2">
             Puan Sistemi
           </p>
           <ul className="flex flex-col gap-1">
             <li className="flex items-center justify-between text-sm text-textStrong">
               <span>Yorum yazma</span>
-              <span className="font-[700] text-primary">3 puan</span>
+              <span className="font-bold text-primary">3 puan</span>
             </li>
             <li className="flex items-center justify-between text-sm text-textStrong">
               <span>Fiyat dogrulama</span>
-              <span className="font-[700] text-primary">2 puan</span>
+              <span className="font-bold text-primary">2 puan</span>
             </li>
             <li className="flex items-center justify-between text-sm text-textStrong">
               <span>Fotograf ekleme</span>
-              <span className="font-[700] text-primary">2 puan</span>
+              <span className="font-bold text-primary">2 puan</span>
             </li>
           </ul>
           <p className="mt-3 text-[11px] text-muted">

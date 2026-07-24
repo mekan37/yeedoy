@@ -65,7 +65,7 @@ export function CheckInButton({ businessId, initialCheckedIn }: Props) {
       <button
         onClick={handleCheckIn}
         disabled={isPending}
-        className="flex min-h-[44px] items-center justify-center gap-2 rounded-2xl px-5 text-sm font-[800] text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="flex min-h-[44px] items-center justify-center gap-2 rounded-2xl px-5 text-sm font-extrabold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
         style={{ background: '#7F1D1D' }}
       >
         {isPending ? (

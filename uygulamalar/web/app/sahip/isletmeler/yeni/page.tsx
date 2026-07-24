@@ -41,7 +41,7 @@ export default function OwnerNewBusinessPage() {
                   'Menünüzü oluşturmaya başlayabilirsiniz',
                 ].map((step, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-[900] text-primary">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-black text-primary">
                       {i + 1}
                     </span>
                     {step}

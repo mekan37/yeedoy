@@ -132,20 +132,20 @@ export function MusteriDestekListesi({
       {/* Analytics bar */}
       <div className="grid grid-cols-2 gap-3 border-b border-border p-5 sm:grid-cols-4">
         <div>
-          <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Çözüm Oranı</p>
-          <p className="mt-0.5 text-lg font-[900] text-green-600">%{resolutionRate}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-muted">Çözüm Oranı</p>
+          <p className="mt-0.5 text-lg font-black text-green-600">%{resolutionRate}</p>
         </div>
         <div>
-          <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Ort. Bekleme</p>
-          <p className="mt-0.5 text-lg font-[900] text-textStrong">{avgAge}sa</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-muted">Ort. Bekleme</p>
+          <p className="mt-0.5 text-lg font-black text-textStrong">{avgAge}sa</p>
         </div>
         <div>
-          <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Acil Açık</p>
-          <p className={`mt-0.5 text-lg font-[900] ${urgent > 0 ? 'text-red-600' : 'text-green-600'}`}>{urgent}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-muted">Acil Açık</p>
+          <p className={`mt-0.5 text-lg font-black ${urgent > 0 ? 'text-red-600' : 'text-green-600'}`}>{urgent}</p>
         </div>
         <div>
-          <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Toplam Talep</p>
-          <p className="mt-0.5 text-lg font-[900] text-textStrong">{tickets.length}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-muted">Toplam Talep</p>
+          <p className="mt-0.5 text-lg font-black text-textStrong">{tickets.length}</p>
         </div>
       </div>
 
@@ -155,7 +155,7 @@ export function MusteriDestekListesi({
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`rounded-lg px-3 py-1 text-xs font-[700] transition-colors ${filter === s ? 'bg-primary text-white' : 'text-muted hover:text-textStrong'}`}
+            className={`rounded-lg px-3 py-1 text-xs font-bold transition-colors ${filter === s ? 'bg-primary text-white' : 'text-muted hover:text-textStrong'}`}
           >
             {s === 'all' ? `Tümü (${tickets.length})` : (statusMap[s]?.label ?? s)}
           </button>
@@ -170,25 +170,25 @@ export function MusteriDestekListesi({
             <div key={ticket.id}>
               <button
                 onClick={() => openTicket(ticket.id)}
-                className="flex w-full items-start gap-4 px-5 py-4 text-left hover:bg-black/[0.02]"
+                className="flex w-full items-start gap-4 px-5 py-4 text-left hover:bg-black/2"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-[700] ${priorityMap[ticket.priority]?.color ?? 'bg-zinc-100 text-zinc-500'}`}>
+                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold ${priorityMap[ticket.priority]?.color ?? 'bg-zinc-100 text-zinc-500'}`}>
                       {priorityMap[ticket.priority]?.label ?? ticket.priority}
                     </span>
-                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-[700] ${statusMap[ticket.status]?.color ?? 'bg-zinc-100 text-zinc-500'}`}>
+                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold ${statusMap[ticket.status]?.color ?? 'bg-zinc-100 text-zinc-500'}`}>
                       {statusMap[ticket.status]?.label ?? ticket.status}
                     </span>
                     {ticket.category && (
                       <span className="text-[10px] text-muted">{ticket.category}</span>
                     )}
                     {/* SLA badge */}
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-[700] ${sla.color}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${sla.color}`}>
                       <Clock className="h-3 w-3" aria-hidden="true" /> {sla.label}
                     </span>
                   </div>
-                  <p className="mt-1 truncate font-[700] text-textStrong">{ticket.subject}</p>
+                  <p className="mt-1 truncate font-bold text-textStrong">{ticket.subject}</p>
                   <p className="text-xs text-muted">
                     {ticket.user_profiles?.display_name ?? 'Bilinmiyor'} · {ticket.user_profiles?.email ?? ''} · {new Date(ticket.created_at).toLocaleDateString('tr-TR')}
                   </p>
@@ -202,7 +202,7 @@ export function MusteriDestekListesi({
                 <div className="flex flex-col gap-0 border-t border-border bg-zinc-50">
                   {/* Message thread */}
                   <div className="flex flex-col gap-3 px-5 py-4">
-                    <p className="text-[10px] font-[800] uppercase tracking-wide text-muted">Mesaj Geçmişi</p>
+                    <p className="text-[10px] font-extrabold uppercase tracking-wide text-muted">Mesaj Geçmişi</p>
                     {loadingMsg === ticket.id ? (
                       <p className="text-xs text-muted">Yükleniyor…</p>
                     ) : ticketMessages.length === 0 ? (
@@ -225,11 +225,11 @@ export function MusteriDestekListesi({
                     {/* Reply compose */}
                     <div className="mt-2 flex flex-col gap-2">
                       <div className="flex items-center justify-between">
-                        <p className="text-[10px] font-[800] uppercase tracking-wide text-muted">Yanıt Yaz</p>
+                        <p className="text-[10px] font-extrabold uppercase tracking-wide text-muted">Yanıt Yaz</p>
                         <div className="relative">
                           <button
                             onClick={() => setTemplateOpen(!templateOpen)}
-                            className="rounded-lg border border-border px-2 py-1 text-[10px] font-[700] text-muted hover:text-textStrong"
+                            className="rounded-lg border border-border px-2 py-1 text-[10px] font-bold text-muted hover:text-textStrong"
                           >
                             Şablon Seç ▾
                           </button>
@@ -237,12 +237,12 @@ export function MusteriDestekListesi({
                             <div className="absolute right-0 top-full z-10 mt-1 w-72 rounded-xl border border-border bg-white shadow-lg">
                               {Object.entries(RESPONSE_TEMPLATES).map(([cat, tmps]) => (
                                 <div key={cat} className="border-b border-border last:border-0">
-                                  <p className="px-3 pt-2 text-[9px] font-[800] uppercase tracking-wide text-muted">{
+                                  <p className="px-3 pt-2 text-[9px] font-extrabold uppercase tracking-wide text-muted">{
                                     cat === 'default' ? 'Genel' : cat === 'technical' ? 'Teknik' : cat === 'billing' ? 'Ödeme' : 'Şikayet'
                                   }</p>
                                   {tmps.map((t, i) => (
                                     <button key={i} onClick={() => applyTemplate(t)}
-                                      className="block w-full px-3 py-2 text-left text-xs text-textStrong hover:bg-black/[0.03]">
+                                      className="block w-full px-3 py-2 text-left text-xs text-textStrong hover:bg-black/3">
                                       {t.length > 60 ? t.slice(0, 60) + '…' : t}
                                     </button>
                                   ))}
@@ -258,20 +258,20 @@ export function MusteriDestekListesi({
                         onChange={e => setReply(e.target.value)}
                         placeholder="Müşteriye yanıt yazın…"
                         rows={3}
-                        className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none"
+                        className="w-full rounded-xl border border-border bg-white px-3 py-2 text-sm focus:border-primary focus:outline-hidden"
                       />
                       <div className="flex flex-wrap gap-2">
                         <button
                           disabled={isPending || !reply.trim()}
                           onClick={() => sendReply(ticket.id)}
-                          className="rounded-lg bg-primary px-4 py-1.5 text-xs font-[800] text-white hover:bg-primary/90 disabled:opacity-50"
+                          className="rounded-lg bg-primary px-4 py-1.5 text-xs font-extrabold text-white hover:bg-primary/90 disabled:opacity-50"
                         >
                           {isPending ? 'Gönderiliyor…' : 'Yanıt Gönder'}
                         </button>
                         <button
                           disabled={isPending}
                           onClick={() => updateStatus(ticket.id, STATUS_CYCLE[ticket.status] ?? 'open')}
-                          className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] text-muted hover:text-textStrong disabled:opacity-50"
+                          className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-muted hover:text-textStrong disabled:opacity-50"
                         >
                           {ticket.status === 'open' ? 'İşleme Al' :
                            ticket.status === 'in_progress' ? 'Çözüldü İşaretle' :
@@ -282,7 +282,7 @@ export function MusteriDestekListesi({
                             key={s}
                             disabled={isPending}
                             onClick={() => updateStatus(ticket.id, s)}
-                            className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] text-muted hover:text-textStrong disabled:opacity-50"
+                            className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-muted hover:text-textStrong disabled:opacity-50"
                           >
                             {statusMap[s]?.label ?? s} yap
                           </button>

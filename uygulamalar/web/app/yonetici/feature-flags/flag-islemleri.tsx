@@ -57,7 +57,7 @@ export function FlagToggle({
         onClick={handleToggle}
         disabled={pending}
         aria-label={localEnabled ? 'Pasife al' : 'Aktife al'}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none disabled:opacity-60 ${
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-hidden disabled:opacity-60 ${
           localEnabled ? 'bg-success' : 'bg-border'
         }`}
       >
@@ -115,7 +115,7 @@ export function YeniFlagForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">Flag Anahtarı</label>
+          <label className="text-sm font-bold text-textStrong">Flag Anahtarı</label>
           <input
             type="text"
             value={key}
@@ -128,7 +128,7 @@ export function YeniFlagForm() {
           <p className="text-[11px] text-muted">Sadece harf, rakam ve alt çizgi</p>
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">Açıklama</label>
+          <label className="text-sm font-bold text-textStrong">Açıklama</label>
           <input
             type="text"
             value={description}
@@ -139,7 +139,7 @@ export function YeniFlagForm() {
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">Ortam</label>
+          <label className="text-sm font-bold text-textStrong">Ortam</label>
           <select value={env} onChange={e => setEnv(e.target.value)} className="input-yd rounded-xl px-3 py-2.5 text-sm">
             <option value="staging">Staging</option>
             <option value="production">Production</option>
@@ -147,7 +147,7 @@ export function YeniFlagForm() {
           </select>
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">Yayılım Oranı: %{rollout}</label>
+          <label className="text-sm font-bold text-textStrong">Yayılım Oranı: %{rollout}</label>
           <input
             type="range"
             min={0}
@@ -159,13 +159,13 @@ export function YeniFlagForm() {
           />
         </div>
       </div>
-      {error && <p className="text-sm font-[700] text-danger">{error}</p>}
-      {success && <p className="text-sm font-[700] text-success">✓ Flag oluşturuldu</p>}
+      {error && <p className="text-sm font-bold text-danger">{error}</p>}
+      {success && <p className="text-sm font-bold text-success">✓ Flag oluşturuldu</p>}
       <div className="flex justify-end">
         <button
           type="submit"
           disabled={pending}
-          className="btn-primary rounded-xl px-4 py-2.5 text-sm font-[700] text-white disabled:opacity-50"
+          className="btn-primary rounded-xl px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50"
         >
           {pending ? 'Oluşturuluyor…' : 'Flag Oluştur'}
         </button>

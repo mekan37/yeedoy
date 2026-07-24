@@ -60,10 +60,10 @@ export default async function OwnerPricingPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Ürün</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Mevcut</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Önerilen</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Ürün</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Mevcut</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Önerilen</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -72,17 +72,17 @@ export default async function OwnerPricingPage() {
                     return (
                       <tr key={s.id}>
                         <td className="px-5 py-3">
-                          <p className="font-[700] text-textStrong">{s.menu_items?.name ?? '—'}</p>
+                          <p className="font-bold text-textStrong">{s.menu_items?.name ?? '—'}</p>
                           {s.note && <p className="text-xs text-muted italic">{s.note}</p>}
                         </td>
                         <td className="px-5 py-3 text-muted">
                           {s.menu_items ? formatPrice(s.menu_items.price_cents, s.menu_items.currency) : '—'}
                         </td>
-                        <td className="px-5 py-3 font-[800] text-textStrong">
+                        <td className="px-5 py-3 font-extrabold text-textStrong">
                           {formatPrice(s.suggested_price_cents, s.currency)}
                         </td>
                         <td className="px-5 py-3">
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${statusInfo.className}`}>
                             {statusInfo.label}
                           </span>
                         </td>
@@ -107,10 +107,10 @@ export default async function OwnerPricingPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Ürün</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Önerilen</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Ürün</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Önerilen</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -118,10 +118,10 @@ export default async function OwnerPricingPage() {
                     const statusInfo = STATUS_MAP[s.status] ?? STATUS_MAP['pending'];
                     return (
                       <tr key={s.id}>
-                        <td className="px-5 py-3 font-[700] text-textStrong">{s.menu_items?.name ?? '—'}</td>
+                        <td className="px-5 py-3 font-bold text-textStrong">{s.menu_items?.name ?? '—'}</td>
                         <td className="px-5 py-3 text-textStrong">{formatPrice(s.suggested_price_cents, s.currency)}</td>
                         <td className="px-5 py-3">
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${statusInfo.className}`}>
                             {statusInfo.label}
                           </span>
                         </td>

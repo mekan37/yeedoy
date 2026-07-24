@@ -43,7 +43,7 @@ export default async function DiyetProfiliPage() {
         >
           ← Profilime Dön
         </Link>
-        <h1 className="mb-2 text-2xl font-[900] text-textStrong">Diyet Tercihlerim</h1>
+        <h1 className="mb-2 text-2xl font-black text-textStrong">Diyet Tercihlerim</h1>
         <p className="mb-8 text-sm leading-relaxed text-muted">
           Tercihlerinizi kaydedin; size özel öneriler daha isabetli olsun.
         </p>

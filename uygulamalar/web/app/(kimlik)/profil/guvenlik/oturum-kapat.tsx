@@ -28,7 +28,7 @@ export function OturumKapatButonu() {
         type="button"
         onClick={() => signOut('local')}
         disabled={pending}
-        className="inline-flex min-h-[40px] items-center rounded-xl border border-border bg-bg px-4 text-sm font-[700] text-muted hover:border-danger/30 hover:text-danger disabled:opacity-60"
+        className="inline-flex min-h-[40px] items-center rounded-xl border border-border bg-bg px-4 text-sm font-bold text-muted hover:border-danger/30 hover:text-danger disabled:opacity-60"
       >
         {pending ? 'İşleniyor…' : 'Bu Cihazda Oturumu Kapat'}
       </button>
@@ -38,13 +38,13 @@ export function OturumKapatButonu() {
           type="button"
           onClick={() => setConfirmAll(true)}
           disabled={pending}
-          className="inline-flex min-h-[40px] items-center rounded-xl border border-danger/30 bg-danger/[0.06] px-4 text-sm font-[700] text-danger hover:bg-danger/[0.12] disabled:opacity-60"
+          className="inline-flex min-h-[40px] items-center rounded-xl border border-danger/30 bg-danger/6 px-4 text-sm font-bold text-danger hover:bg-danger/12 disabled:opacity-60"
         >
           Tüm Cihazlarda Oturumu Kapat
         </button>
       ) : (
-        <div className="rounded-xl border border-danger/30 bg-danger/[0.06] p-4">
-          <p className="mb-3 text-sm font-[800] text-danger">
+        <div className="rounded-xl border border-danger/30 bg-danger/6 p-4">
+          <p className="mb-3 text-sm font-extrabold text-danger">
             Tüm cihazlarda ve tarayıcılarda oturumunuz kapatılacak. Devam etmek istiyor musunuz?
           </p>
           <div className="flex gap-2">
@@ -52,14 +52,14 @@ export function OturumKapatButonu() {
               type="button"
               onClick={() => signOut('global')}
               disabled={pending}
-              className="rounded-xl bg-danger px-4 py-2 text-sm font-[800] text-white hover:brightness-95 disabled:opacity-60"
+              className="rounded-xl bg-danger px-4 py-2 text-sm font-extrabold text-white hover:brightness-95 disabled:opacity-60"
             >
               {pending ? 'İşleniyor…' : 'Evet, Tüm Cihazlarda Kapat'}
             </button>
             <button
               type="button"
               onClick={() => setConfirmAll(false)}
-              className="rounded-xl border border-border bg-card px-4 py-2 text-sm font-[700] text-textStrong"
+              className="rounded-xl border border-border bg-card px-4 py-2 text-sm font-bold text-textStrong"
             >
               Vazgeç
             </button>

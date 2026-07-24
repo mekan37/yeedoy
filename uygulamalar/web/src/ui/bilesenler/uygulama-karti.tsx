@@ -21,7 +21,7 @@ export function AppCard({ children, onTap, className = '', padding = 'p-4', sema
       onKeyDown={interactive ? (e) => { if (e.key === 'Enter' || e.key === ' ') (e.currentTarget as HTMLElement).click(); } : undefined}
       className={clsx(
         'rounded-[20px] border border-border bg-cardAlt shadow-yd2',
-        interactive && 'cursor-pointer transition-all duration-[180ms] hover:-translate-y-0.5 hover:shadow-yd3 active:translate-y-0 active:shadow-yd1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        interactive && 'cursor-pointer transition-all duration-180 hover:-translate-y-0.5 hover:shadow-yd3 active:translate-y-0 active:shadow-yd1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         padding,
         className,
       )}
@@ -43,7 +43,7 @@ export function PressableCard({ children, onTap, className = '', padding = 'p-4'
       onKeyDown={interactive ? (e) => { if (e.key === 'Enter' || e.key === ' ') (e.currentTarget as HTMLElement).click(); } : undefined}
       className={clsx(
         'rounded-[20px] border border-border bg-cardAlt shadow-yd2',
-        interactive && 'cursor-pointer select-none transition-all duration-[180ms] hover:-translate-y-[2px] hover:shadow-yd3 active:scale-[0.97] active:shadow-yd1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        interactive && 'cursor-pointer select-none transition-all duration-180 hover:translate-y-[-2px] hover:shadow-yd3 active:scale-[0.97] active:shadow-yd1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         padding,
         className,
       )}

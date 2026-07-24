@@ -166,9 +166,9 @@ export function KonumSecici() {
 
   // ── Modal JSX ──────────────────────────────────────────────────────────────
   const modal = acik ? (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Konum Seç">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Konum Seç">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={kapat} aria-hidden="true" />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-xs" onClick={kapat} aria-hidden="true" />
 
       {/* Kart */}
       <div className="relative z-10 flex h-[600px] w-full max-w-[900px] overflow-hidden rounded-3xl bg-card shadow-yd3">
@@ -179,7 +179,7 @@ export function KonumSecici() {
           {/* Başlık */}
           <div className="flex items-start justify-between p-6 pb-4">
             <div>
-              <h2 className="text-xl font-[900] text-textStrong">Konum Seç</h2>
+              <h2 className="text-xl font-black text-textStrong">Konum Seç</h2>
               <p className="mt-1 text-sm leading-relaxed text-muted">
                 Sana en yakın lezzetleri ve fırsatları gösterebilmemiz için konumunu seç.
               </p>
@@ -205,7 +205,7 @@ export function KonumSecici() {
               )},
             ]).map(({ key, label, iconEl }) => (
               <button key={key} type="button" onClick={() => setTab(key)}
-                className={`relative flex items-center gap-1.5 pb-3 pr-4 text-xs font-[800] transition-colors ${tab === key ? 'text-primary' : 'text-muted hover:text-textStrong'}`}>
+                className={`relative flex items-center gap-1.5 pb-3 pr-4 text-xs font-extrabold transition-colors ${tab === key ? 'text-primary' : 'text-muted hover:text-textStrong'}`}>
                 {iconEl}{label}
                 {tab === key && <span className="absolute bottom-0 left-0 right-4 h-0.5 rounded-full bg-primary" />}
               </button>
@@ -224,17 +224,17 @@ export function KonumSecici() {
                   </svg>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-[800] text-textStrong">Yakınımı otomatik algıla</p>
+                  <p className="text-sm font-extrabold text-textStrong">Yakınımı otomatik algıla</p>
                   <p className="mt-0.5 text-xs text-muted">Konum iznin açık olduğunda sana en yakın mekanları göstereceğiz.</p>
                 </div>
                 <button type="button"
                   onClick={() => { navigator.geolocation?.getCurrentPosition(() => konumSec({ ilce: 'Mevcut Konum', sehir: '' })); }}
-                  className="shrink-0 rounded-xl bg-primary px-3 py-2 text-xs font-[900] text-white hover:brightness-110">
+                  className="shrink-0 rounded-xl bg-primary px-3 py-2 text-xs font-black text-white hover:brightness-110">
                   İzin Ver
                 </button>
               </div>
 
-              <p className="mb-3 text-sm font-[900] text-textStrong">Yakındaki Popüler Konumlar</p>
+              <p className="mb-3 text-sm font-black text-textStrong">Yakındaki Popüler Konumlar</p>
               <ul className="space-y-1.5">
                 {POPULER_KONUMLAR.map((k) => {
                   const secildi = aktifKonum?.ilce === k.ilce && aktifKonum?.sehir === k.sehir;
@@ -245,11 +245,11 @@ export function KonumSecici() {
                         className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all ${secildi ? 'border-primary/30 bg-primary/5' : 'border-border bg-card hover:bg-cardAlt'}`}>
                         <PinIcon className={`h-4 w-4 shrink-0 fill-none stroke-2 ${secildi ? 'stroke-primary' : 'stroke-muted'}`} />
                         <div className="min-w-0 flex-1">
-                          <p className={`text-sm font-[800] ${secildi ? 'text-primary' : 'text-textStrong'}`}>{k.ilce}</p>
+                          <p className={`text-sm font-extrabold ${secildi ? 'text-primary' : 'text-textStrong'}`}>{k.ilce}</p>
                           <p className="text-xs text-muted">{k.sehir}</p>
                         </div>
                         {mevcut
-                          ? <span className="flex items-center gap-1 text-xs font-[800] text-primary">Mevcut Konum <CheckIcon /></span>
+                          ? <span className="flex items-center gap-1 text-xs font-extrabold text-primary">Mevcut Konum <CheckIcon /></span>
                           : <ChevronRight />}
                       </button>
                     </li>
@@ -269,7 +269,7 @@ export function KonumSecici() {
                       <button type="button" onClick={() => konumSec(k)}
                         className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all ${secildi ? 'border-primary/30 bg-primary/5' : 'border-border bg-card hover:bg-cardAlt'}`}>
                         <PinIcon className={`h-4 w-4 shrink-0 fill-none stroke-2 ${secildi ? 'stroke-primary' : 'stroke-muted'}`} />
-                        <span className={`text-sm font-[800] ${secildi ? 'text-primary' : 'text-textStrong'}`}>{s}</span>
+                        <span className={`text-sm font-extrabold ${secildi ? 'text-primary' : 'text-textStrong'}`}>{s}</span>
                         {secildi && <span className="ml-auto"><CheckIcon /></span>}
                       </button>
                     </li>
@@ -286,7 +286,7 @@ export function KonumSecici() {
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 </div>
-                <p className="text-sm font-[800] text-textStrong">Kayıtlı konum yok</p>
+                <p className="text-sm font-extrabold text-textStrong">Kayıtlı konum yok</p>
                 <p className="mt-1 text-xs text-muted">Sık kullandığın konumları buraya kaydedebilirsin.</p>
               </div>
             )}
@@ -295,11 +295,11 @@ export function KonumSecici() {
           {/* Alt butonlar */}
           <div className="flex gap-2 border-t border-border p-4">
             <button type="button" onClick={kapat}
-              className="flex h-11 flex-1 items-center justify-center rounded-2xl border border-border bg-cardAlt text-sm font-[800] text-textStrong hover:bg-card">
+              className="flex h-11 flex-1 items-center justify-center rounded-2xl border border-border bg-cardAlt text-sm font-extrabold text-textStrong hover:bg-card">
               İptal
             </button>
             <button type="button" onClick={onayla} disabled={!aktifKonum}
-              className="flex h-11 flex-[2] items-center justify-center gap-2 rounded-2xl bg-primary text-sm font-[900] text-white shadow-sm hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50">
+              className="flex h-11 flex-2 items-center justify-center gap-2 rounded-2xl bg-primary text-sm font-black text-white shadow-xs hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50">
               <PinIcon className="h-4 w-4 fill-none stroke-white stroke-2" />
               Bu konumu kullan
             </button>
@@ -316,11 +316,11 @@ export function KonumSecici() {
               <input ref={aramaRef} type="text" value={arama}
                 onChange={e => { setArama(e.target.value); setTab('sehirler'); }}
                 placeholder="Şehir, ilçe veya mahalle ara..."
-                className="min-w-0 flex-1 bg-transparent text-sm text-textStrong placeholder:text-muted outline-none" />
+                className="min-w-0 flex-1 bg-transparent text-sm text-textStrong placeholder:text-muted outline-hidden" />
             </div>
             <button type="button"
               onClick={() => { navigator.geolocation?.getCurrentPosition(() => konumSec({ ilce: 'Mevcut Konum', sehir: '' })); }}
-              className="flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-[800] text-primary hover:bg-primary/5">
+              className="flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-extrabold text-primary hover:bg-primary/5">
               <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-primary stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="3" /><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
               </svg>
@@ -332,10 +332,10 @@ export function KonumSecici() {
           <div className="relative flex-1 overflow-hidden">
             {/* Konum chip */}
             {aktifKonum && (
-              <div className="absolute left-3 top-3 z-[400] flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-yd2">
+              <div className="absolute left-3 top-3 z-400 flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-yd2">
                 <PinIcon className="h-4 w-4 shrink-0 fill-none stroke-primary stroke-2" />
                 <div>
-                  <p className="text-sm font-[900] text-primary">{konumYaz(aktifKonum)}</p>
+                  <p className="text-sm font-black text-primary">{konumYaz(aktifKonum)}</p>
                   <p className="text-[10px] text-muted">Mevcut konum</p>
                 </div>
               </div>
@@ -347,11 +347,11 @@ export function KonumSecici() {
           <div className="flex items-center gap-3 border-t border-border px-4 py-3.5">
             <PinIcon className="h-5 w-5 shrink-0 fill-none stroke-primary stroke-2" />
             <div className="min-w-0 flex-1">
-              <p className="text-[10px] font-[800] uppercase tracking-wide text-muted">Seçilen Konum</p>
-              <p className="text-sm font-[900] text-textStrong">{aktifKonum ? konumYaz(aktifKonum) : '—'}</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-wide text-muted">Seçilen Konum</p>
+              <p className="text-sm font-black text-textStrong">{aktifKonum ? konumYaz(aktifKonum) : '—'}</p>
             </div>
             <button type="button" onClick={() => setTab('yakin')}
-              className="flex items-center gap-1 text-sm font-[800] text-primary hover:underline">
+              className="flex items-center gap-1 text-sm font-extrabold text-primary hover:underline">
               Değiştir <ChevronRight />
             </button>
           </div>
@@ -366,10 +366,10 @@ export function KonumSecici() {
       {/* Pill tetikleyici */}
       <button type="button"
         onClick={() => { setAcik(true); setGecici(secili); }}
-        className="flex items-center gap-1.5 rounded-xl border border-border bg-cardAlt px-3 py-2 text-sm transition-colors hover:border-primary/40 hover:bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        className="flex items-center gap-1.5 rounded-xl border border-border bg-cardAlt px-3 py-2 text-sm transition-colors hover:border-primary/40 hover:bg-card focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
         aria-label="Konum seç" aria-haspopup="dialog">
         <PinIcon className="h-4 w-4 shrink-0 fill-none stroke-primary stroke-2" />
-        <span className="max-w-[120px] truncate font-[800] text-textStrong">
+        <span className="max-w-[120px] truncate font-extrabold text-textStrong">
           {secili ? konumYaz(secili) : 'Konum seç'}
         </span>
         <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 fill-none stroke-current stroke-2 text-muted" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -377,7 +377,7 @@ export function KonumSecici() {
         </svg>
       </button>
 
-      {/* Portal: backdrop-blur stacking context'ini atlatır */}
+      {/* Portal: backdrop-blur-sm stacking context'ini atlatır */}
       {mounted && createPortal(modal, document.body)}
     </>
   );

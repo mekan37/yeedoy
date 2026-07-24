@@ -62,16 +62,16 @@ export default async function TopluIslemlerPage() {
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-4">
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Bekleyen İşletme</p>
-              <p className="mt-1 text-2xl font-[900] text-yellow-600">{(pendingBusinesses ?? []).length}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Bekleyen İşletme</p>
+              <p className="mt-1 text-2xl font-black text-yellow-600">{(pendingBusinesses ?? []).length}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Şikayet Edilen Yorum</p>
-              <p className="mt-1 text-2xl font-[900] text-red-600">{(flaggedReviews ?? []).length}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Şikayet Edilen Yorum</p>
+              <p className="mt-1 text-2xl font-black text-red-600">{(flaggedReviews ?? []).length}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Şüpheli Kullanıcı</p>
-              <p className="mt-1 text-2xl font-[900] text-orange-600">{(suspiciousUsers ?? []).length}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Şüpheli Kullanıcı</p>
+              <p className="mt-1 text-2xl font-black text-orange-600">{(suspiciousUsers ?? []).length}</p>
             </div>
           </div>
 

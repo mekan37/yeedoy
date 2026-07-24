@@ -172,7 +172,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
 
           {/* Breadcrumb */}
-          <nav className="mb-4 flex items-center gap-1 text-xs font-[700] text-muted" aria-label="Breadcrumb">
+          <nav className="mb-4 flex items-center gap-1 text-xs font-bold text-muted" aria-label="Breadcrumb">
             <Link href="/" className="hover:text-primary transition-colors">Keşfet</Link>
             <ChevronRight />
             <Link href="/kesif" className="hover:text-primary transition-colors">Restoranlar</Link>
@@ -205,7 +205,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
             {/* Bilgi */}
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-xl font-[900] leading-tight text-textStrong sm:text-2xl">{businessName}</h1>
+                <h1 className="text-xl font-black leading-tight text-textStrong sm:text-2xl">{businessName}</h1>
                 {business.is_verified && (
                   <span
                     className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white"
@@ -220,7 +220,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
               </div>
 
               {/* Kategori ve konum etiketleri */}
-              <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-sm font-[700] text-muted">
+              <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-sm font-bold text-muted">
                 {business.category && <span>{business.category}</span>}
                 {business.neighborhood && (
                   <>
@@ -237,10 +237,10 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
               </div>
 
               {/* Açık/Kapalı + saat */}
-              <div className="mt-2.5 flex flex-wrap items-center gap-3 text-sm font-[700]">
+              <div className="mt-2.5 flex flex-wrap items-center gap-3 text-sm font-bold">
                 {isOpenNow !== null && (
                   <span
-                    className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-[900] ${
+                    className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-black ${
                       isOpenNow
                         ? 'bg-success/10 text-success'
                         : 'bg-danger/10 text-danger'
@@ -269,7 +269,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-xs font-[900] text-textStrong hover:border-danger hover:text-danger transition-colors"
+                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-xs font-black text-textStrong hover:border-danger hover:text-danger transition-colors"
                   aria-label="Favorilere ekle"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -280,7 +280,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
 
                 <button
                   type="button"
-                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-xs font-[900] text-textStrong hover:border-primary hover:text-primary transition-colors"
+                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-xs font-black text-textStrong hover:border-primary hover:text-primary transition-colors"
                   onClick={() => { if (navigator.share) navigator.share({ title: businessName, url: window.location.href }); }}
                   aria-label="Paylaş"
                 >
@@ -296,7 +296,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                     href={business.reservation_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-9 items-center gap-1.5 rounded-2xl bg-primary px-4 text-xs font-[900] text-white hover:bg-primary/90 transition-colors"
+                    className="inline-flex min-h-9 items-center gap-1.5 rounded-2xl bg-primary px-4 text-xs font-black text-white hover:bg-primary/90 transition-colors"
                   >
                     🪑 Masa Ayırt
                   </Link>
@@ -308,7 +308,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-9 items-center gap-1.5 rounded-2xl border border-border bg-card px-4 text-xs font-[900] text-textStrong hover:border-primary hover:text-primary transition-colors"
+                    className="inline-flex min-h-9 items-center gap-1.5 rounded-2xl border border-border bg-card px-4 text-xs font-black text-textStrong hover:border-primary hover:text-primary transition-colors"
                   >
                     {link.emoji} {link.label}
                   </Link>
@@ -325,7 +325,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
         {/* ── Sol kenar çubuğu ── */}
         <aside className="hidden lg:block w-52 shrink-0 sticky top-20 self-start">
           <div className="overflow-hidden rounded-2xl border border-border bg-card py-3">
-            <p className="px-4 pb-2 pt-1 text-[11px] font-[900] uppercase tracking-widest text-muted">
+            <p className="px-4 pb-2 pt-1 text-[11px] font-black uppercase tracking-widest text-muted">
               Menü Kategorileri
             </p>
 
@@ -336,7 +336,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                   key={cat.id}
                   type="button"
                   onClick={() => scrollToSection(cat.id)}
-                  className={`flex w-full items-center gap-2.5 border-l-[3px] px-4 py-2.5 text-left text-sm font-[800] transition-colors ${
+                  className={`flex w-full items-center gap-2.5 border-l-[3px] px-4 py-2.5 text-left text-sm font-extrabold transition-colors ${
                     isActive
                       ? 'border-primary bg-primary/5 text-primary'
                       : 'border-transparent text-textStrong hover:bg-surface hover:text-primary'
@@ -349,8 +349,8 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
             })}
 
             <div className="mx-3 mt-4 rounded-2xl bg-primary/5 p-3">
-              <p className="text-xs font-[900] text-primary">Lezzetli fırsatlar seni bekliyor! 🎉</p>
-              <p className="mt-0.5 text-[11px] font-[700] text-muted">En iyi kampanyaları kaçırma.</p>
+              <p className="text-xs font-black text-primary">Lezzetli fırsatlar seni bekliyor! 🎉</p>
+              <p className="mt-0.5 text-[11px] font-bold text-muted">En iyi kampanyaları kaçırma.</p>
             </div>
           </div>
         </aside>
@@ -370,7 +370,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
               placeholder="Menüde ara..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="h-11 w-full rounded-2xl border border-border bg-card pl-11 pr-4 text-sm font-[700] text-textStrong placeholder:text-muted focus:border-primary focus:outline-none transition-colors"
+              className="h-11 w-full rounded-2xl border border-border bg-card pl-11 pr-4 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden transition-colors"
             />
           </div>
 
@@ -379,10 +379,10 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
             <section id={`mcat-${FEATURED_ID}`}>
               <div className="mb-4 flex items-baseline justify-between">
                 <div>
-                  <h2 className="text-lg font-[900] text-textStrong">
+                  <h2 className="text-lg font-black text-textStrong">
                     <span aria-hidden="true">🔥 </span>Öne Çıkanlar
                   </h2>
-                  <p className="mt-0.5 text-xs font-[700] text-muted">En çok tercih edilen lezzetler</p>
+                  <p className="mt-0.5 text-xs font-bold text-muted">En çok tercih edilen lezzetler</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -413,7 +413,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                   aria-expanded={!isCollapsed}
                 >
                   <CategoryIcon aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" />
-                  <h2 className="flex-1 text-lg font-[900] text-textStrong">{catName}</h2>
+                  <h2 className="flex-1 text-lg font-black text-textStrong">{catName}</h2>
                   <svg
                     width="16" height="16" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
@@ -436,7 +436,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                       <button
                         type="button"
                         onClick={() => setShowMoreMap((p) => ({ ...p, [cat.id]: true }))}
-                        className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl border border-border bg-card py-2.5 text-sm font-[900] text-textStrong hover:bg-surface transition-colors"
+                        className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl border border-border bg-card py-2.5 text-sm font-black text-textStrong hover:bg-surface transition-colors"
                       >
                         Daha fazla göster
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
@@ -456,10 +456,10 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
             categories.every((c) => (itemsByCat.get(c.id) ?? []).filter(matches).length === 0) && (
               <div className="rounded-2xl border border-border bg-card px-6 py-12 text-center">
                 <p className="text-3xl" aria-hidden="true">🔍</p>
-                <p className="mt-3 text-sm font-[900] text-textStrong">
+                <p className="mt-3 text-sm font-black text-textStrong">
                   &ldquo;{query}&rdquo; için sonuç bulunamadı
                 </p>
-                <p className="mt-1 text-xs font-[700] text-muted">Farklı bir arama terimi deneyin</p>
+                <p className="mt-1 text-xs font-bold text-muted">Farklı bir arama terimi deneyin</p>
               </div>
             )}
         </div>
@@ -498,28 +498,28 @@ function UrunKarti({ item }: { item: MenuItemRecord }) {
         )}
         {!isAvailable && (
           <div className="absolute inset-0 flex items-center justify-center bg-card/60">
-            <span className="rounded-xl bg-card px-2 py-1 text-[11px] font-[900] text-muted">Tükendi</span>
+            <span className="rounded-xl bg-card px-2 py-1 text-[11px] font-black text-muted">Tükendi</span>
           </div>
         )}
       </div>
 
       {/* Bilgi */}
       <div className="flex flex-1 flex-col p-3">
-        <p className="text-sm font-[900] text-textStrong line-clamp-1">{item.name}</p>
+        <p className="text-sm font-black text-textStrong line-clamp-1">{item.name}</p>
         {item.description && (
-          <p className="mt-0.5 text-[11px] font-[700] text-muted line-clamp-2">{item.description}</p>
+          <p className="mt-0.5 text-[11px] font-bold text-muted line-clamp-2">{item.description}</p>
         )}
 
         {/* Kalori etiketi */}
         {kcal && (
-          <p className="mt-1 text-[10px] font-[700] text-muted">{kcal}</p>
+          <p className="mt-1 text-[10px] font-bold text-muted">{kcal}</p>
         )}
 
         <div className="mt-auto pt-2">
           {isAvailable ? (
-            <span className="text-sm font-[900] text-textStrong">{fiyat(item.price_cents)}</span>
+            <span className="text-sm font-black text-textStrong">{fiyat(item.price_cents)}</span>
           ) : (
-            <span className="text-xs font-[800] text-muted">—</span>
+            <span className="text-xs font-extrabold text-muted">—</span>
           )}
         </div>
       </div>
@@ -550,20 +550,20 @@ function UrunSatiri({ item }: { item: MenuItemRecord }) {
 
       {/* Metin */}
       <div className="flex flex-1 min-w-0 flex-col gap-0.5">
-        <p className="text-sm font-[900] text-textStrong line-clamp-1">{item.name}</p>
+        <p className="text-sm font-black text-textStrong line-clamp-1">{item.name}</p>
         {item.description && (
-          <p className="text-xs font-[700] text-muted line-clamp-2">{item.description}</p>
+          <p className="text-xs font-bold text-muted line-clamp-2">{item.description}</p>
         )}
 
         {/* Kalori + etiketler */}
         <div className="mt-1 flex flex-wrap items-center gap-1">
           {kcal && (
-            <span className="rounded-full bg-surface px-2 py-0.5 text-[10px] font-[800] text-muted">
+            <span className="rounded-full bg-surface px-2 py-0.5 text-[10px] font-extrabold text-muted">
               🔥 {kcal}
             </span>
           )}
           {item.tagList?.slice(0, 2).map((tag) => (
-            <span key={tag} className="rounded-full bg-surface px-2 py-0.5 text-[10px] font-[800] text-muted capitalize">
+            <span key={tag} className="rounded-full bg-surface px-2 py-0.5 text-[10px] font-extrabold text-muted capitalize">
               {tag}
             </span>
           ))}
@@ -575,7 +575,7 @@ function UrunSatiri({ item }: { item: MenuItemRecord }) {
             {allergens.map((a) => (
               <span
                 key={a}
-                className="inline-flex items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-[800] text-amber-700 ring-1 ring-amber-200"
+                className="inline-flex items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-700 ring-1 ring-amber-200"
                 title={`Alerjen: ${ALLERGEN_LABEL[a] ?? a}`}
               >
                 <span aria-hidden="true">{ALLERGEN_EMOJI[a] ?? '⚠️'}</span>
@@ -589,9 +589,9 @@ function UrunSatiri({ item }: { item: MenuItemRecord }) {
       {/* Sağ: fiyat */}
       <div className="ml-2 shrink-0 text-right">
         {isAvailable ? (
-          <span className="text-sm font-[900] text-textStrong">{fiyat(item.price_cents)}</span>
+          <span className="text-sm font-black text-textStrong">{fiyat(item.price_cents)}</span>
         ) : (
-          <span className="rounded-xl border border-border px-2 py-1 text-[11px] font-[800] text-muted">
+          <span className="rounded-xl border border-border px-2 py-1 text-[11px] font-extrabold text-muted">
             Tükendi
           </span>
         )}

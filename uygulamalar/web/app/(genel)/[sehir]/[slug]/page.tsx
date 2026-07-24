@@ -162,22 +162,22 @@ export default async function SehirSlugPage({ params }: Props) {
               <li aria-hidden="true">›</li>
               <li><Link href={`/${sehir}`} className="hover:text-primary">{cityLabel}</Link></li>
               <li aria-hidden="true">›</li>
-              <li className="font-[700] text-textStrong">{slugLabel}</li>
+              <li className="font-bold text-textStrong">{slugLabel}</li>
             </ol>
           </nav>
-          <h1 className="mb-1 text-3xl font-[900] tracking-tight text-textStrong">{slugLabel}</h1>
+          <h1 className="mb-1 text-3xl font-black tracking-tight text-textStrong">{slugLabel}</h1>
           <p className="mb-8 text-muted">{slugLabel}, {cityLabel} · {businesses.length} işletme</p>
           <section>
-            <h2 className="mb-3 text-lg font-[800] text-textStrong">Kategoriler</h2>
+            <h2 className="mb-3 text-lg font-extrabold text-textStrong">Kategoriler</h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {categories.map(([cat, cnt]) => (
                 <Link
                   key={cat}
                   href={`/${sehir}/${slug}/${slugify(cat)}`}
-                  className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4 hover:border-primary/40 hover:shadow-sm transition-all"
+                  className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4 hover:border-primary/40 hover:shadow-xs transition-all"
                 >
-                  <span className="font-[800] text-textStrong">{cat}</span>
-                  <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-[800] text-primary">{cnt}</span>
+                  <span className="font-extrabold text-textStrong">{cat}</span>
+                  <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-extrabold text-primary">{cnt}</span>
                 </Link>
               ))}
             </div>
@@ -224,10 +224,10 @@ export default async function SehirSlugPage({ params }: Props) {
             <li aria-hidden="true">›</li>
             <li><Link href={`/${sehir}`} className="hover:text-primary">{cityLabel}</Link></li>
             <li aria-hidden="true">›</li>
-            <li className="font-[700] text-textStrong">{slugLabel}</li>
+            <li className="font-bold text-textStrong">{slugLabel}</li>
           </ol>
         </nav>
-        <h1 className="mb-1 text-3xl font-[900] tracking-tight text-textStrong">
+        <h1 className="mb-1 text-3xl font-black tracking-tight text-textStrong">
           {slugLabel} — {cityLabel}
         </h1>
         <p className="mb-8 text-muted">{businesses.length} işletme</p>

@@ -40,8 +40,8 @@ export function BusinessTile({
       href={`/b/${slug}`}
       className={clsx(
         'group flex items-center gap-3 rounded-[20px] border border-border bg-cardAlt p-3 shadow-yd2',
-        'cursor-pointer transition-all duration-[180ms] hover:-translate-y-0.5 hover:shadow-yd3 active:scale-[0.97] active:shadow-yd1',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'cursor-pointer transition-all duration-180 hover:-translate-y-0.5 hover:shadow-yd3 active:scale-[0.97] active:shadow-yd1',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         className,
       )}
     >
@@ -58,31 +58,31 @@ export function BusinessTile({
       <div className="flex min-w-0 flex-1 flex-col gap-1.5">
         {/* Name row + pills */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="min-w-0 flex-1 truncate font-[900] text-textStrong group-hover:text-primary transition-colors">
+          <span className="min-w-0 flex-1 truncate font-black text-textStrong group-hover:text-primary transition-colors">
             {name}
           </span>
 
           {badgeText && badgeText.trim() && (
-            <span className="shrink-0 rounded-full border border-primary/25 bg-[var(--yd-color-primary-soft)] px-2 py-1 text-xs font-[900] text-primary">
+            <span className="shrink-0 rounded-full border border-primary/25 bg-(--yd-color-primary-soft) px-2 py-1 text-xs font-black text-primary">
               {badgeText}
             </span>
           )}
 
           {distanceKm != null && (
-            <span className="shrink-0 rounded-full border border-border bg-cardAlt px-2.5 py-1 text-xs font-[900] text-textStrong">
+            <span className="shrink-0 rounded-full border border-border bg-cardAlt px-2.5 py-1 text-xs font-black text-textStrong">
               {fmtKm(distanceKm)}
             </span>
           )}
 
           {qualityScore != null && qualityScore >= 3 && (
-            <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-success/25 bg-success/[0.12] px-2 py-1 text-xs font-[900] text-success">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-success/25 bg-success/12 px-2 py-1 text-xs font-black text-success">
               <VerifiedIcon />
               Kaliteli
             </span>
           )}
 
           {isVerified && qualityScore == null && (
-            <span className="shrink-0 rounded-full border border-success/25 bg-success/[0.12] px-2 py-1 text-xs font-[900] text-success">
+            <span className="shrink-0 rounded-full border border-success/25 bg-success/12 px-2 py-1 text-xs font-black text-success">
               Onaylı
             </span>
           )}
@@ -96,7 +96,7 @@ export function BusinessTile({
         {/* Category chip */}
         {category && (
           <div className="flex flex-wrap gap-1.5">
-            <span className="rounded-full bg-[var(--yd-color-primary-soft)] px-2 py-0.5 text-xs font-[800] text-primary">
+            <span className="rounded-full bg-(--yd-color-primary-soft) px-2 py-0.5 text-xs font-extrabold text-primary">
               {category}
             </span>
           </div>
@@ -108,7 +108,7 @@ export function BusinessTile({
             {socialProof.map((label) => (
               <span
                 key={label}
-                className="rounded-full border border-info/30 bg-info/[0.12] px-2 py-0.5 text-[11px] font-[800] text-info"
+                className="rounded-full border border-info/30 bg-info/12 px-2 py-0.5 text-[11px] font-extrabold text-info"
               >
                 {label}
               </span>

@@ -10,7 +10,7 @@ export function AdminMenuGeriAlDugmesi({ menuId }: { menuId: string }) {
     <button
       disabled={isPending}
       onClick={() => startTransition(async () => { await adminMenuGeriAl(menuId); })}
-      className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong transition-colors hover:bg-black/[0.04] disabled:cursor-not-allowed disabled:opacity-50"
+      className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong transition-colors hover:bg-black/4 disabled:cursor-not-allowed disabled:opacity-50"
     >
       {isPending ? '…' : 'Geri Al'}
     </button>

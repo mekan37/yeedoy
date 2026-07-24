@@ -44,13 +44,13 @@ export function SpesiyelToggle({ menuItemId, itemName, isSpecial: initial, speci
   if (isSpecial) {
     return (
       <div className="flex items-center gap-2">
-        <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[11px] font-[800] text-amber-700">
+        <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[11px] font-extrabold text-amber-700">
           <Star size={11} aria-hidden="true" /> Bugünün Spesiyali
         </span>
         <button
           onClick={() => toggle(false)}
           disabled={loading}
-          className="text-[11px] font-[700] text-muted underline-offset-2 hover:underline disabled:opacity-50"
+          className="text-[11px] font-bold text-muted underline-offset-2 hover:underline disabled:opacity-50"
         >
           {loading ? '…' : 'Kaldır'}
         </button>
@@ -65,7 +65,7 @@ export function SpesiyelToggle({ menuItemId, itemName, isSpecial: initial, speci
         <button
           onClick={() => setShowNoteInput(!showNoteInput)}
           disabled={loading}
-          className="text-[11px] font-[700] text-primary underline-offset-2 hover:underline disabled:opacity-50"
+          className="text-[11px] font-bold text-primary underline-offset-2 hover:underline disabled:opacity-50"
         >
           <Star size={11} aria-hidden="true" /> Spesiyel İşaretle
         </button>
@@ -84,7 +84,7 @@ export function SpesiyelToggle({ menuItemId, itemName, isSpecial: initial, speci
           <button
             onClick={() => toggle(true)}
             disabled={loading}
-            className="btn-primary rounded-lg px-2.5 py-1 text-xs font-[800] text-white disabled:opacity-50"
+            className="btn-primary rounded-lg px-2.5 py-1 text-xs font-extrabold text-white disabled:opacity-50"
           >
             {loading ? '…' : 'Onayla'}
           </button>

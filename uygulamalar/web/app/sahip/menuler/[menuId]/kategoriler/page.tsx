@@ -44,7 +44,7 @@ export default async function MenuKategorilerPage({ params }: Props) {
         actions={
           <Link
             href={`/sahip/menuler/${menuId}/duzenle`}
-            className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong transition-colors hover:bg-bg"
+            className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-bold text-textStrong transition-colors hover:bg-bg"
           >
             ← Menü Düzenleyiciye Dön
           </Link>

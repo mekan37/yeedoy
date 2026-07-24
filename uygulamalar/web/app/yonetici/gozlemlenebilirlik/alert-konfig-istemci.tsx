@@ -60,19 +60,19 @@ export function AlertKonfigIstemci() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-zinc-50 text-left">
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kural</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Eşik</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Önem</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">E-posta</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Slack</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Aktif</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kural</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Eşik</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Önem</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">E-posta</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Slack</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Aktif</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {rules.map(rule => (
-              <tr key={rule.id} className={`${!rule.enabled ? 'opacity-50' : ''} hover:bg-black/[0.02]`}>
+              <tr key={rule.id} className={`${!rule.enabled ? 'opacity-50' : ''} hover:bg-black/2`}>
                 <td className="px-4 py-3">
-                  <p className="font-[700] text-textStrong">{rule.name}</p>
+                  <p className="font-bold text-textStrong">{rule.name}</p>
                   <p className="text-[10px] text-muted">{rule.metric} · {rule.window}</p>
                 </td>
                 <td className="px-4 py-3">
@@ -80,11 +80,11 @@ export function AlertKonfigIstemci() {
                     type="number"
                     value={rule.threshold}
                     onChange={e => updateThreshold(rule.id, parseInt(e.target.value) || 0)}
-                    className="w-20 rounded-lg border border-border bg-surface px-2 py-1 text-xs font-[700] text-textStrong focus:border-primary focus:outline-none"
+                    className="w-20 rounded-lg border border-border bg-surface px-2 py-1 text-xs font-bold text-textStrong focus:border-primary focus:outline-hidden"
                   />
                 </td>
                 <td className="px-4 py-3">
-                  <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-[700] ${SEVERITY_STYLE[rule.severity]}`}>
+                  <span className={`inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold ${SEVERITY_STYLE[rule.severity]}`}>
                     {SEVERITY_LABEL[rule.severity]}
                   </span>
                 </td>
@@ -120,7 +120,7 @@ export function AlertKonfigIstemci() {
                     className={`relative h-5 w-9 rounded-full transition-colors ${rule.enabled ? 'bg-primary' : 'bg-zinc-300'}`}
                     aria-label={rule.enabled ? 'Devre dışı bırak' : 'Etkinleştir'}
                   >
-                    <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform ${rule.enabled ? 'translate-x-4' : 'translate-x-0.5'}`} />
+                    <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${rule.enabled ? 'translate-x-4' : 'translate-x-0.5'}`} />
                   </button>
                 </td>
               </tr>
@@ -132,7 +132,7 @@ export function AlertKonfigIstemci() {
       <div className="flex items-center gap-3">
         <button
           onClick={save}
-          className="rounded-xl bg-primary px-4 py-2 text-sm font-[800] text-white hover:bg-primary/90"
+          className="rounded-xl bg-primary px-4 py-2 text-sm font-extrabold text-white hover:bg-primary/90"
         >
           {saved ? '✓ Kaydedildi' : 'Kaydet'}
         </button>

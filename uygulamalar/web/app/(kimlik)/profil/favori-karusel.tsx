@@ -25,7 +25,7 @@ export function FavoriKarusel({ isletmeler }: { isletmeler: FavoriIsletme[] }) {
 
   if (isletmeler.length === 0) {
     return (
-      <div className="flex h-40 items-center justify-center rounded-2xl border border-dashed border-border text-sm font-[700] text-muted">
+      <div className="flex h-40 items-center justify-center rounded-2xl border border-dashed border-border text-sm font-bold text-muted">
         Henüz favori mekan eklemedin.
       </div>
     );
@@ -71,7 +71,7 @@ export function FavoriKarusel({ isletmeler }: { isletmeler: FavoriIsletme[] }) {
                   <div className="flex h-full w-full items-center justify-center"><Utensils className="h-8 w-8 text-muted" aria-hidden="true" /></div>
                 )}
                 {/* Kalp rozeti */}
-                <div className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 shadow-sm">
+                <div className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 shadow-xs">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" strokeWidth="1.5" aria-hidden="true">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                   </svg>
@@ -80,8 +80,8 @@ export function FavoriKarusel({ isletmeler }: { isletmeler: FavoriIsletme[] }) {
 
               {/* Bilgi */}
               <div className="p-3">
-                <p className="truncate text-[13px] font-[900] text-textStrong">{b.name}</p>
-                <p className="mt-0.5 truncate text-[11px] font-[700] text-muted">
+                <p className="truncate text-[13px] font-black text-textStrong">{b.name}</p>
+                <p className="mt-0.5 truncate text-[11px] font-bold text-muted">
                   {[b.category, b.district].filter(Boolean).join(' · ')}
                 </p>
                 {b.avg_rating != null && (
@@ -89,9 +89,9 @@ export function FavoriKarusel({ isletmeler }: { isletmeler: FavoriIsletme[] }) {
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" aria-hidden="true">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
-                    <span className="text-[11px] font-[800] text-textStrong">{b.avg_rating.toFixed(1)}</span>
+                    <span className="text-[11px] font-extrabold text-textStrong">{b.avg_rating.toFixed(1)}</span>
                     {b.reviews_count != null && (
-                      <span className="text-[10px] font-[700] text-muted">({b.reviews_count})</span>
+                      <span className="text-[10px] font-bold text-muted">({b.reviews_count})</span>
                     )}
                   </div>
                 )}

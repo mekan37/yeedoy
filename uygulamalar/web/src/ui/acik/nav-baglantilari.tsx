@@ -22,7 +22,7 @@ export function NavLinks({ items }: { items: NavItem[] }) {
             href={item.href}
             aria-current={isActive ? 'page' : undefined}
             className={clsx(
-              'relative inline-flex min-h-11 items-center rounded-2xl px-3 text-sm font-[900] transition-colors',
+              'relative inline-flex min-h-11 items-center rounded-2xl px-3 text-sm font-black transition-colors',
               isActive
                 ? 'text-primary'
                 : 'text-textStrong hover:bg-cardAlt',

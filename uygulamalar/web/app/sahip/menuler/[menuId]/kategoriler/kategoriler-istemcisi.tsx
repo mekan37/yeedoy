@@ -77,15 +77,15 @@ export function KategorilerClient({
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleUpdate(section.id)}
-                className="min-h-[36px] flex-1 rounded-lg border border-border bg-bg px-2 text-sm font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="min-h-[36px] flex-1 rounded-lg border border-border bg-bg px-2 text-sm font-bold text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
               />
             ) : (
-              <span className="text-sm font-[700] text-textStrong">{section.title}</span>
+              <span className="text-sm font-bold text-textStrong">{section.title}</span>
             )}
             <div className="flex shrink-0 items-center gap-3 text-xs text-muted">
               <span>{itemCounts[section.id] ?? 0} ürün</span>
               {editingId === section.id ? (
-                <button type="button" disabled={isPending} onClick={() => handleUpdate(section.id)} className="font-[700] text-primary hover:underline cursor-pointer">Kaydet</button>
+                <button type="button" disabled={isPending} onClick={() => handleUpdate(section.id)} className="font-bold text-primary hover:underline cursor-pointer">Kaydet</button>
               ) : (
                 <button type="button" disabled={isPending} onClick={() => { setEditingId(section.id); setEditTitle(section.title); }} aria-label={`${section.title} düzenle`} className="text-textStrong hover:text-primary cursor-pointer"><Pencil size={14} /></button>
               )}
@@ -103,16 +103,16 @@ export function KategorilerClient({
             onChange={(e) => setNewTitle(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
             placeholder="Bölüm adı"
-            className="min-h-[40px] flex-1 rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="min-h-[40px] flex-1 rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
-          <button type="button" disabled={isPending} onClick={handleCreate} className="btn-primary rounded-xl px-4 py-2 text-sm font-[900] text-white cursor-pointer">Ekle</button>
-          <button type="button" onClick={() => setShowNew(false)} className="rounded-xl border border-border px-4 py-2 text-sm font-[700] text-textStrong cursor-pointer">Vazgeç</button>
+          <button type="button" disabled={isPending} onClick={handleCreate} className="btn-primary rounded-xl px-4 py-2 text-sm font-black text-white cursor-pointer">Ekle</button>
+          <button type="button" onClick={() => setShowNew(false)} className="rounded-xl border border-border px-4 py-2 text-sm font-bold text-textStrong cursor-pointer">Vazgeç</button>
         </div>
       ) : (
         <button
           type="button"
           onClick={() => setShowNew(true)}
-          className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-border px-4 py-3 text-sm font-[700] text-muted hover:border-primary hover:text-primary cursor-pointer"
+          className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-border px-4 py-3 text-sm font-bold text-muted hover:border-primary hover:text-primary cursor-pointer"
         >
           <Plus size={18} /> Yeni Kategori
         </button>

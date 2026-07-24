@@ -335,7 +335,7 @@ export default async function BusinessPage({ params }: Props) {
                 <Icon name="chevronRight" size={14} />
               </>
             )}
-            <span className="font-[800] text-textStrong truncate">{business.name}</span>
+            <span className="font-extrabold text-textStrong truncate">{business.name}</span>
           </nav>
         </div>
 
@@ -371,7 +371,7 @@ export default async function BusinessPage({ params }: Props) {
                   )}
                   {business.isOpenNow != null && (
                     <span
-                      className={`pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-[800] text-white ${business.isOpenNow ? 'bg-success' : 'bg-danger'}`}
+                      className={`pointer-events-none absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold text-white ${business.isOpenNow ? 'bg-success' : 'bg-danger'}`}
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-white" />
                       {business.isOpenNow ? 'Açık' : 'Kapalı'}
@@ -418,16 +418,16 @@ export default async function BusinessPage({ params }: Props) {
             <div className="min-w-0 flex-1">
               <div className="mb-2 flex flex-wrap items-center gap-2">
                 {business.isVerified && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-[800] text-primary">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-extrabold text-primary">
                     <Icon name="check" size={12} /> Doğrulanmış
                   </span>
                 )}
                 {chainInfo && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-[800] text-amber-800 border border-amber-200/60">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-extrabold text-amber-800 border border-amber-200/60">
                     <ZincirIkonu />
                     {chainInfo.chain_name}
                     {chainInfo.branch_count > 1 && (
-                      <span className="font-[700] text-amber-600">· {chainInfo.branch_count} şube</span>
+                      <span className="font-bold text-amber-600">· {chainInfo.branch_count} şube</span>
                     )}
                     {chainInfo.chain_is_verified && (
                       <Icon name="check" size={11} className="text-amber-600" />
@@ -435,13 +435,13 @@ export default async function BusinessPage({ params }: Props) {
                   </span>
                 )}
                 {checkinCount > 0 && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-[800] text-orange-700">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-extrabold text-orange-700">
                     <Icon name="flame" size={11} />
                     {checkinCount} kişi şu an burada
                   </span>
                 )}
               </div>
-              <h1 className="text-2xl font-[900] leading-tight text-textStrong sm:text-3xl">
+              <h1 className="text-2xl font-black leading-tight text-textStrong sm:text-3xl">
                 {business.name}
               </h1>
               <p className="mt-1 text-sm text-muted">
@@ -449,20 +449,20 @@ export default async function BusinessPage({ params }: Props) {
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-3 text-sm">
                 {business.avgRating != null && (
-                  <span className="inline-flex items-center gap-1 font-[900] text-textStrong">
+                  <span className="inline-flex items-center gap-1 font-black text-textStrong">
                     <Icon name="star" size={15} className="stroke-warning fill-warning" />
                     {business.avgRating.toFixed(1)}
                     {business.reviewCount != null && (
-                      <span className="font-[700] text-muted">({business.reviewCount})</span>
+                      <span className="font-bold text-muted">({business.reviewCount})</span>
                     )}
                   </span>
                 )}
                 {(business as any).distanceKm != null && (
-                  <span className="font-[700] text-muted">{(business as any).distanceKm.toFixed(1)} km</span>
+                  <span className="font-bold text-muted">{(business as any).distanceKm.toFixed(1)} km</span>
                 )}
-                {priceSymbol && <span className="font-[800] text-muted">{priceSymbol}</span>}
+                {priceSymbol && <span className="font-extrabold text-muted">{priceSymbol}</span>}
                 {todayHours && (
-                  <span className="font-[700] text-muted">
+                  <span className="font-bold text-muted">
                     {todayHours.value !== 'Kapalı' ? `Açık · Kapanış ${todayHours.value.split('-')[1]?.trim() ?? ''}` : 'Bugün kapalı'}
                   </span>
                 )}
@@ -475,7 +475,7 @@ export default async function BusinessPage({ params }: Props) {
               {business.menuHref && (
                 <Link
                   href={business.menuHref}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-[14px] px-5 text-sm font-[900] text-white shadow-[var(--yd-shadow-primary)] transition-all hover:-translate-y-px"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-[14px] px-5 text-sm font-black text-white shadow-(--yd-shadow-primary) transition-all hover:-translate-y-px"
                   style={{ background: 'var(--yd-gradient-primary)' }}
                 >
                   <Icon name="menu" size={16} className="stroke-white" />

@@ -85,31 +85,31 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-[800] text-muted">Ad Soyad *</label>
+        <label className="text-xs font-extrabold text-muted">Ad Soyad *</label>
         <input
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           required
           placeholder="Adınız ve soyadınız"
-          className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+          className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
         />
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-[800] text-muted">Telefon *</label>
+        <label className="text-xs font-extrabold text-muted">Telefon *</label>
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           type="tel"
           required
           placeholder="05XX XXX XX XX"
-          className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+          className="min-h-11 rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
         />
       </div>
 
       {/* Dosya yükleme */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-[800] text-muted">
+        <label className="text-xs font-extrabold text-muted">
           Sahiplik Kanıtı{' '}
           <span className="font-normal text-muted/60">(opsiyonel · maks. {MAX_MB} MB)</span>
         </label>
@@ -131,7 +131,7 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
           className="flex items-center gap-3 rounded-xl border-2 border-dashed border-border bg-bg px-4 py-4 text-sm text-muted transition-colors hover:border-primary/40 hover:bg-primary/4"
         >
           <UploadIcon />
-          <span className="font-[700]">
+          <span className="font-bold">
             {file ? file.name : 'Dosya seç veya sürükle…'}
           </span>
           {file && (
@@ -141,12 +141,12 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
           )}
         </button>
 
-        {fileErr && <p className="text-xs font-[700] text-red-600">{fileErr}</p>}
+        {fileErr && <p className="text-xs font-bold text-red-600">{fileErr}</p>}
         {file && (
           <button
             type="button"
             onClick={() => { setFile(null); if (fileRef.current) fileRef.current.value = ''; }}
-            className="self-start text-xs font-[700] text-muted hover:text-red-600"
+            className="self-start text-xs font-bold text-muted hover:text-red-600"
           >
             × Dosyayı kaldır
           </button>
@@ -154,7 +154,7 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-[800] text-muted">
+        <label className="text-xs font-extrabold text-muted">
           Ek Not <span className="font-normal text-muted/60">(opsiyonel)</span>
         </label>
         <textarea
@@ -162,12 +162,12 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
           onChange={(e) => setNote(e.target.value)}
           rows={2}
           placeholder="Eklemek istediğiniz bilgi varsa yazın…"
-          className="rounded-xl border border-border bg-bg px-3 py-2.5 text-sm font-[700] text-textStrong outline-none focus:ring-2 focus:ring-primary/30"
+          className="rounded-xl border border-border bg-bg px-3 py-2.5 text-sm font-bold text-textStrong outline-hidden focus:ring-2 focus:ring-primary/30"
         />
       </div>
 
       <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-800">
-        <p className="font-[800]">Talep süreci</p>
+        <p className="font-extrabold">Talep süreci</p>
         <p className="mt-1">
           Talebiniz gönderildikten sonra admin ekibimiz inceleyecek. Onay öncesinde
           panele giriş yapabilirsiniz, ancak menü yayınlama onay sonrasında aktif olur.
@@ -175,7 +175,7 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
       </div>
 
       {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-[700] text-red-700">
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">
           {error}
         </div>
       )}
@@ -183,7 +183,7 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-xl bg-primary py-3.5 text-sm font-[900] text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="w-full rounded-xl bg-primary py-3.5 text-sm font-black text-white transition-opacity hover:opacity-90 disabled:opacity-60"
       >
         {loading ? 'Gönderiliyor…' : 'Talebi Gönder →'}
       </button>

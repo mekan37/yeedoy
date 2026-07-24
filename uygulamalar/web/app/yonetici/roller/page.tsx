@@ -79,26 +79,26 @@ export default async function AdminRolesPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Rol</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kayıt</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kullanıcı</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Rol</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kayıt</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {list.map((u: any) => {
                   const roleInfo = ROLES.find((r) => r.key === u.role);
                   return (
-                    <tr key={u.id} className="hover:bg-black/[0.01]">
+                    <tr key={u.id} className="hover:bg-black/1">
                       <td className="px-5 py-3">
                         <Link href={`/yonetici/kullanicilar/${u.id}`} className="group">
-                          <p className="font-[700] text-textStrong group-hover:text-primary transition-colors">
+                          <p className="font-bold text-textStrong group-hover:text-primary transition-colors">
                             {u.display_name ?? '—'}
                           </p>
                           <p className="text-xs text-muted">{u.email ?? u.id.slice(0, 12)}</p>
                         </Link>
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${roleInfo?.className ?? 'bg-zinc-100 text-zinc-500'}`}>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${roleInfo?.className ?? 'bg-zinc-100 text-zinc-500'}`}>
                           {roleInfo?.label ?? u.role}
                         </span>
                       </td>
@@ -141,12 +141,12 @@ function PermissionMatrix() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border">
-            <th className="px-4 py-3 text-left text-[11px] font-[800] uppercase tracking-wide text-muted w-48">İzin</th>
+            <th className="px-4 py-3 text-left text-[11px] font-extrabold uppercase tracking-wide text-muted w-48">İzin</th>
             {['super_admin', 'admin', 'community_mod', 'user'].map(role => {
               const info = ROLES.find(r => r.key === role);
               return (
-                <th key={role} className="px-4 py-3 text-center text-[11px] font-[800] uppercase tracking-wide text-muted">
-                  <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-[800] ${info?.className ?? 'bg-zinc-100 text-zinc-500'}`}>
+                <th key={role} className="px-4 py-3 text-center text-[11px] font-extrabold uppercase tracking-wide text-muted">
+                  <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-extrabold ${info?.className ?? 'bg-zinc-100 text-zinc-500'}`}>
                     {info?.label ?? role}
                   </span>
                 </th>
@@ -156,8 +156,8 @@ function PermissionMatrix() {
         </thead>
         <tbody className="divide-y divide-border">
           {PERMISSIONS.map(perm => (
-            <tr key={perm.id} className="hover:bg-black/[0.02]">
-              <td className="px-4 py-2.5 text-sm font-[600] text-textStrong">{perm.label}</td>
+            <tr key={perm.id} className="hover:bg-black/2">
+              <td className="px-4 py-2.5 text-sm font-semibold text-textStrong">{perm.label}</td>
               {(['super_admin', 'admin', 'community_mod', 'user'] as const).map(role => (
                 <td key={role} className="px-4 py-2.5 text-center">
                   {perm[role]

@@ -100,8 +100,8 @@ export default function DestekSayfasi() {
           <div className="mx-auto max-w-3xl">
             {/* Başlık */}
             <div className="mb-10">
-              <p className="mb-1 text-xs font-[900] uppercase tracking-widest text-primary">Destek</p>
-              <h1 className="text-3xl font-[900] text-textStrong sm:text-4xl">Yardım Merkezi</h1>
+              <p className="mb-1 text-xs font-black uppercase tracking-widest text-primary">Destek</p>
+              <h1 className="text-3xl font-black text-textStrong sm:text-4xl">Yardım Merkezi</h1>
               <p className="mt-3 text-base leading-relaxed text-muted">
                 Sık sorulan sorular ve Yeedoy&apos;u nasıl kullanacağınıza dair rehber.
               </p>
@@ -113,14 +113,14 @@ export default function DestekSayfasi() {
                 <section key={section.title} aria-labelledby={`section-${section.title}`}>
                   <h2
                     id={`section-${section.title}`}
-                    className="mb-4 text-lg font-[900] text-textStrong"
+                    className="mb-4 text-lg font-black text-textStrong"
                   >
                     {section.title}
                   </h2>
                   <div className="overflow-hidden divide-y divide-border rounded-[24px] border border-border bg-card">
                     {section.items.map((item) => (
                       <details key={item.q} className="group px-5 py-4">
-                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-[800] text-textStrong [&::-webkit-details-marker]:hidden">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-extrabold text-textStrong [&::-webkit-details-marker]:hidden">
                           <span>{item.q}</span>
                           <svg
                             viewBox="0 0 24 24"
@@ -145,7 +145,7 @@ export default function DestekSayfasi() {
 
             {/* Destek iletişim kartı */}
             <div className="mt-12 rounded-[24px] border border-border bg-cardAlt p-8 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--yd-color-primary-soft)]">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-(--yd-color-primary-soft)">
                 <svg
                   viewBox="0 0 24 24"
                   className="h-6 w-6 fill-none stroke-current text-primary"
@@ -158,13 +158,13 @@ export default function DestekSayfasi() {
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
               </div>
-              <h3 className="mb-2 font-[900] text-textStrong">Cevabını bulamadın mı?</h3>
+              <h3 className="mb-2 font-black text-textStrong">Cevabını bulamadın mı?</h3>
               <p className="mb-5 text-sm leading-relaxed text-muted">
                 Destek ekibimiz Pazartesi–Cuma 09:00–18:00 saatleri arasında size yardımcı olmaktan mutluluk duyar.
               </p>
               <a
                 href="mailto:destek@yeedoy.com"
-                className="inline-flex min-h-11 items-center gap-2.5 rounded-2xl border border-border bg-card px-5 text-sm font-[800] text-textStrong transition-colors hover:border-primary/30 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                className="inline-flex min-h-11 items-center gap-2.5 rounded-2xl border border-border bg-card px-5 text-sm font-extrabold text-textStrong transition-colors hover:border-primary/30 hover:text-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               >
                 <svg
                   viewBox="0 0 24 24"

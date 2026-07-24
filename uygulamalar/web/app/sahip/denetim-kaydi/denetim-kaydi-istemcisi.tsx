@@ -125,7 +125,7 @@ export function DenetimKaydiIstemcisi({ logRows, total, page, pageSize, members,
         </select>
         <button
           onClick={() => navigate(1)}
-          className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-[800] text-white transition hover:opacity-90"
+          className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-extrabold text-white transition hover:opacity-90"
         >
           <FilterIcon className="h-4 w-4" /> Filtrele
         </button>
@@ -145,14 +145,14 @@ export function DenetimKaydiIstemcisi({ logRows, total, page, pageSize, members,
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Tarih & Saat</th>
-                  <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
+                  <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Tarih & Saat</th>
+                  <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Kullanıcı</th>
                   {showBusinessColumn && (
-                    <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">İşletme</th>
+                    <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">İşletme</th>
                   )}
-                  <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">İşlem</th>
-                  <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">Açıklama</th>
-                  <th className="px-5 py-3 text-left text-xs font-[800] uppercase tracking-wide text-muted">İlgili Kayıt</th>
+                  <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">İşlem</th>
+                  <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">Açıklama</th>
+                  <th className="px-5 py-3 text-left text-xs font-extrabold uppercase tracking-wide text-muted">İlgili Kayıt</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -171,8 +171,8 @@ export function DenetimKaydiIstemcisi({ logRows, total, page, pageSize, members,
                         <div className="flex items-center gap-2">
                           <Avatar name={log.actor_name} url={log.actor_avatar_url} />
                           <div>
-                            <p className="font-[700] text-textStrong">{log.actor_name}</p>
-                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${roleConfig.className}`}>
+                            <p className="font-bold text-textStrong">{log.actor_name}</p>
+                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${roleConfig.className}`}>
                               {roleConfig.label}
                             </span>
                           </div>
@@ -186,7 +186,7 @@ export function DenetimKaydiIstemcisi({ logRows, total, page, pageSize, members,
                           <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${actionConfig?.className ?? 'bg-zinc-100 text-zinc-600'}`}>
                             <ActionIcon className="h-3.5 w-3.5" />
                           </span>
-                          <span className="font-[700] text-textStrong">{actionConfig?.label ?? log.action}</span>
+                          <span className="font-bold text-textStrong">{actionConfig?.label ?? log.action}</span>
                         </div>
                       </td>
                       <td className="max-w-[260px] px-5 py-3 text-muted">{log.description}</td>
@@ -214,8 +214,8 @@ export function DenetimKaydiIstemcisi({ logRows, total, page, pageSize, members,
                   <button
                     key={p}
                     onClick={() => navigate(p)}
-                    className={`flex h-7 w-7 items-center justify-center rounded-lg border text-[11px] font-[900] ${
-                      p === page ? 'border-primary bg-primary text-white' : 'border-border text-muted hover:bg-black/[0.03]'
+                    className={`flex h-7 w-7 items-center justify-center rounded-lg border text-[11px] font-black ${
+                      p === page ? 'border-primary bg-primary text-white' : 'border-border text-muted hover:bg-black/3'
                     }`}
                   >
                     {p}
@@ -250,7 +250,7 @@ function Avatar({ name, url }: { name: string; url: string | null }) {
     );
   }
   return (
-    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-[13px] font-[900] text-white">
+    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-[13px] font-black text-white">
       {name.charAt(0).toUpperCase()}
     </div>
   );

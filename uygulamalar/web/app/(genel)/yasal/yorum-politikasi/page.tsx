@@ -16,13 +16,13 @@ export default function YorumPolitikasiPage() {
           </Link>
         </div>
 
-        <h1 className="mb-3 text-3xl font-[900] text-textStrong">Yorum ve İçerik Politikası</h1>
+        <h1 className="mb-3 text-3xl font-black text-textStrong">Yorum ve İçerik Politikası</h1>
         <p className="mb-8 text-sm text-muted">Son güncelleme: Mayıs 2026</p>
 
         <div className="prose-yeedoy space-y-8 text-sm leading-7 text-text">
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">1. Genel İlkeler</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">1. Genel İlkeler</h2>
             <p>
               Yeedoy, kullanıcıların restoran ve yemek deneyimlerini paylaşması için bir platform sunar.
               Tüm yorumlar, fiyat katkıları ve diğer içerikler gerçek deneyimlere dayalı, dürüst ve saygılı olmalıdır.
@@ -30,7 +30,7 @@ export default function YorumPolitikasiPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">2. Yorum Kuralları</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">2. Yorum Kuralları</h2>
             <ul className="mt-2 space-y-2 pl-5">
               {[
                 'Yorumlar gerçek bir ziyaret veya sipariş deneyimine dayanmalıdır.',
@@ -49,7 +49,7 @@ export default function YorumPolitikasiPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">3. Fiyat Katkıları</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">3. Fiyat Katkıları</h2>
             <p>
               Fiyat katkıları, gerçek menü fiyatlarını yansıtmalıdır. Kasıtlı olarak yanlış fiyat
               girilmesi, kasıtlı manipülasyon sayılır ve hesap kapatılmasına yol açabilir.
@@ -58,7 +58,7 @@ export default function YorumPolitikasiPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">4. İçerik Sahipliği</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">4. İçerik Sahipliği</h2>
             <p>
               Platforma yüklediğiniz yorumlar, fotoğraflar ve katkılar için Yeedoy&apos;a geniş kapsamlı,
               telif ücretsiz, alt lisans verilebilir bir lisans vermiş olursunuz. Özgün içeriğinizin
@@ -67,7 +67,7 @@ export default function YorumPolitikasiPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">5. İçerik Denetimi ve Kaldırma</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">5. İçerik Denetimi ve Kaldırma</h2>
             <p>
               Yeedoy, kurallara aykırı içerikleri önceden haber vermeksizin kaldırma ve hesapları
               askıya alma hakkını saklı tutar. İçerik kaldırma kararlarına itiraz için{' '}
@@ -79,7 +79,7 @@ export default function YorumPolitikasiPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">6. Yorum Yanıtları</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">6. Yorum Yanıtları</h2>
             <p>
               İşletme sahipleri, kendilerine yapılan yorumlara yanıt verebilir. Bu yanıtlar da aynı
               kurallar çerçevesinde değerlendirilir. Yanıtlar müşteri şikayetlerini çözmek amacıyla
@@ -88,7 +88,7 @@ export default function YorumPolitikasiPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">7. Anonim Katkılar ve Hesap Silme</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">7. Anonim Katkılar ve Hesap Silme</h2>
             <p>
               Hesabınızı sildiğinizde yorumlarınız anonimleştirilir (kullanıcı adı kaldırılır) ancak
               içerik platformda kalabilir. Fiyat katkılarınız topluluk verisi olarak anonimleştirilerek
@@ -97,7 +97,7 @@ export default function YorumPolitikasiPage() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-[900] text-textStrong">8. Şikayet ve Bildirme</h2>
+            <h2 className="mb-3 text-lg font-black text-textStrong">8. Şikayet ve Bildirme</h2>
             <p>
               Kurallara aykırı bir içerik gördüğünüzde &quot;Şikayet Et&quot; özelliğini kullanabilir veya{' '}
               <a href="mailto:destek@yeedoy.com" className="text-primary hover:underline">
@@ -110,9 +110,9 @@ export default function YorumPolitikasiPage() {
         </div>
 
         <div className="mt-12 flex flex-wrap gap-4 border-t border-border pt-8">
-          <Link href="/yasal" className="text-sm font-[700] text-primary hover:underline">Tüm Yasal Belgeler</Link>
-          <Link href="/yasal/terms" className="text-sm font-[700] text-muted hover:text-primary">Kullanım Şartları</Link>
-          <Link href="/yasal/privacy" className="text-sm font-[700] text-muted hover:text-primary">Gizlilik Politikası</Link>
+          <Link href="/yasal" className="text-sm font-bold text-primary hover:underline">Tüm Yasal Belgeler</Link>
+          <Link href="/yasal/terms" className="text-sm font-bold text-muted hover:text-primary">Kullanım Şartları</Link>
+          <Link href="/yasal/privacy" className="text-sm font-bold text-muted hover:text-primary">Gizlilik Politikası</Link>
         </div>
       </div>
     </main>

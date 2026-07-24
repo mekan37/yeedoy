@@ -82,7 +82,7 @@ export default async function OwnerTrashPage() {
                     <EntityIcon type={row.entity_type} />
                   </div>
                   <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="truncate font-[700] text-textStrong">{row.title}</span>
+                    <span className="truncate font-bold text-textStrong">{row.title}</span>
                     <span className="mt-0.5 text-xs text-muted">
                       {ENTITY_LABELS[row.entity_type] ?? row.entity_type}
                       {row.bizName ? ` · ${row.bizName}` : ''}

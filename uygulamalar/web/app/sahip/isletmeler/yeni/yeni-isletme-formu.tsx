@@ -16,13 +16,13 @@ export function NewBusinessForm() {
     <form action={action} className="space-y-4">
       <Field label="İşletme Adı" name="name" required />
       <div>
-        <label className="mb-1 block text-xs font-[700] uppercase tracking-wide text-muted">
-          Kategori <span className="text-[color:var(--yd-color-danger)]">*</span>
+        <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">
+          Kategori <span className="text-(--yd-color-danger)">*</span>
         </label>
         <select
           name="category"
           required
-          className="w-full rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+          className="w-full rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
         >
           <option value="">Seçin...</option>
           {CATEGORIES.map((c) => (
@@ -39,7 +39,7 @@ export function NewBusinessForm() {
       <Field label="Web Sitesi" name="website" type="url" placeholder="https://..." />
 
       <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-        <p className="font-[700]">Bilgilendirme</p>
+        <p className="font-bold">Bilgilendirme</p>
         <p className="mt-1">Başvurunuz ekibimiz tarafından incelenecek ve onaylandıktan sonra yayına alınacaktır. Bu süreç genellikle 1-3 iş günü sürer.</p>
       </div>
 
@@ -48,7 +48,7 @@ export function NewBusinessForm() {
           Başvuru Gönder
         </PanelActionButton>
         {state?.error && (
-          <p className="text-sm font-[700] text-[color:var(--yd-color-danger)]">{state.error}</p>
+          <p className="text-sm font-bold text-(--yd-color-danger)">{state.error}</p>
         )}
       </div>
     </form>
@@ -63,12 +63,12 @@ function Field({
 }) {
   const base =
     'w-full rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong ' +
-    'placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow duration-150';
+    'placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30 transition-shadow duration-150';
   return (
     <div>
-      <label className="mb-1 block text-xs font-[700] uppercase tracking-wide text-muted">
+      <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">
         {label}
-        {required && <span className="ml-1 text-[color:var(--yd-color-danger)]">*</span>}
+        {required && <span className="ml-1 text-(--yd-color-danger)">*</span>}
       </label>
       {multiline ? (
         <textarea name={name} rows={3} required={required} placeholder={placeholder}

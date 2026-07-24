@@ -64,7 +64,7 @@ export default async function AdminChainsPage({ searchParams }: Props) {
             name="q"
             defaultValue={q}
             placeholder="Zincir ara..."
-            className="w-full max-w-sm rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="w-full max-w-sm rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
         </form>
 
@@ -79,23 +79,23 @@ export default async function AdminChainsPage({ searchParams }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Zincir</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kategori</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şube</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şablon</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Zincir</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kategori</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şube</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şablon</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {rows.map((chain) => (
-                  <tr key={chain.id} className="hover:bg-black/[0.02]">
+                  <tr key={chain.id} className="hover:bg-black/2">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
                         <ChainAvatar name={chain.name} logoUrl={chain.logo_url} />
                         <div>
                           <Link
                             href={`/yonetici/zincirler/${chain.id}`}
-                            className="font-[700] text-textStrong hover:text-[color:var(--yd-color-primary)]"
+                            className="font-bold text-textStrong hover:text-(--yd-color-primary)"
                           >
                             {chain.name}
                           </Link>
@@ -105,13 +105,13 @@ export default async function AdminChainsPage({ searchParams }: Props) {
                     </td>
                     <td className="px-5 py-3 text-muted">{chain.category ?? '—'}</td>
                     <td className="px-5 py-3">
-                      <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-[800] text-slate-700">
+                      <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-extrabold text-slate-700">
                         {chain.branch_count} şube
                       </span>
                     </td>
                     <td className="px-5 py-3">
                       {chain.template_business_id ? (
-                        <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-[800] text-indigo-700">
+                        <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-extrabold text-indigo-700">
                           Var
                         </span>
                       ) : (
@@ -120,11 +120,11 @@ export default async function AdminChainsPage({ searchParams }: Props) {
                     </td>
                     <td className="px-5 py-3">
                       {chain.is_verified ? (
-                        <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-[800] text-blue-700">
+                        <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-extrabold text-blue-700">
                           Onaylı
                         </span>
                       ) : (
-                        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-[800] text-zinc-500">
+                        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-extrabold text-zinc-500">
                           Onaysız
                         </span>
                       )}
@@ -143,7 +143,7 @@ export default async function AdminChainsPage({ searchParams }: Props) {
                   {pageNum > 1 && (
                     <Link
                       href={`?q=${q}&page=${pageNum - 1}`}
-                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] hover:bg-black/[0.04]"
+                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold hover:bg-black/4"
                     >
                       Önceki
                     </Link>
@@ -151,7 +151,7 @@ export default async function AdminChainsPage({ searchParams }: Props) {
                   {pageNum < totalPages && (
                     <Link
                       href={`?q=${q}&page=${pageNum + 1}`}
-                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] hover:bg-black/[0.04]"
+                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold hover:bg-black/4"
                     >
                       Sonraki
                     </Link>
@@ -178,7 +178,7 @@ function ChainAvatar({ name, logoUrl }: { name: string; logoUrl: string | null }
     );
   }
   return (
-    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-[13px] font-[900] text-primary">
+    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-[13px] font-black text-primary">
       {name.charAt(0).toUpperCase()}
     </div>
   );

@@ -81,12 +81,12 @@ function AdminLogo() {
   return (
     <div className="flex items-center gap-2">
       <div
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-white text-sm font-[900]"
+        className="flex h-8 w-8 items-center justify-center rounded-lg text-white text-sm font-black"
         style={{ background: 'linear-gradient(135deg, #1e1b4b, #4f46e5)' }}
       >
         Y
       </div>
-      <span className="text-[15px] font-[900] text-textStrong">Yönetici</span>
+      <span className="text-[15px] font-black text-textStrong">Yönetici</span>
     </div>
   );
 }

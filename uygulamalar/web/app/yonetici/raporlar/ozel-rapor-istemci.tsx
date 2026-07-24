@@ -51,18 +51,18 @@ export function OzelRaporOlusturucu() {
       <div className="grid gap-4 sm:grid-cols-3">
         {/* Entity */}
         <div>
-          <label className="mb-1.5 block text-xs font-[700] text-muted">Veri Kaynağı</label>
+          <label className="mb-1.5 block text-xs font-bold text-muted">Veri Kaynağı</label>
           <select value={entity} onChange={e => setEntity(e.target.value)}
-            className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm text-textStrong focus:border-primary focus:outline-none">
+            className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm text-textStrong focus:border-primary focus:outline-hidden">
             {ENTITIES.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
           </select>
         </div>
 
         {/* Period */}
         <div>
-          <label className="mb-1.5 block text-xs font-[700] text-muted">Zaman Aralığı</label>
+          <label className="mb-1.5 block text-xs font-bold text-muted">Zaman Aralığı</label>
           <select value={period} onChange={e => setPeriod(e.target.value)}
-            className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm text-textStrong focus:border-primary focus:outline-none">
+            className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm text-textStrong focus:border-primary focus:outline-hidden">
             {PERIODS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
             <option value="custom">Özel Aralık</option>
           </select>
@@ -70,10 +70,10 @@ export function OzelRaporOlusturucu() {
 
         {/* Format */}
         <div>
-          <label className="mb-1.5 block text-xs font-[700] text-muted">Format</label>
+          <label className="mb-1.5 block text-xs font-bold text-muted">Format</label>
           <div className="flex gap-2">
             {FORMATS.map(f => (
-              <label key={f.value} className={`flex flex-1 cursor-pointer items-center justify-center rounded-xl border-2 py-2 text-sm font-[700] transition-colors ${format === f.value ? 'border-primary bg-primary/5 text-primary' : 'border-border text-muted'}`}>
+              <label key={f.value} className={`flex flex-1 cursor-pointer items-center justify-center rounded-xl border-2 py-2 text-sm font-bold transition-colors ${format === f.value ? 'border-primary bg-primary/5 text-primary' : 'border-border text-muted'}`}>
                 <input type="radio" name="format" value={f.value} checked={format === f.value} onChange={() => setFormat(f.value)} className="hidden" />
                 {f.label}
               </label>
@@ -86,14 +86,14 @@ export function OzelRaporOlusturucu() {
       {period === 'custom' && (
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-xs font-[700] text-muted">Başlangıç Tarihi</label>
+            <label className="mb-1 block text-xs font-bold text-muted">Başlangıç Tarihi</label>
             <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)}
-              className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+              className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-hidden" />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-[700] text-muted">Bitiş Tarihi</label>
+            <label className="mb-1 block text-xs font-bold text-muted">Bitiş Tarihi</label>
             <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)}
-              className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+              className="w-full rounded-xl border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-hidden" />
           </div>
         </div>
       )}
@@ -101,14 +101,14 @@ export function OzelRaporOlusturucu() {
       {/* Summary */}
       <div className="flex items-center gap-4">
         <button onClick={generate} disabled={isPending}
-          className="rounded-xl bg-primary px-5 py-2.5 text-sm font-[800] text-white hover:bg-primary/90 disabled:opacity-50">
+          className="rounded-xl bg-primary px-5 py-2.5 text-sm font-extrabold text-white hover:bg-primary/90 disabled:opacity-50">
           {isPending ? 'Oluşturuluyor…' : 'Rapor Oluştur'}
         </button>
         {generated && (
           <div className="flex items-center gap-3">
-            <span className="text-xs text-green-600 font-[700]">✓ {generated.rowCount.toLocaleString('tr-TR')} satır hazır</span>
+            <span className="text-xs text-green-600 font-bold">✓ {generated.rowCount.toLocaleString('tr-TR')} satır hazır</span>
             <a href={generated.url}
-              className="rounded-xl border border-green-300 bg-green-50 px-4 py-2 text-sm font-[800] text-green-700 hover:bg-green-100">
+              className="rounded-xl border border-green-300 bg-green-50 px-4 py-2 text-sm font-extrabold text-green-700 hover:bg-green-100">
               ↓ İndir ({format.toUpperCase()})
             </a>
           </div>
@@ -117,8 +117,8 @@ export function OzelRaporOlusturucu() {
 
       {/* Schedule info */}
       <div className="rounded-xl border border-border bg-zinc-50 px-4 py-3">
-        <p className="text-xs font-[700] text-muted">Zamanlanmış Rapor</p>
-        <p className="mt-0.5 text-xs text-muted">Raporları belirli aralıklarla otomatik oluşturmak için <span className="font-[700] text-primary">Gözlemlenebilirlik → Alert Konfigürasyonu</span> bölümünden webhook ayarlayın. Aylık finansal raporlar otomatik e-posta ile gönderilebilir.</p>
+        <p className="text-xs font-bold text-muted">Zamanlanmış Rapor</p>
+        <p className="mt-0.5 text-xs text-muted">Raporları belirli aralıklarla otomatik oluşturmak için <span className="font-bold text-primary">Gözlemlenebilirlik → Alert Konfigürasyonu</span> bölümünden webhook ayarlayın. Aylık finansal raporlar otomatik e-posta ile gönderilebilir.</p>
       </div>
     </div>
   );

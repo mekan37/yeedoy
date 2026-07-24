@@ -132,19 +132,19 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
             </div>
-            <h1 className="text-2xl font-[900] text-textStrong">Favorilerim</h1>
+            <h1 className="text-2xl font-black text-textStrong">Favorilerim</h1>
           </div>
-          <p className="mt-1 text-[13px] font-[700] text-muted">Beğendiğin mekanları burada kolayca görüntüle.</p>
+          <p className="mt-1 text-[13px] font-bold text-muted">Beğendiğin mekanları burada kolayca görüntüle.</p>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           {/* Liste / Harita toggle */}
           <div className="flex overflow-hidden rounded-xl border border-border bg-card shadow-yd1">
-            <button type="button" className="flex h-9 items-center gap-1.5 px-4 text-[13px] font-[900] text-primary bg-primary/8 border-r border-border">
+            <button type="button" className="flex h-9 items-center gap-1.5 px-4 text-[13px] font-black text-primary bg-primary/8 border-r border-border">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
               Liste
             </button>
-            <Link href="/kesif/harita" className="flex h-9 items-center gap-1.5 px-4 text-[13px] font-[800] text-textStrong hover:text-primary transition-colors">
+            <Link href="/kesif/harita" className="flex h-9 items-center gap-1.5 px-4 text-[13px] font-extrabold text-textStrong hover:text-primary transition-colors">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
               Harita
             </Link>
@@ -154,7 +154,7 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
-            className="h-9 rounded-xl border border-border bg-card px-3 pr-7 text-[13px] font-[800] text-textStrong shadow-yd1 focus:outline-none focus:ring-2 focus:ring-primary/30">
+            className="h-9 rounded-xl border border-border bg-card px-3 pr-7 text-[13px] font-extrabold text-textStrong shadow-yd1 focus:outline-hidden focus:ring-2 focus:ring-primary/30">
             <option value="yeni">En Yeni Eklenen</option>
             <option value="puan">En Yüksek Puan</option>
             <option value="isim">İsme Göre A-Z</option>
@@ -175,8 +175,8 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
               <StatIcon className="h-5 w-5" aria-hidden="true" />
             </div>
             <div>
-              <p className="text-2xl font-[900] text-textStrong tabular-nums leading-none">{value}</p>
-              <p className="mt-0.5 text-[11px] font-[700] text-muted">{label}</p>
+              <p className="text-2xl font-black text-textStrong tabular-nums leading-none">{value}</p>
+              <p className="mt-0.5 text-[11px] font-bold text-muted">{label}</p>
             </div>
           </div>
         ))}
@@ -193,9 +193,9 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
               key={tab}
               type="button"
               onClick={() => setAktifKat(tab)}
-              className={`flex h-10 items-center gap-1.5 rounded-xl px-4 text-[13px] font-[800] transition-all ${
+              className={`flex h-10 items-center gap-1.5 rounded-xl px-4 text-[13px] font-extrabold transition-all ${
                 aktif
-                  ? 'bg-primary text-white shadow-sm'
+                  ? 'bg-primary text-white shadow-xs'
                   : 'border border-border bg-card text-textStrong hover:border-primary/30 hover:text-primary'
               }`}>
               {tab === 'Tümü' && (
@@ -211,12 +211,12 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
       {liste.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border bg-card py-16 text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-2xl">❤️</div>
-          <p className="font-[900] text-textStrong">
+          <p className="font-black text-textStrong">
             {aktifKat === 'Tümü' ? 'Henüz favori eklemediniz' : `${aktifKat} kategorisinde favori yok`}
           </p>
-          <p className="text-[13px] font-[700] text-muted">Menüleri keşfedip favori işletmelerinizi buraya ekleyin.</p>
+          <p className="text-[13px] font-bold text-muted">Menüleri keşfedip favori işletmelerinizi buraya ekleyin.</p>
           <Link href="/kesif"
-            className="mt-2 flex h-10 items-center rounded-xl bg-primary px-6 text-[13px] font-[900] text-white shadow-sm transition hover:brightness-110">
+            className="mt-2 flex h-10 items-center rounded-xl bg-primary px-6 text-[13px] font-black text-white shadow-xs transition hover:brightness-110">
             Keşfetmeye Başla →
           </Link>
         </div>
@@ -234,12 +234,12 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
           <div className="flex items-center gap-3 flex-1">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-100 text-xl">❤️</div>
             <div>
-              <p className="font-[900] text-red-900">Daha fazla mekan keşfet</p>
-              <p className="mt-0.5 text-[13px] font-[700] text-red-600">Beğenebileceğin yeni mekanları keşfetmeye devam et.</p>
+              <p className="font-black text-red-900">Daha fazla mekan keşfet</p>
+              <p className="mt-0.5 text-[13px] font-bold text-red-600">Beğenebileceğin yeni mekanları keşfetmeye devam et.</p>
             </div>
           </div>
           <Link href="/kesif"
-            className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-primary px-6 text-[14px] font-[900] text-white shadow-sm transition hover:brightness-110">
+            className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-primary px-6 text-[14px] font-black text-white shadow-xs transition hover:brightness-110">
             Keşfetmeye Git
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </Link>
@@ -280,11 +280,11 @@ function FavoriKart({ fav, onRemove }: { fav: FavIsletme; onRemove: () => void }
       {/* Bilgi */}
       <div className="min-w-0 flex-1 py-0.5">
         <div className="flex flex-wrap items-center gap-2">
-          <Link href={href} className="text-[15px] font-[900] text-textStrong hover:text-primary transition-colors">
+          <Link href={href} className="text-[15px] font-black text-textStrong hover:text-primary transition-colors">
             {biz.name}
           </Link>
           {biz.category && (
-            <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${renk}`}>
+            <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${renk}`}>
               {biz.category}
             </span>
           )}
@@ -296,20 +296,20 @@ function FavoriKart({ fav, onRemove }: { fav: FavIsletme; onRemove: () => void }
         </div>
 
         {/* Konum */}
-        <div className="mt-1.5 flex items-center gap-1 text-[12px] font-[700] text-muted">
+        <div className="mt-1.5 flex items-center gap-1 text-[12px] font-bold text-muted">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           <span>{[biz.district, biz.city].filter(Boolean).join(', ') || '—'}</span>
         </div>
 
         {/* Puan + fiyat */}
-        <div className="mt-1 flex items-center gap-2 text-[12px] font-[700] text-muted">
+        <div className="mt-1 flex items-center gap-2 text-[12px] font-bold text-muted">
           {biz.avg_rating != null && (
             <>
               <div className="flex items-center gap-1">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="#f59e0b" aria-hidden="true">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
-                <span className="font-[900] text-textStrong">{biz.avg_rating.toFixed(1)}</span>
+                <span className="font-black text-textStrong">{biz.avg_rating.toFixed(1)}</span>
                 {biz.reviews_count != null && (
                   <span>({biz.reviews_count.toLocaleString('tr-TR')})</span>
                 )}
@@ -317,11 +317,11 @@ function FavoriKart({ fav, onRemove }: { fav: FavIsletme; onRemove: () => void }
               {fiyat && <span>·</span>}
             </>
           )}
-          {fiyat && <span className="font-[800] text-textStrong">{fiyat}</span>}
+          {fiyat && <span className="font-extrabold text-textStrong">{fiyat}</span>}
         </div>
 
         {/* Eklenme tarihi */}
-        <p className="mt-1.5 text-[11px] font-[700] text-muted/70">
+        <p className="mt-1.5 text-[11px] font-bold text-muted/70">
           {formatZaman(fav.created_at)} eklendi
         </p>
       </div>

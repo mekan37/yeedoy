@@ -16,10 +16,10 @@ interface ToastProps {
 
 const variantStyles: Record<ToastVariant, string> = {
   default: 'bg-textStrong text-card border-textStrong/20',
-  success: 'bg-success/[0.12] text-success border-success/20',
-  danger:  'bg-danger/[0.12] text-danger border-danger/20',
-  warning: 'bg-warning/[0.12] text-warning border-warning/20',
-  info:    'bg-info/[0.12] text-info border-info/20',
+  success: 'bg-success/12 text-success border-success/20',
+  danger:  'bg-danger/12 text-danger border-danger/20',
+  warning: 'bg-warning/12 text-warning border-warning/20',
+  info:    'bg-info/12 text-info border-info/20',
 };
 
 const defaultIcons: Record<ToastVariant, ReactNode> = {
@@ -52,7 +52,7 @@ export function Toast({ message, variant = 'default', duration = 3500, onClose, 
       role="status"
       aria-live="polite"
       className={clsx(
-        'flex items-center gap-3 rounded-2xl border px-4 py-3 shadow-yd3 text-sm font-[700] max-w-[360px] w-full',
+        'flex items-center gap-3 rounded-2xl border px-4 py-3 shadow-yd3 text-sm font-bold max-w-[360px] w-full',
         variantStyles[variant],
         leaving ? 'toast-leave' : 'toast-enter',
       )}
@@ -67,7 +67,7 @@ export function Toast({ message, variant = 'default', duration = 3500, onClose, 
         type="button"
         onClick={dismiss}
         aria-label="Bildirimi kapat"
-        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
+        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-current"
       >
         <XIcon size={14} />
       </button>
@@ -80,7 +80,7 @@ export function ToastContainer({ children }: { children: ReactNode }) {
   return (
     <div
       aria-label="Bildirimler"
-      className="fixed bottom-6 right-6 z-[200] flex flex-col-reverse gap-2 pointer-events-none"
+      className="fixed bottom-6 right-6 z-200 flex flex-col-reverse gap-2 pointer-events-none"
     >
       <div className="pointer-events-auto flex flex-col gap-2">
         {children}

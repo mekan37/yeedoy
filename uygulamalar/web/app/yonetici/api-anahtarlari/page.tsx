@@ -59,18 +59,18 @@ export default async function ApiAnahtarlariPage() {
                   <div key={key.id} className="flex items-start gap-4 px-5 py-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-[800] text-textStrong">{key.name}</span>
-                        <code className="rounded bg-cardAlt px-2 py-0.5 text-[11px] font-[700] text-muted">
+                        <span className="font-extrabold text-textStrong">{key.name}</span>
+                        <code className="rounded bg-cardAlt px-2 py-0.5 text-[11px] font-bold text-muted">
                           {key.prefix}•••••••
                         </code>
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                           !key.is_active || suredsiz
                             ? 'bg-danger/10 text-danger'
                             : 'bg-success/10 text-success'
                         }`}>
                           {suredsiz ? 'Süresi Doldu' : key.is_active ? 'Aktif' : 'Pasif'}
                         </span>
-                        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-[700] text-muted">
+                        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-bold text-muted">
                           {key.scope}
                         </span>
                       </div>
@@ -98,7 +98,7 @@ export default async function ApiAnahtarlariPage() {
         </PanelBolumKarti>
 
         {/* Güvenlik notu */}
-        <div className="mt-4 rounded-xl border border-warning/25 bg-warning/[0.06] px-4 py-3 text-xs text-muted">
+        <div className="mt-4 rounded-xl border border-warning/25 bg-warning/6 px-4 py-3 text-xs text-muted">
           <strong>Güvenlik:</strong> API anahtarları yalnızca oluşturulduğunda bir kez gösterilir. Kaybedenler iptal edilmeli ve yeni anahtar oluşturulmalıdır. Anahtarları kod deposuna eklemeyin.
         </div>
       </PanelIcerikYuzeyi>
@@ -127,24 +127,24 @@ function RateLimitDashboard({ keys }: { keys: ApiKey[] }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-zinc-50 text-left">
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kapsam</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İstek/Dakika</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İstek/Saat</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Açıklama</th>
-              <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Aktif Anahtar</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kapsam</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İstek/Dakika</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İstek/Saat</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Açıklama</th>
+              <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Aktif Anahtar</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {Object.entries(RATE_LIMITS).map(([scope, limits]) => {
               const keyCount = activeKeys.filter(k => k.scope === scope || k.scope.includes(scope.split(':')[0])).length;
               return (
-                <tr key={scope} className="hover:bg-black/[0.02]">
-                  <td className="px-4 py-3"><code className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-[700] text-primary">{scope}</code></td>
-                  <td className="px-4 py-3 font-[800] text-textStrong">{limits.rpm.toLocaleString('tr-TR')}</td>
-                  <td className="px-4 py-3 font-[800] text-textStrong">{limits.rph.toLocaleString('tr-TR')}</td>
+                <tr key={scope} className="hover:bg-black/2">
+                  <td className="px-4 py-3"><code className="rounded bg-zinc-100 px-2 py-0.5 text-xs font-bold text-primary">{scope}</code></td>
+                  <td className="px-4 py-3 font-extrabold text-textStrong">{limits.rpm.toLocaleString('tr-TR')}</td>
+                  <td className="px-4 py-3 font-extrabold text-textStrong">{limits.rph.toLocaleString('tr-TR')}</td>
                   <td className="px-4 py-3 text-xs text-muted">{limits.description}</td>
                   <td className="px-4 py-3">
-                    <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-[700] ${keyCount > 0 ? 'bg-green-50 text-green-700' : 'bg-zinc-100 text-zinc-500'}`}>
+                    <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${keyCount > 0 ? 'bg-green-50 text-green-700' : 'bg-zinc-100 text-zinc-500'}`}>
                       {keyCount} aktif
                     </span>
                   </td>
@@ -158,18 +158,18 @@ function RateLimitDashboard({ keys }: { keys: ApiKey[] }) {
       {/* Usage stats (simulated) */}
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-border bg-surface p-4">
-          <p className="text-xs font-[700] uppercase tracking-wide text-muted">Son 1s API İsteği</p>
-          <p className="mt-1 text-2xl font-[900] text-textStrong">{(activeKeys.length * 127).toLocaleString('tr-TR')}</p>
+          <p className="text-xs font-bold uppercase tracking-wide text-muted">Son 1s API İsteği</p>
+          <p className="mt-1 text-2xl font-black text-textStrong">{(activeKeys.length * 127).toLocaleString('tr-TR')}</p>
           <p className="text-xs text-muted">Tüm aktif anahtarlar toplamı</p>
         </div>
         <div className="rounded-xl border border-border bg-surface p-4">
-          <p className="text-xs font-[700] uppercase tracking-wide text-muted">Rate Limit Aşımı (24s)</p>
-          <p className="mt-1 text-2xl font-[900] text-orange-600">3</p>
+          <p className="text-xs font-bold uppercase tracking-wide text-muted">Rate Limit Aşımı (24s)</p>
+          <p className="mt-1 text-2xl font-black text-orange-600">3</p>
           <p className="text-xs text-muted">429 Too Many Requests yanıtı</p>
         </div>
         <div className="rounded-xl border border-border bg-surface p-4">
-          <p className="text-xs font-[700] uppercase tracking-wide text-muted">Ortalama Gecikme</p>
-          <p className="mt-1 text-2xl font-[900] text-green-600">48ms</p>
+          <p className="text-xs font-bold uppercase tracking-wide text-muted">Ortalama Gecikme</p>
+          <p className="mt-1 text-2xl font-black text-green-600">48ms</p>
           <p className="text-xs text-muted">API yanıt süresi p50</p>
         </div>
       </div>

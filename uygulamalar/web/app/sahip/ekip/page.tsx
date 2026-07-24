@@ -14,16 +14,16 @@ export const metadata: Metadata = {
 };
 
 const STATUS_MESSAGES: Record<string, { text: string; className: string }> = {
-  eklendi: { text: 'Ekip üyesi eklendi veya davet güncellendi.', className: 'border-success/25 bg-success/[0.08] text-success' },
-  gecersiz: { text: 'E-posta, işletme veya rol bilgisi eksik.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  yetkisiz: { text: 'Bu işletme için ekip yönetimi yetkiniz yok.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  forbidden: { text: 'Bu işletme için ekip yönetimi yetkiniz yok.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  email_required: { text: 'Geçerli bir e-posta girin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  invalid_role: { text: 'Geçerli bir rol seçin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  hata: { text: 'Ekip üyesi eklenemedi. Tekrar deneyin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  sifre_kisa: { text: 'Şifre en az 8 karakter olmalı.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  servis_yok: { text: 'Sunucu yapılandırması eksik (SUPABASE_SERVICE_ROLE_KEY tanımlı değil) — şifresiz davet gönderebilirsiniz.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
-  hesap_hata: { text: 'Hesap oluşturulamadı. Tekrar deneyin.', className: 'border-danger/25 bg-danger/[0.08] text-danger' },
+  eklendi: { text: 'Ekip üyesi eklendi veya davet güncellendi.', className: 'border-success/25 bg-success/8 text-success' },
+  gecersiz: { text: 'E-posta, işletme veya rol bilgisi eksik.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  yetkisiz: { text: 'Bu işletme için ekip yönetimi yetkiniz yok.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  forbidden: { text: 'Bu işletme için ekip yönetimi yetkiniz yok.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  email_required: { text: 'Geçerli bir e-posta girin.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  invalid_role: { text: 'Geçerli bir rol seçin.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  hata: { text: 'Ekip üyesi eklenemedi. Tekrar deneyin.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  sifre_kisa: { text: 'Şifre en az 8 karakter olmalı.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  servis_yok: { text: 'Sunucu yapılandırması eksik (SUPABASE_SERVICE_ROLE_KEY tanımlı değil) — şifresiz davet gönderebilirsiniz.', className: 'border-danger/25 bg-danger/8 text-danger' },
+  hesap_hata: { text: 'Hesap oluşturulamadı. Tekrar deneyin.', className: 'border-danger/25 bg-danger/8 text-danger' },
 };
 
 type Props = {
@@ -87,7 +87,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
       />
       <PanelIcerikYuzeyi className="pt-6">
         {statusMessage && (
-          <div className={`mb-4 rounded-xl border px-4 py-3 text-sm font-[700] ${statusMessage.className}`}>
+          <div className={`mb-4 rounded-xl border px-4 py-3 text-sm font-bold ${statusMessage.className}`}>
             {statusMessage.text}
           </div>
         )}
@@ -102,10 +102,10 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
           ) : (
             <form action={addTeamMember} className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_1fr_180px_auto] md:items-end">
               <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-[800] uppercase tracking-wide text-muted">İşletme</span>
+                <span className="text-xs font-extrabold uppercase tracking-wide text-muted">İşletme</span>
                 <select
                   name="businessId"
-                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                   required
                 >
                   {businesses.map((business) => (
@@ -114,40 +114,40 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
                 </select>
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-[800] uppercase tracking-wide text-muted">Ad Soyad (opsiyonel)</span>
+                <span className="text-xs font-extrabold uppercase tracking-wide text-muted">Ad Soyad (opsiyonel)</span>
                 <input
                   name="fullName"
                   type="text"
                   placeholder="Ayşe Yılmaz"
-                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-[800] uppercase tracking-wide text-muted">E-posta</span>
+                <span className="text-xs font-extrabold uppercase tracking-wide text-muted">E-posta</span>
                 <input
                   name="email"
                   type="email"
                   required
                   placeholder="personel@ornek.com"
-                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-[800] uppercase tracking-wide text-muted">Şifre (opsiyonel)</span>
+                <span className="text-xs font-extrabold uppercase tracking-wide text-muted">Şifre (opsiyonel)</span>
                 <input
                   name="password"
                   type="password"
                   minLength={8}
                   placeholder="Boşsa davet gönderilir"
-                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
               </label>
               <label className="flex flex-col gap-1.5">
-                <span className="text-xs font-[800] uppercase tracking-wide text-muted">Rol</span>
+                <span className="text-xs font-extrabold uppercase tracking-wide text-muted">Rol</span>
                 <select
                   name="role"
                   defaultValue="staff"
-                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="min-h-[44px] rounded-xl border border-border bg-bg px-3 text-sm font-bold text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 >
                   <option value="manager">Yönetici</option>
                   <option value="editor">Editör</option>
@@ -157,7 +157,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
               </label>
               <button
                 type="submit"
-                className="btn-primary inline-flex min-h-[44px] items-center justify-center rounded-xl px-5 text-sm font-[900] text-white"
+                className="btn-primary inline-flex min-h-[44px] items-center justify-center rounded-xl px-5 text-sm font-black text-white"
               >
                 Ekle
               </button>
@@ -178,23 +178,23 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kullanıcı</th>
                   {businessIds.length > 1 && (
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
                   )}
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Rol</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Eklenme</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Aksiyonlar</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Rol</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Eklenme</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Aksiyonlar</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {list.map((m) => {
                   const roleConfig = ROLE_LABELS[m.role] ?? ROLE_LABELS.viewer;
                   return (
-                    <tr key={`${m.business_id}-${m.membership_id ?? m.user_id ?? m.email}`} className="hover:bg-black/[0.02]">
+                    <tr key={`${m.business_id}-${m.membership_id ?? m.user_id ?? m.email}`} className="hover:bg-black/2">
                       <td className="px-5 py-3">
-                        <p className="font-[700] text-textStrong">
+                        <p className="font-bold text-textStrong">
                           {m.email ?? '—'}
                         </p>
                         <p className="text-xs text-muted">{m.source === 'owner_claim' ? 'İşletme sahibi' : m.source === 'team_membership' ? 'Ekip üyeliği' : 'Zincir üyeliği'}</p>
@@ -203,13 +203,13 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
                         <td className="px-5 py-3 text-muted">{m.business_name}</td>
                       )}
                       <td className="px-5 py-3">
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${roleConfig.className}`}>
+                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${roleConfig.className}`}>
                           {roleConfig.label}
                         </span>
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
-                          m.status === 'active' ? 'bg-success/[0.10] text-success' : 'bg-warning/[0.10] text-warning'
+                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
+                          m.status === 'active' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'
                         }`}>
                           {m.status === 'active' ? 'Aktif' : 'Davet bekliyor'}
                         </span>

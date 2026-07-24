@@ -89,7 +89,7 @@ export default async function AdminAuditPage({ searchParams }: Props) {
                 type="submit"
                 name="action"
                 value=""
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   action === ''
                     ? 'bg-primary text-white'
                     : 'bg-card border border-border text-muted hover:text-textStrong'
@@ -103,7 +103,7 @@ export default async function AdminAuditPage({ searchParams }: Props) {
                   type="submit"
                   name="action"
                   value={a}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-[700] capitalize transition-colors ${
+                  className={`rounded-lg px-3 py-1.5 text-xs font-bold capitalize transition-colors ${
                     action === a
                       ? 'bg-primary text-white'
                       : 'bg-card border border-border text-muted hover:text-textStrong'
@@ -125,11 +125,11 @@ export default async function AdminAuditPage({ searchParams }: Props) {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border text-left">
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Eylem</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Hedef Tablo</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Hedef ID</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Aktör</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Eylem</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Hedef Tablo</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Hedef ID</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Aktör</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
@@ -137,7 +137,7 @@ export default async function AdminAuditPage({ searchParams }: Props) {
                       const colorClass = ACTION_COLORS[entry.action] ?? 'bg-zinc-100 text-zinc-600';
                       const actorId = entry.meta?.actor_id ?? entry.meta?.user_id ?? null;
                       return (
-                        <tr key={entry.id} className="hover:bg-black/[0.01]">
+                        <tr key={entry.id} className="hover:bg-black/1">
                           <td className="px-5 py-3 text-xs text-muted whitespace-nowrap">
                             {entry.created_at
                               ? new Date(entry.created_at).toLocaleString('tr-TR', {
@@ -150,7 +150,7 @@ export default async function AdminAuditPage({ searchParams }: Props) {
                               : '—'}
                           </td>
                           <td className="px-5 py-3">
-                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] capitalize ${colorClass}`}>
+                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold capitalize ${colorClass}`}>
                               {entry.action ?? '—'}
                             </span>
                           </td>
@@ -183,7 +183,7 @@ export default async function AdminAuditPage({ searchParams }: Props) {
                       {pageNum > 1 && (
                         <a
                           href={`?action=${action}&page=${pageNum - 1}`}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           ← Önceki
                         </a>
@@ -191,7 +191,7 @@ export default async function AdminAuditPage({ searchParams }: Props) {
                       {pageNum < totalPages && (
                         <a
                           href={`?action=${action}&page=${pageNum + 1}`}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           Sonraki →
                         </a>

@@ -68,7 +68,7 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
             { value: 'hidden', label: 'Gizli' },
           ].map(({ value, label }) => (
             <button key={value} type="submit" name="visible" value={value}
-              className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                 visible === value ? 'bg-primary text-white' : 'border border-border bg-card text-muted hover:text-textStrong'
               }`}>
               {label}
@@ -93,18 +93,18 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
               </thead>
               <tbody className="divide-y divide-border">
                 {list.map((r: any) => (
-                  <tr key={r.id} className="hover:bg-black/[0.01]">
+                  <tr key={r.id} className="hover:bg-black/1">
                     <td className="max-w-xs px-5 py-3">
-                      {r.title && <p className="mb-0.5 text-xs font-[800] text-textStrong">{r.title}</p>}
+                      {r.title && <p className="mb-0.5 text-xs font-extrabold text-textStrong">{r.title}</p>}
                       <p className="line-clamp-2 text-xs text-muted">{r.content ?? '—'}</p>
                     </td>
-                    <td className="px-5 py-3 font-[700] text-textStrong">{r.business_name ?? '—'}</td>
+                    <td className="px-5 py-3 font-bold text-textStrong">{r.business_name ?? '—'}</td>
                     <td className="px-5 py-3 text-muted">{r.user_display_name ?? r.user_id?.slice(0, 12) ?? '—'}</td>
                     <td className="px-5 py-3">
-                      <span className="font-[800] text-amber-500">{'★'.repeat(Math.max(0, Math.min(5, r.rating)))}{'☆'.repeat(5 - Math.max(0, Math.min(5, r.rating)))}</span>
+                      <span className="font-extrabold text-amber-500">{'★'.repeat(Math.max(0, Math.min(5, r.rating)))}{'☆'.repeat(5 - Math.max(0, Math.min(5, r.rating)))}</span>
                     </td>
                     <td className="px-5 py-3">
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                         r.status === 'approved' ? 'bg-green-50 text-green-700' : r.status === 'pending' ? 'bg-amber-50 text-amber-700' : 'bg-zinc-100 text-zinc-500'
                       }`}>
                         {reviewStatusLabel(r.status)}
@@ -121,8 +121,8 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
               <div className="flex items-center justify-between border-t border-border px-5 py-3">
                 <span className="text-xs text-muted">Sayfa {pageNum} / {totalPages}</span>
                 <div className="flex gap-2">
-                  {pageNum > 1 && <Link href={`?${queryBase}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">← Önceki</Link>}
-                  {pageNum < totalPages && <Link href={`?${queryBase}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">Sonraki →</Link>}
+                  {pageNum > 1 && <Link href={`?${queryBase}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">← Önceki</Link>}
+                  {pageNum < totalPages && <Link href={`?${queryBase}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">Sonraki →</Link>}
                 </div>
               </div>
             )}
@@ -202,7 +202,7 @@ function SortableHeader({
     <th className="px-5 py-3 text-left">
       <Link
         href={href}
-        className={`inline-flex min-h-8 items-center gap-1 rounded-md text-[11px] font-[800] uppercase tracking-wide transition-colors hover:text-textStrong ${
+        className={`inline-flex min-h-8 items-center gap-1 rounded-md text-[11px] font-extrabold uppercase tracking-wide transition-colors hover:text-textStrong ${
           isActive ? 'text-primary' : 'text-muted'
         }`}
       >

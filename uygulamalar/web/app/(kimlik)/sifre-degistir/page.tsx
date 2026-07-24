@@ -61,12 +61,12 @@ export default function SifreDegistirPage() {
           >
             ← Profilime Dön
           </Link>
-          <h1 className="text-xl font-[900] text-textStrong">Şifre Değiştir</h1>
+          <h1 className="text-xl font-black text-textStrong">Şifre Değiştir</h1>
           <p className="mt-1 text-sm text-muted">Hesabınız için yeni bir şifre belirleyin.</p>
         </div>
 
         {success ? (
-          <div className="rounded-2xl border border-success/25 bg-success/[0.08] px-5 py-8 text-center">
+          <div className="rounded-2xl border border-success/25 bg-success/8 px-5 py-8 text-center">
             <svg
               viewBox="0 0 24 24"
               className="mx-auto mb-3 h-10 w-10 fill-none stroke-current text-success"
@@ -78,12 +78,12 @@ export default function SifreDegistirPage() {
               <circle cx="12" cy="12" r="10" />
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            <p className="font-[900] text-success">Şifreniz başarıyla güncellendi</p>
+            <p className="font-black text-success">Şifreniz başarıyla güncellendi</p>
             <p className="mt-1 text-sm text-muted">Artık yeni şifrenizle giriş yapabilirsiniz.</p>
             <button
               type="button"
               onClick={() => setSuccess(false)}
-              className="mt-5 text-sm font-[800] text-primary underline-offset-2 hover:underline"
+              className="mt-5 text-sm font-extrabold text-primary underline-offset-2 hover:underline"
             >
               Tekrar değiştir
             </button>
@@ -93,7 +93,7 @@ export default function SifreDegistirPage() {
             <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-5">
               {/* Info note */}
               <div className="rounded-xl border border-border bg-bg px-4 py-3">
-                <p className="text-xs font-[700] text-muted">
+                <p className="text-xs font-bold text-muted">
                   Mevcut şifrenizi girmeniz gerekmez; Supabase oturumunuzu doğrulayarak şifreyi
                   güvenle günceller.
                 </p>
@@ -103,7 +103,7 @@ export default function SifreDegistirPage() {
               <div>
                 <label
                   htmlFor="new-password"
-                  className="mb-1.5 block text-sm font-[900] text-textStrong"
+                  className="mb-1.5 block text-sm font-black text-textStrong"
                 >
                   Yeni Şifre
                 </label>
@@ -114,7 +114,7 @@ export default function SifreDegistirPage() {
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder={`En az ${MIN_LENGTH} karakter`}
                   autoComplete="new-password"
-                  className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
                 {newPassword.length > 0 && !newPasswordValid && (
                   <p className="mt-1 text-xs text-warning">
@@ -127,7 +127,7 @@ export default function SifreDegistirPage() {
               <div>
                 <label
                   htmlFor="confirm-password"
-                  className="mb-1.5 block text-sm font-[900] text-textStrong"
+                  className="mb-1.5 block text-sm font-black text-textStrong"
                 >
                   Yeni Şifre Tekrar
                 </label>
@@ -138,7 +138,7 @@ export default function SifreDegistirPage() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Şifrenizi tekrar girin"
                   autoComplete="new-password"
-                  className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
                 {confirmPassword.length > 0 && !passwordsMatch && (
                   <p className="mt-1 text-xs text-danger">Şifreler eşleşmiyor</p>
@@ -146,7 +146,7 @@ export default function SifreDegistirPage() {
               </div>
 
               {error && (
-                <div className="rounded-2xl border border-danger/25 bg-danger/[0.08] px-4 py-3 text-sm font-[700] text-danger">
+                <div className="rounded-2xl border border-danger/25 bg-danger/8 px-4 py-3 text-sm font-bold text-danger">
                   {error}
                 </div>
               )}
@@ -155,7 +155,7 @@ export default function SifreDegistirPage() {
             <button
               type="submit"
               disabled={!canSubmit}
-              className="inline-flex min-h-[52px] items-center justify-center rounded-2xl text-sm font-[900] text-white disabled:opacity-60"
+              className="inline-flex min-h-[52px] items-center justify-center rounded-2xl text-sm font-black text-white disabled:opacity-60"
               style={{ background: 'var(--yd-gradient-primary)' }}
             >
               {saving ? 'Güncelleniyor…' : 'Şifreyi Güncelle'}
@@ -168,7 +168,7 @@ export default function SifreDegistirPage() {
             Şifrenizi unuttuysanız{' '}
             <Link
               href="/sifremi-unuttum"
-              className="font-[700] text-primary underline-offset-2 hover:underline"
+              className="font-bold text-primary underline-offset-2 hover:underline"
             >
               şifre sıfırlama
             </Link>{' '}

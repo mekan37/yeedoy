@@ -113,16 +113,16 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
       {/* Summary */}
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-xl border border-border bg-surface p-3">
-          <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Aktif Test</p>
-          <p className="mt-0.5 text-xl font-[900] text-primary">{activeCount}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-muted">Aktif Test</p>
+          <p className="mt-0.5 text-xl font-black text-primary">{activeCount}</p>
         </div>
         <div className="rounded-xl border border-border bg-surface p-3">
-          <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Tamamlanan</p>
-          <p className="mt-0.5 text-xl font-[900] text-green-600">{completedCount}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-muted">Tamamlanan</p>
+          <p className="mt-0.5 text-xl font-black text-green-600">{completedCount}</p>
         </div>
         <div className="rounded-xl border border-border bg-surface p-3">
-          <p className="text-[10px] font-[700] uppercase tracking-wide text-muted">Veri Bekliyor</p>
-          <p className="mt-0.5 text-xl font-[900] text-yellow-600">{pendingData}</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-muted">Veri Bekliyor</p>
+          <p className="mt-0.5 text-xl font-black text-yellow-600">{pendingData}</p>
         </div>
       </div>
 
@@ -130,14 +130,14 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
       <div className="flex items-center justify-between">
         <div className="flex gap-1 rounded-xl bg-zinc-100 p-1">
           {(['active', 'all'] as const).map(t => (
-            <button key={t} onClick={() => setTab(t)} className={`rounded-lg px-4 py-1.5 text-sm font-[700] transition-colors ${tab === t ? 'bg-white text-textStrong shadow' : 'text-muted'}`}>
+            <button key={t} onClick={() => setTab(t)} className={`rounded-lg px-4 py-1.5 text-sm font-bold transition-colors ${tab === t ? 'bg-white text-textStrong shadow-sm' : 'text-muted'}`}>
               {t === 'active' ? `Aktif (${tests.filter(t => t.enabled).length})` : `Tümü (${tests.length})`}
             </button>
           ))}
         </div>
         <button
           onClick={() => setShowCreate(!showCreate)}
-          className="rounded-xl bg-primary px-4 py-2 text-sm font-[800] text-white hover:bg-primary/90"
+          className="rounded-xl bg-primary px-4 py-2 text-sm font-extrabold text-white hover:bg-primary/90"
         >
           + Yeni Test
         </button>
@@ -146,14 +146,14 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
       {/* Create Form */}
       {showCreate && (
         <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5">
-          <p className="mb-4 font-[800] text-textStrong">Yeni A/B Test Oluştur</p>
+          <p className="mb-4 font-extrabold text-textStrong">Yeni A/B Test Oluştur</p>
 
           <div className="mb-3">
-            <p className="mb-2 text-xs font-[700] text-muted">Hazır Şablonlar</p>
+            <p className="mb-2 text-xs font-bold text-muted">Hazır Şablonlar</p>
             <div className="flex flex-wrap gap-2">
               {PREDEFINED_TESTS.map(pt => (
                 <button key={pt.name} onClick={() => { setName(pt.name); setDescription(pt.description); }}
-                  className="rounded-lg border border-border bg-surface px-2.5 py-1 text-xs font-[600] text-muted hover:border-primary hover:text-primary">
+                  className="rounded-lg border border-border bg-surface px-2.5 py-1 text-xs font-semibold text-muted hover:border-primary hover:text-primary">
                   {pt.name.replace('ab_', '')}
                 </button>
               ))}
@@ -162,39 +162,39 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
 
           <div className="flex flex-col gap-3">
             <div>
-              <label className="mb-1 block text-xs font-[700] text-muted">Test Adı (ab_ ile başlamalı)</label>
+              <label className="mb-1 block text-xs font-bold text-muted">Test Adı (ab_ ile başlamalı)</label>
               <input value={name} onChange={e => setName(e.target.value)} placeholder="ab_ornek_test"
-                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-hidden" />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-[700] text-muted">Açıklama (A varyantı vs B varyantı)</label>
+              <label className="mb-1 block text-xs font-bold text-muted">Açıklama (A varyantı vs B varyantı)</label>
               <input value={description} onChange={e => setDescription(e.target.value)} placeholder="A: mevcut tasarım, B: yeni deneme"
-                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-hidden" />
             </div>
             <div className="flex gap-4">
               <div className="flex-1">
-                <label className="mb-1 block text-xs font-[700] text-muted">Yayılım Oranı: %{rollout} (~{Math.round(totalUsers * rollout / 100).toLocaleString('tr-TR')} kullanıcı)</label>
+                <label className="mb-1 block text-xs font-bold text-muted">Yayılım Oranı: %{rollout} (~{Math.round(totalUsers * rollout / 100).toLocaleString('tr-TR')} kullanıcı)</label>
                 <input type="range" min={1} max={100} value={rollout} onChange={e => setRollout(+e.target.value)} className="w-full" />
                 <div className="flex justify-between text-[10px] text-muted">
                   <span>%1</span><span>%50</span><span>%100</span>
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-xs font-[700] text-muted">Ortam</label>
+                <label className="mb-1 block text-xs font-bold text-muted">Ortam</label>
                 <select value={environment} onChange={e => setEnvironment(e.target.value as 'staging' | 'production')}
-                  className="rounded-lg border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-none">
+                  className="rounded-lg border border-border bg-surface px-3 py-2 text-sm focus:border-primary focus:outline-hidden">
                   <option value="staging">Staging</option>
                   <option value="production">Production</option>
                 </select>
               </div>
             </div>
-            {error && <p className="text-xs font-[700] text-red-600">{error}</p>}
+            {error && <p className="text-xs font-bold text-red-600">{error}</p>}
             <div className="flex gap-2">
               <button onClick={create} disabled={isPending}
-                className="rounded-lg bg-primary px-4 py-2 text-sm font-[800] text-white hover:bg-primary/90 disabled:opacity-50">
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-extrabold text-white hover:bg-primary/90 disabled:opacity-50">
                 {isPending ? 'Oluşturuluyor…' : 'Oluştur'}
               </button>
-              <button onClick={() => setShowCreate(false)} className="rounded-lg border border-border px-4 py-2 text-sm font-[700] text-muted hover:text-textStrong">İptal</button>
+              <button onClick={() => setShowCreate(false)} className="rounded-lg border border-border px-4 py-2 text-sm font-bold text-muted hover:text-textStrong">İptal</button>
             </div>
           </div>
         </div>
@@ -211,13 +211,13 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border text-left bg-zinc-50">
-                <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Test Adı</th>
-                <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Açıklama</th>
-                <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Yayılım</th>
-                <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Ortam</th>
-                <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Sonuç</th>
-                <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted" />
+                <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Test Adı</th>
+                <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Açıklama</th>
+                <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Yayılım</th>
+                <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Ortam</th>
+                <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Sonuç</th>
+                <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted" />
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -231,8 +231,8 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
 
                 return (
                   <>
-                    <tr key={test.id} className="hover:bg-black/[0.02] cursor-pointer" onClick={() => setExpanded(isExpanded ? null : test.id)}>
-                      <td className="px-5 py-3 font-[800] text-primary">{test.name}</td>
+                    <tr key={test.id} className="hover:bg-black/2 cursor-pointer" onClick={() => setExpanded(isExpanded ? null : test.id)}>
+                      <td className="px-5 py-3 font-extrabold text-primary">{test.name}</td>
                       <td className="px-5 py-3 max-w-xs">
                         <p className="line-clamp-2 text-xs text-muted">{test.description}</p>
                       </td>
@@ -241,17 +241,17 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                           <div className="h-1.5 w-20 overflow-hidden rounded-full bg-zinc-100">
                             <div className="h-full rounded-full bg-primary" style={{ width: `${test.rollout_percent}%` }} />
                           </div>
-                          <span className="text-xs font-[700] text-textStrong">%{test.rollout_percent}</span>
+                          <span className="text-xs font-bold text-textStrong">%{test.rollout_percent}</span>
                         </div>
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-[700] ${test.environment === 'production' ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'}`}>
+                        <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${test.environment === 'production' ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'}`}>
                           {test.environment}
                         </span>
                       </td>
                       <td className="px-5 py-3">
                         {sig ? (
-                          <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-[700] ${sig.color}`}>
+                          <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${sig.color}`}>
                             {sig.label}
                           </span>
                         ) : (
@@ -259,7 +259,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                         )}
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-[700] ${test.winner ? 'bg-purple-50 text-purple-700' : test.enabled ? 'bg-green-50 text-green-700' : 'bg-zinc-100 text-zinc-500'}`}>
+                        <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${test.winner ? 'bg-purple-50 text-purple-700' : test.enabled ? 'bg-green-50 text-green-700' : 'bg-zinc-100 text-zinc-500'}`}>
                           {test.winner ? `${test.winner.toUpperCase()} Kazandı` : test.enabled ? 'Aktif' : 'Pasif'}
                         </span>
                       </td>
@@ -268,7 +268,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                           <button
                             disabled={isPending}
                             onClick={e => { e.stopPropagation(); toggle(test.id, test.enabled); }}
-                            className={`rounded-lg px-3 py-1 text-xs font-[700] ${test.enabled ? 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200' : 'bg-green-100 text-green-700 hover:bg-green-200'} disabled:opacity-50`}
+                            className={`rounded-lg px-3 py-1 text-xs font-bold ${test.enabled ? 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200' : 'bg-green-100 text-green-700 hover:bg-green-200'} disabled:opacity-50`}
                           >
                             {test.enabled ? 'Durdur' : 'Başlat'}
                           </button>
@@ -284,26 +284,26 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                       <tr key={`${test.id}-detail`} className="bg-zinc-50">
                         <td colSpan={7} className="px-5 py-4">
                           <div className="flex flex-col gap-4">
-                            <p className="text-[10px] font-[800] uppercase tracking-wide text-muted">Varyant Sonuçları</p>
+                            <p className="text-[10px] font-extrabold uppercase tracking-wide text-muted">Varyant Sonuçları</p>
                             <div className="grid grid-cols-2 gap-4">
                               {/* Variant A */}
                               <div className={`rounded-xl border p-4 ${sig?.winner === 'a' ? 'border-green-300 bg-green-50' : 'border-border bg-surface'}`}>
                                 <div className="flex items-center justify-between mb-2">
-                                  <span className="text-xs font-[800] text-textStrong">Varyant A (Kontrol)</span>
-                                  {sig?.winner === 'a' && <span className="inline-flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-[800] text-white"><Trophy size={9} aria-hidden="true" /> KAZANAN</span>}
+                                  <span className="text-xs font-extrabold text-textStrong">Varyant A (Kontrol)</span>
+                                  {sig?.winner === 'a' && <span className="inline-flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-extrabold text-white"><Trophy size={9} aria-hidden="true" /> KAZANAN</span>}
                                 </div>
                                 <div className="grid grid-cols-3 gap-2 text-center">
                                   <div>
                                     <p className="text-[10px] text-muted">Görüntülenme</p>
-                                    <p className="text-lg font-[900] text-textStrong">{ia.toLocaleString('tr-TR')}</p>
+                                    <p className="text-lg font-black text-textStrong">{ia.toLocaleString('tr-TR')}</p>
                                   </div>
                                   <div>
                                     <p className="text-[10px] text-muted">Dönüşüm</p>
-                                    <p className="text-lg font-[900] text-textStrong">{ca.toLocaleString('tr-TR')}</p>
+                                    <p className="text-lg font-black text-textStrong">{ca.toLocaleString('tr-TR')}</p>
                                   </div>
                                   <div>
                                     <p className="text-[10px] text-muted">Oran</p>
-                                    <p className="text-lg font-[900] text-primary">%{rateA}</p>
+                                    <p className="text-lg font-black text-primary">%{rateA}</p>
                                   </div>
                                 </div>
                                 {ia > 0 && (
@@ -316,21 +316,21 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                               {/* Variant B */}
                               <div className={`rounded-xl border p-4 ${sig?.winner === 'b' ? 'border-green-300 bg-green-50' : 'border-border bg-surface'}`}>
                                 <div className="flex items-center justify-between mb-2">
-                                  <span className="text-xs font-[800] text-textStrong">Varyant B (Deney)</span>
-                                  {sig?.winner === 'b' && <span className="inline-flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-[800] text-white"><Trophy size={9} aria-hidden="true" /> KAZANAN</span>}
+                                  <span className="text-xs font-extrabold text-textStrong">Varyant B (Deney)</span>
+                                  {sig?.winner === 'b' && <span className="inline-flex items-center gap-1 rounded-full bg-green-600 px-2 py-0.5 text-[9px] font-extrabold text-white"><Trophy size={9} aria-hidden="true" /> KAZANAN</span>}
                                 </div>
                                 <div className="grid grid-cols-3 gap-2 text-center">
                                   <div>
                                     <p className="text-[10px] text-muted">Görüntülenme</p>
-                                    <p className="text-lg font-[900] text-textStrong">{ib.toLocaleString('tr-TR')}</p>
+                                    <p className="text-lg font-black text-textStrong">{ib.toLocaleString('tr-TR')}</p>
                                   </div>
                                   <div>
                                     <p className="text-[10px] text-muted">Dönüşüm</p>
-                                    <p className="text-lg font-[900] text-textStrong">{cb.toLocaleString('tr-TR')}</p>
+                                    <p className="text-lg font-black text-textStrong">{cb.toLocaleString('tr-TR')}</p>
                                   </div>
                                   <div>
                                     <p className="text-[10px] text-muted">Oran</p>
-                                    <p className="text-lg font-[900] text-primary">%{rateB}</p>
+                                    <p className="text-lg font-black text-primary">%{rateB}</p>
                                   </div>
                                 </div>
                                 {ib > 0 && (
@@ -344,7 +344,7 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                             {/* Statistical significance */}
                             {sig && (
                               <div className={`rounded-xl p-3 ${sig.color}`}>
-                                <p className="inline-flex items-center gap-1 text-xs font-[800]"><BarChart2 size={12} aria-hidden="true" /> {sig.label}</p>
+                                <p className="inline-flex items-center gap-1 text-xs font-extrabold"><BarChart2 size={12} aria-hidden="true" /> {sig.label}</p>
                                 <p className="mt-0.5 text-[10px] opacity-80">
                                   Toplam görüntülenme: {(ia + ib).toLocaleString('tr-TR')} · Test süresi: {durationDays} gün
                                 </p>
@@ -357,14 +357,14 @@ export function AbTestYonetici({ tests, totalUsers }: { tests: ABTest[]; totalUs
                                 <button
                                   disabled={isPending}
                                   onClick={() => setWinner(test.id, sig.winner!)}
-                                  className="rounded-lg bg-green-600 px-4 py-2 text-xs font-[800] text-white hover:bg-green-700 disabled:opacity-50"
+                                  className="rounded-lg bg-green-600 px-4 py-2 text-xs font-extrabold text-white hover:bg-green-700 disabled:opacity-50"
                                 >
                                   {sig.winner.toUpperCase()} Varyantını Kazanan İlan Et
                                 </button>
                                 <button
                                   disabled={isPending}
                                   onClick={() => toggle(test.id, true)}
-                                  className="rounded-lg border border-border px-4 py-2 text-xs font-[700] text-muted hover:text-textStrong disabled:opacity-50"
+                                  className="rounded-lg border border-border px-4 py-2 text-xs font-bold text-muted hover:text-textStrong disabled:opacity-50"
                                 >
                                   Testi Durdur
                                 </button>

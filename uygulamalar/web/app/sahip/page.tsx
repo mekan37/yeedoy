@@ -113,12 +113,12 @@ export default async function OwnerLandingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-50 border-b border-[#f0f0f0] bg-white/95 backdrop-blur-sm px-6 py-4">
+      <header className="sticky top-0 z-50 border-b border-[#f0f0f0] bg-white/95 backdrop-blur-xs px-6 py-4">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <Link href="/">
             <YeedoyLogo size={34} />
           </Link>
-          <nav className="hidden items-center gap-7 text-sm font-[700] text-[#374151] md:flex">
+          <nav className="hidden items-center gap-7 text-sm font-bold text-[#374151] md:flex">
             <a href="#ozellikler" className="hover:text-[#dc2626] transition">Özellikler</a>
             <a href="#isletme-bul" className="hover:text-[#dc2626] transition">İşletme Bul</a>
             <a href="#nasil-calisir" className="hover:text-[#dc2626] transition">Nasıl Çalışır</a>
@@ -127,13 +127,13 @@ export default async function OwnerLandingPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/giris"
-              className="rounded-xl border border-[#e5e7eb] px-4 py-2 text-sm font-[700] text-[#374151] transition hover:border-[#dc2626]/40 hover:text-[#dc2626]"
+              className="rounded-xl border border-[#e5e7eb] px-4 py-2 text-sm font-bold text-[#374151] transition hover:border-[#dc2626]/40 hover:text-[#dc2626]"
             >
               Giriş Yap
             </Link>
             <Link
               href="/giris?tab=kayit"
-              className="rounded-xl bg-[#dc2626] px-4 py-2 text-sm font-[800] text-white shadow-[0_2px_8px_rgba(220,38,38,0.25)] transition hover:bg-[#b91c1c]"
+              className="rounded-xl bg-[#dc2626] px-4 py-2 text-sm font-extrabold text-white shadow-[0_2px_8px_rgba(220,38,38,0.25)] transition hover:bg-[#b91c1c]"
             >
               Ücretsiz Başla
             </Link>
@@ -148,13 +148,13 @@ export default async function OwnerLandingPage() {
           <div className="absolute -top-32 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[#fef2f2] opacity-60 blur-3xl" />
         </div>
         <div className="relative mx-auto max-w-4xl text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#fecaca] bg-[#fef2f2] px-4 py-1.5 text-sm font-[700] text-[#dc2626]">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#fecaca] bg-[#fef2f2] px-4 py-1.5 text-sm font-bold text-[#dc2626]">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
             Türkiye&apos;nin en kapsamlı işletme yönetim paneli
           </div>
-          <h1 className="text-[48px] font-[900] leading-[1.1] tracking-tight text-[#111827] md:text-[60px]">
+          <h1 className="text-[48px] font-black leading-[1.1] tracking-tight text-[#111827] md:text-[60px]">
             İşletmenizi Yeedoy&apos;la
             <br />
             <span className="text-[#dc2626]">dijitalde büyütün</span>
@@ -165,7 +165,7 @@ export default async function OwnerLandingPage() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/giris"
-              className="flex h-14 items-center gap-2 rounded-2xl bg-[#dc2626] px-8 text-base font-[800] text-white shadow-[0_4px_16px_rgba(220,38,38,0.30)] transition hover:bg-[#b91c1c] hover:shadow-[0_6px_24px_rgba(220,38,38,0.35)]"
+              className="flex h-14 items-center gap-2 rounded-2xl bg-[#dc2626] px-8 text-base font-extrabold text-white shadow-[0_4px_16px_rgba(220,38,38,0.30)] transition hover:bg-[#b91c1c] hover:shadow-[0_6px_24px_rgba(220,38,38,0.35)]"
             >
               Ücretsiz Başla
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -174,7 +174,7 @@ export default async function OwnerLandingPage() {
             </Link>
             <a
               href="#isletme-bul"
-              className="flex h-14 items-center gap-2 rounded-2xl border border-[#e5e7eb] px-8 text-base font-[700] text-[#374151] transition hover:bg-[#f9fafb] hover:border-[#d1d5db]"
+              className="flex h-14 items-center gap-2 rounded-2xl border border-[#e5e7eb] px-8 text-base font-bold text-[#374151] transition hover:bg-[#f9fafb] hover:border-[#d1d5db]"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -200,19 +200,19 @@ export default async function OwnerLandingPage() {
       <section id="ozellikler" className="bg-[#fafafa] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-14 text-center">
-            <p className="mb-2 text-sm font-[700] uppercase tracking-widest text-[#dc2626]">Özellikler</p>
-            <h2 className="text-4xl font-[900] text-[#111827]">İşletmeniz için ihtiyacınız olan her şey</h2>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest text-[#dc2626]">Özellikler</p>
+            <h2 className="text-4xl font-black text-[#111827]">İşletmeniz için ihtiyacınız olan her şey</h2>
             <p className="mx-auto mt-4 max-w-xl text-[#6b7280]">
               Yeedoy İşletme Paneli, restoranınızın dijital yönetimini en verimli hale getirmek için tasarlandı.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f) => (
-              <div key={f.title} className="rounded-2xl border border-[#f0f0f0] bg-white p-6 shadow-sm transition hover:shadow-md hover:-translate-y-0.5">
+              <div key={f.title} className="rounded-2xl border border-[#f0f0f0] bg-white p-6 shadow-xs transition hover:shadow-md hover:-translate-y-0.5">
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: f.bg }}>
                   {f.icon}
                 </div>
-                <h3 className="mb-2 text-base font-[800] text-[#111827]">{f.title}</h3>
+                <h3 className="mb-2 text-base font-extrabold text-[#111827]">{f.title}</h3>
                 <p className="text-sm leading-relaxed text-[#6b7280]">{f.desc}</p>
               </div>
             ))}
@@ -224,8 +224,8 @@ export default async function OwnerLandingPage() {
       <section id="isletme-bul" className="px-6 py-20">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 text-center">
-            <p className="mb-2 text-sm font-[700] uppercase tracking-widest text-[#dc2626]">İşletme Bul</p>
-            <h2 className="text-4xl font-[900] text-[#111827]">İşletmenizi Yeedoy&apos;da bulun</h2>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest text-[#dc2626]">İşletme Bul</p>
+            <h2 className="text-4xl font-black text-[#111827]">İşletmenizi Yeedoy&apos;da bulun</h2>
             <p className="mx-auto mt-4 max-w-lg text-[#6b7280]">
               Yeedoy&apos;da kayıtlı işletmenizi arayın ve sahiplenme talebinde bulunun. Kısa sürede panelinize erişin.
             </p>
@@ -233,7 +233,7 @@ export default async function OwnerLandingPage() {
           <OwnerLandingSearch />
           <div className="mt-6 text-center text-sm text-[#6b7280]">
             İşletmeniz listede yok mu?{' '}
-            <Link href="/sahiplen/yeni" className="font-[700] text-[#dc2626] hover:underline">
+            <Link href="/sahiplen/yeni" className="font-bold text-[#dc2626] hover:underline">
               Yeni işletme ekle →
             </Link>
           </div>
@@ -244,8 +244,8 @@ export default async function OwnerLandingPage() {
       <section id="nasil-calisir" className="bg-[#fafafa] px-6 py-20">
         <div className="mx-auto max-w-5xl">
           <div className="mb-14 text-center">
-            <p className="mb-2 text-sm font-[700] uppercase tracking-widest text-[#dc2626]">Nasıl Çalışır</p>
-            <h2 className="text-4xl font-[900] text-[#111827]">3 adımda başlayın</h2>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest text-[#dc2626]">Nasıl Çalışır</p>
+            <h2 className="text-4xl font-black text-[#111827]">3 adımda başlayın</h2>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {steps.map((s, i) => (
@@ -253,10 +253,10 @@ export default async function OwnerLandingPage() {
                 {i < steps.length - 1 && (
                   <div className="absolute left-[calc(50%+40px)] top-6 hidden h-0.5 w-[calc(100%-80px)] bg-[#fee2e2] md:block" />
                 )}
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#dc2626] text-xl font-[900] text-white shadow-[0_4px_16px_rgba(220,38,38,0.30)]">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#dc2626] text-xl font-black text-white shadow-[0_4px_16px_rgba(220,38,38,0.30)]">
                   {s.n}
                 </div>
-                <h3 className="mb-2 text-base font-[800] text-[#111827]">{s.title}</h3>
+                <h3 className="mb-2 text-base font-extrabold text-[#111827]">{s.title}</h3>
                 <p className="text-sm leading-relaxed text-[#6b7280]">{s.desc}</p>
               </div>
             ))}
@@ -264,7 +264,7 @@ export default async function OwnerLandingPage() {
           <div className="mt-12 text-center">
             <Link
               href="/giris"
-              className="inline-flex h-12 items-center gap-2 rounded-xl bg-[#dc2626] px-8 text-sm font-[800] text-white shadow-[0_2px_8px_rgba(220,38,38,0.28)] transition hover:bg-[#b91c1c]"
+              className="inline-flex h-12 items-center gap-2 rounded-xl bg-[#dc2626] px-8 text-sm font-extrabold text-white shadow-[0_2px_8px_rgba(220,38,38,0.28)] transition hover:bg-[#b91c1c]"
             >
               Hemen Başla
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -279,15 +279,15 @@ export default async function OwnerLandingPage() {
       <section id="destek" className="px-6 py-20">
         <div className="mx-auto max-w-3xl">
           <div className="mb-12 text-center">
-            <p className="mb-2 text-sm font-[700] uppercase tracking-widest text-[#dc2626]">Destek</p>
-            <h2 className="text-4xl font-[900] text-[#111827]">Sık sorulan sorular</h2>
+            <p className="mb-2 text-sm font-bold uppercase tracking-widest text-[#dc2626]">Destek</p>
+            <h2 className="text-4xl font-black text-[#111827]">Sık sorulan sorular</h2>
           </div>
           <div className="divide-y divide-[#f3f4f6] rounded-2xl border border-[#f0f0f0] bg-white">
             {faqs.map((faq) => (
               <details key={faq.q} className="group p-6">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                  <span className="text-sm font-[800] text-[#111827]">{faq.q}</span>
-                  <span className="flex-shrink-0 transition group-open:rotate-45">
+                  <span className="text-sm font-extrabold text-[#111827]">{faq.q}</span>
+                  <span className="shrink-0 transition group-open:rotate-45">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                     </svg>
@@ -306,18 +306,18 @@ export default async function OwnerLandingPage() {
                 <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
               </svg>
             </div>
-            <h3 className="text-base font-[800] text-[#111827]">Hâlâ sorunuz mu var?</h3>
+            <h3 className="text-base font-extrabold text-[#111827]">Hâlâ sorunuz mu var?</h3>
             <p className="mt-2 text-sm text-[#6b7280]">Destek ekibimiz size yardımcı olmaktan mutluluk duyar.</p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
               <a href="mailto:destek@yeedoy.com"
-                className="flex h-11 items-center gap-2 rounded-xl border border-[#e5e7eb] bg-white px-5 text-sm font-[700] text-[#374151] transition hover:bg-[#f9fafb]">
+                className="flex h-11 items-center gap-2 rounded-xl border border-[#e5e7eb] bg-white px-5 text-sm font-bold text-[#374151] transition hover:bg-[#f9fafb]">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
                 </svg>
                 E-posta Gönder
               </a>
               <a href="#"
-                className="flex h-11 items-center gap-2 rounded-xl bg-[#dc2626] px-5 text-sm font-[800] text-white transition hover:bg-[#b91c1c]">
+                className="flex h-11 items-center gap-2 rounded-xl bg-[#dc2626] px-5 text-sm font-extrabold text-white transition hover:bg-[#b91c1c]">
                 Canlı Destek
               </a>
             </div>

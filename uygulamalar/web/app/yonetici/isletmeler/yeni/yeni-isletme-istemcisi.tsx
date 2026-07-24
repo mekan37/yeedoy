@@ -66,9 +66,9 @@ const EMPTY_FORM: FormState = {
 
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
-    <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] font-[700] text-textStrong">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] font-bold text-textStrong">
       {children}
-      {required && <span className="ml-0.5 text-[color:var(--yd-color-danger)]">*</span>}
+      {required && <span className="ml-0.5 text-(--yd-color-danger)">*</span>}
     </label>
   );
 }
@@ -83,7 +83,7 @@ function TextInput({ id, value, onChange, placeholder, type = 'text' }: {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+      className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
     />
   );
 }
@@ -183,7 +183,7 @@ export function YeniIsletmeIstemcisi() {
                   <CheckIcon />
                 </span>
                 <div>
-                  <p className="text-[15px] font-[800] text-textStrong">
+                  <p className="text-[15px] font-extrabold text-textStrong">
                     &ldquo;{created.name}&rdquo; {t.newBusinessSaved}
                   </p>
                   {created.slug && (
@@ -245,7 +245,7 @@ export function YeniIsletmeIstemcisi() {
                     onChange={set('name')}
                     placeholder="Örn. Süvari Kahvesi"
                   />
-                  {errors.name && <p className="mt-1 text-xs text-[color:var(--yd-color-danger)]">{errors.name}</p>}
+                  {errors.name && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.name}</p>}
                 </div>
 
                 {/* Kategori */}
@@ -255,14 +255,14 @@ export function YeniIsletmeIstemcisi() {
                     id="category"
                     value={form.category}
                     onChange={(e) => set('category')(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                   >
                     <option value="">Kategori seçin...</option>
                     {BUSINESS_CATEGORIES.map((c) => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
-                  {errors.category && <p className="mt-1 text-xs text-[color:var(--yd-color-danger)]">{errors.category}</p>}
+                  {errors.category && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.category}</p>}
                 </div>
 
                 {/* Fiyat seviyesi */}
@@ -280,7 +280,7 @@ export function YeniIsletmeIstemcisi() {
                         key={value}
                         type="button"
                         onClick={() => set('price_level')(form.price_level === value ? '' : value)}
-                        className={`flex-1 rounded-xl border px-3 py-2 text-xs font-[700] transition-colors ${
+                        className={`flex-1 rounded-xl border px-3 py-2 text-xs font-bold transition-colors ${
                           form.price_level === value
                             ? 'border-primary bg-primary text-white'
                             : 'border-border bg-card text-muted hover:text-textStrong'
@@ -302,7 +302,7 @@ export function YeniIsletmeIstemcisi() {
                     onChange={(e) => set('description')(e.target.value)}
                     placeholder="Kısa tanıtım metni..."
                     rows={3}
-                    className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                    className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30 resize-none"
                   />
                 </div>
               </PanelBolumKarti>
@@ -311,7 +311,7 @@ export function YeniIsletmeIstemcisi() {
               <PanelBolumKarti>
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-[13px] font-[700] text-textStrong">{t.fieldIsActive}</p>
+                    <p className="text-[13px] font-bold text-textStrong">{t.fieldIsActive}</p>
                     <p className="text-xs text-muted">İşletme hemen yayınlansın mı?</p>
                   </div>
                   <button
@@ -346,7 +346,7 @@ export function YeniIsletmeIstemcisi() {
                       onChange={set('city')}
                       placeholder="İstanbul"
                     />
-                    {errors.city && <p className="mt-1 text-xs text-[color:var(--yd-color-danger)]">{errors.city}</p>}
+                    {errors.city && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.city}</p>}
                   </div>
                   <div>
                     <FieldLabel htmlFor="district">{t.fieldDistrict}</FieldLabel>
@@ -391,7 +391,7 @@ export function YeniIsletmeIstemcisi() {
                     placeholder="https://ornek.com"
                     type="url"
                   />
-                  {errors.website && <p className="mt-1 text-xs text-[color:var(--yd-color-danger)]">{errors.website}</p>}
+                  {errors.website && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.website}</p>}
                 </div>
               </PanelBolumKarti>
 
@@ -405,7 +405,7 @@ export function YeniIsletmeIstemcisi() {
                       onChange={set('lat')}
                       placeholder="41.0082"
                     />
-                    {errors.lat && <p className="mt-1 text-xs text-[color:var(--yd-color-danger)]">{errors.lat}</p>}
+                    {errors.lat && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.lat}</p>}
                   </div>
                   <div>
                     <FieldLabel htmlFor="lng">Boylam (lng)</FieldLabel>
@@ -415,7 +415,7 @@ export function YeniIsletmeIstemcisi() {
                       onChange={set('lng')}
                       placeholder="28.9784"
                     />
-                    {errors.lng && <p className="mt-1 text-xs text-[color:var(--yd-color-danger)]">{errors.lng}</p>}
+                    {errors.lng && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.lng}</p>}
                   </div>
                 </div>
               </PanelBolumKarti>
@@ -424,7 +424,7 @@ export function YeniIsletmeIstemcisi() {
 
           {/* Global hata */}
           {globalError && (
-            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-[color:var(--yd-color-danger)]">
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-(--yd-color-danger)">
               {globalError}
             </div>
           )}

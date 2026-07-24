@@ -16,9 +16,9 @@ export function PublicMenuLayout({ title, children }: { title: string; children:
 
 export function MenuSectionTabs({ sections }: { sections: Array<{ id: string; title: string; href?: string; active?: boolean }> }) {
   return (
-    <div className="flex gap-2 overflow-x-auto py-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="flex gap-2 overflow-x-auto py-1 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
       {sections.map((section) => (
-        <a key={section.id} href={section.href ?? `#${section.id}`} className={section.active ? 'inline-flex min-h-11 shrink-0 items-center rounded-full border border-primary/30 bg-[var(--yd-color-primary-soft)] px-4 text-sm font-[900] text-primary' : 'inline-flex min-h-11 shrink-0 items-center rounded-full border border-border bg-card px-4 text-sm font-[900] text-textStrong hover:border-primary/25'}>
+        <a key={section.id} href={section.href ?? `#${section.id}`} className={section.active ? 'inline-flex min-h-11 shrink-0 items-center rounded-full border border-primary/30 bg-(--yd-color-primary-soft) px-4 text-sm font-black text-primary' : 'inline-flex min-h-11 shrink-0 items-center rounded-full border border-border bg-card px-4 text-sm font-black text-textStrong hover:border-primary/25'}>
           {section.title}
         </a>
       ))}
@@ -46,7 +46,7 @@ export function MenuItemCard({ item }: { item: AcikMenuUrunKarti }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="truncate font-[900] text-textStrong">{item.name}</h3>
+            <h3 className="truncate font-black text-textStrong">{item.name}</h3>
             {item.description ? <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted">{item.description}</p> : null}
           </div>
           <PriceBadge cents={item.priceCents} currency={item.currency} />
@@ -72,7 +72,7 @@ export function MenuItemPhoto({ item }: { item: AcikMenuUrunKarti }) {
 
 export function PriceBadge({ cents, currency }: { cents: number; currency: string }) {
   return (
-    <span className="shrink-0 rounded-full bg-[var(--yd-color-primary-soft)] px-3 py-1 text-sm font-[900] text-primary">
+    <span className="shrink-0 rounded-full bg-(--yd-color-primary-soft) px-3 py-1 text-sm font-black text-primary">
       {new Intl.NumberFormat('tr-TR', { style: 'currency', currency: currency || 'TRY' }).format(cents / 100)}
     </span>
   );

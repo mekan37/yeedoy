@@ -21,7 +21,7 @@ export function PanelBolumKarti({
   return (
     <div
       className={clsx(
-        'rounded-2xl border border-border bg-card shadow-sm',
+        'rounded-2xl border border-border bg-card shadow-xs',
         className,
       )}
     >
@@ -29,7 +29,7 @@ export function PanelBolumKarti({
         <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
           <div>
             {title && (
-              <h2 className="text-[15px] font-[900] text-textStrong">{title}</h2>
+              <h2 className="text-[15px] font-black text-textStrong">{title}</h2>
             )}
             {description && (
               <p className="mt-0.5 text-xs text-muted">{description}</p>

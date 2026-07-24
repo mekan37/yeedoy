@@ -178,10 +178,10 @@ export default async function SehirSlugKategoriPage({ params }: Props) {
             <li aria-hidden="true">›</li>
             <li><Link href={`/${sehir}/${slug}`} className="hover:text-primary">{districtLabel}</Link></li>
             <li aria-hidden="true">›</li>
-            <li className="font-[700] text-textStrong">{categoryLabel}</li>
+            <li className="font-bold text-textStrong">{categoryLabel}</li>
           </ol>
         </nav>
-        <h1 className="mb-1 text-3xl font-[900] tracking-tight text-textStrong">{categoryLabel}</h1>
+        <h1 className="mb-1 text-3xl font-black tracking-tight text-textStrong">{categoryLabel}</h1>
         <p className="mb-8 text-muted">{districtLabel}, {cityLabel} · {businesses.length} işletme</p>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {businesses.map((b) => (

@@ -138,7 +138,7 @@ export function TopluIslemlerIstemci({
       {/* Feedback */}
       {feedback && (
         <div className="flex items-center justify-between rounded-xl bg-green-50 px-4 py-3">
-          <span className="text-sm font-[700] text-green-700">✓ {feedback}</span>
+          <span className="text-sm font-bold text-green-700">✓ {feedback}</span>
           <button onClick={() => setFeedback('')} className="text-green-600 hover:text-green-800">✕</button>
         </div>
       )}
@@ -146,7 +146,7 @@ export function TopluIslemlerIstemci({
       {/* Preview confirmation modal */}
       {showPreview && pendingAction && (
         <div className="rounded-2xl border-2 border-primary bg-primary/5 p-5">
-          <p className="mb-2 font-[800] text-textStrong">İşlem Onayı</p>
+          <p className="mb-2 font-extrabold text-textStrong">İşlem Onayı</p>
           <p className="mb-4 text-sm text-muted">
             <strong>{pendingAction.ids.length} {pendingAction.type === 'businesses' ? 'işletme' : pendingAction.type === 'reviews' ? 'yorum' : 'kullanıcı'}</strong> üzerinde{' '}
             <strong className={pendingAction.action === 'approve' || pendingAction.action === 'clear' ? 'text-green-700' : 'text-red-700'}>
@@ -158,12 +158,12 @@ export function TopluIslemlerIstemci({
             <button
               disabled={isPending}
               onClick={confirmAction}
-              className={`rounded-lg px-4 py-2 text-sm font-[800] text-white disabled:opacity-50 ${pendingAction.action === 'approve' || pendingAction.action === 'clear' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
+              className={`rounded-lg px-4 py-2 text-sm font-extrabold text-white disabled:opacity-50 ${pendingAction.action === 'approve' || pendingAction.action === 'clear' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
             >
               {isPending ? 'İşleniyor…' : 'Onayla ve Uygula'}
             </button>
             <button onClick={() => { setShowPreview(false); setPendingAction(null); }}
-              className="rounded-lg border border-border px-4 py-2 text-sm font-[700] text-muted hover:text-textStrong">
+              className="rounded-lg border border-border px-4 py-2 text-sm font-bold text-muted hover:text-textStrong">
               İptal
             </button>
           </div>
@@ -174,7 +174,7 @@ export function TopluIslemlerIstemci({
       <div className="flex gap-1 rounded-xl bg-zinc-100 p-1">
         {TABS.map(t => (
           <button key={t.key} onClick={() => setTab(t.key)}
-            className={`flex-1 rounded-lg py-1.5 text-xs font-[700] transition-colors ${tab === t.key ? 'bg-white text-textStrong shadow' : 'text-muted'}`}>
+            className={`flex-1 rounded-lg py-1.5 text-xs font-bold transition-colors ${tab === t.key ? 'bg-white text-textStrong shadow-sm' : 'text-muted'}`}>
             {t.label}{t.count > 0 ? ` (${t.count})` : ''}
           </button>
         ))}
@@ -188,16 +188,16 @@ export function TopluIslemlerIstemci({
               <input type="checkbox"
                 checked={selectedBiz.size === pendingBusinesses.length && pendingBusinesses.length > 0}
                 onChange={toggleAllBiz} className="rounded" />
-              <span className="text-xs font-[700] text-muted">{selectedBiz.size > 0 ? `${selectedBiz.size} seçili` : 'Tümünü Seç'}</span>
+              <span className="text-xs font-bold text-muted">{selectedBiz.size > 0 ? `${selectedBiz.size} seçili` : 'Tümünü Seç'}</span>
             </div>
             {selectedBiz.size > 0 && (
               <div className="flex gap-2">
                 <button disabled={isPending} onClick={() => requestBizAction('approve')}
-                  className="rounded-lg bg-green-600 px-3 py-1 text-xs font-[800] text-white hover:bg-green-700 disabled:opacity-50">
+                  className="rounded-lg bg-green-600 px-3 py-1 text-xs font-extrabold text-white hover:bg-green-700 disabled:opacity-50">
                   Onayla ({selectedBiz.size})
                 </button>
                 <button disabled={isPending} onClick={() => requestBizAction('reject')}
-                  className="rounded-lg bg-red-600 px-3 py-1 text-xs font-[800] text-white hover:bg-red-700 disabled:opacity-50">
+                  className="rounded-lg bg-red-600 px-3 py-1 text-xs font-extrabold text-white hover:bg-red-700 disabled:opacity-50">
                   Reddet ({selectedBiz.size})
                 </button>
               </div>
@@ -209,19 +209,19 @@ export function TopluIslemlerIstemci({
             <table className="w-full text-sm">
               <tbody className="divide-y divide-border">
                 {pendingBusinesses.map(biz => (
-                  <tr key={biz.id} className={`hover:bg-black/[0.02] ${selectedBiz.has(biz.id) ? 'bg-primary/5' : ''}`}>
+                  <tr key={biz.id} className={`hover:bg-black/2 ${selectedBiz.has(biz.id) ? 'bg-primary/5' : ''}`}>
                     <td className="w-10 px-4 py-3"><input type="checkbox" checked={selectedBiz.has(biz.id)} onChange={() => toggleBiz(biz.id)} /></td>
                     <td className="px-4 py-3">
-                      <p className="font-[700] text-textStrong">{biz.name}</p>
+                      <p className="font-bold text-textStrong">{biz.name}</p>
                       <p className="text-xs text-muted">{biz.city} · {biz.user_profiles?.email ?? '—'}</p>
                     </td>
                     <td className="px-4 py-3 text-xs text-muted">{new Date(biz.created_at).toLocaleDateString('tr-TR')}</td>
                     <td className="px-4 py-3">
                       <div className="flex gap-1">
                         <button disabled={isPending} onClick={() => { setSelectedBiz(new Set([biz.id])); requestBizAction('approve'); }}
-                          className="rounded bg-green-100 px-2 py-1 text-[10px] font-[800] text-green-700 hover:bg-green-200">✓</button>
+                          className="rounded bg-green-100 px-2 py-1 text-[10px] font-extrabold text-green-700 hover:bg-green-200">✓</button>
                         <button disabled={isPending} onClick={() => { setSelectedBiz(new Set([biz.id])); requestBizAction('reject'); }}
-                          className="rounded bg-red-100 px-2 py-1 text-[10px] font-[800] text-red-700 hover:bg-red-200">✕</button>
+                          className="rounded bg-red-100 px-2 py-1 text-[10px] font-extrabold text-red-700 hover:bg-red-200">✕</button>
                       </div>
                     </td>
                   </tr>
@@ -240,16 +240,16 @@ export function TopluIslemlerIstemci({
               <input type="checkbox"
                 checked={selectedRev.size === flaggedReviews.length && flaggedReviews.length > 0}
                 onChange={toggleAllRev} className="rounded" />
-              <span className="text-xs font-[700] text-muted">{selectedRev.size > 0 ? `${selectedRev.size} seçili` : 'Tümünü Seç'}</span>
+              <span className="text-xs font-bold text-muted">{selectedRev.size > 0 ? `${selectedRev.size} seçili` : 'Tümünü Seç'}</span>
             </div>
             {selectedRev.size > 0 && (
               <div className="flex gap-2">
                 <button disabled={isPending} onClick={() => requestRevAction('approve')}
-                  className="rounded-lg bg-green-600 px-3 py-1 text-xs font-[800] text-white hover:bg-green-700 disabled:opacity-50">
+                  className="rounded-lg bg-green-600 px-3 py-1 text-xs font-extrabold text-white hover:bg-green-700 disabled:opacity-50">
                   Onayla ({selectedRev.size})
                 </button>
                 <button disabled={isPending} onClick={() => requestRevAction('remove')}
-                  className="rounded-lg bg-red-600 px-3 py-1 text-xs font-[800] text-white hover:bg-red-700 disabled:opacity-50">
+                  className="rounded-lg bg-red-600 px-3 py-1 text-xs font-extrabold text-white hover:bg-red-700 disabled:opacity-50">
                   Kaldır ({selectedRev.size})
                 </button>
               </div>
@@ -260,11 +260,11 @@ export function TopluIslemlerIstemci({
           ) : (
             <div className="divide-y divide-border">
               {flaggedReviews.map(review => (
-                <div key={review.id} className={`flex gap-3 px-4 py-3 ${selectedRev.has(review.id) ? 'bg-primary/5' : 'hover:bg-black/[0.02]'}`}>
+                <div key={review.id} className={`flex gap-3 px-4 py-3 ${selectedRev.has(review.id) ? 'bg-primary/5' : 'hover:bg-black/2'}`}>
                   <input type="checkbox" checked={selectedRev.has(review.id)} onChange={() => toggleRev(review.id)} className="mt-1" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-[700] text-textStrong">{review.businesses?.name ?? '—'}</span>
+                      <span className="text-xs font-bold text-textStrong">{review.businesses?.name ?? '—'}</span>
                       <span className="text-xs text-yellow-500">{'★'.repeat(review.rating)}</span>
                     </div>
                     <p className="mt-0.5 line-clamp-2 text-xs text-muted">{review.content}</p>
@@ -285,20 +285,20 @@ export function TopluIslemlerIstemci({
               <input type="checkbox"
                 checked={selectedUsers.size === suspiciousUsers.length && suspiciousUsers.length > 0}
                 onChange={toggleAllUsers} className="rounded" />
-              <span className="text-xs font-[700] text-muted">{selectedUsers.size > 0 ? `${selectedUsers.size} seçili` : 'Tümünü Seç'}</span>
+              <span className="text-xs font-bold text-muted">{selectedUsers.size > 0 ? `${selectedUsers.size} seçili` : 'Tümünü Seç'}</span>
             </div>
             {selectedUsers.size > 0 && (
               <div className="flex gap-2">
                 <button disabled={isPending} onClick={() => requestUserAction('warn')}
-                  className="rounded-lg bg-yellow-500 px-3 py-1 text-xs font-[800] text-white hover:bg-yellow-600 disabled:opacity-50">
+                  className="rounded-lg bg-yellow-500 px-3 py-1 text-xs font-extrabold text-white hover:bg-yellow-600 disabled:opacity-50">
                   Uyar ({selectedUsers.size})
                 </button>
                 <button disabled={isPending} onClick={() => requestUserAction('ban')}
-                  className="rounded-lg bg-red-600 px-3 py-1 text-xs font-[800] text-white hover:bg-red-700 disabled:opacity-50">
+                  className="rounded-lg bg-red-600 px-3 py-1 text-xs font-extrabold text-white hover:bg-red-700 disabled:opacity-50">
                   Yasakla ({selectedUsers.size})
                 </button>
                 <button disabled={isPending} onClick={() => requestUserAction('clear')}
-                  className="rounded-lg bg-zinc-500 px-3 py-1 text-xs font-[800] text-white hover:bg-zinc-600 disabled:opacity-50">
+                  className="rounded-lg bg-zinc-500 px-3 py-1 text-xs font-extrabold text-white hover:bg-zinc-600 disabled:opacity-50">
                   Temizle ({selectedUsers.size})
                 </button>
               </div>
@@ -311,24 +311,24 @@ export function TopluIslemlerIstemci({
               <thead>
                 <tr className="border-b border-border text-left">
                   <th className="w-10 px-4 py-3" />
-                  <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
-                  <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Yorum</th>
-                  <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şikayet</th>
-                  <th className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kayıt</th>
+                  <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kullanıcı</th>
+                  <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Yorum</th>
+                  <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şikayet</th>
+                  <th className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kayıt</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {suspiciousUsers.map(user => (
-                  <tr key={user.id} className={`hover:bg-black/[0.02] ${selectedUsers.has(user.id) ? 'bg-primary/5' : ''}`}>
+                  <tr key={user.id} className={`hover:bg-black/2 ${selectedUsers.has(user.id) ? 'bg-primary/5' : ''}`}>
                     <td className="w-10 px-4 py-3"><input type="checkbox" checked={selectedUsers.has(user.id)} onChange={() => toggleUser(user.id)} /></td>
                     <td className="px-4 py-3">
-                      <p className="font-[700] text-textStrong">{user.display_name}</p>
+                      <p className="font-bold text-textStrong">{user.display_name}</p>
                       <p className="text-xs text-muted">{user.email}</p>
                     </td>
                     <td className="px-4 py-3 text-xs">{user.review_count ?? 0}</td>
                     <td className="px-4 py-3">
                       {(user.flag_count ?? 0) > 0 ? (
-                        <span className="inline-flex rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-[700] text-red-700">
+                        <span className="inline-flex rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold text-red-700">
                           {user.flag_count} şikayet
                         </span>
                       ) : <span className="text-xs text-muted">—</span>}
@@ -351,23 +351,23 @@ export function TopluIslemlerIstemci({
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left bg-zinc-50">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem Tipi</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Sayı</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Operatör</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşlem Tipi</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşlem</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Sayı</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Operatör</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {opHistory.map(log => (
-                  <tr key={log.id} className="hover:bg-black/[0.02]">
+                  <tr key={log.id} className="hover:bg-black/2">
                     <td className="px-5 py-3">
-                      <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-[700] ${log.op_type === 'businesses' ? 'bg-blue-50 text-blue-700' : log.op_type === 'reviews' ? 'bg-purple-50 text-purple-700' : 'bg-orange-50 text-orange-700'}`}>
+                      <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${log.op_type === 'businesses' ? 'bg-blue-50 text-blue-700' : log.op_type === 'reviews' ? 'bg-purple-50 text-purple-700' : 'bg-orange-50 text-orange-700'}`}>
                         {log.op_type === 'businesses' ? 'İşletme' : log.op_type === 'reviews' ? 'Yorum' : 'Kullanıcı'}
                       </span>
                     </td>
                     <td className="px-5 py-3 text-xs text-textStrong">{log.action}</td>
-                    <td className="px-5 py-3 font-[700]">{log.count}</td>
+                    <td className="px-5 py-3 font-bold">{log.count}</td>
                     <td className="px-5 py-3 text-xs text-muted">{log.operator}</td>
                     <td className="px-5 py-3 text-xs text-muted">{new Date(log.created_at).toLocaleDateString('tr-TR')}</td>
                   </tr>

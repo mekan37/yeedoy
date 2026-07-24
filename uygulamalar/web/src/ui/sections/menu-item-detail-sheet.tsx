@@ -105,7 +105,7 @@ export function MenuItemDetailSheet({
         aria-describedby="menu-item-sheet-description"
         className="animate-sheet-in relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-[32px] border border-border bg-card shadow-yd3 sm:rounded-[32px]"
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-5 py-4 backdrop-blur">
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-border bg-card/95 px-5 py-4 backdrop-blur-sm">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-muted">{labels.details}</p>
             <h2 id="menu-item-sheet-title" className="text-xl font-black text-textStrong">
@@ -127,7 +127,7 @@ export function MenuItemDetailSheet({
 
             <div className="space-y-4">
               {item.image_url ? (
-                <div className="relative aspect-[16/10] overflow-hidden rounded-[28px] bg-cardAlt">
+                <div className="relative aspect-16/10 overflow-hidden rounded-[28px] bg-cardAlt">
                   <Image
                     src={buildMenuImageUrl(item.image_url, { width: 900, quality: 85 }) ?? item.image_url}
                     alt={title}
@@ -243,7 +243,7 @@ export function MenuItemDetailSheet({
               {item.calories_min != null && (
                 <div className="flex items-center gap-2">
                   <Flame size={16} className="text-primary shrink-0" aria-hidden="true" />
-                  <span className="text-sm font-[800] text-textStrong">
+                  <span className="text-sm font-extrabold text-textStrong">
                     {item.calories_min} kcal
                   </span>
                   {item.portion_size != null && item.portion_unit && (
@@ -256,7 +256,7 @@ export function MenuItemDetailSheet({
 
               {item.ingredients.length > 0 && (
                 <div>
-                  <p className="mb-2 text-xs font-[700] text-muted">
+                  <p className="mb-2 text-xs font-bold text-muted">
                     {lang === 'tr' ? 'İçindekiler' : 'Ingredients'}
                   </p>
                   <p className="text-sm text-textStrong leading-relaxed">
@@ -284,7 +284,7 @@ export function MenuItemDetailSheet({
                   return (
                     <span
                       key={code}
-                      className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs font-[700] text-textStrong"
+                      className="flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs font-bold text-textStrong"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0" />
@@ -354,7 +354,7 @@ function PriceSparkline({ entries, lang, showCurrencySymbol }: {
       </svg>
       <div className="flex items-center justify-between text-xs text-muted">
         <span>{new Date(first.created_at).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { day: 'numeric', month: 'short' })}</span>
-        <span className={`font-[800] ${delta > 0 ? 'text-danger' : delta < 0 ? 'text-success' : 'text-muted'}`}>
+        <span className={`font-extrabold ${delta > 0 ? 'text-danger' : delta < 0 ? 'text-success' : 'text-muted'}`}>
           {delta !== 0 && (delta > 0 ? '+' : '')}
           {formatCurrency(delta, lang, currency, showCurrencySymbol)}
         </span>

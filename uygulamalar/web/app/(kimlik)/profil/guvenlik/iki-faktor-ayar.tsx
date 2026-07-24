@@ -142,16 +142,16 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
     if (phase === 'disable-confirm' || phase === 'disable-verifying') {
       return (
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2 rounded-xl border border-success/25 bg-success/[0.08] px-4 py-3">
+          <div className="flex items-center gap-2 rounded-xl border border-success/25 bg-success/8 px-4 py-3">
             <span className="text-success">✓</span>
-            <p className="text-sm font-[700] text-success">İki faktörlü doğrulama aktif</p>
+            <p className="text-sm font-bold text-success">İki faktörlü doğrulama aktif</p>
           </div>
-          <div className="rounded-xl border border-danger/20 bg-danger/[0.04] p-4">
-            <p className="mb-3 text-sm font-[700] text-textStrong">
+          <div className="rounded-xl border border-danger/20 bg-danger/4 p-4">
+            <p className="mb-3 text-sm font-bold text-textStrong">
               2FA&apos;yı devre dışı bırakmak için kimlik doğrulayıcı uygulamanızdaki 6 haneli kodu girin.
             </p>
             <div className="mb-3">
-              <label htmlFor="disable-totp-code" className="mb-1.5 block text-sm font-[900] text-textStrong">
+              <label htmlFor="disable-totp-code" className="mb-1.5 block text-sm font-black text-textStrong">
                 Doğrulama Kodu
               </label>
               <input
@@ -163,16 +163,16 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
                 placeholder="123456"
                 maxLength={6}
                 disabled={phase === 'disable-verifying'}
-                className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-center text-lg font-[900] tracking-[0.5em] text-textStrong focus:outline-none focus:ring-2 focus:ring-danger/30 disabled:opacity-60"
+                className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-center text-lg font-black tracking-[0.5em] text-textStrong focus:outline-hidden focus:ring-2 focus:ring-danger/30 disabled:opacity-60"
               />
             </div>
-            {error && <p className="mb-3 text-sm font-[700] text-danger">{error}</p>}
+            {error && <p className="mb-3 text-sm font-bold text-danger">{error}</p>}
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={verifyAndUnenroll}
                 disabled={code.length < 6 || phase === 'disable-verifying'}
-                className="flex-1 inline-flex min-h-10 items-center justify-center rounded-xl border border-danger/30 bg-danger/[0.08] text-sm font-[800] text-danger hover:bg-danger/[0.14] disabled:opacity-50"
+                className="flex-1 inline-flex min-h-10 items-center justify-center rounded-xl border border-danger/30 bg-danger/8 text-sm font-extrabold text-danger hover:bg-danger/[0.14] disabled:opacity-50"
               >
                 {phase === 'disable-verifying' ? 'Doğrulanıyor…' : 'Doğrula ve Devre Dışı Bırak'}
               </button>
@@ -180,7 +180,7 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
                 type="button"
                 onClick={resetDisableFlow}
                 disabled={phase === 'disable-verifying'}
-                className="rounded-xl border border-border px-4 text-sm font-[700] text-muted hover:bg-cardAlt disabled:opacity-50"
+                className="rounded-xl border border-border px-4 text-sm font-bold text-muted hover:bg-cardAlt disabled:opacity-50"
               >
                 İptal
               </button>
@@ -193,14 +193,14 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
     // Varsayılan: 2FA aktif, "2FA'yı Kapat" butonu
     return (
       <div className="flex flex-col gap-3">
-        <div className="flex items-center gap-2 rounded-xl border border-success/25 bg-success/[0.08] px-4 py-3">
+        <div className="flex items-center gap-2 rounded-xl border border-success/25 bg-success/8 px-4 py-3">
           <span className="text-success">✓</span>
-          <p className="text-sm font-[700] text-success">İki faktörlü doğrulama aktif</p>
+          <p className="text-sm font-bold text-success">İki faktörlü doğrulama aktif</p>
         </div>
         <button
           type="button"
           onClick={() => { setError(null); setCode(''); setPhase('disable-confirm'); }}
-          className="inline-flex min-h-10 items-center rounded-xl border border-danger/30 bg-danger/[0.08] px-4 text-sm font-[800] text-danger hover:bg-danger/[0.14]"
+          className="inline-flex min-h-10 items-center rounded-xl border border-danger/30 bg-danger/8 px-4 text-sm font-extrabold text-danger hover:bg-danger/[0.14]"
         >
           2FA&apos;yı Kapat
         </button>
@@ -227,7 +227,7 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
           </p>
         )}
         <div>
-          <label className="mb-1.5 block text-sm font-[900] text-textStrong">Doğrulama Kodu</label>
+          <label className="mb-1.5 block text-sm font-black text-textStrong">Doğrulama Kodu</label>
           <input
             type="text"
             inputMode="numeric"
@@ -235,16 +235,16 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
             onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
             placeholder="123456"
             maxLength={6}
-            className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-center text-lg font-[900] tracking-[0.5em] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-center text-lg font-black tracking-[0.5em] text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
         </div>
-        {error && <p className="text-sm font-[700] text-danger">{error}</p>}
+        {error && <p className="text-sm font-bold text-danger">{error}</p>}
         <div className="flex gap-2">
           <button
             type="button"
             onClick={verifyCode}
             disabled={code.length < 6 || phase === 'loading'}
-            className="flex-1 inline-flex min-h-11 items-center justify-center rounded-2xl text-sm font-[900] text-white disabled:opacity-60"
+            className="flex-1 inline-flex min-h-11 items-center justify-center rounded-2xl text-sm font-black text-white disabled:opacity-60"
             style={{ background: 'var(--yd-gradient-primary)' }}
           >
             {phase === 'loading' ? 'Doğrulanıyor…' : 'Doğrula ve Aktif Et'}
@@ -252,7 +252,7 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
           <button
             type="button"
             onClick={() => setPhase('idle')}
-            className="rounded-2xl border border-border px-4 text-sm font-[700] text-muted hover:bg-cardAlt"
+            className="rounded-2xl border border-border px-4 text-sm font-bold text-muted hover:bg-cardAlt"
           >
             İptal
           </button>
@@ -264,11 +264,11 @@ export function IkiFactorAyar({ isEnabled, factorId: initialFactorId }: { isEnab
   // ─── Varsayılan: 2FA pasif, kurulum başlatma ──────────────────────────────
   return (
     <div className="flex flex-col gap-3">
-      {error && <p className="text-sm font-[700] text-danger">{error}</p>}
+      {error && <p className="text-sm font-bold text-danger">{error}</p>}
       <button
         type="button"
         onClick={startEnroll}
-        className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-border bg-bg px-4 text-sm font-[800] text-textStrong hover:border-primary/30"
+        className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-border bg-bg px-4 text-sm font-extrabold text-textStrong hover:border-primary/30"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />

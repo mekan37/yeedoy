@@ -58,8 +58,8 @@ export default async function ZincirPage(
       <div className="mx-auto max-w-3xl px-4 py-8">
         {/* Header */}
         <div className="mb-6">
-          <p className="text-xs font-[700] uppercase tracking-wide text-muted mb-1">Zincir İşletme</p>
-          <h1 className="text-2xl font-[900] text-textStrong">{chainName}</h1>
+          <p className="text-xs font-bold uppercase tracking-wide text-muted mb-1">Zincir İşletme</p>
+          <h1 className="text-2xl font-black text-textStrong">{chainName}</h1>
           {chainDescription && (
             <p className="mt-2 text-sm text-muted">{chainDescription}</p>
           )}
@@ -76,11 +76,11 @@ export default async function ZincirPage(
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-base font-[800] text-textStrong">
+                    <span className="text-base font-extrabold text-textStrong">
                       {branch.business_name}
                     </span>
                     {branch.branch_label && (
-                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-[700] text-primary">
+                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-primary">
                         {branch.branch_label}
                       </span>
                     )}
@@ -95,7 +95,7 @@ export default async function ZincirPage(
                 <div className="flex flex-col items-end gap-1 shrink-0">
                   {branch.is_open_now !== null && (
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[11px] font-[700] ${
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
                         branch.is_open_now
                           ? 'bg-green-50 text-green-700'
                           : 'bg-red-50 text-red-600'
@@ -107,7 +107,7 @@ export default async function ZincirPage(
                   {branch.price_delta_pct !== null &&
                     Math.abs(Number(branch.price_delta_pct)) >= 1 && (
                       <span
-                        className={`text-[11px] font-[700] ${
+                        className={`text-[11px] font-bold ${
                           Number(branch.price_delta_pct) > 0
                             ? 'text-red-500'
                             : 'text-green-600'

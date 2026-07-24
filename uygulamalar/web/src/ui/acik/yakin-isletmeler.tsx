@@ -36,7 +36,7 @@ function PriceLevelBadge({ priceLevel }: { priceLevel?: string | null }) {
   const label = priceLevel ? (map[priceLevel] ?? null) : null;
   if (!label) return null;
   return (
-    <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[10px] font-[800] text-muted">
+    <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[10px] font-extrabold text-muted">
       {label}
     </span>
   );
@@ -61,18 +61,18 @@ function BizCard({ biz }: { biz: AcikIsletmeKarti }) {
           className="object-cover transition-transform group-hover:scale-105"
         />
         {biz.avgRating != null && (
-          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-xl bg-white/92 px-2 py-1 text-xs font-[800] shadow-sm backdrop-blur">
+          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-xl bg-white/92 px-2 py-1 text-xs font-extrabold shadow-xs backdrop-blur-sm">
             <Star size={11} className="fill-amber-400 text-amber-400" aria-hidden="true" />
             <span className="text-textStrong">{biz.avgRating.toFixed(1)}</span>
           </div>
         )}
         {biz.isOpenNow != null && (
-          <div className={`absolute right-2 top-2 rounded-xl px-2 py-1 text-[10px] font-[900] backdrop-blur ${biz.isOpenNow ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
+          <div className={`absolute right-2 top-2 rounded-xl px-2 py-1 text-[10px] font-black backdrop-blur-sm ${biz.isOpenNow ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
             {biz.isOpenNow ? 'Açık' : 'Kapalı'}
           </div>
         )}
         {biz.distanceKm != null && (
-          <div className="absolute bottom-2 left-2 flex items-center gap-1 rounded-xl bg-black/50 px-2 py-1 text-[10px] font-[800] text-white backdrop-blur">
+          <div className="absolute bottom-2 left-2 flex items-center gap-1 rounded-xl bg-black/50 px-2 py-1 text-[10px] font-extrabold text-white backdrop-blur-sm">
             <MapPin size={10} aria-hidden="true" />
             {biz.distanceKm < 1
               ? `${Math.round(biz.distanceKm * 1000)} m`
@@ -81,14 +81,14 @@ function BizCard({ biz }: { biz: AcikIsletmeKarti }) {
         )}
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3">
-        <p className="line-clamp-1 text-sm font-[900] text-textStrong">{biz.name}</p>
+        <p className="line-clamp-1 text-sm font-black text-textStrong">{biz.name}</p>
         <p className="line-clamp-1 text-xs text-muted">
           {[biz.category, biz.city].filter(Boolean).join(' · ')}
         </p>
         <div className="mt-auto flex items-center gap-2 pt-1">
           <PriceLevelBadge priceLevel={biz.priceLevel} />
           {biz.isVerified && (
-            <span className="flex items-center gap-1 text-[10px] font-[800] text-primary">
+            <span className="flex items-center gap-1 text-[10px] font-extrabold text-primary">
               <CheckCircle size={11} aria-hidden="true" /> Doğrulandı
             </span>
           )}
@@ -174,12 +174,12 @@ export function YakindakiIsletmeler() {
           <div className="flex items-center gap-3 rounded-[20px] border border-border bg-card p-5">
             <MapPin size={20} className="shrink-0 text-muted" aria-hidden="true" />
             <div>
-              <p className="text-sm font-[900] text-textStrong">Konum izni gerekiyor</p>
+              <p className="text-sm font-black text-textStrong">Konum izni gerekiyor</p>
               <p className="mt-0.5 text-xs text-muted">
                 Yakınındaki işletmeleri görmek için tarayıcı adres çubuğundaki konum iznine izin verin.
               </p>
             </div>
-            <Link href="/kesif" className="ml-auto shrink-0 text-sm font-[800] text-primary hover:underline">
+            <Link href="/kesif" className="ml-auto shrink-0 text-sm font-extrabold text-primary hover:underline">
               Tümünü gör
             </Link>
           </div>
@@ -200,11 +200,11 @@ export function YakindakiIsletmeler() {
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="rounded-[20px] border border-border bg-card p-8 text-center">
               <MapPin size={32} className="mx-auto mb-3 text-muted" aria-hidden="true" />
-              <p className="font-[900] text-textStrong">Yakında işletme bulunamadı</p>
+              <p className="font-black text-textStrong">Yakında işletme bulunamadı</p>
               <p className="mt-1 text-sm text-muted">Arama yarıçapını genişletelim veya tüm işletmelere göz at.</p>
               <Link
                 href="/kesif"
-                className="mt-4 inline-flex items-center gap-1 text-sm font-[800] text-primary hover:underline"
+                className="mt-4 inline-flex items-center gap-1 text-sm font-extrabold text-primary hover:underline"
               >
                 Tüm işletmeleri keşfet <ChevronRight size={14} aria-hidden="true" />
               </Link>
@@ -219,13 +219,13 @@ export function YakindakiIsletmeler() {
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-[900] text-textStrong">Yakınındaki İşletmeler</h2>
+              <h2 className="text-xl font-black text-textStrong">Yakınındaki İşletmeler</h2>
               <p className="mt-0.5 flex items-center gap-1 text-sm text-muted">
                 <MapPin size={13} aria-hidden="true" />
                 {businesses.length} işletme listelendi
               </p>
             </div>
-            <Link href="/kesif" className="flex items-center gap-1 text-sm font-[800] text-primary hover:underline">
+            <Link href="/kesif" className="flex items-center gap-1 text-sm font-extrabold text-primary hover:underline">
               Tümünü keşfet <ChevronRight size={14} aria-hidden="true" />
             </Link>
           </div>

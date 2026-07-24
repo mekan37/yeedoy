@@ -79,7 +79,7 @@ export function PazarlamaEmailToggle({ initialEnabled }: Props) {
       aria-pressed={enabled}
     >
       <div className="min-w-0 flex-1">
-        <p className="font-[900] text-textStrong leading-tight">Pazarlama E-postaları</p>
+        <p className="font-black text-textStrong leading-tight">Pazarlama E-postaları</p>
         <p className="mt-0.5 text-xs leading-snug text-muted">
           Yeedoy kampanya ve duyurularını e-posta ile alın
         </p>
@@ -95,7 +95,7 @@ export function PazarlamaEmailToggle({ initialEnabled }: Props) {
       >
         <span
           className={[
-            'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200',
+            'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200',
             enabled ? 'translate-x-5' : 'translate-x-0.5',
           ].join(' ')}
         />

@@ -111,7 +111,7 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
         <div className="mb-4 flex flex-wrap gap-2">
           <Link
             href={allBusinessesHref}
-            className={`inline-flex min-h-10 items-center rounded-xl border px-3 text-xs font-[800] transition-colors ${
+            className={`inline-flex min-h-10 items-center rounded-xl border px-3 text-xs font-extrabold transition-colors ${
               statusKey === ''
                 ? 'border-primary bg-primary text-white'
                 : 'border-border bg-card text-muted hover:text-textStrong'
@@ -121,7 +121,7 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
           </Link>
           <Link
             href={verifiedHref}
-            className={`inline-flex min-h-10 items-center rounded-xl border px-3 text-xs font-[800] transition-colors ${
+            className={`inline-flex min-h-10 items-center rounded-xl border px-3 text-xs font-extrabold transition-colors ${
               statusKey === 'verified'
                 ? 'border-primary bg-primary text-white'
                 : 'border-border bg-card text-muted hover:text-textStrong'
@@ -136,30 +136,30 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
             name="q"
             defaultValue={q}
             placeholder="İşletme, slug, adres ara..."
-            className="min-h-11 rounded-xl border border-border bg-bg px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="min-h-11 rounded-xl border border-border bg-bg px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
           <input
             name="city"
             defaultValue={city}
             placeholder="Şehir"
-            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
           <input
             name="district"
             defaultValue={district}
             placeholder="İlçe"
-            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
           <input
             name="category"
             defaultValue={category}
             placeholder="Kategori"
-            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
           <select
             name="status"
             defaultValue={statusKey}
-            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm font-bold text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           >
             {STATUS_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
@@ -169,7 +169,7 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
             <select
               name="sort"
               defaultValue={sortKey}
-              className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+              className="min-h-11 rounded-xl border border-border bg-bg px-3 py-2 text-sm font-bold text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>{option.label}</option>
@@ -177,7 +177,7 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
             </select>
             <button
               type="submit"
-              className="min-h-11 rounded-xl bg-primary px-4 text-sm font-[800] text-white transition-opacity hover:opacity-90"
+              className="min-h-11 rounded-xl bg-primary px-4 text-sm font-extrabold text-white transition-opacity hover:opacity-90"
             >
               Uygula
             </button>
@@ -194,12 +194,12 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İsim</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kategori</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Konum</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Puan</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                  <th className="px-5 py-3 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">Aksiyon</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İsim</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kategori</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Konum</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Puan</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                  <th className="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-muted">Aksiyon</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -207,30 +207,30 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
                   const publicHref = getPublicBusinessHref(b);
                   const rating = getRating(b);
                   return (
-                    <tr key={b.id} className="hover:bg-black/[0.02]">
+                    <tr key={b.id} className="hover:bg-black/2">
                       <td className="px-5 py-3">
-                        <p className="font-[700] text-textStrong">{b.name}</p>
+                        <p className="font-bold text-textStrong">{b.name}</p>
                         <p className="text-xs text-muted">{b.slug ?? b.public_slug ?? b.id}</p>
                       </td>
                       <td className="px-5 py-3 text-muted">{b.category}</td>
                       <td className="px-5 py-3 text-muted">{[b.district, b.city].filter(Boolean).join(' / ') || '—'}</td>
                       <td className="px-5 py-3">
                         <div className="flex flex-col gap-0.5">
-                          <span className="text-xs font-[900] text-textStrong">{rating != null ? `★ ${rating.toFixed(1)}` : '—'}</span>
+                          <span className="text-xs font-black text-textStrong">{rating != null ? `★ ${rating.toFixed(1)}` : '—'}</span>
                           <span className="text-[11px] text-muted">{b.review_count != null ? `${b.review_count} yorum` : 'yorum yok'}</span>
                         </div>
                       </td>
                       <td className="px-5 py-3">
                         <div className="flex items-center gap-2">
                           <span
-                            className={`rounded-full px-2 py-0.5 text-[11px] font-[800] ${
+                            className={`rounded-full px-2 py-0.5 text-[11px] font-extrabold ${
                               b.is_active ? 'bg-green-50 text-green-700' : 'bg-zinc-100 text-zinc-500'
                             }`}
                           >
                             {b.is_active ? 'Aktif' : 'Pasif'}
                           </span>
                           {b.is_verified && (
-                            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-[800] text-blue-700">
+                            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-extrabold text-blue-700">
                               Onaylı
                             </span>
                           )}
@@ -240,7 +240,7 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
                         {publicHref ? (
                           <Link
                             href={publicHref}
-                            className="inline-flex min-h-9 items-center rounded-lg border border-border px-3 text-xs font-[800] text-textStrong transition-colors hover:border-primary/30 hover:text-primary"
+                            className="inline-flex min-h-9 items-center rounded-lg border border-border px-3 text-xs font-extrabold text-textStrong transition-colors hover:border-primary/30 hover:text-primary"
                           >
                             Public Aç
                           </Link>
@@ -264,7 +264,7 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
                   {pageNum > 1 && (
                     <Link
                       href={`?${queryBase}&page=${pageNum - 1}`}
-                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] hover:bg-black/[0.04]"
+                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold hover:bg-black/4"
                     >
                       Önceki
                     </Link>
@@ -272,7 +272,7 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
                   {pageNum < totalPages && (
                     <Link
                       href={`?${queryBase}&page=${pageNum + 1}`}
-                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] hover:bg-black/[0.04]"
+                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold hover:bg-black/4"
                     >
                       Sonraki
                     </Link>

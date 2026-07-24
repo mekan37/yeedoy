@@ -22,7 +22,7 @@ interface Props {
 const STATUS_LABELS: Record<string, { label: string; className: string }> = {
   pending: { label: 'Bekliyor', className: 'bg-amber-50 text-amber-700' },
   approved: { label: 'Onaylandı', className: 'bg-green-50 text-green-700' },
-  rejected: { label: 'Reddedildi', className: 'bg-red-50 text-[color:var(--yd-color-danger)]' },
+  rejected: { label: 'Reddedildi', className: 'bg-red-50 text-(--yd-color-danger)' },
 };
 
 export function ClaimsTable({ claims, compact }: Props) {
@@ -31,12 +31,12 @@ export function ClaimsTable({ claims, compact }: Props) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border text-left">
-            <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-            <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">Talep Eden</th>
-            <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
-            <th className="py-2 pr-4 text-[11px] font-[800] uppercase tracking-wide text-muted">Kanıt</th>
-            <th className="py-2 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-            {!compact && <th className="py-2 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem</th>}
+            <th className="py-2 pr-4 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
+            <th className="py-2 pr-4 text-[11px] font-extrabold uppercase tracking-wide text-muted">Talep Eden</th>
+            <th className="py-2 pr-4 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
+            <th className="py-2 pr-4 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kanıt</th>
+            <th className="py-2 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+            {!compact && <th className="py-2 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşlem</th>}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -78,9 +78,9 @@ function ClaimRow({ claim, compact }: { claim: Claim; compact?: boolean }) {
   }
 
   return (
-    <tr className="hover:bg-black/[0.02]">
+    <tr className="hover:bg-black/2">
       <td className="py-2.5 pr-4">
-        <p className="font-[700] text-textStrong">{claim.businesses?.name ?? '—'}</p>
+        <p className="font-bold text-textStrong">{claim.businesses?.name ?? '—'}</p>
         <p className="text-xs text-muted">{claim.businesses?.slug ?? '—'}</p>
       </td>
       <td className="py-2.5 pr-4">
@@ -94,7 +94,7 @@ function ClaimRow({ claim, compact }: { claim: Claim; compact?: boolean }) {
             href={claim.evidence_signed_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-[700] text-[color:var(--yd-color-primary)] hover:underline"
+            className="font-bold text-(--yd-color-primary) hover:underline"
           >
             Belgeyi Görüntüle
           </a>
@@ -103,7 +103,7 @@ function ClaimRow({ claim, compact }: { claim: Claim; compact?: boolean }) {
         )}
       </td>
       <td className="py-2.5">
-        <span className={`rounded-full px-2 py-0.5 text-[11px] font-[800] ${statusConfig.className}`}>
+        <span className={`rounded-full px-2 py-0.5 text-[11px] font-extrabold ${statusConfig.className}`}>
           {statusConfig.label}
         </span>
       </td>

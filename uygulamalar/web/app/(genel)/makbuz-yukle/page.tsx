@@ -70,7 +70,7 @@ export default function MakbuzYuklePage() {
         <Link href="/" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary">
           ← Ana Sayfa
         </Link>
-        <h1 className="mb-2 text-2xl font-[900] text-textStrong">Fişini Fotoğrafla</h1>
+        <h1 className="mb-2 text-2xl font-black text-textStrong">Fişini Fotoğrafla</h1>
         <p className="mb-8 text-sm leading-relaxed text-muted">
           Yemek fişinizin fotoğrafını çekin veya yükleyin. Fiyatları ve ürünleri otomatik okuyalım.
         </p>
@@ -92,7 +92,7 @@ export default function MakbuzYuklePage() {
                   <polyline points="17 8 12 3 7 8" />
                   <line x1="12" y1="3" x2="12" y2="15" />
                 </svg>
-                <p className="text-sm font-[900] text-textStrong">Fotoğraf seç veya sürükle</p>
+                <p className="text-sm font-black text-textStrong">Fotoğraf seç veya sürükle</p>
                 <p className="text-xs text-muted">JPG, PNG · Maks 8 MB</p>
               </>
             )}
@@ -112,7 +112,7 @@ export default function MakbuzYuklePage() {
           <button
             type="submit"
             disabled={!file || loading}
-            className="min-h-[52px] rounded-2xl text-sm font-[900] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            className="min-h-[52px] rounded-2xl text-sm font-black text-white disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ background: 'var(--yd-gradient-primary)' }}
           >
             {loading ? 'Analiz ediliyor…' : 'Makbuzu Analiz Et'}
@@ -120,26 +120,26 @@ export default function MakbuzYuklePage() {
         </form>
 
         {error && (
-          <div className="mt-6 rounded-2xl border border-danger/20 bg-danger/[0.06] px-4 py-4">
-            <p className="text-sm font-[900] text-danger">{error}</p>
+          <div className="mt-6 rounded-2xl border border-danger/20 bg-danger/6 px-4 py-4">
+            <p className="text-sm font-black text-danger">{error}</p>
           </div>
         )}
 
         {sonuc && (
           <div className="mt-6 rounded-2xl border border-border bg-card p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-base font-[900] text-textStrong">Çıkarılan Bilgiler</h2>
+              <h2 className="text-base font-black text-textStrong">Çıkarılan Bilgiler</h2>
               {sonuc.guven != null && sonuc.guven > 0 && (
                 <GuvenBadge guven={sonuc.guven} />
               )}
             </div>
             {sonuc.mesaj && (
-              <p className="mb-4 rounded-xl border border-warning/20 bg-warning/[0.08] px-3 py-2 text-xs text-muted">
+              <p className="mb-4 rounded-xl border border-warning/20 bg-warning/8 px-3 py-2 text-xs text-muted">
                 {sonuc.mesaj}
               </p>
             )}
             {sonuc.restoranFisi === false && (
-              <p className="mb-4 rounded-xl border border-danger/20 bg-danger/[0.06] px-3 py-2 text-xs text-danger font-[700]">
+              <p className="mb-4 rounded-xl border border-danger/20 bg-danger/6 px-3 py-2 text-xs text-danger font-bold">
                 Bu görüntü bir restoran fişi gibi görünmüyor.
               </p>
             )}
@@ -151,7 +151,7 @@ export default function MakbuzYuklePage() {
             </div>
             {sonuc.kalemler && sonuc.kalemler.length > 0 && (
               <div className="mt-4">
-                <p className="mb-2 text-xs font-[900] uppercase text-muted">
+                <p className="mb-2 text-xs font-black uppercase text-muted">
                   Kalemler ({sonuc.kalemler.length})
                 </p>
                 <div className="grid gap-2">
@@ -159,14 +159,14 @@ export default function MakbuzYuklePage() {
                     <div key={idx} className="flex items-center justify-between rounded-xl border border-border px-3 py-2">
                       <div className="flex items-center gap-2">
                         {item.adet && item.adet > 1 && (
-                          <span className="text-xs font-[900] text-muted">{item.adet}×</span>
+                          <span className="text-xs font-black text-muted">{item.adet}×</span>
                         )}
                         <span className="text-sm text-textStrong">{item.ad}</span>
                         {item.kategori && item.kategori !== 'diger' && (
-                          <span className="text-[10px] font-[700] text-muted opacity-60">{item.kategori}</span>
+                          <span className="text-[10px] font-bold text-muted opacity-60">{item.kategori}</span>
                         )}
                       </div>
-                      <span className="text-sm font-[900] text-primary">{item.fiyat}</span>
+                      <span className="text-sm font-black text-primary">{item.fiyat}</span>
                     </div>
                   ))}
                 </div>
@@ -179,14 +179,14 @@ export default function MakbuzYuklePage() {
             )}
             {sonuc.rawOcr && (
               <details className="mt-3">
-                <summary className="cursor-pointer text-[11px] font-[700] text-muted hover:text-primary">Ham OCR metnini göster</summary>
+                <summary className="cursor-pointer text-[11px] font-bold text-muted hover:text-primary">Ham OCR metnini göster</summary>
                 <pre className="mt-2 overflow-x-auto rounded-xl bg-cardAlt p-3 text-[11px] leading-relaxed text-muted whitespace-pre-wrap">{sonuc.rawOcr}</pre>
               </details>
             )}
             <p className="mt-4 text-[11px] leading-relaxed text-muted">
               Bilgiler fişinizden otomatik okundu. Yanlış bir şey varsa düzelterek Yeedoy&apos;a katkı sağlayabilirsiniz.
             </p>
-            <Link href="/katki" className="mt-3 inline-flex text-sm font-[900] text-primary hover:underline">
+            <Link href="/katki" className="mt-3 inline-flex text-sm font-black text-primary hover:underline">
               Fiyatı onayla →
             </Link>
           </div>
@@ -199,8 +199,8 @@ export default function MakbuzYuklePage() {
 function Row({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div className="flex items-center justify-between rounded-xl border border-border px-3 py-2.5">
-      <span className="text-xs font-[900] uppercase text-muted">{label}</span>
-      <span className={highlight ? 'text-base font-[900] text-primary' : 'text-sm font-[900] text-textStrong'}>{value}</span>
+      <span className="text-xs font-black uppercase text-muted">{label}</span>
+      <span className={highlight ? 'text-base font-black text-primary' : 'text-sm font-black text-textStrong'}>{value}</span>
     </div>
   );
 }
@@ -211,7 +211,7 @@ function GuvenBadge({ guven }: { guven: number }) {
     : pct >= 60 ? 'text-warning border-warning/30 bg-warning/10'
     : 'text-muted border-border bg-cardAlt';
   return (
-    <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-[900] ${color}`}>
+    <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-black ${color}`}>
       %{pct} güven
     </span>
   );

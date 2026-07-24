@@ -133,7 +133,7 @@ export default async function OwnerSettingsPage() {
         />
 
         <div className="mt-8 border-t border-border pt-6">
-          <h2 className="mb-3 text-[15px] font-[900] text-textStrong">Diğer Ayarlar</h2>
+          <h2 className="mb-3 text-[15px] font-black text-textStrong">Diğer Ayarlar</h2>
           <div className="flex max-w-lg flex-col gap-3">
             {SUPPLEMENTARY_ITEMS.map((item) =>
               item.disabled ? (
@@ -143,8 +143,8 @@ export default async function OwnerSettingsPage() {
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-[700] text-textStrong">{item.label}</p>
-                      <span className="rounded-full bg-muted/15 px-2 py-0.5 text-[10px] font-[800] uppercase tracking-wider text-muted">
+                      <p className="font-bold text-textStrong">{item.label}</p>
+                      <span className="rounded-full bg-muted/15 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-muted">
                         Yakında
                       </span>
                     </div>
@@ -158,7 +158,7 @@ export default async function OwnerSettingsPage() {
                   className="flex cursor-pointer items-center justify-between rounded-2xl border border-border bg-card px-6 py-5 transition-colors hover:border-primary/30"
                 >
                   <div>
-                    <p className="font-[700] text-textStrong">{item.label}</p>
+                    <p className="font-bold text-textStrong">{item.label}</p>
                     <p className="mt-0.5 text-sm text-muted">{item.description}</p>
                   </div>
                   <svg

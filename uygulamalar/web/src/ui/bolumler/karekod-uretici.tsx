@@ -57,9 +57,9 @@ const KarekodMarkaPaneli = dynamic(
       <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
           <div className="h-72 rounded-[30px] border border-border bg-card shadow-yd1" />
-          <div className="h-[32rem] rounded-[30px] border border-border bg-card shadow-yd1" />
+          <div className="h-128 rounded-[30px] border border-border bg-card shadow-yd1" />
         </div>
-        <div className="h-[32rem] rounded-[30px] border border-border bg-card shadow-yd1" />
+        <div className="h-128 rounded-[30px] border border-border bg-card shadow-yd1" />
       </section>
     ),
   },
@@ -487,7 +487,7 @@ export function KarekodUreticiIstemcisi({
               <button
                 type="button"
                 onClick={() => handleExternalOpen(previewLink)}
-                className="inline-flex w-full touch-manipulation items-center justify-center rounded-[20px] border border-border bg-bg px-4 py-4 text-sm font-black leading-none text-textStrong transition hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35"
+                className="inline-flex w-full touch-manipulation items-center justify-center rounded-[20px] border border-border bg-bg px-4 py-4 text-sm font-black leading-none text-textStrong transition hover:border-primary/30 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/35"
                 style={{ minHeight: 48, minWidth: 48 }}
               >
                 {labels.openPreview}
@@ -666,7 +666,7 @@ function SegmentedButton({
       onClick={onClick}
       role="tab"
       aria-selected={active}
-      className={`inline-flex w-full touch-manipulation items-center justify-center rounded-[20px] border px-4 py-4 text-sm font-black uppercase tracking-[0.14em] leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 ${
+      className={`inline-flex w-full touch-manipulation items-center justify-center rounded-[20px] border px-4 py-4 text-sm font-black uppercase tracking-[0.14em] leading-none transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/35 ${
         active ? 'border-primary bg-primary text-white' : 'border-border bg-bg text-textStrong hover:border-primary/30'
       }`}
       style={{ minHeight: 48, minWidth: 48 }}
@@ -692,7 +692,7 @@ function ActionButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex w-full touch-manipulation items-center justify-center rounded-[20px] px-4 py-4 text-sm font-black leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 disabled:cursor-not-allowed disabled:opacity-60 ${
+      className={`inline-flex w-full touch-manipulation items-center justify-center rounded-[20px] px-4 py-4 text-sm font-black leading-none transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/35 disabled:cursor-not-allowed disabled:opacity-60 ${
         secondary
           ? 'border border-border bg-bg text-textStrong hover:border-primary/30'
           : 'bg-primary text-white hover:opacity-92'

@@ -14,11 +14,11 @@ interface AppChipProps {
 
 const colorMap: Record<ChipColor, { filled: string; outline: string }> = {
   default:  { filled: 'bg-textStrong/[0.14] border-textStrong/[0.35] text-textStrong',  outline: 'bg-cardAlt border-border text-textStrong' },
-  primary:  { filled: 'bg-[var(--yd-color-primary-soft)] border-primary/25 text-primary', outline: 'bg-cardAlt border-border text-primary' },
-  success:  { filled: 'bg-success/[0.12] border-success/25 text-success',                outline: 'bg-cardAlt border-border text-success' },
-  warning:  { filled: 'bg-warning/[0.12] border-warning/25 text-warning',                outline: 'bg-cardAlt border-border text-warning' },
-  danger:   { filled: 'bg-danger/[0.12] border-danger/25 text-danger',                   outline: 'bg-cardAlt border-border text-danger' },
-  info:     { filled: 'bg-info/[0.12] border-info/25 text-info',                         outline: 'bg-cardAlt border-border text-info' },
+  primary:  { filled: 'bg-(--yd-color-primary-soft) border-primary/25 text-primary', outline: 'bg-cardAlt border-border text-primary' },
+  success:  { filled: 'bg-success/12 border-success/25 text-success',                outline: 'bg-cardAlt border-border text-success' },
+  warning:  { filled: 'bg-warning/12 border-warning/25 text-warning',                outline: 'bg-cardAlt border-border text-warning' },
+  danger:   { filled: 'bg-danger/12 border-danger/25 text-danger',                   outline: 'bg-cardAlt border-border text-danger' },
+  info:     { filled: 'bg-info/12 border-info/25 text-info',                         outline: 'bg-cardAlt border-border text-info' },
 };
 
 /** Equivalent of Flutter AppChip — pill badge with color variants. */
@@ -26,7 +26,7 @@ export function AppChip({ children, color = 'default', filled = false, className
   return (
     <span
       className={clsx(
-        'inline-flex min-h-[44px] items-center rounded-full border px-3 py-1 text-xs font-[800]',
+        'inline-flex min-h-[44px] items-center rounded-full border px-3 py-1 text-xs font-extrabold',
         filled ? colorMap[color].filled : colorMap[color].outline,
         className,
       )}
@@ -55,10 +55,10 @@ export function CategoryChip({ label, selected, onSelect }: CategoryChipProps) {
       onClick={onSelect}
       aria-pressed={selected}
       className={clsx(
-        'inline-flex min-h-[44px] items-center rounded-full border px-3 py-1 text-sm font-[800] transition-all duration-[150ms]',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'inline-flex min-h-[44px] items-center rounded-full border px-3 py-1 text-sm font-extrabold transition-all duration-150',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         selected
-          ? 'bg-[var(--yd-color-primary-soft)] border-primary/40 text-primary'
+          ? 'bg-(--yd-color-primary-soft) border-primary/40 text-primary'
           : 'bg-cardAlt border-border text-textStrong hover:border-borderStrong hover:bg-card',
       )}
     >

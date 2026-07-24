@@ -57,10 +57,10 @@ export function IsletmeAramaIstemcisi() {
   return (
     <div className="space-y-4">
       {/* Arama formu */}
-      <div className="overflow-hidden rounded-2xl border border-border bg-bg shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-border bg-bg shadow-xs">
         <div className="grid gap-0 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           <div className="flex flex-col p-3">
-            <label className="mb-1 text-[11px] font-[800] uppercase tracking-wider text-muted">
+            <label className="mb-1 text-[11px] font-extrabold uppercase tracking-wider text-muted">
               İşletme Adı
             </label>
             <input
@@ -71,11 +71,11 @@ export function IsletmeAramaIstemcisi() {
                 setName(e.target.value);
                 handleChange(e.target.value, city, district);
               }}
-              className="bg-transparent text-sm font-[700] text-textStrong outline-none placeholder:text-muted/50"
+              className="bg-transparent text-sm font-bold text-textStrong outline-hidden placeholder:text-muted/50"
             />
           </div>
           <div className="flex flex-col p-3">
-            <label className="mb-1 text-[11px] font-[800] uppercase tracking-wider text-muted">
+            <label className="mb-1 text-[11px] font-extrabold uppercase tracking-wider text-muted">
               Şehir (İl)
             </label>
             <input
@@ -86,11 +86,11 @@ export function IsletmeAramaIstemcisi() {
                 setCity(e.target.value);
                 handleChange(name, e.target.value, district);
               }}
-              className="bg-transparent text-sm font-[700] text-textStrong outline-none placeholder:text-muted/50"
+              className="bg-transparent text-sm font-bold text-textStrong outline-hidden placeholder:text-muted/50"
             />
           </div>
           <div className="flex flex-col p-3">
-            <label className="mb-1 text-[11px] font-[800] uppercase tracking-wider text-muted">
+            <label className="mb-1 text-[11px] font-extrabold uppercase tracking-wider text-muted">
               İlçe
             </label>
             <input
@@ -101,7 +101,7 @@ export function IsletmeAramaIstemcisi() {
                 setDistrict(e.target.value);
                 handleChange(name, city, e.target.value);
               }}
-              className="bg-transparent text-sm font-[700] text-textStrong outline-none placeholder:text-muted/50"
+              className="bg-transparent text-sm font-bold text-textStrong outline-hidden placeholder:text-muted/50"
             />
           </div>
         </div>
@@ -109,7 +109,7 @@ export function IsletmeAramaIstemcisi() {
           <button
             type="button"
             onClick={() => search(name, city, district)}
-            className="rounded-xl bg-primary px-4 py-2 text-sm font-[900] text-white"
+            className="rounded-xl bg-primary px-4 py-2 text-sm font-black text-white"
           >
             {loading ? 'Aranıyor…' : 'Ara'}
           </button>
@@ -119,14 +119,14 @@ export function IsletmeAramaIstemcisi() {
       {/* Sonuçlar */}
       {searched && results.length === 0 && (
         <div className="rounded-2xl border border-border bg-bg p-6 text-center">
-          <p className="font-[800] text-textStrong">Sonuç bulunamadı</p>
+          <p className="font-extrabold text-textStrong">Sonuç bulunamadı</p>
           <p className="mt-1 text-sm text-muted">
             Farklı anahtar kelime deneyin veya işletmenizi aşağıdan yeni olarak ekleyin.
           </p>
           <div className="mt-4 flex justify-center gap-3">
             <Link
               href="/sahiplen/yeni"
-              className="rounded-xl border border-border bg-bg px-4 py-2 text-sm font-[800] text-text hover:bg-cardAlt"
+              className="rounded-xl border border-border bg-bg px-4 py-2 text-sm font-extrabold text-text hover:bg-cardAlt"
             >
               Yeni İşletme Ekle
             </Link>
@@ -135,9 +135,9 @@ export function IsletmeAramaIstemcisi() {
       )}
 
       {results.length > 0 && (
-        <div className="overflow-hidden rounded-2xl border border-border bg-bg shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-border bg-bg shadow-xs">
           <div className="border-b border-border px-4 py-3">
-            <p className="text-sm font-[800] text-textStrong">
+            <p className="text-sm font-extrabold text-textStrong">
               {results.length} işletme bulundu — işletmenizi seçin
             </p>
           </div>
@@ -152,7 +152,7 @@ export function IsletmeAramaIstemcisi() {
                     <CategoryIcon category={b.category} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-[800] text-textStrong">{b.name}</p>
+                    <p className="truncate font-extrabold text-textStrong">{b.name}</p>
                     <p className="mt-0.5 truncate text-xs text-muted">
                       {[b.category, b.district, b.city].filter(Boolean).join(' · ')}
                     </p>
@@ -160,7 +160,7 @@ export function IsletmeAramaIstemcisi() {
                       <p className="mt-0.5 truncate text-xs text-muted">{b.address}</p>
                     )}
                   </div>
-                  <span className="shrink-0 rounded-xl border border-primary/25 bg-primary/8 px-2.5 py-1 text-xs font-[800] text-primary">
+                  <span className="shrink-0 rounded-xl border border-primary/25 bg-primary/8 px-2.5 py-1 text-xs font-extrabold text-primary">
                     Seç →
                   </span>
                 </Link>
@@ -174,7 +174,7 @@ export function IsletmeAramaIstemcisi() {
       {searched && results.length > 0 && (
         <p className="text-center text-sm text-muted">
           İşletmenizi göremiyorsanız{' '}
-          <Link href="/sahiplen/yeni" className="font-[800] text-primary hover:underline">
+          <Link href="/sahiplen/yeni" className="font-extrabold text-primary hover:underline">
             yeni işletme ekleyin
           </Link>
           .

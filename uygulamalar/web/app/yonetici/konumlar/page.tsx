@@ -157,7 +157,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                   name="q"
                   defaultValue={q}
                   placeholder="Şehir ara..."
-                  className="w-64 rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="w-64 rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
               </form>
 
@@ -172,7 +172,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                   <a
                     key={value}
                     href={`?view=kalite&eksik=${value}&q=${encodeURIComponent(q)}&page=1`}
-                    className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                       eksik === value
                         ? 'bg-primary text-white'
                         : 'border border-border bg-card text-muted hover:text-textStrong'
@@ -206,22 +206,22 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-border text-left">
-                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                           İşletme
                         </th>
-                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                           Şehir / İlçe
                         </th>
-                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                           Koordinat
                         </th>
-                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                           Slug
                         </th>
-                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                           Durum
                         </th>
-                        <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+                        <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
                           İşlem
                         </th>
                       </tr>
@@ -243,7 +243,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                       {pageNum > 1 && (
                         <a
                           href={kalitePageHref(pageNum - 1)}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           Önceki
                         </a>
@@ -251,7 +251,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                       {pageNum < totalPages && (
                         <a
                           href={kalitePageHref(pageNum + 1)}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           Sonraki
                         </a>
@@ -306,7 +306,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                 name="q"
                 defaultValue={q}
                 placeholder={viewKey === 'districts' ? 'İlçe veya il ara...' : 'İl ara...'}
-                className="w-full max-w-sm rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full max-w-sm rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
               />
             </form>
           </div>
@@ -372,12 +372,12 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {list.map((loc) => (
-                    <tr key={loc.id} className="hover:bg-black/[0.02]">
-                      <td className="px-5 py-3 font-[700] text-textStrong">{loc.name}</td>
+                    <tr key={loc.id} className="hover:bg-black/2">
+                      <td className="px-5 py-3 font-bold text-textStrong">{loc.name}</td>
                       {viewKey === 'districts' && (
                         <td className="px-5 py-3 text-muted">{loc.city ?? '—'}</td>
                       )}
-                      <td className="px-5 py-3 font-[800] text-textStrong">
+                      <td className="px-5 py-3 font-extrabold text-textStrong">
                         {loc.business_count.toLocaleString('tr-TR')}
                       </td>
                       <td className="px-5 py-3 text-muted">
@@ -405,7 +405,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                     {pageNum > 1 && (
                       <a
                         href={pageHref(pageNum - 1)}
-                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                       >
                         Önceki
                       </a>
@@ -413,7 +413,7 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
                     {pageNum < totalPages && (
                       <a
                         href={pageHref(pageNum + 1)}
-                        className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                        className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                       >
                         Sonraki
                       </a>
@@ -444,7 +444,7 @@ function ViewToggle({ viewKey, q }: { viewKey: ViewKey; q: string }) {
         <a
           key={value}
           href={`?view=${value}&q=${encodeURIComponent(q)}&page=1`}
-          className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+          className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
             viewKey === value
               ? 'bg-primary text-white'
               : 'border border-border bg-card text-muted hover:text-textStrong'
@@ -489,12 +489,12 @@ function MetrikKarti({
   return (
     <a
       href={href}
-      className={`flex flex-col gap-1 rounded-2xl border px-4 py-4 transition-shadow hover:shadow-sm ${
+      className={`flex flex-col gap-1 rounded-2xl border px-4 py-4 transition-shadow hover:shadow-xs ${
         aktif ? 'border-primary ring-1 ring-primary/30' : 'border-border'
       } ${bgSinifi[renk]}`}
     >
-      <span className="text-xs font-[700] text-muted">{label}</span>
-      <span className={`text-2xl font-[900] ${renkSinifi[renk]}`}>
+      <span className="text-xs font-bold text-muted">{label}</span>
+      <span className={`text-2xl font-black ${renkSinifi[renk]}`}>
         {deger.toLocaleString('tr-TR')}
       </span>
     </a>
@@ -504,7 +504,7 @@ function MetrikKarti({
 function KonumDurumBadge({ value, label }: { value: boolean; label: string }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
         value
           ? 'bg-emerald-50 text-emerald-700'
           : 'bg-rose-50 text-rose-700'
@@ -517,10 +517,10 @@ function KonumDurumBadge({ value, label }: { value: boolean; label: string }) {
 
 function KonumSatiri({ item }: { item: KonumIsletme }) {
   return (
-    <tr className="hover:bg-black/[0.02]">
+    <tr className="hover:bg-black/2">
       {/* İşletme adı */}
       <td className="px-5 py-3">
-        <span className="font-[700] text-textStrong">{item.name}</span>
+        <span className="font-bold text-textStrong">{item.name}</span>
         {item.category && (
           <span className="ml-2 text-xs text-muted">{item.category}</span>
         )}
@@ -541,7 +541,7 @@ function KonumSatiri({ item }: { item: KonumIsletme }) {
             {item.lat?.toFixed(4)}, {item.lng?.toFixed(4)}
           </span>
         ) : (
-          <span className="rounded-full bg-rose-50 px-2 py-0.5 text-[10px] font-[800] text-rose-700">
+          <span className="rounded-full bg-rose-50 px-2 py-0.5 text-[10px] font-extrabold text-rose-700">
             Koordinat eksik
           </span>
         )}
@@ -551,23 +551,23 @@ function KonumSatiri({ item }: { item: KonumIsletme }) {
       <td className="px-5 py-3">
         <div className="flex flex-wrap gap-1">
           {item.has_slugs ? (
-            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-[800] text-emerald-700">
+            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-extrabold text-emerald-700">
               Tam
             </span>
           ) : (
             <>
               {!item.city_slug && (
-                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-[800] text-amber-700">
+                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-extrabold text-amber-700">
                   city_slug eksik
                 </span>
               )}
               {!item.district_slug && (
-                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-[800] text-amber-700">
+                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-extrabold text-amber-700">
                   district_slug eksik
                 </span>
               )}
               {!item.category_slug && (
-                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-[800] text-amber-700">
+                <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-extrabold text-amber-700">
                   category_slug eksik
                 </span>
               )}
@@ -580,7 +580,7 @@ function KonumSatiri({ item }: { item: KonumIsletme }) {
       <td className="px-5 py-3">
         <div className="flex flex-wrap gap-1">
           <span
-            className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+            className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
               item.is_active
                 ? 'bg-emerald-50 text-emerald-700'
                 : 'bg-slate-100 text-slate-500'
@@ -589,7 +589,7 @@ function KonumSatiri({ item }: { item: KonumIsletme }) {
             {item.is_active ? 'Aktif' : 'Pasif'}
           </span>
           {item.is_verified && (
-            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-[800] text-blue-700">
+            <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-extrabold text-blue-700">
               Onaylı
             </span>
           )}
@@ -600,7 +600,7 @@ function KonumSatiri({ item }: { item: KonumIsletme }) {
       <td className="px-5 py-3">
         <a
           href={`/yonetici/isletmeler?q=${encodeURIComponent(item.name)}`}
-          className="text-xs font-[700] text-primary hover:underline"
+          className="text-xs font-bold text-primary hover:underline"
         >
           Detay
         </a>
@@ -720,7 +720,7 @@ function SortableHeader({
   const marker = active ? (currentDir === 'asc' ? '↑' : '↓') : '↕';
 
   return (
-    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">
+    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">
       <a href={href} className="inline-flex items-center gap-1.5 hover:text-textStrong">
         <span>{label}</span>
         <span aria-hidden="true" className={active ? 'text-primary' : 'text-muted'}>

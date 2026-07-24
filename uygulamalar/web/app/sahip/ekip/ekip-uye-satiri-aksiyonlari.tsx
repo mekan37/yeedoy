@@ -43,7 +43,7 @@ export function EkipUyeSatiriAksiyonlari({
         disabled={isPending}
         onChange={(e) => handleRoleChange(e.target.value)}
         aria-label={`${email} rolü`}
-        className="min-h-[32px] rounded-lg border border-border bg-bg px-2 text-[11px] font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+        className="min-h-[32px] rounded-lg border border-border bg-bg px-2 text-[11px] font-bold text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
       >
         {Object.entries(ROLE_LABELS).filter(([key]) => key !== 'owner').map(([key, cfg]) => (
           <option key={key} value={key}>{cfg.label}</option>
@@ -55,7 +55,7 @@ export function EkipUyeSatiriAksiyonlari({
           disabled={isPending}
           onClick={handleRemove}
           aria-label={`${email} kaldır`}
-          className="text-[11px] font-[700] text-danger hover:underline disabled:opacity-50"
+          className="text-[11px] font-bold text-danger hover:underline disabled:opacity-50"
         >
           Kaldır
         </button>

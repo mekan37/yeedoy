@@ -49,17 +49,17 @@ export default async function AdminTrashPage({ searchParams }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Menü</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Silinme Tarihi</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Menü</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Silinme Tarihi</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşlem</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {list.map((m: any) => (
-                  <tr key={m.id} className="hover:bg-black/[0.02]">
+                  <tr key={m.id} className="hover:bg-black/2">
                     <td className="px-5 py-3">
-                      <p className="font-[700] text-textStrong">{m.title ?? '—'}</p>
+                      <p className="font-bold text-textStrong">{m.title ?? '—'}</p>
                       <p className="font-mono text-xs text-muted">{String(m.id).slice(0, 8)}…</p>
                     </td>
                     <td className="px-5 py-3">
@@ -84,12 +84,12 @@ export default async function AdminTrashPage({ searchParams }: Props) {
                 <span className="text-xs text-muted">Sayfa {pageNum} / {totalPages}</span>
                 <div className="flex gap-2">
                   {pageNum > 1 && (
-                    <a href={`?page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
+                    <a href={`?page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">
                       ← Önceki
                     </a>
                   )}
                   {pageNum < totalPages && (
-                    <a href={`?page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
+                    <a href={`?page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">
                       Sonraki →
                     </a>
                   )}

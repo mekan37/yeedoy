@@ -138,7 +138,7 @@ function YildizSecici({ value, onChange }: { value: number; onChange: (n: number
           onClick={() => onChange(n)}
           onMouseEnter={() => setHover(n)}
           onMouseLeave={() => setHover(0)}
-          className="text-2xl transition-transform hover:scale-110 focus:outline-none"
+          className="text-2xl transition-transform hover:scale-110 focus:outline-hidden"
           aria-label={`${n} yıldız`}
         >
           <span className={(hover || value) >= n ? 'text-amber-400' : 'text-border'}>★</span>
@@ -151,7 +151,7 @@ function YildizSecici({ value, onChange }: { value: number; onChange: (n: number
 function YildizSatiri({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'md' }) {
   const cls = size === 'md' ? 'text-base' : 'text-sm';
   return (
-    <span className={`${cls} font-[800] text-amber-400`} aria-label={`${rating} yıldız`}>
+    <span className={`${cls} font-extrabold text-amber-400`} aria-label={`${rating} yıldız`}>
       {'★'.repeat(rating)}
       <span className="text-border">{'★'.repeat(Math.max(0, 5 - rating))}</span>
     </span>
@@ -162,7 +162,7 @@ function DagitimCubugu({ yildiz, sayi, toplam }: { yildiz: number; sayi: number;
   const pct = toplam > 0 ? Math.round((sayi / toplam) * 100) : 0;
   return (
     <div className="flex items-center gap-2">
-      <span className="w-2 shrink-0 text-right text-xs font-[900] text-textStrong">{yildiz}</span>
+      <span className="w-2 shrink-0 text-right text-xs font-black text-textStrong">{yildiz}</span>
       <span className="shrink-0 text-[11px] text-amber-400">★</span>
       <div className="flex-1 h-2 rounded-full bg-border overflow-hidden">
         <div
@@ -170,7 +170,7 @@ function DagitimCubugu({ yildiz, sayi, toplam }: { yildiz: number; sayi: number;
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="w-7 shrink-0 text-right text-xs font-[800] text-muted">{sayi}</span>
+      <span className="w-7 shrink-0 text-right text-xs font-extrabold text-muted">{sayi}</span>
     </div>
   );
 }
@@ -179,7 +179,7 @@ function AltPuanCubugu({ label, value }: { label: string; value: number | null }
   if (value === null) return null;
   return (
     <div className="flex items-center gap-3">
-      <span className="w-32 shrink-0 text-sm font-[800] text-textStrong">{label}</span>
+      <span className="w-32 shrink-0 text-sm font-extrabold text-textStrong">{label}</span>
       <div className="flex-1 h-1.5 rounded-full bg-border overflow-hidden">
         <div
           className="h-full rounded-full bg-primary transition-all duration-500"
@@ -188,7 +188,7 @@ function AltPuanCubugu({ label, value }: { label: string; value: number | null }
       </div>
       <div className="flex w-9 shrink-0 items-center gap-0.5">
         <span className="text-[11px] text-amber-400">★</span>
-        <span className="text-xs font-[900] text-textStrong">{value.toFixed(1)}</span>
+        <span className="text-xs font-black text-textStrong">{value.toFixed(1)}</span>
       </div>
     </div>
   );
@@ -254,7 +254,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
     <article className="border-b border-border pb-5 last:border-0 last:pb-0">
       {/* User row */}
       <div className="flex items-start gap-3">
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-[900] overflow-hidden ${avatarUrl ? '' : renk}`}>
+        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-black overflow-hidden ${avatarUrl ? '' : renk}`}>
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={avatarUrl} alt={isim} className="h-full w-full object-cover" />
@@ -262,7 +262,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm font-[900] text-textStrong">{isim}</span>
+            <span className="text-sm font-black text-textStrong">{isim}</span>
           </div>
           <div className="mt-1 flex items-center gap-2 flex-wrap">
             <YildizSatiri rating={yorum.rating} />
@@ -273,7 +273,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
 
       {/* Content */}
       {yorum.title && (
-        <p className="mt-3 text-sm font-[800] text-textStrong">{yorum.title}</p>
+        <p className="mt-3 text-sm font-extrabold text-textStrong">{yorum.title}</p>
       )}
       {yorum.content && (
         <p className="mt-2 text-sm leading-6 text-textStrong line-clamp-4">{yorum.content}</p>
@@ -282,7 +282,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
       {/* Owner reply (mevcut yanıt gösterimi) */}
       {ownerReply && !showReplyForm && (
         <div className="mt-3 rounded-[14px] border border-border bg-primary/5 px-4 py-3">
-          <p className="mb-1 text-[11px] font-[800] uppercase tracking-wider text-primary">İşletme Yanıtı</p>
+          <p className="mb-1 text-[11px] font-extrabold uppercase tracking-wider text-primary">İşletme Yanıtı</p>
           <p className="text-sm leading-6 text-textStrong">{ownerReply}</p>
         </div>
       )}
@@ -294,7 +294,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
           <button
             type="button"
             onClick={handleYanitlaClick}
-            className="inline-flex h-8 items-center gap-1.5 rounded-xl border border-border bg-bg px-3 text-xs font-[800] text-muted transition-colors hover:border-primary/30 hover:text-primary"
+            className="inline-flex h-8 items-center gap-1.5 rounded-xl border border-border bg-bg px-3 text-xs font-extrabold text-muted transition-colors hover:border-primary/30 hover:text-primary"
           >
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -313,17 +313,17 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
             rows={3}
             maxLength={2000}
             placeholder="Yanıtınızı yazın… (maks. 2000 karakter)"
-            className="w-full resize-none rounded-[14px] border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder-muted focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/10"
+            className="w-full resize-none rounded-[14px] border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder-muted focus:border-primary/40 focus:outline-hidden focus:ring-2 focus:ring-primary/10"
           />
           {replyError && (
-            <p className="mt-1 text-xs font-[800] text-danger">{replyError}</p>
+            <p className="mt-1 text-xs font-extrabold text-danger">{replyError}</p>
           )}
           <div className="mt-2 flex items-center gap-2">
             <button
               type="button"
               onClick={submitReply}
               disabled={submitting || !replyText.trim()}
-              className="inline-flex h-8 items-center rounded-xl px-4 text-xs font-[800] text-white disabled:opacity-60"
+              className="inline-flex h-8 items-center rounded-xl px-4 text-xs font-extrabold text-white disabled:opacity-60"
               style={{ background: 'var(--yd-gradient-primary)' }}
             >
               {submitting ? 'Kaydediliyor…' : 'Yanıtı Kaydet'}
@@ -332,7 +332,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
               type="button"
               onClick={() => { setShowReplyForm(false); setReplyError(null); }}
               disabled={submitting}
-              className="inline-flex h-8 items-center rounded-xl border border-border bg-bg px-3 text-xs font-[800] text-muted hover:text-textStrong disabled:opacity-60"
+              className="inline-flex h-8 items-center rounded-xl border border-border bg-bg px-3 text-xs font-extrabold text-muted hover:text-textStrong disabled:opacity-60"
             >
               İptal
             </button>
@@ -360,7 +360,7 @@ function MiniKriterSecici({ label, value, onChange }: { label: string; value: nu
   const [hover, setHover] = useState(0);
   return (
     <div className="flex items-center gap-2">
-      <span className="w-24 shrink-0 text-xs font-[800] text-textStrong">{label}</span>
+      <span className="w-24 shrink-0 text-xs font-extrabold text-textStrong">{label}</span>
       <div className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
@@ -369,14 +369,14 @@ function MiniKriterSecici({ label, value, onChange }: { label: string; value: nu
             onClick={() => onChange(value === n ? 0 : n)}
             onMouseEnter={() => setHover(n)}
             onMouseLeave={() => setHover(0)}
-            className="transition-transform hover:scale-110 focus:outline-none"
+            className="transition-transform hover:scale-110 focus:outline-hidden"
             aria-label={`${label}: ${n} yıldız`}
           >
             <span className={(hover || value) >= n ? 'text-amber-400' : 'text-border'}>★</span>
           </button>
         ))}
       </div>
-      {value > 0 && <span className="text-[11px] font-[800] text-amber-600">{value}/5</span>}
+      {value > 0 && <span className="text-[11px] font-extrabold text-amber-600">{value}/5</span>}
     </div>
   );
 }
@@ -432,12 +432,12 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
       <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
         <div className="flex flex-col items-center gap-3 py-4 text-center">
           <span className="text-3xl">🎉</span>
-          <p className="text-sm font-[900] text-success">Yorumun paylaşıldı!</p>
+          <p className="text-sm font-black text-success">Yorumun paylaşıldı!</p>
           <p className="text-xs text-muted">Geri bildiriminiz için teşekkürler.</p>
           <button
             type="button"
             onClick={() => setBasarili(false)}
-            className="mt-1 text-xs font-[800] text-primary hover:underline"
+            className="mt-1 text-xs font-extrabold text-primary hover:underline"
           >
             Yeni yorum yaz
           </button>
@@ -448,7 +448,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
 
   return (
     <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-      <h3 className="mb-0.5 font-[900] text-textStrong">Yorum Yap</h3>
+      <h3 className="mb-0.5 font-black text-textStrong">Yorum Yap</h3>
       <p className="mb-4 text-xs text-muted">Deneyimini paylaş, başkalarına yardımcı ol!</p>
 
       <YildizSecici value={yildiz} onChange={setYildiz} />
@@ -459,13 +459,13 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         placeholder="Deneyiminizi yazın..."
         maxLength={500}
         rows={4}
-        className="mt-4 w-full resize-none rounded-[14px] border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder-muted focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/10"
+        className="mt-4 w-full resize-none rounded-[14px] border border-border bg-bg px-3 py-2.5 text-sm text-textStrong placeholder-muted focus:border-primary/40 focus:outline-hidden focus:ring-2 focus:ring-primary/10"
       />
       <p className="mt-1 text-right text-[11px] text-muted">{metin.length}/500</p>
 
       {/* Alt kriterler */}
       <div className="mt-4 rounded-[14px] border border-border bg-bg p-3">
-        <p className="mb-3 text-[11px] font-[900] uppercase tracking-wide text-muted">Detaylı Puanlama (isteğe bağlı)</p>
+        <p className="mb-3 text-[11px] font-black uppercase tracking-wide text-muted">Detaylı Puanlama (isteğe bağlı)</p>
         <div className="grid gap-2.5">
           {KRITERLER.map(({ key, label }) => (
             <MiniKriterSecici
@@ -481,14 +481,14 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
       {/* Photo upload placeholder */}
       <button
         type="button"
-        className="mt-3 flex w-full items-center gap-2 rounded-[14px] border border-dashed border-border bg-bg px-4 py-2.5 text-xs font-[800] text-muted transition-colors hover:border-primary/30 hover:text-primary"
+        className="mt-3 flex w-full items-center gap-2 rounded-[14px] border border-dashed border-border bg-bg px-4 py-2.5 text-xs font-extrabold text-muted transition-colors hover:border-primary/30 hover:text-primary"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         Fotoğraf Ekle
-        <span className="ml-auto text-[10px] font-[700] text-muted">Maks. 5</span>
+        <span className="ml-auto text-[10px] font-bold text-muted">Maks. 5</span>
       </button>
 
       <label className="mt-3 flex cursor-pointer items-center gap-2">
@@ -498,16 +498,16 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
           onChange={(e) => setGizli(e.target.checked)}
           className="h-4 w-4 rounded border-border accent-primary"
         />
-        <span className="text-xs font-[800] text-textStrong">İsmim gizli kalsın</span>
+        <span className="text-xs font-extrabold text-textStrong">İsmim gizli kalsın</span>
       </label>
 
-      {hata && <p className="mt-2 text-xs font-[800] text-danger">{hata}</p>}
+      {hata && <p className="mt-2 text-xs font-extrabold text-danger">{hata}</p>}
 
       <button
         type="button"
         onClick={gonder}
         disabled={gonderiliyor}
-        className="mt-4 flex min-h-[44px] w-full items-center justify-center rounded-[14px] text-sm font-[900] text-white shadow-[var(--yd-shadow-primary)] transition-all hover:-translate-y-px disabled:opacity-60"
+        className="mt-4 flex min-h-[44px] w-full items-center justify-center rounded-[14px] text-sm font-black text-white shadow-(--yd-shadow-primary) transition-all hover:-translate-y-px disabled:opacity-60"
         style={{ background: 'var(--yd-gradient-primary)' }}
       >
         {gonderiliyor ? 'Paylaşılıyor...' : 'Yorumu Paylaş'}
@@ -605,13 +605,13 @@ function YorumlarIcerik({
           <div className="flex gap-6">
             {/* Büyük puan */}
             <div className="flex flex-col items-center justify-center shrink-0">
-              <span className="text-5xl font-[900] text-textStrong leading-none">
+              <span className="text-5xl font-black text-textStrong leading-none">
                 {businessAvgRating?.toFixed(1) ?? '—'}
               </span>
               {businessAvgRating != null && (
                 <YildizSatiri rating={Math.round(businessAvgRating)} size="md" />
               )}
-              <span className="mt-1 text-xs font-[800] text-muted">{yorumlarToplam.toLocaleString('tr-TR')} yorum</span>
+              <span className="mt-1 text-xs font-extrabold text-muted">{yorumlarToplam.toLocaleString('tr-TR')} yorum</span>
             </div>
 
             {/* Dağılım */}
@@ -632,15 +632,15 @@ function YorumlarIcerik({
             <div className="mt-4 flex items-center gap-3 rounded-[14px] border border-border bg-bg px-4 py-3">
               <span className="text-lg">👥</span>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-[900] text-textStrong">
+                <p className="text-xs font-black text-textStrong">
                   {oneriKisi.toLocaleString('tr-TR')} kişi öneriyor
                 </p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2.5 py-1 text-xs font-[900] text-success">
+                <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2.5 py-1 text-xs font-black text-success">
                   Evet %{oneriYuzdesi}
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-danger/10 px-2.5 py-1 text-xs font-[900] text-danger">
+                <span className="inline-flex items-center gap-1 rounded-full bg-danger/10 px-2.5 py-1 text-xs font-black text-danger">
                   Hayır %{100 - oneriYuzdesi}
                 </span>
               </div>
@@ -649,11 +649,11 @@ function YorumlarIcerik({
         </div>
 
         {/* Filtre chips */}
-        <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
           <button
             type="button"
             onClick={() => setYildizFiltre(null)}
-            className={`shrink-0 rounded-full border px-3 py-1.5 text-sm font-[800] transition-all ${yildizFiltre === null ? 'border-primary/40 bg-primary/8 text-primary' : 'border-border bg-card text-textStrong hover:border-borderStrong'}`}
+            className={`shrink-0 rounded-full border px-3 py-1.5 text-sm font-extrabold transition-all ${yildizFiltre === null ? 'border-primary/40 bg-primary/8 text-primary' : 'border-border bg-card text-textStrong hover:border-borderStrong'}`}
           >
             Tümü ({yorumlarToplam.toLocaleString('tr-TR')})
           </button>
@@ -665,7 +665,7 @@ function YorumlarIcerik({
                 key={y}
                 type="button"
                 onClick={() => setYildizFiltre(yildizFiltre === y ? null : y)}
-                className={`shrink-0 flex items-center gap-1 rounded-full border px-3 py-1.5 text-sm font-[800] transition-all ${yildizFiltre === y ? 'border-amber-300 bg-amber-50 text-amber-700' : 'border-border bg-card text-textStrong hover:border-borderStrong'}`}
+                className={`shrink-0 flex items-center gap-1 rounded-full border px-3 py-1.5 text-sm font-extrabold transition-all ${yildizFiltre === y ? 'border-amber-300 bg-amber-50 text-amber-700' : 'border-border bg-card text-textStrong hover:border-borderStrong'}`}
               >
                 <span className="text-amber-400">★</span> {y} ({sayi})
               </button>
@@ -682,7 +682,7 @@ function YorumlarIcerik({
                 key={s}
                 type="button"
                 onClick={() => setSiralama(s)}
-                className={`rounded-xl border px-3 py-1.5 text-xs font-[800] transition-all ${siralama === s ? 'border-primary/40 bg-primary/8 text-primary' : 'border-border bg-card text-muted hover:text-textStrong'}`}
+                className={`rounded-xl border px-3 py-1.5 text-xs font-extrabold transition-all ${siralama === s ? 'border-primary/40 bg-primary/8 text-primary' : 'border-border bg-card text-muted hover:text-textStrong'}`}
               >
                 {etiket}
               </button>
@@ -690,7 +690,7 @@ function YorumlarIcerik({
           })}
           <Link
             href={`/isletme/${businessSlug}/yorumlar/new`}
-            className="ml-auto inline-flex h-8 items-center gap-1.5 rounded-xl border border-border bg-card px-3 text-xs font-[800] text-muted transition-colors hover:border-primary/30 hover:text-primary"
+            className="ml-auto inline-flex h-8 items-center gap-1.5 rounded-xl border border-border bg-card px-3 text-xs font-extrabold text-muted transition-colors hover:border-primary/30 hover:text-primary"
           >
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -720,7 +720,7 @@ function YorumlarIcerik({
             type="button"
             onClick={dahayukle}
             disabled={yukleniyor}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-[14px] border border-border bg-card py-3 text-sm font-[800] text-textStrong transition-all hover:border-primary/30 hover:text-primary disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-[14px] border border-border bg-card py-3 text-sm font-extrabold text-textStrong transition-all hover:border-primary/30 hover:text-primary disabled:opacity-60"
           >
             {yukleniyor ? 'Yükleniyor...' : (
               <>
@@ -741,7 +741,7 @@ function YorumlarIcerik({
         {/* Puanlara Göre */}
         {(altPuanOrt.lezzet || altPuanOrt.servis || altPuanOrt.temizlik || altPuanOrt.fiyat || altPuanOrt.ortam) && (
           <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-            <h3 className="mb-4 font-[900] text-textStrong">Puanlara Göre Yorumlar</h3>
+            <h3 className="mb-4 font-black text-textStrong">Puanlara Göre Yorumlar</h3>
             <div className="space-y-3">
               <AltPuanCubugu label="Lezzet" value={altPuanOrt.lezzet} />
               <AltPuanCubugu label="Servis" value={altPuanOrt.servis} />
@@ -755,12 +755,12 @@ function YorumlarIcerik({
         {/* En Çok Bahsedilenler */}
         {anahrarKelimeler.length > 0 && (
           <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-            <h3 className="mb-4 font-[900] text-textStrong">En Çok Bahsedilenler</h3>
+            <h3 className="mb-4 font-black text-textStrong">En Çok Bahsedilenler</h3>
             <div className="flex flex-wrap gap-2">
               {anahrarKelimeler.map(({ kelime, sayi }) => (
                 <span
                   key={kelime}
-                  className="inline-flex items-center gap-1 rounded-full border border-border bg-bg px-3 py-1 text-xs font-[800] text-textStrong"
+                  className="inline-flex items-center gap-1 rounded-full border border-border bg-bg px-3 py-1 text-xs font-extrabold text-textStrong"
                 >
                   {kelime}
                   <span className="text-[10px] text-muted">({sayi})</span>
@@ -774,8 +774,8 @@ function YorumlarIcerik({
         {businessLogoUrl && (
           <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="font-[900] text-textStrong">İşletme Yanıtları</h3>
-              <Link href={`/isletme/${businessSlug}/yorumlar`} className="text-xs font-[800] text-primary hover:underline">
+              <h3 className="font-black text-textStrong">İşletme Yanıtları</h3>
+              <Link href={`/isletme/${businessSlug}/yorumlar`} className="text-xs font-extrabold text-primary hover:underline">
                 Tümünü Gör →
               </Link>
             </div>
@@ -785,7 +785,7 @@ function YorumlarIcerik({
                 <img src={businessLogoUrl} alt={businessName} className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className="text-xs font-[900] text-textStrong">{businessName}</p>
+                <p className="text-xs font-black text-textStrong">{businessName}</p>
                 <p className="text-[11px] text-muted">İşletme Sahibi</p>
               </div>
             </div>
@@ -824,7 +824,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
     <div>
       {/* ── Tab navigation ──────────────────────────────────────────── */}
       <nav
-        className="flex overflow-x-auto border-b border-border [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex overflow-x-auto border-b border-border [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden"
         aria-label="Sayfa bölümleri"
       >
         {SEKMELER.map(({ id, label, count }) => (
@@ -832,7 +832,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
             key={id}
             type="button"
             onClick={() => setAktifTab(id)}
-            className={`shrink-0 border-b-2 pb-3 pr-6 text-sm font-[800] transition-colors focus:outline-none ${
+            className={`shrink-0 border-b-2 pb-3 pr-6 text-sm font-extrabold transition-colors focus:outline-hidden ${
               aktifTab === id
                 ? 'border-primary text-primary'
                 : 'border-transparent text-muted hover:text-textStrong'
@@ -840,7 +840,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
           >
             {label}
             {count != null && count > 0 && (
-              <span className="ml-1 text-muted font-[700]">({count})</span>
+              <span className="ml-1 text-muted font-bold">({count})</span>
             )}
           </button>
         ))}
@@ -855,7 +855,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
             <div className="min-w-0 space-y-8">
               {businessDescription && (
                 <section>
-                  <h2 className="mb-3 text-xl font-[900] text-textStrong">Hakkında</h2>
+                  <h2 className="mb-3 text-xl font-black text-textStrong">Hakkında</h2>
                   <p className="text-sm leading-7 text-muted">{businessDescription}</p>
                 </section>
               )}
@@ -864,9 +864,9 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
               {popularItems.length > 0 && (
                 <section>
                   <div className="mb-4 flex items-center justify-between">
-                    <h2 className="text-xl font-[900] text-textStrong">Popüler Menüler</h2>
+                    <h2 className="text-xl font-black text-textStrong">Popüler Menüler</h2>
                     {businessMenuHref && (
-                      <Link href={businessMenuHref} className="inline-flex items-center gap-1 text-sm font-[900] text-primary hover:underline">
+                      <Link href={businessMenuHref} className="inline-flex items-center gap-1 text-sm font-black text-primary hover:underline">
                         Tümünü Gör <Icon name="chevronRight" size={14} />
                       </Link>
                     )}
@@ -882,13 +882,13 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
               {/* Yemek kartları */}
               {mealCards.length > 0 && (
                 <section>
-                  <h2 className="mb-3 text-base font-[900] text-textStrong">Kabul edilen yemek kartları</h2>
+                  <h2 className="mb-3 text-base font-black text-textStrong">Kabul edilen yemek kartları</h2>
                   <div className="flex flex-wrap gap-2">
                     {mealCards.map((mc) => (
                       <div key={mc.key} className="flex h-8 items-center gap-1.5 rounded-lg border border-border bg-bg px-2.5">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={`/meal-cards/meal_card_${mc.key}.png`} alt={mc.name} className="h-4 w-auto max-w-[60px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-                        <span className="text-xs font-[700] text-textStrong">{mc.name}</span>
+                        <span className="text-xs font-bold text-textStrong">{mc.name}</span>
                       </div>
                     ))}
                   </div>
@@ -898,7 +898,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
               {/* Rezervasyon */}
               {acceptsReservations && (
                 <section>
-                  <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                  <div className="rounded-2xl border border-border bg-card p-5 shadow-xs">
                     <h2 className="mb-4 text-base font-black text-textStrong">Rezervasyon Yap</h2>
                     <ReservasyonFormu
                       businessId={businessId}
@@ -915,8 +915,8 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
               {/* Benzer işletmeler */}
               {similar.length > 0 && (
                 <section>
-                  <h2 className="mb-4 text-xl font-[900] text-textStrong">Bunlar da ilginizi çekebilir</h2>
-                  <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  <h2 className="mb-4 text-xl font-black text-textStrong">Bunlar da ilginizi çekebilir</h2>
+                  <div className="overflow-x-auto [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
                     <div className="flex min-w-max gap-4 pb-2">
                       {similar.map((biz) => (
                         <Link key={biz.id} href={`/isletme/${biz.slug}`} className="group flex w-44 shrink-0 flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-1 hover:shadow-yd2">
@@ -928,12 +928,12 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
                             )}
                           </div>
                           <div className="flex flex-1 flex-col gap-1 p-3">
-                            <p className="truncate text-sm font-[900] text-textStrong group-hover:text-primary">{biz.name}</p>
+                            <p className="truncate text-sm font-black text-textStrong group-hover:text-primary">{biz.name}</p>
                             <p className="truncate text-xs text-muted">{[biz.district, biz.city].filter(Boolean).join(', ')}</p>
                             {biz.avgRating != null && (
                               <div className="mt-auto flex items-center gap-1 pt-1">
                                 <Icon name="star" size={12} className="stroke-warning fill-warning" />
-                                <span className="text-xs font-[800] text-textStrong">{biz.avgRating.toFixed(1)}</span>
+                                <span className="text-xs font-extrabold text-textStrong">{biz.avgRating.toFixed(1)}</span>
                               </div>
                             )}
                           </div>
@@ -970,7 +970,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
             <div className="min-w-0">
               {popularItems.length > 0 ? (
                 <>
-                  <h2 className="mb-4 text-xl font-[900] text-textStrong">Popüler Ürünler</h2>
+                  <h2 className="mb-4 text-xl font-black text-textStrong">Popüler Ürünler</h2>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {popularItems.map((item) => (
                       <MenuUrunKarti key={item.id} item={item} />
@@ -979,13 +979,13 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
                 </>
               ) : menuItems.length > 0 ? (
                 <>
-                  <h2 className="mb-4 text-xl font-[900] text-textStrong">Menü</h2>
+                  <h2 className="mb-4 text-xl font-black text-textStrong">Menü</h2>
                   <div className="grid gap-2">
                     {menuItems.slice(0, 20).map((item) => (
                       <div key={item.id} className="flex items-center justify-between gap-3 rounded-[16px] border border-border bg-card px-4 py-3">
-                        <span className="min-w-0 flex-1 truncate text-sm font-[800] text-textStrong">{item.name}</span>
+                        <span className="min-w-0 flex-1 truncate text-sm font-extrabold text-textStrong">{item.name}</span>
                         {item.price_cents && (
-                          <span className="shrink-0 text-sm font-[900] text-primary">{formatFiyat(item.price_cents)}</span>
+                          <span className="shrink-0 text-sm font-black text-primary">{formatFiyat(item.price_cents)}</span>
                         )}
                       </div>
                     ))}
@@ -995,7 +995,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
                 <p className="py-12 text-center text-sm text-muted">Menü bilgisi henüz eklenmedi.</p>
               )}
               {businessMenuHref && (
-                <Link href={businessMenuHref} className="mt-6 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-primary/30 bg-primary/8 text-sm font-[900] text-primary transition-colors hover:bg-primary/12">
+                <Link href={businessMenuHref} className="mt-6 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-primary/30 bg-primary/8 text-sm font-black text-primary transition-colors hover:bg-primary/12">
                   <Icon name="menu" size={16} />
                   Tam Menüyü Gör
                 </Link>
@@ -1040,7 +1040,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
         {/* Fotoğraflar */}
         {aktifTab === 'fotograflar' && (
           <div>
-            <h2 className="mb-4 text-xl font-[900] text-textStrong">Fotoğraflar</h2>
+            <h2 className="mb-4 text-xl font-black text-textStrong">Fotoğraflar</h2>
             {(() => {
               const allPhotos: GaleriPhoto[] = [
                 ...(coverUrl ? [{ url: coverUrl, name: businessName }] : []),
@@ -1076,7 +1076,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
             <div className="min-w-0 space-y-4">
               {/* İletişim bilgileri */}
               <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-                <h2 className="mb-4 text-base font-[900] text-textStrong">İletişim</h2>
+                <h2 className="mb-4 text-base font-black text-textStrong">İletişim</h2>
                 <div className="grid gap-4 text-sm sm:grid-cols-2">
                   {businessCategory && <BilgiSatiri label="Kategori" value={businessCategory} />}
                   {(businessDistrict || businessCity) && (
@@ -1087,17 +1087,17 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
                   )}
                   {businessPhone && (
                     <BilgiSatiri label="Telefon">
-                      <a href={`tel:${businessPhone}`} className="font-[800] text-primary hover:underline">{businessPhone}</a>
+                      <a href={`tel:${businessPhone}`} className="font-extrabold text-primary hover:underline">{businessPhone}</a>
                     </BilgiSatiri>
                   )}
                   {businessWebsite && (
                     <BilgiSatiri label="Web Sitesi">
-                      <a href={businessWebsite} target="_blank" rel="noopener noreferrer" className="font-[800] text-primary hover:underline truncate">Web Sitesi</a>
+                      <a href={businessWebsite} target="_blank" rel="noopener noreferrer" className="font-extrabold text-primary hover:underline truncate">Web Sitesi</a>
                     </BilgiSatiri>
                   )}
                   {businessLat && businessLng && mapsHref && (
                     <BilgiSatiri label="Konum">
-                      <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="font-[800] text-primary hover:underline">
+                      <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="font-extrabold text-primary hover:underline">
                         Google Maps&apos;te Aç
                       </a>
                     </BilgiSatiri>
@@ -1112,13 +1112,13 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
               {/* Çalışma saatleri — ana içerikte de göster */}
               {businessHours && businessHours.length > 0 && (
                 <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-                  <h2 className="mb-4 text-base font-[900] text-textStrong">Çalışma Saatleri</h2>
+                  <h2 className="mb-4 text-base font-black text-textStrong">Çalışma Saatleri</h2>
                   <div className="grid gap-1">
                     {businessHours.map((row) => (
                       <div
                         key={row.label}
                         className={`flex justify-between rounded-xl px-3 py-2 text-sm ${
-                          row.active ? 'bg-primary/8 font-[900] text-primary' : 'font-[700] text-muted'
+                          row.active ? 'bg-primary/8 font-black text-primary' : 'font-bold text-muted'
                         }`}
                       >
                         <span>{row.label}</span>
@@ -1132,7 +1132,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
               {/* Harita */}
               {businessLat && businessLng && (
                 <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-                  <h2 className="mb-4 text-base font-[900] text-textStrong">Konum</h2>
+                  <h2 className="mb-4 text-base font-black text-textStrong">Konum</h2>
                   <div className="h-56 overflow-hidden rounded-[16px]">
                     <OsmHarita lat={businessLat} lng={businessLng} name={businessName} className="h-full w-full" />
                   </div>
@@ -1141,7 +1141,7 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
                       href={mapsHref}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-danger/30 bg-danger/[0.06] text-sm font-[900] text-danger transition-colors hover:bg-danger/[0.10]"
+                      className="mt-3 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-danger/30 bg-danger/6 text-sm font-black text-danger transition-colors hover:bg-danger/10"
                     >
                       <Icon name="pin" size={16} />
                       Yol Tarifi Al
@@ -1202,26 +1202,26 @@ function SayfaSidebar({
       {/* İletişim */}
       {hasContact && (
         <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-          <h3 className="mb-4 font-[900] text-textStrong">İletişim</h3>
+          <h3 className="mb-4 font-black text-textStrong">İletişim</h3>
           <div className="grid gap-3">
             {businessPhone && (
               <div className="flex items-center gap-3">
                 <Icon name="pin" size={16} className="shrink-0 text-muted" />
-                <a href={`tel:${businessPhone}`} className="flex-1 text-sm font-[800] text-textStrong hover:text-primary">{businessPhone}</a>
+                <a href={`tel:${businessPhone}`} className="flex-1 text-sm font-extrabold text-textStrong hover:text-primary">{businessPhone}</a>
                 <AdresKopyalaButonu address={businessPhone} />
               </div>
             )}
             {(businessAddress || businessDistrict) && (
               <div className="flex items-start gap-3">
                 <Icon name="pin" size={16} className="mt-0.5 shrink-0 text-muted" />
-                <p className="flex-1 text-sm font-[700] text-muted">
+                <p className="flex-1 text-sm font-bold text-muted">
                   {[businessAddress, businessDistrict, businessCity].filter(Boolean).join(', ')}
                 </p>
                 <AdresKopyalaButonu address={[businessAddress, businessDistrict, businessCity].filter(Boolean).join(', ')} />
               </div>
             )}
             {businessWebsite && (
-              <a href={businessWebsite} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-[12px] border border-border px-3 py-2.5 text-sm font-[800] text-textStrong transition-colors hover:border-primary/30 hover:text-primary">
+              <a href={businessWebsite} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-[12px] border border-border px-3 py-2.5 text-sm font-extrabold text-textStrong transition-colors hover:border-primary/30 hover:text-primary">
                 <Icon name="pin" size={16} className="text-muted" />
                 Web Sitesi
                 <Icon name="chevronRight" size={14} className="ml-auto text-muted" />
@@ -1235,16 +1235,16 @@ function SayfaSidebar({
       {businessHours && businessHours.length > 0 && (
         <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
           <div className="mb-4 flex items-center justify-between gap-2">
-            <h3 className="font-[900] text-textStrong">Çalışma Saatleri</h3>
+            <h3 className="font-black text-textStrong">Çalışma Saatleri</h3>
             {todayRow && (
-              <span className={`rounded-full px-2.5 py-0.5 text-xs font-[800] ${todayRow.value === 'Kapalı' ? 'bg-danger/10 text-danger' : 'bg-success/10 text-success'}`}>
+              <span className={`rounded-full px-2.5 py-0.5 text-xs font-extrabold ${todayRow.value === 'Kapalı' ? 'bg-danger/10 text-danger' : 'bg-success/10 text-success'}`}>
                 {todayRow.value === 'Kapalı' ? 'Bugün Kapalı' : 'Açık'}
               </span>
             )}
           </div>
           <div className="grid gap-2">
             {businessHours.map((row) => (
-              <div key={row.label} className={row.active ? 'flex justify-between rounded-2xl bg-primary/8 px-3 py-2 text-sm font-[900] text-primary' : 'flex justify-between px-3 py-2 text-sm text-muted'}>
+              <div key={row.label} className={row.active ? 'flex justify-between rounded-2xl bg-primary/8 px-3 py-2 text-sm font-black text-primary' : 'flex justify-between px-3 py-2 text-sm text-muted'}>
                 <span>{row.label}</span>
                 <span>{row.value}</span>
               </div>
@@ -1256,12 +1256,12 @@ function SayfaSidebar({
       {/* Konum / Harita */}
       {businessLat && businessLng && (
         <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-          <h3 className="mb-4 font-[900] text-textStrong">Konum</h3>
+          <h3 className="mb-4 font-black text-textStrong">Konum</h3>
           <div className="h-44 overflow-hidden rounded-[16px]">
             <OsmHarita lat={businessLat} lng={businessLng} name={businessName} className="h-full w-full" />
           </div>
           {mapsHref && (
-            <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="mt-3 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-danger/30 bg-danger/[0.06] text-sm font-[900] text-danger transition-colors hover:bg-danger/[0.10]">
+            <a href={mapsHref} target="_blank" rel="noopener noreferrer" className="mt-3 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[14px] border border-danger/30 bg-danger/6 text-sm font-black text-danger transition-colors hover:bg-danger/10">
               <Icon name="pin" size={16} />
               Yol Tarifi Al
             </a>
@@ -1272,8 +1272,8 @@ function SayfaSidebar({
       {/* Sahiplenme CTA */}
       {!businessIsVerified && (
         <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-          <p className="mb-3 text-sm font-[800] text-textStrong">Bu işletmenin sahibi misiniz?</p>
-          <Link href={`/sahiplen/${businessSlug}`} className="flex min-h-[44px] w-full items-center justify-center rounded-[14px] border border-border bg-bg text-sm font-[800] text-textStrong transition-colors hover:border-primary/30 hover:text-primary">
+          <p className="mb-3 text-sm font-extrabold text-textStrong">Bu işletmenin sahibi misiniz?</p>
+          <Link href={`/sahiplen/${businessSlug}`} className="flex min-h-[44px] w-full items-center justify-center rounded-[14px] border border-border bg-bg text-sm font-extrabold text-textStrong transition-colors hover:border-primary/30 hover:text-primary">
             İşletmeyi Sahiplen
           </Link>
         </div>
@@ -1294,10 +1294,10 @@ function MenuUrunKarti({ item }: { item: AcikMenuUrunKarti }) {
         </div>
       )}
       <div className="p-3">
-        <p className="truncate text-sm font-[900] text-textStrong">{item.name}</p>
+        <p className="truncate text-sm font-black text-textStrong">{item.name}</p>
         {item.description && <p className="mt-0.5 line-clamp-2 text-xs text-muted">{item.description}</p>}
         <div className="mt-2 flex items-center justify-between">
-          <span className="text-sm font-[900] text-primary">{formatFiyat(item.priceCents) ?? '—'}</span>
+          <span className="text-sm font-black text-primary">{formatFiyat(item.priceCents) ?? '—'}</span>
         </div>
       </div>
     </div>
@@ -1307,8 +1307,8 @@ function MenuUrunKarti({ item }: { item: AcikMenuUrunKarti }) {
 function BilgiSatiri({ label, value, className, children }: { label: string; value?: string; className?: string; children?: React.ReactNode }) {
   return (
     <div className={`flex flex-col gap-0.5 ${className ?? ''}`}>
-      <span className="text-xs font-[800] uppercase tracking-wide text-muted">{label}</span>
-      {children ?? <span className="text-sm font-[800] text-textStrong">{value}</span>}
+      <span className="text-xs font-extrabold uppercase tracking-wide text-muted">{label}</span>
+      {children ?? <span className="text-sm font-extrabold text-textStrong">{value}</span>}
     </div>
   );
 }

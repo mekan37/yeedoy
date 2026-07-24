@@ -52,7 +52,7 @@ export function CreateCollectionButton({ onCreated }: { onCreated?: () => void }
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-[800] text-textStrong transition-all hover:-translate-y-px hover:border-primary/30 hover:shadow-yd1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-extrabold text-textStrong transition-all hover:-translate-y-px hover:border-primary/30 hover:shadow-yd1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current text-primary" aria-hidden="true">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -74,19 +74,19 @@ export function CreateCollectionButton({ onCreated }: { onCreated?: () => void }
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 id="create-col-title" className="text-lg font-[900] text-textStrong">Yeni Koleksiyon</h2>
+                <h2 id="create-col-title" className="text-lg font-black text-textStrong">Yeni Koleksiyon</h2>
                 <p className="mt-1 text-sm text-muted">Favori işletmelerinizi gruplandırın.</p>
               </div>
               <button
                 type="button"
                 onClick={handleClose}
-                className="min-h-11 rounded-2xl px-3 text-sm font-[900] text-muted hover:bg-cardAlt"
+                className="min-h-11 rounded-2xl px-3 text-sm font-black text-muted hover:bg-cardAlt"
               >
                 Kapat
               </button>
             </div>
 
-            <label className="mt-5 block text-sm font-[900] text-textStrong">
+            <label className="mt-5 block text-sm font-black text-textStrong">
               Koleksiyon Adı
               <input
                 type="text"
@@ -95,34 +95,34 @@ export function CreateCollectionButton({ onCreated }: { onCreated?: () => void }
                 maxLength={80}
                 required
                 placeholder="örn. Kahvaltı Mekanları"
-                className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
               />
             </label>
 
-            <label className="mt-4 block text-sm font-[900] text-textStrong">
+            <label className="mt-4 block text-sm font-black text-textStrong">
               Açıklama{' '}
-              <span className="font-[700] text-muted">(isteğe bağlı)</span>
+              <span className="font-bold text-muted">(isteğe bağlı)</span>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 maxLength={300}
                 rows={3}
                 placeholder="Bu koleksiyon hakkında kısa bir açıklama..."
-                className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
               />
             </label>
 
             <button
               type="submit"
               disabled={status === 'loading' || status === 'done' || !name.trim()}
-              className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl px-5 text-sm font-[900] text-white disabled:opacity-60"
+              className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl px-5 text-sm font-black text-white disabled:opacity-60"
               style={{ background: 'var(--yd-gradient-primary)' }}
             >
               {status === 'loading' ? 'Oluşturuluyor...' : status === 'done' ? 'Oluşturuldu!' : 'Oluştur'}
             </button>
 
             {status === 'error' && (
-              <p className="mt-3 text-sm font-[800] text-danger">
+              <p className="mt-3 text-sm font-extrabold text-danger">
                 Koleksiyon oluşturulamadı. Daha sonra tekrar deneyin.
               </p>
             )}
@@ -211,10 +211,10 @@ export function FavoriteButton({
       onClick={handleToggle}
       disabled={loading}
       className={clsx(
-        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-3.5 text-sm font-[900] transition-colors',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-70',
+        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border px-3.5 text-sm font-black transition-colors',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-70',
         active
-          ? 'border-primary/30 bg-[var(--yd-color-primary-soft)] text-primary'
+          ? 'border-primary/30 bg-(--yd-color-primary-soft) text-primary'
           : 'border-border bg-card text-textStrong hover:border-primary/30',
         className,
       )}
@@ -243,8 +243,8 @@ export function ShareButton({ title, url, className }: { title: string; url?: st
         window.setTimeout(() => setCopied(false), 1600);
       }}
       className={clsx(
-        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3.5 text-sm font-[900] text-textStrong hover:border-primary/30',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3.5 text-sm font-black text-textStrong hover:border-primary/30',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         className,
       )}
     >
@@ -277,7 +277,7 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-[900] text-textStrong hover:border-danger/35 hover:text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-black text-textStrong hover:border-danger/35 hover:text-danger focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
       >
         <Icon name="flag" size={16} />
         Rapor et
@@ -287,35 +287,35 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
           <form onSubmit={submit} className="w-full max-w-md rounded-[24px] border border-border bg-card p-5 shadow-yd3">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-lg font-[900] text-textStrong">{businessName} için rapor</h2>
+                <h2 className="text-lg font-black text-textStrong">{businessName} için rapor</h2>
                 <p className="mt-1 text-sm text-muted">Menü, fiyat ya da işletme bilgisiyle ilgili sorunu iletin.</p>
               </div>
-              <button type="button" onClick={() => setOpen(false)} className="min-h-11 rounded-2xl px-3 text-sm font-[900] text-muted hover:bg-cardAlt">
+              <button type="button" onClick={() => setOpen(false)} className="min-h-11 rounded-2xl px-3 text-sm font-black text-muted hover:bg-cardAlt">
                 Kapat
               </button>
             </div>
-            <label className="mt-5 block text-sm font-[900] text-textStrong">
+            <label className="mt-5 block text-sm font-black text-textStrong">
               Konu
-              <select name="category" className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30">
+              <select name="category" className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30">
                 <option value="menu">Menü içeriği</option>
                 <option value="price">Fiyat bilgisi</option>
                 <option value="service">Servis / işletme bilgisi</option>
                 <option value="other">Diğer</option>
               </select>
             </label>
-            <label className="mt-4 block text-sm font-[900] text-textStrong">
+            <label className="mt-4 block text-sm font-black text-textStrong">
               Açıklama
-              <textarea name="message" maxLength={500} rows={4} className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30" />
+              <textarea name="message" maxLength={500} rows={4} className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
             </label>
             <button
               type="submit"
               disabled={status === 'loading' || status === 'done'}
-              className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl px-5 text-sm font-[900] text-white disabled:opacity-60"
+              className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl px-5 text-sm font-black text-white disabled:opacity-60"
               style={{ background: 'var(--yd-gradient-primary)' }}
             >
               {status === 'loading' ? 'Gönderiliyor...' : status === 'done' ? 'Rapor alındı' : 'Gönder'}
             </button>
-            {status === 'error' ? <p className="mt-3 text-sm font-[800] text-danger">Rapor gönderilemedi. Daha sonra tekrar deneyin.</p> : null}
+            {status === 'error' ? <p className="mt-3 text-sm font-extrabold text-danger">Rapor gönderilemedi. Daha sonra tekrar deneyin.</p> : null}
           </form>
         </div>
       ) : null}
@@ -352,9 +352,9 @@ export function HelpfulVoteButton({
       type="button"
       onClick={handleVote}
       disabled={voted}
-      className={`inline-flex min-h-11 items-center gap-1.5 rounded-2xl border px-3 text-xs font-[900] transition-colors ${
+      className={`inline-flex min-h-11 items-center gap-1.5 rounded-2xl border px-3 text-xs font-black transition-colors ${
         voted
-          ? 'border-primary/30 bg-primary/[0.06] text-primary cursor-default'
+          ? 'border-primary/30 bg-primary/6 text-primary cursor-default'
           : 'border-border bg-card text-textStrong hover:border-primary/30'
       }`}
       aria-label={voted ? 'Faydalı oyunuz kaydedildi' : 'Faydalı bul'}
@@ -392,11 +392,11 @@ export function FiyatTakipDugmesi({ businessId }: { businessId: string }) {
   if (status === 'no-auth') {
     return (
       <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-        <p className="text-sm font-[900] text-textStrong">Fiyat takip et</p>
+        <p className="text-sm font-black text-textStrong">Fiyat takip et</p>
         <p className="mt-2 text-xs leading-5 text-muted">Giriş yaparak fiyat değişimlerinde bildirim alabilirsin.</p>
         <Link
           href="/giris"
-          className="mt-3 inline-flex min-h-11 items-center justify-center rounded-2xl px-5 text-sm font-[900] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          className="mt-3 inline-flex min-h-11 items-center justify-center rounded-2xl px-5 text-sm font-black text-white focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
           style={{ background: 'var(--yd-gradient-primary)' }}
         >
           Giriş yap
@@ -407,8 +407,8 @@ export function FiyatTakipDugmesi({ businessId }: { businessId: string }) {
 
   if (status === 'active') {
     return (
-      <div className="rounded-[20px] border border-success/25 bg-success/[0.12] p-5 shadow-yd1">
-        <p className="text-sm font-[900] text-success">Fiyat alarmı eklendi</p>
+      <div className="rounded-[20px] border border-success/25 bg-success/12 p-5 shadow-yd1">
+        <p className="text-sm font-black text-success">Fiyat alarmı eklendi</p>
         <p className="mt-1 text-xs text-muted">Bu işletmenin fiyatları değiştiğinde seni haberdar edeceğiz.</p>
       </div>
     );
@@ -416,13 +416,13 @@ export function FiyatTakipDugmesi({ businessId }: { businessId: string }) {
 
   return (
     <div className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-      <p className="text-sm font-[900] text-textStrong">Fiyat takip et</p>
+      <p className="text-sm font-black text-textStrong">Fiyat takip et</p>
       <p className="mt-2 text-xs leading-5 text-muted">Fiyat değişirse haber verelim.</p>
       <button
         type="button"
         disabled={status === 'loading'}
         onClick={handleToggle}
-        className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-border bg-bg px-4 text-sm font-[900] text-textStrong hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-60"
+        className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl border border-border bg-bg px-4 text-sm font-black text-textStrong hover:border-primary/30 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-60"
       >
         <Icon name="bell" size={16} />
         {status === 'loading' ? 'Kaydediliyor...' : 'Fiyat değişirse haber ver'}
@@ -459,7 +459,7 @@ export function CheckinDugmesi({ businessId, className }: { businessId: string; 
 
   if (status === 'done') {
     return (
-      <span className={clsx('inline-flex min-h-11 items-center gap-2 rounded-2xl border border-success/25 bg-success/[0.12] px-4 text-sm font-[900] text-success', className)}>
+      <span className={clsx('inline-flex min-h-11 items-center gap-2 rounded-2xl border border-success/25 bg-success/12 px-4 text-sm font-black text-success', className)}>
         ✓ Check-in yapıldı!
       </span>
     );
@@ -467,7 +467,7 @@ export function CheckinDugmesi({ businessId, className }: { businessId: string; 
 
   if (status === 'duplicate') {
     return (
-      <span className={clsx('inline-flex min-h-11 items-center gap-2 rounded-2xl border border-warning/25 bg-warning/[0.14] px-4 text-sm font-[900] text-textStrong', className)}>
+      <span className={clsx('inline-flex min-h-11 items-center gap-2 rounded-2xl border border-warning/25 bg-warning/[0.14] px-4 text-sm font-black text-textStrong', className)}>
         Bugün zaten check-in yaptınız
       </span>
     );
@@ -479,8 +479,8 @@ export function CheckinDugmesi({ businessId, className }: { businessId: string; 
       disabled={status === 'loading'}
       onClick={handleCheckin}
       className={clsx(
-        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-[900] text-textStrong',
-        'hover:border-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-black text-textStrong',
+        'hover:border-primary/30 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         'disabled:opacity-60',
         className,
       )}

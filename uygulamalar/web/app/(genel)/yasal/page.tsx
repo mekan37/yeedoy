@@ -43,7 +43,7 @@ export default async function LegalPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-2xl px-4 py-12">
-        <h1 className="mb-2 text-3xl font-[900] text-textStrong">Yasal Bilgiler</h1>
+        <h1 className="mb-2 text-3xl font-black text-textStrong">Yasal Bilgiler</h1>
         <p className="mb-8 text-sm text-muted">Yeedoy hizmetlerine ilişkin yasal belgeler</p>
 
         <div className="flex flex-col gap-4">
@@ -54,7 +54,7 @@ export default async function LegalPage() {
               className="flex items-center justify-between rounded-2xl border border-border bg-card px-6 py-5 transition-colors hover:border-primary/30 cursor-pointer"
             >
               <div>
-                <p className="font-[700] text-textStrong">{doc.title}</p>
+                <p className="font-bold text-textStrong">{doc.title}</p>
                 {(doc as any).description && (
                   <p className="mt-0.5 text-sm text-muted">{(doc as any).description}</p>
                 )}

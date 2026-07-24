@@ -58,7 +58,7 @@ export function BildirimTercihleri({
             className="flex items-center gap-4 rounded-2xl border border-border bg-bg px-4 py-4 min-h-[64px] text-left transition-colors hover:bg-cardAlt disabled:opacity-70"
           >
             <div className="min-w-0 flex-1">
-              <p className="font-[900] text-textStrong leading-tight">{label}</p>
+              <p className="font-black text-textStrong leading-tight">{label}</p>
               <p className="mt-0.5 text-xs leading-snug text-muted">{description}</p>
             </div>
             <div
@@ -72,7 +72,7 @@ export function BildirimTercihleri({
             >
               <span
                 className={[
-                  'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200',
+                  'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200',
                   enabled ? 'translate-x-5' : 'translate-x-0.5',
                 ].join(' ')}
               />

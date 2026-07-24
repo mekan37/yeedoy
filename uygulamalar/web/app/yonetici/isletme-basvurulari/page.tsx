@@ -64,7 +64,7 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
               type="submit"
               name="status"
               value={value}
-              className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                 status === value ? 'bg-primary text-white' : 'border border-border bg-card text-muted hover:text-textStrong'
               }`}
             >
@@ -80,21 +80,21 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kategori</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şehir</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Başvuran</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kategori</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şehir</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Başvuran</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {list.map((s: any) => {
                   const statusInfo = STATUS_MAP[s.status] ?? STATUS_MAP['new'];
                   return (
-                    <tr key={s.id} className="hover:bg-black/[0.01]">
+                    <tr key={s.id} className="hover:bg-black/1">
                       <td className="px-5 py-3">
-                        <p className="font-[700] text-textStrong">{s.name}</p>
+                        <p className="font-bold text-textStrong">{s.name}</p>
                         <p className="text-xs text-muted">{s.address}</p>
                         {s.admin_note && (
                           <p className="mt-1 text-xs italic text-muted">Admin: {s.admin_note}</p>
@@ -103,11 +103,11 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
                       <td className="px-5 py-3 text-muted">{s.category}</td>
                       <td className="px-5 py-3 text-muted">{s.city}, {s.district}</td>
                       <td className="px-5 py-3">
-                        <p className="text-xs font-[700] text-textStrong">{s.user_profiles?.display_name ?? '—'}</p>
+                        <p className="text-xs font-bold text-textStrong">{s.user_profiles?.display_name ?? '—'}</p>
                         <p className="text-xs text-muted">{s.user_profiles?.email ?? s.submitted_by.slice(0, 8)}</p>
                       </td>
                       <td className="px-5 py-3">
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${statusInfo.className}`}>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${statusInfo.className}`}>
                           {statusInfo.label}
                         </span>
                       </td>
@@ -125,13 +125,13 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
                 <div className="flex gap-2">
                   {pageNum > 1 && (
                     <a href={`?status=${status}&page=${pageNum - 1}`}
-                      className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
+                      className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">
                       ← Önceki
                     </a>
                   )}
                   {pageNum < totalPages && (
                     <a href={`?status=${status}&page=${pageNum + 1}`}
-                      className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">
+                      className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">
                       Sonraki →
                     </a>
                   )}

@@ -140,11 +140,11 @@ export default async function CityHubPage({ params }: Props) {
           <ol className="flex flex-wrap items-center gap-1">
             <li><Link href="/" className="hover:text-primary">Ana Sayfa</Link></li>
             <li aria-hidden="true">›</li>
-            <li className="font-[700] text-textStrong">{cityLabel}</li>
+            <li className="font-bold text-textStrong">{cityLabel}</li>
           </ol>
         </nav>
 
-        <h1 className="mb-1 text-3xl font-[900] tracking-tight text-textStrong">
+        <h1 className="mb-1 text-3xl font-black tracking-tight text-textStrong">
           {cityLabel}
         </h1>
         <p className="mb-8 text-muted">
@@ -154,16 +154,16 @@ export default async function CityHubPage({ params }: Props) {
         {/* Popüler kategoriler */}
         {topCategories.length > 0 && (
           <section className="mb-8">
-            <h2 className="mb-3 text-lg font-[800] text-textStrong">Popüler Kategoriler</h2>
+            <h2 className="mb-3 text-lg font-extrabold text-textStrong">Popüler Kategoriler</h2>
             <div className="flex flex-wrap gap-2">
               {topCategories.map(([cat, cnt]) => (
                 <Link
                   key={cat}
                   href={`/${sehir}/${slugify(districts[0]?.[0] ?? '')}/${slugify(cat)}`}
-                  className="rounded-xl border border-border bg-card px-3 py-1.5 text-sm font-[700] text-textStrong hover:border-primary hover:text-primary transition-colors"
+                  className="rounded-xl border border-border bg-card px-3 py-1.5 text-sm font-bold text-textStrong hover:border-primary hover:text-primary transition-colors"
                 >
                   {cat}
-                  <span className="ml-1.5 text-xs font-[500] text-muted">{cnt}</span>
+                  <span className="ml-1.5 text-xs font-medium text-muted">{cnt}</span>
                 </Link>
               ))}
             </div>
@@ -172,7 +172,7 @@ export default async function CityHubPage({ params }: Props) {
 
         {/* İlçeler */}
         <section>
-          <h2 className="mb-3 text-lg font-[800] text-textStrong">İlçeler</h2>
+          <h2 className="mb-3 text-lg font-extrabold text-textStrong">İlçeler</h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {districts.map(([district, cnt]) => {
               const cats = Array.from(districtCategories.get(district) ?? []).slice(0, 3);
@@ -180,9 +180,9 @@ export default async function CityHubPage({ params }: Props) {
                 <Link
                   key={district}
                   href={`/${sehir}/${slugify(district)}`}
-                  className="rounded-2xl border border-border bg-card p-4 hover:border-primary/40 hover:shadow-sm transition-all"
+                  className="rounded-2xl border border-border bg-card p-4 hover:border-primary/40 hover:shadow-xs transition-all"
                 >
-                  <p className="font-[800] text-textStrong">{district}</p>
+                  <p className="font-extrabold text-textStrong">{district}</p>
                   <p className="mt-0.5 text-xs text-muted">{cnt} işletme</p>
                   {cats.length > 0 && (
                     <p className="mt-2 text-xs text-muted">{cats.join(' · ')}</p>

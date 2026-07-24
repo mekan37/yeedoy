@@ -57,7 +57,7 @@ export function HoursForm({
           const closeVal = row && !row.is_closed ? row.close_time.slice(0, 5) : '';
           return (
             <div key={key} className="grid grid-cols-[120px_1fr_1fr] items-center gap-3">
-              <span className="text-sm font-[700] text-textStrong">{label}</span>
+              <span className="text-sm font-bold text-textStrong">{label}</span>
               <TimeInput name={`${key}_open`} defaultValue={openVal} placeholder="09:00" />
               <TimeInput name={`${key}_close`} defaultValue={closeVal} placeholder="22:00" />
             </div>
@@ -69,7 +69,7 @@ export function HoursForm({
         <PanelActionButton type="submit" variant="primary" loading={isPending}>
           Kaydet
         </PanelActionButton>
-        {saved && <p className="text-sm font-[700] text-green-600">Kaydedildi</p>}
+        {saved && <p className="text-sm font-bold text-green-600">Kaydedildi</p>}
       </div>
     </form>
   );
@@ -90,7 +90,7 @@ function TimeInput({
       name={name}
       defaultValue={defaultValue}
       placeholder={placeholder}
-      className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30"
+      className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
     />
   );
 }

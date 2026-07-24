@@ -41,14 +41,14 @@ export default async function OwnerQrPage() {
               {list.map((b) => (
                 <li key={b.id} className="flex items-center justify-between gap-4 px-5 py-4">
                   <div>
-                    <p className="text-sm font-[800] text-textStrong">{b.name}</p>
+                    <p className="text-sm font-extrabold text-textStrong">{b.name}</p>
                     {b.slug && (
                       <p className="text-xs text-muted">yeedoy.com/m/{b.slug}</p>
                     )}
                   </div>
                   <Link
                     href={`/karekod/${b.id}`}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-[800] text-white transition-opacity hover:opacity-90"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white transition-opacity hover:opacity-90"
                   >
                     <QrIcon />
                     QR Stüdyosu

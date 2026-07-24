@@ -48,7 +48,7 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${filter === f ? 'bg-primary text-white' : 'bg-surface border border-border text-muted hover:text-textStrong'}`}
+            className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${filter === f ? 'bg-primary text-white' : 'bg-surface border border-border text-muted hover:text-textStrong'}`}
           >
             {f === 'all' ? 'Tümü' : f === 'pending' ? 'Bekleyen' : 'Şikayet Edilen'}
           </button>
@@ -59,14 +59,14 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
             <button
               disabled={isPending}
               onClick={() => bulkAction('approve')}
-              className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-[700] text-white hover:bg-green-700 disabled:opacity-50"
+              className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-green-700 disabled:opacity-50"
             >
               Toplu Onayla
             </button>
             <button
               disabled={isPending}
               onClick={() => bulkAction('reject')}
-              className="rounded-lg bg-red-600 px-3 py-1.5 text-xs font-[700] text-white hover:bg-red-700 disabled:opacity-50"
+              className="rounded-lg bg-red-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-red-700 disabled:opacity-50"
             >
               Toplu Reddet
             </button>
@@ -86,7 +86,7 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
               {/* Checkbox */}
               <button
                 onClick={() => toggle(photo.id)}
-                className="absolute left-2 top-2 z-10 flex h-5 w-5 items-center justify-center rounded border-2 border-white bg-white/80 backdrop-blur"
+                className="absolute left-2 top-2 z-10 flex h-5 w-5 items-center justify-center rounded border-2 border-white bg-white/80 backdrop-blur-sm"
               >
                 {selected.has(photo.id) && (
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--yd-color-primary)" strokeWidth="3">
@@ -96,7 +96,7 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
               </button>
 
               {/* Status badge */}
-              <span className={`absolute right-2 top-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-[700] ${photo.status === 'flagged' ? 'bg-red-500 text-white' : 'bg-yellow-400 text-yellow-900'}`}>
+              <span className={`absolute right-2 top-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-bold ${photo.status === 'flagged' ? 'bg-red-500 text-white' : 'bg-yellow-400 text-yellow-900'}`}>
                 {photo.status === 'flagged' ? 'Şikayet' : 'Bekliyor'}
               </span>
 
@@ -113,7 +113,7 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
 
               {/* Info + actions */}
               <div className="p-2">
-                <p className="truncate text-xs font-[700] text-textStrong">{photo.businesses?.name ?? '—'}</p>
+                <p className="truncate text-xs font-bold text-textStrong">{photo.businesses?.name ?? '—'}</p>
                 <p className="truncate text-[10px] text-muted">{photo.user_profiles?.display_name ?? '—'}</p>
                 <div className="mt-2 flex gap-1">
                   <button
@@ -124,7 +124,7 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
                         router.refresh();
                       });
                     }}
-                    className="flex-1 rounded bg-green-100 py-1 text-[10px] font-[800] text-green-700 hover:bg-green-200 disabled:opacity-50"
+                    className="flex-1 rounded bg-green-100 py-1 text-[10px] font-extrabold text-green-700 hover:bg-green-200 disabled:opacity-50"
                   >
                     Onayla
                   </button>
@@ -136,7 +136,7 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
                         router.refresh();
                       });
                     }}
-                    className="flex-1 rounded bg-red-100 py-1 text-[10px] font-[800] text-red-700 hover:bg-red-200 disabled:opacity-50"
+                    className="flex-1 rounded bg-red-100 py-1 text-[10px] font-extrabold text-red-700 hover:bg-red-200 disabled:opacity-50"
                   >
                     Reddet
                   </button>
@@ -149,7 +149,7 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
 
       {/* Select all */}
       {filtered.length > 0 && (
-        <button onClick={toggleAll} className="text-xs font-[600] text-muted hover:text-textStrong">
+        <button onClick={toggleAll} className="text-xs font-semibold text-muted hover:text-textStrong">
           {selected.size === filtered.length ? 'Seçimi Kaldır' : 'Tümünü Seç'}
         </button>
       )}

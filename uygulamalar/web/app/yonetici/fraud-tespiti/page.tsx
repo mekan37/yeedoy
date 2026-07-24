@@ -119,9 +119,9 @@ export default async function FraudTespitiPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted text-right">Yorum Sayısı</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşlem</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kullanıcı</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted text-right">Yorum Sayısı</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşlem</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -129,21 +129,21 @@ export default async function FraudTespitiPage() {
                   <tr key={u.user_id} className="hover:bg-cardAlt/50">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-2">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-danger/10 text-xs font-[800] text-danger">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-danger/10 text-xs font-extrabold text-danger">
                           {u.display_name?.[0]?.toUpperCase() ?? '?'}
                         </span>
-                        <span className="font-[700] text-textStrong">{u.display_name ?? 'Anonim'}</span>
+                        <span className="font-bold text-textStrong">{u.display_name ?? 'Anonim'}</span>
                       </div>
                     </td>
                     <td className="px-5 py-3 text-right">
-                      <span className="rounded-full bg-danger/10 px-2 py-0.5 text-xs font-[900] text-danger">
+                      <span className="rounded-full bg-danger/10 px-2 py-0.5 text-xs font-black text-danger">
                         {u.review_count} yorum
                       </span>
                     </td>
                     <td className="px-5 py-3">
                       <Link
                         href={`/yonetici/kullanicilar?id=${u.user_id}`}
-                        className="text-xs font-[700] text-primary hover:underline"
+                        className="text-xs font-bold text-primary hover:underline"
                       >
                         İncele →
                       </Link>
@@ -172,7 +172,7 @@ export default async function FraudTespitiPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-[700] text-textStrong">
+                      <span className="text-xs font-bold text-textStrong">
                         {flag.reason ?? flag.details ?? 'Sebep belirtilmedi'}
                       </span>
                       {flag.reviews && (
@@ -191,7 +191,7 @@ export default async function FraudTespitiPage() {
                   <div className="shrink-0">
                     <Link
                       href={`/yonetici/yorumlar?id=${flag.review_id ?? flag.target_id}`}
-                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] text-textStrong hover:border-primary/30 transition-colors"
+                      className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-textStrong hover:border-primary/30 transition-colors"
                     >
                       İncele
                     </Link>
@@ -234,10 +234,10 @@ export default async function FraudTespitiPage() {
 
 function KuralKart({ baslik, aciklama, aktif }: { baslik: string; aciklama: string; aktif: boolean }) {
   return (
-    <div className={`rounded-xl border p-4 ${aktif ? 'border-success/30 bg-success/[0.04]' : 'border-border bg-card opacity-60'}`}>
+    <div className={`rounded-xl border p-4 ${aktif ? 'border-success/30 bg-success/4' : 'border-border bg-card opacity-60'}`}>
       <div className="flex items-center gap-2">
         <span className={`h-2 w-2 rounded-full ${aktif ? 'bg-success' : 'bg-muted'}`} />
-        <span className="font-[800] text-sm text-textStrong">{baslik}</span>
+        <span className="font-extrabold text-sm text-textStrong">{baslik}</span>
       </div>
       <p className="mt-1 text-xs text-muted">{aciklama}</p>
     </div>

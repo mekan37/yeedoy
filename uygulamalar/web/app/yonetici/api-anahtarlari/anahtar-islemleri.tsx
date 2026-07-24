@@ -43,8 +43,8 @@ export function YeniAnahtarForm() {
   if (yeniAnahtar) {
     return (
       <div className="flex flex-col gap-3">
-        <div className="rounded-xl border border-success/30 bg-success/[0.06] p-4">
-          <p className="mb-2 text-sm font-[800] text-success">✓ API anahtarı oluşturuldu — tek seferlik gösterim!</p>
+        <div className="rounded-xl border border-success/30 bg-success/6 p-4">
+          <p className="mb-2 text-sm font-extrabold text-success">✓ API anahtarı oluşturuldu — tek seferlik gösterim!</p>
           <div className="flex items-center gap-2">
             <code className="flex-1 overflow-x-auto rounded-lg bg-card px-3 py-2 font-mono text-sm text-textStrong border border-border">
               {yeniAnahtar}
@@ -52,7 +52,7 @@ export function YeniAnahtarForm() {
             <button
               type="button"
               onClick={() => navigator.clipboard.writeText(yeniAnahtar)}
-              className="rounded-lg border border-border bg-card px-3 py-2 text-xs font-[700] text-textStrong hover:border-primary/30"
+              className="rounded-lg border border-border bg-card px-3 py-2 text-xs font-bold text-textStrong hover:border-primary/30"
             >
               Kopyala
             </button>
@@ -62,7 +62,7 @@ export function YeniAnahtarForm() {
         <button
           type="button"
           onClick={() => setYeniAnahtar(null)}
-          className="self-start text-sm font-[700] text-primary hover:underline"
+          className="self-start text-sm font-bold text-primary hover:underline"
         >
           Yeni Anahtar Oluştur
         </button>
@@ -74,7 +74,7 @@ export function YeniAnahtarForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">Anahtar Adı</label>
+          <label className="text-sm font-bold text-textStrong">Anahtar Adı</label>
           <input
             type="text"
             value={name}
@@ -86,7 +86,7 @@ export function YeniAnahtarForm() {
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">İzin Kapsamı</label>
+          <label className="text-sm font-bold text-textStrong">İzin Kapsamı</label>
           <select value={scope} onChange={e => setScope(e.target.value)} className="input-yd rounded-xl px-3 py-2.5 text-sm">
             <option value="read">Sadece Okuma</option>
             <option value="read:businesses">İşletme Okuma</option>
@@ -96,7 +96,7 @@ export function YeniAnahtarForm() {
           </select>
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">Geçerlilik Süresi</label>
+          <label className="text-sm font-bold text-textStrong">Geçerlilik Süresi</label>
           <select value={expiresDays} onChange={e => setExpiresDays(Number(e.target.value))} className="input-yd rounded-xl px-3 py-2.5 text-sm">
             <option value={30}>30 gün</option>
             <option value={90}>90 gün</option>
@@ -105,12 +105,12 @@ export function YeniAnahtarForm() {
           </select>
         </div>
       </div>
-      {error && <p className="text-sm font-[700] text-danger">{error}</p>}
+      {error && <p className="text-sm font-bold text-danger">{error}</p>}
       <div className="flex justify-end">
         <button
           type="submit"
           disabled={pending}
-          className="btn-primary rounded-xl px-4 py-2.5 text-sm font-[700] text-white disabled:opacity-50"
+          className="btn-primary rounded-xl px-4 py-2.5 text-sm font-bold text-white disabled:opacity-50"
         >
           {pending ? 'Oluşturuluyor…' : 'Anahtar Oluştur'}
         </button>
@@ -140,7 +140,7 @@ export function AnahtarSilButonu({ keyId }: { keyId: string }) {
       type="button"
       onClick={handleRevoke}
       disabled={pending}
-      className="shrink-0 rounded-lg border border-danger/30 px-3 py-1.5 text-xs font-[700] text-danger hover:bg-danger/[0.06] disabled:opacity-50 transition-colors"
+      className="shrink-0 rounded-lg border border-danger/30 px-3 py-1.5 text-xs font-bold text-danger hover:bg-danger/6 disabled:opacity-50 transition-colors"
     >
       {pending ? '…' : 'İptal Et'}
     </button>

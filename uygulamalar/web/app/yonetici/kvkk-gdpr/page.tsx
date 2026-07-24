@@ -79,7 +79,7 @@ export default async function KvkkGdprPage() {
                 Her talep oluşturma tarihinden itibaren <strong>30 gün</strong> içinde yanıtlanmalıdır.
               </p>
               <div className="rounded-xl border border-border bg-zinc-50 p-4">
-                <p className="text-xs font-[800] text-muted mb-2">Uyum Durumu Özeti</p>
+                <p className="text-xs font-extrabold text-muted mb-2">Uyum Durumu Özeti</p>
                 <div className="grid gap-2 sm:grid-cols-2">
                   {[
                     { label: 'Veri Dışa Aktarma', status: 'compliant', desc: 'privacy_requests tablosu + otomatik export' },
@@ -92,7 +92,7 @@ export default async function KvkkGdprPage() {
                     <div key={item.label} className={`flex items-start gap-3 rounded-lg border p-3 ${item.status === 'compliant' ? 'border-green-200 bg-green-50' : 'border-yellow-200 bg-yellow-50'}`}>
                       <span>{item.status === 'compliant' ? '✅' : '⚠️'}</span>
                       <div>
-                        <p className="text-sm font-[800] text-textStrong">{item.label}</p>
+                        <p className="text-sm font-extrabold text-textStrong">{item.label}</p>
                         <p className="text-xs text-muted">{item.desc}</p>
                       </div>
                     </div>
@@ -123,8 +123,8 @@ export default async function KvkkGdprPage() {
                 { table: 'push_tokens', retention: 'Onay geri çekilene dek', action: 'consent_withdraw ile temizlenir' },
               ].map(item => (
                 <div key={item.table} className="rounded-xl border border-border p-3">
-                  <code className="text-xs font-[800] text-primary">{item.table}</code>
-                  <p className="mt-1 text-xs font-[700] text-textStrong">{item.retention}</p>
+                  <code className="text-xs font-extrabold text-primary">{item.table}</code>
+                  <p className="mt-1 text-xs font-bold text-textStrong">{item.retention}</p>
                   <p className="text-[10px] text-muted">{item.action}</p>
                 </div>
               ))}

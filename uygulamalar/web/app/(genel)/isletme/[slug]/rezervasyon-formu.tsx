@@ -60,7 +60,7 @@ export function ReservasyonFormu({
             minLength={2}
             maxLength={100}
             placeholder="Adınız Soyadınız"
-            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>
         <div>
@@ -73,7 +73,7 @@ export function ReservasyonFormu({
             minLength={10}
             maxLength={20}
             placeholder="05xx xxx xx xx"
-            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>
         <div>
@@ -84,7 +84,7 @@ export function ReservasyonFormu({
             type="date"
             required
             min={minDateStr}
-            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>
         <div>
@@ -94,7 +94,7 @@ export function ReservasyonFormu({
             name="reservation_time"
             type="time"
             required
-            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>
         <div>
@@ -109,7 +109,7 @@ export function ReservasyonFormu({
             min={minParty}
             max={maxParty}
             defaultValue={2}
-            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>
         <div>
@@ -119,7 +119,7 @@ export function ReservasyonFormu({
             name="guest_email"
             type="email"
             placeholder="ornek@email.com"
-            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className="w-full rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>
       </div>
@@ -132,7 +132,7 @@ export function ReservasyonFormu({
           rows={2}
           maxLength={500}
           placeholder="Allerji, masa tercihi, doğum günü vb..."
-          className="w-full resize-none rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="w-full resize-none rounded-xl border border-border bg-bgSubtle px-3 py-2.5 text-sm text-textStrong placeholder:text-textMuted focus:outline-hidden focus:ring-2 focus:ring-primary/20"
         />
       </div>
 

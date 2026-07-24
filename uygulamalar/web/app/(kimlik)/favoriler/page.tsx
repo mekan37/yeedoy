@@ -77,7 +77,7 @@ export default async function FavoritesPage() {
             <nav className="rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
               {NAV_SIDEBAR.map(({ href, label, active }) => (
                 <Link key={label} href={href}
-                  className={`flex items-center gap-3 px-4 py-3 text-sm font-[800] border-b border-border last:border-0 transition-colors ${
+                  className={`flex items-center gap-3 px-4 py-3 text-sm font-extrabold border-b border-border last:border-0 transition-colors ${
                     active
                       ? 'bg-primary/8 text-primary'
                       : 'text-textStrong hover:bg-cardAlt hover:text-primary'
@@ -91,7 +91,7 @@ export default async function FavoritesPage() {
                 </Link>
               ))}
               <button type="button"
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-[800] text-danger transition-colors hover:bg-danger/5">
+                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-extrabold text-danger transition-colors hover:bg-danger/5">
                 Çıkış Yap
               </button>
             </nav>
@@ -100,13 +100,13 @@ export default async function FavoritesPage() {
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
               <div className="mb-1 flex items-center gap-2">
                 <span className="text-lg" aria-hidden="true">👑</span>
-                <p className="text-sm font-[900] text-amber-900">Yeedoy Premium</p>
+                <p className="text-sm font-black text-amber-900">Yeedoy Premium</p>
               </div>
-              <p className="mb-3 text-[12px] font-[700] leading-snug text-amber-700">
+              <p className="mb-3 text-[12px] font-bold leading-snug text-amber-700">
                 Daha fazla ayrıcalık ve özel fırsatlar seni bekliyor!
               </p>
               <button type="button"
-                className="flex h-9 w-full items-center justify-center rounded-xl border border-amber-300 bg-white text-[13px] font-[900] text-amber-700 transition hover:bg-amber-100">
+                className="flex h-9 w-full items-center justify-center rounded-xl border border-amber-300 bg-white text-[13px] font-black text-amber-700 transition hover:bg-amber-100">
                 Premium&apos;a Geç
               </button>
             </div>

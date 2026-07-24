@@ -25,9 +25,9 @@ const EMPTY_FORM: FormState = {
 
 function FieldLabel({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
-    <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] font-[700] text-textStrong">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] font-bold text-textStrong">
       {children}
-      {required && <span className="ml-0.5 text-[color:var(--yd-color-danger)]">*</span>}
+      {required && <span className="ml-0.5 text-(--yd-color-danger)">*</span>}
     </label>
   );
 }
@@ -99,7 +99,7 @@ export function YeniMenuIstemcisi({ businessId }: { businessId: string }) {
                   <CheckIcon />
                 </span>
                 <div>
-                  <p className="text-[15px] font-[800] text-textStrong">
+                  <p className="text-[15px] font-extrabold text-textStrong">
                     &ldquo;{created.name}&rdquo; {t.newMenuSaved.toLowerCase()}
                   </p>
                   <p className="text-xs text-muted">ID: {created.id}</p>
@@ -151,9 +151,9 @@ export function YeniMenuIstemcisi({ businessId }: { businessId: string }) {
                 value={form.name}
                 onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                 placeholder="Örn. Yemek Menüsü"
-                className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
               />
-              {errors.name && <p className="mt-1 text-xs text-[color:var(--yd-color-danger)]">{errors.name}</p>}
+              {errors.name && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.name}</p>}
             </div>
 
             {/* Açıklama */}
@@ -165,14 +165,14 @@ export function YeniMenuIstemcisi({ businessId }: { businessId: string }) {
                 onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                 placeholder="Menü hakkında kısa açıklama..."
                 rows={3}
-                className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30 resize-none"
               />
             </div>
 
             {/* Aktif toggle */}
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[13px] font-[700] text-textStrong">{t.fieldMenuIsActive}</p>
+                <p className="text-[13px] font-bold text-textStrong">{t.fieldMenuIsActive}</p>
                 <p className="text-xs text-muted">Menü hemen yayınlansın mı?</p>
               </div>
               <button
@@ -194,7 +194,7 @@ export function YeniMenuIstemcisi({ businessId }: { businessId: string }) {
           </PanelBolumKarti>
 
           {globalError && (
-            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-[color:var(--yd-color-danger)]">
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-(--yd-color-danger)">
               {globalError}
             </div>
           )}

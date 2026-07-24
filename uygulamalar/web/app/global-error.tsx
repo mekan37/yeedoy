@@ -18,7 +18,7 @@ export default function GlobalError({
       <body className="bg-bg text-text">
         <main className="mx-auto flex min-h-screen w-full max-w-4xl items-center px-4 py-12 sm:px-6">
           <section className="w-full overflow-hidden rounded-[32px] border border-border bg-card shadow-yd2">
-            <div className="bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.28),_transparent_36%),linear-gradient(135deg,_rgb(var(--yd-color-primary-rgb)),_rgb(var(--yd-color-primary-strong-rgb)))] px-8 py-10 text-white">
+            <div className="bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.28),transparent_36%),linear-gradient(135deg,rgb(var(--yd-color-primary-rgb)),rgb(var(--yd-color-primary-strong-rgb)))] px-8 py-10 text-white">
               <p className="text-xs font-black uppercase tracking-[0.24em] text-white/75">Çalışma zamanı hatası</p>
               <h1 className="mt-3 text-3xl font-black sm:text-4xl">Bir sorun oluştu</h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-white/84">

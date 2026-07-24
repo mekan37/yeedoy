@@ -62,8 +62,8 @@ export function UserDropdown({ displayName, email, avatarUrl, variant = 'topbar'
         aria-expanded={open}
         className={
           isTopbar
-            ? 'flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-primary/8 text-sm font-[900] text-primary transition-colors hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30'
-            : 'flex h-10 w-10 items-center justify-center rounded-full border border-border bg-primary/10 text-sm font-[900] text-primary hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30'
+            ? 'flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-primary/8 text-sm font-black text-primary transition-colors hover:bg-primary/15 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30'
+            : 'flex h-10 w-10 items-center justify-center rounded-full border border-border bg-primary/10 text-sm font-black text-primary hover:bg-primary/20 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30'
         }
         title={label}
       >
@@ -84,7 +84,7 @@ export function UserDropdown({ displayName, email, avatarUrl, variant = 'topbar'
         <div className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-border bg-card shadow-lg">
           {/* Kullanıcı bilgisi */}
           <div className="border-b border-border px-4 py-3">
-            <p className="truncate text-sm font-[800] text-textStrong">{displayName ?? 'Kullanıcı'}</p>
+            <p className="truncate text-sm font-extrabold text-textStrong">{displayName ?? 'Kullanıcı'}</p>
             {email && <p className="truncate text-xs text-muted">{email}</p>}
           </div>
 
@@ -95,7 +95,7 @@ export function UserDropdown({ displayName, email, avatarUrl, variant = 'topbar'
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm font-[700] text-text transition-colors hover:bg-cardAlt hover:text-textStrong"
+                className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-text transition-colors hover:bg-cardAlt hover:text-textStrong"
               >
                 <span className="shrink-0 text-muted">{item.icon}</span>
                 {item.label}
@@ -109,7 +109,7 @@ export function UserDropdown({ displayName, email, avatarUrl, variant = 'topbar'
               type="button"
               onClick={signOut}
               disabled={pending}
-              className="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-[700] text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
+              className="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-bold text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
             >
               <span className="shrink-0"><LogoutIcon /></span>
               {pending ? 'Çıkılıyor…' : 'Çıkış yap'}

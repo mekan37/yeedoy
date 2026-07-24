@@ -81,7 +81,7 @@ function ToggleRow({
       className="flex min-h-[64px] w-full items-center gap-4 rounded-2xl border border-border bg-bg px-4 py-4 text-left transition-colors hover:bg-cardAlt disabled:opacity-70"
     >
       <div className="min-w-0 flex-1">
-        <p className="font-[900] leading-tight text-textStrong">{item.label}</p>
+        <p className="font-black leading-tight text-textStrong">{item.label}</p>
         <p className="mt-0.5 text-xs leading-snug text-muted">{item.description}</p>
       </div>
       <div
@@ -95,7 +95,7 @@ function ToggleRow({
       >
         <span
           className={[
-            'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200',
+            'absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200',
             enabled ? 'translate-x-5' : 'translate-x-0.5',
           ].join(' ')}
         />
@@ -171,7 +171,7 @@ export default function BildirimTercihlerPage() {
           >
             ← Profilime Dön
           </Link>
-          <h1 className="text-xl font-[900] text-textStrong">Bildirim Tercihleri</h1>
+          <h1 className="text-xl font-black text-textStrong">Bildirim Tercihleri</h1>
           <p className="mt-1 text-sm text-muted">Hangi bildirimleri almak istediğinizi seçin.</p>
         </div>
 
@@ -182,7 +182,7 @@ export default function BildirimTercihlerPage() {
         ) : (
           <>
             <section className="flex flex-col gap-3">
-              <h2 className="text-sm font-[900] uppercase tracking-wide text-muted">
+              <h2 className="text-sm font-black uppercase tracking-wide text-muted">
                 Bildirim Kanalları
               </h2>
               {(CHANNELS as readonly ToggleItem[]).map((item) => (
@@ -197,7 +197,7 @@ export default function BildirimTercihlerPage() {
             </section>
 
             <section className="flex flex-col gap-3">
-              <h2 className="text-sm font-[900] uppercase tracking-wide text-muted">
+              <h2 className="text-sm font-black uppercase tracking-wide text-muted">
                 Bildirim Kategorileri
               </h2>
               {(CATEGORIES as readonly ToggleItem[]).map((item) => (
@@ -217,7 +217,7 @@ export default function BildirimTercihlerPage() {
           Tercihler anında kaydedilir. Push bildirimleri için{' '}
           <Link
             href="/bildirim-ayarlari"
-            className="font-[700] text-primary underline-offset-2 hover:underline"
+            className="font-bold text-primary underline-offset-2 hover:underline"
           >
             tarayıcı izni
           </Link>{' '}

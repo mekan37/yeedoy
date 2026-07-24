@@ -14,22 +14,22 @@ export { PublicFooter } from '@/src/ui/acik/genel-altbilgi';
 export function MobileBottomNav() {
   return (
     <nav
-      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-[24px] border border-border bg-card/95 p-1 shadow-yd3 backdrop-blur md:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 rounded-[24px] border border-border bg-card/95 p-1 shadow-yd3 backdrop-blur-sm md:hidden"
       aria-label="Mobil navigasyon"
     >
-      <Link href="/" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-[900] text-textStrong hover:bg-cardAlt">
+      <Link href="/" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-black text-textStrong hover:bg-cardAlt">
         <Icon name="search" size={16} />
         <span className="mt-0.5">Ana Sayfa</span>
       </Link>
-      <Link href="/kesif" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-[900] text-textStrong hover:bg-cardAlt">
+      <Link href="/kesif" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-black text-textStrong hover:bg-cardAlt">
         <Icon name="pin" size={16} />
         <span className="mt-0.5">Keşfet</span>
       </Link>
-      <Link href="/arama" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-[900] text-textStrong hover:bg-cardAlt">
+      <Link href="/arama" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-black text-textStrong hover:bg-cardAlt">
         <Icon name="search" size={16} />
         <span className="mt-0.5">Arama</span>
       </Link>
-      <Link href="/profil" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-[900] text-textStrong hover:bg-cardAlt">
+      <Link href="/profil" className="flex min-h-12 flex-col items-center justify-center rounded-[20px] text-[11px] font-black text-textStrong hover:bg-cardAlt">
         <Icon name="user" size={16} />
         <span className="mt-0.5">Profil</span>
       </Link>

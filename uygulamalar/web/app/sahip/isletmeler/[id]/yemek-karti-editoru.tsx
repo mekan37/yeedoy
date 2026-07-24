@@ -80,7 +80,7 @@ export function YemekKartiEditoru({ businessId, allProviders, selectedKeys }: Pr
               />
               <span
                 className={[
-                  'flex-1 text-sm font-[700]',
+                  'flex-1 text-sm font-bold',
                   isSelected ? 'text-primary' : 'text-textStrong',
                 ].join(' ')}
               >
@@ -108,10 +108,10 @@ export function YemekKartiEditoru({ businessId, allProviders, selectedKeys }: Pr
           {isPending ? 'Kaydediliyor…' : 'Kaydet'}
         </PanelActionButton>
         {feedback === 'success' && (
-          <span className="text-sm font-[700] text-green-700">Kaydedildi</span>
+          <span className="text-sm font-bold text-green-700">Kaydedildi</span>
         )}
         {feedback === 'error' && (
-          <span className="text-sm font-[700] text-danger">Kayıt başarısız</span>
+          <span className="text-sm font-bold text-danger">Kayıt başarısız</span>
         )}
       </div>
     </div>

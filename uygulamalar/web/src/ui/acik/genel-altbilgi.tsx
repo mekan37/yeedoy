@@ -35,7 +35,7 @@ export function PublicFooter() {
 
         {/* Keşfet */}
         <div>
-          <p className="mb-2.5 text-xs font-[900] uppercase tracking-wide text-textStrong">Keşfet</p>
+          <p className="mb-2.5 text-xs font-black uppercase tracking-wide text-textStrong">Keşfet</p>
           <div className="grid gap-1.5 text-xs text-muted">
             <Link href="/kesif" className="hover:text-primary">Tüm Restoranlar</Link>
             <Link href="/kesif/harita" className="hover:text-primary">Harita</Link>
@@ -47,7 +47,7 @@ export function PublicFooter() {
 
         {/* Şirket */}
         <div>
-          <p className="mb-2.5 text-xs font-[900] uppercase tracking-wide text-textStrong">Şirket</p>
+          <p className="mb-2.5 text-xs font-black uppercase tracking-wide text-textStrong">Şirket</p>
           <div className="grid gap-1.5 text-xs text-muted">
             <Link href="/isletme" className="hover:text-primary">Hakkımızda</Link>
             <Link href="/isletme-oner" className="hover:text-primary">İşletme Öner</Link>
@@ -57,7 +57,7 @@ export function PublicFooter() {
 
         {/* Yardım */}
         <div>
-          <p className="mb-2.5 text-xs font-[900] uppercase tracking-wide text-textStrong">Yardım</p>
+          <p className="mb-2.5 text-xs font-black uppercase tracking-wide text-textStrong">Yardım</p>
           <div className="grid gap-1.5 text-xs text-muted">
             <Link href="/yardim" className="hover:text-primary">Sık Sorulan Sorular</Link>
             <Link href="/yasal/terms" className="hover:text-primary">Kullanım Koşulları</Link>
@@ -68,7 +68,7 @@ export function PublicFooter() {
 
         {/* Mobil Uygulama */}
         <div>
-          <p className="mb-2.5 text-xs font-[900] uppercase tracking-wide text-textStrong">Mobil Uygulamamızı İndirin</p>
+          <p className="mb-2.5 text-xs font-black uppercase tracking-wide text-textStrong">Mobil Uygulamamızı İndirin</p>
           <p className="mb-3 text-xs leading-5 text-muted">Her yerde lezzetleri keşfet, fırsatları kaçırma!</p>
           <div className="flex flex-wrap gap-2">
             <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="block transition-opacity hover:opacity-80">

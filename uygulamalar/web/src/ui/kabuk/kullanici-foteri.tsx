@@ -34,7 +34,7 @@ export function KullaniciFoteri() {
         <Link
           href="/profil"
           title="Profil"
-          className="flex h-10 w-10 items-center justify-center rounded-xl text-muted transition-colors hover:bg-textStrong/[0.07] hover:text-textStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-muted transition-colors hover:bg-textStrong/[0.07] hover:text-textStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
         >
           <UserIcon />
         </Link>
@@ -43,7 +43,7 @@ export function KullaniciFoteri() {
           onClick={signOut}
           disabled={pending}
           title="Çıkış yap"
-          className="flex h-10 w-10 items-center justify-center rounded-xl text-muted transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50"
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-muted transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50"
         >
           <LogoutIcon />
         </button>
@@ -54,13 +54,13 @@ export function KullaniciFoteri() {
   return (
     <div className="space-y-0.5 py-1">
       {email && (
-        <p className="truncate px-3 pb-1 text-[11px] font-[600] text-muted" title={email}>
+        <p className="truncate px-3 pb-1 text-[11px] font-semibold text-muted" title={email}>
           {email}
         </p>
       )}
       <Link
         href="/profil"
-        className="flex min-h-[40px] items-center gap-3 rounded-xl px-3 text-sm font-[700] text-text transition-colors hover:bg-textStrong/[0.06] hover:text-textStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        className="flex min-h-[40px] items-center gap-3 rounded-xl px-3 text-sm font-bold text-text transition-colors hover:bg-textStrong/[0.06] hover:text-textStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
       >
         <span className="flex h-5 w-5 shrink-0 items-center justify-center text-muted">
           <UserIcon />
@@ -71,7 +71,7 @@ export function KullaniciFoteri() {
         type="button"
         onClick={signOut}
         disabled={pending}
-        className="flex w-full min-h-[40px] items-center gap-3 rounded-xl px-3 text-sm font-[700] text-text transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50"
+        className="flex w-full min-h-[40px] items-center gap-3 rounded-xl px-3 text-sm font-bold text-text transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50"
       >
         <span className="flex h-5 w-5 shrink-0 items-center justify-center text-muted">
           <LogoutIcon />

@@ -172,7 +172,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
 
             {/* Başlık */}
             <div className="mb-7">
-              <h1 className="text-[2rem] font-[900] leading-tight text-textStrong">
+              <h1 className="text-[2rem] font-black leading-tight text-textStrong">
                 Hoş geldin! 👋
               </h1>
               <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -184,7 +184,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             <div className="mb-7 flex border-b border-border">
               <Link
                 href="/giris"
-                className={`flex items-center gap-2 px-1 pb-3 text-sm font-[800] transition-colors ${
+                className={`flex items-center gap-2 px-1 pb-3 text-sm font-extrabold transition-colors ${
                   mode === 'giris' ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-textStrong'
                 }`}
                 style={{ marginBottom: '-1px' }}
@@ -196,7 +196,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               </Link>
               <Link
                 href="/giris?tab=kayit"
-                className={`ml-6 flex items-center gap-2 px-1 pb-3 text-sm font-[800] transition-colors ${
+                className={`ml-6 flex items-center gap-2 px-1 pb-3 text-sm font-extrabold transition-colors ${
                   mode === 'kayit' ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-textStrong'
                 }`}
                 style={{ marginBottom: '-1px' }}
@@ -216,7 +216,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {mode === 'kayit' && (
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="mb-1.5 block text-sm font-[700] text-textStrong">Ad</label>
+                    <label className="mb-1.5 block text-sm font-bold text-textStrong">Ad</label>
                     <div className="relative">
                       <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -226,16 +226,16 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       <input
                         type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}
                         required autoComplete="given-name" placeholder="Adınız" maxLength={40}
-                        className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-3 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-3 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-[700] text-textStrong">Soyad</label>
+                    <label className="mb-1.5 block text-sm font-bold text-textStrong">Soyad</label>
                     <input
                       type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}
                       autoComplete="family-name" placeholder="Soyadınız" maxLength={40}
-                      className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                      className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                     />
                   </div>
                 </div>
@@ -243,7 +243,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
 
               {/* E-posta */}
               <div>
-                <label className="mb-1.5 block text-sm font-[700] text-textStrong">
+                <label className="mb-1.5 block text-sm font-bold text-textStrong">
                   {mode === 'giris' ? 'E-posta veya Telefon' : 'E-posta'}
                 </label>
                 <div className="relative">
@@ -256,7 +256,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                     required autoComplete="email"
                     placeholder={mode === 'giris' ? 'E-posta adresiniz veya telefon numaranız' : 'ornek@mail.com'}
-                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                 </div>
               </div>
@@ -264,8 +264,8 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Kayıt — Telefon */}
               {mode === 'kayit' && (
                 <div>
-                  <label className="mb-1.5 block text-sm font-[700] text-textStrong">
-                    Telefon <span className="text-xs font-[500] text-muted">(opsiyonel)</span>
+                  <label className="mb-1.5 block text-sm font-bold text-textStrong">
+                    Telefon <span className="text-xs font-medium text-muted">(opsiyonel)</span>
                   </label>
                   <div className="relative flex">
                     {/* Ülke kodu seçici */}
@@ -273,7 +273,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       <button
                         type="button"
                         onClick={() => setShowCodePicker((v) => !v)}
-                        className="flex h-12 items-center gap-1 rounded-l-2xl border border-r-0 border-border bg-bg px-3 text-sm font-[700] text-textStrong hover:bg-cardAlt"
+                        className="flex h-12 items-center gap-1 rounded-l-2xl border border-r-0 border-border bg-bg px-3 text-sm font-bold text-textStrong hover:bg-cardAlt"
                       >
                         <span>{COUNTRY_CODES.find((c) => c.code === countryCode)?.flag}</span>
                         <span className="text-xs text-muted">{countryCode}</span>
@@ -287,7 +287,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                             <button
                               key={c.code} type="button"
                               onClick={() => { setCountryCode(c.code); setShowCodePicker(false); }}
-                              className={`flex w-full items-center gap-2 px-3 py-2.5 text-sm transition-colors hover:bg-cardAlt ${countryCode === c.code ? 'font-[800] text-primary' : 'text-textStrong'}`}
+                              className={`flex w-full items-center gap-2 px-3 py-2.5 text-sm transition-colors hover:bg-cardAlt ${countryCode === c.code ? 'font-extrabold text-primary' : 'text-textStrong'}`}
                             >
                               <span>{c.flag}</span>
                               <span>{c.code}</span>
@@ -303,7 +303,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                         setPhone(d);
                       }}
                       autoComplete="tel" placeholder="5xx xxx xx xx"
-                      className="h-12 flex-1 rounded-r-2xl border border-border bg-bg px-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                      className="h-12 flex-1 rounded-r-2xl border border-border bg-bg px-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                     />
                   </div>
                 </div>
@@ -312,9 +312,9 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Şifre */}
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="text-sm font-[700] text-textStrong">Şifre</label>
+                  <label className="text-sm font-bold text-textStrong">Şifre</label>
                   {mode === 'giris' && (
-                    <Link href="/sifremi-unuttum" className="text-sm font-[700] text-primary hover:underline">
+                    <Link href="/sifremi-unuttum" className="text-sm font-bold text-primary hover:underline">
                       Şifremi unuttum?
                     </Link>
                   )}
@@ -330,7 +330,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     value={password} onChange={(e) => setPassword(e.target.value)}
                     required autoComplete={mode === 'giris' ? 'current-password' : 'new-password'}
                     placeholder="Şifrenizi girin"
-                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-11 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-11 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                   />
                   <button type="button" aria-label={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'}
                     onClick={() => setShowPassword((v) => !v)}
@@ -349,7 +349,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Kayıt — Şifre tekrar */}
               {mode === 'kayit' && (
                 <div>
-                  <label className="mb-1.5 block text-sm font-[700] text-textStrong">Şifre (Tekrar)</label>
+                  <label className="mb-1.5 block text-sm font-bold text-textStrong">Şifre (Tekrar)</label>
                   <div className="relative">
                     <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -359,7 +359,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     <input
                       type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                       required autoComplete="new-password" placeholder="••••••••"
-                      className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                      className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                     />
                   </div>
                 </div>
@@ -368,8 +368,8 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Kayıt — Doğum tarihi */}
               {mode === 'kayit' && (
                 <div>
-                  <label className="mb-1.5 block text-sm font-[700] text-textStrong">
-                    Doğum Tarihi <span className="text-xs font-[500] text-muted">(opsiyonel)</span>
+                  <label className="mb-1.5 block text-sm font-bold text-textStrong">
+                    Doğum Tarihi <span className="text-xs font-medium text-muted">(opsiyonel)</span>
                   </label>
                   <div className="relative">
                     <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
@@ -381,7 +381,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)}
                       max={new Date(new Date().setFullYear(new Date().getFullYear() - 13)).toISOString().split('T')[0]}
                       min="1920-01-01"
-                      className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                      className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
                     />
                   </div>
                 </div>
@@ -404,9 +404,9 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                   <input type="checkbox" checked={acceptedTerms} onChange={(e) => setAcceptedTerms(e.target.checked)}
                     className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-primary" required />
                   <span className="text-sm leading-relaxed text-textStrong">
-                    <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYasalModal('terms'); }} className="font-[800] text-primary underline-offset-2 hover:underline">Kullanım Şartları</button>
+                    <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYasalModal('terms'); }} className="font-extrabold text-primary underline-offset-2 hover:underline">Kullanım Şartları</button>
                     {' '}ve{' '}
-                    <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYasalModal('privacy'); }} className="font-[800] text-primary underline-offset-2 hover:underline">Gizlilik Politikası</button>
+                    <button type="button" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYasalModal('privacy'); }} className="font-extrabold text-primary underline-offset-2 hover:underline">Gizlilik Politikası</button>
                     &apos;nı okudum, kabul ediyorum. <span className="text-danger">*</span>
                   </span>
                 </label>
@@ -414,13 +414,13 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
 
               {error && (
                 <div id="form-error" role="alert" aria-live="polite"
-                  className="rounded-2xl border border-danger/25 bg-danger/[0.08] px-4 py-3 text-sm font-[700] text-danger">
+                  className="rounded-2xl border border-danger/25 bg-danger/8 px-4 py-3 text-sm font-bold text-danger">
                   {error}
                 </div>
               )}
               {success && (
                 <div id="form-success" role="status" aria-live="polite"
-                  className="rounded-2xl border border-success/25 bg-success/[0.10] px-4 py-3 text-sm font-[700] text-success">
+                  className="rounded-2xl border border-success/25 bg-success/10 px-4 py-3 text-sm font-bold text-success">
                   {success}
                 </div>
               )}
@@ -428,7 +428,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               <button
                 type="submit"
                 disabled={isPending || (mode === 'kayit' && !acceptedTerms)}
-                className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary text-sm font-[900] text-white shadow-sm transition-all hover:opacity-90 disabled:opacity-60"
+                className="flex h-12 w-full items-center justify-center rounded-2xl bg-primary text-sm font-black text-white shadow-xs transition-all hover:opacity-90 disabled:opacity-60"
               >
                 {isPending
                   ? (mode === 'giris' ? 'Giriş yapılıyor…' : 'Hesap oluşturuluyor…')
@@ -439,7 +439,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             {/* Ayraç */}
             <div className="my-5 flex items-center gap-3">
               <div className="h-px flex-1 bg-border" />
-              <span className="text-xs font-[600] text-muted">veya</span>
+              <span className="text-xs font-semibold text-muted">veya</span>
               <div className="h-px flex-1 bg-border" />
             </div>
 
@@ -447,7 +447,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             <div className="space-y-3">
               <button type="button" onClick={() => void handleOAuth('google')}
                 disabled={isPending || oAuthProvider !== null}
-                className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card text-sm font-[700] text-textStrong shadow-sm transition-colors hover:bg-cardAlt disabled:opacity-50">
+                className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card text-sm font-bold text-textStrong shadow-xs transition-colors hover:bg-cardAlt disabled:opacity-50">
                 {oAuthProvider === 'google'
                   ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-primary" />
                   : <GoogleIcon />}
@@ -455,7 +455,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               </button>
               <button type="button" onClick={() => void handleOAuth('apple')}
                 disabled={isPending || oAuthProvider !== null}
-                className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card text-sm font-[700] text-textStrong shadow-sm transition-colors hover:bg-cardAlt disabled:opacity-50">
+                className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card text-sm font-bold text-textStrong shadow-xs transition-colors hover:bg-cardAlt disabled:opacity-50">
                 {oAuthProvider === 'apple'
                   ? <span className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-textStrong" />
                   : <AppleIcon />}
@@ -471,7 +471,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                 </svg>
               </span>
               <div>
-                <p className="text-sm font-[800] text-primary">Güvenli {mode === 'giris' ? 'Giriş' : 'Kayıt'}</p>
+                <p className="text-sm font-extrabold text-primary">Güvenli {mode === 'giris' ? 'Giriş' : 'Kayıt'}</p>
                 <p className="text-xs text-muted">Bilgilerin 256-bit SSL şifreleme ile korunur.</p>
               </div>
             </div>
@@ -480,11 +480,11 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             <p className="mt-5 text-center text-sm text-muted">
               {mode === 'giris' ? (
                 <>Hesabın yok mu?{' '}
-                  <Link href="/giris?tab=kayit" className="font-[800] text-primary hover:underline">Kayıt ol</Link>
+                  <Link href="/giris?tab=kayit" className="font-extrabold text-primary hover:underline">Kayıt ol</Link>
                 </>
               ) : (
                 <>Zaten hesabın var mı?{' '}
-                  <Link href="/giris" className="font-[800] text-primary hover:underline">Giriş yap</Link>
+                  <Link href="/giris" className="font-extrabold text-primary hover:underline">Giriş yap</Link>
                 </>
               )}
             </p>
@@ -493,7 +493,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             {panelLoginUrl && mode === 'giris' && (
               <div className="mt-4 rounded-2xl border border-border bg-cardAlt p-4 text-center">
                 <p className="text-xs text-muted">İşletme paneli için ayrı giriş</p>
-                <Link href={panelLoginUrl} className="mt-0.5 inline-block text-sm font-[800] text-primary hover:underline">
+                <Link href={panelLoginUrl} className="mt-0.5 inline-block text-sm font-extrabold text-primary hover:underline">
                   Panel girişine git →
                 </Link>
               </div>
@@ -507,7 +507,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
           style={{ background: 'linear-gradient(135deg, #fff5f5 0%, #fef2f2 50%, #fff8f0 100%)' }}
         >
           <div className="pointer-events-none absolute right-[-80px] top-[-80px] h-[400px] w-[400px] rounded-full bg-primary/5" />
-          <div className="pointer-events-none absolute bottom-[-60px] left-[-60px] h-[300px] w-[300px] rounded-full bg-primary/[0.04]" />
+          <div className="pointer-events-none absolute bottom-[-60px] left-[-60px] h-[300px] w-[300px] rounded-full bg-primary/4" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/giris-gorsel.webp"
@@ -527,14 +527,14 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
           aria-labelledby="yasal-modal-baslik"
         >
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/50 backdrop-blur-xs"
             onClick={() => setYasalModal(null)}
             aria-hidden="true"
           />
           <div className="relative z-10 flex max-h-[85vh] w-full max-w-xl flex-col overflow-hidden rounded-3xl bg-card shadow-yd3">
             {/* Başlık */}
             <div className="flex shrink-0 items-center justify-between border-b border-border px-6 py-4">
-              <h2 id="yasal-modal-baslik" className="text-base font-[900] text-textStrong">
+              <h2 id="yasal-modal-baslik" className="text-base font-black text-textStrong">
                 {yasalModal === 'terms' ? 'Kullanım Şartları' : 'Gizlilik Politikası'}
               </h2>
               <button
@@ -552,58 +552,58 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             <div className="flex-1 overflow-y-auto px-6 py-5 text-sm leading-7 text-text">
               {yasalModal === 'terms' ? (
                 <div className="space-y-5">
-                  <p className="text-xs font-[600] text-muted">Son güncelleme: Haziran 2026</p>
+                  <p className="text-xs font-semibold text-muted">Son güncelleme: Haziran 2026</p>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">1. Hizmet Kapsamı</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">1. Hizmet Kapsamı</h3>
                     <p>Yeedoy, kullanıcıların yakınlarındaki yeme-içme mekânlarını keşfetmelerine, değerlendirme yapmalarına ve birbirleriyle paylaşmalarına olanak tanıyan bir platform hizmetidir. Platforma erişim ve kullanım bu şartlara tabidir.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">2. Hesap Yükümlülükleri</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">2. Hesap Yükümlülükleri</h3>
                     <p>Kayıt sırasında verilen bilgilerin doğru ve güncel olması kullanıcının sorumluluğundadır. Hesap güvenliğini sağlamak, şifreyi üçüncü şahıslarla paylaşmamak zorunludur. Şüpheli bir aktivite fark ettiğinizde destek@yeedoy.com adresini bilgilendirmeniz gerekmektedir.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">3. İçerik Politikası</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">3. İçerik Politikası</h3>
                     <p>Platforma yüklenen içerikler (yorum, fotoğraf, öneri) gerçek deneyimlere dayanmalı; yanıltıcı, hakaret içeren veya başkasının haklarını ihlal eden içerik barındırmamalıdır. Yeedoy, politikaya aykırı içerikleri kaldırma hakkını saklı tutar.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">4. Fikri Mülkiyet</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">4. Fikri Mülkiyet</h3>
                     <p>Platforma yüklenen içeriklerin telif hakkı kullanıcıya aittir; ancak kullanıcı, Yeedoy&apos;a bu içerikleri platform dahilinde ücretsiz kullanma lisansı vermektedir. Yeedoy&apos;un marka ve logoları izinsiz kullanılamaz.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">5. Sorumluluk Sınırları</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">5. Sorumluluk Sınırları</h3>
                     <p>Yeedoy, mekânların sunduğu hizmetlerin kalitesi veya sürekliliği konusunda garanti vermez. Kullanıcı yorumları üçüncü şahıslara aittir; Yeedoy doğruluklarından sorumlu tutulamaz.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">6. Değişiklikler</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">6. Değişiklikler</h3>
                     <p>Bu şartlar önceden bildirim yapılarak değiştirilebilir. Değişiklik sonrasında platforma erişmeye devam etmek, güncel şartları kabul ettiğiniz anlamına gelir.</p>
                   </section>
                 </div>
               ) : (
                 <div className="space-y-5">
-                  <p className="text-xs font-[600] text-muted">Son güncelleme: Haziran 2026</p>
+                  <p className="text-xs font-semibold text-muted">Son güncelleme: Haziran 2026</p>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">1. Topladığımız Veriler</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">1. Topladığımız Veriler</h3>
                     <p>Kayıt sırasında ad, soyad, e-posta ve isteğe bağlı telefon/doğum tarihi bilgilerinizi toplarız. Platform kullanımı sırasında tercihler, yorumlar, konum bilgisi (izin verildiyse) ve cihaz verileri işlenir.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">2. Verilerin Kullanımı</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">2. Verilerin Kullanımı</h3>
                     <p>Toplanan veriler; kişiselleştirilmiş öneri sunma, hesap güvenliği, müşteri desteği ve hizmet iyileştirme amaçlarıyla kullanılır. Verileriniz üçüncü taraflarla izniniz olmadan paylaşılmaz; yalnızca yasal zorunluluk halinde yetkili mercilere açıklanabilir.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">3. Çerezler</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">3. Çerezler</h3>
                     <p>Oturum yönetimi ve analitik amaçlarla çerez kullanılır. Tarayıcı ayarlarınızdan çerezleri devre dışı bırakabilirsiniz; ancak bu durum bazı özelliklerin çalışmamasına yol açabilir.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">4. Veri Güvenliği</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">4. Veri Güvenliği</h3>
                     <p>Verileriniz 256-bit SSL şifreleme ile iletilir ve güvenli altyapıda saklanır. Yetkisiz erişim, kayıp veya imha riskine karşı endüstri standardı teknik tedbirler uygulanmaktadır.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">5. Haklarınız</h3>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">5. Haklarınız</h3>
                     <p>KVKK kapsamında verilerinize erişme, düzeltme, silme ve taşınabilirlik haklarına sahipsiniz. Bu hakları kullanmak için destek@yeedoy.com adresine başvurabilirsiniz.</p>
                   </section>
                   <section>
-                    <h3 className="mb-2 text-sm font-[900] text-textStrong">6. İletişim</h3>
-                    <p>Gizlilik politikamız hakkında sorularınız için <span className="font-[700] text-textStrong">destek@yeedoy.com</span> adresinden bize ulaşabilirsiniz.</p>
+                    <h3 className="mb-2 text-sm font-black text-textStrong">6. İletişim</h3>
+                    <p>Gizlilik politikamız hakkında sorularınız için <span className="font-bold text-textStrong">destek@yeedoy.com</span> adresinden bize ulaşabilirsiniz.</p>
                   </section>
                 </div>
               )}
@@ -613,7 +613,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               <button
                 type="button"
                 onClick={() => setYasalModal(null)}
-                className="flex h-11 w-full items-center justify-center rounded-2xl bg-primary text-sm font-[900] text-white shadow-sm transition-all hover:opacity-90"
+                className="flex h-11 w-full items-center justify-center rounded-2xl bg-primary text-sm font-black text-white shadow-xs transition-all hover:opacity-90"
               >
                 Anladım, Kapat
               </button>
@@ -652,7 +652,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                 {item.icon}
               </span>
               <div>
-                <p className="text-sm font-[800] text-textStrong">{item.title}</p>
+                <p className="text-sm font-extrabold text-textStrong">{item.title}</p>
                 <p className="mt-0.5 text-xs leading-relaxed text-muted">{item.desc}</p>
               </div>
             </div>

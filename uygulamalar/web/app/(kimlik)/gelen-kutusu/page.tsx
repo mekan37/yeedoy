@@ -139,9 +139,9 @@ export default async function InboxPage({ searchParams }: PageProps) {
         {/* Başlık + aksiyon bar */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-[900] text-textStrong">Bildirimler</h1>
+            <h1 className="text-2xl font-black text-textStrong">Bildirimler</h1>
             {unreadCount > 0 && (
-              <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-[700] text-white">
+              <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">
                 {unreadCount}
               </span>
             )}
@@ -157,7 +157,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
           <div className="mb-6 flex flex-wrap gap-2">
             <Link
               href="/gelen-kutusu"
-              className={`rounded-full px-3 py-1.5 text-xs font-[700] transition-colors ${
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${
                 filterType === 'hepsi'
                   ? 'bg-primary text-white'
                   : 'border border-border bg-card text-muted hover:border-primary/30'
@@ -173,7 +173,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
                 <Link
                   key={type}
                   href={`/gelen-kutusu?tip=${type}`}
-                  className={`rounded-full px-3 py-1.5 text-xs font-[700] transition-colors ${
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition-colors ${
                     active
                       ? 'bg-primary text-white'
                       : 'border border-border bg-card text-muted hover:border-primary/30'
@@ -188,7 +188,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
 
         {tableError ? (
           <div className="rounded-2xl border border-border bg-card p-8 text-center">
-            <p className="font-[700] text-textStrong mb-1">Bildirimler şu an kullanılamıyor</p>
+            <p className="font-bold text-textStrong mb-1">Bildirimler şu an kullanılamıyor</p>
             <p className="text-sm text-muted">Lütfen daha sonra tekrar deneyin.</p>
           </div>
         ) : filteredList.length === 0 ? (
@@ -199,7 +199,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
               </svg>
             </div>
-            <p className="font-[700] text-textStrong">
+            <p className="font-bold text-textStrong">
               {filterType === 'hepsi' ? 'Bildiriminiz yok' : `${getTypeMeta(filterType).label} bildirimi yok`}
             </p>
             <p className="mt-2 text-sm text-muted">Yeni bildirimler burada görünecek.</p>
@@ -208,7 +208,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
           <div className="flex flex-col gap-6">
             {groups.map((group) => (
               <section key={group.baslik}>
-                <p className="mb-2 text-[11px] font-[900] uppercase tracking-wide text-muted">
+                <p className="mb-2 text-[11px] font-black uppercase tracking-wide text-muted">
                   {group.baslik}
                 </p>
                 <div className="flex flex-col gap-2">
@@ -230,7 +230,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
                             <div className="flex items-start justify-between gap-2">
                               <div className="flex items-center gap-1.5">
                                 <meta.icon className={`h-4 w-4 shrink-0 ${meta.color}`} aria-hidden="true" />
-                                <p className={`text-sm leading-snug ${n.is_read ? 'text-textStrong' : 'font-[700] text-textStrong'}`}>
+                                <p className={`text-sm leading-snug ${n.is_read ? 'text-textStrong' : 'font-bold text-textStrong'}`}>
                                   {n.title}
                                 </p>
                               </div>
@@ -243,7 +243,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
                             )}
                             <div className="mt-2 flex items-center gap-3">
                               {n.action_url && (
-                                <Link href={n.action_url} className="inline-flex text-[12px] font-[700] text-primary hover:underline cursor-pointer">
+                                <Link href={n.action_url} className="inline-flex text-[12px] font-bold text-primary hover:underline cursor-pointer">
                                   Görüntüle →
                                 </Link>
                               )}
@@ -265,7 +265,7 @@ export default async function InboxPage({ searchParams }: PageProps) {
         <div className="mt-8 border-t border-border pt-6">
           <Link
             href="/profil/ayarlar?sekme=bildirimler"
-            className="inline-flex items-center gap-2 text-sm font-[700] text-muted hover:text-primary"
+            className="inline-flex items-center gap-2 text-sm font-bold text-muted hover:text-primary"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />

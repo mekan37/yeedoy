@@ -14,13 +14,13 @@ interface PanelActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    'text-white shadow-[0_4px_16px_rgba(127,29,29,0.28)] hover:shadow-[0_6px_24px_rgba(127,29,29,0.36)] hover:-translate-y-[1px] active:translate-y-0',
+    'text-white shadow-[0_4px_16px_rgba(127,29,29,0.28)] hover:shadow-[0_6px_24px_rgba(127,29,29,0.36)] hover:-translate-y-px active:translate-y-0',
   secondary:
-    'border border-border bg-card text-textStrong hover:bg-black/[0.04] hover:border-borderStrong',
+    'border border-border bg-card text-textStrong hover:bg-black/4 hover:border-borderStrong',
   ghost:
-    'text-textStrong hover:bg-black/[0.06]',
+    'text-textStrong hover:bg-black/6',
   danger:
-    'border border-red-200 bg-red-50 text-[color:var(--yd-color-danger)] hover:bg-red-100',
+    'border border-red-200 bg-red-50 text-(--yd-color-danger) hover:bg-red-100',
 };
 
 export function PanelActionButton({
@@ -38,8 +38,8 @@ export function PanelActionButton({
     <button
       disabled={disabled || loading}
       className={clsx(
-        'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-[800] transition-all duration-150',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-extrabold transition-all duration-150',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         'disabled:cursor-not-allowed disabled:opacity-50',
         variantClasses[variant],
         className,

@@ -110,7 +110,7 @@ export default async function OwnerOnboardingPage() {
       />
       <PanelIcerikYuzeyi className="pt-6">
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm font-[800] text-textStrong">{doneCount}/4 tamamlandı</p>
+          <p className="text-sm font-extrabold text-textStrong">{doneCount}/4 tamamlandı</p>
           <div className="h-2 w-40 overflow-hidden rounded-full bg-border">
             <div
               className="h-full rounded-full bg-green-500 transition-all"
@@ -119,7 +119,7 @@ export default async function OwnerOnboardingPage() {
           </div>
         </div>
         {onboarding.complete && (
-          <div className="mb-4 rounded-xl border border-success/25 bg-success/[0.08] px-4 py-3 text-sm font-[700] text-success">
+          <div className="mb-4 rounded-xl border border-success/25 bg-success/8 px-4 py-3 text-sm font-bold text-success">
             Tebrikler! Başlangıç adımlarının tamamını tamamladınız.
           </div>
         )}
@@ -128,7 +128,7 @@ export default async function OwnerOnboardingPage() {
             <PanelBolumKarti key={step.num}>
               <div className="flex items-start gap-4">
                 <div
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-[900] ${
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-black ${
                     step.done
                       ? 'bg-green-500 text-white'
                       : step.pending
@@ -140,14 +140,14 @@ export default async function OwnerOnboardingPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-sm font-[800] text-textStrong">{step.title}</p>
+                    <p className="text-sm font-extrabold text-textStrong">{step.title}</p>
                     {step.done && (
-                      <span className="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-[800] text-green-700">
+                      <span className="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-extrabold text-green-700">
                         Tamamlandı
                       </span>
                     )}
                     {step.pending && (
-                      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-[800] text-amber-700">
+                      <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-extrabold text-amber-700">
                         Bekliyor
                       </span>
                     )}

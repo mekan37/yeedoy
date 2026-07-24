@@ -75,13 +75,13 @@ export default async function AdminChainDetailPage({ params }: Props) {
         actions={
           <div className="flex items-center gap-2">
             {chain.is_verified ? (
-              <span className="rounded-full bg-blue-50 px-3 py-1 text-[12px] font-[800] text-blue-700">Onaylı</span>
+              <span className="rounded-full bg-blue-50 px-3 py-1 text-[12px] font-extrabold text-blue-700">Onaylı</span>
             ) : (
-              <span className="rounded-full bg-zinc-100 px-3 py-1 text-[12px] font-[800] text-zinc-500">Onaysız</span>
+              <span className="rounded-full bg-zinc-100 px-3 py-1 text-[12px] font-extrabold text-zinc-500">Onaysız</span>
             )}
             <Link
               href="/yonetici/zincirler"
-              className="rounded-lg border border-border px-3 py-1.5 text-xs font-[700] text-muted hover:bg-black/[0.04]"
+              className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-muted hover:bg-black/4"
             >
               ← Zincirler
             </Link>
@@ -125,21 +125,21 @@ export default async function AdminChainDetailPage({ params }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şube Etiketi</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şehir</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Rol</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted"></th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şube Etiketi</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şehir</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Rol</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {branches.map((b) => (
-                  <tr key={b.id} className="hover:bg-black/[0.02]">
+                  <tr key={b.id} className="hover:bg-black/2">
                     <td className="px-5 py-3">
                       <Link
                         href={`/yonetici/isletmeler/${b.id}`}
-                        className="font-[700] text-textStrong hover:text-[color:var(--yd-color-primary)]"
+                        className="font-bold text-textStrong hover:text-(--yd-color-primary)"
                       >
                         {b.name}
                       </Link>
@@ -150,18 +150,18 @@ export default async function AdminChainDetailPage({ params }: Props) {
                     </td>
                     <td className="px-5 py-3">
                       {b.is_template ? (
-                        <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-[800] text-indigo-700">
+                        <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-extrabold text-indigo-700">
                           Şablon
                         </span>
                       ) : (
-                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-[800] text-slate-500">
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-extrabold text-slate-500">
                           Şube
                         </span>
                       )}
                     </td>
                     <td className="px-5 py-3">
                       <span
-                        className={`rounded-full px-2 py-0.5 text-[11px] font-[800] ${
+                        className={`rounded-full px-2 py-0.5 text-[11px] font-extrabold ${
                           b.is_active ? 'bg-green-50 text-green-700' : 'bg-zinc-100 text-zinc-500'
                         }`}
                       >
@@ -171,7 +171,7 @@ export default async function AdminChainDetailPage({ params }: Props) {
                     <td className="px-5 py-3">
                       <Link
                         href={`/yonetici/isletmeler/${b.id}`}
-                        className="text-xs font-[700] text-primary hover:underline"
+                        className="text-xs font-bold text-primary hover:underline"
                       >
                         Detay →
                       </Link>
@@ -191,7 +191,7 @@ export default async function AdminChainDetailPage({ params }: Props) {
             </p>
             <Link
               href={`/yonetici/isletmeler/${chain.template_business_id}`}
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-[700] text-textStrong hover:bg-black/[0.03] transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-bold text-textStrong hover:bg-black/3 transition-colors"
             >
               <MenuIcon />
               Şablon Şube: {branches.find((b) => b.id === chain.template_business_id)?.name ?? 'Şube'}
@@ -206,8 +206,8 @@ export default async function AdminChainDetailPage({ params }: Props) {
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[11px] font-[800] uppercase tracking-wide text-muted">{label}</dt>
-      <dd className="mt-1 text-sm font-[600] text-textStrong">{value}</dd>
+      <dt className="text-[11px] font-extrabold uppercase tracking-wide text-muted">{label}</dt>
+      <dd className="mt-1 text-sm font-semibold text-textStrong">{value}</dd>
     </div>
   );
 }

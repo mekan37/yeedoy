@@ -109,7 +109,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
       <div className="flex justify-end">
         <button
           onClick={() => { setEditing(null); setFormOpen(true); }}
-          className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-[800] text-white shadow-sm transition hover:opacity-90"
+          className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-extrabold text-white shadow-xs transition hover:opacity-90"
         >
           <PlusIcon /> Yeni Kampanya Oluştur
         </button>
@@ -136,7 +136,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={[
-                  'flex items-center gap-1.5 border-b-2 px-4 py-2.5 text-sm font-[800] transition-colors',
+                  'flex items-center gap-1.5 border-b-2 px-4 py-2.5 text-sm font-extrabold transition-colors',
                   activeTab === tab.key
                     ? 'border-primary text-primary'
                     : 'border-transparent text-muted hover:text-textStrong',
@@ -144,7 +144,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
               >
                 {tab.label}
                 <span className={[
-                  'rounded-full px-1.5 py-0.5 text-[11px] font-[700]',
+                  'rounded-full px-1.5 py-0.5 text-[11px] font-bold',
                   activeTab === tab.key ? 'bg-primary/10 text-primary' : 'bg-bg text-muted',
                 ].join(' ')}>
                   {tabCounts[tab.key] ?? 0}
@@ -161,7 +161,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Kampanya adı ara..."
-                className="w-full rounded-xl border border-border bg-bg py-2 pl-9 pr-4 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="w-full rounded-xl border border-border bg-bg py-2 pl-9 pr-4 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/20"
               />
             </div>
           </div>
@@ -169,7 +169,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
           {/* Table */}
           {visible.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-16 text-center">
-              <p className="text-sm font-[700] text-textStrong">Kampanya bulunamadı</p>
+              <p className="text-sm font-bold text-textStrong">Kampanya bulunamadı</p>
               <p className="mt-1 text-xs text-muted">Yeni bir kampanya oluşturmak için yukarıdaki butonu kullanın.</p>
             </div>
           ) : (
@@ -177,7 +177,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
               {/* Table header */}
               <div className="grid grid-cols-[1fr_100px_130px_90px_110px_40px] border-b border-border px-4 py-2.5">
                 {['Kampanya', 'Tür', 'Süre', 'Durum', 'Performans', ''].map((h, i) => (
-                  <span key={i} className="text-[11px] font-[800] uppercase tracking-wide text-muted">{h}</span>
+                  <span key={i} className="text-[11px] font-extrabold uppercase tracking-wide text-muted">{h}</span>
                 ))}
               </div>
 
@@ -188,18 +188,18 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
                   <div className="min-w-0 pr-3">
                     <div className="flex items-center gap-2">
                       {c.discount_percent && (
-                        <span className="shrink-0 rounded-md bg-primary px-1.5 py-0.5 text-[10px] font-[900] text-white">
+                        <span className="shrink-0 rounded-md bg-primary px-1.5 py-0.5 text-[10px] font-black text-white">
                           %{c.discount_percent}
                         </span>
                       )}
-                      <p className="truncate text-sm font-[800] text-textStrong">{c.title}</p>
+                      <p className="truncate text-sm font-extrabold text-textStrong">{c.title}</p>
                     </div>
                     {c.description && (
                       <p className="mt-0.5 truncate text-xs text-muted">{c.description}</p>
                     )}
                   </div>
                   {/* Type */}
-                  <span className={`w-fit rounded-full px-2.5 py-1 text-[11px] font-[800] ${TIP_RENKLERI[c.type]}`}>
+                  <span className={`w-fit rounded-full px-2.5 py-1 text-[11px] font-extrabold ${TIP_RENKLERI[c.type]}`}>
                     {TIP_ETIKETLERI[c.type]}
                   </span>
                   {/* Date range */}
@@ -212,7 +212,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
                     ) : <span>—</span>}
                   </div>
                   {/* Status */}
-                  <span className={`w-fit rounded-full px-2.5 py-1 text-[11px] font-[800] ${DURUM_RENKLERI[c.status]}`}>
+                  <span className={`w-fit rounded-full px-2.5 py-1 text-[11px] font-extrabold ${DURUM_RENKLERI[c.status]}`}>
                     {DURUM_ETIKETLERI[c.status]}
                   </span>
                   {/* Performance */}
@@ -254,8 +254,8 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
 
           {/* Performans özeti */}
           <div className="rounded-2xl border border-border bg-card p-5">
-            <h3 className="mb-3 text-sm font-[900] text-textStrong">Kampanya Performans Özeti</h3>
-            <p className="mb-3 text-[11px] font-[700] uppercase tracking-wide text-muted">Son 7 Gün</p>
+            <h3 className="mb-3 text-sm font-black text-textStrong">Kampanya Performans Özeti</h3>
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-wide text-muted">Son 7 Gün</p>
             <div className="space-y-2.5">
               <PerfRow icon={<EyeIcon size={13} />}   label="Görüntüleme"   value={stats.period_views.toLocaleString('tr-TR')}  />
               <PerfRow icon={<ClickIcon size={13} />}  label="Tıklama"       value={stats.period_clicks.toLocaleString('tr-TR')} />
@@ -271,13 +271,13 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
 
           {/* Kampanya tipleri */}
           <div className="rounded-2xl border border-border bg-card p-5">
-            <h3 className="mb-3 text-sm font-[900] text-textStrong">Kampanya Türleri</h3>
+            <h3 className="mb-3 text-sm font-black text-textStrong">Kampanya Türleri</h3>
             <div className="space-y-3">
               {TIP_BILGISI.map((t) => (
                 <div key={t.type} className="flex gap-2.5">
                   <span className="mt-0.5 shrink-0 text-primary">{t.icon}</span>
                   <div>
-                    <p className="text-xs font-[800] text-textStrong">{t.label}</p>
+                    <p className="text-xs font-extrabold text-textStrong">{t.label}</p>
                     <p className="text-[11px] text-muted">{t.desc}</p>
                   </div>
                 </div>
@@ -287,7 +287,7 @@ export function KampanyalarIstemcisi({ businessId, initialCampaigns, initialTota
 
           {/* İpucu */}
           <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
-            <p className="text-[11px] font-[800] text-amber-700">İpucu</p>
+            <p className="text-[11px] font-extrabold text-amber-700">İpucu</p>
             <p className="mt-1 text-[11px] text-amber-700/80 leading-relaxed">
               Kampanyalarınızın daha fazla kişiye ulaşması için sosyal medya hesaplarınızda paylaşın!
             </p>
@@ -321,9 +321,9 @@ function StatCard({ icon, label, value, sub, color }: {
     <div className="rounded-2xl border border-border bg-card p-4">
       <div className="mb-2 flex items-center gap-2">
         <span className={`${color}`}>{icon}</span>
-        <p className="text-xs font-[700] text-muted">{label}</p>
+        <p className="text-xs font-bold text-muted">{label}</p>
       </div>
-      <p className={`text-2xl font-[900] ${color}`}>{value}</p>
+      <p className={`text-2xl font-black ${color}`}>{value}</p>
       <p className="mt-1 text-[11px] text-muted">{sub}</p>
     </div>
   );
@@ -335,7 +335,7 @@ function PerfRow({ icon, label, value }: { icon: React.ReactNode; label: string;
       <span className="flex items-center gap-1.5 text-muted">
         {icon}{label}
       </span>
-      <span className="font-[800] text-textStrong">{value}</span>
+      <span className="font-extrabold text-textStrong">{value}</span>
     </div>
   );
 }

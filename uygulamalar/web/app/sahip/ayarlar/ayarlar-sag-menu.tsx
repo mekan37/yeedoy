@@ -62,15 +62,15 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
     <div className="flex flex-col gap-4">
       <PanelBolumKarti title="Kullanıcı Bilgisi">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-[900] text-primary">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-black text-primary">
             {initials || <UserRound aria-hidden="true" className="h-5 w-5" />}
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-[800] text-textStrong">
+            <p className="truncate text-sm font-extrabold text-textStrong">
               {user.displayName || 'Kullanıcı'}
             </p>
             <p className="truncate text-xs text-muted">{user.email}</p>
-            <p className="mt-1 text-xs font-[700] text-primary">İşletme sahibi</p>
+            <p className="mt-1 text-xs font-bold text-primary">İşletme sahibi</p>
           </div>
         </div>
       </PanelBolumKarti>
@@ -98,7 +98,7 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
             return (
               <li key={integration.label} className="flex min-h-11 items-center gap-3 px-5 py-2.5">
                 <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
-                <span className="min-w-0 flex-1 truncate text-xs font-[700] text-textStrong">
+                <span className="min-w-0 flex-1 truncate text-xs font-bold text-textStrong">
                   {integration.label}
                 </span>
                 {integration.url ? (
@@ -107,13 +107,13 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`${integration.label} bağlantısını yeni sekmede aç`}
-                    className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-xs font-[800] text-success transition-colors hover:bg-success/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-success/30"
+                    className="inline-flex min-h-11 items-center gap-1.5 rounded-lg px-2 text-xs font-extrabold text-success transition-colors hover:bg-success/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-success/30"
                   >
                     Bağlı
                     <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
                   </a>
                 ) : (
-                  <span className="text-xs font-[700] text-muted">Eklenmedi</span>
+                  <span className="text-xs font-bold text-muted">Eklenmedi</span>
                 )}
               </li>
             );
@@ -125,7 +125,7 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
         <div className="flex gap-3">
           <TriangleAlert aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-danger" />
           <div>
-            <p className="text-sm font-[800] text-textStrong">İşletmeyi devre dışı bırak</p>
+            <p className="text-sm font-extrabold text-textStrong">İşletmeyi devre dışı bırak</p>
             <p className="mt-1 text-xs text-muted">
               İşletme pasif duruma alınır. Bu işlem işletme kaydını veya hesabınızı silmez.
             </p>
@@ -133,7 +133,7 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
         </div>
 
         {!business.is_active ? (
-          <p className="mt-4 rounded-lg bg-cardAlt px-3 py-2 text-xs font-[700] text-muted">
+          <p className="mt-4 rounded-lg bg-cardAlt px-3 py-2 text-xs font-bold text-muted">
             Bu işletme zaten devre dışı.
           </p>
         ) : !isConfirming ? (
@@ -147,8 +147,8 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
           </PanelActionButton>
         ) : (
           <div className="mt-4 border-t border-danger/20 pt-4">
-            <label htmlFor="deactivate-confirmation" className="text-xs font-[700] text-textStrong">
-              Onaylamak için <span className="font-[900]">{business.name}</span> yazın
+            <label htmlFor="deactivate-confirmation" className="text-xs font-bold text-textStrong">
+              Onaylamak için <span className="font-black">{business.name}</span> yazın
             </label>
             <input
               id="deactivate-confirmation"
@@ -156,10 +156,10 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
               onChange={(event) => setConfirmation(event.target.value)}
               disabled={isPending}
               autoComplete="off"
-              className="mt-2 min-h-11 w-full rounded-xl border border-border bg-bg px-3 text-sm text-textStrong outline-none transition-colors focus:border-danger focus:ring-2 focus:ring-danger/20 disabled:opacity-60"
+              className="mt-2 min-h-11 w-full rounded-xl border border-border bg-bg px-3 text-sm text-textStrong outline-hidden transition-colors focus:border-danger focus:ring-2 focus:ring-danger/20 disabled:opacity-60"
             />
             {error ? (
-              <p role="alert" className="mt-2 text-xs font-[700] text-danger">
+              <p role="alert" className="mt-2 text-xs font-bold text-danger">
                 {error}
               </p>
             ) : null}
@@ -211,7 +211,7 @@ function QuickActionLink({
       href={href}
       target={external ? '_blank' : undefined}
       rel={external ? 'noreferrer' : undefined}
-      className="flex min-h-11 items-center gap-3 px-5 py-2.5 text-xs font-[700] text-textStrong transition-colors hover:bg-cardAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
+      className="flex min-h-11 items-center gap-3 px-5 py-2.5 text-xs font-bold text-textStrong transition-colors hover:bg-cardAlt focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/30"
     >
       <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
       <span className="min-w-0 flex-1">{label}</span>

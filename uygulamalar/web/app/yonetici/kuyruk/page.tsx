@@ -62,19 +62,19 @@ export default async function AdminQueuePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Hedef</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Neden</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Hedef</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Neden</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {reports.map((r: any) => (
                     <tr key={r.id}>
-                      <td className="px-5 py-3 font-[700] text-textStrong capitalize">{r.target_type}</td>
+                      <td className="px-5 py-3 font-bold text-textStrong capitalize">{r.target_type}</td>
                       <td className="px-5 py-3 text-muted">{r.reason}</td>
                       <td className="px-5 py-3">
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                           r.status === 'reviewing' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
                         }`}>
                           {r.status === 'reviewing' ? 'İnceleniyor' : 'Açık'}
@@ -96,16 +96,16 @@ export default async function AdminQueuePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">İşletme</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şehir</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kategori</th>
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Tarih</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">İşletme</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şehir</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kategori</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Tarih</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {submissions.map((s: any) => (
                     <tr key={s.id}>
-                      <td className="px-5 py-3 font-[700] text-textStrong">{s.name}</td>
+                      <td className="px-5 py-3 font-bold text-textStrong">{s.name}</td>
                       <td className="px-5 py-3 text-muted">{s.city}</td>
                       <td className="px-5 py-3 text-muted">{s.category}</td>
                       <td className="px-5 py-3 text-xs text-muted">{new Date(s.created_at).toLocaleDateString('tr-TR')}</td>
@@ -131,7 +131,7 @@ export default async function AdminQueuePage() {
                 {suggestions.map((s: any) => (
                   <li key={s.id} className="flex items-center justify-between px-5 py-3">
                     <div>
-                      <p className="font-[700] text-textStrong">{s.name}</p>
+                      <p className="font-bold text-textStrong">{s.name}</p>
                       <p className="text-xs text-muted">{s.category} · {s.city}</p>
                     </div>
                     <span className="text-xs text-muted">{new Date(s.created_at).toLocaleDateString('tr-TR')}</span>

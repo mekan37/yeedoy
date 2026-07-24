@@ -35,14 +35,14 @@ export function HeroSearchSection({ q = '', city = '', action = '/kesif' }: { q?
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.16),transparent_30%),radial-gradient(circle_at_82%_78%,rgba(255,255,255,0.12),transparent_34%)]" />
       <div className="relative mx-auto flex min-h-[500px] max-w-7xl flex-col items-center justify-center px-4 py-16 text-center sm:px-6 sm:py-24 lg:px-8">
         <div className="landing-hero-copy w-full">
-          <h1 className="mx-auto max-w-4xl text-4xl font-[900] leading-[1.05] text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mx-auto max-w-4xl text-4xl font-black leading-[1.05] text-white sm:text-5xl lg:text-6xl">
             Yakınındaki lezzetleri keşfet
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/90 sm:text-xl">
             Restoranları, kafeleri ve menüleri keşfet. Yorumları oku, fiyatları karşılaştır, QR menüye tek dokunuşla ulaş.
           </p>
           <SearchBar q={q} city={city} action={action} className="mx-auto mt-9" />
-          <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm font-[800] text-white/92">
+          <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm font-extrabold text-white/92">
             <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-white" /> Doğrulanmış işletmeler</span>
             <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-white" /> Güncel fiyatlar</span>
             <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-white" /> Public QR menü</span>
@@ -58,10 +58,10 @@ export function SearchBar({ q = '', city = '', action = '/kesif', className }: {
     <form method="GET" action={action} className={clsx('grid w-full max-w-4xl gap-2 rounded-[32px] bg-white p-2 shadow-[0_24px_60px_rgba(15,23,42,0.24)] sm:grid-cols-[1fr_1fr_auto]', className)}>
       <label className="relative block">
         <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-muted"><Icon name="search" size={19} /></span>
-        <input name="q" defaultValue={q} placeholder="İşletme, mutfak veya ürün" className="min-h-[52px] w-full rounded-full border-0 bg-bg py-3 pl-12 pr-4 text-sm font-[700] text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30" />
+        <input name="q" defaultValue={q} placeholder="İşletme, mutfak veya ürün" className="min-h-[52px] w-full rounded-full border-0 bg-bg py-3 pl-12 pr-4 text-sm font-bold text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
       </label>
       <LocationSearchInput city={city} />
-      <button type="submit" className="min-h-[52px] rounded-full px-8 text-sm font-[900] text-white shadow-[var(--yd-shadow-primary)] hover:-translate-y-px hover:brightness-105" style={{ background: 'var(--yd-gradient-primary)' }}>
+      <button type="submit" className="min-h-[52px] rounded-full px-8 text-sm font-black text-white shadow-(--yd-shadow-primary) hover:-translate-y-px hover:brightness-105" style={{ background: 'var(--yd-gradient-primary)' }}>
         Ara
       </button>
     </form>
@@ -72,7 +72,7 @@ export function LocationSearchInput({ city = '' }: { city?: string }) {
   return (
     <label className="relative block">
       <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-muted"><Icon name="pin" size={19} /></span>
-      <input name="city" defaultValue={city} placeholder="Konum" className="min-h-[52px] w-full rounded-full border-0 bg-bg py-3 pl-12 pr-4 text-sm font-[700] text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30" />
+      <input name="city" defaultValue={city} placeholder="Konum" className="min-h-[52px] w-full rounded-full border-0 bg-bg py-3 pl-12 pr-4 text-sm font-bold text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
     </label>
   );
 }
@@ -88,7 +88,7 @@ export function CategoryFilterChips({ selected = '', city = '', q = '', basePath
   }
 
   return (
-    <div className="flex gap-2 overflow-x-auto py-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="flex gap-2 overflow-x-auto py-4 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
       {MARKETPLACE_CATEGORIES.map((category) => {
         const active = selected === category.id || (!selected && !category.id);
         return (
@@ -96,8 +96,8 @@ export function CategoryFilterChips({ selected = '', city = '', q = '', basePath
             key={category.label}
             href={href(category.id)}
             className={clsx(
-              'inline-flex min-h-[76px] min-w-[92px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 text-sm font-[900] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
-              active ? 'bg-primary text-white shadow-[var(--yd-shadow-primary)]' : 'bg-bg text-textStrong hover:bg-cardAlt',
+              'inline-flex min-h-[76px] min-w-[92px] shrink-0 flex-col items-center justify-center gap-2 rounded-xl px-4 text-sm font-black focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
+              active ? 'bg-primary text-white shadow-(--yd-shadow-primary)' : 'bg-bg text-textStrong hover:bg-cardAlt',
             )}
           >
             <span className="flex items-center justify-center">{category.icon}</span>
@@ -125,7 +125,7 @@ export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
   const cover = buildMenuImageUrl(business.coverUrl || business.logoUrl, { width: 700, quality: 78 });
   const { level: priceLevel } = getPriceLevelFromBusiness(business.priceLevel, business.medianPriceCents);
   return (
-    <Card href={`/isletme/${slug}`} className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <Card href={`/isletme/${slug}`} className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative h-48 overflow-hidden bg-cardAlt">
         {cover ? (
           <Image src={cover} alt={business.name} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition-transform duration-300 group-hover:scale-105" />
@@ -137,17 +137,17 @@ export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
           {business.isOpenNow != null ? <Badge tone={business.isOpenNow ? 'success' : 'neutral'}>{business.isOpenNow ? 'Açık' : 'Kapalı'}</Badge> : null}
         </div>
         <div className="absolute right-3 top-3">
-          <FavoriteButton label="Favori" className="min-h-10 rounded-full bg-card/95 px-3 backdrop-blur" businessId={business.id} />
+          <FavoriteButton label="Favori" className="min-h-10 rounded-full bg-card/95 px-3 backdrop-blur-sm" businessId={business.id} />
         </div>
       </div>
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="truncate text-lg font-[900] text-textStrong group-hover:text-primary">{business.name}</h3>
+            <h3 className="truncate text-lg font-black text-textStrong group-hover:text-primary">{business.name}</h3>
             <p className="mt-1 truncate text-sm text-muted">{[business.category, business.district || business.city].filter(Boolean).join(' · ')}</p>
           </div>
           {business.avgRating ? (
-            <span className={`inline-flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-[900] text-white ${
+            <span className={`inline-flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-black text-white ${
               business.avgRating >= 4.5 ? 'bg-success' :
               business.avgRating >= 4.0 ? 'bg-[#22c55e]/80' :
               business.avgRating >= 3.5 ? 'bg-warning' : 'bg-danger/80'
@@ -159,7 +159,7 @@ export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
         </div>
         <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted">
           {priceLevel != null && (
-            <span className="inline-flex items-center rounded-full border border-border bg-bg px-2 py-0.5 text-xs font-[900] text-textStrong">
+            <span className="inline-flex items-center rounded-full border border-border bg-bg px-2 py-0.5 text-xs font-black text-textStrong">
               {priceLevel}
             </span>
           )}
@@ -168,7 +168,7 @@ export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
         </div>
         <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
           <span className="text-xs text-muted">{business.reviewCount ? `${business.reviewCount.toLocaleString('tr-TR')} yorum` : 'Yeni işletme'}</span>
-          <span className="inline-flex items-center gap-1 text-sm font-[900] text-primary">
+          <span className="inline-flex items-center gap-1 text-sm font-black text-primary">
             Menüyü Gör <Icon name="chevronRight" size={14} />
           </span>
         </div>
@@ -180,7 +180,7 @@ export function BusinessCard({ business }: { business: AcikIsletmeKarti }) {
 export function BusinessCardSkeleton() {
   return (
     <Card className="overflow-hidden">
-      <Skeleton className="aspect-[16/10] rounded-none" />
+      <Skeleton className="aspect-16/10 rounded-none" />
       <div className="space-y-3 p-4">
         <Skeleton className="h-5 w-2/3" />
         <Skeleton className="h-4 w-1/2" />
@@ -246,7 +246,7 @@ export function DiscoveryResults({
       {totalPages > 1 ? (
         <div className="mt-7 flex items-center justify-center gap-3">
           {page > 1 ? <LoadMoreButton href={pageHref(page - 1)} /> : null}
-          <span className="text-sm font-[900] text-muted">{page} / {totalPages}</span>
+          <span className="text-sm font-black text-muted">{page} / {totalPages}</span>
           {page < totalPages ? <LoadMoreButton href={pageHref(page + 1)} /> : null}
         </div>
       ) : null}
@@ -275,12 +275,12 @@ export function FiyatSinyalleri({ signals }: { signals: FiyatSinyalItem[] }) {
           const href = slug ? `/isletme/${slug}` : '#';
           return (
             <Card key={signal.business_id ?? index} href={href} className="p-4">
-              <p className="truncate text-sm font-[900] text-textStrong">{signal.business_name ?? 'İşletme'}</p>
+              <p className="truncate text-sm font-black text-textStrong">{signal.business_name ?? 'İşletme'}</p>
               <p className="mt-1 truncate text-xs text-muted">
                 {[signal.category, signal.city].filter(Boolean).join(' · ')}
               </p>
               {signal.verified_count ? (
-                <p className="mt-3 inline-flex items-center gap-1 text-xs font-[900] text-success">
+                <p className="mt-3 inline-flex items-center gap-1 text-xs font-black text-success">
                   <span className="h-1.5 w-1.5 rounded-full bg-success" aria-hidden="true" />
                   {signal.verified_count} doğrulanmış fiyat
                 </p>
@@ -342,15 +342,15 @@ export function FiyatAnomali({ items }: { items: FiyatAnomaliItem[] }) {
           const diff = diffLabel(item.diff_pct);
           return (
             <Card key={item.business_id ?? idx} href={href} className="p-4">
-              <p className="truncate text-sm font-[900] text-textStrong">{item.business_name ?? 'İşletme'}</p>
+              <p className="truncate text-sm font-black text-textStrong">{item.business_name ?? 'İşletme'}</p>
               <p className="mt-0.5 truncate text-xs text-muted">
                 {[item.category, item.city].filter(Boolean).join(' · ')}
               </p>
               {fiyatStr(item.median_price_cents) && (
-                <p className="mt-3 text-base font-[900] text-textStrong">{fiyatStr(item.median_price_cents)}</p>
+                <p className="mt-3 text-base font-black text-textStrong">{fiyatStr(item.median_price_cents)}</p>
               )}
               {diff ? (
-                <p className={`mt-1 text-xs font-[900] ${diff.tone === 'success' ? 'text-success' : 'text-warning'}`}>
+                <p className={`mt-1 text-xs font-black ${diff.tone === 'success' ? 'text-success' : 'text-warning'}`}>
                   {diff.text}
                 </p>
               ) : null}
@@ -389,11 +389,11 @@ export function BolgeselFiyatEndeksi({ cities }: { cities: BolgeFiyatItem[] }) {
             href={`/kesif?city=${encodeURIComponent(city.city ?? '')}`}
             className="flex items-center gap-4 p-4"
           >
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--yd-color-primary-soft)] text-lg font-[900] text-primary">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-(--yd-color-primary-soft) text-lg font-black text-primary">
               {getPriceLevel(city.avg_price_cents) ?? '—'}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-[900] text-textStrong">{city.city ?? 'Şehir'}</p>
+              <p className="truncate text-sm font-black text-textStrong">{city.city ?? 'Şehir'}</p>
               <p className="text-xs text-muted">
                 Ort. {fiyatStr(city.avg_price_cents)}
                 {city.business_count ? ` · ${city.business_count} işletme` : ''}
@@ -432,7 +432,7 @@ export function KampanyaHikayeleri({ campaigns }: { campaigns: KampanyaItem[] })
   return (
     <section>
       <SectionHeader eyebrow="Aktif kampanyalar" title={<span className="inline-flex items-center gap-2"><Target size={20} aria-hidden="true" /> Bu Hafta Fırsatlar</span>} className="mb-5" />
-      <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
         {campaigns.map((camp, idx) => {
           const slug = camp.business_slug || camp.business_id;
           const href = slug ? `/isletme/${slug}` : '#';
@@ -441,15 +441,15 @@ export function KampanyaHikayeleri({ campaigns }: { campaigns: KampanyaItem[] })
             <Link
               key={camp.id ?? idx}
               href={href}
-              className="shrink-0 w-56 rounded-2xl p-4 block transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              className="shrink-0 w-56 rounded-2xl p-4 block transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               style={{ background: 'linear-gradient(135deg, #5c1515 0%, #7f1d1d 100%)' }}
             >
               {camp.discount_pct ? (
-                <p className="mb-2 inline-flex items-center rounded-lg bg-white/20 px-2 py-1 text-[11px] font-[900] text-white">
+                <p className="mb-2 inline-flex items-center rounded-lg bg-white/20 px-2 py-1 text-[11px] font-black text-white">
                   %{camp.discount_pct} İndirim
                 </p>
               ) : null}
-              <p className="text-sm font-[900] leading-snug text-white">{camp.title ?? 'Kampanya'}</p>
+              <p className="text-sm font-black leading-snug text-white">{camp.title ?? 'Kampanya'}</p>
               <p className="mt-1 text-xs text-white/75">{camp.business_name}</p>
               {bitisTarihStr && (
                 <p className="mt-3 text-[11px] text-white/60">{bitisTarihStr} tarihine kadar</p>
@@ -478,7 +478,7 @@ export function KesifKaruselKarti({
   return (
     <Link
       href={`/isletme/${slug}`}
-      className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+      className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
     >
       {/* Görsel */}
       <div className="relative h-36 overflow-hidden bg-cardAlt">
@@ -497,12 +497,12 @@ export function KesifKaruselKarti({
         )}
         {/* Üst sol rozet */}
         {badge ? (
-          <span className="absolute left-2 top-2 rounded-lg bg-primary px-2 py-1 text-[11px] font-[900] text-white shadow-sm">
+          <span className="absolute left-2 top-2 rounded-lg bg-primary px-2 py-1 text-[11px] font-black text-white shadow-xs">
             {badge}
           </span>
         ) : business.isOpenNow != null ? (
           <span
-            className={`absolute left-2 top-2 rounded-lg px-2 py-1 text-[11px] font-[900] shadow-sm ${
+            className={`absolute left-2 top-2 rounded-lg px-2 py-1 text-[11px] font-black shadow-xs ${
               business.isOpenNow ? 'bg-success text-white' : 'bg-card/90 text-muted'
             }`}
           >
@@ -511,7 +511,7 @@ export function KesifKaruselKarti({
         ) : null}
         {/* Favori butonu */}
         <div
-          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-muted shadow-sm backdrop-blur"
+          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-card/90 text-muted shadow-xs backdrop-blur-sm"
           aria-hidden="true"
         >
           <svg
@@ -527,7 +527,7 @@ export function KesifKaruselKarti({
 
       {/* İçerik */}
       <div className="flex flex-1 flex-col p-3">
-        <p className="line-clamp-1 text-sm font-[900] leading-tight text-textStrong group-hover:text-primary">
+        <p className="line-clamp-1 text-sm font-black leading-tight text-textStrong group-hover:text-primary">
           {business.name}
         </p>
         <p className="mt-0.5 line-clamp-1 text-xs text-muted">
@@ -539,7 +539,7 @@ export function KesifKaruselKarti({
           <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-amber-400" aria-hidden="true">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
           </svg>
-          <span className="text-xs font-[800] text-textStrong">{business.avgRating?.toFixed(1) ?? '—'}</span>
+          <span className="text-xs font-extrabold text-textStrong">{business.avgRating?.toFixed(1) ?? '—'}</span>
           {business.reviewCount ? (
             <span className="text-xs text-muted">({business.reviewCount.toLocaleString('tr-TR')})</span>
           ) : null}
@@ -558,7 +558,7 @@ export function KesifKaruselKarti({
             <span />
           )}
           {priceLevel ? (
-            <span className="font-[800] text-textStrong">{priceLevel}</span>
+            <span className="font-extrabold text-textStrong">{priceLevel}</span>
           ) : null}
         </div>
       </div>
@@ -583,10 +583,10 @@ export function KesifKaruselBolumu({
   return (
     <div className="mb-8">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-[900] text-textStrong">{baslik}</h2>
+        <h2 className="text-lg font-black text-textStrong">{baslik}</h2>
         <Link
           href={tumunuGorHref}
-          className="flex items-center gap-1 text-sm font-[800] text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          className="flex items-center gap-1 text-sm font-extrabold text-primary hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
         >
           Tümünü Gör
           <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -594,7 +594,7 @@ export function KesifKaruselBolumu({
           </svg>
         </Link>
       </div>
-      <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
         {businesses.map((biz, i) => (
           <KesifKaruselKarti
             key={biz.id}
@@ -626,10 +626,10 @@ export function BugunSpecials({ specials }: { specials: BugunSpecialItem[] }) {
           const price = formatFiyat(special.price_cents, special.currency);
           return (
             <Card key={special.id ?? index} href={href} className="p-4">
-              <p className="truncate text-sm font-[900] text-textStrong">{special.item_name ?? 'Spesiyel'}</p>
+              <p className="truncate text-sm font-black text-textStrong">{special.item_name ?? 'Spesiyel'}</p>
               <p className="mt-1 truncate text-xs text-muted">{special.business_name}</p>
               {price ? (
-                <p className="mt-2 text-sm font-[900] text-primary">{price}</p>
+                <p className="mt-2 text-sm font-black text-primary">{price}</p>
               ) : null}
             </Card>
           );

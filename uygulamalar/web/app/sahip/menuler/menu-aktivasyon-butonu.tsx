@@ -15,7 +15,7 @@ export function MenuAktivasyonButonu({ menuId, businessId, isActive }: Props) {
 
   if (isActive) {
     return (
-      <div className="flex items-center gap-1.5 rounded-xl bg-green-50 px-3 py-2 text-[12px] font-[800] text-green-700">
+      <div className="flex items-center gap-1.5 rounded-xl bg-green-50 px-3 py-2 text-[12px] font-extrabold text-green-700">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="20 6 9 17 4 12" />
         </svg>
@@ -40,7 +40,7 @@ export function MenuAktivasyonButonu({ menuId, businessId, isActive }: Props) {
         type="button"
         onClick={handleActivate}
         disabled={isPending}
-        className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-[#dc2626]/40 bg-[#fef2f2] px-3 py-2 text-[12px] font-[800] text-[#dc2626] transition hover:border-[#dc2626] hover:bg-[#fef2f2] disabled:opacity-60"
+        className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-[#dc2626]/40 bg-[#fef2f2] px-3 py-2 text-[12px] font-extrabold text-[#dc2626] transition hover:border-[#dc2626] hover:bg-[#fef2f2] disabled:opacity-60"
       >
         {isPending ? (
           <>
@@ -60,7 +60,7 @@ export function MenuAktivasyonButonu({ menuId, businessId, isActive }: Props) {
         )}
       </button>
       {error && (
-        <p className="text-center text-[11px] font-[600] text-[#dc2626]">{error}</p>
+        <p className="text-center text-[11px] font-semibold text-[#dc2626]">{error}</p>
       )}
     </div>
   );

@@ -81,19 +81,19 @@ export function AlanAdiFormu({ businessId, businessName, initialDurum }: Props) 
       {durum && (
         <div className="flex flex-col gap-3">
           <div>
-            <p className="text-xs font-[700] uppercase tracking-wide text-muted mb-1.5">
+            <p className="text-xs font-bold uppercase tracking-wide text-muted mb-1.5">
               Mevcut Domain
             </p>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-lg border border-border bg-card px-3 py-1.5 font-mono text-sm font-[700] text-textStrong">
+              <span className="rounded-lg border border-border bg-card px-3 py-1.5 font-mono text-sm font-bold text-textStrong">
                 {durum.domain}
               </span>
               {isVerified ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-[800] text-emerald-700 border border-emerald-200">
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-extrabold text-emerald-700 border border-emerald-200">
                   <CheckIcon /> Dogrulandi
                 </span>
               ) : (
-                <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-[800] text-amber-700 border border-amber-200">
+                <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-extrabold text-amber-700 border border-amber-200">
                   DNS bekleniyor
                 </span>
               )}
@@ -130,7 +130,7 @@ export function AlanAdiFormu({ businessId, businessName, initialDurum }: Props) 
       {/* Add / change domain form */}
       {!durum && (
         <form onSubmit={handleEkle} className="flex flex-col gap-3">
-          <label className="text-sm font-[700] text-textStrong">
+          <label className="text-sm font-bold text-textStrong">
             Domain Adresi
           </label>
           <input
@@ -138,7 +138,7 @@ export function AlanAdiFormu({ businessId, businessName, initialDurum }: Props) 
             value={domainInput}
             onChange={(e) => setDomainInput(e.target.value)}
             placeholder="menu.isletmem.com"
-            className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
             disabled={isPending}
             autoComplete="off"
             spellCheck={false}
@@ -167,7 +167,7 @@ export function AlanAdiFormu({ businessId, businessName, initialDurum }: Props) 
             setSonuc(null);
             setDomainInput(durum.domain);
           }}
-          className="self-start text-xs font-[700] text-primary underline underline-offset-2 hover:opacity-80"
+          className="self-start text-xs font-bold text-primary underline underline-offset-2 hover:opacity-80"
         >
           Farklı domain ekle
         </button>
@@ -193,7 +193,7 @@ function DnsTalimat({ domain, token }: { domain: string; token: string }) {
 
   return (
     <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex flex-col gap-3">
-      <p className="text-sm font-[700] text-amber-800">
+      <p className="text-sm font-bold text-amber-800">
         DNS Dogrulama Adimi
       </p>
       <p className="text-xs text-amber-700">
@@ -207,7 +207,7 @@ function DnsTalimat({ domain, token }: { domain: string; token: string }) {
       <button
         type="button"
         onClick={handleKopyala}
-        className="self-start rounded-lg border border-amber-300 bg-white/80 px-3 py-1.5 text-xs font-[700] text-amber-800 hover:bg-white transition-colors"
+        className="self-start rounded-lg border border-amber-300 bg-white/80 px-3 py-1.5 text-xs font-bold text-amber-800 hover:bg-white transition-colors"
       >
         {kopyalandi ? 'Kopyalandi!' : 'Degeri Kopyala'}
       </button>
@@ -221,7 +221,7 @@ function DnsTalimat({ domain, token }: { domain: string; token: string }) {
 function DnsRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
-      <span className="min-w-[100px] font-sans font-[700] text-muted">{label}:</span>
+      <span className="min-w-[100px] font-sans font-bold text-muted">{label}:</span>
       <span className="break-all text-textStrong">{value}</span>
     </div>
   );
@@ -233,7 +233,7 @@ function SonucBandı({ sonuc }: { sonuc: DomainIslemSonucu }) {
   if (!sonuc.basarili) {
     return (
       <div className="rounded-xl border border-rose-200 bg-rose-50 p-4">
-        <p className="text-sm font-[700] text-rose-700">{sonuc.hata}</p>
+        <p className="text-sm font-bold text-rose-700">{sonuc.hata}</p>
       </div>
     );
   }
@@ -241,7 +241,7 @@ function SonucBandı({ sonuc }: { sonuc: DomainIslemSonucu }) {
   if (sonuc.durum === 'kayit_eklendi') {
     return (
       <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-        <p className="text-sm font-[700] text-blue-700">
+        <p className="text-sm font-bold text-blue-700">
           Domain kaydedildi. Asagidaki DNS talimatlarini izleyin.
         </p>
       </div>
@@ -251,7 +251,7 @@ function SonucBandı({ sonuc }: { sonuc: DomainIslemSonucu }) {
   if (sonuc.durum === 'dogrulandi') {
     return (
       <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-        <p className="text-sm font-[700] text-emerald-700">
+        <p className="text-sm font-bold text-emerald-700">
           Domain basariyla dogrulandi!
         </p>
       </div>
@@ -261,12 +261,12 @@ function SonucBandı({ sonuc }: { sonuc: DomainIslemSonucu }) {
   if (sonuc.durum === 'txt_bekleniyor') {
     return (
       <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex flex-col gap-2">
-        <p className="text-sm font-[700] text-amber-700">
+        <p className="text-sm font-bold text-amber-700">
           TXT kaydı henüz bulunamadı. DNS yayılımı biraz zaman alabilir.
         </p>
         {sonuc.found_records && sonuc.found_records.length > 0 && (
           <div className="text-xs text-amber-600">
-            <p className="font-[700]">Mevcut TXT kayitlari:</p>
+            <p className="font-bold">Mevcut TXT kayitlari:</p>
             <ul className="mt-1 space-y-0.5 font-mono">
               {sonuc.found_records.map((r, i) => (
                 <li key={i} className="break-all">{r}</li>
@@ -286,7 +286,7 @@ function SonucBandı({ sonuc }: { sonuc: DomainIslemSonucu }) {
   if (sonuc.durum === 'silindi') {
     return (
       <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-        <p className="text-sm font-[700] text-muted">Domain kaldirildi.</p>
+        <p className="text-sm font-bold text-muted">Domain kaldirildi.</p>
       </div>
     );
   }

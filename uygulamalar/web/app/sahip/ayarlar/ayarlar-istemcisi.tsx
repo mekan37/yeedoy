@@ -109,7 +109,7 @@ export function SettingsClient({ user, business, hours }: SettingsClientProps) {
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => setActiveTab(tab.id)}
                 onKeyDown={(event) => handleTabKeyDown(event, index)}
-                className={`-mb-px min-h-11 shrink-0 border-b-2 px-4 text-sm font-[700] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset ${
+                className={`-mb-px min-h-11 shrink-0 border-b-2 px-4 text-sm font-bold transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset ${
                   isActive
                     ? 'border-primary text-primary'
                     : 'border-transparent text-muted hover:text-textStrong'
@@ -126,7 +126,7 @@ export function SettingsClient({ user, business, hours }: SettingsClientProps) {
           role="tabpanel"
           aria-labelledby={`settings-tab-${activeTab}`}
           tabIndex={0}
-          className="pt-5 outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+          className="pt-5 outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
         >
           {activeTab === 'profile' && (
             <IsletmeProfilTab business={business} hours={hours} />

@@ -28,7 +28,7 @@ export function TakipteCikButonu({ followedId }: { followedId: string }) {
               router.refresh();
             });
           }}
-          className="rounded-xl bg-danger px-3 py-1.5 text-[11px] font-[900] text-white disabled:opacity-60"
+          className="rounded-xl bg-danger px-3 py-1.5 text-[11px] font-black text-white disabled:opacity-60"
         >
           {pending ? '…' : 'Takibi Bırak'}
         </button>
@@ -41,7 +41,7 @@ export function TakipteCikButonu({ followedId }: { followedId: string }) {
     <button
       type="button"
       onClick={() => setConfirm(true)}
-      className="rounded-xl border border-border px-3 py-1.5 text-[11px] font-[700] text-muted hover:border-danger/30 hover:text-danger"
+      className="rounded-xl border border-border px-3 py-1.5 text-[11px] font-bold text-muted hover:border-danger/30 hover:text-danger"
     >
       Takipten Çık
     </button>

@@ -68,7 +68,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
       {/* Backdrop */}
       {isDrawerOpen && (
         <div
-          className="fixed inset-0 z-[45] bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-45 bg-black/50 backdrop-blur-xs"
           onClick={closeDrawer}
           aria-hidden="true"
         />
@@ -104,7 +104,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
               onClick={closeDrawer}
               className="flex items-center gap-3 rounded-full border border-border bg-cardAlt px-3 py-2 hover:bg-card"
             >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/15 text-sm font-[900] text-primary">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/15 text-sm font-black text-primary">
                 {sessionUser.avatarUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -116,7 +116,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
                   initials
                 )}
               </div>
-              <span className="flex-1 text-sm font-[800] text-textStrong">
+              <span className="flex-1 text-sm font-extrabold text-textStrong">
                 {sessionUser.displayName ?? sessionUser.email}
               </span>
               <ChevronRight />
@@ -125,7 +125,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
             <Link
               href="/giris"
               onClick={closeDrawer}
-              className="flex items-center justify-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-[900] text-primary hover:bg-primary/20"
+              className="flex items-center justify-center rounded-full border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-black text-primary hover:bg-primary/20"
             >
               Giriş Yap
             </Link>
@@ -149,7 +149,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
               type="search"
               placeholder="İşletme veya yemek ara..."
               autoComplete="off"
-              className="min-w-0 flex-1 bg-transparent text-sm text-textStrong placeholder:text-muted focus:outline-none"
+              className="min-w-0 flex-1 bg-transparent text-sm text-textStrong placeholder:text-muted focus:outline-hidden"
             />
           </form>
 
@@ -157,9 +157,9 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
           {NAV_SECTIONS.map((section) => (
             <div
               key={section.title}
-              className="rounded-2xl border border-border bg-cardAlt p-3 shadow-sm"
+              className="rounded-2xl border border-border bg-cardAlt p-3 shadow-xs"
             >
-              <p className="mb-2 text-sm font-[800] text-textStrong">{section.title}</p>
+              <p className="mb-2 text-sm font-extrabold text-textStrong">{section.title}</p>
               {section.items.map((item) => (
                 <DrawerTile
                   key={item.href}
@@ -173,8 +173,8 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
           ))}
 
           {/* Hesap bölümü */}
-          <div className="rounded-2xl border border-border bg-cardAlt p-3 shadow-sm">
-            <p className="mb-2 text-sm font-[800] text-textStrong">Hesap</p>
+          <div className="rounded-2xl border border-border bg-cardAlt p-3 shadow-xs">
+            <p className="mb-2 text-sm font-extrabold text-textStrong">Hesap</p>
             {ACCOUNT_ITEMS.map((item) => (
               <DrawerTile
                 key={item.href}
@@ -194,7 +194,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
           {/* Alt satır: tema toggle + marka adı */}
           <div className="flex items-center justify-between px-1 pt-1">
             <ThemeToggle className="min-h-9 min-w-9 rounded-xl" />
-            <span className="text-xs font-[800] text-muted">Yeedoy</span>
+            <span className="text-xs font-extrabold text-muted">Yeedoy</span>
           </div>
         </div>
       </aside>
@@ -221,12 +221,12 @@ function DrawerTile({
     <Link
       href={href}
       onClick={onClose}
-      className="flex items-center gap-3 rounded-xl px-2 py-2.5 text-sm font-[700] text-text hover:bg-card"
+      className="flex items-center gap-3 rounded-xl px-2 py-2.5 text-sm font-bold text-text hover:bg-card"
     >
       <span className="shrink-0 text-muted">{icon}</span>
       <span className="flex-1">{label}</span>
       {badge !== undefined && (
-        <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-[900] text-white">
+        <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-black text-white">
           {badge > 99 ? '99+' : badge}
         </span>
       )}

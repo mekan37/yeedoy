@@ -59,10 +59,10 @@ function SettingRow({ href, title, description }: SettingLink) {
   return (
     <Link
       href={href}
-      className="flex min-h-[64px] items-center justify-between rounded-2xl border border-border bg-bg px-5 py-4 transition-colors hover:border-primary/30 hover:bg-cardAlt focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+      className="flex min-h-[64px] items-center justify-between rounded-2xl border border-border bg-bg px-5 py-4 transition-colors hover:border-primary/30 hover:bg-cardAlt focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
     >
       <div className="min-w-0">
-        <p className="font-[900] text-textStrong">{title}</p>
+        <p className="font-black text-textStrong">{title}</p>
         <p className="mt-0.5 text-xs text-muted">{description}</p>
       </div>
       <svg
@@ -92,25 +92,25 @@ export default function AyarlarPage() {
           >
             ← Profilime Dön
           </Link>
-          <h1 className="text-xl font-[900] text-textStrong">Ayarlar</h1>
+          <h1 className="text-xl font-black text-textStrong">Ayarlar</h1>
         </div>
 
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-[900] uppercase tracking-wide text-muted">Hesap</h2>
+          <h2 className="text-sm font-black uppercase tracking-wide text-muted">Hesap</h2>
           {ACCOUNT_SETTINGS.map((s) => (
             <SettingRow key={s.href} {...s} />
           ))}
         </section>
 
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-[900] uppercase tracking-wide text-muted">Bildirimler</h2>
+          <h2 className="text-sm font-black uppercase tracking-wide text-muted">Bildirimler</h2>
           {NOTIFICATION_SETTINGS.map((s) => (
             <SettingRow key={s.href} {...s} />
           ))}
         </section>
 
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-[900] uppercase tracking-wide text-muted">Güvenlik</h2>
+          <h2 className="text-sm font-black uppercase tracking-wide text-muted">Güvenlik</h2>
           {SECURITY_SETTINGS.map((s) => (
             <SettingRow key={s.href} {...s} />
           ))}

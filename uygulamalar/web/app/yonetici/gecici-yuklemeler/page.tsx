@@ -86,7 +86,7 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
                 type="submit"
                 name="expired"
                 value=""
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   expired !== '1'
                     ? 'bg-primary text-white'
                     : 'bg-card border border-border text-muted hover:text-textStrong'
@@ -98,7 +98,7 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
                 type="submit"
                 name="expired"
                 value="1"
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   expired === '1'
                     ? 'bg-primary text-white'
                     : 'bg-card border border-border text-muted hover:text-textStrong'
@@ -119,21 +119,21 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border text-left">
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Dosya Adı</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Boyut</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Yükleme</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Son Kullanma</th>
-                      <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Durum</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Dosya Adı</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Boyut</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kullanıcı</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Yükleme</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Son Kullanma</th>
+                      <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Durum</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {list.map((u: any) => {
                       const isExpired = u.expires_at && new Date(u.expires_at) < new Date();
                       return (
-                        <tr key={u.id} className="hover:bg-black/[0.01]">
+                        <tr key={u.id} className="hover:bg-black/1">
                           <td className="px-5 py-3">
-                            <p className="font-[700] text-textStrong max-w-[200px] truncate">{u.file_name ?? '—'}</p>
+                            <p className="font-bold text-textStrong max-w-[200px] truncate">{u.file_name ?? '—'}</p>
                             {u.bucket && <p className="text-[10px] text-muted">{u.bucket}</p>}
                           </td>
                           <td className="px-5 py-3 text-muted">
@@ -150,11 +150,11 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
                           </td>
                           <td className="px-5 py-3">
                             {isExpired ? (
-                              <span className="rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-[800] text-red-700">
+                              <span className="rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-extrabold text-red-700">
                                 Süresi Doldu
                               </span>
                             ) : (
-                              <span className="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-[800] text-green-700">
+                              <span className="rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-extrabold text-green-700">
                                 Geçerli
                               </span>
                             )}
@@ -171,7 +171,7 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
                       {pageNum > 1 && (
                         <a
                           href={`?expired=${expired}&page=${pageNum - 1}`}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           ← Önceki
                         </a>
@@ -179,7 +179,7 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
                       {pageNum < totalPages && (
                         <a
                           href={`?expired=${expired}&page=${pageNum + 1}`}
-                          className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]"
+                          className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2"
                         >
                           Sonraki →
                         </a>

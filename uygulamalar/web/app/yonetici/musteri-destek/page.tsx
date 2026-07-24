@@ -69,20 +69,20 @@ export default async function MusteriDestekPage() {
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Açık</p>
-              <p className="mt-1 text-2xl font-[900] text-blue-600">{counts.open}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Açık</p>
+              <p className="mt-1 text-2xl font-black text-blue-600">{counts.open}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">İşlemde</p>
-              <p className="mt-1 text-2xl font-[900] text-yellow-600">{counts.in_progress}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">İşlemde</p>
+              <p className="mt-1 text-2xl font-black text-yellow-600">{counts.in_progress}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Çözüldü</p>
-              <p className="mt-1 text-2xl font-[900] text-green-600">{counts.resolved}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Çözüldü</p>
+              <p className="mt-1 text-2xl font-black text-green-600">{counts.resolved}</p>
             </div>
             <div className="rounded-xl border border-border bg-surface p-4">
-              <p className="text-xs font-[700] uppercase tracking-wide text-muted">Acil</p>
-              <p className="mt-1 text-2xl font-[900] text-red-600">{counts.urgent}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Acil</p>
+              <p className="mt-1 text-2xl font-black text-red-600">{counts.urgent}</p>
             </div>
           </div>
 

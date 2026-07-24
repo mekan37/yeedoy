@@ -96,7 +96,7 @@ function PriceLevelBadge({ priceLevel }: { priceLevel?: string | null }) {
   const label = priceLevel ? (map[priceLevel] ?? null) : null;
   if (!label) return null;
   return (
-    <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[10px] font-[800] text-muted">
+    <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[10px] font-extrabold text-muted">
       {label}
     </span>
   );
@@ -123,28 +123,28 @@ function BusinessCard({ biz }: { biz: AcikIsletmeKarti }) {
         />
         {/* Rating badge — top-left white pill */}
         {rating != null && (
-          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-xl bg-white/92 px-2 py-1 text-xs font-[800] shadow-sm backdrop-blur">
+          <div className="absolute left-2 top-2 flex items-center gap-1 rounded-xl bg-white/92 px-2 py-1 text-xs font-extrabold shadow-xs backdrop-blur-sm">
             <Star size={11} className="fill-amber-400 text-amber-400" aria-hidden="true" />
             <span className="text-textStrong">{rating.toFixed(1)}</span>
           </div>
         )}
         {/* Open/Closed — top-right */}
         {biz.isOpenNow != null && (
-          <div className={`absolute right-2 top-2 rounded-xl px-2 py-1 text-[10px] font-[900] backdrop-blur ${biz.isOpenNow ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
+          <div className={`absolute right-2 top-2 rounded-xl px-2 py-1 text-[10px] font-black backdrop-blur-sm ${biz.isOpenNow ? 'bg-success/15 text-success' : 'bg-danger/15 text-danger'}`}>
             {biz.isOpenNow ? 'Açık' : 'Kapalı'}
           </div>
         )}
       </div>
       {/* Info */}
       <div className="flex flex-1 flex-col gap-1 p-3">
-        <p className="line-clamp-1 text-sm font-[900] text-textStrong">{biz.name}</p>
+        <p className="line-clamp-1 text-sm font-black text-textStrong">{biz.name}</p>
         <p className="line-clamp-1 text-xs text-muted">
           {[biz.category, biz.city].filter(Boolean).join(' · ')}
         </p>
         <div className="mt-auto flex items-center gap-2 pt-1">
           <PriceLevelBadge priceLevel={biz.priceLevel} />
           {biz.isVerified && (
-            <span className="flex items-center gap-1 text-[10px] font-[800] text-primary">
+            <span className="flex items-center gap-1 text-[10px] font-extrabold text-primary">
               <CheckCircle size={11} aria-hidden="true" /> Doğrulandı
             </span>
           )}
@@ -187,12 +187,12 @@ export default async function HomePage() {
               {/* Badge */}
               <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                <span className="text-xs font-[900] uppercase tracking-wide text-primary">
+                <span className="text-xs font-black uppercase tracking-wide text-primary">
                   Türkiye&apos;nin lezzet haritası
                 </span>
               </div>
 
-              <h1 className="text-3xl font-[900] leading-[1.07] text-textStrong sm:text-4xl lg:text-[44px]">
+              <h1 className="text-3xl font-black leading-[1.07] text-textStrong sm:text-4xl lg:text-[44px]">
                 Lezzetleri keşfet,{' '}
                 <span
                   style={{
@@ -218,12 +218,12 @@ export default async function HomePage() {
 
               {/* Popular */}
               <div className="mt-4 flex flex-wrap items-center gap-2">
-                <span className="text-xs font-[800] text-muted">Popüler:</span>
+                <span className="text-xs font-extrabold text-muted">Popüler:</span>
                 {POPULAR_SEARCHES.map((term) => (
                   <Link
                     key={term}
                     href={`/kesif?q=${encodeURIComponent(term)}`}
-                    className="rounded-full border border-border bg-card px-3 py-1 text-xs font-[800] text-textStrong transition-colors hover:border-primary/35 hover:text-primary"
+                    className="rounded-full border border-border bg-card px-3 py-1 text-xs font-extrabold text-textStrong transition-colors hover:border-primary/35 hover:text-primary"
                   >
                     {term}
                   </Link>
@@ -247,7 +247,7 @@ export default async function HomePage() {
           {/* ── Kategori satırı — hero içinde ──────────────────────────────── */}
           <div className="border-t border-border/50">
             <Container className="py-4">
-              <div className="flex gap-4 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex gap-4 overflow-x-auto pb-1 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
                 {HOMEPAGE_CATEGORIES.map((cat) => (
                   <Link
                     key={cat.id}
@@ -263,7 +263,7 @@ export default async function HomePage() {
                         className="h-full w-full object-cover"
                       />
                     </div>
-                    <span className="whitespace-nowrap text-[11px] font-[900] text-textStrong group-hover:text-primary">
+                    <span className="whitespace-nowrap text-[11px] font-black text-textStrong group-hover:text-primary">
                       {cat.label}
                     </span>
                   </Link>
@@ -278,7 +278,7 @@ export default async function HomePage() {
                       <path d="M4 6h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 12h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 18h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"/>
                     </svg>
                   </div>
-                  <span className="whitespace-nowrap text-[11px] font-[900] text-primary">Tüm Kategoriler</span>
+                  <span className="whitespace-nowrap text-[11px] font-black text-primary">Tüm Kategoriler</span>
                 </Link>
               </div>
             </Container>
@@ -295,13 +295,13 @@ export default async function HomePage() {
               {/* Featured businesses — yatay scroll strip */}
               <section>
                 <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-xl font-[900] text-textStrong">Senin için öne çıkanlar</h2>
-                  <Link href="/kesif" className="flex items-center gap-1 text-sm font-[800] text-primary hover:underline">
+                  <h2 className="text-xl font-black text-textStrong">Senin için öne çıkanlar</h2>
+                  <Link href="/kesif" className="flex items-center gap-1 text-sm font-extrabold text-primary hover:underline">
                     Tümünü gör <ChevronRight size={14} aria-hidden="true" />
                   </Link>
                 </div>
                 {featuredBusinesses.length > 0 ? (
-                  <div className="flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  <div className="flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
                     {featuredBusinesses.map((biz) => (
                       <div key={biz.id} className="w-64 shrink-0">
                         <BusinessCard biz={biz} />
@@ -324,7 +324,7 @@ export default async function HomePage() {
                 style={{ background: '#F9E7E7' }}
               >
                 <div className="flex-1 min-w-0">
-                  <p className="font-[900] text-textStrong">Lezzetli fırsatları kaçırma! 🎉</p>
+                  <p className="font-black text-textStrong">Lezzetli fırsatları kaçırma! 🎉</p>
                   <p className="mt-1 text-sm text-muted">Sana özel indirimleri keşfet.</p>
                 </div>
                 <div className="relative shrink-0">
@@ -343,7 +343,7 @@ export default async function HomePage() {
 
               {/* Testimonials */}
               <section>
-                <h2 className="mb-4 text-xl font-[900] text-textStrong">Kullanıcılarımız ne diyor?</h2>
+                <h2 className="mb-4 text-xl font-black text-textStrong">Kullanıcılarımız ne diyor?</h2>
                 <div className="grid gap-4 sm:grid-cols-3">
                   {TESTIMONIALS.map((t) => (
                     <div
@@ -351,11 +351,11 @@ export default async function HomePage() {
                       className="rounded-[20px] border border-border bg-card p-4 shadow-yd1"
                     >
                       <div className="mb-3 flex items-center gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-[900] text-primary">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-black text-primary">
                           {t.name.slice(0, 1)}
                         </div>
                         <div>
-                          <p className="text-sm font-[900] text-textStrong">{t.name}</p>
+                          <p className="text-sm font-black text-textStrong">{t.name}</p>
                           <p className="text-xs text-muted">{t.time}</p>
                         </div>
                       </div>
@@ -369,7 +369,7 @@ export default async function HomePage() {
                   ))}
                 </div>
                 <div className="mt-4 text-right">
-                  <Link href="/en-iyiler" className="text-sm font-[800] text-primary hover:underline">
+                  <Link href="/en-iyiler" className="text-sm font-extrabold text-primary hover:underline">
                     Tüm yorumları gör →
                   </Link>
                 </div>
@@ -381,7 +381,7 @@ export default async function HomePage() {
 
               {/* Trust section */}
               <section>
-                <h2 className="mb-4 text-lg font-[900] text-textStrong">Fiyatlar ve bilgiler güvenilir mi?</h2>
+                <h2 className="mb-4 text-lg font-black text-textStrong">Fiyatlar ve bilgiler güvenilir mi?</h2>
                 <div className="space-y-3">
 
                   {/* Veri güveni — kırmızı/primary */}
@@ -391,7 +391,7 @@ export default async function HomePage() {
                         <Shield size={18} className="text-primary" aria-hidden="true" />
                       </div>
                       <div>
-                        <p className="font-[900] text-textStrong">Veri güveni</p>
+                        <p className="font-black text-textStrong">Veri güveni</p>
                         <p className="mt-1 text-xs leading-5 text-muted">
                           Menü ve fiyat bilgileri topluluğumuzun katkılarıyla şeffaf ve güncel kalır.
                         </p>
@@ -406,7 +406,7 @@ export default async function HomePage() {
                         <CheckCircle size={18} className="text-success" aria-hidden="true" />
                       </div>
                       <div>
-                        <p className="font-[900] text-textStrong">Toplulukça Doğrulandı</p>
+                        <p className="font-black text-textStrong">Toplulukça Doğrulandı</p>
                         <p className="mt-1 text-xs leading-5 text-muted">
                           Binlerce kullanıcı tarafından her gün doğrulanmaktadır.
                         </p>
@@ -422,8 +422,8 @@ export default async function HomePage() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between">
-                          <p className="font-[900] text-textStrong">Fiyat Geçmişi</p>
-                          <span className="text-xs font-[800] text-success">+0% (3 Ay)</span>
+                          <p className="font-black text-textStrong">Fiyat Geçmişi</p>
+                          <span className="text-xs font-extrabold text-success">+0% (3 Ay)</span>
                         </div>
                         <p className="mt-1 text-xs text-muted">Son 3 ay ortalama değişim</p>
                         <svg viewBox="0 0 120 28" className="mt-3 w-full text-primary" aria-hidden="true">
@@ -444,7 +444,7 @@ export default async function HomePage() {
 
               {/* How it works */}
               <section className="rounded-[20px] border border-border bg-card p-5 shadow-yd1">
-                <h2 className="mb-4 font-[900] text-textStrong">Nasıl çalışır?</h2>
+                <h2 className="mb-4 font-black text-textStrong">Nasıl çalışır?</h2>
                 <div className="space-y-4">
                   {[
                     { icon: <Search size={18} aria-hidden="true" />, step: '1', title: 'Keşfet', desc: 'Yakınındaki mekanları ara ve keşfet.' },
@@ -456,7 +456,7 @@ export default async function HomePage() {
                         {icon}
                       </div>
                       <div>
-                        <p className="font-[900] text-textStrong">{step} {title}</p>
+                        <p className="font-black text-textStrong">{step} {title}</p>
                         <p className="mt-0.5 text-xs text-muted">{desc}</p>
                       </div>
                     </div>

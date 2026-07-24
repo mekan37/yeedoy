@@ -7,7 +7,7 @@ import { updateReservationSettings } from '../ayarlar-islemleri';
 import type { BusinessData } from '../ayarlar-istemcisi';
 
 const INPUT_CLASS =
-  'min-h-11 w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-textStrong outline-none transition-colors placeholder:text-muted focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60';
+  'min-h-11 w-full rounded-lg border border-border bg-bg px-3 py-2 text-sm text-textStrong outline-hidden transition-colors placeholder:text-muted focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60';
 
 function getPartyDefaults(business: BusinessData) {
   const storedMinimum = business.reservation_min_party;
@@ -49,7 +49,7 @@ export function RezervasyonAyarlariTab({ business }: { business: BusinessData })
       >
         <label className="flex min-h-11 cursor-pointer items-center justify-between gap-4 border-b border-border pb-5">
           <span className="min-w-0">
-            <span className="block text-sm font-[700] text-textStrong">
+            <span className="block text-sm font-bold text-textStrong">
               Rezervasyonları kabul et
             </span>
             <span id="accepts-reservations-description" className="mt-1 block text-xs text-muted">
@@ -67,14 +67,14 @@ export function RezervasyonAyarlariTab({ business }: { business: BusinessData })
             />
             <span
               aria-hidden="true"
-              className="relative h-6 w-11 rounded-full bg-borderStrong transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-card after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-5 peer-focus-visible:ring-2 peer-focus-visible:ring-primary/30 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-card"
+              className="relative h-6 w-11 rounded-full bg-borderStrong transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-card after:shadow-xs after:transition-transform after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-5 peer-focus-visible:ring-2 peer-focus-visible:ring-primary/30 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-card"
             />
           </span>
         </label>
 
         <div className="grid gap-5 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label htmlFor="reservation-phone" className="text-xs font-[700] text-muted">
+            <label htmlFor="reservation-phone" className="text-xs font-bold text-muted">
               Rezervasyon telefonu
             </label>
             <p id="reservation-phone-help" className="mb-2 mt-1 text-xs text-muted">
@@ -95,7 +95,7 @@ export function RezervasyonAyarlariTab({ business }: { business: BusinessData })
           </div>
 
           <div>
-            <label htmlFor="reservation-min-party" className="text-xs font-[700] text-muted">
+            <label htmlFor="reservation-min-party" className="text-xs font-bold text-muted">
               Minimum kişi sayısı
             </label>
             <input
@@ -112,7 +112,7 @@ export function RezervasyonAyarlariTab({ business }: { business: BusinessData })
           </div>
 
           <div>
-            <label htmlFor="reservation-max-party" className="text-xs font-[700] text-muted">
+            <label htmlFor="reservation-max-party" className="text-xs font-bold text-muted">
               Maksimum kişi sayısı
             </label>
             <input
@@ -130,7 +130,7 @@ export function RezervasyonAyarlariTab({ business }: { business: BusinessData })
         </div>
 
         <div>
-          <label htmlFor="reservation-note" className="text-xs font-[700] text-muted">
+          <label htmlFor="reservation-note" className="text-xs font-bold text-muted">
             Rezervasyon notu
           </label>
           <p id="reservation-note-help" className="mb-2 mt-1 text-xs text-muted">

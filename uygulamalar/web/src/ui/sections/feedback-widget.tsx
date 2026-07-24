@@ -63,7 +63,7 @@ export function FeedbackWidget({ businessId, labels }: Props) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm transition hover:bg-slate-50"
+        className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-xs transition hover:bg-slate-50"
         aria-label={labels.feedbackButtonLabel}
       >
         <span aria-hidden="true">💬</span>
@@ -134,7 +134,7 @@ export function FeedbackWidget({ businessId, labels }: Props) {
                     onChange={(e) => setMessage(e.target.value)}
                     maxLength={500}
                     rows={3}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 outline-none focus:border-red-800 focus:ring-1 focus:ring-red-800"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 outline-hidden focus:border-red-800 focus:ring-1 focus:ring-red-800"
                     placeholder="..."
                   />
                 </div>

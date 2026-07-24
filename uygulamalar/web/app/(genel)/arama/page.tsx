@@ -60,13 +60,13 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
             {/* Popular searches */}
             <section className="mb-8">
-              <p className="mb-3 text-xs font-[900] uppercase tracking-wide text-muted">Popüler Aramalar</p>
+              <p className="mb-3 text-xs font-black uppercase tracking-wide text-muted">Popüler Aramalar</p>
               <div className="flex flex-wrap gap-2">
                 {POPULAR_SEARCHES.map(({ label, q: pq }) => (
                   <Link
                     key={pq}
                     href={`/arama?q=${encodeURIComponent(pq)}`}
-                    className="inline-flex min-h-[40px] items-center rounded-full border border-border bg-card px-4 text-sm font-[700] text-textStrong hover:border-primary/40 hover:text-primary"
+                    className="inline-flex min-h-[40px] items-center rounded-full border border-border bg-card px-4 text-sm font-bold text-textStrong hover:border-primary/40 hover:text-primary"
                   >
                     {label}
                   </Link>
@@ -76,13 +76,13 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
             {/* Cities */}
             <section className="mb-8">
-              <p className="mb-3 text-xs font-[900] uppercase tracking-wide text-muted">Şehre Göre</p>
+              <p className="mb-3 text-xs font-black uppercase tracking-wide text-muted">Şehre Göre</p>
               <div className="flex flex-wrap gap-2">
                 {POPULAR_CITIES.map((c) => (
                   <Link
                     key={c}
                     href={`/arama?city=${encodeURIComponent(c)}`}
-                    className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-[700] text-textStrong hover:border-primary/40 hover:text-primary"
+                    className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-bold text-textStrong hover:border-primary/40 hover:text-primary"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                     {c}
@@ -93,7 +93,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
             {/* Quick nav */}
             <section>
-              <p className="mb-3 text-xs font-[900] uppercase tracking-wide text-muted">Keşfet</p>
+              <p className="mb-3 text-xs font-black uppercase tracking-wide text-muted">Keşfet</p>
               <div className="grid gap-3 sm:grid-cols-3">
                 {[
                   { href: '/en-iyiler', label: 'En İyi İşletmeler', desc: 'Puan ve yorum sıralaması' },
@@ -103,9 +103,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="rounded-2xl border border-border bg-card p-4 hover:border-primary/25 hover:shadow-sm transition-all"
+                    className="rounded-2xl border border-border bg-card p-4 hover:border-primary/25 hover:shadow-xs transition-all"
                   >
-                    <p className="font-[900] text-textStrong">{item.label}</p>
+                    <p className="font-black text-textStrong">{item.label}</p>
                     <p className="mt-0.5 text-xs text-muted">{item.desc}</p>
                   </Link>
                 ))}

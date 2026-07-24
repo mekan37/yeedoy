@@ -67,7 +67,7 @@ export function FotoGalerisiTetik({
             role="dialog"
             aria-modal="true"
             aria-label="Fotoğraf galerisi"
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            className="fixed inset-0 z-9999 flex items-center justify-center bg-black/90 backdrop-blur-xs"
             onClick={() => setOpen(false)}
           >
             {/* Modal içi — tıklama yayılımını durdur */}
@@ -102,8 +102,8 @@ export function FotoGalerisiTetik({
 
               {/* Altta: başlık + sayaç */}
               <div className="mt-4 flex w-full items-center justify-between gap-4">
-                <p className="truncate text-sm font-[700] text-white/80">{photo.name}</p>
-                <span className="shrink-0 text-xs font-[800] text-white/50">
+                <p className="truncate text-sm font-bold text-white/80">{photo.name}</p>
+                <span className="shrink-0 text-xs font-extrabold text-white/50">
                   {current + 1} / {photos.length}
                 </span>
               </div>

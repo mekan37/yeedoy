@@ -56,14 +56,14 @@ export function EPostaKampanyaFormu({
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {/* Şablon seçici */}
       <div>
-        <label className="mb-2 block text-sm font-[700] text-textStrong">Hazır Şablonlar</label>
+        <label className="mb-2 block text-sm font-bold text-textStrong">Hazır Şablonlar</label>
         <div className="flex flex-wrap gap-2">
           {sablonlar.map((s, i) => (
             <button
               key={i}
               type="button"
               onClick={() => sablonSec(s)}
-              className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-[700] text-textStrong transition-colors hover:border-primary/30"
+              className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-bold text-textStrong transition-colors hover:border-primary/30"
             >
               <span>{s.icon}</span>
               <span>{s.baslik}</span>
@@ -75,7 +75,7 @@ export function EPostaKampanyaFormu({
       {/* İşletme seçici */}
       {businesses.length > 1 && (
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-[700] text-textStrong">İşletme</label>
+          <label className="text-sm font-bold text-textStrong">İşletme</label>
           <select value={biz} onChange={e => setBiz(e.target.value)} className="input-yd rounded-xl px-3 py-2.5 text-sm">
             {businesses.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
           </select>
@@ -84,7 +84,7 @@ export function EPostaKampanyaFormu({
 
       {/* Konu */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-[700] text-textStrong">E-posta Konusu</label>
+        <label className="text-sm font-bold text-textStrong">E-posta Konusu</label>
         <input
           type="text"
           value={konu}
@@ -99,11 +99,11 @@ export function EPostaKampanyaFormu({
       {/* İçerik */}
       <div className="flex flex-col gap-1.5">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-[700] text-textStrong">Mesaj İçeriği</label>
+          <label className="text-sm font-bold text-textStrong">Mesaj İçeriği</label>
           <button
             type="button"
             onClick={() => setOnizleme(!onizleme)}
-            className="text-xs font-[700] text-primary hover:underline"
+            className="text-xs font-bold text-primary hover:underline"
           >
             {onizleme ? 'Düzenle' : 'Önizle'}
           </button>
@@ -127,8 +127,8 @@ export function EPostaKampanyaFormu({
       </div>
 
       {sonuc && (
-        <div className={`rounded-xl px-4 py-3 text-sm font-[700] ${
-          sonuc.ok ? 'bg-success/[0.08] text-success border border-success/25' : 'bg-danger/[0.08] text-danger border border-danger/25'
+        <div className={`rounded-xl px-4 py-3 text-sm font-bold ${
+          sonuc.ok ? 'bg-success/8 text-success border border-success/25' : 'bg-danger/8 text-danger border border-danger/25'
         }`}>
           {sonuc.msg}
         </div>
@@ -138,7 +138,7 @@ export function EPostaKampanyaFormu({
         <button
           type="submit"
           disabled={loading || !konu.trim() || !icerik.trim()}
-          className="btn-primary rounded-xl px-5 py-2.5 text-sm font-[700] text-white disabled:opacity-50"
+          className="btn-primary rounded-xl px-5 py-2.5 text-sm font-bold text-white disabled:opacity-50"
         >
           {loading ? 'Gönderiliyor…' : 'Kampanya Gönder'}
         </button>

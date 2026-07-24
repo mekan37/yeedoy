@@ -121,9 +121,9 @@ export function AnalitikIstemcisi({
       <div className="mt-6 grid gap-4 xl:grid-cols-3">
         <div className="xl:col-span-2">
           <PanelBolumKarti title="Görüntülenme Grafiği" description={`${etiket} — günlük trend`}>
-            <div className="mb-3 flex items-center gap-4 text-[11px] font-[700]">
-              <span className="flex items-center gap-1.5 text-[color:var(--yd-color-primary-strong)]">
-                <span className="h-0.5 w-5 rounded bg-[color:var(--yd-color-primary-strong)]" />Bu Dönem
+            <div className="mb-3 flex items-center gap-4 text-[11px] font-bold">
+              <span className="flex items-center gap-1.5 text-(--yd-color-primary-strong)">
+                <span className="h-0.5 w-5 rounded bg-(--yd-color-primary-strong)" />Bu Dönem
               </span>
               <span className="flex items-center gap-1.5 text-muted">
                 <span className="h-px w-5 rounded" style={{ borderTop: '1.5px dashed var(--yd-color-muted)', display: 'block' }} />Önceki Dönem
@@ -158,17 +158,17 @@ export function AnalitikIstemcisi({
       </div>
 
       {/* Performans Özeti */}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-card px-6 py-4 shadow-sm">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border bg-card px-6 py-4 shadow-xs">
         <div>
-          <p className="text-[14px] font-[900] text-textStrong">Performans Özeti</p>
-          <p className="mt-0.5 text-[12px] font-[600] text-muted">
+          <p className="text-[14px] font-black text-textStrong">Performans Özeti</p>
+          <p className="mt-0.5 text-[12px] font-semibold text-muted">
             {etiket} toplam: {fmt(toplamEtkilesim)} etkileşim
             {enIyiGun && ` · En iyi gün: ${enIyiGun}`}
             {enYogunSaatAraligi && ` · En yoğun saat: ${enYogunSaatAraligi}`}
           </p>
         </div>
         <button disabled title="Yakında aktif olacak"
-          className="flex cursor-not-allowed items-center gap-2 rounded-xl border border-border bg-cardAlt px-4 py-2.5 text-[12px] font-[800] text-muted opacity-60">
+          className="flex cursor-not-allowed items-center gap-2 rounded-xl border border-border bg-cardAlt px-4 py-2.5 text-[12px] font-extrabold text-muted opacity-60">
           <DownloadIcon />
           Detaylı Raporu İndir
         </button>
@@ -222,8 +222,8 @@ function DonutKarti({ title, subtitle, veri }: { title: string; subtitle?: strin
           </PieChart>
         </ResponsiveContainer>
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <p className="text-[11px] font-[700] text-muted">Toplam</p>
-          <p className="text-[20px] font-[900] text-textStrong">{fmt(toplam)}</p>
+          <p className="text-[11px] font-bold text-muted">Toplam</p>
+          <p className="text-[20px] font-black text-textStrong">{fmt(toplam)}</p>
         </div>
       </div>
       <div className="mt-3 flex flex-col gap-1.5">
@@ -231,9 +231,9 @@ function DonutKarti({ title, subtitle, veri }: { title: string; subtitle?: strin
           <div key={d.name} className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: d.color }} />
-              <span className="text-[12px] font-[600] text-textStrong/80">{d.name}</span>
+              <span className="text-[12px] font-semibold text-textStrong/80">{d.name}</span>
             </div>
-            <span className="text-[12px] font-[800] text-textStrong">%{d.value} · {fmt(d.count)}</span>
+            <span className="text-[12px] font-extrabold text-textStrong">%{d.value} · {fmt(d.count)}</span>
           </div>
         ))}
       </div>
@@ -255,9 +255,9 @@ function RezervasyonDurumuKarti({ satirlar }: { satirlar: ReservationStatusRow[]
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: DURUM_RENKLERI[r.status] }} />
-                  <span className="text-[12px] font-[600] text-textStrong/80">{r.label}</span>
+                  <span className="text-[12px] font-semibold text-textStrong/80">{r.label}</span>
                 </div>
-                <span className="text-[12px] font-[800] text-textStrong">{fmt(r.count)}</span>
+                <span className="text-[12px] font-extrabold text-textStrong">{fmt(r.count)}</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-border">
                 <div className="h-1.5 rounded-full" style={{ width: `${r.pct}%`, background: DURUM_RENKLERI[r.status] }} />
@@ -283,20 +283,20 @@ function IsiHaritasiKarti({ satirlar }: { satirlar: HourBucketRow[] }) {
             <table className="w-full text-[11px]">
               <thead>
                 <tr>
-                  <th className="w-[60px] pb-2 text-left font-[700] text-muted" />
+                  <th className="w-[60px] pb-2 text-left font-bold text-muted" />
                   {['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'].map((d) => (
-                    <th key={d} className="pb-2 text-center font-[800] text-textStrong/80">{d}</th>
+                    <th key={d} className="pb-2 text-center font-extrabold text-textStrong/80">{d}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {satirlar.map((row) => (
                   <tr key={row.bucketLabel}>
-                    <td className="whitespace-nowrap py-1.5 pr-3 font-[700] text-textStrong/80">{row.bucketLabel}</td>
+                    <td className="whitespace-nowrap py-1.5 pr-3 font-bold text-textStrong/80">{row.bucketLabel}</td>
                     {row.counts.map((count, ci) => (
                       <td key={ci} className="px-1 py-1 text-center">
                         <div
-                          className="mx-auto flex h-8 w-full min-w-[32px] items-center justify-center rounded-lg text-[10px] font-[900]"
+                          className="mx-auto flex h-8 w-full min-w-[32px] items-center justify-center rounded-lg text-[10px] font-black"
                           style={{
                             background: heatColor(row.norms[ci]),
                             color: row.norms[ci] >= 50 ? '#fff' : 'var(--yd-color-primary)',
@@ -313,11 +313,11 @@ function IsiHaritasiKarti({ satirlar }: { satirlar: HourBucketRow[] }) {
             </table>
           </div>
           <div className="mt-4 flex items-center gap-2">
-            <span className="text-[10px] font-[600] text-muted">Az</span>
+            <span className="text-[10px] font-semibold text-muted">Az</span>
             {[0.08, 0.24, 0.42, 0.6, 0.8, 1].map((o) => (
               <span key={o} className="h-3 flex-1 rounded" style={{ background: `rgba(127,29,29,${o})` }} />
             ))}
-            <span className="text-[10px] font-[600] text-muted">Çok</span>
+            <span className="text-[10px] font-semibold text-muted">Çok</span>
           </div>
         </>
       )}
@@ -337,15 +337,15 @@ function EylemlerKarti({ eylemler }: { eylemler: EylemMetrigi[] }) {
           return (
             <div key={e.key} className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/[0.04]" style={{ color: meta.renk }}>
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-black/4" style={{ color: meta.renk }}>
                   {meta.icon}
                 </span>
-                <span className="text-[12px] font-[700] text-textStrong/80">{meta.label}</span>
+                <span className="text-[12px] font-bold text-textStrong/80">{meta.label}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[13px] font-[900] text-textStrong">{fmt(e.value)}</span>
+                <span className="text-[13px] font-black text-textStrong">{fmt(e.value)}</span>
                 {p !== null && (
-                  <span className={`text-[10px] font-[800] ${up ? 'text-[color:var(--yd-color-success)]' : 'text-[color:var(--yd-color-danger)]'}`}>
+                  <span className={`text-[10px] font-extrabold ${up ? 'text-(--yd-color-success)' : 'text-(--yd-color-danger)'}`}>
                     {up ? '↑' : '↓'} %{Math.abs(p)}
                   </span>
                 )}
@@ -363,9 +363,9 @@ function CizgiTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-xl border border-border bg-card p-3 text-[12px] shadow-lg">
-      <p className="mb-1.5 font-[800] text-textStrong">{label}</p>
+      <p className="mb-1.5 font-extrabold text-textStrong">{label}</p>
       {payload.map((p: any) => (
-        <p key={p.name} className="font-[600]" style={{ color: p.color }}>
+        <p key={p.name} className="font-semibold" style={{ color: p.color }}>
           {p.name === 'guncel' ? 'Bu Dönem' : 'Önceki Dönem'}: {fmt(p.value)}
         </p>
       ))}
@@ -395,10 +395,10 @@ function TrendGrafik({ gunler }: { gunler: { label: string; menu: number; qr: nu
   return (
     <div className="overflow-x-auto">
       <div className="flex items-center gap-4 mb-2">
-        <span className="flex items-center gap-1.5 text-xs font-[700] text-primary">
+        <span className="flex items-center gap-1.5 text-xs font-bold text-primary">
           <span className="h-2 w-4 rounded-full bg-primary inline-block" /> Menü Görüntüleme
         </span>
-        <span className="flex items-center gap-1.5 text-xs font-[700] text-info">
+        <span className="flex items-center gap-1.5 text-xs font-bold text-info">
           <span className="h-2 w-4 rounded-full bg-info inline-block" /> QR Tarama
         </span>
       </div>

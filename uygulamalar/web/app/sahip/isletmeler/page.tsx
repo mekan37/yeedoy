@@ -76,10 +76,10 @@ export default async function OwnerBusinessesPage() {
                 <PanelBolumKarti key={b.id} noPadding className="overflow-hidden">
                   <Link
                     href={`/sahip/isletmeler/${b.id}`}
-                    className="group block transition-colors hover:bg-black/[0.02]"
+                    className="group block transition-colors hover:bg-black/2"
                   >
                     <div
-                      className="relative min-h-[150px] bg-[linear-gradient(135deg,_#171717,_#525252)]"
+                      className="relative min-h-[150px] bg-[linear-gradient(135deg,#171717,#525252)]"
                       style={b.cover_url ? {
                         backgroundImage: `linear-gradient(90deg, rgba(0,0,0,.62), rgba(0,0,0,.14)), url("${buildMenuImageUrl(b.cover_url, { width: 900, quality: 80 }) ?? ''}")`,
                         backgroundSize: 'cover',
@@ -87,7 +87,7 @@ export default async function OwnerBusinessesPage() {
                       } : undefined}
                     >
                       <div className="absolute inset-x-0 bottom-0 flex items-end gap-3 p-4 text-white">
-                        <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/25 bg-white/15 text-2xl font-[900] shadow-yd2 backdrop-blur">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/25 bg-white/15 text-2xl font-black shadow-yd2 backdrop-blur-sm">
                           {b.logo_url ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
@@ -100,8 +100,8 @@ export default async function OwnerBusinessesPage() {
                           )}
                         </div>
                         <div className="min-w-0 pb-1">
-                          <p className="truncate text-lg font-[900]">{b.name}</p>
-                          <p className="truncate text-xs font-[700] text-white/75">
+                          <p className="truncate text-lg font-black">{b.name}</p>
+                          <p className="truncate text-xs font-bold text-white/75">
                             {[b.category, b.district, b.city].filter(Boolean).join(' · ') || 'İşletme profili'}
                           </p>
                         </div>
@@ -111,7 +111,7 @@ export default async function OwnerBusinessesPage() {
                     <div className="flex items-center justify-between gap-3 px-4 py-3">
                       <div className="flex flex-wrap gap-2">
                         <span
-                          className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
+                          className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
                             b.is_active
                               ? 'bg-green-50 text-green-700'
                               : 'bg-zinc-100 text-zinc-500'
@@ -119,12 +119,12 @@ export default async function OwnerBusinessesPage() {
                         >
                           {b.is_active ? 'Aktif' : 'Pasif'}
                         </span>
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
-                          b.lat && b.lng ? 'bg-primary/[0.08] text-primary' : 'bg-amber-50 text-amber-700'
+                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
+                          b.lat && b.lng ? 'bg-primary/8 text-primary' : 'bg-amber-50 text-amber-700'
                         }`}>
                           {b.lat && b.lng ? 'Konum var' : 'Konum eksik'}
                         </span>
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${
+                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
                           b.logo_url && b.cover_url ? 'bg-blue-50 text-blue-700' : 'bg-zinc-100 text-zinc-600'
                         }`}>
                           {b.logo_url && b.cover_url ? 'Görseller hazır' : 'Görsel eksik'}

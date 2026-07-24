@@ -32,7 +32,7 @@ export function YogunSaatlerKarti({ veriler }: Props) {
             .map((s) => (
               <span
                 key={s.hourOfDay}
-                className="rounded-xl bg-primary/10 px-3 py-1 text-xs font-[800] text-primary"
+                className="rounded-xl bg-primary/10 px-3 py-1 text-xs font-extrabold text-primary"
               >
                 {String(s.hourOfDay).padStart(2, '0')}:00
               </span>
@@ -59,7 +59,7 @@ export function YogunSaatlerKarti({ veriler }: Props) {
                 />
               </div>
               {isTop ? (
-                <span className="w-5 shrink-0 text-[10px] font-[700] text-primary">
+                <span className="w-5 shrink-0 text-[10px] font-bold text-primary">
                   #{v.peakRank}
                 </span>
               ) : (

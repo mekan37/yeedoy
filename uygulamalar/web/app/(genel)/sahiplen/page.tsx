@@ -31,7 +31,7 @@ export default async function ClaimPage({ searchParams }: ClaimPageProps) {
           <Container className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-center">
             <div>
               <p className="yd-eyebrow">Sahiplenme</p>
-              <h1 className="mt-3 max-w-3xl text-4xl font-[900] leading-tight text-textStrong sm:text-5xl">İşletme sayfanı sahiplen, yönetimi panelde tut.</h1>
+              <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight text-textStrong sm:text-5xl">İşletme sayfanı sahiplen, yönetimi panelde tut.</h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-muted">Next.js tarafı public keşif ve SEO yüzeyidir. İşletme CRUD, menü yönetimi ve admin süreçleri owner/yonetici panel akışında kalır.</p>
               <div className="mt-7 flex flex-wrap gap-2">
                 <ButtonLink href={panelHref}>Panele devam et</ButtonLink>
@@ -42,7 +42,7 @@ export default async function ClaimPage({ searchParams }: ClaimPageProps) {
               <Badge tone="success"><Icon name="check" size={13} /> Public ayrım korunur</Badge>
               <div className="mt-5 grid gap-4">
                 {['İşletme doğrulaması', 'QR ve marka ayarları', 'Menü yönetimi', 'Admin moderasyonu'].map((item) => (
-                  <div key={item} className="flex items-center gap-3 rounded-2xl bg-cardAlt px-3 py-3 text-sm font-[900] text-textStrong">
+                  <div key={item} className="flex items-center gap-3 rounded-2xl bg-cardAlt px-3 py-3 text-sm font-black text-textStrong">
                     <Icon name="check" size={16} className="text-success" />
                     {item}
                   </div>
@@ -63,7 +63,7 @@ export default async function ClaimPage({ searchParams }: ClaimPageProps) {
           </Card>
         </Container>
         <Container className="pb-10 text-sm text-muted">
-          <Link href="/giris" className="font-[900] text-primary hover:underline">Mevcut hesabınla giriş yap</Link>
+          <Link href="/giris" className="font-black text-primary hover:underline">Mevcut hesabınla giriş yap</Link>
         </Container>
       </main>
     </PublicShell>

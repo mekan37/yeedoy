@@ -15,11 +15,11 @@ interface AppButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    'text-white shadow-[var(--yd-shadow-primary)] hover:shadow-[var(--yd-shadow-primary-lg)] hover:-translate-y-px hover:brightness-105 active:translate-y-0 active:brightness-95',
+    'text-white shadow-(--yd-shadow-primary) hover:shadow-(--yd-shadow-primary-lg) hover:-translate-y-px hover:brightness-105 active:translate-y-0 active:brightness-95',
   secondary:
-    'border border-border bg-card text-textStrong hover:bg-black/[0.04] hover:border-borderStrong active:bg-black/[0.08]',
+    'border border-border bg-card text-textStrong hover:bg-black/4 hover:border-borderStrong active:bg-black/8',
   ghost:
-    'text-textStrong hover:bg-black/[0.06] active:bg-black/[0.10]',
+    'text-textStrong hover:bg-black/6 active:bg-black/10',
   danger:
     'border border-red-200 bg-red-50 text-danger hover:bg-red-100 active:bg-red-200',
 };
@@ -40,8 +40,8 @@ export function AppButton({
     <button
       disabled={disabled || loading}
       className={clsx(
-        'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl px-5 py-2 text-sm font-[800] transition-all duration-[180ms]',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl px-5 py-2 text-sm font-extrabold transition-all duration-180',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         'disabled:cursor-not-allowed disabled:opacity-50',
         variantClasses[variant],
         fullWidth && 'w-full',
@@ -70,11 +70,11 @@ export function GradientButton({
     <button
       disabled={disabled || loading}
       className={clsx(
-        'inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-5 text-base font-[800] text-white',
-        'shadow-[var(--yd-shadow-primary)] transition-all duration-[180ms]',
-        'hover:shadow-[var(--yd-shadow-primary-lg)] hover:-translate-y-px hover:brightness-105',
+        'inline-flex min-h-[52px] items-center justify-center gap-2 rounded-2xl px-5 text-base font-extrabold text-white',
+        'shadow-(--yd-shadow-primary) transition-all duration-180',
+        'hover:shadow-(--yd-shadow-primary-lg) hover:-translate-y-px hover:brightness-105',
         'active:scale-[0.97] active:translate-y-0 active:brightness-95',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+        'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
         'disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none',
         fullWidth && 'w-full',
         className,

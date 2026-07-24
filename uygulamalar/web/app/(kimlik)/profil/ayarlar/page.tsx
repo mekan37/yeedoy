@@ -37,13 +37,13 @@ const NAV_SIDEBAR = [
 
 function ChipTag({ label, onRemove }: { label: string; onRemove: () => void }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-cardAlt px-3 py-1.5 text-[13px] font-[700] text-textStrong">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-cardAlt px-3 py-1.5 text-[13px] font-bold text-textStrong">
       {label}
       <button
         type="button"
         onClick={onRemove}
         aria-label={`${label} kaldır`}
-        className="flex h-4 w-4 items-center justify-center rounded-full bg-border text-muted hover:bg-danger/20 hover:text-danger transition-colors text-[10px] font-[900]"
+        className="flex h-4 w-4 items-center justify-center rounded-full bg-border text-muted hover:bg-danger/20 hover:text-danger transition-colors text-[10px] font-black"
       >
         ×
       </button>
@@ -53,7 +53,7 @@ function ChipTag({ label, onRemove }: { label: string; onRemove: () => void }) {
 
 function FormLabel({ htmlFor, children }: { htmlFor?: string; children: React.ReactNode }) {
   return (
-    <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] font-[900] text-textStrong">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] font-black text-textStrong">
       {children}
     </label>
   );
@@ -63,7 +63,7 @@ function InputBase({ className = '', ...props }: React.InputHTMLAttributes<HTMLI
   return (
     <input
       {...props}
-      className={`w-full rounded-xl border border-border bg-bg px-4 py-3 text-[14px] font-[700] text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
+      className={`w-full rounded-xl border border-border bg-bg px-4 py-3 text-[14px] font-bold text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
     />
   );
 }
@@ -72,7 +72,7 @@ function SelectBase({ className = '', ...props }: React.SelectHTMLAttributes<HTM
   return (
     <select
       {...props}
-      className={`w-full rounded-xl border border-border bg-bg px-4 py-3 text-[14px] font-[700] text-textStrong focus:outline-none focus:ring-2 focus:ring-primary/30 ${className}`}
+      className={`w-full rounded-xl border border-border bg-bg px-4 py-3 text-[14px] font-bold text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30 ${className}`}
     />
   );
 }
@@ -80,7 +80,7 @@ function SelectBase({ className = '', ...props }: React.SelectHTMLAttributes<HTM
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="rounded-2xl border border-border bg-card p-6 shadow-yd1">
-      <h2 className="mb-5 text-[15px] font-[900] text-textStrong">{title}</h2>
+      <h2 className="mb-5 text-[15px] font-black text-textStrong">{title}</h2>
       {children}
     </section>
   );
@@ -277,7 +277,7 @@ export default function ProfileSettingsPage() {
             <nav className="rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
               {NAV_SIDEBAR.map(({ href, label, active }) => (
                 <Link key={label} href={href}
-                  className={`flex items-center gap-3 px-4 py-3 text-sm font-[800] border-b border-border last:border-0 transition-colors ${
+                  className={`flex items-center gap-3 px-4 py-3 text-sm font-extrabold border-b border-border last:border-0 transition-colors ${
                     active
                       ? 'bg-primary/8 text-primary'
                       : 'text-textStrong hover:bg-cardAlt hover:text-primary'
@@ -289,7 +289,7 @@ export default function ProfileSettingsPage() {
                 </Link>
               ))}
               <button type="button"
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-[800] text-danger transition-colors hover:bg-danger/5">
+                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-extrabold text-danger transition-colors hover:bg-danger/5">
                 Çıkış Yap
               </button>
             </nav>
@@ -298,13 +298,13 @@ export default function ProfileSettingsPage() {
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
               <div className="mb-1 flex items-center gap-2">
                 <span className="text-lg" aria-hidden="true">👑</span>
-                <p className="text-sm font-[900] text-amber-900">Yeedoy Premium</p>
+                <p className="text-sm font-black text-amber-900">Yeedoy Premium</p>
               </div>
-              <p className="mb-3 text-[12px] font-[700] leading-snug text-amber-700">
+              <p className="mb-3 text-[12px] font-bold leading-snug text-amber-700">
                 Daha fazla ayrıcalık ve özel fırsatlar seni bekliyor!
               </p>
               <button type="button"
-                className="flex h-9 w-full items-center justify-center rounded-xl border border-amber-300 bg-white text-[13px] font-[900] text-amber-700 transition hover:bg-amber-100">
+                className="flex h-9 w-full items-center justify-center rounded-xl border border-amber-300 bg-white text-[13px] font-black text-amber-700 transition hover:bg-amber-100">
                 Premium&apos;a Geç
               </button>
             </div>
@@ -316,23 +316,23 @@ export default function ProfileSettingsPage() {
             {/* Sayfa başlığı + butonlar */}
             <div className="flex items-start justify-between gap-4">
               <div>
-                <Link href="/profil" className="mb-2 inline-flex items-center gap-1.5 text-[13px] font-[800] text-muted hover:text-primary transition-colors">
+                <Link href="/profil" className="mb-2 inline-flex items-center gap-1.5 text-[13px] font-extrabold text-muted hover:text-primary transition-colors">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
                   Geri
                 </Link>
-                <h1 className="text-2xl font-[900] text-textStrong">Profil Düzenle</h1>
-                <p className="mt-1 text-[13px] font-[700] text-muted">Bilgilerini güncelle ve deneyimini kişiselleştir.</p>
+                <h1 className="text-2xl font-black text-textStrong">Profil Düzenle</h1>
+                <p className="mt-1 text-[13px] font-bold text-muted">Bilgilerini güncelle ve deneyimini kişiselleştir.</p>
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 <Link href="/profil"
-                  className="flex h-10 items-center rounded-xl border border-border bg-card px-5 text-[14px] font-[800] text-textStrong transition hover:border-primary/30 shadow-yd1">
+                  className="flex h-10 items-center rounded-xl border border-border bg-card px-5 text-[14px] font-extrabold text-textStrong transition hover:border-primary/30 shadow-yd1">
                   İptal
                 </Link>
                 <button
                   type="button"
                   onClick={() => handleSave()}
                   disabled={saving}
-                  className="flex h-10 items-center rounded-xl bg-primary px-5 text-[14px] font-[900] text-white shadow-sm transition hover:brightness-110 disabled:opacity-60">
+                  className="flex h-10 items-center rounded-xl bg-primary px-5 text-[14px] font-black text-white shadow-xs transition hover:brightness-110 disabled:opacity-60">
                   {saving ? 'Kaydediliyor…' : 'Kaydet'}
                 </button>
               </div>
@@ -347,7 +347,7 @@ export default function ProfileSettingsPage() {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={displayAvatar} alt="Profil" className="h-full w-full object-cover" />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center text-2xl font-[900] text-primary">{initials}</div>
+                    <div className="flex h-full w-full items-center justify-center text-2xl font-black text-primary">{initials}</div>
                   )}
                   {avatarUploading && (
                     <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/40">
@@ -357,7 +357,7 @@ export default function ProfileSettingsPage() {
                 </div>
                 {/* Kamera overlay */}
                 <label htmlFor="avatar-input"
-                  className="absolute bottom-0 right-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-primary shadow-sm transition hover:brightness-110">
+                  className="absolute bottom-0 right-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-primary shadow-xs transition hover:brightness-110">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
                     <circle cx="12" cy="13" r="4"/>
@@ -366,14 +366,14 @@ export default function ProfileSettingsPage() {
               </div>
 
               <div>
-                <p className="text-[15px] font-[900] text-textStrong">Profil Fotoğrafı</p>
-                <p className="mt-0.5 text-[12px] font-[700] text-muted">JPG, PNG veya WebP. Maks. 5MB.</p>
+                <p className="text-[15px] font-black text-textStrong">Profil Fotoğrafı</p>
+                <p className="mt-0.5 text-[12px] font-bold text-muted">JPG, PNG veya WebP. Maks. 5MB.</p>
                 <div className="mt-3 flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => fileRef.current?.click()}
                     disabled={avatarUploading}
-                    className="inline-flex h-9 items-center gap-2 rounded-xl border border-border bg-bg px-4 text-[13px] font-[800] text-textStrong transition hover:border-primary/30 hover:text-primary disabled:opacity-50">
+                    className="inline-flex h-9 items-center gap-2 rounded-xl border border-border bg-bg px-4 text-[13px] font-extrabold text-textStrong transition hover:border-primary/30 hover:text-primary disabled:opacity-50">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     Fotoğraf Yükle
                   </button>
@@ -381,7 +381,7 @@ export default function ProfileSettingsPage() {
                     <button
                       type="button"
                       onClick={handleRemoveAvatar}
-                      className="inline-flex h-9 items-center gap-2 rounded-xl border border-danger/20 bg-danger/5 px-4 text-[13px] font-[800] text-danger transition hover:bg-danger/10">
+                      className="inline-flex h-9 items-center gap-2 rounded-xl border border-danger/20 bg-danger/5 px-4 text-[13px] font-extrabold text-danger transition hover:bg-danger/10">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
                       Kaldır
                     </button>
@@ -422,7 +422,7 @@ export default function ProfileSettingsPage() {
                   <div>
                     <FormLabel htmlFor="username">Kullanıcı Adı</FormLabel>
                     <InputBase id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))} placeholder="kullaniciadi" maxLength={30} />
-                    <p className="mt-1 text-[11px] font-[700] text-muted">Kullanıcı adın bağlantında görünecektir.</p>
+                    <p className="mt-1 text-[11px] font-bold text-muted">Kullanıcı adın bağlantında görünecektir.</p>
                   </div>
                 </div>
 
@@ -432,7 +432,7 @@ export default function ProfileSettingsPage() {
                     <FormLabel htmlFor="phone">Telefon</FormLabel>
                     <div className="flex gap-2">
                       {/* Ülke kodu */}
-                      <div className="flex h-[46px] w-20 shrink-0 items-center gap-2 rounded-xl border border-border bg-bg px-3 text-[13px] font-[700] text-textStrong">
+                      <div className="flex h-[46px] w-20 shrink-0 items-center gap-2 rounded-xl border border-border bg-bg px-3 text-[13px] font-bold text-textStrong">
                         <span className="text-base" aria-hidden="true">🇹🇷</span>
                         <span className="text-muted">+90</span>
                       </div>
@@ -466,14 +466,14 @@ export default function ProfileSettingsPage() {
                         value={birthDate}
                         onChange={(e) => setBirthDate(e.target.value)}
                         max={new Date(Date.now() - 13 * 365 * 86400000).toISOString().split('T')[0]}
-                        className="[color-scheme:light]"
+                        className="scheme-light"
                       />
                     </div>
                   </div>
                   <div>
                     <div className="mb-1.5 flex items-center justify-between">
                       <FormLabel htmlFor="hakkinda">Hakkımda</FormLabel>
-                      <span className={`text-[11px] font-[700] ${hakkinda.length > HAKKINDA_MAX * 0.9 ? 'text-warning' : 'text-muted'}`}>
+                      <span className={`text-[11px] font-bold ${hakkinda.length > HAKKINDA_MAX * 0.9 ? 'text-warning' : 'text-muted'}`}>
                         {hakkinda.length}/{HAKKINDA_MAX}
                       </span>
                     </div>
@@ -483,14 +483,14 @@ export default function ProfileSettingsPage() {
                       onChange={(e) => setHakkinda(e.target.value.slice(0, HAKKINDA_MAX))}
                       rows={3}
                       placeholder="Kendinizden kısaca bahsedin..."
-                      className="w-full resize-none rounded-xl border border-border bg-bg px-4 py-3 text-[14px] font-[700] text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      className="w-full resize-none rounded-xl border border-border bg-bg px-4 py-3 text-[14px] font-bold text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                     />
-                    <p className="mt-0.5 text-[11px] font-[700] text-muted">Maks. {HAKKINDA_MAX} karakter</p>
+                    <p className="mt-0.5 text-[11px] font-bold text-muted">Maks. {HAKKINDA_MAX} karakter</p>
                   </div>
                 </div>
 
                 {saveError && (
-                  <div className="rounded-xl border border-danger/25 bg-danger/[0.08] px-4 py-3 text-[13px] font-[700] text-danger">
+                  <div className="rounded-xl border border-danger/25 bg-danger/8 px-4 py-3 text-[13px] font-bold text-danger">
                     {saveError}
                   </div>
                 )}
@@ -511,7 +511,7 @@ export default function ProfileSettingsPage() {
                       <select
                         value=""
                         onChange={(e) => { if (e.target.value && !favMutfaklar.includes(e.target.value)) setFavMutfaklar((p) => [...p, e.target.value]); }}
-                        className="h-8 min-w-[90px] cursor-pointer rounded-lg border border-dashed border-border bg-transparent px-2 text-[12px] font-[700] text-muted focus:outline-none">
+                        className="h-8 min-w-[90px] cursor-pointer rounded-lg border border-dashed border-border bg-transparent px-2 text-[12px] font-bold text-muted focus:outline-hidden">
                         <option value="">+ Ekle</option>
                         {MUTFAKLAR.filter((m) => !favMutfaklar.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
                       </select>
@@ -526,7 +526,7 @@ export default function ProfileSettingsPage() {
                       <select
                         value=""
                         onChange={(e) => { if (e.target.value && !diyetTercihleri.includes(e.target.value)) setDiyetTercihleri((p) => [...p, e.target.value]); }}
-                        className="h-8 min-w-[90px] cursor-pointer rounded-lg border border-dashed border-border bg-transparent px-2 text-[12px] font-[700] text-muted focus:outline-none">
+                        className="h-8 min-w-[90px] cursor-pointer rounded-lg border border-dashed border-border bg-transparent px-2 text-[12px] font-bold text-muted focus:outline-hidden">
                         <option value="">+ Ekle</option>
                         {DIYET_SECENEKLERI.filter((d) => !diyetTercihleri.includes(d)).map((d) => <option key={d} value={d}>{d}</option>)}
                       </select>
@@ -544,9 +544,9 @@ export default function ProfileSettingsPage() {
                           key={f}
                           type="button"
                           onClick={() => setFiyatTercihi(f === fiyatTercihi ? '' : f)}
-                          className={`flex h-11 flex-1 items-center justify-center rounded-xl border text-[14px] font-[900] transition ${
+                          className={`flex h-11 flex-1 items-center justify-center rounded-xl border text-[14px] font-black transition ${
                             fiyatTercihi === f
-                              ? 'border-primary bg-primary text-white shadow-sm'
+                              ? 'border-primary bg-primary text-white shadow-xs'
                               : 'border-border bg-bg text-textStrong hover:border-primary/30'
                           }`}>
                           {f}
@@ -563,7 +563,7 @@ export default function ProfileSettingsPage() {
                         onChange={(e) => setBildirimAktif(e.target.checked)}
                         className="mt-0.5 h-4 w-4 shrink-0 accent-primary"
                       />
-                      <span className="text-[13px] font-[700] leading-snug text-textStrong">
+                      <span className="text-[13px] font-bold leading-snug text-textStrong">
                         Kampanya, duyuru ve yeni mekan bildirimleri almak istiyorum.
                       </span>
                     </label>
@@ -626,12 +626,12 @@ export default function ProfileSettingsPage() {
                 </div>
 
                 {passError && (
-                  <p className="text-[13px] font-[700] text-danger">{passError}</p>
+                  <p className="text-[13px] font-bold text-danger">{passError}</p>
                 )}
 
                 <div className="flex items-center gap-3">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0 text-muted" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                  <p className="text-[12px] font-[700] text-muted">
+                  <p className="text-[12px] font-bold text-muted">
                     Şifren en az 8 karakter, bir büyük harf, bir küçük harf ve bir rakam içermelidir.
                   </p>
                 </div>
@@ -641,7 +641,7 @@ export default function ProfileSettingsPage() {
                     type="button"
                     onClick={handlePasswordChange}
                     disabled={passSaving || !currentPass || !newPass || !newPassConfirm}
-                    className="flex h-10 items-center rounded-xl bg-primary px-5 text-[14px] font-[900] text-white shadow-sm transition hover:brightness-110 disabled:opacity-40">
+                    className="flex h-10 items-center rounded-xl bg-primary px-5 text-[14px] font-black text-white shadow-xs transition hover:brightness-110 disabled:opacity-40">
                     {passSaving ? 'Güncelleniyor…' : 'Şifreyi Güncelle'}
                   </button>
                 </div>
@@ -651,37 +651,37 @@ export default function ProfileSettingsPage() {
             {/* ── Hesabımı Sil ─────────────────────────────────────── */}
             <div className="flex items-center justify-between gap-6 rounded-2xl border border-border bg-card p-6 shadow-yd1">
               <div>
-                <h2 className="text-[15px] font-[900] text-textStrong">Hesabımı Sil</h2>
-                <p className="mt-0.5 text-[13px] font-[700] text-muted">Hesabını silmek istediğinde tüm verilerin kalıcı olarak silinir.</p>
-                {deleteError && <p className="mt-2 text-[13px] font-[700] text-danger">{deleteError}</p>}
-                {deletePhase === 'done' && <p className="mt-2 text-[13px] font-[700] text-success">Hesabınız silindi. Yönlendiriliyorsunuz…</p>}
+                <h2 className="text-[15px] font-black text-textStrong">Hesabımı Sil</h2>
+                <p className="mt-0.5 text-[13px] font-bold text-muted">Hesabını silmek istediğinde tüm verilerin kalıcı olarak silinir.</p>
+                {deleteError && <p className="mt-2 text-[13px] font-bold text-danger">{deleteError}</p>}
+                {deletePhase === 'done' && <p className="mt-2 text-[13px] font-bold text-success">Hesabınız silindi. Yönlendiriliyorsunuz…</p>}
               </div>
 
               {deletePhase === 'idle' && (
                 <button
                   type="button"
                   onClick={() => setDeletePhase('confirm')}
-                  className="shrink-0 flex h-10 items-center rounded-xl border border-danger/30 bg-white px-5 text-[14px] font-[900] text-danger shadow-sm transition hover:bg-danger/5">
+                  className="shrink-0 flex h-10 items-center rounded-xl border border-danger/30 bg-white px-5 text-[14px] font-black text-danger shadow-xs transition hover:bg-danger/5">
                   Hesabımı Sil
                 </button>
               )}
               {deletePhase === 'confirm' && (
                 <div className="flex shrink-0 flex-col items-end gap-2">
-                  <p className="text-right text-[13px] font-[800] text-danger">Bu işlem geri alınamaz. Emin misin?</p>
+                  <p className="text-right text-[13px] font-extrabold text-danger">Bu işlem geri alınamaz. Emin misin?</p>
                   <div className="flex gap-2">
                     <button onClick={() => { setDeletePhase('idle'); setDeleteError(''); }}
-                      className="flex h-9 items-center rounded-xl border border-border bg-card px-4 text-[13px] font-[700] text-textStrong hover:bg-cardAlt">
+                      className="flex h-9 items-center rounded-xl border border-border bg-card px-4 text-[13px] font-bold text-textStrong hover:bg-cardAlt">
                       Vazgeç
                     </button>
                     <button onClick={handleDeleteAccount}
-                      className="flex h-9 items-center rounded-xl bg-danger px-4 text-[13px] font-[800] text-white hover:brightness-95">
+                      className="flex h-9 items-center rounded-xl bg-danger px-4 text-[13px] font-extrabold text-white hover:brightness-95">
                       Evet, Sil
                     </button>
                   </div>
                 </div>
               )}
               {deletePhase === 'deleting' && (
-                <p className="shrink-0 text-[13px] font-[700] text-muted">Siliniyor…</p>
+                <p className="shrink-0 text-[13px] font-bold text-muted">Siliniyor…</p>
               )}
             </div>
 

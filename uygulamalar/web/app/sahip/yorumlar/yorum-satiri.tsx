@@ -104,7 +104,7 @@ export function YorumSatiri({
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <StarRating rating={rating} />
-              <span className="text-xs font-[700] text-textStrong">
+              <span className="text-xs font-bold text-textStrong">
                 {displayName ?? 'Anonim'}
               </span>
               {businessName && (
@@ -121,7 +121,7 @@ export function YorumSatiri({
             {new Date(createdAt).toLocaleDateString('tr-TR')}
           </p>
           {isVisible === false && (
-            <span className="mt-1 inline-block rounded-full bg-border px-2 py-0.5 text-[11px] font-[700] text-muted">
+            <span className="mt-1 inline-block rounded-full bg-border px-2 py-0.5 text-[11px] font-bold text-muted">
               Gizli
             </span>
           )}
@@ -130,11 +130,11 @@ export function YorumSatiri({
 
       {/* Mevcut sahip yanıtı */}
       {savedReply && (
-        <div className="mt-3 rounded-xl border border-border bg-[var(--yd-color-primary-soft)] px-4 py-3">
-          <p className="mb-1 text-[11px] font-[800] uppercase tracking-wider text-primary">
+        <div className="mt-3 rounded-xl border border-border bg-(--yd-color-primary-soft) px-4 py-3">
+          <p className="mb-1 text-[11px] font-extrabold uppercase tracking-wider text-primary">
             İşletme Yanıtı
             {repliedAt && (
-              <span className="ml-2 font-[600] normal-case tracking-normal text-muted">
+              <span className="ml-2 font-semibold normal-case tracking-normal text-muted">
                 · {new Date(repliedAt).toLocaleDateString('tr-TR')}
               </span>
             )}
@@ -144,14 +144,14 @@ export function YorumSatiri({
             <button
               onClick={openEditForm}
               disabled={loading}
-              className="text-[11px] font-[800] text-primary underline-offset-2 hover:underline disabled:opacity-50"
+              className="text-[11px] font-extrabold text-primary underline-offset-2 hover:underline disabled:opacity-50"
             >
               Düzenle
             </button>
             <button
               onClick={deleteReply}
               disabled={loading}
-              className="text-[11px] font-[800] text-danger underline-offset-2 hover:underline disabled:opacity-50"
+              className="text-[11px] font-extrabold text-danger underline-offset-2 hover:underline disabled:opacity-50"
             >
               Yanıtı Sil
             </button>
@@ -165,14 +165,14 @@ export function YorumSatiri({
           {/* Reply templates */}
           <div className="mb-2">
             <button onClick={() => setShowTemplates(!showTemplates)}
-              className="text-xs font-[700] text-primary hover:underline">
+              className="text-xs font-bold text-primary hover:underline">
               {showTemplates ? '▲ Şablonları Kapat' : '▼ Hazır Şablon Kullan'}
             </button>
             {showTemplates && (
               <div className="mt-2 flex flex-wrap gap-2">
                 {REPLY_TEMPLATES.map(t => (
                   <button key={t.label} onClick={() => { setReply(t.text); setShowTemplates(false); textareaRef.current?.focus(); }}
-                    className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-[700] text-muted hover:border-primary hover:text-primary">
+                    className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-bold text-muted hover:border-primary hover:text-primary">
                     <t.icon className="h-3.5 w-3.5" aria-hidden="true" /> {t.label}
                   </button>
                 ))}
@@ -193,20 +193,20 @@ export function YorumSatiri({
             )}
           />
           {error && (
-            <p className="mt-1 text-xs font-[700] text-danger">{error}</p>
+            <p className="mt-1 text-xs font-bold text-danger">{error}</p>
           )}
           <div className="mt-2 flex items-center gap-2">
             <button
               onClick={submitReply}
               disabled={loading || !reply.trim()}
-              className="btn-primary inline-flex min-h-[36px] items-center rounded-xl px-4 text-sm font-[800] text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="btn-primary inline-flex min-h-[36px] items-center rounded-xl px-4 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? 'Kaydediliyor…' : 'Yanıtı Kaydet'}
             </button>
             <button
               onClick={() => { setShowForm(false); setError(null); setShowTemplates(false); }}
               disabled={loading}
-              className="inline-flex min-h-[36px] items-center rounded-xl border border-border bg-card px-4 text-sm font-[700] text-textStrong hover:bg-textStrong/[0.05] disabled:opacity-50"
+              className="inline-flex min-h-[36px] items-center rounded-xl border border-border bg-card px-4 text-sm font-bold text-textStrong hover:bg-textStrong/[0.05] disabled:opacity-50"
             >
               İptal
             </button>
@@ -217,7 +217,7 @@ export function YorumSatiri({
         <div className="mt-2">
           <button
             onClick={() => { setShowForm(true); setTimeout(() => textareaRef.current?.focus(), 50); }}
-            className="text-xs font-[800] text-primary underline-offset-2 hover:underline"
+            className="text-xs font-extrabold text-primary underline-offset-2 hover:underline"
           >
             + Yanıtla
           </button>
@@ -240,7 +240,7 @@ function ReviewerAvatar({ avatarUrl, displayName }: { avatarUrl: string | null; 
     );
   }
   return (
-    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-bg text-[13px] font-[900] text-textStrong">
+    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-bg text-[13px] font-black text-textStrong">
       {initial}
     </div>
   );

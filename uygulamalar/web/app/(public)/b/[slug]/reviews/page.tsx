@@ -108,10 +108,10 @@ export default async function BusinessReviewsPage({ params, searchParams }: Prop
               key={s}
               href={sortHref(s)}
               className={[
-                'inline-flex min-h-[44px] items-center rounded-full border px-3 py-1 text-sm font-[800] transition-all duration-[150ms]',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+                'inline-flex min-h-[44px] items-center rounded-full border px-3 py-1 text-sm font-extrabold transition-all duration-150',
+                'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30',
                 sort === s
-                  ? 'bg-[var(--yd-color-primary-soft)] border-primary/40 text-primary'
+                  ? 'bg-(--yd-color-primary-soft) border-primary/40 text-primary'
                   : 'bg-cardAlt border-border text-textStrong hover:border-borderStrong hover:bg-card',
               ].join(' ')}
             >
@@ -139,7 +139,7 @@ export default async function BusinessReviewsPage({ params, searchParams }: Prop
             {pageNum > 1 ? (
               <Link
                 href={`?${sort !== 'newest' ? `sort=${sort}&` : ''}page=${pageNum - 1}`}
-                className="inline-flex min-h-[44px] items-center rounded-2xl border border-border bg-card px-4 text-sm font-[700] text-textStrong transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                className="inline-flex min-h-[44px] items-center rounded-2xl border border-border bg-card px-4 text-sm font-bold text-textStrong transition-colors hover:border-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               >
                 ← Önceki
               </Link>
@@ -148,7 +148,7 @@ export default async function BusinessReviewsPage({ params, searchParams }: Prop
             {pageNum < totalPages && (
               <Link
                 href={`?${sort !== 'newest' ? `sort=${sort}&` : ''}page=${pageNum + 1}`}
-                className="inline-flex min-h-[44px] items-center rounded-2xl border border-border bg-card px-4 text-sm font-[700] text-textStrong transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                className="inline-flex min-h-[44px] items-center rounded-2xl border border-border bg-card px-4 text-sm font-bold text-textStrong transition-colors hover:border-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               >
                 Sonraki →
               </Link>
@@ -168,7 +168,7 @@ function ReviewCard({ review: r }: { review: Review }) {
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <StarRow rating={r.rating} />
         {r.verified_visit && (
-          <span className="inline-flex items-center gap-1 rounded-full border border-success/25 bg-success/[0.12] px-2 py-0.5 text-[11px] font-[800] text-success">
+          <span className="inline-flex items-center gap-1 rounded-full border border-success/25 bg-success/12 px-2 py-0.5 text-[11px] font-extrabold text-success">
             <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current" aria-hidden="true">
               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
             </svg>
@@ -176,7 +176,7 @@ function ReviewCard({ review: r }: { review: Review }) {
           </span>
         )}
         {hasQualityBadge && (
-          <span className="rounded-full border border-info/25 bg-info/[0.12] px-2 py-0.5 text-[11px] font-[800] text-info">
+          <span className="rounded-full border border-info/25 bg-info/12 px-2 py-0.5 text-[11px] font-extrabold text-info">
             Kaliteli Yorum
           </span>
         )}
@@ -186,7 +186,7 @@ function ReviewCard({ review: r }: { review: Review }) {
       </div>
 
       {/* Title */}
-      {r.title && <p className="mb-1 text-sm font-[700] text-textStrong">{r.title}</p>}
+      {r.title && <p className="mb-1 text-sm font-bold text-textStrong">{r.title}</p>}
 
       {/* Content */}
       {r.content && (
@@ -213,7 +213,7 @@ function ReviewCard({ review: r }: { review: Review }) {
 
 function StarRow({ rating }: { rating: number }) {
   return (
-    <span className="text-sm font-[700] text-star" aria-label={`${rating} yıldız`}>
+    <span className="text-sm font-bold text-star" aria-label={`${rating} yıldız`}>
       {'★'.repeat(rating)}{'☆'.repeat(Math.max(0, 5 - rating))}
     </span>
   );
@@ -221,7 +221,7 @@ function StarRow({ rating }: { rating: number }) {
 
 function SubRating({ label, value }: { label: string; value: number }) {
   return (
-    <span className="rounded-full border border-border bg-card px-2 py-0.5 text-[11px] font-[700] text-muted">
+    <span className="rounded-full border border-border bg-card px-2 py-0.5 text-[11px] font-bold text-muted">
       {label}: {'★'.repeat(value)}
     </span>
   );

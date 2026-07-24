@@ -104,7 +104,7 @@ export function YoneticiUstArama() {
           setOpen(true);
         }}
         placeholder="İşletme, kullanıcı, rapor ara..."
-        className="h-11 w-full rounded-xl border border-border bg-bg pl-10 pr-4 text-sm font-[600] text-textStrong placeholder:text-muted transition-colors focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
+        className="h-11 w-full rounded-xl border border-border bg-bg pl-10 pr-4 text-sm font-semibold text-textStrong placeholder:text-muted transition-colors focus:border-primary/40 focus:outline-hidden focus:ring-2 focus:ring-primary/20"
       />
 
       {showPanel && (
@@ -126,14 +126,14 @@ export function YoneticiUstArama() {
               <Link
                 key={`${item.category}-${item.item_id}`}
                 href={item.href}
-                className="flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-black/[0.03]"
+                className="flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-black/3"
                 onClick={() => setOpen(false)}
               >
                 <span className="min-w-0">
-                  <span className="block truncate text-sm font-[800] text-textStrong">{item.title}</span>
+                  <span className="block truncate text-sm font-extrabold text-textStrong">{item.title}</span>
                   <span className="block truncate text-xs text-muted">{item.subtitle}</span>
                 </span>
-                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-[800] ${ADMIN_SEARCH_CATEGORY_BADGES[item.category] ?? 'bg-zinc-100 text-zinc-600'}`}>
+                <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold ${ADMIN_SEARCH_CATEGORY_BADGES[item.category] ?? 'bg-zinc-100 text-zinc-600'}`}>
                   {ADMIN_SEARCH_CATEGORY_LABELS[item.category] ?? item.category}
                 </span>
               </Link>
@@ -142,7 +142,7 @@ export function YoneticiUstArama() {
 
           <Link
             href={allResultsHref}
-            className="flex min-h-11 items-center justify-center border-t border-border px-4 text-sm font-[800] text-primary transition-colors hover:bg-primary/5"
+            className="flex min-h-11 items-center justify-center border-t border-border px-4 text-sm font-extrabold text-primary transition-colors hover:bg-primary/5"
             onClick={() => setOpen(false)}
           >
             Tümünü Göster

@@ -2,10 +2,10 @@ export default function PublicMenuLoading() {
   return (
     <main className="mx-auto min-h-screen w-full max-w-7xl px-4 py-5 sm:px-6 sm:py-6">
       <section className="overflow-hidden rounded-[32px] border border-border bg-card shadow-yd2">
-        <div className="h-[300px] animate-pulse bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.3),_transparent_42%),linear-gradient(135deg,_rgb(var(--yd-color-primary-rgb)),_rgb(var(--yd-color-primary-strong-rgb)))]" />
+        <div className="h-[300px] animate-pulse bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.3),transparent_42%),linear-gradient(135deg,rgb(var(--yd-color-primary-rgb)),rgb(var(--yd-color-primary-strong-rgb)))]" />
       </section>
 
-      <section className="sticky top-3 z-20 mt-6 rounded-[28px] border border-border bg-card/90 p-3 shadow-yd2 backdrop-blur">
+      <section className="sticky top-3 z-20 mt-6 rounded-[28px] border border-border bg-card/90 p-3 shadow-yd2 backdrop-blur-sm">
         <div className="mb-3 h-10 w-40 animate-pulse rounded-2xl bg-bg" />
         <div className="flex gap-2 overflow-hidden">
           <div className="h-11 w-28 animate-pulse rounded-full bg-bg" />

@@ -66,7 +66,7 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
             { v: 'all', l: 'Tümü' },
           ].map(({ v, l }) => (
             <button key={v} type="submit" name="status" value={v}
-              className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                 status === v ? 'bg-primary text-white' : 'border border-border bg-card text-muted hover:text-textStrong'
               }`}>
               {l}
@@ -85,7 +85,7 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
                 <thead>
                   <tr className="border-b border-border text-left">
                     {['Başvuran', 'Kaynak', 'Neden', 'Detay', 'Durum', 'Tarih', 'İşlem'].map((h) => (
-                      <th key={h} className="px-4 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted whitespace-nowrap">{h}</th>
+                      <th key={h} className="px-4 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted whitespace-nowrap">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -93,10 +93,10 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
                   {list.map((a: any) => {
                     const name = a.appellant?.display_name?.[0]?.display_name ?? a.appellant?.email ?? a.appellant_user_id?.slice(0, 8);
                     return (
-                      <tr key={a.id} className="hover:bg-black/[0.02]">
-                        <td className="px-4 py-3 text-xs text-textStrong font-[700] whitespace-nowrap">{name ?? '—'}</td>
+                      <tr key={a.id} className="hover:bg-black/2">
+                        <td className="px-4 py-3 text-xs text-textStrong font-bold whitespace-nowrap">{name ?? '—'}</td>
                         <td className="px-4 py-3">
-                          <span className="rounded-full bg-border/60 px-2 py-0.5 text-[10px] font-[800] text-muted">
+                          <span className="rounded-full bg-border/60 px-2 py-0.5 text-[10px] font-extrabold text-muted">
                             {SOURCE_LABELS[a.source_type] ?? a.source_type}
                           </span>
                         </td>
@@ -107,7 +107,7 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
                           <p className="line-clamp-2">{a.details ?? '—'}</p>
                         </td>
                         <td className="px-4 py-3">
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${STATUS_STYLES[a.status] ?? 'bg-zinc-100 text-zinc-600'}`}>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${STATUS_STYLES[a.status] ?? 'bg-zinc-100 text-zinc-600'}`}>
                             {STATUS_LABELS[a.status] ?? a.status}
                           </span>
                         </td>
@@ -121,7 +121,7 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
                                 <input type="hidden" name="id" value={a.id} />
                                 <input type="hidden" name="decision" value="approved" />
                                 <input type="hidden" name="status" value={status} />
-                                <button type="submit" className="rounded-lg bg-green-50 px-2.5 py-1 text-[10px] font-[800] text-green-700 hover:bg-green-100">
+                                <button type="submit" className="rounded-lg bg-green-50 px-2.5 py-1 text-[10px] font-extrabold text-green-700 hover:bg-green-100">
                                   Onayla
                                 </button>
                               </form>
@@ -129,7 +129,7 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
                                 <input type="hidden" name="id" value={a.id} />
                                 <input type="hidden" name="decision" value="rejected" />
                                 <input type="hidden" name="status" value={status} />
-                                <button type="submit" className="rounded-lg bg-red-50 px-2.5 py-1 text-[10px] font-[800] text-red-700 hover:bg-red-100">
+                                <button type="submit" className="rounded-lg bg-red-50 px-2.5 py-1 text-[10px] font-extrabold text-red-700 hover:bg-red-100">
                                   Reddet
                                 </button>
                               </form>
@@ -148,10 +148,10 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
                 <span className="text-xs text-muted">Sayfa {pageNum} / {totalPages}</span>
                 <div className="flex gap-2">
                   {pageNum > 1 && (
-                    <Link href={`?status=${status}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] hover:bg-black/[0.02]">← Önceki</Link>
+                    <Link href={`?status=${status}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold hover:bg-black/2">← Önceki</Link>
                   )}
                   {pageNum < totalPages && (
-                    <Link href={`?status=${status}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] hover:bg-black/[0.02]">Sonraki →</Link>
+                    <Link href={`?status=${status}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold hover:bg-black/2">Sonraki →</Link>
                   )}
                 </div>
               </div>

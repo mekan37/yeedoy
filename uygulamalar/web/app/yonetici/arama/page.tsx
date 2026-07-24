@@ -64,7 +64,7 @@ export default async function AdminSearchPage({ searchParams }: Props) {
               defaultValue={q}
               placeholder="İşletme adı, kullanıcı, şehir..."
               autoFocus
-              className="min-h-11 flex-1 rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+              className="min-h-11 flex-1 rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
             />
             <div className="flex flex-wrap gap-1">
               {TYPE_FILTERS.map(({ value, label }) => (
@@ -73,7 +73,7 @@ export default async function AdminSearchPage({ searchParams }: Props) {
                   type="submit"
                   name="type"
                   value={value}
-                  className={`min-h-11 rounded-xl px-3 py-2 text-xs font-[700] transition-colors ${
+                  className={`min-h-11 rounded-xl px-3 py-2 text-xs font-bold transition-colors ${
                     type === value
                       ? 'bg-primary text-white'
                       : 'border border-border bg-card text-muted hover:text-textStrong'
@@ -87,7 +87,7 @@ export default async function AdminSearchPage({ searchParams }: Props) {
               type="submit"
               name="type"
               value={type}
-              className="min-h-11 rounded-xl bg-primary px-4 py-2 text-sm font-[700] text-white transition-opacity hover:opacity-90"
+              className="min-h-11 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white transition-opacity hover:opacity-90"
             >
               Ara
             </button>
@@ -104,13 +104,13 @@ export default async function AdminSearchPage({ searchParams }: Props) {
                   <li key={`${item.category}-${item.item_id}`}>
                     <Link
                       href={item.href}
-                      className="flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-black/[0.02]"
+                      className="flex items-center justify-between gap-4 px-5 py-3 transition-colors hover:bg-black/2"
                     >
                       <div className="min-w-0">
-                        <p className="truncate font-[700] text-textStrong">{item.title}</p>
+                        <p className="truncate font-bold text-textStrong">{item.title}</p>
                         <p className="truncate text-xs text-muted">{item.subtitle}</p>
                       </div>
-                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-[700] ${ADMIN_SEARCH_CATEGORY_BADGES[item.category] ?? 'bg-zinc-100 text-zinc-600'}`}>
+                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${ADMIN_SEARCH_CATEGORY_BADGES[item.category] ?? 'bg-zinc-100 text-zinc-600'}`}>
                         {ADMIN_SEARCH_CATEGORY_LABELS[item.category] ?? item.category}
                       </span>
                     </Link>

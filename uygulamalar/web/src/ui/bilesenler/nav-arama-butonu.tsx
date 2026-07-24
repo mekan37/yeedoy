@@ -69,7 +69,7 @@ export function NavAramaButonu() {
         onClick={() => setAcik(true)}
         aria-label="Ara (Ctrl+K)"
         title="Ara (Ctrl+K)"
-        className="inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-border bg-cardAlt text-muted transition-all duration-200 hover:border-primary/30 hover:text-textStrong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        className="inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-full border border-border bg-cardAlt text-muted transition-all duration-200 hover:border-primary/30 hover:text-textStrong focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="8" />
@@ -88,9 +88,9 @@ export function NavAramaButonu() {
 
             {/* Üst başlık */}
             <div className="mb-2 flex items-center justify-between px-1">
-              <span className="text-xs font-[800] text-white/60">Yeedoy&apos;da Ara</span>
+              <span className="text-xs font-extrabold text-white/60">Yeedoy&apos;da Ara</span>
               <div className="flex items-center gap-2">
-                <span className="hidden rounded-md border border-white/20 bg-white/10 px-1.5 py-0.5 text-[10px] font-[800] text-white/60 sm:inline">
+                <span className="hidden rounded-md border border-white/20 bg-white/10 px-1.5 py-0.5 text-[10px] font-extrabold text-white/60 sm:inline">
                   ESC
                 </span>
                 <button

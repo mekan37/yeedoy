@@ -82,7 +82,7 @@ export default async function OnerilerimPage() {
 
         {/* Başlık */}
         <div className="mb-8">
-          <h1 className="text-2xl font-[900] text-textStrong">Önerilerim</h1>
+          <h1 className="text-2xl font-black text-textStrong">Önerilerim</h1>
           <p className="mt-1.5 text-sm text-muted">
             Yeedoy&apos;a eklenmesini önerdiğiniz işletmelerin durumunu buradan takip edebilirsiniz.
           </p>
@@ -90,7 +90,7 @@ export default async function OnerilerimPage() {
 
         {/* Hata */}
         {fetchError && (
-          <div className="rounded-2xl border border-danger/20 bg-danger/[0.06] px-5 py-4 text-sm font-[700] text-danger">
+          <div className="rounded-2xl border border-danger/20 bg-danger/6 px-5 py-4 text-sm font-bold text-danger">
             Öneriler yüklenirken bir sorun oluştu. Lütfen sayfayı yenileyin.
           </div>
         )}
@@ -112,13 +112,13 @@ export default async function OnerilerimPage() {
                 <path d="M32 10 L40 26 L58 28 L45 41 L48 58 L32 50 L16 58 L19 41 L6 28 L24 26 Z" />
               </svg>
             </div>
-            <p className="text-base font-[900] text-textStrong">Henüz önerin yok</p>
+            <p className="text-base font-black text-textStrong">Henüz önerin yok</p>
             <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-muted">
               Yeedoy&apos;da görmek istediğin bir işletme varsa ekibimize önerebilirsin.
             </p>
             <Link
               href="/oneri"
-              className="mt-6 inline-flex min-h-10 items-center gap-2 rounded-2xl border border-border bg-bg px-5 text-sm font-[800] text-textStrong hover:border-primary/30 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+              className="mt-6 inline-flex min-h-10 items-center gap-2 rounded-2xl border border-border bg-bg px-5 text-sm font-extrabold text-textStrong hover:border-primary/30 hover:text-primary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
             >
               İşletme Öner
             </Link>
@@ -128,7 +128,7 @@ export default async function OnerilerimPage() {
         {/* Liste */}
         {!fetchError && list.length > 0 && (
           <>
-            <p className="mb-3 text-xs font-[900] uppercase tracking-wide text-muted">
+            <p className="mb-3 text-xs font-black uppercase tracking-wide text-muted">
               {list.length} öneri
             </p>
             <div className="flex flex-col gap-3">
@@ -151,14 +151,14 @@ export default async function OnerilerimPage() {
                     className="flex items-start justify-between gap-3 rounded-[20px] border border-border bg-card px-5 py-4 shadow-yd1"
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-[800] text-textStrong">{s.name}</p>
+                      <p className="truncate font-extrabold text-textStrong">{s.name}</p>
                       {meta && (
                         <p className="mt-0.5 truncate text-xs text-muted">{meta}</p>
                       )}
                       <p className="mt-1 text-[11px] text-muted">{date}</p>
                     </div>
                     <span
-                      className={`mt-0.5 shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-[700] ${st.className}`}
+                      className={`mt-0.5 shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-bold ${st.className}`}
                     >
                       {st.label}
                     </span>

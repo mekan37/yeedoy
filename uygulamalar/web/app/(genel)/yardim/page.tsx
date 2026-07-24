@@ -77,17 +77,17 @@ export default function HelpPage() {
       <main className="min-h-screen bg-bg py-12">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <h1 className="mb-3 text-3xl font-[900] text-textStrong">Yardım & SSS</h1>
+            <h1 className="mb-3 text-3xl font-black text-textStrong">Yardım & SSS</h1>
             <p className="mb-10 text-muted">Sık sorulan sorular ve nasıl kullanacağınıza dair rehber.</p>
 
             <div className="space-y-8">
               {SECTIONS.map((section) => (
                 <section key={section.title}>
-                  <h2 className="mb-4 text-lg font-[900] text-textStrong">{section.title}</h2>
+                  <h2 className="mb-4 text-lg font-black text-textStrong">{section.title}</h2>
                   <div className="divide-y divide-border rounded-[24px] border border-border bg-card overflow-hidden">
                     {section.items.map((item) => (
                       <details key={item.q} className="group px-5 py-4">
-                        <summary className="flex cursor-pointer items-center justify-between gap-4 text-sm font-[800] text-textStrong [&::-webkit-details-marker]:hidden">
+                        <summary className="flex cursor-pointer items-center justify-between gap-4 text-sm font-extrabold text-textStrong [&::-webkit-details-marker]:hidden">
                           {item.q}
                           <svg
                             viewBox="0 0 24 24"
@@ -111,11 +111,11 @@ export default function HelpPage() {
             </div>
 
             <div className="mt-12 rounded-[24px] border border-border bg-cardAlt p-8 text-center">
-              <h3 className="mb-2 font-[900] text-textStrong">Cevabını bulamadın mı?</h3>
+              <h3 className="mb-2 font-black text-textStrong">Cevabını bulamadın mı?</h3>
               <p className="mb-4 text-sm text-muted">Doğrudan bize ulaşabilirsin.</p>
               <a
                 href="mailto:destek@yeedoy.com"
-                className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-border bg-card px-5 text-sm font-[800] text-textStrong hover:border-primary/30"
+                className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-border bg-card px-5 text-sm font-extrabold text-textStrong hover:border-primary/30"
               >
                 destek@yeedoy.com
               </a>

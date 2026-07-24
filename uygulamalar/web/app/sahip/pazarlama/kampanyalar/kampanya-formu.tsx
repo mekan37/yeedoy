@@ -60,13 +60,13 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-xs" onClick={onClose} />
 
       {/* Sheet */}
       <div className="relative z-10 w-full max-w-lg rounded-t-2xl bg-card sm:rounded-2xl shadow-2xl border border-border">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
-          <h2 className="text-base font-[900] text-textStrong">
+          <h2 className="text-base font-black text-textStrong">
             {isEdit ? 'Kampanyayı Düzenle' : 'Yeni Kampanya'}
           </h2>
           <button
@@ -160,7 +160,7 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
 
           {/* Hata */}
           {state?.error && (
-            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-[700] text-red-600">
+            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
               {state.error}
             </p>
           )}
@@ -170,14 +170,14 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
             <button
               type="button"
               onClick={onClose}
-              className="h-9 rounded-xl border border-border px-4 text-sm font-[800] text-textStrong transition hover:bg-bg"
+              className="h-9 rounded-xl border border-border px-4 text-sm font-extrabold text-textStrong transition hover:bg-bg"
             >
               İptal
             </button>
             <button
               type="submit"
               disabled={pending}
-              className="flex h-9 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-[800] text-white transition hover:opacity-90 disabled:opacity-50"
+              className="flex h-9 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-extrabold text-white transition hover:opacity-90 disabled:opacity-50"
             >
               {pending ? <SpinIcon /> : null}
               {isEdit ? 'Kaydet' : 'Oluştur'}
@@ -193,17 +193,17 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
 
 const inputCls =
   'w-full rounded-xl border border-border bg-bg px-3 py-2.5 text-sm text-textStrong ' +
-  'placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow';
+  'placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/20 transition-shadow';
 
 function Field({ label, required, hint, children }: {
   label: string; required?: boolean; hint?: string; children: React.ReactNode;
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-[700] text-muted">
+      <label className="mb-1.5 block text-xs font-bold text-muted">
         {label}
         {required && <span className="ml-1 text-danger">*</span>}
-        {hint && <span className="ml-1.5 font-[500] text-muted/70">{hint}</span>}
+        {hint && <span className="ml-1.5 font-medium text-muted/70">{hint}</span>}
       </label>
       {children}
     </div>

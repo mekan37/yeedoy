@@ -119,7 +119,7 @@ export function KarekodMarkaPaneli({
                   onClick={() => onTemplateChange(option.id)}
                   aria-pressed={active}
                   aria-label={`${labels.chooseTemplate}: ${option.label}`}
-                  className={`min-h-11 rounded-[24px] border p-4 text-left transition focus-visible:outline-none ${
+                  className={`min-h-11 rounded-[24px] border p-4 text-left transition focus-visible:outline-hidden ${
                     active ? 'border-primary bg-primary/6 shadow-yd1' : 'border-border bg-bg hover:border-primary/25'
                   }`}
                   style={{ height: 44, minHeight: 44 }}
@@ -253,7 +253,7 @@ export function KarekodMarkaPaneli({
                   value={draft.settings.accentHex ?? '#7f1d1d'}
                   onChange={(event) => onSettingsPatch({ accentHex: event.target.value })}
                   aria-label={labels.customHex}
-                  className="mt-3 min-h-11 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong outline-none transition focus:border-primary"
+                  className="mt-3 min-h-11 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong outline-hidden transition focus:border-primary"
                 />
               ) : null}
             </SettingGroup>

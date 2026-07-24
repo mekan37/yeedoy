@@ -66,7 +66,7 @@ export default function DiscoverPage() {
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <div className="border-b border-border bg-bg px-4 py-7 sm:py-9">
           <div className="mx-auto max-w-6xl px-0 sm:px-2">
-            <h1 className="text-2xl font-[900] leading-tight text-textStrong sm:text-3xl">
+            <h1 className="text-2xl font-black leading-tight text-textStrong sm:text-3xl">
               Keşfetmeye hazır mısın?
             </h1>
             <p className="mt-1.5 text-sm text-muted">
@@ -78,18 +78,18 @@ export default function DiscoverPage() {
         {/* ── Kategori cipsleri (hızlı navigasyon) ─────────────────────────── */}
         <div className="border-b border-border bg-bg">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="flex items-end gap-4 overflow-x-auto py-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-end gap-4 overflow-x-auto py-4 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
               {KATEGORI_CIPS.map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/kesif?category=${encodeURIComponent(cat.id)}`}
-                  className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                  className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
                 >
                   <div className="flex h-[68px] w-[68px] items-center justify-center overflow-hidden rounded-[22px] bg-white shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={cat.img} alt={cat.label} width={68} height={68} className="h-full w-full object-cover" />
                   </div>
-                  <span className="whitespace-nowrap text-[11px] font-[900] text-textStrong transition-colors group-hover:text-primary">
+                  <span className="whitespace-nowrap text-[11px] font-black text-textStrong transition-colors group-hover:text-primary">
                     {cat.label}
                   </span>
                 </Link>
@@ -97,7 +97,7 @@ export default function DiscoverPage() {
 
               <Link
                 href="/kesif"
-                className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               >
                 <div
                   className="flex h-[68px] w-[68px] items-center justify-center rounded-[22px] shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2"
@@ -107,19 +107,19 @@ export default function DiscoverPage() {
                     <path d="M4 6h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 12h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 18h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z" />
                   </svg>
                 </div>
-                <span className="whitespace-nowrap text-[11px] font-[900] text-primary">Tümü</span>
+                <span className="whitespace-nowrap text-[11px] font-black text-primary">Tümü</span>
               </Link>
 
               <Link
                 href="/kesif/harita"
-                className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                className="group flex shrink-0 flex-col items-center gap-1.5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
               >
                 <div className="flex h-[68px] w-[68px] items-center justify-center rounded-2xl bg-cardAlt shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2">
                   <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current stroke-2 text-muted group-hover:text-primary" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" /><line x1="9" y1="3" x2="9" y2="18" /><line x1="15" y1="6" x2="15" y2="21" />
                   </svg>
                 </div>
-                <span className="whitespace-nowrap text-[11px] font-[900] text-muted group-hover:text-primary">Harita</span>
+                <span className="whitespace-nowrap text-[11px] font-black text-muted group-hover:text-primary">Harita</span>
               </Link>
             </div>
           </div>
@@ -133,9 +133,9 @@ export default function DiscoverPage() {
               style={{ background: 'linear-gradient(135deg, #14532d 0%, #166534 100%)' }}
             >
               <div className="relative z-10 flex-1">
-                <p className="text-[15px] font-[900] leading-snug text-white">Lezzetli fırsatlar seni bekliyor!</p>
+                <p className="text-[15px] font-black leading-snug text-white">Lezzetli fırsatlar seni bekliyor!</p>
                 <p className="mt-1.5 text-xs leading-relaxed text-white/70">En iyi kampanyaları kaçırma.</p>
-                <Link href="/kampanyalar" className="mt-4 inline-flex h-9 items-center rounded-xl bg-primary px-4 text-sm font-[900] text-white shadow-sm transition-all hover:brightness-110">
+                <Link href="/kampanyalar" className="mt-4 inline-flex h-9 items-center rounded-xl bg-primary px-4 text-sm font-black text-white shadow-xs transition-all hover:brightness-110">
                   Kampanyalara Git
                 </Link>
               </div>
@@ -147,9 +147,9 @@ export default function DiscoverPage() {
               style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' }}
             >
               <div className="relative z-10 flex-1">
-                <p className="text-[15px] font-[900] leading-snug text-textStrong">Bugün ne yesem?</p>
+                <p className="text-[15px] font-black leading-snug text-textStrong">Bugün ne yesem?</p>
                 <p className="mt-1.5 text-xs leading-relaxed text-muted">Senin için önerilerimiz var.</p>
-                <Link href="/oneri" className="mt-4 inline-flex h-9 items-center rounded-xl bg-success px-4 text-sm font-[900] text-white shadow-sm transition-all hover:brightness-110">
+                <Link href="/oneri" className="mt-4 inline-flex h-9 items-center rounded-xl bg-success px-4 text-sm font-black text-white shadow-xs transition-all hover:brightness-110">
                   Önerilere Bak
                 </Link>
               </div>
@@ -186,7 +186,7 @@ export default function DiscoverPage() {
                   {o.icon}
                 </span>
                 <div>
-                  <p className="text-sm font-[800] text-textStrong">{o.title}</p>
+                  <p className="text-sm font-extrabold text-textStrong">{o.title}</p>
                   <p className="mt-0.5 text-xs leading-relaxed text-muted">{o.desc}</p>
                 </div>
               </div>

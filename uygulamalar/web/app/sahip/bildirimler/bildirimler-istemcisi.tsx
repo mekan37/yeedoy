@@ -136,7 +136,7 @@ const TAG_STYLES: Record<NotifTag, string> = {
 
 function TagBadge({ tag }: { tag: NotifTag }) {
   return (
-    <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${TAG_STYLES[tag]}`}>
+    <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${TAG_STYLES[tag]}`}>
       {tag}
     </span>
   );
@@ -206,7 +206,7 @@ export function NotificationsClient() {
     <div className="mx-auto max-w-[1200px] p-6">
       {/* Page header */}
       <div className="mb-6">
-        <h1 className="text-[26px] font-[900] text-[#1a1a2e]">Bildirimler</h1>
+        <h1 className="text-[26px] font-black text-[#1a1a2e]">Bildirimler</h1>
         <p className="mt-1 text-sm text-[#64748b]">İşletmenizle ilgili tüm bildirimleri buradan görüntüleyin.</p>
       </div>
 
@@ -219,13 +219,13 @@ export function NotificationsClient() {
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`relative pb-3 pt-1 px-3 text-[13px] font-[800] transition-colors ${
+              className={`relative pb-3 pt-1 px-3 text-[13px] font-extrabold transition-colors ${
                 active ? 'text-[#dc2626]' : 'text-[#64748b] hover:text-[#1a1a2e]'
               }`}
             >
               {t.label}
               {count > 0 && (
-                <span className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-[900] ${
+                <span className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-black ${
                   active ? 'bg-[#dc2626] text-white' : 'bg-[#f1f5f9] text-[#64748b]'
                 }`}>
                   {count}
@@ -243,7 +243,7 @@ export function NotificationsClient() {
       <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1fr_340px]">
         {/* ── Left: list ─────────────────────────────────────────────── */}
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-sm">
+          <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-xs">
             {/* Search + filter */}
             <div className="flex items-center gap-3 border-b border-[#f0f0f0] px-4 py-3">
               <div className="relative flex-1">
@@ -252,13 +252,13 @@ export function NotificationsClient() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Bildirim ara..."
-                  className="w-full rounded-xl border border-[#e2e8f0] bg-[#f8fafc] py-2 pl-9 pr-3 text-sm text-[#1a1a2e] placeholder:text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#dc2626]/20"
+                  className="w-full rounded-xl border border-[#e2e8f0] bg-[#f8fafc] py-2 pl-9 pr-3 text-sm text-[#1a1a2e] placeholder:text-[#94a3b8] focus:outline-hidden focus:ring-2 focus:ring-[#dc2626]/20"
                 />
               </div>
               <select
                 value={catFilter}
                 onChange={(e) => setCatFilter(e.target.value)}
-                className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-sm font-[700] text-[#475569] focus:outline-none focus:ring-2 focus:ring-[#dc2626]/20"
+                className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-sm font-bold text-[#475569] focus:outline-hidden focus:ring-2 focus:ring-[#dc2626]/20"
               >
                 <option value="all">Tüm Kategoriler</option>
                 <option value="Önemli">Önemli</option>
@@ -275,7 +275,7 @@ export function NotificationsClient() {
             {filtered.length === 0 ? (
               <div className="flex flex-col items-center gap-2 py-16 text-center">
                 <BellOffIcon className="h-10 w-10 text-[#cbd5e1]" />
-                <p className="text-sm font-[700] text-[#1a1a2e]">Bildirim bulunamadı</p>
+                <p className="text-sm font-bold text-[#1a1a2e]">Bildirim bulunamadı</p>
                 <p className="text-xs text-[#94a3b8]">Arama veya filtre kriterlerinizi değiştirin.</p>
               </div>
             ) : (
@@ -293,7 +293,7 @@ export function NotificationsClient() {
                       <NotifIcon type={notif.type} />
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className={`text-[13px] font-[800] ${notif.isRead ? 'text-[#475569]' : 'text-[#1a1a2e]'}`}>
+                          <span className={`text-[13px] font-extrabold ${notif.isRead ? 'text-[#475569]' : 'text-[#1a1a2e]'}`}>
                             {notif.title}
                           </span>
                           <TagBadge tag={notif.tag} />
@@ -321,8 +321,8 @@ export function NotificationsClient() {
                   <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#94a3b8] hover:bg-[#f8fafc]">
                     <ChevLeftIcon className="h-3.5 w-3.5" />
                   </button>
-                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#dc2626] bg-[#dc2626] text-[11px] font-[900] text-white">1</button>
-                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[11px] font-[700] text-[#64748b] hover:bg-[#f8fafc]">2</button>
+                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#dc2626] bg-[#dc2626] text-[11px] font-black text-white">1</button>
+                  <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[11px] font-bold text-[#64748b] hover:bg-[#f8fafc]">2</button>
                   <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#94a3b8] hover:bg-[#f8fafc]">
                     <ChevRightIcon className="h-3.5 w-3.5" />
                   </button>
@@ -335,10 +335,10 @@ export function NotificationsClient() {
         {/* ── Right: Detail panel ────────────────────────────────────── */}
         {selected && (
           <div className="flex flex-col gap-4">
-            <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-sm">
+            <div className="rounded-2xl border border-[#f0f0f0] bg-white shadow-xs">
               {/* Detail header */}
               <div className="flex items-center justify-between border-b border-[#f0f0f0] px-4 py-3">
-                <span className="text-[13px] font-[800] text-[#1a1a2e]">Bildirim Detayı</span>
+                <span className="text-[13px] font-extrabold text-[#1a1a2e]">Bildirim Detayı</span>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => handleDelete(selected.id)}
@@ -358,7 +358,7 @@ export function NotificationsClient() {
                 <div className="flex flex-col items-center text-center">
                   <NotifIcon type={selected.type} size="lg" />
                   <div className="mt-3 flex items-center gap-2">
-                    <span className="text-base font-[900] text-[#1a1a2e]">{selected.title}</span>
+                    <span className="text-base font-black text-[#1a1a2e]">{selected.title}</span>
                     <TagBadge tag={selected.tag} />
                   </div>
                   <p className="mt-1 text-[12px] text-[#94a3b8]">{selected.dateStr}</p>
@@ -377,16 +377,16 @@ export function NotificationsClient() {
                 {/* Reviewer */}
                 {selected.reviewer && (
                   <div className="mt-3 flex items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#7f1d1d] text-[12px] font-[900] text-white">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#7f1d1d] text-[12px] font-black text-white">
                       {selected.reviewer.initials}
                     </div>
                     <div className="flex-1">
-                      <span className="text-[13px] font-[800] text-[#1a1a2e]">{selected.reviewer.name}</span>
+                      <span className="text-[13px] font-extrabold text-[#1a1a2e]">{selected.reviewer.name}</span>
                       <div className="flex items-center gap-1">
                         {Array.from({ length: 5 }).map((_, i) => (
                           <StarFilledIcon key={i} filled={i < selected.reviewer!.rating} />
                         ))}
-                        <span className="ml-1 text-[12px] font-[800] text-[#f59e0b]">{selected.reviewer!.rating}.0</span>
+                        <span className="ml-1 text-[12px] font-extrabold text-[#f59e0b]">{selected.reviewer!.rating}.0</span>
                       </div>
                     </div>
                     <span className="text-[11px] text-[#94a3b8]">{selected.reviewer.time}</span>
@@ -395,17 +395,17 @@ export function NotificationsClient() {
 
                 {/* Related business */}
                 <div className="mt-5 border-t border-[#f0f0f0] pt-4">
-                  <p className="mb-2 text-[11px] font-[800] uppercase tracking-wider text-[#94a3b8]">İlgili İşletme</p>
+                  <p className="mb-2 text-[11px] font-extrabold uppercase tracking-wider text-[#94a3b8]">İlgili İşletme</p>
                   <div className="flex items-center gap-3 rounded-xl border border-[#f0f0f0] bg-[#fafafa] p-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#7f1d1d] text-[13px] font-[900] text-white">N</div>
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#7f1d1d] text-[13px] font-black text-white">N</div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[13px] font-[800] text-[#1a1a2e]">No 18 Coffee Co.</span>
-                        <span className="rounded-full bg-[#dcfce7] px-2 py-0.5 text-[10px] font-[800] text-[#16a34a]">Ana İşletme</span>
+                        <span className="text-[13px] font-extrabold text-[#1a1a2e]">No 18 Coffee Co.</span>
+                        <span className="rounded-full bg-[#dcfce7] px-2 py-0.5 text-[10px] font-extrabold text-[#16a34a]">Ana İşletme</span>
                       </div>
                       <p className="text-[11px] text-[#94a3b8]">Kafe · Yenimahalle, Ankara</p>
                     </div>
-                    <Link href="/sahip/isletmeler" className="shrink-0 text-[12px] font-[800] text-[#dc2626] hover:underline">
+                    <Link href="/sahip/isletmeler" className="shrink-0 text-[12px] font-extrabold text-[#dc2626] hover:underline">
                       İşletmeye Git
                     </Link>
                   </div>
@@ -413,13 +413,13 @@ export function NotificationsClient() {
 
                 {/* Actions */}
                 <div className="mt-4 border-t border-[#f0f0f0] pt-4">
-                  <p className="mb-3 text-[11px] font-[800] uppercase tracking-wider text-[#94a3b8]">İşlemler</p>
+                  <p className="mb-3 text-[11px] font-extrabold uppercase tracking-wider text-[#94a3b8]">İşlemler</p>
                   <div className="flex flex-col gap-2">
                     {selected.actions.map((action) => (
                       <Link
                         key={action.label}
                         href={action.href ?? '#'}
-                        className={`flex w-full items-center gap-2.5 rounded-xl px-4 py-2.5 text-[13px] font-[800] transition ${
+                        className={`flex w-full items-center gap-2.5 rounded-xl px-4 py-2.5 text-[13px] font-extrabold transition ${
                           action.primary
                             ? 'bg-[#dc2626] text-white hover:opacity-90'
                             : 'border border-[#e2e8f0] text-[#475569] hover:bg-[#f8fafc]'
@@ -443,12 +443,12 @@ export function NotificationsClient() {
           <BellIcon className="h-5 w-5 text-amber-600" />
         </div>
         <div className="flex-1">
-          <p className="text-[13px] font-[800] text-[#1a1a2e]">Bildirim tercihlerinizi özelleştirin</p>
+          <p className="text-[13px] font-extrabold text-[#1a1a2e]">Bildirim tercihlerinizi özelleştirin</p>
           <p className="text-[12px] text-[#64748b]">Hangi bildirimleri alacağınızı ve nasıl alınacağını ayarlar sayfasından düzenleyebilirsiniz.</p>
         </div>
         <Link
           href="/sahip/ayarlar"
-          className="shrink-0 flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-4 py-2 text-[12px] font-[800] text-[#1a1a2e] transition hover:bg-amber-50"
+          className="shrink-0 flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-4 py-2 text-[12px] font-extrabold text-[#1a1a2e] transition hover:bg-amber-50"
         >
           <SettingsIcon className="h-4 w-4" />
           Bildirim Ayarları →

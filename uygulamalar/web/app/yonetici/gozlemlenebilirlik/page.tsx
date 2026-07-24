@@ -73,8 +73,8 @@ export default async function AdminObservabilityPage() {
               <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 text-sm">
                 {Object.entries(sla).map(([key, val]) => (
                   <div key={key}>
-                    <dt className="text-xs font-[700] uppercase tracking-wide text-muted">{key.replace(/_/g, ' ')}</dt>
-                    <dd className="mt-0.5 font-[800] text-textStrong">{String(val)}</dd>
+                    <dt className="text-xs font-bold uppercase tracking-wide text-muted">{key.replace(/_/g, ' ')}</dt>
+                    <dd className="mt-0.5 font-extrabold text-textStrong">{String(val)}</dd>
                   </div>
                 ))}
               </dl>
@@ -87,15 +87,15 @@ export default async function AdminObservabilityPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Olay</th>
-                    <th className="px-5 py-3 text-right text-[11px] font-[800] uppercase tracking-wide text-muted">Sayı</th>
+                    <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Olay</th>
+                    <th className="px-5 py-3 text-right text-[11px] font-extrabold uppercase tracking-wide text-muted">Sayı</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {sortedBreakdown.slice(0, 15).map(([name, cnt]) => (
                     <tr key={name}>
                       <td className="px-5 py-2.5 font-mono text-xs text-textStrong">{name}</td>
-                      <td className="px-5 py-2.5 text-right font-[800] text-textStrong">{cnt.toLocaleString('tr-TR')}</td>
+                      <td className="px-5 py-2.5 text-right font-extrabold text-textStrong">{cnt.toLocaleString('tr-TR')}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -122,9 +122,9 @@ export default async function AdminObservabilityPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Olay</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kaynak</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Zaman</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Olay</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kaynak</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Zaman</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -170,11 +170,11 @@ function SystemHealthScore({ events1h, events24h, rateLimitCount }: {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-4">
-        <div className={`flex h-16 w-16 items-center justify-center rounded-full text-xl font-[900] text-white ${healthScore >= 90 ? 'bg-green-500' : healthScore >= 70 ? 'bg-yellow-500' : 'bg-red-500'}`}>
+        <div className={`flex h-16 w-16 items-center justify-center rounded-full text-xl font-black text-white ${healthScore >= 90 ? 'bg-green-500' : healthScore >= 70 ? 'bg-yellow-500' : 'bg-red-500'}`}>
           {healthScore}
         </div>
         <div>
-          <p className="text-lg font-[900] text-textStrong">
+          <p className="text-lg font-black text-textStrong">
             {healthScore >= 90 ? '✅ Sistem Sağlıklı' : healthScore >= 70 ? '⚠️ İzleme Gerekiyor' : '🔴 Kritik Durum'}
           </p>
           <p className="text-sm text-muted">{criticalCount} kritik · {warningCount} uyarı · {checks.filter(c => c.status === 'ok').length} normal</p>
@@ -185,7 +185,7 @@ function SystemHealthScore({ events1h, events24h, rateLimitCount }: {
           <div key={c.label} className={`flex items-start gap-3 rounded-xl border p-3 ${c.status === 'ok' ? 'border-green-200 bg-green-50' : c.status === 'warning' ? 'border-yellow-200 bg-yellow-50' : 'border-red-200 bg-red-50'}`}>
             <span className="mt-0.5 text-base">{c.status === 'ok' ? '✅' : c.status === 'warning' ? '⚠️' : '🔴'}</span>
             <div>
-              <p className="text-sm font-[800] text-textStrong">{c.label}</p>
+              <p className="text-sm font-extrabold text-textStrong">{c.label}</p>
               <p className="text-xs text-muted">{c.detail}</p>
             </div>
           </div>

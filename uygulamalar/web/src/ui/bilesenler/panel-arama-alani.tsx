@@ -35,7 +35,7 @@ export function PanelSearchField({
           'h-9 w-full rounded-xl border border-border bg-bg py-2 pl-9 pr-3',
           'text-sm text-textStrong placeholder:text-muted',
           'transition-colors duration-150',
-          'focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40',
+          'focus:outline-hidden focus:ring-2 focus:ring-primary/30 focus:border-primary/40',
         )}
       />
     </div>

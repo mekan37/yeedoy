@@ -43,7 +43,7 @@ export default async function YemekGunluguPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-2xl px-4 py-10">
-        <h1 className="mb-1 text-2xl font-[900] text-textStrong">Yemek Günlüğüm</h1>
+        <h1 className="mb-1 text-2xl font-black text-textStrong">Yemek Günlüğüm</h1>
         <p className="mb-8 text-sm text-muted">Gittiğin yerler ve harcamalarının özeti</p>
 
         {/* Özet kartlar */}
@@ -54,7 +54,7 @@ export default async function YemekGunluguPage() {
             { label: 'Son 3 Ay Harcama', value: totalCents > 0 ? fmtTL(totalCents) : '—' },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl border border-border bg-card p-4 text-center">
-              <p className="text-xl font-[900] text-textStrong">{s.value}</p>
+              <p className="text-xl font-black text-textStrong">{s.value}</p>
               <p className="mt-0.5 text-xs text-muted">{s.label}</p>
             </div>
           ))}
@@ -63,7 +63,7 @@ export default async function YemekGunluguPage() {
         {/* Aylık özet */}
         {months.length > 0 && (
           <div className="mb-8 rounded-2xl border border-border bg-card p-5">
-            <h2 className="mb-4 text-base font-[900] text-textStrong">Aylık Özet</h2>
+            <h2 className="mb-4 text-base font-black text-textStrong">Aylık Özet</h2>
             <div className="space-y-3">
               {months.map((m: any) => {
                 const label = new Date(m.month_label + '-01').toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' });
@@ -72,8 +72,8 @@ export default async function YemekGunluguPage() {
                 return (
                   <div key={m.month_label}>
                     <div className="mb-1 flex justify-between text-sm">
-                      <span className="font-[700] text-textStrong">{label}</span>
-                      <span className="font-[900] text-primary">
+                      <span className="font-bold text-textStrong">{label}</span>
+                      <span className="font-black text-primary">
                         {m.total_cents > 0 ? fmtTL(m.total_cents) : '—'}
                       </span>
                     </div>
@@ -89,7 +89,7 @@ export default async function YemekGunluguPage() {
         )}
 
         {/* Ziyaret listesi */}
-        <h2 className="mb-4 text-base font-[900] text-textStrong">Ziyaretlerim</h2>
+        <h2 className="mb-4 text-base font-black text-textStrong">Ziyaretlerim</h2>
         {list.length === 0 ? (
           <div className="rounded-2xl border border-border bg-card p-10 text-center">
             <p className="text-muted">Henüz check-in yapmadınız.</p>
@@ -101,7 +101,7 @@ export default async function YemekGunluguPage() {
               <div key={e.visit_id} className="rounded-2xl border border-border bg-card p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <a href={`/isletme/${e.business_slug}`} className="font-[900] text-textStrong hover:text-primary">
+                    <a href={`/isletme/${e.business_slug}`} className="font-black text-textStrong hover:text-primary">
                       {e.business_name}
                     </a>
                     {(e.category || e.city) && (
@@ -117,7 +117,7 @@ export default async function YemekGunluguPage() {
                   <div className="shrink-0 text-right">
                     <p className="text-xs text-muted">{fmtDate(e.checked_in_at)}</p>
                     {e.amount_cents > 0 && (
-                      <p className="mt-1 font-[900] text-primary">{fmtTL(e.amount_cents, e.currency)}</p>
+                      <p className="mt-1 font-black text-primary">{fmtTL(e.amount_cents, e.currency)}</p>
                     )}
                   </div>
                 </div>

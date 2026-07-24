@@ -54,10 +54,10 @@ export default async function SahiplenTalepPage({ searchParams }: Props) {
     <PublicShell variant="owner">
       <main className="mx-auto max-w-xl px-4 py-10 sm:px-6">
         <div className="mb-8 text-center">
-          <p className="text-xs font-[800] uppercase tracking-[0.2em] text-primary">
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-primary">
             Adım 2 / 2
           </p>
-          <h1 className="mt-2 text-3xl font-[900] text-textStrong">
+          <h1 className="mt-2 text-3xl font-black text-textStrong">
             Sahiplenme Talebi
           </h1>
         </div>
@@ -67,7 +67,7 @@ export default async function SahiplenTalepPage({ searchParams }: Props) {
           <div className="flex items-center gap-3 border-b border-border bg-primary/5 px-4 py-3">
             <span className="text-2xl">🏪</span>
             <div className="min-w-0">
-              <p className="truncate font-[900] text-textStrong">{business.name}</p>
+              <p className="truncate font-black text-textStrong">{business.name}</p>
               <p className="text-xs text-muted">
                 {[business.category, business.district, business.city].filter(Boolean).join(' · ')}
               </p>

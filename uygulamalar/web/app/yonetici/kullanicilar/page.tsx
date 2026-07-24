@@ -50,7 +50,7 @@ export default async function AdminUsersPage({ searchParams }: Props) {
             name="q"
             defaultValue={q}
             placeholder="Ad veya e-posta ara..."
-            className="w-64 rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="w-64 rounded-xl border border-border bg-card px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
           />
           <div className="flex gap-1">
             {[
@@ -64,7 +64,7 @@ export default async function AdminUsersPage({ searchParams }: Props) {
                 type="submit"
                 name="role"
                 value={value}
-                className={`rounded-lg px-3 py-1.5 text-xs font-[700] transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
                   role === value ? 'bg-primary text-white' : 'border border-border bg-card text-muted hover:text-textStrong'
                 }`}
               >
@@ -81,20 +81,20 @@ export default async function AdminUsersPage({ searchParams }: Props) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left">
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kullanıcı</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Rol</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Şehir</th>
-                  <th className="px-5 py-3 text-[11px] font-[800] uppercase tracking-wide text-muted">Kayıt</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kullanıcı</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Rol</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Şehir</th>
+                  <th className="px-5 py-3 text-[11px] font-extrabold uppercase tracking-wide text-muted">Kayıt</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {list.map((u: any) => {
                   const roleInfo = ROLE_MAP[u.role] ?? ROLE_MAP['user'];
                   return (
-                    <tr key={u.id} className="hover:bg-black/[0.01]">
+                    <tr key={u.id} className="hover:bg-black/1">
                       <td className="px-5 py-3">
                         <Link href={`/yonetici/kullanicilar/${u.id}`} className="group">
-                          <p className="font-[700] text-textStrong group-hover:text-primary transition-colors">
+                          <p className="font-bold text-textStrong group-hover:text-primary transition-colors">
                             {u.display_name ?? '—'}
                           </p>
                           <p className="text-xs text-muted">{u.email ?? u.id.slice(0, 12)}</p>
@@ -120,8 +120,8 @@ export default async function AdminUsersPage({ searchParams }: Props) {
               <div className="flex items-center justify-between border-t border-border px-5 py-3">
                 <span className="text-xs text-muted">Sayfa {pageNum} / {totalPages}</span>
                 <div className="flex gap-2">
-                  {pageNum > 1 && <Link href={`?q=${encodeURIComponent(q)}&role=${encodeURIComponent(role)}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">← Önceki</Link>}
-                  {pageNum < totalPages && <Link href={`?q=${encodeURIComponent(q)}&role=${encodeURIComponent(role)}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-[700] text-textStrong hover:bg-black/[0.02]">Sonraki →</Link>}
+                  {pageNum > 1 && <Link href={`?q=${encodeURIComponent(q)}&role=${encodeURIComponent(role)}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">← Önceki</Link>}
+                  {pageNum < totalPages && <Link href={`?q=${encodeURIComponent(q)}&role=${encodeURIComponent(role)}&page=${pageNum + 1}`} className="rounded-lg border border-border px-3 py-1 text-xs font-bold text-textStrong hover:bg-black/2">Sonraki →</Link>}
                 </div>
               </div>
             )}

@@ -17,7 +17,7 @@ export function KoduGoster({ kod }: { kod: string }) {
       <button
         type="button"
         onClick={() => setShow(true)}
-        className="text-[11px] font-[700] text-muted hover:text-primary"
+        className="text-[11px] font-bold text-muted hover:text-primary"
       >
         Kodu göster
       </button>
@@ -26,13 +26,13 @@ export function KoduGoster({ kod }: { kod: string }) {
 
   return (
     <div className="flex items-center gap-1.5">
-      <code className="rounded-lg border border-primary/20 bg-[var(--yd-color-primary-soft)] px-2.5 py-1 font-mono text-xs font-[900] tracking-widest text-primary">
+      <code className="rounded-lg border border-primary/20 bg-(--yd-color-primary-soft) px-2.5 py-1 font-mono text-xs font-black tracking-widest text-primary">
         {kod}
       </code>
       <button
         type="button"
         onClick={copy}
-        className="text-[10px] font-[700] text-muted hover:text-primary"
+        className="text-[10px] font-bold text-muted hover:text-primary"
       >
         {copied ? '✓' : 'Kopyala'}
       </button>

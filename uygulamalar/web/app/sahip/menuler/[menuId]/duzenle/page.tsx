@@ -73,20 +73,20 @@ export default async function MenuEditorPage({ params }: Props) {
         description={`Menü editörü — ${sections.length} bölüm, ${items.length} ürün`}
         actions={
           <div className="flex items-center gap-2">
-            <span className={`rounded-full px-2.5 py-1 text-[11px] font-[700] ${statusInfo.className}`}>{statusInfo.label}</span>
+            <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${statusInfo.className}`}>{statusInfo.label}</span>
             <Link
               href={`/sahip/menuler/${menuId}/kategoriler`}
-              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong transition-colors hover:bg-bg"
+              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-bold text-textStrong transition-colors hover:bg-bg"
             >
               Kategoriler
             </Link>
             <Link
               href={`/karekod/${biz.id}?lang=tr&theme=bold`}
-              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong transition-colors hover:bg-bg"
+              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-bold text-textStrong transition-colors hover:bg-bg"
             >
               QR Studio
             </Link>
-            <Link href={`/sahip/menuler/${menuId}`} className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-[700] text-textStrong hover:bg-bg transition-colors cursor-pointer">← Önizleme</Link>
+            <Link href={`/sahip/menuler/${menuId}`} className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-bold text-textStrong hover:bg-bg transition-colors cursor-pointer">← Önizleme</Link>
           </div>
         }
       />

@@ -66,7 +66,7 @@ export default async function OwnerBusinessSubmissionsPage() {
                   <li key={s.id} className="px-5 py-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-[800] text-textStrong">{s.name}</p>
+                        <p className="truncate text-sm font-extrabold text-textStrong">{s.name}</p>
                         <p className="mt-0.5 text-xs text-muted">
                           {s.category} · {s.city}, {s.district}
                         </p>
@@ -77,7 +77,7 @@ export default async function OwnerBusinessSubmissionsPage() {
                         )}
                       </div>
                       <div className="flex shrink-0 flex-col items-end gap-1.5">
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-[800] ${statusInfo.className}`}>
+                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${statusInfo.className}`}>
                           {statusInfo.label}
                         </span>
                         <span className="text-[11px] text-muted">

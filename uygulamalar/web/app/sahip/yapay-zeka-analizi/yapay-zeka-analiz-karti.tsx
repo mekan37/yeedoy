@@ -56,7 +56,7 @@ function ConfidenceBadge({ value }: { value: number }) {
       ? 'bg-amber-50 text-amber-700'
       : 'bg-rose-50 text-rose-700';
   return (
-    <span className={`inline-flex items-center rounded-lg px-2 py-0.5 text-[11px] font-[700] ${cls}`}>
+    <span className={`inline-flex items-center rounded-lg px-2 py-0.5 text-[11px] font-bold ${cls}`}>
       %{pct}
     </span>
   );
@@ -89,12 +89,12 @@ function JobListesi({
           className="flex flex-col gap-2 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between"
         >
           <div className="flex flex-col gap-1">
-            <p className="text-sm font-[700] text-textStrong">
+            <p className="text-sm font-bold text-textStrong">
               {job.file_name ?? `Görev ${job.id.slice(0, 8)}`}
             </p>
             <div className="flex items-center gap-2">
               <span
-                className={`inline-flex items-center rounded-lg px-2 py-0.5 text-[11px] font-[700] ${STATUS_CLS[job.status] ?? 'bg-zinc-100 text-zinc-600'}`}
+                className={`inline-flex items-center rounded-lg px-2 py-0.5 text-[11px] font-bold ${STATUS_CLS[job.status] ?? 'bg-zinc-100 text-zinc-600'}`}
               >
                 {STATUS_LABEL[job.status] ?? job.status}
               </span>
@@ -114,7 +114,7 @@ function JobListesi({
             <button
               onClick={() => onAnalizEt(job.id)}
               disabled={aktifJobId === job.id}
-              className="shrink-0 rounded-xl bg-primary px-4 py-2 text-xs font-[800] text-white disabled:opacity-50"
+              className="shrink-0 rounded-xl bg-primary px-4 py-2 text-xs font-extrabold text-white disabled:opacity-50"
             >
               {aktifJobId === job.id ? 'Analiz ediliyor...' : 'Analiz Et'}
             </button>
@@ -122,7 +122,7 @@ function JobListesi({
           {job.status === 'completed' && (
             <button
               onClick={() => onAnalizEt(job.id)}
-              className="shrink-0 rounded-xl border border-border bg-card px-4 py-2 text-xs font-[700] text-textStrong"
+              className="shrink-0 rounded-xl border border-border bg-card px-4 py-2 text-xs font-bold text-textStrong"
             >
               Sonuçları Gör
             </button>
@@ -173,14 +173,14 @@ function AnalizSonucListesi({
       {/* Özet */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-[800] text-textStrong">{sonuclar.length} ürün tespit edildi</p>
+          <p className="text-sm font-extrabold text-textStrong">{sonuclar.length} ürün tespit edildi</p>
           <p className="text-xs text-muted">
             {bekleyenler.length} inceleme bekliyor · {onaylananlar.size} onaylı · {reddedilenler.size} reddedildi
           </p>
         </div>
         <button
           onClick={onGeri}
-          className="rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-[700] text-textStrong"
+          className="rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-bold text-textStrong"
         >
           Geri
         </button>
@@ -189,7 +189,7 @@ function AnalizSonucListesi({
       {/* İnceleme bekleyenler */}
       {bekleyenler.length > 0 && (
         <div className="flex flex-col gap-2">
-          <p className="text-[11px] font-[800] uppercase tracking-wide text-muted">
+          <p className="text-[11px] font-extrabold uppercase tracking-wide text-muted">
             Inceleme Bekleyenler
           </p>
           {bekleyenler.map((s) => (
@@ -207,7 +207,7 @@ function AnalizSonucListesi({
       {/* Diğerleri */}
       {digerler.length > 0 && (
         <div className="flex flex-col gap-2">
-          <p className="text-[11px] font-[800] uppercase tracking-wide text-muted">
+          <p className="text-[11px] font-extrabold uppercase tracking-wide text-muted">
             Diger Urunler
           </p>
           {digerler.map((s) => (
@@ -260,15 +260,15 @@ function AnalizSatiri({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-sm font-[700] text-textStrong">
+            <p className="text-sm font-bold text-textStrong">
               {item.normalized_text ?? item.source_text}
             </p>
             <ConfidenceBadge value={item.confidence} />
             {onayli && (
-              <span className="text-[11px] font-[700] text-emerald-700">Onaylandi</span>
+              <span className="text-[11px] font-bold text-emerald-700">Onaylandi</span>
             )}
             {reddedildi && (
-              <span className="text-[11px] font-[700] text-rose-700">Reddedildi</span>
+              <span className="text-[11px] font-bold text-rose-700">Reddedildi</span>
             )}
           </div>
           {allergenler && (
@@ -286,7 +286,7 @@ function AnalizSatiri({
             <button
               onClick={onOnayla}
               disabled={disabled}
-              className="rounded-lg bg-emerald-600 px-3 py-1 text-[11px] font-[800] text-white disabled:opacity-50"
+              className="rounded-lg bg-emerald-600 px-3 py-1 text-[11px] font-extrabold text-white disabled:opacity-50"
             >
               Onayla
             </button>
@@ -295,7 +295,7 @@ function AnalizSatiri({
             <button
               onClick={onReddet}
               disabled={disabled}
-              className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-1 text-[11px] font-[800] text-rose-700 disabled:opacity-50"
+              className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-1 text-[11px] font-extrabold text-rose-700 disabled:opacity-50"
             >
               Reddet
             </button>
@@ -311,11 +311,11 @@ function AnalizSatiri({
 
       {acik && (
         <div className="mt-3 rounded-lg border border-border bg-zinc-50 px-3 py-2">
-          <p className="text-[11px] font-[700] text-muted">Kaynak metin</p>
+          <p className="text-[11px] font-bold text-muted">Kaynak metin</p>
           <p className="mt-0.5 text-xs text-textStrong">{item.source_text}</p>
           {item.ingredients_json?.length > 0 && (
             <>
-              <p className="mt-2 text-[11px] font-[700] text-muted">İcindekiler</p>
+              <p className="mt-2 text-[11px] font-bold text-muted">İcindekiler</p>
               <p className="text-xs text-textStrong">{item.ingredients_json.join(', ')}</p>
             </>
           )}
@@ -385,7 +385,7 @@ export function YapayZekaAnalizKarti({ businessId, businessName, initialJobs }: 
           <SparklesIcon />
         </div>
         <div>
-          <h3 className="text-base font-[900] text-textStrong">AI Menü Analizi</h3>
+          <h3 className="text-base font-black text-textStrong">AI Menü Analizi</h3>
           <p className="text-sm text-muted">
             {businessName} — OCR ile çıkarılan menü metni yapay zeka tarafından analiz edilir.
             Alerjenler, kalori tahmini ve içerik normalleştirme yapılır.
@@ -405,7 +405,7 @@ export function YapayZekaAnalizKarti({ businessId, businessName, initialJobs }: 
       {durum.tag === 'analiz_ediliyor' && (
         <div className="flex flex-col items-center gap-3 py-10">
           <LoadingSpinner />
-          <p className="text-sm font-[700] text-textStrong">Analiz ediliyor...</p>
+          <p className="text-sm font-bold text-textStrong">Analiz ediliyor...</p>
           <p className="text-xs text-muted">
             Görsel OCR ve AI analizi birlikte çalışıyor. Bu 30–90 saniye sürebilir.
           </p>
@@ -415,7 +415,7 @@ export function YapayZekaAnalizKarti({ businessId, businessName, initialJobs }: 
       {durum.tag === 'tamamlandi' && (
         <div className="flex flex-col gap-4">
           <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-            <p className="text-sm font-[800] text-emerald-800">
+            <p className="text-sm font-extrabold text-emerald-800">
               Analiz tamamlandı — {durum.item_count} ürün tespit edildi
             </p>
             <p className="mt-1 text-xs text-emerald-700">
@@ -435,7 +435,7 @@ export function YapayZekaAnalizKarti({ businessId, businessName, initialJobs }: 
         <div className="flex flex-col gap-4">
           {durum.providerEksik ? (
             <div className="rounded-xl border border-border bg-card p-4">
-              <p className="text-sm font-[800] text-textStrong">
+              <p className="text-sm font-extrabold text-textStrong">
                 AI analiz motoru aktif degil
               </p>
               <p className="mt-1 text-xs text-muted">
@@ -444,7 +444,7 @@ export function YapayZekaAnalizKarti({ businessId, businessName, initialJobs }: 
             </div>
           ) : (
             <div className="rounded-xl border border-rose-200 bg-rose-50 p-4">
-              <p className="text-sm font-[800] text-rose-800">Hata</p>
+              <p className="text-sm font-extrabold text-rose-800">Hata</p>
               <p className="mt-0.5 text-sm text-rose-700">{durum.mesaj}</p>
             </div>
           )}

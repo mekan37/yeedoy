@@ -80,30 +80,30 @@ export default async function AdminUserDetailPage({ params }: Props) {
             <PanelBolumKarti title="Profil">
               <dl className="space-y-3 text-sm">
                 <div>
-                  <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Rol</dt>
+                  <dt className="text-xs font-bold uppercase tracking-wide text-muted">Rol</dt>
                   <dd className="mt-1">
-                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-[800] ${roleInfo.className}`}>
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-extrabold ${roleInfo.className}`}>
                       {roleInfo.label}
                     </span>
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-[700] uppercase tracking-wide text-muted">E-posta</dt>
+                  <dt className="text-xs font-bold uppercase tracking-wide text-muted">E-posta</dt>
                   <dd className="mt-0.5 text-textStrong">{user.email ?? '—'}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Şehir</dt>
+                  <dt className="text-xs font-bold uppercase tracking-wide text-muted">Şehir</dt>
                   <dd className="mt-0.5 text-textStrong">{user.city ?? '—'}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Kayıt Tarihi</dt>
+                  <dt className="text-xs font-bold uppercase tracking-wide text-muted">Kayıt Tarihi</dt>
                   <dd className="mt-0.5 text-textStrong">
                     {new Date(user.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </dd>
                 </div>
                 {user.bio && (
                   <div>
-                    <dt className="text-xs font-[700] uppercase tracking-wide text-muted">Bio</dt>
+                    <dt className="text-xs font-bold uppercase tracking-wide text-muted">Bio</dt>
                     <dd className="mt-0.5 text-textStrong">{user.bio}</dd>
                   </div>
                 )}
@@ -120,9 +120,9 @@ export default async function AdminUserDetailPage({ params }: Props) {
                 <ul className="divide-y divide-border -mx-4">
                   {claims.map((c: any) => (
                     <li key={c.id} className="flex items-center justify-between px-4 py-2">
-                      <span className="text-sm font-[700] text-textStrong">{c.businesses?.name ?? '—'}</span>
+                      <span className="text-sm font-bold text-textStrong">{c.businesses?.name ?? '—'}</span>
                       <div className="flex items-center gap-2">
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                           c.status === 'approved' ? 'bg-green-50 text-green-700' :
                           c.status === 'rejected' ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700'
                         }`}>
@@ -145,9 +145,9 @@ export default async function AdminUserDetailPage({ params }: Props) {
                   {reviews.map((r: any) => (
                     <li key={r.id} className="px-4 py-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-[700] text-textStrong">{r.businesses?.name ?? '—'}</span>
+                        <span className="text-sm font-bold text-textStrong">{r.businesses?.name ?? '—'}</span>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-[800] text-amber-500">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span>
+                          <span className="text-xs font-extrabold text-amber-500">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span>
                           <span className="text-xs text-muted">{new Date(r.created_at).toLocaleDateString('tr-TR')}</span>
                         </div>
                       </div>
@@ -164,8 +164,8 @@ export default async function AdminUserDetailPage({ params }: Props) {
                 <ul className="divide-y divide-border -mx-4">
                   {submissions.map((s: any) => (
                     <li key={s.id} className="flex items-center justify-between px-4 py-2">
-                      <span className="text-sm font-[700] text-textStrong">{s.name}</span>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-[800] ${
+                      <span className="text-sm font-bold text-textStrong">{s.name}</span>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                         s.status === 'approved' ? 'bg-green-50 text-green-700' :
                         s.status === 'rejected' ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700'
                       }`}>

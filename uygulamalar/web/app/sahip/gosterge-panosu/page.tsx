@@ -134,7 +134,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
               <div className="flex items-start gap-3">
                 <Clock size={20} className="shrink-0 text-amber-700" aria-hidden="true" />
                 <div>
-                  <p className="font-[900] text-amber-900">
+                  <p className="font-black text-amber-900">
                     {bilgi === 'talep_alindi' ? 'Talebiniz alındı!' : 'Onay bekleniyor'}
                   </p>
                   <p className="mt-1 text-sm text-amber-800">
@@ -150,13 +150,13 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
           {/* ── Henüz işletme yok + talep da yok ── */}
           {!hasPendingClaim && bizIds.length === 0 && bilgi !== 'talep_alindi' && (
             <div className="rounded-2xl border border-border bg-bg px-5 py-5">
-              <p className="font-[900] text-textStrong">İşletme bulunamadı</p>
+              <p className="font-black text-textStrong">İşletme bulunamadı</p>
               <p className="mt-1 text-sm text-muted">
                 Henüz bir işletme eklemediniz veya sahiplenme talebiniz yok.
               </p>
               <Link
                 href="/sahiplen/ara"
-                className="mt-3 inline-flex rounded-xl border border-primary bg-primary/8 px-4 py-2 text-sm font-[800] text-primary hover:bg-primary/15"
+                className="mt-3 inline-flex rounded-xl border border-primary bg-primary/8 px-4 py-2 text-sm font-extrabold text-primary hover:bg-primary/15"
               >
                 İşletmemi Bul ve Sahiplen →
               </Link>
@@ -175,7 +175,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
             {/* QR scan trend */}
             <PanelBolumKarti title="QR Tarama Trendi (Son 14 Gün)">
               <div className="flex flex-col gap-2">
-                <p className="text-2xl font-[900] text-primary">{qrScanCount30d.toLocaleString('tr-TR')}</p>
+                <p className="text-2xl font-black text-primary">{qrScanCount30d.toLocaleString('tr-TR')}</p>
                 <p className="text-xs text-muted">Son 30 gün toplam QR taraması</p>
                 {sparkPath ? (
                   <svg viewBox="0 0 300 60" className="mt-2 w-full overflow-visible" preserveAspectRatio="none">
@@ -197,7 +197,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
             {/* View bar chart */}
             <PanelBolumKarti title="Menü Görüntüleme (Son 7 Gün)">
               <div className="flex flex-col gap-2">
-                <p className="text-2xl font-[900] text-blue-600">{viewCount7d.toLocaleString('tr-TR')}</p>
+                <p className="text-2xl font-black text-blue-600">{viewCount7d.toLocaleString('tr-TR')}</p>
                 <p className="text-xs text-muted">Son 7 günlük toplam menü görüntülemesi</p>
                 <div className="mt-3 flex h-16 items-end gap-1">
                   {viewDays.map(([day, count]) => {
@@ -231,7 +231,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
                 <a
                   key={a.href}
                   href={a.href}
-                  className={`flex items-center justify-center rounded-xl border border-border p-3 text-center text-sm font-[700] hover:border-primary hover:text-primary transition-colors ${a.color}`}
+                  className={`flex items-center justify-center rounded-xl border border-border p-3 text-center text-sm font-bold hover:border-primary hover:text-primary transition-colors ${a.color}`}
                 >
                   {a.label}
                 </a>
