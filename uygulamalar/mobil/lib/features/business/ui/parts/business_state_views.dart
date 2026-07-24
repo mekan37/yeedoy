@@ -321,13 +321,6 @@ String _locText(BuildContext context, String? district, String? city) {
   return '$d / $c';
 }
 
-String _fmtDate(DateTime d) {
-  final y = d.year.toString().padLeft(4, '0');
-  final m = d.month.toString().padLeft(2, '0');
-  final day = d.day.toString().padLeft(2, '0');
-  return '$y-$m-$day';
-}
-
 String _formatPriceWithCurrency(
   BuildContext context,
   int? cents,
@@ -361,21 +354,6 @@ String _hoursText(BuildContext context, String? open, String? close) {
   final c = (close ?? '').trim();
   if (o.isEmpty || c.isEmpty) return AppLocalizations.of(context).noHoursInfo;
   return '$o - $c';
-}
-
-String _daysAgoText(BuildContext context, DateTime? value) {
-  final t = AppLocalizations.of(context);
-  if (value == null) return t.unknown;
-  final diff = DateTime.now().difference(value);
-  if (diff.inDays <= 0) return t.today;
-  return '${diff.inDays} ${t.dayUnit}';
-}
-
-int _daysAgo(DateTime? value) {
-  if (value == null) return 0;
-  final diff = DateTime.now().difference(value);
-  if (diff.isNegative) return 0;
-  return diff.inDays;
 }
 
 int? _parseMinutes(String? value) {
@@ -464,20 +442,6 @@ String _relativeTimeLabel(BuildContext context, DateTime? value) {
   if (diff.inDays < 1) return t.updatedDaysAgo(0);
   if (diff.inDays < 30) return t.updatedDaysAgo(diff.inDays);
   return formatShortDate(context, value);
-}
-
-String _menuSourceLabel(BuildContext context, String source) {
-  final t = AppLocalizations.of(context);
-  switch (source.trim().toLowerCase()) {
-    case 'owner':
-      return t.sourceOwner;
-    case 'community':
-      return t.sourceCommunity;
-    case 'ai':
-      return t.sourceAi;
-    default:
-      return t.unknown;
-  }
 }
 
 Future<void> _openDirections({

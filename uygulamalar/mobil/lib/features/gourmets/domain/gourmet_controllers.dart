@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/follow_repository.dart';
 import '../data/gourmet_repository.dart';
-import '../data/feed_repository.dart';
 import 'gourmet_user.dart';
 import 'gourmet_states.dart';
 
@@ -14,7 +13,6 @@ final gourmetDiscoverProvider =
     NotifierProvider<GourmetDiscoverController, GourmetListState>(GourmetDiscoverController.new);
 final gourmetFollowingProvider =
     NotifierProvider<GourmetFollowingController, GourmetListState>(GourmetFollowingController.new);
-final feedProvider = NotifierProvider<FeedController, FeedState>(FeedController.new);
 final followControllerProvider = NotifierProvider<FollowController, void>(FollowController.new);
 
 class GourmetDiscoverController extends Notifier<GourmetListState> {
@@ -189,61 +187,6 @@ class GourmetFollowingController extends Notifier<GourmetListState> {
   }
 }
 
-class FeedController extends Notifier<FeedState> {
-  static const int pageSize = 20;
-  int _requestId = 0;
-  int _loadMoreId = 0;
-
-  @override
-  FeedState build() {
-    Future.microtask(loadInitial);
-    return FeedState.initial();
-  }
-
-  Future<void> loadInitial({bool force = false}) async {
-    final reqId = ++_requestId;
-    state = state.copyWith(loading: true, isLoadingMore: false, items: [], hasMore: true, error: null);
-    try {
-      final list = await ref.read(feedRepositoryProvider).fetchMyFeed(
-            limit: pageSize,
-            offset: 0,
-            force: force,
-          );
-      if (reqId != _requestId) return;
-      state = state.copyWith(
-        loading: false,
-        items: list,
-        hasMore: list.length == pageSize,
-      );
-    } catch (e) {
-      if (reqId != _requestId) return;
-      state = state.copyWith(loading: false, error: e);
-    }
-  }
-
-  Future<void> loadMore() async {
-    if (state.loading || state.isLoadingMore || !state.hasMore) return;
-    final baseReqId = _requestId;
-    final loadMoreId = ++_loadMoreId;
-    state = state.copyWith(isLoadingMore: true, error: null);
-    try {
-      final list = await ref.read(feedRepositoryProvider).fetchMyFeed(
-            limit: pageSize,
-            offset: state.items.length,
-          );
-      if (baseReqId != _requestId || loadMoreId != _loadMoreId) return;
-      state = state.copyWith(
-        isLoadingMore: false,
-        items: [...state.items, ...list],
-        hasMore: list.length == pageSize,
-      );
-    } catch (e) {
-      if (baseReqId != _requestId || loadMoreId != _loadMoreId) return;
-      state = state.copyWith(isLoadingMore: false, error: e);
-    }
-  }
-}
-
 class FollowController extends Notifier<void> {
   @override
   void build() {}
@@ -252,7 +195,6 @@ class FollowController extends Notifier<void> {
     final following = await ref.read(followRepositoryProvider).toggleFollow(
       followeeId,
     );
-    unawaited(ref.read(feedProvider.notifier).loadInitial(force: true));
     unawaited(ref.read(gourmetFollowingProvider.notifier).loadInitial(force: true));
     return following;
   }
@@ -264,7 +206,6 @@ class FollowController extends Notifier<void> {
     final actual = await ref
         .read(followRepositoryProvider)
         .setFollow(followeeId, following: following);
-    unawaited(ref.read(feedProvider.notifier).loadInitial(force: true));
     unawaited(
       ref.read(gourmetFollowingProvider.notifier).loadInitial(force: true),
     );

@@ -46,7 +46,6 @@ import '../domain/business_trending_provider.dart';
 import '../domain/business_trending_item.dart';
 import '../domain/crowd_controller.dart';
 import '../domain/business_presence_provider.dart';
-import '../ui/components/business_header_compact.dart';
 import '../../shared/ui/widgets/meal_card_badge.dart';
 import '../../shared/ui/share/business_share_card_sheet.dart';
 import '../../reviews/domain/reviews_provider.dart';

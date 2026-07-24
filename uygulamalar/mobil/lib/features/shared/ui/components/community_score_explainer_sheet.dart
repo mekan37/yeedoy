@@ -17,59 +17,6 @@ Future<void> showCommunityScoreExplainerSheet(
   );
 }
 
-class CommunityScoreGuideCard extends StatelessWidget {
-  const CommunityScoreGuideCard({
-    super.key,
-    required this.kind,
-    this.margin = const EdgeInsets.only(top: 12),
-  });
-
-  final CommunityScoreKind kind;
-  final EdgeInsetsGeometry margin;
-
-  @override
-  Widget build(BuildContext context) {
-    final copy = _copyFor(context, kind);
-    final t = AppLocalizations.of(context);
-    return Container(
-      margin: margin,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ScoreCategoryPill(label: copy.categoryLabel),
-              const SizedBox(height: 10),
-              Text(
-                copy.title,
-                style: const TextStyle(fontWeight: FontWeight.w800),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                copy.summary,
-                style: const TextStyle(color: AppColors.muted),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton.icon(
-                  onPressed: () => showCommunityScoreExplainerSheet(
-                    context,
-                    kind: kind,
-                  ),
-                  icon: const Icon(Icons.info_outline, size: 16),
-                  label: Text(t.communityScoreExplainAction),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class CommunityScoreExplainerSheet extends StatelessWidget {
   const CommunityScoreExplainerSheet({super.key, required this.kind});
 
