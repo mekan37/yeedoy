@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { buildMenuHref } from '@/src/lib/menu-baglantilari';
 import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { canManageBusiness } from '@/src/lib/qr-access';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
 import { presentationSavePayloadSchema } from '@/src/lib/presentation-settings';
 import type { Database } from '@/src/lib/supabase/database.types';

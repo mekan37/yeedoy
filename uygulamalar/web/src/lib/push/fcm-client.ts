@@ -1,5 +1,5 @@
 import { createSign } from 'crypto';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 
 export type FcmSendResult = {
   success_count: number;

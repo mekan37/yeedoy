@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache';
 import { createSupabasePublicClient } from '@/src/lib/supabase/public';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 import type { Database } from '@/src/lib/supabase/database.types';
 import {
   DEFAULT_PRESENTATION_RECORD,

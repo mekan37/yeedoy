@@ -1,5 +1,5 @@
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 import type { Database } from '@/src/lib/supabase/database.types';
 
 type MenuRow = Database['public']['Tables']['menus']['Row'];

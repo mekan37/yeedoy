@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { createSupabaseServiceClient } from '@/src/lib/supabase/service';
 import { canManageBusiness } from '@/src/lib/qr-access';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
 
 const uploadSchema = z.object({

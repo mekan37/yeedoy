@@ -1,5 +1,5 @@
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 import type { Business } from '@/src/lib/db/business-read';
 
 export type DiscoverOpts = {

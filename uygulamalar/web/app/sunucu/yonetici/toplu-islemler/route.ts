@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 import { z } from 'zod';
 
 const schema = z.discriminatedUnion('type', [

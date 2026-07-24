@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { createSupabaseServiceClient } from '@/src/lib/supabase/service';
 import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
-import { logger } from '@/src/lib/logger';
+import { logger } from '@/src/lib/kayitci';
 
 const feedbackSchema = z.object({
   businessId: z.string().uuid(),
