@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
@@ -138,8 +139,14 @@ export default async function BusinessPage({ params }: Props) {
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <div className="relative overflow-hidden" style={{ minHeight: 220 }}>
         {biz.cover_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={buildMenuImageUrl(biz.cover_url, { width: 1200 }) ?? biz.cover_url ?? ''} alt={biz.name} className="absolute inset-0 h-full w-full object-cover" />
+          <Image
+            src={buildMenuImageUrl(biz.cover_url, { width: 1200 }) ?? biz.cover_url ?? ''}
+            alt={biz.name}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         ) : (
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #5c1515 0%, #7f1d1d 40%, #dc2626 100%)' }} />
         )}
@@ -150,10 +157,9 @@ export default async function BusinessPage({ params }: Props) {
         <div className="relative mx-auto max-w-3xl px-4 pb-8 pt-14 sm:px-8 sm:pt-20">
           <div className="flex items-end gap-4">
             {/* Logo */}
-            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-[18px] border-2 border-white/30 bg-white/10 backdrop-blur shadow-yd3 sm:h-24 sm:w-24">
+            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[18px] border-2 border-white/30 bg-white/10 backdrop-blur shadow-yd3 sm:h-24 sm:w-24">
               {biz.logo_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={biz.logo_url} alt={biz.name} className="h-full w-full object-cover" />
+                <Image src={biz.logo_url} alt={biz.name} fill sizes="96px" className="object-cover" />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-3xl font-[900] text-white">
                   {biz.name[0]}
@@ -237,9 +243,14 @@ export default async function BusinessPage({ params }: Props) {
                 <AppSectionHeader title="Fotoğraflar" className="mb-4" />
                 <div className="grid grid-cols-3 gap-2">
                   {photos.slice(0, 9).map((p, i) => (
-                    <div key={i} className="aspect-square overflow-hidden rounded-xl bg-border">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={buildMenuImageUrl(p.url_thumb ?? p.url, { width: 300 }) ?? p.url_thumb ?? p.url} alt="" className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" loading="lazy" />
+                    <div key={i} className="relative aspect-square overflow-hidden rounded-xl bg-border">
+                      <Image
+                        src={buildMenuImageUrl(p.url_thumb ?? p.url, { width: 300 }) ?? p.url_thumb ?? p.url}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 33vw, 224px"
+                        className="object-cover transition-transform duration-300 hover:scale-105"
+                      />
                     </div>
                   ))}
                 </div>
@@ -423,24 +434,21 @@ export default async function BusinessPage({ params }: Props) {
                   {biz.order_yemeksepeti_url && (
                     <a href={biz.order_yemeksepeti_url} target="_blank" rel="noopener noreferrer"
                       className="flex items-center gap-3 rounded-xl border border-border bg-bg px-3 py-2 transition hover:border-[#f01454]/40 hover:bg-[#fff0f5]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/delivery/yemeksepeti.png" alt="Yemeksepeti" className="h-5 w-auto max-w-[100px] object-contain" />
+                      <Image src="/delivery/yemeksepeti.png" alt="Yemeksepeti" width={102} height={20} className="h-5 w-auto max-w-[100px] object-contain" />
                       <span className="ml-auto text-xs text-muted">Sipariş ver →</span>
                     </a>
                   )}
                   {biz.order_trendyolgo_url && (
                     <a href={biz.order_trendyolgo_url} target="_blank" rel="noopener noreferrer"
                       className="flex items-center gap-3 rounded-xl border border-border bg-bg px-3 py-2 transition hover:border-orange-300 hover:bg-orange-50">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/delivery/trendyolgo.png" alt="Trendyol Go" className="h-7 w-auto max-w-[110px] object-contain" />
+                      <Image src="/delivery/trendyolgo.png" alt="Trendyol Go" width={66} height={28} className="h-7 w-auto max-w-[110px] object-contain" />
                       <span className="ml-auto text-xs text-muted">Sipariş ver →</span>
                     </a>
                   )}
                   {biz.order_getir_url && (
                     <a href={biz.order_getir_url} target="_blank" rel="noopener noreferrer"
                       className="flex items-center gap-3 rounded-xl border border-border bg-bg px-3 py-2 transition hover:border-purple-300 hover:bg-purple-50">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/delivery/getiryemek.png" alt="Getir Yemek" className="h-7 w-auto max-w-[110px] object-contain" />
+                      <Image src="/delivery/getiryemek.png" alt="Getir Yemek" width={120} height={28} className="h-7 w-auto max-w-[110px] object-contain" />
                       <span className="ml-auto text-xs text-muted">Sipariş ver →</span>
                     </a>
                   )}
@@ -457,8 +465,7 @@ export default async function BusinessPage({ params }: Props) {
                 <div className="flex flex-wrap gap-2">
                   {mealCards.map((card) => (
                     <div key={card.key} className="flex items-center gap-1.5 rounded-lg border border-border bg-bg px-2.5 py-1.5">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={`/meal-cards/meal_card_${card.key}.png`}
                         alt={card.name}
                         width={44}

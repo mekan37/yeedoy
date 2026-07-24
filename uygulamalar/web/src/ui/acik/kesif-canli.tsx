@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { MapPin, Star } from 'lucide-react';
@@ -64,8 +65,13 @@ function IsletmeKart({ biz }: { biz: Isletme }) {
       className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2"
     >
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={cover} alt={biz.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+        <Image
+          src={cover}
+          alt={biz.name}
+          fill
+          sizes="(max-width: 640px) 50vw, 300px"
+          className="object-cover transition-transform group-hover:scale-105"
+        />
         {biz.avgRating != null && biz.avgRating > 0 && (
           <div className="absolute left-2 top-2 flex items-center gap-1 rounded-xl bg-white/92 px-2 py-1 text-xs font-[800] shadow-sm backdrop-blur">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="#F59E0B" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>

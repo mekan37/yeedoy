@@ -114,11 +114,12 @@ function BusinessCard({ biz }: { biz: AcikIsletmeKarti }) {
     >
       {/* Cover — 16:10 like mobile */}
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={coverSrc}
           alt={biz.name}
-          className="h-full w-full object-cover transition-transform group-hover:scale-105"
+          fill
+          sizes="(max-width: 640px) 50vw, 300px"
+          className="object-cover transition-transform group-hover:scale-105"
         />
         {/* Rating badge — top-left white pill */}
         {rating != null && (
@@ -254,8 +255,7 @@ export default async function HomePage() {
                     className="group flex shrink-0 flex-col items-center gap-1.5"
                   >
                     <div className="flex h-[68px] w-[68px] items-center justify-center overflow-hidden rounded-[22px] bg-white shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={cat.img}
                         alt={cat.label}
                         width={68}
@@ -328,8 +328,7 @@ export default async function HomePage() {
                   <p className="mt-1 text-sm text-muted">Sana özel indirimleri keşfet.</p>
                 </div>
                 <div className="relative shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src="/category-images/tatli.webp"
                     alt=""
                     width={72}

@@ -6,7 +6,6 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import {
   getMarketplaceBusinessBySlug,
-  getBusinessReviews,
   getMarketplaceBusinesses,
 } from '@/src/lib/veri/pazar-okuma';
 import { getPublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
@@ -139,23 +138,13 @@ export default async function BusinessPage({ params }: Props) {
     branch_label: string | null; is_template_branch: boolean; branch_count: number;
   };
 
-  const [, menuData, checkinCount, , , mealCards, similar, detayliYorumlarRaw, reviewStatsRaw, chainInfoRaw] =
+  const [menuData, checkinCount, mealCards, similar, detayliYorumlarRaw, reviewStatsRaw, chainInfoRaw] =
     await Promise.all([
-      getBusinessReviews(business.id, 6),
       getPublicMenuPageData({ businessSlugOrId: business.slug }).catch(() => null),
       (createSupabasePublicClient() as any)
         .rpc('get_business_recent_checkins_v1', { p_business_id: business.id, p_hours: 2 })
         .then((r: any) => r?.data?.count ?? 0)
         .catch(() => 0),
-      // price comparison + history — unused in new layout but kept for future
-      (createSupabasePublicClient() as any)
-        .rpc('get_business_price_comparison_v1', { p_business_id: business.id, p_limit: 5 })
-        .then((r: any) => (r?.data as any[]) ?? [])
-        .catch(() => []),
-      (createSupabasePublicClient() as any)
-        .rpc('get_business_price_history_v1', { p_business_id: business.id, p_months: 6 })
-        .then((r: any) => (r?.data as any[]) ?? [])
-        .catch(() => []),
       (createSupabasePublicClient() as any)
         .rpc('get_business_meal_card_providers_v1', { p_business_id: business.id })
         .then((r: any) => (r?.data as MealCardPublicRow[]) ?? [])

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
@@ -74,8 +75,13 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '4/3' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={cover} alt={biz.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+        <Image
+          src={cover}
+          alt={biz.name}
+          fill
+          sizes="(max-width: 640px) 50vw, 300px"
+          className="object-cover transition-transform group-hover:scale-105"
+        />
         <div
           className="absolute left-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full text-xs font-[900] shadow-md"
           style={{ background: rankStyle.bg, color: rankStyle.text }}

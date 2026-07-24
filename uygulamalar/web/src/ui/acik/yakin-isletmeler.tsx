@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Star, CheckCircle, MapPin, ChevronRight } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
@@ -52,11 +53,12 @@ function BizCard({ biz }: { biz: AcikIsletmeKarti }) {
       className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2"
     >
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={coverSrc}
           alt={biz.name}
-          className="h-full w-full object-cover transition-transform group-hover:scale-105"
+          fill
+          sizes="(max-width: 640px) 50vw, 300px"
+          className="object-cover transition-transform group-hover:scale-105"
         />
         {biz.avgRating != null && (
           <div className="absolute left-2 top-2 flex items-center gap-1 rounded-xl bg-white/92 px-2 py-1 text-xs font-[800] shadow-sm backdrop-blur">
