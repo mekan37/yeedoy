@@ -53,8 +53,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'service_unavailable' }, { status: 503 });
   }
 
-  // menu_feedback table added in migration 20260422000002; types updated after db push.
-  // @ts-expect-error menu_feedback not yet in generated types
   const { error } = await supabase.from('menu_feedback').insert({
     business_id: businessId,
     rating,
