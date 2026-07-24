@@ -16,6 +16,7 @@ import '../../../core/growth/ab_experiments.dart';
 import '../../../core/growth/funnel_tracker.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
+import '../../../core/media/app_network_image.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/perf/firebase_perf_trace.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
@@ -44,7 +45,7 @@ class MenuPage extends ConsumerStatefulWidget {
   ConsumerState<MenuPage> createState() => _MenuPageState();
 }
 
-final _menuBusinessProvider = FutureProvider.family<Business, String>((
+final _menuBusinessProvider = FutureProvider.autoDispose.family<Business, String>((
   ref,
   businessId,
 ) {
@@ -84,7 +85,7 @@ class _MenuItemVariant {
 }
 
 final _menuItemVariantsProvider =
-    FutureProvider.family<Map<String, List<_MenuItemVariant>>, String>((
+    FutureProvider.autoDispose.family<Map<String, List<_MenuItemVariant>>, String>((
       ref,
       itemIdsKey,
     ) async {
@@ -1022,21 +1023,11 @@ class _MenuItemRowState extends State<_MenuItemRow> {
                             height: 56,
                             fit: BoxFit.cover,
                           )
-                        : Image.network(
-                            imageUrl!,
+                        : AppNetworkImage(
+                            url: imageUrl!,
                             width: 56,
                             height: 56,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, _, _) => Container(
-                              width: 56,
-                              height: 56,
-                              color: AppColors.card,
-                              alignment: Alignment.center,
-                              child: const Icon(
-                                Icons.image_not_supported_outlined,
-                                color: AppColors.muted,
-                              ),
-                            ),
                           ),
                   ),
                   const SizedBox(width: 10),

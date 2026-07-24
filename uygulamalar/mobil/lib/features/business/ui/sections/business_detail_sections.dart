@@ -881,14 +881,10 @@ class _BusinessPhotosViewerState extends State<_BusinessPhotosViewer> {
         onPageChanged: (i) => setState(() => _current = i),
         itemBuilder: (context, i) => InteractiveViewer(
           child: Center(
-            child: Image.network(
-              widget.urls[i],
+            child: AppNetworkImage(
+              url: widget.urls[i],
+              variant: AppImageVariant.original,
               fit: BoxFit.contain,
-              errorBuilder: (context, e, stack) => const Icon(
-                Icons.broken_image_outlined,
-                color: Colors.white54,
-                size: 64,
-              ),
             ),
           ),
         ),

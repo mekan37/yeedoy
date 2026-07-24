@@ -68,12 +68,12 @@ part 'parts/business_menu_preview.dart';
 part 'parts/business_state_views.dart';
 part 'parts/check_in_button.dart';
 
-final _businessProvider = FutureProvider.family<Business, String>((ref, id) {
+final _businessProvider = FutureProvider.autoDispose.family<Business, String>((ref, id) {
   return ref.watch(discoveryRepositoryProvider).fetchBusiness(id);
 });
 
 final _businessHoursProvider =
-    FutureProvider.family<({String? open, String? close})?, String>((
+    FutureProvider.autoDispose.family<({String? open, String? close})?, String>((
       ref,
       id,
     ) async {
@@ -121,7 +121,7 @@ final _businessHoursProvider =
     });
 
 final _menuItemVariantsProvider =
-    FutureProvider.family<Map<String, List<_MenuItemVariant>>, String>((
+    FutureProvider.autoDispose.family<Map<String, List<_MenuItemVariant>>, String>((
       ref,
       itemIdsKey,
     ) async {
@@ -161,7 +161,7 @@ final _menuItemVariantsProvider =
     });
 
 final _businessFrequentTagsProvider =
-    FutureProvider.family<List<({String tag, int count})>, String>((
+    FutureProvider.autoDispose.family<List<({String tag, int count})>, String>((
       ref,
       businessId,
     ) async {
@@ -185,7 +185,7 @@ final _businessFrequentTagsProvider =
     });
 
 final _businessTrustProvider =
-    FutureProvider.family<_BusinessTrustSnapshot, String>((
+    FutureProvider.autoDispose.family<_BusinessTrustSnapshot, String>((
       ref,
       businessId,
     ) async {

@@ -68,10 +68,13 @@ class _BusinessReviewsPageState extends ConsumerState<BusinessReviewsPage> {
         onRefresh: () => ref
             .read(businessReviewsProvider(widget.businessId).notifier)
             .refresh(),
-        child: ListView(
+        child: CustomScrollView(
           controller: scrollCtrl,
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-          children: [
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              sliver: SliverList.list(
+                children: [
             AppHeroHeader(
               title: t.reviewsCount(st.items.length),
               subtitle: t.businessReviewsCommunityExperiences,
@@ -123,16 +126,35 @@ class _BusinessReviewsPageState extends ConsumerState<BusinessReviewsPage> {
                   ),
                 ],
               ),
-            if (st.isLoading && st.items.isEmpty) ...[
-              const _ReviewsSkeleton(),
-            ] else if (st.items.isEmpty) ...[
-              _EmptyReviews(),
-            ] else ...[
+                ],
+              ),
+            ),
+            if (st.isLoading && st.items.isEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverList.list(
+                  children: const [_ReviewsSkeleton()],
+                ),
+              )
+            else if (st.items.isEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverList.list(children: [_EmptyReviews()]),
+              )
+            else
               votedIdsAsync.when(
-                loading: () => const _ReviewsSkeleton(),
-                error: (e, _) => Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(AppErrorMapper.message(e)),
+                loading: () => const SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverToBoxAdapter(child: _ReviewsSkeleton()),
+                ),
+                error: (e, _) => SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(AppErrorMapper.message(e)),
+                    ),
+                  ),
                 ),
                 data: (votedIds) {
                   final reviewIds =
@@ -141,36 +163,47 @@ class _BusinessReviewsPageState extends ConsumerState<BusinessReviewsPage> {
                     reviewRepliesBatchProvider(reviewIds),
                   );
                   final replies = repliesAsync.asData?.value ?? {};
-                  return Column(
-                    children: [
-                      for (final r in st.items) ...[
-                        RepaintBoundary(
-                          child: _ReviewCard(
-                            review: r,
-                            showQuality: st.sort == 'helpful',
-                            isVoted: votedIds.contains(r.id),
-                            ownerReply: replies[r.id],
-                            onToggleHelpful: () => _toggleHelpful(
-                              context,
-                              r,
+                  return SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    sliver: SliverList.builder(
+                      itemCount: st.items.length,
+                      itemBuilder: (context, index) {
+                        final r = st.items[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: RepaintBoundary(
+                            child: _ReviewCard(
+                              review: r,
+                              showQuality: st.sort == 'helpful',
                               isVoted: votedIds.contains(r.id),
+                              ownerReply: replies[r.id],
+                              onToggleHelpful: () => _toggleHelpful(
+                                context,
+                                r,
+                                isVoted: votedIds.contains(r.id),
+                              ),
+                              onReport: () =>
+                                  _openReportSheet(context, reviewId: r.id),
                             ),
-                            onReport: () =>
-                                _openReportSheet(context, reviewId: r.id),
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    ],
+                        );
+                      },
+                    ),
                   );
                 },
               ),
-            ],
-            if (st.isLoadingMore)
-              const Padding(
-                padding: EdgeInsets.only(top: 12),
-                child: Center(child: CircularProgressIndicator()),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              sliver: SliverList.list(
+                children: [
+                  if (st.isLoadingMore)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                ],
               ),
+            ),
           ],
         ),
       ),
@@ -504,14 +537,10 @@ class _PhotoViewerState extends State<_PhotoViewer> {
         onPageChanged: (i) => setState(() => _current = i),
         itemBuilder: (context, i) => InteractiveViewer(
           child: Center(
-            child: Image.network(
-              widget.urls[i],
+            child: AppNetworkImage(
+              url: widget.urls[i],
+              variant: AppImageVariant.original,
               fit: BoxFit.contain,
-              errorBuilder: (context, e, stack) => const Icon(
-                Icons.broken_image_outlined,
-                color: Colors.white54,
-                size: 64,
-              ),
             ),
           ),
         ),

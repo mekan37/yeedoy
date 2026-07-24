@@ -163,10 +163,13 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
           if (_isSharedMode) await _loadSharedItems();
           if (widget.nearbyMode || _nearbySort) await _loadLocation();
         },
-        child: ListView(
+        child: CustomScrollView(
           controller: scrollCtrl,
-          padding: const EdgeInsets.all(16),
-          children: [
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              sliver: SliverList.list(
+                children: [
             const _FavoritesHeader(),
             if (!_isSharedMode && st.items.isNotEmpty) ...[
               _FavoritesCountBanner(count: st.items.length),
@@ -285,64 +288,96 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
                   style: const TextStyle(color: AppColors.danger),
                 ),
               ),
-            if ((_isSharedMode && _sharedLoading) ||
-                (!_isSharedMode && st.isLoading && st.items.isEmpty)) ...[
-              const _FavoritesSkeleton(),
-            ] else if (filtered.isEmpty) ...[
-              const Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: _EmptyFavs(),
-              ),
-            ] else ...[
-              for (final b in filtered) ...[
-                VerticalBusinessCard(
-                  key: ValueKey('fav_${b.id}'),
-                  item: _pos == null
-                      ? b
-                      : b.copyWith(distanceKm: _distanceKm(b, _pos!)),
-                  imageAsset: categoryImageAsset(b.category),
-                  ratingLabel: businessRatingLabel(b),
-                  isFavorite: favIds.contains(b.id),
-                  onTap: () => context.go('/b/${b.id}'),
-                  onFavoriteTap: () async {
-                    try {
-                      await ref
-                          .read(favoritesControllerProvider.notifier)
-                          .toggleFavorite(b.id);
-                    } catch (e) {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(AppErrorMapper.message(e))),
-                      );
-                    }
-                  },
-                  topRightExtra: _isSharedMode
-                      ? null
-                      : Material(
-                          color: Colors.white.withValues(alpha: 0.92),
-                          shape: const CircleBorder(),
-                          child: InkWell(
-                            customBorder: const CircleBorder(),
-                            onTap: () => _openCollectionPicker(b),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8),
-                              child: Icon(
-                                Icons.folder_copy_outlined,
-                                color: AppColors.muted,
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
-                SizedBox(height: tokens.space12),
-              ],
             ],
-            if (!_isSharedMode && st.isLoadingMore)
-              const Padding(
-                padding: EdgeInsets.only(top: 12),
-                child: Center(child: CircularProgressIndicator()),
               ),
+            ),
+            if ((_isSharedMode && _sharedLoading) ||
+                (!_isSharedMode && st.isLoading && st.items.isEmpty))
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverList.list(
+                  children: const [_FavoritesSkeleton()],
+                ),
+              )
+            else if (filtered.isEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverList.list(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(top: 40),
+                      child: _EmptyFavs(),
+                    ),
+                  ],
+                ),
+              )
+            else
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverList.builder(
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    final b = filtered[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: tokens.space12),
+                      child: VerticalBusinessCard(
+                        key: ValueKey('fav_${b.id}'),
+                        item: _pos == null
+                            ? b
+                            : b.copyWith(distanceKm: _distanceKm(b, _pos!)),
+                        imageAsset: categoryImageAsset(b.category),
+                        ratingLabel: businessRatingLabel(b),
+                        isFavorite: favIds.contains(b.id),
+                        onTap: () => context.go('/b/${b.id}'),
+                        onFavoriteTap: () async {
+                          try {
+                            await ref
+                                .read(favoritesControllerProvider.notifier)
+                                .toggleFavorite(b.id);
+                          } catch (e) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppErrorMapper.message(e)),
+                              ),
+                            );
+                          }
+                        },
+                        topRightExtra: _isSharedMode
+                            ? null
+                            : Material(
+                                color: Colors.white.withValues(alpha: 0.92),
+                                shape: const CircleBorder(),
+                                child: InkWell(
+                                  customBorder: const CircleBorder(),
+                                  onTap: () => _openCollectionPicker(b),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.folder_copy_outlined,
+                                      color: AppColors.muted,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverList.list(
+                children: [
+                  if (!_isSharedMode && st.isLoadingMore)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

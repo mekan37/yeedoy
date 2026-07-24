@@ -324,7 +324,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                     physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
+                        padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
                         sliver: SliverList.list(
                           children: [
                             DiscoveryHeaderSearch(
@@ -917,124 +917,157 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                                 ),
                               ),
 
-                            if (st.loading && st.items.isEmpty) ...[
-                              if (_surfaceMode == _DiscoverySurfaceMode.map)
-                                const _DiscoveryMapSkeleton()
-                              else
-                                const _DiscoverySkeleton(),
-                            ] else if (_surfaceMode ==
-                                _DiscoverySurfaceMode.map) ...[
-                              _DiscoveryMapSurface(
-                                items: st.items,
-                                onOpenBusiness: (id) =>
-                                    _openBusiness(id, source: 'map'),
-                              ),
-                            ] else ...[
-                              for (final entry in st.items.asMap().entries) ...[
-                                RepaintBoundary(
-                                  child: BusinessTile(
-                                    name: entry.value.name,
-                                    category: entry.value.category,
-                                    subtitle:
-                                        '${entry.value.district ?? ''}  ${entry.value.city ?? ''}',
-                                    badgeText: entry.value.ownerVerified == true
-                                        ? t.businessApprovedData
-                                        : t.communityData,
-                                    distanceKm: isNearby
-                                        ? entry.value.distanceKm
-                                        : null,
-                                    qualityScore: entry.value.qualityScore,
-                                    mealCardProviders:
-                                        entry.value.mealCardProviders,
-                                    isOpenNow: entry.value.isOpenNow,
-                                    medianPriceCents:
-                                        entry.value.medianPriceCents,
-                                    priceLevel: entry.value.priceLevel,
-                                    socialProof: _discoverySocialProof(
-                                      context: context,
-                                      item: entry.value,
-                                      district: st.district,
-                                      isTopResult:
+                            ],
+                          ),
+                        ),
+                        if (st.loading && st.items.isEmpty)
+                          SliverPadding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            sliver: SliverList.list(
+                              children: [
+                                if (_surfaceMode ==
+                                    _DiscoverySurfaceMode.map)
+                                  const _DiscoveryMapSkeleton()
+                                else
+                                  const _DiscoverySkeleton(),
+                              ],
+                            ),
+                          )
+                        else if (_surfaceMode == _DiscoverySurfaceMode.map)
+                          SliverPadding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            sliver: SliverList.list(
+                              children: [
+                                _DiscoveryMapSurface(
+                                  items: st.items,
+                                  onOpenBusiness: (id) =>
+                                      _openBusiness(id, source: 'map'),
+                                ),
+                              ],
+                            ),
+                          )
+                        else
+                          SliverPadding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            sliver: SliverList.builder(
+                              itemCount: st.items.length,
+                              itemBuilder: (context, index) {
+                                final item = st.items[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: RepaintBoundary(
+                                    child: BusinessTile(
+                                      name: item.name,
+                                      category: item.category,
+                                      subtitle:
+                                          '${item.district ?? ''}  ${item.city ?? ''}',
+                                      badgeText: item.ownerVerified == true
+                                          ? t.businessApprovedData
+                                          : t.communityData,
+                                      distanceKm: isNearby
+                                          ? item.distanceKm
+                                          : null,
+                                      qualityScore: item.qualityScore,
+                                      mealCardProviders:
+                                          item.mealCardProviders,
+                                      isOpenNow: item.isOpenNow,
+                                      medianPriceCents: item.medianPriceCents,
+                                      priceLevel: item.priceLevel,
+                                      socialProof: _discoverySocialProof(
+                                        context: context,
+                                        item: item,
+                                        district: st.district,
+                                        isTopResult:
+                                            st.sortBy ==
+                                                DiscoverySort.recommended &&
+                                            index == 0,
+                                      ),
+                                      onWhyTap:
                                           st.sortBy ==
-                                              DiscoverySort.recommended &&
-                                          entry.key == 0,
-                                    ),
-                                    onWhyTap:
-                                        st.sortBy == DiscoverySort.recommended
-                                        ? () => _showRankingFormula(context)
-                                        : null,
-                                    onTap: () => _openBusiness(
-                                      entry.value.id,
-                                      source: 'discover_list',
-                                    ),
-                                    trailingAction: IconButton(
-                                      tooltip:
-                                          (favCache[entry.value.id] ??
-                                              favIds.contains(entry.value.id))
-                                          ? t.removeFromFavorites
-                                          : t.addToFavorites,
-                                      icon: AnimatedSwitcher(
-                                        duration: const Duration(
-                                          milliseconds: 180,
-                                        ),
-                                        transitionBuilder: (child, animation) {
-                                          return ScaleTransition(
-                                            scale: Tween<double>(
-                                              begin: 0.7,
-                                              end: 1,
-                                            ).animate(animation),
-                                            child: child,
-                                          );
-                                        },
-                                        child: Icon(
-                                          (favCache[entry.value.id] ??
-                                                  favIds.contains(
-                                                    entry.value.id,
-                                                  ))
-                                              ? Icons.star
-                                              : Icons.star_outline,
-                                          key: ValueKey(
-                                            favCache[entry.value.id] ??
-                                                favIds.contains(entry.value.id),
+                                              DiscoverySort.recommended
+                                          ? () => _showRankingFormula(context)
+                                          : null,
+                                      onTap: () => _openBusiness(
+                                        item.id,
+                                        source: 'discover_list',
+                                      ),
+                                      trailingAction: IconButton(
+                                        tooltip:
+                                            (favCache[item.id] ??
+                                                favIds.contains(item.id))
+                                            ? t.removeFromFavorites
+                                            : t.addToFavorites,
+                                        icon: AnimatedSwitcher(
+                                          duration: const Duration(
+                                            milliseconds: 180,
+                                          ),
+                                          transitionBuilder: (child, animation) {
+                                            return ScaleTransition(
+                                              scale: Tween<double>(
+                                                begin: 0.7,
+                                                end: 1,
+                                              ).animate(animation),
+                                              child: child,
+                                            );
+                                          },
+                                          child: Icon(
+                                            (favCache[item.id] ??
+                                                    favIds.contains(item.id))
+                                                ? Icons.star
+                                                : Icons.star_outline,
+                                            key: ValueKey(
+                                              favCache[item.id] ??
+                                                  favIds.contains(item.id),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      onPressed: () async {
-                                        if (!isLoggedIn) {
-                                          await showQuickLoginSheet(
-                                            context,
-                                            redirectPath: '/discover',
-                                          );
-                                          return;
-                                        }
-                                        try {
-                                          HapticFeedback.lightImpact();
-                                          await ref
-                                              .read(
-                                                favoritesControllerProvider
-                                                    .notifier,
-                                              )
-                                              .toggleFavorite(entry.value.id);
-                                        } catch (e) {
-                                          if (context.mounted) {
-                                            ScaffoldMessenger.of(
+                                        onPressed: () async {
+                                          if (!isLoggedIn) {
+                                            await showQuickLoginSheet(
                                               context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  AppErrorMapper.message(e),
-                                                ),
-                                              ),
+                                              redirectPath: '/discover',
                                             );
+                                            return;
                                           }
-                                        }
-                                      },
+                                          try {
+                                            HapticFeedback.lightImpact();
+                                            await ref
+                                                .read(
+                                                  favoritesControllerProvider
+                                                      .notifier,
+                                                )
+                                                .toggleFavorite(item.id);
+                                          } catch (e) {
+                                            if (context.mounted) {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    AppErrorMapper.message(e),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                              ],
-                            ],
+                                );
+                              },
+                            ),
+                          ),
+                        SliverPadding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                          sliver: SliverList.list(
+                            children: [
 
                             if (st.loading && st.items.isNotEmpty)
                               const Padding(
@@ -1754,6 +1787,9 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         .take(8)
         .toList();
     final nearbyItems = items;
+    ref.watch(nativeAdControllerProvider);
+    final adController = ref.read(nativeAdControllerProvider.notifier);
+    final nearbySequence = _buildNearbyFeedSequence(nearbyItems.length);
     final locationLabel = _formatLocation(context, st.city, st.district);
 
     return RefreshIndicator(
@@ -1763,7 +1799,7 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             sliver: SliverList.list(
               children: [
                 const _DiscoveryGreetingHeader(),
@@ -2050,102 +2086,117 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 12),
-                if (nearbyItems.isEmpty)
+              ],
+            ),
+          ),
+          if (nearbyItems.isEmpty)
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+              sliver: SliverList.list(
+                children: [
                   AppEmptyState(
                     icon: Icons.storefront_outlined,
                     title: AppLocalizations.of(context).noNearbyVerifiedSpots,
                     description: AppLocalizations.of(
                       context,
                     ).changeFiltersTryAgain,
-                  )
-                else ...[
-                  ..._buildNearbyCardsWithAds(
-                    context: context,
-                    ref: ref,
-                    nearbyItems: nearbyItems,
-                    favCache: favCache,
-                    favIds: favIds,
-                    isLoggedIn: isLoggedIn,
                   ),
-                  _DiscoveryPromoBanner(onTap: () => _openWhatToEat(context)),
                 ],
-              ],
+              ),
+            )
+          else
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 28),
+              sliver: SliverList.builder(
+                itemCount: nearbySequence.length + 1,
+                itemBuilder: (context, i) {
+                  if (i == nearbySequence.length) {
+                    return _DiscoveryPromoBanner(
+                      onTap: () => _openWhatToEat(context),
+                    );
+                  }
+                  final entry = nearbySequence[i];
+                  if (entry.isAd) {
+                    final ad = adController.adForSlot(entry.index);
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 14),
+                      child: ad != null
+                          ? NativeAdCard(ad: ad)
+                          : _DiscoveryCampaignPromoCard(
+                              onTap: () => DefaultTabController.of(
+                                context,
+                              ).animateTo(1),
+                            ),
+                    );
+                  }
+                  final item = nearbyItems[entry.index];
+                  final isFav =
+                      favCache[item.id] ?? favIds.contains(item.id);
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: VerticalBusinessCard(
+                      item: item,
+                      imageAsset: _categoryImageFor(
+                        item.category,
+                        entry.index + 2,
+                      ),
+                      ratingLabel: _ratingLabel(item),
+                      isFavorite: isFav,
+                      onTap: () =>
+                          _openBusiness(item.id, source: 'nearby_verified'),
+                      onFavoriteTap: () async {
+                        if (!isLoggedIn) {
+                          await showQuickLoginSheet(
+                            context,
+                            redirectPath: '/discover',
+                          );
+                          return;
+                        }
+                        try {
+                          HapticFeedback.lightImpact();
+                          await ref
+                              .read(favoritesControllerProvider.notifier)
+                              .toggleFavorite(item.id);
+                        } catch (e) {
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppErrorMapper.message(e)),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
         ],
       ),
     );
   }
 
-  List<Widget> _buildNearbyCardsWithAds({
-    required BuildContext context,
-    required WidgetRef ref,
-    required List<BusinessCardModel> nearbyItems,
-    required Map<String, bool> favCache,
-    required Set<String> favIds,
-    required bool isLoggedIn,
-  }) {
-    if (nearbyItems.isEmpty) return const <Widget>[];
-
-    ref.watch(nativeAdControllerProvider);
-    final adController = ref.read(nativeAdControllerProvider.notifier);
-    final widgets = <Widget>[];
+  // Yakındaki işletme + reklam sırasını önceden hesaplar (widget inşa etmeden) —
+  // SliverList.builder'ın yalnızca görünen index'ler için gerçek kart/reklam
+  // widget'ı inşa edebilmesini sağlar. Mantık, eski eager sürümle birebir aynı.
+  List<({bool isAd, int index})> _buildNearbyFeedSequence(
+    int totalBusinesses,
+  ) {
+    if (totalBusinesses == 0) return const [];
+    final sequence = <({bool isAd, int index})>[];
     var adShown = 0;
-
-    for (var index = 0; index < nearbyItems.length; index++) {
-      final item = nearbyItems[index];
-      final isFav = favCache[item.id] ?? favIds.contains(item.id);
-      widgets.add(
-        Padding(
-          padding: const EdgeInsets.only(bottom: 14),
-          child: VerticalBusinessCard(
-            item: item,
-            imageAsset: _categoryImageFor(item.category, index + 2),
-            ratingLabel: _ratingLabel(item),
-            isFavorite: isFav,
-            onTap: () => _openBusiness(item.id, source: 'nearby_verified'),
-            onFavoriteTap: () async {
-              if (!isLoggedIn) {
-                await showQuickLoginSheet(context, redirectPath: '/discover');
-                return;
-              }
-              try {
-                HapticFeedback.lightImpact();
-                await ref
-                    .read(favoritesControllerProvider.notifier)
-                    .toggleFavorite(item.id);
-              } catch (e) {
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(AppErrorMapper.message(e))),
-                );
-              }
-            },
-          ),
-        ),
-      );
-
+    for (var index = 0; index < totalBusinesses; index++) {
+      sequence.add((isAd: false, index: index));
       final businessCount = index + 1;
       final shouldInsertAd = shouldInsertDiscoveryAdAfterBusiness(
         businessCountShown: businessCount,
         adsShown: adShown,
       );
       if (!shouldInsertAd) continue;
-      final ad = adController.adForSlot(adShown);
-      widgets.add(
-        Padding(
-          padding: const EdgeInsets.only(bottom: 14),
-          child: ad != null
-              ? NativeAdCard(ad: ad)
-              : _DiscoveryCampaignPromoCard(
-                  onTap: () => DefaultTabController.of(context).animateTo(1),
-                ),
-        ),
-      );
+      sequence.add((isAd: true, index: adShown));
       adShown += 1;
     }
-
-    return widgets;
+    return sequence;
   }
 
   String _ratingLabel(BusinessCardModel item) => businessRatingLabel(item);

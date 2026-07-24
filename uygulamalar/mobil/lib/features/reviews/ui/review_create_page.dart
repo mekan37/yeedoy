@@ -12,7 +12,7 @@ import '../../business/domain/business.dart';
 import '../../discovery/data/discovery_repository.dart';
 import 'review_create_form.dart';
 
-final _reviewBusinessProvider = FutureProvider.family<Business, String>((
+final _reviewBusinessProvider = FutureProvider.autoDispose.family<Business, String>((
   ref,
   id,
 ) {

@@ -77,7 +77,7 @@ class _MenuItemVariant {
 }
 
 final _menuItemVariantsProvider =
-    FutureProvider.family<List<_MenuItemVariant>, String>((
+    FutureProvider.autoDispose.family<List<_MenuItemVariant>, String>((
       ref,
       menuItemId,
     ) async {
@@ -103,7 +103,7 @@ final _menuItemVariantsProvider =
       return variants;
     });
 
-final _businessCityProvider = FutureProvider.family<String?, String>((
+final _businessCityProvider = FutureProvider.autoDispose.family<String?, String>((
   ref,
   businessId,
 ) async {

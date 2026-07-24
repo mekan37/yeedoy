@@ -413,21 +413,11 @@ class _BusinessMenuItemRowState extends ConsumerState<_BusinessMenuItemRow> {
                   fit: BoxFit.cover,
                 )
               : (remoteImageUrl != null
-                    ? Image.network(
-                        remoteImageUrl,
+                    ? AppNetworkImage(
+                        url: remoteImageUrl,
                         width: 76,
                         height: 76,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => Container(
-                          width: 76,
-                          height: 76,
-                          color: AppColors.card,
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            Icons.image_not_supported_outlined,
-                            color: AppColors.muted,
-                          ),
-                        ),
                       )
                     : (rawImageUrl.isNotEmpty
                           ? Container(
