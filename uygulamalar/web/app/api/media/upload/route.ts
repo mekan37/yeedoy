@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { createSupabaseServiceClient } from '@/src/lib/supabase/service';
 import { canManageBusiness } from '@/src/lib/qr-access';
 import { logger } from '@/src/lib/kayitci';
-import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/rate-limit';
 
 const uploadSchema = z.object({
   businessId: z.string().uuid(),
@@ -17,7 +17,7 @@ const maxBytes = 5 * 1024 * 1024;
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`media-upload:${identity}`, 10, 60_000);

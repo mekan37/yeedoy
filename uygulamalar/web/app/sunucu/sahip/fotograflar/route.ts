@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { canManageBusiness } from '@/src/lib/karekod-erisimi';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 
 const BUCKET = 'menu-media';
 const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/webp']);
@@ -23,7 +23,7 @@ const deleteSchema = z.object({
 
 export async function POST(req: Request) {
   const identity = getRequestIdentity({
-    ip: req.headers.get('x-forwarded-for'),
+    ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
   const rl = rateLimit(`owner-photo-upload:${identity}`, 15, 60_000);
@@ -107,7 +107,7 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   const identity = getRequestIdentity({
-    ip: req.headers.get('x-forwarded-for'),
+    ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
   const rl = rateLimit(`owner-photo-delete:${identity}`, 20, 60_000);

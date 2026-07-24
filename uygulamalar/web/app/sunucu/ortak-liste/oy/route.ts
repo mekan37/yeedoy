@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { createHash } from 'crypto';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 const schema = z.object({
@@ -12,7 +12,7 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`collab-vote:${identity}`, 30, 60_000);

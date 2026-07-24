@@ -1,18 +1,12 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/supabase/server';
-import { rateLimit, getRequestIdentity } from '@/src/lib/rate-limit';
+import { rateLimit, getClientIp } from '@/src/lib/rate-limit';
 
 const schema = z.object({ businessId: z.string().uuid() });
 
 export async function POST(req: Request) {
-  const ip =
-    req.headers.get('cf-connecting-ip') ??
-    req.headers.get('x-real-ip') ??
-    getRequestIdentity({
-      ip: req.headers.get('x-forwarded-for'),
-      userAgent: req.headers.get('user-agent'),
-    });
+  const ip = getClientIp(req.headers) ?? 'unknown-ip';
   const limit = rateLimit(`checkin:${ip}`, 10, 60_000);
   if (!limit.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 

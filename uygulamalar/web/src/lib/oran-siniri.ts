@@ -41,3 +41,27 @@ export function getRequestIdentity(input: {
 }) {
   return [input.ip?.trim() || 'unknown-ip', input.userAgent?.trim() || 'unknown-ua'].join(':');
 }
+
+/**
+ * İstemcinin gerçek IP'sini, istemcinin doğrudan sahteleyebileceği
+ * ham `x-forwarded-for` yerine güvenilir kenar/proxy katmanlarının
+ * yazdığı header'lardan çıkarır: Cloudflare varsa `cf-connecting-ip`,
+ * yoksa Vercel'in kendi eklediği `x-real-ip`, o da yoksa
+ * `x-forwarded-for` zincirinin SON halkası (zincirdeki tek client'ın
+ * kontrol edemeyeceği, doğrudan bağlanan proxy'nin eklediği değer).
+ */
+export function getClientIp(headers: Headers): string | null {
+  const cfConnectingIp = headers.get('cf-connecting-ip')?.trim();
+  if (cfConnectingIp) return cfConnectingIp;
+
+  const realIp = headers.get('x-real-ip')?.trim();
+  if (realIp) return realIp;
+
+  const forwardedFor = headers.get('x-forwarded-for');
+  if (forwardedFor) {
+    const hops = forwardedFor.split(',').map((h) => h.trim()).filter(Boolean);
+    if (hops.length > 0) return hops[hops.length - 1];
+  }
+
+  return null;
+}

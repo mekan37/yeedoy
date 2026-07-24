@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 
@@ -42,7 +42,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   const { id } = await context.params;
 
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`owner-menu-patch:${identity}`, 30, 60_000);
@@ -100,7 +100,7 @@ export async function DELETE(request: Request, context: RouteContext) {
   const { id } = await context.params;
 
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`owner-menu-delete:${identity}`, 10, 60_000);

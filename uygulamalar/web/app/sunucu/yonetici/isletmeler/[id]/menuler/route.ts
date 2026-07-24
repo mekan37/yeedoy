@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 import { logAudit, AUDIT } from '@/src/lib/denetim';
 
@@ -44,7 +44,7 @@ export async function POST(request: Request, context: RouteContext) {
   const { id: businessId } = await context.params;
 
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
 

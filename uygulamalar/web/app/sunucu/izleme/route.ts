@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server';
 import { mapTrackEventToRpc, parseRpcTrackResult, trackEventSchema } from '@/src/lib/analitik';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`track:${identity}`, 40, 60_000);

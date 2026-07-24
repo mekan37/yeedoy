@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getMapBusinesses } from '@/src/lib/veri/harita-okuma';
-import { rateLimit, getRequestIdentity } from '@/src/lib/rate-limit';
+import { rateLimit, getRequestIdentity, getClientIp } from '@/src/lib/rate-limit';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   }
 
   const identity = getRequestIdentity({
-    ip: req.headers.get('x-forwarded-for'),
+    ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
   const rl = rateLimit(`harita:${identity}`, 60, 60_000);

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 import type { Database } from '@/src/lib/taban/veri-tanimlari';
 import { getOwnerBusinessIds, hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
@@ -17,7 +17,7 @@ const createMenuSchema = z.object({
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`owner-menus-create:${identity}`, 20, 60_000);
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`owner-menus-list:${identity}`, 60, 60_000);

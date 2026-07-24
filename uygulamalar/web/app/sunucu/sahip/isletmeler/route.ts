@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 
 export const runtime = 'nodejs';
 
 export async function GET(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`owner-businesses-list:${identity}`, 60, 60_000);

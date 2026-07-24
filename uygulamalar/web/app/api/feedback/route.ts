@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/supabase/server';
 import { createSupabaseServiceClient } from '@/src/lib/supabase/service';
-import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
+import { rateLimit, getClientIp } from '@/src/lib/rate-limit';
 import { logger } from '@/src/lib/kayitci';
 
 const feedbackSchema = z.object({
@@ -25,9 +25,7 @@ export async function POST(request: Request) {
     limitKey = `feedback:user:${user.id}`;
     maxRequests = 10;
   } else {
-    const ip = request.headers.get('cf-connecting-ip')
-      ?? request.headers.get('x-real-ip')
-      ?? getRequestIdentity({ ip: request.headers.get('x-forwarded-for'), userAgent: request.headers.get('user-agent') });
+    const ip = getClientIp(request.headers) ?? 'unknown-ip';
     limitKey = `feedback:anon:${ip}`;
     maxRequests = 2;
   }

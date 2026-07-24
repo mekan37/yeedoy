@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
-import { rateLimit, getRequestIdentity } from '@/src/lib/oran-siniri';
+import { rateLimit, getRequestIdentity, getClientIp } from '@/src/lib/oran-siniri';
 
 const querySchema = z.object({
   q: z.string().min(1).max(100).trim(),
@@ -11,7 +11,7 @@ const querySchema = z.object({
 
 export async function GET(request: Request) {
   const id = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   if (!rateLimit(`anlik-arama:${id}`, 60, 60_000)) {

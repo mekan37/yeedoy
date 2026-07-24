@@ -4,7 +4,7 @@ import { buildMenuHref } from '@/src/lib/menu-baglantilari';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { canManageBusiness } from '@/src/lib/karekod-erisimi';
 import { logger } from '@/src/lib/kayitci';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { presentationSavePayloadSchema } from '@/src/lib/sunum-ayarlari';
 import type { Database } from '@/src/lib/taban/veri-tanimlari';
 
@@ -14,7 +14,7 @@ type BusinessPathRow = Pick<Database['public']['Tables']['businesses']['Row'], '
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`presentation-settings:${identity}`, 20, 60_000);

@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   // Hesap silme — günde max 3 deneme (spam koruması)

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
-import { getRequestIdentity, rateLimit } from '@/src/lib/rate-limit';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/rate-limit';
 import { resolveBrandTheme } from '@/src/lib/brand-theme';
 import { isBusinessMenuPathKey, isUuid } from '@/src/lib/business-path';
 import { resolveLang } from '@/src/lib/i18n';
@@ -237,7 +237,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
 

@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
-import { rateLimit, getRequestIdentity } from '@/src/lib/oran-siniri';
+import { rateLimit, getRequestIdentity, getClientIp } from '@/src/lib/oran-siniri';
 
 const schema = z.object({ q: z.string().min(1).max(100).trim() });
 
 export async function GET(req: NextRequest) {
   const id = getRequestIdentity({
-    ip: req.headers.get('x-forwarded-for'),
+    ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
   if (!rateLimit(`harita-arama:${id}`, 30, 60_000)) {

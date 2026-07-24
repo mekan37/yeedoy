@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { appConfig } from '@/src/lib/ayarlar';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
 
 const panelHandoffSchema = z.object({
@@ -16,7 +16,7 @@ const panelHandoffSchema = z.object({
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`panel-devir:${identity}`, 20, 60_000);

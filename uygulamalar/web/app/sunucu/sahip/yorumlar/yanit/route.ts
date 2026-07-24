@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 
 const schema = z.object({
@@ -15,7 +15,7 @@ const deleteSchema = z.object({
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`owner-review-reply:${identity}`, 20, 60_000);
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`owner-review-reply-delete:${identity}`, 10, 60_000);

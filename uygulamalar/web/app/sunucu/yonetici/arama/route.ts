@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
-import { getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
+import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { searchAdminIndex, normalizeAdminSearchType } from '@/src/lib/veri/admin/yonetici-arama';
 
 export const runtime = 'nodejs';
@@ -15,7 +15,7 @@ const searchSchema = z.object({
 
 export async function GET(request: Request) {
   const identity = getRequestIdentity({
-    ip: request.headers.get('x-forwarded-for'),
+    ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
   const limit = rateLimit(`admin-search:${identity}`, 120, 60_000);
