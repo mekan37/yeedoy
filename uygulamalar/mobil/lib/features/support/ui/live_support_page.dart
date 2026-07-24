@@ -56,6 +56,12 @@ class _LiveSupportPageState extends State<LiveSupportPage> {
       ..setBackgroundColor(const Color(0xFFF8F9FA))
       ..setNavigationDelegate(
         NavigationDelegate(
+          onNavigationRequest: (request) {
+            if (_isAllowedSupportUrl(request.url)) {
+              return NavigationDecision.navigate;
+            }
+            return NavigationDecision.prevent;
+          },
           onPageFinished: (_) {
             if (mounted) setState(() => _loading = false);
           },
@@ -65,6 +71,14 @@ class _LiveSupportPageState extends State<LiveSupportPage> {
         ),
       )
       ..loadHtmlString(_html, baseUrl: 'https://tawk.to');
+  }
+
+  bool _isAllowedSupportUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null) return false;
+    if (uri.scheme == 'about') return true;
+    final host = uri.host.toLowerCase();
+    return host == 'tawk.to' || host.endsWith('.tawk.to');
   }
 
   @override
