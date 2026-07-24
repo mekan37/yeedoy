@@ -53,6 +53,16 @@
     "next": {
       ".": "^15.5.18",
       "postcss": "^8.5.10"
+    },
+    "protobufjs": "^7.6.5",
+    "websocket-driver": "^0.7.5",
+    "@grpc/grpc-js": "^1.9.16",
+    "ws": "^8.21.1",
+    "webpack-bundle-analyzer": {
+      "ws": "^7.5.13"
+    },
+    "lighthouse": {
+      "ws": "^7.5.13"
     }
   }
 }
