@@ -8,7 +8,6 @@ type DietProfile = {
   is_vegetarian: boolean;
   is_gluten_free: boolean;
   is_dairy_free: boolean;
-  detected_by: string | null;
 } | null;
 
 type ToggleItem = {

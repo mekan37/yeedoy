@@ -13,24 +13,26 @@ type DietProfile = {
   is_vegetarian: boolean;
   is_gluten_free: boolean;
   is_dairy_free: boolean;
-  detected_by: string | null;
 } | null;
 
 export default async function DiyetProfiliPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  let dietProfile: DietProfile = null;
-  try {
-    const { data } = await (supabase as any)
-      .from('user_diet_profiles')
-      .select('is_vegan, is_vegetarian, is_gluten_free, is_dairy_free, detected_by')
-      .eq('user_id', user!.id)
-      .maybeSingle();
-    dietProfile = (data as DietProfile) ?? null;
-  } catch {
-    // Table may not exist yet; render form with empty defaults
-  }
+  const { data } = await supabase
+    .from('user_diet_profiles')
+    .select('is_vegan, is_vegetarian, is_gluten_free, is_lactose_free')
+    .eq('user_id', user!.id)
+    .maybeSingle();
+
+  const dietProfile: DietProfile = data
+    ? {
+        is_vegan: data.is_vegan,
+        is_vegetarian: data.is_vegetarian,
+        is_gluten_free: data.is_gluten_free,
+        is_dairy_free: data.is_lactose_free,
+      }
+    : null;
 
   return (
     <main className="min-h-screen bg-bg">

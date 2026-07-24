@@ -39,15 +39,13 @@ export async function POST(request: Request) {
 
   const { is_vegan, is_vegetarian, is_gluten_free, is_dairy_free } = parsed.data;
 
-  // @ts-expect-error user_diet_profiles may not be in generated types yet
   const { error } = await supabase.from('user_diet_profiles').upsert(
     {
       user_id: user.id,
       is_vegan,
       is_vegetarian,
       is_gluten_free,
-      is_dairy_free,
-      detected_by: 'manual',
+      is_lactose_free: is_dairy_free,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'user_id' },
