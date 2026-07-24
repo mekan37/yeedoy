@@ -56,7 +56,7 @@ export const templateRegistry: Record<TemplateKey, TemplateDefinition> = {
     key: 'minimal',
     displayName: { tr: 'Minimal', en: 'Minimal' },
     description: {
-      tr: 'Sakin, rafine ve metin odakli sunum.',
+      tr: 'Sakin, rafine ve metin odaklı sunum.',
       en: 'Calm, refined and text-led presentation.',
     },
     renderer: 'default',
@@ -94,7 +94,7 @@ export const templateRegistry: Record<TemplateKey, TemplateDefinition> = {
     key: 'bold',
     displayName: { tr: 'Bold', en: 'Bold' },
     description: {
-      tr: 'Canli renkler ve iddiali vitrin.',
+      tr: 'Canlı renkler ve iddialı vitrin.',
       en: 'High-contrast and energetic storefront.',
     },
     renderer: 'default',
@@ -132,7 +132,7 @@ export const templateRegistry: Record<TemplateKey, TemplateDefinition> = {
     key: 'elegant',
     displayName: { tr: 'Elegant', en: 'Elegant' },
     description: {
-      tr: 'Premium servis hissi veren yumusak kontrast.',
+      tr: 'Premium servis hissi veren yumuşak kontrast.',
       en: 'Soft premium contrast with fine-dining tone.',
     },
     renderer: 'default',
@@ -170,7 +170,7 @@ export const templateRegistry: Record<TemplateKey, TemplateDefinition> = {
     key: 'photo-heavy',
     displayName: { tr: 'Photo Heavy', en: 'Photo Heavy' },
     description: {
-      tr: 'Yemek fotografini merkeze alan daha istah acici vitrin.',
+      tr: 'Yemek fotoğrafını merkeze alan daha iştah açıcı vitrin.',
       en: 'Photo-led layout for image-rich menus.',
     },
     renderer: 'photo-heavy',
@@ -210,7 +210,7 @@ export const templateRegistry: Record<TemplateKey, TemplateDefinition> = {
     key: 'dark-modern',
     displayName: { tr: 'Dark Modern', en: 'Dark Modern' },
     description: {
-      tr: 'Gece servisi ve kokteyl menuleri icin koyu vitrin.',
+      tr: 'Gece servisi ve kokteyl menüleri için koyu vitrin.',
       en: 'Dark editorial look for late-night concepts.',
     },
     renderer: 'dark-modern',

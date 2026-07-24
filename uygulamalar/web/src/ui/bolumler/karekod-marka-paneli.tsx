@@ -86,8 +86,8 @@ const accentOptions = [
   { id: 'slate', label: { tr: 'Koyu Gri', en: 'Slate' } },
   { id: 'forest', label: { tr: 'Orman', en: 'Forest' } },
   { id: 'amber', label: { tr: 'Amber', en: 'Amber' } },
-  { id: 'rose', label: { tr: 'Gul', en: 'Rose' } },
-  { id: 'custom', label: { tr: 'Ozel', en: 'Custom' } },
+  { id: 'rose', label: { tr: 'Gül', en: 'Rose' } },
+  { id: 'custom', label: { tr: 'Özel', en: 'Custom' } },
 ] as const;
 
 export function KarekodMarkaPaneli({
