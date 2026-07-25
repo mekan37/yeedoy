@@ -195,4 +195,4 @@ En kritik 10 teknoloji: Flutter, Dart, Riverpod, Supabase, PostgreSQL/RLS, Next.
 
 Yeni başlayan biri için ilk öğrenme sırası: Flutter/Dart + Riverpod, Supabase/PostgreSQL/RLS, Next.js/React/TypeScript, sonra Zod ve proje test araçları.
 
-Gereksiz veya kullanılmıyor gibi görünenler: `pnpm` için kanıt bulunamadı; repo npm workspaces ve `package-lock.json` kullanıyor. `packages/api_client`, `packages/shared_config`, `packages/shared_types` package olarak var ama aktif kullanım kanıtı zayıf; AGENTS.md bu paketlere yeni iş taşınmamasını söylüyor.
+Gereksiz veya kullanılmıyor gibi görünenler: `pnpm` için kanıt bulunamadı; repo npm workspaces ve `package-lock.json` kullanıyor. `packages/api_client`, `packages/shared_config`, `packages/shared_types` hiçbir app tarafından import edilmediği doğrulanıp 2026-07-25'te silindi (bkz. CLAUDE.md'nin eski "yeni iş taşınmasın" uyarısı).

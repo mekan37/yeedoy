@@ -19,7 +19,7 @@ Shared packages (Dart/Flutter):
 - `packages/l10n_assets/` — common ARB strings (TR+EN)
 - `packages/ui_tokens/` — design tokens (CSS + JSON; web mirror only)
 
-Do not build new architecture on `packages/api_client`, `packages/shared_config`, or `packages/shared_types` — they are nearly unlinked stubs.
+`packages/api_client`, `packages/shared_config`, and `packages/shared_types` were removed 2026-07-25 — unused stubs with zero consumers in either app.
 
 ## Commands
 
