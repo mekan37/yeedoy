@@ -496,7 +496,9 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
 
   // Ref: addMarkers'ı her render'da yeniden oluşturmadan click state'ini günceller
   const onClickRef = useRef((_b: HaritaIsletme) => {});
-  onClickRef.current = (b) => setSelected(b);
+  useEffect(() => {
+    onClickRef.current = (b) => setSelected(b);
+  }, []);
 
   const handleSearchSelect = useCallback((isletme: HaritaIsletme) => {
     setSelected(isletme);

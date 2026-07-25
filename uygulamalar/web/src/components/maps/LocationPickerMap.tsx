@@ -25,7 +25,9 @@ export default function LocationPickerMap({
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markerRef = useRef<maplibregl.Marker | null>(null);
   const onChangeRef = useRef(onChange);
-  onChangeRef.current = onChange;
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   const [position, setPosition] = useState<[number, number]>([
     initialLat ?? DEFAULT_LAT,

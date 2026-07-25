@@ -62,7 +62,8 @@ const imageRemotePatterns = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  // npm workspaces monorepo — hoists `next` to the repo root node_modules.
+  reactCompiler: true,
+  // pnpm workspaces monorepo — hoists `next` to the repo root node_modules.
   // outputFileTracingRoot and turbopack.root must point to the same place
   // (Next.js requirement) or Turbopack fails with "Next.js inferred your
   // workspace root, but it may not be correct" from app/.
