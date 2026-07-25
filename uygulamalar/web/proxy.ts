@@ -183,7 +183,7 @@ async function resolveCustomDomainSlug(hostname: string): Promise<string | null>
   }
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host')?.split(':')[0] ?? '';
 
