@@ -17,4 +17,19 @@ class BusinessAmenity {
         label: (m['label'] ?? '').toString(),
         icon: (m['icon'] ?? '').toString(),
       );
+
+  @override
+  bool operator ==(Object other) =>
+      other is BusinessAmenity &&
+      other.id == id &&
+      other.key == key &&
+      other.label == label &&
+      other.icon == icon;
+
+  @override
+  int get hashCode => Object.hash(id, key, label, icon);
+
+  @override
+  String toString() =>
+      'BusinessAmenity(id: $id, key: $key, label: $label, icon: $icon)';
 }

@@ -41,6 +41,32 @@ class MenuItemContext {
     );
   }
 
+  @override
+  bool operator ==(Object other) =>
+      other is MenuItemContext &&
+      other.ok == ok &&
+      other.menuId == menuId &&
+      other.businessId == businessId &&
+      _listEquals(other.allergens, allergens) &&
+      other.caloriesMin == caloriesMin &&
+      other.portionSize == portionSize &&
+      _listEquals(other.ingredients, ingredients);
+
+  @override
+  int get hashCode => Object.hash(
+        ok,
+        menuId,
+        businessId,
+        Object.hashAll(allergens),
+        caloriesMin,
+        portionSize,
+        Object.hashAll(ingredients),
+      );
+
+  @override
+  String toString() =>
+      'MenuItemContext(ok: $ok, menuId: $menuId, businessId: $businessId)';
+
   MenuItemContext copyWith({
     bool? ok,
     String? menuId,
@@ -60,6 +86,14 @@ class MenuItemContext {
       ingredients: ingredients ?? this.ingredients,
     );
   }
+}
+
+bool _listEquals(List<String> a, List<String> b) {
+  if (a.length != b.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
 }
 
 String? _asString(Map<String, dynamic> map, List<String> keys) {

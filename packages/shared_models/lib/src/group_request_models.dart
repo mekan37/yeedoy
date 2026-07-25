@@ -43,6 +43,42 @@ class GroupRequest {
       createdAt: _asDate(map['created_at']),
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is GroupRequest &&
+      other.id == id &&
+      other.createdBy == createdBy &&
+      other.city == city &&
+      _listEquals(other.districts, districts) &&
+      other.category == category &&
+      other.dateTime == dateTime &&
+      other.partySize == partySize &&
+      other.budgetTotalCents == budgetTotalCents &&
+      other.currency == currency &&
+      other.notes == notes &&
+      other.status == status &&
+      other.createdAt == createdAt;
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        createdBy,
+        city,
+        Object.hashAll(districts),
+        category,
+        dateTime,
+        partySize,
+        budgetTotalCents,
+        currency,
+        notes,
+        status,
+        createdAt,
+      );
+
+  @override
+  String toString() =>
+      'GroupRequest(id: $id, city: $city, category: $category, status: $status)';
 }
 
 class GroupOffer {
@@ -87,6 +123,55 @@ class GroupOffer {
       myVote: _asIntOrNull(map['my_vote']),
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      other is GroupOffer &&
+      other.id == id &&
+      other.requestId == requestId &&
+      other.businessId == businessId &&
+      other.offeredTotalCents == offeredTotalCents &&
+      _mapEquals(other.includes, includes) &&
+      other.message == message &&
+      other.status == status &&
+      other.createdBy == createdBy &&
+      other.createdAt == createdAt &&
+      other.votesCount == votesCount &&
+      other.myVote == myVote;
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        requestId,
+        businessId,
+        offeredTotalCents,
+        message,
+        status,
+        createdBy,
+        createdAt,
+        votesCount,
+        myVote,
+      );
+
+  @override
+  String toString() =>
+      'GroupOffer(id: $id, requestId: $requestId, businessId: $businessId, status: $status)';
+}
+
+bool _listEquals(List<String> a, List<String> b) {
+  if (a.length != b.length) return false;
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
+}
+
+bool _mapEquals(Map<String, dynamic> a, Map<String, dynamic> b) {
+  if (a.length != b.length) return false;
+  for (final entry in a.entries) {
+    if (!b.containsKey(entry.key) || b[entry.key] != entry.value) return false;
+  }
+  return true;
 }
 
 int _asInt(dynamic v) {
