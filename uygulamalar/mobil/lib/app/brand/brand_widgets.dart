@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yeedoy_shared_ui_components/brand_assets.dart';
+import 'package:yeedoy_shared_ui_components/yeedoy_shared_ui_components.dart';
 
 import '../../core/constants/app_strings.dart';
 
