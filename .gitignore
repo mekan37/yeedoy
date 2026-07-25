@@ -112,3 +112,5 @@ agentdb.db
 agentdb.rvf
 agentdb.rvf.lock
 .osm-*-state.json
+.vercel
+.env*
