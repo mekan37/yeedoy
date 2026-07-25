@@ -2,8 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = path.resolve(process.cwd(), '..', '..');
-const mobileTr = path.join(root, 'apps/mobile_flutter/lib/l10n/app_tr.arb');
-const mobileEn = path.join(root, 'apps/mobile_flutter/lib/l10n/app_en.arb');
+const mobileTr = path.join(root, 'uygulamalar/mobil/lib/l10n/app_tr.arb');
+const mobileEn = path.join(root, 'uygulamalar/mobil/lib/l10n/app_en.arb');
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
