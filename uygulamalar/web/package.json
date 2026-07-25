@@ -2,6 +2,9 @@
   "name": "yeedoy-web",
   "private": true,
   "version": "0.1.0",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "node ./scripts/build.mjs",
@@ -17,9 +20,9 @@
     "test:e2e:headed": "playwright test --headed",
     "lighthouse:mobile": "node ./scripts/lighthouse-mobile.mjs",
     "lighthouse:qr:auth": "node ./scripts/lighthouse-qr-auth.mjs",
-    "test:smoke": "npm run typecheck && npm run lint",
-    "test": "npm run test:smoke && npm run test:unit",
-    "test:ci": "npm run test && npm run build"
+    "test:smoke": "pnpm run typecheck && pnpm run lint",
+    "test": "pnpm run test:smoke && pnpm run test:unit",
+    "test:ci": "pnpm run test && pnpm run build"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",

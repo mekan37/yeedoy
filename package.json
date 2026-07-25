@@ -1,28 +1,27 @@
 {
   "name": "yeedoy-repo",
   "private": true,
-  "workspaces": [
-    "uygulamalar/web",
-    "uygulamalar/mobil",
-    "packages/*"
-  ],
+  "packageManager": "pnpm@11.17.0",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
-    "dev": "concurrently -k -n WEB,MOBILE -c cyan,yellow \"npm --prefix uygulamalar/web run dev\" \"npm --prefix uygulamalar/mobil run dev\"",
-    "build": "npm run build:web && npm run build:mobile",
-    "lint": "npm run lint:web && npm run lint:mobile",
+    "dev": "concurrently -k -n WEB,MOBILE -c cyan,yellow \"pnpm --filter yeedoy-web run dev\" \"pnpm --filter yeedoy-mobile-flutter run dev\"",
+    "build": "pnpm run build:web && pnpm run build:mobile",
+    "lint": "pnpm run lint:web && pnpm run lint:mobile",
     "l10n:audit": "node tools/ceviri-denetimi.mjs",
-    "test:web": "cd uygulamalar/web && npm run test",
-    "test:smoke:web": "cd uygulamalar/web && npm run test:smoke",
-    "verify:matrix:lint": "npm run lint:web && npm run lint:mobile",
-    "verify:matrix:build": "npm run build:web && npm run build:mobile",
-    "verify:matrix": "npm run l10n:audit && npm run verify:matrix:lint && npm run test:smoke:web",
-    "ci": "npm run verify:matrix && npm --prefix uygulamalar/mobil run test",
+    "test:web": "pnpm --filter yeedoy-web run test",
+    "test:smoke:web": "pnpm --filter yeedoy-web run test:smoke",
+    "verify:matrix:lint": "pnpm run lint:web && pnpm run lint:mobile",
+    "verify:matrix:build": "pnpm run build:web && pnpm run build:mobile",
+    "verify:matrix": "pnpm run l10n:audit && pnpm run verify:matrix:lint && pnpm run test:smoke:web",
+    "ci": "pnpm run verify:matrix && pnpm --filter yeedoy-mobile-flutter run test",
     "hooks:install": "node tools/hook-kur.mjs",
     "clean": "node tools/calisma-alani-islemleri.mjs clean",
-    "build:web": "npm --prefix uygulamalar/web run build",
-    "build:mobile": "npm --prefix uygulamalar/mobil run build",
-    "lint:web": "npm --prefix uygulamalar/web run lint",
-    "lint:mobile": "npm --prefix uygulamalar/mobil run lint",
+    "build:web": "pnpm --filter yeedoy-web run build",
+    "build:mobile": "pnpm --filter yeedoy-mobile-flutter run build",
+    "lint:web": "pnpm --filter yeedoy-web run lint",
+    "lint:mobile": "pnpm --filter yeedoy-mobile-flutter run lint",
     "build:next": "node tools/calisma-alani-islemleri.mjs build-next",
     "build:all": "node tools/calisma-alani-islemleri.mjs build-all",
     "import:overpass-ilce": "node tools/overpass-ilce-canli-ice-aktar.mjs",
@@ -39,7 +38,6 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.91.1",
-    "adm-zip": "^0.5.16",
     "dotenv": "^17.2.3",
     "firebase": "^12.9.0"
   },
@@ -47,22 +45,5 @@
     "concurrently": "^9.1.2",
     "dead-code-checker": "^1.1.0",
     "supabase": "^2.98.2"
-  },
-  "overrides": {
-    "postcss": "^8.5.10",
-    "next": {
-      ".": "^16.2.11",
-      "postcss": "^8.5.10"
-    },
-    "protobufjs": "^7.6.5",
-    "websocket-driver": "^0.7.5",
-    "@grpc/grpc-js": "^1.9.16",
-    "ws": "^8.21.1",
-    "webpack-bundle-analyzer": {
-      "ws": "^7.5.13"
-    },
-    "lighthouse": {
-      "ws": "^7.5.13"
-    }
   }
 }

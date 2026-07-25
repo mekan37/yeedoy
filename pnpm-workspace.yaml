@@ -1,0 +1,19 @@
+packages:
+  - "uygulamalar/web"
+  - "uygulamalar/mobil"
+  - "packages/*"
+allowBuilds:
+  '@firebase/util': true
+  protobufjs: true
+  sharp: true
+  unrs-resolver: true
+overrides:
+  postcss: ^8.5.10
+  next: ^16.2.11
+  next>postcss: ^8.5.10
+  protobufjs: ^7.6.5
+  websocket-driver: ^0.7.5
+  '@grpc/grpc-js': ^1.9.16
+  ws: ^8.21.1
+  webpack-bundle-analyzer>ws: ^7.5.13
+  lighthouse>ws: ^7.5.13

@@ -35,20 +35,20 @@ flutter run -d <device>
 ### Web (Next.js)
 ```bash
 # Run from uygulamalar/web/
-npm run dev
-npm run typecheck        # tsc --noEmit
-npm run lint
-npm run test:unit        # vitest run
-npm run test:unit:watch  # vitest watch
-npm run test:e2e         # playwright (public-menu)
-npm run test:ci          # typecheck + lint + unit + build
+pnpm run dev
+pnpm run typecheck        # tsc --noEmit
+pnpm run lint
+pnpm run test:unit        # vitest run
+pnpm run test:unit:watch  # vitest watch
+pnpm run test:e2e         # playwright (public-menu)
+pnpm run test:ci          # typecheck + lint + unit + build
 ```
 
 ### L10n / audit (repo root)
 ```bash
 node tools/ceviri-denetimi.mjs   # i18n key audit
-npm run l10n:audit
-npm run verify:matrix
+pnpm run l10n:audit
+pnpm run verify:matrix
 ```
 
 Sync shared ARB changes to apps:
@@ -68,7 +68,7 @@ supabase migration new <name>
 |--------|------------------|
 | Flutter code | `flutter analyze` |
 | Panel (Flutter web) | `flutter analyze` + `flutter test` |
-| Web (Next.js) | `npm run typecheck` + `npm run lint` |
+| Web (Next.js) | `pnpm run typecheck` + `pnpm run lint` |
 | L10n | `node tools/ceviri-denetimi.mjs` |
 | Docs only | none required (state which were skipped) |
 

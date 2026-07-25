@@ -41,33 +41,37 @@ jobs:
         if: steps.changes.outputs.web == 'false'
         run: echo "No web changes detected. Required check passing as no-op."
 
+      - name: Set up pnpm
+        if: steps.changes.outputs.web == 'true'
+        uses: pnpm/action-setup@v4
+
       - name: Set up Node
         if: steps.changes.outputs.web == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: npm
-          cache-dependency-path: package-lock.json
+          node-version: '24'
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         if: steps.changes.outputs.web == 'true'
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Typecheck
         if: steps.changes.outputs.web == 'true'
-        run: npm run typecheck
+        run: pnpm run typecheck
 
       - name: Lint
         if: steps.changes.outputs.web == 'true'
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Unit tests
         if: steps.changes.outputs.web == 'true'
-        run: npm run test:unit
+        run: pnpm run test:unit
 
       - name: Install Playwright browser
         if: steps.changes.outputs.web == 'true' && env.NEXT_PUBLIC_SUPABASE_URL != ''
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: E2E smoke
         if: steps.changes.outputs.web == 'true' && env.NEXT_PUBLIC_SUPABASE_URL != ''
@@ -75,18 +79,18 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           NEXT_PUBLIC_SITE_URL: http://localhost:3200
           NEXT_PUBLIC_PANEL_URL: http://localhost:8080
-        run: npm run test:e2e
+        run: pnpm run test:e2e
 
       - name: Build
         if: steps.changes.outputs.web == 'true'
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key' }}
-        run: npm run build
+        run: pnpm run build
 
       - name: Dependency security audit
         if: steps.changes.outputs.web == 'true'
-        run: npm audit --audit-level=high
+        run: pnpm audit --audit-level=high --prod
         continue-on-error: false
 
       - name: RLS coverage check
