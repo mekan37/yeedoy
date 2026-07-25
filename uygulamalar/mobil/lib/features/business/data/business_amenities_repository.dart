@@ -23,21 +23,6 @@ class BusinessAmenitiesRepository {
   static const Duration _ttl = Duration(minutes: 5);
   static final Map<String, _AmenityCacheEntry> _cache = {};
 
-  Future<List<BusinessAmenity>> listAllAmenities() async {
-    try {
-      final res = await client
-          .from('business_amenities')
-          .select('id,key,label,icon')
-          .order('label');
-      return (res as List)
-          .whereType<Map>()
-          .map((m) => BusinessAmenity.fromMap(m.cast<String, dynamic>()))
-          .toList();
-    } catch (e) {
-      throw Exception(AppErrorMapper.message(e));
-    }
-  }
-
   Future<List<BusinessAmenity>> listBusinessAmenities(
     String businessId, {
     bool force = false,

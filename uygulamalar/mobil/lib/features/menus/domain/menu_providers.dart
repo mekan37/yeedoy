@@ -27,13 +27,6 @@ final menuItemsProvider = FutureProvider.autoDispose.family<List<MenuItem>, Stri
       .fetchMenuItems(menuId, sections: sections, allowV1Fallback: true);
 });
 
-final businessPriceTrustProvider =
-    FutureProvider.autoDispose.family<BusinessPriceTrust, String>((ref, businessId) async {
-      return ref
-          .watch(menuRepositoryProvider)
-          .fetchBusinessPriceTrust(businessId);
-    });
-
 final menuItemsCacheUpdatedAtProvider =
     FutureProvider.autoDispose.family<DateTime?, String>((ref, menuId) async {
       return OfflineCachePrefs.loadMenuItemsCachedAt(menuId);

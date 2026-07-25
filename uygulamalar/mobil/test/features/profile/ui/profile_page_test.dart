@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yeedoy/app/theme/app_tokens.dart';
 import 'package:yeedoy/core/location/user_location_controller.dart';
 import 'package:yeedoy/features/auth/domain/auth_providers.dart';
-import 'package:yeedoy/features/profile/domain/favorite_collections_count_provider.dart';
 import 'package:yeedoy/features/profile/ui/components/profile_identity_card.dart';
 import 'package:yeedoy/features/profile/ui/profile_page.dart';
 import 'package:yeedoy/l10n/app_localizations.dart';
@@ -80,7 +79,6 @@ Future<void> _pumpProfilePage(WidgetTester tester) async {
       overrides: [
         userProvider.overrideWith((ref) => null),
         myProfileProvider.overrideWith((ref) async => null),
-        myFavoriteCollectionsCountProvider.overrideWith((ref) async => 3),
         userLocationProvider.overrideWith(_FakeLocationController.new),
       ],
       child: MaterialApp.router(

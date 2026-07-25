@@ -227,18 +227,6 @@ class MenuRepository {
     }
   }
 
-  Future<BusinessPriceTrust> fetchBusinessPriceTrust(String businessId) async {
-    try {
-      final res = await client.rpc(
-        'get_business_price_trust_v1',
-        params: {'p_business_id': businessId},
-      );
-      return BusinessPriceTrust.fromMap((res as Map).cast<String, dynamic>());
-    } catch (e) {
-      throw Exception(AppErrorMapper.message(e));
-    }
-  }
-
   Future<void> submitSuggestion({
     required String businessId,
     required String? menuItemId,

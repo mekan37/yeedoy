@@ -450,20 +450,6 @@ class MenuItemValueScore {
   }
 }
 
-class BusinessPriceTrust {
-  BusinessPriceTrust({required this.verifiedCount, required this.totalCount});
-
-  final int verifiedCount;
-  final int totalCount;
-
-  factory BusinessPriceTrust.fromMap(Map<String, dynamic> map) {
-    return BusinessPriceTrust(
-      verifiedCount: _asInt(map, ['verified_count', 'verified']) ?? 0,
-      totalCount: _asInt(map, ['total_count', 'total']) ?? 0,
-    );
-  }
-}
-
 List<MenuItemTimeWindow> _parseTimeWindows(Object? raw) {
   if (raw is! List) return const [];
   return raw

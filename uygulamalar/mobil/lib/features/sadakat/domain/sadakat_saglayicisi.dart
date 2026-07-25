@@ -2,55 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/supabase_provider.dart';
 
-class LoyaltyStatus {
-  LoyaltyStatus({
-    required this.isActive,
-    required this.points,
-    required this.rewardThresholdPts,
-    required this.progressPct,
-    required this.checkinPoints,
-    required this.reviewPoints,
-    this.rewardType,
-    this.rewardValue,
-  });
-
-  final bool isActive;
-  final int points;
-  final int rewardThresholdPts;
-  final int progressPct;
-  final int checkinPoints;
-  final int reviewPoints;
-  final String? rewardType;
-  final int? rewardValue;
-
-  factory LoyaltyStatus.fromMap(Map<String, dynamic> m) => LoyaltyStatus(
-        isActive: m['is_active'] == true,
-        points: (m['points'] as num?)?.toInt() ?? 0,
-        rewardThresholdPts: (m['reward_threshold_pts'] as num?)?.toInt() ?? 0,
-        progressPct: (m['progress_pct'] as num?)?.toInt() ?? 0,
-        checkinPoints: (m['checkin_points'] as num?)?.toInt() ?? 0,
-        reviewPoints: (m['review_points'] as num?)?.toInt() ?? 0,
-        rewardType: m['reward_type'] as String?,
-        rewardValue: (m['reward_value'] as num?)?.toInt(),
-      );
-}
-
-final loyaltyStatusProvider =
-    FutureProvider.autoDispose.family<LoyaltyStatus?, String>(
-  (ref, businessId) async {
-    final client = ref.watch(supabaseProvider);
-    if (client.auth.currentUser == null) return null;
-    final res = await client.rpc(
-      'get_loyalty_status_v1',
-      params: {'p_business_id': businessId},
-    );
-    if (res == null) return null;
-    final map = res as Map<String, dynamic>;
-    final status = LoyaltyStatus.fromMap(map);
-    return status.isActive ? status : null;
-  },
-);
-
 enum LoyaltyTier { bronz, gumus, altin, platin }
 
 extension LoyaltyTierX on LoyaltyTier {

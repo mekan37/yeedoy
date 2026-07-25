@@ -8,35 +8,3 @@ final creatorProfileProvider = FutureProvider.autoDispose<CreatorProfile>((
   return CreatorProfilePrefs.load();
 });
 
-final creatorProfileControllerProvider =
-    Provider.autoDispose<CreatorProfileController>(
-      (ref) => CreatorProfileController(ref),
-    );
-
-class CreatorProfileController {
-  CreatorProfileController(this._ref);
-
-  final Ref _ref;
-
-  Future<void> setIsCreator(bool value) async {
-    final current = await CreatorProfilePrefs.load();
-    final next = current.copyWith(isCreator: value);
-    await CreatorProfilePrefs.save(next);
-    _ref.invalidate(creatorProfileProvider);
-  }
-
-  Future<void> updateProfile({
-    String? displayName,
-    String? bio,
-    bool? adDisclosureRequired,
-  }) async {
-    final current = await CreatorProfilePrefs.load();
-    final next = current.copyWith(
-      displayName: displayName,
-      bio: bio,
-      adDisclosureRequired: adDisclosureRequired,
-    );
-    await CreatorProfilePrefs.save(next);
-    _ref.invalidate(creatorProfileProvider);
-  }
-}

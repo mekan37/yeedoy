@@ -5,7 +5,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../domain/achievement.dart';
 import '../domain/contribution_history.dart';
-import '../domain/daily_micro_task.dart';
 import '../domain/profile_progress.dart';
 import '../domain/profile_stats.dart';
 import '../domain/user_moat_signals.dart';
@@ -358,17 +357,6 @@ class ProfileRepository {
       nextLevelXp: 100,
       unlockedCount: 0,
     );
-  }
-
-  Future<DailyMicroTask?> fetchMyDailyMicroTask() async {
-    final res = await _supabase.rpc('get_my_daily_micro_task_v1');
-    if (res is List && res.isNotEmpty && res.first is Map) {
-      return DailyMicroTask.fromMap((res.first as Map).cast<String, dynamic>());
-    }
-    if (res is Map<String, dynamic>) {
-      return DailyMicroTask.fromMap(res);
-    }
-    return null;
   }
 
   /// Picks an image from gallery and uploads it as the user's avatar.
