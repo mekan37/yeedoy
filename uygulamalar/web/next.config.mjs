@@ -1,5 +1,8 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import bundleAnalyzer from '@next/bundle-analyzer';
+
+const monorepoRoot = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -59,7 +62,14 @@ const imageRemotePatterns = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  outputFileTracingRoot: path.join(process.cwd()),
+  // npm workspaces monorepo — hoists `next` to the repo root node_modules.
+  // outputFileTracingRoot and turbopack.root must point to the same place
+  // (Next.js requirement) or Turbopack fails with "Next.js inferred your
+  // workspace root, but it may not be correct" from app/.
+  outputFileTracingRoot: monorepoRoot,
+  turbopack: {
+    root: monorepoRoot,
+  },
   allowedDevOrigins: ['127.0.0.1'],
   images: {
     remotePatterns: imageRemotePatterns,
@@ -174,8 +184,10 @@ const nextConfig = {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https: http:",
-      // blob: worker — MapLibre GL creates its WebGL worker via blob URL
-      "worker-src blob:",
+      // MapLibre GL v6 loads its WebGL worker as a same-origin module file
+      // (new Worker(url, { type: 'module' })) rather than a blob: URL like
+      // v5 did — 'self' is required, blob: kept for other/older code paths.
+      "worker-src 'self' blob:",
       // In development, also allow the local WebSocket HMR connection.
       `connect-src 'self'${isDev ? ' ws://localhost:* ws://127.0.0.1:*' : ''} https://${supabaseHost} wss://${supabaseHost} https://*.supabase.co wss://*.supabase.co https://fonts.googleapis.com https://maps.yeedoy.com https://cdn.jsdelivr.net`,
       "frame-src https://www.openstreetmap.org",
