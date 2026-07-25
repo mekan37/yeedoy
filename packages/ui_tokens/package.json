@@ -7,13 +7,11 @@
   "exports": {
     ".": "./tokens.json",
     "./tokens.json": "./tokens.json",
-    "./tokens.css": "./tokens.css",
-    "./tailwind.preset.cjs": "./tailwind.preset.cjs"
+    "./tokens.css": "./tokens.css"
   },
   "files": [
     "tokens.css",
     "tokens.json",
-    "tailwind.preset.cjs",
     "flutter_tokens.md"
   ]
 }
