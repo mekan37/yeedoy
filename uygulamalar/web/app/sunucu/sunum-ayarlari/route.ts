@@ -101,7 +101,7 @@ export async function POST(request: Request) {
     );
   }
 
-  revalidateTag('business-menu-presentation-settings');
+  revalidateTag('business-menu-presentation-settings', 'max');
   for (const path of menuPaths) {
     revalidatePath(path);
   }
