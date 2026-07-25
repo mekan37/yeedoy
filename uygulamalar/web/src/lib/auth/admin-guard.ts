@@ -6,10 +6,10 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
  * Yetki kaynağı: public.admin_users tablosu (is_admin() RPC üzerinden).
  *
  * Mimari:
- *   middleware.ts   → is_admin() RPC ile route-level koruma (1. katman)
+ *   proxy.ts        → is_admin() RPC ile route-level koruma (1. katman)
  *   checkAdminAccess() → is_admin() RPC ile data-layer koruma (2. katman)
  *
- * Her iki katman da aynı kaynağa (admin_users) bağlıdır. Middleware'i atlayan
+ * Her iki katman da aynı kaynağa (admin_users) bağlıdır. Proxy'yi atlayan
  * veya geçen bir istek bu guard ile ikinci kez doğrulanır.
  *
  * community_mod erişimi: admin_users kaydı olmayan community_mod kullanıcılar

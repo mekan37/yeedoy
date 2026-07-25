@@ -148,7 +148,9 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
   return response;
 }
 
-// ── Custom domain → slug cache (in-memory, per Edge runtime instance, ~5 min TTL) ──
+// ── Custom domain → slug cache (in-memory, per Node.js process instance, ~5 min TTL) ──
+// Next.js 16: Proxy always runs on the Node.js runtime (no Edge opt-in), so this
+// cache's lifetime/scope now follows Node process lifecycle instead of an Edge isolate.
 const _domainCache = new Map<string, { slug: string; expiresAt: number }>();
 const _DOMAIN_TTL_MS = 5 * 60 * 1_000;
 

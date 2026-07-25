@@ -121,7 +121,7 @@ test.describe('Sahip paneli — erişim kontrolü', () => {
     const urlOrStatus = page.url();
     const isRedirected = urlOrStatus.includes('/giris') || urlOrStatus.includes('/baslangic');
     // İzin yoksa yönlendirme yapılmış olmalı
-    // (Kesin URL davranışı middleware'e bağlı — sadece panel URL'de kalmadığını doğrula)
+    // (Kesin URL davranışı proxy.ts'e bağlı — sadece panel URL'de kalmadığını doğrula)
     const staysOnPanel = urlOrStatus.includes('/sahip/gosterge-panosu') && !isRedirected;
     // Non-owner panelde kalmamalı
     if (!isRedirected) {
