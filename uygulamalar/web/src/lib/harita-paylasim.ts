@@ -1,6 +1,6 @@
 import { Protocol } from 'pmtiles';
 import { addProtocol, type StyleSpecification } from 'maplibre-gl';
-import { layers, labels, namedTheme } from 'protomaps-themes-base';
+import { layers, namedFlavor } from '@protomaps/basemaps';
 
 const PMTILES_URL =
   process.env.NEXT_PUBLIC_YEEDOY_PMTILES_URL ??
@@ -19,17 +19,19 @@ export function ensurePmtilesProtocol(): void {
 // Glyph'ler jsDelivr npm CDN — GitHub CDN'den daha stabil, sürüm sabitlenmiş.
 const GLYPHS_CDN = 'https://cdn.jsdelivr.net/gh/protomaps/basemaps-assets@main/fonts';
 
-// protomaps-themes-base v4'te geometry ve label katmanları ayrı fonksiyonlarla üretiliyor.
-// labels('protomaps','light') ile 11 etiket katmanı alınıyor; 'pois' filtre edilip
-// gereksiz OSM işletme/transit ikonları gizleniyor.
+// @protomaps/basemaps v5'te geometry ve label katmanları tek layers() fonksiyonundan
+// options.labelsOnly ile ayrı ayrı üretiliyor (protomaps-themes-base v4'ün ayrı
+// layers()/labels() fonksiyonlarının yerini aldı — bkz. CHANGELOG migration guide).
+// 'pois' katmanı filtre edilip gereksiz OSM işletme/transit ikonları gizleniyor.
 const POI_LABEL_IDS = new Set(['pois']);
 
 export function buildPmtilesStyle(): StyleSpecification {
-  const geomLayers = layers('protomaps', namedTheme('light'));
-  // 'name' = yerel OSM adı (Türkiye'de Türkçe), 'Latin' = script filtresi
-  const labelLayers = (labels('protomaps', 'light', 'name', 'Latin') as StyleSpecification['layers']).filter(
-    (l) => !POI_LABEL_IDS.has(l.id),
-  );
+  const geomLayers = layers('protomaps', namedFlavor('light'));
+  // lang:'tr' → name:tr etiketi varsa onu, yoksa yerel OSM adını (Türkiye'de zaten
+  // çoğunlukla Türkçe) kullanır; script otomatik 'Latin' (dil-script eşleşme tablosu).
+  const labelLayers = (
+    layers('protomaps', namedFlavor('light'), { lang: 'tr', labelsOnly: true }) as StyleSpecification['layers']
+  ).filter((l) => !POI_LABEL_IDS.has(l.id));
   return {
     version: 8,
     glyphs: `${GLYPHS_CDN}/{fontstack}/{range}.pbf`,

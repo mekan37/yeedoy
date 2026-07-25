@@ -47,6 +47,9 @@ importers:
 
   uygulamalar/web:
     dependencies:
+      '@protomaps/basemaps':
+        specifier: ^5.7.2
+        version: 5.7.2
       '@supabase/ssr':
         specifier: ^0.12.3
         version: 0.12.3(@supabase/supabase-js@2.110.8)
@@ -80,9 +83,6 @@ importers:
       pmtiles:
         specifier: ^4.4.1
         version: 4.4.1
-      protomaps-themes-base:
-        specifier: ^4.5.0
-        version: 4.5.0
       qrcode:
         specifier: ^1.5.4
         version: 1.5.4
@@ -1037,6 +1037,10 @@ packages:
 
   '@protobufjs/utf8@1.1.2':
     resolution: {integrity: sha512-b1UQwcEZ4yCnMCD8DAL1VlbvBJE9/IX4FTIp7BG1xYpf29SLazLSrqUkj4w7Y5y7cCVP6E5tcqqcI0xemPkHug==}
+
+  '@protomaps/basemaps@5.7.2':
+    resolution: {integrity: sha512-K1Yk6bWdULulYg+R2QRVXx4NzJZan5YQhpejEG0c1/sXruJrfPIPZuakpf3jwAgVmjIRVQwAv+yRafDeN0aaUQ==}
+    hasBin: true
 
   '@puppeteer/browsers@3.0.6':
     resolution: {integrity: sha512-B/gKoqlFkzhvzsI6jo9K1cZz9o5ypviVv/xu8CwA4grZzyVwN+XfkT+tu8T1zrauuEXv6VhS2oGX+6NL95WcKA==}
@@ -3425,10 +3429,6 @@ packages:
   protocol-buffers-schema@3.6.1:
     resolution: {integrity: sha512-VG2K63Igkiv9p76tk1lilczEK1cT+kCjKtkdhw1dQZV3k3IXJbd3o6Ho8b9zJZaHSnT2hKe4I+ObmX9w6m5SmQ==}
 
-  protomaps-themes-base@4.5.0:
-    resolution: {integrity: sha512-z5A6oXAXNi/CHEIbCfzZ/6uVDgnv3pO4C3LFvomxjUFXwyqWZ7HJdfPoNJSIlsvaQubqsaxCbamEzqBr/W7vkg==}
-    deprecated: This package has been migrated to @protomaps/basemaps with a new major version. See the CHANGELOG at https://github.com/protomaps/basemaps/blob/main/CHANGELOG.md for how to migrate.
-
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -5171,6 +5171,8 @@ snapshots:
   '@protobufjs/pool@1.1.0': {}
 
   '@protobufjs/utf8@1.1.2': {}
+
+  '@protomaps/basemaps@5.7.2': {}
 
   '@puppeteer/browsers@3.0.6(yauzl@2.10.0)':
     dependencies:
@@ -7590,8 +7592,6 @@ snapshots:
       long: 5.3.2
 
   protocol-buffers-schema@3.6.1: {}
-
-  protomaps-themes-base@4.5.0: {}
 
   punycode@2.3.1: {}
 
