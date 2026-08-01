@@ -3,7 +3,9 @@
 import { useEffect, useRef, useCallback, useState, type ChangeEvent } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { ensurePmtilesProtocol, buildPmtilesStyle, buildRichMarkerEl } from '@/src/lib/harita-paylasim';
+import Supercluster from 'supercluster';
+import { ensurePmtilesProtocol, buildPmtilesStyle, buildRichMarkerEl, buildClusterBadgeEl } from '@/src/lib/harita-paylasim';
+import { toGeoJSONPoints } from '@/src/lib/harita-cluster';
 import type { HaritaIsletme } from '@/src/lib/veri/harita-okuma';
 
 interface IsletmeDetay {
@@ -27,6 +29,11 @@ const DEFAULT_CENTER: [number, number] = [32.8597, 39.9334];
 const DEFAULT_ZOOM = 6;
 const FETCH_DEBOUNCE_MS = 500;
 const MAX_MARKERS = 150;
+// Supercluster yalnızca bu zoom'a kadar cluster ağacı kurar; ötesi (CLUSTER_MAX_ZOOM + 1)
+// her zaman kümelenmemiş tekil noktaları döndürür. Küme tıklamasında
+// getClusterExpansionZoom() sadece "ilk ayrışma" zoom'unu verir (ör. 30 → 16+14 gibi alt
+// kümelere), tam tekilleşmeyi garanti etmez — bu yüzden tıklamada en az bu+1'e zoom'luyoruz.
+const CLUSTER_MAX_ZOOM = 16;
 
 
 // ── Harita arama kutusu ──────────────────────────────────────────────────────
@@ -492,9 +499,11 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clusterRef = useRef<Supercluster<HaritaIsletme> | null>(null);
+  const rafRef = useRef<number | null>(null);
   const [selected, setSelected] = useState<HaritaIsletme | null>(null);
 
-  // Ref: addMarkers'ı her render'da yeniden oluşturmadan click state'ini günceller
+  // Ref: renderClusters'ı her render'da yeniden oluşturmadan click state'ini günceller
   const onClickRef = useRef((_b: HaritaIsletme) => {});
   useEffect(() => {
     onClickRef.current = (b) => setSelected(b);
@@ -516,24 +525,78 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
     markersRef.current = [];
   }, []);
 
-  const addMarkers = useCallback(
-    (businesses: HaritaIsletme[]) => {
-      if (!mapRef.current) return;
-      clearMarkers();
-      businesses.slice(0, MAX_MARKERS).forEach((b) => {
-        const el = buildRichMarkerEl(b.name, b.logo_url);
+  const buildClusterIndex = useCallback((businesses: HaritaIsletme[]) => {
+    clusterRef.current = new Supercluster<HaritaIsletme>({ radius: 60, maxZoom: CLUSTER_MAX_ZOOM }).load(
+      toGeoJSONPoints(businesses.slice(0, MAX_MARKERS)),
+    );
+  }, []);
+
+  const renderClusters = useCallback(() => {
+    const map = mapRef.current;
+    const index = clusterRef.current;
+    if (!map || !index) return;
+
+    clearMarkers();
+    const bounds = map.getBounds();
+    const bbox: [number, number, number, number] = [
+      bounds.getWest(),
+      bounds.getSouth(),
+      bounds.getEast(),
+      bounds.getNorth(),
+    ];
+    const zoom = Math.floor(map.getZoom());
+    const features = index.getClusters(bbox, zoom);
+
+    features.forEach((feature) => {
+      const [lng, lat] = feature.geometry.coordinates;
+
+      if ('cluster' in feature.properties && feature.properties.cluster) {
+        const clusterId = feature.properties.cluster_id;
+        const pointCount = feature.properties.point_count;
+        const el = buildClusterBadgeEl(pointCount);
         el.addEventListener('click', (e) => {
           e.stopPropagation();
-          onClickRef.current(b);
+          // getClusterExpansionZoom yalnızca kümenin ilk ayrıştığı zoom'u verir; bu tek
+          // tıklamada bireysel pin'lere kadar tam açılmayı garanti etmez (özellikle sık
+          // paketlenmiş noktalarda). CLUSTER_MAX_ZOOM + 1'e zoom'lamak Supercluster'ın
+          // artık hiç kümelemediği (tamamen tekil noktalar döndürdüğü) seviyeyi garantiler.
+          const expansionZoom = Math.max(
+            index.getClusterExpansionZoom(clusterId),
+            CLUSTER_MAX_ZOOM + 1,
+          );
+          map.flyTo({
+            center: [lng, lat],
+            zoom: Math.min(expansionZoom, map.getMaxZoom()),
+            duration: 500,
+          });
         });
-        const marker = new maplibregl.Marker({ element: el, anchor: 'bottom' })
-          .setLngLat([b.lng, b.lat])
-          .addTo(mapRef.current!);
+        const marker = new maplibregl.Marker({ element: el, anchor: 'center' })
+          .setLngLat([lng, lat])
+          .addTo(map);
         markersRef.current.push(marker);
+        return;
+      }
+
+      const business = feature.properties as HaritaIsletme;
+      const el = buildRichMarkerEl(business.name, business.logo_url);
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        onClickRef.current(business);
       });
-    },
-    [clearMarkers],
-  );
+      const marker = new maplibregl.Marker({ element: el, anchor: 'bottom' })
+        .setLngLat([lng, lat])
+        .addTo(map);
+      markersRef.current.push(marker);
+    });
+  }, [clearMarkers]);
+
+  const onMapRender = useCallback(() => {
+    if (rafRef.current !== null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      renderClusters();
+    });
+  }, [renderClusters]);
 
   const fetchAndUpdate = useCallback(async () => {
     if (!mapRef.current) return;
@@ -544,11 +607,12 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
       );
       if (!res.ok) return;
       const data: HaritaIsletme[] = await res.json();
-      addMarkers(data);
+      buildClusterIndex(data);
+      renderClusters();
     } catch {
       // sessizce geç
     }
-  }, [addMarkers]);
+  }, [buildClusterIndex, renderClusters]);
 
   const onMoveEnd = useCallback(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -579,7 +643,8 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
     );
 
     map.on('load', () => {
-      addMarkers(initialBusinesses);
+      buildClusterIndex(initialBusinesses);
+      renderClusters();
 
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
@@ -597,16 +662,18 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
     });
 
     map.on('moveend', onMoveEnd);
+    map.on('move', onMapRender);
 
     mapRef.current = map;
 
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       clearMarkers();
       map.remove();
       mapRef.current = null;
     };
-  }, [initialBusinesses, addMarkers, onMoveEnd, clearMarkers]);
+  }, [initialBusinesses, buildClusterIndex, renderClusters, onMoveEnd, onMapRender, clearMarkers]);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '500px' }}>
