@@ -1,15 +1,26 @@
 import { Protocol } from 'pmtiles';
-import { addProtocol, type StyleSpecification } from 'maplibre-gl';
+import { addProtocol, setWorkerUrl, type StyleSpecification } from 'maplibre-gl';
 import { layers, namedFlavor } from '@protomaps/basemaps';
 
 const PMTILES_URL =
   process.env.NEXT_PUBLIC_YEEDOY_PMTILES_URL ??
   'https://maps.yeedoy.com/turkiye.pmtiles';
 
+// maplibre-gl v6 module worker'ının src'ini `import.meta.url`'e göre relative
+// hesaplıyor (bkz. maplibre-gl.mjs içindeki fi()); Turbopack bundle'ında bu
+// chunk-relative path gerçekte var olmayan bir dosyaya (veya boş string'e)
+// çözülüyor, worker sessizce hiç yüklenmiyor ve harita sonsuza dek boş kalıyor
+// (network'te tek bir tile isteği bile atılmıyor, konsolda hata da yok).
+// Sprite'lardaki gibi worker dosyasını self-hosted servis ederek kesin path veriyoruz.
+// public/map-assets/maplibre-gl-worker.mjs, node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs
+// ile aynı sürüme (v6.0.0) pinli — maplibre-gl güncellenince yeniden kopyalanmalı.
+const WORKER_URL = '/map-assets/maplibre-gl-worker.mjs';
+
 let _registered = false;
 
 export function ensurePmtilesProtocol(): void {
   if (typeof window === 'undefined' || _registered) return;
+  setWorkerUrl(new URL(WORKER_URL, window.location.origin).href);
   const protocol = new Protocol();
   addProtocol('pmtiles', protocol.tile as Parameters<typeof addProtocol>[1]);
   _registered = true;

@@ -1,0 +1,26 @@
+# Vercel repo-linked deploy uploads from the monorepo root; the CLI does not
+# reliably fall back to nested .gitignore/.vercelignore files, so heavy
+# directories must be excluded explicitly here to keep the upload small.
+
+# Node / Next (everywhere in the monorepo)
+node_modules
+.next
+dist
+coverage
+playwright-report
+test-results
+reports
+
+# Flutter mobile app — not needed to build the web app
+uygulamalar/mobil/build
+uygulamalar/mobil/android/.gradle
+uygulamalar/mobil/android/app/build
+uygulamalar/mobil/.dart_tool
+uygulamalar/mobil/.pub-cache
+uygulamalar/mobil/ios/Pods
+
+# Misc
+.git
+supabase/.branches
+supabase/.temp
+veri/osm
