@@ -1,6 +1,7 @@
 import { Protocol } from 'pmtiles';
 import { addProtocol, setWorkerUrl, type StyleSpecification } from 'maplibre-gl';
 import { layers, namedFlavor } from '@protomaps/basemaps';
+import { clusterSizeTier, type ClusterSizeTier } from '@/src/lib/harita-cluster';
 
 const PMTILES_URL =
   process.env.NEXT_PUBLIC_YEEDOY_PMTILES_URL ??
@@ -65,6 +66,7 @@ export function buildPmtilesStyle(): StyleSpecification {
 /** İşletme adı etiketi + logo/harf daire pin — harita sayfasıyla aynı stil */
 export function buildRichMarkerEl(name: string, logoUrl?: string | null): HTMLDivElement {
   const wrap = document.createElement('div');
+  wrap.dataset.testid = 'harita-pin';
   wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;cursor:pointer;';
 
   const label = document.createElement('div');
@@ -122,4 +124,35 @@ function _initialSpan(name: string): HTMLSpanElement {
   s.textContent = (name.charAt(0) || '?').toUpperCase();
   s.style.cssText = 'color:white;font-size:17px;font-weight:800;font-family:system-ui,sans-serif;';
   return s;
+}
+
+const CLUSTER_TIER_SIZE: Record<ClusterSizeTier, number> = { sm: 30, md: 42, lg: 54 };
+const CLUSTER_TIER_FONT: Record<ClusterSizeTier, number> = { sm: 11, md: 13, lg: 15 };
+
+/** Kalabalık bölgelerdeki işletmeleri temsil eden sayı balonu — üst üste binen pin'lerin yerini alır */
+export function buildClusterBadgeEl(count: number): HTMLDivElement {
+  const tier = clusterSizeTier(count);
+  const size = CLUSTER_TIER_SIZE[tier];
+  const font = CLUSTER_TIER_FONT[tier];
+
+  const el = document.createElement('div');
+  el.dataset.testid = 'harita-cluster';
+  el.style.cssText = [
+    `width:${size}px`,
+    `height:${size}px`,
+    'border-radius:50%',
+    'background:#7F1D1D',
+    'color:white',
+    'border:2px solid white',
+    'box-shadow:0 2px 8px rgba(0,0,0,0.3)',
+    'display:flex',
+    'align-items:center',
+    'justify-content:center',
+    `font-size:${font}px`,
+    'font-weight:800',
+    'font-family:system-ui,sans-serif',
+    'cursor:pointer',
+  ].join(';');
+  el.textContent = String(count);
+  return el;
 }
