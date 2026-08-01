@@ -12,8 +12,12 @@ const PMTILES_URL =
 // çözülüyor, worker sessizce hiç yüklenmiyor ve harita sonsuza dek boş kalıyor
 // (network'te tek bir tile isteği bile atılmıyor, konsolda hata da yok).
 // Sprite'lardaki gibi worker dosyasını self-hosted servis ederek kesin path veriyoruz.
-// public/map-assets/maplibre-gl-worker.mjs, node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs
-// ile aynı sürüme (v6.0.0) pinli — maplibre-gl güncellenince yeniden kopyalanmalı.
+// maplibre-gl-worker.mjs kendi başına çalışmıyor, aynı klasördeki
+// maplibre-gl-shared.mjs'i relative import ediyor — o da kopyalanmalı, yoksa
+// worker script'i 404 alıp yine sessizce hiç yüklenmeden ölüyor.
+// public/map-assets/{maplibre-gl-worker,maplibre-gl-shared}.mjs,
+// node_modules/maplibre-gl/dist/ ile aynı sürüme (v6.0.0) pinli — maplibre-gl
+// güncellenince ikisi birden yeniden kopyalanmalı.
 const WORKER_URL = '/map-assets/maplibre-gl-worker.mjs';
 
 let _registered = false;
