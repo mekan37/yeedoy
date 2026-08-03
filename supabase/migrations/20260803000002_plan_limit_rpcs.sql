@@ -21,6 +21,7 @@ $$;
 REVOKE ALL ON FUNCTION public._get_business_plan_tier_v1(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._get_business_plan_tier_v1(uuid) TO authenticated;
 REVOKE EXECUTE ON FUNCTION public._get_business_plan_tier_v1(uuid) FROM anon;
+REVOKE EXECUTE ON FUNCTION public._get_business_plan_tier_v1(uuid) FROM authenticated;
 COMMENT ON FUNCTION public._get_business_plan_tier_v1 IS
   'İşletmenin güncel plan kademesini döner (aktif starter/standard/pro yoksa free).';
 
@@ -44,6 +45,15 @@ DECLARE
   v_limit   int;
   v_used    int;
 BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM public.owner_claims oc
+    WHERE oc.business_id = p_business_id
+      AND oc.user_id = auth.uid()
+      AND oc.status = 'approved'
+  ) AND NOT public.is_admin() THEN
+    RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
+  END IF;
+
   v_tier := public._get_business_plan_tier_v1(p_business_id);
 
   SELECT enabled, limit_value INTO v_enabled, v_limit
@@ -103,5 +113,6 @@ $$;
 REVOKE ALL ON FUNCTION public._increment_plan_usage_v1(uuid, text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._increment_plan_usage_v1(uuid, text) TO authenticated;
 REVOKE EXECUTE ON FUNCTION public._increment_plan_usage_v1(uuid, text) FROM anon;
+REVOKE EXECUTE ON FUNCTION public._increment_plan_usage_v1(uuid, text) FROM authenticated;
 COMMENT ON FUNCTION public._increment_plan_usage_v1 IS
   'Aylık sayaçlı bir plan özelliğinin kullanımını 1 artırır. _check_plan_limit_v1 ile başarılı geçen işlemden SONRA çağrılmalı.';
