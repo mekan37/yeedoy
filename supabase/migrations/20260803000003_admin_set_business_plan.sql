@@ -14,14 +14,28 @@ SET search_path = public
 AS $$
 DECLARE
   v_id uuid;
+  v_before_tier text;
+  v_before_status text;
 BEGIN
   IF NOT public.is_admin() THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
 
-  IF p_plan_tier NOT IN ('free','starter','standard','pro') THEN
+  IF p_plan_tier IS NULL OR p_plan_tier NOT IN ('free','starter','standard','pro') THEN
     RAISE EXCEPTION 'validation_error: geçersiz plan_tier' USING ERRCODE = 'P0003';
   END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM public.businesses WHERE id = p_business_id) THEN
+    RAISE EXCEPTION 'not_found: işletme bulunamadı' USING ERRCODE = 'P0001';
+  END IF;
+
+  SELECT tier, status INTO v_before_tier, v_before_status
+  FROM public.business_premium
+  WHERE business_id = p_business_id
+    AND status = 'active'
+    AND tier IN ('starter','standard','pro')
+  ORDER BY starts_at DESC
+  LIMIT 1;
 
   -- Var olan aktif plan kademesini sonlandır (starter/standard/pro karşılıklı dışlar)
   UPDATE public.business_premium
@@ -40,7 +54,7 @@ BEGIN
     'business.plan_changed',
     'business',
     p_business_id,
-    '{}'::jsonb,
+    jsonb_build_object('plan_tier', COALESCE(v_before_tier, 'free'), 'status', v_before_status),
     jsonb_build_object('plan_tier', p_plan_tier, 'premium_id', v_id)
   );
 
