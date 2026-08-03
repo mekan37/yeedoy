@@ -3,6 +3,7 @@
 CREATE OR REPLACE FUNCTION public._get_business_plan_tier_v1(p_business_id uuid)
 RETURNS text
 LANGUAGE sql STABLE
+SECURITY DEFINER
 SET search_path = public
 AS $$
   SELECT COALESCE(
@@ -19,6 +20,7 @@ $$;
 
 REVOKE ALL ON FUNCTION public._get_business_plan_tier_v1(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._get_business_plan_tier_v1(uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public._get_business_plan_tier_v1(uuid) FROM anon;
 COMMENT ON FUNCTION public._get_business_plan_tier_v1 IS
   'İşletmenin güncel plan kademesini döner (aktif starter/standard/pro yoksa free).';
 
@@ -77,6 +79,7 @@ $$;
 
 REVOKE ALL ON FUNCTION public._check_plan_limit_v1(uuid, text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._check_plan_limit_v1(uuid, text) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public._check_plan_limit_v1(uuid, text) FROM anon;
 COMMENT ON FUNCTION public._check_plan_limit_v1 IS
   'İşletmenin plan kademesine göre bir özelliği kullanmasına izin var mı kontrol eder; aşılmışsa P0003 fırlatır. Called by: menu-islemleri.ts, create_menu_ocr_job_v1, ai-allergen-detect/ai-nutrition-estimate/ai-menu-image-gen çağrı noktaları.';
 
@@ -99,5 +102,6 @@ $$;
 
 REVOKE ALL ON FUNCTION public._increment_plan_usage_v1(uuid, text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._increment_plan_usage_v1(uuid, text) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public._increment_plan_usage_v1(uuid, text) FROM anon;
 COMMENT ON FUNCTION public._increment_plan_usage_v1 IS
   'Aylık sayaçlı bir plan özelliğinin kullanımını 1 artırır. _check_plan_limit_v1 ile başarılı geçen işlemden SONRA çağrılmalı.';
