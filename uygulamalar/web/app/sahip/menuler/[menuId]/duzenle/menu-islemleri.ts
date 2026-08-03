@@ -161,6 +161,14 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
     if (updateErr) return { error: updateErr.message };
     resolvedItemId = itemId;
   } else {
+    const { error: limitError } = await (context.supabase as any).rpc('_check_plan_limit_v1', {
+      p_business_id: context.businessId,
+      p_feature_key: 'menu_item_count',
+    }) as { error: { message: string } | null };
+    if (limitError) {
+      return { error: 'Ürün limitine ulaştınız. Daha fazla ürün eklemek için planınızı yükseltin.' };
+    }
+
     const { count } = await (context.supabase as any)
       .from('menu_items')
       .select('id', { count: 'exact', head: true })
