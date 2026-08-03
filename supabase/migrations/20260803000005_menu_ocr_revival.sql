@@ -72,17 +72,13 @@ CREATE POLICY "menu_item_ai_analysis_owner_all" ON public.menu_item_ai_analysis
     OR public.is_admin()
   );
 
-CREATE OR REPLACE FUNCTION public.tg_menu_ocr_touch_updated_at()
-RETURNS trigger LANGUAGE plpgsql AS $$
-BEGIN NEW.updated_at := now(); RETURN NEW; END; $$;
-
 CREATE TRIGGER menu_ocr_jobs_updated_at
   BEFORE UPDATE ON public.menu_ocr_jobs
-  FOR EACH ROW EXECUTE FUNCTION public.tg_menu_ocr_touch_updated_at();
+  FOR EACH ROW EXECUTE FUNCTION public.tg_set_updated_at();
 
 CREATE TRIGGER menu_item_ai_analysis_updated_at
   BEFORE UPDATE ON public.menu_item_ai_analysis
-  FOR EACH ROW EXECUTE FUNCTION public.tg_menu_ocr_touch_updated_at();
+  FOR EACH ROW EXECUTE FUNCTION public.tg_set_updated_at();
 
 -- ── RPC: create_menu_ocr_job_v1 ─────────────────────────────────────────────
 CREATE OR REPLACE FUNCTION public.create_menu_ocr_job_v1(
