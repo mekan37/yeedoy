@@ -162,6 +162,9 @@ export async function menuCevirisiniKaydet(
 
   if (error) {
     logger.warn('upsert_menu_item_translation_v1 failed', { itemId, locale, error });
+    if (error.message.includes('plan_limit_exceeded')) {
+      return { success: false, hata: 'Bu dil planınızda yok. Daha fazla dil eklemek için planınızı yükseltin.' };
+    }
     return { success: false, hata: error.message };
   }
 
