@@ -39,6 +39,7 @@ type Props = {
   shortUrl: string;
   initialPresentation: ResolvedPresentationRecord;
   mediaOptions: MediaOption[];
+  showQrWatermark: boolean;
 };
 
 type DraftState = {
@@ -205,6 +206,7 @@ export function KarekodUreticiIstemcisi({
   shortUrl,
   initialPresentation,
   mediaOptions,
+  showQrWatermark,
 }: Props) {
   const labels = brandingCopy[lang];
   const siteUrl = useMemo(() => new URL(canonicalUrl).origin, [canonicalUrl]);
@@ -304,8 +306,8 @@ export function KarekodUreticiIstemcisi({
       ]);
 
       if (!alive) return;
-      setQrSvg(svg);
-      setQrPng(png);
+      setQrSvg(showQrWatermark ? addSvgWatermark(svg) : svg);
+      setQrPng(showQrWatermark ? await addPngWatermark(png) : png);
     }
 
     void generateQr().catch(() => {
@@ -316,7 +318,7 @@ export function KarekodUreticiIstemcisi({
     return () => {
       alive = false;
     };
-  }, [labels.saveError, qrTarget, themeDefinition.brandQrDark]);
+  }, [labels.saveError, qrTarget, themeDefinition.brandQrDark, showQrWatermark]);
 
   useEffect(() => {
     if (!hasUnsavedChanges) return;
@@ -792,5 +794,34 @@ function serializeDraft(draft: DraftState) {
     coverUrl: draft.coverUrl,
     backgroundUrl: draft.backgroundUrl,
   });
+}
+
+function addSvgWatermark(svg: string): string {
+  const label = '<text x="50%" y="98%" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#7F1D1D" opacity="0.55">yeedoy.com ile oluşturuldu</text>';
+  return svg.replace('</svg>', `${label}</svg>`);
+}
+
+async function addPngWatermark(dataUrl: string): Promise<string> {
+  const image = new Image();
+  const loaded = new Promise<void>((resolve, reject) => {
+    image.onload = () => resolve();
+    image.onerror = () => reject(new Error('watermark_image_load_failed'));
+  });
+  image.src = dataUrl;
+  await loaded;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return dataUrl;
+
+  ctx.drawImage(image, 0, 0);
+  ctx.font = `${Math.round(image.width / 26)}px system-ui, sans-serif`;
+  ctx.fillStyle = 'rgba(127, 29, 29, 0.55)';
+  ctx.textAlign = 'center';
+  ctx.fillText('yeedoy.com ile oluşturuldu', canvas.width / 2, canvas.height - 24);
+
+  return canvas.toDataURL('image/png');
 }
 

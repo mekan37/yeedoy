@@ -11,6 +11,7 @@ import { encodeBusinessCode } from '@/src/lib/kisa-kod';
 import { getQrAccessState } from '@/src/lib/karekod-erisimi';
 import { buildMenuHref, buildQrHref, buildShortHref } from '@/src/lib/menu-baglantilari';
 import { isUuid, normalizeDisplayParams } from '@/src/lib/yol-normalizasyonu';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 type QrPageProps = {
   params: Promise<{ businessId: string }>;
@@ -84,6 +85,12 @@ export default async function QrPage({ params, searchParams }: QrPageProps) {
   if (!access.canManage) {
     redirect(`/yasakli?from=${encodeURIComponent(redirectTo)}`);
   }
+
+  const supabase = await createSupabaseServerClient();
+  const { data: planData } = await (supabase as any).rpc('get_my_plan_v1', {
+    p_business_id: businessId,
+  }) as { data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null };
+  const showQrWatermark = planData?.features.find((f) => f.feature_key === 'qr_watermark')?.enabled ?? true;
 
   if (normalized.hasInvalidParams) {
     redirect(
@@ -166,6 +173,7 @@ export default async function QrPage({ params, searchParams }: QrPageProps) {
         shortUrl={shortUrl}
         initialPresentation={data.presentation}
         mediaOptions={mediaOptions}
+        showQrWatermark={showQrWatermark}
       />
     </>
   );
