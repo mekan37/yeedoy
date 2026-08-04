@@ -25,7 +25,8 @@ BEGIN
   SELECT * INTO v_analysis
   FROM public.menu_item_ai_analysis
   WHERE id = p_analysis_id
-    AND status = 'pending_review';
+    AND status = 'pending_review'
+  FOR UPDATE;
 
   IF NOT FOUND THEN
     RAISE EXCEPTION 'not_found: analiz bulunamadı veya zaten işlem görmüş' USING ERRCODE = 'P0001';
@@ -84,7 +85,12 @@ BEGIN
 
   UPDATE public.menu_item_ai_analysis
   SET status = 'applied', menu_item_id = v_item_id
-  WHERE id = p_analysis_id;
+  WHERE id = p_analysis_id
+    AND status = 'pending_review';
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'not_found: analiz durumu beklenmedik şekilde değişti' USING ERRCODE = 'P0001';
+  END IF;
 
   RETURN v_item_id;
 END;
