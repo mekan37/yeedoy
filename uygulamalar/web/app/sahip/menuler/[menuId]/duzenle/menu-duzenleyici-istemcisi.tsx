@@ -96,9 +96,11 @@ function ImageUrlField({
   const [url, setUrl] = useState(initialUrl ?? '');
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const isBusy = uploading || aiGenerating;
 
   async function upload(file: File | null) {
-    if (!file) return;
+    if (!file || aiGenerating) return;
     setUploading(true);
     setUploadError(null);
 
@@ -128,9 +130,8 @@ function ImageUrlField({
     }
   }
 
-  const [aiGenerating, setAiGenerating] = useState(false);
-
   async function generateWithAi() {
+    if (uploading) return;
     const nameInput = itemNameRef.current?.elements.namedItem('name') as HTMLInputElement | null;
     const name = nameInput?.value?.trim();
     if (!name) {
@@ -176,7 +177,7 @@ function ImageUrlField({
           <button
             type="button"
             onClick={generateWithAi}
-            disabled={aiGenerating}
+            disabled={isBusy}
             className="inline-flex min-h-10 items-center rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-extrabold text-primary hover:bg-primary/10 disabled:opacity-60 cursor-pointer"
           >
             {aiGenerating ? 'AI çalışıyor...' : '✨ AI ile görsel oluştur'}
@@ -186,7 +187,7 @@ function ImageUrlField({
             <input
               type="file"
               accept="image/png,image/jpeg,image/webp"
-              disabled={uploading}
+              disabled={isBusy}
               onChange={(event) => upload(event.target.files?.[0] ?? null)}
               className="sr-only"
             />
@@ -195,7 +196,8 @@ function ImageUrlField({
             <button
               type="button"
               onClick={() => setUrl('')}
-              className="min-h-10 rounded-xl border border-border px-3 py-2 text-xs font-extrabold text-muted hover:bg-card"
+              disabled={isBusy}
+              className="min-h-10 rounded-xl border border-border px-3 py-2 text-xs font-extrabold text-muted hover:bg-card disabled:opacity-60"
             >
               Kaldır
             </button>
