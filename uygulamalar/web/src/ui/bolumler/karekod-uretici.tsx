@@ -796,8 +796,27 @@ function serializeDraft(draft: DraftState) {
   });
 }
 
-function addSvgWatermark(svg: string): string {
-  const label = '<text x="50%" y="98%" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#7F1D1D" opacity="0.55">yeedoy.com ile oluşturuldu</text>';
+// Geometry constants for the free-tier QR watermark. Both renderers below are sized so the
+// watermark's glyph box (ascent+descent) stays inside the QR's own quiet zone instead of
+// bleeding into real module rows — see test/lib/karekod-watermark-geometry.test.ts, which
+// verifies these against the real `qrcode` package output for a range of realistic URL
+// lengths. Do not change these without re-running that test / re-deriving the geometry.
+export const QR_WATERMARK_SVG_FONT_SIZE = 0.5;
+export const QR_WATERMARK_SVG_BOTTOM_OFFSET = 0.3;
+export const QR_WATERMARK_PNG_FONT_DIVISOR = 80;
+export const QR_WATERMARK_PNG_BOTTOM_OFFSET_PX = 8;
+
+// The `qrcode` SVG renderer sets viewBox="0 0 <modules+2*margin> <modules+2*margin>",
+// i.e. 1 user unit = 1 QR module, and margin=1 (see generateQr()) means the quiet zone
+// is exactly 1 unit tall on every edge, regardless of module count. font-size/y below are
+// therefore expressed in the *same* unitless user-space, not pixels, so the watermark's
+// glyph box (ascent+descent) stays inside that 1-unit band no matter how many modules the
+// encoded URL produces (~0.3 unit buffer remains on both edges — see the geometry test).
+export function addSvgWatermark(svg: string): string {
+  const viewBoxMatch = svg.match(/viewBox="0 0 [\d.]+ ([\d.]+)"/);
+  const viewBoxHeight = viewBoxMatch ? Number(viewBoxMatch[1]) : 40;
+  const y = viewBoxHeight - QR_WATERMARK_SVG_BOTTOM_OFFSET;
+  const label = `<text x="50%" y="${y}" text-anchor="middle" font-family="system-ui,sans-serif" font-size="${QR_WATERMARK_SVG_FONT_SIZE}" fill="#7F1D1D" opacity="0.55">yeedoy.com ile oluşturuldu</text>`;
   return svg.replace('</svg>', `${label}</svg>`);
 }
 
@@ -817,10 +836,16 @@ async function addPngWatermark(dataUrl: string): Promise<string> {
   if (!ctx) return dataUrl;
 
   ctx.drawImage(image, 0, 0);
-  ctx.font = `${Math.round(image.width / 26)}px system-ui, sans-serif`;
+  // With margin=1 and width=1280 (see generateQr()), the QR quiet zone at the bottom
+  // edge is only ~20-33px wide depending on how many modules the encoded URL needs
+  // (longer URLs -> more modules -> thinner quiet zone; ~23px is the realistic worst
+  // case for this app's /m/<uuid>?lang=..&theme=.. links). Font size and offset below
+  // are sized so the glyph box (ascent+descent) sits inside that band with a few px of
+  // buffer on both sides — see test/lib/karekod-watermark-geometry.test.ts.
+  ctx.font = `${Math.round(image.width / QR_WATERMARK_PNG_FONT_DIVISOR)}px system-ui, sans-serif`;
   ctx.fillStyle = 'rgba(127, 29, 29, 0.55)';
   ctx.textAlign = 'center';
-  ctx.fillText('yeedoy.com ile oluşturuldu', canvas.width / 2, canvas.height - 24);
+  ctx.fillText('yeedoy.com ile oluşturuldu', canvas.width / 2, canvas.height - QR_WATERMARK_PNG_BOTTOM_OFFSET_PX);
 
   return canvas.toDataURL('image/png');
 }
