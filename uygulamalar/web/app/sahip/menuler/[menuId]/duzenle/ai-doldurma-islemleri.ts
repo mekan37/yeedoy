@@ -56,3 +56,33 @@ export async function aiIleAlerjenKaloriDoldur(
     calorieMax: nutritionData.calorie_max ?? null,
   };
 }
+
+export async function aiIleGorselUret(
+  businessId: string,
+  itemName: string,
+): Promise<{ error: string } | { imageUrl: string }> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Oturum bulunamadı' };
+
+  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
+  if (!ownerBusinessIds.includes(businessId)) return { error: 'Bu işletme için yetkiniz yok' };
+
+  const { error: limitError } = (await (supabase as any).rpc('_check_plan_limit_v1', {
+    p_business_id: businessId,
+    p_feature_key: 'ai_image_gen',
+  })) as { error: { message: string } | null };
+  if (limitError) return { error: 'Bu özellik yalnızca Pro kademede var.' };
+
+  const { data, error } = await supabase.functions.invoke('ai-menu-image-gen', {
+    body: { item_name: itemName },
+  });
+  if (error) return { error: 'Görsel üretilemedi: ' + error.message };
+
+  const payload = data as { ok: boolean; image_url?: string };
+  if (!payload.ok || !payload.image_url) return { error: 'Görsel üretilemedi.' };
+
+  return { imageUrl: payload.image_url };
+}

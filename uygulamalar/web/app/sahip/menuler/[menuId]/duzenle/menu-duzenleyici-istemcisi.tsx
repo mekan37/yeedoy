@@ -13,7 +13,7 @@ import {
   upsertItemAllergens,
   upsertItemIngredients,
 } from './menu-islemleri';
-import { aiIleAlerjenKaloriDoldur } from './ai-doldurma-islemleri';
+import { aiIleAlerjenKaloriDoldur, aiIleGorselUret } from './ai-doldurma-islemleri';
 
 const ALLERGEN_LIST = [
   { code: 'gluten',         labelTr: 'Gluten'                      },
@@ -86,10 +86,12 @@ function ImageUrlField({
   businessId,
   label,
   initialUrl = null,
+  itemNameRef,
 }: {
   businessId: string;
   label: string;
   initialUrl?: string | null;
+  itemNameRef: React.RefObject<HTMLFormElement | null>;
 }) {
   const [url, setUrl] = useState(initialUrl ?? '');
   const [uploading, setUploading] = useState(false);
@@ -126,6 +128,31 @@ function ImageUrlField({
     }
   }
 
+  const [aiGenerating, setAiGenerating] = useState(false);
+
+  async function generateWithAi() {
+    const nameInput = itemNameRef.current?.elements.namedItem('name') as HTMLInputElement | null;
+    const name = nameInput?.value?.trim();
+    if (!name) {
+      setUploadError('Görsel oluşturmadan önce ürün adını girin.');
+      return;
+    }
+    setAiGenerating(true);
+    setUploadError(null);
+    try {
+      const result = await aiIleGorselUret(businessId, name);
+      if ('error' in result) {
+        setUploadError(result.error);
+        return;
+      }
+      setUrl(result.imageUrl);
+    } catch {
+      setUploadError('Görsel oluşturma başarısız oldu, tekrar deneyin.');
+    } finally {
+      setAiGenerating(false);
+    }
+  }
+
   return (
     <div className="grid gap-3 rounded-xl border border-border bg-bg p-3 sm:grid-cols-[96px_1fr]">
       <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl border border-border bg-card text-[11px] font-extrabold text-muted">
@@ -146,6 +173,14 @@ function ImageUrlField({
           className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
         />
         <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={generateWithAi}
+            disabled={aiGenerating}
+            className="inline-flex min-h-10 items-center rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-extrabold text-primary hover:bg-primary/10 disabled:opacity-60 cursor-pointer"
+          >
+            {aiGenerating ? 'AI çalışıyor...' : '✨ AI ile görsel oluştur'}
+          </button>
           <label className="inline-flex min-h-10 cursor-pointer items-center rounded-xl border border-border bg-card px-3 py-2 text-xs font-extrabold text-textStrong hover:bg-white">
             {uploading ? 'Yükleniyor...' : 'Bilgisayardan seç'}
             <input
@@ -319,6 +354,7 @@ function ItemForm({
         businessId={businessId}
         label="Ürün görseli"
         initialUrl={initialValues?.image_url ?? null}
+        itemNameRef={formRef}
       />
       <label className="flex items-center gap-2 text-sm text-textStrong cursor-pointer">
         <input
