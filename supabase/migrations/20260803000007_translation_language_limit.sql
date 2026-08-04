@@ -28,17 +28,21 @@ BEGIN
   JOIN menu_items mi ON mi.section_id = ms.id
   WHERE mi.id = p_item_id
     AND bc.user_id = auth.uid()
-    AND bc.is_active = true
+    AND bc.status = 'approved'
   LIMIT 1;
 
   IF _business_id IS NULL THEN
     RAISE EXCEPTION 'unauthorized';
   END IF;
 
-  -- Bu item için bu locale'de zaten bir çeviri var mı? Varsa güncelleme serbest.
+  -- Bu işletmede bu locale'de (herhangi bir item için) zaten bir çeviri var mı?
+  -- Varsa güncelleme/yeni item ekleme serbest (dil zaten işletme genelinde benimsenmiş).
   SELECT EXISTS (
-    SELECT 1 FROM menu_translations
-    WHERE entity_type = 'item' AND entity_id = p_item_id AND locale = p_locale
+    SELECT 1
+    FROM menu_translations mt
+    JOIN menu_items mi3 ON mi3.id = mt.entity_id AND mt.entity_type = 'item'
+    WHERE mi3.business_id = _business_id
+      AND mt.locale = p_locale
   ) INTO _locale_exists;
 
   IF NOT _locale_exists THEN
@@ -62,8 +66,7 @@ BEGIN
 
   INSERT INTO menu_translations (entity_type, entity_id, locale, name, description)
   VALUES ('item', p_item_id, p_locale, p_name, p_description)
-  ON CONFLICT (entity_id, locale)
-    WHERE entity_type = 'item'
+  ON CONFLICT (entity_type, entity_id, locale)
   DO UPDATE SET
     name        = excluded.name,
     description = excluded.description;
