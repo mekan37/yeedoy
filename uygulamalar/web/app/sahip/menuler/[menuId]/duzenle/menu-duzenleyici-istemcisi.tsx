@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import {
   createSection,
   updateSection,
@@ -13,6 +13,7 @@ import {
   upsertItemAllergens,
   upsertItemIngredients,
 } from './menu-islemleri';
+import { aiIleAlerjenKaloriDoldur } from './ai-doldurma-islemleri';
 
 const ALLERGEN_LIST = [
   { code: 'gluten',         labelTr: 'Gluten'                      },
@@ -210,6 +211,32 @@ function ItemForm({
   );
   const [ingredients, setIngredients] = useState<string[]>(initialIngredients);
   const [ingredientInput, setIngredientInput] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
+  const [calorieValue, setCalorieValue] = useState(initialValues?.calories_min ?? '');
+  const formRef = useRef<HTMLFormElement>(null);
+
+  async function aiIleDoldur() {
+    const nameInput = formRef.current?.elements.namedItem('name') as HTMLInputElement | null;
+    const descInput = formRef.current?.elements.namedItem('description') as HTMLInputElement | null;
+    const name = nameInput?.value?.trim();
+    if (!name) {
+      setFormError('AI doldurmadan önce ürün adını girin.');
+      return;
+    }
+    setAiLoading(true);
+    setFormError(null);
+    try {
+      const result = await aiIleAlerjenKaloriDoldur(businessId, name, descInput?.value ?? '');
+      if ('error' in result) {
+        setFormError(result.error);
+        return;
+      }
+      setSelectedAllergens(new Set(result.allergens));
+      if (result.calorieMin !== null) setCalorieValue(String(result.calorieMin));
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
   function toggleAllergen(code: string) {
     setSelectedAllergens((prev) => {
@@ -262,7 +289,7 @@ function ItemForm({
   }
 
   return (
-    <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
+    <form ref={formRef} className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
       <div className="grid grid-cols-2 gap-3">
         <Input
           label="Ürün Adı"
@@ -311,7 +338,8 @@ function ItemForm({
           <input
             name="calories"
             type="number"
-            defaultValue={initialValues?.calories_min ?? ''}
+            value={calorieValue}
+            onChange={(e) => setCalorieValue(e.target.value)}
             min="0"
             max="9999"
             placeholder="örn: 450"
@@ -395,6 +423,15 @@ function ItemForm({
           )}
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={aiIleDoldur}
+        disabled={aiLoading}
+        className="self-start rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-bold text-primary hover:bg-primary/10 disabled:opacity-60 cursor-pointer"
+      >
+        {aiLoading ? 'AI çalışıyor...' : '✨ AI ile alerjen ve kaloriyi doldur'}
+      </button>
 
       {/* Allerjen seçici */}
       <div className="flex flex-col gap-2">
