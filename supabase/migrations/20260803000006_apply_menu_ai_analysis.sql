@@ -1,6 +1,6 @@
 -- Owner bir OCR/AI analiz önerisini kabul ettiğinde: gerçek bir menu_items
 -- satırı oluşturur, önerilen alerjenleri owner_upsert_menu_item_allergens_v1
--- ile detected_by='ai' olarak kaydeder, kalori alanlarını calorie_source='ai'
+-- ile detected_by='ai' olarak kaydeder, kalori alanlarını calorie_source='ai_estimated'
 -- ile set eder, analiz satırını 'applied' olarak işaretler.
 
 CREATE OR REPLACE FUNCTION public.apply_menu_ai_analysis_v1(
@@ -24,10 +24,11 @@ BEGIN
 
   SELECT * INTO v_analysis
   FROM public.menu_item_ai_analysis
-  WHERE id = p_analysis_id;
+  WHERE id = p_analysis_id
+    AND status = 'pending_review';
 
   IF NOT FOUND THEN
-    RAISE EXCEPTION 'not_found: analiz bulunamadı' USING ERRCODE = 'P0001';
+    RAISE EXCEPTION 'not_found: analiz bulunamadı veya zaten işlem görmüş' USING ERRCODE = 'P0001';
   END IF;
 
   IF NOT EXISTS (
@@ -62,7 +63,7 @@ BEGIN
     v_analysis.business_id, p_section_id, v_analysis.normalized_text, true,
     0, 'TRY', v_sort_order,
     v_analysis.calorie_min, v_analysis.calorie_max,
-    CASE WHEN v_analysis.calorie_min IS NOT NULL THEN 'ai' ELSE 'unknown' END
+    CASE WHEN v_analysis.calorie_min IS NOT NULL THEN 'ai_estimated' ELSE 'unknown' END
   )
   RETURNING id INTO v_item_id;
 
@@ -110,13 +111,14 @@ BEGIN
   UPDATE public.menu_item_ai_analysis a
   SET status = 'rejected'
   WHERE a.id = p_analysis_id
+    AND a.status = 'pending_review'
     AND EXISTS (
       SELECT 1 FROM public.owner_claims oc
       WHERE oc.business_id = a.business_id AND oc.user_id = auth.uid() AND oc.status = 'approved'
     );
 
   IF NOT FOUND THEN
-    RAISE EXCEPTION 'not_found: analiz bulunamadı veya yetkiniz yok' USING ERRCODE = 'P0001';
+    RAISE EXCEPTION 'not_found: analiz bulunamadı, yetkiniz yok veya zaten işlem görmüş' USING ERRCODE = 'P0001';
   END IF;
 END;
 $$;
