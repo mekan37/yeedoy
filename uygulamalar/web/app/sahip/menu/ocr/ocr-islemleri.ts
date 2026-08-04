@@ -124,6 +124,7 @@ export async function ocrOnerisiniMenuyeEkle(
   businessId: string,
   analysisId: string,
   sectionId: string,
+  menuId: string,
 ): Promise<{ error: string } | { itemId: string }> {
   const context = await requireOwnedBusiness(businessId);
   if (!context.ok) return { error: context.error };
@@ -140,6 +141,9 @@ export async function ocrOnerisiniMenuyeEkle(
     return { error: error.message };
   }
 
+  revalidatePath(`/sahip/menuler/${menuId}/duzenle`);
+  revalidatePath(`/sahip/menuler/${menuId}/kategoriler`);
+  revalidatePath(`/sahip/menuler/${menuId}`);
   revalidatePath('/sahip/menuler');
   return { itemId: data as string };
 }

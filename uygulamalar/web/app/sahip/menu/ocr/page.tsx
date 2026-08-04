@@ -24,6 +24,7 @@ export default async function OcrSayfasi() {
   const sections = (menus ?? []).flatMap((menu) =>
     menu.menu_sections.map((section) => ({
       id: section.id,
+      menuId: menu.id,
       label: `${menu.title} / ${section.title}`,
     })),
   );

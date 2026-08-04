@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { ocrTaramasiBaslat, ocrTaramaDurumu, ocrOnerisiniMenuyeEkle, ocrOnerisiniReddet } from './ocr-islemleri';
 
 type Analiz = {
@@ -14,20 +14,32 @@ type Analiz = {
   status: string;
 };
 
+function taramaHataMesaji(errorMessage: string | null): string {
+  if (errorMessage === 'no_text_extracted') {
+    return 'Fotoğraftan metin okunamadı. Daha net bir fotoğraf deneyin.';
+  }
+  if (errorMessage === 'no_items_detected') {
+    return 'Fotoğrafta ürün tespit edilemedi. Farklı bir fotoğraf deneyin.';
+  }
+  return 'Tarama başarısız oldu: ' + (errorMessage ?? 'bilinmeyen hata');
+}
+
 export function OcrIstemcisi({
   businessId,
   sections,
 }: {
   businessId: string;
-  sections: Array<{ id: string; label: string }>;
+  sections: Array<{ id: string; menuId: string; label: string }>;
 }) {
   const [isPending, startTransition] = useTransition();
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [jobId, setJobId] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [analizler, setAnalizler] = useState<Analiz[]>([]);
   const [sectionId, setSectionId] = useState(sections[0]?.id ?? '');
+  const activeJobIdRef = useRef<string | null>(null);
 
   async function uploadAndScan(file: File | null) {
     if (!file) return;
@@ -50,6 +62,7 @@ export function OcrIstemcisi({
         return;
       }
       setJobId(result.jobId);
+      activeJobIdRef.current = result.jobId;
       await pollStatus(result.jobId);
     } catch {
       setError('Yükleme başarısız oldu.');
@@ -60,15 +73,25 @@ export function OcrIstemcisi({
 
   async function pollStatus(id: string) {
     const result = await ocrTaramaDurumu(businessId, id);
+    if (activeJobIdRef.current !== id) return;
     if ('error' in result) {
       setError(result.error);
       return;
     }
     setStatus(result.status);
+    setErrorMessage(result.errorMessage);
     setAnalizler(result.analizler);
     if (result.status === 'queued' || result.status === 'processing') {
       setTimeout(() => pollStatus(id), 3000);
     }
+  }
+
+  function yenidenDene() {
+    activeJobIdRef.current = null;
+    setJobId(null);
+    setStatus(null);
+    setErrorMessage(null);
+    setAnalizler([]);
   }
 
   function ekle(analysisId: string) {
@@ -76,8 +99,13 @@ export function OcrIstemcisi({
       setError('Önce bir bölüm seçin.');
       return;
     }
+    const menuId = sections.find((s) => s.id === sectionId)?.menuId;
+    if (!menuId) {
+      setError('Önce bir bölüm seçin.');
+      return;
+    }
     startTransition(async () => {
-      const result = await ocrOnerisiniMenuyeEkle(businessId, analysisId, sectionId);
+      const result = await ocrOnerisiniMenuyeEkle(businessId, analysisId, sectionId, menuId);
       if ('error' in result) {
         setError(result.error);
         return;
@@ -102,17 +130,33 @@ export function OcrIstemcisi({
       <h1 className="text-2xl font-black text-textStrong">Fotoğraftan Menü Oluştur</h1>
 
       <div className="rounded-2xl border border-dashed border-border bg-card p-6">
-        <label className="inline-flex cursor-pointer items-center rounded-xl border border-border bg-bg px-4 py-3 text-sm font-bold text-textStrong hover:bg-white">
-          {uploading ? 'Yükleniyor...' : 'Menü fotoğrafı seç'}
+        <label className="inline-flex cursor-pointer items-center rounded-xl border border-border bg-bg px-4 py-3 text-sm font-bold text-textStrong hover:bg-white has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-60">
+          {uploading
+            ? 'Yükleniyor...'
+            : status === 'queued' || status === 'processing'
+              ? 'Taranıyor...'
+              : 'Menü fotoğrafı seç'}
           <input
             type="file"
             accept="image/png,image/jpeg,image/webp"
-            disabled={uploading}
+            disabled={uploading || status === 'queued' || status === 'processing'}
             onChange={(event) => uploadAndScan(event.target.files?.[0] ?? null)}
             className="sr-only"
           />
         </label>
-        {status && <p className="mt-3 text-xs font-bold text-muted">Durum: {status}</p>}
+        {status && status !== 'failed' && <p className="mt-3 text-xs font-bold text-muted">Durum: {status}</p>}
+        {status === 'failed' && (
+          <div className="mt-3 space-y-2">
+            <p className="text-xs font-bold text-red-700">{taramaHataMesaji(errorMessage)}</p>
+            <button
+              type="button"
+              onClick={yenidenDene}
+              className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-textStrong hover:bg-white"
+            >
+              Tekrar Dene
+            </button>
+          </div>
+        )}
       </div>
 
       {error && <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
