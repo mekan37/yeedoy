@@ -233,6 +233,8 @@ function ItemForm({
       }
       setSelectedAllergens(new Set(result.allergens));
       if (result.calorieMin !== null) setCalorieValue(String(result.calorieMin));
+    } catch {
+      setFormError('AI çağrısı başarısız oldu, tekrar deneyin.');
     } finally {
       setAiLoading(false);
     }
