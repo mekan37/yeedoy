@@ -820,7 +820,7 @@ export function addSvgWatermark(svg: string): string {
   return svg.replace('</svg>', `${label}</svg>`);
 }
 
-async function addPngWatermark(dataUrl: string): Promise<string> {
+export async function addPngWatermark(dataUrl: string): Promise<string> {
   const image = new Image();
   const loaded = new Promise<void>((resolve, reject) => {
     image.onload = () => resolve();

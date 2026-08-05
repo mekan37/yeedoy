@@ -73,6 +73,46 @@ describe('karekod filigrani — PNG geometrisi (canvas.width / DIVISOR, canvas.h
   });
 });
 
+// "QR kodlarim" yonetim sayfasi (app/karekod/[businessId]/kodlarim/kodlar-istemcisi.tsx) da
+// addPngWatermark'i cagirir, ama QR Studio'dan FARKLI bir width/margin ile QR uretir. Ayni
+// QR_WATERMARK_PNG_* sabitleri width'e gore olceklenmedigi icin (font boyutu width'e gore
+// olceklenir ama BOTTOM_OFFSET_PX sabit pikseldir), bu ikinci cagri noktasinin kendi
+// parametreleriyle de guvenli kaldigini ayrica dogrulamak gerekir — orn. eski width=256
+// degeriyle filigran gercek QR modulleriyle cakisiyordu.
+describe('karekod filigrani — "kodlarim" sayfasinin PNG cagri noktasi (width=1280, margin=2)', () => {
+  const KODLARIM_PNG_WIDTH = 1280;
+  const KODLARIM_MARGIN_MODULES = 2;
+
+  it.each(Object.entries(realisticUrls()))('quiet zone icinde kalir: %s', (_label, url) => {
+    const modules = moduleCount(url);
+    const quietZonePx = KODLARIM_PNG_WIDTH / (modules + 2 * KODLARIM_MARGIN_MODULES);
+    const fontSizePx = Math.round(KODLARIM_PNG_WIDTH / QR_WATERMARK_PNG_FONT_DIVISOR);
+    const ascent = fontSizePx * CONSERVATIVE_ASCENT_RATIO;
+    const descent = fontSizePx * CONSERVATIVE_DESCENT_RATIO;
+
+    const baselineY = KODLARIM_PNG_WIDTH - QR_WATERMARK_PNG_BOTTOM_OFFSET_PX;
+    const glyphTopY = baselineY - ascent;
+    const glyphBottomY = baselineY + descent;
+    const quietZoneTopY = KODLARIM_PNG_WIDTH - quietZonePx;
+
+    expect(glyphTopY).toBeGreaterThan(quietZoneTopY);
+    expect(glyphBottomY).toBeLessThan(KODLARIM_PNG_WIDTH);
+  });
+
+  it('eski width=256 degeri bu testte basarisiz olurdu — kontrast icin', () => {
+    const OLD_WIDTH = 256;
+    const modules = moduleCount(realisticUrls().worstCase);
+    const quietZonePx = OLD_WIDTH / (modules + 2 * KODLARIM_MARGIN_MODULES);
+    const fontSizePx = Math.round(OLD_WIDTH / QR_WATERMARK_PNG_FONT_DIVISOR);
+    const ascent = fontSizePx * CONSERVATIVE_ASCENT_RATIO;
+    const baselineY = OLD_WIDTH - QR_WATERMARK_PNG_BOTTOM_OFFSET_PX;
+    const glyphTopY = baselineY - ascent;
+    const quietZoneTopY = OLD_WIDTH - quietZonePx;
+
+    expect(glyphTopY).toBeLessThan(quietZoneTopY);
+  });
+});
+
 describe('karekod filigrani — SVG geometrisi (viewBox birimi = 1 modul, margin = 1)', () => {
   it.each(Object.entries(realisticUrls()))('quiet zone icinde kalir: %s', async (_label, url) => {
     const rawSvg = await QRCode.toString(url, {

@@ -55,6 +55,11 @@ export default async function KodlarimPage({ params }: Props) {
     unique_visitors: 0,
   };
 
+  const { data: planData } = await (supabase as any).rpc('get_my_plan_v1', {
+    p_business_id: businessId,
+  }) as { data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null };
+  const showQrWatermark = planData?.features.find((f) => f.feature_key === 'qr_watermark')?.enabled ?? true;
+
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
@@ -77,6 +82,7 @@ export default async function KodlarimPage({ params }: Props) {
           siteUrl={siteUrl}
           initialCodes={codes}
           stats={stats}
+          showQrWatermark={showQrWatermark}
         />
       </PanelIcerikYuzeyi>
     </div>

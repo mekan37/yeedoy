@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState, useCallback } from 'react';
 import { upsertQrCode, deleteQrCode } from './kod-islemleri';
+import { addPngWatermark } from '@/src/ui/bolumler/karekod-uretici';
 
 export interface QrCode {
   id: string;
@@ -28,6 +29,7 @@ interface Props {
   siteUrl: string;
   initialCodes: QrCode[];
   stats: QrStats;
+  showQrWatermark: boolean;
 }
 
 const TYPE_LABELS: Record<string, string> = {
@@ -50,7 +52,7 @@ function formatNum(n: number) {
   return n >= 1000 ? (n / 1000).toFixed(1).replace('.', ',') + ' B' : String(n);
 }
 
-export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCodes, stats }: Props) {
+export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCodes, stats, showQrWatermark }: Props) {
   const [codes, setCodes] = useState<QrCode[]>(initialCodes);
   const [selected, setSelected] = useState<QrCode | null>(initialCodes[0] ?? null);
   const [search, setSearch] = useState('');
@@ -79,12 +81,17 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
       const dataUrl = await qrCode.toDataURL(url, {
         errorCorrectionLevel: 'H',
         margin: 2,
-        width: 256,
+        // 1280px (not the display size — the <img> is CSS-sized to h-48 w-48) so the
+        // downloaded PNG matches QR Studio's resolution and, critically, so the watermark's
+        // geometry (tuned in karekod-uretici.tsx for width=1280) stays inside the quiet zone.
+        // At the previous 256px width the same QR_WATERMARK_PNG_* constants overflow into
+        // the real QR modules — verified against the `qrcode` package's own module count.
+        width: 1280,
         color: { dark: '#1a1a1a', light: '#ffffff' },
       });
-      setQrDataUrl(dataUrl);
+      setQrDataUrl(showQrWatermark ? await addPngWatermark(dataUrl) : dataUrl);
     });
-  }, [selected, targetUrl, defaultMenuUrl]);
+  }, [selected, targetUrl, defaultMenuUrl, showQrWatermark]);
 
   const filtered = codes.filter((c) => {
     if (search && !c.name.toLowerCase().includes(search.toLowerCase())) return false;
