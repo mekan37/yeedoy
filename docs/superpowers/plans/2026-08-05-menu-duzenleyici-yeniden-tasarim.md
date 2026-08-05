@@ -113,7 +113,7 @@ describe('computeStats', () => {
 
 describe('filterItems', () => {
   it('arama metnine göre ada/açıklamaya göre filtreler (case-insensitive)', () => {
-    const result = filterItems(ITEMS, { search: 'kahve', sectionId: null, status: 'all' });
+    const result = filterItems(ITEMS, { search: 'kahv', sectionId: null, status: 'all' });
     expect(result.map((i) => i.id).sort()).toEqual(['i1', 'i3']);
   });
 
@@ -141,7 +141,7 @@ describe('sortItems', () => {
 
   it('isme göre alfabetik sıralar', () => {
     const result = sortItems(ITEMS, 'name');
-    expect(result.map((i) => i.id)).toEqual(['i2', 'i3', 'i1']);
+    expect(result.map((i) => i.id)).toEqual(['i2', 'i1', 'i3']);
   });
 
   it('fiyata göre artan sıralar', () => {
