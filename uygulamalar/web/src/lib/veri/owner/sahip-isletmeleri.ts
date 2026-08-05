@@ -45,12 +45,16 @@ export async function hasOwnerBusiness(
   return Boolean(data);
 }
 
-export async function getOwnerBusinesses<T>(
+/**
+ * `businesses` satırlarını, önceden bilinen bir işletme id listesinden çeker.
+ * `owner_claims` sorgusunu tekrar çalıştırmaz — çağıran taraf id'leri zaten
+ * biliyorsa (ör. `getOwnerBusinessIds` sonucu) bu fonksiyonu tercih etmeli.
+ */
+export async function getOwnerBusinessesByIds<T>(
   supabase: SupabaseLike,
-  userId: string,
+  ids: string[],
   select: string,
 ): Promise<T[]> {
-  const ids = await getOwnerBusinessIds(supabase, userId);
   if (ids.length === 0) return [];
 
   const { data, error } = await supabase
@@ -59,9 +63,18 @@ export async function getOwnerBusinesses<T>(
     .in('id', ids);
 
   if (error) {
-    logger.warn('getOwnerBusinesses failed', { userId, error });
+    logger.warn('getOwnerBusinessesByIds failed', { error });
     return [];
   }
 
   return (data ?? []) as T[];
+}
+
+export async function getOwnerBusinesses<T>(
+  supabase: SupabaseLike,
+  userId: string,
+  select: string,
+): Promise<T[]> {
+  const ids = await getOwnerBusinessIds(supabase, userId);
+  return getOwnerBusinessesByIds<T>(supabase, ids, select);
 }

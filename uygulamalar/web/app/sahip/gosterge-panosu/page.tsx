@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
-import { getOwnerBusinessIds, getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { getOwnerBusinessIds, getOwnerBusinessesByIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 export const metadata: Metadata = {
@@ -72,12 +72,22 @@ type DashboardProps = {
   searchParams: Promise<{ bilgi?: string; isletme?: string | string[] }>;
 };
 
-/** Filtre linki üretir: seçim tüm işletmeleri kapsıyorsa parametreyi tamamen kaldırır. */
+/** "isletme" parametresinde tüm seçimin bilerek kaldırıldığını işaretleyen sentinel değer. */
+const NONE_SENTINEL = 'none';
+
+/**
+ * Filtre linki üretir: seçim tüm işletmeleri kapsıyorsa parametreyi tamamen kaldırır
+ * (varsayılan "tümü" durumu). Seçim bilerek sıfıra indirilmişse ("son pil'i de kaldır")
+ * `isletme` parametresini olmayan bir durumla karıştırmamak için NONE_SENTINEL yazılır —
+ * bu sayede sunucu tarafı "hiç parametre yok → tümü" ile "açıkça sıfır → hiçbiri" ayrımını yapabilir.
+ */
 function buildFilterHref(ids: string[], allIds: string[], bilgi?: string) {
   const params = new URLSearchParams();
   if (bilgi) params.set('bilgi', bilgi);
   const isAll = allIds.length > 0 && ids.length === allIds.length && allIds.every((id) => ids.includes(id));
-  if (!isAll) {
+  if (ids.length === 0) {
+    params.set('isletme', NONE_SENTINEL);
+  } else if (!isAll) {
     for (const id of ids) params.append('isletme', id);
   }
   const qs = params.toString();
@@ -187,18 +197,21 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const maxViews = Math.max(...viewDays.map(([, v]) => v), 1);
 
   // ── Çoklu işletme seçimi + işletme başına detay bloğu ─────────────────────
-  const ownerBusinesses = user
-    ? await getOwnerBusinesses<BizRow>(
-        supabase as any,
-        user.id,
-        'id, name, slug, category, logo_url, cover_url, is_verified, is_active',
-      )
-    : [];
+  // NOT: bizIds zaten yukarıda getOwnerBusinessIds ile hesaplandı; owner_claims
+  // sorgusunu tekrarlamamak için getOwnerBusinessesByIds kullanılır.
+  const ownerBusinesses = await getOwnerBusinessesByIds<BizRow>(
+    supabase as any,
+    bizIds,
+    'id, name, slug, category, logo_url, cover_url, is_verified, is_active',
+  );
   const allBizIds = ownerBusinesses.map((b) => b.id);
 
   const requestedIdsRaw = isletme ? (Array.isArray(isletme) ? isletme : [isletme]) : [];
+  // Kullanıcı son pil'i de kaldırdığında buildFilterHref `isletme=none` yazar — bu durumda
+  // "hiç parametre yok" (→ tümü) ile "açıkça sıfır seçim" (→ hiçbiri) birbirinden ayrılır.
+  const isExplicitNone = requestedIdsRaw.length === 1 && requestedIdsRaw[0] === NONE_SENTINEL;
   const requestedIds = requestedIdsRaw.filter((id) => allBizIds.includes(id));
-  const selectedIds = requestedIds.length > 0 ? requestedIds : allBizIds;
+  const selectedIds = isExplicitNone ? [] : requestedIds.length > 0 ? requestedIds : allBizIds;
   const selectedBusinesses = ownerBusinesses.filter((b) => selectedIds.includes(b.id));
 
   const statsMap = new Map<string, { avg_rating: number | null; reviews_count: number | null }>();
