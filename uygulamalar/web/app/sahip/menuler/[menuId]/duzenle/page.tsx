@@ -111,6 +111,7 @@ export default async function MenuEditorPage({ params }: Props) {
             is_available: item.is_available,
             section_id: item.section_id,
             sort_order: item.sort_order,
+            updated_at: item.updated_at,
             calories_min: item.calories_min ?? null,
             portion_size: item.portion_size ?? null,
             portion_unit: item.portion_unit ?? null,
