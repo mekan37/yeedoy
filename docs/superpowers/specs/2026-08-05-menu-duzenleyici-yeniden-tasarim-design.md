@@ -32,9 +32,11 @@ Kullanıcı ayrıca bir referans görsel paylaştı ("Menü Yönetimi" başlıkl
 
 Mevcut `menu_sections` (id, title, sort_order) = "Kategori". Mevcut `menu_items` (name, description, price_cents, is_available, image_url, sort_order, section_id) yeterli. Yeni sütun/tablo gerekmiyor.
 
-### Bulunan, çözülmesi gereken bir tutarsızlık
+### Çöp kutusu mekanizması (araştırıldı, çözüldü)
 
-`list_owner_menu_trash_v1` RPC'si `entity_type: 'item'` döndürebiliyor (çöp kutusu sayfası bunu render ediyor) ama `menu_items` tablosunda soft-delete için `deleted_at` gibi bir kolon **yok**, ve mevcut `deleteItem` server action'ı gerçek bir `DELETE` yapıyor (hard delete). Yani ya çöp kutusu ürünler için hiç çalışmıyor, ya da farklı bir mekanizma var ve henüz bulunamadı. **Implementasyon sırasında netleştirilmeli**: toplu silme (ve varsa mevcut tekli silme) hangi gerçek mekanizmayı kullanacak — plan yazma aşamasında bu araştırılıp kesinleştirilecek; tasarım bunu varsaymıyor.
+`list_owner_menu_trash_v1` RPC'sinin SQL gövdesi incelendi: `entity_type='item'` için ayrı bir soft-delete kolonu YOK — RPC basitçe `is_available = false` olan ürünleri "çöp kutusunda" sayıyor. Yani **"Pasif" durumu zaten çöp kutusu karşılığı**; mevcut `deleteItem` server action'ı ise tamamen ayrı, gerçek bir kalıcı `DELETE` (hard delete, çöp kutusundan geçmiyor).
+
+Buna göre: **"Toplu aktif/pasif yapma"** zaten çöp kutusuna gönderme/geri alma işlevi görüyor (ek bir mekanizma gerekmiyor). **"Toplu silme"** mevcut `deleteItem`'ın tekrarlı çağrısıyla gerçek, kalıcı silme yapacak (kullanıcıya bunun geri alınamaz olduğu netçe belirtilecek — tek seferlik "sil" işleminde zaten confirm dialogu var, toplu işlemde de olacak).
 
 ### Sürükle-bırak sıralama
 
@@ -52,7 +54,7 @@ Tüm yeni bileşenler mevcut tasarım sistemi token'larını kullanacak (`bg-car
 2. **Kategori sekmeleri** — `menu_sections` listesinden dinamik, "Tümü" + her bölüm; tablo filtreleme, URL state veya client state (implementasyon sırasında karar verilecek — sayfa zaten `'use client'` bir bileşen olduğu için client state de makul).
 3. **Araç çubuğu** — arama input, kategori dropdown, durum dropdown (Tümü/Aktif/Pasif), sıralama dropdown (ad/fiyat/son güncelleme gibi kolon bazlı sıralama — sürükle-bırak'tan farklı, sürükle-bırak'ı geçersiz kılar/sadece "Manuel" sıralama modundayken sürükle-bırak aktif olur), "Toplu İşlemler" dropdown (satır seçimi checkbox'larıyla birlikte aktif olur).
 4. **Tablo** — sürükle-bırak handle (#), görsel thumbnail, ad+açıklama (truncate), kategori rozeti, fiyat, durum pill, son güncelleme, işlemler (düzenle → yan panel aç, kopyala, sil).
-5. **Düzenleme yan paneli/modal** — mevcut `menu-duzenleyici-istemcisi.tsx` içindeki TÜM form alanları ve AI özellikleri (alerjen/kalori AI doldurma, AI görsel üretme, alerjen/malzeme editörü, çeviriler linki, spesiyel işaretleme) buraya taşınır — hiçbiri kaldırılmaz, sadece konteyner değişir (accordion/inline yerine yan panel).
+5. **Düzenleme yan paneli/modal** — mevcut `ItemForm` bileşenindeki (menu-duzenleyici-istemcisi.tsx:212-522) TÜM form alanları ve AI özellikleri taşınır: ad, fiyat, açıklama, görsel (yükleme + AI ile üretme), satışta/değil, kalori, porsiyon miktar/birim, malzeme etiketleri, AI ile alerjen/kalori doldurma, alerjen seçici grid. Hiçbiri kaldırılmaz, sadece konteyner değişir (inline accordion yerine yan panel). **Not (plan yazımı sırasında doğrulandı):** "Spesiyel" işaretleme ve "Çeviriler" bu editörün bir parçası değil — ayrı sayfalarda yaşıyor (`[menuId]/page.tsx`'teki spesiyel-toggle, `/sahip/menu/ceviriler/`) ve bu turun kapsamı dışında kalıyor; ilk tasarım taslağındaki yanlış varsayım düzeltildi.
 6. **Kategori Yönetimi widget'ı** — sağ sidebar, her kategori için ürün sayısı + widget içinde hızlı ekle/düzenle (mevcut `createSection`/`updateSection` action'larını kullanır) + "Tüm Kategorileri Yönet" linki (mevcut `/sahip/menuler/[menuId]/kategoriler` sayfasına).
 7. **Canlı Önizleme widget'ı** — sağ sidebar, seçili/son düzenlenen ürünün basit kart önizlemesi (görsel + ad + açıklama + fiyat + durum rozeti) — mockup'taki gibi, gerçek public sayfa embed'i değil.
 8. **"Kategori Ekle" / "Yeni Ürün Ekle" modalleri** — üst sağ butonlar, sayfadan ayrılmadan hızlı ekleme.
