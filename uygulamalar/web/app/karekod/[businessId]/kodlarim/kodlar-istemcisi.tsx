@@ -61,6 +61,7 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
   const [editing, setEditing] = useState<QrCode | null>(null);
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+  const [qrError, setQrError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
@@ -75,9 +76,13 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
 
   // Seçim değiştiğinde (veya ilk yüklemede varsayılan için) QR kod üret
   useEffect(() => {
+    let alive = true;
     const url = selected ? targetUrl(selected) : defaultMenuUrl;
     setQrDataUrl(null);
-    import('qrcode').then(async (qrCode) => {
+    setQrError(null);
+
+    async function generateQr() {
+      const qrCode = await import('qrcode');
       const dataUrl = await qrCode.toDataURL(url, {
         errorCorrectionLevel: 'H',
         margin: 2,
@@ -89,8 +94,19 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
         width: 1280,
         color: { dark: '#1a1a1a', light: '#ffffff' },
       });
+
+      if (!alive) return;
       setQrDataUrl(showQrWatermark ? await addPngWatermark(dataUrl) : dataUrl);
+    }
+
+    void generateQr().catch(() => {
+      if (!alive) return;
+      setQrError('QR kod oluşturulamadı. Lütfen tekrar deneyin.');
     });
+
+    return () => {
+      alive = false;
+    };
   }, [selected, targetUrl, defaultMenuUrl, showQrWatermark]);
 
   const filtered = codes.filter((c) => {
@@ -295,6 +311,11 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
                     alt={selected?.name ?? 'Menü QR'}
                     className="h-48 w-48 rounded-lg"
                   />
+                ) : qrError ? (
+                  <div className="flex h-48 w-48 flex-col items-center justify-center gap-2 rounded-lg bg-border/30 px-3 text-center">
+                    <InfoIcon className="h-5 w-5 text-danger" />
+                    <p className="text-xs font-bold text-danger">{qrError}</p>
+                  </div>
                 ) : (
                   <div className="flex h-48 w-48 items-center justify-center rounded-lg bg-border/30">
                     <SpinIcon className="h-6 w-6 animate-spin text-muted" />
