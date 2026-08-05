@@ -259,6 +259,8 @@ export async function reorderItem(
   menuId: string,
   newSortOrder: number,
 ): Promise<ActionResult> {
+  if (!Number.isInteger(newSortOrder) || newSortOrder < 0) return { error: 'Geçersiz sıralama değeri' };
+
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
