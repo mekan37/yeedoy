@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
@@ -10,6 +11,14 @@ import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { getOnboardingStatus } from '@/src/lib/veri/owner/sahip-baslangic-durumu';
+
+export interface SahipKabukIsletmeKimligi {
+  id: string;
+  name: string;
+  category: string | null;
+  logoUrl: string | null;
+  isVerified: boolean;
+}
 
 const ownerNavSections: NavSection[] = [
   {
@@ -81,9 +90,29 @@ function useOnboardingComplete() {
 interface SahipKabukIstemcisiProps {
   children: ReactNode;
   bannerSlot?: ReactNode;
+  isletme?: SahipKabukIsletmeKimligi | null;
+  isletmeSayisi?: number;
+  yorumBadgeSayisi?: number;
 }
 
-export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcisiProps) {
+function navSectionsWithYorumBadge(sections: NavSection[], badgeCount: number): NavSection[] {
+  if (badgeCount <= 0) return sections;
+  const badge = badgeCount > 99 ? '99+' : String(badgeCount);
+  return sections.map((section) => ({
+    ...section,
+    items: section.items.map((item) =>
+      item.href === '/sahip/yorumlar' ? { ...item, badge } : item,
+    ),
+  }));
+}
+
+export function SahipKabukIstemcisi({
+  children,
+  bannerSlot,
+  isletme = null,
+  isletmeSayisi = 0,
+  yorumBadgeSayisi = 0,
+}: SahipKabukIstemcisiProps) {
   const user = useCurrentUser();
   const onboardingComplete = useOnboardingComplete();
   const pathname = usePathname();
@@ -93,17 +122,23 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
     return <AppProviders>{children}</AppProviders>;
   }
 
+  // Kullanıcı zaten Yorumlar sayfasındayken rozeti gösterme
+  const effectiveYorumBadge = pathname?.startsWith('/sahip/yorumlar') ? 0 : yorumBadgeSayisi;
+
+  const baseSections = onboardingComplete === true
+    ? ownerNavSections.map((section) => ({
+        ...section,
+        items: section.items.filter((item) => item.href !== '/sahip/baslangic'),
+      }))
+    : ownerNavSections;
+
   return (
     <AppProviders>
       <PanelShell
-        navSections={onboardingComplete === true
-          ? ownerNavSections.map((section) => ({
-              ...section,
-              items: section.items.filter((item) => item.href !== '/sahip/baslangic'),
-            }))
-          : ownerNavSections}
+        navSections={navSectionsWithYorumBadge(baseSections, effectiveYorumBadge)}
         logoSlot={<OwnerLogo />}
         topbarTitle="Sahip Paneli"
+        topbarCenter={<IsletmeKimlikRozeti isletme={isletme} isletmeSayisi={isletmeSayisi} />}
         sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
         topbarActions={
           user ? (
@@ -121,6 +156,53 @@ export function SahipKabukIstemcisi({ children, bannerSlot }: SahipKabukIstemcis
       </PanelShell>
     </AppProviders>
   );
+}
+
+function IsletmeKimlikRozeti({
+  isletme,
+  isletmeSayisi,
+}: {
+  isletme: SahipKabukIsletmeKimligi | null;
+  isletmeSayisi: number;
+}) {
+  if (isletme) {
+    return (
+      <Link
+        href="/sahip/isletmeler"
+        className="flex items-center gap-2 rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-bold text-textStrong transition-colors hover:bg-textStrong/[0.05]"
+      >
+        <span className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 text-[11px] font-black text-primary">
+          {isletme.logoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={isletme.logoUrl} alt={isletme.name} className="h-full w-full object-cover" />
+          ) : (
+            isletme.name.charAt(0).toUpperCase()
+          )}
+        </span>
+        <span className="max-w-[180px] truncate">{isletme.name}</span>
+        {isletme.isVerified && (
+          <span className="shrink-0 rounded-full bg-primary/12 px-1.5 py-0.5 text-[10px] font-extrabold text-primary">
+            Onaylı
+          </span>
+        )}
+      </Link>
+    );
+  }
+
+  if (isletmeSayisi > 1) {
+    return (
+      <Link
+        href="/sahip/isletmeler"
+        className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-bold text-textStrong transition-colors hover:bg-textStrong/[0.05]"
+      >
+        <BuildingIcon />
+        <span>İşletmelerim</span>
+        <span className="text-muted">({isletmeSayisi})</span>
+      </Link>
+    );
+  }
+
+  return null;
 }
 
 function OwnerLogo() {
