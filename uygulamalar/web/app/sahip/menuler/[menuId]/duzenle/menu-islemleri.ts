@@ -281,3 +281,127 @@ export async function reorderItem(
   revalidateMenuEditor(menuId);
   return null;
 }
+
+export async function bulkSetAvailability(
+  itemIds: string[],
+  menuId: string,
+  isAvailable: boolean,
+): Promise<ActionResult> {
+  if (itemIds.length === 0) return null;
+  const context = await getOwnedMenuContext(menuId);
+  if (!context.ok) return { error: context.error };
+
+  const { data: sections } = await (context.supabase as any)
+    .from('menu_sections')
+    .select('id')
+    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+  const sectionIds = (sections ?? []).map((section) => section.id);
+  if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
+
+  const { error } = await (context.supabase as any)
+    .from('menu_items')
+    .update({ is_available: isAvailable })
+    .in('id', itemIds)
+    .in('section_id', sectionIds);
+  if (error) return { error: error.message };
+
+  revalidateMenuEditor(menuId);
+  return null;
+}
+
+export async function bulkMoveSection(
+  itemIds: string[],
+  menuId: string,
+  targetSectionId: string,
+): Promise<ActionResult> {
+  if (itemIds.length === 0) return null;
+  const context = await getOwnedMenuContext(menuId);
+  if (!context.ok) return { error: context.error };
+
+  const { data: sections } = await (context.supabase as any)
+    .from('menu_sections')
+    .select('id')
+    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+  const sectionIds = (sections ?? []).map((section) => section.id);
+  if (!sectionIds.includes(targetSectionId)) return { error: 'Hedef bölüm bu menüye ait değil' };
+
+  const { error } = await (context.supabase as any)
+    .from('menu_items')
+    .update({ section_id: targetSectionId })
+    .in('id', itemIds)
+    .in('section_id', sectionIds);
+  if (error) return { error: error.message };
+
+  revalidateMenuEditor(menuId);
+  return null;
+}
+
+export async function bulkDeleteItems(
+  itemIds: string[],
+  menuId: string,
+): Promise<ActionResult> {
+  if (itemIds.length === 0) return null;
+  const context = await getOwnedMenuContext(menuId);
+  if (!context.ok) return { error: context.error };
+
+  const { data: sections } = await (context.supabase as any)
+    .from('menu_sections')
+    .select('id')
+    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+  const sectionIds = (sections ?? []).map((section) => section.id);
+  if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
+
+  const { error } = await (context.supabase as any)
+    .from('menu_items')
+    .delete()
+    .in('id', itemIds)
+    .in('section_id', sectionIds);
+  if (error) return { error: error.message };
+
+  revalidateMenuEditor(menuId);
+  return null;
+}
+
+export async function duplicateItem(
+  itemId: string,
+  menuId: string,
+): Promise<{ error: string } | { itemId: string }> {
+  const context = await getOwnedMenuContext(menuId);
+  if (!context.ok) return { error: context.error };
+
+  const { data: sections } = await (context.supabase as any)
+    .from('menu_sections')
+    .select('id')
+    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+  const sectionIds = (sections ?? []).map((section) => section.id);
+  if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
+
+  const { data: original, error: fetchErr } = await (context.supabase as any)
+    .from('menu_items')
+    .select('name, description, image_url, price_cents, currency, is_available, section_id, calories_min, calories_max, portion_size, portion_unit, calorie_source')
+    .eq('id', itemId)
+    .in('section_id', sectionIds)
+    .maybeSingle() as { data: Record<string, unknown> | null; error: { message: string } | null };
+  if (fetchErr) return { error: fetchErr.message };
+  if (!original) return { error: 'Ürün bulunamadı' };
+
+  const { count } = await (context.supabase as any)
+    .from('menu_items')
+    .select('id', { count: 'exact', head: true })
+    .eq('section_id', original.section_id as string) as { count: number | null };
+
+  const { data: copy, error: insertErr } = await (context.supabase as any)
+    .from('menu_items')
+    .insert({
+      ...original,
+      name: `${original.name as string} (Kopya)`,
+      business_id: context.businessId,
+      sort_order: count ?? 0,
+    })
+    .select('id')
+    .single() as { data: { id: string } | null; error: { message: string } | null };
+  if (insertErr) return { error: insertErr.message };
+
+  revalidateMenuEditor(menuId);
+  return { itemId: copy?.id ?? '' };
+}
