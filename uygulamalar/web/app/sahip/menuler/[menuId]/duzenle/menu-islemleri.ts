@@ -253,3 +253,29 @@ export async function deleteItem(itemId: string, menuId: string): Promise<Action
   revalidateMenuEditor(menuId);
   return null;
 }
+
+export async function reorderItem(
+  itemId: string,
+  menuId: string,
+  newSortOrder: number,
+): Promise<ActionResult> {
+  const context = await getOwnedMenuContext(menuId);
+  if (!context.ok) return { error: context.error };
+
+  const { data: sections } = await (context.supabase as any)
+    .from('menu_sections')
+    .select('id')
+    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+  const sectionIds = (sections ?? []).map((section) => section.id);
+  if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
+
+  const { error } = await (context.supabase as any)
+    .from('menu_items')
+    .update({ sort_order: newSortOrder })
+    .eq('id', itemId)
+    .in('section_id', sectionIds);
+  if (error) return { error: error.message };
+
+  revalidateMenuEditor(menuId);
+  return null;
+}
