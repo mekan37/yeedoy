@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { enforceRateLimit } from "../_shared/rate-limit.ts";
 
 function json(data: unknown, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -98,6 +99,12 @@ serve(async (req) => {
     return json({ ok: false, error: "not_authenticated" }, 401);
   }
 
+  try {
+    await enforceRateLimit(userRes.user.id, "ai-menu-image-gen", 20);
+  } catch (rateLimitResponse) {
+    return rateLimitResponse as Response;
+  }
+
   let body: Record<string, unknown>;
   try {
     body = await req.json();
@@ -106,8 +113,25 @@ serve(async (req) => {
   }
 
   const itemName = String(body.item_name ?? "").trim();
+  const businessId = String(body.business_id ?? "").trim();
+
   if (itemName.length < 2) {
     return json({ ok: false, error: "item_name_too_short" }, 400);
+  }
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(businessId)) {
+    return json({ ok: false, error: "invalid_business_id" }, 400);
+  }
+
+  const { error: limitError } = await userClient.rpc("_check_plan_limit_v1", {
+    p_business_id: businessId,
+    p_feature_key: "ai_image_gen",
+  });
+  if (limitError) {
+    const unauthorized = limitError.message.includes("unauthorized");
+    return json(
+      { ok: false, error: unauthorized ? "unauthorized" : "plan_limit_exceeded" },
+      unauthorized ? 403 : 402,
+    );
   }
 
   try {

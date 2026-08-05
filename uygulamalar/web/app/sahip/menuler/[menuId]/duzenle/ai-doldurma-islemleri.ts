@@ -33,10 +33,10 @@ export async function aiIleAlerjenKaloriDoldur(
 
   const [allergenRes, nutritionRes] = await Promise.all([
     supabase.functions.invoke('ai-allergen-detect', {
-      body: { item_name: itemName, description },
+      body: { item_name: itemName, description, business_id: businessId },
     }),
     supabase.functions.invoke('ai-nutrition-estimate', {
-      body: { item_name: itemName, description },
+      body: { item_name: itemName, description, business_id: businessId },
     }),
   ]);
 
@@ -77,7 +77,7 @@ export async function aiIleGorselUret(
   if (limitError) return { error: 'Bu özellik yalnızca Pro kademede var.' };
 
   const { data, error } = await supabase.functions.invoke('ai-menu-image-gen', {
-    body: { item_name: itemName },
+    body: { item_name: itemName, business_id: businessId },
   });
   if (error) return { error: 'Görsel üretilemedi: ' + error.message };
 

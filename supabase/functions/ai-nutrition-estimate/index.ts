@@ -199,8 +199,24 @@ serve(async (req) => {
 
   const itemName = String(body.item_name ?? "").trim();
   const description = String(body.description ?? "").trim();
+  const businessId = String(body.business_id ?? "").trim();
 
   if (itemName.length < 2) return json({ ok: false, error: "item_name_too_short" }, 400);
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(businessId)) {
+    return json({ ok: false, error: "invalid_business_id" }, 400);
+  }
+
+  const { error: limitError } = await userClient.rpc("_check_plan_limit_v1", {
+    p_business_id: businessId,
+    p_feature_key: "allergen_ai",
+  });
+  if (limitError) {
+    const unauthorized = limitError.message.includes("unauthorized");
+    return json(
+      { ok: false, error: unauthorized ? "unauthorized" : "plan_limit_exceeded" },
+      unauthorized ? 403 : 402,
+    );
+  }
 
   try {
     // Step 1: USDA lookup (best-effort)
