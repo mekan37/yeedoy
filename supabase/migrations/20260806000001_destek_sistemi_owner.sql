@@ -13,7 +13,16 @@ CREATE POLICY support_tickets_owner_select ON public.support_tickets
 
 DROP POLICY IF EXISTS support_tickets_owner_insert ON public.support_tickets;
 CREATE POLICY support_tickets_owner_insert ON public.support_tickets
-  FOR INSERT TO authenticated WITH CHECK (user_id = auth.uid());
+  FOR INSERT TO authenticated WITH CHECK (
+    user_id = auth.uid()
+    AND status = 'open'
+    AND priority = 'medium'
+    AND assigned_to IS NULL
+    AND (
+      business_id IS NULL
+      OR public.is_owner_of_business(business_id)
+    )
+  );
 
 DROP POLICY IF EXISTS support_ticket_messages_owner_select ON public.support_ticket_messages;
 CREATE POLICY support_ticket_messages_owner_select ON public.support_ticket_messages
