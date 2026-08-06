@@ -53,6 +53,7 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/bildirimler', label: 'Bildirimler', icon: <BellIcon /> },
       { href: '/sahip/denetim-kaydi', label: 'Denetim Kaydı', icon: <ShieldIcon /> },
       { href: '/sahip/cop-kutusu', label: 'Çöp Kutusu', icon: <TrashIcon /> },
+      { href: '/sahip/destek', label: 'Destek', icon: <HeadsetIcon /> },
       { href: '/sahip/ayarlar', label: 'Ayarlar', icon: <SettingsIcon /> },
     ],
   },
@@ -311,6 +312,15 @@ function TagIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
       <line x1="7" y1="7" x2="7.01" y2="7" />
+    </svg>
+  );
+}
+
+function HeadsetIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
     </svg>
   );
 }
