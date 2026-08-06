@@ -83,7 +83,7 @@ Sol menüde yeni "Çoklu Şube Yönetimi" nav öğesi (owner'ın zinciri yoksa d
 
 **Sağ sidebar:**
 - Şehre göre dağılım: basit sayı listesi (dataviz skill'e göre renklendirilmiş, mockup'taki donut yerine — token bazlı, erişilebilir bir liste/basit halka grafik; dataviz skill'in verdiği yöne göre implementasyon sırasında netleşecek).
-- Mini harita: `harita-istemcisi.tsx`'ten hafifletilmiş, sadece zincir şubelerinin pin'lerini gösteren salt-okunur bir versiyon; "Haritada Görüntüle" linki gerçek keşif haritasına gider (business_id filtreli).
+- Mini harita: **Araştırma sırasında bulundu** — `/kesif/harita` sayfası business_id filtresi desteklemiyor, ve maplibre-gl bu projede daha önce ciddi bir Turbopack worker bug'ına neden olmuştu (bkz. proje belleği, PMTiles fix). Gerçek interaktif harita yerine, şehre göre dağılım listesiyle birleşik **statik bir şehir/pin-ikonu listesi** (yeni kütüphane bağımlılığı yok). "Haritada Görüntüle" linki genel `/kesif/harita` sayfasına gider (filtresiz — mevcut sayfa değiştirilmiyor).
 - Hızlı İşlemler: Şube Sıralamasını Düzenle (tabloyu sürükle-bırak moduna alır), Çalışma Saatlerini Yönet, Kampanya Atama, Raporu Dışa Aktar — dördü de modal/ayrı panel açar.
 
 **"+ Yeni Şube Ekle":** Modal — owner'ın zincire bağlı olmayan onaylı işletmeleri listelenir (varsa), seçilip branch_label girilir. Owner'ın eklenebilir işletmesi yoksa "Yeni İşletme Başvurusu Yap" linkiyle `/sahip/isletmeler/yeni`'ye yönlendirilir.
