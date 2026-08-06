@@ -1,525 +1,33 @@
 'use client';
 
-import Image from 'next/image';
-import { useRef, useState, useTransition } from 'react';
+import { useMemo, useState, useTransition } from 'react';
 import {
-  createSection,
-  updateSection,
-  deleteSection,
-  upsertItem,
-  deleteItem,
-  publishMenu,
   updateMenuTitle,
-  upsertItemAllergens,
-  upsertItemIngredients,
+  publishMenu,
+  createSection,
+  deleteItem,
+  reorderItem,
+  bulkSetAvailability,
+  bulkMoveSection,
+  bulkDeleteItems,
+  duplicateItem,
 } from './menu-islemleri';
-import { aiIleAlerjenKaloriDoldur, aiIleGorselUret } from './ai-doldurma-islemleri';
-
-const ALLERGEN_LIST = [
-  { code: 'gluten',         labelTr: 'Gluten'                      },
-  { code: 'crustaceans',    labelTr: 'Kabuklu Deniz Ürünleri'      },
-  { code: 'egg',            labelTr: 'Yumurta'                     },
-  { code: 'fish',           labelTr: 'Balık'                       },
-  { code: 'peanuts',        labelTr: 'Yer Fıstığı'                },
-  { code: 'soy',            labelTr: 'Soya'                        },
-  { code: 'milk',           labelTr: 'Süt'                         },
-  { code: 'treenuts',       labelTr: 'Sert Kabuklu Yemişler'      },
-  { code: 'celery',         labelTr: 'Kereviz'                     },
-  { code: 'mustard',        labelTr: 'Hardal'                      },
-  { code: 'sesame',         labelTr: 'Susam'                       },
-  { code: 'sulfur_dioxide', labelTr: 'Kükürt Dioksit / Sülfitler'  },
-  { code: 'lupin',          labelTr: 'Acı Bakla'                   },
-  { code: 'molluscs',       labelTr: 'Yumuşakçalar'                },
-] as const;
-
-type Section = { id: string; title: string; sort_order: number };
-type Item = {
-  id: string;
-  name: string;
-  description: string | null;
-  image_url: string | null;
-  price_cents: number;
-  currency: string;
-  is_available: boolean;
-  section_id: string;
-  sort_order: number;
-  calories_min: number | null;
-  portion_size: number | null;
-  portion_unit: string | null;
-};
-
-function formatPrice(cents: number) {
-  return (cents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ₺';
-}
-
-function Input({
-  label,
-  name,
-  defaultValue = '',
-  required = false,
-  type = 'text',
-  placeholder = '',
-}: {
-  label: string;
-  name: string;
-  defaultValue?: string;
-  required?: boolean;
-  type?: string;
-  placeholder?: string;
-}) {
-  return (
-    <div className="flex flex-col gap-1">
-      <label className="text-xs font-bold text-muted">{label}</label>
-      <input
-        name={name}
-        type={type}
-        defaultValue={defaultValue}
-        required={required}
-        placeholder={placeholder}
-        className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-      />
-    </div>
-  );
-}
-
-function ImageUrlField({
-  businessId,
-  label,
-  initialUrl = null,
-  itemNameRef,
-}: {
-  businessId: string;
-  label: string;
-  initialUrl?: string | null;
-  itemNameRef: React.RefObject<HTMLFormElement | null>;
-}) {
-  const [url, setUrl] = useState(initialUrl ?? '');
-  const [uploading, setUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const [aiGenerating, setAiGenerating] = useState(false);
-  const isBusy = uploading || aiGenerating;
-
-  async function upload(file: File | null) {
-    if (!file || aiGenerating) return;
-    setUploading(true);
-    setUploadError(null);
-
-    try {
-      const formData = new FormData();
-      formData.set('businessId', businessId);
-      formData.set('type', 'item');
-      formData.set('file', file);
-
-      const response = await fetch('/sunucu/medya/yukleme', {
-        method: 'POST',
-        body: formData,
-      });
-      const payload = (await response.json().catch(() => null)) as {
-        data?: { url?: string };
-      } | null;
-
-      if (!response.ok || !payload?.data?.url) {
-        throw new Error('upload_failed');
-      }
-
-      setUrl(payload.data.url);
-    } catch {
-      setUploadError('Görsel yüklenemedi.');
-    } finally {
-      setUploading(false);
-    }
-  }
-
-  async function generateWithAi() {
-    if (uploading) return;
-    const nameInput = itemNameRef.current?.elements.namedItem('name') as HTMLInputElement | null;
-    const name = nameInput?.value?.trim();
-    if (!name) {
-      setUploadError('Görsel oluşturmadan önce ürün adını girin.');
-      return;
-    }
-    setAiGenerating(true);
-    setUploadError(null);
-    try {
-      const result = await aiIleGorselUret(businessId, name);
-      if ('error' in result) {
-        setUploadError(result.error);
-        return;
-      }
-      setUrl(result.imageUrl);
-    } catch {
-      setUploadError('Görsel oluşturma başarısız oldu, tekrar deneyin.');
-    } finally {
-      setAiGenerating(false);
-    }
-  }
-
-  return (
-    <div className="grid gap-3 rounded-xl border border-border bg-bg p-3 sm:grid-cols-[96px_1fr]">
-      <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl border border-border bg-card text-[11px] font-extrabold text-muted">
-        {url ? (
-          <Image src={url} alt="" fill sizes="96px" className="object-cover" unoptimized />
-        ) : (
-          'Görsel yok'
-        )}
-      </div>
-      <div className="flex min-w-0 flex-col gap-2">
-        <input type="hidden" name="imageUrl" value={url} />
-        <label className="text-xs font-bold text-muted">{label}</label>
-        <input
-          type="url"
-          value={url}
-          onChange={(event) => setUrl(event.target.value)}
-          placeholder="https://..."
-          className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-        />
-        <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={generateWithAi}
-            disabled={isBusy}
-            className="inline-flex min-h-10 items-center rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-extrabold text-primary hover:bg-primary/10 disabled:opacity-60 cursor-pointer"
-          >
-            {aiGenerating ? 'AI çalışıyor...' : '✨ AI ile görsel oluştur'}
-          </button>
-          <label className="inline-flex min-h-10 cursor-pointer items-center rounded-xl border border-border bg-card px-3 py-2 text-xs font-extrabold text-textStrong hover:bg-white">
-            {uploading ? 'Yükleniyor...' : 'Bilgisayardan seç'}
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              disabled={isBusy}
-              onChange={(event) => upload(event.target.files?.[0] ?? null)}
-              className="sr-only"
-            />
-          </label>
-          {url && (
-            <button
-              type="button"
-              onClick={() => setUrl('')}
-              disabled={isBusy}
-              className="min-h-10 rounded-xl border border-border px-3 py-2 text-xs font-extrabold text-muted hover:bg-card disabled:opacity-60"
-            >
-              Kaldır
-            </button>
-          )}
-          {uploadError && <span className="text-xs font-bold text-red-600">{uploadError}</span>}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ItemForm({
-  menuId,
-  sectionId,
-  businessId,
-  itemId,
-  initialValues,
-  initialAllergens,
-  initialIngredients,
-  submitLabel,
-  onSuccess,
-  onCancel,
-}: {
-  menuId: string;
-  sectionId: string;
-  businessId: string;
-  itemId?: string;
-  initialValues?: {
-    name: string;
-    description: string | null;
-    image_url: string | null;
-    price_cents: number;
-    is_available: boolean;
-    calories_min: number | null;
-    portion_size: number | null;
-    portion_unit: string | null;
-  };
-  initialAllergens: string[];
-  initialIngredients: string[];
-  submitLabel: string;
-  onSuccess: () => void;
-  onCancel: () => void;
-}) {
-  const [isPending, startTransition] = useTransition();
-  const [formError, setFormError] = useState<string | null>(null);
-  const [selectedAllergens, setSelectedAllergens] = useState<Set<string>>(
-    new Set(initialAllergens),
-  );
-  const [ingredients, setIngredients] = useState<string[]>(initialIngredients);
-  const [ingredientInput, setIngredientInput] = useState('');
-  const [aiLoading, setAiLoading] = useState(false);
-  const [calorieValue, setCalorieValue] = useState(initialValues?.calories_min ?? '');
-  const formRef = useRef<HTMLFormElement>(null);
-
-  async function aiIleDoldur() {
-    const nameInput = formRef.current?.elements.namedItem('name') as HTMLInputElement | null;
-    const descInput = formRef.current?.elements.namedItem('description') as HTMLInputElement | null;
-    const name = nameInput?.value?.trim();
-    if (!name) {
-      setFormError('AI doldurmadan önce ürün adını girin.');
-      return;
-    }
-    setAiLoading(true);
-    setFormError(null);
-    try {
-      const result = await aiIleAlerjenKaloriDoldur(businessId, name, descInput?.value ?? '');
-      if ('error' in result) {
-        setFormError(result.error);
-        return;
-      }
-      setSelectedAllergens(new Set(result.allergens));
-      if (result.calorieMin !== null) setCalorieValue(String(result.calorieMin));
-    } catch {
-      setFormError('AI çağrısı başarısız oldu, tekrar deneyin.');
-    } finally {
-      setAiLoading(false);
-    }
-  }
-
-  function toggleAllergen(code: string) {
-    setSelectedAllergens((prev) => {
-      const next = new Set(prev);
-      if (next.has(code)) next.delete(code);
-      else next.add(code);
-      return next;
-    });
-  }
-
-  function addIngredient() {
-    const trimmed = ingredientInput.trim();
-    if (trimmed && !ingredients.includes(trimmed)) {
-      setIngredients((prev) => [...prev, trimmed]);
-    }
-    setIngredientInput('');
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    fd.append('menuId', menuId);
-    fd.append('sectionId', sectionId);
-    if (itemId) fd.append('itemId', itemId);
-
-    setFormError(null);
-    startTransition(async () => {
-      const result = await upsertItem(fd);
-      if ('error' in result) {
-        setFormError(result.error);
-        return;
-      }
-      const resolvedId = result.itemId;
-      if (resolvedId) {
-        const allergenResult = await upsertItemAllergens(resolvedId, menuId, [
-          ...selectedAllergens,
-        ]);
-        if (allergenResult?.error) {
-          setFormError(allergenResult.error);
-          return;
-        }
-        const ingredientResult = await upsertItemIngredients(resolvedId, menuId, ingredients);
-        if (ingredientResult?.error) {
-          setFormError(ingredientResult.error);
-          return;
-        }
-      }
-      onSuccess();
-    });
-  }
-
-  return (
-    <form ref={formRef} className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>
-      <div className="grid grid-cols-2 gap-3">
-        <Input
-          label="Ürün Adı"
-          name="name"
-          defaultValue={initialValues?.name ?? ''}
-          required
-          placeholder="Ürün adı"
-        />
-        <Input
-          label="Fiyat (₺)"
-          name="price"
-          type="number"
-          defaultValue={initialValues ? String(initialValues.price_cents / 100) : ''}
-          required
-          placeholder="0.00"
-        />
-      </div>
-      <Input
-        label="Açıklama (opsiyonel)"
-        name="description"
-        defaultValue={initialValues?.description ?? ''}
-        placeholder="Kısa açıklama"
-      />
-      <ImageUrlField
-        businessId={businessId}
-        label="Ürün görseli"
-        initialUrl={initialValues?.image_url ?? null}
-        itemNameRef={formRef}
-      />
-      <label className="flex items-center gap-2 text-sm text-textStrong cursor-pointer">
-        <input
-          type="checkbox"
-          name="is_available"
-          defaultChecked={initialValues?.is_available ?? true}
-          className="rounded"
-        />
-        Satışta
-      </label>
-
-      {/* Şeffaf Menü Bilgileri */}
-      <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg p-3">
-        <p className="text-xs font-bold text-muted">Şeffaf Menü Bilgileri (İsteğe Bağlı)</p>
-
-        {/* Kalori */}
-        <div className="flex flex-col gap-1">
-          <label className="text-xs font-bold text-muted">Enerji Değeri (kcal)</label>
-          <input
-            name="calories"
-            type="number"
-            value={calorieValue}
-            onChange={(e) => setCalorieValue(e.target.value)}
-            min="0"
-            max="9999"
-            placeholder="örn: 450"
-            className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-          />
-        </div>
-
-        {/* Porsiyon */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="flex flex-col gap-1">
-            <label className="text-xs font-bold text-muted">Porsiyon Miktarı</label>
-            <input
-              name="portion_size"
-              type="number"
-              defaultValue={initialValues?.portion_size ?? ''}
-              min="0"
-              placeholder="örn: 350"
-              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-xs font-bold text-muted">Birim</label>
-            <select
-              name="portion_unit"
-              defaultValue={initialValues?.portion_unit ?? ''}
-              className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-            >
-              <option value="">Birim</option>
-              <option value="g">g</option>
-              <option value="ml">ml</option>
-              <option value="adet">adet</option>
-              <option value="dilim">dilim</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Malzemeler — tag-style input */}
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-bold text-muted">Malzemeler</p>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={ingredientInput}
-              onChange={(e) => setIngredientInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  addIngredient();
-                }
-              }}
-              placeholder="örn: domates"
-              className="flex-1 rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-            />
-            <button
-              type="button"
-              onClick={addIngredient}
-              className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-bold text-textStrong hover:bg-bg cursor-pointer"
-            >
-              Ekle
-            </button>
-          </div>
-          {ingredients.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {ingredients.map((ing, i) => (
-                <span
-                  key={i}
-                  className="flex items-center gap-1 rounded-full border border-border bg-card px-2.5 py-1 text-xs font-semibold text-textStrong"
-                >
-                  {ing}
-                  <button
-                    type="button"
-                    onClick={() => setIngredients((prev) => prev.filter((_, j) => j !== i))}
-                    className="ml-0.5 text-muted hover:text-textStrong cursor-pointer leading-none"
-                    aria-label={`${ing} malzemesini kaldır`}
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      <button
-        type="button"
-        onClick={aiIleDoldur}
-        disabled={aiLoading}
-        className="self-start rounded-xl border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-bold text-primary hover:bg-primary/10 disabled:opacity-60 cursor-pointer"
-      >
-        {aiLoading ? 'AI çalışıyor...' : '✨ AI ile alerjen ve kaloriyi doldur'}
-      </button>
-
-      {/* Allerjen seçici */}
-      <div className="flex flex-col gap-2">
-        <p className="text-xs font-bold text-muted">Alerjenler (Tarım Bakanlığı zorunlu)</p>
-        <div className="grid grid-cols-2 gap-1.5">
-          {ALLERGEN_LIST.map(({ code, labelTr }) => {
-            const active = selectedAllergens.has(code);
-            return (
-              <button
-                key={code}
-                type="button"
-                onClick={() => toggleAllergen(code)}
-                className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-bold text-left cursor-pointer transition-colors ${
-                  active
-                    ? 'border-primary bg-primary/10 text-textStrong'
-                    : 'border-border bg-card text-muted hover:bg-bg'
-                }`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0" />
-                <span>{labelTr}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {formError && <p className="text-xs font-bold text-red-600">{formError}</p>}
-
-      <div className="flex gap-2">
-        <button
-          type="submit"
-          disabled={isPending}
-          className="rounded-xl bg-primary px-3 py-2 text-xs font-bold text-white disabled:opacity-60 cursor-pointer"
-        >
-          {isPending ? 'Kaydediliyor...' : submitLabel}
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="rounded-xl border border-border px-3 py-2 text-xs font-bold text-textStrong cursor-pointer"
-        >
-          İptal
-        </button>
-      </div>
-    </form>
-  );
-}
+import {
+  type Section,
+  type Item,
+  type StatusFilter,
+  type SortMode,
+  computeStats,
+  filterItems,
+  sortItems,
+} from './menu-duzenleyici-yardimcilari';
+import { IstatistikKartlari } from './bilesenler/istatistik-kartlari';
+import { KategoriSekmeleri } from './bilesenler/kategori-sekmeleri';
+import { AracCubugu } from './bilesenler/arac-cubugu';
+import { UrunTablosu } from './bilesenler/urun-tablosu';
+import { UrunPaneli } from './bilesenler/urun-paneli';
+import { KategoriWidgeti } from './bilesenler/kategori-widgeti';
+import { CanliOnizlemeWidgeti } from './bilesenler/canli-onizleme-widgeti';
 
 export function MenuEditorClient({
   menuId,
@@ -542,22 +50,40 @@ export function MenuEditorClient({
 }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
-  const [addItemSectionId, setAddItemSectionId] = useState<string | null>(null);
-  const [editingItemId, setEditingItemId] = useState<string | null>(null);
-  const [showNewSection, setShowNewSection] = useState(false);
   const [showTitleEdit, setShowTitleEdit] = useState(false);
+  const [showNewSection, setShowNewSection] = useState(false);
 
   const sections = initSections;
   const items = initItems;
 
-  function itemsFor(sectionId: string) {
-    return items
-      .filter((i) => i.section_id === sectionId)
-      .sort((a, b) => a.sort_order - b.sort_order);
-  }
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState<StatusFilter>('all');
+  const [sortMode, setSortMode] = useState<SortMode>('manual');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [editingItemId, setEditingItemId] = useState<string | null>(null);
+  const [addingSectionId, setAddingSectionId] = useState<string | null>(null);
+  const [previewItemId, setPreviewItemId] = useState<string | null>(null);
 
-  async function run(action: () => Promise<{ error: string } | null>) {
+  const stats = useMemo(() => computeStats(sections, items), [sections, items]);
+
+  const itemCountsBySection = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const item of items) counts[item.section_id] = (counts[item.section_id] ?? 0) + 1;
+    return counts;
+  }, [items]);
+
+  const visibleItems = useMemo(() => {
+    const filtered = filterItems(items, { search, sectionId: activeSectionId, status });
+    return sortItems(filtered, sortMode);
+  }, [items, search, activeSectionId, status, sortMode]);
+
+  const editingItem = editingItemId ? items.find((i) => i.id === editingItemId) ?? null : null;
+  const previewItem = previewItemId
+    ? items.find((i) => i.id === previewItemId) ?? null
+    : visibleItems[0] ?? null;
+
+  function run(action: () => Promise<{ error: string } | null>) {
     setError(null);
     startTransition(async () => {
       const result = await action();
@@ -565,304 +91,176 @@ export function MenuEditorClient({
     });
   }
 
+  function toggleSelect(itemId: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(itemId)) next.delete(itemId); else next.add(itemId);
+      return next;
+    });
+  }
+
+  function toggleSelectAll() {
+    setSelectedIds((prev) => {
+      const allSelected = visibleItems.length > 0 && visibleItems.every((i) => prev.has(i.id));
+      if (allSelected) return new Set();
+      return new Set(visibleItems.map((i) => i.id));
+    });
+  }
+
+  async function handleDuplicate(itemId: string) {
+    setError(null);
+    startTransition(async () => {
+      const result = await duplicateItem(itemId, menuId);
+      if ('error' in result) setError(result.error);
+    });
+  }
+
   return (
-    <div className="flex flex-col gap-6">
-      {/* Menü başlığı + yayın kontrolleri */}
-      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4">
-        {showTitleEdit ? (
-          <form
-            className="flex items-center gap-2 flex-1"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const fd = new FormData(e.currentTarget);
-              const title = String(fd.get('title') ?? '');
-              run(() => updateMenuTitle(menuId, title));
-              setShowTitleEdit(false);
-            }}
-          >
-            <input
-              name="title"
-              defaultValue={initialTitle}
-              required
-              className="flex-1 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-            />
-            <button
-              type="submit"
-              className="rounded-xl bg-primary px-3 py-2 text-xs font-bold text-white cursor-pointer"
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div className="flex min-w-0 flex-1 flex-col gap-4">
+        {/* Menü başlığı + yayın kontrolleri */}
+        <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4">
+          {showTitleEdit ? (
+            <form
+              className="flex flex-1 items-center gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const fd = new FormData(e.currentTarget);
+                run(() => updateMenuTitle(menuId, String(fd.get('title') ?? '')));
+                setShowTitleEdit(false);
+              }}
             >
-              Kaydet
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowTitleEdit(false)}
-              className="rounded-xl border border-border px-3 py-2 text-xs font-bold text-textStrong cursor-pointer"
-            >
-              İptal
-            </button>
-          </form>
-        ) : (
-          <>
-            <span className="font-bold text-textStrong flex-1">{initialTitle}</span>
-            <button
-              onClick={() => setShowTitleEdit(true)}
-              className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-textStrong hover:bg-bg cursor-pointer"
-            >
-              Başlığı Düzenle
-            </button>
-          </>
-        )}
-        <div className="flex items-center gap-2">
-          {initialStatus !== 'published' && (
-            <button
-              onClick={() => run(() => publishMenu(menuId, 'published'))}
-              disabled={isPending}
-              className="rounded-xl bg-green-600 px-3 py-1.5 text-xs font-bold text-white disabled:opacity-60 cursor-pointer"
-            >
-              Yayınla
-            </button>
+              <input name="title" defaultValue={initialTitle} required className="flex-1 rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
+              <button type="submit" className="rounded-xl bg-primary px-3 py-2 text-xs font-bold text-white cursor-pointer">Kaydet</button>
+              <button type="button" onClick={() => setShowTitleEdit(false)} className="rounded-xl border border-border px-3 py-2 text-xs font-bold text-textStrong cursor-pointer">İptal</button>
+            </form>
+          ) : (
+            <>
+              <span className="flex-1 font-bold text-textStrong">{initialTitle}</span>
+              <button onClick={() => setShowTitleEdit(true)} className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-textStrong hover:bg-bg cursor-pointer">Başlığı Düzenle</button>
+            </>
           )}
-          {initialStatus === 'published' && (
-            <button
-              onClick={() => run(() => publishMenu(menuId, 'draft'))}
-              disabled={isPending}
-              className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-700 disabled:opacity-60 cursor-pointer"
-            >
-              Taslağa Al
-            </button>
-          )}
-          {initialStatus !== 'archived' && (
-            <button
-              onClick={() => run(() => publishMenu(menuId, 'archived'))}
-              disabled={isPending}
-              className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-muted hover:bg-bg disabled:opacity-60 cursor-pointer"
-            >
-              Arşivle
-            </button>
-          )}
-        </div>
-      </div>
-
-      {error && (
-        <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
-      )}
-
-      {/* Bölümler */}
-      {sections.map((section) => (
-        <div key={section.id} className="rounded-2xl border border-border bg-card">
-          {/* Bölüm başlığı */}
-          <div className="flex items-center justify-between border-b border-border px-5 py-3">
-            {editingSectionId === section.id ? (
-              <form
-                className="flex flex-1 items-center gap-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const fd = new FormData(e.currentTarget);
-                  const title = String(fd.get('title') ?? '');
-                  run(() => updateSection(section.id, menuId, title));
-                  setEditingSectionId(null);
-                }}
-              >
-                <input
-                  name="title"
-                  defaultValue={section.title}
-                  required
-                  className="flex-1 rounded-xl border border-border bg-bg px-3 py-1.5 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-                />
-                <button
-                  type="submit"
-                  className="rounded-xl bg-primary px-3 py-1.5 text-xs font-bold text-white cursor-pointer"
-                >
-                  Kaydet
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEditingSectionId(null)}
-                  className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-textStrong cursor-pointer"
-                >
-                  İptal
-                </button>
-              </form>
-            ) : (
-              <>
-                <span className="font-extrabold text-textStrong">{section.title}</span>
-                <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => setEditingSectionId(section.id)}
-                    className="rounded-lg border border-border px-2.5 py-1 text-[11px] font-bold text-muted hover:bg-bg cursor-pointer"
-                  >
-                    Düzenle
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (confirm(`"${section.title}" bölümünü sil?`))
-                        run(() => deleteSection(section.id, menuId));
-                    }}
-                    className="rounded-lg border border-red-200 px-2.5 py-1 text-[11px] font-bold text-red-600 hover:bg-red-50 cursor-pointer"
-                  >
-                    Sil
-                  </button>
-                </div>
-              </>
+          <div className="flex items-center gap-2">
+            {initialStatus !== 'published' && (
+              <button onClick={() => run(() => publishMenu(menuId, 'published'))} disabled={isPending} className="rounded-xl bg-green-600 px-3 py-1.5 text-xs font-bold text-white disabled:opacity-60 cursor-pointer">Yayınla</button>
+            )}
+            {initialStatus === 'published' && (
+              <button onClick={() => run(() => publishMenu(menuId, 'draft'))} disabled={isPending} className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-700 disabled:opacity-60 cursor-pointer">Taslağa Al</button>
+            )}
+            {initialStatus !== 'archived' && (
+              <button onClick={() => run(() => publishMenu(menuId, 'archived'))} disabled={isPending} className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-muted hover:bg-bg disabled:opacity-60 cursor-pointer">Arşivle</button>
             )}
           </div>
-
-          {/* Ürünler */}
-          <div className="divide-y divide-border">
-            {itemsFor(section.id).map((item) => (
-              <div key={item.id}>
-                {editingItemId === item.id ? (
-                  <ItemForm
-                    menuId={menuId}
-                    sectionId={section.id}
-                    businessId={businessId}
-                    itemId={item.id}
-                    initialValues={{
-                      name: item.name,
-                      description: item.description,
-                      image_url: item.image_url,
-                      price_cents: item.price_cents,
-                      is_available: item.is_available,
-                      calories_min: item.calories_min,
-                      portion_size: item.portion_size,
-                      portion_unit: item.portion_unit,
-                    }}
-                    initialAllergens={allergenMap[item.id] ?? []}
-                    initialIngredients={ingredientMap[item.id] ?? []}
-                    submitLabel="Kaydet"
-                    onSuccess={() => setEditingItemId(null)}
-                    onCancel={() => setEditingItemId(null)}
-                  />
-                ) : (
-                  <div className="flex items-center gap-4 px-5 py-3">
-                    {item.image_url ? (
-                      <Image
-                        src={item.image_url}
-                        alt={item.name}
-                        width={48}
-                        height={48}
-                        className="h-12 w-12 shrink-0 rounded-xl object-cover"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-dashed border-border bg-bg text-[10px] font-extrabold text-muted">
-                        Görsel
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-textStrong">{item.name}</span>
-                        {!item.is_available && (
-                          <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-bold text-zinc-500">
-                            Stok Dışı
-                          </span>
-                        )}
-                        {(allergenMap[item.id]?.length ?? 0) > 0 && (
-                          <span className="rounded-full border border-border bg-bg px-1.5 py-0.5 text-[10px] font-bold text-muted">
-                            {allergenMap[item.id].length} alerjen
-                          </span>
-                        )}
-                      </div>
-                      {item.description && (
-                        <p className="mt-0.5 text-[12px] text-muted truncate max-w-xs">
-                          {item.description}
-                        </p>
-                      )}
-                    </div>
-                    <span className="shrink-0 font-bold text-textStrong">
-                      {formatPrice(item.price_cents)}
-                    </span>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <button
-                        onClick={() => setEditingItemId(item.id)}
-                        className="rounded-lg border border-border px-2.5 py-1 text-[11px] font-bold text-muted hover:bg-bg cursor-pointer"
-                      >
-                        Düzenle
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (confirm(`"${item.name}" ürününü sil?`))
-                            run(() => deleteItem(item.id, menuId));
-                        }}
-                        className="rounded-lg border border-red-200 px-2.5 py-1 text-[11px] font-bold text-red-600 hover:bg-red-50 cursor-pointer"
-                      >
-                        Sil
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Ürün ekle */}
-          {addItemSectionId === section.id ? (
-            <div className="border-t border-border">
-              <ItemForm
-                menuId={menuId}
-                sectionId={section.id}
-                businessId={businessId}
-                initialAllergens={[]}
-                initialIngredients={[]}
-                submitLabel="Ürün Ekle"
-                onSuccess={() => setAddItemSectionId(null)}
-                onCancel={() => setAddItemSectionId(null)}
-              />
-            </div>
-          ) : (
-            <div className="border-t border-border px-5 py-3">
-              <button
-                onClick={() => setAddItemSectionId(section.id)}
-                className="text-sm font-bold text-primary hover:underline cursor-pointer"
-              >
-                + Ürün Ekle
-              </button>
-            </div>
-          )}
         </div>
-      ))}
 
-      {/* Yeni bölüm formu */}
-      {showNewSection ? (
-        <form
-          className="rounded-2xl border border-dashed border-border bg-card p-5 flex flex-col gap-3"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const fd = new FormData(e.currentTarget);
-            const title = String(fd.get('title') ?? '');
-            run(() => createSection(menuId, title, sections.length));
-            setShowNewSection(false);
+        {/* Ekleme butonları */}
+        <div className="flex justify-end gap-2">
+          {showNewSection ? (
+            <form
+              className="flex flex-1 items-center gap-2 rounded-xl border border-dashed border-border bg-card p-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const fd = new FormData(e.currentTarget);
+                run(() => createSection(menuId, String(fd.get('title') ?? ''), sections.length));
+                setShowNewSection(false);
+              }}
+            >
+              <input name="title" required autoFocus placeholder="Kategori adı" className="min-w-0 flex-1 rounded-lg border border-border bg-bg px-2 py-1.5 text-sm text-textStrong" />
+              <button type="submit" className="rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-white cursor-pointer">Ekle</button>
+              <button type="button" onClick={() => setShowNewSection(false)} className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-textStrong cursor-pointer">İptal</button>
+            </form>
+          ) : (
+            <button type="button" onClick={() => setShowNewSection(true)} className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-bold text-textStrong hover:bg-bg cursor-pointer">
+              + Kategori Ekle
+            </button>
+          )}
+          <button
+            type="button"
+            disabled={sections.length === 0}
+            onClick={() => setAddingSectionId(activeSectionId ?? sections[0]?.id ?? null)}
+            className="rounded-xl bg-primary px-3 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+          >
+            + Yeni Ürün Ekle
+          </button>
+        </div>
+
+        {error && <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}
+
+        <IstatistikKartlari stats={stats} />
+
+        <KategoriSekmeleri
+          sections={sections}
+          itemCounts={itemCountsBySection}
+          activeSectionId={activeSectionId}
+          onChange={setActiveSectionId}
+        />
+
+        <AracCubugu
+          search={search}
+          onSearchChange={setSearch}
+          sections={sections}
+          sectionId={activeSectionId}
+          onSectionChange={setActiveSectionId}
+          status={status}
+          onStatusChange={setStatus}
+          sortMode={sortMode}
+          onSortModeChange={setSortMode}
+          selectedCount={selectedIds.size}
+          onBulkSetAvailability={(isAvailable) => {
+            run(() => bulkSetAvailability([...selectedIds], menuId, isAvailable));
+            setSelectedIds(new Set());
           }}
-        >
-          <Input
-            label="Bölüm Adı"
-            name="title"
-            required
-            placeholder="Ör: Başlangıçlar, Ana Yemekler…"
-          />
-          <div className="flex gap-2">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="rounded-xl bg-primary px-3 py-2 text-sm font-bold text-white disabled:opacity-60 cursor-pointer"
-            >
-              Bölüm Oluştur
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowNewSection(false)}
-              className="rounded-xl border border-border px-3 py-2 text-sm font-bold text-textStrong cursor-pointer"
-            >
-              İptal
-            </button>
-          </div>
-        </form>
-      ) : (
-        <button
-          onClick={() => setShowNewSection(true)}
-          className="flex items-center justify-center gap-2 rounded-2xl border border-dashed border-border bg-card px-5 py-4 text-sm font-bold text-muted hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
-        >
-          <span className="text-lg">+</span> Yeni Bölüm Ekle
-        </button>
+          onBulkMoveSection={(sectionId) => {
+            run(() => bulkMoveSection([...selectedIds], menuId, sectionId));
+            setSelectedIds(new Set());
+          }}
+          onBulkDelete={() => {
+            run(() => bulkDeleteItems([...selectedIds], menuId));
+            setSelectedIds(new Set());
+          }}
+        />
+
+        <UrunTablosu
+          items={visibleItems}
+          sections={sections}
+          sortMode={sortMode}
+          selectedIds={selectedIds}
+          onToggleSelect={toggleSelect}
+          onToggleSelectAll={toggleSelectAll}
+          onReorder={(itemId, newSortOrder) => run(() => reorderItem(itemId, menuId, newSortOrder))}
+          onEdit={(itemId) => { setPreviewItemId(itemId); setEditingItemId(itemId); }}
+          onDuplicate={handleDuplicate}
+          onDelete={(itemId) => run(() => deleteItem(itemId, menuId))}
+        />
+      </div>
+
+      <div className="flex w-full flex-col gap-4 lg:w-80 lg:shrink-0">
+        <KategoriWidgeti menuId={menuId} sections={sections} itemCounts={itemCountsBySection} />
+        <CanliOnizlemeWidgeti item={previewItem} />
+      </div>
+
+      {(editingItem || addingSectionId) && (
+        <UrunPaneli
+          menuId={menuId}
+          sectionId={editingItem?.section_id ?? addingSectionId ?? sections[0]?.id ?? ''}
+          businessId={businessId}
+          itemId={editingItem?.id}
+          initialValues={editingItem ? {
+            name: editingItem.name,
+            description: editingItem.description,
+            image_url: editingItem.image_url,
+            price_cents: editingItem.price_cents,
+            is_available: editingItem.is_available,
+            calories_min: editingItem.calories_min,
+            portion_size: editingItem.portion_size,
+            portion_unit: editingItem.portion_unit,
+          } : undefined}
+          initialAllergens={editingItem ? allergenMap[editingItem.id] ?? [] : []}
+          initialIngredients={editingItem ? ingredientMap[editingItem.id] ?? [] : []}
+          submitLabel={editingItem ? 'Kaydet' : 'Ürün Ekle'}
+          onSuccess={() => { setEditingItemId(null); setAddingSectionId(null); }}
+          onCancel={() => { setEditingItemId(null); setAddingSectionId(null); }}
+        />
       )}
     </div>
   );
