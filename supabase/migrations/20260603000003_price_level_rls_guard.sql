@@ -53,6 +53,9 @@ END;
 $$;
 
 -- Trigger: authenticated client (owner, vb.) UPDATE denemelerini yakalar
+-- 2026-08-06 fix: production'a push denemesinde bulunan drift'in bir parçası
+-- olarak idempotent hale getirildi (DROP IF EXISTS + CREATE).
+DROP TRIGGER IF EXISTS trg_protect_price_level ON public.businesses;
 CREATE TRIGGER trg_protect_price_level
   BEFORE UPDATE ON public.businesses
   FOR EACH ROW EXECUTE FUNCTION public.tg_protect_price_level();
