@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { rateLimit } from '@/src/lib/oran-siniri';
 
 export type DestekTicket = {
   id: string;
@@ -40,12 +40,8 @@ export async function destekTalebiOlustur(
   if (!context.ok) return { error: context.error };
   const { supabase, user } = context;
 
-  if (businessId) {
-    const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
-    if (!ownerBusinessIds.includes(businessId)) {
-      return { error: 'Bu işletme için yetkiniz yok' };
-    }
-  }
+  const rl = rateLimit(`owner-destek-olustur:${user.id}`, 10, 3_600_000); // 10/saat
+  if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir süre sonra tekrar deneyin.' };
 
   const trimmedSubject = subject.trim();
   const trimmedMessage = message.trim();
@@ -53,39 +49,17 @@ export async function destekTalebiOlustur(
     return { error: 'Konu ve mesaj boş olamaz' };
   }
 
-  const { data: profile } = (await (supabase as any)
-    .from('user_profiles')
-    .select('display_name')
-    .eq('user_id', user.id)
-    .maybeSingle()) as { data: { display_name: string | null } | null };
+  const { data: ticketId, error: rpcError } = (await (supabase as any).rpc('create_support_ticket_v1', {
+    p_business_id: businessId,
+    p_category: category,
+    p_subject: trimmedSubject,
+    p_message: trimmedMessage,
+  })) as { data: string | null; error: { message: string } | null };
 
-  const { data: ticket, error: ticketError } = (await (supabase as any)
-    .from('support_tickets')
-    .insert({
-      user_id: user.id,
-      business_id: businessId,
-      requester_name: profile?.display_name ?? null,
-      requester_email: user.email ?? null,
-      subject: trimmedSubject,
-      category,
-    })
-    .select('id')
-    .single()) as { data: { id: string } | null; error: { message: string } | null };
-
-  if (ticketError) return { error: ticketError.message };
-  const ticketId = ticket?.id ?? '';
-
-  const { error: messageError } = (await (supabase as any).from('support_ticket_messages').insert({
-    ticket_id: ticketId,
-    sender: 'user',
-    message: trimmedMessage,
-    created_by: user.id,
-  })) as { error: { message: string } | null };
-
-  if (messageError) return { error: messageError.message };
+  if (rpcError) return { error: rpcError.message };
 
   revalidatePath('/sahip/destek');
-  return { ticketId };
+  return { ticketId: ticketId ?? '' };
 }
 
 export async function destekTalebiListele(): Promise<{ error: string } | { tickets: DestekTicket[] }> {
@@ -140,6 +114,9 @@ export async function destekMesajGonder(ticketId: string, message: string): Prom
   const context = await requireUser();
   if (!context.ok) return { error: context.error };
   const { supabase, user } = context;
+
+  const rl = rateLimit(`owner-destek-mesaj:${user.id}`, 30, 3_600_000); // 30/saat
+  if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir süre sonra tekrar deneyin.' };
 
   const trimmedMessage = message.trim();
   if (!trimmedMessage) return { error: 'Mesaj boş olamaz' };
