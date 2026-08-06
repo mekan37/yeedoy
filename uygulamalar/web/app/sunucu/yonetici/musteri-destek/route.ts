@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { z } from 'zod';
+import { sendEmail } from '@/src/lib/eposta';
+import { appConfig } from '@/src/lib/ayarlar';
 
 const schema = z.object({
   ticketId: z.string().uuid(),
@@ -92,6 +94,20 @@ export async function POST(req: Request) {
     .from('support_tickets')
     .update({ status: 'in_progress', updated_at: new Date().toISOString(), assigned_to: user?.id })
     .eq('id', ticketId);
+
+  // best-effort — e-posta gönderimi başarısız olsa da yanıt akışını engellemez
+  const { data: ticketRow } = await supabaseAny
+    .from('support_tickets')
+    .select('subject, requester_email')
+    .eq('id', ticketId)
+    .maybeSingle();
+  if (ticketRow?.requester_email) {
+    await sendEmail({
+      to: ticketRow.requester_email,
+      subject: `Destek talebinize yanıt geldi: ${ticketRow.subject}`,
+      html: `<p>Merhaba,</p><p>"${ticketRow.subject}" konulu destek talebinize yeni bir yanıt geldi.</p><p><a href="${appConfig.siteUrl()}/sahip/destek">Talebi görüntülemek için tıklayın</a>.</p>`,
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }
