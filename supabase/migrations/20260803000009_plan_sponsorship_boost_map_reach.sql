@@ -19,6 +19,19 @@
 -- Önceki tanım: supabase/migrations/20260615000004_search_nearby_price_open.sql civarı
 -- (bkz. \sf çıktısı, aşağıdaki gövde canlı tanımın birebir aynısıdır, sadece is_boosted
 -- eklendi).
+--
+-- 2026-08-06 fix: production'a push sırasında bulundu — 20260603000004
+-- (is_open_now/median_price_cents/price_level ekleyen migration) da migration
+-- history'de "applied" görünüyordu ama gerçekte hiç çalışmamış; canlıdaki fonksiyon
+-- hâlâ 9 kolonlu orijinal haldeydi. RETURNS TABLE şekli değiştiği için
+-- CREATE OR REPLACE yetmiyor (Postgres: "cannot change return type of existing
+-- function") — 20260603000004'teki ROLLBACK bloğundaki kalıp izlenerek önce
+-- DROP FUNCTION yapılıyor, sonra grant'lar açıkça yeniden veriliyor.
+DROP FUNCTION IF EXISTS public.search_nearby_businesses_v3(
+  double precision, double precision, double precision,
+  integer, integer, text, text, text
+);
+
 CREATE OR REPLACE FUNCTION public.search_nearby_businesses_v3(
   p_user_lat double precision,
   p_user_lng double precision,
@@ -133,6 +146,23 @@ AS $function$
   LIMIT  greatest(p_limit, 0)
   OFFSET greatest(p_offset, 0);
 $function$;
+
+-- DROP FUNCTION grant'ları temizlediği için anon/authenticated'a açıkça yeniden veriliyor
+-- (20260603000004'teki kalıpla aynı — bu public arama endpoint'i anon'a açık olmalı).
+REVOKE ALL ON FUNCTION public.search_nearby_businesses_v3(
+  double precision, double precision, double precision,
+  integer, integer, text, text, text
+) FROM PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.search_nearby_businesses_v3(
+  double precision, double precision, double precision,
+  integer, integer, text, text, text
+) TO anon;
+
+GRANT EXECUTE ON FUNCTION public.search_nearby_businesses_v3(
+  double precision, double precision, double precision,
+  integer, integer, text, text, text
+) TO authenticated;
 
 -- nearby_businesses_v2 (web'in gerçek harita sayfasının çağırdığı, deprecated ama hâlâ
 -- canlı fonksiyon — getMapBusinesses() üzerinden). Önceki tanım migration'lar arasında

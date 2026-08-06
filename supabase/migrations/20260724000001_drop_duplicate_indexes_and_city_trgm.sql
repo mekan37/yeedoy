@@ -30,4 +30,4 @@ DROP INDEX IF EXISTS public.idx_reviews_business_status_helpful;
 -- (EXPLAIN ile doğrulandı). pg_stat_statements'ta bu tam desen 321+321 çağrı,
 -- ortalama ~1.3 saniye. Trigram GIN index ile ILIKE artık index kullanabilir.
 CREATE INDEX IF NOT EXISTS idx_businesses_city_trgm
-  ON public.businesses USING gin (city gin_trgm_ops);
+  ON public.businesses USING gin (city extensions.gin_trgm_ops);

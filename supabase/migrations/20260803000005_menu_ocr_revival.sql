@@ -1,6 +1,19 @@
 -- OCR/AI menü tarama şeması — arşivden diriltildi (_archive/20260411000001_ai_menu_analysis_v1.sql),
 -- ownership kontrolleri güncel owner_claims/is_admin() konvansiyonuna taşındı.
 
+-- 2026-08-06 fix: production'da migration history 20260526000008'i "applied" gösteriyor
+-- ama public.tg_set_updated_at() gerçekte mevcut değildi (ayrı, önceden var olan drift).
+-- Bu migration'ı o drift'e bağımlı olmaktan çıkarmak için burada idempotent olarak tanımlanıyor.
+CREATE OR REPLACE FUNCTION public.tg_set_updated_at()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$;
+
 CREATE TABLE public.menu_ocr_jobs (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id   uuid NOT NULL REFERENCES public.businesses(id) ON DELETE CASCADE,
