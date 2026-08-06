@@ -8,17 +8,21 @@ Araştırma sırasında beklenenden fazla altyapı bulundu: `support_tickets` ve
 
 ## Kapsam
 
+Kullanıcı, tasarım için bir referans görsel paylaştı (kart tabanlı "yardım merkezi" + sekmeli talep listesi + sağ sidebar). Görsel incelenip hangi bölümlerin gerçek/işlevsel olacağı netleştirildi — bkz. UI bölümü.
+
 **Dahil:**
 - `support_tickets`'a `business_id` (nullable) eklenmesi
 - Owner için RLS policy'leri (`support_tickets`, `support_ticket_messages`)
 - Owner-facing server action'lar (yeni talep oluşturma, listeleme, mesaj gönderme)
-- `/sahip/destek` sayfası: liste + detay/yanıt görünümü + "Yeni Talep" formu
+- `/sahip/destek` sayfası: Popüler Konular (mevcut sayfalara hızlı link) + sekmeli talep listesi + detay/yanıt görünümü + "Yeni Talep" formu + sağ sidebar (statik SSS + e-posta bazlı Hızlı İletişim)
 - Sol menüde bağımsız "Destek" nav öğesi
 - Admin yanıt verdiğinde owner'a e-posta bildirimi (mevcut `eposta.ts` altyapısı ile)
 
 **Kapsam dışı:**
 - Admin tarafının (`app/yonetici/musteri-destek/`) değiştirilmesi — sadece reply route'una e-posta tetikleme eklenecek, başka dokunulmayacak
-- Canlı chat / WebSocket — asenkron ticket modeli yeterli
+- Canlı chat / WebSocket ("Canlı Destek" butonu dahil) — asenkron ticket modeli yeterli
+- Telefon/WhatsApp iletişim satırı — Yeedoy'a ait gerçek bir hat yok, uydurulmayacak
+- "Yardım Kaynakları" (video eğitimler, kullanım kılavuzu, duyurular) — gerçek içerik yok
 - SLA takibi, otomatik önceliklendirme, üçüncü parti helpdesk entegrasyonu
 
 ## Mimari
@@ -67,10 +71,29 @@ Admin'in `/sunucu/yonetici/musteri-destek` route'una dokunulmaz — bu action'la
 
 ### UI — `/sahip/destek`
 
-Sol menüde bağımsız "Destek" sekmesi (yeni ikon). Sayfa:
-- **Liste görünümü:** owner'ın ticket'ları, durum rozetleri (admin panelindeki `STATUS_MAP` ile aynı renk/etiket şeması — tutarlılık için paylaşılan bir sabit haline getirilebilir), "+ Yeni Talep" butonu.
+Kullanıcının paylaştığı referans mockup'a göre (kart tabanlı yardım merkezi + sekmeli talep listesi + sağ sidebar) yeniden tasarlandı. Sol menüde bağımsız "Destek" sekmesi (yeni ikon).
+
+**Sayfa üstü — Popüler Konular:** 5 kart, panelde zaten var olan sayfalara hızlı link (yeni içerik yok, sadece navigasyon):
+| Kart | Link |
+|---|---|
+| İşletme Bilgileri | `/sahip/isletmeler` |
+| Menü Yönetimi | `/sahip/menuler` |
+| QR Menü & Kod | `/sahip/karekod` |
+| İstatistikler | `/sahip/analitik` |
+| Rezervasyonlar | `/sahip/rezervasyonlar` |
+
+**Ana sütun — Destek Taleplerim:**
+- Sekmeler: **Tümü / Açık / Beklemede / Çözüldü** — mevcut `support_tickets.status` enum'una (`open`, `in_progress`, `resolved`, `closed`) eşlenir: Açık=`open`, Beklemede=`in_progress`, Çözüldü=`resolved` VEYA `closed`. Yeni bir status değeri **eklenmiyor** — admin tarafıyla tam uyumlu kalması için.
+- Tablo: Talep No (`id`'nin kısaltılmış/okunur hali, örn. ilk 8 karakter), Konu, Durum rozeti (admin `STATUS_MAP` ile aynı renk/etiket), Son Güncelleme, satıra tıklayınca detay.
+- "+ Yeni Talep Oluştur" butonu.
 - **Detay görünümü:** seçili ticket'ın mesaj geçmişi (admin `musteri-destek-istemci.tsx`'teki balon deseninin owner-tarafı aynası — `sender='user'` sağda, `sender='agent'` solda) + yanıt kutusu.
 - **Yeni talep formu:** İşletme seç (dropdown, tek işletmesi varsa gizli/otomatik), Kategori (`Fatura/Ödeme`, `Teknik Sorun`, `Özellik Talebi`, `Hesap/Erişim`, `Diğer` — sabit liste), Konu, Mesaj.
+
+**Sağ sidebar:**
+- **Sıkça Sorulan Sorular:** statik, kodda sabit 5-6 soru-cevap. Mevcut `app/(genel)/destek/page.tsx`'teki "İşletme Sahipleri" bölümünün 2 gerçek maddesi (`İşletmemi Yeedoy'a nasıl ekletirim?`, `Menü ve fiyatlarımı nasıl yönetirim?`) yeniden kullanılır + owner panele özgü 3-4 yeni madde eklenir (örn. "Destek talebimin durumunu nereden takip ederim?"). Yeni bir CMS/tablo gerekmez, sabit bir dizi olarak koda yazılır.
+- **Hızlı İletişim:** sadece e-posta — `mailto:destek@yeedoy.com` + çalışma saatleri ("Pazartesi–Cuma 09:00–18:00", `/destek` sayfasındaki gerçek metinle aynı). **Telefon/WhatsApp satırı eklenmez** — kod tabanında Yeedoy'a ait gerçek bir destek hattı bulunamadı, kullanıcı onayıyla sadece e-posta ile sınırlı tutuldu.
+
+**Kapsam dışı bırakılan mockup öğeleri:** "Canlı Destek" (Sohbete Başla) butonu ve "Yardım Kaynakları" (video eğitimler, kullanım kılavuzu, duyurular) — gerçek içerik/altyapı olmadığı için eklenmiyor, boş/placeholder bırakılmıyor.
 
 ### E-posta bildirimi
 
@@ -89,7 +112,9 @@ Mevcut owner panel action'larındaki desen (`{ error: string } | null` dönüş 
 
 ## Kapsam Dışı (net karar)
 
-- Canlı chat/WebSocket
+- Canlı chat/WebSocket ("Canlı Destek" butonu)
+- Telefon/WhatsApp iletişim satırı (gerçek hat yok)
+- "Yardım Kaynakları" (video eğitimler, kullanım kılavuzu, duyurular — gerçek içerik yok)
 - SLA/otomatik önceliklendirme
 - Üçüncü parti helpdesk entegrasyonu
 - Admin panelinin (`app/yonetici/musteri-destek/`) yeniden tasarımı
