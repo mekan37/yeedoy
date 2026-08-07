@@ -5,7 +5,7 @@ import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { CokluSubeIstemcisi } from './coklu-sube-istemcisi';
-import type { CokluSubeOverview } from './coklu-sube-yardimcilari';
+import { subeYonetimVerisiGetir } from './coklu-sube-islemleri';
 
 export const metadata: Metadata = {
   title: 'Çoklu Şube Yönetimi | Sahip Paneli',
@@ -20,19 +20,22 @@ export default async function CokluSubeSayfasi() {
   if (!user) redirect('/giris?redirect=%2Fsahip%2Fcoklu-sube');
 
   const businessIds = await getOwnerBusinessIds(supabase, user.id);
-  const anchorBusinessId = businessIds[0];
-  if (!anchorBusinessId) redirect('/sahip');
+  if (businessIds.length === 0) redirect('/sahip');
 
-  const { data: overviewData } = await (supabase as any).rpc('owner_get_chain_overview_v1', {
-    p_business_id: anchorBusinessId,
-  });
-  const overview = (overviewData ?? {
-    chain_id: null,
-    chain_name: null,
-    branches: [],
-    total_views: 0,
-    total_reservations: 0,
-  }) as CokluSubeOverview;
+  const { data: chainedBusinesses } = await supabase
+    .from('businesses')
+    .select('id')
+    .in('id', businessIds)
+    .not('chain_id', 'is', null)
+    .limit(1);
+
+  const anchorBusinessId = chainedBusinesses?.[0]?.id ?? businessIds[0];
+
+  const overviewResult = await subeYonetimVerisiGetir(anchorBusinessId);
+  if ('error' in overviewResult) {
+    throw new Error(overviewResult.error);
+  }
+  const overview = overviewResult;
 
   return (
     <div className="flex flex-col">

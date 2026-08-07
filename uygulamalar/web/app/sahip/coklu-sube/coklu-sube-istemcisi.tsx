@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import type { CokluSubeOverview } from './coklu-sube-yardimcilari';
 import { subeCikar, subeSirasiGuncelle } from './coklu-sube-islemleri';
 import { IstatistikKartlari } from './bilesenler/istatistik-kartlari';
@@ -25,17 +25,24 @@ export function CokluSubeIstemcisi({
   const [error, setError] = useState<string | null>(null);
   const [bulkResult, setBulkResult] = useState<string | null>(null);
   const [reorderMode, setReorderMode] = useState(false);
+  const [isMutating, startMutation] = useTransition();
 
-  async function handleRemove(businessIdToRemove: string) {
+  function handleRemove(businessIdToRemove: string) {
+    if (isMutating) return;
     setError(null);
-    const result = await subeCikar(businessIdToRemove);
-    if (result?.error) setError(result.error);
+    startMutation(async () => {
+      const result = await subeCikar(businessIdToRemove);
+      if (result?.error) setError(result.error);
+    });
   }
 
-  async function handleReorder(businessIdToMove: string, newSortOrder: number) {
+  function handleReorder(businessIdToMove: string, newSortOrder: number) {
+    if (isMutating) return;
     setError(null);
-    const result = await subeSirasiGuncelle(businessIdToMove, newSortOrder);
-    if (result?.error) setError(result.error);
+    startMutation(async () => {
+      const result = await subeSirasiGuncelle(businessIdToMove, newSortOrder);
+      if (result?.error) setError(result.error);
+    });
   }
 
   function handleBulkDone(kind: 'saat' | 'kampanya', successCount: number, failedCount: number) {
