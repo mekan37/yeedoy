@@ -195,6 +195,13 @@ BEGIN
     RAISE EXCEPTION 'validation_error: işletme bir zincirde değil' USING ERRCODE = 'P0003';
   END IF;
 
+  IF EXISTS (
+    SELECT 1 FROM public.businesses b
+    WHERE b.chain_id = v_chain_id AND (NOT public._is_approved_owner_of_business(b.id) OR b.chain_sort_order IS NULL)
+  ) THEN
+    RAISE EXCEPTION 'validation_error: zincir tutarsız durumda, sıralama desteklenmiyor' USING ERRCODE = 'P0003';
+  END IF;
+
   SELECT count(*) INTO v_branch_count FROM public.businesses WHERE chain_id = v_chain_id;
   v_target_sort_order := LEAST(GREATEST(p_new_sort_order, 0), v_branch_count - 1);
 
@@ -246,6 +253,13 @@ BEGIN
       'chain_id', null, 'chain_name', null, 'branches', '[]'::jsonb,
       'total_views', 0, 'total_reservations', 0
     );
+  END IF;
+
+  IF EXISTS (
+    SELECT 1 FROM public.businesses b
+    WHERE b.chain_id = v_chain_id AND NOT public._is_approved_owner_of_business(b.id)
+  ) THEN
+    RAISE EXCEPTION 'validation_error: zincir birden fazla sahibe ait işletme içeriyor, bu görünüm desteklenmiyor' USING ERRCODE = 'P0003';
   END IF;
 
   SELECT jsonb_build_object(
@@ -327,6 +341,7 @@ AS $$
   FROM public.businesses b
   JOIN public.owner_claims oc ON oc.business_id = b.id
   WHERE oc.user_id = auth.uid() AND oc.status = 'approved' AND b.chain_id IS NOT NULL
+  ORDER BY b.id
   LIMIT 1;
 $$;
 

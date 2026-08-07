@@ -90,8 +90,9 @@ export function TopluSaatFormu({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold text-muted">Açılış</label>
+              <label htmlFor="toplu-saat-acilis" className="text-xs font-bold text-muted">Açılış</label>
               <input
+                id="toplu-saat-acilis"
                 type="time"
                 value={openTime}
                 onChange={(e) => setOpenTime(e.target.value)}
@@ -99,8 +100,9 @@ export function TopluSaatFormu({
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold text-muted">Kapanış</label>
+              <label htmlFor="toplu-saat-kapanis" className="text-xs font-bold text-muted">Kapanış</label>
               <input
+                id="toplu-saat-kapanis"
                 type="time"
                 value={closeTime}
                 onChange={(e) => setCloseTime(e.target.value)}

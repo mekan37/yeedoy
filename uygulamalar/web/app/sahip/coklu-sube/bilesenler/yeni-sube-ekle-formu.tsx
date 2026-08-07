@@ -85,8 +85,9 @@ export function YeniSubeEkleFormu({
         {businesses !== null && businesses.length > 0 && (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold text-muted">İşletme</label>
+              <label htmlFor="yeni-sube-isletme" className="text-xs font-bold text-muted">İşletme</label>
               <select
+                id="yeni-sube-isletme"
                 value={selectedId}
                 onChange={(e) => setSelectedId(e.target.value)}
                 required
@@ -102,8 +103,9 @@ export function YeniSubeEkleFormu({
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold text-muted">Şube Etiketi (opsiyonel)</label>
+              <label htmlFor="yeni-sube-etiket" className="text-xs font-bold text-muted">Şube Etiketi (opsiyonel)</label>
               <input
+                id="yeni-sube-etiket"
                 value={branchLabel}
                 onChange={(e) => setBranchLabel(e.target.value)}
                 placeholder="örn. Kadıköy Şubesi"

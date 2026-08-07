@@ -76,8 +76,9 @@ export function TopluKampanyaFormu({
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-xs font-bold text-muted">Başlık</label>
+            <label htmlFor="kampanya-baslik" className="text-xs font-bold text-muted">Başlık</label>
             <input
+              id="kampanya-baslik"
               name="title"
               required
               maxLength={120}
@@ -87,8 +88,9 @@ export function TopluKampanyaFormu({
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-xs font-bold text-muted">Tür</label>
+            <label htmlFor="kampanya-tur" className="text-xs font-bold text-muted">Tür</label>
             <select
+              id="kampanya-tur"
               name="type"
               defaultValue="discount"
               className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong"
@@ -101,8 +103,9 @@ export function TopluKampanyaFormu({
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-xs font-bold text-muted">İndirim Yüzdesi (opsiyonel)</label>
+            <label htmlFor="kampanya-indirim" className="text-xs font-bold text-muted">İndirim Yüzdesi (opsiyonel)</label>
             <input
+              id="kampanya-indirim"
               name="discount_percent"
               type="number"
               min={1}
@@ -112,8 +115,9 @@ export function TopluKampanyaFormu({
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-xs font-bold text-muted">Açıklama (opsiyonel)</label>
+            <label htmlFor="kampanya-aciklama" className="text-xs font-bold text-muted">Açıklama (opsiyonel)</label>
             <textarea
+              id="kampanya-aciklama"
               name="description"
               maxLength={500}
               rows={2}
