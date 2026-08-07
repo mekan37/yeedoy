@@ -33,12 +33,18 @@ export function ZincirOlusturFormu({ businessId, onSuccess }: { businessId: stri
         Birden fazla şubeniz varsa, bir zincir oluşturup işletmelerinizi tek panelden yönetebilirsiniz.
       </p>
       <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-2">
-        <input
-          value={chainName}
-          onChange={(e) => setChainName(e.target.value)}
-          placeholder="Zincir adı (örn. No 18 Coffee Co.)"
-          className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
-        />
+        <div className="flex flex-col gap-1">
+          <label htmlFor="zincir-adi" className="text-xs font-bold text-muted">
+            Zincir adı
+          </label>
+          <input
+            id="zincir-adi"
+            value={chainName}
+            onChange={(e) => setChainName(e.target.value)}
+            placeholder="Zincir adı (örn. No 18 Coffee Co.)"
+            className="rounded-xl border border-border bg-bg px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
+          />
+        </div>
         {error && <p className="text-xs font-bold text-red-600">{error}</p>}
         <button
           type="submit"
