@@ -110,7 +110,7 @@ export function TopluSaatFormu({
           </div>
 
           <div>
-            <p className="mb-2 text-xs font-bold text-muted">Hangi günlere uygulanacak</p>
+            <p className="mb-2 text-xs font-bold text-muted">Hangi günler açık olacak</p>
             <div className="flex flex-wrap gap-2">
               {DAYS.map((d) => (
                 <button
@@ -125,6 +125,9 @@ export function TopluSaatFormu({
                 </button>
               ))}
             </div>
+            <p className="mt-2 text-[11px] text-muted">
+              İşaretlenmeyen günler, seçilen şubelerde kapalı olarak ayarlanacaktır.
+            </p>
           </div>
 
           {error && <p className="text-xs font-bold text-red-600">{error}</p>}
