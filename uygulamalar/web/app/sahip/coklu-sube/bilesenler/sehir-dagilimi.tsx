@@ -1,6 +1,15 @@
 import Link from 'next/link';
 import { cityDistribution, type CokluSubeBranch } from '../coklu-sube-yardimcilari';
 
+function PinIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+  );
+}
+
 export function SehirDagilimi({ branches }: { branches: CokluSubeBranch[] }) {
   const distribution = cityDistribution(branches);
 
@@ -14,7 +23,7 @@ export function SehirDagilimi({ branches }: { branches: CokluSubeBranch[] }) {
           {distribution.map((item) => (
             <div key={item.city} className="flex items-center justify-between gap-2 text-sm">
               <span className="flex items-center gap-2 text-textStrong">
-                <span aria-hidden="true">📍</span>
+                <PinIcon />
                 {item.city}
               </span>
               <span className="rounded-full bg-bg px-2 py-0.5 text-xs font-bold text-muted">{item.count} şube</span>
