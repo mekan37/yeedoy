@@ -29,12 +29,12 @@ export function branchMatchesTab(branch: CokluSubeBranch, tab: SubeTab): boolean
 }
 
 export function filterBranches(branches: CokluSubeBranch[], search: string, tab: SubeTab): CokluSubeBranch[] {
-  const q = search.trim().toLowerCase();
+  const q = search.trim().toLocaleLowerCase('tr');
   return branches
     .filter((b) => branchMatchesTab(b, tab))
     .filter((b) => {
       if (!q) return true;
-      const haystack = `${b.name} ${b.branch_label ?? ''} ${b.city ?? ''}`.toLowerCase();
+      const haystack = `${b.name} ${b.branch_label ?? ''} ${b.city ?? ''}`.toLocaleLowerCase('tr');
       return haystack.includes(q);
     });
 }

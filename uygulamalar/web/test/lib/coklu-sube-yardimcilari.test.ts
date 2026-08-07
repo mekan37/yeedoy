@@ -56,6 +56,21 @@ describe('filterBranches', () => {
     const result = filterBranches(BRANCHES, '', 'tumu');
     expect(result).toHaveLength(3);
   });
+
+  it('Türkçe karakter İ ile İstanbul araması çalışır', () => {
+    const result = filterBranches(BRANCHES, 'istanbul', 'tumu');
+    expect(result.map((b) => b.business_id)).toEqual(['b2']);
+  });
+
+  it('Türkçe karakter İ ile İzmir araması çalışır', () => {
+    const result = filterBranches(BRANCHES, 'izmir', 'tumu');
+    expect(result.map((b) => b.business_id)).toEqual(['b3']);
+  });
+
+  it('boş dizi için boş dizi döner', () => {
+    const result = filterBranches([], '', 'tumu');
+    expect(result).toEqual([]);
+  });
 });
 
 describe('cityDistribution', () => {
@@ -75,5 +90,19 @@ describe('cityDistribution', () => {
     ];
     const result = cityDistribution(twoInSameCity);
     expect(result).toEqual([{ city: 'Ankara', count: 2 }]);
+  });
+
+  it('null şehir "Bilinmiyor" olarak gruplanır', () => {
+    const branchesWithNull: CokluSubeBranch[] = [
+      { ...BRANCHES[0], business_id: 'b4', city: null },
+      { ...BRANCHES[0], business_id: 'b5' },
+    ];
+    const result = cityDistribution(branchesWithNull);
+    expect(result).toContainEqual({ city: 'Bilinmiyor', count: 1 });
+  });
+
+  it('boş dizi için boş dizi döner', () => {
+    const result = cityDistribution([]);
+    expect(result).toEqual([]);
   });
 });
