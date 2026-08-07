@@ -53,6 +53,7 @@ const ownerNavSections: NavSection[] = [
       { href: '/sahip/bildirimler', label: 'Bildirimler', icon: <BellIcon /> },
       { href: '/sahip/denetim-kaydi', label: 'Denetim Kaydı', icon: <ShieldIcon /> },
       { href: '/sahip/cop-kutusu', label: 'Çöp Kutusu', icon: <TrashIcon /> },
+      { href: '/sahip/coklu-sube', label: 'Çoklu Şube Yönetimi', icon: <ChoklusubeIcon /> },
       { href: '/sahip/destek', label: 'Destek', icon: <HeadsetIcon /> },
       { href: '/sahip/ayarlar', label: 'Ayarlar', icon: <SettingsIcon /> },
     ],
@@ -312,6 +313,17 @@ function TagIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
       <line x1="7" y1="7" x2="7.01" y2="7" />
+    </svg>
+  );
+}
+
+function ChoklusubeIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
     </svg>
   );
 }
