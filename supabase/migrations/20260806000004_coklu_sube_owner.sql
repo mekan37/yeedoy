@@ -314,3 +314,24 @@ GRANT EXECUTE ON FUNCTION public.owner_list_addable_businesses_v1() TO authentic
 REVOKE EXECUTE ON FUNCTION public.owner_list_addable_businesses_v1() FROM anon;
 COMMENT ON FUNCTION public.owner_list_addable_businesses_v1 IS
   'Owner: henüz hiçbir zincire bağlı olmayan, kendi onaylı işletmelerini listeler ("Yeni Şube Ekle" modalı için). Called by: app/sahip/coklu-sube/coklu-sube-islemleri.ts.';
+
+-- ── owner_find_chained_business_v1 ───────────────────────────────────────────
+CREATE OR REPLACE FUNCTION public.owner_find_chained_business_v1()
+RETURNS uuid
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT b.id
+  FROM public.businesses b
+  JOIN public.owner_claims oc ON oc.business_id = b.id
+  WHERE oc.user_id = auth.uid() AND oc.status = 'approved' AND b.chain_id IS NOT NULL
+  LIMIT 1;
+$$;
+
+REVOKE ALL ON FUNCTION public.owner_find_chained_business_v1() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.owner_find_chained_business_v1() TO authenticated;
+REVOKE EXECUTE ON FUNCTION public.owner_find_chained_business_v1() FROM anon;
+COMMENT ON FUNCTION public.owner_find_chained_business_v1 IS
+  'Owner: kendi onaylı işletmelerinden zincire bağlı olan herhangi birini döner (is_active durumundan bağımsız — RLS''i bypass eder, anchor seçimi için). NULL dönerse owner''ın hiç zinciri yok demektir. Called by: app/sahip/coklu-sube/page.tsx.';
