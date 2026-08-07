@@ -6,6 +6,35 @@
 ALTER TABLE public.businesses
   ADD COLUMN IF NOT EXISTS chain_sort_order integer;
 
+CREATE INDEX IF NOT EXISTS idx_businesses_chain_id
+  ON public.businesses (chain_id)
+  WHERE chain_id IS NOT NULL;
+
+-- ── _is_approved_owner_of_business ───────────────────────────────────────────
+-- is_owner_of_business(uuid) (bkz. base_schema) has_business_permission_v1 üzerinden
+-- 'menu_write' iznine kadar iner (rank >= 300 → editor dahil). Bu migration'daki
+-- 6 fonksiyon ise spesifikasyona göre sadece gerçek onaylı hak sahibine (owner_claims,
+-- status='approved') açık olmalı — delegeli ekip üyelerine değil. Bu yüzden burada
+-- ayrı, daha katı bir helper kullanılıyor.
+CREATE OR REPLACE FUNCTION public._is_approved_owner_of_business(p_business_id uuid)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM public.owner_claims
+    WHERE business_id = p_business_id AND user_id = auth.uid() AND status = 'approved'
+  );
+$$;
+
+REVOKE ALL ON FUNCTION public._is_approved_owner_of_business(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public._is_approved_owner_of_business(uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public._is_approved_owner_of_business(uuid) FROM anon;
+COMMENT ON FUNCTION public._is_approved_owner_of_business IS
+  'Internal: çağıranın işletmenin literal onaylı (approved) owner_claims sahibi olup olmadığını kontrol eder (is_owner_of_business''in aksine ekip/delege yetkilerini saymaz). Called by: bu dosyadaki owner_*_chain_v1 fonksiyonları.';
+
 -- ── owner_create_chain_v1 ────────────────────────────────────────────────────
 CREATE OR REPLACE FUNCTION public.owner_create_chain_v1(
   p_business_id uuid,
@@ -19,7 +48,7 @@ AS $$
 DECLARE
   v_chain_id uuid;
 BEGIN
-  IF NOT public.is_owner_of_business(p_business_id) THEN
+  IF NOT public._is_approved_owner_of_business(p_business_id) THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
 
@@ -61,7 +90,7 @@ AS $$
 DECLARE
   v_next_sort integer;
 BEGIN
-  IF NOT public.is_owner_of_business(p_business_id) THEN
+  IF NOT public._is_approved_owner_of_business(p_business_id) THEN
     RAISE EXCEPTION 'unauthorized: eklenecek işletme size ait değil' USING ERRCODE = 'P0002';
   END IF;
 
@@ -71,7 +100,7 @@ BEGIN
 
   IF NOT EXISTS (
     SELECT 1 FROM public.businesses b
-    WHERE b.chain_id = p_chain_id AND public.is_owner_of_business(b.id)
+    WHERE b.chain_id = p_chain_id AND public._is_approved_owner_of_business(b.id)
   ) THEN
     RAISE EXCEPTION 'unauthorized: bu zincir üzerinde yetkiniz yok' USING ERRCODE = 'P0002';
   END IF;
@@ -104,7 +133,7 @@ DECLARE
   v_chain_id  uuid;
   v_remaining integer;
 BEGIN
-  IF NOT public.is_owner_of_business(p_business_id) THEN
+  IF NOT public._is_approved_owner_of_business(p_business_id) THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
 
@@ -119,6 +148,9 @@ BEGIN
 
   SELECT count(*) INTO v_remaining FROM public.businesses WHERE chain_id = v_chain_id;
   IF v_remaining = 0 THEN
+    IF EXISTS (SELECT 1 FROM public.business_team_memberships WHERE chain_id = v_chain_id) THEN
+      RAISE EXCEPTION 'validation_error: zincire bağlı ekip üyeliği kayıtları var, zincir silinemez' USING ERRCODE = 'P0003';
+    END IF;
     DELETE FROM public.chains WHERE id = v_chain_id;
   END IF;
 END;
@@ -141,7 +173,7 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 BEGIN
-  IF NOT public.is_owner_of_business(p_business_id) THEN
+  IF NOT public._is_approved_owner_of_business(p_business_id) THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
 
@@ -168,7 +200,7 @@ DECLARE
   v_chain_id uuid;
   v_result   jsonb;
 BEGIN
-  IF NOT public.is_owner_of_business(p_business_id) THEN
+  IF NOT public._is_approved_owner_of_business(p_business_id) THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
 
