@@ -163,6 +163,12 @@ COMMENT ON FUNCTION public.owner_remove_business_from_chain_v1 IS
   'Owner: kendi işletmesini zincirden çıkarır. Zincirde başka işletme kalmazsa chains satırı da silinir. Called by: app/sahip/coklu-sube/coklu-sube-islemleri.ts.';
 
 -- ── owner_reorder_chain_branch_v1 ────────────────────────────────────────────
+-- Raw iki-değer swap DEĞİL: eski/yeni pozisyon arasındaki tüm kardeşleri bir
+-- kaydırır, böylece zincir her zaman 0..N-1 aralığında boşluksuz/tekrarsız bir
+-- permütasyon olarak kalır. owner_get_chain_overview_v1 "Ana Şube" rozetini
+-- chain_sort_order = 0 üzerinden türetiyor (ayrı bir stored flag yok) — raw swap
+-- kullanılırsa hiçbir şube 0'da kalmayabilir ve rozet UI'dan geri getirilemeyecek
+-- şekilde kalıcı olarak kaybolur.
 CREATE OR REPLACE FUNCTION public.owner_reorder_chain_branch_v1(
   p_business_id     uuid,
   p_new_sort_order  integer
@@ -172,14 +178,43 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 AS $$
+DECLARE
+  v_chain_id           uuid;
+  v_old_sort_order     integer;
+  v_branch_count       integer;
+  v_target_sort_order  integer;
 BEGIN
   IF NOT public._is_approved_owner_of_business(p_business_id) THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
 
+  SELECT chain_id, chain_sort_order INTO v_chain_id, v_old_sort_order
+  FROM public.businesses WHERE id = p_business_id;
+
+  IF v_chain_id IS NULL THEN
+    RAISE EXCEPTION 'validation_error: işletme bir zincirde değil' USING ERRCODE = 'P0003';
+  END IF;
+
+  SELECT count(*) INTO v_branch_count FROM public.businesses WHERE chain_id = v_chain_id;
+  v_target_sort_order := LEAST(GREATEST(p_new_sort_order, 0), v_branch_count - 1);
+
+  IF v_target_sort_order = v_old_sort_order THEN
+    RETURN;
+  END IF;
+
+  IF v_target_sort_order > v_old_sort_order THEN
+    UPDATE public.businesses
+    SET chain_sort_order = chain_sort_order - 1
+    WHERE chain_id = v_chain_id AND chain_sort_order > v_old_sort_order AND chain_sort_order <= v_target_sort_order;
+  ELSE
+    UPDATE public.businesses
+    SET chain_sort_order = chain_sort_order + 1
+    WHERE chain_id = v_chain_id AND chain_sort_order >= v_target_sort_order AND chain_sort_order < v_old_sort_order;
+  END IF;
+
   UPDATE public.businesses
-  SET chain_sort_order = p_new_sort_order
-  WHERE id = p_business_id AND chain_id IS NOT NULL;
+  SET chain_sort_order = v_target_sort_order
+  WHERE id = p_business_id;
 END;
 $$;
 
