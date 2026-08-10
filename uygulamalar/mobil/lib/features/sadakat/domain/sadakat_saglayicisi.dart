@@ -2,73 +2,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/network/supabase_provider.dart';
 
-enum LoyaltyTier { bronz, gumus, altin, platin }
-
-extension LoyaltyTierX on LoyaltyTier {
-  String get label => switch (this) {
-    LoyaltyTier.bronz  => 'Bronz',
-    LoyaltyTier.gumus  => 'Gümüş',
-    LoyaltyTier.altin  => 'Altın',
-    LoyaltyTier.platin => 'Platin',
-  };
-
-  int get thresholdPts => switch (this) {
-    LoyaltyTier.bronz  => 0,
-    LoyaltyTier.gumus  => 500,
-    LoyaltyTier.altin  => 1500,
-    LoyaltyTier.platin => 5000,
-  };
-
-  int get nextThreshold => switch (this) {
-    LoyaltyTier.bronz  => 500,
-    LoyaltyTier.gumus  => 1500,
-    LoyaltyTier.altin  => 5000,
-    LoyaltyTier.platin => 5000,
-  };
-
-  static LoyaltyTier fromLifetimePoints(int pts) {
-    if (pts >= 5000) return LoyaltyTier.platin;
-    if (pts >= 1500) return LoyaltyTier.altin;
-    if (pts >= 500)  return LoyaltyTier.gumus;
-    return LoyaltyTier.bronz;
-  }
-}
-
 class LoyaltyCard {
   LoyaltyCard({
-    required this.businessId,
+    required this.programId,
+    required this.mode,
     required this.businessName,
     this.logoUrl,
-    required this.points,
-    required this.lifetimePoints,
-    required this.rewardThresholdPts,
-    required this.rewardType,
-    required this.rewardValue,
-    required this.progressPct,
+    required this.progress,
+    required this.rewardThreshold,
+    required this.rewardDesc,
   });
 
-  final String businessId;
+  final String programId;
+  final String mode; // 'stamp' | 'points'
   final String businessName;
   final String? logoUrl;
-  final int points;
-  final int lifetimePoints;
-  final int rewardThresholdPts;
-  final String rewardType;
-  final int rewardValue;
-  final int progressPct;
+  final int progress;
+  final int rewardThreshold;
+  final String rewardDesc;
 
-  LoyaltyTier get tier => LoyaltyTierX.fromLifetimePoints(lifetimePoints);
+  double get progressRatio =>
+      rewardThreshold > 0 ? (progress / rewardThreshold).clamp(0.0, 1.0) : 0.0;
 
   factory LoyaltyCard.fromMap(Map<String, dynamic> m) => LoyaltyCard(
-        businessId: (m['business_id'] ?? '').toString(),
+        programId: (m['program_id'] ?? '').toString(),
+        mode: (m['mode'] as String?) ?? 'stamp',
         businessName: (m['business_name'] ?? '').toString(),
         logoUrl: m['logo_url'] as String?,
-        points: (m['points'] as num?)?.toInt() ?? 0,
-        lifetimePoints: (m['lifetime_points'] as num?)?.toInt() ?? 0,
-        rewardThresholdPts: (m['reward_threshold_pts'] as num?)?.toInt() ?? 500,
-        rewardType: (m['reward_type'] as String?) ?? 'discount_pct',
-        rewardValue: (m['reward_value'] as num?)?.toInt() ?? 10,
-        progressPct: (m['progress_pct'] as num?)?.toInt() ?? 0,
+        progress: (m['progress'] as num?)?.toInt() ?? 0,
+        rewardThreshold: (m['reward_threshold'] as num?)?.toInt() ?? 1,
+        rewardDesc: (m['reward_desc'] as String?) ?? '',
       );
 }
 
@@ -80,4 +43,12 @@ final myLoyaltyCardsProvider = FutureProvider.autoDispose<List<LoyaltyCard>>((re
   if (res == null) return const [];
   final list = res as List;
   return list.cast<Map<String, dynamic>>().map(LoyaltyCard.fromMap).toList();
+});
+
+/// Müşterinin owner'a gösterip taratacağı QR kodunun içeriği — düz metin
+/// olarak kendi user id'si (web `/sadakat` sayfasıyla aynı format,
+/// `scan_loyalty_qr_v1(business_id, user_id)` bunu doğrudan bekliyor).
+final myLoyaltyQrDataProvider = Provider.autoDispose<String?>((ref) {
+  final client = ref.watch(supabaseProvider);
+  return client.auth.currentUser?.id;
 });
