@@ -28,7 +28,7 @@ AS $$
   JOIN public.loyalty_programs lp ON lp.id = lm.program_id AND lp.is_active = true
   LEFT JOIN public.businesses b ON b.id = COALESCE(
     lp.business_id,
-    (SELECT id FROM public.businesses WHERE chain_id = lp.chain_id ORDER BY chain_sort_order NULLS LAST LIMIT 1)
+    (SELECT id FROM public.businesses WHERE chain_id = lp.chain_id ORDER BY chain_sort_order NULLS LAST, id LIMIT 1)
   )
   WHERE lm.user_id = auth.uid();
 $$;
