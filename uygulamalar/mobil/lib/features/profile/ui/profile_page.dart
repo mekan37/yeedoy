@@ -455,6 +455,17 @@ class _ProfileAccountList extends StatelessWidget {
               const Divider(height: 1, color: AppColors.border),
               ListTile(
                 leading: const Icon(
+                  Icons.loyalty_outlined,
+                  color: AppColors.primary,
+                ),
+                title: const Text('Sadakat Kartlarım'),
+                subtitle: const Text('Kartlarını ve QR kodunu gör'),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => context.push('/loyalty-cards'),
+              ),
+              const Divider(height: 1, color: AppColors.border),
+              ListTile(
+                leading: const Icon(
                   Icons.notifications_outlined,
                   color: AppColors.primary,
                 ),
