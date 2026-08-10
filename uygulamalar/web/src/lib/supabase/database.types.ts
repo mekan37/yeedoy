@@ -624,71 +624,6 @@ export type Database = {
           },
         ]
       }
-      business_automations: {
-        Row: {
-          business_id: string
-          created_at: string
-          custom_message: string | null
-          id: string
-          is_active: boolean
-          last_run_at: string | null
-          last_run_count: number
-          type: string
-          updated_at: string
-        }
-        Insert: {
-          business_id: string
-          created_at?: string
-          custom_message?: string | null
-          id?: string
-          is_active?: boolean
-          last_run_at?: string | null
-          last_run_count?: number
-          type: string
-          updated_at?: string
-        }
-        Update: {
-          business_id?: string
-          created_at?: string
-          custom_message?: string | null
-          id?: string
-          is_active?: boolean
-          last_run_at?: string | null
-          last_run_count?: number
-          type?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "business_automations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_quality_score_v1"
-            referencedColumns: ["business_id"]
-          },
-          {
-            foreignKeyName: "business_automations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_automations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_automations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats_mv"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       business_checkins: {
         Row: {
           business_id: string
@@ -2230,6 +2165,7 @@ export type Database = {
           branch_label: string | null
           category: string
           chain_id: string | null
+          chain_sort_order: number | null
           city: string | null
           city_norm: string | null
           cover_provider: string | null
@@ -2257,6 +2193,7 @@ export type Database = {
           order_yemeksepeti_url: string | null
           osm_boundary_id: string | null
           phone: string | null
+          price_level: string | null
           public_slug: string | null
           reservation_advance_hours: number
           reservation_max_party: number
@@ -2281,6 +2218,7 @@ export type Database = {
           branch_label?: string | null
           category: string
           chain_id?: string | null
+          chain_sort_order?: number | null
           city?: string | null
           city_norm?: string | null
           cover_provider?: string | null
@@ -2308,6 +2246,7 @@ export type Database = {
           order_yemeksepeti_url?: string | null
           osm_boundary_id?: string | null
           phone?: string | null
+          price_level?: string | null
           public_slug?: string | null
           reservation_advance_hours?: number
           reservation_max_party?: number
@@ -2332,6 +2271,7 @@ export type Database = {
           branch_label?: string | null
           category?: string
           chain_id?: string | null
+          chain_sort_order?: number | null
           city?: string | null
           city_norm?: string | null
           cover_provider?: string | null
@@ -2359,6 +2299,7 @@ export type Database = {
           order_yemeksepeti_url?: string | null
           osm_boundary_id?: string | null
           phone?: string | null
+          price_level?: string | null
           public_slug?: string | null
           reservation_advance_hours?: number
           reservation_max_party?: number
@@ -2675,6 +2616,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      city_search_aliases: {
+        Row: {
+          alias: string
+          canonical_city: string
+          canonical_district: string | null
+          created_at: string
+        }
+        Insert: {
+          alias: string
+          canonical_city: string
+          canonical_district?: string | null
+          created_at?: string
+        }
+        Update: {
+          alias?: string
+          canonical_city?: string
+          canonical_district?: string | null
+          created_at?: string
+        }
+        Relationships: []
       }
       client_mutation_idempotency_keys: {
         Row: {
@@ -3634,93 +3596,69 @@ export type Database = {
         }
         Relationships: []
       }
-      loyalty_accounts: {
+      loyalty_events: {
         Row: {
-          business_id: string
+          actor_id: string | null
+          amount: number
+          created_at: string
           id: string
-          lifetime_points: number
-          points: number
-          redeemed_points: number
-          updated_at: string | null
-          user_id: string
+          member_id: string
+          source: string
         }
         Insert: {
-          business_id: string
+          actor_id?: string | null
+          amount: number
+          created_at?: string
           id?: string
-          lifetime_points?: number
-          points?: number
-          redeemed_points?: number
-          updated_at?: string | null
-          user_id: string
+          member_id: string
+          source: string
         }
         Update: {
-          business_id?: string
+          actor_id?: string | null
+          amount?: number
+          created_at?: string
           id?: string
-          lifetime_points?: number
-          points?: number
-          redeemed_points?: number
-          updated_at?: string | null
-          user_id?: string
+          member_id?: string
+          source?: string
         }
         Relationships: [
           {
-            foreignKeyName: "loyalty_accounts_business_id_fkey"
-            columns: ["business_id"]
+            foreignKeyName: "loyalty_events_member_id_fkey"
+            columns: ["member_id"]
             isOneToOne: false
-            referencedRelation: "business_quality_score_v1"
-            referencedColumns: ["business_id"]
-          },
-          {
-            foreignKeyName: "loyalty_accounts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "loyalty_accounts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "loyalty_accounts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats_mv"
+            referencedRelation: "loyalty_members"
             referencedColumns: ["id"]
           },
         ]
       }
-      loyalty_cards: {
+      loyalty_members: {
         Row: {
-          created_at: string
           id: string
           program_id: string
-          redeemed_at: string | null
-          stamp_count: number
+          progress: number
+          redeemed_count: number
+          updated_at: string
           user_id: string
         }
         Insert: {
-          created_at?: string
           id?: string
           program_id: string
-          redeemed_at?: string | null
-          stamp_count?: number
+          progress?: number
+          redeemed_count?: number
+          updated_at?: string
           user_id: string
         }
         Update: {
-          created_at?: string
           id?: string
           program_id?: string
-          redeemed_at?: string | null
-          stamp_count?: number
+          progress?: number
+          redeemed_count?: number
+          updated_at?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "loyalty_cards_program_id_fkey"
+            foreignKeyName: "loyalty_members_program_id_fkey"
             columns: ["program_id"]
             isOneToOne: false
             referencedRelation: "loyalty_programs"
@@ -3730,49 +3668,37 @@ export type Database = {
       }
       loyalty_programs: {
         Row: {
-          business_id: string
-          checkin_points: number | null
+          business_id: string | null
+          chain_id: string | null
           created_at: string
           id: string
           is_active: boolean
+          mode: string
           name: string
-          photo_points: number | null
-          review_points: number | null
           reward_desc: string
-          reward_threshold_pts: number | null
-          reward_type: string | null
-          reward_value: string | null
-          stamps_needed: number
+          reward_threshold: number
         }
         Insert: {
-          business_id: string
-          checkin_points?: number | null
+          business_id?: string | null
+          chain_id?: string | null
           created_at?: string
           id?: string
           is_active?: boolean
+          mode: string
           name: string
-          photo_points?: number | null
-          review_points?: number | null
           reward_desc: string
-          reward_threshold_pts?: number | null
-          reward_type?: string | null
-          reward_value?: string | null
-          stamps_needed?: number
+          reward_threshold: number
         }
         Update: {
-          business_id?: string
-          checkin_points?: number | null
+          business_id?: string | null
+          chain_id?: string | null
           created_at?: string
           id?: string
           is_active?: boolean
+          mode?: string
           name?: string
-          photo_points?: number | null
-          review_points?: number | null
           reward_desc?: string
-          reward_threshold_pts?: number | null
-          reward_type?: string | null
-          reward_value?: string | null
-          stamps_needed?: number
+          reward_threshold?: number
         }
         Relationships: [
           {
@@ -3801,6 +3727,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_programs_chain_id_fkey"
+            columns: ["chain_id"]
+            isOneToOne: false
+            referencedRelation: "chains"
             referencedColumns: ["id"]
           },
         ]
@@ -3950,6 +3883,127 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      menu_item_ai_analysis: {
+        Row: {
+          ai_model: string | null
+          allergens_json: Json | null
+          business_id: string
+          calorie_max: number | null
+          calorie_min: number | null
+          confidence: number
+          created_at: string
+          id: string
+          ingredients_json: Json | null
+          menu_item_id: string | null
+          normalized_text: string | null
+          ocr_job_id: string | null
+          requires_review: boolean
+          source_text: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          ai_model?: string | null
+          allergens_json?: Json | null
+          business_id: string
+          calorie_max?: number | null
+          calorie_min?: number | null
+          confidence?: number
+          created_at?: string
+          id?: string
+          ingredients_json?: Json | null
+          menu_item_id?: string | null
+          normalized_text?: string | null
+          ocr_job_id?: string | null
+          requires_review?: boolean
+          source_text: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          ai_model?: string | null
+          allergens_json?: Json | null
+          business_id?: string
+          calorie_max?: number | null
+          calorie_min?: number | null
+          confidence?: number
+          created_at?: string
+          id?: string
+          ingredients_json?: Json | null
+          menu_item_id?: string | null
+          normalized_text?: string | null
+          ocr_job_id?: string | null
+          requires_review?: boolean
+          source_text?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_item_ai_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_menu_item_id_fkey"
+            columns: ["menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "business_item_trends_v1"
+            referencedColumns: ["menu_item_id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_menu_item_id_fkey"
+            columns: ["menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_item_price_status_v1"
+            referencedColumns: ["menu_item_id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_menu_item_id_fkey"
+            columns: ["menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_item_value_score_v1"
+            referencedColumns: ["menu_item_id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_menu_item_id_fkey"
+            columns: ["menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_item_ai_analysis_ocr_job_id_fkey"
+            columns: ["ocr_job_id"]
+            isOneToOne: false
+            referencedRelation: "menu_ocr_jobs"
             referencedColumns: ["id"]
           },
         ]
@@ -5060,6 +5114,83 @@ export type Database = {
           },
         ]
       }
+      menu_ocr_jobs: {
+        Row: {
+          business_id: string
+          created_at: string
+          error_message: string | null
+          file_name: string | null
+          file_url: string
+          id: string
+          item_count: number | null
+          ocr_engine: string | null
+          owner_id: string
+          parsed_output: Json | null
+          raw_text: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          error_message?: string | null
+          file_name?: string | null
+          file_url: string
+          id?: string
+          item_count?: number | null
+          ocr_engine?: string | null
+          owner_id: string
+          parsed_output?: Json | null
+          raw_text?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          error_message?: string | null
+          file_name?: string | null
+          file_url?: string
+          id?: string
+          item_count?: number | null
+          ocr_engine?: string | null
+          owner_id?: string
+          parsed_output?: Json | null
+          raw_text?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_ocr_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "menu_ocr_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_ocr_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_ocr_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       menu_sections: {
         Row: {
           created_at: string
@@ -5755,6 +5886,77 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      plan_feature_usage: {
+        Row: {
+          business_id: string
+          feature_key: string
+          period_start: string
+          usage_count: number
+        }
+        Insert: {
+          business_id: string
+          feature_key: string
+          period_start: string
+          usage_count?: number
+        }
+        Update: {
+          business_id?: string
+          feature_key?: string
+          period_start?: string
+          usage_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_feature_usage_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "plan_feature_usage_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plan_feature_usage_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plan_feature_usage_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plan_features: {
+        Row: {
+          enabled: boolean
+          feature_key: string
+          limit_value: number | null
+          plan_tier: string
+        }
+        Insert: {
+          enabled?: boolean
+          feature_key: string
+          limit_value?: number | null
+          plan_tier: string
+        }
+        Update: {
+          enabled?: boolean
+          feature_key?: string
+          limit_value?: number | null
+          plan_tier?: string
+        }
+        Relationships: []
       }
       policy_versions: {
         Row: {
@@ -6936,6 +7138,7 @@ export type Database = {
       support_tickets: {
         Row: {
           assigned_to: string | null
+          business_id: string | null
           category: string
           created_at: string
           id: string
@@ -6949,6 +7152,7 @@ export type Database = {
         }
         Insert: {
           assigned_to?: string | null
+          business_id?: string | null
           category?: string
           created_at?: string
           id?: string
@@ -6962,6 +7166,7 @@ export type Database = {
         }
         Update: {
           assigned_to?: string | null
+          business_id?: string | null
           category?: string
           created_at?: string
           id?: string
@@ -6973,7 +7178,36 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "support_tickets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "support_tickets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       suspended_meal_claims: {
         Row: {
@@ -8820,6 +9054,31 @@ export type Database = {
         Args: { current_business_id: string; desired: string }
         Returns: string
       }
+      _award_loyalty_progress: {
+        Args: {
+          p_amount: number
+          p_business_id: string
+          p_source: string
+          p_user_id: string
+        }
+        Returns: undefined
+      }
+      _check_plan_limit_v1: {
+        Args: { p_business_id: string; p_feature_key: string }
+        Returns: undefined
+      }
+      _get_business_plan_tier_v1: {
+        Args: { p_business_id: string }
+        Returns: string
+      }
+      _increment_plan_usage_v1: {
+        Args: { p_business_id: string; p_feature_key: string }
+        Returns: undefined
+      }
+      _is_approved_owner_of_business: {
+        Args: { p_business_id: string }
+        Returns: boolean
+      }
       _normalize_public_slug_v1: { Args: { input: string }; Returns: string }
       _postgis_deprecate: {
         Args: { newname: string; oldname: string; version: string }
@@ -8837,6 +9096,10 @@ export type Database = {
       }
       _postgis_stats: {
         Args: { ""?: string; att_name: string; tbl: unknown }
+        Returns: string
+      }
+      _resolve_loyalty_program_v1: {
+        Args: { p_business_id: string }
         Returns: string
       }
       _review_verified_visit: {
@@ -8918,6 +9181,10 @@ export type Database = {
         Returns: unknown
       }
       _st_within: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
+      _sync_plan_sponsorship_v1: {
+        Args: { p_business_id: string; p_ends_at: string; p_plan_tier: string }
+        Returns: undefined
+      }
       _variant_item_owner_check: {
         Args: { p_item_id: string }
         Returns: boolean
@@ -8932,10 +9199,6 @@ export type Database = {
           p_url_large?: string
           p_url_thumb?: string
         }
-        Returns: Json
-      }
-      add_loyalty_stamp_v1: {
-        Args: { p_program_id: string; p_user_id: string }
         Returns: Json
       }
       add_menu_item_photo_v1: {
@@ -9884,6 +10147,10 @@ export type Database = {
         Args: { p_business_id: string; p_field: string; p_url: string }
         Returns: Json
       }
+      admin_set_business_plan_v1: {
+        Args: { p_business_id: string; p_ends_at?: string; p_plan_tier: string }
+        Returns: Json
+      }
       admin_set_business_verified_v1: {
         Args: {
           p_business_id: string
@@ -10040,6 +10307,10 @@ export type Database = {
         Args: { p_id: string; p_target: string }
         Returns: Json
       }
+      apply_menu_ai_analysis_v1: {
+        Args: { p_analysis_id: string; p_section_id: string }
+        Returns: string
+      }
       apply_profile_xp_v1: {
         Args: { p_user_id: string; p_xp: number }
         Returns: {
@@ -10090,9 +10361,12 @@ export type Database = {
         Args: { p_achievement_id: string; p_meta?: Json; p_user_id: string }
         Returns: boolean
       }
-      award_loyalty_points_v1: {
-        Args: { p_business_id: string; p_points: number; p_user_id: string }
-        Returns: undefined
+      batch_recompute_price_levels_v1: {
+        Args: { p_category?: string; p_city?: string }
+        Returns: {
+          set_null: number
+          updated: number
+        }[]
       }
       bump_collection_engagement_v1: {
         Args: { p_collection_key: string; p_delta?: number }
@@ -10184,6 +10458,10 @@ export type Database = {
         Args: { p_error?: string; p_job_id: string; p_success: boolean }
         Returns: boolean
       }
+      compute_business_price_level_v1: {
+        Args: { p_business_id: string }
+        Returns: string
+      }
       compute_price_suggestion_quality_v1: {
         Args: {
           p_captured_at?: string
@@ -10259,11 +10537,20 @@ export type Database = {
       create_loyalty_program_v1: {
         Args: {
           p_business_id: string
+          p_mode: string
           p_name: string
           p_reward_desc: string
-          p_stamps_needed: number
+          p_reward_threshold: number
         }
-        Returns: Json
+        Returns: string
+      }
+      create_menu_ocr_job_v1: {
+        Args: {
+          p_business_id: string
+          p_file_name?: string
+          p_file_url: string
+        }
+        Returns: string
       }
       create_menu_snapshot_v1: {
         Args: { p_menu_id: string; p_reason?: string }
@@ -10321,6 +10608,15 @@ export type Database = {
           p_time?: string
         }
         Returns: Json
+      }
+      create_support_ticket_v1: {
+        Args: {
+          p_business_id: string
+          p_category: string
+          p_message: string
+          p_subject: string
+        }
+        Returns: string
       }
       create_suspended_meal_v1: {
         Args: {
@@ -10595,10 +10891,6 @@ export type Database = {
         }
         Returns: Json
       }
-      get_business_automations_v1: {
-        Args: { p_business_id: string }
-        Returns: Json
-      }
       get_business_badges_v1: {
         Args: { p_business_id: string }
         Returns: {
@@ -10660,8 +10952,8 @@ export type Database = {
         Returns: Json
       }
       get_business_hours_v1: { Args: { p_business_id: string }; Returns: Json }
-      get_business_loyal_customers_v1: {
-        Args: { p_business_id: string; p_limit?: number }
+      get_business_loyalty_members_v1: {
+        Args: { p_business_id: string }
         Returns: Json
       }
       get_business_meal_card_provider_rows_v1: {
@@ -11183,7 +11475,6 @@ export type Database = {
           user_id: string
         }[]
       }
-      get_loyalty_status_v1: { Args: { p_business_id: string }; Returns: Json }
       get_menu_item_context_v1: {
         Args: { p_menu_item_id: string }
         Returns: Json
@@ -11427,6 +11718,7 @@ export type Database = {
       }
       get_my_loyalty_cards_v1: { Args: never; Returns: Json }
       get_my_notification_preferences_v1: { Args: never; Returns: Json }
+      get_my_plan_v1: { Args: { p_business_id: string }; Returns: Json }
       get_my_points_v1: { Args: never; Returns: Json }
       get_my_profile_progress_v1: {
         Args: never
@@ -12070,6 +12362,29 @@ export type Database = {
           status: string
         }[]
       }
+      list_menu_ai_analysis_v1: {
+        Args: {
+          p_business_id: string
+          p_limit?: number
+          p_ocr_job_id?: string
+          p_offset?: number
+          p_status?: string
+        }
+        Returns: {
+          allergens_json: Json
+          calorie_max: number
+          calorie_min: number
+          confidence: number
+          created_at: string
+          id: string
+          ingredients_json: Json
+          normalized_text: string
+          ocr_job_id: string
+          requires_review: boolean
+          source_text: string
+          status: string
+        }[]
+      }
       list_menu_item_translations_v1: {
         Args: {
           p_business_id: string
@@ -12079,6 +12394,19 @@ export type Database = {
           p_offset?: number
         }
         Returns: Json
+      }
+      list_menu_ocr_jobs_v1: {
+        Args: { p_business_id: string; p_limit?: number; p_offset?: number }
+        Returns: {
+          created_at: string
+          error_message: string
+          file_name: string
+          file_url: string
+          id: string
+          item_count: number
+          status: string
+          updated_at: string
+        }[]
       }
       list_my_alert_events_v1: {
         Args: { p_limit?: number; p_offset?: number }
@@ -12281,6 +12609,7 @@ export type Database = {
         }[]
       }
       normalize_for_moderation_v1: { Args: { p_text: string }; Returns: string }
+      normalize_tr_location_text: { Args: { input: string }; Returns: string }
       normalize_tr_text: { Args: { p: string }; Returns: string }
       notify_favorite_revisit_reminders_v1: {
         Args: { p_batch_size?: number }
@@ -12295,6 +12624,14 @@ export type Database = {
           p_user_id: string
         }
         Returns: string
+      }
+      owner_add_business_to_chain_v1: {
+        Args: {
+          p_branch_label: string
+          p_business_id: string
+          p_chain_id: string
+        }
+        Returns: undefined
       }
       owner_approve_menu_price_suggestion_v1: {
         Args: { p_suggestion_id: string }
@@ -12313,6 +12650,10 @@ export type Database = {
       owner_bulk_import_menu_items_v1: {
         Args: { p_menu_id: string; p_rows: Json }
         Returns: Json
+      }
+      owner_create_chain_v1: {
+        Args: { p_business_id: string; p_chain_name: string }
+        Returns: string
       }
       owner_create_menu_item_v1: {
         Args: {
@@ -12372,6 +12713,7 @@ export type Database = {
         Args: { p_option_id: string }
         Returns: Json
       }
+      owner_find_chained_business_v1: { Args: never; Returns: string }
       owner_force_delete_menu_item_photo_v1: {
         Args: { p_photo_id: string }
         Returns: Json
@@ -12387,6 +12729,10 @@ export type Database = {
       }
       owner_get_campaign_stats_v1: {
         Args: { p_business_id: string; p_period_days?: number }
+        Returns: Json
+      }
+      owner_get_chain_overview_v1: {
+        Args: { p_business_id: string }
         Returns: Json
       }
       owner_get_sponsorship_catalog_v1: {
@@ -12435,6 +12781,14 @@ export type Database = {
           claimed_at: string
           district: string
           owner_role: string
+        }[]
+      }
+      owner_list_addable_businesses_v1: {
+        Args: never
+        Returns: {
+          business_id: string
+          city: string
+          name: string
         }[]
       }
       owner_list_campaigns_v1: {
@@ -12598,6 +12952,14 @@ export type Database = {
       owner_reject_price_suggestion_v1: {
         Args: { p_reason?: string; p_suggestion_id: string }
         Returns: Json
+      }
+      owner_remove_business_from_chain_v1: {
+        Args: { p_business_id: string }
+        Returns: undefined
+      }
+      owner_reorder_chain_branch_v1: {
+        Args: { p_business_id: string; p_new_sort_order: number }
+        Returns: undefined
       }
       owner_reorder_menu_sections_v1: {
         Args: { p_menu_id: string; p_section_ids: string[] }
@@ -12893,6 +13255,7 @@ export type Database = {
         }
         Returns: Json
       }
+      redeem_loyalty_reward_v1: { Args: { p_member_id: string }; Returns: Json }
       refresh_businesses_with_stats_mv: { Args: never; Returns: undefined }
       register_user_device_v1: {
         Args: {
@@ -12904,6 +13267,10 @@ export type Database = {
       }
       reject_business_suggestion: {
         Args: { p_admin_note?: string; p_suggestion_id: string }
+        Returns: undefined
+      }
+      reject_menu_ai_analysis_v1: {
+        Args: { p_analysis_id: string }
         Returns: undefined
       }
       reject_owner_claim: {
@@ -12922,9 +13289,12 @@ export type Database = {
         Returns: Json
       }
       round_coord_3dp_v1: { Args: { p_value: number }; Returns: number }
-      run_loyalty_automations_v1: { Args: never; Returns: undefined }
       sanitize_geo_jsonb_v1: { Args: { p_meta: Json }; Returns: Json }
       sanitize_plain_text_v1: { Args: { p_text: string }; Returns: string }
+      scan_loyalty_qr_v1: {
+        Args: { p_business_id: string; p_user_id: string }
+        Returns: Json
+      }
       scheduled_menu_activation: { Args: never; Returns: undefined }
       search_admin_v1: {
         Args: { p_limit?: number; p_q: string }
@@ -13169,9 +13539,12 @@ export type Database = {
               distance_km: number
               district: string
               id: string
+              is_open_now: boolean
               lat: number
               lng: number
+              median_price_cents: number
               name: string
+              price_level: string
             }[]
           }
       send_business_campaign_v1: {
@@ -13209,6 +13582,10 @@ export type Database = {
           p_voted: boolean
         }
         Returns: Json
+      }
+      set_loyalty_program_active_v1: {
+        Args: { p_is_active: boolean; p_program_id: string }
+        Returns: undefined
       }
       set_menu_item_nutrition_v1: {
         Args: {
@@ -14160,6 +14537,10 @@ export type Database = {
       }
       toggle_follow_v1: { Args: { p_followee_id: string }; Returns: Json }
       toggle_saved_campaign_v1: { Args: { p_story_id: string }; Returns: Json }
+      touch_support_ticket_v1: {
+        Args: { p_ticket_id: string }
+        Returns: undefined
+      }
       unfollow_business_v1: { Args: { p_business_id: string }; Returns: Json }
       unlockrows: { Args: { "": string }; Returns: number }
       unregister_user_device_v1: {
@@ -14210,15 +14591,6 @@ export type Database = {
         }
         Returns: string
       }
-      upsert_business_automation_v1: {
-        Args: {
-          p_business_id: string
-          p_custom_message?: string
-          p_is_active: boolean
-          p_type: string
-        }
-        Returns: undefined
-      }
       upsert_business_hours_v1: {
         Args: { p_business_id: string; p_hours: Json }
         Returns: undefined
@@ -14262,19 +14634,6 @@ export type Database = {
       upsert_custom_domain_v1: {
         Args: { p_business_id: string; p_domain: string }
         Returns: Json
-      }
-      upsert_loyalty_program_v1: {
-        Args: {
-          p_business_id: string
-          p_checkin_points?: number
-          p_is_active: boolean
-          p_photo_points?: number
-          p_review_points?: number
-          p_reward_threshold_pts?: number
-          p_reward_type?: string
-          p_reward_value?: number
-        }
-        Returns: undefined
       }
       upsert_menu_item_translation_v1: {
         Args: {
