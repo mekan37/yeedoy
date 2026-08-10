@@ -32,9 +32,12 @@ Her üçü de hiçbir gerçek UI'a bağlı değil (route'lar redirect/410 ile ka
 ```
 loyalty_programs
   id                uuid pk
-  business_id       uuid  -- tekli işletmede kendi id, zincirde zincir çapası id
-                          -- (Çoklu Şube'nin mevcut zincir çözümleme mekanizması
-                          -- kullanılır: uygulamalar/web/app/sahip/coklu-sube/coklu-sube-yardimcilari.ts)
+  business_id       uuid null references businesses(id)  -- tekli işletme sahipliği
+  chain_id          uuid null references chains(id)       -- zincir sahipliği
+                          -- CHECK: (business_id IS NOT NULL) <> (chain_id IS NOT NULL) — ikisinden tam biri set olur.
+                          -- Çözümleme: verilen bir p_business_id için önce businesses.chain_id'ye bakılır;
+                          -- doluysa o chain_id'nin programı kullanılır, boşsa business_id'nin kendi programı
+                          -- (bkz. 20260806000004_coklu_sube_owner.sql — chain_id modeli, chains tablosu).
   mode              text  check in ('stamp','points')
   name              text
   reward_desc       text
