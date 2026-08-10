@@ -345,12 +345,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/loyalty-cards',
-        // MVP defer: loyalty/sadakat özelliği kapalı (bkz.
-        // docs/engineering/2026-yeedoy-loyalty-mvp-defer-decision.md).
-        // Nav'dan erişim zaten kaldırıldı; deep-link/manuel URL erişimine
-        // karşı güvenlik için redirect eklendi. DB/RPC dosyaları dokunulmadan
-        // bırakıldı, route tanımı geriye dönük uyumluluk için saklı tutuldu.
-        redirect: (c, s) => '/profile',
         pageBuilder: (c, s) => buildFadeSlidePage(
           state: s,
           child: const SadakatKartlarimSayfasi(),
