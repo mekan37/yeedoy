@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
@@ -10,95 +10,140 @@ import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../domain/sadakat_saglayicisi.dart';
 
-// Tier renkleri
-Color _tierColor(LoyaltyTier tier) => switch (tier) {
-  LoyaltyTier.bronz  => const Color(0xFFCD7F32),
-  LoyaltyTier.gumus  => const Color(0xFF9E9E9E),
-  LoyaltyTier.altin  => const Color(0xFFFFC107),
-  LoyaltyTier.platin => const Color(0xFF6C63FF),
-};
-
 class SadakatKartlarimSayfasi extends ConsumerWidget {
   const SadakatKartlarimSayfasi({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cardsAsync = ref.watch(myLoyaltyCardsProvider);
+    final qrData = ref.watch(myLoyaltyQrDataProvider);
+
     return AppScaffold(
       appBar: const AppAppBar(title: Text('Sadakat Kartlarım')),
-      body: cardsAsync.when(
-        loading: () => const _LoyaltyCardsSkeleton(),
-        error: (e, _) => Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                AppErrorMapper.message(e),
-                style: const TextStyle(color: AppColors.danger),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton.icon(
-                onPressed: () => ref.invalidate(myLoyaltyCardsProvider),
-                icon: const Icon(Icons.refresh),
-                label: const Text('Tekrar Dene'),
-              ),
-            ],
-          ),
-        ),
-        data: (cards) {
-          if (cards.isEmpty) {
-            return const AppEmptyState(
-              icon: Icons.loyalty_rounded,
-              title: 'Henüz sadakat kartın yok',
-              description:
-                  'Henüz sadakat programı puanın yok. Favori işletmelerin check-in yaparak başla!',
-            );
-          }
-          return RefreshIndicator(
-            onRefresh: () async => ref.invalidate(myLoyaltyCardsProvider),
-            child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-              itemCount: cards.length,
-              separatorBuilder: (_, i) => const SizedBox(height: 12),
-              itemBuilder: (context, index) => RepaintBoundary(
-                child: _LoyaltyCardItem(
-                  card: cards[index],
-                  onTap: () =>
-                      context.push('/isletme/${cards[index].businessId}'),
+      body: RefreshIndicator(
+        onRefresh: () async => ref.invalidate(myLoyaltyCardsProvider),
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          children: [
+            _QrKartim(qrData: qrData),
+            const SizedBox(height: 20),
+            cardsAsync.when(
+              loading: () => const _LoyaltyCardsSkeleton(),
+              error: (e, _) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        AppErrorMapper.message(e),
+                        style: const TextStyle(color: AppColors.danger),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      OutlinedButton.icon(
+                        onPressed: () => ref.invalidate(myLoyaltyCardsProvider),
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Tekrar Dene'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              data: (cards) {
+                if (cards.isEmpty) {
+                  return const AppEmptyState(
+                    icon: Icons.loyalty_rounded,
+                    title: 'Henüz sadakat kartın yok',
+                    description:
+                        'Katıldığın işletmelerin sadakat programları burada görünecek.',
+                  );
+                }
+                return Column(
+                  children: [
+                    for (final card in cards) ...[
+                      RepaintBoundary(child: _LoyaltyCardItem(card: card)),
+                      const SizedBox(height: 12),
+                    ],
+                  ],
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _QrKartim extends StatelessWidget {
+  const _QrKartim({required this.qrData});
+
+  final String? qrData;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppCard(
+      child: Column(
+        children: [
+          Text(
+            'Damga/puan kazanmak için işletmede bu kodu gösterin.',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 13, color: AppColors.muted),
+          ),
+          const SizedBox(height: 16),
+          if (qrData != null)
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: QrImageView(
+                data: qrData!,
+                version: QrVersions.auto,
+                size: 200,
+                eyeStyle: const QrEyeStyle(
+                  eyeShape: QrEyeShape.square,
+                  color: AppColors.textStrong,
+                ),
+                dataModuleStyle: const QrDataModuleStyle(
+                  dataModuleShape: QrDataModuleShape.square,
+                  color: AppColors.textStrong,
+                ),
+              ),
+            )
+          else
+            const Text(
+              'Kodunuzu görmek için giriş yapın.',
+              style: TextStyle(fontSize: 13, color: AppColors.muted),
+            ),
+          const SizedBox(height: 10),
+          const Text(
+            'Bu kod size özeldir, paylaşmayın.',
+            style: TextStyle(fontSize: 11, color: AppColors.muted),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _LoyaltyCardItem extends StatelessWidget {
-  const _LoyaltyCardItem({required this.card, required this.onTap});
+  const _LoyaltyCardItem({required this.card});
 
   final LoyaltyCard card;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final remaining = card.rewardThresholdPts - card.points;
-    final rewardLabel = _rewardLabel(card);
-    final progress = (card.progressPct / 100.0).clamp(0.0, 1.0);
-
     return AppCard(
-      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              _BusinessAvatar(
-                logoUrl: card.logoUrl,
-                businessName: card.businessName,
-              ),
+              _BusinessAvatar(logoUrl: card.logoUrl, businessName: card.businessName),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -114,23 +159,13 @@ class _LoyaltyCardItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        _TierBadge(tier: card.tier),
-                        const SizedBox(width: 6),
-                        Text(
-                          '${card.lifetimePoints} toplam puan',
-                          style: const TextStyle(color: AppColors.muted, fontSize: 11),
-                        ),
-                      ],
+                    Text(
+                      card.rewardDesc,
+                      style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.muted,
-                size: 20,
               ),
             ],
           ),
@@ -138,27 +173,11 @@ class _LoyaltyCardItem extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${card.points} / ${card.rewardThresholdPts} puan',
+                '${card.progress} / ${card.rewardThreshold}',
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 13,
                   color: AppColors.textStrong,
-                ),
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.primarySoft,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  '%${card.progressPct}',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.primary,
-                  ),
                 ),
               ),
             ],
@@ -167,7 +186,7 @@ class _LoyaltyCardItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
-              value: progress,
+              value: card.progressRatio,
               backgroundColor: AppColors.border,
               valueColor: AlwaysStoppedAnimation<Color>(
                 Theme.of(context).colorScheme.primary,
@@ -175,101 +194,8 @@ class _LoyaltyCardItem extends StatelessWidget {
               minHeight: 7,
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            remaining > 0
-                ? '$remaining puana ulaşınca $rewardLabel'
-                : 'Ödüle ulaştınız! $rewardLabel',
-            style: const TextStyle(fontSize: 12, color: AppColors.muted),
-          ),
-          // Next tier progress
-          if (card.tier != LoyaltyTier.platin) ...[
-            const SizedBox(height: 10),
-            _NextTierRow(card: card),
-          ],
         ],
       ),
-    );
-  }
-
-  String _rewardLabel(LoyaltyCard card) {
-    if (card.rewardType == 'discount_pct') {
-      return '%${card.rewardValue} indirim';
-    }
-    if (card.rewardType == 'free_item') {
-      return 'Ücretsiz ürün';
-    }
-    return '${card.rewardValue} indirim';
-  }
-}
-
-class _TierBadge extends StatelessWidget {
-  final LoyaltyTier tier;
-  const _TierBadge({required this.tier});
-
-  @override
-  Widget build(BuildContext context) {
-    final color = _tierColor(tier);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: color.withValues(alpha: 0.35)),
-      ),
-      child: Text(
-        tier.label,
-        style: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w800,
-          color: color,
-          letterSpacing: 0.3,
-        ),
-      ),
-    );
-  }
-}
-
-class _NextTierRow extends StatelessWidget {
-  final LoyaltyCard card;
-  const _NextTierRow({required this.card});
-
-  @override
-  Widget build(BuildContext context) {
-    final tiers = LoyaltyTier.values;
-    final currentIdx = tiers.indexOf(card.tier);
-    if (currentIdx >= tiers.length - 1) return const SizedBox.shrink();
-
-    final nextTier = tiers[currentIdx + 1];
-    final nextThreshold = nextTier.thresholdPts;
-    final ptsToNext = nextThreshold - card.lifetimePoints;
-    final progress = (card.lifetimePoints / nextThreshold).clamp(0.0, 1.0);
-    final nextColor = _tierColor(nextTier);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              '${nextTier.label} için $ptsToNext puan kaldı',
-              style: const TextStyle(fontSize: 11, color: AppColors.muted),
-            ),
-            const Spacer(),
-            _TierBadge(tier: nextTier),
-          ],
-        ),
-        const SizedBox(height: 4),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(3),
-          child: LinearProgressIndicator(
-            value: progress,
-            backgroundColor: nextColor.withValues(alpha: 0.15),
-            valueColor: AlwaysStoppedAnimation<Color>(nextColor),
-            minHeight: 4,
-          ),
-        ),
-      ],
     );
   }
 }
@@ -308,15 +234,11 @@ class _Initials extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial =
-        name.isNotEmpty ? name.characters.first.toUpperCase() : '?';
+    final initial = name.isNotEmpty ? name.characters.first.toUpperCase() : '?';
     return Container(
       width: 40,
       height: 40,
-      decoration: BoxDecoration(
-        color: AppColors.primarySoft,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: AppColors.primarySoft, shape: BoxShape.circle),
       alignment: Alignment.center,
       child: Text(
         initial,
@@ -335,11 +257,13 @@ class _LoyaltyCardsSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-      itemCount: 4,
-      separatorBuilder: (_, i) => const SizedBox(height: 12),
-      itemBuilder: (_, i) => const AppSkeletonCard(lines: 3),
+    return Column(
+      children: [
+        for (var i = 0; i < 3; i++) ...[
+          const AppSkeletonCard(lines: 3),
+          const SizedBox(height: 12),
+        ],
+      ],
     );
   }
 }
