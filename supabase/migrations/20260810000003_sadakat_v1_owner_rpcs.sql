@@ -26,6 +26,7 @@ $$;
 
 REVOKE ALL ON FUNCTION public._resolve_loyalty_program_v1(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._resolve_loyalty_program_v1(uuid) TO authenticated;
+REVOKE EXECUTE ON FUNCTION public._resolve_loyalty_program_v1(uuid) FROM authenticated;
 COMMENT ON FUNCTION public._resolve_loyalty_program_v1 IS
   'Internal: verilen business_id için doğru sadakat programını bulur (zincirdeyse chain_id üzerinden, değilse kendi business_id üzerinden). Called by: create_loyalty_program_v1, scan_loyalty_qr_v1, get_business_loyalty_members_v1, get_my_loyalty_cards_v1, _award_loyalty_progress.';
 
@@ -44,9 +45,23 @@ SET search_path = public
 AS $$
 DECLARE
   v_chain_id   uuid;
+  v_owner_biz  uuid;
   v_program_id uuid;
 BEGIN
-  PERFORM public._check_plan_limit_v1(p_business_id, 'sadakat_programi');
+  SELECT chain_id INTO v_chain_id FROM public.businesses WHERE id = p_business_id;
+
+  IF v_chain_id IS NOT NULL THEN
+    v_owner_biz := (
+      SELECT id FROM public.businesses
+      WHERE chain_id = v_chain_id
+      ORDER BY chain_sort_order NULLS LAST, id
+      LIMIT 1
+    );
+  ELSE
+    v_owner_biz := p_business_id;
+  END IF;
+
+  PERFORM public._check_plan_limit_v1(v_owner_biz, 'sadakat_programi');
 
   IF p_mode NOT IN ('stamp','points') THEN
     RAISE EXCEPTION 'validation_error: geçersiz mode' USING ERRCODE = 'P0003';
@@ -54,8 +69,6 @@ BEGIN
   IF p_reward_threshold <= 0 THEN
     RAISE EXCEPTION 'validation_error: reward_threshold pozitif olmalı' USING ERRCODE = 'P0003';
   END IF;
-
-  SELECT chain_id INTO v_chain_id FROM public.businesses WHERE id = p_business_id;
 
   IF v_chain_id IS NOT NULL THEN
     INSERT INTO public.loyalty_programs (chain_id, mode, name, reward_desc, reward_threshold)

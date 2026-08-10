@@ -49,7 +49,7 @@ ALTER TABLE public.loyalty_events   ENABLE ROW LEVEL SECURITY;
 
 -- Herkes okuyabilir (public read, mevcut desen); yazma yalnızca RPC üzerinden.
 CREATE POLICY "loyalty_programs_public_read" ON public.loyalty_programs
-  FOR SELECT USING (true);
+  FOR SELECT USING (is_active = true);
 
 -- Müşteri sadece kendi satırını görür; yazma yalnızca RPC üzerinden.
 CREATE POLICY "loyalty_members_self_read" ON public.loyalty_members

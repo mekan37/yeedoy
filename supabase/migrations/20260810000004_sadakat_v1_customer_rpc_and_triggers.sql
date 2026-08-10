@@ -68,11 +68,20 @@ BEGIN
   END IF;
 
   INSERT INTO public.loyalty_members (program_id, user_id, progress)
-  VALUES (v_program_id, p_user_id, p_amount)
-  ON CONFLICT (program_id, user_id) DO UPDATE SET
-    progress = loyalty_members.progress + excluded.progress,
-    updated_at = now()
-  RETURNING id INTO v_member_id;
+  VALUES (v_program_id, p_user_id, 0)
+  ON CONFLICT (program_id, user_id) DO NOTHING;
+
+  SELECT id INTO v_member_id
+  FROM public.loyalty_members WHERE program_id = v_program_id AND user_id = p_user_id;
+
+  IF p_source = 'review' AND EXISTS (
+    SELECT 1 FROM public.loyalty_events WHERE member_id = v_member_id AND source = 'review'
+  ) THEN
+    RETURN;
+  END IF;
+
+  UPDATE public.loyalty_members SET progress = progress + p_amount, updated_at = now()
+  WHERE id = v_member_id;
 
   INSERT INTO public.loyalty_events (member_id, source, amount, actor_id)
   VALUES (v_member_id, p_source, p_amount, NULL);
