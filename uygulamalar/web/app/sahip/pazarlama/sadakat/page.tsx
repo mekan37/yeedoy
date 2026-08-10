@@ -1,12 +1,90 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
+import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
+import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import { SadakatKurulumIstemcisi, type SadakatProgram } from './sadakat-kurulum-istemcisi';
+import { SadakatTaramaIstemcisi } from './sadakat-tarama-istemcisi';
+import { UyeListesi, type SadakatUyesi } from './uye-listesi';
 
 export const metadata: Metadata = {
   title: 'Sadakat Programı | Sahip Paneli',
   robots: { index: false, follow: false },
 };
 
-// MVP scope dışı: bkz. app/sahip/pazarlama/page.tsx
-export default function SadakatPage(): never {
-  redirect('/sahip/gosterge-panosu');
+export default async function SadakatSayfasi() {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect('/giris?redirect=/sahip/pazarlama/sadakat');
+
+  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessId = businessIds[0];
+  if (!businessId) redirect('/sahip');
+
+  const sb = supabase as any;
+
+  const { data: plan } = (await sb.rpc('get_my_plan_v1', { p_business_id: businessId })) as {
+    data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null;
+  };
+  const sadakatAcik = plan?.features.some((f) => f.feature_key === 'sadakat_programi' && f.enabled) ?? false;
+
+  if (!sadakatAcik) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Pazarlama" title="Sadakat Programı" />
+        <PanelIcerikYuzeyi className="pt-6">
+          <PanelEmptyState
+            icon={<span>🎁</span>}
+            title="Sadakat programı Standart ve üzeri planlarda"
+            description="Müşterilerinize damga kartı veya puan sistemi sunmak için planınızı yükseltin."
+            action={
+              <a
+                href="mailto:destek@yeedoy.com"
+                className="rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white hover:opacity-90"
+              >
+                Planı yükselt
+              </a>
+            }
+          />
+        </PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
+  const { data: program } = (await sb.rpc('get_business_loyalty_program_v1', {
+    p_business_id: businessId,
+  })) as { data: SadakatProgram | null };
+
+  const { data: members } = program
+    ? ((await sb.rpc('get_business_loyalty_members_v1', { p_business_id: businessId })) as {
+        data: SadakatUyesi[] | null;
+      })
+    : { data: null };
+
+  return (
+    <div className="flex flex-col gap-6">
+      <PanelSayfaBasligi
+        eyebrow="Pazarlama"
+        title="Sadakat Programı"
+        description="Müşterilerinize damga kartı veya puan sistemi sunun"
+      />
+      <PanelIcerikYuzeyi>
+        <SadakatKurulumIstemcisi businessId={businessId} program={program ?? null} />
+      </PanelIcerikYuzeyi>
+      {program && (
+        <PanelIcerikYuzeyi>
+          <SadakatTaramaIstemcisi businessId={businessId} program={program} />
+        </PanelIcerikYuzeyi>
+      )}
+      {program && (
+        <PanelIcerikYuzeyi>
+          <UyeListesi members={members ?? []} />
+        </PanelIcerikYuzeyi>
+      )}
+    </div>
+  );
 }
