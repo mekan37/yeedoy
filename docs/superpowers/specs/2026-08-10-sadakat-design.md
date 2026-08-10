@@ -105,6 +105,7 @@ Mockup'lar onaylandı (bkz. brainstorming oturumu — sahip kurulum/tarama ekran
 - Müşteri kendi `redeem` çağıramaz.
 - `loyalty_members`/`loyalty_events` client'a yazma GRANT'ı yok, sadece SECURITY DEFINER RPC üzerinden.
 - Review tetikleyicisi public RPC değil, client'tan doğrudan çağrılamaz.
+- **Kritik ders (Faz 1'de production'da bulundu ve düzeltildi):** Bu projede yeni oluşturulan her fonksiyon üç ayrı katmandan otomatik yürütme hakkı kazanabilir — (1) Postgres'in "yeni fonksiyon varsayılan olarak PUBLIC'e açık" davranışı, (2) projeye özel `ALTER DEFAULT PRIVILEGES` ile `anon`/`authenticated`'a otomatik GRANT. Sadece `REVOKE ALL ... FROM PUBLIC` yazmak yetmez — `anon` rolü PUBLIC'ten miras yoluyla hâlâ çalıştırabilir. Her yeni fonksiyon (özellikle "internal, hiçbir client'a açık değil" diye tasarlananlar) için üçünü de açıkça kapatmak gerekir: `REVOKE ALL ... FROM PUBLIC` + `REVOKE EXECUTE ... FROM anon` + gerekiyorsa `REVOKE EXECUTE ... FROM authenticated`. `_get_business_plan_tier_v1` (20260803000001_premium_plan_foundation.sql) bu üçünü de doğru uyguluyor, referans alınmalı. Faz 2-4'te yazılacak her yeni RPC bu üç REVOKE'u da içermeli — `mcp__supabase__get_advisors` (security) ile `anon_security_definer_function_executable` / `authenticated_security_definer_function_executable` bulgusu çıkmadığından emin olunmalı, ayrıca advisor cache'i gecikebileceğinden `has_function_privilege('anon', 'public.fn(...)', 'EXECUTE')` ile production'da doğrudan doğrulanmalı.
 
 ## Premium Gating
 
