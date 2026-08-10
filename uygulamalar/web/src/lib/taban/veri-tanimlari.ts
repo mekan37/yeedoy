@@ -10956,6 +10956,10 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: Json
       }
+      get_business_loyalty_program_v1: {
+        Args: { p_business_id: string }
+        Returns: Json
+      }
       get_business_meal_card_provider_rows_v1: {
         Args: { p_business_ids: string[]; p_provider_keys?: string[] }
         Returns: {
