@@ -98,12 +98,24 @@ BEGIN
     RAISE EXCEPTION 'not_found: program bulunamadı' USING ERRCODE = 'P0001';
   END IF;
 
-  v_owner_biz := COALESCE(
-    v_business_id,
-    (SELECT id FROM public.businesses WHERE chain_id = v_chain_id LIMIT 1)
-  );
-
-  PERFORM public._check_plan_limit_v1(v_owner_biz, 'sadakat_programi');
+  IF v_business_id IS NOT NULL THEN
+    v_owner_biz := v_business_id;
+    PERFORM public._check_plan_limit_v1(v_owner_biz, 'sadakat_programi');
+  ELSE
+    IF NOT EXISTS (
+      SELECT 1 FROM public.businesses b
+      WHERE b.chain_id = v_chain_id AND public.is_owner_of_business(b.id)
+    ) THEN
+      RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
+    END IF;
+    v_owner_biz := (
+      SELECT id FROM public.businesses
+      WHERE chain_id = v_chain_id
+      ORDER BY chain_sort_order NULLS LAST, id
+      LIMIT 1
+    );
+    PERFORM public._check_plan_limit_v1(v_owner_biz, 'sadakat_programi');
+  END IF;
 
   UPDATE public.loyalty_programs SET is_active = p_is_active WHERE id = p_program_id;
 END;
