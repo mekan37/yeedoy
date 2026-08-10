@@ -14,7 +14,7 @@ Her üçü de hiçbir gerçek UI'a bağlı değil (route'lar redirect/410 ile ka
 ## Hedefler
 
 - Owner, kendi işletmesi (veya zinciri) için damga-kartı **ya da** puan-sistemi modunda bir sadakat programı kurabilsin.
-- Müşteri, damga/puanını QR okutma, yorum bırakma veya fiş/makbuz OCR yoluyla kazanabilsin.
+- Müşteri, damga/puanını QR okutma veya yorum bırakma yoluyla kazanabilsin.
 - Owner, kasada QR okutarak damga/puan ekleyebilsin ve eşiğe ulaşan müşterinin ödülünü aynı akıştan "kullanıldı" işaretleyebilsin.
 - Müşteri kartlarını hem mobil uygulamada hem web'de görebilsin.
 - Zincirlerde (Çoklu Şube) programı zincir çapında tek ve ortak tutmak.
@@ -25,6 +25,7 @@ Her üçü de hiçbir gerçek UI'a bağlı değil (route'lar redirect/410 ile ka
 - Doğum günü bonusu, "sizi özledik" hatırlatması, eşiğe yaklaşınca otomatik push — eski tasarımda zaten bozuk çıkmıştı (var olmayan kolona erişiyordu), v1'de yok. İleride ayrı bir faz.
 - Müşterinin kendi kendine "ödülü kullandım" işaretlemesi — kötüye kullanım riski nedeniyle yalnızca owner onaylı akış var.
 - Şube bazlı ayrı programlar — zincirlerde her zaman tek, ortak program.
+- **Fiş/makbuz yükleme ile kazanma** — araştırma sırasında ortaya çıktı: `app/(genel)/makbuz-yukle/`, `app/sunucu/makbuz-ocr/route.ts`, `app/yonetici/fis-basvurulari/` sadakat için değil, **fiyat endeksi** (crowdsourced fiyat doğrulama) özelliği için var; admin onayı sadece inceleme durumu günceller, "onaylandı → ödül ver" çıkışı yok. Sadakat için fiş bazlı kazanma, sıfırdan bir OCR+dolandırıcılık-kontrolü akışı gerektirir — v1 kapsamı dışına alındı, ayrı bir faz olarak ele alınabilir.
 
 ## Veri Modeli
 
@@ -53,9 +54,9 @@ loyalty_members
 loyalty_events
   id          uuid pk
   member_id   uuid fk -> loyalty_members(id)
-  source      text check in ('qr_scan','review','receipt_ocr','redeem')
+  source      text check in ('qr_scan','review','redeem')
   amount      int
-  actor_id    uuid  -- qr_scan: okutan owner/personel; review/receipt_ocr: null (sistem); redeem: owner
+  actor_id    uuid  -- qr_scan: okutan owner/personel; review: null (sistem); redeem: owner
   created_at  timestamptz default now()
 ```
 
@@ -72,8 +73,8 @@ Bu, eski `loyalty_program.sql`'deki `loyalty_accounts_definer_write` politikası
 - `redeem_loyalty_reward_v1(p_member_id)` — `progress -= reward_threshold`, `redeemed_count += 1`, `source='redeem'` event
 - `get_business_loyalty_members_v1(p_business_id)` — owner CRM listesi
 
-**Sistem içi (public RPC değil, trigger/OCR sonrası sunucu tarafından çağrılır):**
-- `_award_loyalty_progress(p_program_id, p_user_id, p_amount, p_source)` — yorum onaylanınca (`trg_award_loyalty_on_review` deseni) veya makbuz OCR onaylanınca çağrılır. Client'tan doğrudan erişilemez.
+**Sistem içi (public RPC değil, trigger tarafından çağrılır):**
+- `_award_loyalty_progress(p_program_id, p_user_id, p_amount, p_source)` — yorum onaylanınca (`trg_award_loyalty_on_review` deseni) çağrılır. Client'tan doğrudan erişilemez.
 
 **Müşteri (authenticated):**
 - `get_my_loyalty_cards_v1()` — tüm kartları (program adı, mode, progress, threshold, reward_desc, business adı/logo) tek şekilde döner
@@ -83,9 +84,8 @@ Bu, eski `loyalty_program.sql`'deki `loyalty_accounts_definer_write` politikası
 1. **Kurulum:** Owner `/sahip/pazarlama/sadakat`'ta (şu an redirect stub, bu implementasyonla gerçek sayfa olacak) mode seçer, program bilgilerini girer → `create_loyalty_program_v1` → sonra `set_loyalty_program_active_v1(true)`.
 2. **Kazanma — QR:** Owner kasada tarayıcı kamerasıyla müşteri QR'ını okutur → `scan_loyalty_qr_v1`.
 3. **Kazanma — Yorum:** Yorum `approved` olunca trigger `_award_loyalty_progress(..., source='review')` çağırır.
-4. **Kazanma — Fiş OCR:** Mevcut makbuz-ocr akışının onay adımı sonunda aynı iç fonksiyon `source='receipt_ocr'` ile çağrılır.
-5. **Kullanma:** Eşiğe ulaşan üye owner'a kartını gösterir, owner "Ödülü Kullan" ile `redeem_loyalty_reward_v1` çağırır.
-6. **Görüntüleme:** Müşteri mobil "Kartlarım" veya web `/sadakat`'ta `get_my_loyalty_cards_v1()` ile kartlarını görür.
+4. **Kullanma:** Eşiğe ulaşan üye owner'a kartını gösterir, owner "Ödülü Kullan" ile `redeem_loyalty_reward_v1` çağırır.
+5. **Görüntüleme:** Müşteri mobil "Kartlarım" veya web `/sadakat`'ta `get_my_loyalty_cards_v1()` ile kartlarını görür.
 
 ## UI
 
@@ -101,7 +101,7 @@ Mockup'lar onaylandı (bkz. brainstorming oturumu — sahip kurulum/tarama ekran
 - Rate limit: aynı üye için art arda `qr_scan` engellenir.
 - Müşteri kendi `redeem` çağıramaz.
 - `loyalty_members`/`loyalty_events` client'a yazma GRANT'ı yok, sadece SECURITY DEFINER RPC üzerinden.
-- Review/OCR tetikleyicileri public RPC değil, client'tan doğrudan çağrılamaz.
+- Review tetikleyicisi public RPC değil, client'tan doğrudan çağrılamaz.
 
 ## Premium Gating
 
