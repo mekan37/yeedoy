@@ -56,7 +56,6 @@ export function SadakatTaramaIstemcisi({
       scanner.stop();
       scanner.destroy();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [program.is_active, businessId]);
 
   if (!program.is_active) {
