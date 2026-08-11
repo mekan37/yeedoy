@@ -16,12 +16,17 @@ SET search_path = public
 AS $$
 DECLARE
   v_program_id uuid;
+  v_reward_threshold int;
 BEGIN
   IF NOT public.has_business_permission_v1(p_business_id, 'menu_write') THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
 
   v_program_id := public._resolve_loyalty_program_v1(p_business_id);
+
+  IF v_program_id IS NOT NULL THEN
+    SELECT reward_threshold INTO v_reward_threshold FROM public.loyalty_programs WHERE id = v_program_id;
+  END IF;
 
   RETURN COALESCE(
     (
@@ -68,7 +73,8 @@ BEGIN
           'last_interaction_at', s.last_interaction_at,
           'review_count', s.review_count,
           'reservation_count', s.reservation_count,
-          'loyalty_progress', s.loyalty_progress
+          'loyalty_progress', s.loyalty_progress,
+          'loyalty_reward_threshold', v_reward_threshold
         )
         ORDER BY s.last_interaction_at DESC
       )
