@@ -6,7 +6,7 @@ Kullanıcının owner panel özellik öncelik sırası **"Destek → Çoklu Şub
 
 Sahip panelinde müşteri etkileşimleri şu an dağınık: yorumlar (`/sahip/yorumlar`), rezervasyonlar (`/sahip/rezervasyonlar`), sadakat üyeleri (`/sahip/pazarlama/sadakat`) ayrı sayfalarda. Owner'ın "bu müşteri kim, geçmişi ne" sorusuna tek yerden cevap bulabileceği birleşik bir görünüm yok.
 
-Ayrı bir "müşteri" domain tablosu gerekmiyor — müşteri kimliği zaten `auth.users`'ta var. "Bu işletmenin müşterisi" olmak, şu mevcut tablolardan birinde o işletmeye ait bir kayıt sahibi olmak demek: `reviews`, `reservations`, `loyalty_members` (program üzerinden), `business_follows`, `visits`.
+Ayrı bir "müşteri" domain tablosu gerekmiyor — müşteri kimliği zaten `auth.users`'ta var. "Bu işletmenin müşterisi" olmak, şu mevcut tablolardan birinde o işletmeye ait bir kayıt sahibi olmak demek: `reviews`, `reservations`, `loyalty_members` (program üzerinden), `business_follows`.
 
 ## Hedefler
 
@@ -20,6 +20,7 @@ Ayrı bir "müşteri" domain tablosu gerekmiyor — müşteri kimliği zaten `au
 - Liste sayfasında arama/filtre — v1'de yok.
 - Zincir-çapında birleşik görünüm — sadakat zincir çapında paylaşılsa da, CRM görünümü v1'de **şube bazlı** kalır (owner seçili tek işletmenin müşterilerini görür). Zincir-çapında birleştirme ayrı bir faz olabilir.
 - Mobil uygulamada CRM — proje kısıtı gereği zaten yok (`CLAUDE.md`: "No admin/owner CRUD in mobile app").
+- `visits` tablosu — bilinçli olarak veri modeline dahil edilmedi. `personal_note`/`personal_rating` alanları müşteriye özel kişisel notlar; owner'a göstermek gizlilik açısından uygun değil. Sadece check-in yapmış ama yorum/rezervasyon/sadakat/takip yapmamış kullanıcılar v1'de CRM listesinde görünmeyecek — kabul edilebilir bir sınır (bu kullanıcılar zaten "müşteri" olarak tanımlanan diğer 4 etkileşim tipinden en az birine sahip olma ihtimali yüksek).
 
 ## Veri Modeli
 
