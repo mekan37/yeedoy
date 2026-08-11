@@ -83,14 +83,19 @@ export async function programAktiflikDegistir(
 const QrOkutSemasi = z.object({
   business_id: z.string().uuid(),
   user_id: z.string().uuid(),
+  amount: z.coerce.number().int().min(1).max(1000).default(1),
 });
 
 export type QrOkutSonucu =
   | { error: string }
   | { ok: true; member_id: string; progress: number; reward_threshold: number; reward_ready: boolean };
 
-export async function qrOkut(businessId: string, userId: string): Promise<QrOkutSonucu> {
-  const parsed = QrOkutSemasi.safeParse({ business_id: businessId, user_id: userId });
+export async function qrOkut(
+  businessId: string,
+  userId: string,
+  amount?: number,
+): Promise<QrOkutSonucu> {
+  const parsed = QrOkutSemasi.safeParse({ business_id: businessId, user_id: userId, amount });
   if (!parsed.success) return { error: 'Geçersiz QR içeriği' };
   const d = parsed.data;
 
@@ -102,6 +107,7 @@ export async function qrOkut(businessId: string, userId: string): Promise<QrOkut
     const { data, error } = (await (supabase as any).rpc('scan_loyalty_qr_v1', {
       p_business_id: d.business_id,
       p_user_id: d.user_id,
+      p_amount: d.amount,
     })) as {
       data: { member_id: string; progress: number; reward_threshold: number; reward_ready: boolean } | null;
       error: { message: string } | null;

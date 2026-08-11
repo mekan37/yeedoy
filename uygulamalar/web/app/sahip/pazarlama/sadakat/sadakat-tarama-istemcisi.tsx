@@ -13,14 +13,20 @@ export function SadakatTaramaIstemcisi({
   program,
 }: {
   businessId: string;
-  program: { is_active: boolean };
+  program: { is_active: boolean; mode: 'stamp' | 'points' };
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const busyRef = useRef(false);
+  const amountRef = useRef(1);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<BasariliSonuc | null>(null);
   const [busy, setBusy] = useState(false);
   const [redeemDone, setRedeemDone] = useState(false);
+  const [amount, setAmount] = useState(1);
+
+  useEffect(() => {
+    amountRef.current = amount;
+  }, [amount]);
 
   useEffect(() => {
     if (!program.is_active || !videoRef.current) return;
@@ -36,7 +42,7 @@ export function SadakatTaramaIstemcisi({
         setError(null);
         setRedeemDone(false);
 
-        const outcome = await qrOkut(businessId, userId);
+        const outcome = await qrOkut(businessId, userId, amountRef.current);
 
         busyRef.current = false;
         setBusy(false);
@@ -64,6 +70,19 @@ export function SadakatTaramaIstemcisi({
 
   return (
     <div className="space-y-3">
+      {program.mode === 'points' && (
+        <label className="flex items-center gap-2 text-sm font-bold text-textStrong">
+          Bu taramada eklenecek puan
+          <input
+            type="number"
+            min={1}
+            max={1000}
+            value={amount}
+            onChange={(e) => setAmount(Math.min(1000, Math.max(1, Number(e.target.value) || 1)))}
+            className="w-20 rounded-lg border border-border bg-card px-2 py-1 text-sm"
+          />
+        </label>
+      )}
       <div className="overflow-hidden rounded-xl border border-border bg-bg">
         <video ref={videoRef} className="h-56 w-full object-cover" muted />
       </div>

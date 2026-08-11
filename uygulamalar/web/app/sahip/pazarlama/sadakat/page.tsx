@@ -77,7 +77,10 @@ export default async function SadakatSayfasi() {
       </PanelIcerikYuzeyi>
       {program && (
         <PanelIcerikYuzeyi>
-          <SadakatTaramaIstemcisi businessId={businessId} program={program} />
+          <SadakatTaramaIstemcisi
+            businessId={businessId}
+            program={{ is_active: program.is_active, mode: program.mode }}
+          />
         </PanelIcerikYuzeyi>
       )}
       {program && (
