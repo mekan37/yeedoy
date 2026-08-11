@@ -80,6 +80,68 @@ export async function programAktiflikDegistir(
   });
 }
 
+const ProgramGuncelleSemasi = z.object({
+  program_id: z.string().uuid(),
+  name: z.string().min(1).max(80),
+  reward_desc: z.string().min(1).max(200),
+  reward_threshold: z.coerce.number().int().min(1).max(1000),
+});
+
+export async function programGuncelle(
+  programId: string,
+  name: string,
+  rewardDesc: string,
+  rewardThreshold: number,
+): Promise<EylemSonucu> {
+  const parsed = ProgramGuncelleSemasi.safeParse({
+    program_id: programId,
+    name,
+    reward_desc: rewardDesc,
+    reward_threshold: rewardThreshold,
+  });
+  if (!parsed.success) return { error: 'Geçersiz form verisi' };
+  const d = parsed.data;
+
+  return withAuth(async (userId) => {
+    const limitResult = rateLimit(`sadakat-program-guncelle:${userId}`, 10, 60_000);
+    if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
+
+    const supabase = await createSupabaseServerClient();
+    const { error } = (await (supabase as any).rpc('update_loyalty_program_v1', {
+      p_program_id: d.program_id,
+      p_name: d.name,
+      p_reward_desc: d.reward_desc,
+      p_reward_threshold: d.reward_threshold,
+    })) as { error: { message: string } | null };
+
+    if (error) return { error: error.message };
+    revalidatePath(REVALIDATE);
+    return { ok: true };
+  });
+}
+
+const ProgramSilSemasi = z.object({ program_id: z.string().uuid() });
+
+export async function programSil(programId: string): Promise<EylemSonucu> {
+  const parsed = ProgramSilSemasi.safeParse({ program_id: programId });
+  if (!parsed.success) return { error: 'Geçersiz parametre' };
+  const d = parsed.data;
+
+  return withAuth(async (userId) => {
+    const limitResult = rateLimit(`sadakat-program-sil:${userId}`, 5, 60_000);
+    if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
+
+    const supabase = await createSupabaseServerClient();
+    const { error } = (await (supabase as any).rpc('delete_loyalty_program_v1', {
+      p_program_id: d.program_id,
+    })) as { error: { message: string } | null };
+
+    if (error) return { error: error.message };
+    revalidatePath(REVALIDATE);
+    return { ok: true };
+  });
+}
+
 const QrOkutSemasi = z.object({
   business_id: z.string().uuid(),
   user_id: z.string().uuid(),
