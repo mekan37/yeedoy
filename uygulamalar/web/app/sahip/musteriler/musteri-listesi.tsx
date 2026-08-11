@@ -8,6 +8,7 @@ export type MusteriOzet = {
   review_count: number;
   reservation_count: number;
   loyalty_progress: number | null;
+  loyalty_reward_threshold: number | null;
 };
 
 export function MusteriListesi({ musteriler }: { musteriler: MusteriOzet[] }) {
