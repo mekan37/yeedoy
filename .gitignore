@@ -35,6 +35,7 @@ packages/l10n_assets/reports/
 .mcp.json
 .swarm/
 .superpowers/
+graphify-out/
 
 # Secrets / env
 .env
