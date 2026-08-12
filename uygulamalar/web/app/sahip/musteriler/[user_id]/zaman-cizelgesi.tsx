@@ -1,5 +1,5 @@
 export type ZamanCizelgesiOlayi = {
-  event_type: 'review' | 'reservation' | 'loyalty_scan' | 'loyalty_redeem' | 'follow';
+  event_type: 'review' | 'reservation' | 'loyalty_scan' | 'loyalty_redeem' | 'follow' | 'note';
   occurred_at: string;
   summary: string;
 };
@@ -10,6 +10,7 @@ const OLAY_ETIKETLERI: Record<ZamanCizelgesiOlayi['event_type'], string> = {
   loyalty_scan: '🎁 Sadakat',
   loyalty_redeem: '🎁 Ödül',
   follow: '❤️ Takip',
+  note: '📝 Not',
 };
 
 export function ZamanCizelgesi({ olaylar }: { olaylar: ZamanCizelgesiOlayi[] }) {

@@ -27,6 +27,7 @@ export function MusteriListesi({ musteriler }: { musteriler: MusteriOzet[] }) {
             <th className="py-2">Yorum</th>
             <th className="py-2">Rezervasyon</th>
             <th className="py-2">Sadakat</th>
+            <th className="py-2">Etiketler</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
@@ -46,6 +47,18 @@ export function MusteriListesi({ musteriler }: { musteriler: MusteriOzet[] }) {
               <td className="py-2 text-textStrong">{m.review_count}</td>
               <td className="py-2 text-textStrong">{m.reservation_count}</td>
               <td className="py-2 text-textStrong">{m.loyalty_progress ?? '—'}</td>
+              <td className="py-2">
+                <div className="flex flex-wrap gap-1">
+                  {m.tags.map((t) => (
+                    <span
+                      key={t.id}
+                      className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-bold text-primary"
+                    >
+                      {t.tag}
+                    </span>
+                  ))}
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
