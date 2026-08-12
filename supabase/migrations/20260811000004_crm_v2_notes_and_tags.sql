@@ -29,7 +29,6 @@ CREATE TABLE public.customer_tags (
   created_at  timestamptz not null default now(),
   unique (business_id, user_id, tag)
 );
-CREATE INDEX idx_customer_tags_business_user ON public.customer_tags(business_id, user_id);
 ALTER TABLE public.customer_tags ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON public.customer_tags FROM anon, authenticated;
 
