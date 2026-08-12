@@ -18,6 +18,9 @@ export function EtiketNotFormu({
   const [etiketPending, setEtiketPending] = useState(false);
   const [etiketError, setEtiketError] = useState<string | null>(null);
 
+  const [silinenEtiketId, setSilinenEtiketId] = useState<string | null>(null);
+  const [silmeError, setSilmeError] = useState<string | null>(null);
+
   const [yeniNot, setYeniNot] = useState('');
   const [notPending, setNotPending] = useState(false);
   const [notError, setNotError] = useState<string | null>(null);
@@ -36,17 +39,26 @@ export function EtiketNotFormu({
               {t.tag}
               <button
                 type="button"
+                disabled={silinenEtiketId === t.id}
                 aria-label={`${t.tag} etiketini kaldır`}
                 onClick={async () => {
-                  await etiketSil(t.id, userId);
+                  if (!confirm(`"${t.tag}" etiketi kaldırılsın mı?`)) return;
+                  setSilinenEtiketId(t.id);
+                  setSilmeError(null);
+                  const result = await etiketSil(t.id, userId);
+                  setSilinenEtiketId(null);
+                  if ('error' in result) {
+                    setSilmeError(result.error);
+                  }
                 }}
-                className="text-primary/60 hover:text-primary"
+                className="text-primary/60 hover:text-primary disabled:opacity-40"
               >
                 ×
               </button>
             </span>
           ))}
         </div>
+        {silmeError && <p className="mb-2 text-xs font-bold text-red-600">{silmeError}</p>}
         <div className="flex gap-2">
           <input
             value={yeniEtiket}
