@@ -5,6 +5,7 @@ import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { ZamanCizelgesi, type ZamanCizelgesiOlayi } from './zaman-cizelgesi';
+import { EtiketNotFormu } from './etiket-not-formu';
 import type { MusteriOzet } from '../musteri-listesi';
 
 export const metadata: Metadata = {
@@ -59,6 +60,11 @@ export default async function MusteriDetaySayfasi({
                 </p>
               )}
             </div>
+            <EtiketNotFormu
+              businessId={businessId}
+              userId={musteriId}
+              mevcutEtiketler={musteri.tags}
+            />
           </PanelBolumKarti>
           <PanelBolumKarti title="Zaman Çizelgesi">
             <ZamanCizelgesi olaylar={olaylar ?? []} />

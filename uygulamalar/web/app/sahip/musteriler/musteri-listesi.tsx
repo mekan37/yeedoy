@@ -9,6 +9,7 @@ export type MusteriOzet = {
   reservation_count: number;
   loyalty_progress: number | null;
   loyalty_reward_threshold: number | null;
+  tags: { id: string; tag: string }[];
 };
 
 export function MusteriListesi({ musteriler }: { musteriler: MusteriOzet[] }) {
