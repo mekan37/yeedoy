@@ -50,7 +50,7 @@ AS $$
 $$;
 ```
 
-`p_include_siblings`, çağıran RPC'nin caller'ın **gerçek owner** mı yoksa sadece manager mı olduğunu önceden çözümleyip geçtiği bir parametre (aşağıdaki Güvenlik bölümüne bakınız) — helper'ın kendisi yetkilendirme yapmaz, sadece id çözümler.
+`p_include_siblings`, çağıran RPC'nin caller'ın zincirdeki **tüm şubelerde** yetkisi olup olmadığını önceden çözümleyip geçtiği bir parametre (aşağıdaki Güvenlik bölümüne bakınız) — helper'ın kendisi yetkilendirme yapmaz, sadece id çözümler.
 
 ## RPC Yüzeyi (mevcut `_v1`'ler genişliyor, imza/dönüş şekli aynı kalıyor)
 
@@ -61,13 +61,13 @@ CLAUDE.md kuralı gereği: bir dönüş alanını **kaldırmak** breaking change
 
 ## Güvenlik
 
-Zincir-çapında birleştirme **sadece gerçek owner için** tetiklenir, manager için değil — `owner_get_chain_overview_v1`'deki emsalle birebir aynı ilke:
+Araştırma sırasında önemli bir bulgu: owner'lar ekip üyelerini `business_team_memberships` üzerinden ya **"sadece bu şube"** (`business_id` set) ya da **"tüm şubeler"** (`chain_id` set, `v_scope = 'all_branches'`) kapsamında davet edebiliyor — bu canlı, kullanılan bir özellik (`get_business_role_v1`, `business_team_memberships.chain_id` join'i). Dolayısıyla "sadece gerçek owner" gibi bir kural yanlış olurdu: owner'ın bilerek "tüm şubeler" yetkisi verdiği bir manager'ı da haksız yere kısıtlar. Doğru kural, çağıranın **zincirdeki her şubede ayrı ayrı yetkili olup olmadığını** kontrol etmek:
 
-1. Her iki RPC'de de mevcut `has_business_permission_v1(p_business_id, 'menu_write')` kontrolü **aynen kalır** (owner veya manager geçer — tek şube görünümü için bu yeterli, değişmiyor).
-2. Ardından `v_is_owner := public._is_approved_owner_of_business(p_business_id)` hesaplanır.
-3. `chain_ids := public._resolve_chain_business_ids_v1(p_business_id, v_is_owner)` çağrılır.
-   - Çağıran **gerçek owner** ise ve işletme bir zincirdeyse → `chain_ids` zincirdeki tüm şubeleri içerir, birleşik görünüm devreye girer.
-   - Çağıran sadece **manager** ise (owner değil) → `chain_ids = [p_business_id]`, mevcut tek-şube davranışı çalışır. Bir manager'ın sadece yetkili olduğu şubenin verisini görmesi garanti edilir, kardeş şubelere sızıntı olmaz.
+1. Her iki RPC'de de mevcut `has_business_permission_v1(p_business_id, 'menu_write')` kontrolü **aynen kalır** (giriş kontrolü — owner veya herhangi bir kapsamda manager geçer, değişmiyor).
+2. Ardından işletmenin `chain_id`'si çözümlenir (`businesses.chain_id`). Doluysa, çağıranın zincirdeki **her bir kardeş şube için ayrı ayrı** `has_business_permission_v1(sibling_id, 'menu_write')` geçip geçmediği kontrol edilir (`v_all_branches_authorized := NOT EXISTS (sibling zincirde ama izin yok)`).
+3. `chain_ids := public._resolve_chain_business_ids_v1(p_business_id, v_all_branches_authorized)` çağrılır.
+   - Çağıran zincirdeki **her** şubede yetkiliyse (gerçek owner — chain V1 kısıtı gereği zaten her zaman böyledir — veya "tüm şubeler" kapsamlı manager) → `chain_ids` zincirdeki tüm şubeleri içerir, birleşik görünüm devreye girer.
+   - Çağıran zincirdeki **bazı** şubelerde yetkili değilse (örn. "sadece bu şube" kapsamlı manager) → `chain_ids = [p_business_id]`, mevcut tek-şube davranışı çalışır. Kardeş şubelere sızıntı olmaz.
 4. Personel (staff, rank 200) zaten `menu_write`'tan geçemiyor — değişmiyor.
 5. Üçlü REVOKE deseni (`REVOKE ALL ... FROM PUBLIC` + `REVOKE EXECUTE ... FROM anon` + `GRANT EXECUTE ... TO authenticated`) yeni `_resolve_chain_business_ids_v1` helper'ına da uygulanır, `has_function_privilege()` ile production'da doğrudan doğrulanır (advisor cache'ine güvenilmez — sadakat/CRM v1'deki kritik ders).
 
@@ -81,7 +81,8 @@ Zincir-çapında birleştirme **sadece gerçek owner için** tetiklenir, manager
 
 - **DB (local `supabase db reset` + rol bazlı SQL, sadakat/çoklu-şube'deki yöntemin aynısı):**
   - Zincirli owner → `get_business_customers_v1` tüm şubelerin birleşik listesini döner, sayaçlar doğru toplanmış, aynı müşteri tek satır.
-  - Zincirdeki bir şubeye sadece manager yetkisi olan çağıran → sadece o şubenin verisini görür (kardeş şubelere sızıntı yok) — bu turun en kritik güvenlik testi.
+  - "Tüm şubeler" kapsamlı davet edilmiş manager (`business_team_memberships.chain_id`) → owner ile aynı şekilde zincir-çapında birleşik veri görür.
+  - "Sadece bu şube" kapsamlı manager (`business_team_memberships.business_id`) → sadece o şubenin verisini görür (kardeş şubelere sızıntı yok) — bu turun en kritik güvenlik testi.
   - Zincirsiz owner → davranış bugünküyle birebir aynı (regresyon testi).
   - `get_customer_timeline_v1` → olaylar tüm şubelerden kronolojik birleşir, her olayda doğru `branch_label`.
   - `_resolve_chain_business_ids_v1` için doğrudan birim testi (zincirli/zincirsiz/`p_include_siblings=false` senaryoları).
