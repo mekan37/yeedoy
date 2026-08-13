@@ -41,6 +41,7 @@ $$;
 REVOKE ALL ON FUNCTION public._resolve_chain_business_ids_v1(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._resolve_chain_business_ids_v1(uuid) TO authenticated;
 REVOKE EXECUTE ON FUNCTION public._resolve_chain_business_ids_v1(uuid) FROM authenticated;
+REVOKE EXECUTE ON FUNCTION public._resolve_chain_business_ids_v1(uuid) FROM anon;
 COMMENT ON FUNCTION public._resolve_chain_business_ids_v1 IS
   'Internal: p_business_id bir zincirdeyse ve çağıran zincirdeki HER şubede menu_write yetkisine sahipse zincirdeki tüm business id''lerini döner, aksi halde sadece [p_business_id]. Called by: get_business_customers_v1, get_customer_timeline_v1.';
 
